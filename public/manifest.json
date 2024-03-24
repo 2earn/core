@@ -1,0 +1,17 @@
+{
+    "name": "2earn.cash",
+    "short_name": "2earn",
+    "start_url": "/",
+    "background_color": "#fff",
+    "description": "2earn.cash",
+    "display": "fullscreen",
+    "theme_color": "#fff",
+    "icons": [
+        {
+            "src": "logo2earn.png",
+            "sizes": "142x142",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}

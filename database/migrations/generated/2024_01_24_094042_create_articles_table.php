@@ -1,0 +1,39 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('articles', function (Blueprint $table) {
+            $table->bigInteger('id_S');
+            $table->bigInteger('id', true);
+            $table->float('C_price', 10, 0);
+            $table->float('P_price', 10, 0);
+            $table->float('F_price', 10, 0);
+            $table->integer('platforme');
+            $table->integer('Forniseur');
+            $table->string('title', 255)->nullable();
+            $table->integer('etat')->default(0);
+            $table->float('step', 10, 0)->default(0);
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('articles');
+    }
+};

@@ -1,0 +1,111 @@
+<?php
+
+namespace App\Http\Livewire;
+
+use App\Models\User;
+use Core\Models\detail_financial_request;
+use Core\Models\FinancialRequest;
+use Core\Services\settingsManager;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Lang;
+use Livewire\Component;
+
+class RequestPublicUser extends Component
+{
+    public $amount;
+    public  $selectedUsers = [] ;
+    protected $listeners = [
+        'send' => 'send',
+        'sendReques'=>'sendReques'
+    ];
+    public function sendReques(settingsManager $settingsManager)
+    {
+        if(!count($this->selectedUsers)>0) return ;
+        $userAuth= $settingsManager->getAuthUser();
+//        $lastRequest = FinancialRequest::latest('numeroReq')->get()->first;
+        $lastnumero = 0;
+        $lastRequest = DB::table('financial_request')
+            ->latest('numeroReq')
+            ->first();
+//        dd($lastRequest);
+        if($lastRequest)
+        {
+            $lastnumero = $lastRequest->numeroReq ;
+        }
+        $date = date('Y-m-d H:i:s');
+        $year = date('y', strtotime($date));
+        $numer = (int)substr($lastnumero,-6);
+        $ref = date('y') . substr((1000000 + $numer + 1), 1, 6);
+        $data = [];
+        foreach ($this->selectedUsers as $val)
+        {
+            if($val != $userAuth->idUser)
+            {
+                $new = [
+                    'numeroRequest' => $ref,
+                    'idUser' => $val,
+                ];
+                array_push($data,$new);
+            }
+        }
+        detail_financial_request::insert($data);
+        $securityCode= $settingsManager->randomNewCodeOpt();
+        DB::table('financial_request')
+            ->insert([
+                'numeroReq'=> $ref ,
+                'idSender'=>$userAuth->idUser,
+                'Date' => $date,
+                'amount' => $this->amount,
+                'status' => '0',
+                'securityCode'=>$securityCode
+            ]);
+        return redirect()->route('financial_transaction',app()->getLocale())->with('SuccesSendPublicRequest',$securityCode);
+    }
+    public function send($idUser,settingsManager $settingsManager)
+    {
+        if ($idUser == null || $idUser == "") return;
+        $user= $settingsManager->getUsers()->where('idUser',$idUser)->first();
+        if(!$user) return ;
+        $userAuth = $settingsManager->getAuthUser();
+//       dd($userAuth);
+        if(!$userAuth) return ;
+        $date = date('Y-m-d H:i:s');
+        DB::table('recharge_requests')
+            ->insert(['Date' => $date, 'idUser' => $user->idUser, 'idPayee' => $userAuth->idUser, 'userPhone' => $user->fullphone_number,
+                'payeePhone' => $userAuth->fullNumber, 'amount' => $this->amount, 'validated' => 0, 'type_user' => 2]);
+        return  redirect()->route('financial_transaction',app()->getLocale())->with('SuccesSendReqPublicUser',Lang::get('SuccesSendReqPublicUser'));
+    }
+    public function mount(Request $request)
+    {
+        $amount = $request->input('amount');
+        $this->amount = $amount;
+    }
+    public function render(settingsManager $settingsManager)
+    {
+        $userAuth = $settingsManager->getAuthUser();
+        if (!$userAuth) abort(404);
+//        dd($userAuth);
+//      $current_user = User::find(auth()->user()->id);
+        $users = User::where('is_public', 1)
+            ->where('idUser', '<>', $userAuth->idUser)
+            ->where('idCountry', $userAuth->idCountry)
+            ->where('status', 1)
+            ->get();
+//        $pub_users = array();
+//        foreach ($users as $pub_user) {
+////            $soldeCB = DB::table('calculated_userbalances')->where("idUser", "=", $pub_user->idUser)->where("idamounts", "=", "1")->first();
+////            $soldeBFS = DB::table('calculated_userbalances')->where("idUser", "=", $pub_user->idUser)->where("idamounts", "=", "2")->first();
+////            $total = floatval($soldeBFS->solde) + floatval($soldeCB->solde);
+////            $amount = floatval($amount);
+////            if ($total >= $amount) {
+//            array_push($pub_users, $pub_user);
+////            }
+//        }
+//        dd($pub_users);
+//        return view('front.req_publicuser', compact('amount', 'pub_users'));
+        return view('livewire.request-public-user', [
+            'pub_users' => $users
+        ])->extends('layouts.master')->section('content');;
+    }
+}

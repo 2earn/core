@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Http\Livewire;
+
+use Core\Enum\StatusRequst;
+use Illuminate\Support\Facades\DB;
+use Livewire\Component;
+
+class IdentificationRequest extends Component
+{
+    public function render()
+    {
+        $query = DB::select("SELECT  u1.id id,u1.idUser idUser, concat(mu.enFirstName,' ', mu.enLastName)  enName , mu.nationalID  nationalID  ,u1.fullphone_number, ir.created_at DateCreation, u2.name Validator, ir.response, ir.responseDate DateReponce , ir.note from identificationuserrequest ir
+inner join users u1 on ir.IdUser = u1.idUser
+    inner join metta_users mu on ir.idUser = mu.idUser
+left join users u2 on ir.idUserResponse = u2.idUser
+where ir.status = ?
+", [StatusRequst::EnCours->value]);
+//dd($query);
+        return view('livewire.identification-request', [
+            'requestIdentif' => $query
+        ])->extends('layouts.master')->section('content');
+    }
+}
