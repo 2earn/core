@@ -27,6 +27,7 @@ use App\Http\Livewire\NotificationHistory;
 use App\Http\Livewire\NotificationSettings;
 
 //use App\Http\Livewire\UserBalanceBFS;
+use App\Http\Livewire\pay;
 use App\Http\Livewire\Registre;
 use App\Http\Livewire\RequestPublicUser;
 use App\Http\Livewire\StripView;
@@ -86,12 +87,14 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         Route::get('user_purchase', UserPurchaseHistory::class)->name('user_purchase');
         Route::get('user_list', \App\Http\Livewire\UsersList::class)->name('user_list');
+
         Route::get('stat_countrie', \App\Http\Livewire\StatCountrie::class)->name('stat_countrie');
 
         Route::get('sharessolde', \App\Http\Livewire\SharesSolde::class)->name('sharessolde');
         Route::get('shares_sold', \App\Http\Livewire\SharesSold::class)->name('shares_sold');
         Route::get('edit_admin', \App\Http\Livewire\EditAdmin::class)->name('edit_admin');
         Route::get('countries_management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
+        Route::get('pay', pay::class)->name('pay');
 
         Route::get('user_balance_sms', UserBalanceSMS::class)->name('user_balance_sms');
         Route::get('user_balance_cb', UserBalanceCB::class)->name('user_balance_cb');
@@ -102,12 +105,16 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('editContact', EditUserContact::class)->name('editContact2');
         Route::get('/balances/exchange/funding/RequestPulicUser', RequestPublicUser::class)->name('RequesPublicUser');
         Route::get('/balances/exchange/funding/strip', stripView::class)->name('paymentstrip');
+        Route::get('paytabs', pay::class)->name('paytabs');
+
         Route::get('Hobbies', Hobbies::class)->name('hobbies');
         Route::get('RecuperationHistory', HistoriqueRecuperation::class)->name('RecuperationHistory');
         Route::get('Tree/evolution', EvolutionArbre::class)->name('TreeEvolution');
         Route::get('Tree/maintenance', EntretienArbre::class)->name('TreeMaintenance');
         Route::get('description', Description::class)->name('description');
         Route::get('/AcceptRequest', AcceptFinancialRequest::class)->name('AcceptFinancialRequest')->middleware('CloseAuth');
+
+
 
     });
 //    Route::get('login', Login::class)->name('login');
@@ -161,6 +168,7 @@ Route::group(['prefix' => 'API'], function () {
     Route::post('update-balance-status', 'App\Http\Controllers\ApiController@updateBalanceStatus')->name('update-balance-status');
     Route::post('update-reserve-date', 'App\Http\Controllers\ApiController@updateReserveDate')->name('update-reserve-date');
     Route::post('update-balance-real', 'App\Http\Controllers\ApiController@updateBalanceReal')->name('update-balance-real');
+
     Route::post('buy-action', 'App\Http\Controllers\ApiController@buyAction')->name('buyAction');
     Route::get('action-by-ammount', 'App\Http\Controllers\ApiController@actionByAmmount')->name('action-by-ammount');
     Route::post('gift-action-by-ammount', 'App\Http\Controllers\ApiController@giftActionByAmmount')->name('gift-action-by-ammount');

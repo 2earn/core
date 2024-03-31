@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Livewire\Request;
+use Paytabscom\Laravel_paytabs\Facades\paypage;
 use phpDocumentor\Reflection\Types\Collection;
 use Illuminate\Support\Facades\Lang;
 use Yajra\DataTables\Facades\DataTables;
@@ -266,7 +267,20 @@ left join users user on user.idUser = recharge_requests.idUser";
         return response()->json($array);
 
     }
+    public function pay_request(Req $request)
+    {
+        $pay= paypage::sendPaymentCode('all')
+            ->sendTransaction('sale','ecom')
+            ->sendCart(10,1000,'test')
+            ->sendCustomerDetails('Walaa Elsaeed', 'w.elsaeed@paytabs.com', '0101111111', 'test', 'Nasr City', 'Cairo', 'EG', '1234','100.279.20.10')
+            ->sendShippingDetails('Walaa Elsaeed', 'w.elsaeed@paytabs.com', '0101111111', 'test', 'Nasr City', 'Cairo', 'EG', '1234','100.279.20.10')
+            ->sendURLs('return_url', 'callback_url')
+            ->sendLanguage('en')
+            ->sendHideShipping(true)
+            ->create_pay_page();
 
+        return $pay;
+    }
     public function addCash(Req $request, BalancesManager $balancesManager)
     {
 

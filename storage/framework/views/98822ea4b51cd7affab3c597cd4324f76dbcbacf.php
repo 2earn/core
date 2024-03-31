@@ -1,11 +1,11 @@
 <div>
-    @section('title'){{ __('Cash Balance') }} @endsection
-    @section('content')
+    <?php $__env->startSection('title'); ?><?php echo e(__('Cash Balance')); ?> <?php $__env->stopSection(); ?>
+    <?php $__env->startSection('content'); ?>
 
-        @component('components.breadcrumb')
-            @slot('li_1')@endslot
-            @slot('title') {{ __('Cash Balance') }}@endslot
-        @endcomponent
+        <?php $__env->startComponent('components.breadcrumb'); ?>
+            <?php $__env->slot('li_1'); ?><?php $__env->endSlot(); ?>
+            <?php $__env->slot('title'); ?> <?php echo e(__('Cash Balance')); ?><?php $__env->endSlot(); ?>
+        <?php echo $__env->renderComponent(); ?>
 
         <div class="row">
             <div class="col-lg-12">
@@ -16,23 +16,23 @@
                             <div class="col-sm-auto">
                                 <div>
 
-                               <img src=" {{asset('assets/images/qr_code.jpg')}}" class="rounded avatar-lg">
+                               <img src=" <?php echo e(asset('assets/images/qr_code.jpg')); ?>" class="rounded avatar-lg">
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <div class="d-flex justify-content-sm-end">
                                     <div class="search-box ms-2">
-                                        <p>{{ __('Cash Balance description') }}</p> </div>
+                                        <p><?php echo e(__('Cash Balance description')); ?></p> </div>
                                 </div>
                             </div>
 
                         </div>
                         <div class="row g-4">
                             sdfqfd
-                        <a href="{{route('paytabs',app()->getLocale())}}"  data-bs-toggle=""
+                        <a href="<?php echo e(route('paytabs',app()->getLocale())); ?>"  data-bs-toggle=""
                            role="button"
                            >
-                            <i class="ri-home-gear-fill"></i> <span>{{ __('Home') }}</span>
+                            <i class="ri-home-gear-fill"></i> <span><?php echo e(__('Home')); ?></span>
                         </a>
                         </div>
                     </div>
@@ -40,13 +40,13 @@
                         <table class="table nowrap dt-responsive align-middle table-hover table-bordered" id="ub_table" style="width: 100%">
                             <thead class="table-light">
                             <tr class="head2earn  tabHeader2earn" >
-                                <th style=" border: none ">{{ __('Ref') }}</th>
-                                <th style=" border: none ">{{ __('Date') }}</th>
-                                <th style=" border: none ">{{ __('Operation Designation') }}</th>
-                                <th style=" border: none ">{{ __('Description') }}</th>
+                                <th style=" border: none "><?php echo e(__('Ref')); ?></th>
+                                <th style=" border: none "><?php echo e(__('Date')); ?></th>
+                                <th style=" border: none "><?php echo e(__('Operation Designation')); ?></th>
+                                <th style=" border: none "><?php echo e(__('Description')); ?></th>
 
-                                <th style=" border: none ">{{ __('Value') }}</th>
-                                <th style=" border: none ">{{ __('Balance') }}</th>
+                                <th style=" border: none "><?php echo e(__('Value')); ?></th>
+                                <th style=" border: none "><?php echo e(__('Balance')); ?></th>
                             </tr>
                             </thead>
                             <tbody class="body2earn">
@@ -69,3 +69,4 @@
 
 
 
+<?php /**PATH C:\Users\ghazi\Documents\GitHub\2earnprod\resources\views/livewire/user-balance-c-b.blade.php ENDPATH**/ ?>

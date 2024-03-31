@@ -88,6 +88,11 @@ return [
             'emoji' => ':boom:',
             'level' => env('LOG_LEVEL', 'critical'),
         ],
+        'PayTabs' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/paytabs.log'),
+            'level' => 'info',
+        ],
 
         'papertrail' => [
             'driver' => 'monolog',
