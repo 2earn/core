@@ -99,7 +99,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         Route::get('user_balance_sms', UserBalanceSMS::class)->name('user_balance_sms');
         Route::get('user_balance_cb', UserBalanceCB::class)->name('user_balance_cb');
-        Route::post('/paytabs/notification', PaymentController::class)->name('paytabs_notification');
+
 
         Route::get('/paytabs/notification', PaymentController::class)->name('paytabs_notification');
         Route::get('user_balance_db', UserBalanceDB::class)->name('user_balance_db');
@@ -149,7 +149,7 @@ Route::group(['prefix' => 'API'], function () {
     Route::get('user_manager', 'App\Http\Controllers\ApiController@getAllUsers')->name('API_usermanager');
     Route::get('user_invitations', 'App\Http\Controllers\ApiController@getInvitationsUser')->name('API_userinvitations');
     Route::get('user_purchaseBFS', 'App\Http\Controllers\ApiController@getPurchaseBFSUser')->name('API_userBFSPurchase');
-
+    Route::post('/paytabs/notification', 'App\Http\Controllers\ApiController@handlePaymentNotification')->name('paytabs_notification');
     Route::get('users_list', 'App\Http\Controllers\ApiController@getUsersList')->name('API_UsersList');
     Route::get('stat_countries', 'App\Http\Controllers\ApiController@getCountriStat')->name('API_stat_countries');
     Route::get('sankey', 'App\Http\Controllers\ApiController@getSankey')->name('API_sankey');
