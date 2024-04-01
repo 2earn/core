@@ -505,13 +505,10 @@ left join users user on user.idUser = recharge_requests.idUser";
 
     public function handlePaymentNotification(Req $request)
     {
-        // Traitez les données de notification de paiement ici
-        dd($request);
 
-        // Logique de traitement des données de notification
-        // Mise à jour de l'état de la transaction, envoi de notifications, etc.
+        dd($request->request);
 
-        // Retournez une réponse appropriée à PayTabs
+
         return response()->json(['status' => 'success']);
     }
 
