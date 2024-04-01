@@ -505,8 +505,8 @@ left join users user on user.idUser = recharge_requests.idUser";
 
     public function handlePaymentNotification(Req $request)
     {
-
-        dd($request->request[0]);
+        $a=json_decode($request->request);
+        dd($a[0]);
 
 
         return response()->json(['status' => 'success']);
