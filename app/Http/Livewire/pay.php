@@ -14,7 +14,7 @@ class pay
 {
     public function test(Req $request)
     {
-        $url=  route('paytabs_notification', app()->getLocale());
+        $url=  route('paytabs_notification');
 
         $name='';
         $email='';
