@@ -12,7 +12,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row g-4">
-                            sdfqfd
+
                             <div class="col-sm-auto">
                                 <div>
 
@@ -27,13 +27,42 @@
                             </div>
 
                         </div>
-                        <div class="row g-4">
-                            sdfqfd
-                        <a href="{{route('paytabs',app()->getLocale())}}"  data-bs-toggle=""
-                           role="button"
-                           >
-                            <i class="ri-home-gear-fill"></i> <span>{{ __('Home') }}</span>
-                        </a>
+                        <div class="card border card-border-info">
+                        <div class="card card-body">
+                            <div class="d-flex mb-4 align-items-center">
+                                <div class="flex-shrink-0">
+                                    <img src="{{ URL::asset('assets/images/paytabs.jpeg') }}" alt="">
+                                </div>
+                                <div class="flex-grow-1 ms-2">
+                                    <h5 class="card-title mb-1">{{ __('Paytabs_Payment_Gateway') }}</h5>
+                                </div>
+                            </div>
+                            <img src="{{ URL::asset('assets/images/pay.jpeg') }}" alt="" style="height: 60px;
+    width: 120px;">
+                            <div class="row g-4">
+                                <div class="col-lg-6">
+
+                                    <div class="input-group">
+
+                                        <input aria-describedby="simulate" type="number"  class="form-control" id="ammount1" required>
+                                        <span class="input-group-text">$</span></div>
+                                    <div class="input-group">
+                                        <input aria-describedby="simulate" type="number"  class="form-control" id="ammount2" required>
+                                        <span class="input-group-text" >SAR</span></div>
+                                    <div class="input-group">
+                                        <button class="btn btn-outline-secondary" type="button" id="simulate1">{{ __('simulate') }}</button>
+                                        <button class="btn btn-success" type="button" id="validate" data-route-url="{{ route('paytabs', app()->getLocale()) }}">{{ __('validate') }}</button>
+                                    </div>
+
+
+
+
+
+                                </div>
+                            </div>
+                        </div></div>
+
+
                         </div>
                     </div>
                     <div class="card-body table-responsive">
@@ -61,6 +90,24 @@
         <!--end row-->
 
 </div>
+<script>
+
+    $(document).on("click", "#simulate1", function () {
+         console.log($("#ammount1").val());
+        $('#ammount2').val($("#ammount1").val()* {{usdToSar()}});
+        });
+    $(document).on("click", "#validate", function () {
+        var amount = $('#ammount2').val();
+        var routeUrl = "{{ route('paytabs', app()->getLocale()) }}";
+        // Ajouter le montant comme paramètre de requête
+        routeUrl += "?amount=" + encodeURIComponent(amount);
+        window.location.href = routeUrl;
+
+    });
+
+
+
+</script>
 
 
 

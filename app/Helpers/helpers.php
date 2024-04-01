@@ -6,15 +6,13 @@ use Core\Interfaces\IBalanceOperationRepositoty;
 use Core\Interfaces\IUserBalancesRepository;
 use Core\Services\settingsManager;
 use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Http\Request as Req;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Core\Services\BalancesManager ;
-
-
-
-
+use Paytabscom\Laravel_paytabs\Facades\paypage;
 
 
 if (!function_exists('getUserBalanceSoldes')) {
@@ -347,6 +345,14 @@ if (!function_exists('earnDebug')) {
 
 }
 
+if (!function_exists('usdToSar')) {
+    function usdToSar()
+    {
+        $k=\Core\Models\Setting::Where('idSETTINGS','30')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
+        return $k;
+    }
+
+}
 
 
 

@@ -94,7 +94,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('shares_sold', \App\Http\Livewire\SharesSold::class)->name('shares_sold');
         Route::get('edit_admin', \App\Http\Livewire\EditAdmin::class)->name('edit_admin');
         Route::get('countries_management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
-        Route::get('pay', pay::class)->name('pay');
+
 
         Route::get('user_balance_sms', UserBalanceSMS::class)->name('user_balance_sms');
         Route::get('user_balance_cb', UserBalanceCB::class)->name('user_balance_cb');
@@ -105,7 +105,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('editContact', EditUserContact::class)->name('editContact2');
         Route::get('/balances/exchange/funding/RequestPulicUser', RequestPublicUser::class)->name('RequesPublicUser');
         Route::get('/balances/exchange/funding/strip', stripView::class)->name('paymentstrip');
-        Route::get('paytabs', pay::class)->name('paytabs');
+        Route::get('paytabs', '\App\Http\Livewire\pay@test')->name('paytabs');
 
         Route::get('Hobbies', Hobbies::class)->name('hobbies');
         Route::get('RecuperationHistory', HistoriqueRecuperation::class)->name('RecuperationHistory');

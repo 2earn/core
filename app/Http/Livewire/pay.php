@@ -1,60 +1,48 @@
 <?php
 namespace App\Http\Livewire;
 
+use Illuminate\Http\Request as Req;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Livewire\Component;
 use Paytabs1;
 
+use Paytabscom\Laravel_paytabs\Facades\paypage;
 
-class pay extends Component
+
+class pay
 {
-
-    public function render()
+    public function test(Req $request)
     {
-
-        require_once 'Paytabs1.php';
-        $plugin = new Paytabs1();
-        $request_url = 'payment/request';
-        $data =   [
-            "tran_type"=> "sale",
-            "tran_class"=> "ecom",
-            "cart_id"=> "1212",
-            "cart_currency"=> "SAR",
-            "cart_amount"=> 12.3,
-            "cart_description"=> "Description of the items/services",
-            "paypage_lang"=> "en",
-            "customer_details"=> [
-                "name"=> "first last",
-                "email"=> "email@domain.com",
-                "phone"=> "0522222222",
-                "street1"=> "address street",
-                "city"=> "dubai",
-                "state"=> "du",
-                "country"=> "AE",
-                "zip"=> "12345"
-            ],
-            "shipping_details"=> [
-                "name"=> "name1 last1",
-                "email"=> "email1@domain.com",
-                "phone"=> "971555555555",
-                "street1"=> "street2",
-                "city"=> "dubai",
-                "state"=> "dubai",
-                "country"=> "AE",
-                "zip"=> "54321"
-            ],
-            "callback"=> "http://127.0.0.1:8000/en",
-            "return"=> "http://127.0.0.1:8000/en/contacts",
-            "framed"=> true
-        ]
-        ;
-        $page = $plugin->send_api_request($request_url, $data);
-        $lnk=$page['redirect_url'];
+        $url= url()->previous();
+        $name='';
+        $email='';
+        $street1='';
+        $city='';
+        $state='';
+        $country='';
+        $zip='';
+        $ip='';
 
 
-        return view('livewire.pay')->extends('layouts.master')->section('content')->with('transaction',$lnk );
+        $cart_id = auth()->user()->idUser.DB::table('user_balances')->where('idBalancesOperation', 44)->where('idUser', auth()->user()->idUser)->count()+1;
+        $cart_amount=$request->amount;
+
+        $pay= paypage::sendPaymentCode('all')
+            ->sendTransaction('sale','ecom')
+            ->sendCart($cart_id, $cart_amount,'E-CASH TOP-UP')
+            ->sendLanguage('en')
+            ->sendCustomerDetails($name, $email, auth()->user()->fullphone_number, $street1, $city, $state, $country, $zip, $ip)
+            ->sendURLs($url, $url)
+            ->sendHideShipping(true)
+
+            ->create_pay_page();
 
 
-
+        return $pay;
     }
 
 }
+
+
+
