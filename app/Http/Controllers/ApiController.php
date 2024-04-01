@@ -545,6 +545,11 @@ left join users user on user.idUser = recharge_requests.idUser";
             $chaine = $data->cart_id;
             $user = explode('-', $chaine)[0];
             $k=\Core\Models\Setting::Where('idSETTINGS','30')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
+
+            $old_value = DB::table('usercurrentbalances')
+                ->where('idUser', $user)
+                ->where('idamounts', AmoutEnum::CASH_BALANCE)
+                ->value('value');
             $value = DB::table('user_balances as u')
                 ->select(DB::raw('SUM(CASE WHEN b.IO = "I" THEN u.value ELSE -u.value END) as value'))
                 ->join('balanceoperations as b', 'u.idBalancesOperation', '=', 'b.idBalanceOperations')
@@ -552,14 +557,10 @@ left join users user on user.idUser = recharge_requests.idUser";
                 ->where('u.idamount', 1)
                 ->where('u.idUser', $user)
                 ->first();
-            dd($value);
-            $old_value = DB::table('usercurrentbalances')
-                ->where('idUser', $user)
-                ->where('idamounts', AmoutEnum::CASH_BALANCE)
-                ->value('value');
 
 
             $Count = DB::table('user_balances')->count();
+            $value=$value->value*1;
 
             $user_balance = new user_balance();
             $user_balance->ref = "51" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
@@ -571,7 +572,7 @@ left join users user on user.idUser = recharge_requests.idUser";
             $user_balance->value = $data->tran_total/$k;
             $user_balance->WinPurchaseAmount = "0.000";
             $user_balance->Description = $data->tran_ref;
-            $user_balance->Balance = 0;
+            $user_balance->Balance = $value      + $data->tran_total/$k;
             $user_balance->save();
 
 
