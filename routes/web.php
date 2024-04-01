@@ -28,6 +28,7 @@ use App\Http\Livewire\NotificationSettings;
 
 //use App\Http\Livewire\UserBalanceBFS;
 use App\Http\Livewire\pay;
+use App\Http\Livewire\PaymentController;
 use App\Http\Livewire\Registre;
 use App\Http\Livewire\RequestPublicUser;
 use App\Http\Livewire\StripView;
@@ -98,7 +99,8 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         Route::get('user_balance_sms', UserBalanceSMS::class)->name('user_balance_sms');
         Route::get('user_balance_cb', UserBalanceCB::class)->name('user_balance_cb');
-        Route::post('/paytabs/notification', '\App\Http\Livewire\PaymentController@handlePaymentNotification')->name('paytabs_notification')->middleware('web');
+        Route::post('/paytabs/notification', PaymentController::class)->name('paytabs_notification')->middleware('web');
+
         Route::get('/paytabs/notification', '\App\Http\Livewire\PaymentController@handlePaymentNotification')->name('paytabs_notification')->middleware('web');
         Route::get('user_balance_db', UserBalanceDB::class)->name('user_balance_db');
         Route::get('user_balance_bfs', UserBalanceBFS::class)->name('user_balance_bfs');
