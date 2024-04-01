@@ -105,62 +105,62 @@ left join users user on user.idUser = recharge_requests.idUser";
         $reserve=getUserByContact($b);
         //dd($b);
         if ($reserve){
-        if ($reserve!=$reciver){
+            if ($reserve!=$reciver){
 
 
 
                 $setting=\Core\Models\Setting::WhereIn('idSETTINGS',['24','26','27','28'])->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
-            $prcShares=$setting[0];
-            $prcAmount=$setting[1];
-            $pcrCash=$setting[2];
-            $pcrBFS=$setting[3];
+                $prcShares=$setting[0];
+                $prcAmount=$setting[1];
+                $pcrCash=$setting[2];
+                $pcrBFS=$setting[3];
 
-            $user_balance = new user_balance();
-            $user_balance->ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-            $user_balance->idBalancesOperation = 44;
-            $user_balance->Date = now();
-            $user_balance->idSource = '11111111';
-            $user_balance->idUser = $reserve;
-            $user_balance->idamount = AmoutEnum::Action;
-            $user_balance->value = 0;
-            $user_balance->gifted_shares = $number_of_action*$prcShares/100;//settings value
-            $user_balance->PU = 0;
-            $user_balance->WinPurchaseAmount = "0";
-            $user_balance->Description = 'sponsorship commission from '.$b;
-            $user_balance->Balance = 0;
-            $user_balance->save();
-            $amount=($number_of_action + $gift) * $PU*$prcAmount/100;
-            $user_balance = new user_balance();
-            $user_balance->ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-            $user_balance->idBalancesOperation = 49;
-            $user_balance->Date = now();
-            $user_balance->idSource = '11111111';
-            $user_balance->idUser = $reserve;
-            $user_balance->idamount = AmoutEnum::CASH_BALANCE;
-            $user_balance->value = $amount*$pcrCash/100;
-            $user_balance->PU = 0;
-            $user_balance->WinPurchaseAmount = "0.000";
-            $user_balance->Description = 'sponsorship commission from '.$b;
-            $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser)->soldeCB + $amount*$pcrCash/100;
-            $user_balance->save();
-            $user_balance = new user_balance();
-            $user_balance->ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-            $user_balance->idBalancesOperation = 50;
-            $user_balance->Date = now();
-            $user_balance->idSource = '11111111';
-            $user_balance->idUser = $reserve;
-            $user_balance->idamount = AmoutEnum::BFS;
-            $user_balance->value = $amount*$pcrBFS/100;
-            $user_balance->PU = 0;
-            $user_balance->WinPurchaseAmount = "0.000";
-            $user_balance->Description = 'sponsorship commission from '.$b;
-            $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser)->soldeBFS + $amount*$pcrBFS/100;
-
-
-            $user_balance->save();
+                $user_balance = new user_balance();
+                $user_balance->ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
+                $user_balance->idBalancesOperation = 44;
+                $user_balance->Date = now();
+                $user_balance->idSource = '11111111';
+                $user_balance->idUser = $reserve;
+                $user_balance->idamount = AmoutEnum::Action;
+                $user_balance->value = 0;
+                $user_balance->gifted_shares = $number_of_action*$prcShares/100;//settings value
+                $user_balance->PU = 0;
+                $user_balance->WinPurchaseAmount = "0";
+                $user_balance->Description = 'sponsorship commission from '.$b;
+                $user_balance->Balance = 0;
+                $user_balance->save();
+                $amount=($number_of_action + $gift) * $PU*$prcAmount/100;
+                $user_balance = new user_balance();
+                $user_balance->ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
+                $user_balance->idBalancesOperation = 49;
+                $user_balance->Date = now();
+                $user_balance->idSource = '11111111';
+                $user_balance->idUser = $reserve;
+                $user_balance->idamount = AmoutEnum::CASH_BALANCE;
+                $user_balance->value = $amount*$pcrCash/100;
+                $user_balance->PU = 0;
+                $user_balance->WinPurchaseAmount = "0.000";
+                $user_balance->Description = 'sponsorship commission from '.$b;
+                $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser)->soldeCB + $amount*$pcrCash/100;
+                $user_balance->save();
+                $user_balance = new user_balance();
+                $user_balance->ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
+                $user_balance->idBalancesOperation = 50;
+                $user_balance->Date = now();
+                $user_balance->idSource = '11111111';
+                $user_balance->idUser = $reserve;
+                $user_balance->idamount = AmoutEnum::BFS;
+                $user_balance->value = $amount*$pcrBFS/100;
+                $user_balance->PU = 0;
+                $user_balance->WinPurchaseAmount = "0.000";
+                $user_balance->Description = 'sponsorship commission from '.$b;
+                $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser)->soldeBFS + $amount*$pcrBFS/100;
 
 
-        }
+                $user_balance->save();
+
+
+            }
         }
 
 
@@ -448,7 +448,7 @@ left join users user on user.idUser = recharge_requests.idUser";
             ->where('idBalancesOperation', 44)
             ->where('idUser', $idUser)
             ->get();
-    //dd($userBalances);
+        //dd($userBalances);
         return $userBalances;
     }
 
@@ -505,11 +505,85 @@ left join users user on user.idUser = recharge_requests.idUser";
 
     public function handlePaymentNotification(Req $request)
     {
-        $a=json_decode($request->request);
-        dd($a);
+
+        $a=$request->request;
+
+        $responseData = $a->all();
+        $tranRef = $responseData['tranRef'];
+        $data = Paypage::queryTransaction($tranRef);
+        //dd($data->tran_type);
+        DB::table('transactions')->insert([
+            'tran_ref' => $data->tran_ref,
+            'tran_type' => $data->tran_type,
+            'cart_id' => $data->cart_id,
+            'cart_currency' => $data->cart_currency,
+            'cart_amount' => $data->cart_amount,
+            'tran_currency' => $data->tran_currency,
+            'tran_total' => $data->tran_total,
+            'customer_phone' => $data->customer_details->phone,
+            'response_status' => $data->payment_result->response_status,
+            'response_code' => $data->payment_result->response_code,
+            'response_message' => $data->payment_result->response_message,
+            'payment_method' => $data->payment_info->payment_method,
+            'card_type' => $data->payment_info->card_type,
+            'card_scheme' => $data->payment_info->card_scheme,
+            'payment_description' => $data->payment_info->payment_description,
+            'expiry_month' => $data->payment_info->expiryMonth,
+            'expiry_year' => $data->payment_info->expiryYear,
+            'issuer_country' => $data->payment_info->issuerCountry,
+            'issuer_name' => $data->payment_info->issuerName,
+            'success' => $data->success,
+            'failed' => $data->failed,
+            'created_at'=>now(),
+            'updated_at'=>now()
 
 
-        return response()->json(['status' => 'success']);
+        ]);
+        if($data->success)
+        {
+            $chaine = $data->cart_id;
+            $user = explode('-', $chaine)[0];
+            $k=\Core\Models\Setting::Where('idSETTINGS','30')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
+
+            $old_value = DB::table('usercurrentbalances')
+                ->where('idUser', $user)
+                ->where('idamounts', AmoutEnum::CASH_BALANCE)
+                ->value('value');
+
+
+            $Count = DB::table('user_balances')->count();
+
+            $user_balance = new user_balance();
+            $user_balance->ref = "51" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
+            $user_balance->idBalancesOperation = 51;
+            $user_balance->Date = now();
+            $user_balance->idSource = $user;
+            $user_balance->idUser = $user;
+            $user_balance->idamount = AmoutEnum::CASH_BALANCE;
+            $user_balance->value = $data->tran_total/$k;
+            $user_balance->WinPurchaseAmount = "0.000";
+            $user_balance->Description = $data->tran_ref;
+            $user_balance->Balance = 0;
+            $user_balance->save();
+
+
+
+
+
+            $new_value = intval($old_value) + $data->tran_total/$k;
+            DB::table('usercurrentbalances')
+                ->where('idUser', $user)
+                ->where('idamounts', AmoutEnum::CASH_BALANCE)
+                ->update(['value' => $new_value, 'dernier_value' => $old_value]);
+
+            // adjust new value for reciver
+
+
+
+        }
+
+
+        return redirect()->route('user_balance_cb',  app()->getLocale());
     }
 
     public function updateReserveDate(Req $request)
@@ -520,7 +594,7 @@ left join users user on user.idUser = recharge_requests.idUser";
 
             if ($status == "true") {
                 $st = 1;
-            $dt=now();
+                $dt=now();
                 DB::table('user_contacts')
                     ->where('id', $id)
                     ->update(['availablity' => $st,'reserved_at' => $dt]);
@@ -555,7 +629,7 @@ left join users user on user.idUser = recharge_requests.idUser";
             $id = $request->input('id');
             //$status = $request->input('status');
 
-             $st = 0;
+            $st = 0;
 
             // Assuming 'id' is the primary key for the 'user_balances' table
             DB::table('user_balances')
@@ -582,10 +656,10 @@ left join users user on user.idUser = recharge_requests.idUser";
 
             if($st==0)
             {$p=0;
-           }
+            }
             else{
-            if($st<$total)$p=2;
-            if($st==$total)$p=1;}
+                if($st<$total)$p=2;
+                if($st==$total)$p=1;}
             DB::table('user_balances')
                 ->where('id', $id)
                 ->update(['Balance' => floatval($st),'WinPurchaseAmount'=>$p]);
@@ -648,7 +722,7 @@ left join users user on user.idUser = recharge_requests.idUser";
     public function getSharePriceEvolutionDate()
     {
         $query =  DB::table('user_balances')
-        ->select(DB::raw('DATE(date) as x'),DB::raw('SUM(value) as y'))
+            ->select(DB::raw('DATE(date) as x'),DB::raw('SUM(value) as y'))
             ->where('idBalancesOperation', 44)
             ->groupBy('x')
             ->get();
@@ -772,7 +846,7 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
         $query = User::select('countries.apha2', 'users.idUser', DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'), 'users.mobile', 'users.created_at', 'OptActivation', 'pass')
             ->join('metta_users as meta', 'meta.idUser', '=', 'users.idUser')
             ->join('countries', 'countries.id', '=', 'users.idCountry');
-            //->where('users.idUser','<' ,197604180);
+        //->where('users.idUser','<' ,197604180);
 
         //  dd($query) ;
         return datatables($query)
@@ -1025,7 +1099,7 @@ where u.idBalancesOperation=b.idBalanceOperations
   and u.idUser=s.idUser
 and u.idamount not in(4,6)  and u.idUser=? and u.idamount=? order by Date   ", [$idUser, $idamount]
         );
-return response()->json($userData);
+        return response()->json($userData);
         /*return Datatables::of($userData)
             ->addColumn('formatted_date', function ($user) {
                 return Carbon\Carbon::parse($user->Date)->format('Y-m-d');
