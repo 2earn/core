@@ -72,6 +72,19 @@ if (!function_exists('getAdminCash')) {
         $dataArray = $value->pluck('value')->toArray();
         return $dataArray;
     }}
+if (!function_exists('getUserCash')) {
+    function getUserCash($user)
+    {
+        $value = DB::table('user_balances as u')
+            ->select(DB::raw('SUM(CASE WHEN b.IO = "I" THEN u.value ELSE -u.value END) as value'))
+            ->join('balanceoperations as b', 'u.idBalancesOperation', '=', 'b.idBalanceOperations')
+            ->join('users as s', 'u.idUser', '=', 's.idUser')
+            ->where('u.idamount', 1)
+            ->where('u.idUser', $user)
+            ->get();
+        $dataArray = $value->pluck('value')->toArray();
+        return $dataArray;
+    }}
 
 
 
