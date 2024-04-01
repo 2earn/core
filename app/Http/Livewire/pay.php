@@ -34,7 +34,7 @@ class pay
             ->sendCart($cart_id, $cart_amount,'E-CASH TOP-UP')
             ->sendLanguage('en')
             ->sendCustomerDetails($name, $email, auth()->user()->fullphone_number, $street1, $city, $state, $country, $zip, $ip)
-            ->sendURLs($url, $url)
+            ->sendURLs($url, null)
             ->sendHideShipping(true)
 
             ->create_pay_page();
