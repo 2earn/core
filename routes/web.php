@@ -99,9 +99,9 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         Route::get('user_balance_sms', UserBalanceSMS::class)->name('user_balance_sms');
         Route::get('user_balance_cb', UserBalanceCB::class)->name('user_balance_cb');
-        Route::post('/paytabs/notification', PaymentController::class)->name('paytabs_notification')->middleware('web');
+        Route::post('/paytabs/notification', PaymentController::class)->name('paytabs_notification');
 
-        Route::get('/paytabs/notification', '\App\Http\Livewire\PaymentController@handlePaymentNotification')->name('paytabs_notification')->middleware('web');
+        Route::get('/paytabs/notification', PaymentController::class)->name('paytabs_notification');
         Route::get('user_balance_db', UserBalanceDB::class)->name('user_balance_db');
         Route::get('user_balance_bfs', UserBalanceBFS::class)->name('user_balance_bfs');
         Route::get('financial_transaction', FinancialTransaction::class)->name('financial_transaction');
