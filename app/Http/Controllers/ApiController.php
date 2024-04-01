@@ -541,10 +541,18 @@ left join users user on user.idUser = recharge_requests.idUser";
         ]);
         if($data->success)
         {
+
             $chaine = $data->cart_id;
             $user = explode('-', $chaine)[0];
             $k=\Core\Models\Setting::Where('idSETTINGS','30')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
-
+            $value = DB::table('user_balances as u')
+                ->select(DB::raw('SUM(CASE WHEN b.IO = "I" THEN u.value ELSE -u.value END) as value'))
+                ->join('balanceoperations as b', 'u.idBalancesOperation', '=', 'b.idBalanceOperations')
+                ->join('users as s', 'u.idUser', '=', 's.idUser')
+                ->where('u.idamount', 1)
+                ->where('u.idUser', $user)
+                ->first();
+            dd($value);
             $old_value = DB::table('usercurrentbalances')
                 ->where('idUser', $user)
                 ->where('idamounts', AmoutEnum::CASH_BALANCE)
