@@ -45,13 +45,14 @@
                                     <div class="input-group">
 
                                         <input aria-describedby="simulate" type="number"  class="form-control" id="ammount1" required>
-                                        <span class="input-group-text">$</span></div>
-                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <button class="btn btn-success" type="button" id="validate" data-route-url="{{ route('paytabs', app()->getLocale()) }}">{{ __('validate') }}</button></div>
+                                    <div class="input-group d-none">
                                         <input aria-describedby="simulate" type="number"  class="form-control" id="ammount2" required>
                                         <span class="input-group-text" >SAR</span></div>
                                     <div class="input-group">
-                                        <button class="btn btn-outline-secondary" type="button" id="simulate1">{{ __('simulate') }}</button>
-                                        <button class="btn btn-success" type="button" id="validate" data-route-url="{{ route('paytabs', app()->getLocale()) }}">{{ __('validate') }}</button>
+                                        <button class="btn btn-outline-secondary d-none" type="button" id="simulate1">{{ __('simulate') }}</button>
+
                                     </div>
 
 
@@ -97,6 +98,9 @@
         $('#ammount2').val($("#ammount1").val()* {{usdToSar()}});
         });
     $(document).on("click", "#validate", function () {
+        console.log($("#ammount1").val());
+        $('#ammount2').val($("#ammount1").val()* {{usdToSar()}});
+
         var amount = $('#ammount2').val();
         var routeUrl = "{{ route('paytabs', app()->getLocale()) }}";
         // Ajouter le montant comme paramètre de requête
