@@ -150,6 +150,8 @@ Route::group(['prefix' => 'API'], function () {
     Route::get('user_invitations', 'App\Http\Controllers\ApiController@getInvitationsUser')->name('API_userinvitations');
     Route::get('user_purchaseBFS', 'App\Http\Controllers\ApiController@getPurchaseBFSUser')->name('API_userBFSPurchase');
     Route::post('paytabs_notification', 'App\Http\Controllers\ApiController@handlePaymentNotification')->name('paytabs_notification')->withoutMiddleware('web');
+    Route::post('paytabs_notification1', 'App\Http\Controllers\ApiController@handlePaymentNotification1')->name('paytabs_notification1')->withoutMiddleware('web');
+
     Route::get('users_list', 'App\Http\Controllers\ApiController@getUsersList')->name('API_UsersList');
     Route::get('stat_countries', 'App\Http\Controllers\ApiController@getCountriStat')->name('API_stat_countries');
     Route::get('sankey', 'App\Http\Controllers\ApiController@getSankey')->name('API_sankey');

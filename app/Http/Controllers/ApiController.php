@@ -505,7 +505,9 @@ left join users user on user.idUser = recharge_requests.idUser";
 
     public function handlePaymentNotification(Req $request)
     {
-        dd($request);
+
+        $d= route('paytabs_notification1');
+        dd($d);
         $a=$request->request;
 
         $responseData = $a->all();
@@ -594,7 +596,12 @@ left join users user on user.idUser = recharge_requests.idUser";
 
         return redirect()->route('user_balance_cb',  app()->getLocale());
     }
+    public function handlePaymentNotification1(Req $request)
+    {
+        dd($request);
 
+        return $request;
+    }
     public function updateReserveDate(Req $request)
     {
         try {
