@@ -506,8 +506,8 @@ left join users user on user.idUser = recharge_requests.idUser";
     public function handlePaymentNotification(Req $request)
     {
 
-        $d= route('paytabs_notification1');
-        dd($d);
+        //$d= route('paytabs_notification1');
+        //dd($d);
         $a=$request->request;
 
         $responseData = $a->all();
