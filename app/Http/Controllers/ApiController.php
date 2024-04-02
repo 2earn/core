@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Livewire\Request;
 use Paytabscom\Laravel_paytabs\Facades\paypage;
+use Paytabscom\Laravel_paytabs\Services\IpnRequest;
 use phpDocumentor\Reflection\Types\Collection;
 use Illuminate\Support\Facades\Lang;
 use Yajra\DataTables\Facades\DataTables;
@@ -502,7 +503,22 @@ left join users user on user.idUser = recharge_requests.idUser";
 
 
     }
-
+    public function paymentIPN(Req $request){
+        try{
+            $ipnRequest= new IpnRequest($request);
+                dd($ipnRequest);
+            $callback = config('paytabs.callback');
+            if(is_object($callback) && method_exists($callback, 'updateCartByIPN') ){
+                $callback->updateCartByIPN($ipnRequest);
+            }
+            $response= 'valid IPN request. Cart updated';
+            return response($response, 200)
+                ->header('Content-Type', 'text/plain');
+        }catch(\Exception $e){
+            return response($e, 400)
+                ->header('Content-Type', 'text/plain');
+        }
+    }
     public function handlePaymentNotification(Req $request)
     {
 
