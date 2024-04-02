@@ -507,7 +507,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         try{
             $ipnRequest= new IpnRequest($request);
                 dd($ipnRequest);
-            $callback = config('paytabs.callback');
+            $callback = route('paytabs_notification');
             if(is_object($callback) && method_exists($callback, 'updateCartByIPN') ){
                 $callback->updateCartByIPN($ipnRequest);
             }
@@ -521,9 +521,9 @@ left join users user on user.idUser = recharge_requests.idUser";
     }
     public function handlePaymentNotification(Req $request)
     {
-
+        $ipnRequest= new IpnRequest($request);
         //$d= route('paytabs_notification1');
-        //dd($d);
+        dd($ipnRequest);
         $a=$request->request;
 
         $responseData = $a->all();
