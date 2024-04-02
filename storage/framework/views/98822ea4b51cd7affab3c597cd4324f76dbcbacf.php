@@ -46,7 +46,7 @@
 
                                         <input aria-describedby="simulate" type="number"  class="form-control" id="ammount1" required>
                                         <span class="input-group-text">$</span>
-                                        <button class="btn btn-success" type="button" id="validate" data-route-url="<?php echo e(route('paytabs', app()->getLocale())); ?>"><?php echo e(__('validate')); ?></button></div>
+                                        <button class="btn btn-success" type="button" data-bs-target="#tr_paytabs" data-bs-toggle="modal" id="validate"  ><?php echo e(__('validate')); ?></button></div>
                                     <div class="input-group d-none">
                                         <input aria-describedby="simulate" type="number"  class="form-control" id="ammount2" required>
                                         <span class="input-group-text" >SAR</span></div>
@@ -91,21 +91,55 @@
         <!--end row-->
 
 </div>
+
+<div class="modal fade" id="tr_paytabs" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalgridLabel"><?php echo e(__('Buy Shares')); ?></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h5 ><?php echo e(__('validate_transfert')); ?></h5>
+                <h5 style="color:#464fed" ><div id="usd"></div></h5>
+
+                <form class="needs-validation" novalidate >
+                    <div class="row g-3">
+
+
+                            <div class="col-lg-12">
+                                <div class="hstack gap-2 justify-content-end">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal"><?php echo e(__('Cancel')); ?></button>
+                                    <button type="button"   id="buy-action-submit" class="btn btn-primary"><?php echo e(__('Submit')); ?></button>
+                                </div>
+                            </div>
+                    </div><!--end col-->
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
 
-    $(document).on("click", "#simulate1", function () {
-         console.log($("#ammount1").val());
+    $(document).on("click", "#validate", function () {
+
+        const usd = document.getElementById("usd");
+
+
+        usd.innerHTML=$("#ammount1").val()+" USD"+" = "+$("#ammount1").val()* <?php echo e(usdToSar()); ?>+" SAR";
         $('#ammount2').val($("#ammount1").val()* <?php echo e(usdToSar()); ?>);
         });
-    $(document).on("click", "#validate", function () {
+    $(document).on("click", "#buy-action-submit", function () {
         console.log($("#ammount1").val());
         $('#ammount2').val($("#ammount1").val()* <?php echo e(usdToSar()); ?>);
-   
+
         var amount = $('#ammount2').val();
         var routeUrl = "<?php echo e(route('paytabs', app()->getLocale())); ?>";
-        // Ajouter le montant comme paramètre de requête
+        //Ajouter le montant comme paramètre de requête
         routeUrl += "?amount=" + encodeURIComponent(amount);
         window.location.href = routeUrl;
+
 
     });
 
