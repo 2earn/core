@@ -26,7 +26,7 @@ class pay
         $ip='';
 
 
-        $cart_id = auth()->user()->idUser.'-'.DB::table('user_balances')->where('idBalancesOperation', 44)->where('idUser', auth()->user()->idUser)->count()+1;
+        $cart_id = auth()->user()->idUser.'-'.DB::table('user_balances')->count()+1;
         $cart_amount=$request->amount;
 
         $pay= paypage::sendPaymentCode('all')
