@@ -521,9 +521,9 @@ left join users user on user.idUser = recharge_requests.idUser";
     }
     public function handlePaymentNotification(Req $request)
     {
-        $ipnRequest= new IpnRequest($request);
+        //$ipnRequest= new IpnRequest($request);
         //$d= route('paytabs_notification1');
-        dd($ipnRequest);
+        //dd($ipnRequest);
         $a=$request->request;
 
         $responseData = $a->all();
