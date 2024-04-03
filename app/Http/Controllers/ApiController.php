@@ -529,85 +529,89 @@ left join users user on user.idUser = recharge_requests.idUser";
         $responseData = $a->all();
         $tranRef = $responseData['tranRef'];
         $data = Paypage::queryTransaction($tranRef);
-        //dd($data->tran_type);
-        DB::table('transactions')->insert([
-            'tran_ref' => $data->tran_ref,
-            'tran_type' => $data->tran_type,
-            'cart_id' => $data->cart_id,
-            'cart_currency' => $data->cart_currency,
-            'cart_amount' => $data->cart_amount,
-            'tran_currency' => $data->tran_currency,
-            'tran_total' => $data->tran_total,
-            'customer_phone' => $data->customer_details->phone,
-            'response_status' => $data->payment_result->response_status,
-            'response_code' => $data->payment_result->response_code,
-            'response_message' => $data->payment_result->response_message,
-            'payment_method' => $data->payment_info->payment_method,
-            'card_type' => $data->payment_info->card_type,
-            'card_scheme' => $data->payment_info->card_scheme,
-            'payment_description' => $data->payment_info->payment_description,
-            'expiry_month' => $data->payment_info->expiryMonth,
-            'expiry_year' => $data->payment_info->expiryYear,
-            'issuer_country' => $data->payment_info->issuerCountry,
-            'issuer_name' => $data->payment_info->issuerName,
-            'success' => $data->success,
-            'failed' => $data->failed,
-            'created_at'=>now(),
-            'updated_at'=>now()
+        if($data->payment_info->payment_method !== "ApplePay"){
+            DB::table('transactions')->insert([
+                'tran_ref' => $data->tran_ref,
+                'tran_type' => $data->tran_type,
+                'cart_id' => $data->cart_id,
+                'cart_currency' => $data->cart_currency,
+                'cart_amount' => $data->cart_amount,
+                'tran_currency' => $data->tran_currency,
+                'tran_total' => $data->tran_total,
+                'customer_phone' => $data->customer_details->phone,
+                'response_status' => $data->payment_result->response_status,
+                'response_code' => $data->payment_result->response_code,
+                'response_message' => $data->payment_result->response_message,
+                'payment_method' => $data->payment_info->payment_method,
+                'card_type' => $data->payment_info->card_type,
+                'card_scheme' => $data->payment_info->card_scheme,
+                'payment_description' => $data->payment_info->payment_description,
+                'expiry_month' => $data->payment_info->expiryMonth,
+                'expiry_year' => $data->payment_info->expiryYear,
+                'issuer_country' => $data->payment_info->issuerCountry,
+                'issuer_name' => $data->payment_info->issuerName,
+                'success' => $data->success,
+                'failed' => $data->failed,
+                'created_at'=>now(),
+                'updated_at'=>now()
 
 
-        ]);
-        if($data->success)
-        {
+            ]);
+            if($data->payment_result->response_status == "A")
+            {
 
-            $chaine = $data->cart_id;
-            $user = explode('-', $chaine)[0];
-            $k=\Core\Models\Setting::Where('idSETTINGS','30')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
+                $chaine = $data->cart_id;
+                $user = explode('-', $chaine)[0];
+                $k=\Core\Models\Setting::Where('idSETTINGS','30')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
 
-            $old_value = DB::table('usercurrentbalances')
-                ->where('idUser', $user)
-                ->where('idamounts', AmoutEnum::CASH_BALANCE)
-                ->value('value');
-            $value = DB::table('user_balances as u')
-                ->select(DB::raw('SUM(CASE WHEN b.IO = "I" THEN u.value ELSE -u.value END) as value'))
-                ->join('balanceoperations as b', 'u.idBalancesOperation', '=', 'b.idBalanceOperations')
-                ->join('users as s', 'u.idUser', '=', 's.idUser')
-                ->where('u.idamount', 1)
-                ->where('u.idUser', $user)
-                ->first();
-
-
-            $Count = DB::table('user_balances')->count();
-            $value=$value->value*1;
-
-            $user_balance = new user_balance();
-            $user_balance->ref = "51" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-            $user_balance->idBalancesOperation = 51;
-            $user_balance->Date = now();
-            $user_balance->idSource = $user;
-            $user_balance->idUser = $user;
-            $user_balance->idamount = AmoutEnum::CASH_BALANCE;
-            $user_balance->value = $data->tran_total/$k;
-            $user_balance->WinPurchaseAmount = "0.000";
-            $user_balance->Description = $data->tran_ref;
-            $user_balance->Balance = $value      + $data->tran_total/$k;
-            $user_balance->save();
+                $old_value = DB::table('usercurrentbalances')
+                    ->where('idUser', $user)
+                    ->where('idamounts', AmoutEnum::CASH_BALANCE)
+                    ->value('value');
+                $value = DB::table('user_balances as u')
+                    ->select(DB::raw('SUM(CASE WHEN b.IO = "I" THEN u.value ELSE -u.value END) as value'))
+                    ->join('balanceoperations as b', 'u.idBalancesOperation', '=', 'b.idBalanceOperations')
+                    ->join('users as s', 'u.idUser', '=', 's.idUser')
+                    ->where('u.idamount', 1)
+                    ->where('u.idUser', $user)
+                    ->first();
 
 
+                $Count = DB::table('user_balances')->count();
+                $value=$value->value*1;
 
-
-
-            $new_value = intval($old_value) + $data->tran_total/$k;
-            DB::table('usercurrentbalances')
-                ->where('idUser', $user)
-                ->where('idamounts', AmoutEnum::CASH_BALANCE)
-                ->update(['value' => $new_value, 'dernier_value' => $old_value]);
-
-            // adjust new value for reciver
+                $user_balance = new user_balance();
+                $user_balance->ref = "51" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
+                $user_balance->idBalancesOperation = 51;
+                $user_balance->Date = now();
+                $user_balance->idSource = $user;
+                $user_balance->idUser = $user;
+                $user_balance->idamount = AmoutEnum::CASH_BALANCE;
+                $user_balance->value = $data->tran_total/$k;
+                $user_balance->WinPurchaseAmount = "0.000";
+                $user_balance->Description = $data->tran_ref;
+                $user_balance->Balance = $value      + $data->tran_total/$k;
+                $user_balance->save();
 
 
 
+
+
+                $new_value = intval($old_value) + $data->tran_total/$k;
+                DB::table('usercurrentbalances')
+                    ->where('idUser', $user)
+                    ->where('idamounts', AmoutEnum::CASH_BALANCE)
+                    ->update(['value' => $new_value, 'dernier_value' => $old_value]);
+
+                // adjust new value for reciver
+
+
+
+            }
         }
+        //dd($data->tran_type);
+
+
 
 
         return redirect()->route('user_balance_cb',  app()->getLocale());
