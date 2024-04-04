@@ -145,15 +145,15 @@
 
 
     });
-    console.log("sans");
-    console.log({{$response_message}});
+    //console.log("sans");
+
     window.onload = function() {
-        console.log("load");
-        console.log({{$response_message}});
+        //console.log("load");
+
         // Vérifie si les données sont définies
         @isset($response_message)
-        console.log("isset");
-        console.log({{$response_message}})
+        //console.log("isset");
+        
         document.getElementById('popup').style.display = 'block';
         @endisset
     };
