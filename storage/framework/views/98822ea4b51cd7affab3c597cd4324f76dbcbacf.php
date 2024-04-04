@@ -88,13 +88,10 @@
             </div>
             <!--end col-->
         </div>
-        <!--end row-->
-<div id="popup" style="display: none;">
-    <!-- Contenu de votre popup -->
-    <?php echo e($response_message); ?>
 
 </div>
-</div>
+   <!--end row-->
+
 
 <div class="modal fade" id="tr_paytabs" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
     <div class="modal-dialog">
@@ -106,7 +103,7 @@
             <div class="modal-body">
                 <h5 ><?php echo e(__('validate_transfert')); ?></h5>
                 <h5 style="color:#464fed" ><div id="usd"></div></h5>
-
+                <h6 ><?php echo e(__('markup')); ?></h6>
                 <form class="needs-validation" novalidate >
                     <div class="row g-3">
 
@@ -114,7 +111,7 @@
                             <div class="col-lg-12">
                                 <div class="hstack gap-2 justify-content-end">
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal"><?php echo e(__('Cancel')); ?></button>
-                                    <button type="button"   id="buy-action-submit" class="btn btn-primary"><?php echo e(__('Submit')); ?></button>
+                                    <button type="button"   id="tran_paytabs" class="btn btn-primary"><?php echo e(__('Submit')); ?></button>
                                 </div>
                             </div>
                     </div><!--end col-->
@@ -134,7 +131,7 @@
         usd.innerHTML=$("#ammount1").val()+" USD"+" = "+$("#ammount1").val()* <?php echo e(usdToSar()); ?>+" SAR";
         $('#ammount2').val($("#ammount1").val()* <?php echo e(usdToSar()); ?>);
         });
-    $(document).on("click", "#buy-action-submit", function () {
+    $(document).on("click", "#tran_paytabs", function () {
         console.log($("#ammount1").val());
         $('#ammount2').val($("#ammount1").val()* <?php echo e(usdToSar()); ?>);
 
@@ -146,16 +143,12 @@
 
 
     });
+    //console.log("sans");
 
-    window.onload = function() {
-        // Vérifie si les données sont définies
-        <?php if(isset($response_message)): ?>
-        // Affiche le popup
-        document.getElementById('popup').style.display = 'block';
-        <?php endif; ?>
-    };
+
 
 </script>
+
 
 
 
