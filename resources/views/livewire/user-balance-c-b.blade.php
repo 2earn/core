@@ -103,7 +103,7 @@
             <div class="modal-body">
                 <h5 >{{ __('validate_transfert') }}</h5>
                 <h5 style="color:#464fed" ><div id="usd"></div></h5>
-
+                <h2 >{{ __('markup') }}</h2>
                 <form class="needs-validation" novalidate >
                     <div class="row g-3">
 
