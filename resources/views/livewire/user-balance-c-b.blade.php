@@ -89,7 +89,10 @@
             <!--end col-->
         </div>
         <!--end row-->
-
+<div id="popup" style="display: none;">
+    <!-- Contenu de votre popup -->
+    {{ $response_message }}
+</div>
 </div>
 
 <div class="modal fade" id="tr_paytabs" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
@@ -143,7 +146,13 @@
 
     });
 
-
+    window.onload = function() {
+        // Vérifie si les données sont définies
+        @isset($response_message)
+        // Affiche le popup
+        document.getElementById('popup').style.display = 'block';
+        @endisset
+    };
 
 </script>
 
