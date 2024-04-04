@@ -15,8 +15,7 @@ class UserBalanceCB extends Component
     {
 
         return view('livewire.user-balance-c-b')->extends('layouts.master')->section('content')
-            ->with('amount', null)
-            ->with('response_message', null);
+            ;
     }
 
 }

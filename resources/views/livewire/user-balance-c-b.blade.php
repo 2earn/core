@@ -91,9 +91,19 @@
 
 </div>
    <!--end row-->
-<div id="popup" >
-    <!-- Contenu de votre popup -->
-    {{ $response_message }}
+<script>
+    window.onload = function() {
+        // Afficher le popup
+        document.getElementById('popup').style.display = 'block';
+    };
+</script>
+
+<div id="popup">
+    <!-- Afficher les données -->
+    <p>{{ session('amount') }}</p>
+    <p>{{ session('response_message') }}</p>
+
+    <!-- Et ainsi de suite... -->
 </div>
 <div class="modal fade" id="tr_paytabs" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
     <div class="modal-dialog">
