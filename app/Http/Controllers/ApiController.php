@@ -651,7 +651,7 @@ left join users user on user.idUser = recharge_requests.idUser";
 
         return redirect()->route('user_balance_cb',  app()->getLocale())
             ->with('amount', $mnt)
-            ->with('response_message', $data->payment_result->response_message);
+            ->with('response_message', "fgjhfgj");
 
     }
 
