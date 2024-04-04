@@ -528,7 +528,7 @@ left join users user on user.idUser = recharge_requests.idUser";
     {
         //$ipnRequest= new IpnRequest($request);
         //$d= route('paytabs_notification1');
-        dd($request->request);
+        //dd($request->request);
         $a=$request->request;
 
         $responseData = $a->all();
@@ -583,7 +583,7 @@ left join users user on user.idUser = recharge_requests.idUser";
                 'payment_description' => $data->payment_info->payment_description,
                 'expiry_month' => $data->payment_info->expiryMonth,
                 'expiry_year' => $data->payment_info->expiryYear,
-                
+
                 'success' => $data->success,
                 'failed' => $data->failed,
                 'created_at'=>now(),
