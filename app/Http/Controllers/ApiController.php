@@ -649,9 +649,9 @@ left join users user on user.idUser = recharge_requests.idUser";
 
 
 
-        return redirect()->route('user_balance_cb',  app()->getLocale())
+        return view('livewire.user-balance-c-b')->extends('layouts.master')->section('content')
             ->with('amount', $mnt)
-            ->with('response_message', "fgjhfgj");
+            ->with('response_message', $data->payment_result->response_message);
 
     }
 
