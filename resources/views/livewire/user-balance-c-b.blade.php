@@ -88,13 +88,24 @@
             </div>
             <!--end col-->
         </div>
-        <!--end row-->
+
+</div>
+<script>
+    window.onload = function() {
+        //console.log("load");
+
+        // Vérifie si les données sont définies
+        @isset($response_message)
+        //console.log("isset");
+
+        document.getElementById('popup').style.display = 'block';
+        @endisset
+    };
+</script>   <!--end row-->
 <div id="popup" style="display: none;">
     <!-- Contenu de votre popup -->
     {{ $response_message }}
 </div>
-</div>
-
 <div class="modal fade" id="tr_paytabs" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -147,18 +158,10 @@
     });
     //console.log("sans");
 
-    window.onload = function() {
-        //console.log("load");
 
-        // Vérifie si les données sont définies
-        @isset($response_message)
-        //console.log("isset");
-        
-        document.getElementById('popup').style.display = 'block';
-        @endisset
-    };
 
 </script>
+
 
 
 
