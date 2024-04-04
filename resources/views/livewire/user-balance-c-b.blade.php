@@ -145,11 +145,15 @@
 
 
     });
-
+    console.log("sans");
+    console.log({{$response_message}});
     window.onload = function() {
+        console.log("load");
+        console.log({{$response_message}});
         // Vérifie si les données sont définies
         @isset($response_message)
-        // Affiche le popup
+        console.log("isset");
+        console.log({{$response_message}})
         document.getElementById('popup').style.display = 'block';
         @endisset
     };
