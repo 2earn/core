@@ -90,19 +90,8 @@
         </div>
 
 </div>
-<script>
-    window.onload = function() {
-        //console.log("load");
-
-        // Vérifie si les données sont définies
-        @isset($response_message)
-        //console.log("isset");
-
-        document.getElementById('popup').style.display = 'block';
-        @endisset
-    };
-</script>   <!--end row-->
-<div id="popup" style="display: none;">
+   <!--end row-->
+<div id="popup" >
     <!-- Contenu de votre popup -->
     {{ $response_message }}
 </div>
