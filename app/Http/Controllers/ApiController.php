@@ -752,6 +752,7 @@ left join users user on user.idUser = recharge_requests.idUser";
                 DB::raw('CAST((value + gifted_shares) * PU / value AS DECIMAL(10,2)) AS y')
             )
             ->where('idBalancesOperation', 44)
+            ->where('value','>',0)
             ->orderBy('Date')
             ->get();
         foreach ($query as $record) {
@@ -765,6 +766,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         $query =  DB::table('user_balances')
             ->select(DB::raw('DATE(date) as x'),DB::raw('SUM(value) as y'))
             ->where('idBalancesOperation', 44)
+            ->where('value','>',0)
             ->groupBy('x')
             ->get();
 
@@ -780,6 +782,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         $query =  DB::table('user_balances')
             ->select(DB::raw(' concat(year(date),\'-\',WEEK(date, 1)) as x'),DB::raw('SUM(value) as y'),DB::raw(' WEEK(date, 1) as z'))
             ->where('idBalancesOperation', 44)
+            ->where('value','>',0)
             ->groupBy('x','z')
             ->orderBy('z')
             ->get();
@@ -795,6 +798,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         $query =  DB::table('user_balances')
             ->select(DB::raw('DATE_FORMAT(date, \'%Y-%m\') as x'),DB::raw('SUM(value) as y'))
             ->where('idBalancesOperation', 44)
+            ->where('value','>',0)
             ->groupBy('x')
             ->get();
 
@@ -809,6 +813,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         $query =  DB::table('user_balances')
             ->select(DB::raw('DAYNAME(date) as x'),DB::raw('SUM(value) as y'),DB::raw('DAYOFWEEK(date) as z'))
             ->where('idBalancesOperation', 44)
+            ->where('value','>',0)
             ->groupBy('x','z')
             ->orderBy('z')
             ->get();
@@ -838,6 +843,7 @@ FROM
     user_balances
 WHERE
     idBalancesOperation = 44
+    and value>0
 
 ORDER BY
     Date)as a
