@@ -411,7 +411,9 @@ left join users user on user.idUser = recharge_requests.idUser";
                 return number_format($user_balance->PU * ($user_balance->value + $user_balance->gifted_shares), 2);
             })
             ->addColumn('share_price', function ($user_balance) {
+                if($user_balance->value!=0)
                 return $user_balance->PU * ($user_balance->value + $user_balance->gifted_shares) / $user_balance->value;
+                else return 0;
             })
             ->addColumn('formatted_created_at', function ($user_balance) {
                 return Carbon\Carbon::parse($user_balance->Date)->format('Y-m-d H:i:s');
@@ -474,7 +476,10 @@ left join users user on user.idUser = recharge_requests.idUser";
                 return number_format($user_balance->PU * ($user_balance->value + $user_balance->gifted_shares), 2);
             })
             ->addColumn('share_price', function ($user_balance) {
-                return number_format($user_balance->PU * ($user_balance->value + $user_balance->gifted_shares) / $user_balance->value, 2);
+                //return number_format($user_balance->PU * ($user_balance->value + $user_balance->gifted_shares) / $user_balance->value, 2);
+                if($user_balance->value!=0)
+                    return $user_balance->PU * ($user_balance->value + $user_balance->gifted_shares) / $user_balance->value;
+                else return 0;
             })
             ->addColumn('formatted_created_at', function ($user_balance) {
                 return Carbon\Carbon::parse($user_balance->Date)->format('Y-m-d H:i:s');
@@ -523,7 +528,7 @@ left join users user on user.idUser = recharge_requests.idUser";
     {
         //$ipnRequest= new IpnRequest($request);
         //$d= route('paytabs_notification1');
-        //dd($ipnRequest);
+        dd($request->request);
         $a=$request->request;
 
         $responseData = $a->all();
