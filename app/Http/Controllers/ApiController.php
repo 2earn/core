@@ -534,6 +534,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         $responseData = $a->all();
         $tranRef = $responseData['tranRef'];
         $data = Paypage::queryTransaction($tranRef);
+        dd($data);
         if($data->payment_info->payment_method !== "ApplePay"){
             DB::table('transactions')->insert([
                 'tran_ref' => $data->tran_ref,
