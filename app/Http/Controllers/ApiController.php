@@ -530,7 +530,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         //$d= route('paytabs_notification1');
         //dd($request->request);
         $a=$request->request;
-
+        $mnt=0;
         $responseData = $a->all();
         $tranRef = $responseData['tranRef'];
         $data = Paypage::queryTransaction($tranRef);
@@ -629,6 +629,7 @@ left join users user on user.idUser = recharge_requests.idUser";
             $user_balance->Description = $data->tran_ref;
             $user_balance->Balance = $value      + $data->tran_total/$k;
             $user_balance->save();
+            $mnt=$data->tran_total/$k;
 
 
 
@@ -649,7 +650,7 @@ left join users user on user.idUser = recharge_requests.idUser";
 
 
         return redirect()->route('user_balance_cb',  app()->getLocale())
-            ->with('amount', $data->tran_total/$k)
+            ->with('amount', $mnt)
             ->with('response_message', $data->payment_result->response_message);
 
     }
