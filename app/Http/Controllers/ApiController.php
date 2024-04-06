@@ -621,12 +621,14 @@ left join users user on user.idUser = recharge_requests.idUser";
 
         }
 
-/**/  DB::table('user_transactions')->insert([
-        'idUser' => $user,
-        'autorised'=>$data->success,
-        'cause'=>$data->payment_result->response_message,
-        'mnt'=> $mnt
-    ]);
+/**/  DB::table('user_transactions')->updateOrInsert(
+        ['idUser' => $user],
+        [
+            'autorised' => $data->success,
+            'cause' => $data->payment_result->response_message,
+            'mnt' => $mnt
+        ]
+    );
 
         return redirect()->route('user_balance_cb',  app()->getLocale())
             ;
