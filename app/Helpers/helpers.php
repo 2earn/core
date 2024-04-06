@@ -90,13 +90,15 @@ if (!function_exists('getUsertransaction')) {
     function getUsertransaction($user)
     {
         $value = DB::table('user_transactions')
-            ->select( 'autorised', 'cause')
+            ->select( 'autorised', 'cause','mnt')
             ->where('idUser',$user)
             ->get();
+
         if($value)
-        $value = $value;
+
+        $value = [$value[0]->autorised,$value[0]->cause,$value[0]->mnt];
         else $value=null;
-        return $value;
+        return  $value;
     }}
 
 if (!function_exists('getPhoneByUser')) {

@@ -124,7 +124,19 @@
 <script>
     window.onload = function() {
         // Afficher le popup
-        cosole.log({{getUsertransaction( Auth()->user()->idUser)}})
+        if({{getUsertransaction( Auth()->user()->idUser)[0]}}===1)
+        Swal.fire({
+            title: "Transarction Accepted",
+            text: "{{getUsertransaction( Auth()->user()->idUser)[2]}}"."$ Transfered",
+            icon: "success"
+        });
+        else
+            Swal.fire({
+                title: "Transarction declined",
+                text: "{{getUsertransaction( Auth()->user()->idUser)[1]}}",
+                icon: "error"
+            });
+
     };
 
     $(document).on("click", "#validate", function () {
