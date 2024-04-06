@@ -131,18 +131,14 @@
             title: "Transarction Accepted",
             text: "<?php echo e(getUsertransaction( Auth()->user()->idUser)[2]); ?>"+"$ Transfered",
             icon: "success",
-            didClose: function() {
-                var a=<?php echo e(delUsertransaction( Auth()->user()->idUser)); ?>;
-            }
+
         });
         else
             Swal.fire({
                 title: "Transarction declined",
                 text: "<?php echo e(getUsertransaction( Auth()->user()->idUser)[1]); ?>",
                 icon: "error",
-                didClose: function() {
-                    var a=<?php echo e(delUsertransaction( Auth()->user()->idUser)); ?>;
-                }
+
             });
 
        }

@@ -131,7 +131,7 @@
             title: "Transarction Accepted",
             text: "{{getUsertransaction( Auth()->user()->idUser)[2]}}"+"$ Transfered",
             icon: "success",
-           
+
         });
         else
             Swal.fire({
