@@ -59,7 +59,7 @@ class Home extends Component
     public function render(settingsManager $settingsManager)
     {
         $user = $settingsManager->getAuthUser();
-
+            delUsertransaction($user->idUser);
         if (!$user)
             dd('not found page');
 //        dd($settingsManager->getAuthUser());

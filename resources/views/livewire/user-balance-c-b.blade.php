@@ -146,6 +146,8 @@
 
     };
 
+
+
     $(document).on("click", "#validate", function () {
 
         const usd = document.getElementById("usd");
