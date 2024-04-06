@@ -89,15 +89,23 @@ if (!function_exists('getUserCash')) {
 if (!function_exists('getUsertransaction')) {
     function getUsertransaction($user)
     {
-        $value = DB::table('user_transactions')
-            ->select( 'autorised', 'cause','mnt')
+        $count = DB::table('user_transactions')
+            //->select( 'autorised', 'cause','mnt')
             ->where('idUser',$user)
-            ->get();
+            ->count('*');
+            //->get();
+        if ($count>0)
+        {
+            $value = DB::table('user_transactions')
+                ->select( 'autorised', 'cause','mnt')
+                ->where('idUser',$user)
+                ->get();
+            $value = [$value[0]->autorised,$value[0]->cause,$value[0]->mnt];
+        }
 
-        if($value)
+        else
+            $value="null";
 
-        $value = [$value[0]->autorised,$value[0]->cause,$value[0]->mnt];
-        else $value=null;
         return  $value;
     }}
 

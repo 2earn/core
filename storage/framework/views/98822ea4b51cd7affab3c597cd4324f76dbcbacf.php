@@ -123,11 +123,13 @@
 </div>
 <script>
     window.onload = function() {
+        console.log("<?php echo e(getUsertransaction( Auth()->user()->idUser)); ?>");
         // Afficher le popup
-        if(<?php echo e(getUsertransaction( Auth()->user()->idUser)[0]); ?>===1)
+       if("<?php echo e(getUsertransaction( Auth()->user()->idUser)); ?>"!=="null")
+       {if(<?php echo e(getUsertransaction( Auth()->user()->idUser)[0]); ?>===1)
         Swal.fire({
             title: "Transarction Accepted",
-            text: "100$ Transfered",
+            text: "<?php echo e(getUsertransaction( Auth()->user()->idUser)[2]); ?>"+"$ Transfered",
             icon: "success"
         });
         else
@@ -135,7 +137,8 @@
                 title: "Transarction declined",
                 text: "<?php echo e(getUsertransaction( Auth()->user()->idUser)[1]); ?>",
                 icon: "error"
-            });
+            });}
+
 
     };
 

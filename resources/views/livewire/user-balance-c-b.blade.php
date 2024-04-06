@@ -123,11 +123,13 @@
 </div>
 <script>
     window.onload = function() {
+        console.log("{{getUsertransaction( Auth()->user()->idUser)}}");
         // Afficher le popup
-        if({{getUsertransaction( Auth()->user()->idUser)[0]}}===1)
+       if("{{getUsertransaction( Auth()->user()->idUser)}}"!=="null")
+       {if({{getUsertransaction( Auth()->user()->idUser)[0]}}===1)
         Swal.fire({
             title: "Transarction Accepted",
-            text: "{{getUsertransaction( Auth()->user()->idUser)[2]}}"."$ Transfered",
+            text: "{{getUsertransaction( Auth()->user()->idUser)[2]}}"+"$ Transfered",
             icon: "success"
         });
         else
@@ -135,7 +137,8 @@
                 title: "Transarction declined",
                 text: "{{getUsertransaction( Auth()->user()->idUser)[1]}}",
                 icon: "error"
-            });
+            });}
+
 
     };
 
