@@ -268,20 +268,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         return response()->json($array);
 
     }
-    public function pay_request(Req $request)
-    {
-        $pay= paypage::sendPaymentCode('all')
-            ->sendTransaction('sale','ecom')
-            ->sendCart(10,1000,'test')
-            ->sendCustomerDetails('Walaa Elsaeed', 'w.elsaeed@paytabs.com', '0101111111', 'test', 'Nasr City', 'Cairo', 'EG', '1234','100.279.20.10')
-            ->sendShippingDetails('Walaa Elsaeed', 'w.elsaeed@paytabs.com', '0101111111', 'test', 'Nasr City', 'Cairo', 'EG', '1234','100.279.20.10')
-            ->sendURLs('return_url', 'callback_url')
-            ->sendLanguage('en')
-            ->sendHideShipping(true)
-            ->create_pay_page();
 
-        return $pay;
-    }
     public function addCash(Req $request, BalancesManager $balancesManager)
     {
 
@@ -508,22 +495,7 @@ left join users user on user.idUser = recharge_requests.idUser";
 
 
     }
-    public function paymentIPN(Req $request){
-        try{
-            $ipnRequest= new IpnRequest($request);
-                dd($ipnRequest);
-            $callback = route('paytabs_notification');
-            if(is_object($callback) && method_exists($callback, 'updateCartByIPN') ){
-                $callback->updateCartByIPN($ipnRequest);
-            }
-            $response= 'valid IPN request. Cart updated';
-            return response($response, 200)
-                ->header('Content-Type', 'text/plain');
-        }catch(\Exception $e){
-            return response($e, 400)
-                ->header('Content-Type', 'text/plain');
-        }
-    }
+
     public function handlePaymentNotification(Req $request)
     {
         //$ipnRequest= new IpnRequest($request);
@@ -647,7 +619,11 @@ left join users user on user.idUser = recharge_requests.idUser";
 
         }
 
-
+/**/  DB::table('user_transactions')->insert([
+        'idUser' => $user,
+        'autorised'=>$data->success,
+        'cause'=>$data->payment_result->response_message
+    ]);
 
         return redirect()->route('user_balance_cb',  app()->getLocale())
             ;

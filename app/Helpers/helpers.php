@@ -86,7 +86,18 @@ if (!function_exists('getUserCash')) {
         return $dataArray;
     }}
 
-
+if (!function_exists('getUsertransaction')) {
+    function getUsertransaction($user)
+    {
+        $value = DB::table('user_transactions')
+            ->select( 'autorised', 'cause')
+            ->where('idUser',$user)
+            ->get();
+        if($value)
+        $value = $value->pluck('value')->toArray();
+        else $value=null;
+        return $value;
+    }}
 
 if (!function_exists('getPhoneByUser')) {
     function getPhoneByUser($user)
