@@ -108,7 +108,18 @@ if (!function_exists('getUsertransaction')) {
 
         return  $value;
     }}
+if (!function_exists('delUsertransaction')) {
+    function delUsertransaction($user)
+    {
 
+        $del = DB::table('user_transactions')
+            ->where('idUser', $user)
+            ->delete();
+
+
+        return response()->json($del);
+    }
+}
 if (!function_exists('getPhoneByUser')) {
     function getPhoneByUser($user)
     {

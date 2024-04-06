@@ -130,14 +130,18 @@
         Swal.fire({
             title: "Transarction Accepted",
             text: "{{getUsertransaction( Auth()->user()->idUser)[2]}}"+"$ Transfered",
-            icon: "success"
+            icon: "success",
+           
         });
         else
             Swal.fire({
                 title: "Transarction declined",
                 text: "{{getUsertransaction( Auth()->user()->idUser)[1]}}",
-                icon: "error"
-            });}
+                icon: "error",
+
+            });
+
+       }
 
 
     };
