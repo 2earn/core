@@ -565,6 +565,8 @@ left join users user on user.idUser = recharge_requests.idUser";
 
             ]);
         }
+        $chaine = $data->cart_id;
+        $user = explode('-', $chaine)[0];
         //dd($data->tran_type);
         if($data->success)
         {
