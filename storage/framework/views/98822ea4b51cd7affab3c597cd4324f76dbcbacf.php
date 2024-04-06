@@ -122,6 +122,10 @@
     </div>
 </div>
 <script>
+    window.onload = function() {
+        // Afficher le popup
+        cosole.log(<?php echo e(getUsertransaction( Auth()->user()->idUser)); ?>)
+    };
 
     $(document).on("click", "#validate", function () {
 

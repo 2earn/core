@@ -94,7 +94,7 @@ if (!function_exists('getUsertransaction')) {
             ->where('idUser',$user)
             ->get();
         if($value)
-        $value = $value->pluck('value')->toArray();
+        $value = $value;
         else $value=null;
         return $value;
     }}
