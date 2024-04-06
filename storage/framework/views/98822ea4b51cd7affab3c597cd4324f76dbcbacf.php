@@ -123,9 +123,9 @@
 </div>
 <script>
     window.onload = function() {
-        console.log("<?php echo e(getUsertransaction( Auth()->user()->idUser)); ?>");
+
         // Afficher le popup
-       if("<?php echo e(getUsertransaction( Auth()->user()->idUser)); ?>"!=="null")
+       if("<?php echo e(getUsertransaction( Auth()->user()->idUser)[0]); ?>"!=="null")
        {if(<?php echo e(getUsertransaction( Auth()->user()->idUser)[0]); ?>===1)
         Swal.fire({
             title: "Transarction Accepted",

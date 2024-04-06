@@ -104,7 +104,7 @@ if (!function_exists('getUsertransaction')) {
         }
 
         else
-            $value="null";
+            $value=["null"];
 
         return  $value;
     }}
