@@ -128,15 +128,15 @@
        if("<?php echo e(getUsertransaction( Auth()->user()->idUser)[0]); ?>"!=="null")
        {if(<?php echo e(getUsertransaction( Auth()->user()->idUser)[0]); ?>===1)
         Swal.fire({
-            title: "Transarction Accepted",
+            title: "<?php echo e(__('Transarction Accepted')); ?>",
             text: "<?php echo e(getUsertransaction( Auth()->user()->idUser)[2]); ?>"+"$ Transfered",
             icon: "success",
 
         });
         else
             Swal.fire({
-                title: "Transarction declined",
-                text: "<?php echo e(getUsertransaction( Auth()->user()->idUser)[1]); ?>",
+                title:  "<?php echo e(__('Transarction declined')); ?>",
+                text: "<?php echo e(__(getUsertransaction( Auth()->user()->idUser)[1])); ?>",
                 icon: "error",
 
             });

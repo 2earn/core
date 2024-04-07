@@ -128,15 +128,15 @@
        if("{{getUsertransaction( Auth()->user()->idUser)[0]}}"!=="null")
        {if({{getUsertransaction( Auth()->user()->idUser)[0]}}===1)
         Swal.fire({
-            title: "Transarction Accepted",
+            title: "{{__('Transarction Accepted')}}",
             text: "{{getUsertransaction( Auth()->user()->idUser)[2]}}"+"$ Transfered",
             icon: "success",
 
         });
         else
             Swal.fire({
-                title: "Transarction declined",
-                text: "{{getUsertransaction( Auth()->user()->idUser)[1]}}",
+                title:  "{{__('Transarction declined')}}",
+                text: "{{__(getUsertransaction( Auth()->user()->idUser)[1])}}",
                 icon: "error",
 
             });
