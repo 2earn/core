@@ -33,7 +33,7 @@ class UserBalanceObserver
     }
 
     public function created(user_balance $user_balance)
-    {       $table=[13,14,23,24,29,46] ;
+    {       $table=[13,14,23,24,29,46,50] ;
 
            if(in_array($user_balance->idBalancesOperation,$table) )
            {
