@@ -21,7 +21,8 @@
                     </div>
                 </div>
                 <div class="col-sm-auto">
-                    <a href="{{URL::asset('/apps-ecommerce-products')}}" class="link-primary text-decoration-underline">Continue
+                    <a href="{{ URL::asset('/apps-ecommerce-products') }}"
+                        class="link-primary text-decoration-underline">Continue
                         Shopping</a>
                 </div>
             </div>
@@ -31,11 +32,12 @@
                     <div class="row gy-3">
                         <div class="col-sm-auto">
                             <div class="avatar-lg bg-light rounded p-1">
-                                <img src="{{ URL::asset('assets/images/products/img-8.png') }}" alt="" class="img-fluid d-block">
+                                <img src="{{ URL::asset('assets/images/products/img-8.png') }}" alt=""
+                                    class="img-fluid d-block">
                             </div>
                         </div>
                         <div class="col-sm">
-                            <h5 class="fs-15 text-truncate"><a href="{{URL::asset('/ecommerce-product-detail')}}"
+                            <h5 class="fs-15 text-truncate"><a href="{{ URL::asset('/ecommerce-product-detail') }}"
                                     class="text-dark">Sweatshirt for Men (Pink)</a></h5>
                             <ul class="list-inline text-muted">
                                 <li class="list-inline-item">Color : <span class="fw-medium">Pink</span>
@@ -95,11 +97,12 @@
                     <div class="row gy-3">
                         <div class="col-sm-auto">
                             <div class="avatar-lg bg-light rounded p-1">
-                                <img src="{{ URL::asset('assets/images/products/img-7.png') }}" alt="" class="img-fluid d-block">
+                                <img src="{{ URL::asset('assets/images/products/img-7.png') }}" alt=""
+                                    class="img-fluid d-block">
                             </div>
                         </div>
                         <div class="col-sm">
-                            <h5 class="fs-15 text-truncate"><a href="{{URL::asset('/ecommerce-product-detail')}}"
+                            <h5 class="fs-15 text-truncate"><a href="{{ URL::asset('/ecommerce-product-detail') }}"
                                     class="text-dark">Noise NoiseFit Endure Smart Watch</a></h5>
 
                             <ul class="list-inline text-muted">
@@ -157,11 +160,12 @@
                     <div class="row gy-3">
                         <div class="col-sm-auto">
                             <div class="avatar-lg bg-light rounded p-1">
-                                <img src="{{ URL::asset('assets/images/products/img-3.png') }}" alt="" class="img-fluid d-block">
+                                <img src="{{ URL::asset('assets/images/products/img-3.png') }}" alt=""
+                                    class="img-fluid d-block">
                             </div>
                         </div>
                         <div class="col-sm">
-                            <h5 class="fs-15 text-truncate"><a href="{{URL::asset('/ecommerce-product-detail')}}"
+                            <h5 class="fs-15 text-truncate"><a href="{{ URL::asset('/ecommerce-product-detail') }}"
                                     class="text-dark">350 ml Glass Grocery Container</a></h5>
 
                             <ul class="list-inline text-muted">
@@ -172,7 +176,8 @@
 
                             <div class="input-step">
                                 <button type="button" class="minus">–</button>
-                                <input type="number" class="product-quantity" value="1" min="0" max="100">
+                                <input type="number" class="product-quantity" value="1" min="0"
+                                    max="100">
                                 <button type="button" class="plus">+</button>
                             </div>
                         </div>
@@ -217,7 +222,7 @@
 
 
             <div class="text-end mb-4">
-                <a href="{{URL::asset('/apps-ecommerce-checkout')}}" class="btn btn-success btn-label right ms-auto"><i
+                <a href="{{ URL::asset('/apps-ecommerce-checkout') }}" class="btn btn-success btn-label right ms-auto"><i
                         class="ri-arrow-right-line label-icon align-bottom fs-16 ms-2"></i> Checkout</a>
             </div>
         </div>
