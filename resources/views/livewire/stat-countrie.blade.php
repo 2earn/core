@@ -16,8 +16,6 @@
                     <!--end row-->
 
                     <div class="row">
-
-
                         <div class="col-12">
                             <div class="card card-height-100">
                                 <div class="card-header align-items-center d-flex">
@@ -28,8 +26,6 @@
                                 <div class="card-body">
 
                                     <div id="any1"></div>
-
-
                                 </div> <!-- .card-body-->
                             </div> <!-- .card-->
                         </div> <!-- .col-->
@@ -103,14 +99,12 @@
             function (data) {
                 //data=data.data    ;            // pre-processing of the data
                 for (var i = 0; i < data.length; i++) {
-                    //console.log(data.data[i]);
                     data[i].value =data[i].COUNT_USERS;
                     data[i].short = data[i].apha2;
 
                 }
                 dataSet = anychart.data.set(data);
 
-                //console.log(dataSet);
                 tableChart = getTableChart();
                 mapChart = drawMap();
                 tableCharts = getTableCharts();
@@ -283,9 +277,7 @@
 
 
                     for (i = 0; i < ids.length; i++) {
-                       // console.log(ids);
                         var data = getDataId(ids[i]);
-                            //console.log(getDataId(ids[i]));
                         cash += parseInt(data.CASH_BALANCE);
                         bfs += parseInt(data.BFS);
                         discount += parseInt(data.DISCOUNT_BALANCE);
