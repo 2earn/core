@@ -68,22 +68,12 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         }
         //
     </script>
-    {{--    <script data-turbolinks-eval="false">--}}
-    {{--        var exisUpdateRole = '{{Session::has('SuccesUpdateRole')}}';--}}
-    {{--        if (exisUpdateRole) {--}}
-    {{--            toastr.success('{{Session::get('SuccesUpdateRole')}}');--}}
-    {{--        }--}}
-    {{--    </script>--}}
+
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
 
-{{--                    <div class="">--}}
-{{--                        <input style="border-radius: 30px" type="text" class="form-control"--}}
-{{--                               placeholder="{{ __('PH_search') }}"--}}
-{{--                               wire:model="search"/>--}}
-{{--                    </div>--}}
                     <div class="">
                         <button style="border-radius: 20px; padding: 5px 20px;" data-bs-toggle="modal"
                                 data-bs-target="#AddContactNumberModel" type="button"
@@ -127,8 +117,6 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                style="background-color: #3595f6!important; opacity: 6"
                                                <?php }?>     type="checkbox" class="form-check-input"
                                                id="customSwitchsizesm">
-                                        {{--                                        <label class="form-check-label"--}}
-                                        {{--                                               for="customSwitchsizesm">{{ __('I agree to receive funding requests') }}</label>--}}
                                     </div>
                                 </td>
                                 <td>
@@ -193,7 +181,6 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         function saveContactNumber() {
             $('#AddContactNumberModel').modal('hide');
             window.livewire.emit('preSaveContact', $("#outputphoneContactNumber").val(), $("#isoContactNumber").val(), $("#phoneContactNumber").val());
-            // window.livewire.emit('saveContactNumber',$("#phoneContactNumber").val(),$("#isoContactNumber").val()) ;
         }
 
         function setActiveNumber($id) {
@@ -208,7 +195,6 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                 title: '{{ __('activate_number') }}',
                 {{--text: '{{ __('operation_irreversible') }}',--}}
                 icon: "warning",
-                // showDenyButton: true,
                 showCancelButton: true,
                 confirmButtonText: '{{trans('ok')}}',
                 cancelButtonText: '{{trans('canceled !')}}',
@@ -224,8 +210,6 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                     window.livewire.emit('setActiveNumber', 1, $id);
                 }
             });
-            // alert($id);
-            // alert($('#activeNumber').is(":checked"));
         }
 
         function deleteContactNUmber($id) {

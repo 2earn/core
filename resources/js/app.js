@@ -21,28 +21,10 @@ File: Main Js File
                 document.documentElement.setAttribute("data-sidebar-size", "sm-hover");
             }
     });
-    // btnHover.addEventListener("click", function (event) {
-    //     alert('sdfdsf');
-    //     if (document.documentElement.getAttribute("data-sidebar-size") === "sm-hover") {
-    //         document.documentElement.setAttribute("data-sidebar-size", "sm-hover-active");
-    //     } else if (document.documentElement.getAttribute("data-sidebar-size") === "sm-hover-active") {
-    //         document.documentElement.setAttribute("data-sidebar-size", "sm-hover");
-    //     } else {
-    //         document.documentElement.setAttribute("data-sidebar-size", "sm-hover");
-    //     }
-    // });
+
 
     var btnDark = document.getElementById("btndark");
     btnDark.addEventListener("click", function (event) {
-        // getElementUsingTagname("data-topbar", "dark");
-        // sessionStorage.setItem("data-topbar", "dark");
-        // document.documentElement.setAttribute("data-topbar", "dark");
-        //
-        // var html = document.getElementById("HTMLMain");
-        //
-        // html.hasAttribute("data-layout-mode") && html.getAttribute("data-layout-mode") == "dark" ?
-        //     setLayoutMode("data-layout-mode", "light", "layout-mode-light", html) :
-        //     setLayoutMode("data-layout-mode", "dark", "layout-mode-dark", html);
     });
 
     ("use strict");
@@ -111,6 +93,9 @@ File: Main Js File
         // Sending the request to the server
         request.send();
     }
+
+// TO CHECK !
+
 
     // function pluginData() {
     //     /**

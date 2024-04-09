@@ -28,19 +28,12 @@
         <div wire:ignore.self class="modal fade" id="editCountriesModal" tabindex="" role="dialog"
              aria-labelledby="editCountriesModal">
             <div class=" modal-dialog modal-dialog-centered " role="document">
-                {{--                modal-dialog-centered--}}
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id=" ">{{ __('Edit country') }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-{{--                    @error('name') <span class="error alert-danger">{{ $message }}</span> @enderror--}}
-{{--                    @error('lastName') <span class="error alert-danger  ">{{ $message }}</span> @enderror--}}
-{{--                    @if(Session::has('message'))--}}
-{{--                        <div class="alert alert-danger" role="alert">--}}
-{{--                            {{ Session::get('message')}}--}}
-{{--                        </div>--}}
-{{--                    @endif--}}
+
                     <div class="modal-body">
                         <form wire:submit.prevent="save" id="basic-formdd" enctype="multipart/form-data">
                             @csrf
@@ -61,7 +54,6 @@
                                     <label class="me-sm-2">{{ __('Language') }}</label>
                                     <select class="form-control" id="langueCountrie" name=" "
                                             wire:model.defer="langue">
-{{--                                        <option value="">Choose</option>--}}
                                         @foreach($allLanguage as $language)
                                             <option value="{{$language->name}}">{{$language->name}}</option>
                                         @endforeach
@@ -95,11 +87,9 @@
     <script>
         function getEditCountrie(id) {
             window.livewire.emit('initCountrie', id);
-            // $('#countries_table').DataTable().ajax.reload( );
         }
         $("#editCountriesModal").on('hidden.bs.modal', function () {
             window.location.href = "{{ route('countries_management', app()->getLocale())}}";
-            // location.reload();
         });
     </script>
 

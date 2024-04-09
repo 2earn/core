@@ -79,10 +79,6 @@
     <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
     <script src="https://cdn.anychart.com/releases/v8/js/anychart-sankey.min.js"></script>
 
-
-
-
-
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.ico')}}">
     {{--    <link rel="stylesheet" href="{{asset('assets/fontawesome/all.min.css'}}">--}}
@@ -218,9 +214,6 @@
             font-weight: 400;
         }
 
-        /*.label_phone {*/
-        /*    text-align: end;*/
-        /*}*/
         label, h1, h2, h3, h4,h5,h6, a, button, p, i, span, strong, .btn, div {
             font-family: ar400;
             font-weight: 500 !important;
@@ -285,13 +278,9 @@
 <script src="{{ URL::asset('assets/libs/filepond-plugin-file-encode/filepond-plugin-file-encode.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-{{--<script src="{{ URL::asset('assets/js/pages/form-file-upload.init.js') }}"></script>--}}
 <script src="{{ URL::asset('/assets/js/app.min.js') }}" defer></script>
 <script src="{{ URL::asset('assets/js/pages/datatables.init.js') }}"></script>
 
-{{--<script src="{{ URL::asset('assets/libs/nouislider/nouislider.min.js') }}"></script>--}}
-{{--<script src="{{ URL::asset('assets/libs/wnumb/wnumb.min.js') }}"></script>--}}
-{{--<script src="{{ URL::asset('assets/js/pages/range-sliders.init.js') }}"></script>--}}
 <script>
     anychart.onDocumentReady(function () {
         anychart.licenseKey('2earn.cash-953c5a55-712f04c3');});
@@ -317,9 +306,6 @@
                     this.api()
                         .columns()
                         .every(function () {
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
                             var that = $('#HistoryNotificationTable').DataTable();
                             $('input', this.footer()).on('keydown', function (ev) {
                                 if (ev.keyCode == 13) {//only on enter keypress (code 13)
@@ -361,9 +347,6 @@
                     this.api()
                         .columns()
                         .every(function () {
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
                             var that = $('#userManager_table').DataTable();
                             $('input', this.footer()).on('keydown', function (ev) {
                                 if (ev.keyCode == 13) {//only on enter keypress (code 13)
@@ -405,10 +388,6 @@
                 "processing": true,
                 paging: true,
                 "aLengthMenu": [[5, 10, 50], [5, 10, 50]],
-                //recherche avec entre key
-                // search: {
-                //     return: true
-                // },
                 "ajax": "{{route('API_UserContacts',app()->getLocale())}}",
                 "columns": [
                     {"data": "name"},
@@ -439,9 +418,6 @@
                     this.api()
                         .columns()
                         .every(function () {
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
                             if ($.fn.dataTable.isDataTable('#countries_table')) {
 
                                 var that = $('#userPurchase_table').DataTable();
@@ -479,9 +455,6 @@
                     {data: 'CashBack_BFS'},
                     {data: 'CashBack_CB'},
                     {data: 'Economy'}
-
-
-                    // {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
 
                 "language": {
@@ -493,21 +466,12 @@
         $('#countries_table').DataTable(
             {
                 retrieve: true,
-                // "colReorder": true,
-                // dom: 'Bfstrip',
-                // buttons: [
-                //     'csv', 'excel'
-                // ],
-                // "orderCellsTop": true,
-                // "fixedHeader": true,
                 initComplete: function () {
                     // Apply the search
                     this.api()
                         .columns()
                         .every(function () {
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
+           
                             if ($.fn.dataTable.isDataTable('#countries_table')) {
 
                                 var that = $('#countries_table').DataTable();
@@ -522,12 +486,7 @@
                             });
                         });
                 },
-                // "processing": true,
-                // "serverSide": true,
-                // "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                // search: {
-                //     return: true
-                // },
+
                 "ajax": "{{route('API_countries',app()->getLocale())}}",
                 "columns": [
 
@@ -559,9 +518,7 @@
                     this.api()
                         .columns()
                         .every(function () {
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
+                
                             if ($.fn.dataTable.isDataTable('#countries_table')) {
 
                                 var that = $('#userPurchase_table').DataTable();
@@ -599,9 +556,6 @@
                     {data: 'CashBack_BFS'},
                     {data: 'CashBack_CB'},
                     {data: 'Economy'}
-
-
-                    // {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
 
                 "language": {
@@ -615,10 +569,6 @@
                 "ordering": true,
                 retrieve: true,
                 "colReorder": false,
-                // dom: 'Bfstrip',
-                // buttons: [
-                //     'csv', 'excel'
-                // ],
                 "orderCellsTop": true,
                 "fixedHeader": true,
 
@@ -667,10 +617,7 @@
                 "ordering": true,
                 retrieve: true,
                 "colReorder": false,
-                // dom: 'Bfstrip',
-                // buttons: [
-                //     'csv', 'excel'
-                // ],
+
                 "orderCellsTop": true,
                 "fixedHeader": true,
 
@@ -693,9 +640,7 @@
                     {data: 'present_value'},
                     {data: 'current_earnings'},
 
-
                 ],
-
 
                 "language": {
                     "url": urlLang
@@ -707,10 +652,7 @@
                 "ordering": true,
                 retrieve: true,
                 "colReorder": false,
-                // dom: 'Bfstrip',
-                // buttons: [
-                //     'csv', 'excel'
-                // ],
+
                 "orderCellsTop": true,
                 "fixedHeader": true,
 
@@ -739,8 +681,6 @@
                     {data: 'COUNT_REAL_TRAIDERS'},
                     {data: 'TRANSFERT_MADE'},
 
-
-
                 ],
 
 
@@ -754,10 +694,6 @@
                 "ordering": true,
                 retrieve: true,
                 "colReorder": false,
-                // dom: 'Bfstrip',
-                // buttons: [
-                //     'csv', 'excel'
-                // ],
                 "orderCellsTop": true,
                 "fixedHeader": true,
 
@@ -773,11 +709,9 @@
                 "ajax": "{{route('API_transfert',['locale'=> app()->getLocale()])}}",
                 "columns": [
 
-
                     {data: 'value'},
                     {data: 'Description'},
                     {data: 'formatted_created_at'},
-
 
                 ],
 
@@ -879,9 +813,6 @@
                             },
 
                         },
-
-
-
                     ],
 
                 "language": {
@@ -898,7 +829,6 @@
 
             var amount = String($(this).data('amount')).replace(',', '');
             var asset= $(this).data('asset');
-            //console.log(status);
 
             // Make an AJAX request to update the status
 
@@ -917,8 +847,6 @@
         });
         $(document).on("click", "#realsold-submit", function () {
 
-            //console.log( $('#realsold-reciver').val());
-            //console.log( $('#realsold-ammount').val()) ;
             let reciver=$('#realsold-reciver').val() ;
             let ammount=$('#realsold-ammount').val() ;
             let total=$('#realsold-ammount-total').val()
@@ -933,7 +861,6 @@
                     "_token": "{{ csrf_token() }}"
                 },
                 success: function(data) {
-                   // console.log(data);
                     if (ammount!==0){
 
                     }
@@ -950,7 +877,6 @@
                 url: '{{ route('get-updated-card-content') }}', // Adjust the endpoint URL
                 method: 'GET',
                 success: function (data) {
-                   // console.log(data);
                     $('#realrev').html('$' + data.value);
                 },
                 error: function (xhr, status, error) {
@@ -965,33 +891,9 @@
                 ordering: true,
                 retrieve: true,
                 searching: false,
-                // dom: 'Bfstrip',
-                // buttons: [
-                //     'csv', 'excel'
-                // ],
+
                 "orderCellsTop": true,
                 "fixedHeader": true,
-                /*initComplete: function () {
-                    // Apply the search
-                    this.api()
-                        .columns()
-                        .every(function () {
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
-                            if ($.fn.dataTable.isDataTable('#countries_table')) {
-                                var that = $('#ub_table').DataTable();
-                            }
-                            $('input', this.footer()).on('keydown', function (ev) {
-                                if (ev.keyCode == 13) {//only on enter keypress (code 13)
-                                    that
-
-                                        .search(this.value)
-                                        .draw();
-                                }
-                            });
-                        });
-                },*/
                 "order": [[1, 'desc']],
                 "processing": true,
                 "serverSide": true,
@@ -1012,7 +914,6 @@
                     {data: 'ranks'},
                     {data: 'idamount'},
 
-                    // {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
 
                 "columnDefs":
@@ -1061,19 +962,12 @@
 
 
 
-
-
-
-
         $('#userBalanceDB_table').DataTable(
             {
                 "ordering": true,
                 retrieve: true,
                 "colReorder": false,
-                // dom: 'Bfstrip',
-                // buttons: [
-                //     'csv', 'excel'
-                // ],
+
                 "orderCellsTop": true,
                 "fixedHeader": true,
                 initComplete: function () {
@@ -1081,9 +975,7 @@
                     this.api()
                         .columns()
                         .every(function () {
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
+        
                             if ($.fn.dataTable.isDataTable('#countries_table')) {
 
                                 var that = $('#userBalanceDB_table').DataTable();
@@ -1115,7 +1007,6 @@
                     {data: 'balance', className: classAl},
                     {data: 'ranks'},
                     {data: 'idamount'},
-                    // {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
                 "columnDefs":
                     [
@@ -1174,24 +1065,7 @@
                 search: {
                     return: true
                 },
-                /*  initComplete: function () {
-                      // Apply the search
-                      this.api()
-                          .columns()
-                          .every(function () {
-                              // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                              //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                              // }
-                              var that = $('#SettingsTable').DataTable();
-                              $('#dataTables_filter input', this.footer()).on('keydown', function (ev) {
-                                  // if (ev.keyCode == 13) {//only on enter keypress (code 13)
-                                  that
-                                      .search(this.value)
-                                      .draw();
-                                  // }
-                              });
-                          });
-                  },*/
+   
                 "processing": true,
                 "aLengthMenu": [[5, 30, 50], [5, 30, 50]],
 
@@ -1212,8 +1086,7 @@
         );
 
         function saveHA() {
-            // alert($('#tags').tagsinput('input'));
-            // alert($('#tags').val());
+ 
             window.livewire.emit('saveHA', $("#tags").val());
         }
 
@@ -1228,9 +1101,7 @@
                     this.api()
                         .columns()
                         .every(function () {
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
+          
                             var that = $('#BalanceOperationsTable').DataTable();
                             $('input', this.footer()).on('keydown', function (ev) {
                                 if (ev.keyCode == 13) {//only on enter keypress (code 13)
@@ -1250,9 +1121,7 @@
                     {"data": "Designation"},
                     {"data": "IO"},
                     {"data": "idSource"},
-                    // { "data": "Mode" },
                     {"data": "amountsshortname"},
-                    // { "data": "Note"   },
                     {data: 'MODIFY_AMOUNT'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
@@ -1272,9 +1141,7 @@
                     this.api()
                         .columns()
                         .every(function () {
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
+        
                             var that = $('#amountsTable').DataTable();
                             $('input', this.footer()).on('keydown', function (ev) {
                                 if (ev.keyCode == 13) {//only on enter keypress (code 13)
@@ -1318,9 +1185,7 @@
                     this.api()
                         .columns()
                         .every(function () {
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
+             
                             if ($.fn.dataTable.isDataTable('#ActionHistorysTable')) {
 
                                 var that = $('#ActionHistorysTable').DataTable();
@@ -1367,9 +1232,6 @@
                         )
                         .every(function () {
 
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
                             if ($.fn.dataTable.isDataTable('#ub_table_bfs')) {
 
                                 var that = $('#ub_table_bfs').DataTable();
@@ -1398,7 +1260,6 @@
                     {data: 'Description'},
                     {data: 'value', className:classAl},
                     {data: 'balance', className: classAl},
-                    // {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
                 "columnDefs":
                     [
@@ -1449,7 +1310,7 @@
 
             //this returns all the selected item
             var items = $(this).val();
-            if ($(this).val() == null) { //$('#ub_table_bfs').DataTable().ajax.reload();
+            if ($(this).val() == null) { 
                 table_bfs.columns(3).search("").draw();
             } else {
                 table_bfs
@@ -1458,7 +1319,6 @@
                     .search(items.join('|'), true, false)
                     .draw();
             }
-            //console.log(items);
         })
     })
 
@@ -1466,19 +1326,16 @@
         var myModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('settingModal'));
         myModal.hide();
         $('#SettingsTable').DataTable().ajax.reload();
-        // $("#settingModal").modal.hide();
     })
     window.addEventListener('closeModalOp', event => {
         var myModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('BoModal'));
         myModal.hide();
         $('#BalanceOperationsTable').DataTable().ajax.reload();
-        // $("#settingModal").modal.hide();
     })
     window.addEventListener('closeModalAmounts', event => {
         var myModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('AmountsModal'));
         myModal.hide();
         $('#amountsTable').DataTable().ajax.reload();
-        // $("#settingModal").modal.hide();
     })
 
 </script>
@@ -1518,7 +1375,6 @@
             }
             var itiUpPhone = window.intlTelInput(inputUpPhone, {
                 initialCountry: "auto",
-               // showSelectedDialCode: true,
                 useFullscreenPopup: false,
                 geoIpLookup: function (callback) {
                     $.get('https://ipinfo.io', function () {
@@ -1546,9 +1402,7 @@
             inputUpPhone.addEventListener('blur', function () {
                 // resetUpPhone();
                 if (inputUpPhone.value.trim()) {
-                    // console.log(itiUpPhone.isValidNumber());
                     if (itiUpPhone.isValidNumber()) {
-                        // validMsg.classList.add("invisible");
                         $("#submit_phone").prop("disabled", false);
                     } else {
                         $("#submit_phone").prop("disabled", true);
@@ -1569,29 +1423,20 @@
             errorMsg.classList.add("invisible");
             validMsg.classList.add("invisible");
             $("#submit_phone").prop("disabled", true);
-            // input.classList.remove("error");
-            // errorMsg.innerHTML = "";
-            // errorMsg.classList.add("hide");
-            // validMsg.classList.add("hide");
-            // $("#submit_form").prop("disabled", false);
             var phone = itiUpPhone.getNumber();
             var textNode = document.createTextNode(phone);
             phone = phone.replace('+', '00');
             mobile = $("#phoneUpPhone").val();
             var countryData = itiUpPhone.getSelectedCountryData();
             phone = '00' + countryData.dialCode + phone;
-            // $("#output").val(phone);
             $("#outputUpPhone").val(phone);
-            // window.livewire.emit('changefullNumber', phone);
-            // window.livewire.emit('changefullNumber');
+
             $("#ccodeUpPhone").val(countryData.dialCode);
             $("#isoUpPhone").val(countryData.iso2);
 
             fullphone = $("#outputUpPhone").val();
             if (inputUpPhone.value.trim()) {
-                // console.log(itiAdd2Contact.isValidNumber());
                 if (itiUpPhone.isValidNumber()) {
-                    // validMsg.classList.add("invisible");
                     errorMsg.classList.add("invisible");
                     $("#submit_phone").prop("disabled", false);
 
@@ -1620,51 +1465,10 @@
             }
         };
 
-        // function resetAddContact2() {
-        //     var phone2 = itiAdd2Contact.getNumber();
-        //     // alert(phone);
-        //     var textNode = document.createTextNode(phone2);
-        //     // console.log('phone333', phone2);
-        //     phone2 = phone2.replace('+', '00');
-        //     mobile2 = $("#phoneAdd2Contact").val();
-        //     var countryData2 = itiAdd2Contact.getSelectedCountryData();
-        //     phone2 = '00' + countryData2.dialCode + phone2;
-        //     // console.log(phone2);
-        //     $("#outputAdd2Contact").val(phone2);
-        //     // $("#output").val(phone);
-        //     // window.livewire.emit('changefullNumber', phone);
-        //     // window.livewire.emit('changefullNumber');
-        //     $("#ccodeAdd2Contact").val(countryData2.dialCode);
-        //     // $("#ccodelog").val(countryData.dialCode);
-        //     // fullphone = $("#output").val();
-        //     // console.log("dqsd" + inputAdd2Contact.value);
-        //     if (inputAdd2Contact.value.trim()) {
-        //         // console.log(itiAdd2Contact.isValidNumber());
-        //         if (itiAdd2Contact.isValidNumber()) {
-        //             // validMsg.classList.add("invisible");
-        //             errorMsg.classList.add("invisible");
-        //             $("#SubmitAdd2Contact").prop("disabled", false);
-        //
-        //         } else {
-        //             $("#SubmitAdd2Contact").prop("disabled", true);
-        //             inputAdd2Contact.classList.add("error");
-        //             var errorCode = itiAdd2Contact.getValidationError();
-        //             errorMsg.innerHTML = errorMap[errorCode];
-        //             errorMsg.classList.remove("invisible");
-        //         }
-        //     } else {
-        //         $("#SubmitAdd2Contact").prop("disabled", true);
-        //         inputAdd2Contact.classList.remove("error");
-        //         var errorCode = itiAdd2Contact.getValidationError();
-        //         errorMsg.innerHTML = errorMap[errorCode];
-        //         errorMsg.classList.add("invisible");
-        //     }
-        // };
         if (pathPage == 'Contacts') {
             inputlog = document.querySelector("#ipAdd2Contact");
             var itiLog = window.intlTelInput(inputlog, {
                 initialCountry: "auto",
-               // showSelectedDialCode: true,
                 useFullscreenPopup: false,
                 geoIpLookup: function (callback) {
                     $.get('https://ipinfo.io', function () {
@@ -1681,8 +1485,6 @@
                 var country12 = countryDataLog[i];
                 var optionNode12 = document.createElement("option");
                 optionNode12.value = country12.iso2;
-                // var textNode = document.createTextNode(country.name);
-                // optionNode.appendChild(textNode);
             }
             inputlog.focus();
 
@@ -1713,7 +1515,6 @@
             if (bbol) autoInit = codePays;
             var itiAddContact = window.intlTelInput(inputAddContact, {
                 initialCountry: autoInit,
-                //showSelectedDialCode: true,
                 useFullscreenPopup: false,
                 geoIpLookup: function (callback) {
                     $.get('https://ipinfo.io', function () {
@@ -1739,9 +1540,7 @@
             var errorMsg = document.querySelector("#error-msgAddContact");
             inputAddContact.addEventListener('blur', function () {
                 if (inputAddContact.value.trim()) {
-                    // console.log(itiAddContact.isValidNumber());
                     if (itiAddContact.isValidNumber()) {
-                        // validMsg.classList.add("invisible");
                         errorMsg.classList.add("invisible");
                         $("#SubmitAddContact").prop("disabled", false);
 
@@ -1769,27 +1568,15 @@
         function resetAddContact() {
 
             var phone = itiAddContact.getNumber();
-            // alert(phone);
             var textNode = document.createTextNode(phone);
-            // console.log('phone333', phone);
             phone = phone.replace('+', '00');
             mobile = $("#phoneAddContact").val();
             var countryData = itiAddContact.getSelectedCountryData();
             phone = '00' + countryData.dialCode + phone;
-            // console.log(phone);
             $("#outputAddContact").val(phone);
-            // $("#output").val(phone);
-            // window.livewire.emit('changefullNumber', phone);
-            // window.livewire.emit('changefullNumber');
             $("#ccodeAddContact").val(countryData.dialCode);
-            // $("#ccodelog").val(countryData.dialCode);
-            // fullphone = $("#output").val();
-
-            // console.log("dqsd" + inputAddContact.value);
             if (inputAddContact.value.trim()) {
-                // console.log(itiAddContact.isValidNumber());
                 if (itiAddContact.isValidNumber()) {
-                    // validMsg.classList.add("invisible");
                     errorMsg.classList.add("invisible");
                     $("#SubmitAddContact").prop("disabled", false);
 
@@ -1810,30 +1597,14 @@
         };
 
         function resetContacts() {
-
-            // alert(document.getElementById("ipAdd2Contact").value) ;
-            //  $("#signin").prop("disabled", false);
             var phone = itiLog.getNumber();
             var textNode = document.createTextNode(phone);
             phone = phone.replace('+', '00');
             mobile = $("#ipAdd2Contact").val();
             var countryData = itiLog.getSelectedCountryData();
-            //console.log(countryData.iso2);
             phone = '00' + countryData.dialCode + phone;
             $("#ccodeAdd2Contact").val(countryData.dialCode);
             $("#outputAdd2Contact").val(phone);
-            //console.log(inputlog.value.trim());
-            // if (inputlog.value.trim()) {
-            //   if (itiLog.isValidNumber()) {
-            //        $("#ipAdd2Contact").prop("disabled", false);
-            // } else {
-            //          $("#ipAdd2Contact").prop("disabled", true);
-            //         inputlog.classList.add("error");
-            //      }
-            // } else {
-            //    $("#ipAdd2Contact").prop("disabled", true);
-            //      inputlog.classList.remove("error");
-            //  }
         };
         if (pathPage == 'ContactNumber') {
 
@@ -1851,7 +1622,6 @@
             }
             var itiAddContactNumber = window.intlTelInput(inputAddContactNumber, {
                 initialCountry: "auto",
-                //showSelectedDialCode: true,
                 useFullscreenPopup: false,
                 geoIpLookup: function (callback) {
                     $.get('https://ipinfo.io', function () {
@@ -1869,8 +1639,7 @@
                 var country = countryDataNumberContact[i];
                 var optionNode = document.createElement("option");
                 optionNode.value = country.iso2;
-                // var textNode = document.createTextNode(country.name);
-                // optionNode.appendChild(textNode);
+
             }
             ;
             resetAddNumberContact();
@@ -1878,45 +1647,27 @@
 
         function resetAddNumberContact() {
             var phoneCN = itiAddContactNumber.getNumber();
-            // alert(phone);
-            // var textNode = document.createTextNode(phone2);
             phoneCN = phoneCN.replace('+', '00');
             mobileCN = $("#phoneContactNumber").val();
 
             var countryDataCN = itiAddContactNumber.getSelectedCountryData();
             phoneCN = '00' + countryDataCN.dialCode + phoneCN;
 
-            // console.log(phone2);
             $("#outputphoneContactNumber").val(phoneCN);
 
-            // $("#output").val(phone);
-            // window.livewire.emit('changefullNumber', phone);
-            // window.livewire.emit('changefullNumber');
             $("#ccodephoneContactNumber").val(countryDataCN.dialCode);
 
             $("#isoContactNumber").val(countryDataCN.iso2);
-            // $("#ccodelog").val(countryData.dialCode);
-            // fullphone = $("#output").val();
+   
             if (inputAddContactNumber.value.trim()) {
-                // console.log(itiAdd2Contact.isValidNumber());
                 if (itiAddContactNumber.isValidNumber()) {
-                    // validMsg.classList.add("invisible");
-                    // errorMsgUp.classList.add("invisible");
-                    // $("#saveAddContactNumber").prop("disabled", false);
+
 
                 } else {
-                    // $("#saveAddContactNumber").prop("disabled", true);
-                    // inputAddContactNumber.classList.add("error");
-                    // var errorCode = itiUpdatePhoneAd.getValidationError();
-                    // errorMsgUp.innerHTML = errorMap[errorCode];
-                    // errorMsgUp.classList.remove("invisible");
+                  
                 }
             } else {
-                // $("#saveAddContactNumber").prop("disabled", true);
-                // inputUpdatePhoneAd.classList.remove("error");
-                // var errorCode = itiUpdatePhoneAd.getValidationError();
-                // errorMsgUp.innerHTML = errorMap[errorCode];
-                // errorMsgUp.classList.add("invisible");
+              
             }
         };
 
@@ -1984,26 +1735,18 @@
 
     $.ajax({
         url: "{{ route('getRequestAjax') }}",
-        // data: {"id":id},
         type: 'GET',
         dataType: "json",
         success: function (result) {
             try {
                 document.getElementById("NotificationRequest").innerHTML = "";
                 var resultData = result.data;
-                // console.log(resultData['out']);
-                // NotificationRequest
-                // if(resultData['requestInOpen']==6)
-                // {
-                //     alert('jooooooooo');
-                // }
+   
                 if (resultData['requestInOpen'] > 0) {
                     var tag = document.createElement("span");
                     tag.id = "sideNotIn"
-                    // badge badge-pill bg-danger
                     tag.classList.add("badge")
                     tag.classList.add("badge-pill")
-                    // tag.classList.add("bg-danger")
                     tag.style.backgroundColor = "#3fc3ee"
                     var text = document.createTextNode(resultData['requestInOpen']);
                     tag.appendChild(text);
@@ -2013,10 +1756,8 @@
                 if (resultData['requestOutAccepted'] > 0) {
                     var tag = document.createElement("span");
                     tag.id = "sideNotOutAccepted"
-                    // badge badge-pill bg-danger
                     tag.classList.add("badge")
                     tag.classList.add("badge-pill")
-                    // tag.classList.add("bg-danger")
                     tag.style.backgroundColor = "#198C48"
                     var text = document.createTextNode(resultData['requestOutAccepted']);
                     tag.appendChild(text);
@@ -2027,10 +1768,8 @@
 
                     var tag = document.createElement("span");
                     tag.id = "sideNotOutRefused"
-                    // badge badge-pill bg-danger
                     tag.classList.add("badge")
                     tag.classList.add("badge-pill")
-                    // tag.classList.add("bg-danger")
                     tag.style.backgroundColor = "#dc3741"
                     var text = document.createTextNode(resultData['requestOutRefused']);
                     tag.appendChild(text);
@@ -2053,9 +1792,7 @@
     $("#HTMLMain").attr("data-layout-mode", sessionStorage.getItem("data-layout-mode"));
     $("#HTMLMain").attr("data-sidebar", sessionStorage.getItem("data-sidebar"));
     $("#btndark").click(function () {
-        // alert($("#HTMLMain").attr("data-layout-mode"));
         mode = $("#HTMLMain").attr("data-layout-mode");
-        // alert(mode);
         if (mode == "dark") {
             $("#HTMLMain").attr("data-layout-mode", "light")
             $("#HTMLMain").attr("data-sidebar", "light")
@@ -2067,7 +1804,6 @@
             sessionStorage.setItem("data-sidebar", "dark");
             sessionStorage.setItem("data-layout-mode", "dark");
         }
-        // alert( "Handler for .click() called." );
     });
 </script>
 </html>

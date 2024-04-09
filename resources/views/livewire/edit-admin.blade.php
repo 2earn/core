@@ -1,77 +1,76 @@
-<div >
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+<div>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
 
     <div wire:loading>
 
     </div>
     <script data-turbolinks-eval="false">
-        var exisUpdateRole = '{{Session::has('SuccesUpdateRole')}}';
+        var exisUpdateRole = '{{ Session::has('SuccesUpdateRole') }}';
         if (exisUpdateRole) {
-            toastr.success('{{Session::get('SuccesUpdateRole')}}');
+            toastr.success('{{ Session::get('SuccesUpdateRole') }}');
         }
     </script>
 
     @component('components.breadcrumb')
-        @slot('li_1')  @endslot
-        @slot('title')  {{ __('Gestion des Administrateurs') }}@endslot
+        @slot('li_1')
+        @endslot
+        @slot('title')
+            {{ __('Gestion des Administrateurs') }}
+        @endslot
     @endcomponent
-    <div   class="row">
+    <div class="row">
         <div class="col-12">
-            <div  class="card">
+            <div class="card">
                 <div class="card-header">
                     <div class="row">
                         <div>
                             <input type="text" class="form-control" placeholder="{{ __('PH_search') }}"
-                                   wire:model="search"/>
+                                wire:model="search" />
                         </div>
                     </div>
                 </div>
                 <div class="card-body table-responsive">
-                    <table  class="table table-responsive tableEditAdmin">
+                    <table class="table table-responsive tableEditAdmin">
                         <thead>
-                        <tr>
-                            <th scope="Id">Id</th>
-                            <th scope="Name">{{ __('Name') }}</th>
-                            <th scope="Francais">{{ __('Mobile Number') }}</th>
-                            <th scope="Arabe">id Countrie</th>
-                            <th scope="Francais">id Role</th>
-                            <th scope="Francais">{{ __('Role') }}</th>
-                            <th scope="Francais">{{ __('Countrie') }}</th>
-                            <th scope=" "></th>
-                        </tr>
+                            <tr>
+                                <th scope="Id">Id</th>
+                                <th scope="Name">{{ __('Name') }}</th>
+                                <th scope="Francais">{{ __('Mobile Number') }}</th>
+                                <th scope="Arabe">id Countrie</th>
+                                <th scope="Francais">id Role</th>
+                                <th scope="Francais">{{ __('Role') }}</th>
+                                <th scope="Francais">{{ __('Countrie') }}</th>
+                                <th scope=" "></th>
+                            </tr>
                         </thead>
                         <tbody>
-                        {{--                            @foreach ($translate as $s)--}}
-                        {{--                                <tr>--}}
-                        {{--                                    <td><span> {{$s->id}}</span></td>--}}
-                        {{--                                    <td><span>{{$s->name}}</span></td>--}}
-                        {{--                                    <td><input wire:model.defer="translate.{{ $key }}.value"/></td>--}}
-                        {{--                                    <td><input wire:model.defer="translate.{{ $key }}.valueFr"/></td>--}}
-                        {{--                                </tr>--}}
-                        {{--                            @endforeach--}}
-                        @foreach ($translates as $value)
-                            <tr>
-                                <td><span> {{$value->id}}</span></td>
-                                <td><span>{{$value->name}}</span></td>
-                                <td><span>{{$value->mobile}}</span></td>
-                                <td><span> {{$value->idCountry}}</span></td>
-                                <td><span>{{$value->idrole}}</span></td>
-                                <td><span>{{$value->role}}</span></td>
-                                <td><span>{{$value->countrie}}</span></td>
-                                <td>
-                                    <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"   wire:click="edit({{$value->id }})"  class="btn rounded-pill btn-secondary waves-effect">{{ __('Edit') }}</button>
-                                </td>
-                            </tr>
-                        @endforeach
+
+                            @foreach ($translates as $value)
+                                <tr>
+                                    <td><span> {{ $value->id }}</span></td>
+                                    <td><span>{{ $value->name }}</span></td>
+                                    <td><span>{{ $value->mobile }}</span></td>
+                                    <td><span> {{ $value->idCountry }}</span></td>
+                                    <td><span>{{ $value->idrole }}</span></td>
+                                    <td><span>{{ $value->role }}</span></td>
+                                    <td><span>{{ $value->countrie }}</span></td>
+                                    <td>
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                            wire:click="edit({{ $value->id }})"
+                                            class="btn rounded-pill btn-secondary waves-effect">{{ __('Edit') }}</button>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
-                    {{$translates->links()}}
+                    {{ $translates->links() }}
                 </div>
             </div>
         </div>
         <!-- Modal -->
-        <div  wire:ignore.self class="modal fade" id="exampleModal"   tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel"  aria-hidden="true">
+        <div wire:ignore.self class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -81,28 +80,28 @@
                     <div class="modal-body">
                         @php $role=\Illuminate\Support\Facades\Lang::get("userRole") @endphp
 
-                        <div> <label><span>{{$role}}:</span> <span>{{$name}}</span> </label></div>
-                        <p>{{ __('Mobile_Number') }}: {{$mobile}}</p>
+                        <div> <label><span>{{ $role }}:</span> <span>{{ $name }}</span> </label></div>
+                        <p>{{ __('Mobile_Number') }}: {{ $mobile }}</p>
                         <label>{{ __('Role') }}</label>
                         <select class="form-control" id="Country" name="country" wire:model.defer="userRole">
                             <option value="">{{ __('Choose') }}</option>
-                            @foreach($allRoles as $role)
+                            @foreach ($allRoles as $role)
                                 @php
-                                $cn = \Illuminate\Support\Facades\Lang::get($role->name) ;
+                                    $cn = \Illuminate\Support\Facades\Lang::get($role->name);
                                 @endphp
-                                <option value="{{$role->name}}">{{$cn}}</option>
+                                <option value="{{ $role->name }}">{{ $cn }}</option>
                             @endforeach
                         </select>
-                        <div style="margin: 10px"  class="scheduler-border">
-                            <div  class="boxplatforms  d-flex">
-                                @foreach($platformes   as $key => $setting)
+                        <div style="margin: 10px" class="scheduler-border">
+                            <div class="boxplatforms  d-flex">
+                                @foreach ($platformes as $key => $setting)
                                     <div class="">
                                         <label style="margin: 20px">
-                                            <input  class="toggle-checkbox" type="checkbox" role="switch"
-                                                    id="flexSwitchCheckDefault"
-                                                    wire:model.defer="platformes.{{$key}}.selected">
+                                            <input class="toggle-checkbox" type="checkbox" role="switch"
+                                                id="flexSwitchCheckDefault"
+                                                wire:model.defer="platformes.{{ $key }}.selected">
                                             <div class="toggle-switch"></div>
-                                            <span class="toggle-label"> {{ __( $setting->name ) }}  </span>
+                                            <span class="toggle-label"> {{ __($setting->name) }} </span>
                                         </label>
                                     </div>
                                 @endforeach
@@ -114,14 +113,13 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
-                        <button wire:click = "changeRole({{$currentId}})" type="button" class="btn btn-primary">{{ __('Save_changes') }}</button>
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">{{ __('Close') }}</button>
+                        <button wire:click = "changeRole({{ $currentId }})" type="button"
+                            class="btn btn-primary">{{ __('Save_changes') }}</button>
                     </div>
                 </div>
             </div>
         </div>
-
-
-
     </div>
 </div>
