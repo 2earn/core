@@ -25,11 +25,10 @@
         "yajra/laravel-datatables-oracle": "^10.2"
     },
     "require-dev": {
+        "laravel/telescope": "^4.17",
         "barryvdh/laravel-debugbar": "^3.7",
-        "bennett-treptow/laravel-migration-generator": "^4.4",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
-        "laravel/telescope": "^4.17",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.0",
         "phpunit/phpunit": "^9.5.10",

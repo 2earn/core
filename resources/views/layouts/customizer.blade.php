@@ -664,8 +664,10 @@
 
                 </div>
                 <!-- end preloader-menu -->
+
             </div>
         </div>
+
     </div>
     <div class="offcanvas-footer border-top p-3 text-center">
         <div class="row">

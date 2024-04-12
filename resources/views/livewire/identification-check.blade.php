@@ -120,6 +120,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
+                    {{--                    <button type="button" class="btn btn-primary">Save changes</button>--}}
                 </div>
             </div>
         </div>
@@ -279,12 +280,48 @@
                                                                id="optFourth" maxlength="1"/>
 
                                                     </div>
+                                                    {{--                                                    <div class="mt-4">--}}
+                                                    {{--                                                        <button onclick="checkOpt()"--}}
+                                                    {{--                                                                class="btn btn-danger px-4 validate">Validate--}}
+                                                    {{--                                                        </button>--}}
+                                                    {{--                                                    </div>--}}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <!--end col-->
-
+                                {{--                                    <div class="col-lg-6">--}}
+                                {{--                                        <div class="mb-3">--}}
+                                {{--                                            <label for="branchInput" class="form-label">Branch</label>--}}
+                                {{--                                            <input type="text" class="form-control" id="branchInput"--}}
+                                {{--                                                   placeholder="Branch">--}}
+                                {{--                                        </div>--}}
+                                {{--                                    </div>--}}
+                                <!--end col-->
+                                {{--                                    <div class="col-lg-12">--}}
+                                {{--                                        <div class="mb-3">--}}
+                                {{--                                            <label for="accountnameInput" class="form-label">Account--}}
+                                {{--                                                Holder Name</label>--}}
+                                {{--                                            <input type="text" class="form-control" id="accountnameInput"--}}
+                                {{--                                                   placeholder="Enter account holder name">--}}
+                                {{--                                        </div>--}}
+                                {{--                                    </div>--}}
+                                <!--end col-->
+                                {{--                                    <div class="col-lg-6">--}}
+                                {{--                                        <div class="mb-3">--}}
+                                {{--                                            <label for="accountnumberInput" class="form-label">Account--}}
+                                {{--                                                Number</label>--}}
+                                {{--                                            <input type="number" class="form-control" id="accountnumberInput"--}}
+                                {{--                                                   placeholder="Enter account number">--}}
+                                {{--                                        </div>--}}
+                                {{--                                    </div>--}}
+                                <!--end col-->
+                                {{--                                    <div class="col-lg-6">--}}
+                                {{--                                        <div class="mb-3">--}}
+                                {{--                                            <label for="ifscInput" class="form-label">IFSC</label>--}}
+                                {{--                                            <input type="number" class="form-control" id="ifscInput" placeholder="IFSC">--}}
+                                {{--                                        </div>--}}
+                                {{--                                    </div>--}}
                                 <!--end col-->
                                     <div class="col-lg-12">
                                         <div class="hstack align-items-start gap-3 mt-4">
@@ -307,6 +344,7 @@
                             <!-- end tab pane -->
                             <div class="tab-pane fade" id="pills-payment" role="tabpanel"
                                  aria-labelledby="pills-payment-tab">
+                                {{--                                <h5 class="mb-3">Choose Document Type</h5>--}}
                                 <div class="row" style="margin: 20px">
                                     <div class="col-6">
                                         <div>
@@ -355,6 +393,7 @@
                                         </div>
 
                                     </div>
+                                    {{--                                                            <button  onclick="saveimg()"  type="button" >ssave</button>--}}
                                 </div>
                                 <!-- end dropzon-preview -->
                                 <div class="d-flex align-items-start gap-3 mt-4">
@@ -388,12 +427,17 @@
                                         <h6>{{$messageVerif}}</h6>
                                         <p class="text-muted mb-4">
                                             {{__('txt_Verification_Completed')}}
+                                            {{--                                            <span class="fw-medium">Crypto > KYC Application.</span>--}}
                                         </p>
 
                                         <div class="hstack justify-content-center gap-2">
                                             <button onclick="doneVerify()" type="button" class="btn btn-ghost-success"
                                                     data-bs-dismiss="modal">{{__('Done')}}<i
                                                     class="ri-thumb-up-fill align-bottom me-1"></i></button>
+                                            {{--                                            <button  onclick="verifRequest()" type="button" class="btn btn-primary"><i--}}
+                                            {{--                                                    class="ri-home-4-line align-bottom ms-1"></i> Back--}}
+                                            {{--                                                to Home--}}
+                                            {{--                                            </button>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -418,7 +462,14 @@
                 errorMail2.classList.add("hide");
             }
         });
-
+        // $("#inputEmailUser").addEventListener('keyup', function () {
+        //     // resetUpPhone();
+        //     alert('fsdf');
+        //     if ($("#inputEmailUser").value.trim()!="") {
+        //         errorMail.innerHTML = '';
+        //         errorMail.classList.add("hide");
+        //     }
+        // });
         var nextTomail = false;
         $('input[type="file"]').each(function () {
             var $file = $(this),
@@ -623,8 +674,14 @@
         }
 
         function verifRequest() {
+            // swal.fire('fdsfsdfsdfsd');
             $("#exampleModal").modal("hide");
 
         }
+
+        // $('#exampleModal').on('show.bs.modal', function (e) {
+        //
+        //     $("#exampleModal").modal("hide");
+        // })
     </script>
 </div>

@@ -74,6 +74,7 @@
 
 
                     };
+                    //console.log("Stroke property for series 1:", series1.stroke);
                     var series2 = {
                         name: 'Function',
                         type: 'line',
@@ -85,7 +86,10 @@
                         data: response3[0]
 
                     };
-
+                    //console.log(response3[0]);
+                    //console.log(response2[0]);
+                    //console.log(response1[0]);
+                    // Update the chart with both series
                     chart1.updateSeries([series1, series2, series3]);
                 });
             </script>
@@ -93,6 +97,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
+                        <!--    <h5 class="card-title mb-0">Alternative Pagination</h5>-->
                     </div>
                     <div class="card-body table-responsive">
                         <table id="shares-solde" class="table nowrap dt-responsive align-middle table-hover table-bordered" style="width:100%">
@@ -117,5 +122,8 @@
             </div>
             <!--end col-->
         </div>
+
+
+
 </div>
 

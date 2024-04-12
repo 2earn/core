@@ -68,6 +68,7 @@
                             var local = '{{app()->getLocale()}}';
                             $(".alert-danger").fadeTo(3000, 500).slideUp(500, function () {
                                 $(".alert-danger").alert('close');
+                                // $(this).remove();
                             });
                         }
                     </script>
@@ -113,9 +114,12 @@
                 <div class="text-center" style="margin-top: 20px;">
                     <button wire:click="change"  type="submit" class="btn ps-5 pe-5"
                             id="btnsubmitchange">{{ __('Save') }}</button>
+                    {{--                <button type="submit" class="btn btn-success ps-5 pe-5"  @if(!empty($email_verified)) --}}
+                    {{--                disabled style="background-color: #6c757d87;border-color: #6c757d87;" @endif id="update_security">{{ __('backand.Save') }}</button>--}}
                 </div>
 
             </div>
+            <!-- </form> -->
         </div>
     </div>
     <script>

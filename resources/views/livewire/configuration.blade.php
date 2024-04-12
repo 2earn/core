@@ -180,6 +180,7 @@
                                             </div>
                                         </div>
 
+
                                         <div class="table-responsive table-card mt-3 mb-1">
                                             <table class="table align-middle table-nowrap flex-table" id="ActionHistorysTable" style="width: 100%">
                                                 <thead class="table-light">

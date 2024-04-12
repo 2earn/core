@@ -25,6 +25,14 @@
 
                                     </thead>
                                     <tbody>
+                                    {{--                            @foreach ($translate as $s)--}}
+                                    {{--                                <tr>--}}
+                                    {{--                                    <td><span> {{$s->id}}</span></td>--}}
+                                    {{--                                    <td><span>{{$s->name}}</span></td>--}}
+                                    {{--                                    <td><input wire:model.defer="translate.{{ $key }}.value"/></td>--}}
+                                    {{--                                    <td><input wire:model.defer="translate.{{ $key }}.valueFr"/></td>--}}
+                                    {{--                                </tr>--}}
+                                    {{--                            @endforeach--}}
                                     @foreach ($pub_users as $value)
                                         <tr>
                                             <td><span> {{$value->idUser}}</span></td>

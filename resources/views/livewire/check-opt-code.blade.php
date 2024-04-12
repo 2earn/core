@@ -56,6 +56,8 @@
                                         <label>{{ __('Your OTP Code') }}</label>
                                         <input type="text" class="form-control text-center font-weight-bold"
                                                name="activationCodeValue" wire:model.defer="code">
+                                        {{--                                        <input type="text" name="iduser" value="">--}}
+                                        {{--                                        <input type="text" name="ccode" value="">--}}
                                     </div>
                                     <div class="text-center"style="margin-top:10px">
                                         @if ($message = Session::get('error'))

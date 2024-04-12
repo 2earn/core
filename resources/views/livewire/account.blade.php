@@ -1,5 +1,3 @@
-
-{{--TO CHECK !! --}}
 <div>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
@@ -54,6 +52,7 @@
         {{--    tab.show() ;--}}
         {{--    var local = '{{app()->getLocale()}}';--}}
         {{--    --}}{{--<p class="alert {{ session('ErrorConfirmPassWord') }}">{{ session('sdsdsd') }}</p>--}}
+        {{--    // alert('yaan din waldik');--}}
         {{--}--}}
         {{--if (exist4   && ("{{Session::get('SuccesUpdateIdentification')}}" != ""   )) {--}}
         {{--    var someTabTriggerEl = document.querySelector('#pills-contact-tab');--}}
@@ -61,6 +60,7 @@
         {{--    tab.show() ;--}}
         {{--    var local = '{{app()->getLocale()}}';--}}
         {{--    --}}{{--<p class="alert {{ session('ErrorConfirmPassWord') }}">{{ session('sdsdsd') }}</p>--}}
+        {{--    // alert('yaan din waldik');--}}
         {{--}--}}
 
         var ChangeLanguge = '{{Session::has('ChangeLanguge')}}';

@@ -376,5 +376,6 @@
     <!--ecommerce-customer init js -->
     <script src="{{ URL::asset('assets/js/pages/ecommerce-order.init.js') }}"></script>
     <script src="{{ URL::asset('assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+
     <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
 @endsection

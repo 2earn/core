@@ -35,6 +35,7 @@
                             <th>Actions</th>
                         </tr>
                         </thead>
+{{--                        <tbody class="body2earn" >--}}
 {{--                        <?php if (!($representatives->isEmpty())){ ?>--}}
 {{--                        @foreach($representatives as $rep)--}}
 {{--                            <tr id="reptt-{{$rep->idUser}}">--}}

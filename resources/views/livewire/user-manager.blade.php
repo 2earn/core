@@ -1,15 +1,16 @@
 <div>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
     <div class="row">
         <div class="card">
 
             <ul class="nav nav-pills" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <a href="" class="nav-link active" id="pills-RepresentativesManagement-tab"
-                        data-bs-toggle="pill" data-bs-target="#tabRepresentativesManagement" type="button"
-                        role="tab" aria-controls="pills-RepresentativesManagement"
-                        aria-selected="true">{{ __('Balance For Shopping') }}</a>
+                    <a href="" class="nav-link active"
+                       id="pills-RepresentativesManagement-tab" data-bs-toggle="pill" data-bs-target="#tabRepresentativesManagement"
+                       type="button"
+                       role="tab"
+                       aria-controls="pills-RepresentativesManagement" aria-selected="true">{{ __('Balance For Shopping') }}</a>
                 </li>
             </ul>
             <div class="card-body pt-0">
@@ -17,21 +18,20 @@
                 <div class="transaction-table">
 
                     <div class="table-responsive ">
-                        <table class=" mb-0 table-responsive-sm stripe table2earn" id="userManager_table"
-                            style="width: 100%">
+                        <table class=" mb-0 table-responsive-sm stripe table2earn" id="userManager_table" style="width: 100%">
                             <thead>
-                                <tr class="head2earn">
-                                    <th style=" border: none;">N</th>
-                                    <th style=" border: none;">{{ __('idUser') }}</th>
-                                    <th style=" border: none;">{{ __('Status') }}</th>
-                                    <th style=" border: none;"> {{ __('Source') }}</th>
-                                    <th style=" border: none;"> {{ __('PhoneNumber') }}</th>
-                                    <th style=" border: none;">{{ __('Name english') }}</th>
-                                    <th style=" border: none;">{{ __('Name Arabic') }}</th>
-                                    <th style=" border: none;">{{ __('LastOperationDate') }}</th>
-                                    <th style=" border: none;">{{ __('CountryName') }}</th>
-                                    <th style=" border: none;">{{ __('Actions') }}</th>
-                                </tr>
+                            <tr class="head2earn">
+                                <th style=" border: none;">N</th>
+                                <th style=" border: none;">{{ __('idUser') }}</th>
+                                <th style=" border: none;">{{ __('Status') }}</th>
+                                <th style=" border: none;"> {{ __('Source') }}</th>
+                                <th style=" border: none;"> {{ __('PhoneNumber') }}</th>
+                                <th style=" border: none;">{{ __('Name english') }}</th>
+                                <th style=" border: none;">{{ __('Name Arabic') }}</th>
+                                <th style=" border: none;">{{ __('LastOperationDate') }}</th>
+                                <th style=" border: none;">{{ __('CountryName') }}</th>
+                                <th style=" border: none;">{{ __('Actions') }}</th>
+                            </tr>
                             </thead>
                             <tbody class="body2earn">
                             </tbody>
@@ -42,8 +42,7 @@
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="userManagerModal" style="z-index: 200000" tabindex="-99999999"
-        aria-labelledby="userManagerModalLabel" aria-hidden="true">
+    <div class="modal fade" id="userManagerModal"  style="z-index: 200000" tabindex="-99999999" aria-labelledby="userManagerModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -61,15 +60,17 @@
         </div>
     </div>
     <script>
-        function deleteUser(idUser) {
+        function  deleteUser(idUser)
+        {
             Swal.fire({
                 title: '{{ __('delete_user') }}',
                 text: '{{ __('operation_irreversible') }}',
                 icon: "warning",
+                // showDenyButton: true,
                 showCancelButton: true,
-                confirmButtonText: '{{ trans('ok') }}',
-                cancelButtonText: '{{ trans('canceled !') }}',
-                denyButtonText: '{{ trans('No') }}',
+                confirmButtonText:'{{trans('ok')}}',
+                cancelButtonText: '{{trans('canceled !')}}',
+                denyButtonText: '{{trans('No')}}',
                 customClass: {
                     actions: 'my-actions',
                     cancelButton: 'order-1 right-gap',
@@ -78,19 +79,27 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.livewire.emit('deleteUser', idUser);
+                    window.livewire.emit('deleteUser',idUser);
                 }
-            });
+            }) ;
+
+
+
+
         }
     </script>
     <script data-turbolinks-eval="false">
-        var SuccesUpdatePasswordUserAdmin = '{{ Session::has('SuccesUpdatePasswordUserAdmin') }}'
+        var SuccesUpdatePasswordUserAdmin = '{{ Session::has('SuccesUpdatePasswordUserAdmin')}}'
         if (SuccesUpdatePasswordUserAdmin) {
-            toastr.success('{{ Session::get('SuccesUpdatePasswordUserAdmin') }}');
+            toastr.success('{{Session::get('SuccesUpdatePasswordUserAdmin')}}');
         }
-        var SuccesUpdateProfil = '{{ Session::has('SuccesUpdateProfil') }}'
+        var SuccesUpdateProfil = '{{ Session::has('SuccesUpdateProfil')}}'
         if (SuccesUpdateProfil) {
-            toastr.success('{{ Session::get('SuccesUpdateProfil') }}');
+            toastr.success('{{Session::get('SuccesUpdateProfil')}}');
         }
+
+
+
     </script>
+
 </div>

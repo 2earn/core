@@ -1,4 +1,6 @@
 <style>
+
+
     .footer {
         bottom: auto !important;
 

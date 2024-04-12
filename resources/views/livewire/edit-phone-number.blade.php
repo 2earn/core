@@ -6,13 +6,42 @@
                     <h4 class="card-title">{{ __('Update Phone Number') }}</h4>
                 </div>
                 <div wire:ignore class="card-body">
-
+                    {{--            @foreach ($errors->all() as $error)--}}
+                    {{--                <p class="text-danger">{{ $error }}</p>--}}
+                    {{--            @endforeach--}}
+                    {{--            @if(!empty($email_verified))--}}
+                    {{--                @foreach ($email_verified as $error_email)--}}
+                    {{--                    <p class="text-danger">{{ $error_email }}</p>--}}
+                    {{--                @endforeach--}}
+                    {{--            @endif--}}
+                    {{--            <input type="hidden" name="id_user" value="{{ $user->idUser }}">--}}
+                    {{--                    <input type=" " name="id_user" value=" ">--}}
                     <div class="text-center mb-3" dir="ltr">
                         <label>{{ __('Your new phone number') }}</label>
                         <div id="inputPhoneUpdate" data-turbolinks-permanent class="input-group signup mb-3"
                              style="justify-content:center;">
 
-    
+                            {{--                            @php--}}
+                            {{--                                $ip = ip2long(request()->ip());--}}
+                            {{--                                $ip = long2ip($ip);--}}
+
+                            {{--                                if($ip == "127.0.0.1")--}}
+                            {{--                                    {--}}
+                            {{--                                         $ip = "41.228.16.1";--}}
+
+                            {{--                                    }--}}
+
+                            {{--                                if(env('APP_LIEN')== "http://2earn.test"){--}}
+                            {{--                                    $ip = "41.228.16.1";--}}
+                            {{--                                }--}}
+
+                            {{--                                $json = file_get_contents("http://ipinfo.io/{$ip}/geo");--}}
+
+                            {{--                                $details = json_decode($json, true);--}}
+
+                            {{--                                // dd($details);--}}
+                            {{--                                $country_code = $details['country'];--}}
+                            {{--                            @endphp--}}
 
                         </div>
                     </div>
@@ -35,6 +64,7 @@
 
                     text: '',
                     icon: "warning",
+                    // showDenyButton: true,
                     showCancelButton: false,
                     confirmButtonText: 'Ok',
                     denyButtonText: 'No',
@@ -51,6 +81,7 @@
                 title: '{{ __('Are you sure to change Phone') }}',
                 text: '',
                 icon: "warning",
+                // showDenyButton: true,
                 showCancelButton: true,
                 confirmButtonText: '{{trans('ok')}}',
                 cancelButtonText: '{{trans('canceled !')}}',

@@ -197,8 +197,7 @@
                         <div class="list-group-item nested-1">
                             <div class="d-flex align-items-center">
                                 <div class="avatar-xs flex-shrink-0 me-3">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt=""
-                                        class="img-fluid rounded-circle">
+                                    <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt="" class="img-fluid rounded-circle">
                                 </div>
                                 <div class="flex-grow-1">
                                     <h5 class="fs-14 mb-0">Daryl Wolcott</h5>
@@ -222,8 +221,8 @@
                                         <div class="list-group-item nested-3">
                                             <div class="d-flex align-items-center">
                                                 <div class="avatar-xs flex-shrink-0 me-3">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}"
-                                                        alt="" class="img-fluid rounded-circle">
+                                                    <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt=""
+                                                        class="img-fluid rounded-circle">
                                                 </div>
                                                 <div class="flex-grow-1">
                                                     <h5 class="fs-14 mb-0">David Houser</h5>
@@ -252,8 +251,8 @@
                                         <div class="list-group-item nested-3">
                                             <div class="d-flex align-items-center">
                                                 <div class="avatar-xs flex-shrink-0 me-3">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}"
-                                                        alt="" class="img-fluid rounded-circle">
+                                                    <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt=""
+                                                        class="img-fluid rounded-circle">
                                                 </div>
                                                 <div class="flex-grow-1">
                                                     <h5 class="fs-14 mb-0">Mickie Reyes</h5>
@@ -278,8 +277,8 @@
                                                     <div class="d-flex align-items-center">
                                                         <div class="avatar-xs flex-shrink-0 me-3">
                                                             <div class="avatar-title rounded-circle">
-                                                                <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}"
-                                                                    alt="" class="img-fluid rounded-circle">
+                                                                <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt=""
+                                                                    class="img-fluid rounded-circle">
                                                             </div>
                                                         </div>
                                                         <div class="flex-grow-1">
@@ -295,8 +294,8 @@
                                         <div class="list-group-item nested-3">
                                             <div class="d-flex align-items-center">
                                                 <div class="avatar-xs flex-shrink-0 me-3">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}"
-                                                        alt="" class="img-fluid rounded-circle">
+                                                    <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt=""
+                                                        class="img-fluid rounded-circle">
                                                 </div>
                                                 <div class="flex-grow-1">
                                                     <h5 class="fs-14 mb-0">Galen Coble</h5>
@@ -307,8 +306,8 @@
                                                 <div class="list-group-item nested-4">
                                                     <div class="d-flex align-items-center">
                                                         <div class="avatar-xs flex-shrink-0 me-3">
-                                                            <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}"
-                                                                alt="" class="img-fluid rounded-circle">
+                                                            <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt=""
+                                                                class="img-fluid rounded-circle">
                                                         </div>
                                                         <div class="flex-grow-1">
                                                             <h5 class="fs-14 mb-0">Jean Wood</h5>

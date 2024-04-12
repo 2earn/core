@@ -42,7 +42,187 @@
             }
         }
 
-       
+        /*.section {*/
+        /*    background-color: #0000FF;*/
+        /*    height: 300px;*/
+        /*    line-height: 300px;*/
+        /*}*/
+
+        /*.section-2 { background-color: #00FF00;}*/
+        /*.section-3 { background-color: #8D38C9;}*/
+        /*.section-4 { background-color: #FF0000;}*/
+
+        /*.loader {*/
+        /*    position: relative;*/
+        /*    display: inline-block;*/
+        /*    width: 50px;*/
+        /*    height: 50px;*/
+        /*    vertical-align: middle;*/
+        /*}*/
+
+        /*!*	$Loader Quadrant*/
+        /*    ========================================================================== *!*/
+
+        /*.loader-quart {*/
+        /*    border-radius: 50px;*/
+        /*    border: 6px solid rgba(255,255,255,0.4);*/
+        /*}*/
+
+        /*.loader-quart:after {*/
+        /*    content: '';*/
+        /*    position: absolute;*/
+        /*    top: -6px;*/
+        /*    left: -6px;*/
+        /*    bottom: -6px;*/
+        /*    right: -6px;*/
+        /*    border-radius: 50px;*/
+        /*    border: 6px solid transparent;*/
+        /*    border-top-color: #fff;*/
+        /*    -webkit-animation: spin 1s linear infinite;*/
+        /*    animation: spin 1s linear infinite;*/
+        /*}*/
+
+        /*!*	$Loader Double circle*/
+        /*    ========================================================================== *!*/
+
+        /*.loader-double {*/
+        /*    border-radius: 50px;*/
+        /*    border: 6px solid transparent;*/
+        /*    border-top-color: #fff;*/
+        /*    border-bottom-color: #fff;*/
+        /*    -webkit-animation: spin 1.5s linear infinite;*/
+        /*    animation: spin 1.5s linear infinite;*/
+        /*}*/
+
+        /*.loader-double:before,*/
+        /*.loader-double:after {*/
+        /*    content: '';*/
+        /*    position: absolute;*/
+        /*    top: 5px;*/
+        /*    left: 5px;*/
+        /*    bottom: 5px;*/
+        /*    right: 5px;*/
+        /*    border-radius: 50px;*/
+        /*    border: 6px solid transparent;*/
+        /*    border-top-color: #fff;*/
+        /*    border-bottom-color: #fff;*/
+        /*    filter: alpha(opacity=6);*/
+        /*    -khtml-opacity: .6;*/
+        /*    -moz-opacity: .6;*/
+        /*    opacity: .6;*/
+        /*    -webkit-animation: spinreverse 2s linear infinite;*/
+        /*    animation: spinreverse 2s linear infinite;*/
+        /*}*/
+
+        /*.loader-double:before {*/
+        /*    top: 15px;*/
+        /*    left: 15px;*/
+        /*    bottom: 15px;*/
+        /*    right: 15px;*/
+        /*    -webkit-animation: spinreverse 3s linear infinite;*/
+        /*    animation: spinreverse 3s linear infinite;*/
+        /*}*/
+
+        /*!*	$Loader Multiple circle*/
+        /*    ========================================================================== *!*/
+
+        /*.loader-circles {*/
+        /*    border-radius: 50px;*/
+        /*    border: 3px solid transparent;*/
+        /*    border-top-color: #fff;*/
+        /*    -webkit-animation: spin 1s linear infinite;*/
+        /*    animation: spin 1s linear infinite;*/
+        /*}*/
+
+        /*.loader-circles:before,*/
+        /*.loader-circles:after {*/
+        /*    content: '';*/
+        /*    position: absolute;*/
+        /*    top: 5px;*/
+        /*    left: 5px;*/
+        /*    bottom: 5px;*/
+        /*    right: 5px;*/
+        /*    border-radius: 50px;*/
+        /*    border: 3px solid transparent;*/
+        /*    border-top-color: #fff;*/
+        /*    filter: alpha(opacity=8);*/
+        /*    -khtml-opacity: .8;*/
+        /*    -moz-opacity: .8;*/
+        /*    opacity: .8;*/
+        /*    -webkit-animation: spinreverse 5s linear infinite;*/
+        /*    animation: spinreverse 5s linear infinite;*/
+        /*}*/
+
+        /*.loader-circles:before {*/
+        /*    top: 12px;*/
+        /*    left: 12px;*/
+        /*    bottom: 12px;*/
+        /*    right: 12px;*/
+        /*    -webkit-animation: spinreverse 10s linear infinite;*/
+        /*    animation: spinreverse 10s linear infinite;*/
+        /*}*/
+
+        /*!*	$Loader Bars*/
+        /*    ========================================================================== *!*/
+
+        /*.loader-bars:before,*/
+        /*.loader-bars:after,*/
+        /*.loader-bars span {*/
+        /*    content: '';*/
+        /*    display: block;*/
+        /*    position: absolute;*/
+        /*    left: 0;*/
+        /*    top: 0;*/
+        /*    width: 10px;*/
+        /*    height: 30px;*/
+        /*    background-color: #fff;*/
+        /*    -webkit-animation: grow 1.5s linear infinite;*/
+        /*    animation: grow 1.5s linear infinite;*/
+        /*}*/
+
+        /*.loader-bars:after {*/
+        /*    left: 15px;*/
+        /*    -webkit-animation: grow 1.5s linear -.5s infinite;*/
+        /*    animation: grow 1.5s linear -.5s infinite;*/
+        /*}*/
+
+        /*.loader-bars span {*/
+        /*    left: 30px;*/
+        /*    -webkit-animation: grow 1.5s linear -1s infinite;*/
+        /*    animation: grow 1.5s linear -1s infinite;*/
+        /*}*/
+
+        /*@-webkit-keyframes grow {*/
+        /*    0% { -webkit-transform: scaleY(0); transform: scaleY(0); opacity: 0;}*/
+        /*    50% { -webkit-transform: scaleY(1); transform: scaleY(1); opacity: 1;}*/
+        /*    100% { -webkit-transform: scaleY(0); transform: scaleY(0); opacity: 0;}*/
+        /*}*/
+
+        /*@keyframes grow {*/
+        /*    0% { -webkit-transform: scaleY(0); transform: scaleY(0); opacity: 0;}*/
+        /*    50% { -webkit-transform: scaleY(1); transform: scaleY(1); opacity: 1;}*/
+        /*    100% { -webkit-transform: scaleY(0); transform: scaleY(0); opacity: 0;}*/
+        /*}*/
+
+        /*@-webkit-keyframes spin {*/
+        /*    0%{ -webkit-transform: rotate(0deg); tranform: rotate(0deg);}*/
+        /*    100%{ -webkit-transform: rotate(360deg); tranform: rotate(360deg);}*/
+        /*}*/
+
+        /*@keyframes spin {*/
+        /*    0%{ -webkit-transform: rotate(0deg); transform: rotate(0deg);}*/
+        /*    100%{ -webkit-transform: rotate(360deg); transform: rotate(360deg);}*/
+        /*}*/
+
+        /*@-webkit-keyframes spinreverse {*/
+        /*    0%{ -webkit-transform: rotate(0deg); tranform: rotate(0deg);}*/
+        /*    100%{ -webkit-transform: rotate(-360deg); tranform: rotate(-360deg);}*/
+        /*}*/
+
+        /*@keyframes spinreverse {*/
+        /*    0%{ -webkit-transform: rotate(0deg); transform: rotate(0deg);}*/
+        /*    100%{ -webkit-transform: rotate(-360deg); transform: rotate(-360deg);}*/
+        /*}*/
         nav svg {
             max-height: 20px;
         }
@@ -60,11 +240,17 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         </div>
     </div>
 
+    {{--     <div wire:loading>loading...</div>--}}
     <div class="row">
+        {{--        <section class="section section-3">--}}
+        {{--            <span class="loader loader-circles"></span>--}}
+        {{--            Loading...--}}
+        {{--        </section>--}}
         <div class="col">
             <div class="row">
                 <div>
                     <a href="{{route('home',app()->getLocale())}}" class=" btnTrans" type=" ">home</a>
+                    {{--                    onclick="sendSmsEvent()"--}}
                     <a class="btnTrans " type="button" wire:click="PreImport('arToData')">Arabic field To
                         base
                     </a>
@@ -114,6 +300,14 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                 </tr>
                                 </thead>
                                 <tbody>
+                                {{--                            @foreach ($translate as $s)--}}
+                                {{--                                <tr>--}}
+                                {{--                                    <td><span> {{$s->id}}</span></td>--}}
+                                {{--                                    <td><span>{{$s->name}}</span></td>--}}
+                                {{--                                    <td><input wire:model.defer="translate.{{ $key }}.value"/></td>--}}
+                                {{--                                    <td><input wire:model.defer="translate.{{ $key }}.valueFr"/></td>--}}
+                                {{--                                </tr>--}}
+                                {{--                            @endforeach--}}
                                 @foreach ($translates as $value)
                                     <tr>
                                         <td><span> {{$value->id}}</span></td>
@@ -127,6 +321,8 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                class="">Edit
                                             </a>
                                         </td>
+                                        {{--                                    <td><input wire:model.defer="translate.{{ $key }}.value"/></td>--}}
+                                        {{--                                    <td><input wire:model.defer="translate.{{ $key }}.valueFr"/></td>--}}
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -172,6 +368,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
             </div>
         </div>
     </div>
+    {{--    <div class="loader"></div>--}}
     <script>
 
 
@@ -197,6 +394,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                         window.livewire.emit('addEnglishField', resultat.value);
                     else if (event.detail.ev == 'mergeToData')
                         window.livewire.emit('mergeTransaction', resultat.value);
+                    // window.livewire.emit('sendSms',resultat.value,$("#outputforget").val());
                     else if (event.detail.ev == 'databaseToFile')
                         window.livewire.emit('databaseToFile', resultat.value);
                     //
