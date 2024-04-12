@@ -76,9 +76,6 @@
             font-weight: 400;
         }
 
-        /*.label_phone {*/
-        /*    text-align: end;*/
-        /*}*/
         label, h1, h2, h3, h4,h5, a, button, p, i, span, strong, .btn,div {
             font-family: ar400;
             font-weight: 500 !important;
@@ -93,8 +90,6 @@
 
 <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js"
         data-turbolinks-eval="false" data-turbo-eval="false"></script>
-{{--<script src="{{ mix('js/turbo.js') }}" defer></script>--}}
-{{--<script src="{{ URL::asset('/assets/js/app.min.js') }}" defer></script>--}}
 <script >
 
     $(document).on('ready turbolinks:load', function () {
@@ -133,8 +128,6 @@
                 var country12 = countryDataLog[i];
                 var optionNode12 = document.createElement("option");
                 optionNode12.value = country12.iso2;
-                // var textNode = document.createTextNode(country.name);
-                // optionNode.appendChild(textNode);
             }
             inputlog.focus();
             $("#password").focus();
@@ -143,23 +136,16 @@
                 if (inputlog.value.trim()) {
                     // console.log(itiAddContact.isValidNumber());
                     if (itiLog.isValidNumber()) {
-                        // validMsg.classList.add("invisible");
-                        // errorMsg.classList.add("invisible");
                         $("#signin").prop("disabled", false);
 
                     } else {
                         $("#signin").prop("disabled", true);
                         inputlog.classList.add("error");
-                        // var errorCode = itiLog.getValidationError();
-                        // errorMsg.innerHTML = errorMap[errorCode];
-                        // errorMsg.classList.remove("invisible");
                     }
                 } else {
                     $("#signin").prop("disabled", true);
                     inputlog.classList.add("error");
                     var errorCode = itiLog.getValidationError();
-                    // errorMsg.innerHTML = errorMap[errorCode];
-                    // errorMsg.classList.remove("invisible");
                 }
             });
             resetLog();
@@ -184,8 +170,6 @@
                 var country = countryData[i];
                 var optionNode = document.createElement("option");
                 optionNode.value = country.iso2;
-                // var textNode = document.createTextNode(country.name);
-                // optionNode.appendChild(textNode);
             }
         }
         if (pathPage == 'forgetpassword') {
@@ -209,17 +193,10 @@
                 var country13 = countryDataforget[i];
                 var optionNode13 = document.createElement("option");
                 optionNode13.value = country13.iso2;
-                // var textNode = document.createTextNode(country.name);
-                // optionNode.appendChild(textNode);
             }
         }
 
         function resetforget() {
-
-            // input.classList.remove("error");
-            // errorMsg.innerHTML = "";
-            // errorMsg.classList.add("hide");
-            // validMsg.classList.add("hide");
             $("#submit_form").prop("disabled", false);
             var phone = itiforget.getNumber();
             var textNode = document.createTextNode(phone);
@@ -228,38 +205,26 @@
             mobile = $("#phoneforget").val();
             var countryData = itiforget.getSelectedCountryData();
             phone = '00' + countryData.dialCode + phone;
-            // $("#output").val(phone);
             $("#outputforget").val(phone);
-            // window.livewire.emit('changefullNumber', phone);
-            // window.livewire.emit('changefullNumber');
             $("#ccodeforget").val(countryData.dialCode);
             $("#ccodeforget").val(countryData.dialCode);
             fullphone = $("#outputforget").val();
         };
         function reset() {
-            // input.classList.remove("error");
-            // errorMsg.innerHTML = "";
-            // errorMsg.classList.add("hide");
-            // validMsg.classList.add("hide");
-            // $("#submit_form").prop("disabled", false);
+
             var phone = iti.getNumber();
             var textNode = document.createTextNode(phone);
-            // console.log('phone333', phone);
             phone = phone.replace('+', '00');
             mobile = $("#phonereg").val();
             var countryData = iti.getSelectedCountryData();
             phone = '00' + countryData.dialCode + phone;
-            // $("#output").val(phone);
             $("#output").val(phone);
-            // window.livewire.emit('changefullNumber', phone);
-            // window.livewire.emit('changefullNumber');
             $("#ccode").val(countryData.dialCode);
             $("#ccodelog").val(countryData.dialCode);
             $("#iso2Country").val(countryData.iso2);
             fullphone = $("#output").val();
         };
         function resetLog() {
-            // alert(document.getElementById("phone").value) ;
             $("#signin").prop("disabled", false);
             var phone = itiLog.getNumber();
             var textNode = document.createTextNode(phone);
@@ -270,7 +235,6 @@
             phone = '00' + countryData.dialCode + phone;
             $("#ccodelog").val(countryData.dialCode);
             $("#isoCountryLog").val(countryData.iso2);
-            // console.log(inputlog.value.trim()) ;
             if (inputlog.value.trim()) {
                 if (itiLog.isValidNumber()) {
                     $("#signin").prop("disabled", false);

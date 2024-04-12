@@ -11,7 +11,6 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <!--    <h5 class="card-title mb-0">Alternative Pagination</h5>-->
                     </div>
                     <div class="card-body table-responsive">
                         <table id="userPurchase_table" class="table nowrap dt-responsive align-middle table-hover table-bordered" style="width:100%">
@@ -40,5 +39,4 @@
             <!--end col-->
         </div>
         <!--end row-->
-
 </div>

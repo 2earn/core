@@ -3,7 +3,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
     <script data-turbolinks-eval="false">
-        // $(document).on('ready turbolinks:load', function () {
         var existeUserContact = '{{Session::has('existeUserContact')}}';
 
         if (existeUserContact) {
@@ -22,7 +21,6 @@
                 }
             })
             ;
-            // window.location.reload();
         }
 
         var toEditForm = '{{Session::has('toEditForm')}}';
@@ -126,10 +124,6 @@
                                             <i class="ri-more-fill align-middle"></i>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
-{{--                                            <li><a href="" class="dropdown-item"><i--}}
-{{--                                                        class="ri-eye-fill align-bottom me-2 text-muted"></i> {{__('View')}}--}}
-{{--                                                </a>--}}
-{{--                                            </li>--}}
                                             <li><a
                                                     href="{{ route('editContact2', ['locale' =>  app()->getLocale(), 'UserContact'=>  $value->id  ]) }}"
                                                     class="dropdown-item edit-item-btn"><i
@@ -158,16 +152,7 @@
         </div>
         <!--end col-->
     </div>
-{{--    <div class="row">--}}
-{{--        <h4 style="padding-top: 5px" class="card-title">{{ __('Import Your Contact') }} </h4>--}}
-{{--        <div class="input-group">--}}
-{{--            <label for="inputGroupFileAddon03"  >Select Image</label>--}}
-{{--            <button class="btn btn-outline-primary" type="button" id="inputGroupFileAddon03">{{ __('Save') }}</button>--}}
-{{--            <input value="55" type="file" class="form-control" id="inputGroupFile03" aria-describedby="inputGroupFileAddon03"--}}
-{{--                   aria-label="Upload">--}}
-{{--        </div>--}}
 
-{{--    </div>--}}
 <!-- Modal -->
     <div wire:ignore.self class="modal fade zoomIn" id="deleteRecordModal" tabindex="-1"
          aria-labelledby="deleteRecordLabel" aria-hidden="true">
@@ -362,7 +347,6 @@
 
         function editContactFunction() {
 
-            // window.livewire.emit('inituserContact', dd);
             inputphone = document.getElementById("mobileField").value;
             inputid = document.getElementById("id-field").value;
             inputname = document.getElementById("nameField").value;
@@ -373,7 +357,6 @@
 
         function deleteId(dd) {
 
-            // console.log(itemId);
              window.livewire.emit('deleteId', dd);
 
 
@@ -381,7 +364,6 @@
 
         function deleteContact(dd) {
             window.livewire.emit('deleteContact', dd);
-            // $('#contacts_table').DataTable().ajax.reload( );
         }
 
 

@@ -97,6 +97,5 @@
 <script src="{{ URL::asset('assets/libs/filepond-plugin-file-encode/filepond-plugin-file-encode.min.js') }}"></script>
 <!--nft create init js-->
 <script src="{{ URL::asset('assets/js/pages/apps-nft-create.init.js') }}"></script>
-
 <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
 @endsection
