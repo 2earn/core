@@ -4,20 +4,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
     <script data-turbolinks-eval="false">
         // $(document).on('ready turbolinks:load', function () {
-        var existeUserContact = '{{Session::has('existeUserContact')}}';
+        var existeUserContact = '<?php echo e(Session::has('existeUserContact')); ?>';
 
         if (existeUserContact) {
             Swal.fire({
-                title: '{{trans('user_existe_déja')}}',
-                text: '{{trans('changer_contact')}}',
+                title: '<?php echo e(trans('user_existe_déja')); ?>',
+                text: '<?php echo e(trans('changer_contact')); ?>',
                 icon: "warning",
                 showCancelButton: true,
-                cancelButtonText: '{{trans('canceled !')}}',
-                confirmButtonText: '{{trans('Yes')}}',
+                cancelButtonText: '<?php echo e(trans('canceled !')); ?>',
+                confirmButtonText: '<?php echo e(trans('Yes')); ?>',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    const iddd = '{{Session::get('sessionIdUserExiste')}}';
-                    var url = "{{ route('editContact2', ['locale' =>  app()->getLocale(), 'UserContact'=> Session::get('sessionIdUserExiste')]) }}";
+                    const iddd = '<?php echo e(Session::get('sessionIdUserExiste')); ?>';
+                    var url = "<?php echo e(route('editContact2', ['locale' =>  app()->getLocale(), 'UserContact'=> Session::get('sessionIdUserExiste')])); ?>";
                     document.location.href = url;
                 }
             })
@@ -25,7 +25,7 @@
             // window.location.reload();
         }
 
-        var toEditForm = '{{Session::has('toEditForm')}}';
+        var toEditForm = '<?php echo e(Session::has('toEditForm')); ?>';
         if (toEditForm) {
 
             var someTabTriggerEl = document.querySelector('#pills-AddContact-tab');
@@ -33,16 +33,16 @@
             tab.show();
         }
 
-        var existUpdate = '{{Session::has('SessionUserUpdated')}}';
+        var existUpdate = '<?php echo e(Session::has('SessionUserUpdated')); ?>';
         if (existUpdate) {
 
             toastr.success('Succées');
         }
 
     </script>
-    @component('components.breadcrumb')
-        @slot('title') {{ __('You Contacts') }} @endslot
-    @endcomponent
+    <?php $__env->startComponent('components.breadcrumb'); ?>
+        <?php $__env->slot('title'); ?> <?php echo e(__('You Contacts')); ?> <?php $__env->endSlot(); ?>
+    <?php echo $__env->renderComponent(); ?>
     <div class="row">
         <div class="col-lg-12">
             <div class="card" id="leadsList">
@@ -53,7 +53,7 @@
                             <div class="hstack gap-2">
                                 <button type="button" class="btn btn-secondary add-btn btn2earn" data-bs-toggle="modal"
                                         id="create-btn" data-bs-target="#showModal" hidden><i
-                                        class="ri-add-line align-bottom me-1" hidden></i> {{ __('Add a contact') }}</button>
+                                        class="ri-add-line align-bottom me-1" hidden></i> <?php echo e(__('Add a contact')); ?></button>
 
                             </div>
                         </div>
@@ -65,43 +65,44 @@
                         <thead class="table-light">
                         <tr class="tabHeader2earn">
 
-                            <th class="sort" data-sort="name">{{ __('Name') }}</th>
-                            <th class="sort" data-sort="lastName">{{ __('Last Name') }}</th>
-                            <th class="sort" data-sort="mobile">{{ __('Phone') }}</th>
-                            <th class="sort" data-sort="mobile">{{__('Country')}}</th>
-                            <th class="sort" data-sort="mobile">{{__('reserve')}}</th>
-                            <th>{{ __('Actions') }}</th>
+                            <th class="sort" data-sort="name"><?php echo e(__('Name')); ?></th>
+                            <th class="sort" data-sort="lastName"><?php echo e(__('Last Name')); ?></th>
+                            <th class="sort" data-sort="mobile"><?php echo e(__('Phone')); ?></th>
+                            <th class="sort" data-sort="mobile"><?php echo e(__('Country')); ?></th>
+                            <th class="sort" data-sort="mobile"><?php echo e(__('reserve')); ?></th>
+                            <th><?php echo e(__('Actions')); ?></th>
                         </tr>
                         </thead>
                         <tbody class="list form-check-all">
-                        @foreach ($contactUser as $value)
+                        <?php $__currentLoopData = $contactUser; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr>
 
                                 <td>
-                                    {{ $value->name}}
+                                    <?php echo e($value->name); ?>
+
                                 </td>
-                                <td>{{$value->lastName}}</td>
-                                <td>{{$value->mobile}}</td>
+                                <td><?php echo e($value->lastName); ?></td>
+                                <td><?php echo e($value->mobile); ?></td>
 
                                 <td>
                                     <div class="d-flex align-items-center fw-medium">
                                         <img
-                                            src="{{ URL::asset('assets/images/flags/'.   Illuminate\Support\Str::lower($value->apha2)  .'.svg') }}"
+                                            src="<?php echo e(URL::asset('assets/images/flags/'.   Illuminate\Support\Str::lower($value->apha2)  .'.svg')); ?>"
                                             alt="" class="avatar-xxs me-2">
                                         <a href="javascript:void(0);"
-                                           class="currency_name"> {{getCountryByIso($value->apha2)}}</a>
+                                           class="currency_name"> <?php echo e(getCountryByIso($value->apha2)); ?></a>
                                     </div>
                                 </td>
-                                @php
+                                <?php
 
                                     $disableUntil = getSwitchBlock($value->id);
                                     if($value->availablity == 1) $disableUntil = now();
                                     else $disableUntil = getSwitchBlock($value->id);// Désactiver le commutateur jusqu'à 24 heures à partir de maintenant
-                                @endphp
+                                ?>
                                 <td>
                                     <div class="form-check form-switch form-switch-custom form-switch-success mb-3">
-                                        <input type="checkbox" class="balance-switch-c form-check-input" role="switch" data-id="{{$value->id}}"
-                                        {{$value->availablity == 1 ? 'checked' : ''}}  {{$disableUntil > now()   ? 'disabled' : ''}}></div></td>
+                                        <input type="checkbox" class="balance-switch-c form-check-input" role="switch" data-id="<?php echo e($value->id); ?>"
+                                        <?php echo e($value->availablity == 1 ? 'checked' : ''); ?>  <?php echo e($disableUntil > now()   ? 'disabled' : ''); ?>></div></td>
                                 <td>
                                     <script>
                                         $(document).on('change', '.balance-switch-c', function () {
@@ -109,9 +110,9 @@
                                             var status = $(this).prop('checked');
                                             // Make an AJAX request to update the status
                                             $.ajax({
-                                                url: '{{ route('update-reserve-date') }}', // Adjust the endpoint URL
+                                                url: '<?php echo e(route('update-reserve-date')); ?>', // Adjust the endpoint URL
                                                 method: 'POST',
-                                                data: { id: id, status: status,"_token": "{{ csrf_token() }}" },
+                                                data: { id: id, status: status,"_token": "<?php echo e(csrf_token()); ?>" },
                                                 success: function (data) {
                                                 },
                                                 error: function (xhr, status, error) {
@@ -126,27 +127,28 @@
                                             <i class="ri-more-fill align-middle"></i>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
-{{--                                            <li><a href="" class="dropdown-item"><i--}}
-{{--                                                        class="ri-eye-fill align-bottom me-2 text-muted"></i> {{__('View')}}--}}
-{{--                                                </a>--}}
-{{--                                            </li>--}}
+
+
+
+
                                             <li><a
-                                                    href="{{ route('editContact2', ['locale' =>  app()->getLocale(), 'UserContact'=>  $value->id  ]) }}"
+                                                    href="<?php echo e(route('editContact2', ['locale' =>  app()->getLocale(), 'UserContact'=>  $value->id  ])); ?>"
                                                     class="dropdown-item edit-item-btn"><i
                                                         class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                    {{__('Edit')}}</a></li>
+                                                    <?php echo e(__('Edit')); ?></a></li>
                                             <li>
-                                                <a onclick="deleteId('{{$value->id}}')"
+                                                <a onclick="deleteId('<?php echo e($value->id); ?>')"
                                                    class="dropdown-item remove-item-btn">
                                                     <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
-                                                    {{__('Delete')}}
+                                                    <?php echo e(__('Delete')); ?>
+
                                                 </a>
                                             </li>
                                         </ul>
                                     </div>
                                 </td>
                             </tr>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
 
                         </tbody>
@@ -158,16 +160,16 @@
         </div>
         <!--end col-->
     </div>
-{{--    <div class="row">--}}
-{{--        <h4 style="padding-top: 5px" class="card-title">{{ __('Import Your Contact') }} </h4>--}}
-{{--        <div class="input-group">--}}
-{{--            <label for="inputGroupFileAddon03"  >Select Image</label>--}}
-{{--            <button class="btn btn-outline-primary" type="button" id="inputGroupFileAddon03">{{ __('Save') }}</button>--}}
-{{--            <input value="55" type="file" class="form-control" id="inputGroupFile03" aria-describedby="inputGroupFileAddon03"--}}
-{{--                   aria-label="Upload">--}}
-{{--        </div>--}}
 
-{{--    </div>--}}
+
+
+
+
+
+
+
+
+
 <!-- Modal -->
     <div wire:ignore.self class="modal fade zoomIn" id="deleteRecordModal" tabindex="-1"
          aria-labelledby="deleteRecordLabel" aria-hidden="true">
@@ -181,15 +183,15 @@
                     <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
                                colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
                     <div class="mt-4 text-center">
-                        <h4 class="fs-semibold">{{__('Delete_Confirm')}} </h4>
-                        <p class="text-muted fs-14 mb-4 pt-1">{{__('Are_you_sure_want_to_delete?')}}</p>
+                        <h4 class="fs-semibold"><?php echo e(__('Delete_Confirm')); ?> </h4>
+                        <p class="text-muted fs-14 mb-4 pt-1"><?php echo e(__('Are_you_sure_want_to_delete?')); ?></p>
                         <div class="hstack gap-2 justify-content-center remove">
                             <button class="btn btn-link link-success fw-medium text-decoration-none"
                                     id="deleteRecord-close" data-bs-dismiss="modal"><i
                                     class="ri-close-line me-1 align-middle"></i>
-                                {{__('Close')}}</button>
+                                <?php echo e(__('Close')); ?></button>
                             <button class="btn btn-danger" onclick="deleteId()"
-                                    id="delete-record">{{__('Yes, Delete')}}</button>
+                                    id="delete-record"><?php echo e(__('Yes, Delete')); ?></button>
                         </div>
                     </div>
                 </div>
@@ -206,17 +208,32 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                             id="close-modal"></button>
                 </div>
-                @error('name') <span
-                    class="error alert-danger">{{ $message }}</span> @enderror
-                @error('lastName') <span
-                    class="error alert-danger  ">{{ $message }}</span> @enderror
-                @if(Session::has('message'))
+                <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <span
+                    class="error alert-danger"><?php echo e($message); ?></span> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                <?php $__errorArgs = ['lastName'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <span
+                    class="error alert-danger  "><?php echo e($message); ?></span> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                <?php if(Session::has('message')): ?>
                     <div class="alert alert-danger" role="alert">
-                        {{ Session::get('message')}}
+                        <?php echo e(Session::get('message')); ?>
+
                     </div>
-                @endif
+                <?php endif; ?>
                 <form action="">
-                    @csrf
+                    <?php echo csrf_field(); ?>
                     <div class="modal-body">
                         <input id="id-field" style="display: none"
                                type="text"
@@ -226,7 +243,7 @@
                             <div class="col-lg-12">
 
                                 <div>
-                                    <label for="nameField" class="form-label">{{ __('Name') }}</label>
+                                    <label for="nameField" class="form-label"><?php echo e(__('Name')); ?></label>
                                     <input id="nameField"
                                            type="text"
                                            class="form-control" wire:model.defer="name" name="nameField"
@@ -236,7 +253,7 @@
                             <!--end col-->
                             <div class="col-lg-12">
                                 <div>
-                                    <label for="lastNameField" class="form-label">{{ __('Last Name') }}</label>
+                                    <label for="lastNameField" class="form-label"><?php echo e(__('Last Name')); ?></label>
                                     <input id="lastNameField"
                                            type="text"
                                            class="form-control" wire:model.defer="lastName" name="lastNameField"
@@ -246,11 +263,11 @@
                             <div class=" col-lg-12">
                                 <div class="mb-3">
                                     <label for="username"
-                                           class="form-label">{{ __('Mobile Number') }}</label><br>
+                                           class="form-label"><?php echo e(__('Mobile Number')); ?></label><br>
                                     <input type="tel" name="mobile" id="ipAdd2Contact"
                                            class="form-control"
                                            value=""
-                                           placeholder="{{ __('PH_MobileNumber') }}">
+                                           placeholder="<?php echo e(__('PH_MobileNumber')); ?>">
 
                                     <input type='hidden' name='fullnumber' id='outputAdd2Contact' class='form-control'>
                                     <input type='hidden' name='ccodeAdd2Contact' id='ccodeAdd2Contact'>
@@ -262,9 +279,9 @@
                     <div class="modal-footer">
                         <div class="hstack gap-2 justify-content-end">
                             <button type="button" class="btn btn-light"
-                                    data-bs-dismiss="modal">{{ __('Close') }}</button>
+                                    data-bs-dismiss="modal"><?php echo e(__('Close')); ?></button>
                             <button type="button" onclick="saveContactEvent()" class="btn btn-success"
-                                    id="add-btn">{{__('Save')}}</button>
+                                    id="add-btn"><?php echo e(__('Save')); ?></button>
                         </div>
                     </div>
 
@@ -278,21 +295,22 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title"
-                        id="deleteModalLabel">{{__('Delete_Confirm')}} </h5>
+                        id="deleteModalLabel"><?php echo e(__('Delete_Confirm')); ?> </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close">
                         <span aria-hidden="true close-btn">×</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>{{__('Are_you_sure_want_to_delete?')}}</p>
+                    <p><?php echo e(__('Are_you_sure_want_to_delete?')); ?></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary close-btn"
-                            data-bs-dismiss="modal">{{__('Close')}}</button>
+                            data-bs-dismiss="modal"><?php echo e(__('Close')); ?></button>
                     <button type="button" wire:click.prevent="delete()"
                             class="btn btn-danger close-modal"
-                            data-bs-dismiss="modal">{{__('Yes, Delete')}}
+                            data-bs-dismiss="modal"><?php echo e(__('Yes, Delete')); ?>
+
                     </button>
                 </div>
             </div>
@@ -302,25 +320,26 @@
          aria-labelledby="exampleModalLabel" data-bs-backdrop="static"
          data-bs-keyboard="false">
         <div wire:ignore class=" modal-dialog modal-dialog-centered " role="document">
-            {{--                modal-dialog-centered--}}
+            
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title"
-                        id="ImportModalLabel">{{ __('Import Your Contact') }}</h5>
+                        id="ImportModalLabel"><?php echo e(__('Import Your Contact')); ?></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body">
                     <form id="basic-form" enctype="multipart/form-data">
-                        @csrf
+                        <?php echo csrf_field(); ?>
                         <div class="row">
                             <div class="alert alert-info" role="alert">
-                                {{ __('Only Csv files') }}
+                                <?php echo e(__('Only Csv files')); ?>
+
                             </div>
                             <form style="display: flex" action=""
                                   enctype="multipart/form-data">
-                                @csrf
+                                <?php echo csrf_field(); ?>
                                 <div class="input-group">
                                     <input type="text" name="idUser" value="197604161"
                                            hidden>
@@ -330,7 +349,7 @@
                                            aria-label="Upload" accept=".csv"
                                            onchange="uploadFile()">
                                     <button class="btn btn-secondary" type="button"
-                                            id="inputGroupFileAddon03">{{ __('Import') }}</button>
+                                            id="inputGroupFileAddon03"><?php echo e(__('Import')); ?></button>
                                 </div>
                             </form>
 
@@ -394,7 +413,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
     <script data-turbolinks-eval="false">
-        var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";
+        var lan = "<?php echo e(config('app.available_locales')[app()->getLocale()]['tabLang']); ?>";
         var urlLang = "//cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
         $('#customerTable2').DataTable(
             {
@@ -413,3 +432,4 @@
 
     </script>
 </div>
+<?php /**PATH C:\Users\ghazi\Documents\GitHub\2earnprod\resources\views/livewire/contacts.blade.php ENDPATH**/ ?>
