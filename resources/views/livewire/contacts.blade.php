@@ -95,8 +95,8 @@
                                 </td>
                                 <td><span class="badge rounded-pill {{$value->color}}"><i class="mdi mdi-circle-medium">{{$value->status}}</i> </span></td>
 
-                               
-                                
+
+
                                 @php
 
                                     $disableUntil = getSwitchBlock($value->id);

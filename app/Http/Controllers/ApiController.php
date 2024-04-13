@@ -14,7 +14,7 @@ use Core\Models\identificationuserrequest;
 use Core\Models\user_balance;
 use Core\Models\UserContact;
 use Core\Models\metta_user;
-
+ 
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
 use Illuminate\Routing\Controller as BaseController;

@@ -35,6 +35,7 @@ $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
     App\Console\Kernel::class
 );
+$app->register(\LaravelMigrationGenerator\LaravelMigrationGeneratorProvider::class); 
 
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
