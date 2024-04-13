@@ -14,9 +14,6 @@ document.addEventListener('DOMContentLoaded', function () {
   var table = new DataTable('#example');
 });
 document.addEventListener('DOMContentLoaded', function () {
-  var table = new DataTable('#customerTable2');
-});
-document.addEventListener('DOMContentLoaded', function () {
   var table = new DataTable('#scroll-vertical', {
     "scrollY": "210px",
     "scrollCollapse": true,
@@ -45,9 +42,6 @@ $(document).ready(function () {
 });
 $(document).ready(function () {
   $('#example').DataTable();
-});
-$(document).ready(function () {
-  $('#customerTable2').DataTable();
 }); //fixed header
 
 document.addEventListener('DOMContentLoaded', function () {

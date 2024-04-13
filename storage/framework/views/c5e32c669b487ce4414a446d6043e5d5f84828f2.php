@@ -69,6 +69,7 @@
                             <th class="sort" data-sort="lastName"><?php echo e(__('Last Name')); ?></th>
                             <th class="sort" data-sort="mobile"><?php echo e(__('Phone')); ?></th>
                             <th class="sort" data-sort="mobile"><?php echo e(__('Country')); ?></th>
+                            <th class="sort" data-sort="mobile"><?php echo e(__('registred')); ?></th>
                             <th class="sort" data-sort="mobile"><?php echo e(__('reserve')); ?></th>
                             <th><?php echo e(__('Actions')); ?></th>
                         </tr>
@@ -93,6 +94,10 @@
                                            class="currency_name"> <?php echo e(getCountryByIso($value->apha2)); ?></a>
                                     </div>
                                 </td>
+                                <td><span class="badge rounded-pill <?php echo e($value->color); ?>"><i class="mdi mdi-circle-medium"><?php echo e($value->status); ?></i> </span></td>
+
+                               
+                                
                                 <?php
 
                                     $disableUntil = getSwitchBlock($value->id);

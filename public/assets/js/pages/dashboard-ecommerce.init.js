@@ -3,48 +3,71 @@ var __webpack_exports__ = {};
 /*!********************************************************!*\
   !*** ./resources/js/pages/dashboard-ecommerce.init.js ***!
   \********************************************************/
-/*
-Template Name: Velzon - Admin & Dashboard Template
-Author: Themesbrand
-Website: https://Themesbrand.com/
-Contact: Themesbrand@gmail.com
-File: Ecommerce Dashboard init js
-*/
-// get colors array from the string
-function getChartColorsArray(chartId) {
-  if (document.getElementById(chartId) !== null) {
-    var colors = document.getElementById(chartId).getAttribute("data-colors");
+function getChartColorsArray(e) {
+  if (null !== document.getElementById(e)) {
+    var _ref, _document$getElementB;
 
-    if (colors) {
-      colors = JSON.parse(colors);
-      return colors.map(function (value) {
-        var newValue = value.replace(" ", "");
-
-        if (newValue.indexOf(",") === -1) {
-          var color = getComputedStyle(document.documentElement).getPropertyValue(newValue);
-          if (color) return color;else return newValue;
-        } else {
-          var val = value.split(",");
-
-          if (val.length == 2) {
-            var rgbaColor = getComputedStyle(document.documentElement).getPropertyValue(val[0]);
-            rgbaColor = "rgba(" + rgbaColor + "," + val[1] + ")";
-            return rgbaColor;
-          } else {
-            return newValue;
-          }
-        }
-      });
-    } else {
-      console.warn('data-colors atributes not found on', chartId);
-    }
+    var t = "data-colors" + ((_ref = "-" + document.documentElement.getAttribute("data-theme")) !== null && _ref !== void 0 ? _ref : ""),
+        t = (_document$getElementB = document.getElementById(e).getAttribute(t)) !== null && _document$getElementB !== void 0 ? _document$getElementB : document.getElementById(e).getAttribute("data-colors");
+    if (t) return (t = JSON.parse(t)).map(function (e) {
+      var t = e.replace(" ", "");
+      return -1 === t.indexOf(",") ? getComputedStyle(document.documentElement).getPropertyValue(t) || t : 2 == (e = e.split(",")).length ? "rgba(" + getComputedStyle(document.documentElement).getPropertyValue(e[0]) + "," + e[1] + ")" : t;
+    });
+    console.warn("data-colors attributes not found on", e);
   }
 }
 
-var linechartcustomerColors = getChartColorsArray("customer_impression_charts");
+var worldemapmarkers = "",
+    storeVisitsSourceChart = "",
+    customerImpressionChart = "";
 
-if (linechartcustomerColors) {
-  var options = {
+function loadCharts() {
+  var e,
+      t = getChartColorsArray("sales-by-locations");
+  t && (document.getElementById("sales-by-locations").innerHTML = "", worldemapmarkers = "", worldemapmarkers = new jsVectorMap({
+    map: "world_merc",
+    selector: "#sales-by-locations",
+    zoomOnScroll: !1,
+    zoomButtons: !1,
+    selectedMarkers: [0, 5],
+    regionStyle: {
+      initial: {
+        stroke: "#9599ad",
+        strokeWidth: .25,
+        fill: t[0],
+        fillOpacity: 1
+      }
+    },
+    markersSelectable: !0,
+    markers: [{
+      name: "Palestine",
+      coords: [31.9474, 35.2272]
+    }, {
+      name: "Russia",
+      coords: [61.524, 105.3188]
+    }, {
+      name: "Canada",
+      coords: [56.1304, -106.3468]
+    }, {
+      name: "Greenland",
+      coords: [71.7069, -42.6043]
+    }],
+    markerStyle: {
+      initial: {
+        fill: t[1]
+      },
+      selected: {
+        fill: t[2]
+      }
+    },
+    labels: {
+      markers: {
+        render: function render(e) {
+          return e.name;
+        }
+      }
+    }
+  })), (t = getChartColorsArray("customer_impression_charts")) && (e = {
     series: [{
       name: "Orders",
       type: "area",
@@ -62,7 +85,7 @@ if (linechartcustomerColors) {
       height: 370,
       type: "line",
       toolbar: {
-        show: false
+        show: !1
       }
     },
     stroke: {
@@ -71,7 +94,7 @@ if (linechartcustomerColors) {
       width: [2, 0, 2.2]
     },
     fill: {
-      opacity: [0.1, 0.9, 1]
+      opacity: [.1, .9, 1]
     },
     markers: {
       size: [0, 0, 0],
@@ -83,22 +106,22 @@ if (linechartcustomerColors) {
     xaxis: {
       categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
       axisTicks: {
-        show: false
+        show: !1
       },
       axisBorder: {
-        show: false
+        show: !1
       }
     },
     grid: {
-      show: true,
+      show: !0,
       xaxis: {
         lines: {
-          show: true
+          show: !0
         }
       },
       yaxis: {
         lines: {
-          show: false
+          show: !1
         }
       },
       padding: {
@@ -109,7 +132,7 @@ if (linechartcustomerColors) {
       }
     },
     legend: {
-      show: true,
+      show: !0,
       horizontalAlign: "center",
       offsetX: 0,
       offsetY: -5,
@@ -129,45 +152,25 @@ if (linechartcustomerColors) {
         barHeight: "70%"
       }
     },
-    colors: linechartcustomerColors,
+    colors: t,
     tooltip: {
-      shared: true,
+      shared: !0,
       y: [{
-        formatter: function formatter(y) {
-          if (typeof y !== "undefined") {
-            return y.toFixed(0);
-          }
-
-          return y;
+        formatter: function formatter(e) {
+          return void 0 !== e ? e.toFixed(0) : e;
         }
       }, {
-        formatter: function formatter(y) {
-          if (typeof y !== "undefined") {
-            return "$" + y.toFixed(2) + "k";
-          }
-
-          return y;
+        formatter: function formatter(e) {
+          return void 0 !== e ? "$" + e.toFixed(2) + "k" : e;
         }
       }, {
-        formatter: function formatter(y) {
-          if (typeof y !== "undefined") {
-            return y.toFixed(0) + " Sales";
-          }
-
-          return y;
+        formatter: function formatter(e) {
+          return void 0 !== e ? e.toFixed(0) + " Sales" : e;
         }
       }]
     }
-  };
-  var chart = new ApexCharts(document.querySelector("#customer_impression_charts"), options);
-  chart.render();
-} // Simple Donut Charts
-
-
-var chartDonutBasicColors = getChartColorsArray("store-visits-source");
-
-if (chartDonutBasicColors) {
-  var options = {
+  }, "" != customerImpressionChart && customerImpressionChart.destroy(), (customerImpressionChart = new ApexCharts(document.querySelector("#customer_impression_charts"), e)).render());
+  (t = getChartColorsArray("store-visits-source")) && (e = {
     series: [44, 55, 41, 17, 15],
     labels: ["Direct", "Social", "Email", "Other", "Referrals"],
     chart: {
@@ -178,132 +181,52 @@ if (chartDonutBasicColors) {
       position: "bottom"
     },
     stroke: {
-      show: false
+      show: !1
     },
     dataLabels: {
       dropShadow: {
-        enabled: false
+        enabled: !1
       }
     },
-    colors: chartDonutBasicColors
-  };
-  var chart = new ApexCharts(document.querySelector("#store-visits-source"), options);
-  chart.render();
-} // world map with markers
+    colors: t
+  }, "" != storeVisitsSourceChart && storeVisitsSourceChart.destroy(), (storeVisitsSourceChart = new ApexCharts(document.querySelector("#store-visits-source"), e)).render());
+}
 
-
-var vectorMapWorldMarkersColors = getChartColorsArray("sales-by-locations");
-
-if (vectorMapWorldMarkersColors) {
-  var worldemapmarkers = new jsVectorMap({
-    map: "world_merc",
-    selector: "#sales-by-locations",
-    zoomOnScroll: false,
-    zoomButtons: false,
-    selectedMarkers: [0, 5],
-    regionStyle: {
-      initial: {
-        stroke: "#9599ad",
-        strokeWidth: 0.25,
-        fill: vectorMapWorldMarkersColors[0],
-        fillOpacity: 1
-      }
-    },
-    markersSelectable: true,
-    markers: [{
-      name: "Palestine",
-      coords: [31.9474, 35.2272]
-    }, {
-      name: "Russia",
-      coords: [61.524, 105.3188]
-    }, {
-      name: "Canada",
-      coords: [56.1304, -106.3468]
-    }, {
-      name: "Greenland",
-      coords: [71.7069, -42.6043]
-    }],
-    markerStyle: {
-      initial: {
-        fill: vectorMapWorldMarkersColors[1]
-      },
-      selected: {
-        fill: vectorMapWorldMarkersColors[2]
-      }
-    },
-    labels: {
-      markers: {
-        render: function render(marker) {
-          return marker.name;
-        }
-      }
-    }
-  });
-} // Vertical Swiper
-
-
-var swiper = new Swiper(".vertical-swiper", {
+window.onresize = function () {
+  setTimeout(function () {
+    loadCharts();
+  }, 0);
+}, loadCharts();
+var overlay,
+    swiper = new Swiper(".vertical-swiper", {
   slidesPerView: 2,
   spaceBetween: 10,
-  mousewheel: true,
-  loop: true,
+  mousewheel: !0,
+  loop: !0,
   direction: "vertical",
   autoplay: {
     delay: 2500,
-    disableOnInteraction: false
+    disableOnInteraction: !1
   }
-});
-var layoutRightSideBtn = document.querySelector('.layout-rightside-btn');
-
-if (layoutRightSideBtn) {
-  Array.from(document.querySelectorAll(".layout-rightside-btn")).forEach(function (item) {
-    var userProfileSidebar = document.querySelector(".layout-rightside-col");
-    item.addEventListener("click", function () {
-      if (userProfileSidebar.classList.contains("d-block")) {
-        userProfileSidebar.classList.remove("d-block");
-        userProfileSidebar.classList.add("d-none");
-      } else {
-        userProfileSidebar.classList.remove("d-none");
-        userProfileSidebar.classList.add("d-block");
-      }
-    });
+}),
+    layoutRightSideBtn = document.querySelector(".layout-rightside-btn");
+layoutRightSideBtn && (Array.from(document.querySelectorAll(".layout-rightside-btn")).forEach(function (e) {
+  var t = document.querySelector(".layout-rightside-col");
+  e.addEventListener("click", function () {
+    t.classList.contains("d-block") ? (t.classList.remove("d-block"), t.classList.add("d-none")) : (t.classList.remove("d-none"), t.classList.add("d-block"));
   });
-  window.addEventListener("resize", function () {
-    var userProfileSidebar = document.querySelector(".layout-rightside-col");
-
-    if (userProfileSidebar) {
-      Array.from(document.querySelectorAll(".layout-rightside-btn")).forEach(function () {
-        if (window.outerWidth < 1699 || window.outerWidth > 3440) {
-          userProfileSidebar.classList.remove("d-block");
-        } else if (window.outerWidth > 1699) {
-          userProfileSidebar.classList.add("d-block");
-        }
-      });
-    }
-  });
-  var overlay = document.querySelector('.overlay');
-
-  if (overlay) {
-    document.querySelector(".overlay").addEventListener("click", function () {
-      if (document.querySelector(".layout-rightside-col").classList.contains('d-block') == true) {
-        document.querySelector(".layout-rightside-col").classList.remove("d-block");
-      }
-    });
-  }
-}
-
-window.addEventListener("load", function () {
-  var userProfileSidebar = document.querySelector(".layout-rightside-col");
-
-  if (userProfileSidebar) {
-    Array.from(document.querySelectorAll(".layout-rightside-btn")).forEach(function () {
-      if (window.outerWidth < 1699 || window.outerWidth > 3440) {
-        userProfileSidebar.classList.remove("d-block");
-      } else if (window.outerWidth > 1699) {
-        userProfileSidebar.classList.add("d-block");
-      }
-    });
-  }
+}), window.addEventListener("resize", function () {
+  var e = document.querySelector(".layout-rightside-col");
+  e && Array.from(document.querySelectorAll(".layout-rightside-btn")).forEach(function () {
+    window.outerWidth < 1699 || 3440 < window.outerWidth ? e.classList.remove("d-block") : 1699 < window.outerWidth && e.classList.add("d-block");
+  }), "semibox" == document.documentElement.getAttribute("data-layout") && (e.classList.remove("d-block"), e.classList.add("d-none"));
+}), overlay = document.querySelector(".overlay")) && document.querySelector(".overlay").addEventListener("click", function () {
+  1 == document.querySelector(".layout-rightside-col").classList.contains("d-block") && document.querySelector(".layout-rightside-col").classList.remove("d-block");
+}), window.addEventListener("load", function () {
+  var e = document.querySelector(".layout-rightside-col");
+  e && Array.from(document.querySelectorAll(".layout-rightside-btn")).forEach(function () {
+    window.outerWidth < 1699 || 3440 < window.outerWidth ? e.classList.remove("d-block") : 1699 < window.outerWidth && e.classList.add("d-block");
+  }), "semibox" == document.documentElement.getAttribute("data-layout") && 1699 < window.outerWidth && (e.classList.remove("d-block"), e.classList.add("d-none"));
 });
 /******/ })()
 ;
