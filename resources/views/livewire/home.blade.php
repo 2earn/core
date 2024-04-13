@@ -45,7 +45,7 @@
                                 <small class="text-muted fs-13">
                                     <?php $val = explode('.', number_format($cashBalance, 2))[1]  ?>
                                     @if($val>0)
-                                        .{{$val}}
+                                        .{{$val}}k
                                     @endif
                                 </small></h3>
                             <a href="{{route('user_balance_cb' , app()->getLocale() )}} "
@@ -94,7 +94,7 @@
                                     class="text-muted fs-13">
                                     <?php $val = explode('.', number_format($balanceForSopping, 2))[1]  ?>
                                         @if($val>0)
-                                            .{{$val}}
+                                            .{{$val}}k
                                         @endif
                                 </small></h3>
                             <a href="{{route('user_balance_bfs' , app()->getLocale() )}} "
@@ -144,7 +144,7 @@
                                     class="text-muted fs-13">
                                     <?php $val = explode('.', number_format($discountBalance, 2))[1]  ?>
                                         @if($val>0)
-                                            .{{$val}}
+                                            .{{$val}}k
                                         @endif
                                 </small></h4>
                             <a href="{{route('user_balance_db' , app()->getLocale() )}} "

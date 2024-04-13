@@ -46,8 +46,7 @@
                                 <small class="text-muted fs-13">
                                     <?php $val = explode('.', number_format($cashBalance, 2))[1]  ?>
                                     <?php if($val>0): ?>
-                                        .<?php echo e($val); ?>
-
+                                        .<?php echo e($val); ?>k
                                     <?php endif; ?>
                                 </small></h3>
                             <a href="<?php echo e(route('user_balance_cb' , app()->getLocale() )); ?> "
@@ -96,8 +95,7 @@
                                     class="text-muted fs-13">
                                     <?php $val = explode('.', number_format($balanceForSopping, 2))[1]  ?>
                                         <?php if($val>0): ?>
-                                            .<?php echo e($val); ?>
-
+                                            .<?php echo e($val); ?>k
                                         <?php endif; ?>
                                 </small></h3>
                             <a href="<?php echo e(route('user_balance_bfs' , app()->getLocale() )); ?> "
@@ -147,8 +145,7 @@
                                     class="text-muted fs-13">
                                     <?php $val = explode('.', number_format($discountBalance, 2))[1]  ?>
                                         <?php if($val>0): ?>
-                                            .<?php echo e($val); ?>
-
+                                            .<?php echo e($val); ?>k
                                         <?php endif; ?>
                                 </small></h4>
                             <a href="<?php echo e(route('user_balance_db' , app()->getLocale() )); ?> "

@@ -158,8 +158,6 @@
       <path value="$PROJECT_DIR$/vendor/ladumor/laravel-pwa" />
       <path value="$PROJECT_DIR$/vendor/silviolleite/laravelpwa" />
       <path value="$PROJECT_DIR$/vendor/paytabscom/laravel_paytabs" />
-      <path value="$PROJECT_DIR$/vendor/bennett-treptow/laravel-migration-generator" />
-      <path value="$PROJECT_DIR$/vendor/marcj/topsort" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />

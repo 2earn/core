@@ -69,7 +69,6 @@
                             <th class="sort" data-sort="lastName">{{ __('Last Name') }}</th>
                             <th class="sort" data-sort="mobile">{{ __('Phone') }}</th>
                             <th class="sort" data-sort="mobile">{{__('Country')}}</th>
-                            <th class="sort" data-sort="mobile">{{__('registred')}}</th>
                             <th class="sort" data-sort="mobile">{{__('reserve')}}</th>
                             <th>{{ __('Actions') }}</th>
                         </tr>
@@ -93,10 +92,6 @@
                                            class="currency_name"> {{getCountryByIso($value->apha2)}}</a>
                                     </div>
                                 </td>
-                                <td><span class="badge rounded-pill {{$value->color}}"><i class="mdi mdi-circle-medium">{{$value->status}}</i> </span></td>
-
-
-
                                 @php
 
                                     $disableUntil = getSwitchBlock($value->id);
