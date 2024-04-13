@@ -6,7 +6,7 @@ use Core\Models\UserContact;
 use Core\Services\settingsManager;
 use Core\Services\TransactionManager;
 use Livewire\Component;
-use Illuminate\Support\Facades\DB;
+
 class Contacts extends Component
 {
 
@@ -46,12 +46,10 @@ class Contacts extends Component
     {
         $userAuth = $settingsManager->getAuthUser();
         if(!$userAuth) abort(404);
-        $contactUser = DB::table('user_contacts1 as user_contacts')
-        ->join('users as u', 'user_contacts.idContact', '=', 'u.idUser')
-        ->join('countries as c', 'u.idCountry', '=', 'c.id')
-        ->where('user_contacts.idUser', 197604161)
-        ->select('user_contacts.id', 'user_contacts.name', 'user_contacts.lastName', 'u.mobile', 'u.availablity', 'c.apha2')
-        ->get();
+        $contactUser = UserContact:: join('countries', 'user_contacts.phonecode', '=', 'countries.phonecode')
+            ->select('user_contacts.id','user_contacts.name','user_contacts.lastName' ,'user_contacts.mobile','user_contacts.availablity', 'countries.apha2')
+        ->Where('idUser',$userAuth->idUser)
+            ->get();
 //dd($contactUser);
         return view('livewire.contacts',[
             'contactUser'=>$contactUser

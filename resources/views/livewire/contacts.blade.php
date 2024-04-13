@@ -52,8 +52,8 @@
                         <div class="col-sm-auto ms-auto">
                             <div class="hstack gap-2">
                                 <button type="button" class="btn btn-secondary add-btn btn2earn" data-bs-toggle="modal"
-                                        id="create-btn" data-bs-target="#showModal" hidden><i
-                                        class="ri-add-line align-bottom me-1" hidden></i> {{ __('Add a contact') }}</button>
+                                        id="create-btn" data-bs-target="#showModal"><i
+                                        class="ri-add-line align-bottom me-1"></i> {{ __('Add a contact') }}</button>
 
                             </div>
                         </div>
