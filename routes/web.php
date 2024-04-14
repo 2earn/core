@@ -101,7 +101,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('user_balance_cb', UserBalanceCB::class)->name('user_balance_cb');
 
 
-        Route::get('/paytabs/notification', PaymentController::class)->name('paytabs_notification');
+        //Route::get('/paytabs/notification', PaymentController::class)->name('paytabs_notification');
         Route::get('user_balance_db', UserBalanceDB::class)->name('user_balance_db');
         Route::get('user_balance_bfs', UserBalanceBFS::class)->name('user_balance_bfs');
         Route::get('financial_transaction', FinancialTransaction::class)->name('financial_transaction');
