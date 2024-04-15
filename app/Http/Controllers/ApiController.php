@@ -104,13 +104,14 @@ left join users user on user.idUser = recharge_requests.idUser";
         $b = getPhoneByUser($reciver);
         // dd($reciver_bfs);
         $reserve=getUserByContact($b);
-        //dd($b);
+
         if ($reserve){
             if ($reserve!=$reciver){
 
 
 
-                $setting=\Core\Models\Setting::WhereIn('idSETTINGS',['24','26','27','28'])->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
+                $setting=\Core\Models\Setting::WhereIn('idSETTINGS',['24','26','27','28'])->orderBy('idSETTINGS')->pluck('IntegerValue');
+
                 $prcShares=$setting[0];
                 $prcAmount=$setting[1];
                 $pcrCash=$setting[2];
@@ -130,6 +131,7 @@ left join users user on user.idUser = recharge_requests.idUser";
                 $user_balance->Description = 'sponsorship commission from '.$b;
                 $user_balance->Balance = 0;
                 $user_balance->save();
+
                 $amount=($number_of_action + $gift) * $PU*$prcAmount/100;
                 $user_balance = new user_balance();
                 $user_balance->ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
@@ -1113,26 +1115,38 @@ class="btn btn-xs btn-primary btn2earnTable"  >
     public function getUserContacts()
     {
 
-//        $this->settingsManager->getAuthUser()->idUser
-//        Lang::get('aside.Contact')
 
-        $query = UserContact::select('id', 'name', 'lastName', 'mobile','availablity')
-            ->where('idUser', '=', $this->settingsManager->getAuthUser()->idUser);
-        // $query=DB::table('countries')->select('id','name','phonecode','langage');
+        $contactUser = DB::table('user_contacts1 as user_contacts')
+            ->join('users as u', 'user_contacts.idContact', '=', 'u.idUser')
+            ->join('countries as c', 'u.idCountry', '=', 'c.id')
+            ->where('user_contacts.idUser', auth()->user()->idUser)
+            ->select('user_contacts.idUser','user_contacts.id', 'user_contacts.name', 'user_contacts.idContact', 'user_contacts.lastName',
+                'u.reserved_by', 'u.mobile', 'u.availablity', 'c.apha2','u.idUpline','u.reserved_at',
 
-        return datatables($query)->make(true);
+                DB::raw("CASE WHEN u.status = -2 THEN 'Pending' ELSE 'User' END AS status"));
+        return datatables($contactUser)
+            ->addColumn('action', function ($settings) {
+                return '<a onclick="editHAFunction(' . $settings->id . ')"   data-bs-toggle="modal" data-bs-target="#HistoryActionModal"  class="btn btn-xs btn-primary btn2earnTable"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a>
+<a  class="btn btn-xs btn-danger btn2earnTable"  ><i></i>' . Lang::get('Delete') . '</a>';})
+            ->addColumn('flag', function ($settings) {
 
-        /*  ->addColumn('action', function ($query) {
-              $ms = "Are you sure?";
-              return '<a
+                return '<img src="' . Asset("assets/images/flags/" . strtolower($settings->apha2)) . '.svg" alt="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
+            })
+            ->editColumn('status', function ($actionHistorys) {
+                if ($actionHistorys->status == "User")
+                    return '<span class="badge rounded-pill bg-success-subtle text-success"><i class="mdi mdi-circle-medium">User</i></span>';
+                else
+                    return '<span class="badge rounded-pill bg-warning-subtle text-warning"><i class="mdi mdi-circle-medium">Pending</i></span>';
+            })
+            ->rawColumns(['action','status','flag','availablity'])
+            ->make(true);
 
-class="btn btn-primary btn2earnTable">' . __('Edit') . '</a>
-<a  class="btn btn-danger btn2earnTable"
-class="btn btn-danger" data-bs-toggle="modal"  data-bs-target="#deleteModal" onclick="deleteId(' . $query->id . ')"
-  > ' . Lang::get("Delete") . '</a>';
-          })
-          ->rawColumns(['action'])
-          ->make(true);*/
+
+
+
+
+
+
     }
 
 

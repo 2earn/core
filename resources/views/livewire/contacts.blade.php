@@ -1,45 +1,5 @@
 <div>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
-    <script data-turbolinks-eval="false">
-        // $(document).on('ready turbolinks:load', function () {
-        var existeUserContact = '{{Session::has('existeUserContact')}}';
-
-        if (existeUserContact) {
-            Swal.fire({
-                title: '{{trans('user_existe_déja')}}',
-                text: '{{trans('changer_contact')}}',
-                icon: "warning",
-                showCancelButton: true,
-                cancelButtonText: '{{trans('canceled !')}}',
-                confirmButtonText: '{{trans('Yes')}}',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const iddd = '{{Session::get('sessionIdUserExiste')}}';
-                    var url = "{{ route('editContact2', ['locale' =>  app()->getLocale(), 'UserContact'=> Session::get('sessionIdUserExiste')]) }}";
-                    document.location.href = url;
-                }
-            })
-            ;
-            // window.location.reload();
-        }
-
-        var toEditForm = '{{Session::has('toEditForm')}}';
-        if (toEditForm) {
-
-            var someTabTriggerEl = document.querySelector('#pills-AddContact-tab');
-            var tab = new bootstrap.Tab(someTabTriggerEl);
-            tab.show();
-        }
-
-        var existUpdate = '{{Session::has('SessionUserUpdated')}}';
-        if (existUpdate) {
-
-            toastr.success('Succées');
-        }
-
-    </script>
     @component('components.breadcrumb')
         @slot('title') {{ __('You Contacts') }} @endslot
     @endcomponent
@@ -59,9 +19,29 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body table-responsive ">
+                <div class="card-body table-responsive">
+                    <table class="table nowrap dt-responsive align-middle table-hover table-bordered" id="contacts_table" style="width: 100%">
+                        <thead class="table-light">
+                        <tr class="head2earn  tabHeader2earn" >
+                            <th class="sort" data-sort="name">{{ __('Name') }}</th>
+                            <th class="sort" data-sort="lastName">{{ __('Last Name') }}</th>
+                            <th class="sort" data-sort="mobile">{{ __('Phone') }}</th>
+                            <th class="sort" data-sort="mobile">{{__('Country')}}</th>
+                            <th class="sort" data-sort="mobile">{{__('registred')}}</th>
+                            <th class="sort" data-sort="mobile">{{__('reserve')}}</th>
+                            <th>{{ __('Actions') }}</th>
+                        </tr>
+                        </thead>
+                        <tbody class="body2earn">
 
-                    <table class="table align-middle dt-responsive nowrap" id="customerTable2">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-body table-responsive d-none">
+
+
+
+                    <table class="table align-middle dt-responsive nowrap " id="customerTable2">
                         <thead class="table-light">
                         <tr class="tabHeader2earn">
 
@@ -125,7 +105,7 @@
                                             });
                                         });
                                     </script>
-                                    <div class="dropdown d-inline-block">
+                                    <div class="dropdown d-inline-block d-none">
                                         <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
                                                 data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="ri-more-fill align-middle"></i>
@@ -174,34 +154,7 @@
 
 {{--    </div>--}}
 <!-- Modal -->
-    <div wire:ignore.self class="modal fade zoomIn" id="deleteRecordModal" tabindex="-1"
-         aria-labelledby="deleteRecordLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                            id="btn-close"></button>
-                </div>
-                <div class="modal-body p-5 text-center">
-                    <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
-                               colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
-                    <div class="mt-4 text-center">
-                        <h4 class="fs-semibold">{{__('Delete_Confirm')}} </h4>
-                        <p class="text-muted fs-14 mb-4 pt-1">{{__('Are_you_sure_want_to_delete?')}}</p>
-                        <div class="hstack gap-2 justify-content-center remove">
-                            <button class="btn btn-link link-success fw-medium text-decoration-none"
-                                    id="deleteRecord-close" data-bs-dismiss="modal"><i
-                                    class="ri-close-line me-1 align-middle"></i>
-                                {{__('Close')}}</button>
-                            <button class="btn btn-danger" onclick="deleteId()"
-                                    id="delete-record">{{__('Yes, Delete')}}</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--end modal -->
+
     <div wire:ignore.self class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -277,75 +230,7 @@
             </div>
         </div>
     </div>
-    <div wire:ignore.self class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
-         aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"
-                        id="deleteModalLabel">{{__('Delete_Confirm')}} </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close">
-                        <span aria-hidden="true close-btn">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>{{__('Are_you_sure_want_to_delete?')}}</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary close-btn"
-                            data-bs-dismiss="modal">{{__('Close')}}</button>
-                    <button type="button" wire:click.prevent="delete()"
-                            class="btn btn-danger close-modal"
-                            data-bs-dismiss="modal">{{__('Yes, Delete')}}
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div wire:ignore.self class="modal fade" id="modalimport" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalLabel" data-bs-backdrop="static"
-         data-bs-keyboard="false">
-        <div wire:ignore class=" modal-dialog modal-dialog-centered " role="document">
-            {{--                modal-dialog-centered--}}
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"
-                        id="ImportModalLabel">{{ __('Import Your Contact') }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                </div>
 
-                <div class="modal-body">
-                    <form id="basic-form" enctype="multipart/form-data">
-                        @csrf
-                        <div class="row">
-                            <div class="alert alert-info" role="alert">
-                                {{ __('Only Csv files') }}
-                            </div>
-                            <form style="display: flex" action=""
-                                  enctype="multipart/form-data">
-                                @csrf
-                                <div class="input-group">
-                                    <input type="text" name="idUser" value="197604161"
-                                           hidden>
-                                    <input type="file" class="form-control"
-                                           id="inputGroupFile03"
-                                           aria-describedby="inputGroupFileAddon03"
-                                           aria-label="Upload" accept=".csv"
-                                           onchange="uploadFile()">
-                                    <button class="btn btn-secondary" type="button"
-                                            id="inputGroupFileAddon03">{{ __('Import') }}</button>
-                                </div>
-                            </form>
-
-
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
     <script>
 
         function initNewUserContact() {

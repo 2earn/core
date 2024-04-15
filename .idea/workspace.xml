@@ -5,8 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc4c9d0a-e15c-448d-b8d4-372803198e00" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ApiController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Observers/UserBalanceObserver.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Observers/UserBalanceObserver.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/master.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/master.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/livewire/contacts.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/livewire/contacts.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/6ae847fb591733202302f319f668c7aa8d179bb5.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/6ae847fb591733202302f319f668c7aa8d179bb5.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/c5e32c669b487ce4414a446d6043e5d5f84828f2.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/c5e32c669b487ce4414a446d6043e5d5f84828f2.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -215,6 +221,11 @@
     "nodejs_package_manager_path": "npm",
     "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PhpStorm 2023.3.3\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
@@ -268,7 +279,7 @@
       <workItem from="1713040718194" duration="10000" />
       <workItem from="1713040866226" duration="7000" />
       <workItem from="1713041473644" duration="8036000" />
-      <workItem from="1713052638798" duration="3964000" />
+      <workItem from="1713052638798" duration="18983000" />
     </task>
     <task id="LOCAL-00001" summary="images">
       <option name="closed" value="true" />

@@ -242,15 +242,15 @@
     <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('top-bar', [])->html();
-} elseif ($_instance->childHasBeenRendered('w9Yxuzo')) {
-    $componentId = $_instance->getRenderedChildComponentId('w9Yxuzo');
-    $componentTag = $_instance->getRenderedChildComponentTagName('w9Yxuzo');
+} elseif ($_instance->childHasBeenRendered('fTTjj0s')) {
+    $componentId = $_instance->getRenderedChildComponentId('fTTjj0s');
+    $componentTag = $_instance->getRenderedChildComponentTagName('fTTjj0s');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('w9Yxuzo');
+    $_instance->preserveRenderedChild('fTTjj0s');
 } else {
     $response = \Livewire\Livewire::mount('top-bar', []);
     $html = $response->html();
-    $_instance->logRenderedChild('w9Yxuzo', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('fTTjj0s', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -416,11 +416,12 @@ echo $html;
         $('#contacts_table').DataTable(
             {
                 retrieve: true,
-                searching: false,
+                searching: true,
                 "bLengthChange": false,
                 "processing": true,
                 paging: true,
-                "aLengthMenu": [[5, 10, 50], [5, 10, 50]],
+                "pageLength": 100,
+                "aLengthMenu": [[100, 500, 1000], [100, 500, 1000]],
                 //recherche avec entre key
                 // search: {
                 //     return: true
@@ -430,9 +431,86 @@ echo $html;
                     {"data": "name"},
                     {"data": "lastName"},
                     {"data": "mobile"},
+                    {"data": "flag"},
+                    {"data": "status"},
+                    {"data": "availablity"},
 
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
+                "columnDefs":
+                    [
+                        {
+                            "targets": [5],
+                            render: function (data, type, row) {
+
+
+
+                                var givenDate = new Date(row.reserved_at);
+                                  var delai=  (Date.now()-givenDate)/ (1000 * 60 * 60);
+
+
+                                if (Number(row.idUpline)!==0)
+                                {
+                                    if (row.idUpline==row.idUser)
+                                        return '<span class="badge bg-info-subtle text-info" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                            '"><?php echo e(__('i am his sponsor')); ?></span>';
+                                    else
+                                        return '<span class="badge bg-danger-subtle text-danger" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                            '"><?php echo e(__('Already has a sponsor')); ?></span>';
+                                }
+
+                                else{
+                                    if(Number(row.availablity) === 0)
+                                        return '<span class="badge bg-success-subtle text-success" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                            '"><?php echo e(__('Available')); ?></span>';
+
+                                    else
+                                    {
+                                        if (row.reserved_by==row.idUser)
+                                        {
+                                            if(delai<72)
+                                            {
+                                                var reste=72-delai;
+                                                return '<span class="badge bg-warning-subtle text-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                                    '"><?php echo e(__('reserved for')); ?> '+ reste.toFixed(0)+' <?php echo e(__('hours')); ?></span>';
+                                            }
+                                            else
+                                            {
+                                                var reste=72+168-delai;
+                                                return '<span class="badge bg-primary-subtle text-primary" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                                    '"><?php echo e(__('blocked for')); ?> '+ reste.toFixed(0)+' <?php echo e(__('hours')); ?></span>';
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            if(delai<72)
+                                            {
+                                                var reste=72-delai;
+                                                return '<span class="badge bg-warning-subtle text-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                                    '"><?php echo e(__('reserved by other user for')); ?> '+ reste.toFixed(0)+' <?php echo e(__('hours')); ?></span>';
+                                            }
+                                            else
+                                            {
+
+                                                return '<span class="badge bg-success-subtle text-success" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                                    '"><?php echo e(__('Available')); ?></span>';
+                                            }
+                                        }
+
+
+                                    }
+
+                                }
+
+
+                            },
+
+                        },
+
+
+
+                    ],
                 "language": {
                     "url": urlLang
                 }
@@ -1423,9 +1501,9 @@ echo $html;
                             render: function (data, type, row) {
 
                                 if (data.indexOf('+') == -1)
-                                    return '<span class="badge bg-danger">' + data + '</span>';
+                                    return '<span class="badge bg-danger con">' + data + '</span>';
                                 else
-                                    return '<span class="badge bg-success">' + data + '</span>';
+                                    return '<span class="badge bg-success con">' + data + '</span>';
 
                             }
                         },
