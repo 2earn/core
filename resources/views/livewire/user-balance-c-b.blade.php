@@ -16,9 +16,10 @@
                     <div class="card-header">
                         <div class="row g-4">
                             <div class="col-sm-12 col-md-4 col-lg-2 col-xl-2">
-                                    <img src=" {{ asset('assets/images/qr_code.jpg') }}" class="img-fluid img-thumbnail rounded avatar-lg">
+                                <img src=" {{ asset('assets/images/qr_code.jpg') }}"
+                                    class="img-fluid img-thumbnail rounded avatar-lg">
                             </div>
-                            <div class="col-sm-12 col-md-8 col-lg-10 col-xl-10">
+                            <div class="col-sm-6 col-md-8 col-lg-10 col-xl-10">
                                 <div class="d-flex">
                                     <div class="search-box ms-2">
                                         <p>{!! __('Cash Balance description') !!}</p>
@@ -28,40 +29,33 @@
 
                         </div>
                         <div class="card border card-border-info">
-                            <div class="card card-body">
-                                <div class="d-flex mb-4 align-items-center">
-                                    <div class="flex-shrink-0">
-                                        <img src="{{ URL::asset('assets/images/paytabs.jpeg') }}" alt="">
-                                    </div>
-                                    <div class="flex-grow-1 ms-2">
-                                        <h5 class="card-title mb-1">{{ __('Paytabs_Payment_Gateway') }}</h5>
-                                    </div>
+                            <div class="card-body row">
+                                <div class="col-sm-12 col-md-6 col-lg-3">
+                                    <img id="logo-paytabs" src="{{ URL::asset('assets/images/paytabs.jpeg') }}"
+                                        class="rounded mx-auto d-block" />
                                 </div>
-                                <img src="{{ URL::asset('assets/images/pay.jpeg') }}" alt=""
-                                    style="height: 60px;
-    width: 120px;">
-                                <div class="row g-4">
-                                    <div class="col-lg-6">
+                                <div class="col-sm-12 col-md-6 col-lg-3">
+                                    <img id="logo-pay" src="{{ URL::asset('assets/images/pay.jpeg') }}"
+                                        class="rounded mx-auto d-block" />
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-4">
+                                    <div class="input-group" id="validate-group">
+                                        <input aria-describedby="simulate" type="number" class="form-control"
+                                            id="ammount1" required>
+                                        <span class="input-group-text">$</span>
+                                        <button class="btn btn-success" type="button" data-bs-target="#tr_paytabs"
+                                            data-bs-toggle="modal" id="validate">{{ __('validate') }}</button>
+                                    </div>
+                                    <div class="input-group d-none">
+                                        <input aria-describedby="simulate" type="number" class="form-control"
+                                            id="ammount2" required>
+                                        <span class="input-group-text">SAR</span>
+                                    </div>
+                                    <div class="input-group">
+                                        <button class="btn btn-outline-secondary d-none" type="button"
+                                            id="simulate1">{{ __('simulate') }}</button>
 
-                                        <div class="input-group">
-
-                                            <input aria-describedby="simulate" type="number" class="form-control"
-                                                id="ammount1" required>
-                                            <span class="input-group-text">$</span>
-                                            <button class="btn btn-success" type="button" data-bs-target="#tr_paytabs"
-                                                data-bs-toggle="modal" id="validate">{{ __('validate') }}</button>
-                                        </div>
-                                        <div class="input-group d-none">
-                                            <input aria-describedby="simulate" type="number" class="form-control"
-                                                id="ammount2" required>
-                                            <span class="input-group-text">SAR</span>
-                                        </div>
-                                        <div class="input-group">
-                                            <button class="btn btn-outline-secondary d-none" type="button"
-                                                id="simulate1">{{ __('simulate') }}</button>
-
-                                        </div>
-                                                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
