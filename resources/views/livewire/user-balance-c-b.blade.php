@@ -151,7 +151,6 @@
             $('#ammount2').val($("#ammount1").val() * {{ usdToSar() }});
         });
         $(document).on("click", "#tran_paytabs", function() {
-            console.log($("#ammount1").val());
             $('#ammount2').val($("#ammount1").val() * {{ usdToSar() }});
             var amount = $('#ammount2').val();
             var routeUrl = "{{ route('paytabs', app()->getLocale()) }}";
