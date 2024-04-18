@@ -12,6 +12,14 @@ class ContactUser extends Model
     protected $table = 'contact_users';
     public $timestamps = true;
 
-    protected $fillable = ['idUser', 'name', 'lastName', 'mobile', 'availablity', 'disponible', 'fullphone_number', 'phonecode'];
+    protected $fillable = ['idUser', 'idContact', 'name', 'lastName', 'mobile', 'availablity', 'disponible', 'fullphone_number', 'phonecode'];
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'idUser');
+    }
+    public function contact(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'idContact');
+    }
 }
