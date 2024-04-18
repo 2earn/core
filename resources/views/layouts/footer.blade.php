@@ -1,13 +1,4 @@
-<style>
 
-
-    .footer {
-        bottom: auto !important;
-
-        height: auto !important;
-
-    }
-</style>
 <footer class="footer">
     <div class="container-fluid">
         <div class="row">
