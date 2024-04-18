@@ -50,6 +50,8 @@ left join users user on user.idUser = recharge_requests.idUser";
         $this->name = "fsdf";
     }
 
+
+
     public function buyAction(Req $request, BalancesManager $balancesManager)
     {
         $validator = Val::make($request->all(), [
@@ -91,19 +93,13 @@ left join users user on user.idUser = recharge_requests.idUser";
             $a = getPhoneByUser($reciver);
             if ($request->bfs_for == "other") {
                 $reciver_bfs = $reciver;
-
-                /*if(isNull($reciver_bfs))
-                {$response= [
-                        'type' => "error",
-                        'message' => "user not Found",
-                ];
-                 return response()->json($response) ;}*/
             }
 
         }
         $b = getPhoneByUser($reciver);
-        // dd($reciver_bfs);
         $reserve=getUserByContact($b);
+
+        // parrainage proactif
 
         if ($reserve){
             if ($reserve!=$reciver){
@@ -145,6 +141,8 @@ left join users user on user.idUser = recharge_requests.idUser";
                 $user_balance->WinPurchaseAmount = "0.000";
                 $user_balance->Description = 'sponsorship commission from '.$b;
                 $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser)->soldeCB + $amount*$pcrCash/100;
+
+
                 $user_balance->save();
                 $user_balance = new user_balance();
                 $user_balance->ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
@@ -159,16 +157,15 @@ left join users user on user.idUser = recharge_requests.idUser";
                 $user_balance->Description = 'sponsorship commission from '.$b;
                 $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser)->soldeBFS + $amount*$pcrBFS/100;
 
-
                 $user_balance->save();
-
 
             }
         }
 
 
+        // share sold
         $user_balance = new user_balance();
-
+// Action
         $user_balance->ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
         $user_balance->idBalancesOperation = 44;
         $user_balance->Date = now();
@@ -181,22 +178,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         $user_balance->WinPurchaseAmount = "1";
         $user_balance->Balance = ($number_of_action + $gift) * number_format($PU, 2, '.', '');
         $user_balance->save();
-        //$reserve=getUserByContact('0021653615614');
-//        $id_balance = DB::table('user_balances')
-//            ->insertGetId([
-//                'ref' => "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4),
-//                'idBalancesOperation' => 44,
-//                'Date' => date("Y-m-d H:i:s"),
-//                'idSource' => '11111111',
-//                'idUser' => $reciver,
-//                'idamount' => AmoutEnum::Action,
-//                'value' => $number_of_action,
-//                'gifted_shares' => $gift,
-//                'PU' => $PU,
-//                'WinPurchaseAmount' => "0.000",
-//
-//            ]);
-        //$Count = DB::table('user_balances')->count();
+// cach
         $user_balance = new user_balance();
         $user_balance->ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
         $user_balance->idBalancesOperation = 48;
@@ -208,22 +190,9 @@ left join users user on user.idUser = recharge_requests.idUser";
         $user_balance->WinPurchaseAmount = "0.000";
         $user_balance->Description = "purchase of " . ($number_of_action + $gift) . " shares for " . $a;
         $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser)->soldeCB - ($number_of_action + $gift) * $PU;
-
         $user_balance->save();
-//        $id_balance = DB::table('user_balances')
-//            ->insertGetId([
-//                'ref' => "42" . date('ymd') . substr((10000 + $Count + 1), 1, 4),
-//                'idBalancesOperation' => 42,
-//                'Date' => date("Y-m-d H:i:s"),
-//                'idSource' => Auth()->user()->idUser,
-//                'idUser' =>  Auth()->user()->idUser,
-//                'idamount' => AmoutEnum::CASH_BALANCE,
-//                'value' => ($number_of_action+$gift)*$PU,
-//                'WinPurchaseAmount' => "0.000" ,
-//                  'Balance'=> $balancesManager->getBalances(Auth()->user()->idUser)->soldeCB - ($number_of_action+$gift)*$PU
-//            ]);
-        //$Count = DB::table('user_balances')->count();
 
+        //bfs
 
         $user_balance = new user_balance();
         $user_balance->ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
@@ -237,18 +206,6 @@ left join users user on user.idUser = recharge_requests.idUser";
         $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser)->soldeBFS + intval($number_of_action / $palier) * $actual_price * $palier;
 
         $user_balance->save();
-//        $id_balance = DB::table('user_balances')
-//            ->insertGetId([
-//                'ref' => "46" . date('ymd') . substr((10000 + $Count + 1), 1, 4),
-//                'idBalancesOperation' => 46,
-//                'Date' => date("Y-m-d H:i:s"),
-//                'idSource' => "11111111",
-//                'idUser' => $reciver_bfs,
-//                'idamount' => AmoutEnum::BFS,
-//                'value' => intval($number_of_action/$palier) *$actual_price*$palier,
-//                'WinPurchaseAmount' => "0.000" ,
-//                'Balance'=> $balancesManager->getBalances(Auth()->user()->idUser)->soldeBFS
-//            ]);
 
         return response()->json(['type' => ['success'], 'message' => ['success']],);
 
