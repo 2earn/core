@@ -97,8 +97,12 @@ class  UserRepository implements IUserRepository
 
     public function getUserContactsById($id)
     {
-        $result = UserContact::find($id);
-        return $result;
+        return UserContact::find($id);
+    }
+
+    public function getContactsUserById($id)
+    {
+        return ContactUser::find($id);
     }
 
     public function getUserById($id)

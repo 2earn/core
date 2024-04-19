@@ -171,6 +171,11 @@ class settingsManager
         return $this->userRepository->getUserContactsById($id);
     }
 
+    public function getContactsUserById($id)
+    {
+        return $this->userRepository->getContactsUserById($id);
+    }
+
     public function loginWithGeneratePass($mobile, $idCountry, $pass)
     {
 

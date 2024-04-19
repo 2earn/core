@@ -27,3 +27,7 @@ storage/framework/views/*
 .vscode/
 
 public/uploads/*
+
+.idea/*
+.idea/2earn.iml
+.idea/workspace.xml

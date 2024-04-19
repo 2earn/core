@@ -1,10 +1,14 @@
 <div>
-
     @component('components.breadcrumb')
         @slot('title')
             {{ __('You Contacts') }}
         @endslot
     @endcomponent
+    @if(Session::has('message'))
+        <div class="alert alert-primary" role="alert">
+            {{ Session::get('message') }}
+        </div>
+    @endif
     <div class="row">
         <div class="col-lg-12">
             <div class="card" id="leadsList">
@@ -13,7 +17,7 @@
                         <div class="col-sm-auto ms-auto">
                             <div class="hstack gap-2">
                                 <button type="button" class="btn btn-secondary add-btn btn2earn" data-bs-toggle="modal"
-                                        id="create-btn" data-bs-target="#showModal"><i
+                                        id="create-btn" data-bs-target="#addModal"><i
                                         class="ri-add-line align-bottom me-1 "></i> {{ __('Add a contact') }}
                                 </button>
                             </div>
@@ -54,23 +58,24 @@
                         <tbody class="list form-check-all">
                         @foreach ($contactUser as $value)
                             <tr>
-                                <td> {{ $value->name}}</td>
+                                <td>{{ $value->name}}</td>
                                 <td>{{$value->lastName}}</td>
                                 <td>{{$value->mobile}}</td>
                                 <td>
                                     <div class="d-flex align-items-center fw-medium">
                                         <img
-                                            src="{{ URL::asset('assets/images/flags/'.   Illuminate\Support\Str::lower($value->apha2)  .'.svg') }}"
-                                            alt="" class="avatar-xxs me-2">
+                                            src="{{ URL::asset('assets/images/flags/'. Illuminate\Support\Str::lower($value->apha2) .'.svg') }}"
+                                            alt=""
+                                            class="avatar-xxs me-2">
                                         <a href="javascript:void(0);"
                                            class="currency_name"> {{getCountryByIso($value->apha2)}}</a>
                                     </div>
                                 </td>
-                                <td><span class="badge rounded-pill {{$value->color}}"><i
-                                            class="mdi mdi-circle-medium">{{$value->status}}</i> </span></td>
-
+                                <td><span class="badge rounded-pill {{$value->color}}">
+                                        <i class="mdi mdi-circle-medium">{{$value->status}}</i>
+                                    </span>
+                                </td>
                                 @php
-
                                     $disableUntil = getSwitchBlock($value->id);
                                     if($value->availablity == 1) $disableUntil = now();
                                     else $disableUntil = getSwitchBlock($value->id);// Désactiver le commutateur jusqu'à 24 heures à partir de maintenant
@@ -106,10 +111,6 @@
                                             <i class="ri-more-fill align-middle"></i>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
-                                            {{--                                            <li><a href="" class="dropdown-item"><i--}}
-                                            {{--                                                        class="ri-eye-fill align-bottom me-2 text-muted"></i> {{__('View')}}--}}
-                                            {{--                                                </a>--}}
-                                            {{--                                            </li>--}}
                                             <li><a
                                                     href="{{ route('editContact2', ['locale' =>  app()->getLocale(), 'UserContact'=>  $value->id  ]) }}"
                                                     class="dropdown-item edit-item-btn"><i
@@ -127,46 +128,37 @@
                                 </td>
                             </tr>
                         @endforeach
-
-
                         </tbody>
                     </table>
-
                 </div>
             </div>
-
         </div>
-        <!--end col-->
     </div>
 
-    <!-- Modal -->
-    <div wire:ignore.self class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
+    <!-- Modals -->
+    <div wire:ignore.self class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-light p-3">
-                    <h5 class="modal-title" id="exampleModalLabel"> {{ __('Add a contact') }}</h5>
+                    <h5 class="modal-title" id=addModalLabel"> {{ __('Add a contact') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                             id="close-modal"></button>
                 </div>
                 @error('name') <span
-                    class="error alert-danger">{{ $message }}</span> @enderror
+                    class="error alert-danger">{{ $message }}</span>
+                @enderror
                 @error('lastName') <span
-                    class="error alert-danger">{{ $message }}</span> @enderror
-                @if(Session::has('message'))
-                    <div class="alert alert-danger" role="alert">
-                        {{ Session::get('message')}}
-                    </div>
-                @endif
+                    class="error alert-danger">{{ $message }}</span>
+                @enderror
                 <form action="">
                     @csrf
                     <div class="modal-body">
                         <input
                             id="id-field"
-                            style="display: none"
-                            type="text"
+                            type="hidden"
                             class="form-control" name="name"
                             placeholder="name"
+                            wire:model.defer="selectedContect"
                         >
                         <div class="row g-3">
                             <div class="col-lg-12">
@@ -227,6 +219,89 @@
             </div>
         </div>
     </div>
+    <div wire:ignore.self class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModal"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-light p-3">
+                    <h5 class="modal-title" id="editModalLabel"> {{ __('Edit a contact') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            id="close-modal"></button>
+                </div>
+                @error('name') <span
+                    class="error alert-danger">{{ $message }}</span>
+                @enderror
+                @error('lastName') <span
+                    class="error alert-danger">{{ $message }}</span>
+                @enderror
+                <form action="">
+                    @csrf
+                    <div class="modal-body">
+                        <input
+                            id="id-field"
+                            type="hidden"
+                            class="form-control" name="name"
+                            placeholder="name"
+                            wire:model.defer="selectedContect"
+                        >
+                        <div class="row g-3">
+                            <div class="col-lg-12">
+                                <div>
+                                    <label for="nameField" class="form-label">{{ __('Name') }}</label>
+                                    <input
+                                        id="nameField"
+                                        type="text"
+                                        class="form-control"
+                                        wire:model.defer="name"
+                                        name="nameField"
+                                        required
+                                    >
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div>
+                                    <label for="lastNameField" class="form-label">{{ __('Last Name') }}</label>
+                                    <input
+                                        id="lastNameField"
+                                        type="text"
+                                        class="form-control"
+                                        wire:model.defer="lastName"
+                                        name="lastNameField"
+                                        required>
+                                </div>
+                            </div>
+                            <div class=" col-lg-12">
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">{{ __('Mobile Number') }}</label><br>
+                                    <input
+                                        type="tel"
+                                        name="mobile"
+                                        id="ipAdd2Contact"
+                                        class="form-control"
+                                        wire:model.defer="mobile"
+                                        value=""
+                                        placeholder="{{ __('PH_MobileNumber') }}"
+                                    >
+                                    <input type='hidden' name='fullnumber' id='outputAdd2Contact' class='form-control'>
+                                    <input type='hidden' name='ccodeAdd2Contact' id='ccodeAdd2Contact'>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end row-->
+                    </div>
+                    <div class="modal-footer">
+                        <div class="hstack gap-2 justify-content-end">
+                            <button type="button" class="btn btn-light"
+                                    data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="button" onclick="updateContact()" class="btn btn-success"
+                                    id="edit-btn">{{__('Update')}}</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
 
     <script>
         function initNewUserContact() {
@@ -244,14 +319,13 @@
             }
         }
 
-        function editContactFunction() {
+        function editContact(id) {
+            console.log(id)
+            window.livewire.emit('initUserContact', id);
+        }
 
-            // window.livewire.emit('inituserContact', dd);
-            inputphone = document.getElementById("mobileField").value;
-            inputid = document.getElementById("id-field").value;
-            inputname = document.getElementById("nameField").value;
-            inputlast = document.getElementById("lastNameField").value;
-            window.livewire.emit('edit', inputid, inputname, inputlast, inputphone);
+        function updateContact() {
+            console.log('aaaaaaaaaaaaaaa')
 
         }
 

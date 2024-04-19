@@ -5,9 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc4c9d0a-e15c-448d-b8d4-372803198e00" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/database/migrations/2024_01_25_092931_rename_column__reference_in_table__user_balances.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/generated/2024_01_25_092931_rename_column__reference_in_table__user_balances.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2024_01_26_095855_add_column_gifted_shares_to_user_balances_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/generated/2024_01_26_095855_add_column_gifted_shares_to_user_balances_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2024_01_30_095855_add_column_registred_from_to_users_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/generated/2024_01_30_095855_add_column_registred_from_to_users_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/2earn.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/2earn.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Services/settingsManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Services/settingsManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/DAL/UserRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DAL/UserRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ApiController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Livewire/Contacts.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Livewire/Contacts.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/master.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/master.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/livewire/contacts.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/livewire/contacts.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +34,7 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:\wamp64\bin\php\php8.1.26\php.exe">
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:\laragon\bin\php\php-8.1.10-Win32-vs16-x64\php.exe">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/monolog/monolog" />
       <path value="$PROJECT_DIR$/vendor/laravel/passport" />
@@ -181,6 +186,10 @@
       <path value="$PROJECT_DIR$/vendor/marcj/topsort" />
     </include_path>
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="2cjkdDlpyKhYTpMNIeac3FHCsP2" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -189,6 +198,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;git-widget-placeholder&quot;: &quot;feature/update-contact-process&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\ghazi\Documents\GitHub\2earnprod\config" />
@@ -215,7 +235,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-php-predefined-ba97393d7c68-6f8e3395a2b4-com.jetbrains.php.sharedIndexes-PS-233.14015.96" />
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-PS-241.14494.237" />
+        <option value="bundled-php-predefined-ba97393d7c68-8f0632a2a215-com.jetbrains.php.sharedIndexes-PS-241.14494.237" />
       </set>
     </attachedChunks>
   </component>
@@ -241,6 +262,7 @@
       <workItem from="1713040866226" duration="7000" />
       <workItem from="1713041473644" duration="8036000" />
       <workItem from="1713052638798" duration="18983000" />
+      <workItem from="1713513844346" duration="18437000" />
     </task>
     <task id="LOCAL-00001" summary="images">
       <option name="closed" value="true" />
@@ -255,6 +277,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="GitHub.CommitStatus" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -271,5 +304,21 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="images" />
     <option name="LAST_COMMIT_MESSAGE" value="images" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/Core/Services/settingsManager.php</url>
+          <line>59</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/app/DAL/BalanceOperationRepositoty.php</url>
+          <line>15</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

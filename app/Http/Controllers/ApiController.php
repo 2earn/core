@@ -1078,11 +1078,11 @@ class="btn btn-xs btn-primary btn2earnTable"  >
                 'u.reserved_by', 'u.mobile', 'u.availablity', 'c.apha2', 'u.idUpline', 'u.reserved_at', DB::raw("CASE WHEN u.status = -2 THEN 'Pending' ELSE 'User' END AS status"));
         return datatables($contactUser)
             ->addColumn('action', function ($settings) {
-                return '<a onclick="editHAFunction(' . $settings->id . ')"   data-bs-toggle="modal" data-bs-target="#HistoryActionModal"  class="btn btn-xs btn-primary btn2earnTable"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a>
-<a  class="btn btn-xs btn-danger btn2earnTable"  ><i></i>' . Lang::get('Delete') . '</a>';
+                return '<a onclick="editContact(' . $settings->id . ')"   data-bs-toggle="modal" data-bs-target="#editModal"  class="btn btn-xs btn-primary btn2earnTable"  >
+<i class="glyphicon glyphicon-edit"></i>' . Lang::get('Edit') . '</a>
+<a onclick="deleteContact(' . $settings->id . ')"  class="btn btn-xs btn-danger btn2earnTable" ><i class="glyphicon glyphicon-delete"></i>' . Lang::get('Delete') . '</a>';
             })
             ->addColumn('flag', function ($settings) {
-
                 return '<img src="' . Asset("assets/images/flags/" . strtolower($settings->apha2)) . '.svg" alt="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
             })
             ->editColumn('status', function ($actionHistorys) {

@@ -11,6 +11,7 @@ use Core\Services\TransactionManager;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class Contacts extends Component
 {
@@ -18,7 +19,6 @@ class Contacts extends Component
     public string $name = "";
     public string $lastName = "";
     public string $mobile = "";
-
     public $selectedContect;
 
     protected $rules = [
@@ -28,11 +28,12 @@ class Contacts extends Component
     ];
 
     protected $listeners = [
-        'inituserContact' => 'initUserContact',
+        'initUserContact' => 'initUserContact',
+        'updateContact' => 'updateContact',
         'deleteContact' => 'deleteContact',
         'deleteId' => 'deleteId',
         'save' => 'save',
-        'edit' => 'edit',
+        'update' => 'update',
         'initNewUserContact' => 'initNewUserContact',
         'delete_multiple' => 'delete_multiple'
     ];
@@ -72,17 +73,10 @@ class Contacts extends Component
 
     public function initNewUserContact(settingsManager $settingsManager)
     {
+        $this->id = "";
         $this->name = "";
         $this->lastName = "";
         $this->mobile = "";
-    }
-
-    public function initUserInfo()
-    {
-        $this->Infosuser = [];
-        $Infuser = new  MyAccountViewModel();
-        $Infuser->idUser = $this->settingsManager->getAuthUser()->idUser;
-        array_push($this->Infosuser, $Infuser);
     }
 
     public function deleteContact($id, settingsManager $settingsManager)
@@ -96,19 +90,13 @@ class Contacts extends Component
     public function initUserContact($id, settingsManager $settingsManager)
     {
         $this->settingsManager = $settingsManager;
-        $this->idC = $id;
-        $userC = $this->settingsManager->getUserContactsById($id);
-
-        if (!$userC) return;
+        $ContactsUser = $this->settingsManager->getContactsUserById($id);
+        if (!$ContactsUser) return;
         $this->selectedContect = $id;
-        $this->name = $userC->name;
-        $this->lastName = is_null($userC->lastName) ? '' : $userC->lastName;
-        $this->mobile = $userC->mobile;
-        $this->userC = $userC;
-        $country = DB::table('countries')->where('apha2', $userC->phonecode)->first();
-        dd($country);
-        return redirect()->route('myAccount', app()->getLocale())->with('toEditForm', ' ');
-
+        $this->name = $ContactsUser->name;
+        $this->lastName = is_null($ContactsUser->lastName) ? '' : $ContactsUser->lastName;
+        $this->mobile = $ContactsUser->mobile;
+        $country = DB::table('countries')->where('apha2', $ContactsUser->phonecode)->first();
     }
 
     public function save($phone, $ccode, $fullNumber, settingsManager $settingsManager, TransactionManager $transactionManager)
@@ -141,36 +129,15 @@ class Contacts extends Component
             $this->settingsManager->addUserContactV2($contact_user);
             $this->transactionManager->commit();
             $this->dispatchBrowserEvent('close-modal');
-            return redirect()->route('contacts', app()->getLocale());
-            return response(['message' => "User created successfully", 'status' => "success"], 200);
+            return redirect()->route('contacts', app()->getLocale())->with('message', 'User created successfully');;
         } catch (\Exception $exp) {
-            $this->transactionManager->rollback(); // Tell Laravel, "It's not you, it's me. Please don't persist to DB"
-            Session::flash('message', 'failed');
+            $this->transactionManager->rollback();
+            return redirect()->route('contacts', app()->getLocale())->with('alert-class', 'User creation failed');;
         }
     }
 
-    public function initUserInfo2()
-    {
-        $this->Infosuser = [];
-        $Infuser = new  MyAccountViewModel();
-        $account_info = DB::table('metta_users')
-            ->where('idUser', '=', '197604161')->first();
-        $userearn = DB::table('user_earns')
-            ->where('idUser', '=', '197604161')->first();
 
-        $Infuser->idUser = $account_info->id;
-        $Infuser->enFirstName = $account_info->enFirstName;
-        $Infuser->enLastName = $account_info->enLastName;
-        $Infuser->mobile = $userearn->mobile;
-        $Infuser->email = $account_info->email;
-        $Infuser->adresse = $account_info->adresse;
-        $Infuser->userContact = DB::table('contact_users')
-            ->where('idUser', 197604161)->get();
-        array_push($this->Infosuser, $Infuser);
-    }
-
-
-    public function edit($id, $name, $lastName, $mobile, TransactionManager $transactionManager)
+    public function update($id, $name, $lastName, $mobile, TransactionManager $transactionManager)
     {
         $existeuser = UserContact::where('id', $id)
             ->get()
