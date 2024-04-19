@@ -1,5 +1,7 @@
 <?php
+
 namespace App\DAL;
+
 use Core\Interfaces\ILanguageRepository;
 use Core\Models\countrie;
 use Core\Models\history;
@@ -12,16 +14,15 @@ class  LanguageRepository implements ILanguageRepository
 {
     public function getAllLanguage()
     {
-       //return user_earn::with('userbalances')->get() ;
-       return  DB::table('languages')
-             ->get() ;
+        return DB::table('languages')
+            ->get();
     }
+
     public function getAllLanguage2()
     {
-        return DB::select("SELECT * FROM demo.user_balances
- ub
-inner join metta_users mu on ub.idUser = mu.idUser ");
+        return DB::select("SELECT * FROM demo.user_balances ub inner join metta_users mu on ub.idUser = mu.idUser ");
     }
+
     //
     public function addLanguage(language $language)
     {
@@ -30,8 +31,14 @@ inner join metta_users mu on ub.idUser = mu.idUser ");
             ]
         );
     }
+
     public function getLanguageById($id)
     {
-       return language::find($id);
+        return language::find($id);
+    }
+
+    public function getLanguageByPrefix($prefix)
+    {
+        return language::firstOrFail()->where('PrefixLanguage', $prefix)->get()->first();
     }
 }

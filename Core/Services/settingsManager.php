@@ -4,8 +4,11 @@ namespace Core\Services;
 
 use App\Http\Traits\earnLog;
 use App\Http\Traits\earnTrait;
+
 //use App\Models\MettaUser;
+use App\Models\ContactUser;
 use App\Models\User;
+
 //use App\Models\UserEarn;
 use Carbon\Carbon;
 use Core\Enum\AmoutEnum;
@@ -143,6 +146,11 @@ class settingsManager
         return $this->userRepository->addUserContact($userContact);
     }
 
+    public function addUserContactV2(ContactUser $contactUser)
+    {
+        return $this->userRepository->addUserContactV2($contactUser);
+    }
+
     public function updateUserContact(UserContact $userContact)
     {
         return $this->userRepository->updateUserContact($userContact);
@@ -151,6 +159,11 @@ class settingsManager
     public function addLanguage(language $language)
     {
         return $this->languageRepository->addLanguage($language);
+    }
+
+    public function getLanguageByPrefix(string $prefix)
+    {
+        return $this->languageRepository->getLanguageByPrefix($prefix);
     }
 
     public function getUserContactsById($id)
@@ -264,7 +277,7 @@ class settingsManager
         $metta = new  metta_user();
         $metta->idUser = $user->idUser;
 //        $country = $this->getCountrieById($user->idCountry);
-        $countrie_earn = DB::table('countries')->where('phonecode',  $user->id_phone)->first();
+        $countrie_earn = DB::table('countries')->where('phonecode', $user->id_phone)->first();
         foreach (LanguageEnum::cases() as $lanque) {
             if ($lanque->name == $countrie_earn->langage) {
                 $metta->idLanguage = $lanque->value;
@@ -276,10 +289,10 @@ class settingsManager
 
     public function createUserContactNumber(User $user, $iso)
     {
-        if(!UserContactNumber::where('mobile',$user->mobile)
-            ->where('idUser',$user->idUser)
-            ->where('codeP',$user->idCountry)
-            ->exists()){
+        if (!UserContactNumber::where('mobile', $user->mobile)
+            ->where('idUser', $user->idUser)
+            ->where('codeP', $user->idCountry)
+            ->exists()) {
             UserContactNumber::Create([
                 'idUser' => $user->idUser,
                 'mobile' => $user->mobile,
@@ -665,18 +678,17 @@ class settingsManager
 
             $lang = app()->getLocale();
 
-            if($uMetta && $uMetta->idLanguage != null )
-            {
+            if ($uMetta && $uMetta->idLanguage != null) {
 
-                $language = language::where('name',$uMetta->idLanguage)->first();
+                $language = language::where('name', $uMetta->idLanguage)->first();
 
-                $lang = $language->PrefixLanguage ;
+                $lang = $language->PrefixLanguage;
             }
             $this->NotifyUser($user->id, TypeEventNotificationEnum::RequestDenied, [
                 'msg' => $note,
                 'type' => TypeNotificationEnum::SMS,
                 'canSendSMS' => 1,
-                'lang'=>$lang
+                'lang' => $lang
             ]);
         }
     }
@@ -697,19 +709,18 @@ class settingsManager
 
         if (($user->iden_notif == 1)) {
             $lang = app()->getLocale();
-            if($uMetta && $uMetta->idLanguage != null )
-            {
+            if ($uMetta && $uMetta->idLanguage != null) {
 
-                $language = language::where('name',$uMetta->idLanguage)->first();
+                $language = language::where('name', $uMetta->idLanguage)->first();
 
-                $lang = $language->PrefixLanguage ;
+                $lang = $language->PrefixLanguage;
             }
 
             $this->NotifyUser($user->id, TypeEventNotificationEnum::RequestAccepted, [
                 'msg' => " ",
                 'type' => TypeNotificationEnum::SMS,
                 'canSendSMS' => 1,
-                'lang'=>$lang
+                'lang' => $lang
             ]);
         }
 //        $user = User::where('idUser',$idUser)->first();
@@ -899,10 +910,12 @@ class settingsManager
     {
         return $this->userRepository->getConditionalMettaUser($Attribute, $value);
     }
+
     public function getConditionalUser($Attribute, $value)
     {
         return $this->userRepository->getConditionalUser($Attribute, $value);
     }
+
     public function getIdentificationRequestNombre()
     {
     }
@@ -940,4 +953,32 @@ class settingsManager
     {
         return $this->userContactNumberRepository->getIDNumber($idUser);
     }
+
+    public function initNewUser()
+    {
+        return $this->userRepository->initNewUser();
+    }
+
+    public function createNewUser($name, $mobile, $fullphone_number, $id_phone)
+    {
+        return $this->userRepository->createNewUser($name, $mobile, $fullphone_number, $id_phone);
+    }
+
+    public function createNewContactUser($idUser, $name, $idContact, $lastName, $mobile, $fullphone, $phonecode)
+    {
+        $contact_user = new ContactUser([
+            'idUser' => $idUser,
+            'name' => $name,
+            'idContact' => $idContact,
+            'lastName' => $lastName,
+            'mobile' => $mobile,
+            'fullphone_number' => $fullphone,
+            'phonecode' => $phonecode,
+            'availablity' => '0',
+            'disponible' => 1
+        ]);
+        $contact_user->save();
+        return $contact_user;
+    }
+
 }

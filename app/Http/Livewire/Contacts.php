@@ -2,10 +2,13 @@
 
 namespace App\Http\Livewire;
 
+use App\DAL\LanguageRepository;
 use App\Models\ContactUser;
+use App\Models\User;
 use Core\Models\UserContact;
 use Core\Services\settingsManager;
 use Core\Services\TransactionManager;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 
@@ -46,14 +49,15 @@ class Contacts extends Component
     {
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) abort(404);
-        $contactUser = DB::table('contact_users as contact_users')
+        $contactUserQuery = DB::table('contact_users as contact_users')
             ->join('users as u', 'contact_users.idContact', '=', 'u.idUser')
             ->join('countries as c', 'u.idCountry', '=', 'c.id')
             ->where('contact_users.idUser', $userAuth->idUser)
-            ->select('contact_users.id', 'contact_users.name', 'contact_users.lastName', 'u.mobile', 'u.availablity', 'c.apha2',
+            ->select('contact_users.id', 'contact_users.name', 'contact_users.lastName', 'contact_users.idUser', 'u.mobile', 'u.availablity', 'c.apha2',
                 DB::raw("CASE WHEN u.status = -2 THEN 'bg-warning-subtle text-warning' ELSE 'bg-success-subtle text-success' END AS color"),
-                DB::raw("CASE WHEN u.status = -2 THEN 'Pending' ELSE 'User' END AS status"))
-            ->get();
+                DB::raw("CASE WHEN u.status = -2 THEN 'Pending' ELSE 'User' END AS status"));
+
+        $contactUser = $contactUserQuery->get();
         return view('livewire.contacts', ['contactUser' => $contactUser])->extends('layouts.master')->section('content');
     }
 
@@ -118,49 +122,30 @@ class Contacts extends Component
             ->where('phonecode', $ccode)
             ->get()->first();
         if ($contact_user_exist) {
-            return redirect()->route('contacts', app()->getLocale())->with('existeUserContact', 'deja existe')->with('sessionIdUserExiste', $existeuser->id);
+            return redirect()->route('contacts', app()->getLocale())->with('existeUserContact', 'deja existe')->with('sessionIdUserExiste', $contact_user_exist->id);
         }
 
         $contact_user__user = $settingsManager->getUserByFullNumber($fullNumber);
-        if ($contact_user__user) {
-            dd($contact_user__user);
-        } else {
-            // create user
-            dd($fullNumber);
+
+        if (!$contact_user__user) {
+            $contact_user__user = $settingsManager->createNewUser(
+                $this->name . ' ' . $this->lastName,
+                $this->mobile,
+                $fullNumber,
+                $ccode
+            );
         }
-
-        $contact_user = new ContactUser([
-            'idUser' => $settingsManager->getAuthUser()->idUser,
-            'name' => $this->name,
-            'lastName' => $this->lastName,
-            'mobile' => $phone,
-            'fullphone_number' => $fullNumber,
-            'phonecode' => $ccode,
-            'availablity' => '0',
-            'disponible' => 1
-        ]);
-
-        dd($contact_user->save());
-
+        $contact_user = $settingsManager->createNewContactUser($settingsManager->getAuthUser()->idUser, $this->name, $contact_user__user->idUser, $this->lastName, $phone, $fullNumber, $ccode,);
         try {
             $this->transactionManager->beginTransaction();
-            $this->settingsManager->updateUserContact($contact_user);
-            $this->settingsManager->addLanguage($lanquge);
+            $this->settingsManager->addUserContactV2($contact_user);
             $this->transactionManager->commit();
             $this->dispatchBrowserEvent('close-modal');
             return redirect()->route('contacts', app()->getLocale());
-            return response([
-                'message' => "User created successfully",
-                'status' => "success"
-            ], 200);
+            return response(['message' => "User created successfully", 'status' => "success"], 200);
         } catch (\Exception $exp) {
             $this->transactionManager->rollback(); // Tell Laravel, "It's not you, it's me. Please don't persist to DB"
-            dd($exp);
             Session::flash('message', 'failed');
-            // $this->dispatchBrowserEvent('close-modal');
-//            return back()->withInput()
-//                ->with('message', 'Unexpected error occurred while trying to process your request');
-//            dd($exp);
         }
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\DAL;
 
+use App\Models\ContactUser;
 use App\Models\User;
 use Core\Enum\AmoutEnum;
 use Core\Models\AuthenticatedUser;
@@ -53,6 +54,20 @@ class  UserRepository implements IUserRepository
                 'mobile' => $userContact->mobileNumber,
                 'availablity' => $userContact->availablity,
                 'disponible' => $userContact->disponible
+            ]
+        );
+    }
+
+    public function addUserContactV2(ContactUser $contactUser)
+    {
+        UserContact::create(
+            [
+                'idUser' => $contactUser->idUser,
+                'name' => $contactUser->name,
+                'lastName' => $contactUser->lastName,
+                'mobile' => $contactUser->mobile,
+                'availablity' => $contactUser->availablity,
+                'disponible' => $contactUser->disponible
             ]
         );
     }
@@ -143,9 +158,10 @@ class  UserRepository implements IUserRepository
         if ($f)
             $minute = $f->DecimalValue;
         Auth::login($user, $remenber);
-        $key = 'Expired'. $user->idUser;
+        $key = 'Expired' . $user->idUser;
         Session::put($key, Carbon::now()->addMinute($minute));
     }
+
     public function logoutUser()
     {
         Auth::logout();
@@ -153,6 +169,7 @@ class  UserRepository implements IUserRepository
 //        Session::flush();
 
     }
+
     public function getUserByFullnumber($number)
     {
         $f = DB::table('users')
@@ -191,6 +208,7 @@ class  UserRepository implements IUserRepository
         }
 
     }
+
     public function createUserEarn(user_earn $userEarn)
     {
         // TODO: Implement createmettaUser() method.
@@ -198,6 +216,7 @@ class  UserRepository implements IUserRepository
             $userEarn->save();
         }
     }
+
     public function getConditionalMettaUser($attribute, $value)
     {
 
@@ -210,9 +229,9 @@ class  UserRepository implements IUserRepository
             return null;
         return $user;
     }
+
     public function getConditionalUser($attribute, $value)
     {
-
         $user = DB::table('users')
             ->where([
                 [$attribute, '=', $value]
@@ -222,4 +241,28 @@ class  UserRepository implements IUserRepository
             return null;
         return $user;
     }
+
+    public function initNewUser()
+    {
+        $newUser = new User();
+        $lastuser = DB::table('users')->max('iduser');
+        $newIdUser = $lastuser + 1;
+        $newUser->idUser = $newIdUser;
+        $newUser->status = -2;
+        return $newUser;
+    }
+
+    public function createNewUser($name, $mobile, $fullphone_number, $id_phone)
+    {
+        $country = DB::table('countries')->where('phonecode', $id_phone)->first();
+        $contact_user__user = $this->initNewUser();
+        $contact_user__user->name = $name;
+        $contact_user__user->mobile = $mobile;
+        $contact_user__user->fullphone_number = $fullphone_number;
+        $contact_user__user->id_phone = $id_phone;
+        $contact_user__user->idCountry = $country->id;
+        $contact_user__user->save();
+        return $contact_user__user;
+    }
+
 }

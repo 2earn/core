@@ -10,14 +10,12 @@
             <div class="card" id="leadsList">
                 <div class="card-header border-0">
                     <div class="row g-4 align-items-center">
-
                         <div class="col-sm-auto ms-auto">
                             <div class="hstack gap-2">
                                 <button type="button" class="btn btn-secondary add-btn btn2earn" data-bs-toggle="modal"
                                         id="create-btn" data-bs-target="#showModal"><i
                                         class="ri-add-line align-bottom me-1 "></i> {{ __('Add a contact') }}
                                 </button>
-
                             </div>
                         </div>
                     </div>
@@ -37,17 +35,13 @@
                         </tr>
                         </thead>
                         <tbody class="body2earn">
-
                         </tbody>
                     </table>
                 </div>
                 <div class="card-body table-responsive d-none">
-
-
                     <table class="table align-middle dt-responsive nowrap " id="customerTable2">
                         <thead class="table-light">
                         <tr class="tabHeader2earn">
-
                             <th class="sort" data-sort="name">{{ __('Name') }}</th>
                             <th class="sort" data-sort="lastName">{{ __('Last Name') }}</th>
                             <th class="sort" data-sort="mobile">{{ __('Phone') }}</th>
@@ -60,13 +54,9 @@
                         <tbody class="list form-check-all">
                         @foreach ($contactUser as $value)
                             <tr>
-
-                                <td>
-                                    {{ $value->name}}
-                                </td>
+                                <td> {{ $value->name}}</td>
                                 <td>{{$value->lastName}}</td>
                                 <td>{{$value->mobile}}</td>
-
                                 <td>
                                     <div class="d-flex align-items-center fw-medium">
                                         <img
@@ -78,7 +68,6 @@
                                 </td>
                                 <td><span class="badge rounded-pill {{$value->color}}"><i
                                             class="mdi mdi-circle-medium">{{$value->status}}</i> </span></td>
-
 
                                 @php
 
@@ -301,8 +290,7 @@
                         var url = "{{ route('editContact2', ['locale' =>  app()->getLocale(), 'UserContact'=> Session::get('sessionIdUserExiste')]) }}";
                         document.location.href = url;
                     }
-                })
-                ;
+                });
                 // window.location.reload();
             }
         });
