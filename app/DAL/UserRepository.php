@@ -74,12 +74,9 @@ class  UserRepository implements IUserRepository
 
     public function updateUserContact(UserContact $userContact)
     {
-//        $result = UserContact::find($userContact->id)->exists();
         $uc = new userContact();
-
         if (UserContact::find($userContact->id)) {
             $uc = $userContact::find($userContact->id);
-
         }
         $uc->lastName = $userContact->lastName;
         $uc->Name = $userContact->name;
@@ -89,9 +86,17 @@ class  UserRepository implements IUserRepository
         $uc->disponible = $userContact->disponible;
         $uc->fullphone_number = $userContact->fullphone_number;
         $uc->phonecode = $userContact->phonecode;
-//        $uc = userContact::updateOrCreate(
-//            ['id' => $userContact->id]
-//        );
+        $uc->save();
+    }
+
+    public function updateUserContactV2($id, ContactUser $contactUser)
+    {
+        $uc = ContactUser::find($id);
+        $uc->lastName = $contactUser->lastName;
+        $uc->Name = $contactUser->name;
+        $uc->mobile = $contactUser->mobile;
+        $uc->fullphone_number = $contactUser->fullphone_number;
+        $uc->phonecode = $contactUser->phonecode;
         $uc->save();
     }
 

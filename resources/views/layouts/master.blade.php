@@ -1754,6 +1754,7 @@
                 "</div><input wire:model.defer='phoneNumber' type='tel' name='phoneAddContact' id='phoneAddContact' class='form-control' onpaste='handlePaste(event)'" +
                 "placeholder='Mobile Number'><span id='valid-msgAddContact' class='invisible'>✓ Valid</span><span id='error-msgAddContact' class='hide'></span>" +
                 " <input type='hidden' name='fullnumber' id='outputAddContact' class='form-control'><input type='hidden' name='ccodeAddContact' id='ccodeAddContact'>";
+
             var countryDataAddContact = window.intlTelInputGlobals.getCountryData(),
                 inputAddContact = document.querySelector("#phoneAddContact");
             try {
@@ -1772,7 +1773,7 @@
             if (bbol) autoInit = codePays;
             var itiAddContact = window.intlTelInput(inputAddContact, {
                 initialCountry: autoInit,
-                //showSelectedDialCode: true,
+                showSelectedDialCode: true,
                 useFullscreenPopup: false,
                 geoIpLookup: function (callback) {
                     $.get('https://ipinfo.io', function () {

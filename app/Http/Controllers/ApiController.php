@@ -1068,34 +1068,6 @@ class="btn btn-xs btn-primary btn2earnTable"  >
             ->make(true);
     }
 
-    public function getUserContacts()
-    {
-        $contactUser = DB::table('contact_users as user_contacts')
-            ->join('users as u', 'user_contacts.idContact', '=', 'u.idUser')
-            ->join('countries as c', 'u.idCountry', '=', 'c.id')
-            ->where('user_contacts.idUser', auth()->user()->idUser)
-            ->select('user_contacts.idUser', 'user_contacts.id', 'user_contacts.name', 'user_contacts.idContact', 'user_contacts.lastName',
-                'u.reserved_by', 'u.mobile', 'u.availablity', 'c.apha2', 'u.idUpline', 'u.reserved_at', DB::raw("CASE WHEN u.status = -2 THEN 'Pending' ELSE 'User' END AS status"));
-        return datatables($contactUser)
-            ->addColumn('action', function ($settings) {
-                return '<a onclick="editContact(' . $settings->id . ')"   data-bs-toggle="modal" data-bs-target="#editModal"  class="btn btn-xs btn-primary btn2earnTable"  >
-<i class="glyphicon glyphicon-edit"></i>' . Lang::get('Edit') . '</a>
-<a onclick="deleteContact(' . $settings->id . ')"  class="btn btn-xs btn-danger btn2earnTable" ><i class="glyphicon glyphicon-delete"></i>' . Lang::get('Delete') . '</a>';
-            })
-            ->addColumn('flag', function ($settings) {
-                return '<img src="' . Asset("assets/images/flags/" . strtolower($settings->apha2)) . '.svg" alt="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
-            })
-            ->editColumn('status', function ($actionHistorys) {
-                if ($actionHistorys->status == "User")
-                    return '<span class="badge rounded-pill bg-success-subtle text-success"><i class="mdi mdi-circle-medium">User</i></span>';
-                else
-                    return '<span class="badge rounded-pill bg-warning-subtle text-warning"><i class="mdi mdi-circle-medium">Pending</i></span>';
-            })
-            ->rawColumns(['action', 'status', 'flag', 'availablity'])
-            ->make(true);
-    }
-
-
     public function getUrlList($idUser, $idamount)
     {
         // Construire l'URL de la route avec les paramètres idUser et idamount

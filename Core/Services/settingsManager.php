@@ -155,6 +155,10 @@ class settingsManager
     {
         return $this->userRepository->updateUserContact($userContact);
     }
+    public function updateUserContactV2($id,ContactUser $contactUser)
+    {
+        return $this->userRepository->updateUserContactV2($id,$contactUser);
+    }
 
     public function addLanguage(language $language)
     {
@@ -984,6 +988,15 @@ class settingsManager
         ]);
         $contact_user->save();
         return $contact_user;
+    }
+
+    /**
+     * @param ContactUser $contactUser
+     * @return null
+     */
+    public function getUserContactV2(ContactUser $contactUser)
+    {
+        return $this->userRepository->updateUserContactV2($contactUser);
     }
 
 }

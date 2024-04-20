@@ -25,24 +25,6 @@
                     </div>
                 </div>
                 <div class="card-body table-responsive">
-                    <table class="table nowrap dt-responsive align-middle table-hover table-bordered"
-                           id="contacts_table" style="width: 100%">
-                        <thead class="table-light">
-                        <tr class="head2earn  tabHeader2earn">
-                            <th class="sort" data-sort="name">{{ __('Name') }}</th>
-                            <th class="sort" data-sort="lastName">{{ __('Last Name') }}</th>
-                            <th class="sort" data-sort="mobile">{{ __('Phone') }}</th>
-                            <th class="sort" data-sort="mobile">{{__('Country')}}</th>
-                            <th class="sort" data-sort="mobile">{{__('registred')}}</th>
-                            <th class="sort" data-sort="mobile">{{__('reserve')}}</th>
-                            <th>{{ __('Actions') }}</th>
-                        </tr>
-                        </thead>
-                        <tbody class="body2earn">
-                        </tbody>
-                    </table>
-                </div>
-                <div class="card-body table-responsive d-none">
                     <table class="table align-middle dt-responsive nowrap " id="customerTable2">
                         <thead class="table-light">
                         <tr class="tabHeader2earn">
@@ -105,7 +87,7 @@
                                             });
                                         });
                                     </script>
-                                    <div class="dropdown d-inline-block d-none">
+                                    <div class="dropdown d-inline-block">
                                         <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
                                                 data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="ri-more-fill align-middle"></i>
