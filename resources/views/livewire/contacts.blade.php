@@ -34,6 +34,7 @@
                             <th class="sort" data-sort="mobile">{{__('Country')}}</th>
                             <th class="sort" data-sort="mobile">{{__('registred')}}</th>
                             <th class="sort" data-sort="mobile">{{__('reserve')}}</th>
+                            <th class="sort" data-sort="mobile">{{__('Availablity')}}</th>
                             <th>{{ __('Actions') }}</th>
                         </tr>
                         </thead>
@@ -70,6 +71,44 @@
                                     </div>
                                 </td>
                                 <td>
+                                    @if($value->availablity ==0)
+                                        <span class="badge bg-success-subtle text-success" data-id="{{$value->id}}"
+                                              data-phone="{{$value->mobile}}">{{__('Available')}}
+                                        </span>
+                                    @else
+                                        @if($value->reserved_by ==$value->idUser)
+                                            @php
+                                                if(strtotime($value->reserved_at)){
+                                                    $reserved_at = DateTime::createFromFormat('Y-m-d H:i:s', $value->reserved_at);
+                                                $delai= $reserved_at->diff(now());
+                                                $diff=($delai->days * 24) + $delai->h;
+                                                $reste =72-$diff;}
+                                            @endphp
+                                            @if($diff<72)
+                                                <span class="badge bg-warning-subtle text-warning"
+                                                      data-id="{{$value->id}}"
+                                                      data-phone="{{$value->mobile}}">{{__('reserved for')}} {{$diff}} {{__('hours')}}</span>
+
+                                            @else
+                                                <span class="badge bg-primary-subtle text-primary"
+                                                      data-id="{{$value->id}}"
+                                                      data-phone="{{$value->mobile}}"
+                                                >{{__('blocked for')}} {{$diff}} {{__('hours')}}</span>
+                                            @endif
+                                        @else
+                                            @if($diff<72)
+                                                <span class="badge bg-warning-subtle text-warning"
+                                                      data-id="{{$value->id}}"
+                                                      data-phone="{{$value->mobile}}">{{__('reserved by other user for')}} {{$diff}} {{__('hours')}}</span>
+                                            @else
+                                                <span class="badge bg-success-subtle text-success"
+                                                      data-id="{{$value->id}}"
+                                                      data-phone="{{$value->mobile}}">{{__('Available')}}</span>
+                                            @endif
+                                        @endif
+                                    @endif
+                                </td>
+                                <td>
                                     <script>
                                         $(document).on('change', '.balance-switch-c', function () {
                                             var id = $(this).data('id');
@@ -94,7 +133,7 @@
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
                                             <li><a
-                                                    href="{{ route('editContact2', ['locale' =>  app()->getLocale(), 'UserContact'=>  $value->id  ]) }}"
+                                                    href="{{ route('editContact', ['locale' =>  app()->getLocale(), 'UserContact'=>  $value->id  ]) }}"
                                                     class="dropdown-item edit-item-btn"><i
                                                         class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                     {{__('Edit')}}</a></li>
@@ -201,89 +240,6 @@
             </div>
         </div>
     </div>
-    <div wire:ignore.self class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModal"
-         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-light p-3">
-                    <h5 class="modal-title" id="editModalLabel"> {{ __('Edit a contact') }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                            id="close-modal"></button>
-                </div>
-                @error('name') <span
-                    class="error alert-danger">{{ $message }}</span>
-                @enderror
-                @error('lastName') <span
-                    class="error alert-danger">{{ $message }}</span>
-                @enderror
-                <form action="">
-                    @csrf
-                    <div class="modal-body">
-                        <input
-                            id="id-field"
-                            type="hidden"
-                            class="form-control" name="name"
-                            placeholder="name"
-                            wire:model.defer="selectedContect"
-                        >
-                        <div class="row g-3">
-                            <div class="col-lg-12">
-                                <div>
-                                    <label for="nameField" class="form-label">{{ __('Name') }}</label>
-                                    <input
-                                        id="nameField"
-                                        type="text"
-                                        class="form-control"
-                                        wire:model.defer="name"
-                                        name="nameField"
-                                        required
-                                    >
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div>
-                                    <label for="lastNameField" class="form-label">{{ __('Last Name') }}</label>
-                                    <input
-                                        id="lastNameField"
-                                        type="text"
-                                        class="form-control"
-                                        wire:model.defer="lastName"
-                                        name="lastNameField"
-                                        required>
-                                </div>
-                            </div>
-                            <div class=" col-lg-12">
-                                <div class="mb-3">
-                                    <label for="username" class="form-label">{{ __('Mobile Number') }}</label><br>
-                                    <input
-                                        type="tel"
-                                        name="mobile"
-                                        id="ipAdd2Contact"
-                                        class="form-control"
-                                        wire:model.defer="mobile"
-                                        value=""
-                                        placeholder="{{ __('PH_MobileNumber') }}"
-                                    >
-                                    <input type='hidden' name='fullnumber' id='outputAdd2Contact' class='form-control'>
-                                    <input type='hidden' name='ccodeAdd2Contact' id='ccodeAdd2Contact'>
-                                </div>
-                            </div>
-                        </div>
-                        <!--end row-->
-                    </div>
-                    <div class="modal-footer">
-                        <div class="hstack gap-2 justify-content-end">
-                            <button type="button" class="btn btn-light"
-                                    data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="button" onclick="updateContact()" class="btn btn-success"
-                                    id="edit-btn">{{__('Update')}}</button>
-                        </div>
-                    </div>
-
-                </form>
-            </div>
-        </div>
-    </div>
 
     <script>
         function initNewUserContact() {
@@ -343,7 +299,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         const iddd = '{{Session::get('sessionIdUserExiste')}}';
-                        var url = "{{ route('editContact2', ['locale' =>  app()->getLocale(), 'UserContact'=> Session::get('sessionIdUserExiste')]) }}";
+                        var url = "{{ route('editContact', ['locale' =>  app()->getLocale(), 'UserContact'=> Session::get('sessionIdUserExiste')]) }}";
                         document.location.href = url;
                     }
                 });

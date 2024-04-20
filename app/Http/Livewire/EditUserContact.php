@@ -90,7 +90,7 @@ class EditUserContact extends Component
                 'idd' => "ee"
             ]
         )->with('idd', 'dfdf');
-        return redirect()->route('editContact2', ['locale' => app()->getLocale(), 'idd' => $idd]);
+        return redirect()->route('editContact', ['locale' => app()->getLocale(), 'idd' => $idd]);
 
     }
 }

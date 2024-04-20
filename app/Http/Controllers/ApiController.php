@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DAL\UserBalancesRepository;
 use App\Models\User;
 
 //use App\Models\UserBalance;
@@ -72,8 +73,6 @@ left join users user on user.idUser = recharge_requests.idUser";
         ]);
 
         if ($validator->fails()) {
-
-
             return response()->json([
                 'error' => $validator->errors()->all()
             ], 400);
@@ -102,15 +101,13 @@ left join users user on user.idUser = recharge_requests.idUser";
 
         if ($reserve) {
             if ($reserve != $reciver) {
-
-
                 $setting = \Core\Models\Setting::WhereIn('idSETTINGS', ['24', '26', '27', '28'])->orderBy('idSETTINGS')->pluck('IntegerValue');
-
                 $prcShares = $setting[0];
                 $prcAmount = $setting[1];
                 $pcrCash = $setting[2];
                 $pcrBFS = $setting[3];
 
+                $user_balance1= UserBalance::
                 $user_balance = new user_balance();
                 $user_balance->ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
                 $user_balance->idBalancesOperation = 44;
@@ -139,9 +136,8 @@ left join users user on user.idUser = recharge_requests.idUser";
                 $user_balance->WinPurchaseAmount = "0.000";
                 $user_balance->Description = 'sponsorship commission from ' . $b;
                 $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser)->soldeCB + $amount * $pcrCash / 100;
-
-
                 $user_balance->save();
+
                 $user_balance = new user_balance();
                 $user_balance->ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
                 $user_balance->idBalancesOperation = 50;
@@ -154,7 +150,6 @@ left join users user on user.idUser = recharge_requests.idUser";
                 $user_balance->WinPurchaseAmount = "0.000";
                 $user_balance->Description = 'sponsorship commission from ' . $b;
                 $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser)->soldeBFS + $amount * $pcrBFS / 100;
-
                 $user_balance->save();
 
             }

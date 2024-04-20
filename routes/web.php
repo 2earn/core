@@ -106,7 +106,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('user_balance_bfs', UserBalanceBFS::class)->name('user_balance_bfs');
         Route::get('financial_transaction', FinancialTransaction::class)->name('financial_transaction');
         Route::get('ContactNumber', ContactNumber::class)->name('ContactNumber');
-        Route::get('editContact', EditUserContact::class)->name('editContact2');
+        Route::get('editContact', EditUserContact::class)->name('editContact');
         Route::get('/balances/exchange/funding/RequestPulicUser', RequestPublicUser::class)->name('RequesPublicUser');
         Route::get('/balances/exchange/funding/strip', stripView::class)->name('paymentstrip');
         Route::get('paytabs', '\App\Http\Livewire\pay@test')->name('paytabs');

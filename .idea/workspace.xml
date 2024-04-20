@@ -6,13 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="fc4c9d0a-e15c-448d-b8d4-372803198e00" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Services/settingsManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Services/settingsManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/DAL/UserRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DAL/UserRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/DAL/UserBalancesRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DAL/UserBalancesRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ApiController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Livewire/Contacts.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Livewire/Contacts.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Livewire/EditUserContact.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Livewire/EditUserContact.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/master.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/master.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/livewire/contacts.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/livewire/contacts.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/livewire/edit-user-contact.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/livewire/edit-user-contact.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -269,7 +268,8 @@
       <workItem from="1713606066749" duration="289000" />
       <workItem from="1713606956127" duration="369000" />
       <workItem from="1713607689063" duration="2573000" />
-      <workItem from="1713610451059" duration="619000" />
+      <workItem from="1713610451059" duration="1506000" />
+      <workItem from="1713612224306" duration="3080000" />
     </task>
     <task id="LOCAL-00001" summary="images">
       <option name="closed" value="true" />
