@@ -274,4 +274,16 @@ class  UserRepository implements IUserRepository
         return $contact_user__user;
     }
 
+    public function getUserByIdUser($idUser)
+    {
+        return User::where('idUser', $idUser)->first();
+    }
+
+    public function addSponsoring($sponsorUser, $sponsoredUser)
+    {
+        $sponsoredUser->availablity = 1;
+        $sponsoredUser->reserved_by = $sponsorUser->idUser;
+        $sponsoredUser->reserved_at = now();
+        $sponsoredUser->save();
+    }
 }

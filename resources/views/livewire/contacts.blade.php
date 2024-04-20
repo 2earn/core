@@ -49,7 +49,7 @@
                                         <img
                                             src="{{ URL::asset('assets/images/flags/'. Illuminate\Support\Str::lower($value->apha2) .'.svg') }}"
                                             alt=""
-                                            class="avatar-xxs me-2">
+                                            class="avatar-xs me-2 rounded-circle">
                                         <a href="javascript:void(0);"
                                            class="currency_name"> {{getCountryByIso($value->apha2)}}</a>
                                     </div>

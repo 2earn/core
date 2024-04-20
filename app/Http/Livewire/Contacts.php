@@ -54,7 +54,7 @@ class Contacts extends Component
             ->join('users as u', 'contact_users.idContact', '=', 'u.idUser')
             ->join('countries as c', 'u.idCountry', '=', 'c.id')
             ->where('contact_users.idUser', $userAuth->idUser)
-            ->select('contact_users.id', 'contact_users.name', 'contact_users.lastName', 'contact_users.idUser', 'u.reserved_by', 'u.mobile', 'u.availablity', 'c.apha2','u.idUpline', 'u.reserved_at',
+            ->select('contact_users.id', 'contact_users.name', 'contact_users.lastName', 'contact_users.idUser', 'u.reserved_by', 'u.mobile', 'u.availablity', 'c.apha2', 'u.idUpline', 'u.reserved_at',
                 DB::raw("CASE WHEN u.status = -2 THEN 'warning' ELSE 'success' END AS color"),
                 DB::raw("CASE WHEN u.status = -2 THEN 'Pending' ELSE 'User' END AS status"));
 
@@ -116,12 +116,18 @@ class Contacts extends Component
 
         $contact_user__user = $settingsManager->getUserByFullNumber($fullNumber);
 
-        if (!$contact_user__user) {
+        if ($contact_user__user) {
+            $this->checkDelayedSponsorship($contact_user__user);
+        } else {
             $contact_user__user = $settingsManager->createNewUser(
                 $this->name . ' ' . $this->lastName,
                 $this->mobile,
                 $fullNumber,
-                $ccode
+                $ccode,
+
+
+
+
             );
         }
         $contact_user = $settingsManager->createNewContactUser($settingsManager->getAuthUser()->idUser, $this->name, $contact_user__user->idUser, $this->lastName, $phone, $fullNumber, $ccode,);
@@ -137,10 +143,14 @@ class Contacts extends Component
         }
     }
 
+    public function checkDelayedSponsorship($sponsoredUser)
+    {
+        $sponsorUser = Auth::user();
+    }
 
     public function update($id, $name, $lastName, $mobile, TransactionManager $transactionManager)
     {
-        $existeuser = UserContact::where('id', $id)
+        $existeuser = ContactUser::where('id', $id)
             ->get()
             ->first();
         if ($existeuser) {
@@ -164,22 +174,26 @@ class Contacts extends Component
 
     public function deleteId($id)
     {
-        $existeuser = UserContact::where('id', $id)->delete();
+        $existeuser = ContactUser::where('id', $id)->delete();
         $this->dispatchBrowserEvent('close-modal');
         return redirect()->route('contacts', app()->getLocale());
     }
 
-    public function sponsorId($id)
+    public function sponsorId($id, settingsManager $settingsManager)
     {
-        dd($id);
-//        $existeuser = UserContact::where('id', $id)->delete();
-//        $this->dispatchBrowserEvent('close-modal');
-//        return redirect()->route('contacts', app()->getLocale());
+        $contactUser = ContactUser::where('id', $id)->get()->first();
+        $sponsorUser = $settingsManager->getUserByIdUser($contactUser->idUser);
+        $sponsoredUser = $settingsManager->getUserByIdUser($contactUser->idContact);
+        if ($sponsorUser && $sponsoredUser) {
+            $settingsManager->addSponsoring($sponsorUser, $sponsoredUser);
+        }
+        $this->dispatchBrowserEvent('close-modal');
+        return redirect()->route('contacts', app()->getLocale())->with('alert-class', 'Sponsorship Success');
     }
 
     public function delete_multiple($ids)
     {
-        $existeuser = UserContact::whereIn('id', $ids)->delete();
+        $existeuser = ContactUser::whereIn('id', $ids)->delete();
         $this->dispatchBrowserEvent('close-modal');
         return redirect()->route('contacts', app()->getLocale());
     }

@@ -999,4 +999,14 @@ class settingsManager
         return $this->userRepository->updateUserContactV2($contactUser);
     }
 
+    public function getUserByIdUser($idUser)
+    {
+        return $this->userRepository->getUserByIdUser($idUser);
+    }
+
+    public function addSponsoring($sponsorUser,$sponsoredUser)
+    {
+        return $this->userRepository->addSponsoring($sponsorUser,$sponsoredUser);
+    }
+
 }
