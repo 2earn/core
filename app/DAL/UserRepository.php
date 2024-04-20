@@ -60,7 +60,7 @@ class  UserRepository implements IUserRepository
 
     public function addUserContactV2(ContactUser $contactUser)
     {
-        UserContact::create(
+        ContactUser::create(
             [
                 'idUser' => $contactUser->idUser,
                 'name' => $contactUser->name,

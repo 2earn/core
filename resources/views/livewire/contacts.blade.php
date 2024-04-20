@@ -54,9 +54,9 @@
                                            class="currency_name"> {{getCountryByIso($value->apha2)}}</a>
                                     </div>
                                 </td>
-                                <td><span class="badge rounded-pill {{$value->color}}">
-                                        <i class="mdi mdi-circle-medium">{{$value->status}}</i>
-                                    </span>
+                                <td>
+                                    <button type="button" class="btn btn-outline-{{$value->color}}"> {{$value->status}}
+                                    </button>
                                 </td>
                                 @php
                                     $disableUntil = getSwitchBlock($value->id);
@@ -71,10 +71,9 @@
                                     </div>
                                 </td>
                                 <td>
-                                    @if($value->availablity ==0)
-                                        <span class="badge bg-success-subtle text-success" data-id="{{$value->id}}"
-                                              data-phone="{{$value->mobile}}">{{__('Available')}}
-                                        </span>
+                                    @if($value->availablity == 0)
+                                        <button type="button" class="btn btn-outline-success" data-id="{{$value->id}}"
+                                                data-phone="{{$value->mobile}}"> {{__('Available')}}   </button>
                                     @else
                                         @if($value->reserved_by ==$value->idUser)
                                             @php
@@ -85,25 +84,25 @@
                                                 $reste =72-$diff;}
                                             @endphp
                                             @if($diff<72)
-                                                <span class="badge bg-warning-subtle text-warning"
-                                                      data-id="{{$value->id}}"
-                                                      data-phone="{{$value->mobile}}">{{__('reserved for')}} {{$diff}} {{__('hours')}}</span>
-
+                                                <button type="button" class="btn btn-outline-warning"
+                                                        data-id="{{$value->id}}"
+                                                        data-phone="{{$value->mobile}}">{{__('reserved for')}} {{$diff}} {{__('hours')}}
+                                                </button>
                                             @else
-                                                <span class="badge bg-primary-subtle text-primary"
-                                                      data-id="{{$value->id}}"
-                                                      data-phone="{{$value->mobile}}"
-                                                >{{__('blocked for')}} {{$diff}} {{__('hours')}}</span>
+                                                <button type="button" class="btn btn-outline-primary" data-id="{{$value->id}}"
+                                                        data-phone="{{$value->mobile}}">
+                                                    {{__('blocked for')}} {{$diff}} {{__('hours')}}
+                                                </button>
                                             @endif
                                         @else
                                             @if($diff<72)
-                                                <span class="badge bg-warning-subtle text-warning"
-                                                      data-id="{{$value->id}}"
-                                                      data-phone="{{$value->mobile}}">{{__('reserved by other user for')}} {{$diff}} {{__('hours')}}</span>
+                                                <button type="button" class="btn btn-primary" data-id="{{$value->id}}"
+                                                        data-phone="{{$value->mobile}}">   {{__('Blocked for')}} {{$diff}} {{__('hours')}}
+                                                </button>
                                             @else
-                                                <span class="badge bg-success-subtle text-success"
-                                                      data-id="{{$value->id}}"
-                                                      data-phone="{{$value->mobile}}">{{__('Available')}}</span>
+                                                <button type="button" class="btn btn-outline-success" data-id="{{$value->id}}"
+                                                        data-phone="{{$value->mobile}}">  {{__('Available')}}
+                                                </button>
                                             @endif
                                         @endif
                                     @endif
@@ -132,11 +131,13 @@
                                             <i class="ri-more-fill align-middle"></i>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a
+                                            <li>
+                                                <a
                                                     href="{{ route('editContact', ['locale' =>  app()->getLocale(), 'UserContact'=>  $value->id  ]) }}"
                                                     class="dropdown-item edit-item-btn"><i
                                                         class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                    {{__('Edit')}}</a></li>
+                                                    {{__('Edit')}}</a>
+                                            </li>
                                             <li>
                                                 <a onclick="deleteId('{{$value->id}}')"
                                                    class="dropdown-item remove-item-btn">
@@ -144,6 +145,15 @@
                                                     {{__('Delete')}}
                                                 </a>
                                             </li>
+                                            @if($value->availablity == 0)
+                                                <li>
+                                                    <a wire:click="sponsorId({{$value->id}})"
+                                                       class="dropdown-item remove-item-btn">
+                                                        <i class="ri-dashboard-2-line align-bottom me-2 text-muted"></i>
+                                                        {{__('Sponsor')}}
+                                                    </a>
+                                                </li>
+                                            @endif
                                         </ul>
                                     </div>
                                 </td>
@@ -183,7 +193,6 @@
                         >
                         <div class="row g-3">
                             <div class="col-lg-12">
-
                                 <div>
                                     <label for="nameField" class="form-label">{{ __('Name') }}</label>
                                     <input
@@ -263,8 +272,10 @@
         }
 
         function updateContact() {
-            console.log('aaaaaaaaaaaaaaa')
+        }
 
+        function sponsorId(id) {
+            window.livewire.emit('sponsorId', id);
         }
 
         function deleteId(dd) {
@@ -273,7 +284,6 @@
 
         function deleteContact(dd) {
             window.livewire.emit('deleteContact', dd);
-            // $('#contacts_table').DataTable().ajax.reload( );
         }
 
 

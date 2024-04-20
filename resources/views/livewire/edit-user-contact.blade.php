@@ -30,9 +30,6 @@
                                 <input id="inputlLastNameContact" type="text"
                                        class="form-control" name=" " wire:model.defer="lastNameUserContact"
                                        placeholder="name ">
-                                <input id="ipPhoneCode" type=""
-                                       class="form-control" name="" wire:model.defer="phoneCode"
-                                       placeholder=" " hidden>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -40,18 +37,19 @@
                                 <label class="form-label">{{ __('Mobile_Number') }}</label>
                                 <div id="ipAddContact" data-turbolinks-permanent class="input-group signup mb-3">
                                 </div>
+                                <input type="tel" hidden id="pho" wire:model.defer="phoneNumber">
+                                <p hidden id="codecode">{{$phoneCode}}</p>
                             </div>
                         </div>
                         <div class="row">
-                            <input type="text" hidden id="pho" wire:model.defer="phoneNumber">
-                            <p hidden id="codecode">{{$phoneCode}}</p>
                             <input type="text" name="idUser" hidden>
                             <div class="col-md-12">
                                 <div class="modal-footer">
                                     <button type=" " class="btn btn-secondary"
-                                            wire:click="close" >{{ __('Close') }}</button>
+                                            wire:click="close">{{ __('Close') }}</button>
                                     <button type="button" id="SubmitAd3dContact" onclick="editContactEvent()"
-                                            class="btn btn-primary">{{ __('Save') }}                                    </button>
+                                            class="btn btn-primary">{{ __('Save') }}
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -62,6 +60,8 @@
     </div>
     <script>
         var codePays = document.getElementById('codecode').textContent;
+
+
 
         function editContactEvent() {
             window.livewire.emit('saveContact');
@@ -74,6 +74,7 @@
                 alert("erreur number");
         }
 
-        let code = {{$phoneCode}};
+        let code = '{{$phoneCode}}';
+
     </script>
 </div>

@@ -38,8 +38,8 @@ class EditUserContact extends Component
             $user = $settingsManager->getUsers()->where('idUser', $settingsManager->getAuthUser()->idUser)->first();
             $phone = !empty($this->userCOntact->phonecode) ? $this->userCOntact->phonecode : $user->idCountry;
             $this->idContact = $type;
-            $countrie = strval(countrie::where('phonecode', $phone)->first()->apha2);
-            $this->phoneCode = $countrie;
+            $country = strval(countrie::where('phonecode', $phone)->first()->apha2);
+            $this->phoneCode = $country;
         }
 
     }
@@ -58,15 +58,26 @@ class EditUserContact extends Component
     public function save($code, $fullnumber, $phone, settingsManager $settingsManager, TransactionManager $transactionManager)
     {
         $fullphone_number = str_replace(' ', '', str_ends_with($fullnumber, $phone) ? $fullnumber : $fullnumber . $phone);
+        $mobile = str_replace(' ', '', $phone);
+        $contact_user__user = $settingsManager->getUserByFullNumber($fullphone_number);
 
+        if (!$contact_user__user) {
+            $contact_user__user = $settingsManager->createNewUser(
+                $this->nameUserContact . ' ' . $this->lastNameUserContact,
+                $mobile,
+                $fullphone_number,
+                $code
+            );
+        }
         $contact_user = new ContactUser([
+            'idUser' => Auth()->user()->idUser,
+            'idContact' => $contact_user__user->idUser,
             'name' => $this->nameUserContact,
             'lastName' => $this->lastNameUserContact,
-            'mobile' => str_replace(' ', '', $phone),
+            'mobile' => $mobile,
             'fullphone_number' => $fullphone_number,
             'phonecode' => $code
         ]);
-
         $existeuser = ContactUser::where('id', $this->idContact)
             ->get()
             ->first();

@@ -55,7 +55,7 @@ class Contacts extends Component
             ->join('countries as c', 'u.idCountry', '=', 'c.id')
             ->where('contact_users.idUser', $userAuth->idUser)
             ->select('contact_users.id', 'contact_users.name', 'contact_users.lastName', 'contact_users.idUser', 'u.reserved_by', 'u.mobile', 'u.availablity', 'c.apha2','u.idUpline', 'u.reserved_at',
-                DB::raw("CASE WHEN u.status = -2 THEN 'bg-warning-subtle text-warning' ELSE 'bg-success-subtle text-success' END AS color"),
+                DB::raw("CASE WHEN u.status = -2 THEN 'warning' ELSE 'success' END AS color"),
                 DB::raw("CASE WHEN u.status = -2 THEN 'Pending' ELSE 'User' END AS status"));
 
         $contactUser = $contactUserQuery->get();
@@ -109,6 +109,7 @@ class Contacts extends Component
             ->where('mobile', $phone)
             ->where('phonecode', $ccode)
             ->get()->first();
+
         if ($contact_user_exist) {
             return redirect()->route('contacts', app()->getLocale())->with('existeUserContact', 'deja existe')->with('sessionIdUserExiste', $contact_user_exist->id);
         }
@@ -166,7 +167,14 @@ class Contacts extends Component
         $existeuser = UserContact::where('id', $id)->delete();
         $this->dispatchBrowserEvent('close-modal');
         return redirect()->route('contacts', app()->getLocale());
+    }
 
+    public function sponsorId($id)
+    {
+        dd($id);
+//        $existeuser = UserContact::where('id', $id)->delete();
+//        $this->dispatchBrowserEvent('close-modal');
+//        return redirect()->route('contacts', app()->getLocale());
     }
 
     public function delete_multiple($ids)
