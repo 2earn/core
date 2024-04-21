@@ -298,12 +298,12 @@ class  UserRepository implements IUserRepository
         return User::where('idUser', $idUser)->first();
     }
 
-    public function addSponsoring($sponsorUser, $sponsoredUser)
+    public function addSponsoring($upLine, $downLine)
     {
-        $sponsoredUser->availablity = 1;
-        $sponsoredUser->reserved_by = $sponsorUser->idUser;
-        $sponsoredUser->reserved_at = now();
-        $sponsoredUser->save();
-        return $sponsoredUser;
+        $downLine->availablity = 1;
+        $downLine->reserved_by = $upLine->idUser;
+        $downLine->reserved_at = now();
+        $downLine->save();
+        return $downLine;
     }
 }

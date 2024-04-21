@@ -173,15 +173,14 @@ class Contacts extends Component
     public function sponsorId($id, settingsManager $settingsManager)
     {
         $contactUser = ContactUser::where('id', $id)->get()->first();
-        $sponsorUser = $settingsManager->getUserByIdUser($contactUser->idUser);
-        $sponsoredUser = $settingsManager->getUserByIdUser($contactUser->idContact);
-        if ($sponsorUser && $sponsoredUser) {
-            $sponsoredUser = $settingsManager->addSponsoring($sponsorUser, $sponsoredUser);
-            if ($sponsoredUser) {
-                $this->checkDelayedSponsorship($sponsoredUser);
+        $upLine = $settingsManager->getUserByIdUser($contactUser->idUser);
+        $downLine = $settingsManager->getUserByIdUser($contactUser->idContact);
+        if ($upLine && $downLine) {
+            $sponsoredUser = $settingsManager->addSponsoring($upLine, $downLine);
+            if ($downLine) {
+                $this->checkDelayedSponsorship($downLine);
             }
         }
-
         $this->dispatchBrowserEvent('close-modal');
         return redirect()->route('contacts', app()->getLocale())->with('message', 'Sponsorship Success');
     }

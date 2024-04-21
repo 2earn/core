@@ -1024,9 +1024,9 @@ class settingsManager
         return $this->userRepository->getUserByIdUser($idUser);
     }
 
-    public function addSponsoring($sponsorUser, $sponsoredUser)
+    public function addSponsoring($upLine, $downLine)
     {
-        return $this->userRepository->addSponsoring($sponsorUser, $sponsoredUser);
+        return $this->userRepository->addSponsoring($upLine, $downLine);
     }
 
 }
