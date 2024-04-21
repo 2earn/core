@@ -69,6 +69,8 @@ class EditUserContact extends Component
                 $code,
                 auth()->user()->idUser
             );
+        } else {
+            // NOTE TO DO : Check avec Ghazi we should update meta
         }
         $contact_user = new ContactUser([
             'idUser' => Auth()->user()->idUser,

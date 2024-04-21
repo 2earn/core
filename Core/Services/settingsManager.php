@@ -35,6 +35,7 @@ use Core\Interfaces\IUserContactNumberRepository;
 use Core\Interfaces\IUserContactRepository;
 use Core\Interfaces\IUserRepository;
 use Core\Models\AuthenticatedUser;
+use Core\Models\countrie;
 use Core\Models\identificationuserrequest;
 use Core\Models\language;
 use Core\Models\metta_user;
@@ -286,7 +287,6 @@ class settingsManager
     {
         $metta = new  metta_user();
         $metta->idUser = $user->idUser;
-//        $country = $this->getCountrieById($user->idCountry);
         $countrie_earn = DB::table('countries')->where('phonecode', $user->id_phone)->first();
         foreach (LanguageEnum::cases() as $lanque) {
             if ($lanque->name == $countrie_earn->langage) {
@@ -313,15 +313,6 @@ class settingsManager
                 'fullNumber' => $user->fullphone_number,
             ]);
         }
-//        $contactNumber = UserContactNumber::create([
-//            'idUser' => $user->idUser,
-//            'mobile' => $user->mobile,
-//            'codeP' => $user->idCountry,
-//            'active' => 1,
-//            'isoP' => $iso,
-//            'isID' => true,
-//            'fullNumber' => $user->fullphone_number,
-//        ]);
     }
 
     public function createUserContactNumberByProp($idUser, $mobile, $idCountry, $iso, $fullNumber)
@@ -344,7 +335,6 @@ class settingsManager
         $userearn->idUser = $user->idUser;
 
         $userearn->mobile = $user->mobile;
-        // dd($request->fullnumber);
         $userearn->fullphone_number = $user->fullphone_number;
         $userearn->registred_at = date('Y-m-d H:i:s');
         $userearn->registred_from = 3;
@@ -357,7 +347,6 @@ class settingsManager
         $userearn->diallingCode = 0;
         $userearn->idCountry = $ccode;
         $userearn->isCountryRepresentative = 0;
-        // dd($userearn->idUser);
         $userearn->idUpline = $user->idUpline;
         return $this->userRepository->createUserEarn($userearn);
     }
@@ -397,6 +386,7 @@ class settingsManager
 //        }
 //        return $NotificationUserSetting = $this->getUserNotificationSetting($idUser);
 //    }
+
     /**
      * Returns void
      *
@@ -440,7 +430,6 @@ class settingsManager
             $fullNumber = $userContactActif->fullNumber;
 
         }
-        //dd($userContactActif);
         $idCountry = $country->phonecode;
         $this->earnDebugSms("User id - " . $user->idUser);
         $user_notif = $this->getUserNotificationSetting($user->idUser);
@@ -456,7 +445,6 @@ class settingsManager
         $user_notif = $this->getUserNotificationSetting($user->idUser);
 
         if (isset($params['fullNumber'])) {
-//            dd('fsdfsdf');
             $fullNumber = $params['fullNumber'];
         }
 
@@ -971,7 +959,11 @@ class settingsManager
 
     public function createNewUser($name, $mobile, $fullphone_number, $id_phone, $idUplineRegister)
     {
-        return $this->userRepository->createNewUser($name, $mobile, $fullphone_number, $id_phone, $idUplineRegister);
+        $user = $this->userRepository->createNewUser($name, $mobile, $fullphone_number, $id_phone, $idUplineRegister);
+        $this->createMettaUser($user);
+        $country = countrie::find($user->idCountry);
+        $this->createUserContactNumber($user, $country->apha2);
+        return $user;
     }
 
     public function createNewContactUser($idUser, $name, $idContact, $lastName, $mobile, $fullphone, $phonecode)

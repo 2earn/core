@@ -211,7 +211,8 @@ class  UserRepository implements IUserRepository
 
     public function createmettaUser(metta_user $metta_user)
     {
-        // TODO: Implement createmettaUser() method.
+        // TODO: Implement createmettaUser() method. ..
+        // NOTE TO DO : Check avec Ghazi is complete
         if (!metta_user::where('idUser', $metta_user->idUser)->exists()) {
             $metta_user->save();
         }
@@ -261,6 +262,7 @@ class  UserRepository implements IUserRepository
         return $newUser;
     }
 
+
     public function createNewUser($name, $mobile, $fullphone_number, $id_phone, $idUplineRegister)
     {
         // NOTE TO DO : complete registration and instert in user meta & User Contact number
@@ -275,6 +277,7 @@ class  UserRepository implements IUserRepository
         $contact_user__user->save();
         return $contact_user__user;
     }
+
 
     public function getUserByIdUser($idUser)
     {
