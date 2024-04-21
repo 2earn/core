@@ -95,11 +95,11 @@ left join users user on user.idUser = recharge_requests.idUser";
 
         }
         $b = getPhoneByUser($reciver);
-      // verification
+        // NOTE TO DO :  Rename to  checkProactifSponsorship
         $reserve = getUserByContact($b);
 
         // parrainage proactif
-        // move to public function checkProactifSponsorship($sponsoredUser)
+        // NOTE TO DO :  move to public function executeProactifSponsorship($sponsoredUser) + factorisation
 
         if ($reserve) {
             if ($reserve != $reciver) {

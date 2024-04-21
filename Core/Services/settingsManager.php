@@ -155,9 +155,10 @@ class settingsManager
     {
         return $this->userRepository->updateUserContact($userContact);
     }
-    public function updateUserContactV2($id,ContactUser $contactUser)
+
+    public function updateUserContactV2($id, ContactUser $contactUser)
     {
-        return $this->userRepository->updateUserContactV2($id,$contactUser);
+        return $this->userRepository->updateUserContactV2($id, $contactUser);
     }
 
     public function addLanguage(language $language)
@@ -968,9 +969,9 @@ class settingsManager
         return $this->userRepository->initNewUser();
     }
 
-    public function createNewUser($name, $mobile, $fullphone_number, $id_phone)
+    public function createNewUser($name, $mobile, $fullphone_number, $id_phone, $idUplineRegister)
     {
-        return $this->userRepository->createNewUser($name, $mobile, $fullphone_number, $id_phone);
+        return $this->userRepository->createNewUser($name, $mobile, $fullphone_number, $id_phone, $idUplineRegister);
     }
 
     public function createNewContactUser($idUser, $name, $idContact, $lastName, $mobile, $fullphone, $phonecode)
@@ -1004,9 +1005,9 @@ class settingsManager
         return $this->userRepository->getUserByIdUser($idUser);
     }
 
-    public function addSponsoring($sponsorUser,$sponsoredUser)
+    public function addSponsoring($sponsorUser, $sponsoredUser)
     {
-        return $this->userRepository->addSponsoring($sponsorUser,$sponsoredUser);
+        return $this->userRepository->addSponsoring($sponsorUser, $sponsoredUser);
     }
 
 }

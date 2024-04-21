@@ -10,6 +10,7 @@
       <change beforePath="$PROJECT_DIR$/app/DAL/UserRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DAL/UserRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ApiController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Livewire/Contacts.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Livewire/Contacts.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Livewire/EditUserContact.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Livewire/EditUserContact.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/livewire/contacts.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/livewire/contacts.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -270,7 +271,7 @@
       <workItem from="1713610451059" duration="1506000" />
       <workItem from="1713612224306" duration="3899000" />
       <workItem from="1713619064554" duration="23000" />
-      <workItem from="1713619161543" duration="10391000" />
+      <workItem from="1713619161543" duration="12827000" />
     </task>
     <task id="LOCAL-00001" summary="images">
       <option name="closed" value="true" />

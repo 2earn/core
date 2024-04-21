@@ -66,7 +66,8 @@ class EditUserContact extends Component
                 $this->nameUserContact . ' ' . $this->lastNameUserContact,
                 $mobile,
                 $fullphone_number,
-                $code
+                $code,
+                auth()->user()->idUser
             );
         }
         $contact_user = new ContactUser([

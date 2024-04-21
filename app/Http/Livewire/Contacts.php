@@ -111,23 +111,18 @@ class Contacts extends Component
             ->get()->first();
 
         if ($contact_user_exist) {
-            return redirect()->route('contacts', app()->getLocale())->with('existeUserContact', 'deja existe')->with('sessionIdUserExiste', $contact_user_exist->id);
+            return redirect()->route('contacts', app()->getLocale())->with('existeUserContact', 'deja existe')->with('message', 'sessionIdUserExiste', $contact_user_exist->id);
         }
 
         $contact_user__user = $settingsManager->getUserByFullNumber($fullNumber);
 
-        if ($contact_user__user) {
-            $this->checkDelayedSponsorship($contact_user__user);
-        } else {
+        if (!$contact_user__user) {
             $contact_user__user = $settingsManager->createNewUser(
                 $this->name . ' ' . $this->lastName,
                 $this->mobile,
                 $fullNumber,
                 $ccode,
-
-
-
-
+                auth()->user()->idUser
             );
         }
         $contact_user = $settingsManager->createNewContactUser($settingsManager->getAuthUser()->idUser, $this->name, $contact_user__user->idUser, $this->lastName, $phone, $fullNumber, $ccode,);
@@ -143,9 +138,18 @@ class Contacts extends Component
         }
     }
 
+    public function executeDelayedSponsorship($sponsoredUser)
+    {
+        // NOTE TO DO : executeDelayedSponsorship
+    }
+
     public function checkDelayedSponsorship($sponsoredUser)
     {
-        $sponsorUser = Auth::user();
+        // NOTE TO DO : checkDelayedSponsorship
+        $sponsorUser =  auth()->user();
+        if (true) {
+            $this->executeDelayedSponsorship($sponsoredUser);
+        }
     }
 
     public function update($id, $name, $lastName, $mobile, TransactionManager $transactionManager)
@@ -185,11 +189,16 @@ class Contacts extends Component
         $sponsorUser = $settingsManager->getUserByIdUser($contactUser->idUser);
         $sponsoredUser = $settingsManager->getUserByIdUser($contactUser->idContact);
         if ($sponsorUser && $sponsoredUser) {
-            $settingsManager->addSponsoring($sponsorUser, $sponsoredUser);
+            $sponsoredUser = $settingsManager->addSponsoring($sponsorUser, $sponsoredUser);
+            if ($sponsoredUser) {
+                $this->checkDelayedSponsorship($sponsoredUser);
+            }
         }
+
         $this->dispatchBrowserEvent('close-modal');
-        return redirect()->route('contacts', app()->getLocale())->with('alert-class', 'Sponsorship Success');
+        return redirect()->route('contacts', app()->getLocale())->with('message', 'Sponsorship Success');
     }
+
 
     public function delete_multiple($ids)
     {

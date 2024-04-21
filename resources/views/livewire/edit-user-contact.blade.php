@@ -49,6 +49,11 @@
                                             wire:click="close">{{ __('Close') }}</button>
                                     <button type="button" id="SubmitAd3dContact" onclick="editContactEvent()"
                                             class="btn btn-primary">{{ __('Save') }}
+                                        <div wire:loading>
+                                    <span class="spinner-border spinner-border-sm" role="status"
+                                          aria-hidden="true"></span>
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
                                     </button>
                                 </div>
                             </div>
@@ -60,8 +65,6 @@
     </div>
     <script>
         var codePays = document.getElementById('codecode').textContent;
-
-
 
         function editContactEvent() {
             window.livewire.emit('saveContact');

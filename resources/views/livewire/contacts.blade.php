@@ -33,7 +33,7 @@
                             <th class="sort" data-sort="mobile">{{ __('Phone') }}</th>
                             <th class="sort" data-sort="mobile">{{__('Country')}}</th>
                             <th class="sort" data-sort="mobile">{{__('registred')}}</th>
-                            <th class="sort" data-sort="mobile">{{__('reserve')}}</th>
+                            <th class="sort" data-sort="mobile" class="d-none">{{__('reserve')}}</th>
                             <th class="sort" data-sort="mobile">{{__('Availablity')}}</th>
                             <th>{{ __('Actions') }}</th>
                         </tr>
@@ -63,7 +63,7 @@
                                     if($value->availablity == 1) $disableUntil = now();
                                     else $disableUntil = getSwitchBlock($value->id);// Désactiver le commutateur jusqu'à 24 heures à partir de maintenant
                                 @endphp
-                                <td>
+                                <td class="d-none">
                                     <div class="form-check form-switch form-switch-custom form-switch-success mb-3">
                                         <input type="checkbox" class="balance-switch-c form-check-input" role="switch"
                                                data-id="{{$value->id}}"
@@ -73,7 +73,13 @@
                                 <td>
                                     @if($value->availablity == 0)
                                         <button type="button" class="btn btn-outline-success" data-id="{{$value->id}}"
-                                                data-phone="{{$value->mobile}}"> {{__('Available')}}   </button>
+                                                data-phone="{{$value->mobile}}"> {{__('Available')}}
+                                            <div wire:loading wire:target="sponsorId({{$value->id}})">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                        </button>
                                     @else
                                         @if($value->reserved_by ==$value->idUser)
                                             @php
@@ -84,12 +90,14 @@
                                                 $reste =72-$diff;}
                                             @endphp
                                             @if($diff<72)
-                                                <button type="button" class="btn btn-outline-warning"
+                                                <button type="button" title="{{$value->reserved_at}}"
+                                                        class="btn btn-outline-warning"
                                                         data-id="{{$value->id}}"
-                                                        data-phone="{{$value->mobile}}">{{__('reserved for')}} {{$diff}} {{__('hours')}}
+                                                        data-phone="{{$value->mobile}}">{{__('Reserved for')}} {{$reste}} {{__('hours')}}
                                                 </button>
                                             @else
-                                                <button type="button" class="btn btn-outline-primary" data-id="{{$value->id}}"
+                                                <button type="button" class="btn btn-outline-primary"
+                                                        data-id="{{$value->id}}"
                                                         data-phone="{{$value->mobile}}">
                                                     {{__('blocked for')}} {{$diff}} {{__('hours')}}
                                                 </button>
@@ -100,7 +108,8 @@
                                                         data-phone="{{$value->mobile}}">   {{__('Blocked for')}} {{$diff}} {{__('hours')}}
                                                 </button>
                                             @else
-                                                <button type="button" class="btn btn-outline-success" data-id="{{$value->id}}"
+                                                <button type="button" class="btn btn-outline-success"
+                                                        data-id="{{$value->id}}"
                                                         data-phone="{{$value->mobile}}">  {{__('Available')}}
                                                 </button>
                                             @endif
@@ -241,7 +250,13 @@
                             <button type="button" class="btn btn-light"
                                     data-bs-dismiss="modal">{{ __('Close') }}</button>
                             <button type="button" onclick="saveContactEvent()" class="btn btn-success"
-                                    id="add-btn">{{__('Save')}}</button>
+                                    id="add-btn">{{__('Save')}}
+                                <div wire:loading>
+                                    <span class="spinner-border spinner-border-sm" role="status"
+                                          aria-hidden="true"></span>
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </button>
                         </div>
                     </div>
 
@@ -272,10 +287,6 @@
         }
 
         function updateContact() {
-        }
-
-        function sponsorId(id) {
-            window.livewire.emit('sponsorId', id);
         }
 
         function deleteId(dd) {

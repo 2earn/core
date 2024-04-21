@@ -261,8 +261,9 @@ class  UserRepository implements IUserRepository
         return $newUser;
     }
 
-    public function createNewUser($name, $mobile, $fullphone_number, $id_phone)
+    public function createNewUser($name, $mobile, $fullphone_number, $id_phone, $idUplineRegister)
     {
+        // NOTE TO DO : complete registration and instert in user meta & User Contact number
         $country = DB::table('countries')->where('phonecode', $id_phone)->first();
         $contact_user__user = $this->initNewUser();
         $contact_user__user->name = $name;
@@ -270,6 +271,7 @@ class  UserRepository implements IUserRepository
         $contact_user__user->fullphone_number = $fullphone_number;
         $contact_user__user->id_phone = $id_phone;
         $contact_user__user->idCountry = $country->id;
+        $contact_user__user->idUplineRegister = $idUplineRegister;
         $contact_user__user->save();
         return $contact_user__user;
     }
@@ -285,5 +287,6 @@ class  UserRepository implements IUserRepository
         $sponsoredUser->reserved_by = $sponsorUser->idUser;
         $sponsoredUser->reserved_at = now();
         $sponsoredUser->save();
+        return $sponsoredUser;
     }
 }
