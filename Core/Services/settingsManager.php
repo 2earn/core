@@ -287,6 +287,7 @@ class settingsManager
     {
         $metta = new  metta_user();
         $metta->idUser = $user->idUser;
+        $metta->idCountry = $user->idCountry;
         $countrie_earn = DB::table('countries')->where('phonecode', $user->id_phone)->first();
         foreach (LanguageEnum::cases() as $lanque) {
             if ($lanque->name == $countrie_earn->langage) {
@@ -308,10 +309,27 @@ class settingsManager
                 'mobile' => $user->mobile,
                 'codeP' => $user->idCountry,
                 'active' => 1,
+                'isoP' => strtolower($iso),
+                'isID' => true,
+                'fullNumber' => $user->fullphone_number,
+            ]);
+        }
+    }
+
+    public function updateUserContactNumber(User $user, $iso)
+    {
+        $userContactNumber = UserContactNumber::where('idUser', $user->idUser)->get();
+        if ($userContactNumber) {
+            $userContactNumber->update([
+                'idUser' => $user->idUser,
+                'mobile' => $user->mobile,
+                'codeP' => $user->idCountry,
+                'active' => 1,
                 'isoP' => $iso,
                 'isID' => true,
                 'fullNumber' => $user->fullphone_number,
             ]);
+            $userContactNumber->save();
         }
     }
 
@@ -963,6 +981,15 @@ class settingsManager
         $this->createMettaUser($user);
         $country = countrie::find($user->idCountry);
         $this->createUserContactNumber($user, $country->apha2);
+        return $user;
+    }
+
+    public function updateUser($user, $name, $mobile, $fullphone_number, $id_phone, $idUplineRegister)
+    {
+        $user = $this->userRepository->updateUser($user, $name, $mobile, $fullphone_number, $id_phone, $idUplineRegister);
+        // NOTE TO DO :  $this->updateMettaUser($user);
+        $country = countrie::find($user->idCountry);
+        $this->updateUserContactNumber($user, $country->apha2);
         return $user;
     }
 

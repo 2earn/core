@@ -267,15 +267,29 @@ class  UserRepository implements IUserRepository
     {
         // NOTE TO DO : complete registration and instert in user meta & User Contact number
         $country = DB::table('countries')->where('phonecode', $id_phone)->first();
-        $contact_user__user = $this->initNewUser();
-        $contact_user__user->name = $name;
-        $contact_user__user->mobile = $mobile;
-        $contact_user__user->fullphone_number = $fullphone_number;
-        $contact_user__user->id_phone = $id_phone;
-        $contact_user__user->idCountry = $country->id;
-        $contact_user__user->idUplineRegister = $idUplineRegister;
-        $contact_user__user->save();
-        return $contact_user__user;
+        $user = $this->initNewUser();
+        $user->name = $name;
+        $user->mobile = $mobile;
+        $user->fullphone_number = $fullphone_number;
+        $user->id_phone = $id_phone;
+        $user->idCountry = $country->id;
+        $user->idUplineRegister = $idUplineRegister;
+        $user->save();
+        return $user;
+    }
+
+    public function updateUser($user, $name, $mobile, $fullphone_number, $id_phone, $idUplineRegister)
+    {
+        // NOTE TO DO : complete registration and instert in user meta & User Contact number
+        $country = DB::table('countries')->where('phonecode', $id_phone)->first();
+        $user->name = $name;
+        $user->mobile = $mobile;
+        $user->fullphone_number = $fullphone_number;
+        $user->id_phone = $id_phone;
+        $user->idCountry = $country->id;
+        $user->idUplineRegister = $idUplineRegister;
+        $user->save();
+        return $user;
     }
 
 

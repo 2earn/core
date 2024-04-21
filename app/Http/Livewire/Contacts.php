@@ -114,10 +114,19 @@ class Contacts extends Component
             return redirect()->route('contacts', app()->getLocale())->with('existeUserContact', 'deja existe')->with('message', 'sessionIdUserExiste', $contact_user_exist->id);
         }
 
-        $contact_user__user = $settingsManager->getUserByFullNumber($fullNumber);
+        $user = $settingsManager->getUserByFullNumber($fullNumber);
 
-        if (!$contact_user__user) {
-            $contact_user__user = $settingsManager->createNewUser(
+        if (!$user) {
+            $user = $settingsManager->createNewUser(
+                $this->name . ' ' . $this->lastName,
+                $this->mobile,
+                $fullNumber,
+                $ccode,
+                auth()->user()->idUser
+            );
+        }else{
+            $user = $settingsManager->updateUser(
+                $user,
                 $this->name . ' ' . $this->lastName,
                 $this->mobile,
                 $fullNumber,
@@ -125,7 +134,8 @@ class Contacts extends Component
                 auth()->user()->idUser
             );
         }
-        $contact_user = $settingsManager->createNewContactUser($settingsManager->getAuthUser()->idUser, $this->name, $contact_user__user->idUser, $this->lastName, $phone, $fullNumber, $ccode,);
+
+        $contact_user = $settingsManager->createNewContactUser($settingsManager->getAuthUser()->idUser, $this->name, $user->idUser, $this->lastName, $phone, $fullNumber, $ccode,);
         try {
             $this->transactionManager->beginTransaction();
             $this->settingsManager->addUserContactV2($contact_user);
@@ -152,29 +162,6 @@ class Contacts extends Component
         }
     }
 
-    public function update($id, $name, $lastName, $mobile, TransactionManager $transactionManager)
-    {
-        $existeuser = ContactUser::where('id', $id)
-            ->get()
-            ->first();
-        if ($existeuser) {
-            try {
-                $existeuser->name = $name;
-                $existeuser->lastName = $lastName;
-                $existeuser->mobile = $mobile;
-                $existeuser->save();
-                $this->dispatchBrowserEvent('close-modal');
-                return redirect()->route('contacts', app()->getLocale());
-
-            } catch (\Exception $exp) {
-                $transactionManager->rollback(); // Tell Laravel, "It's not you, it's me. Please don't persist to DB"
-                dd($exp);
-                Session::flash('message', 'failed');
-            }
-        } else {
-            dd("error");
-        }
-    }
 
     public function deleteId($id)
     {
