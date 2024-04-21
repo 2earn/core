@@ -41,7 +41,7 @@
                         <tbody class="list form-check-all">
                         @foreach ($contactUser as $value)
                             <tr>
-                                <td>{{ $value->name}}</td>
+                                <td title="{{$value->updated_at}}">{{$value->name}}</td>
                                 <td>{{$value->lastName}}</td>
                                 <td>{{$value->mobile}}</td>
                                 <td>

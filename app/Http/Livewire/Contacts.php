@@ -9,6 +9,7 @@ use Core\Models\UserContact;
 use Core\Services\settingsManager;
 use Core\Services\TransactionManager;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -54,9 +55,10 @@ class Contacts extends Component
             ->join('users as u', 'contact_users.idContact', '=', 'u.idUser')
             ->join('countries as c', 'u.idCountry', '=', 'c.id')
             ->where('contact_users.idUser', $userAuth->idUser)
-            ->select('contact_users.id', 'contact_users.name', 'contact_users.lastName', 'contact_users.idUser', 'u.reserved_by', 'u.mobile', 'u.availablity', 'c.apha2', 'u.idUpline', 'u.reserved_at',
+            ->select('contact_users.id', 'contact_users.name', 'contact_users.lastName', 'contact_users.idUser', 'contact_users.updated_at', 'u.reserved_by', 'u.mobile', 'u.availablity', 'c.apha2', 'u.idUpline', 'u.reserved_at',
                 DB::raw("CASE WHEN u.status = -2 THEN 'warning' ELSE 'success' END AS color"),
-                DB::raw("CASE WHEN u.status = -2 THEN 'Pending' ELSE 'User' END AS status"));
+                DB::raw("CASE WHEN u.status = -2 THEN 'Pending' ELSE 'User' END AS status"))
+            ->orderBy('contact_users.updated_at', 'DESC') ;
 
         $contactUser = $contactUserQuery->get();
         return view('livewire.contacts', ['contactUser' => $contactUser])->extends('layouts.master')->section('content');
@@ -111,28 +113,15 @@ class Contacts extends Component
             ->get()->first();
 
         if ($contact_user_exist) {
-            return redirect()->route('contacts', app()->getLocale())->with('existeUserContact', 'deja existe')->with('message', 'sessionIdUserExiste', $contact_user_exist->id);
+            return redirect()->route('contacts', app()->getLocale())->with('existeUserContact', 'deja existe')->with('message', Lang::get('Contact user exist') . $contact_user_exist->name . ' ' . $contact_user_exist->lastName);
         }
 
         $user = $settingsManager->getUserByFullNumber($fullNumber);
-
+        $fullName = $this->name . ' ' . $this->lastName;
         if (!$user) {
-            $user = $settingsManager->createNewUser(
-                $this->name . ' ' . $this->lastName,
-                $this->mobile,
-                $fullNumber,
-                $ccode,
-                auth()->user()->idUser
-            );
-        }else{
-            $user = $settingsManager->updateUser(
-                $user,
-                $this->name . ' ' . $this->lastName,
-                $this->mobile,
-                $fullNumber,
-                $ccode,
-                auth()->user()->idUser
-            );
+            $user = $settingsManager->createNewUser($fullName, $this->mobile, $fullNumber, $ccode, auth()->user()->idUser);
+        } else {
+            $user = $settingsManager->updateUser($user, $fullName, $this->mobile, $fullNumber, $ccode, auth()->user()->idUser);
         }
 
         $contact_user = $settingsManager->createNewContactUser($settingsManager->getAuthUser()->idUser, $this->name, $user->idUser, $this->lastName, $phone, $fullNumber, $ccode,);
@@ -141,10 +130,10 @@ class Contacts extends Component
             $this->settingsManager->addUserContactV2($contact_user);
             $this->transactionManager->commit();
             $this->dispatchBrowserEvent('close-modal');
-            return redirect()->route('contacts', app()->getLocale())->with('message', 'User created successfully');;
+            return redirect()->route('contacts', app()->getLocale())->with('message', Lang::get('User created successfully'));;
         } catch (\Exception $exp) {
             $this->transactionManager->rollback();
-            return redirect()->route('contacts', app()->getLocale())->with('alert-class', 'User creation failed');;
+            return redirect()->route('contacts', app()->getLocale())->with('alert-class', Lang::get('User creation failed'));;
         }
     }
 
@@ -156,7 +145,7 @@ class Contacts extends Component
     public function checkDelayedSponsorship($sponsoredUser)
     {
         // NOTE TO DO : checkDelayedSponsorship
-        $sponsorUser =  auth()->user();
+        $sponsorUser = auth()->user();
         if (true) {
             $this->executeDelayedSponsorship($sponsoredUser);
         }
@@ -182,9 +171,8 @@ class Contacts extends Component
             }
         }
         $this->dispatchBrowserEvent('close-modal');
-        return redirect()->route('contacts', app()->getLocale())->with('message', 'Sponsorship Success');
+        return redirect()->route('contacts', app()->getLocale())->with('message', Lang::get('Sponsorship Success'));
     }
-
 
     public function delete_multiple($ids)
     {

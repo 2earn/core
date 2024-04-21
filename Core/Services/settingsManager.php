@@ -989,6 +989,7 @@ class settingsManager
         $user = $this->userRepository->updateUser($user, $name, $mobile, $fullphone_number, $id_phone, $idUplineRegister);
         // NOTE TO DO :  $this->updateMettaUser($user);
         $country = countrie::find($user->idCountry);
+        // NOTE TO DO :  $this->updateMettaUser($user); == update
         $this->updateUserContactNumber($user, $country->apha2);
         return $user;
     }

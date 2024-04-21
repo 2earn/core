@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\ContactUser;
+use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
 
 use Core\Models\countrie;
@@ -59,18 +60,13 @@ class EditUserContact extends Component
     {
         $fullphone_number = str_replace(' ', '', str_ends_with($fullnumber, $phone) ? $fullnumber : $fullnumber . $phone);
         $mobile = str_replace(' ', '', $phone);
-        $contact_user__user = $settingsManager->getUserByFullNumber($fullphone_number);
+        $user = $settingsManager->getUserByFullNumber($fullphone_number);
+        $fullName = $this->nameUserContact . ' ' . $this->lastNameUserContact;
 
-        if (!$contact_user__user) {
-            $contact_user__user = $settingsManager->createNewUser(
-                $this->nameUserContact . ' ' . $this->lastNameUserContact,
-                $mobile,
-                $fullphone_number,
-                $code,
-                auth()->user()->idUser
-            );
+        if (!$user) {
+            $contact_user__user = $settingsManager->createNewUser($fullName, $mobile, $fullphone_number, $code, auth()->user()->idUser);
         } else {
-            // NOTE TO DO : Check avec Ghazi we should update meta
+            $user = $settingsManager->updateUser($user, $fullName, $mobile, $fullphone_number, $code, auth()->user()->idUser);
         }
         $contact_user = new ContactUser([
             'idUser' => Auth()->user()->idUser,
@@ -81,15 +77,13 @@ class EditUserContact extends Component
             'fullphone_number' => $fullphone_number,
             'phonecode' => $code
         ]);
-        $existeuser = ContactUser::where('id', $this->idContact)
-            ->get()
-            ->first();
+        $existeuser = ContactUser::where('id', $this->idContact)->get()->first();
         if ($existeuser) {
             try {
                 $transactionManager->beginTransaction();
                 $settingsManager->updateUserContactV2($this->idContact, $contact_user);
                 $transactionManager->commit();
-                return redirect()->route('contacts', app()->getLocale())->with('SessionUserUpdated', 'User updated');
+                return redirect()->route('contacts', app()->getLocale())->with('SessionUserUpdated',  Lang::get('User updated'));
             } catch (\Exception $exp) {
                 $transactionManager->rollback(); // Tell Laravel, "It's not you, it's me. Please don't persist to DB"
                 Session::flash('message', 'failed');
