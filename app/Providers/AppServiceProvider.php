@@ -2,12 +2,9 @@
 
 namespace App\Providers;
 
-use App\Observers\UserBalanceObserver;
-use Core\Models\user_balance;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\ServiceProvider;
+use App\Helpers\Sponsorship\Sponsorship;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Validator ;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,6 +19,9 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
+        $this->app->bind('sponsorship',function(){
+            return new Sponsorship();
+        });
     }
 
 

@@ -235,7 +235,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'LaravelPwa' => \Ladumor\LaravelPwa\LaravelPwa::class,
-
+        'Greeting' => \App\Helpers\Sponsorship\SponsorshipFacade::class,
     ],
     'available_locales' => [
 
