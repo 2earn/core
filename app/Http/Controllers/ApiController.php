@@ -2,41 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\DAL\UserBalancesRepository;
 use App\DAL\UserRepository;
-use App\Helpers\Sponsorship\Sponsorship;
 use App\Models\User;
-
-//use App\Models\UserBalance;
+use App\Services\Sponsorship\Sponsorship;
+use App\Services\Sponsorship\SponsorshipFacade;
+use carbon;
 use Core\Enum\AmoutEnum;
 use Core\Enum\StatusRequst;
 use Core\Models\countrie;
 use Core\Models\detail_financial_request;
 use Core\Models\FinancialRequest;
-use Core\Models\identificationuserrequest;
 use Core\Models\user_balance;
-use Core\Models\UserContact;
-use Core\Models\metta_user;
-
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
-use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\DB;
-use Livewire\Request;
-use Paytabscom\Laravel_paytabs\Facades\paypage;
-use Paytabscom\Laravel_paytabs\Services\IpnRequest;
-use phpDocumentor\Reflection\Types\Collection;
-use Illuminate\Support\Facades\Lang;
-use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Http\Request as Req;
-use Illuminate\Validation\Validator;
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Validator as Val;
 use Illuminate\Validation\Rule;
-use  Illuminate\Support\Facades\Validator as Val;
-use function PHPUnit\Framework\isNull;
-use carbon;
+use Paytabscom\Laravel_paytabs\Facades\paypage;
+use phpDocumentor\Reflection\Types\Collection;
 use Propaganistas\LaravelPhone\PhoneNumber;
+use Yajra\DataTables\Facades\DataTables;
+
+//use App\Models\UserBalance;
 
 class ApiController extends BaseController
 {
@@ -92,9 +82,9 @@ left join users user on user.idUser = recharge_requests.idUser";
         }
 
         $fullphone_number = getPhoneByUser($reciver);
-        $userSponsored = Sponsorship::checkProactifSponsorship($reciver);
+        $userSponsored = SponsorshipFacade::checkProactifSponsorship($reciver);
         if ($userSponsored) {
-            Sponsorship::executeProactifSponsorship($reciver, $number_of_action, $gift, $PU, $balancesManager, $fullphone_number);
+            SponsorshipFacade::executeProactifSponsorship($reciver, $number_of_action, $gift, $PU, $balancesManager, $fullphone_number);
         }
         $this->userRepository->increasePurchasesNumber($reciver->idUser);
 

@@ -33,7 +33,6 @@
                             <th class="sort" data-sort="mobile">{{ __('Phone') }}</th>
                             <th class="sort" data-sort="mobile">{{__('Country')}}</th>
                             <th class="sort" data-sort="mobile">{{__('registred')}}</th>
-                            <th class="sort" data-sort="mobile" class="d-none">{{__('reserve')}}</th>
                             <th class="sort" data-sort="mobile">{{__('Availablity')}}</th>
                             <th>{{ __('Actions') }}</th>
                         </tr>

@@ -64,13 +64,13 @@ class EditUserContact extends Component
         $fullName = $this->nameUserContact . ' ' . $this->lastNameUserContact;
 
         if (!$user) {
-            $contact_user__user = $settingsManager->createNewUser($fullName, $mobile, $fullphone_number, $code, auth()->user()->idUser);
+            $user = $settingsManager->createNewUser($fullName, $mobile, $fullphone_number, $code, auth()->user()->idUser);
         } else {
             $user = $settingsManager->updateUser($user, $fullName, $mobile, $fullphone_number, $code, auth()->user()->idUser);
         }
         $contact_user = new ContactUser([
             'idUser' => Auth()->user()->idUser,
-            'idContact' => $contact_user__user->idUser,
+            'idContact' => $user->idUser,
             'name' => $this->nameUserContact,
             'lastName' => $this->lastNameUserContact,
             'mobile' => $mobile,
@@ -85,7 +85,7 @@ class EditUserContact extends Component
                 $transactionManager->commit();
                 return redirect()->route('contacts', app()->getLocale())->with('SessionUserUpdated',  Lang::get('User updated'));
             } catch (\Exception $exp) {
-                $transactionManager->rollback(); // Tell Laravel, "It's not you, it's me. Please don't persist to DB"
+                $transactionManager->rollback();
                 Session::flash('message', 'failed');
             }
         }

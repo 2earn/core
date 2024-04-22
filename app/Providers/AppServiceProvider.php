@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Helpers\Sponsorship\Sponsorship;
+use App\Services\Sponsorship\Sponsorship;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -19,8 +19,8 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
-        $this->app->bind('sponsorship',function(){
-            return new Sponsorship();
+        $this->app->bind('Sponsorship', function ($app) {
+            return new Sponsorship($app->make('App\DAL\UserRepository'),$app->make('Core\Services\BalancesManager'));
         });
     }
 

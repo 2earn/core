@@ -1,17 +1,14 @@
 <?php
 
-namespace App\Helpers\Sponsorship;
+namespace App\Services\Sponsorship;
 
-use App\DAL\UserBalancesRepository;
 use App\DAL\UserRepository;
 use App\Models\User;
 use Core\Enum\AmoutEnum;
 use Core\Models\Setting;
 use Core\Models\user_balance;
 use Core\Services\BalancesManager;
-use Core\Services\UserBalancesHelper;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Builder;
 
 class Sponsorship
 {
@@ -24,7 +21,7 @@ class Sponsorship
     private $saleCount;
     private $retardatifReservation;
 
-    public function __construct(private UserRepository $userRepository, BalancesManager $balancesManager)
+    public function __construct(private UserRepository $userRepository, private BalancesManager $balancesManager)
     {
         $settingIds = ['24', '25', '26', '27', '28', '31', '32'];
         $setting = Setting::WhereIn('idSETTINGS', $settingIds)->orderBy('idSETTINGS')->pluck('IntegerValue');
@@ -114,7 +111,7 @@ class Sponsorship
         return $user_balance->save();
     }
 
-    public function executeProactifSponsorship($reserve, $number_of_action, $gift, $PU, $balancesManager, $fullphone_number): bool
+    public function executeProactifSponsorship($reserve, $number_of_action, $gift, $PU, $balancesManager, $fullphone_number)
     {
         $Count = DB::table('user_balances')->count();
         $ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);

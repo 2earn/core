@@ -212,11 +212,9 @@ class  UserRepository implements IUserRepository
     public function createmettaUser(metta_user $metta_user)
     {
         // TODO: Implement createmettaUser() method. ..
-        // NOTE TO DO : Check avec Ghazi is complete
         if (!metta_user::where('idUser', $metta_user->idUser)->exists()) {
             $metta_user->save();
         }
-
     }
 
     public function createUserEarn(user_earn $userEarn)
@@ -265,7 +263,6 @@ class  UserRepository implements IUserRepository
 
     public function createNewUser($name, $mobile, $fullphone_number, $id_phone, $idUplineRegister)
     {
-        // NOTE TO DO : complete registration and instert in user meta & User Contact number
         $country = DB::table('countries')->where('phonecode', $id_phone)->first();
         $user = $this->initNewUser();
         $user->name = $name;
@@ -280,7 +277,6 @@ class  UserRepository implements IUserRepository
 
     public function updateUser($user, $name, $mobile, $fullphone_number, $id_phone, $idUplineRegister)
     {
-        // NOTE TO DO : complete registration and instert in user meta & User Contact number
         $country = DB::table('countries')->where('phonecode', $id_phone)->first();
         $user->name = $name;
         $user->mobile = $mobile;

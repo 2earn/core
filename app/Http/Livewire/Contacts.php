@@ -2,18 +2,15 @@
 
 namespace App\Http\Livewire;
 
-use App\DAL\LanguageRepository;
-use App\Helpers\Sponsorship\Sponsorship;
 use App\Models\ContactUser;
 use App\Models\User;
-use Core\Models\UserContact;
+use App\Services\Sponsorship\Sponsorship;
+use App\Services\Sponsorship\SponsorshipFacade;
 use Core\Services\settingsManager;
 use Core\Services\TransactionManager;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
-use Illuminate\Support\Facades\DB;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 class Contacts extends Component
 {
@@ -140,10 +137,9 @@ class Contacts extends Component
 
     public function checkDelayedSponsorship($sponsoredUser)
     {
-        // NOTE TO DO : checkDelayedSponsorship
         $sponsorUser = auth()->user();
-        if (Sponsorship::checkDelayedSponsorship($sponsorUser)) {
-            Sponsorship::executeDelayedSponsorship($sponsoredUser);
+        if (SponsorshipFacade::checkDelayedSponsorship($sponsorUser)) {
+            SponsorshipFacade::executeDelayedSponsorship($sponsoredUser);
         }
     }
 

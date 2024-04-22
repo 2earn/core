@@ -39,6 +39,7 @@ use App\Http\Livewire\UserBalanceDB;
 use App\Http\Livewire\UserBalanceSMS;
 use App\Http\Livewire\UserPurchaseHistory;
 use App\Http\Livewire\ValidateAccount;
+use App\Services\Sponsorship\SponsorshipFacade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -85,17 +86,13 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('Contacts', Contacts::class)->name('contacts');
         Route::get('NotificationHistory', NotificationHistory::class)->name('notification_history');
         Route::get('NotificationSettings', NotificationSettings::class)->name('notification_settings');
-
         Route::get('user_purchase', UserPurchaseHistory::class)->name('user_purchase');
         Route::get('user_list', \App\Http\Livewire\UsersList::class)->name('user_list');
-
         Route::get('stat_countrie', \App\Http\Livewire\StatCountrie::class)->name('stat_countrie');
-
         Route::get('sharessolde', \App\Http\Livewire\SharesSolde::class)->name('sharessolde');
         Route::get('shares_sold', \App\Http\Livewire\SharesSold::class)->name('shares_sold');
         Route::get('edit_admin', \App\Http\Livewire\EditAdmin::class)->name('edit_admin');
         Route::get('countries_management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
-
 
         Route::get('user_balance_sms', UserBalanceSMS::class)->name('user_balance_sms');
         Route::get('user_balance_cb', UserBalanceCB::class)->name('user_balance_cb');
@@ -117,9 +114,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('Tree/maintenance', EntretienArbre::class)->name('TreeMaintenance');
         Route::get('description', Description::class)->name('description');
         Route::get('/AcceptRequest', AcceptFinancialRequest::class)->name('AcceptFinancialRequest')->middleware('CloseAuth');
-
-
-
     });
 //    Route::get('login', Login::class)->name('login');
     Route::get('registre', Registre::class)->name('registre');
