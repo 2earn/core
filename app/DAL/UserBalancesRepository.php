@@ -42,11 +42,7 @@ class  UserBalancesRepository implements IUserBalancesRepository
         GROUP BY u.idUser , u.idamount) a ON (b.idamounts = a.idamount
             AND b.idUser = a.idUser))
     ORDER BY b.idUser , b.idamounts) as liste  where  liste.idUser = ?", [$idUser]);
-//            ->where("idUser","=",$idUser)
-//            ->select('solde','idamounts')
-//               ->get();
 
-        //                AND YEAR(u.Date) = YEAR(SYSDATE())
         $solde = collect($solde);
 
         if ($solde->isNotEmpty()) {
@@ -148,9 +144,6 @@ class  UserBalancesRepository implements IUserBalancesRepository
         GROUP BY u.idUser , u.idamount) a ON (b.idamounts = a.idamount
             AND b.idUser = a.idUser))
     ORDER BY b.idUser , b.idamounts) as liste  where  liste.idUser = ? and liste.idamounts = ? ", [$idUser, $idamount]);
-//            ->where("idUser","=",$idUser)
-//            ->select('solde','idamounts')
-//               ->get();
 
         $solde = collect($solde);
 
@@ -159,6 +152,7 @@ class  UserBalancesRepository implements IUserBalancesRepository
         }
         return $soldeAmount;
     }
+
 
 }
 
