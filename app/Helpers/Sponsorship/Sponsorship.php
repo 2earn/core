@@ -9,6 +9,7 @@ use Core\Models\Setting;
 use Core\Models\user_balance;
 use Core\Services\UserBalancesHelper;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder;
 
 class Sponsorship
 {
@@ -17,21 +18,42 @@ class Sponsorship
     private $reservation;
     private $amount;
     private $amountCash;
-    private $isSource =11111111;
+    private $isSource = 11111111;
+    private $saleCount;
+    private $retardatifReservation;
 
     public function __construct()
     {
-        $setting = Setting::WhereIn('idSETTINGS', ['24', '25', '26', '27', '28'])->orderBy('idSETTINGS')->pluck('IntegerValue');
+        $settingIds = ['24', '25', '26', '27', '28', '31', '32'];
+        $setting = Setting::WhereIn('idSETTINGS', $settingIds)->orderBy('idSETTINGS')->pluck('IntegerValue');
         $this->bookingHours = $setting[0];
         $this->reservation = $setting[1];
         $this->amount = $setting[2];
         $this->amountCash = $setting[3];
         $this->amountBFS = $setting[4];
+        $this->saleCount = $setting[5];
+        $this->retardatifReservation = $setting[6];
     }
 
-    public function checkDelayedSponsorship($sponsoredUser): bool
+    public function checkDelayedSponsorship($sponsor): bool
     {
-        return true;
+        $idUpline=$nombredAchat= $maxNombredAchat= 0;
+        if ($idUpline = 0) {
+
+            // soit avalibility =0
+            //soit avalability = 1 + les delais dépassé
+            $user = User::where('reserved_by', $sponsor->idUser)
+                ->where('idUpline', '0')
+                ->where('availablity', '0')
+                ->whereRaw('TIMESTAMPDIFF(HOUR, reserved_at, NOW()) > ?', [$this->retardatifReservation])
+                ->orderBy('reserved_at')
+                ->pluck('idUser')
+                ->first();
+            if ($user) {
+                // select from user balances where id balseces = 44 + balseces.iduser = user.iduser + limt 3 + order by date ASC
+                // update uline user
+            }
+        }
     }
 
     public function executeDelayedSponsorship($sponsoredUser): bool
@@ -41,12 +63,30 @@ class Sponsorship
 
     public function checkProactifSponsorship($sponsor): ?User
     {
-        $user = \Core\Models\User::where('reserved_by', $sponsor->idUser)
-            ->where('availablity', '1')
-            ->whereRaw('TIMESTAMPDIFF(HOUR, reserved_at, NOW()) < ?', [$this->bookingHours])
-            ->orderBy('reserved_at')
-            ->pluck('idUser')
-            ->first();
+        $idUpline=$nombredAchat= $maxNombredAchat= 0;
+        if ($idUpline = 0) {
+            $user = User::where('reserved_by', $sponsor->idUser)
+                ->where('availablity', '1')
+                ->whereRaw('TIMESTAMPDIFF(HOUR, reserved_at, NOW()) < ?', [$this->bookingHours])
+                ->orderBy('reserved_at')
+                ->pluck('idUser')
+                ->first();
+            if ($user) {
+                // add commission == return id user
+                // update idupline table user iduser
+            } else {
+                // update idupline table user =11111
+            }
+        } else {
+            if ($idUpline !== 11111111) {
+                //check field number of achat < variable de setting
+                if($nombredAchat<=$maxNombredAchat)
+                {
+                    // add commission
+                }
+            }
+        }
+
         return $user ? $user : NULL;
     }
 

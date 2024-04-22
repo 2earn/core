@@ -268,7 +268,7 @@
       <workItem from="1713612224306" duration="3899000" />
       <workItem from="1713619064554" duration="23000" />
       <workItem from="1713619161543" duration="12827000" />
-      <workItem from="1713773247640" duration="3207000" />
+      <workItem from="1713773247640" duration="14358000" />
     </task>
     <task id="LOCAL-00001" summary="images">
       <option name="closed" value="true" />
@@ -323,6 +323,11 @@
           <url>file://$PROJECT_DIR$/app/DAL/BalanceOperationRepositoty.php</url>
           <line>15</line>
           <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/app/Http/Controllers/ApiController.php</url>
+          <line>106</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -94,6 +94,9 @@ left join users user on user.idUser = recharge_requests.idUser";
             }
 
         }
+
+
+
         $b = getPhoneByUser($reciver);
         // NOTE TO DO :  Rename to  checkProactifSponsorship
         $reserve = getUserByContact($b);
@@ -157,6 +160,8 @@ left join users user on user.idUser = recharge_requests.idUser";
             }
         }
 
+
+        // update field nombre d'achat
 
         // share sold
         $user_balance = new user_balance();
