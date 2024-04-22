@@ -11,9 +11,13 @@ use Core\Services\TransactionManager;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
+use Livewire\WithPagination;
+
 
 class Contacts extends Component
 {
+    use WithPagination;
+
     public $deleteId;
     public string $name = "";
     public string $lastName = "";
@@ -58,7 +62,7 @@ class Contacts extends Component
                 DB::raw("CASE WHEN u.status = -2 THEN 'Pending' ELSE 'User' END AS status"))
             ->orderBy('contact_users.updated_at', 'DESC');
 
-        $contactUser = $contactUserQuery->get();
+        $contactUser = $contactUserQuery ->paginate(5);;
         return view('livewire.contacts', ['contactUser' => $contactUser])->extends('layouts.master')->section('content');
     }
 

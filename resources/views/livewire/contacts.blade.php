@@ -173,7 +173,9 @@
             </div>
         </div>
     </div>
-
+<div class="row">
+    {{ $contactUser->links() }}
+</div>
     <!-- Modals -->
     <div wire:ignore.self class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
