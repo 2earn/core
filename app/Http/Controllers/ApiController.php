@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\DAL\UserBalancesRepository;
+use App\DAL\UserRepository;
+use App\Helpers\Sponsorship\Sponsorship;
 use App\Models\User;
 
 //use App\Models\UserBalance;
@@ -38,17 +40,12 @@ use Propaganistas\LaravelPhone\PhoneNumber;
 
 class ApiController extends BaseController
 {
-    private settingsManager $settingsManager;
-    private BalancesManager $balancesManager;
     private string $reqRequest = "select recharge_requests.Date , user.name user  ,
 recharge_requests.userPhone userphone, recharge_requests.amount  from recharge_requests
 left join users user on user.idUser = recharge_requests.idUser";
 
-    public function __construct(settingsManager $settingsManager, BalancesManager $balancesManager)
+    public function __construct(private settingsManager $settingsManager, private BalancesManager $balancesManager , private UserRepository $userRepository)
     {
-        $this->settingsManager = $settingsManager;
-        $this->balancesManager = $balancesManager;
-        $this->name = "fsdf";
     }
 
 
@@ -92,80 +89,18 @@ left join users user on user.idUser = recharge_requests.idUser";
             if ($request->bfs_for == "other") {
                 $reciver_bfs = $reciver;
             }
-
         }
 
-
-
-        $b = getPhoneByUser($reciver);
-        // NOTE TO DO :  Rename to  checkProactifSponsorship
-        $reserve = getUserByContact($b);
-
-        // parrainage proactif
-        // NOTE TO DO :  move to public function executeProactifSponsorship($sponsoredUser) + factorisation
-
-        if ($reserve) {
-            if ($reserve != $reciver) {
-                $setting = \Core\Models\Setting::WhereIn('idSETTINGS', ['24', '26', '27', '28'])->orderBy('idSETTINGS')->pluck('IntegerValue');
-                $prcShares = $setting[0];
-                $prcAmount = $setting[1];
-                $pcrCash = $setting[2];
-                $pcrBFS = $setting[3];
-
-                $user_balance1= UserBalance::
-                $user_balance = new user_balance();
-                $user_balance->ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-                $user_balance->idBalancesOperation = 44;
-                $user_balance->Date = now();
-                $user_balance->idSource = '11111111';
-                $user_balance->idUser = $reserve;
-                $user_balance->idamount = AmoutEnum::Action;
-                $user_balance->value = 0;
-                $user_balance->gifted_shares = $number_of_action * $prcShares / 100;//settings value
-                $user_balance->PU = 0;
-                $user_balance->WinPurchaseAmount = "0";
-                $user_balance->Description = 'sponsorship commission from ' . $b;
-                $user_balance->Balance = 0;
-                $user_balance->save();
-
-                $amount = ($number_of_action + $gift) * $PU * $prcAmount / 100;
-                $user_balance = new user_balance();
-                $user_balance->ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-                $user_balance->idBalancesOperation = 49;
-                $user_balance->Date = now();
-                $user_balance->idSource = '11111111';
-                $user_balance->idUser = $reserve;
-                $user_balance->idamount = AmoutEnum::CASH_BALANCE;
-                $user_balance->value = $amount * $pcrCash / 100;
-                $user_balance->PU = 0;
-                $user_balance->WinPurchaseAmount = "0.000";
-                $user_balance->Description = 'sponsorship commission from ' . $b;
-                $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser)->soldeCB + $amount * $pcrCash / 100;
-                $user_balance->save();
-
-                $user_balance = new user_balance();
-                $user_balance->ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-                $user_balance->idBalancesOperation = 50;
-                $user_balance->Date = now();
-                $user_balance->idSource = '11111111';
-                $user_balance->idUser = $reserve;
-                $user_balance->idamount = AmoutEnum::BFS;
-                $user_balance->value = $amount * $pcrBFS / 100;
-                $user_balance->PU = 0;
-                $user_balance->WinPurchaseAmount = "0.000";
-                $user_balance->Description = 'sponsorship commission from ' . $b;
-                $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser)->soldeBFS + $amount * $pcrBFS / 100;
-                $user_balance->save();
-
-            }
+        $fullphone_number = getPhoneByUser($reciver);
+        $userSponsored = Sponsorship::checkProactifSponsorship($reciver);
+        if ($userSponsored) {
+            Sponsorship::executeProactifSponsorship($reciver, $number_of_action, $gift, $PU, $balancesManager, $fullphone_number);
         }
-
-
-        // update field nombre d'achat
+        $this->userRepository->increasePurchasesNumber($reciver->idUser);
 
         // share sold
         $user_balance = new user_balance();
-// Action
+        // Action
         $user_balance->ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
         $user_balance->idBalancesOperation = 44;
         $user_balance->Date = now();
@@ -178,7 +113,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         $user_balance->WinPurchaseAmount = "1";
         $user_balance->Balance = ($number_of_action + $gift) * number_format($PU, 2, '.', '');
         $user_balance->save();
-// cach
+        // cach
         $user_balance = new user_balance();
         $user_balance->ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
         $user_balance->idBalancesOperation = 48;
@@ -193,7 +128,6 @@ left join users user on user.idUser = recharge_requests.idUser";
         $user_balance->save();
 
         //bfs
-
         $user_balance = new user_balance();
         $user_balance->ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
         $user_balance->idBalancesOperation = 46;

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\DAL\LanguageRepository;
+use App\Helpers\Sponsorship\Sponsorship;
 use App\Models\ContactUser;
 use App\Models\User;
 use Core\Models\UserContact;
@@ -58,7 +59,7 @@ class Contacts extends Component
             ->select('contact_users.id', 'contact_users.name', 'contact_users.lastName', 'contact_users.idUser', 'contact_users.updated_at', 'u.reserved_by', 'u.mobile', 'u.availablity', 'c.apha2', 'u.idUpline', 'u.reserved_at',
                 DB::raw("CASE WHEN u.status = -2 THEN 'warning' ELSE 'success' END AS color"),
                 DB::raw("CASE WHEN u.status = -2 THEN 'Pending' ELSE 'User' END AS status"))
-            ->orderBy('contact_users.updated_at', 'DESC') ;
+            ->orderBy('contact_users.updated_at', 'DESC');
 
         $contactUser = $contactUserQuery->get();
         return view('livewire.contacts', ['contactUser' => $contactUser])->extends('layouts.master')->section('content');
@@ -137,17 +138,12 @@ class Contacts extends Component
         }
     }
 
-    public function executeDelayedSponsorship($sponsoredUser)
-    {
-        // NOTE TO DO : executeDelayedSponsorship
-    }
-
     public function checkDelayedSponsorship($sponsoredUser)
     {
         // NOTE TO DO : checkDelayedSponsorship
         $sponsorUser = auth()->user();
-        if (true) {
-            $this->executeDelayedSponsorship($sponsoredUser);
+        if (Sponsorship::checkDelayedSponsorship($sponsorUser)) {
+            Sponsorship::executeDelayedSponsorship($sponsoredUser);
         }
     }
 

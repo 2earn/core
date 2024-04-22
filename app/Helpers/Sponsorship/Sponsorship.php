@@ -3,10 +3,12 @@
 namespace App\Helpers\Sponsorship;
 
 use App\DAL\UserBalancesRepository;
+use App\DAL\UserRepository;
 use App\Models\User;
 use Core\Enum\AmoutEnum;
 use Core\Models\Setting;
 use Core\Models\user_balance;
+use Core\Services\BalancesManager;
 use Core\Services\UserBalancesHelper;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder;
@@ -22,7 +24,7 @@ class Sponsorship
     private $saleCount;
     private $retardatifReservation;
 
-    public function __construct()
+    public function __construct(private UserRepository $userRepository, BalancesManager $balancesManager)
     {
         $settingIds = ['24', '25', '26', '27', '28', '31', '32'];
         $setting = Setting::WhereIn('idSETTINGS', $settingIds)->orderBy('idSETTINGS')->pluck('IntegerValue');
@@ -35,62 +37,64 @@ class Sponsorship
         $this->retardatifReservation = $setting[6];
     }
 
-    public function checkDelayedSponsorship($sponsor): bool
+    public function checkDelayedSponsorship($sponsor): ?User
     {
-        $idUpline=$nombredAchat= $maxNombredAchat= 0;
-        if ($idUpline = 0) {
-
-            // soit avalibility =0
-            //soit avalability = 1 + les delais dépassé
+        $idUpline = $nombredAchat = $maxNombredAchat = 0;
+        if ($sponsor->idUpline == 0) {
+            $retardatifReservation = $this->retardatifReservation;
             $user = User::where('reserved_by', $sponsor->idUser)
-                ->where('idUpline', '0')
                 ->where('availablity', '0')
-                ->whereRaw('TIMESTAMPDIFF(HOUR, reserved_at, NOW()) > ?', [$this->retardatifReservation])
+                ->orwhere(function ($query) use ($retardatifReservation) {
+                    $query->where('availablity', '0')
+                        ->whereRaw('TIMESTAMPDIFF(HOUR, reserved_at, NOW()) > ?', [$retardatifReservation]);
+                })
                 ->orderBy('reserved_at')
-                ->pluck('idUser')
                 ->first();
             if ($user) {
-                // select from user balances where id balseces = 44 + balseces.iduser = user.iduser + limt 3 + order by date ASC
-                // update uline user
+                $this->userRepository->getUserUpline($user, auth()->user()->id);
+                return $user;
             }
         }
+        return NULL;
     }
 
-    public function executeDelayedSponsorship($sponsoredUser): bool
+    public function executeDelayedSponsorship($sponsoredUser)
     {
-        return true;
+        $userBalances = user_balance::where('idBalancesOperation', 44)
+            ->where('idUser', $sponsoredUser->idUser)
+            ->whereRaw('TIMESTAMPDIFF(HOUR, "DATE", NOW()) > ?', [$this->retardatifReservation])
+            ->orderBy('DATE', "ASC")
+            ->limit($this->saleCount);
+        foreach ($userBalances as $userBalance) {
+            $this->executeDelayedSponsorship(
+                $sponsoredUser->idUser, $userBalance->value, $userBalance->gifted_shares, $userBalance->PU, $this->balancesManager, $sponsoredUser->fullphone_number
+            );
+        }
     }
 
     public function checkProactifSponsorship($sponsor): ?User
     {
-        $idUpline=$nombredAchat= $maxNombredAchat= 0;
-        if ($idUpline = 0) {
+        if ($sponsor->idUpline == 0) {
             $user = User::where('reserved_by', $sponsor->idUser)
                 ->where('availablity', '1')
                 ->whereRaw('TIMESTAMPDIFF(HOUR, reserved_at, NOW()) < ?', [$this->bookingHours])
                 ->orderBy('reserved_at')
-                ->pluck('idUser')
                 ->first();
             if ($user) {
-                // add commission == return id user
-                // update idupline table user iduser
+                $this->userRepository->getUserUpline($user->id, $user->idUpline++);
+                return $user;
             } else {
-                // update idupline table user =11111
+                $this->userRepository->getUserUpline($user->id, $this->isSource);
             }
         } else {
-            if ($idUpline !== 11111111) {
-                //check field number of achat < variable de setting
-                if($nombredAchat<=$maxNombredAchat)
-                {
-                    // add commission
-                }
-            }
+            $user = User::where('reserved_by', '!=', $this->isSource)
+                ->where('purchasesNumber', '<=', $this->saleCount);
+            return $user;
         }
-
-        return $user ? $user : NULL;
+        return NULL;
     }
 
-    public function createUserBalances($ref, $idBalancesOperation, $idSource, $reserve, $idAmount, $value, $giftedShares, $PU, $winPurchaseAmount, $description, $balance)
+    public function createUserBalances($ref, $idBalancesOperation, $idSource, $reserve, $idAmount, $value, $giftedShares, $PU, $winPurchaseAmount, $description, $balance): bool
     {
         $user_balance = new user_balance();
         $user_balance->ref = $ref;
@@ -107,11 +111,10 @@ class Sponsorship
         $user_balance->WinPurchaseAmount = $winPurchaseAmount;
         $user_balance->Description = $description;
         $user_balance->Balance = $balance;
-        $user_balance->save();
+        return $user_balance->save();
     }
 
-
-    public function executeProactifSponsorship($reserve, $reciver, $number_of_action, $gift, $PU, $balancesManager, $fullphone_number): bool
+    public function executeProactifSponsorship($reserve, $number_of_action, $gift, $PU, $balancesManager, $fullphone_number): bool
     {
         $Count = DB::table('user_balances')->count();
         $ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);

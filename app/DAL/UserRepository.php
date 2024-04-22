@@ -306,4 +306,20 @@ class  UserRepository implements IUserRepository
         $downLine->save();
         return $downLine;
     }
+
+    public function getUserUpline($idUser, $idUpline)
+    {
+        $user = User::where('idUser', $idUser)->first();
+        $user->idUpline = $idUpline;
+        $user->save();
+        return $user;
+    }
+
+    public function increasePurchasesNumber($idUser)
+    {
+        $user = User::where('idUser', $idUser)->first();
+        $user->purchasesNumber = $user->purchasesNumber + 1;
+        $user->save();
+        return $user;
+    }
 }
