@@ -17,6 +17,7 @@ use Livewire\WithPagination;
 class Contacts extends Component
 {
     use WithPagination;
+    protected $paginationTheme = 'bootstrap';
 
     public $deleteId;
     public string $name = "";
@@ -45,10 +46,6 @@ class Contacts extends Component
     private settingsManager $settingsManager;
     private TransactionManager $transactionManager;
 
-    public function mount()
-    {
-    }
-
     public function render(settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
@@ -62,7 +59,7 @@ class Contacts extends Component
                 DB::raw("CASE WHEN u.status = -2 THEN 'Pending' ELSE 'User' END AS status"))
             ->orderBy('contact_users.updated_at', 'DESC');
 
-        $contactUser = $contactUserQuery ->paginate(5);;
+        $contactUser = $contactUserQuery ->paginate(10);
         return view('livewire.contacts', ['contactUser' => $contactUser])->extends('layouts.master')->section('content');
     }
 

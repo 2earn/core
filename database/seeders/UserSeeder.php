@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
+     $a=   DB::table('users')->insert([
             'name' => "admin2earn",
             'email' => 'admin@2earn.com',
             'password' => Hash::make('admin2earn'),
@@ -45,5 +45,6 @@ class UserSeeder extends Seeder
             'isoP' => 'tn',
             'fullNumber' => '0021699999999'
         ]);
+
     }
 }
