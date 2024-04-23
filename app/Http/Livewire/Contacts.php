@@ -17,6 +17,7 @@ use Livewire\WithPagination;
 class Contacts extends Component
 {
     use WithPagination;
+
     protected $paginationTheme = 'bootstrap';
 
     public $deleteId;
@@ -59,7 +60,7 @@ class Contacts extends Component
                 DB::raw("CASE WHEN u.status = -2 THEN 'Pending' ELSE 'User' END AS status"))
             ->orderBy('contact_users.updated_at', 'DESC');
 
-        $contactUser = $contactUserQuery ->paginate(10);
+        $contactUser = $contactUserQuery->paginate(10);
         return view('livewire.contacts', ['contactUser' => $contactUser])->extends('layouts.master')->section('content');
     }
 
@@ -112,7 +113,7 @@ class Contacts extends Component
             ->get()->first();
 
         if ($contact_user_exist) {
-            return redirect()->route('contacts', app()->getLocale())->with('existeUserContact', 'deja existe')->with('message', Lang::get('Contact user exist') . $contact_user_exist->name . ' ' . $contact_user_exist->lastName);
+            return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('Contact user exist') . $contact_user_exist->name . ' ' . $contact_user_exist->lastName);
         }
 
         $user = $settingsManager->getUserByFullNumber($fullNumber);
@@ -129,10 +130,10 @@ class Contacts extends Component
             $this->settingsManager->addUserContactV2($contact_user);
             $this->transactionManager->commit();
             $this->dispatchBrowserEvent('close-modal');
-            return redirect()->route('contacts', app()->getLocale())->with('message', Lang::get('User created successfully'));;
+            return redirect()->route('contacts', app()->getLocale())->with('success', Lang::get('User created successfully'));;
         } catch (\Exception $exp) {
             $this->transactionManager->rollback();
-            return redirect()->route('contacts', app()->getLocale())->with('alert-class', Lang::get('User creation failed'));;
+            return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('User creation failed'));;
         }
     }
 
@@ -164,7 +165,7 @@ class Contacts extends Component
             }
         }
         $this->dispatchBrowserEvent('close-modal');
-        return redirect()->route('contacts', app()->getLocale())->with('message', Lang::get('Sponsorship Success'));
+        return redirect()->route('contacts', app()->getLocale())->with('success', Lang::get('Sponsorship operation completed successfully') . ' (' . $contactUser->name . ' ' . $contactUser->lastName . ')');
     }
 
     public function delete_multiple($ids)
