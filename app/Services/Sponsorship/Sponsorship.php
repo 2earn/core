@@ -57,17 +57,25 @@ class Sponsorship
         return NULL;
     }
 
+    public function testexecuteDelayedSponsorship($upLine, $downLine)
+    {
+        $this->executeDelayedSponsorship($this->userRepository->getUserByIdUser($upLine), $this->userRepository->getUserByIdUser($downLine));
+    }
+
     public function executeDelayedSponsorship($upLine, $downLine)
     {
-        $userBalances = user_balance::where('idBalancesOperation', 44)
+
+        $userBalancesQuery = user_balance::where('idBalancesOperation', 44)
             ->where('idUser', $downLine->idUser)
-            ->whereRaw('TIMESTAMPDIFF(HOUR, "DATE", NOW()) > ?', [$this->retardatifReservation])
-            ->orderBy('DATE', "ASC")
+            ->where('description', 'not like', "sponsorship commission from%")
+            ->whereRaw('TIMESTAMPDIFF(HOUR, ' . DB::raw('DATE') . ', NOW()) < ?', [$this->retardatifReservation])
+            ->orderBy(DB::raw('DATE'), "ASC")
             ->limit($this->saleCount);
-        dump($upLine->idUser,$downLine->idUser);
-        dd($userBalances);
+
+        $userBalances = $userBalancesQuery->get();
         foreach ($userBalances as $userBalance) {
-            $this->executeDelayedSponsorship(
+            dump($userBalance->id);
+            $this->executeProactifSponsorship(
                 $downLine->idUser, $userBalance->value, $userBalance->gifted_shares, $userBalance->PU, $this->balancesManager, $downLine->fullphone_number
             );
         }
@@ -95,7 +103,7 @@ class Sponsorship
         return NULL;
     }
 
-    public function createUserBalances($ref, $idBalancesOperation, $idSource, $reserve, $idAmount, $value, $giftedShares, $PU, $winPurchaseAmount, $description, $balance): bool
+    public function createUserBalances($ref, $idBalancesOperation, $idSource, $reserve, $idAmount, $value, $giftedShares, $PU, $winPurchaseAmount, $description, $balance): user_balance
     {
         $user_balance = new user_balance();
         $user_balance->ref = $ref;
@@ -112,7 +120,8 @@ class Sponsorship
         $user_balance->WinPurchaseAmount = $winPurchaseAmount;
         $user_balance->Description = $description;
         $user_balance->Balance = $balance;
-        return $user_balance->save();
+        $user_balance->save();
+        return $user_balance;
     }
 
     public function executeProactifSponsorship($reserve, $number_of_action, $gift, $PU, $balancesManager, $fullphone_number)
@@ -120,8 +129,7 @@ class Sponsorship
         $Count = DB::table('user_balances')->count();
         $ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
         $amount = ($number_of_action + $gift) * $PU * $this->amount / 100;
-
-        $this->createUserBalances(
+        $action = $this->createUserBalances(
             $ref,
             44,
             $this->isSource,
@@ -135,7 +143,7 @@ class Sponsorship
             0
         );
 
-        $this->createUserBalances(
+        $bl = $this->createUserBalances(
             $ref,
             49,
             $this->isSource,
@@ -149,7 +157,7 @@ class Sponsorship
             $balancesManager->getBalances(auth()->user()->idUser)->soldeCB + $amount * $this->amountCash / 100
         );
 
-        $this->createUserBalances(
+        $bfs = $this->createUserBalances(
             $ref,
             50,
             $this->isSource,

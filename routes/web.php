@@ -114,8 +114,13 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('Tree/maintenance', EntretienArbre::class)->name('TreeMaintenance');
         Route::get('description', Description::class)->name('description');
         Route::get('/AcceptRequest', AcceptFinancialRequest::class)->name('AcceptFinancialRequest')->middleware('CloseAuth');
+
+        /*
+         * Route::get('/Sponsorship', function () {
+             SponsorshipFacade::testexecuteDelayedSponsorship(197604325, 999931611);
+         });
+         */
     });
-//    Route::get('login', Login::class)->name('login');
     Route::get('registre', Registre::class)->name('registre');
     Route::get('forgetpassword', ForgotPassword::class)->name('forgetpassword');
     Route::get('/CheckOptCode/{iduser}/{ccode}/{numTel}', CheckOptCode::class)->name('CheckOptCode');
@@ -144,7 +149,7 @@ Route::group(['prefix' => 'API'], function () {
     Route::get('user_invitations', 'App\Http\Controllers\ApiController@getInvitationsUser')->name('API_userinvitations');
     Route::get('user_purchaseBFS', 'App\Http\Controllers\ApiController@getPurchaseBFSUser')->name('API_userBFSPurchase');
     Route::post('paytabs_notification', 'App\Http\Controllers\ApiController@handlePaymentNotification')->name('paytabs_notification')->withoutMiddleware('web');
-   // Route::post('paytabs_notification1', 'App\Http\Controllers\ApiController@handlePaymentNotification1')->name('paytabs_notification1')->withoutMiddleware('web');
+    // Route::post('paytabs_notification1', 'App\Http\Controllers\ApiController@handlePaymentNotification1')->name('paytabs_notification1')->withoutMiddleware('web');
 
     Route::get('users_list', 'App\Http\Controllers\ApiController@getUsersList')->name('API_UsersList');
     Route::get('stat_countries', 'App\Http\Controllers\ApiController@getCountriStat')->name('API_stat_countries');
