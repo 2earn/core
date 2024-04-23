@@ -57,14 +57,13 @@ class Sponsorship
         return NULL;
     }
 
-    public function testexecuteDelayedSponsorship($upLine, $downLine)
+    public function testexecuteDelayedSponsorship($sponsor)
     {
-        $this->executeDelayedSponsorship($this->userRepository->getUserByIdUser($upLine), $this->userRepository->getUserByIdUser($downLine));
+        $this->executeProactifSponsorship(197604325, 100, 20, 5, '0021622950809');
     }
 
     public function executeDelayedSponsorship($upLine, $downLine)
     {
-
         $userBalancesQuery = user_balance::where('idBalancesOperation', 44)
             ->where('idUser', $downLine->idUser)
             ->where('description', 'not like', "sponsorship commission from%")
@@ -74,7 +73,6 @@ class Sponsorship
 
         $userBalances = $userBalancesQuery->get();
         foreach ($userBalances as $userBalance) {
-            dump($userBalance->id);
             $this->executeProactifSponsorship(
                 $downLine->idUser, $userBalance->value, $userBalance->gifted_shares, $userBalance->PU, $this->balancesManager, $downLine->fullphone_number
             );
@@ -84,21 +82,18 @@ class Sponsorship
     public function checkProactifSponsorship($sponsor): ?User
     {
         if ($sponsor->idUpline == 0) {
-            $user = User::where('reserved_by', $sponsor->idUser)
-                ->where('availablity', '1')
-                ->whereRaw('TIMESTAMPDIFF(HOUR, reserved_at, NOW()) < ?', [$this->bookingHours])
-                ->orderBy('reserved_at')
-                ->first();
-            if ($user) {
-                $this->userRepository->updateUserUpline($user->id, $user->idUpline++);
-                return $user;
+            $date = new \DateTime($sponsor->reserved_at);
+            $availablity = $date->diff(now())->format('%h');
+            if ($availablity < $this->bookingHours && $sponsor->availablity == 1) {
+                $this->userRepository->updateUserUpline($sponsor->id, $sponsor->reserved_by);
+                return $this->userRepository->getUserByIdUser($sponsor->reserved_by);
             } else {
-                $this->userRepository->updateUserUpline($user->id, $this->isSource);
+                $this->userRepository->updateUserUpline($sponsor->id, $this->isSource);
             }
         } else {
-            $user = User::where('reserved_by', '!=', $this->isSource)
-                ->where('purchasesNumber', '<=', $this->saleCount);
-            return $user;
+            if ($sponsor->purchasesNumber < $this->saleCount && $sponsor->idUpline != $this->isSource) {
+                return $this->userRepository->getUserByIdUser($sponsor->idUpline);
+            }
         }
         return NULL;
     }
@@ -124,7 +119,7 @@ class Sponsorship
         return $user_balance;
     }
 
-    public function executeProactifSponsorship($reserve, $number_of_action, $gift, $PU, $balancesManager, $fullphone_number)
+    public function executeProactifSponsorship($reserve, $number_of_action, $gift, $PU, $fullphone_number)
     {
         $Count = DB::table('user_balances')->count();
         $ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
@@ -154,7 +149,7 @@ class Sponsorship
             0,
             "0.000",
             'sponsorship commission from ' . $fullphone_number,
-            $balancesManager->getBalances(auth()->user()->idUser)->soldeCB + $amount * $this->amountCash / 100
+            $this->balancesManager->getBalances(auth()->user()->idUser)->soldeCB + $amount * $this->amountCash / 100
         );
 
         $bfs = $this->createUserBalances(
@@ -168,7 +163,7 @@ class Sponsorship
             0,
             "0.000",
             'sponsorship commission from ' . $fullphone_number,
-            $balancesManager->getBalances(auth()->user()->idUser)->soldeBFS + $amount * $this->amountBFS / 100
+            $this->balancesManager->getBalances(auth()->user()->idUser)->soldeBFS + $amount * $this->amountBFS / 100
         );
     }
 

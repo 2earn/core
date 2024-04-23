@@ -115,11 +115,10 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('description', Description::class)->name('description');
         Route::get('/AcceptRequest', AcceptFinancialRequest::class)->name('AcceptFinancialRequest')->middleware('CloseAuth');
 
-        /*
-         * Route::get('/Sponsorship', function () {
-             SponsorshipFacade::testexecuteDelayedSponsorship(197604325, 999931611);
+         Route::get('/Sponsorship', function () {
+             SponsorshipFacade::testexecuteDelayedSponsorship(999952207);
          });
-         */
+
     });
     Route::get('registre', Registre::class)->name('registre');
     Route::get('forgetpassword', ForgotPassword::class)->name('forgetpassword');

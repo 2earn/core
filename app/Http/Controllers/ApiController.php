@@ -84,7 +84,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         $fullphone_number = getPhoneByUser($reciver);
         $userSponsored = SponsorshipFacade::checkProactifSponsorship($reciver);
         if ($userSponsored) {
-            SponsorshipFacade::executeProactifSponsorship($reciver, $number_of_action, $gift, $PU, $balancesManager, $fullphone_number);
+            SponsorshipFacade::executeProactifSponsorship($userSponsored, $number_of_action, $gift, $PU, $fullphone_number);
         }
         $this->userRepository->increasePurchasesNumber($reciver->idUser);
 
