@@ -137,11 +137,11 @@ class Contacts extends Component
         }
     }
 
-    public function checkDelayedSponsorship($sponsoredUser)
+    public function checkDelayedSponsorship($upLine, $downLine)
     {
         $sponsorUser = auth()->user();
-        if (SponsorshipFacade::checkDelayedSponsorship($sponsorUser)) {
-            SponsorshipFacade::executeDelayedSponsorship($sponsoredUser);
+        if (SponsorshipFacade::checkDelayedSponsorship($upLine, $downLine)) {
+            SponsorshipFacade::executeDelayedSponsorship($upLine, $downLine);
         }
     }
 
@@ -160,9 +160,7 @@ class Contacts extends Component
         $downLine = $settingsManager->getUserByIdUser($contactUser->idContact);
         if ($upLine && $downLine) {
             $sponsoredUser = $settingsManager->addSponsoring($upLine, $downLine);
-            if ($downLine) {
-                $this->checkDelayedSponsorship($downLine);
-            }
+            $this->checkDelayedSponsorship($upLine, $downLine);
         }
         $this->dispatchBrowserEvent('close-modal');
         return redirect()->route('contacts', app()->getLocale())->with('success', Lang::get('Sponsorship operation completed successfully') . ' (' . $contactUser->name . ' ' . $contactUser->lastName . ')');

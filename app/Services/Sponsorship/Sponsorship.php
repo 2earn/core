@@ -34,37 +34,41 @@ class Sponsorship
         $this->retardatifReservation = $setting[6];
     }
 
-    public function checkDelayedSponsorship($sponsor): ?User
+    public function checkDelayedSponsorship($upLine, $downLine): ?User
     {
-        $idUpline = $nombredAchat = $maxNombredAchat = 0;
-        if ($sponsor->idUpline == 0) {
+        if ($downLine->idUpline == 0) {
             $retardatifReservation = $this->retardatifReservation;
-            $user = User::where('reserved_by', $sponsor->idUser)
-                ->where('availablity', '0')
-                ->orwhere(function ($query) use ($retardatifReservation) {
-                    $query->where('availablity', '0')
-                        ->whereRaw('TIMESTAMPDIFF(HOUR, reserved_at, NOW()) > ?', [$retardatifReservation]);
-                })
-                ->orderBy('reserved_at')
-                ->first();
+            $userQuery = User::where(['reserved_by' => $upLine->idUser, 'idUser' => $downLine->idUser])
+                ->where(function ($query) use ($retardatifReservation) {
+                    $query->orwhere('availablity', '0')
+                        ->orwhere(function ($query) use ($retardatifReservation) {
+                            $query->where('availablity', '1')
+                                ->whereRaw('TIMESTAMPDIFF(HOUR, reserved_at, NOW()) < ?', [$retardatifReservation]);
+                        });
+                });
+
+            $user = $userQuery->orderBy('reserved_at')->first();
+
             if ($user) {
-                $this->userRepository->getUserUpline($user, auth()->user()->id);
+                $this->userRepository->updateUserUpline($user, auth()->user()->id);
                 return $user;
             }
         }
         return NULL;
     }
 
-    public function executeDelayedSponsorship($sponsoredUser)
+    public function executeDelayedSponsorship($upLine, $downLine)
     {
         $userBalances = user_balance::where('idBalancesOperation', 44)
-            ->where('idUser', $sponsoredUser->idUser)
+            ->where('idUser', $downLine->idUser)
             ->whereRaw('TIMESTAMPDIFF(HOUR, "DATE", NOW()) > ?', [$this->retardatifReservation])
             ->orderBy('DATE', "ASC")
             ->limit($this->saleCount);
+        dump($upLine->idUser,$downLine->idUser);
+        dd($userBalances);
         foreach ($userBalances as $userBalance) {
             $this->executeDelayedSponsorship(
-                $sponsoredUser->idUser, $userBalance->value, $userBalance->gifted_shares, $userBalance->PU, $this->balancesManager, $sponsoredUser->fullphone_number
+                $downLine->idUser, $userBalance->value, $userBalance->gifted_shares, $userBalance->PU, $this->balancesManager, $downLine->fullphone_number
             );
         }
     }
@@ -78,10 +82,10 @@ class Sponsorship
                 ->orderBy('reserved_at')
                 ->first();
             if ($user) {
-                $this->userRepository->getUserUpline($user->id, $user->idUpline++);
+                $this->userRepository->updateUserUpline($user->id, $user->idUpline++);
                 return $user;
             } else {
-                $this->userRepository->getUserUpline($user->id, $this->isSource);
+                $this->userRepository->updateUserUpline($user->id, $this->isSource);
             }
         } else {
             $user = User::where('reserved_by', '!=', $this->isSource)
