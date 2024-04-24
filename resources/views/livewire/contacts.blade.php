@@ -92,15 +92,16 @@
                                                 </div>
                                             </button>
                                         @else
-                                            @if($value->reserved_by ==$value->idUser)
-                                                @php
-                                                    if(strtotime($value->reserved_at)){
-                                                        $reserved_at = DateTime::createFromFormat('Y-m-d H:i:s', $value->reserved_at);
-                                                    $delai= $reserved_at->diff(now());
-                                                    $diff=($delai->days * 24) + $delai->h;
-                                                    $reste =72-$diff;}
-                                                @endphp
-                                                @if($diff<72)
+                                            @php
+                                                if(strtotime($value->reserved_at)){
+                                                 $reserved_at = DateTime::createFromFormat('Y-m-d H:i:s', $value->reserved_at);
+                                                  $delai= $reserved_at->diff(now());
+                                                  $diff=($delai->days * 24) + $delai->h;
+                                                  $reste =$reservation -$diff;
+                                                  }
+                                            @endphp
+                                            @if($value->reserved_by == $value->idUser)
+                                                @if($diff < $reservation)
                                                     <button type="button" title="{{$value->reserved_at}}"
                                                             class="btn btn-outline-warning"
                                                             data-id="{{$value->id}}"
@@ -114,11 +115,19 @@
                                                     </button>
                                                 @endif
                                             @else
-                                                @if($diff<72)
-                                                    <button type="button" class="btn btn-primary"
-                                                            data-id="{{$value->id}}"
-                                                            data-phone="{{$value->mobile}}">   {{__('Blocked for')}} {{$diff}} {{__('hours')}}
-                                                    </button>
+                                                @if(!is_null($value->reserved_by))
+                                                    @if($diff<$reservation)
+                                                        <button type="button" class="btn btn-primary"
+                                                                data-id="{{$value->id}}"
+                                                                data-phone="{{$value->mobile}}">   {{__('Blocked for')}} {{$diff}} {{__('hours')}}
+                                                        </button>
+                                                    @else
+                                                        <button type="button" class="btn btn-outline-success"
+                                                                data-id="{{$value->id}}"
+                                                                data-phone="{{$value->mobile}}">  {{__('Available')}}
+                                                        </button>
+                                                    @endif
+
                                                 @else
                                                     <button type="button" class="btn btn-outline-success"
                                                             data-id="{{$value->id}}"
@@ -148,8 +157,8 @@
                                         </script>
                                         <div class="dropdown d-inline-block">
                                             <div wire:loading wire:target="deleteId('{{$value->id}}')">
-                                    <span class="spinner-border spinner-border-sm" role="status"
-                                          aria-hidden="true"></span>
+                                              <span class="spinner-border spinner-border-sm" role="status"
+                                                    aria-hidden="true"></span>
                                                 <span class="sr-only">Loading...</span>
                                             </div>
                                             <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
@@ -171,7 +180,7 @@
                                                         {{__('Delete')}}
                                                     </a>
                                                 </li>
-                                                @if($value->availablity == 0)
+                                                @if($value->availablity == 0 or ($value->availablity == 1 and is_null($value->reserved_by) ))
                                                     <li>
                                                         <a wire:click="sponsorId({{$value->id}})"
                                                            class="dropdown-item remove-item-btn">
@@ -272,8 +281,8 @@
                             <button type="button" onclick="saveContactEvent()" class="btn btn-success"
                                     id="add-btn">{{__('Save')}}
                                 <div wire:loading>
-                                    <span class="spinner-border spinner-border-sm" role="status"
-                                          aria-hidden="true"></span>
+                                              <span class="spinner-border spinner-border-sm" role="status"
+                                                    aria-hidden="true"></span>
                                     <span class="sr-only">Loading...</span>
                                 </div>
                             </button>

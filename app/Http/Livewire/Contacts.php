@@ -6,6 +6,7 @@ use App\Models\ContactUser;
 use App\Models\User;
 use App\Services\Sponsorship\Sponsorship;
 use App\Services\Sponsorship\SponsorshipFacade;
+use Core\Models\Setting;
 use Core\Services\settingsManager;
 use Core\Services\TransactionManager;
 use Illuminate\Support\Facades\DB;
@@ -50,6 +51,7 @@ class Contacts extends Component
     public function render(settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
+        $reservation = Setting::find(25);
         if (!$userAuth) abort(404);
         $contactUserQuery = DB::table('contact_users as contact_users')
             ->join('users as u', 'contact_users.idContact', '=', 'u.idUser')
@@ -59,9 +61,8 @@ class Contacts extends Component
                 DB::raw("CASE WHEN u.status = -2 THEN 'warning' ELSE 'success' END AS color"),
                 DB::raw("CASE WHEN u.status = -2 THEN 'Pending' ELSE 'User' END AS status"))
             ->orderBy('contact_users.updated_at', 'DESC');
-
         $contactUser = $contactUserQuery->paginate(10);
-        return view('livewire.contacts', ['contactUser' => $contactUser])->extends('layouts.master')->section('content');
+        return view('livewire.contacts', ['contactUser' => $contactUser, 'reservation' => $reservation->IntegerValue])->extends('layouts.master')->section('content');
     }
 
     public function delete(settingsManager $settingsManager)
@@ -132,7 +133,6 @@ class Contacts extends Component
 
     public function checkDelayedSponsorship($upLine, $downLine)
     {
-        $sponsorUser = auth()->user();
         if (SponsorshipFacade::checkDelayedSponsorship($upLine, $downLine)) {
             SponsorshipFacade::executeDelayedSponsorship($upLine, $downLine);
         }

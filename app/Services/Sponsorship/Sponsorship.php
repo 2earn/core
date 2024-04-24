@@ -25,7 +25,7 @@ class Sponsorship
     {
         $settingIds = ['24', '25', '26', '27', '28', '31', '32'];
         $setting = Setting::WhereIn('idSETTINGS', $settingIds)->orderBy('idSETTINGS')->pluck('IntegerValue');
-        $this->bookingHours = $setting[0];
+        $this->shares = $setting[0];
         $this->reservation = $setting[1];
         $this->amount = $setting[2];
         $this->amountCash = $setting[3];
@@ -36,23 +36,9 @@ class Sponsorship
 
     public function checkDelayedSponsorship($upLine, $downLine): ?User
     {
-        if ($downLine->idUpline == 0) {
-            $retardatifReservation = $this->retardatifReservation;
-            $userQuery = User::where(['reserved_by' => $upLine->idUser, 'idUser' => $downLine->idUser])
-                ->where(function ($query) use ($retardatifReservation) {
-                    $query->orwhere('availablity', '0')
-                        ->orwhere(function ($query) use ($retardatifReservation) {
-                            $query->where('availablity', '1')
-                                ->whereRaw('TIMESTAMPDIFF(HOUR, reserved_at, NOW()) < ?', [$retardatifReservation]);
-                        });
-                });
-
-            $user = $userQuery->orderBy('reserved_at')->first();
-
-            if ($user) {
-                $this->userRepository->updateUserUpline($user, auth()->user()->id);
-                return $user;
-            }
+        if ($downLine->idUpline == $this->isSource) {
+            $this->userRepository->updateUserUpline($downLine->idUser, auth()->user()->idUser);
+            return $downLine;
         }
         return NULL;
     }
@@ -66,15 +52,15 @@ class Sponsorship
     {
         $userBalancesQuery = user_balance::where('idBalancesOperation', 44)
             ->where('idUser', $downLine->idUser)
-            ->where('description', 'not like', "sponsorship commission from%")
             ->whereRaw('TIMESTAMPDIFF(HOUR, ' . DB::raw('DATE') . ', NOW()) < ?', [$this->retardatifReservation])
             ->orderBy(DB::raw('DATE'), "ASC")
             ->limit($this->saleCount);
 
         $userBalances = $userBalancesQuery->get();
+
         foreach ($userBalances as $userBalance) {
             $this->executeProactifSponsorship(
-                $downLine->idUser, $userBalance->value, $userBalance->gifted_shares, $userBalance->PU, $this->balancesManager, $downLine->fullphone_number
+                $downLine->idUser, $userBalance->value, $userBalance->gifted_shares, $userBalance->PU, $downLine->fullphone_number
             );
         }
     }
@@ -85,10 +71,10 @@ class Sponsorship
             $date = new \DateTime($sponsor->reserved_at);
             $availablity = $date->diff(now())->format('%h');
             if ($availablity < $this->bookingHours && $sponsor->availablity == 1) {
-                $this->userRepository->updateUserUpline($sponsor->id, $sponsor->reserved_by);
+                $this->userRepository->updateUserUpline($sponsor->idUser, $sponsor->reserved_by);
                 return $this->userRepository->getUserByIdUser($sponsor->reserved_by);
             } else {
-                $this->userRepository->updateUserUpline($sponsor->id, $this->isSource);
+                $this->userRepository->updateUserUpline($sponsor->idUser, $this->isSource);
             }
         } else {
             if ($sponsor->purchasesNumber < $this->saleCount && $sponsor->idUpline != $this->isSource) {
@@ -124,7 +110,7 @@ class Sponsorship
         $Count = DB::table('user_balances')->count();
         $ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
         $amount = ($number_of_action + $gift) * $PU * $this->amount / 100;
-        $action = $this->createUserBalances(
+        $this->createUserBalances(
             $ref,
             44,
             $this->isSource,
@@ -138,7 +124,7 @@ class Sponsorship
             0
         );
 
-        $bl = $this->createUserBalances(
+        $this->createUserBalances(
             $ref,
             49,
             $this->isSource,
@@ -152,7 +138,7 @@ class Sponsorship
             $this->balancesManager->getBalances(auth()->user()->idUser)->soldeCB + $amount * $this->amountCash / 100
         );
 
-        $bfs = $this->createUserBalances(
+        $this->createUserBalances(
             $ref,
             50,
             $this->isSource,
