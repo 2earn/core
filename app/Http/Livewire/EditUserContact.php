@@ -61,12 +61,11 @@ class EditUserContact extends Component
         $fullphone_number = str_replace(' ', '', str_ends_with($fullnumber, $phone) ? $fullnumber : $fullnumber . $phone);
         $mobile = str_replace(' ', '', $phone);
         $user = $settingsManager->getUserByFullNumber($fullphone_number);
-        $fullName = $this->nameUserContact . ' ' . $this->lastNameUserContact;
 
         if (!$user) {
-            $user = $settingsManager->createNewUser($fullName, $mobile, $fullphone_number, $code, auth()->user()->idUser);
+            $user = $settingsManager->createNewUser($mobile, $fullphone_number, $code, auth()->user()->idUser);
         } else {
-            $user = $settingsManager->updateUser($user, $fullName, $mobile, $fullphone_number, $code, auth()->user()->idUser);
+            $user = $settingsManager->updateUser($user, $mobile, $fullphone_number, $code, auth()->user()->idUser);
         }
         $contact_user = new ContactUser([
             'idUser' => Auth()->user()->idUser,

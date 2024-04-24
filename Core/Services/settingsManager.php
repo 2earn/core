@@ -975,18 +975,18 @@ class settingsManager
         return $this->userRepository->initNewUser();
     }
 
-    public function createNewUser($name, $mobile, $fullphone_number, $id_phone, $idUplineRegister)
+    public function createNewUser($mobile, $fullphone_number, $id_phone, $idUplineRegister)
     {
-        $user = $this->userRepository->createNewUser($name, $mobile, $fullphone_number, $id_phone, $idUplineRegister);
+        $user = $this->userRepository->createNewUser($mobile, $fullphone_number, $id_phone, $idUplineRegister);
         $this->createMettaUser($user);
         $country = countrie::find($user->idCountry);
         $this->createUserContactNumber($user, $country->apha2);
         return $user;
     }
 
-    public function updateUser($user, $name, $mobile, $fullphone_number, $id_phone, $idUplineRegister)
+    public function updateUser($user, $mobile, $fullphone_number, $id_phone, $idUplineRegister)
     {
-        return $this->createNewUser($name, $mobile, $fullphone_number, $id_phone, $idUplineRegister);
+        return $this->createNewUser($mobile, $fullphone_number, $id_phone, $idUplineRegister);
     }
 
     public function createNewContactUser($idUser, $name, $idContact, $lastName, $mobile, $fullphone, $phonecode)

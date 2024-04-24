@@ -113,17 +113,13 @@ class Contacts extends Component
             ->get()->first();
 
         if ($contact_user_exist) {
-            return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('Contact user exist') . $contact_user_exist->name . ' ' . $contact_user_exist->lastName);
+            return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('danger') . $contact_user_exist->name . ' ' . $contact_user_exist->lastName);
         }
 
         try {
             $user = $settingsManager->getUserByFullNumber($fullNumber);
-
-            $fullName = $this->name . ' ' . $this->lastName;
             if (!$user) {
-                $user = $settingsManager->createNewUser($fullName, $this->mobile, $fullNumber, $ccode, auth()->user()->idUser);
-            } else {
-                $user = $settingsManager->updateUser($user, $fullName, $this->mobile, $fullNumber, $ccode, auth()->user()->idUser);
+                $user = $settingsManager->createNewUser($this->mobile, $fullNumber, $ccode, auth()->user()->idUser);
             }
             $contact_user = $settingsManager->createNewContactUser($settingsManager->getAuthUser()->idUser, $this->name, $user->idUser, $this->lastName, $phone, $fullNumber, $ccode,);
             $this->dispatchBrowserEvent('close-modal');

@@ -262,11 +262,10 @@ class  UserRepository implements IUserRepository
     }
 
 
-    public function createNewUser($name, $mobile, $fullphone_number, $id_phone, $idUplineRegister)
+    public function createNewUser($mobile, $fullphone_number, $id_phone, $idUplineRegister)
     {
         $country = DB::table('countries')->where('phonecode', $id_phone)->first();
         $user = $this->initNewUser();
-        $user->name = $name;
         $user->mobile = $mobile;
         $user->fullphone_number = $fullphone_number;
         $user->id_phone = $id_phone;

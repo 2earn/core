@@ -34,7 +34,7 @@ class ApiController extends BaseController
 recharge_requests.userPhone userphone, recharge_requests.amount  from recharge_requests
 left join users user on user.idUser = recharge_requests.idUser";
 
-    public function __construct(private settingsManager $settingsManager, private BalancesManager $balancesManager , private UserRepository $userRepository)
+    public function __construct(private settingsManager $settingsManager, private BalancesManager $balancesManager, private UserRepository $userRepository)
     {
     }
 
@@ -79,11 +79,11 @@ left join users user on user.idUser = recharge_requests.idUser";
         }
 
         $fullphone_number = getPhoneByUser($reciver);
-        $userSponsored = SponsorshipFacade::checkProactifSponsorship($reciver);
+        $userSponsored = SponsorshipFacade::checkProactifSponsorship($this->userRepository->getUserByIdUser($reciver));
         if ($userSponsored) {
-            SponsorshipFacade::executeProactifSponsorship($userSponsored, $number_of_action, $gift, $PU, $fullphone_number);
+            SponsorshipFacade::executeProactifSponsorship($userSponsored->idUser, $number_of_action, $gift, $PU, $fullphone_number);
         }
-        $this->userRepository->increasePurchasesNumber($reciver->idUser);
+        $this->userRepository->increasePurchasesNumber($reciver);
 
         // share sold
         $user_balance = new user_balance();
