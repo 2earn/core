@@ -263,169 +263,182 @@
             </div>
         </div>
     </div>
-        <!-- .col-->
-    <!-- end row-->
-    </div>
-<!--end card-->
-<div class="modal fade" id="buy-action" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Buy Shares') }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <h5 style="color:#464fed">{{ __('buy_shares_notice') }}</h5>
-                <h3 style="color:#464fed ;position:absolute; top:50px;  z-index:99999">↓</h3>
-                <div class="d-flex mt-5">
-                    <!-- LOGO -->
-                    <div class="ms-1 header-item   d-flex me-5  ">
-                        <div class="d-flex align-items-end justify-content-between logoTopCash">
-                            <a href="{{route('user_balance_cb',app()->getLocale())}}">
-                                <div class="avatar-sm flex-shrink-0">
+    <div wire:ignore.self class="modal fade" id="buy-action" tabindex="-1" aria-labelledby="exampleModalgridLabel"
+         aria-modal="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Buy Shares') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mt-3 alert alert-info" role="alert">
+                        <h5 class="alert-heading">{{ __('Notice') }}</h5>
+                        <p>{{ __('buy_shares_notice') }}</p>
+                    </div>
+                    <div class="d-flex">
+                        <div class="ms-1 header-item   d-flex me-5  ">
+                            <div class="d-flex align-items-end justify-content-between logoTopCash">
+                                <a href="{{route('user_balance_cb',app()->getLocale())}}">
+                                    <div class="avatar-sm flex-shrink-0">
                                     <span class="avatar-title bg-soft-info rounded fs-3">
                                        <i class="bx bx-dollar-circle text-info"></i>
                                     </span>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="d-flex align-items-center logoTopCashLabel">
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <a href="{{route('user_balance_cb',app()->getLocale())}}">
+                                        <p class="text-uppercase fw-medium     mb-0 ms-2">
+                                            {{ __('Cash Balance') }}</p>
+                                        <h5 class="fs-14 mb-0 ms-2">
+                                            {{__('DPC')}}  <?php echo $solde->soldeCB / 1 ?>
+                                        </h5>
+                                    </a>
                                 </div>
-                            </a>
-                        </div>
-                        <div class="d-flex align-items-center logoTopCashLabel">
-                            <div class="flex-grow-1 overflow-hidden">
-                                <a href="{{route('user_balance_cb',app()->getLocale())}}">
-                                    <p class="text-uppercase fw-medium     mb-0 ms-2">
-                                        {{ __('Cash Balance') }}</p>
-                                    <h5 class="fs-14 mb-0 ms-2">
-                                        {{__('DPC')}}  <?php echo $solde->soldeCB / 1 ?>
-                                    </h5></a>
-                            </div>
-                            <div class="flex-shrink-0">
+                                <div class="flex-shrink-0">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="ms-1 header-item  d-flex me-5">
-                        <div class="d-flex align-items-end justify-content-between logoTopBFS">
-                            <a href="{{route('user_balance_bfs',app()->getLocale())}}">
-                                <div class="avatar-sm flex-shrink-0">
+                        <div class="ms-1 header-item  d-flex me-5">
+                            <div class="d-flex align-items-end justify-content-between logoTopBFS">
+                                <a href="{{route('user_balance_bfs',app()->getLocale())}}">
+                                    <div class="avatar-sm flex-shrink-0">
                                     <span class="avatar-title bg-soft-success rounded fs-3">
                                         <i class="ri-shopping-cart-2-line text-success"></i>
                                     </span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="d-flex align-items-center logoTopBFSLabel">
-                            <div class="flex-grow-1 overflow-hidden">
-                                <a href="{{route('user_balance_bfs',app()->getLocale())}}">
-                                    <p class="text-uppercase fw-medium     mb-0 ms-2">
-                                        {{ __('Balance For Shopping') }}</p>
-                                    <h5 class="text-success fs-14 mb-0  ms-2">
-                                        {{__('DPC')}} <?php echo $solde->soldeBFS / 1 ?>
-                                    </h5></a>
+                                    </div>
+                                </a>
                             </div>
-                            <div class="flex-shrink-0">
+                            <div class="d-flex align-items-center logoTopBFSLabel">
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <a href="{{route('user_balance_bfs',app()->getLocale())}}">
+                                        <p class="text-uppercase fw-medium     mb-0 ms-2">
+                                            {{ __('Balance For Shopping') }}</p>
+                                        <h5 class="text-success fs-14 mb-0  ms-2">
+                                            {{__('DPC')}} <?php echo $solde->soldeBFS / 1 ?>
+                                        </h5></a>
+                                </div>
+                                <div class="flex-shrink-0">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="ms-1 header-item  d-flex me-5">
-                        <div class="d-flex align-items-end justify-content-between logoTopDB">
-                            <a href="{{route('user_balance_db',app()->getLocale())}}">
-                                <div class="avatar-sm flex-shrink-0">
-                                    <span
-                                        class="avatar-title bg-soft-secondary rounded fs-3">
-                                        <i
-                                            class=" ri-coupon-4-line text-secondary"></i>
-                                    </span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="d-flex align-items-center logoTopDBLabel">
-                            <div class="flex-grow-1 overflow-hidden">
+                        <div class="ms-1 header-item  d-flex me-5">
+                            <div class="d-flex align-items-end justify-content-between logoTopDB">
                                 <a href="{{route('user_balance_db',app()->getLocale())}}">
-                                    <p
-                                        class="text-uppercase fw-medium     mb-0 ms-2">
-                                        {{ __('Discounts Balance') }}</p>
-                                    <h5 class="text-secondary fs-14 mb-0 ms-2">
-                                        {{__('DPC')}} </span> <?php echo $solde->soldeDB / 1 ?>
-                                    </h5></a>
+                                    <div class="avatar-sm flex-shrink-0">
+                                    <span class="avatar-title bg-soft-secondary rounded fs-3">
+                                        <i class=" ri-coupon-4-line text-secondary"></i>
+                                    </span>
+                                    </div>
+                                </a>
                             </div>
-                            <div class="flex-shrink-0">
+                            <div class="d-flex align-items-center logoTopDBLabel">
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <a href="{{route('user_balance_db',app()->getLocale())}}">
+                                        <p class="text-uppercase fw-medium mb-0 ms-2">
+                                            {{ __('Discounts Balance') }}
+                                        </p>
+                                        <h5 class="text-secondary fs-14 mb-0 ms-2">
+                                            {{__('DPC')}} </span> <?php echo $solde->soldeDB / 1 ?>
+                                        </h5>
+                                    </a>
+                                </div>
+                                <div class="flex-shrink-0">
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <form class="needs-validation" novalidate>
-                    <div class="row g-3">
-                        <div class="col-lg-12">
-                            <label class="form-label">{{ __('Buy For') }} </label>
-                            <div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" checked
-                                           id="inlineRadio1" value="me">
-                                    <label class="form-check-label" for="inlineRadio1">{{ __('me') }}</label>
+                    <div class="d-flex">
+                        <form class="needs-validation" novalidate>
+                            <div class="row mt-3 alert alert-primary">
+                                <div class="col-2">
+                                    <label class="form-label">{{ __('Buy For') }}:</label>
                                 </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                           id="inlineRadio2" value="other">
-                                    <label class="form-check-label" for="inlineRadio2">{{ __('other') }}</label>
+                                <div class="col-4">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" checked
+                                               id="inlineRadio1" value="me">
+                                        <label class="form-check-label" for="inlineRadio1">{{ __('me') }}</label>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                               id="inlineRadio2" value="other">
+                                        <label class="form-check-label" for="inlineRadio2">{{ __('other') }}</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 d-none" id="contact-select">
+                                    <div>
+                                        <label for="firstName" class="form-label">{{ __('Mobile_Number') }}</label>
+                                        <input type="tel" class="form-control" name="mobile" id="phone" required>
+                                    </div>
+                                </div>
+                                <div class="col-6 d-none" id="bfs-select">
+                                    <label class="form-label mb-3">{{ __('BFS bonuses  for') }} </label>
+                                    <div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="bfs-for" value="me">
+                                            <label class="form-check-label">{{ __('me') }}</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="bfs-for" value="other">
+                                            <label class="form-check-label">{{ __('The chosen user') }}</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!--end col-->
-                        <div class="col-xxl-6 d-none" id="contact-select">
-                            <div>
-                                <label for="firstName" class="form-label">{{ __('Mobile_Number') }}</label>
-                                <input type="tel" class="form-control" name="mobile" id="phone" required>
-                            </div>
-                        </div><!--end col-->
-                        <div class="col-xxl-6 d-none" id="bfs-select">
-                            <label class="form-label mb-3">{{ __('BFS bonuses  for') }} </label>
-                            <div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="bfs-for" value="me">
-                                    <label class="form-check-label">{{ __('me') }}</label>
+                            <div id="simulator" class="row mt-3">
+                                <div class="col-12">
+                                    <label for="customer-name" class="col-form-label">{{ __('Amount_pay') }}($)</label>
+                                    <div class="input-group">
+                                        <input aria-describedby="simulate" type="number" max="{{$cashBalance}}"
+                                               wire:keydown="simulate()" wire:model="ammount"
+                                               placeholder="{{$cashBalance}}" class="form-control"
+                                               id="ammount" required>
+                                        <button wire:click="simulate()" class="btn btn-outline-primary">
+                                            <div wire:loading wire:target="simulate">
+                                    <span class="spinner-border spinner-border-sm" role="status"
+                                          aria-hidden="true"></span>
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                            {{ __('simulate') }}
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="bfs-for" value="other">
-                                    <label class="form-check-label">{{ __('The chosen user') }}</label>
-                                </div>
-                            </div>
-                        </div>
-                        <!--end col-->
-                        <div class="col-12">
-                            <label for="customer-name" class="col-form-label">{{ __('Amount_pay') }}($)</label>
-                            <div class="input-group">
-                                <input aria-describedby="simulate" type="number" max="{{intval($cashBalance)}}"
-                                       placeholder="{{$cashBalance}}" class="form-control" id="ammount" required>
-                                <button type="button" id="simulate"
-                                        class="btn btn-outline-primary">{{ __('simulate') }}</button>
-                            </div>
-                        </div><!--end col-->
-                        <div class="col-12">
-                            <div>
-                                <label for="customer-name" class="col-form-label">{{ __('Number Of Shares') }} </label>
-                                <input type="number" disabled class="form-control" id="number-of-action" value="0000">
-                            </div>
-                            <div class="col-12">
-                                <div>
-                                    <label for="customer-name" class="col-form-label">{{ __('Gifted Shares') }}</label>
-                                    <input type="number" disabled class="form-control" id="number-of-gifted-action"
+                                <div class="col-4">
+                                    <label for="customer-name"
+                                           class="col-form-label">{{ __('Number Of Shares') }} </label>
+                                    <input type="number" disabled class="form-control" id="number-of-action"
+                                           wire:model.live="action"
                                            value="0000">
                                 </div>
-                            </div><!--end col-->
-                            <div class="col-12 mb-3">
-                                <div>
-                                    <label for="customer-name" class="col-form-label">{{ __('Profit') }}($) </label>
-                                    <input type="number" disabled class="form-control" id="profit" value="0000">
+                                <div class="col-4">
+                                    <label for="customer-name"
+                                           class="col-form-label">{{ __('Gifted Shares') }}</label>
+                                    <input type="number" disabled class="form-control" wire:model.live="gift"
+                                           id="number-of-gifted-action"
+                                           value="0000">
                                 </div>
-                            </div><!--end col-->
+                                <div class="col-4 mb-3">
+                                    <label for="customer-name" class="col-form-label">{{ __('Profit') }}
+                                        ($) </label>
+                                    <input type="number" disabled class="form-control" id="profit" value="0000"
+                                           wire:model.live="profit">
+                                </div>
+                            </div>
                             <div class="col-lg-12">
                                 <div class="hstack gap-2 justify-content-end">
                                     <button type="button" class="btn btn-light"
                                             data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                                     <button type="button" id="buy-action-submit"
-                                            class="btn btn-primary">{{ __('Submit') }}</button>
+                                            wire:loading.attr="disabled"  wire:target="simulate"  class="btn btn-primary">{{ __('Submit') }}</button>
                                 </div>
-                            </div><!--end col-->
-                        </div><!--end row-->
+                            </div>
+                    </div>
+                </div>
                 </form>
             </div>
         </div>
@@ -445,7 +458,6 @@
                     utilsScript: "{{asset('assets/js/utils.js')}}" // just for formatting/placeholders etc
                 });
                 $('[name="inlineRadioOptions"]').on('change', function () {
-
                     if ($('#inlineRadio2').is(':checked')) {
                         $('#contact-select').removeClass('d-none');
                         $('#bfs-select').removeClass('d-none');
@@ -455,25 +467,9 @@
                     }
                 });
 
-                $(document).on("click", "#simulate", function () {
-                    $.ajax({
-                        url: "{{ route('action-by-ammount') }}",
-                        type: "GET",
-                        data: {
-                            ammount: $("#ammount").val(),
-                            "_token": "{{ csrf_token() }}"
-                        },
-                        success: function (data) {
-                            $('#number-of-action').val(data.action);
-                            $('#number-of-gifted-action').val(data.gift);
-                            $('#profit').val(data.profit);
-                        }
-                    });
-                });
 
 // Utilisation de la fonction générique avec votre exemple
                 $(document).on("click", "#buy-action-submit", function () {
-
                     let ammount = $('#ammount').val();
                     let phone = $('#phone').val();
                     let me_or_other = $("input[name='inlineRadioOptions']:checked").val();
@@ -500,7 +496,6 @@
                                     html: response.error.join('<br>')
                                 });
                             }
-
                             $('#buy-action').modal('hide');
                             Toastify({
                                 text: data.message,
@@ -632,4 +627,7 @@
             );
         });
     </script>
-@endpush
+    @endpush
+    </div>
+
+    </div>
