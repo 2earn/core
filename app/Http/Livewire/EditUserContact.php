@@ -83,7 +83,7 @@ class EditUserContact extends Component
                 $transactionManager->beginTransaction();
                 $settingsManager->updateUserContactV2($this->idContact, $contact_user);
                 $transactionManager->commit();
-                return redirect()->route('contacts', app()->getLocale())->with('SessionUserUpdated',  Lang::get('User updated'));
+                return redirect()->route('contacts', app()->getLocale())->with('success',  Lang::get('User updated'));
             } catch (\Exception $exp) {
                 $transactionManager->rollback();
                 Session::flash('message', 'failed');

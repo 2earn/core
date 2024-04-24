@@ -147,6 +147,11 @@
                                             });
                                         </script>
                                         <div class="dropdown d-inline-block">
+                                            <div wire:loading wire:target="deleteId('{{$value->id}}')">
+                                    <span class="spinner-border spinner-border-sm" role="status"
+                                          aria-hidden="true"></span>
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
                                             <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
                                                     data-bs-toggle="dropdown" aria-expanded="false">
                                                 <i class="ri-more-fill align-middle"></i>
@@ -160,7 +165,7 @@
                                                         {{__('Edit')}}</a>
                                                 </li>
                                                 <li>
-                                                    <a onclick="deleteId('{{$value->id}}')"
+                                                    <a wire:click="deleteId('{{$value->id}}')"
                                                        class="dropdown-item remove-item-btn">
                                                         <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
                                                         {{__('Delete')}}
@@ -305,9 +310,6 @@
     function updateContact() {
     }
 
-    function deleteId(dd) {
-        window.livewire.emit('deleteId', dd);
-    }
 
     function deleteContact(dd) {
         window.livewire.emit('deleteContact', dd);
