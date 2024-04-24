@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 use Livewire\Component;
 
-
 class Home extends Component
 {
 
@@ -31,7 +30,6 @@ class Home extends Component
     ];
     function checkContactNumbre()
     {
-        dd('ddd');
     }
     public function mount(
         settingsManager $settingsManager,
@@ -40,7 +38,6 @@ class Home extends Component
     {
         $this->settingsManager = $settingsManager;
         $this->balancesManager = $balancesManager;
-
     }
 
     public function getIp()
@@ -62,18 +59,11 @@ class Home extends Component
             delUsertransaction($user->idUser);
         if (!$user)
             dd('not found page');
-//        dd($settingsManager->getAuthUser());
-//       $remember_me = false;
-//          $usersauth = $this->settingsManager->getUserById(2) ;
-//        Auth::login($usersauth, $remember_me);
-//        $user = Auth::user();
         $solde = $this->balancesManager->getBalances($user->idUser);
         $this->cashBalance = $solde->soldeCB;
         $this->balanceForSopping = $solde->soldeBFS;
         $this->discountBalance = $solde->soldeDB;
         $this->SMSBalance = $solde->soldeSMS;
-
-
         $arraySoldeD = [];
         $solde = $this->balancesManager->getCurrentBalance($user->idUser);
         $s = $this->balancesManager->getBalances($user->idUser);
@@ -91,27 +81,7 @@ class Home extends Component
               "solde"=>$s ,
                 'arraySoldeD' => $arraySoldeD,
                 'usermetta_info' => $usermetta_info
-//                'userearn' => $userearn
             ]
         )->extends('layouts.master')->section('content');
-//        return view('livewire.home')->extends('layouts.master')->section('content');
     }
 }
-
-
-//
-//<?php
-//
-//namespace App\Http\Livewire;
-//
-//use Livewire\Component;
-//
-//class Home extends Component
-//{
-//    public $cash = 1520.326;
-//
-//    public function render()
-//    {
-//        return view('livewire.home')->extends('layouts.master')->section('content');
-//    }
-//}

@@ -49,14 +49,11 @@ left join users user on user.idUser = recharge_requests.idUser";
             'bfs_for' => [
                 Rule::requiredIf($request->me_or_other == "other"),
             ],
-
-
         ], [
             'ammount.required' => 'ammonut is required !',
             'ammount.numeric' => 'Ammount must be numeric !!',
             'ammount.lte' => 'Ammount > Cash Balance !!',
             'teinte.exists' => 'Le champ Teinte est obligatoire !',
-
         ]);
 
         if ($validator->fails()) {
@@ -128,17 +125,13 @@ left join users user on user.idUser = recharge_requests.idUser";
         $user_balance->value = intval($number_of_action / $palier) * $actual_price * $palier;
         $user_balance->WinPurchaseAmount = "0.000";
         $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser)->soldeBFS + intval($number_of_action / $palier) * $actual_price * $palier;
-
         $user_balance->save();
-
         return response()->json(['type' => ['success'], 'message' => ['success']],);
-
     }
 
     public function giftActionByAmmount(Req $request)
     {
         return getGiftedActions($request->ammount);
-
     }
 
     public function actionByAmmount(Req $request)
@@ -147,9 +140,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         $gifted_action = getGiftedActions($action);
         $profit = actualActionValue(getSelledActions()) * $gifted_action;
         $array = array('action' => $action, "gift" => $gifted_action, 'profit' => $profit);
-
         return response()->json($array);
-
     }
 
     public function addCash(Req $request, BalancesManager $balancesManager)
