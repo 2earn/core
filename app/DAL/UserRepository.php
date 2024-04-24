@@ -63,6 +63,7 @@ class  UserRepository implements IUserRepository
         ContactUser::create(
             [
                 'idUser' => $contactUser->idUser,
+                'idContact' => $contactUser->idContact,
                 'name' => $contactUser->name,
                 'lastName' => $contactUser->lastName,
                 'mobile' => $contactUser->mobile,

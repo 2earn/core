@@ -117,6 +117,7 @@ class Contacts extends Component
         }
 
         $user = $settingsManager->getUserByFullNumber($fullNumber);
+
         $fullName = $this->name . ' ' . $this->lastName;
         if (!$user) {
             $user = $settingsManager->createNewUser($fullName, $this->mobile, $fullNumber, $ccode, auth()->user()->idUser);
@@ -125,6 +126,7 @@ class Contacts extends Component
         }
 
         $contact_user = $settingsManager->createNewContactUser($settingsManager->getAuthUser()->idUser, $this->name, $user->idUser, $this->lastName, $phone, $fullNumber, $ccode,);
+
         try {
             $this->transactionManager->beginTransaction();
             $this->settingsManager->addUserContactV2($contact_user);
