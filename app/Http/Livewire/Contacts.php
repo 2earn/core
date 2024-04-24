@@ -52,6 +52,7 @@ class Contacts extends Component
     {
         $userAuth = $settingsManager->getAuthUser();
         $reservation = Setting::find(25);
+        $switchBlock = Setting::find(29);
         if (!$userAuth) abort(404);
         $contactUserQuery = DB::table('contact_users as contact_users')
             ->join('users as u', 'contact_users.idContact', '=', 'u.idUser')
@@ -62,7 +63,12 @@ class Contacts extends Component
                 DB::raw("CASE WHEN u.status = -2 THEN 'Pending' ELSE 'User' END AS status"))
             ->orderBy('contact_users.updated_at', 'DESC');
         $contactUser = $contactUserQuery->paginate(10);
-        return view('livewire.contacts', ['contactUser' => $contactUser, 'reservation' => $reservation->IntegerValue])->extends('layouts.master')->section('content');
+        $params = [
+            'contactUser' => $contactUser,
+            'reservation' => $reservation->IntegerValue,
+            'switchBlock' => $switchBlock->IntegerValue
+        ];
+        return view('livewire.contacts', $params)->extends('layouts.master')->section('content');
     }
 
     public function delete(settingsManager $settingsManager)

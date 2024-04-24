@@ -66,6 +66,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         $actual_price = actualActionValue(getSelledActions());
         $PU = $number_of_action * ($actual_price) / ($number_of_action + $gift);
         $Count = DB::table('user_balances')->count();
+        $ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
         $palier = \Core\Models\Setting::Where('idSETTINGS', '19')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
         $reciver = Auth()->user()->idUser;
         $reciver_bfs = Auth()->user()->idUser;
@@ -81,14 +82,14 @@ left join users user on user.idUser = recharge_requests.idUser";
         $fullphone_number = getPhoneByUser($reciver);
         $userSponsored = SponsorshipFacade::checkProactifSponsorship($this->userRepository->getUserByIdUser($reciver));
         if ($userSponsored) {
-            SponsorshipFacade::executeProactifSponsorship($userSponsored->idUser, $number_of_action, $gift, $PU, $fullphone_number);
+            SponsorshipFacade::executeProactifSponsorship($userSponsored->idUser, $ref, $number_of_action, $gift, $PU, $fullphone_number);
         }
         $this->userRepository->increasePurchasesNumber($reciver);
 
         // share sold
         $user_balance = new user_balance();
         // Action
-        $user_balance->ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
+        $user_balance->ref = $ref;
         $user_balance->idBalancesOperation = 44;
         $user_balance->Date = now();
         $user_balance->idSource = '11111111';
@@ -102,7 +103,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         $user_balance->save();
         // cach
         $user_balance = new user_balance();
-        $user_balance->ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
+        $user_balance->ref = $ref;
         $user_balance->idBalancesOperation = 48;
         $user_balance->Date = now();
         $user_balance->idSource = auth()->user()->idUser;
@@ -116,7 +117,7 @@ left join users user on user.idUser = recharge_requests.idUser";
 
         //bfs
         $user_balance = new user_balance();
-        $user_balance->ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
+        $user_balance->ref = $ref;
         $user_balance->idBalancesOperation = 46;
         $user_balance->Date = now();
         $user_balance->idSource = "11111111";

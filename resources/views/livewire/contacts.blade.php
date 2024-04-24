@@ -27,7 +27,7 @@
                                     <button type="button" class="btn btn-secondary add-btn btn2earn"
                                             data-bs-toggle="modal"
                                             id="create-btn" data-bs-target="#addModal"><i
-                                            class="ri-add-line align-bottom me-1 "></i> {{ __('Add a contact') }}
+                                                class="ri-add-line align-bottom me-1 "></i> {{ __('Add a contact') }}
                                     </button>
                                 </div>
                             </div>
@@ -55,9 +55,9 @@
                                     <td>
                                         <div class="d-flex align-items-center fw-medium">
                                             <img
-                                                src="{{ URL::asset('assets/images/flags/'. Illuminate\Support\Str::lower($value->apha2) .'.svg') }}"
-                                                alt=""
-                                                class="avatar-xs me-2 rounded-circle">
+                                                    src="{{ URL::asset('assets/images/flags/'. Illuminate\Support\Str::lower($value->apha2) .'.svg') }}"
+                                                    alt=""
+                                                    class="avatar-xs me-2 rounded-circle">
                                             <a href="javascript:void(0);"
                                                class="currency_name"> {{getCountryByIso($value->apha2)}}</a>
                                         </div>
@@ -77,62 +77,77 @@
                                             <input type="checkbox" class="balance-switch-c form-check-input"
                                                    role="switch"
                                                    data-id="{{$value->id}}"
-                                                {{$value->availablity == 1 ? 'checked' : ''}}  {{$disableUntil > now()   ? 'disabled' : ''}}>
+                                                    {{$value->availablity == 1 ? 'checked' : ''}}  {{$disableUntil > now()   ? 'disabled' : ''}}>
                                         </div>
                                     </td>
                                     <td>
-                                        @if($value->availablity == 0)
-                                            <button type="button" class="btn btn-outline-success"
-                                                    data-id="{{$value->id}}"
-                                                    data-phone="{{$value->mobile}}"> {{__('Available')}}
-                                                <div wire:loading wire:target="sponsorId({{$value->id}})">
-                                                <span class="spinner-border spinner-border-sm" role="status"
-                                                      aria-hidden="true"></span>
-                                                    <span class="sr-only">Loading...</span>
-                                                </div>
-                                            </button>
-                                        @else
-                                            @php
-                                                if(strtotime($value->reserved_at)){
-                                                 $reserved_at = DateTime::createFromFormat('Y-m-d H:i:s', $value->reserved_at);
-                                                  $delai= $reserved_at->diff(now());
-                                                  $diff=($delai->days * 24) + $delai->h;
-                                                  $reste =$reservation -$diff;
-                                                  }
-                                            @endphp
-                                            @if($value->reserved_by == $value->idUser)
-                                                @if($diff < $reservation)
-                                                    <button type="button" title="{{$value->reserved_at}}"
-                                                            class="btn btn-outline-warning"
-                                                            data-id="{{$value->id}}"
-                                                            data-phone="{{$value->mobile}}">{{__('Reserved for')}} {{$reste}} {{__('hours')}}
-                                                    </button>
-                                                @else
-                                                    <button type="button" class="btn btn-outline-primary"
-                                                            data-id="{{$value->id}}"
-                                                            data-phone="{{$value->mobile}}">
-                                                        {{__('blocked for')}} {{$diff}} {{__('hours')}}
-                                                    </button>
-                                                @endif
+                                        @php
+                                            $available = false;
+                                        @endphp
+                                        @if($value->idUpline != 0)
+                                            @if($value->idUpline == $value->idUser)
+                                                <button type="button"
+                                                        class="btn btn-outline-info">{{__('i am his sponsor')}} </button>
                                             @else
-                                                @if(!is_null($value->reserved_by))
+                                                <button type="button"
+                                                        class="btn btn-outline-danger">{{__('Already has a sponsor')}} </button>
+                                            @endif
+                                        @else
+                                            @if($value->availablity == 0)
+                                                <button type="button"
+                                                        class="btn btn-outline-success">{{__('Available')}} </button>
+                                                @php
+                                                    $available = true;
+                                                @endphp
+                                            @else
+                                                @php
+                                                    if(strtotime($value->reserved_at)){
+                                                     $reserved_at = DateTime::createFromFormat('Y-m-d H:i:s', $value->reserved_at);
+                                                      $delai= $reserved_at->diff(now());
+                                                      $diff=($delai->days * 24) + $delai->h;
+                                                      $reste =$reservation -$diff;
+                                                      }
+                                                @endphp
+                                                @if($value->reserved_by == $value->idUser)
                                                     @if($diff<$reservation)
-                                                        <button type="button" class="btn btn-primary"
-                                                                data-id="{{$value->id}}"
-                                                                data-phone="{{$value->mobile}}">   {{__('Blocked for')}} {{$diff}} {{__('hours')}}
-                                                        </button>
+                                                        <button type="button"
+                                                                class="btn btn-outline-warning">{{__('reserved for')}} {{$reste}} {{__('hours')}} </button>
+
                                                     @else
-                                                        <button type="button" class="btn btn-outline-success"
-                                                                data-id="{{$value->id}}"
-                                                                data-phone="{{$value->mobile}}">  {{__('Available')}}
-                                                        </button>
+                                                        @php
+                                                            if( !is_null($value->reserved_at) and strtotime($value->reserved_at)){
+                                                                 $reserved_at = DateTime::createFromFormat('Y-m-d H:i:s', $value->reserved_at);
+                                                                 $interval =$reserved_at->diff(now());
+                                                                 $delai= ($interval->days * 24) + $interval->h;
+                                                                 $resteReserved=$reservation+ $switchBlock - $delai;
+                                                            }else{$resteReserved=0;}
+                                                        @endphp
+                                                        <button type="button"
+                                                                class="btn btn-outline-danger">{{__('blocked for')}} {{$resteReserved}} {{__('hours')}} </button>
+
                                                     @endif
 
                                                 @else
-                                                    <button type="button" class="btn btn-outline-success"
-                                                            data-id="{{$value->id}}"
-                                                            data-phone="{{$value->mobile}}">  {{__('Available')}}
-                                                    </button>
+
+                                                    @if($diff<$reservation)
+                                                        @php
+                                                            if( !is_null($value->reserved_at) and strtotime($value->reserved_at)){
+                                                             $reserved_at = DateTime::createFromFormat('Y-m-d H:i:s', $value->reserved_at);
+                                                             $interval =$reserved_at->diff(now());
+                                                                 $delai= ($interval->days * 24) + $interval->h;
+                                                                 $diff=($delai->days * 24) + $delai->h;
+                                                              $reste =$reservation -$diff;
+                                                            }else{$reste=0;}
+                                                        @endphp
+                                                        <button type="button"
+                                                                class="btn btn-outline-warning">{{__('reserved by other user for')}} {{$reste}} {{__('hours')}} </button>
+                                                    @else
+                                                        @php
+                                                            $available = true;
+                                                        @endphp
+                                                        <button type="button"
+                                                                class="btn btn-outline-success">{{__('Available')}} </button>
+                                                    @endif
                                                 @endif
                                             @endif
                                         @endif
@@ -168,9 +183,9 @@
                                             <ul class="dropdown-menu dropdown-menu-end">
                                                 <li>
                                                     <a
-                                                        href="{{ route('editContact', ['locale' =>  app()->getLocale(), 'UserContact'=>  $value->id  ]) }}"
-                                                        class="dropdown-item edit-item-btn"><i
-                                                            class="ri-pencil-fill align-bottom me-2 text-muted"></i>
+                                                            href="{{ route('editContact', ['locale' =>  app()->getLocale(), 'UserContact'=>  $value->id  ]) }}"
+                                                            class="dropdown-item edit-item-btn"><i
+                                                                class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                         {{__('Edit')}}</a>
                                                 </li>
                                                 <li>
@@ -180,7 +195,7 @@
                                                         {{__('Delete')}}
                                                     </a>
                                                 </li>
-                                                @if($value->availablity == 0 or ($value->availablity == 1 and is_null($value->reserved_by) ))
+                                                @if($available)
                                                     <li>
                                                         <a wire:click="sponsorId({{$value->id}})"
                                                            class="dropdown-item remove-item-btn">
@@ -214,32 +229,32 @@
                             id="close-modal"></button>
                 </div>
                 @error('name') <span
-                    class="error alert-danger">{{ $message }}</span>
+                        class="error alert-danger">{{ $message }}</span>
                 @enderror
                 @error('lastName') <span
-                    class="error alert-danger">{{ $message }}</span>
+                        class="error alert-danger">{{ $message }}</span>
                 @enderror
                 <form action="">
                     @csrf
                     <div class="modal-body">
                         <input
-                            id="id-field"
-                            type="hidden"
-                            class="form-control" name="name"
-                            placeholder="name"
-                            wire:model.defer="selectedContect"
+                                id="id-field"
+                                type="hidden"
+                                class="form-control" name="name"
+                                placeholder="name"
+                                wire:model.defer="selectedContect"
                         >
                         <div class="row g-3">
                             <div class="col-lg-12">
                                 <div>
                                     <label for="nameField" class="form-label">{{ __('Name') }}</label>
                                     <input
-                                        id="nameField"
-                                        type="text"
-                                        class="form-control"
-                                        wire:model.defer="name"
-                                        name="nameField"
-                                        required
+                                            id="nameField"
+                                            type="text"
+                                            class="form-control"
+                                            wire:model.defer="name"
+                                            name="nameField"
+                                            required
                                     >
                                 </div>
                             </div>
@@ -247,25 +262,25 @@
                                 <div>
                                     <label for="lastNameField" class="form-label">{{ __('Last Name') }}</label>
                                     <input
-                                        id="lastNameField"
-                                        type="text"
-                                        class="form-control"
-                                        wire:model.defer="lastName"
-                                        name="lastNameField"
-                                        required>
+                                            id="lastNameField"
+                                            type="text"
+                                            class="form-control"
+                                            wire:model.defer="lastName"
+                                            name="lastNameField"
+                                            required>
                                 </div>
                             </div>
                             <div class=" col-lg-12">
                                 <div class="mb-3">
                                     <label for="username" class="form-label">{{ __('Mobile Number') }}</label><br>
                                     <input
-                                        type="tel"
-                                        name="mobile"
-                                        id="ipAdd2Contact"
-                                        class="form-control"
-                                        wire:model.defer="mobile"
-                                        value=""
-                                        placeholder="{{ __('PH_MobileNumber') }}"
+                                            type="tel"
+                                            name="mobile"
+                                            id="ipAdd2Contact"
+                                            class="form-control"
+                                            wire:model.defer="mobile"
+                                            value=""
+                                            placeholder="{{ __('PH_MobileNumber') }}"
                                     >
                                     <input type='hidden' name='fullnumber' id='outputAdd2Contact' class='form-control'>
                                     <input type='hidden' name='ccodeAdd2Contact' id='ccodeAdd2Contact'>
@@ -283,7 +298,7 @@
                                 <div wire:loading>
                                               <span class="spinner-border spinner-border-sm" role="status"
                                                     aria-hidden="true"></span>
-                                    <span class="sr-only">Loading...</span>
+                                    <span class="sr-only">{{__('Loading...')}}</span>
                                 </div>
                             </button>
                         </div>

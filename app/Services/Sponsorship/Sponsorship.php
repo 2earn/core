@@ -43,11 +43,6 @@ class Sponsorship
         return NULL;
     }
 
-    public function testexecuteDelayedSponsorship($sponsor)
-    {
-        $this->executeProactifSponsorship(197604325, 100, 20, 5, '0021622950809');
-    }
-
     public function executeDelayedSponsorship($upLine, $downLine)
     {
         $userBalancesQuery = user_balance::where('idBalancesOperation', 44)
@@ -60,7 +55,7 @@ class Sponsorship
 
         foreach ($userBalances as $userBalance) {
             $this->executeProactifSponsorship(
-                $downLine->idUser, $userBalance->value, $userBalance->gifted_shares, $userBalance->PU, $downLine->fullphone_number
+                $upLine->idUser, $userBalance->ref, $userBalance->value, $userBalance->gifted_shares, $userBalance->PU, $downLine->fullphone_number
             );
         }
     }
@@ -105,10 +100,8 @@ class Sponsorship
         return $user_balance;
     }
 
-    public function executeProactifSponsorship($reserve, $number_of_action, $gift, $PU, $fullphone_number)
+    public function executeProactifSponsorship($reserve, $ref, $number_of_action, $gift, $PU, $fullphone_number)
     {
-        $Count = DB::table('user_balances')->count();
-        $ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
         $amount = ($number_of_action + $gift) * $PU * $this->amount / 100;
         $this->createUserBalances(
             $ref,
