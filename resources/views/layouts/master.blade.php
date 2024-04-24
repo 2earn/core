@@ -406,10 +406,6 @@
                 paging: true,
                 "pageLength": 100,
                 "aLengthMenu": [[100, 500, 1000], [100, 500, 1000]],
-                //recherche avec entre key
-                // search: {
-                //     return: true
-                // },
                 "ajax": "{{route('API_UserContacts',app()->getLocale())}}",
                 "columns": [
                     {"data": "name"},
@@ -426,13 +422,8 @@
                         {
                             "targets": [5],
                             render: function (data, type, row) {
-
-
-
                                 var givenDate = new Date(row.reserved_at);
                                   var delai=  (Date.now()-givenDate)/ (1000 * 60 * 60);
-
-
                                 if (Number(row.idUpline)!==0)
                                 {
                                     if (row.idUpline==row.idUser)
@@ -442,12 +433,10 @@
                                         return '<span class="badge bg-danger-subtle text-danger" data-id="' + row.id + '" data-phone="' + row.mobile +
                                             '">{{__('Already has a sponsor')}}</span>';
                                 }
-
                                 else{
                                     if(Number(row.availablity) === 0)
                                         return '<span class="badge bg-success-subtle text-success" data-id="' + row.id + '" data-phone="' + row.mobile +
                                             '">{{__('Available')}}</span>';
-
                                     else
                                     {
                                         if (row.reserved_by==row.idUser)
@@ -476,30 +465,22 @@
                                             }
                                             else
                                             {
-
                                                 return '<span class="badge bg-success-subtle text-success" data-id="' + row.id + '" data-phone="' + row.mobile +
                                                     '">{{__('Available')}}</span>';
                                             }
                                         }
-
-
                                     }
-
                                 }
-
-
                             },
-
                         },
-
-
-
                     ],
                 "language": {
                     "url": urlLang
                 }
             }
         );
+
+
         $('#userPurchase_table').DataTable(
             {
                 "ordering": false,
@@ -1773,6 +1754,7 @@
                 "</div><input wire:model.defer='phoneNumber' type='tel' name='phoneAddContact' id='phoneAddContact' class='form-control' onpaste='handlePaste(event)'" +
                 "placeholder='Mobile Number'><span id='valid-msgAddContact' class='invisible'>✓ Valid</span><span id='error-msgAddContact' class='hide'></span>" +
                 " <input type='hidden' name='fullnumber' id='outputAddContact' class='form-control'><input type='hidden' name='ccodeAddContact' id='ccodeAddContact'>";
+
             var countryDataAddContact = window.intlTelInputGlobals.getCountryData(),
                 inputAddContact = document.querySelector("#phoneAddContact");
             try {
@@ -1791,7 +1773,7 @@
             if (bbol) autoInit = codePays;
             var itiAddContact = window.intlTelInput(inputAddContact, {
                 initialCountry: autoInit,
-                //showSelectedDialCode: true,
+                showSelectedDialCode: true,
                 useFullscreenPopup: false,
                 geoIpLookup: function (callback) {
                     $.get('https://ipinfo.io', function () {

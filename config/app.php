@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -163,11 +163,6 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Paytabscom\Laravel_paytabs\PaypageServiceProvider::class,
 
-
-        /*
-         * Package Service Providers...
-         */
-
         /*
          * Application Service Providers...
          */
@@ -176,10 +171,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-    //    App\Providers\TelescopeServiceProvider::class,
+        //    App\Providers\TelescopeServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
-
     ],
 
     /*
@@ -235,12 +229,12 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'LaravelPwa' => \Ladumor\LaravelPwa\LaravelPwa::class,
-
+        'Sponsorship' => \App\Services\Sponsorship\SponsorshipFacade::class,
     ],
     'available_locales' => [
 
-        'en' => ['name' => 'en', 'direction' => 'ltr', 'flag' => 'gb','tabLang'=>'en-GB'],
-        'ar' => ['name' => 'ar', 'direction' => 'rtl', 'flag' => 'lib','tabLang'=>'ar'],
-        'fr' => ['name' => 'fr', 'direction' => 'ltr', 'flag' => 'fr','tabLang'=>'fr-FR'],
+        'en' => ['name' => 'en', 'direction' => 'ltr', 'flag' => 'gb', 'tabLang' => 'en-GB'],
+        'ar' => ['name' => 'ar', 'direction' => 'rtl', 'flag' => 'lib', 'tabLang' => 'ar'],
+        'fr' => ['name' => 'fr', 'direction' => 'ltr', 'flag' => 'fr', 'tabLang' => 'fr-FR'],
     ]
 ];

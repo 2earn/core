@@ -1,5 +1,7 @@
 <?php
+
 namespace App\DAL;
+
 use Core\Enum\AmoutEnum;
 use Core\Enum\BalanceOperationsEnum;
 use Core\Models\calculated_userbalances;
@@ -8,14 +10,15 @@ use Core\Models\user_balance;
 use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\Types\Collection;
 
-class  UserBalancesRepository implements  IUserBalancesRepository{
+class  UserBalancesRepository implements IUserBalancesRepository
+{
 
     public function getBalance($idUser): calculated_userbalances
     {
-           $calculetedUserBalances = new  calculated_userbalances ;
+        $calculetedUserBalances = new  calculated_userbalances;
 
 
-           $solde= DB::select("  select * from (
+        $solde = DB::select("  select * from (
  SELECT
         b.idUser AS idUser,
         b.idamounts AS idamounts,
@@ -38,66 +41,59 @@ class  UserBalancesRepository implements  IUserBalancesRepository{
                 AND b.MODIFY_AMOUNT = '1'
         GROUP BY u.idUser , u.idamount) a ON (b.idamounts = a.idamount
             AND b.idUser = a.idUser))
-    ORDER BY b.idUser , b.idamounts) as liste  where  liste.idUser = ?",[$idUser]);
-//            ->where("idUser","=",$idUser)
-//            ->select('solde','idamounts')
-//               ->get();
+    ORDER BY b.idUser , b.idamounts) as liste  where  liste.idUser = ?", [$idUser]);
 
-        //                AND YEAR(u.Date) = YEAR(SYSDATE())
         $solde = collect($solde);
 
-         if($solde->isNotEmpty())
-         {
-             $calculetedUserBalances->soldeCB= $solde->where("idamounts","=","1")->first()->solde;
+        if ($solde->isNotEmpty()) {
+            $calculetedUserBalances->soldeCB = $solde->where("idamounts", "=", "1")->first()->solde;
 
-             $calculetedUserBalances->soldeBFS = $solde->where("idamounts","=","2")->first()->solde;
-             $calculetedUserBalances->soldeDB= $solde->where("idamounts","=","3")->first()->solde;
-             $calculetedUserBalances->soldeT = $solde->where("idamounts","4")->first()->solde;
-             $calculetedUserBalances->soldeSMS = $solde->where("idamounts","5")->first()->solde;
+            $calculetedUserBalances->soldeBFS = $solde->where("idamounts", "=", "2")->first()->solde;
+            $calculetedUserBalances->soldeDB = $solde->where("idamounts", "=", "3")->first()->solde;
+            $calculetedUserBalances->soldeT = $solde->where("idamounts", "4")->first()->solde;
+            $calculetedUserBalances->soldeSMS = $solde->where("idamounts", "5")->first()->solde;
 
 
-             $calculetedUserBalances->soldeCB = number_format(floatval($calculetedUserBalances->soldeCB), 2, '.','');
-             $calculetedUserBalances->soldeBFS = number_format(floatval($calculetedUserBalances->soldeBFS), 2, '.','');
-             $calculetedUserBalances->soldeDB= number_format(floatval($calculetedUserBalances->soldeDB), 2, '.','');
-             $calculetedUserBalances->soldeT = number_format(floatval($calculetedUserBalances->soldeT), 2, '.','');
-             $calculetedUserBalances->soldeSMS = number_format(floatval($calculetedUserBalances->soldeSMS), 0, '.','');
+            $calculetedUserBalances->soldeCB = number_format(floatval($calculetedUserBalances->soldeCB), 2, '.', '');
+            $calculetedUserBalances->soldeBFS = number_format(floatval($calculetedUserBalances->soldeBFS), 2, '.', '');
+            $calculetedUserBalances->soldeDB = number_format(floatval($calculetedUserBalances->soldeDB), 2, '.', '');
+            $calculetedUserBalances->soldeT = number_format(floatval($calculetedUserBalances->soldeT), 2, '.', '');
+            $calculetedUserBalances->soldeSMS = number_format(floatval($calculetedUserBalances->soldeSMS), 0, '.', '');
 //             dd($calculetedUserBalances->soldeBFS) ;
 
-         }
-         else {
-             $calculetedUserBalances->soldeCB= 0.00;
-             $calculetedUserBalances->soldeBFS = 0.00 ;
-             $calculetedUserBalances->soldeDB= 0.00 ;
-             $calculetedUserBalances->soldeT = 0.00 ;
-             $calculetedUserBalances->soldeSMS = 0.00;
-         }
+        } else {
+            $calculetedUserBalances->soldeCB = 0.00;
+            $calculetedUserBalances->soldeBFS = 0.00;
+            $calculetedUserBalances->soldeDB = 0.00;
+            $calculetedUserBalances->soldeT = 0.00;
+            $calculetedUserBalances->soldeSMS = 0.00;
+        }
 
-         return  $calculetedUserBalances ;
+        return $calculetedUserBalances;
     }
+
     public function getCurrentBalance($idUser): calculated_userbalances
     {
-        $calculetedUserBalances = new  calculated_userbalances ;
-        $solde= DB::table('usercurrentbalances')
-            ->where("idUser","=",$idUser)
-            ->select('dernier_value','idamounts')->get();
-        if($solde->isNotEmpty())
-        {
-            $calculetedUserBalances->soldeCB= $solde
-                ->where("idamounts","=","1")
+        $calculetedUserBalances = new  calculated_userbalances;
+        $solde = DB::table('usercurrentbalances')
+            ->where("idUser", "=", $idUser)
+            ->select('dernier_value', 'idamounts')->get();
+        if ($solde->isNotEmpty()) {
+            $calculetedUserBalances->soldeCB = $solde
+                ->where("idamounts", "=", "1")
                 ->first()->dernier_value;
-            $calculetedUserBalances->soldeBFS = $solde->where("idamounts","=","2")->first()->dernier_value;
-            $calculetedUserBalances->soldeDB= $solde->where("idamounts","=","3")->first()->dernier_value;
-            $calculetedUserBalances->soldeT = $solde->where("idamounts","4")->first()->dernier_value
-            ;
+            $calculetedUserBalances->soldeBFS = $solde->where("idamounts", "=", "2")->first()->dernier_value;
+            $calculetedUserBalances->soldeDB = $solde->where("idamounts", "=", "3")->first()->dernier_value;
+            $calculetedUserBalances->soldeT = $solde->where("idamounts", "4")->first()->dernier_value;
+        } else {
+            $calculetedUserBalances->soldeCB = 0.00;
+            $calculetedUserBalances->soldeBFS = 0.00;
+            $calculetedUserBalances->soldeDB = 0.00;
+            $calculetedUserBalances->soldeT = 0.00;
         }
-        else {
-            $calculetedUserBalances->soldeCB= 0.00;
-            $calculetedUserBalances->soldeBFS = 0.00 ;
-            $calculetedUserBalances->soldeDB= 0.00 ;
-            $calculetedUserBalances->soldeT = 0.00 ;
-        }
-        return  $calculetedUserBalances ;
+        return $calculetedUserBalances;
     }
+
     public function inserUserBalancestGetId(
         $ref,
         BalanceOperationsEnum $operation,
@@ -108,7 +104,7 @@ class  UserBalancesRepository implements  IUserBalancesRepository{
         $value)
     {
 
-         $user_balance = new user_balance();
+        $user_balance = new user_balance();
         $user_balance->ref = $ref;
         $user_balance->idBalancesOperation = $operation;
         $user_balance->Date = $date;
@@ -123,8 +119,8 @@ class  UserBalancesRepository implements  IUserBalancesRepository{
 
     public function getSoldeByAmount($idUser, $idamount)
     {
-        $soldeAmount = 0 ;
-        $solde= DB::select("  select * from (
+        $soldeAmount = 0;
+        $solde = DB::select("  select * from (
  SELECT
         b.idUser AS idUser,
         b.idamounts AS idamounts,
@@ -147,19 +143,17 @@ class  UserBalancesRepository implements  IUserBalancesRepository{
                 AND b.MODIFY_AMOUNT = '1'
         GROUP BY u.idUser , u.idamount) a ON (b.idamounts = a.idamount
             AND b.idUser = a.idUser))
-    ORDER BY b.idUser , b.idamounts) as liste  where  liste.idUser = ? and liste.idamounts = ? ",[$idUser,$idamount]);
-//            ->where("idUser","=",$idUser)
-//            ->select('solde','idamounts')
-//               ->get();
+    ORDER BY b.idUser , b.idamounts) as liste  where  liste.idUser = ? and liste.idamounts = ? ", [$idUser, $idamount]);
 
         $solde = collect($solde);
 
-        if($solde->isNotEmpty())
-        {
-            $soldeAmount = $solde->where("idamounts","=",$idamount)->first()->solde;
+        if ($solde->isNotEmpty()) {
+            $soldeAmount = $solde->where("idamounts", "=", $idamount)->first()->solde;
         }
-        return  $soldeAmount ;
+        return $soldeAmount;
     }
+
+
 }
 
 

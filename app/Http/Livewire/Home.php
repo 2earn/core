@@ -7,6 +7,7 @@ use App\Http\Traits\contactNumberCheker;
 use Core\Services\BalancesManager;
 
 use Core\Services\settingsManager;
+use Illuminate\Http\Request as Req;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -15,24 +16,30 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 use Livewire\Component;
 
-
 class Home extends Component
 {
-
     public $cashBalance;
     public $balanceForSopping;
     public $discountBalance;
     public $SMSBalance;
-    public  $cash = 25.033 ;
+    public $cash = 25.033;
     private settingsManager $settingsManager;
     private BalancesManager $balancesManager;
-    protected $listeners=[
-        'checkContactNumbre' => 'checkContactNumbre'
+    public $ammount;
+    public $action;
+    public $gift;
+    public $profit;
+
+
+    protected $listeners = [
+        'checkContactNumbre' => 'checkContactNumbre',
+        'simulate' => 'simulate'
     ];
+
     function checkContactNumbre()
     {
-        dd('ddd');
     }
+
     public function mount(
         settingsManager $settingsManager,
         BalancesManager $balancesManager
@@ -40,7 +47,23 @@ class Home extends Component
     {
         $this->settingsManager = $settingsManager;
         $this->balancesManager = $balancesManager;
+    }
 
+
+    public function actionByAmmount(Req $request)
+    {
+        $action = intval($request->ammount / actualActionValue(getSelledActions()));
+        $gifted_action = getGiftedActions($action);
+        $profit = actualActionValue(getSelledActions()) * $gifted_action;
+        $array = array('action' => $action, "gift" => $gifted_action, 'profit' => $profit);
+        return response()->json($array);
+    }
+
+    public function simulate()
+    {
+        $this->action = intval($this->ammount / actualActionValue(getSelledActions()));
+        $this->gift = getGiftedActions($this->action);
+        $this->profit = actualActionValue(getSelledActions()) * $this->gift;
     }
 
     public function getIp()
@@ -56,27 +79,21 @@ class Home extends Component
             }
         }
     }
-    public function render(settingsManager $settingsManager)
+
+    public function render(settingsManager $settingsManager, BalancesManager $balancesManager)
     {
         $user = $settingsManager->getAuthUser();
-            delUsertransaction($user->idUser);
+        delUsertransaction($user->idUser);
         if (!$user)
             dd('not found page');
-//        dd($settingsManager->getAuthUser());
-//       $remember_me = false;
-//          $usersauth = $this->settingsManager->getUserById(2) ;
-//        Auth::login($usersauth, $remember_me);
-//        $user = Auth::user();
-        $solde = $this->balancesManager->getBalances($user->idUser);
+        $solde = $balancesManager->getBalances($user->idUser);
         $this->cashBalance = $solde->soldeCB;
         $this->balanceForSopping = $solde->soldeBFS;
         $this->discountBalance = $solde->soldeDB;
         $this->SMSBalance = $solde->soldeSMS;
-
-
         $arraySoldeD = [];
-        $solde = $this->balancesManager->getCurrentBalance($user->idUser);
-        $s = $this->balancesManager->getBalances($user->idUser);
+        $solde = $balancesManager->getCurrentBalance($user->idUser);
+        $s = $balancesManager->getBalances($user->idUser);
         $soldeCBd = $solde->soldeCB;
         $soldeBFSd = $solde->soldeBFS;
         $soldeDBd = $solde->soldeDB;
@@ -84,34 +101,7 @@ class Home extends Component
         array_push($arraySoldeD, $soldeBFSd);
         array_push($arraySoldeD, $soldeDBd);
         $usermetta_info = collect(DB::table('metta_users')->where('idUser', $user->idUser)->first());
-
-        return view('livewire.home'
-            ,
-            [
-              "solde"=>$s ,
-                'arraySoldeD' => $arraySoldeD,
-                'usermetta_info' => $usermetta_info
-//                'userearn' => $userearn
-            ]
-        )->extends('layouts.master')->section('content');
-//        return view('livewire.home')->extends('layouts.master')->section('content');
+        $params = ["solde" => $s, 'arraySoldeD' => $arraySoldeD, 'usermetta_info' => $usermetta_info];
+        return view('livewire.home', $params)->extends('layouts.master')->section('content');
     }
 }
-
-
-//
-//<?php
-//
-//namespace App\Http\Livewire;
-//
-//use Livewire\Component;
-//
-//class Home extends Component
-//{
-//    public $cash = 1520.326;
-//
-//    public function render()
-//    {
-//        return view('livewire.home')->extends('layouts.master')->section('content');
-//    }
-//}

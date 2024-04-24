@@ -88,8 +88,6 @@ class ContactNumber extends Component
                         ->orWhere('id', 'like', '%' . $this->search . '%');
                 })
             ->paginate(5);
-
-//dd($userContactNumber);
         return view('livewire.contact-number', [
             'userContactNumber' => $userContactNumber
         ])->extends('layouts.master')->section('content');
