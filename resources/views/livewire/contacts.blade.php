@@ -92,6 +92,18 @@
                                                         <button type="button"
                                                                 class="btn btn-outline-info">{{__('i am his sponsor')}} </button>
                                                     @else
+                                                        @if($value->idUpline== 11111111)
+                                                            @if(checkUserBalancesInReservation($value->idUser))
+                                                                @php
+                                                                    $available = true;
+                                                                @endphp
+                                                                <button type="button"
+                                                                        class="btn btn-outline-success">{{__('Available for')}} {{checkUserBalancesInReservation($value->idUser)}} {{__('hours')}} </button>
+                                                            @endif
+                                                        @else
+                                                            <button type="button"
+                                                                    class="btn btn-outline-danger">{{__('Already has a sponsor')}} </button>
+                                                        @endif
                                                         <button type="button"
                                                                 class="btn btn-outline-danger">{{__('Already has a sponsor')}} </button>
                                                     @endif
