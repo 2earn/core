@@ -294,7 +294,7 @@
                                             {{ __('Cash Balance') }}</p>
                                         <h5 class="fs-14 mb-0 ms-3">
                                             {{__('DPC')}}
-                                            {{intval($solde->soldeCB)}}
+                                            {{floatval($solde->soldeCB)}}
                                         </h5>
                                     </a>
                                 </div>
@@ -319,7 +319,7 @@
                                             {{ __('Balance For Shopping') }}</p>
                                         <h5 class="text-success fs-14 mb-0  ms-3">
                                             {{__('DPC')}}
-                                            {{intval($solde->soldeBFS)}}
+                                            {{floatval($solde->soldeBFS)}}
                                         </h5>
                                     </a>
                                 </div>
@@ -345,7 +345,7 @@
                                         </p>
                                         <h5 class="text-secondary fs-14 mb-0 ms-3">
                                             {{__('DPC')}} </span>
-                                            {{intval($solde->soldeDB)}}
+                                            {{floatval($solde->soldeDB)}}
 
                                         </h5>
                                     </a>
