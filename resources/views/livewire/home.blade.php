@@ -400,7 +400,7 @@
                                     <label for="customer-name" class="col-form-label">{{ __('Amount_pay') }}($)</label>
                                     <div class="input-group">
                                         <input aria-describedby="simulate" type="number" max="{{$cashBalance}}"
-                                               wire:keydown="simulate()" wire:model="ammount" class="form-control"
+                                               wire:keyup.debounce="simulate()" wire:model="ammount" class="form-control"
                                                id="ammount" required>
                                         <button wire:click="simulate()" class="btn btn-outline-primary">
                                             <div wire:loading wire:target="simulate">
