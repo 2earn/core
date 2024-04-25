@@ -277,10 +277,10 @@
                         <p>{{ __('buy_shares_notice') }}</p>
                     </div>
                     <div class="d-flex">
-                        <div class="ms-1 header-item   d-flex me-5  ">
+                        <div class="ms-2 header-item d-flex me-2">
                             <div class="d-flex align-items-end justify-content-between logoTopCash">
                                 <a href="{{route('user_balance_cb',app()->getLocale())}}">
-                                    <div class="avatar-sm flex-shrink-0">
+                                    <div class="avatar-xs flex-shrink-0">
                                     <span class="avatar-title bg-soft-info rounded fs-3">
                                        <i class="bx bx-dollar-circle text-info"></i>
                                     </span>
@@ -290,10 +290,11 @@
                             <div class="d-flex align-items-center logoTopCashLabel">
                                 <div class="flex-grow-1 overflow-hidden">
                                     <a href="{{route('user_balance_cb',app()->getLocale())}}">
-                                        <p class="text-uppercase fw-medium     mb-0 ms-2">
+                                        <p class="text-uppercase fw-medium mb-0 ms-3">
                                             {{ __('Cash Balance') }}</p>
-                                        <h5 class="fs-14 mb-0 ms-2">
-                                            {{__('DPC')}}  <?php echo $solde->soldeCB / 1 ?>
+                                        <h5 class="fs-14 mb-0 ms-3">
+                                            {{__('DPC')}}
+                                            {{intval($solde->soldeCB)}}
                                         </h5>
                                     </a>
                                 </div>
@@ -301,10 +302,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="ms-1 header-item  d-flex me-5">
+                        <div class="ms-2 header-item  d-flex me-2">
                             <div class="d-flex align-items-end justify-content-between logoTopBFS">
                                 <a href="{{route('user_balance_bfs',app()->getLocale())}}">
-                                    <div class="avatar-sm flex-shrink-0">
+                                    <div class="avatar-xs flex-shrink-0">
                                     <span class="avatar-title bg-soft-success rounded fs-3">
                                         <i class="ri-shopping-cart-2-line text-success"></i>
                                     </span>
@@ -314,20 +315,22 @@
                             <div class="d-flex align-items-center logoTopBFSLabel">
                                 <div class="flex-grow-1 overflow-hidden">
                                     <a href="{{route('user_balance_bfs',app()->getLocale())}}">
-                                        <p class="text-uppercase fw-medium     mb-0 ms-2">
+                                        <p class="text-uppercase fw-medium   mb-0 ms-4">
                                             {{ __('Balance For Shopping') }}</p>
-                                        <h5 class="text-success fs-14 mb-0  ms-2">
-                                            {{__('DPC')}} <?php echo $solde->soldeBFS / 1 ?>
-                                        </h5></a>
+                                        <h5 class="text-success fs-14 mb-0  ms-3">
+                                            {{__('DPC')}}
+                                            {{intval($solde->soldeBFS)}}
+                                        </h5>
+                                    </a>
                                 </div>
                                 <div class="flex-shrink-0">
                                 </div>
                             </div>
                         </div>
-                        <div class="ms-1 header-item  d-flex me-5">
+                        <div class="ms-2 header-item  d-flex me-2">
                             <div class="d-flex align-items-end justify-content-between logoTopDB">
                                 <a href="{{route('user_balance_db',app()->getLocale())}}">
-                                    <div class="avatar-sm flex-shrink-0">
+                                    <div class="avatar-xs flex-shrink-0">
                                     <span class="avatar-title bg-soft-secondary rounded fs-3">
                                         <i class=" ri-coupon-4-line text-secondary"></i>
                                     </span>
@@ -337,11 +340,13 @@
                             <div class="d-flex align-items-center logoTopDBLabel">
                                 <div class="flex-grow-1 overflow-hidden">
                                     <a href="{{route('user_balance_db',app()->getLocale())}}">
-                                        <p class="text-uppercase fw-medium mb-0 ms-2">
+                                        <p class="text-uppercase fw-medium mb-0 ms-3">
                                             {{ __('Discounts Balance') }}
                                         </p>
-                                        <h5 class="text-secondary fs-14 mb-0 ms-2">
-                                            {{__('DPC')}} </span> <?php echo $solde->soldeDB / 1 ?>
+                                        <h5 class="text-secondary fs-14 mb-0 ms-3">
+                                            {{__('DPC')}} </span>
+                                            {{intval($solde->soldeDB)}}
+
                                         </h5>
                                     </a>
                                 </div>
