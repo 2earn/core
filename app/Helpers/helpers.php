@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Core\Services\BalancesManager;
 use Paytabscom\Laravel_paytabs\Facades\paypage;
+use Core\Models\Setting;
 
 
 if (!function_exists('getUserBalanceSoldes')) {
