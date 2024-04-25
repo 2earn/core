@@ -1048,7 +1048,6 @@ and u.idamount not in(4,6)  and u.idUser=? and u.idamount=? order by Date   ", [
                 break;
         }
         $user = $this->settingsManager->getAuthUser();
-        if (!$user) $user->idUser = '';
 
         $userData = DB::select("SELECT RANK() OVER (
         ORDER BY ub.Date desc

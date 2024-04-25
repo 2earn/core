@@ -1,9 +1,7 @@
 <div>
-    <div>
-        <div class="card ">
+        <div class="card">
             <div class="card-header">
                 <h5 class="card-title" id="ContactsModalLabel">{{ __('Edit a contact') }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             @error('name') <span class="error alert-danger">{{ $message }}</span> @enderror
             @error('lastName') <span class="error alert-danger  ">{{ $message }}</span> @enderror
@@ -44,25 +42,24 @@
                         <div class="row">
                             <input type="text" name="idUser" hidden>
                             <div class="col-md-12">
-                                <div class="modal-footer">
-                                    <button type=" " class="btn btn-secondary"
-                                            wire:click="close">{{ __('Close') }}</button>
+                                    <button type="button" class="btn btn-outline-secondary"
+                                            wire:click="close">{{ __('Close') }}
+                                    </button>
                                     <button type="button" id="SubmitAd3dContact" onclick="editContactEvent()"
-                                            class="btn btn-primary">{{ __('Save') }}
-                                        <div wire:loading>
-                                    <span class="spinner-border spinner-border-sm" role="status"
-                                          aria-hidden="true"></span>
-                                            <span class="sr-only">Loading...</span>
+                                            class="btn btn-outline-info">
+                                        {{ __('Save') }}
+                                        <div wire:loading wire:target="save">
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                  aria-hidden="true"></span>
+                                            <span class="sr-only">__('Loading')</span>
                                         </div>
                                     </button>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-    </div>
     <script>
         var codePays = document.getElementById('codecode').textContent;
 

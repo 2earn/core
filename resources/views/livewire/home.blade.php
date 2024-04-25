@@ -395,8 +395,7 @@
                                     <label for="customer-name" class="col-form-label">{{ __('Amount_pay') }}($)</label>
                                     <div class="input-group">
                                         <input aria-describedby="simulate" type="number" max="{{$cashBalance}}"
-                                               wire:keydown="simulate()" wire:model="ammount"
-                                               placeholder="{{$cashBalance}}" class="form-control"
+                                               wire:keydown="simulate()" wire:model="ammount" class="form-control"
                                                id="ammount" required>
                                         <button wire:click="simulate()" class="btn btn-outline-primary">
                                             <div wire:loading wire:target="simulate">
@@ -408,21 +407,21 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-md-4 col-sm-6 col-xs-6">
                                     <label for="customer-name"
                                            class="col-form-label">{{ __('Number Of Shares') }} </label>
                                     <input type="number" disabled class="form-control" id="number-of-action"
                                            wire:model.live="action"
                                            value="0000">
                                 </div>
-                                <div class="col-4">
+                                <div class="col-md-4 col-sm-6 col-xs-6">
                                     <label for="customer-name"
                                            class="col-form-label">{{ __('Gifted Shares') }}</label>
                                     <input type="number" disabled class="form-control" wire:model.live="gift"
                                            id="number-of-gifted-action"
                                            value="0000">
                                 </div>
-                                <div class="col-4 mb-3">
+                                <div class="col-md-4 mb-3 col-sm-6 col-xs-6">
                                     <label for="customer-name" class="col-form-label">{{ __('Profit') }}
                                         ($) </label>
                                     <input type="number" disabled class="form-control" id="profit" value="0000"
@@ -434,7 +433,8 @@
                                     <button type="button" class="btn btn-light"
                                             data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                                     <button type="button" id="buy-action-submit"
-                                            wire:loading.attr="disabled"  wire:target="simulate"  class="btn btn-primary">{{ __('Submit') }}</button>
+                                            wire:loading.attr="disabled" wire:target="simulate"
+                                            class="btn btn-primary">{{ __('Submit') }}</button>
                                 </div>
                             </div>
                     </div>
