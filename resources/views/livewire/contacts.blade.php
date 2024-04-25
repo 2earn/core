@@ -39,12 +39,12 @@
                                 <table class="table align-middle dt-responsive nowrap " id="customerTable2">
                                     <thead class="table-light">
                                     <tr class="tabHeader2earn">
-                                        <th class="sort" data-sort="name">{{ __('Name') }}</th>
-                                        <th class="sort" data-sort="lastName">{{ __('Last Name') }}</th>
-                                        <th class="sort" data-sort="mobile">{{ __('Phone') }}</th>
-                                        <th class="sort" data-sort="mobile">{{__('Country')}}</th>
-                                        <th class="sort" data-sort="mobile">{{__('registred')}}</th>
-                                        <th class="sort" data-sort="mobile">{{__('Availablity')}}</th>
+                                        <th>{{ __('Name') }}</th>
+                                        <th>{{ __('Last Name') }}</th>
+                                        <th>{{ __('Phone') }}</th>
+                                        <th>{{__('Country')}}</th>
+                                        <th>{{__('registred')}}</th>
+                                        <th>{{__('Availablity')}}</th>
                                         <th>{{ __('Actions') }}</th>
                                     </tr>
                                     </thead>
@@ -114,7 +114,8 @@
                                                         @if($value->reserved_by == $value->idUser)
                                                             @if($diff<$reservation)
                                                                 <button type="button"
-                                                                        class="btn btn-outline-warning">{{__('reserved for')}} {{$reste}} {{__('hours')}} </button>
+                                                                        class="btn btn-outline-warning">{{__('reserved for')}} {{$reste}} {{__('hours')}}
+                                                                </button>
 
                                                             @else
                                                                 @php
@@ -180,7 +181,6 @@
                                                        class="btn btn-outline-primary ">
                                                         {{__('Edit')}}
                                                     </a>
-
                                                     <a wire:click="deleteId('{{$value->id}}')"
                                                        class="btn btn-outline-danger">
                                                         {{__('Delete')}}
