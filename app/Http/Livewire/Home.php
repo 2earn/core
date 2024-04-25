@@ -49,16 +49,6 @@ class Home extends Component
         $this->balancesManager = $balancesManager;
     }
 
-
-    public function actionByAmmount(Req $request)
-    {
-        $action = intval($request->ammount / actualActionValue(getSelledActions()));
-        $gifted_action = getGiftedActions($action);
-        $profit = actualActionValue(getSelledActions()) * $gifted_action;
-        $array = array('action' => $action, "gift" => $gifted_action, 'profit' => $profit);
-        return response()->json($array);
-    }
-
     public function simulate()
     {
         $this->action = intval($this->ammount / actualActionValue(getSelledActions()));

@@ -104,7 +104,7 @@ if (!function_exists('getUsertransaction')) {
         } else
             $value = ["null", "null", "null"];
 
-        return  $value;
+        return $value;
     }
 }
 if (!function_exists('delUsertransaction')) {
@@ -123,7 +123,7 @@ if (!function_exists('getPhoneByUser')) {
     {
 
         $us = \App\Models\User::where('idUser', $user)->first();
-        return  $us ?  $us->fullphone_number : NULL;
+        return $us ? $us->fullphone_number : NULL;
     }
 }
 if (!function_exists('getUserByPhone')) {
@@ -143,7 +143,7 @@ if (!function_exists('getUserByContact')) {
         $hours = \Core\Models\Setting::Where('idSETTINGS', '25')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
         $user = \Core\Models\UserContact::where('fullphone_number', $phone)->where('availablity', '1')->whereRaw('TIMESTAMPDIFF(HOUR, reserved_at, NOW()) < ?', [$hours])
             ->orderBy('reserved_at')->pluck('idUser')->first();
-        return  $user ?  $user : NULL;
+        return $user ? $user : NULL;
     }
 }
 
@@ -159,7 +159,7 @@ if (!function_exists('getSwitchBlock')) {
             $user = Carbon::parse($user);
             $block = $user->addHours($hours);
         }
-        return  $user ?  $block : NULL;
+        return $user ? $block : NULL;
     }
 }
 if (!function_exists('getGiftedActions')) {
@@ -183,7 +183,7 @@ if (!function_exists('actualActionValue')) {
         $initial_value = $setting[0];
         $final_value = $setting[1];
         $total_actions = $setting[2];
-        $x =  ($final_value - $initial_value) / ($total_actions - 1) * ($selled_actions + 1) + ($initial_value - ($final_value - $initial_value) / ($total_actions - 1));
+        $x = ($final_value - $initial_value) / ($total_actions - 1) * ($selled_actions + 1) + ($initial_value - ($final_value - $initial_value) / ($total_actions - 1));
         return number_format($x, 2, '.', '') * 1;
     }
 }
@@ -191,26 +191,26 @@ if (!function_exists('actualActionValue')) {
 if (!function_exists('getSelledActions')) {
     function getSelledActions()
     {
-        return  \Core\Models\user_balance::where('idBalancesOperation', 44)->sum('value');
+        return \Core\Models\user_balance::where('idBalancesOperation', 44)->sum('value');
     }
 }
 if (!function_exists('getGiftedShares')) {
     function getGiftedShares()
     {
-        return  \Core\Models\user_balance::where('idBalancesOperation', 44)->sum('gifted_shares');
+        return \Core\Models\user_balance::where('idBalancesOperation', 44)->sum('gifted_shares');
     }
 }
 if (!function_exists('getRevenuShares')) {
     function getRevenuShares()
     {
-        return  \Core\Models\user_balance::where('idBalancesOperation', 44)
+        return \Core\Models\user_balance::where('idBalancesOperation', 44)
             ->selectRaw('SUM((value + gifted_shares)*cast(PU as decimal(10,2))) as total_sum')->first()->total_sum;
     }
 }
 if (!function_exists('getRevenuSharesReal')) {
     function getRevenuSharesReal()
     {
-        return  \Core\Models\user_balance::where('idBalancesOperation', 44)
+        return \Core\Models\user_balance::where('idBalancesOperation', 44)
             ->selectRaw('SUM(Balance) as total_sum')->first()->total_sum;
     }
 }
@@ -219,14 +219,14 @@ if (!function_exists('getUserSelledActions')) {
     function getUserSelledActions($user)
     {
         //nbr des actions pour un utilisateur
-        return  \Core\Models\user_balance::where('idBalancesOperation', 44)->where('idUser', $user)->selectRaw('SUM(value + gifted_shares) as total_sum')->first()->total_sum;
+        return \Core\Models\user_balance::where('idBalancesOperation', 44)->where('idUser', $user)->selectRaw('SUM(value + gifted_shares) as total_sum')->first()->total_sum;
     }
 }
 
 if (!function_exists('getUserActualActionsValue')) {
     function getUserActualActionsValue($user)
     {
-        return     actualActionValue(getSelledActions()) * getUserSelledActions($user);
+        return actualActionValue(getSelledActions()) * getUserSelledActions($user);
     }
 }
 
@@ -234,7 +234,7 @@ if (!function_exists('getUserActualActionsProfit')) {
     function getUserActualActionsProfit($user)
     {
         $expences = \Core\Models\user_balance::where('idBalancesOperation', 44)->where('idUser', $user)->selectRaw('SUM((value + gifted_shares) * PU) as total_sum')->first()->total_sum;
-        return     getUserActualActionsValue($user) - $expences;
+        return getUserActualActionsValue($user) - $expences;
     }
 }
 if (!function_exists('getExtraAdmin')) {
@@ -276,7 +276,8 @@ if (!function_exists('getLangNavigation')) {
             $ss = DB::table('countries')->where('apha2', '=', $country_code)->get()->first();
             $lang = $ss->lang;
         }
-        if ($lang == "") { {
+        if ($lang == "") {
+            {
                 $lang = "en";
             }
         }
@@ -322,8 +323,6 @@ if (!function_exists('getLocationByIP')) {
 }
 
 
-
-
 if (!function_exists('getActifNumber')) {
     function getActifNumber()
     {
@@ -362,5 +361,22 @@ if (!function_exists('usdToSar')) {
     {
         $k = \Core\Models\Setting::Where('idSETTINGS', '30')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
         return $k;
+    }
+
+    if (!function_exists('checkUserBalancesInReservation')) {
+        function checkUserBalancesInReservation($idUser)
+        {
+            $reservation = Setting::Where('idSETTINGS', '32')
+                ->orderBy('idSETTINGS')
+                ->pluck('IntegerValue')
+                ->first();
+            $result = DB::table('user_balances as u')
+                ->where('idUser', $idUser)
+                ->select(DB::raw('TIMESTAMPDIFF(HOUR, ' . DB::raw('DATE') . ', NOW()))'))
+                ->where('idBalancesOperation', 44)
+                ->whereRaw('TIMESTAMPDIFF(HOUR, ' . DB::raw('DATE') . ', NOW()) < ?', [$reservation])
+                ->count();
+            return $result ? $result : null;
+        }
     }
 }
