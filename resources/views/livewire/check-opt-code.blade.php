@@ -1,10 +1,9 @@
 <div>
     <script>
-
         var existSucess = '{{Session::has('ErrorExpirationCode')}}';
 
-        if (existSucess && "{{Session::get('ErrorExpirationCode')}}" != ""  ) {
-            var msgsuccess =  "{{Session::get('ErrorExpirationCode')}}" ;
+        if (existSucess && "{{Session::get('ErrorExpirationCode')}}" != "") {
+            var msgsuccess = "{{Session::get('ErrorExpirationCode')}}";
             // "Opt code expired !";
             var local = '{{app()->getLocale()}}';
             if (local == 'ar') {
@@ -18,7 +17,7 @@
             })
         }
         var existSucess2 = '{{Session::has('ErrorOptCode')}}';
-        if (existSucess2 && "{{Session::get('ErrorOptCode')}}" != ""  ) {
+        if (existSucess2 && "{{Session::get('ErrorOptCode')}}" != "") {
             var msgsuccess2 = "Invalid Opt code !";
             var local = '{{app()->getLocale()}}';
             if (local == 'ar') {
@@ -50,16 +49,17 @@
                                             class="fa fa-angle-left"></i></span>{{ __('Back') }} </a>
                                 <h3 class="text-center">{{ __('OTP Verification') }}</h3>
                                 <p class="text-center">{{ __('We will send one time code on this number') }} </br> {{$numPhone}}</p>
-                                <form method=" " action="javascript:void(0)">
+                                <form action="javascript:void(0)">
+                                    <input type="hidden" wire:model.defer="idUser">
+
                                     @csrf
                                     <div class="mb-3">
                                         <label>{{ __('Your OTP Code') }}</label>
-                                        <input type="text" class="form-control text-center font-weight-bold"
+                                        <input type="number" min="1" max="9999"
+                                               class="form-control text-center font-weight-bold"
                                                name="activationCodeValue" wire:model.defer="code">
-                                        {{--                                        <input type="text" name="iduser" value="">--}}
-                                        {{--                                        <input type="text" name="ccode" value="">--}}
                                     </div>
-                                    <div class="text-center"style="margin-top:10px">
+                                    <div class="text-center" style="margin-top:10px">
                                         @if ($message = Session::get('error'))
                                             <p class="text-danger">{{ $message }}</p>
                                         @endif
@@ -68,7 +68,7 @@
                                     </div>
                                 </form>
                             </div>
-                            <div style="background-color: #FFFFFF ". class="card-body">
+                            <div style="background-color: #FFFFFF " . class="card-body">
                                 <div class="footerOpt">{{__('Dont get code?') }} <a>{{__('Resend')}} </a></div>
                             </div>
                             <div class="card-footer text-center " style="background-color: #FFFFFF">
@@ -77,14 +77,16 @@
                                         <li class="active active-underline">
                                             <div>
                                                 <a href="{{env('SHOP_LIEN')}}">
-                                                    <img src="{{asset('assets/images/icon-shop.png')}}" width="70" height="70">
+                                                    <img src="{{asset('assets/images/icon-shop.png')}}" width="70"
+                                                         height="70">
                                                 </a>
                                             </div>
                                         </li>
                                         <li>
                                             <div>
                                                 <a href="{{env('LEARN_LIEN')}}">
-                                                    <img src="{{asset('assets/images/icon-learn.png')}}" width="70" height="70">
+                                                    <img src="{{asset('assets/images/icon-learn.png')}}" width="70"
+                                                         height="70">
                                                 </a>
                                             </div>
                                         </li>
