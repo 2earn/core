@@ -166,14 +166,6 @@ class Contacts extends Component
         return redirect()->route('contacts', app()->getLocale());
     }
 
-    public function initNewUserContact(settingsManager $settingsManager)
-    {
-        $this->id = "";
-        $this->name = "";
-        $this->lastName = "";
-        $this->mobile = "";
-    }
-
     public function deleteContact($id, settingsManager $settingsManager)
     {
         $userC = $settingsManager->getUserContactsById($id);
@@ -245,9 +237,13 @@ class Contacts extends Component
         return redirect()->route('contacts', app()->getLocale())->with('success', Lang::get('Sponsorship removing operation completed successfully'));
     }
 
+
     public function sponsorId($id, settingsManager $settingsManager)
     {
         $contactUser = ContactUser::where('id', $id)->get()->first();
+        if (!$settingsManager->checkCanSponsorship()) {
+            return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('Sponsorship operation failed : you reached the max'));
+        }
         $upLine = $settingsManager->getUserByIdUser($contactUser->idUser);
         $downLine = $settingsManager->getUserByIdUser($contactUser->idContact);
         if ($upLine && $downLine) {

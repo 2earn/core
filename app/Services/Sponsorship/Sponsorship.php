@@ -64,8 +64,8 @@ class Sponsorship
     {
         if ($sponsor->idUpline == 0) {
             $date = new \DateTime($sponsor->reserved_at);
-            $availablity = $date->diff(now())->format('%h');
-            if ($availablity < $this->bookingHours && $sponsor->availablity == 1) {
+            $availability = $date->diff(now())->h + $date->diff(now())->i / 60 + $date->diff(now())->s / 3600;
+            if ($availability < $this->reservation && $sponsor->availablity == 1) {
                 $this->userRepository->updateUserUpline($sponsor->idUser, $sponsor->reserved_by);
                 return $this->userRepository->getUserByIdUser($sponsor->reserved_by);
             } else {
