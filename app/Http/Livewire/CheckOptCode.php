@@ -28,25 +28,28 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Illuminate\Support\Facades\Crypt;
+
 class CheckOptCode extends Component
 {
-    use earnTrait ;
+    use earnTrait;
+
     public $code;
     public $idUser = 0;
     public $ccode;
-    public  $numPhone ;
+    public $numPhone;
     protected $rules = [
         'code' => 'required|numeric'
     ];
-    public function mount($iduser, $ccode,$numTel)
+
+    public function mount($iduser, $ccode, $numTel)
     {
-        $this->idUser =  Crypt::decryptString($iduser);
+        $this->idUser = $iduser;
         $this->ccode = $ccode;
         $this->numPhone = $numTel;
     }
+
     public function render()
     {
-
         return view('livewire.check-opt-code')->extends('layouts.master-without-nav')->section('content');
     }
 
@@ -74,39 +77,33 @@ class CheckOptCode extends Component
     )
     {
         $this->validate();
-        $user = $settingsManager->getUsers()->where('idUser', $this->idUser)->first();
-        /// Check Code length
+        $user = $settingsManager->getUsers()->where('idUser', Crypt::decryptString($this->idUser))->first();
+
         if (substr($user->OptActivation, 0, 4) != ($this->code)) {
-            return redirect()->route('CheckOptCode', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode,"numTel"=>$this->numPhone])->with('ErrorOptCode', 'Invalid OPT code');
+            return redirect()->route('CheckOptCode', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('ErrorOptCode', 'Invalid OPT code');
         }
         $date = date('Y-m-d H:i:s');
-        /// Check expiration Opt code
-        /// ToDo make the expiry time set from parameter
         if (abs(strtotime($date) - strtotime($user->OptActivation_at)) / 60 > 1500) {
-            return redirect()->route('CheckOptCode', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode,"numTel"=>$this->numPhone])->with('ErrorExpirationCode', 'OPT code expired');
+            return redirect()->route('CheckOptCode', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('ErrorExpirationCode', 'OPT code expired');
         }
         $user = $settingsManager->getUserById($user->id);
-        /// Check if user not already verified
-        if ($user->status != -2 ) {
-            return redirect()->route('CheckOptCode', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode,"numTel"=>$this->numPhone])->with('ErrorExpirationCode', 'User already verified');
+        if ($user->status != -2) {
+            return redirect()->route('CheckOptCode', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('ErrorExpirationCode', 'User already verified');
         }
         $userUpline = $settingsManager->checkUserInvited($user);
-//        $password = strtoupper(Str::random(8));
         $password = $this->randomNewPassword(8);
-//        $user->activationCodeValue = $password;
         $user->password = Hash::make($password);
         $user->pass = $password;
-        $user->status = 0 ;
+        $user->status = 0;
         if ($commandeServiceManager->saveUser($user)) {
-//            $settingsManager->createUserEarn($user,$this->ccode);
-            $settingsManager->NotifyUser($user->id,TypeEventNotificationEnum::Password,[
+            $settingsManager->NotifyUser($user->id, TypeEventNotificationEnum::Password, [
                 'msg' => $password,
                 'type' => TypeNotificationEnum::SMS
             ]);
             $user->assignRole(4);
             if ($userUpline) {
                 $userUpline->notify(new contact_registred($user->fullphone_number));
-                $settingsManager->NotifyUser($userUpline->id,TypeEventNotificationEnum::ToUpline,[
+                $settingsManager->NotifyUser($userUpline->id, TypeEventNotificationEnum::ToUpline, [
                     'msg' => $user->fullphone_number,
                     'toMail' => "khan_josef@hotmail.com",
                     'emailTitle' => "reg Title",
@@ -114,7 +111,7 @@ class CheckOptCode extends Component
             }
             $userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::Signup, $user->idUser);
         }
-        return  redirect()->route('login',app()->getLocale())->with('FromLogOut','fds');
+        return redirect()->route('login', app()->getLocale())->with('FromLogOut', 'fds');
     }
 
 }

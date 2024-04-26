@@ -69,7 +69,6 @@ class Contacts extends Component
         ];
         return view('livewire.contacts', $params)->extends('layouts.master')->section('content');
     }
-
     public function updateUsersContactList($settingsManager, $contactUsers, $reservation, $switchBlock)
     {
         $saleCcount = Setting::find(31);

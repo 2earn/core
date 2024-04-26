@@ -57,7 +57,7 @@
                     <div class="col-lg-12">
                         <div class="card overflow-hidden">
                             <div class="row g-0">
-                                <div class="col-lg-6">
+                                <div class="col-lg-6 d-none d-md-block ">
                                     <div class="p-lg-5 p-4 auth-one-bg h-100">
                                         <div class="bg-overlay opacity-75"></div>
                                         <div class="position-relative h-100 d-flex flex-column">

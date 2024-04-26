@@ -128,12 +128,8 @@ class Registre extends Component
         if ($ip = '0.0.0.0') {
             $ip = "41.226.181.241";
         }
-//        if (env('APP_LIEN') == "http://2earn.test") {
-//            $ip = "41.228.16.1";
-//        }
         $IP = $ip;
         $json = file_get_contents("http://ipinfo.io/{$ip}/geo");
-//        dd($json);
         $details = json_decode($json, true);
         $this->country_code = $details['country'];
     }
