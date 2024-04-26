@@ -127,19 +127,20 @@
                                                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                                     @if($value->canBeSponsored)
                                                         <a wire:click="sponsorId({{$value->id}})"
-                                                           class="btn btn-outline-dark">
+                                                           class="btn btn-info">
                                                             <div wire:loading wire:target="sponsorId('{{$value->id}}')">
                                               <span class="spinner-border spinner-border-sm" role="status"
                                                     aria-hidden="true"></span>
                                                                 <span class="sr-only">__('Loading')</span>
                                                             </div>
-                                                            {{__('Sponsor')}}
+                                                            {{__('Sponsor it')}}
                                                         </a>
                                                     @endif
                                                     @if($value->canBeDisSponsored)
                                                         <a wire:click="removeSponsoring({{$value->id}})"
-                                                           class="btn btn-outline-secondary">
-                                                            <div wire:loading wire:target="removeSponsoring('{{$value->id}}')">
+                                                           class="btn btn-outline-dark">
+                                                            <div wire:loading
+                                                                 wire:target="removeSponsoring('{{$value->id}}')">
                                               <span class="spinner-border spinner-border-sm" role="status"
                                                     aria-hidden="true"></span>
                                                                 <span class="sr-only">__('Loading')</span>
