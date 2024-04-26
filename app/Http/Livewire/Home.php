@@ -51,7 +51,7 @@ class Home extends Component
 
     public function simulate()
     {
-        $this->action = intval($this->ammount / actualActionValue(getSelledActions()));
+        $this->action = intval(intval($this->ammount) / actualActionValue(getSelledActions()));
         $this->gift = getGiftedActions($this->action);
         $this->profit = actualActionValue(getSelledActions()) * $this->gift;
     }
