@@ -80,7 +80,7 @@ class Contacts extends Component
             $contactUser->sponsoredMessage = "no";
             $contactUser->sponsoredStatus = 'info';
             $user = $settingsManager->getUserByIdUser($contactUser->idContact);
-            if ($contactUser->idUpline !== 0) {
+            if ($contactUser->idUpline != 0) {
                 if ($contactUser->idUpline == auth()->user()->idUser) {
                     if ($user->purchasesNumber < $saleCcount->IntegerValue) {
                         $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('I am his sponsor ') . ($saleCcount->IntegerValue - $user->purchasesNumber) . Lang::get(' purchases left'), 'info', false, false);
@@ -98,51 +98,7 @@ class Contacts extends Component
                             $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Already has a sponsor.'), 'danger', false, false);
                         }
                     } else {
-                        // -----------------------------------------------------------------OLD
                         $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Already has a sponsor'), 'danger', false, false);
-                        // -----------------------------------------------------------------NEW
-                        if ($contactUser->availablity == 0) {
-                            $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Available'), 'success', true, false);
-                        } else {
-                            if (strtotime($contactUser->reserved_at)) {
-                                $reserved_at = \DateTime::createFromFormat('Y-m-d H:i:s', $user->reserved_at);
-                                $delai = $reserved_at->diff(now());
-                                $diff = ($delai->days * 24) + $delai->h;
-                                $reste = $reservation - $diff;
-                            }
-                            if ($contactUser->reserved_by == auth()->user()->idUser) {
-                                if ($diff < $reservation) {
-                                    $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Reserved for') . ' ' . $reste . ' ' . Lang::get('hours'), 'warning', false, true);
-                                } else {
-                                    if (!is_null($user->reserved_at) and strtotime($user->reserved_at)) {
-                                        $reserved_at = \DateTime::createFromFormat('Y-m-d H:i:s', $user->reserved_at);
-                                        $interval = $reserved_at->diff(now());
-                                        $delai = ($interval->days * 24) + $interval->h;
-                                        $resteReserved = $reservation + $switchBlock - $delai;
-                                    } else {
-                                        $resteReserved = 0;
-                                    }
-                                    $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('blocked for') . ' ' . $resteReserved . ' ' . Lang::get('hours'), 'warning', false, false);
-                                }
-                            } else {
-                                if ($diff < $reservation) {
-                                    if (!is_null($user->reserved_at) and strtotime($user->reserved_at)) {
-                                        $reserved_at = \DateTime::createFromFormat('Y-m-d H:i:s', $user->reserved_at);
-                                        $interval = $reserved_at->diff(now());
-                                        $diff = ($interval?->days * 24) + $interval?->h;
-                                        $reste = $reservation - $diff;
-                                    } else {
-                                        $reste = 0;
-                                    }
-                                    $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Reserved by other user for') . ' ' . $reste . ' ' . Lang::get('hours'), 'warning', false, false);
-
-                                } else {
-                                    $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Available'), 'success', true, false);
-                                }
-                            }
-                        }
-                        // ------------------------------------------------------------------NEW
-
                     }
                 }
             } else {
