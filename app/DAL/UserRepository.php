@@ -303,12 +303,11 @@ class  UserRepository implements IUserRepository
         return $downLine;
     }
 
-    public function removeSponsoring($idUser)
+    public function removeSponsoring($idUser,$reservation)
     {
         $user = User::where('idUser', $idUser)->first();
-        $user->availablity = 0;
-        $user->reserved_by = null;
-        $user->reserved_at = null;
+        $user->availablity = 1;
+        $user->reserved_at =  now()->modify('-'.$reservation.' hours');
         $user->save();
         return $user;
     }

@@ -39,6 +39,7 @@ use Core\Models\countrie;
 use Core\Models\identificationuserrequest;
 use Core\Models\language;
 use Core\Models\metta_user;
+use Core\Models\Setting;
 use Core\Models\user_balance;
 use Core\Models\user_earn;
 use Core\Models\UserContact;
@@ -1027,7 +1028,8 @@ class settingsManager
 
     public function removeSponsoring($idUser)
     {
-        return $this->userRepository->removeSponsoring($idUser);
+        $reservation =Setting::find(25);
+        return $this->userRepository->removeSponsoring($idUser,$reservation->IntegerValue);
     }
 
 }
