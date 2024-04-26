@@ -116,22 +116,35 @@
                                                     </a>
                                                     <a wire:click="deleteId('{{$value->id}}')"
                                                        class="btn btn-outline-danger">
-                                                        {{__('Delete')}}
                                                         <div wire:loading wire:target="deleteId('{{$value->id}}')">
                                               <span class="spinner-border spinner-border-sm" role="status"
                                                     aria-hidden="true"></span>
-                                                            <span class="sr-only">Loading...</span>
+                                                            <span class="sr-only">__('Loading')</span>
                                                         </div>
+                                                        {{__('Delete')}}
                                                     </a>
+                                                </div>
+                                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                                     @if($value->canBeSponsored)
                                                         <a wire:click="sponsorId({{$value->id}})"
-                                                           class="btn btn-outline-info">
+                                                           class="btn btn-outline-dark">
+                                                            <div wire:loading wire:target="sponsorId('{{$value->id}}')">
+                                              <span class="spinner-border spinner-border-sm" role="status"
+                                                    aria-hidden="true"></span>
+                                                                <span class="sr-only">__('Loading')</span>
+                                                            </div>
                                                             {{__('Sponsor')}}
                                                         </a>
-                                                    @endif                                                    @if($value->canBeDisSponsored)
+                                                    @endif
+                                                    @if($value->canBeDisSponsored)
                                                         <a wire:click="removeSponsoring({{$value->id}})"
-                                                           class="btn btn-outline-info">
-                                                            {{__('Sponsor')}}
+                                                           class="btn btn-outline-secondary">
+                                                            <div wire:loading wire:target="removeSponsoring('{{$value->id}}')">
+                                              <span class="spinner-border spinner-border-sm" role="status"
+                                                    aria-hidden="true"></span>
+                                                                <span class="sr-only">__('Loading')</span>
+                                                            </div>
+                                                            {{__('Remove sponsoring')}}
                                                         </a>
                                                     @endif
                                                 </div>

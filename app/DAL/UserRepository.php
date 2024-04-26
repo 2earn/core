@@ -306,7 +306,6 @@ class  UserRepository implements IUserRepository
     public function removeSponsoring($idUser)
     {
         $user = User::where('idUser', $idUser)->first();
-
         $user->availablity = 0;
         $user->reserved_by = null;
         $user->reserved_at = null;
