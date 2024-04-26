@@ -303,11 +303,11 @@ class  UserRepository implements IUserRepository
         return $downLine;
     }
 
-    public function removeSponsoring($idUser,$reservation)
+    public function removeSponsoring($idUser, $reservation)
     {
         $user = User::where('idUser', $idUser)->first();
         $user->availablity = 1;
-        $user->reserved_at =  now()->modify('-'.$reservation.' hours');
+        $user->reserved_at = now()->modify('-' . $reservation . ' hours');
         $user->save();
         return $user;
     }
@@ -333,6 +333,16 @@ class  UserRepository implements IUserRepository
             return $user;
         }
         return NULL;
+
+    }
+
+    public function checkCanSponsorship($idUser, $reservation, $maxSponsorship)
+    {
+        $sponsorship = User::where('idUpline', 0)
+            ->where('availablity', 1)
+            ->where('reserved_by', $idUser)
+            ->whereRaw('TIMESTAMPDIFF(HOUR, reserved_at, NOW()) < ' . $reservation)->count();
+        return $sponsorship < $maxSponsorship ? true : false;
 
     }
 }

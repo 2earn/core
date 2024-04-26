@@ -13,7 +13,7 @@
             @endif
             @if(Session::has('danger'))
                 <div class="alert alert-danger" role="alert">
-                    {{ Session::get('message') }}
+                    {{ Session::get('danger') }}
                 </div>
             @endif
         </div>

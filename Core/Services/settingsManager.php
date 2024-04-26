@@ -1028,8 +1028,15 @@ class settingsManager
 
     public function removeSponsoring($idUser)
     {
-        $reservation =Setting::find(25);
-        return $this->userRepository->removeSponsoring($idUser,$reservation->IntegerValue);
+        $reservation = Setting::find(25);
+        return $this->userRepository->removeSponsoring($idUser, $reservation->IntegerValue);
+    }
+
+    public function checkCanSponsorship()
+    {
+        $maxSponsorship = Setting::find(33);
+        $reservation = Setting::find(25);
+        return $this->userRepository->checkCanSponsorship(\auth()->user()->idUser, $reservation->IntegerValue, $maxSponsorship->IntegerValue);
     }
 
 }
