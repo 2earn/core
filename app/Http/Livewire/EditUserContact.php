@@ -67,6 +67,7 @@ class EditUserContact extends Component
         } else {
             $user = $settingsManager->updateUser($user, $mobile, $fullphone_number, $code, auth()->user()->idUser);
         }
+
         $contact_user = new ContactUser([
             'idUser' => Auth()->user()->idUser,
             'idContact' => $user->idUser,
@@ -76,6 +77,7 @@ class EditUserContact extends Component
             'fullphone_number' => $fullphone_number,
             'phonecode' => $code
         ]);
+
         $existeuser = ContactUser::where('id', $this->idContact)->get()->first();
         if ($existeuser) {
             try {

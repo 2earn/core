@@ -93,6 +93,8 @@ class  UserRepository implements IUserRepository
     public function updateUserContactV2($id, ContactUser $contactUser)
     {
         $uc = ContactUser::find($id);
+        $uc->idUser = $contactUser->idUser;
+        $uc->idContact = $contactUser->idContact;
         $uc->lastName = $contactUser->lastName;
         $uc->Name = $contactUser->name;
         $uc->mobile = $contactUser->mobile;
