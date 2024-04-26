@@ -1025,4 +1025,9 @@ class settingsManager
         return $this->userRepository->addSponsoring($upLine, $downLine);
     }
 
+    public function removeSponsoring($idUser)
+    {
+        return $this->userRepository->removeSponsoring($idUser);
+    }
+
 }

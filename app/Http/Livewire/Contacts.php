@@ -58,18 +58,104 @@ class Contacts extends Component
             ->join('users as u', 'contact_users.idContact', '=', 'u.idUser')
             ->join('countries as c', 'u.idCountry', '=', 'c.id')
             ->where('contact_users.idUser', $userAuth->idUser)
-            ->select('contact_users.id', 'contact_users.name', 'contact_users.lastName', 'contact_users.idUser', 'contact_users.updated_at', 'u.reserved_by', 'u.mobile', 'u.availablity', 'c.apha2', 'u.idUpline', 'u.reserved_at',
+            ->select('contact_users.id', 'contact_users.name', 'contact_users.lastName', 'contact_users.idUser', 'contact_users.idContact', 'contact_users.updated_at', 'u.reserved_by', 'u.mobile', 'u.availablity', 'c.apha2', 'u.idUpline', 'u.reserved_at',
                 DB::raw("CASE WHEN u.status = -2 THEN 'warning' ELSE 'success' END AS color"),
                 DB::raw("CASE WHEN u.status = -2 THEN 'Pending' ELSE 'User' END AS status"))
             ->orderBy('contact_users.updated_at', 'DESC');
-        $contactUser = $contactUserQuery->paginate(10);
+        $contactUsers = $contactUserQuery->paginate(10);
+
         $params = [
-            'contactUser' => $contactUser,
-            'reservation' => $reservation->IntegerValue,
-            'switchBlock' => $switchBlock->IntegerValue
+            'contactUser' => $this->updateUsersContactList($settingsManager, $contactUsers, $reservation->IntegerValue, $switchBlock->IntegerValue),
         ];
         return view('livewire.contacts', $params)->extends('layouts.master')->section('content');
     }
+
+    public function updateUsersContactList($settingsManager, $contactUsers, $reservation, $switchBlock)
+    {
+        $saleCcount = Setting::find(31);
+        $sponsorshipRetardatifReservation = Setting::find(32);
+        foreach ($contactUsers as $key => $contactUser) {
+            $contactUser->canBeSponsored = false;
+            $contactUser->canBeDisSponsored = false;
+            $contactUser->sponsoredMessage = "no";
+            $contactUser->sponsoredStatus = 'info';
+            $user = $settingsManager->getUserByIdUser($contactUser->idContact);
+            if ($contactUser->idUpline != 0) {
+                if ($contactUser->idUpline == auth()->user()->idUser) {
+                    if ($user->purchasesNumber < $saleCcount->IntegerValue) {
+                        $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('I am his sponsor ') . ($saleCcount->IntegerValue - $user->purchasesNumber) . Lang::get(' purchases left'), 'info', false, false);
+                    } else {
+                        $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('I am his sponsor') . Lang::get('(No commissions)'), 'dark text-perple', false, false);
+                    }
+                } else {
+                    if ($contactUser->idUpline == 11111111) {
+                        $dateUpline = \DateTime::createFromFormat('Y-m-d H:i:s', $user->dateUpline);
+                        $delaiDateUpline = $dateUpline->diff(now());
+                        $diffDateUpline = ($delaiDateUpline->days * 24) + $delaiDateUpline->h;
+                        if ($diffDateUpline < $sponsorshipRetardatifReservation->IntegerValue) {
+                            $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Available'), 'success', true, false);
+                        } else {
+                            $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Already has a sponsor.'), 'danger', false, false);
+                        }
+                    } else {
+                        $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Already has a sponsor'), 'danger', false, false);
+                    }
+                }
+            } else {
+                if ($contactUser->availablity == 0) {
+                    $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Available'), 'success', true, false);
+                } else {
+                    if (strtotime($contactUser->reserved_at)) {
+                        $reserved_at = \DateTime::createFromFormat('Y-m-d H:i:s', $user->reserved_at);
+                        $delai = $reserved_at->diff(now());
+                        $diff = ($delai->days * 24) + $delai->h;
+                        $reste = $reservation - $diff;
+                    }
+                    if ($contactUser->reserved_by == auth()->user()->idUser) {
+                        if ($diff < $reservation) {
+                            $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Reserved for') . ' ' . $reste . ' ' . Lang::get('hours'), 'warning', false, true);
+                        } else {
+                            if (!is_null($user->reserved_at) and strtotime($user->reserved_at)) {
+                                $reserved_at = \DateTime::createFromFormat('Y-m-d H:i:s', $user->reserved_at);
+                                $interval = $reserved_at->diff(now());
+                                $delai = ($interval->days * 24) + $interval->h;
+                                $resteReserved = $reservation + $switchBlock - $delai;
+                            } else {
+                                $resteReserved = 0;
+                            }
+                            $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('blocked for') . ' ' . $resteReserved . ' ' . Lang::get('hours'), 'warning', false, false);
+                        }
+                    } else {
+                        if ($diff < $reservation) {
+                            if (!is_null($user->reserved_at) and strtotime($user->reserved_at)) {
+                                $reserved_at = \DateTime::createFromFormat('Y-m-d H:i:s', $user->reserved_at);
+                                $interval = $reserved_at->diff(now());
+                                $diff = ($delai->days * 24) + $delai->h;
+                                $reste = $reservation - $diff;
+                            } else {
+                                $reste = 0;
+                            }
+                            $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Reserved by other user for') . ' ' . $reste . ' ' . Lang::get('hours'), 'warning', false, false);
+
+                        } else {
+                            $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Available'), 'success', true, false);
+                        }
+                    }
+                }
+            }
+        }
+        return $contactUsers;
+    }
+
+    public function updateUserContact($contactUser, $message, $status, $canSponsored, $canDisSponsored)
+    {
+        $contactUser->sponsoredMessage = $message;
+        $contactUser->sponsoredStatus = $status;
+        $contactUser->canBeSponsored = $canSponsored;
+        $contactUser->canBeDisSponsored = $canDisSponsored;
+        return $contactUser;
+    }
+
 
     public function delete(settingsManager $settingsManager)
     {
@@ -150,6 +236,13 @@ class Contacts extends Component
         $existeuser = ContactUser::where('id', $id)->delete();
         $this->dispatchBrowserEvent('close-modal');
         return redirect()->route('contacts', app()->getLocale());
+    }
+
+    public function removeSponsoring($id, settingsManager $settingsManager)
+    {
+        $contactUser = ContactUser::where('id', $id)->get()->first();
+        $settingsManager->removeSponsoring($contactUser->idContact);
+        return redirect()->route('contacts', app()->getLocale())->with('success', Lang::get('Sponsorship removing operation completed successfully'));
     }
 
     public function sponsorId($id, settingsManager $settingsManager)

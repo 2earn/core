@@ -84,87 +84,8 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                @php
-                                                    $available = false;
-                                                @endphp
-                                                @if($value->idUpline != 0)
-                                                    @if($value->idUpline == $value->idUser)
-                                                        <button type="button"
-                                                                class="btn btn-outline-info">{{__('i am his sponsor')}} </button>
-                                                    @else
-                                                        @if($value->idUpline== 11111111)
-                                                            @if(checkUserBalancesInReservation($value->idUser))
-                                                                @php
-                                                                    $available = true;
-                                                                @endphp
-                                                                <button type="button"
-                                                                        class="btn btn-outline-success">{{__('Available for')}} {{checkUserBalancesInReservation($value->idUser)}} {{__('hours')}} </button>
-                                                            @endif
-                                                        @else
-                                                            <button type="button"
-                                                                    class="btn btn-outline-danger">{{__('Already has a sponsor')}} </button>
-                                                        @endif
-                                                        <button type="button"
-                                                                class="btn btn-outline-danger">{{__('Already has a sponsor')}} </button>
-                                                    @endif
-                                                @else
-                                                    @if($value->availablity == 0)
-                                                        <button type="button"
-                                                                class="btn btn-outline-success">{{__('Available')}} </button>
-                                                        @php
-                                                            $available = true;
-                                                        @endphp
-                                                    @else
-                                                        @php
-                                                            if(strtotime($value->reserved_at)){
-                                                             $reserved_at = DateTime::createFromFormat('Y-m-d H:i:s', $value->reserved_at);
-                                                              $delai= $reserved_at->diff(now());
-                                                              $diff=($delai->days * 24) + $delai->h;
-                                                              $reste =$reservation -$diff;
-                                                              }
-                                                        @endphp
-                                                        @if($value->reserved_by == $value->idUser)
-                                                            @if($diff<$reservation)
-                                                                <button type="button"
-                                                                        class="btn btn-outline-warning">{{__('reserved for')}} {{$reste}} {{__('hours')}}
-                                                                </button>
-
-                                                            @else
-                                                                @php
-                                                                    if( !is_null($value->reserved_at) and strtotime($value->reserved_at)){
-                                                                         $reserved_at = DateTime::createFromFormat('Y-m-d H:i:s', $value->reserved_at);
-                                                                         $interval =$reserved_at->diff(now());
-                                                                         $delai= ($interval->days * 24) + $interval->h;
-                                                                         $resteReserved=$reservation+ $switchBlock - $delai;
-                                                                    }else{$resteReserved=0;}
-                                                                @endphp
-                                                                <button type="button"
-                                                                        class="btn btn-outline-danger">{{__('blocked for')}} {{$resteReserved}} {{__('hours')}} </button>
-
-                                                            @endif
-                                                        @else
-                                                            @if($diff<$reservation)
-                                                                @php
-                                                                    if( !is_null($value->reserved_at) and strtotime($value->reserved_at)){
-                                                                     $reserved_at = DateTime::createFromFormat('Y-m-d H:i:s', $value->reserved_at);
-                                                                     $interval =$reserved_at->diff(now());
-                                                                         $delai= ($interval->days * 24) + $interval->h;
-                                                                         $diff=($delai->days * 24) + $delai->h;
-                                                                      $reste =$reservation -$diff;
-                                                                    }else{$reste=0;}
-                                                                @endphp
-                                                                <button type="button"
-                                                                        class="btn btn-outline-warning">{{__('reserved by other user for')}} {{$reste}} {{__('hours')}} </button>
-                                                            @else
-                                                                @php
-                                                                    $available = true;
-                                                                @endphp
-                                                                <button type="button"
-                                                                        class="btn btn-outline-success">{{__('Available')}} </button>
-                                                            @endif
-                                                        @endif
-                                                    @endif
-                                                @endif
+                                                <button type="button"
+                                                        class="btn btn-outline-{{$value->sponsoredStatus}}">{{$value->sponsoredMessage}}</button>
                                             </td>
                                             <td>
                                                 <script>
@@ -195,17 +116,35 @@
                                                     </a>
                                                     <a wire:click="deleteId('{{$value->id}}')"
                                                        class="btn btn-outline-danger">
-                                                        {{__('Delete')}}
                                                         <div wire:loading wire:target="deleteId('{{$value->id}}')">
                                               <span class="spinner-border spinner-border-sm" role="status"
                                                     aria-hidden="true"></span>
-                                                            <span class="sr-only">Loading...</span>
+                                                            <span class="sr-only">__('Loading')</span>
                                                         </div>
+                                                        {{__('Delete')}}
                                                     </a>
-                                                    @if($available)
+                                                </div>
+                                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                                    @if($value->canBeSponsored)
                                                         <a wire:click="sponsorId({{$value->id}})"
-                                                           class="btn btn-outline-info">
+                                                           class="btn btn-outline-dark">
+                                                            <div wire:loading wire:target="sponsorId('{{$value->id}}')">
+                                              <span class="spinner-border spinner-border-sm" role="status"
+                                                    aria-hidden="true"></span>
+                                                                <span class="sr-only">__('Loading')</span>
+                                                            </div>
                                                             {{__('Sponsor')}}
+                                                        </a>
+                                                    @endif
+                                                    @if($value->canBeDisSponsored)
+                                                        <a wire:click="removeSponsoring({{$value->id}})"
+                                                           class="btn btn-outline-secondary">
+                                                            <div wire:loading wire:target="removeSponsoring('{{$value->id}}')">
+                                              <span class="spinner-border spinner-border-sm" role="status"
+                                                    aria-hidden="true"></span>
+                                                                <span class="sr-only">__('Loading')</span>
+                                                            </div>
+                                                            {{__('Remove sponsoring')}}
                                                         </a>
                                                     @endif
                                                 </div>
