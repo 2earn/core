@@ -371,7 +371,7 @@
                                 <div class="col-6">
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                               id="inlineRadio2" value="other">
+                                               id="inlineRadio2" value="other" disabled>
                                         <label class="form-check-label" for="inlineRadio2">{{ __('other') }}</label>
                                     </div>
                                 </div>
@@ -442,9 +442,10 @@
                                             class="btn btn-primary">{{ __('Submit') }}</button>
                                 </div>
                             </div>
+                        </form>
                     </div>
                 </div>
-                </form>
+
             </div>
         </div>
     </div>

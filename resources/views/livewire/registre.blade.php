@@ -69,7 +69,7 @@
 
         <div class="auth-page-wrapper pt-5">
             <!-- auth page bg -->
-            <div class="auth-one-bg-position auth-one-bg" id="auth-particles">
+            <div class="auth-one-bg-position auth-one-bg col-lg-6 d-none d-md-block" id="auth-particles">
                 <div class="bg-overlay"></div>
 
                 <div class="shape">
@@ -83,7 +83,7 @@
             <!-- auth page content -->
             <div class="auth-page-content">
                 <div class="container">
-                    <div class="row">
+                    <div class="row col-lg-6 d-none d-md-block">
                         <div class="col-lg-12 mb-2 ">
                             <div class="text-center mt-sm-5 mb-4 text-white-50">
                                     <a href="{{route('login',app()->getLocale())}}" class="d-inline-block auth-logo">
