@@ -325,7 +325,7 @@ const reset = () => {
 
 
 
-var out = "00"+$("#ccode").val()+parseInt($('#phonereg').val().replace(/\s|\(|\)|-/g, ''), 10);
+var out = "00"+$("#ccode").val()+parseInt($('#phonereg').val().replace(/\D/g, ''), 10);
 
 // on click button: validate
 
@@ -334,7 +334,7 @@ var out = "00"+$("#ccode").val()+parseInt($('#phonereg').val().replace(/\s|\(|\)
     if (iti.isValidNumberPrecise()) {
       //validMsg.classList.remove("hide");
         //console.log()
-      window.livewire.emit('changefullNumber',out.replace(/\s|\(|\)|-/g, ''),$("#ccode").val(),$("#iso2Country").val());
+      window.livewire.emit('changefullNumber',out.replace(/\D/g, ''),$("#ccode").val(),$("#iso2Country").val());
       //console.log($("#output").val());
       //console.log($("#ccode").val());
       //console.log($("#iso2Country").val());

@@ -36,6 +36,20 @@ if (!function_exists('getUserBalanceSoldes')) {
         }
     }
 }
+if (!function_exists('validatePhone')) {
+    function validatePhone($phone, $ccode)
+    {
+        try {
+            $country = DB::table('countries')->where('phonecode', $ccode)->first();
+
+            $phone = new PhoneNumber($phone, $country->apha2);
+            $phone->formatForCountry($country->apha2);
+            return "1";
+        } catch (\Exception $exp) {
+                return $exp->getMessage();
+            }
+    }
+}
 
 if (!function_exists('getUserListCards')) {
     function getUserListCards()

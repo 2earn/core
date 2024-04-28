@@ -172,6 +172,7 @@ Route::group(['prefix' => 'API'], function () {
     Route::post('update-balance-status', 'App\Http\Controllers\ApiController@updateBalanceStatus')->name('update-balance-status');
     Route::post('update-reserve-date', 'App\Http\Controllers\ApiController@updateReserveDate')->name('update-reserve-date');
     Route::post('update-balance-real', 'App\Http\Controllers\ApiController@updateBalanceReal')->name('update-balance-real');
+    Route::post('validate-phone', 'App\Http\Controllers\ApiController@validatePhone')->name('validate_phone');
 
     Route::post('buy-action', 'App\Http\Controllers\ApiController@buyAction')->name('buyAction');
     Route::get('action-by-ammount', 'App\Http\Controllers\ApiController@actionByAmmount')->name('action-by-ammount');

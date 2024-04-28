@@ -55,6 +55,9 @@
         .install-app-btn-container {
             display: none;
         }
+        .hide{
+            display: none;
+        }
         </style>
     <meta charset="utf-8"/>
     <title>@yield('title')| 2Earn.cash</title>
@@ -1543,6 +1546,7 @@
 </script>
 
 @stack('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/19.2.16/js/intlTelInput.min.js"></script>
 <script data-turbolinks-eval="false">
 
     $(document).on('ready turbolinks:load', function () {
@@ -1734,6 +1738,7 @@
                 },
                 utilsScript: " {{asset('assets/js/utils.js')}}" // just for formatting/placeholders etc
             });
+
             inputlog.addEventListener('keyup', resetContacts);
             inputlog.addEventListener('countrychange', resetContacts);
             for (var i = 0; i < countryDataLog.length; i++) {

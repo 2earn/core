@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Propaganistas\LaravelPhone\PhoneNumber;
 
 
 class Contacts extends Component
@@ -201,16 +202,33 @@ class Contacts extends Component
         }
 
         try {
-            $user = $settingsManager->getUserByFullNumber($fullNumber);
-            if (!$user) {
-                $user = $settingsManager->createNewUser($this->mobile, $fullNumber, $ccode, auth()->user()->idUser);
+            $country = DB::table('countries')->where('phonecode', $ccode)->first();
+
+            $phone = new PhoneNumber($phone, $country->apha2);
+             $phone->formatForCountry($country->apha2);
+
+                $user = $settingsManager->getUserByFullNumber($fullNumber);
+                if (!$user) {
+                    $user = $settingsManager->createNewUser($this->mobile, $fullNumber, $ccode, auth()->user()->idUser);
+                }
+                $contact_user = $settingsManager->createNewContactUser($settingsManager->getAuthUser()->idUser, $this->name, $user->idUser, $this->lastName, $phone, $fullNumber, $ccode,);
+                $this->dispatchBrowserEvent('close-modal');
+                return redirect()->route('contacts', app()->getLocale())->with('success', Lang::get('User created successfully'));;
+
+
+
+
+            } catch (\Exception $exp) {
+            if($exp->getMessage() == "Number does not match the provided country.")
+            {
+                $this->transactionManager->rollback();
+                return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('Phone Number does not match the provided country.'));
             }
-            $contact_user = $settingsManager->createNewContactUser($settingsManager->getAuthUser()->idUser, $this->name, $user->idUser, $this->lastName, $phone, $fullNumber, $ccode,);
-            $this->dispatchBrowserEvent('close-modal');
-            return redirect()->route('contacts', app()->getLocale())->with('success', Lang::get('User created successfully'));;
-        } catch (\Exception $exp) {
-            $this->transactionManager->rollback();
-            return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('User creation failed'));;
+            else{
+                $this->transactionManager->rollback();
+                return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('User creation failed'));
+            }
+
         }
     }
 

@@ -1,4 +1,16 @@
 <div>
+    <style>
+
+        .iti {
+            width: 100% !important;
+        }
+        .hide {
+            display: none;
+        }
+        #error-msg {
+            color: red;
+        }
+    </style>
     @component('components.breadcrumb')
         @slot('title')
             {{ __('You Contacts') }}
@@ -229,6 +241,8 @@
                                     >
                                     <input type='hidden' name='fullnumber' id='outputAdd2Contact' class='form-control'>
                                     <input type='hidden' name='ccodeAdd2Contact' id='ccodeAdd2Contact'>
+                                    <span id="error-msg" ></span>
+
                                 </div>
                             </div>
                         </div>
@@ -255,6 +269,8 @@
     </div>
 </div>
 
+
+
 <script>
     function initNewUserContact() {
         window.livewire.emit('initNewUserContact');
@@ -264,11 +280,33 @@
         inputphone = document.getElementById("ipAdd2Contact");
         inputname = document.getElementById("ccodeAdd2Contact");
         inputlast = document.getElementById("outputAdd2Contact");
-        if (inputphone.value.trim() && inputname.value.trim() && inputlast.value.trim()) {
-            window.livewire.emit('save', inputphone.value.trim(), inputname.value.trim(), $('#outputAdd2Contact').val());
-        } else {
-            alert("erreur number");
-        }
+        const errorMsg = document.querySelector("#error-msg");
+        var out = "00"+inputname.value.trim()+parseInt(inputphone.value.trim().replace(/\D/g, ''), 10);
+        var phoneNumber = parseInt(inputphone.value.trim().replace(/\D/g, ''), 10);
+        var inputName = inputname.value.trim();
+
+        // Envoi des données au serveur via une requête AJAX
+        $.ajax({
+            url: '{{ route('validate_phone') }}',
+            method: 'POST',
+            data: {
+                phoneNumber: phoneNumber,
+                inputName: inputName,
+                "_token": "{{ csrf_token() }}"
+            },
+            success: function(response) {
+                //window.livewire.emit('save', inputphone.value.trim(), inputname.value.trim(), out);
+                console.log(response);
+                errorMsg.innerHTML = "";
+                errorMsg.classList.add("hide");
+            },
+            error: function(xhr, status, error) {
+                errorMsg.innerHTML = error;
+                errorMsg.classList.remove("hide");
+
+            }
+        });
+
     }
 
     function editContact(id) {
@@ -286,6 +324,7 @@
 
 
 </script>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.0.2/list.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/list.pagination.js/0.1.1/list.pagination.min.js"></script>
