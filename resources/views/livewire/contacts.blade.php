@@ -48,7 +48,7 @@
                 <select wire:model="pageCount" class="form-select livewire-param" aria-label="Default select example">
                     <option @if($pageCount=="10") selected @endif value="10">10</option>
                     <option @if($pageCount=="25") selected @endif value="25">25</option>
-                    <option @if($pageCount=="50") selected @endif value="50">50</option>
+                    <option @if($pageCount=="100") selected @endif value="100">100</option>
                 </select>
             </div>
             <div class="col-6 col-sm-12 col-md-12 col-lg-3">

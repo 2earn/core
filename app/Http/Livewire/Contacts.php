@@ -28,7 +28,7 @@ class Contacts extends Component
     public string $lastName = "";
     public string $mobile = "";
     public ?string $search = "";
-    public ?string $pageCount = "10";
+    public ?string $pageCount = "100";
     public $selectedContect;
 
     protected $rules = [
