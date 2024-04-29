@@ -83,7 +83,7 @@ class Contacts extends Component
             if ($contactUser->idUpline != 0) {
                 if ($contactUser->idUpline == auth()->user()->idUser) {
                     if ($user->purchasesNumber < $saleCcount->IntegerValue) {
-                        $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('I am his sponsor') ." ". ($saleCcount->IntegerValue - $user->purchasesNumber) . Lang::get(' purchases left'), 'info', false, false);
+                        $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('I am his sponsor') ." ". ($saleCcount->IntegerValue - $user->purchasesNumber) ."". Lang::get('purchases left'), 'info', false, false);
                     } else {
                         $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('I am his sponsor') . Lang::get('(No commissions)'), 'dark text-perple', false, false);
                     }
@@ -202,12 +202,7 @@ class Contacts extends Component
         }
 
         try {
-            $country = DB::table('countries')->where('phonecode', $ccode)->first();
-
-            $phone = new PhoneNumber($phone, $country->apha2);
-             $phone->formatForCountry($country->apha2);
-
-                $user = $settingsManager->getUserByFullNumber($fullNumber);
+                            $user = $settingsManager->getUserByFullNumber($fullNumber);
                 if (!$user) {
                     $user = $settingsManager->createNewUser($this->mobile, $fullNumber, $ccode, auth()->user()->idUser);
                 }
