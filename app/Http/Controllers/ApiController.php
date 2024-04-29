@@ -6,6 +6,7 @@ use App\DAL\UserRepository;
 use App\Models\User;
 use App\Services\Sponsorship\Sponsorship;
 use App\Services\Sponsorship\SponsorshipFacade;
+use Barryvdh\DomPDF\Facade\Pdf;
 use carbon;
 use Core\Enum\AmoutEnum;
 use Core\Enum\StatusRequst;
