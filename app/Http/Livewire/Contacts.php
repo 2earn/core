@@ -70,6 +70,7 @@ class Contacts extends Component
         ];
         return view('livewire.contacts', $params)->extends('layouts.master')->section('content');
     }
+
     public function updateUsersContactList($settingsManager, $contactUsers, $reservation, $switchBlock)
     {
         $saleCcount = Setting::find(31);
@@ -83,7 +84,7 @@ class Contacts extends Component
             if ($contactUser->idUpline != 0) {
                 if ($contactUser->idUpline == auth()->user()->idUser) {
                     if ($user->purchasesNumber < $saleCcount->IntegerValue) {
-                        $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('I am his sponsor') ." ". ($saleCcount->IntegerValue - $user->purchasesNumber) ."". Lang::get('purchases left'), 'info', false, false);
+                        $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('I am his sponsor') . " " . ($saleCcount->IntegerValue - $user->purchasesNumber) . "" . Lang::get('purchases left'), 'info', false, false);
                     } else {
                         $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('I am his sponsor') . Lang::get('(No commissions)'), 'dark text-perple', false, false);
                     }
@@ -202,28 +203,22 @@ class Contacts extends Component
         }
 
         try {
-                            $user = $settingsManager->getUserByFullNumber($fullNumber);
-                if (!$user) {
-                    $user = $settingsManager->createNewUser($this->mobile, $fullNumber, $ccode, auth()->user()->idUser);
-                }
-                $contact_user = $settingsManager->createNewContactUser($settingsManager->getAuthUser()->idUser, $this->name, $user->idUser, $this->lastName, $phone, $fullNumber, $ccode,);
-                $this->dispatchBrowserEvent('close-modal');
-                return redirect()->route('contacts', app()->getLocale())->with('success', Lang::get('User created successfully'));;
+            $user = $settingsManager->getUserByFullNumber($fullNumber);
+            if (!$user) {
+                $user = $settingsManager->createNewUser($this->mobile, $fullNumber, $ccode, auth()->user()->idUser);
+            }
+            $contact_user = $settingsManager->createNewContactUser($settingsManager->getAuthUser()->idUser, $this->name, $user->idUser, $this->lastName, $phone, $fullNumber, $ccode,);
+            $this->dispatchBrowserEvent('close-modal');
+            return redirect()->route('contacts', app()->getLocale())->with('success', Lang::get('User created successfully'));
 
-
-
-
-            } catch (\Exception $exp) {
-            if($exp->getMessage() == "Number does not match the provided country.")
-            {
+        } catch (\Exception $exp) {
+            if ($exp->getMessage() == "Number does not match the provided country.") {
                 $this->transactionManager->rollback();
                 return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('Phone Number does not match the provided country.'));
-            }
-            else{
+            } else {
                 $this->transactionManager->rollback();
                 return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('User creation failed'));
             }
-
         }
     }
 
@@ -262,7 +257,7 @@ class Contacts extends Component
             $this->checkDelayedSponsorship($upLine, $downLine);
         }
         $this->dispatchBrowserEvent('close-modal');
-        return redirect()->route('contacts', app()->getLocale())->with('success', Lang::get('Sponsorship operation completed successfully') . ' (' . $contactUser->name . ' ' . $contactUser->lastName . ')');
+        return redirect()->route('contacts', app()->getLocale())->with('success', Lang::get('Sponsorship operation completed successfully') . ' (' . $contactUser->name . ' ' . $contactUser->lastName . ': ' . $contactUser->fullphone_number . ')');
     }
 
     public function delete_multiple($ids)

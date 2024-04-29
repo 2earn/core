@@ -48,9 +48,7 @@
                         </div>
                     </div>
                     <div class="card-body table-responsive">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <table class="table align-middle dt-responsive nowrap " id="customerTable2">
+                                <table class="table table-striped">
                                     <thead class="table-light">
                                     <tr class="tabHeader2earn">
                                         <th>{{ __('Name') }}</th>
@@ -138,8 +136,6 @@
                                     @endforeach
                                     </tbody>
                                 </table>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -309,21 +305,7 @@
                     document.location.href = url;
                 }
             });
-            // window.location.reload();
         }
     });
-    var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";
-    var urlLang = "//cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
-    $('#customerTable2').DataTable(
-        {
-            retrieve: true,
-            "colReorder": true,
-            "orderCellsTop": true,
-            "fixedHeader": true,
-            "language": {
-                "url": urlLang
-            }
-        }
-    );
 </script>
 </div>
