@@ -476,6 +476,7 @@
 
 // Utilisation de la fonction générique avec votre exemple
                 $(document).on("click", "#buy-action-submit", function () {
+                    this.disabled=true;
                     let ammount = $('#ammount').val();
                     let phone = $('#phone').val();
                     let me_or_other = $("input[name='inlineRadioOptions']:checked").val();
