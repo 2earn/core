@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Propaganistas\LaravelPhone\PhoneNumber;
+use Livewire\Attributes\Url;
 
 
 class Contacts extends Component
@@ -26,6 +27,8 @@ class Contacts extends Component
     public string $name = "";
     public string $lastName = "";
     public string $mobile = "";
+    public ?string $search = "";
+    public ?string $pageCount = "10";
     public $selectedContect;
 
     protected $rules = [
@@ -45,6 +48,17 @@ class Contacts extends Component
         'delete_multiple' => 'delete_multiple'
     ];
 
+    protected function queryString()
+    {
+        return [
+            'search' => [
+                'as' => 'q',
+            ],
+            'pageCount' => [
+                'as' => 'pc',
+            ],
+        ];
+    }
 
     private settingsManager $settingsManager;
     private TransactionManager $transactionManager;
@@ -58,16 +72,24 @@ class Contacts extends Component
         $contactUserQuery = DB::table('contact_users as contact_users')
             ->join('users as u', 'contact_users.idContact', '=', 'u.idUser')
             ->join('countries as c', 'u.idCountry', '=', 'c.id')
-            ->where('contact_users.idUser', $userAuth->idUser)
-            ->select('contact_users.id', 'contact_users.name', 'contact_users.lastName', 'contact_users.idUser', 'contact_users.idContact', 'contact_users.updated_at', 'u.reserved_by', 'u.mobile', 'u.availablity', 'c.apha2', 'u.idUpline', 'u.reserved_at',
-                DB::raw("CASE WHEN u.status = -2 THEN 'warning' ELSE 'success' END AS color"),
-                DB::raw("CASE WHEN u.status = -2 THEN 'Pending' ELSE 'User' END AS status"))
+            ->where('contact_users.idUser', $userAuth->idUser);
+        if ($this->search != "") {
+            $contactUserQuery = $contactUserQuery->where(function ($contactUserQuery) {
+                $contactUserQuery->orWhere('contact_users.lastName', 'like', '%' . $this->search . '%')
+                    ->orWhere('contact_users.name', 'like', '%' . $this->search . '%')
+                    ->orWhere('contact_users.fullphone_number', 'like', '%' . $this->search . '%')
+                    ->orWhere('contact_users.mobile', 'like', '%' . $this->search . '%');
+            });
+        }
+        $contactUserQuery = $contactUserQuery->select('contact_users.id', 'contact_users.name', 'contact_users.lastName', 'contact_users.idUser', 'contact_users.idContact', 'contact_users.updated_at', 'u.reserved_by', 'u.mobile', 'u.availablity', 'c.apha2', 'u.idUpline', 'u.reserved_at',
+            DB::raw("CASE WHEN u.status = -2 THEN 'warning' ELSE 'success' END AS color"),
+            DB::raw("CASE WHEN u.status = -2 THEN 'Pending' ELSE 'User' END AS status"))
             ->orderBy('contact_users.updated_at', 'DESC');
-        $contactUsers = $contactUserQuery->paginate(10);
-
+        $contactUsers = $contactUserQuery->paginate($this->pageCount);
         $params = [
-            'contactUser' => $this->updateUsersContactList($settingsManager, $contactUsers, $reservation->IntegerValue, $switchBlock->IntegerValue),
+            'contactUsers' => $this->updateUsersContactList($settingsManager, $contactUsers, $reservation->IntegerValue, $switchBlock->IntegerValue),
         ];
+        $this->resetPage();
         return view('livewire.contacts', $params)->extends('layouts.master')->section('content');
     }
 
@@ -96,7 +118,7 @@ class Contacts extends Component
                         if ($diffDateUpline < $sponsorshipRetardatifReservation->IntegerValue) {
                             $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Available'), 'success', true, false);
                         } else {
-                            $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Already has a sponsor.'), 'danger', false, false);
+                            $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Already has a sponsor'), 'danger', false, false);
                         }
                     } else {
                         $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Already has a sponsor'), 'danger', false, false);
