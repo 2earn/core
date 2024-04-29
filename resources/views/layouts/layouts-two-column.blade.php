@@ -30,7 +30,7 @@
                     @yield('content')
                 </div> <!-- content -->
             </div>
-            @include('layouts.footer')
+            @include('layouts.footer', ['pageName' => 'layouts-2'])
         </div>
         <!-- ============================================================== -->
         <!-- End Right content here -->

@@ -29,7 +29,7 @@
                     @yield('content')
                 </div> <!-- content -->
             </div>
-            @include('layouts.footer')
+            @include('layouts.footer', ['pageName' => 'layouts-detached'])
         </div>
         <!-- ============================================================== -->
         <!-- End Right content here -->
