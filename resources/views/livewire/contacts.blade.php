@@ -4,9 +4,11 @@
         .iti {
             width: 100% !important;
         }
+
         .hide {
             display: none;
         }
+
         #error-msg {
             color: red;
         }
@@ -241,7 +243,7 @@
                                     >
                                     <input type='hidden' name='fullnumber' id='outputAdd2Contact' class='form-control'>
                                     <input type='hidden' name='ccodeAdd2Contact' id='ccodeAdd2Contact'>
-                                    <span id="error-msg" ></span>
+                                    <span id="error-msg"></span>
 
                                 </div>
                             </div>
@@ -270,7 +272,6 @@
 </div>
 
 
-
 <script>
     function initNewUserContact() {
         window.livewire.emit('initNewUserContact');
@@ -281,7 +282,7 @@
         inputname = document.getElementById("ccodeAdd2Contact");
         inputlast = document.getElementById("outputAdd2Contact");
         const errorMsg = document.querySelector("#error-msg");
-        var out = "00"+inputname.value.trim()+parseInt(inputphone.value.trim().replace(/\D/g, ''), 10);
+        var out = "00" + inputname.value.trim() + parseInt(inputphone.value.trim().replace(/\D/g, ''), 10);
         var phoneNumber = parseInt(inputphone.value.trim().replace(/\D/g, ''), 10);
         var inputName = inputname.value.trim();
 
@@ -294,15 +295,16 @@
                 inputName: inputName,
                 "_token": "{{ csrf_token() }}"
             },
-            success: function(response) {
-                window.livewire.emit('save', inputphone.value.trim(), inputname.value.trim(), out);
+            success: function (response) {
                 console.log(response);
-                errorMsg.innerHTML = "";
-                errorMsg.classList.add("hide");
-            },
-            error: function(xhr, status, error) {
-                errorMsg.innerHTML = error;
-                errorMsg.classList.remove("hide");
+                if (response.message == "") {
+                    window.livewire.emit('save', inputphone.value.trim(), inputname.value.trim(), out);
+                    errorMsg.innerHTML = "";
+                    errorMsg.classList.add("hide");
+                } else {
+                    errorMsg.innerHTML = response.message;
+                    errorMsg.classList.remove("hide");
+                }
 
             }
         });

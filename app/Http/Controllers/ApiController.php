@@ -16,6 +16,7 @@ use Core\Models\FinancialRequest;
 use Core\Models\user_balance;
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request as Req;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
