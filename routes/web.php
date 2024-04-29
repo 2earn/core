@@ -41,6 +41,7 @@ use App\Http\Livewire\UserPurchaseHistory;
 use App\Http\Livewire\ValidateAccount;
 use App\Services\Sponsorship\SponsorshipFacade;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -59,8 +60,25 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/pdf', function (){
 
+
+    $data = array(
+        'name' => 'ghazi',
+        'detail'=>'sdfsdf',
+        'sender' => '2earn.cash'
+    );
+
     $pdf = Pdf::loadView('pdf');
-    return $pdf->stream();
+
+    Mail::send('pwd_email',['data' => "azerty"], function($message) use($pdf)
+    {
+
+
+        $message->to('tounsi.ghazi@gmail.com')->subject('Invoice');
+
+        $message->attachData($pdf->output(), "invoice.pdf");
+    });
+
+
 });
 
 Route::get('test', \App\Http\Livewire\Test::class)->name('test');
