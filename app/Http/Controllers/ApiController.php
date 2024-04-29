@@ -16,6 +16,7 @@ use Core\Models\FinancialRequest;
 use Core\Models\user_balance;
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request as Req;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
@@ -828,6 +829,7 @@ class="btn btn-ghost-success waves-effect waves-light sh"  >
             ->rawColumns(['action', 'flag', 'SoldeCB', 'SoldeBFS', 'SoldeDB', 'SoldeSMS', 'SoldeSH'])
             ->make(true);
     }
+
     public function validatePhone(req $request)
     {
         $phoneNumber = $request->input('phoneNumber');
@@ -835,16 +837,12 @@ class="btn btn-ghost-success waves-effect waves-light sh"  >
 
         try {
             $country = DB::table('countries')->where('phonecode', $inputName)->first();
-
             $phone = new PhoneNumber($phoneNumber, $country->apha2);
             $phone->formatForCountry($country->apha2);
-            //dd("ok");
-            return "1";
+            return new JsonResponse(['message' => ''], 200);
         } catch (\Exception $exp) {
-            //dd($exp->getMessage());
-            return $exp->getMessage();
+            return new JsonResponse(['message' => Lang::get($exp->getMessage())], 200);
         }
-
     }
 
     public function getCountries()

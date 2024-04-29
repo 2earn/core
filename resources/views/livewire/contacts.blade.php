@@ -4,9 +4,11 @@
         .iti {
             width: 100% !important;
         }
+
         .hide {
             display: none;
         }
+
         #error-msg {
             color: red;
         }
@@ -86,41 +88,11 @@
                                                 if($value->availablity == 1) $disableUntil = now();
                                                 else $disableUntil = getSwitchBlock($value->id);// Désactiver le commutateur jusqu'à 24 heures à partir de maintenant
                                             @endphp
-                                            <td class="d-none">
-                                                <div
-                                                    class="form-check form-switch form-switch-custom form-switch-success mb-3">
-                                                    <input type="checkbox" class="balance-switch-c form-check-input"
-                                                           role="switch"
-                                                           data-id="{{$value->id}}"
-                                                        {{$value->availablity == 1 ? 'checked' : ''}}  {{$disableUntil > now()   ? 'disabled' : ''}}>
-                                                </div>
-                                            </td>
                                             <td>
                                                 <button type="button"
                                                         class="btn btn-outline-{{$value->sponsoredStatus}}">{{$value->sponsoredMessage}}</button>
                                             </td>
                                             <td>
-                                                <script>
-                                                    $(document).on('change', '.balance-switch-c', function () {
-                                                        var id = $(this).data('id');
-                                                        var status = $(this).prop('checked');
-                                                        // Make an AJAX request to update the status
-                                                        $.ajax({
-                                                            url: '{{ route('update-reserve-date') }}', // Adjust the endpoint URL
-                                                            method: 'POST',
-                                                            data: {
-                                                                id: id,
-                                                                status: status,
-                                                                "_token": "{{ csrf_token() }}"
-                                                            },
-                                                            success: function (data) {
-                                                            },
-                                                            error: function (xhr, status, error) {
-                                                                // Handle error
-                                                            }
-                                                        });
-                                                    });
-                                                </script>
                                                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                                     <a href="{{ route('editContact', ['locale' =>  app()->getLocale(), 'UserContact'=>  $value->id  ]) }}"
                                                        class="btn btn-outline-primary ">
@@ -176,7 +148,7 @@
             {{ $contactUser->links() }}
         </div>
     </div>
-    <!-- Modals -->
+
     <div wire:ignore.self class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -241,12 +213,10 @@
                                     >
                                     <input type='hidden' name='fullnumber' id='outputAdd2Contact' class='form-control'>
                                     <input type='hidden' name='ccodeAdd2Contact' id='ccodeAdd2Contact'>
-                                    <span id="error-msg" ></span>
-
+                                    <span id="error-msg"></span>
                                 </div>
                             </div>
                         </div>
-                        <!--end row-->
                     </div>
                     <div class="modal-footer">
                         <div class="hstack gap-2 justify-content-end">
@@ -268,9 +238,6 @@
         </div>
     </div>
 </div>
-
-
-
 <script>
     function initNewUserContact() {
         window.livewire.emit('initNewUserContact');
@@ -281,29 +248,28 @@
         inputname = document.getElementById("ccodeAdd2Contact");
         inputlast = document.getElementById("outputAdd2Contact");
         const errorMsg = document.querySelector("#error-msg");
-        var out = "00"+inputname.value.trim()+parseInt(inputphone.value.trim().replace(/\D/g, ''), 10);
+        var out = "00" + inputname.value.trim() + parseInt(inputphone.value.trim().replace(/\D/g, ''), 10);
         var phoneNumber = parseInt(inputphone.value.trim().replace(/\D/g, ''), 10);
         var inputName = inputname.value.trim();
+        console.log(inputName);
+        console.log(phoneNumber);
+        console.log(out);
+
 
         // Envoi des données au serveur via une requête AJAX
         $.ajax({
             url: '{{ route('validate_phone') }}',
             method: 'POST',
-            data: {
-                phoneNumber: phoneNumber,
-                inputName: inputName,
-                "_token": "{{ csrf_token() }}"
-            },
-            success: function(response) {
-                //window.livewire.emit('save', inputphone.value.trim(), inputname.value.trim(), out);
-                console.log(response);
-                errorMsg.innerHTML = "";
-                errorMsg.classList.add("hide");
-            },
-            error: function(xhr, status, error) {
-                errorMsg.innerHTML = error;
-                errorMsg.classList.remove("hide");
-
+            data: {phoneNumber: phoneNumber, inputName: inputName, "_token": "{{ csrf_token() }}"},
+            success: function (response) {
+                if (response.message == "") {
+                    window.livewire.emit('save', phoneNumber, inputname.value.trim(), out);
+                    errorMsg.innerHTML = "";
+                    errorMsg.classList.add("hide");
+                } else {
+                    errorMsg.innerHTML = response.message;
+                    errorMsg.classList.remove("hide");
+                }
             }
         });
 
@@ -317,20 +283,13 @@
     function updateContact() {
     }
 
-
     function deleteContact(dd) {
         window.livewire.emit('deleteContact', dd);
     }
-
-
 </script>
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.0.2/list.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/list.pagination.js/0.1.1/list.pagination.min.js"></script>
-<!-- Sweet Alerts js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-
 <script data-turbolinks-eval="false">
     $(document).on('ready turbolinks:load', function () {
         var existeUserContact = '{{Session::has('existeUserContact')}}';
@@ -366,7 +325,5 @@
             }
         }
     );
-</script>
-<script>
 </script>
 </div>
