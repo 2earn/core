@@ -718,7 +718,7 @@
                 ],
                 "columnDefs": [
                     {
-                        "targets": [12],
+                        "targets": [13],
                         searchable: true,
                         visible: false
                     },
