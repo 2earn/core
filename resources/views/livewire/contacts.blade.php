@@ -251,6 +251,10 @@
         var out = "00" + inputname.value.trim() + parseInt(inputphone.value.trim().replace(/\D/g, ''), 10);
         var phoneNumber = parseInt(inputphone.value.trim().replace(/\D/g, ''), 10);
         var inputName = inputname.value.trim();
+        console.log(inputName);
+        console.log(phoneNumber);
+        console.log(out);
+
 
         // Envoi des données au serveur via une requête AJAX
         $.ajax({
@@ -259,7 +263,7 @@
             data: {phoneNumber: phoneNumber, inputName: inputName, "_token": "{{ csrf_token() }}"},
             success: function (response) {
                 if (response.message == "") {
-                    window.livewire.emit('save', inputphone.value.trim(), inputname.value.trim(), out);
+                    window.livewire.emit('save', phoneNumber, inputname.value.trim(), out);
                     errorMsg.innerHTML = "";
                     errorMsg.classList.add("hide");
                 } else {
