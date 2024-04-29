@@ -522,6 +522,10 @@
                             });
                         }
                     });
+                    setTimeout(() => {
+                        this.disabled = false;
+                    }, 2000);
+
                 })
             }
         );
