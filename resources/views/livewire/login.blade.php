@@ -17,9 +17,9 @@
             height: auto !important;
         }
     </style>
-    <div class="auth-page-wrapper auth-bg-cover py-2 justify-content-center align-items-center min-vh-100">
+    <div class="auth-page-wrapper auth-bg-cover py-2 justify-content-center align-items-center min-vh-75">
         <div class="bg-overlay"></div>
-        <div class="auth-page-content pt-lg-5">
+        <div class="auth-page-content">
             <script>
 
                 var existLogout = '{{Session::has('FromLogOut')}}';
@@ -45,7 +45,7 @@
                     });
                 }
             </script>
-            <div class="container">
+            <div class="container mt-5">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card overflow-hidden">
@@ -64,7 +64,6 @@
                                                 <div class="mb-3">
                                                     <i class="ri-double-quotes-l display-4 text-white"></i>
                                                 </div>
-
                                                 <div id="qoutescarouselIndicators" class="carousel slide"
                                                      data-bs-ride="carousel">
                                                     <div class="carousel-indicators">
@@ -82,23 +81,21 @@
                                                                  alt="Shop2earn" height="100"
                                                                  class="responsive-image mb-3">
                                                             <p class="fs-15 fst-italic text-white">Better Shopping
-                                                                Experience {{--__('slide1')--}}</p>
+                                                                Experience</p>
                                                         </div>
                                                         <div class="carousel-item">
                                                             <img src="{{asset('assets/images/Move2earn Icon.png')}}"
                                                                  alt="Move2earn" height="100"
                                                                  class="responsive-image mb-3">
                                                             <p class="fs-15 fst-italic text-white">Exceptional
-                                                                Transportation Services {{--__('slide2')--}}</p>
+                                                                Transportation Services</p>
                                                         </div>
                                                         <div class="carousel-item">
                                                             <img src="{{asset('assets/images/icon-learn.png')}}"
                                                                  alt="Learn2earn" height="100"
                                                                  class="responsive-image mb-3">
-
-
                                                             <p class="fs-15 fst-italic text-white">Empowering knowledge,
-                                                                anywhere, anytime {{--__('slide3')--}}</p>
+                                                                anywhere, anytime</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -227,23 +224,7 @@
                 </div>
             </div>
         </div>
-        <footer class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="text-center">
-                            <div>
-                                <strong>2Earn.cash</strong> has been accepted into
-                                <a style="color: #ffffff;" href="https://www.fastercapital.com">FasterCapital</a>'s
-                                <a style="color: #ffffff;" href="https://fastercapital.com/raise-capital.html">Raise
-                                    Capital</a> program and is seeking a capital of $2.5 million to be raised.
-                            </div>
-                            <div>&#169 2023 Created by 2earn.cash</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
+        @include('layouts.footer', ['pageName' => 'login'])
     </div>
     <script>
         document.querySelector("#phone").addEventListener("keypress", function (evt) {
@@ -266,7 +247,6 @@
         }
 
         function functionLogin(dd) {
-
             window.livewire.emit('login', $("#phone").val(), $("#ccodelog").val(), $("#password-input").val(), $("#isoCountryLog").val());
         }
     </script>
