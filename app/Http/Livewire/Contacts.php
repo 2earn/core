@@ -239,7 +239,6 @@ class Contacts extends Component
         }
     }
 
-
     public function deleteId($id)
     {
         $existeuser = ContactUser::where('id', $id)->delete();

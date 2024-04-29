@@ -829,6 +829,7 @@ class="btn btn-ghost-success waves-effect waves-light sh"  >
             ->rawColumns(['action', 'flag', 'SoldeCB', 'SoldeBFS', 'SoldeDB', 'SoldeSMS', 'SoldeSH'])
             ->make(true);
     }
+
     public function validatePhone(req $request)
     {
         $phoneNumber = $request->input('phoneNumber');
@@ -840,7 +841,7 @@ class="btn btn-ghost-success waves-effect waves-light sh"  >
             $phone->formatForCountry($country->apha2);
             return new JsonResponse(['message' => ''], 200);
         } catch (\Exception $exp) {
-            return new JsonResponse(['message' => $exp->getMessage()], 200);
+            return new JsonResponse(['message' => Lang::get($exp->getMessage())], 200);
         }
     }
 
