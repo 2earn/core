@@ -295,7 +295,7 @@
                 "_token": "{{ csrf_token() }}"
             },
             success: function(response) {
-                //window.livewire.emit('save', inputphone.value.trim(), inputname.value.trim(), out);
+                window.livewire.emit('save', inputphone.value.trim(), inputname.value.trim(), out);
                 console.log(response);
                 errorMsg.innerHTML = "";
                 errorMsg.classList.add("hide");
