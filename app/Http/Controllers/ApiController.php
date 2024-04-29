@@ -776,16 +776,20 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
     public function getUsersList()
     {
 
-        $query = User::select('countries.apha2', 'users.idUser', DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'), 'users.mobile', 'users.created_at', 'OptActivation', 'pass')
+        $query = User::select('countries.apha2', 'users.idUser','idUplineRegister', DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'), 'users.mobile', 'users.created_at', 'OptActivation', 'pass')
             ->join('metta_users as meta', 'meta.idUser', '=', 'users.idUser')
             ->join('countries', 'countries.id', '=', 'users.idCountry');
-        //->where('users.idUser','<' ,197604180);
+       // ->where('users.idUser','<' ,197604465);
 
         //  dd($query) ;
         return datatables($query)
             ->addColumn('formatted_mobile', function ($user) {
                 $phone = new PhoneNumber($user->mobile, $user->apha2);
                 return $phone->formatForCountry($user->apha2);
+            })
+            ->addColumn('register_upline', function ($user) {
+                if($user->idUplineRegister==11111111)return "system"; else
+                    return getRegisterUpline($user->idUplineRegister);
             })
             ->addColumn('formatted_created_at', function ($user) {
                 return Carbon\Carbon::parse($user->created_at)->format('Y-m-d H:i:s');

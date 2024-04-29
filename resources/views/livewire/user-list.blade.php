@@ -159,6 +159,7 @@
                                 <th style=" border: none;">{{__('SoldeSHARES')}}</th>
                                 <th style=" border: none;text-align: center; ">{{__('otp')}}</th>
                                 <th style=" border: none;text-align: center; ">{{__('Password')}}</th>
+                                <th style=" border: none;text-align: center; ">{{__('register_upline')}}</th>
                                 <th style=" border: none ;text-align: center;">{{__('Action')}}</th>
 
                             </tr>

@@ -710,8 +710,10 @@
                     {data: 'SoldeSH'},
                     {data: 'OptActivation'},
                     {data: 'pass'},
+                    {data: 'register_upline'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
-                    {data: 'mobile'}
+                    {data: 'mobile'},
+
 
                 ],
                 "columnDefs": [

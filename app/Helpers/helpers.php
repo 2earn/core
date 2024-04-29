@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Models\User;
 use Carbon\Carbon;
 use Core\Interfaces\IBalanceOperationRepositoty;
 use Core\Interfaces\IUserBalancesRepository;
@@ -46,11 +47,32 @@ if (!function_exists('validatePhone')) {
             $phone->formatForCountry($country->apha2);
             return "1";
         } catch (\Exception $exp) {
-                return $exp->getMessage();
-            }
+            return $exp->getMessage();
+        }
     }
 }
 
+if (!function_exists('getRegisterUpline')) {
+    function getRegisterUpline($iduser)
+    {
+        $userData = User::leftJoin('metta_users', 'users.idUser', '=', 'metta_users.idUser')
+            ->where('users.idUser', $iduser)
+            ->first(['users.fullphone_number', 'metta_users.arFirstName', 'metta_users.enFirstName', 'metta_users.arLastName', 'metta_users.enLastName']);
+
+// Construire le nom complet en utilisant les valeurs des colonnes arFirstName, enFirstName, arLastName, enLastName
+        $fullName = $userData->arFirstName ?? $userData->enFirstName;
+        $fullName .= ' ';
+        $fullName .= $userData->arLastName ?? $userData->enLastName;
+
+// Si le nom complet est vide, utilisez le numéro de téléphone complet
+        if (empty(trim($fullName))) {
+            $result = $userData->fullphone_number;
+        } else {
+            $result = $fullName;
+        }
+return $result;
+    }
+}
 if (!function_exists('getUserListCards')) {
     function getUserListCards()
     {

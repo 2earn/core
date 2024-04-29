@@ -73,7 +73,7 @@ Route::get('/pdf', function (){
     {
 
 
-        $message->to('tounsi.ghazi@gmail.com')->subject('Invoice');
+        $message->to('khalil@2earn.cash')->subject('Invoice');
 
         $message->attachData($pdf->output(), "invoice.pdf");
     });
