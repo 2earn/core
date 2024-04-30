@@ -270,10 +270,10 @@
             <!-- container-fluid -->
         </div>
         <!-- End Page-content -->
-        @include('layouts.footer', ['pageName' => 'master'])
     </div>
     <!-- end main content-->
 </div>
+@include('layouts.footer', ['pageName' => 'master'])
 <!-- END layout-wrapper -->
 
 {{--@include('layouts.customizer')--}}
