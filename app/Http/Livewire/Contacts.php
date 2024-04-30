@@ -181,6 +181,7 @@ class Contacts extends Component
 
     public function initUserContact($id, settingsManager $settingsManager)
     {
+
         $this->settingsManager = $settingsManager;
         $ContactsUser = $this->settingsManager->getContactsUserById($id);
         if (!$ContactsUser) return;
@@ -201,9 +202,12 @@ class Contacts extends Component
             return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('danger') . $contact_user_exist->name . ' ' . $contact_user_exist->lastName);
         }
 
+
         try {
             $user = $settingsManager->getUserByFullNumber($fullNumber);
+
             if (!$user) {
+
                 $user = $settingsManager->createNewUser($this->mobile, $fullNumber, $ccode, auth()->user()->idUser);
             }
             $contact_user = $settingsManager->createNewContactUser($settingsManager->getAuthUser()->idUser, $this->contactName, $user->idUser, $this->contactLastName, $phone, $fullNumber, $ccode,);
