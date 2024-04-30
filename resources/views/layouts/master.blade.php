@@ -1785,7 +1785,6 @@
 
         function resetAddContact() {
             var phone = itiAddContact.getNumber();
-            console.log("init phone : " + phone)
             if (phone == "") {
                 phone = $("#pho").val();
             }
@@ -1797,7 +1796,6 @@
             if (!phone.startsWith('00' + countryData.dialCode)) {
                 phone = '00' + countryData.dialCode + phone;
             }
-            console.log("phone : " + phone)
             $("#outputAddContact").val(phone);
             // $("#output").val(phone);
             // window.livewire.emit('changefullNumber', phone);
