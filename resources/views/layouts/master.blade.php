@@ -270,10 +270,10 @@
             <!-- container-fluid -->
         </div>
         <!-- End Page-content -->
-        @include('layouts.footer', ['pageName' => 'master'])
     </div>
     <!-- end main content-->
 </div>
+@include('layouts.footer', ['pageName' => 'master'])
 <!-- END layout-wrapper -->
 
 {{--@include('layouts.customizer')--}}
@@ -1629,11 +1629,6 @@
             errorMsg.classList.add("invisible");
             validMsg.classList.add("invisible");
             $("#submit_phone").prop("disabled", true);
-            // input.classList.remove("error");
-            // errorMsg.innerHTML = "";
-            // errorMsg.classList.add("hide");
-            // validMsg.classList.add("hide");
-            // $("#submit_form").prop("disabled", false);
             var phone = itiUpPhone.getNumber();
             var textNode = document.createTextNode(phone);
             phone = phone.replace('+', '00');
@@ -1680,46 +1675,6 @@
             }
         };
 
-        // function resetAddContact2() {
-        //     var phone2 = itiAdd2Contact.getNumber();
-        //     // alert(phone);
-        //     var textNode = document.createTextNode(phone2);
-        //     // console.log('phone333', phone2);
-        //     phone2 = phone2.replace('+', '00');
-        //     mobile2 = $("#phoneAdd2Contact").val();
-        //     var countryData2 = itiAdd2Contact.getSelectedCountryData();
-        //     phone2 = '00' + countryData2.dialCode + phone2;
-        //     // console.log(phone2);
-        //     $("#outputAdd2Contact").val(phone2);
-        //     // $("#output").val(phone);
-        //     // window.livewire.emit('changefullNumber', phone);
-        //     // window.livewire.emit('changefullNumber');
-        //     $("#ccodeAdd2Contact").val(countryData2.dialCode);
-        //     // $("#ccodelog").val(countryData.dialCode);
-        //     // fullphone = $("#output").val();
-        //     // console.log("dqsd" + inputAdd2Contact.value);
-        //     if (inputAdd2Contact.value.trim()) {
-        //         // console.log(itiAdd2Contact.isValidNumber());
-        //         if (itiAdd2Contact.isValidNumber()) {
-        //             // validMsg.classList.add("invisible");
-        //             errorMsg.classList.add("invisible");
-        //             $("#SubmitAdd2Contact").prop("disabled", false);
-        //
-        //         } else {
-        //             $("#SubmitAdd2Contact").prop("disabled", true);
-        //             inputAdd2Contact.classList.add("error");
-        //             var errorCode = itiAdd2Contact.getValidationError();
-        //             errorMsg.innerHTML = errorMap[errorCode];
-        //             errorMsg.classList.remove("invisible");
-        //         }
-        //     } else {
-        //         $("#SubmitAdd2Contact").prop("disabled", true);
-        //         inputAdd2Contact.classList.remove("error");
-        //         var errorCode = itiAdd2Contact.getValidationError();
-        //         errorMsg.innerHTML = errorMap[errorCode];
-        //         errorMsg.classList.add("invisible");
-        //     }
-        // };
         if (pathPage == 'Contacts') {
             inputlog = document.querySelector("#ipAdd2Contact");
             var itiLog = window.intlTelInput(inputlog, {
@@ -1755,7 +1710,7 @@
             ipAddContact.innerHTML = "<div class='input-group-prepend'> " +
                 "</div><input wire:model.defer='phoneNumber' type='tel' name='phoneAddContact' id='phoneAddContact' class='form-control' onpaste='handlePaste(event)'" +
                 "placeholder='Mobile Number'><span id='valid-msgAddContact' class='invisible'>✓ Valid</span><span id='error-msgAddContact' class='hide'></span>" +
-                " <input type='hidden' name='fullnumber' id='outputAddContact' class='form-control'><input type='hidden' name='ccodeAddContact' id='ccodeAddContact'>";
+                "<input type='hidden' name='fullnumber' id='outputAddContact' class='form-control'><input type='hidden' name='ccodeAddContact' id='ccodeAddContact'>";
 
             var countryDataAddContact = window.intlTelInputGlobals.getCountryData(),
                 inputAddContact = document.querySelector("#phoneAddContact");
@@ -1831,14 +1786,15 @@
         function resetAddContact() {
 
             var phone = itiAddContact.getNumber();
-            // alert(phone);
             var textNode = document.createTextNode(phone);
-            // console.log('phone333', phone);
             phone = phone.replace('+', '00');
+
             mobile = $("#phoneAddContact").val();
             var countryData = itiAddContact.getSelectedCountryData();
-            phone = '00' + countryData.dialCode + phone;
-            // console.log(phone);
+            if (!phone.startsWith('00' + countryData.dialCode)) {
+                phone = '00' + countryData.dialCode + phone;
+            }
+
             $("#outputAddContact").val(phone);
             // $("#output").val(phone);
             // window.livewire.emit('changefullNumber', phone);

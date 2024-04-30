@@ -39,8 +39,8 @@ class EditUserContact extends Component
             $user = $settingsManager->getUsers()->where('idUser', $settingsManager->getAuthUser()->idUser)->first();
             $phone = !empty($this->userCOntact->phonecode) ? $this->userCOntact->phonecode : $user->idCountry;
             $this->idContact = $type;
-            $country = strval(countrie::where('phonecode', $phone)->first()->apha2);
-            $this->phoneCode = $country;
+            $country = countrie::where('phonecode', $phone)->first()->apha2;
+            $this->phoneCode = strtolower($country);
         }
 
     }
@@ -58,10 +58,9 @@ class EditUserContact extends Component
 
     public function save($code, $fullnumber, $phone, settingsManager $settingsManager, TransactionManager $transactionManager)
     {
-        $fullphone_number = str_replace(' ', '', str_ends_with($fullnumber, $phone) ? $fullnumber : $fullnumber . $phone);
+        $fullphone_number = str_replace(' ', '', $fullnumber);
         $mobile = str_replace(' ', '', $phone);
         $user = $settingsManager->getUserByFullNumber($fullphone_number);
-
         if (!$user) {
             $user = $settingsManager->createNewUser($mobile, $fullphone_number, $code, auth()->user()->idUser);
         } else {
@@ -84,7 +83,7 @@ class EditUserContact extends Component
                 $transactionManager->beginTransaction();
                 $settingsManager->updateUserContactV2($this->idContact, $contact_user);
                 $transactionManager->commit();
-                return redirect()->route('contacts', app()->getLocale())->with('success',  Lang::get('User updated'));
+                return redirect()->route('contacts', app()->getLocale())->with('success', Lang::get('User updated') . ' : ' . $contact_user->name . ' ' . $contact_user->lastName . ' : ' . $contact_user->mobile);
             } catch (\Exception $exp) {
                 $transactionManager->rollback();
                 Session::flash('message', 'failed');

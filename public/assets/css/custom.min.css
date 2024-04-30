@@ -179,20 +179,28 @@ input[type=range]::-ms-fill-upper {
 }
 
 .footer {
-    position: static;
+    position: absolute;
     bottom: 0;
     z-index: 99 !important
 }
 
 .footer.master {
-    height: 100%
+    position: absolute;
+    bottom: 0;
+    height: 100px;
     color: #cdcdcd;
 }
+
 .footer.login {
-    height: 100%;
-    color: #FFF;
+    position: absolute;
+    bottom: 0;
+    height: 100px;
+    color: #cdcdcd;
 }
+
 .footer.register {
-    height: 100%
+    position: absolute;
+    bottom: 0;
+    height: 100px;
     color: #cdcdcd;
 }
