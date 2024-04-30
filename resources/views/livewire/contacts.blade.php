@@ -107,7 +107,7 @@
                         </td>
                         <td>
                             <div class="btn-group btn-group-toggle " data-toggle="buttons">
-                                <a class="d-none" href="{{ route('editContact', ['locale' =>  app()->getLocale(), 'UserContact'=>  $value->id  ]) }}"
+                                <a href="{{ route('editContact', ['locale' =>  app()->getLocale(), 'UserContact'=>  $value->id  ]) }}"
                                    class="btn btn-outline-primary ">
                                     {{__('Edit')}}
                                 </a>

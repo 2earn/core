@@ -108,7 +108,7 @@ class Contacts extends Component
                     if ($user->purchasesNumber < $saleCcount->IntegerValue) {
                         $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('I am his sponsor') . " " . ($saleCcount->IntegerValue - $user->purchasesNumber) . "" . Lang::get('purchases left'), 'info', false, false);
                     } else {
-                        $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('I am his sponsor') . Lang::get('(No commissions)'), 'dark text-perple', false, false);
+                        $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('I am his sponsor no commissions') . Lang::get('(No commissions)'), 'dark text-perple', false, false);
                     }
                 } else {
                     if ($contactUser->idUpline == 11111111) {
@@ -181,7 +181,6 @@ class Contacts extends Component
 
     public function initUserContact($id, settingsManager $settingsManager)
     {
-
         $this->settingsManager = $settingsManager;
         $ContactsUser = $this->settingsManager->getContactsUserById($id);
         if (!$ContactsUser) return;
