@@ -93,7 +93,12 @@
                         </td>
                         <td>
                             <button type="button"
-                                    class="btn btn-outline-{{$value->color}}"> {{$value->status}}
+                                    class="btn btn-outline-{{$value->color}}">
+                                @if($value->status == 'User')
+                                    {{ __('User_contact') }}
+                                @else
+                                    {{ __('Pending_contact') }}
+                                @endif
                             </button>
                         </td>
                         @php
