@@ -201,7 +201,6 @@ class Contacts extends Component
             return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('danger') . $contact_user_exist->name . ' ' . $contact_user_exist->lastName);
         }
 
-
         try {
             $user = $settingsManager->getUserByFullNumber($fullNumber);
 
