@@ -185,7 +185,7 @@ input[type=range]::-ms-fill-upper {
 }
 
 .footer.master {
-    position: relative;
+    position: absolute;
     bottom: 0;
     height: 80px;
 }

@@ -44,10 +44,10 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">{{ __('Mobile_Number') }}</label>
-                                <div id="ipAddContact" data-turbolinks-permanent class="input-group signup mb-3">
+                                <div id="ipAddContact"  data-turbolinks-permanent class="input-group signup mb-3">
                                 </div>
-                                <input type="text" hidden id="pho" wire:model.defer="phoneNumber">
-                                <input type="text" hidden id="phoneAddContact" name="phoneAddContact">
+                                <input type="tel" hidden id="pho" wire:model.defer="phoneNumber" value="{{$phoneNumber}}">
+                                <input type="text" hidden id="phoneAddContact" name="phoneAddContact" value="{{$phoneNumber}}">
                                 <p hidden id="codecode">{{$phoneCode}}</p>
                             </div>
                         </div>
@@ -85,7 +85,5 @@
             else
                 alert("erreur number");
         }
-
-        let code = '{{$phoneCode}}';
     </script>
 </div>
