@@ -93,7 +93,12 @@
                         </td>
                         <td>
                             <button type="button"
-                                    class="btn btn-outline-{{$value->color}}"> {{$value->status}}
+                                    class="btn btn-outline-{{$value->color}}">
+                                @if($value->status == 'User')
+                                    {{ __('User_contact') }}
+                                @else
+                                    {{ __('Pending_contact') }}
+                                @endif
                             </button>
                         </td>
                         @php
@@ -107,7 +112,7 @@
                         </td>
                         <td>
                             <div class="btn-group btn-group-toggle " data-toggle="buttons">
-                                <a class="d-none" href="{{ route('editContact', ['locale' =>  app()->getLocale(), 'UserContact'=>  $value->id  ]) }}"
+                                <a href="{{ route('editContact', ['locale' =>  app()->getLocale(), 'UserContact'=>  $value->id  ]) }}"
                                    class="btn btn-outline-primary ">
                                     {{__('Edit')}}
                                 </a>
@@ -250,7 +255,27 @@
             window.livewire.emit('initNewUserContact');
         }
 
+        function validateAdd() {
+            var valid = true;
+            inputcontactName = document.getElementById("contactName");
+            inputcontactLastName = document.getElementById("contactLastName");
+            if (inputcontactName.value.trim() === "") {
+                inputcontactName.style.borderColor = '#FF0000';
+                valid = false;
+            } else {
+                inputcontactName.style.borderColor = '#008000';
+            }
+            if (inputcontactLastName.value.trim() === "") {
+                inputcontactLastName.style.borderColor = '#FF0000';
+                valid = false;
+            } else {
+                inputcontactLastName.style.borderColor = '#008000';
+            }
+            return valid;
+        }
+
         function saveContactEvent() {
+
             inputphone = document.getElementById("ipAdd2Contact");
             inputname = document.getElementById("ccodeAdd2Contact");
             inputlast = document.getElementById("outputAdd2Contact");
@@ -258,25 +283,23 @@
             var out = "00" + inputname.value.trim() + parseInt(inputphone.value.trim().replace(/\D/g, ''), 10);
             var phoneNumber = parseInt(inputphone.value.trim().replace(/\D/g, ''), 10);
             var inputName = inputname.value.trim();
-
-
-            // Envoi des données au serveur via une requête AJAX
-            $.ajax({
-                url: '{{ route('validate_phone') }}',
-                method: 'POST',
-                data: {phoneNumber: phoneNumber, inputName: inputName, "_token": "{{ csrf_token() }}"},
-                success: function (response) {
-                    if (response.message == "") {
-                        window.livewire.emit('save', phoneNumber, inputname.value.trim(), out);
-                        errorMsg.innerHTML = "";
-                        errorMsg.classList.add("hide");
-                    } else {
-                        errorMsg.innerHTML = response.message;
-                        errorMsg.classList.remove("hide");
+            if (validateAdd()) {
+                $.ajax({
+                    url: '{{ route('validate_phone') }}',
+                    method: 'POST',
+                    data: {phoneNumber: phoneNumber, inputName: inputName, "_token": "{{ csrf_token() }}"},
+                    success: function (response) {
+                        if (response.message == "") {
+                            window.livewire.emit('save', phoneNumber, inputname.value.trim(), out);
+                            errorMsg.innerHTML = "";
+                            errorMsg.classList.add("hide");
+                        } else {
+                            errorMsg.innerHTML = response.message;
+                            errorMsg.classList.remove("hide");
+                        }
                     }
-                }
-            });
-
+                });
+            }
         }
 
         function editContact(id) {
@@ -284,8 +307,6 @@
             window.livewire.emit('initUserContact', id);
         }
 
-        function updateContact() {
-        }
 
         function deleteContact(dd) {
             window.livewire.emit('deleteContact', dd);
