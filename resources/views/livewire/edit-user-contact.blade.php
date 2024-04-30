@@ -1,70 +1,70 @@
 <div>
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title" id="ContactsModalLabel">{{ __('Edit a contact') }}</h5>
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title" id="ContactsModalLabel">{{ __('Edit a contact') }}</h5>
+        </div>
+        @error('name') <span class="error alert-danger">{{ $message }}</span> @enderror
+        @error('lastName') <span class="error alert-danger  ">{{ $message }}</span> @enderror
+        @if(Session::has('message'))
+            <div class="alert alert-danger" role="alert">
+                {{ Session::get('message')}}
             </div>
-            @error('name') <span class="error alert-danger">{{ $message }}</span> @enderror
-            @error('lastName') <span class="error alert-danger  ">{{ $message }}</span> @enderror
-            @if(Session::has('message'))
-                <div class="alert alert-danger" role="alert">
-                    {{ Session::get('message')}}
-                </div>
-            @endif
-            <div class="card-body ">
-                <form id="basic-form" enctype="multipart/form-data">
-                    @csrf
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label">{{ __('Name') }}</label>
-                                <input id="inputNameContact" type="text"
-                                       class="form-control" name="name" wire:model.defer="nameUserContact"
-                                       placeholder="name ">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label">{{ __('Last Name') }}</label>
-                                <input id="inputlLastNameContact" type="text"
-                                       class="form-control" name=" " wire:model.defer="lastNameUserContact"
-                                       placeholder="name ">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label">{{ __('Mobile_Number') }}</label>
-                                <div id="ipAddContact" data-turbolinks-permanent class="input-group signup mb-3">
-                                </div>
-                                <input type="tel" hidden id="pho" wire:model.defer="phoneNumber">
-                                <p hidden id="codecode">{{$phoneCode}}</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <input type="text" name="idUser" hidden>
-                            <div class="col-md-12">
-                                    <button type="button" class="btn btn-outline-secondary"
-                                            wire:click="close">{{ __('Close') }}
-                                    </button>
-                                    <button type="button" id="SubmitAd3dContact" onclick="editContactEvent()"
-                                            class="btn btn-outline-info">
-                                        {{ __('Save') }}
-                                        <div wire:loading wire:target="save">
-                                            <span class="spinner-border spinner-border-sm" role="status"
-                                                  aria-hidden="true"></span>
-                                            <span class="sr-only">__('Loading')</span>
-                                        </div>
-                                    </button>
-                            </div>
+        @endif
+        <div class="card-body ">
+            <form id="basic-form" enctype="multipart/form-data">
+                @csrf
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">{{ __('Name') }}</label>
+                            <input id="inputNameContact" type="text"
+                                   class="form-control" name="name" wire:model.defer="nameUserContact"
+                                   placeholder="name ">
                         </div>
                     </div>
-                </form>
-            </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">{{ __('Last Name') }}</label>
+                            <input id="inputlLastNameContact" type="text"
+                                   class="form-control" name=" " wire:model.defer="lastNameUserContact"
+                                   placeholder="name ">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">{{ __('Mobile_Number') }}</label>
+                            <div id="ipAddContact" data-turbolinks-permanent class="input-group signup mb-3">
+                            </div>
+                            <input type="text" hidden id="pho" wire:model.defer="phoneNumber">
+                            <input type="text" hidden id="phoneAddContact" name="phoneAddContact">
+                            <p hidden id="codecode">{{$phoneCode}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <input type="text" name="idUser" hidden>
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-outline-secondary"
+                                    wire:click="close">{{ __('Close') }}
+                            </button>
+                            <button type="button" id="SubmitAd3dContact" onclick="editContactEvent()"
+                                    class="btn btn-outline-info">
+                                {{ __('Save') }}
+                                <div wire:loading wire:target="save">
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                  aria-hidden="true"></span>
+                                    <span class="sr-only">__('Loading')</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
+    </div>
     <script>
         var codePays = document.getElementById('codecode').textContent;
 
         function editContactEvent() {
-            window.livewire.emit('saveContact');
             ccode = document.getElementById("ccodeAddContact");
             fullNumber = document.getElementById("outputAddContact");
             phone = document.getElementById("phoneAddContact");

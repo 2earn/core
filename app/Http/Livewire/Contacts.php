@@ -24,8 +24,8 @@ class Contacts extends Component
     protected $paginationTheme = 'bootstrap';
 
     public $deleteId;
-    public string $name = "";
-    public string $lastName = "";
+    public string $contactName = "";
+    public string $contactLastName = "";
     public string $mobile = "";
     public ?string $search = "";
     public ?string $pageCount = "100";
@@ -179,47 +179,24 @@ class Contacts extends Component
         return $contactUser;
     }
 
-
-    public function delete(settingsManager $settingsManager)
-    {
-        User::find($this->deleteId)->delete();
-        $userC = $settingsManager->getUserContactsById($this->deleteId);
-        if (!$userC) return;
-        $userC->delete();
-        return redirect()->route('contacts', app()->getLocale());
-    }
-
-    public function deleteContact($id, settingsManager $settingsManager)
-    {
-        $userC = $settingsManager->getUserContactsById($id);
-        if (!$userC) return;
-        $userC->delete();
-        return redirect()->route('contacts', app()->getLocale());
-    }
-
     public function initUserContact($id, settingsManager $settingsManager)
     {
         $this->settingsManager = $settingsManager;
         $ContactsUser = $this->settingsManager->getContactsUserById($id);
         if (!$ContactsUser) return;
         $this->selectedContect = $id;
-        $this->name = $ContactsUser->name;
-        $this->lastName = is_null($ContactsUser->lastName) ? '' : $ContactsUser->lastName;
+        $this->contactName = $ContactsUser->name;
+        $this->contactLastName = is_null($ContactsUser->lastName) ? '' : $ContactsUser->lastName;
         $this->mobile = $ContactsUser->mobile;
         $country = DB::table('countries')->where('apha2', $ContactsUser->phonecode)->first();
     }
 
     public function save($phone, $ccode, $fullNumber, settingsManager $settingsManager, TransactionManager $transactionManager)
     {
-        $this->settingsManager = $settingsManager;
-        $this->transactionManager = $transactionManager;
-        $this->validate();
-
         $contact_user_exist = ContactUser::where('idUser', $settingsManager->getAuthUser()->idUser)
             ->where('mobile', $phone)
             ->where('phonecode', $ccode)
             ->get()->first();
-
         if ($contact_user_exist) {
             return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('danger') . $contact_user_exist->name . ' ' . $contact_user_exist->lastName);
         }
@@ -229,9 +206,9 @@ class Contacts extends Component
             if (!$user) {
                 $user = $settingsManager->createNewUser($this->mobile, $fullNumber, $ccode, auth()->user()->idUser);
             }
-            $contact_user = $settingsManager->createNewContactUser($settingsManager->getAuthUser()->idUser, $this->name, $user->idUser, $this->lastName, $phone, $fullNumber, $ccode,);
+            $contact_user = $settingsManager->createNewContactUser($settingsManager->getAuthUser()->idUser, $this->contactName, $user->idUser, $this->contactLastName, $phone, $fullNumber, $ccode,);
             $this->dispatchBrowserEvent('close-modal');
-            return redirect()->route('contacts', app()->getLocale())->with('success', Lang::get('User created successfully'));
+            return redirect()->route('contacts', app()->getLocale())->with('success', Lang::get('User created successfully') . ' : ' . $contact_user->name . ' ' . $contact_user->lastName . ' : ' . $contact_user->mobile);
 
         } catch (\Exception $exp) {
             if ($exp->getMessage() == "Number does not match the provided country.") {
@@ -253,9 +230,10 @@ class Contacts extends Component
 
     public function deleteId($id)
     {
-        $existeuser = ContactUser::where('id', $id)->delete();
-        $this->dispatchBrowserEvent('close-modal');
-        return redirect()->route('contacts', app()->getLocale());
+        $existeuser = ContactUser::find($id);
+        $message = Lang::get('User deleted successfully') . ' : ' . $existeuser->name . ' ' . $existeuser->lastName . ' : ' . $existeuser->mobile;
+        $existeuser->delete();
+        return redirect()->route('contacts', app()->getLocale())->with('success', $message);
     }
 
     public function removeSponsoring($id, settingsManager $settingsManager)
