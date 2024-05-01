@@ -10,6 +10,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use carbon;
 use Core\Enum\AmoutEnum;
 use Core\Enum\StatusRequst;
+use Core\Enum\TypeEventNotificationEnum;
+use Core\Enum\TypeNotificationEnum;
 use Core\Models\countrie;
 use Core\Models\detail_financial_request;
 use Core\Models\FinancialRequest;
@@ -39,7 +41,15 @@ left join users user on user.idUser = recharge_requests.idUser";
     public function __construct(private settingsManager $settingsManager, private BalancesManager $balancesManager, private UserRepository $userRepository)
     {
     }
+   public function SendSMS(Req $request,settingsManager $settingsManager)
+    {
 
+        $settingsManager->NotifyUser($request->user, TypeEventNotificationEnum::none, [
+            'msg' => $request->msg,
+            'type' => TypeNotificationEnum::SMS
+        ]);
+
+    }
 
     public function buyAction(Req $request, BalancesManager $balancesManager)
     {
@@ -375,7 +385,7 @@ left join users user on user.idUser = recharge_requests.idUser";
 
     }
 
-    public function handlePaymentNotification(Req $request)
+    public function handlePaymentNotification(Req $request, settingsManager $settingsManager)
     {
         //$ipnRequest= new IpnRequest($request);
         //$d= route('paytabs_notification1');
@@ -445,12 +455,23 @@ left join users user on user.idUser = recharge_requests.idUser";
         }
         $chaine = $data->cart_id;
         $user = explode('-', $chaine)[0];
+        $k = \Core\Models\Setting::Where('idSETTINGS', '30')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
+        $msg=$data->payment_result->response_message;
+             if ($data->success) {
+                 $msg=$msg." transfert de ".$data->tran_total.$data->cart_currency."(".$data->tran_total/$k."$)";
+             }
+        $idUser=$settingsManager->getUserByIdUser($user)->id;
+        $settingsManager->NotifyUser(2, TypeEventNotificationEnum::none, [
+            'msg' => $msg,
+            'type' => TypeNotificationEnum::SMS
+        ]);
+
         //dd($data->tran_type);
         if ($data->success) {
 
             $chaine = $data->cart_id;
             $user = explode('-', $chaine)[0];
-            $k = \Core\Models\Setting::Where('idSETTINGS', '30')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
+
 
             $old_value = DB::table('usercurrentbalances')
                 ->where('idUser', $user)
@@ -779,7 +800,7 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
         $query = User::select('countries.apha2', 'users.idUser','idUplineRegister', DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'), 'users.mobile', 'users.created_at', 'OptActivation', 'pass')
             ->join('metta_users as meta', 'meta.idUser', '=', 'users.idUser')
             ->join('countries', 'countries.id', '=', 'users.idCountry');
-       // ->where('users.idUser','<' ,197604465);
+        //->where('users.idUser','<' ,197604180);
 
         //  dd($query) ;
         return datatables($query)

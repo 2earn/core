@@ -1961,6 +1961,8 @@
         console.log($('#ammount').val());
         let reciver = $('#userlist-reciver').val();
         let ammount = $('#ammount').val();
+        let msg = "vous avez transferé "+ ammount + " $ à "+ reciver;
+        let user=126;
         $.ajax({
             url: "{{ route('addCash') }}",
             type: "POST",
@@ -1972,6 +1974,20 @@
             },
             success: function (data) {
                 console.log(data);
+                $.ajax({
+                    url: "{{ route('sendSMS') }}",
+                    type: "POST",
+
+                    data: {
+                        user: user,
+                        msg: msg,
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    success: function (data) {
+                        console.log(data);
+                    }
+
+                });
 
                 $('#AddCash').modal('hide');
                 Toastify({

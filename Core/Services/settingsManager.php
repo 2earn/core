@@ -437,6 +437,7 @@ class settingsManager
         $canSendNotificationSms = false;
         $canSendNotificationMail = false;
         $user = $this->getUserById($userId);
+
         if (isset($params['isoP'])) {
 
             $country = $this->getCountryByIso($params['isoP']);
@@ -806,6 +807,10 @@ class settingsManager
             case TypeEventNotificationEnum::NewContactNumber  :
 //                $PrefixMsg = "Welcome to the 2earn.cash concept.Congratulations, Your identification request was denied due to this invalid information: ";
                 $PrefixMsg = Lang::get('Prefix_MailNewContactNumber');
+                break;
+            case TypeEventNotificationEnum::none  :
+//                $PrefixMsg = "Welcome to the 2earn.cash concept.Congratulations, Your identification request was denied due to this invalid information: ";
+                $PrefixMsg = "";
                 break;
         }
 //                break;

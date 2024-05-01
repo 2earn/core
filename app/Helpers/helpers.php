@@ -3,8 +3,18 @@
 
 use App\Models\User;
 use Carbon\Carbon;
+use Core\Enum\OperateurSmsEnum;
+use Core\Enum\TypeEventNotificationEnum;
+use Core\Enum\TypeNotificationEnum;
 use Core\Interfaces\IBalanceOperationRepositoty;
 use Core\Interfaces\IUserBalancesRepository;
+use Core\Models\MailOperator\StandardMailOperator;
+use Core\Models\Notification\DefaultNotification;
+use Core\Models\Notification\MailNotification;
+use Core\Models\Notification\SmsNotification;
+use Core\Models\SmsOperators\InternationalOperatorSms;
+use Core\Models\SmsOperators\SaSmsOperator;
+use Core\Models\SmsOperators\TunisieOperatorSms;
 use Core\Services\settingsManager;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request as Req;
@@ -199,6 +209,8 @@ if (!function_exists('getSwitchBlock')) {
         return $user ? $block : NULL;
     }
 }
+
+
 if (!function_exists('getGiftedActions')) {
     function getGiftedActions($actions)
     {
