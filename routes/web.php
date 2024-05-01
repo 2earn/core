@@ -121,6 +121,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('shares_sold', \App\Http\Livewire\SharesSold::class)->name('shares_sold');
         Route::get('edit_admin', \App\Http\Livewire\EditAdmin::class)->name('edit_admin');
         Route::get('countries_management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
+        Route::get('treeview', \App\Http\Livewire\treeview::class)->name('treeview');
 
         Route::get('user_balance_sms', UserBalanceSMS::class)->name('user_balance_sms');
         Route::get('user_balance_cb', UserBalanceCB::class)->name('user_balance_cb');
