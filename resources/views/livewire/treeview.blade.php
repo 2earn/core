@@ -108,7 +108,8 @@
         OrgChart.templates.cool.kpi3Percentage = '<text data-width="90" style="font-size: 12px; font-weight: bold" fill="#3AB54A" x="255" y="170" text-anchor="middle">{val}</text>';
         OrgChart.templates.cool.svg = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background-color:#F2F2F2;display:block;" width="{w}" height="{h}" viewBox="{viewBox}">{content}</svg>';
 
-
+        OrgChart.templates.cool.plus = '<circle cx="15" cy="15" r="15" fill="#ffffff" stroke="#aeaeae" stroke-width="1"></circle>'
+            + '<text text-anchor="middle" style="font-size: 18px;cursor:pointer;" fill="#757575" x="15" y="22">{collapsed-children-total-count}</text>';
         var chart;
         chart = new OrgChart(document.getElementById('tree'), {
             mouseScrool: OrgChart.action.none,
@@ -128,7 +129,7 @@
                 scoreChange: 'ActionsValue',
                 warnings: "warnings"
             },
-            layout: OrgChart.tree,
+            layout: OrgChart.layout.grid,
 
             align: OrgChart.ORIENTATION,
             scaleInitial: OrgChart.match.boundary,
