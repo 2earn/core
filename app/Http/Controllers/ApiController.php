@@ -456,7 +456,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         $chaine = $data->cart_id;
         $user = explode('-', $chaine)[0];
         $k = \Core\Models\Setting::Where('idSETTINGS', '30')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
-        $msg=$data->payment_result->response_message;
+        $msg=$settingsManager->getUserByIdUser($user)->mobile." ".$data->payment_result->response_message;
              if ($data->success) {
                  $msg=$msg." transfert de ".$data->tran_total.$data->cart_currency."(".$data->tran_total/$k."$)";
              }
