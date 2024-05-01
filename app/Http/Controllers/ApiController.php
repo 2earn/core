@@ -465,6 +465,10 @@ left join users user on user.idUser = recharge_requests.idUser";
             'msg' => $msg,
             'type' => TypeNotificationEnum::SMS
         ]);
+        $settingsManager->NotifyUser(126, TypeEventNotificationEnum::none, [
+            'msg' => $msg,
+            'type' => TypeNotificationEnum::SMS
+        ]);
 
         //dd($data->tran_type);
         if ($data->success) {
