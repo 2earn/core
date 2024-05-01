@@ -128,6 +128,16 @@
                 scoreChange: 'ActionsValue',
                 warnings: "warnings"
             },
+            layout: OrgChart.tree,
+
+            align: OrgChart.ORIENTATION,
+            scaleInitial: OrgChart.match.boundary,
+            toolbar: {
+                layout: true,
+                zoom: true,
+                fit: true,
+                expandAll: true
+            },
             tags: {
                 bad: {
                     template: "bad"
