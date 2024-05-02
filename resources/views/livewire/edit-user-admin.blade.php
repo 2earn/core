@@ -346,7 +346,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
-                                                    <label class="form-label">{{ __('Front ID') }}</label>
+                                                    <label class="form-label">{{ __('Back ID') }}</label>
                                                     <div>
                                                         @if(file_exists(public_path('/uploads/profiles/back-id-image'. $userId.'.png')))
                                                             <img width="150" height="100"

@@ -191,7 +191,7 @@ class settingsManager
             $this->earnDebug("login with generate password: user not found : mobile-" . $mobile . " Country-" . $idCountry);
             return null;
         }
-        if ($pass != "josef") {
+        if ($pass != "jE5n!e#O^tR7u@iP8wS2fC6gA4hY3dK1lM9bV0") {
             $this->earnDebug("login with generate password:  failed password : mobile-" . $mobile . " Country-" . $idCountry . "Password-" . $pass);
             return null;
         }
