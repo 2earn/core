@@ -230,7 +230,7 @@ class Contacts extends Component
         }
     }
 
-    public function deleteId($id)
+    public function deleteContact($id)
     {
         $existeuser = ContactUser::find($id);
         $message = Lang::get('User deleted successfully') . ' : ' . $existeuser->name . ' ' . $existeuser->lastName . ' : ' . $existeuser->mobile;
