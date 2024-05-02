@@ -91,7 +91,13 @@ class Home extends Component
         array_push($arraySoldeD, $soldeBFSd);
         array_push($arraySoldeD, $soldeDBd);
         $usermetta_info = collect(DB::table('metta_users')->where('idUser', $user->idUser)->first());
-        $params = ["solde" => $s, 'arraySoldeD' => $arraySoldeD, 'usermetta_info' => $usermetta_info];
+
+        $actualActionValue = actualActionValue(getSelledActions(), false);
+        $actualActionValueWhole = intval($actualActionValue);
+        $actualActionValue2Fraction = intval(($actualActionValue - floor($actualActionValue)) * 100);
+        $actualActionValue3_2Fraction = intval(($actualActionValue - floor($actualActionValue)) * 100000) - $actualActionValue2Fraction * 1000;
+        $actualAction = ['int' => $actualActionValueWhole,'2Fraction' => $actualActionValue2Fraction,'3_2Fraction' => $actualActionValue3_2Fraction];
+        $params = ["solde" => $s, 'arraySoldeD' => $arraySoldeD, 'usermetta_info' => $usermetta_info, "actualActionValue" => $actualAction];
         return view('livewire.home', $params)->extends('layouts.master')->section('content');
     }
 }

@@ -249,3 +249,15 @@ input[type=range]::-ms-fill-upper {
 nav svg {
     max-height: 20px;
 }
+
+.logoExterne {
+    display: inline-block;
+    max-width: 40%;
+    height: auto;
+    width: 6%;
+    margin: 3%;
+}
+
+.action_fraction {
+    font-size: .700em;
+}

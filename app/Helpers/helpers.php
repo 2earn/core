@@ -80,7 +80,7 @@ if (!function_exists('getRegisterUpline')) {
         } else {
             $result = $fullName;
         }
-return $result;
+        return $result;
     }
 }
 if (!function_exists('getUserListCards')) {
@@ -226,14 +226,14 @@ if (!function_exists('getGiftedActions')) {
 }
 
 if (!function_exists('actualActionValue')) {
-    function actualActionValue($selled_actions)
+    function actualActionValue($selled_actions, $formated = true)
     {
         $setting = \Core\Models\Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
         $initial_value = $setting[0];
         $final_value = $setting[1];
         $total_actions = $setting[2];
         $x = ($final_value - $initial_value) / ($total_actions - 1) * ($selled_actions + 1) + ($initial_value - ($final_value - $initial_value) / ($total_actions - 1));
-        return number_format($x, 2, '.', '') * 1;
+        return $formated ? number_format($x, 2, '.', '') * 1 : $x;
     }
 }
 
