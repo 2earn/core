@@ -12,12 +12,11 @@ use phpDocumentor\Reflection\Types\Collection;
 
 class  UserBalancesRepository implements IUserBalancesRepository
 {
+    const SOLD_INIT = 0.00;
 
     public function getBalance($idUser): calculated_userbalances
     {
         $calculetedUserBalances = new  calculated_userbalances;
-
-
         $solde = DB::select("  select * from (
  SELECT
         b.idUser AS idUser,
@@ -53,23 +52,25 @@ class  UserBalancesRepository implements IUserBalancesRepository
             $calculetedUserBalances->soldeT = $solde->where("idamounts", "4")->first()->solde;
             $calculetedUserBalances->soldeSMS = $solde->where("idamounts", "5")->first()->solde;
 
-
-            $calculetedUserBalances->soldeCB = number_format(floatval($calculetedUserBalances->soldeCB), 2, '.', '');
-            $calculetedUserBalances->soldeBFS = number_format(floatval($calculetedUserBalances->soldeBFS), 2, '.', '');
-            $calculetedUserBalances->soldeDB = number_format(floatval($calculetedUserBalances->soldeDB), 2, '.', '');
-            $calculetedUserBalances->soldeT = number_format(floatval($calculetedUserBalances->soldeT), 2, '.', '');
-            $calculetedUserBalances->soldeSMS = number_format(floatval($calculetedUserBalances->soldeSMS), 0, '.', '');
-//             dd($calculetedUserBalances->soldeBFS) ;
-
+            $calculetedUserBalances->soldeCB = $this->formatSolde($calculetedUserBalances->soldeCB);
+            $calculetedUserBalances->soldeBFS = $this->formatSolde($calculetedUserBalances->soldeBFS);
+            $calculetedUserBalances->soldeDB = $this->formatSolde($calculetedUserBalances->soldeDB);
+            $calculetedUserBalances->soldeT = $this->formatSolde($calculetedUserBalances->soldeT);
+            $calculetedUserBalances->soldeSMS = $this->formatSolde($calculetedUserBalances->soldeSMS);
         } else {
-            $calculetedUserBalances->soldeCB = 0.00;
-            $calculetedUserBalances->soldeBFS = 0.00;
-            $calculetedUserBalances->soldeDB = 0.00;
-            $calculetedUserBalances->soldeT = 0.00;
-            $calculetedUserBalances->soldeSMS = 0.00;
+            $calculetedUserBalances->soldeCB = self::SOLD_INIT;
+            $calculetedUserBalances->soldeBFS = self::SOLD_INIT;
+            $calculetedUserBalances->soldeDB = self::SOLD_INIT;
+            $calculetedUserBalances->soldeT = self::SOLD_INIT;
+            $calculetedUserBalances->soldeSMS = self::SOLD_INIT;
         }
 
         return $calculetedUserBalances;
+    }
+
+    public function formatSolde($solde)
+    {
+        return number_format(floatval($solde), 2, '.', '');
     }
 
     public function getCurrentBalance($idUser): calculated_userbalances
@@ -86,24 +87,16 @@ class  UserBalancesRepository implements IUserBalancesRepository
             $calculetedUserBalances->soldeDB = $solde->where("idamounts", "=", "3")->first()->dernier_value;
             $calculetedUserBalances->soldeT = $solde->where("idamounts", "4")->first()->dernier_value;
         } else {
-            $calculetedUserBalances->soldeCB = 0.00;
-            $calculetedUserBalances->soldeBFS = 0.00;
-            $calculetedUserBalances->soldeDB = 0.00;
-            $calculetedUserBalances->soldeT = 0.00;
+            $calculetedUserBalances->soldeCB = self::SOLD_INIT;
+            $calculetedUserBalances->soldeBFS = self::SOLD_INIT;
+            $calculetedUserBalances->soldeDB = self::SOLD_INIT;
+            $calculetedUserBalances->soldeT = self::SOLD_INIT;
         }
         return $calculetedUserBalances;
     }
 
-    public function inserUserBalancestGetId(
-        $ref,
-        BalanceOperationsEnum $operation,
-        $date,
-        $idSource,
-        $iduserupline,
-        $amount,
-        $value)
+    public function inserUserBalancestGetId($ref, BalanceOperationsEnum $operation, $date, $idSource, $iduserupline, $amount, $value)
     {
-
         $user_balance = new user_balance();
         $user_balance->ref = $ref;
         $user_balance->idBalancesOperation = $operation;
@@ -146,14 +139,9 @@ class  UserBalancesRepository implements IUserBalancesRepository
     ORDER BY b.idUser , b.idamounts) as liste  where  liste.idUser = ? and liste.idamounts = ? ", [$idUser, $idamount]);
 
         $solde = collect($solde);
-
         if ($solde->isNotEmpty()) {
             $soldeAmount = $solde->where("idamounts", "=", $idamount)->first()->solde;
         }
         return $soldeAmount;
     }
-
-
 }
-
-

@@ -197,7 +197,7 @@
                             <a data-turbolinks="false" href="{{route('translate', app()->getLocale())}}"
                                class="nav-link menu-link" data-bs-toggle="" role="button"
                                aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-flag-line"></i> <span>{{ __('Translate') }}</span>
+                                <i class="ri-translate"></i> <span>{{ __('Translate') }}</span>
                             </a>
                         </li>
                     @endif

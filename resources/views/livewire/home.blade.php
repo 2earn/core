@@ -151,26 +151,18 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('SMS Solde') }}</p>
+                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">{{ __('SMS Solde') }}</p>
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
-                                @if($discountBalance - $arraySoldeD[2] > 0)
-                                    <p class="text-success" style="max-height: 5px">
-                                        +{{$discountBalance - $arraySoldeD[2]}} <i
-                                            class="ri-arrow-right-up-line fs-13 align-middle"></i></p>
-                                @elseif($discountBalance - $arraySoldeD[2] < 0)
-                                    <p class="text-danger"
-                                       style="max-height: 5px">{{$discountBalance - $arraySoldeD[2]}} <i
-                                            class="ri-arrow-right-down-line fs-13 align-middle"></i></p>
-                                @endif
+                                {{$SMSBalance}}
                             </h5>
                         </div>
                     </div>
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
-                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">{{__('DPC')}}<span class="counter-value"
-                                                                                               data-target="{{$SMSBalance}}">0</span>
+                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                <span class="counter-value" data-target="{{$SMSBalance}}">{{$SMSBalance}}</span>
                             </h4>
                             <a href="{{route('user_balance_sms' , app()->getLocale() )}} "
                                class="text-decoration-underline">{{ __('see_details') }}</a>
@@ -197,7 +189,8 @@
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
-                                {{$actualActionValue['int']}},{{$actualActionValue['2Fraction']}}<small class="action_fraction">{{$actualActionValue['3_2Fraction']}}</small>
+                                {{$actualActionValue['int']}},{{$actualActionValue['2Fraction']}}<small
+                                    class="action_fraction">{{$actualActionValue['3_2Fraction']}}</small>
                                 <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
                             </h5>
                         </div>
