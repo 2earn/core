@@ -23,7 +23,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="2earn.cash" name="description"/>
     <meta content="Themesbrand" name="author"/>
-    <img src="{{ URL::asset('assets/images/2Earn.png') }}" alt="" height="60">
+    <img src="{{ URL::asset('assets/images/2Earn.png') }}" id="super-logo" alt="" height="60">
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.ico')}}">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>

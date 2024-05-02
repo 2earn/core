@@ -28,7 +28,7 @@
                     @yield('content')
                 </div> <!-- content -->
             </div>
-            @include('layouts.footer')
+            @include('layouts.footer', ['pageName' => 'layouts-master'])
         </div>
         <!-- ============================================================== -->
         <!-- End Right content here -->

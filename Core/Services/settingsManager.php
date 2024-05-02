@@ -4,8 +4,11 @@ namespace Core\Services;
 
 use App\Http\Traits\earnLog;
 use App\Http\Traits\earnTrait;
+
 //use App\Models\MettaUser;
+use App\Models\ContactUser;
 use App\Models\User;
+
 //use App\Models\UserEarn;
 use Carbon\Carbon;
 use Core\Enum\AmoutEnum;
@@ -32,9 +35,11 @@ use Core\Interfaces\IUserContactNumberRepository;
 use Core\Interfaces\IUserContactRepository;
 use Core\Interfaces\IUserRepository;
 use Core\Models\AuthenticatedUser;
+use Core\Models\countrie;
 use Core\Models\identificationuserrequest;
 use Core\Models\language;
 use Core\Models\metta_user;
+use Core\Models\Setting;
 use Core\Models\user_balance;
 use Core\Models\user_earn;
 use Core\Models\UserContact;
@@ -143,9 +148,19 @@ class settingsManager
         return $this->userRepository->addUserContact($userContact);
     }
 
+    public function addUserContactV2(ContactUser $contactUser)
+    {
+        return $this->userRepository->addUserContactV2($contactUser);
+    }
+
     public function updateUserContact(UserContact $userContact)
     {
         return $this->userRepository->updateUserContact($userContact);
+    }
+
+    public function updateUserContactV2($id, ContactUser $contactUser)
+    {
+        return $this->userRepository->updateUserContactV2($id, $contactUser);
     }
 
     public function addLanguage(language $language)
@@ -153,9 +168,19 @@ class settingsManager
         return $this->languageRepository->addLanguage($language);
     }
 
+    public function getLanguageByPrefix(string $prefix)
+    {
+        return $this->languageRepository->getLanguageByPrefix($prefix);
+    }
+
     public function getUserContactsById($id)
     {
         return $this->userRepository->getUserContactsById($id);
+    }
+
+    public function getContactsUserById($id)
+    {
+        return $this->userRepository->getContactsUserById($id);
     }
 
     public function loginWithGeneratePass($mobile, $idCountry, $pass)
@@ -263,8 +288,8 @@ class settingsManager
     {
         $metta = new  metta_user();
         $metta->idUser = $user->idUser;
-//        $country = $this->getCountrieById($user->idCountry);
-        $countrie_earn = DB::table('countries')->where('phonecode',  $user->id_phone)->first();
+        $metta->idCountry = $user->idCountry;
+        $countrie_earn = DB::table('countries')->where('phonecode', $user->id_phone)->first();
         foreach (LanguageEnum::cases() as $lanque) {
             if ($lanque->name == $countrie_earn->langage) {
                 $metta->idLanguage = $lanque->value;
@@ -276,11 +301,27 @@ class settingsManager
 
     public function createUserContactNumber(User $user, $iso)
     {
-        if(!UserContactNumber::where('mobile',$user->mobile)
-            ->where('idUser',$user->idUser)
-            ->where('codeP',$user->idCountry)
-            ->exists()){
+        if (!UserContactNumber::where('mobile', $user->mobile)
+            ->where('idUser', $user->idUser)
+            ->where('codeP', $user->idCountry)
+            ->exists()) {
             UserContactNumber::Create([
+                'idUser' => $user->idUser,
+                'mobile' => $user->mobile,
+                'codeP' => $user->idCountry,
+                'active' => 1,
+                'isoP' => strtolower($iso),
+                'isID' => true,
+                'fullNumber' => $user->fullphone_number,
+            ]);
+        }
+    }
+
+    public function updateUserContactNumber(User $user, $iso)
+    {
+        $userContactNumber = UserContactNumber::where('idUser', $user->idUser)->get();
+        if ($userContactNumber) {
+            $userContactNumber->update([
                 'idUser' => $user->idUser,
                 'mobile' => $user->mobile,
                 'codeP' => $user->idCountry,
@@ -289,16 +330,8 @@ class settingsManager
                 'isID' => true,
                 'fullNumber' => $user->fullphone_number,
             ]);
+            $userContactNumber->save();
         }
-//        $contactNumber = UserContactNumber::create([
-//            'idUser' => $user->idUser,
-//            'mobile' => $user->mobile,
-//            'codeP' => $user->idCountry,
-//            'active' => 1,
-//            'isoP' => $iso,
-//            'isID' => true,
-//            'fullNumber' => $user->fullphone_number,
-//        ]);
     }
 
     public function createUserContactNumberByProp($idUser, $mobile, $idCountry, $iso, $fullNumber)
@@ -321,7 +354,6 @@ class settingsManager
         $userearn->idUser = $user->idUser;
 
         $userearn->mobile = $user->mobile;
-        // dd($request->fullnumber);
         $userearn->fullphone_number = $user->fullphone_number;
         $userearn->registred_at = date('Y-m-d H:i:s');
         $userearn->registred_from = 3;
@@ -334,7 +366,6 @@ class settingsManager
         $userearn->diallingCode = 0;
         $userearn->idCountry = $ccode;
         $userearn->isCountryRepresentative = 0;
-        // dd($userearn->idUser);
         $userearn->idUpline = $user->idUpline;
         return $this->userRepository->createUserEarn($userearn);
     }
@@ -374,6 +405,7 @@ class settingsManager
 //        }
 //        return $NotificationUserSetting = $this->getUserNotificationSetting($idUser);
 //    }
+
     /**
      * Returns void
      *
@@ -405,6 +437,7 @@ class settingsManager
         $canSendNotificationSms = false;
         $canSendNotificationMail = false;
         $user = $this->getUserById($userId);
+
         if (isset($params['isoP'])) {
 
             $country = $this->getCountryByIso($params['isoP']);
@@ -417,7 +450,6 @@ class settingsManager
             $fullNumber = $userContactActif->fullNumber;
 
         }
-        //dd($userContactActif);
         $idCountry = $country->phonecode;
         $this->earnDebugSms("User id - " . $user->idUser);
         $user_notif = $this->getUserNotificationSetting($user->idUser);
@@ -433,7 +465,6 @@ class settingsManager
         $user_notif = $this->getUserNotificationSetting($user->idUser);
 
         if (isset($params['fullNumber'])) {
-//            dd('fsdfsdf');
             $fullNumber = $params['fullNumber'];
         }
 
@@ -665,18 +696,17 @@ class settingsManager
 
             $lang = app()->getLocale();
 
-            if($uMetta && $uMetta->idLanguage != null )
-            {
+            if ($uMetta && $uMetta->idLanguage != null) {
 
-                $language = language::where('name',$uMetta->idLanguage)->first();
+                $language = language::where('name', $uMetta->idLanguage)->first();
 
-                $lang = $language->PrefixLanguage ;
+                $lang = $language->PrefixLanguage;
             }
             $this->NotifyUser($user->id, TypeEventNotificationEnum::RequestDenied, [
                 'msg' => $note,
                 'type' => TypeNotificationEnum::SMS,
                 'canSendSMS' => 1,
-                'lang'=>$lang
+                'lang' => $lang
             ]);
         }
     }
@@ -697,19 +727,18 @@ class settingsManager
 
         if (($user->iden_notif == 1)) {
             $lang = app()->getLocale();
-            if($uMetta && $uMetta->idLanguage != null )
-            {
+            if ($uMetta && $uMetta->idLanguage != null) {
 
-                $language = language::where('name',$uMetta->idLanguage)->first();
+                $language = language::where('name', $uMetta->idLanguage)->first();
 
-                $lang = $language->PrefixLanguage ;
+                $lang = $language->PrefixLanguage;
             }
 
             $this->NotifyUser($user->id, TypeEventNotificationEnum::RequestAccepted, [
                 'msg' => " ",
                 'type' => TypeNotificationEnum::SMS,
                 'canSendSMS' => 1,
-                'lang'=>$lang
+                'lang' => $lang
             ]);
         }
 //        $user = User::where('idUser',$idUser)->first();
@@ -778,6 +807,10 @@ class settingsManager
             case TypeEventNotificationEnum::NewContactNumber  :
 //                $PrefixMsg = "Welcome to the 2earn.cash concept.Congratulations, Your identification request was denied due to this invalid information: ";
                 $PrefixMsg = Lang::get('Prefix_MailNewContactNumber');
+                break;
+            case TypeEventNotificationEnum::none  :
+//                $PrefixMsg = "Welcome to the 2earn.cash concept.Congratulations, Your identification request was denied due to this invalid information: ";
+                $PrefixMsg = "";
                 break;
         }
 //                break;
@@ -899,10 +932,12 @@ class settingsManager
     {
         return $this->userRepository->getConditionalMettaUser($Attribute, $value);
     }
+
     public function getConditionalUser($Attribute, $value)
     {
         return $this->userRepository->getConditionalUser($Attribute, $value);
     }
+
     public function getIdentificationRequestNombre()
     {
     }
@@ -940,4 +975,73 @@ class settingsManager
     {
         return $this->userContactNumberRepository->getIDNumber($idUser);
     }
+
+    public function initNewUser()
+    {
+        return $this->userRepository->initNewUser();
+    }
+
+    public function createNewUser($mobile, $fullphone_number, $id_phone, $idUplineRegister)
+    {
+        $user = $this->userRepository->createNewUser($mobile, $fullphone_number, $id_phone, $idUplineRegister);
+        $this->createMettaUser($user);
+        $country = countrie::find($user->idCountry);
+        $this->createUserContactNumber($user, $country->apha2);
+        return $user;
+    }
+
+    public function updateUser($user, $mobile, $fullphone_number, $id_phone, $idUplineRegister)
+    {
+        return $this->createNewUser($mobile, $fullphone_number, $id_phone, $idUplineRegister);
+    }
+
+    public function createNewContactUser($idUser, $name, $idContact, $lastName, $mobile, $fullphone, $phonecode)
+    {
+        $contact_user = new ContactUser([
+            'idUser' => $idUser,
+            'name' => $name,
+            'idContact' => $idContact,
+            'lastName' => $lastName,
+            'mobile' => $mobile,
+            'fullphone_number' => $fullphone,
+            'phonecode' => $phonecode,
+            'availablity' => '0',
+            'disponible' => 1
+        ]);
+        $contact_user->save();
+        return $contact_user;
+    }
+
+    /**
+     * @param ContactUser $contactUser
+     * @return null
+     */
+    public function getUserContactV2(ContactUser $contactUser)
+    {
+        return $this->userRepository->updateUserContactV2($contactUser);
+    }
+
+    public function getUserByIdUser($idUser)
+    {
+        return $this->userRepository->getUserByIdUser($idUser);
+    }
+
+    public function addSponsoring($upLine, $downLine)
+    {
+        return $this->userRepository->addSponsoring($upLine, $downLine);
+    }
+
+    public function removeSponsoring($idUser)
+    {
+        $reservation = Setting::find(25);
+        return $this->userRepository->removeSponsoring($idUser, $reservation->IntegerValue);
+    }
+
+    public function checkCanSponsorship()
+    {
+        $maxSponsorship = Setting::find(33);
+        $reservation = Setting::find(25);
+        return $this->userRepository->checkCanSponsorship(\auth()->user()->idUser, $reservation->IntegerValue, $maxSponsorship->IntegerValue);
+    }
+
 }

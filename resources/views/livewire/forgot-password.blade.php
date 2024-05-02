@@ -4,18 +4,13 @@
             width: 100% !important;
         }
         .footer {
-
-
             height: auto !important;
-
         }
     </style>
     <meta name="turbolinks-visit-control" content="reload">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script>
-
-        // $(document).on('ready turbolinks:load', function () {
         var exist = '{{Session::has('ErrorOptCodeForget')}}';
 
         if (exist) {
@@ -33,12 +28,7 @@
         }
         var exist = '{{Session::has('ErrorUserFound')}}';
         if (exist) {
-            {{--                alert('{{Session::get('ErrorUserFound')}}') ;--}}
             var msg =  '{{Session::get('ErrorUserFound')}}' ;
-            {{--var local = '{{Session::has('locale')}}';--}}
-            {{--if (local == 'ar') {--}}
-            {{--    msg = " غير صحيح !";--}}
-            {{--}--}}
             Swal.fire({
                 title: ' ',
                 text: msg,
@@ -49,12 +39,8 @@
                     window.location.reload();
                 }
             });
-        }
-
-    </script>
-
+        }</script>
     <div class="auth-page-wrapper pt-5">
-        <!-- auth page bg -->
         <div class="auth-one-bg-position auth-one-bg" id="auth-particles">
             <div class="bg-overlay"></div>
 
@@ -65,11 +51,10 @@
                 </svg>
             </div>
         </div>
-        <!-- auth page content -->
         <div class="auth-page-content">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12 mb-2">
                         <div class="text-center mt-sm-5 mb-4 text-white-50">
                             <div>
                                 <a href="{{route('login',app()->getLocale())}}" class="d-inline-block auth-logo">
@@ -80,23 +65,17 @@
                         </div>
                     </div>
                 </div>
-                <!-- end row -->
-
                 <div class="row justify-content-center">
                     <div class="col-md-8 col-lg-6 col-xl-5">
                         <div class="card mt-4">
-
                             <div class="card-body p-4">
                                 <div class="text-center mt-2">
                                     <h5 class="text-primary">{{__('Forgot Password?')}}</h5>
                                     <p class="text-muted">{{__('Reset password with 2earn')}}</p>
-
                                     <lord-icon src="https://cdn.lordicon.com/rhvddzym.json" trigger="loop"
                                                colors="primary:#0ab39c" class="avatar-xl">
                                     </lord-icon>
-
                                 </div>
-
                                 <div class="alert alert-borderless alert-warning text-center mb-2 mx-2" role="alert">
                                     {{__('Enter your mobile  will be sent to you!')}}
                                 </div>
@@ -125,11 +104,9 @@
                                                 {{ __('Send') }}
                                             </button>
                                         </div>
-
-                                    </form><!-- end form -->
+                                    </form>
                                 </div>
                             </div>
-
                             <div class=" text-center mt-4" style="background-color: #FFFFFF">
                                 <nav class="">
                                     <ul style="display: inline-block;" class="logoLogin ">
@@ -175,7 +152,6 @@
                                         </button>
                                         @php
                                             $var = \Illuminate\Support\Facades\Route::currentRouteName() ;
-
                                         @endphp
                                         <div class="dropdown-menu dropdown-menu-end">
                                             @foreach (config('app.available_locales') as  $locale => $value )
@@ -195,62 +171,29 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
-                            <!-- end card body -->
                         </div>
-                        <!-- end card -->
-
                         <div class="mt-4 text-center">
                             <p class="mb-0">{{__('remember my password')}}<a href="{{route('login',['locale'=>app()->getLocale()])}}" class="fw-semibold text-primary text-decoration-underline">
                                   {{__('Click_here')}} </a></p>
                         </div>
-
                     </div>
                 </div>
-                <!-- end row -->
             </div>
-            <!-- end container -->
         </div>
-        <!-- end auth page content -->
-
-        <!-- footer -->
-        <footer class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="text-center">
-                            <div>
-                                <strong>2Earn.cash</strong> has been accepted into
-                                <a href="https://www.fastercapital.com">FasterCapital</a>'s
-                                <a href="https://fastercapital.com/raise-capital.html">Raise Capital</a> program and is seeking a capital of $2.5 million to be raised.
-                            </div>
-                              <div>@ Created by 2Earn.cash</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!-- end Footer -->
+        @include('layouts.footer', ['pageName' => 'forget'])
     </div>
-    <!-- end auth-page-wrapper -->
-
     <script>
         document.querySelector("#phoneforget").addEventListener("keypress", function (evt) {
-
             if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57) {
                 evt.preventDefault();
             }
         });
         function sendSmsEvent()
         {
-           // console.log($("#outputforget").val());
             window.livewire.emit('Presend',$("#ccodeforget").val(),$("#outputforget").val());
         }
-
         window.addEventListener('OptForgetPass',event=>{
-
             Swal.fire({
                 title: '{{ __('Your verification code') }}',
                 html: '{{ __('We_will_send') }}<br> ',
@@ -289,16 +232,5 @@
                 }
             })
         })
-
-        // function checkopt()
-        // {
-        //     window.livewire.emit('checkopt',$("#ccodeforget").val(),$("#outputforget").val());
-        // }
-        // function signupEvent()
-        // {
-        //     // alert("sdfsf");
-        //     window.livewire.emit('changefullNumber',$("#output").val(),$("#ccode").val());
-        // }
-
     </script>
 </div>

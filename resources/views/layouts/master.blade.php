@@ -9,7 +9,11 @@
     <script>
 
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         dataLayer.push({
             'user_id': '{{Auth()->user()->idUser}}',
             'phone_number': '{{Auth()->user()->fullphone_number}}'
@@ -19,43 +23,56 @@
 
     </script>
     <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-PMK39HQQ');</script>
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-PMK39HQQ');</script>
     <!-- End Google Tag Manager -->
     <script>
 
     </script>
     <style>
-    .partiel{
-        color: #fa896b;
-    }
+        .partiel {
+            color: #fa896b;
+        }
+
         .anychart-credits {
             display: none;
         }
 
-        #any1,#any2,#any3  {
+        #any1, #any2, #any3 {
             width: 100%;
-            height: 600px;
-        ;
+            height: 600px;;
             margin: 0;
             padding: 0;
         }
-        #any4,#any5  {
+
+        #any4, #any5 {
             width: 100%;
             height: 100%;
             min-height: 80%;
-            max-height: 95%;
-        ;
+            max-height: 95%;;
             margin: 0;
             padding: 0;
         }
+
         .install-app-btn-container {
             display: none;
         }
-        </style>
+
+        .hide {
+            display: none;
+        }
+    </style>
     <meta charset="utf-8"/>
     <title>@yield('title')| 2Earn.cash</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -78,9 +95,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
     <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
     <script src="https://cdn.anychart.com/releases/v8/js/anychart-sankey.min.js"></script>
-
-
-
 
 
     <!-- App favicon -->
@@ -118,7 +132,6 @@
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
 
 
-
     <script src="{{ URL::asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
@@ -140,12 +153,15 @@
 
     <style>
         @import url({{asset('/')."assets/icons/material-design-iconic-font/css/materialdesignicons.min.css"}});
-        .page-title-box-db{
-            background-color:  #009fe3!important;;
+
+        .page-title-box-db {
+            background-color: #009fe3 !important;;
         }
-        .page-title-box-bfs{
-                     background-color: #bc34b6!important;
+
+        .page-title-box-bfs {
+            background-color: #bc34b6 !important;
         }
+
         @font-face {
 
             font-family: 'iconearn';
@@ -201,8 +217,10 @@
 </script>
 @section('body')
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PMK39HQQ"
-                      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PMK39HQQ"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
     <!-- End Google Tag Manager (noscript) -->
     @include('layouts.body')
     <script src="{{ asset('/sw.js') }}"></script>
@@ -221,7 +239,7 @@
         /*.label_phone {*/
         /*    text-align: end;*/
         /*}*/
-        label, h1, h2, h3, h4,h5,h6, a, button, p, i, span, strong, .btn, div {
+        label, h1, h2, h3, h4, h5, h6, a, button, p, i, span, strong, .btn, div {
             font-family: ar400;
             font-weight: 500 !important;
         }
@@ -239,8 +257,8 @@
 <!-- Begin page -->
 <div id="layout-wrapper">
     <livewire:top-bar/>
-@include('layouts.sidebar')
-<!-- ============================================================== -->
+    @include('layouts.sidebar')
+    <!-- ============================================================== -->
     <!-- Start right Content here -->
     <!-- ============================================================== -->
     <div class="main-content">
@@ -252,10 +270,10 @@
             <!-- container-fluid -->
         </div>
         <!-- End Page-content -->
-        @include('layouts.footer')
     </div>
     <!-- end main content-->
 </div>
+@include('layouts.footer', ['pageName' => 'master'])
 <!-- END layout-wrapper -->
 
 {{--@include('layouts.customizer')--}}
@@ -294,7 +312,8 @@
 {{--<script src="{{ URL::asset('assets/js/pages/range-sliders.init.js') }}"></script>--}}
 <script>
     anychart.onDocumentReady(function () {
-        anychart.licenseKey('2earn.cash-953c5a55-712f04c3');});
+        anychart.licenseKey('2earn.cash-953c5a55-712f04c3');
+    });
     $(document).on('ready turbolinks:load', function () {
         var classAl = "text-end";
         var tts = '{{config('app.available_locales')[app()->getLocale()]['direction']}}';
@@ -303,7 +322,7 @@
         }
         var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";
         var urlLang = "//cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
-        var url='';
+        var url = '';
 
 
         $('#HistoryNotificationTable').DataTable(
@@ -406,10 +425,6 @@
                 paging: true,
                 "pageLength": 100,
                 "aLengthMenu": [[100, 500, 1000], [100, 500, 1000]],
-                //recherche avec entre key
-                // search: {
-                //     return: true
-                // },
                 "ajax": "{{route('API_UserContacts',app()->getLocale())}}",
                 "columns": [
                     {"data": "name"},
@@ -426,80 +441,53 @@
                         {
                             "targets": [5],
                             render: function (data, type, row) {
-
-
-
                                 var givenDate = new Date(row.reserved_at);
-                                  var delai=  (Date.now()-givenDate)/ (1000 * 60 * 60);
-
-
-                                if (Number(row.idUpline)!==0)
-                                {
-                                    if (row.idUpline==row.idUser)
+                                var delai = (Date.now() - givenDate) / (1000 * 60 * 60);
+                                if (Number(row.idUpline) !== 0) {
+                                    if (row.idUpline == row.idUser)
                                         return '<span class="badge bg-info-subtle text-info" data-id="' + row.id + '" data-phone="' + row.mobile +
                                             '">{{__('i am his sponsor')}}</span>';
                                     else
                                         return '<span class="badge bg-danger-subtle text-danger" data-id="' + row.id + '" data-phone="' + row.mobile +
                                             '">{{__('Already has a sponsor')}}</span>';
-                                }
-
-                                else{
-                                    if(Number(row.availablity) === 0)
+                                } else {
+                                    if (Number(row.availablity) === 0)
                                         return '<span class="badge bg-success-subtle text-success" data-id="' + row.id + '" data-phone="' + row.mobile +
                                             '">{{__('Available')}}</span>';
-
-                                    else
-                                    {
-                                        if (row.reserved_by==row.idUser)
-                                        {
-                                            if(delai<72)
-                                            {
-                                                var reste=72-delai;
+                                    else {
+                                        if (row.reserved_by == row.idUser) {
+                                            if (delai < 72) {
+                                                var reste = 72 - delai;
                                                 return '<span class="badge bg-warning-subtle text-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                                    '">{{__('reserved for')}} '+ reste.toFixed(0)+' {{__('hours')}}</span>';
-                                            }
-                                            else
-                                            {
-                                                var reste=72+168-delai;
+                                                    '">{{__('reserved for')}} ' + reste.toFixed(0) + ' {{__('hours')}}</span>';
+                                            } else {
+                                                var reste = 72 + 168 - delai;
                                                 return '<span class="badge bg-primary-subtle text-primary" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                                    '">{{__('blocked for')}} '+ reste.toFixed(0)+' {{__('hours')}}</span>';
+                                                    '">{{__('blocked for')}} ' + reste.toFixed(0) + ' {{__('hours')}}</span>';
                                             }
 
-                                        }
-                                        else
-                                        {
-                                            if(delai<72)
-                                            {
-                                                var reste=72-delai;
+                                        } else {
+                                            if (delai < 72) {
+                                                var reste = 72 - delai;
                                                 return '<span class="badge bg-warning-subtle text-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                                    '">{{__('reserved by other user for')}} '+ reste.toFixed(0)+' {{__('hours')}}</span>';
-                                            }
-                                            else
-                                            {
-
+                                                    '">{{__('reserved by other user for')}} ' + reste.toFixed(0) + ' {{__('hours')}}</span>';
+                                            } else {
                                                 return '<span class="badge bg-success-subtle text-success" data-id="' + row.id + '" data-phone="' + row.mobile +
                                                     '">{{__('Available')}}</span>';
                                             }
                                         }
-
-
                                     }
-
                                 }
-
-
                             },
-
                         },
-
-
-
                     ],
                 "language": {
                     "url": urlLang
                 }
             }
         );
+
+
         $('#userPurchase_table').DataTable(
             {
                 "ordering": false,
@@ -703,7 +691,7 @@
                 "order": [[0, 'desc']],
                 "processing": true,
                 "serverSide": false,
-                "aLengthMenu": [[100, 500, 1000],[100, 500, 1000]],
+                "aLengthMenu": [[100, 500, 1000], [100, 500, 1000]],
                 search: {
                     return: true
                 },
@@ -722,13 +710,15 @@
                     {data: 'SoldeSH'},
                     {data: 'OptActivation'},
                     {data: 'pass'},
+                    {data: 'register_upline'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
-                    {data: 'mobile'}
+                    {data: 'mobile'},
+
 
                 ],
                 "columnDefs": [
                     {
-                        "targets": [12],
+                        "targets": [13],
                         searchable: true,
                         visible: false
                     },
@@ -818,7 +808,6 @@
                     {data: 'TRANSFERT_MADE'},
 
 
-
                 ],
 
 
@@ -867,33 +856,31 @@
         );
 
 
-
-
         $('#shares-sold').DataTable(
             {
                 "ordering": true,
                 retrieve: true,
                 "colReorder": false,
-                 dom: 'Bfrtip',
+                dom: 'Bfrtip',
                 buttons: [
                     {
-                        extend:    'copyHtml5',
-                        text:      '<i class="ri-file-copy-2-line"></i>',
+                        extend: 'copyHtml5',
+                        text: '<i class="ri-file-copy-2-line"></i>',
                         titleAttr: 'Copy'
                     },
                     {
-                        extend:    'excelHtml5',
-                        text:      '<i class="ri-file-excel-2-line"></i>',
+                        extend: 'excelHtml5',
+                        text: '<i class="ri-file-excel-2-line"></i>',
                         titleAttr: 'Excel'
                     },
                     {
-                        extend:    'csvHtml5',
-                        text:      '<i class="ri-file-text-line"></i>',
+                        extend: 'csvHtml5',
+                        text: '<i class="ri-file-text-line"></i>',
                         titleAttr: 'CSV'
                     },
                     {
-                        extend:    'pdfHtml5',
-                        text:      '<i class="ri-file-pdf-line"></i>',
+                        extend: 'pdfHtml5',
+                        text: '<i class="ri-file-pdf-line"></i>',
                         titleAttr: 'PDF'
                     }
                 ],
@@ -904,7 +891,7 @@
                 "processing": true,
                 "serverSide": false,
                 "pageLength": 1000,
-                "aLengthMenu": [[10, 30, 50, 100,1000], [10, 30, 50, 100,1000]],
+                "aLengthMenu": [[10, 30, 50, 100, 1000], [10, 30, 50, 100, 1000]],
                 search: {
                     return: true
                 },
@@ -923,7 +910,7 @@
                     {
                         data: 'WinPurchaseAmount'
                     },
-                    { data: 'Balance', "className": 'editable' },
+                    {data: 'Balance', "className": 'editable'},
                     {data: 'total_price'},
                     {data: 'value'},
                     {data: 'gifted_shares'},
@@ -941,23 +928,21 @@
                             render: function (data, type, row) {
 
 
+                                if (Number(row.WinPurchaseAmount) === 1)
+                                    return '<span class="badge bg-success" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                        '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >Transfert Made</span>';
 
-                                    if (Number(row.WinPurchaseAmount)===1)
-                                       return '<span class="badge bg-success" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                           '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >Transfert Made</span>';
 
+                                if (Number(row.WinPurchaseAmount) === 0)
+                                    return '<span class="badge bg-danger" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                        '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >Free</span>';
 
-                                    if (Number(row.WinPurchaseAmount)===0)
-                                        return '<span class="badge bg-danger" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                            '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >Free</span>';
-
-                                    if (Number(row.WinPurchaseAmount)===2)
-                                        return '<span class="badge bg-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                            '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >Mixed</span>';
+                                if (Number(row.WinPurchaseAmount) === 2)
+                                    return '<span class="badge bg-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                        '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >Mixed</span>';
                             },
 
                         },
-
 
 
                     ],
@@ -975,19 +960,19 @@
             var phone = $(this).data('phone');
 
             var amount = String($(this).data('amount')).replace(',', '');
-            var asset= $(this).data('asset');
+            var asset = $(this).data('asset');
             //console.log(status);
 
             // Make an AJAX request to update the status
 
-                $('#realsold-country').attr('src', asset);
-                $('#realsold-reciver').attr('value', id);
-                $('#realsold-phone').attr('value', phone);
-                $('#realsold-ammount').attr('value', amount);
-                $('#realsold-ammount-total').attr('value', amount);
+            $('#realsold-country').attr('src', asset);
+            $('#realsold-reciver').attr('value', id);
+            $('#realsold-phone').attr('value', phone);
+            $('#realsold-ammount').attr('value', amount);
+            $('#realsold-ammount-total').attr('value', amount);
 
-                //console.log(reciver);
-                $('#realsoldmodif').modal('show');
+            //console.log(reciver);
+            $('#realsoldmodif').modal('show');
 
 
             fetchAndUpdateCardContent();
@@ -997,22 +982,22 @@
 
             //console.log( $('#realsold-reciver').val());
             //console.log( $('#realsold-ammount').val()) ;
-            let reciver=$('#realsold-reciver').val() ;
-            let ammount=$('#realsold-ammount').val() ;
-            let total=$('#realsold-ammount-total').val()
+            let reciver = $('#realsold-reciver').val();
+            let ammount = $('#realsold-ammount').val();
+            let total = $('#realsold-ammount-total').val()
             $.ajax({
                 url: "{{ route('update-balance-real') }}",
                 type: "POST",
 
                 data: {
                     total: total,
-                    amount:ammount ,
-                    id:reciver,
+                    amount: ammount,
+                    id: reciver,
                     "_token": "{{ csrf_token() }}"
                 },
-                success: function(data) {
-                   // console.log(data);
-                    if (ammount!==0){
+                success: function (data) {
+                    // console.log(data);
+                    if (ammount !== 0) {
 
                     }
                     $('#realsoldmodif').modal('hide');
@@ -1022,13 +1007,14 @@
 
             });
         });
+
         function fetchAndUpdateCardContent() {
             // Make an AJAX request to get the updated content
             $.ajax({
                 url: '{{ route('get-updated-card-content') }}', // Adjust the endpoint URL
                 method: 'GET',
                 success: function (data) {
-                   // console.log(data);
+                    // console.log(data);
                     $('#realrev').html('$' + data.value);
                 },
                 error: function (xhr, status, error) {
@@ -1111,17 +1097,17 @@
                             render: function (data, type, row) {
 
                                 if (row.ranks == 1)
-                                    if (row.idamount==1)
+                                    if (row.idamount == 1)
                                         return '<div class="logoTopCashLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
                                     else
                                         return '<div class="logoTopDBLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
                                 else
-                                    return  data ;
+                                    return data;
 
                             }
                         },
                         {
-                            "targets": [6,7],
+                            "targets": [6, 7],
                             searchable: false,
                             visible: false
                         },
@@ -1136,11 +1122,6 @@
                 }
             }
         );
-
-
-
-
-
 
 
         $('#userBalanceDB_table').DataTable(
@@ -1213,17 +1194,17 @@
                             render: function (data, type, row) {
 
                                 if (row.ranks == 1)
-                                    if (row.idamount==1)
+                                    if (row.idamount == 1)
                                         return '<div class="logoTopCashLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
                                     else
                                         return '<div class="logoTopDBLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
                                 else
-                                    return  data ;
+                                    return data;
 
                             }
                         },
                         {
-                            "targets": [6,7],
+                            "targets": [6, 7],
                             searchable: false,
                             visible: false
                         },
@@ -1474,7 +1455,7 @@
                     {data: 'Date'},
                     {data: 'Designation'},
                     {data: 'Description'},
-                    {data: 'value', className:classAl},
+                    {data: 'value', className: classAl},
                     {data: 'balance', className: classAl},
                     // {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
@@ -1498,7 +1479,7 @@
                                 if (row.ranks == 1)
                                     return '<div class="logoTopBFSLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
                                 else
-                                    return  data ;
+                                    return data;
 
                             }
                         },
@@ -1562,6 +1543,7 @@
 </script>
 
 @stack('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/19.2.16/js/intlTelInput.min.js"></script>
 <script data-turbolinks-eval="false">
 
     $(document).on('ready turbolinks:load', function () {
@@ -1596,7 +1578,7 @@
             }
             var itiUpPhone = window.intlTelInput(inputUpPhone, {
                 initialCountry: "auto",
-               // showSelectedDialCode: true,
+                // showSelectedDialCode: true,
                 useFullscreenPopup: false,
                 geoIpLookup: function (callback) {
                     $.get('https://ipinfo.io', function () {
@@ -1647,11 +1629,6 @@
             errorMsg.classList.add("invisible");
             validMsg.classList.add("invisible");
             $("#submit_phone").prop("disabled", true);
-            // input.classList.remove("error");
-            // errorMsg.innerHTML = "";
-            // errorMsg.classList.add("hide");
-            // validMsg.classList.add("hide");
-            // $("#submit_form").prop("disabled", false);
             var phone = itiUpPhone.getNumber();
             var textNode = document.createTextNode(phone);
             phone = phone.replace('+', '00');
@@ -1698,51 +1675,11 @@
             }
         };
 
-        // function resetAddContact2() {
-        //     var phone2 = itiAdd2Contact.getNumber();
-        //     // alert(phone);
-        //     var textNode = document.createTextNode(phone2);
-        //     // console.log('phone333', phone2);
-        //     phone2 = phone2.replace('+', '00');
-        //     mobile2 = $("#phoneAdd2Contact").val();
-        //     var countryData2 = itiAdd2Contact.getSelectedCountryData();
-        //     phone2 = '00' + countryData2.dialCode + phone2;
-        //     // console.log(phone2);
-        //     $("#outputAdd2Contact").val(phone2);
-        //     // $("#output").val(phone);
-        //     // window.livewire.emit('changefullNumber', phone);
-        //     // window.livewire.emit('changefullNumber');
-        //     $("#ccodeAdd2Contact").val(countryData2.dialCode);
-        //     // $("#ccodelog").val(countryData.dialCode);
-        //     // fullphone = $("#output").val();
-        //     // console.log("dqsd" + inputAdd2Contact.value);
-        //     if (inputAdd2Contact.value.trim()) {
-        //         // console.log(itiAdd2Contact.isValidNumber());
-        //         if (itiAdd2Contact.isValidNumber()) {
-        //             // validMsg.classList.add("invisible");
-        //             errorMsg.classList.add("invisible");
-        //             $("#SubmitAdd2Contact").prop("disabled", false);
-        //
-        //         } else {
-        //             $("#SubmitAdd2Contact").prop("disabled", true);
-        //             inputAdd2Contact.classList.add("error");
-        //             var errorCode = itiAdd2Contact.getValidationError();
-        //             errorMsg.innerHTML = errorMap[errorCode];
-        //             errorMsg.classList.remove("invisible");
-        //         }
-        //     } else {
-        //         $("#SubmitAdd2Contact").prop("disabled", true);
-        //         inputAdd2Contact.classList.remove("error");
-        //         var errorCode = itiAdd2Contact.getValidationError();
-        //         errorMsg.innerHTML = errorMap[errorCode];
-        //         errorMsg.classList.add("invisible");
-        //     }
-        // };
         if (pathPage == 'Contacts') {
             inputlog = document.querySelector("#ipAdd2Contact");
             var itiLog = window.intlTelInput(inputlog, {
                 initialCountry: "auto",
-               // showSelectedDialCode: true,
+                // showSelectedDialCode: true,
                 useFullscreenPopup: false,
                 geoIpLookup: function (callback) {
                     $.get('https://ipinfo.io', function () {
@@ -1753,6 +1690,7 @@
                 },
                 utilsScript: " {{asset('assets/js/utils.js')}}" // just for formatting/placeholders etc
             });
+
             inputlog.addEventListener('keyup', resetContacts);
             inputlog.addEventListener('countrychange', resetContacts);
             for (var i = 0; i < countryDataLog.length; i++) {
@@ -1772,7 +1710,8 @@
             ipAddContact.innerHTML = "<div class='input-group-prepend'> " +
                 "</div><input wire:model.defer='phoneNumber' type='tel' name='phoneAddContact' id='phoneAddContact' class='form-control' onpaste='handlePaste(event)'" +
                 "placeholder='Mobile Number'><span id='valid-msgAddContact' class='invisible'>✓ Valid</span><span id='error-msgAddContact' class='hide'></span>" +
-                " <input type='hidden' name='fullnumber' id='outputAddContact' class='form-control'><input type='hidden' name='ccodeAddContact' id='ccodeAddContact'>";
+                "<input type='hidden' name='fullnumber' id='outputAddContact' class='form-control'><input type='hidden' name='ccodeAddContact' id='ccodeAddContact'>";
+
             var countryDataAddContact = window.intlTelInputGlobals.getCountryData(),
                 inputAddContact = document.querySelector("#phoneAddContact");
             try {
@@ -1791,7 +1730,7 @@
             if (bbol) autoInit = codePays;
             var itiAddContact = window.intlTelInput(inputAddContact, {
                 initialCountry: autoInit,
-                //showSelectedDialCode: true,
+                showSelectedDialCode: true,
                 useFullscreenPopup: false,
                 geoIpLookup: function (callback) {
                     $.get('https://ipinfo.io', function () {
@@ -1845,16 +1784,18 @@
 
 
         function resetAddContact() {
-
             var phone = itiAddContact.getNumber();
-            // alert(phone);
+            if (phone == "") {
+                phone = $("#pho").val();
+            }
             var textNode = document.createTextNode(phone);
-            // console.log('phone333', phone);
             phone = phone.replace('+', '00');
+
             mobile = $("#phoneAddContact").val();
             var countryData = itiAddContact.getSelectedCountryData();
-            phone = '00' + countryData.dialCode + phone;
-            // console.log(phone);
+            if (!phone.startsWith('00' + countryData.dialCode)) {
+                phone = '00' + countryData.dialCode + phone;
+            }
             $("#outputAddContact").val(phone);
             // $("#output").val(phone);
             // window.livewire.emit('changefullNumber', phone);
@@ -2002,7 +1943,6 @@
     });
 
 
-
     $(document).on("click", ".addCash", function () {
         let reciver = $(this).data('reciver');
         let phone = $(this).data('phone');
@@ -2015,24 +1955,39 @@
     });
 
 
-
     $(document).on("click", "#userlist-submit", function () {
 
-        console.log( $('#userlist-reciver').val());
-        console.log( $('#ammount').val()) ;
-        let reciver=$('#userlist-reciver').val() ;
-        let ammount=$('#ammount').val() ;
+        console.log($('#userlist-reciver').val());
+        console.log($('#ammount').val());
+        let reciver = $('#userlist-reciver').val();
+        let ammount = $('#ammount').val();
+        let msg = "vous avez transferé "+ ammount + " $ à "+ reciver;
+        let user=126;
         $.ajax({
             url: "{{ route('addCash') }}",
             type: "POST",
 
             data: {
-                amount:ammount ,
-                reciver:reciver,
+                amount: ammount,
+                reciver: reciver,
                 "_token": "{{ csrf_token() }}"
             },
-            success: function(data) {
+            success: function (data) {
                 console.log(data);
+                $.ajax({
+                    url: "{{ route('sendSMS') }}",
+                    type: "POST",
+
+                    data: {
+                        user: user,
+                        msg: msg,
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    success: function (data) {
+                        console.log(data);
+                    }
+
+                });
 
                 $('#AddCash').modal('hide');
                 Toastify({
@@ -2047,13 +2002,6 @@
 
         });
     });
-
-
-
-
-
-
-
 
 
 </script>

@@ -1,0 +1,149 @@
+<?php
+
+namespace App\Services\Sponsorship;
+
+use App\DAL\UserRepository;
+use App\Models\User;
+use Core\Enum\AmoutEnum;
+use Core\Models\Setting;
+use Core\Models\user_balance;
+use Core\Services\BalancesManager;
+use Illuminate\Support\Facades\DB;
+
+class Sponsorship
+{
+    private $bookingHours;
+    private $shares;
+    private $reservation;
+    private $amount;
+    private $amountCash;
+    private $isSource = 11111111;
+    private $saleCount;
+    private $retardatifReservation;
+
+    public function __construct(private UserRepository $userRepository, private BalancesManager $balancesManager)
+    {
+        $settingIds = ['24', '25', '26', '27', '28', '31', '32'];
+        $setting = Setting::WhereIn('idSETTINGS', $settingIds)->orderBy('idSETTINGS')->pluck('IntegerValue');
+        $this->shares = $setting[0];
+        $this->reservation = $setting[1];
+        $this->amount = $setting[2];
+        $this->amountCash = $setting[3];
+        $this->amountBFS = $setting[4];
+        $this->saleCount = $setting[5];
+        $this->retardatifReservation = $setting[6];
+    }
+
+    public function checkDelayedSponsorship($upLine, $downLine): ?User
+    {
+        if ($downLine->idUpline == $this->isSource) {
+            $this->userRepository->updateUserUpline($downLine->idUser, auth()->user()->idUser);
+            return $downLine;
+        }
+        return NULL;
+    }
+
+    public function executeDelayedSponsorship($upLine, $downLine)
+    {
+        $userBalancesQuery = user_balance::where('idBalancesOperation', 44)
+            ->where('idUser', $downLine->idUser)
+            ->whereRaw('TIMESTAMPDIFF(HOUR, ' . DB::raw('DATE') . ', NOW()) < ?', [$this->retardatifReservation])
+            ->orderBy(DB::raw('DATE'), "ASC")
+            ->limit($this->saleCount);
+
+        $userBalances = $userBalancesQuery->get();
+
+        foreach ($userBalances as $userBalance) {
+            $this->executeProactifSponsorship(
+                $upLine->idUser, $userBalance->ref, $userBalance->value, $userBalance->gifted_shares, $userBalance->PU, $downLine->fullphone_number
+            );
+        }
+    }
+
+    public function checkProactifSponsorship($sponsor): ?User
+    {
+        if ($sponsor->idUpline == 0) {
+            $date = new \DateTime($sponsor->reserved_at);
+            $availability = $date->diff(now())->h + $date->diff(now())->i / 60 + $date->diff(now())->s / 3600;
+            if ($availability < $this->reservation && $sponsor->availablity == 1) {
+                $this->userRepository->updateUserUpline($sponsor->idUser, $sponsor->reserved_by);
+                return $this->userRepository->getUserByIdUser($sponsor->reserved_by);
+            } else {
+                $this->userRepository->updateUserUpline($sponsor->idUser, $this->isSource);
+            }
+        } else {
+            if ($sponsor->purchasesNumber < $this->saleCount && $sponsor->idUpline != $this->isSource) {
+                return $this->userRepository->getUserByIdUser($sponsor->idUpline);
+            }
+        }
+        return NULL;
+    }
+
+    public function createUserBalances($ref, $idBalancesOperation, $idSource, $reserve, $idAmount, $value, $giftedShares, $PU, $winPurchaseAmount, $description, $balance): user_balance
+    {
+        $user_balance = new user_balance();
+        $user_balance->ref = $ref;
+        $user_balance->idBalancesOperation = $idBalancesOperation;
+        $user_balance->Date = now();
+        $user_balance->idSource = $idSource;
+        $user_balance->idUser = $reserve;
+        $user_balance->idamount = $idAmount;
+        $user_balance->value = $value;
+        if (!is_null($giftedShares)) {
+            $user_balance->gifted_shares = $giftedShares;
+        }
+        $user_balance->PU = $PU;
+        $user_balance->WinPurchaseAmount = $winPurchaseAmount;
+        $user_balance->Description = $description;
+        $user_balance->Balance = $balance;
+        $user_balance->save();
+        return $user_balance;
+    }
+
+    public function executeProactifSponsorship($reserve, $ref, $number_of_action, $gift, $PU, $fullphone_number)
+    {
+        $amount = ($number_of_action + $gift) * $PU * $this->amount / 100;
+        $this->createUserBalances(
+            $ref,
+            44,
+            $this->isSource,
+            $reserve,
+            AmoutEnum::Action,
+            0,
+            $number_of_action * $this->shares / 100,
+            0,
+            "0",
+            'sponsorship commission from ' . $fullphone_number,
+            0
+        );
+
+        $this->createUserBalances(
+            $ref,
+            49,
+            $this->isSource,
+            $reserve,
+            AmoutEnum::CASH_BALANCE,
+            $amount * $this->amountCash / 100,
+            null,
+            0,
+            "0.000",
+            'sponsorship commission from ' . $fullphone_number,
+            $this->balancesManager->getBalances($reserve)->soldeCB + $amount * $this->amountCash / 100
+        );
+
+        $this->createUserBalances(
+            $ref,
+            50,
+            $this->isSource,
+            $reserve,
+            AmoutEnum::BFS,
+            $amount * $this->amountBFS / 100,
+            null,
+            0,
+            "0.000",
+            'sponsorship commission from ' . $fullphone_number,
+            $this->balancesManager->getBalances($reserve)->soldeBFS + $amount * $this->amountBFS / 100
+        );
+    }
+
+}

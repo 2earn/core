@@ -15,7 +15,7 @@
                             <div class="card overflow-hidden">
                                 <div class="row justify-content-center g-0">
                                     <div class="col-lg-6">
-                                        <div class="p-lg-5 p-4 auth-one-bg h-100">
+                                        <div class="p-lg-5 p-4 auth-one-bg h-100 ">
                                             <div class="bg-overlay"></div>
                                             <div class="position-relative h-100 d-flex flex-column">
                                                 <div class="mb-4">

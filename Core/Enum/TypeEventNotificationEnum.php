@@ -17,6 +17,7 @@ enum TypeEventNotificationEnum: string
     case VerifMail ="VerifyEmail";
     case RequestAccepted = "RequestAccepted";
     case NewContactNumber = "NewContactNumber";
+    case none = "none";
 
     public function getSettingSms(): NotificationSettingEnum
     {

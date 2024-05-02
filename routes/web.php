@@ -39,6 +39,9 @@ use App\Http\Livewire\UserBalanceDB;
 use App\Http\Livewire\UserBalanceSMS;
 use App\Http\Livewire\UserPurchaseHistory;
 use App\Http\Livewire\ValidateAccount;
+use App\Services\Sponsorship\SponsorshipFacade;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -50,8 +53,34 @@ use Illuminate\Support\Facades\Auth;
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
+
+
 |
 */
+
+Route::get('/pdf', function (){
+
+
+    $data = array(
+        'name' => 'ghazi',
+        'detail'=>'sdfsdf',
+        'sender' => '2earn.cash'
+    );
+
+    $pdf = Pdf::loadView('pdf');
+
+    Mail::send('pwd_email',['data' => "azerty"], function($message) use($pdf)
+    {
+
+
+        $message->to('khalil@2earn.cash')->subject('Invoice');
+
+        $message->attachData($pdf->output(), "invoice.pdf");
+    });
+
+
+});
+
 Route::get('test', \App\Http\Livewire\Test::class)->name('test');
 Route::get('changePassword/{idUser}', ChangePassword::class)->name('resetPassword');
 
@@ -85,17 +114,14 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('Contacts', Contacts::class)->name('contacts');
         Route::get('NotificationHistory', NotificationHistory::class)->name('notification_history');
         Route::get('NotificationSettings', NotificationSettings::class)->name('notification_settings');
-
         Route::get('user_purchase', UserPurchaseHistory::class)->name('user_purchase');
         Route::get('user_list', \App\Http\Livewire\UsersList::class)->name('user_list');
-
         Route::get('stat_countrie', \App\Http\Livewire\StatCountrie::class)->name('stat_countrie');
-
         Route::get('sharessolde', \App\Http\Livewire\SharesSolde::class)->name('sharessolde');
         Route::get('shares_sold', \App\Http\Livewire\SharesSold::class)->name('shares_sold');
         Route::get('edit_admin', \App\Http\Livewire\EditAdmin::class)->name('edit_admin');
         Route::get('countries_management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
-
+        Route::get('treeview', \App\Http\Livewire\treeview::class)->name('treeview');
 
         Route::get('user_balance_sms', UserBalanceSMS::class)->name('user_balance_sms');
         Route::get('user_balance_cb', UserBalanceCB::class)->name('user_balance_cb');
@@ -106,7 +132,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('user_balance_bfs', UserBalanceBFS::class)->name('user_balance_bfs');
         Route::get('financial_transaction', FinancialTransaction::class)->name('financial_transaction');
         Route::get('ContactNumber', ContactNumber::class)->name('ContactNumber');
-        Route::get('editContact', EditUserContact::class)->name('editContact2');
+        Route::get('editContact', EditUserContact::class)->name('editContact');
         Route::get('/balances/exchange/funding/RequestPulicUser', RequestPublicUser::class)->name('RequesPublicUser');
         Route::get('/balances/exchange/funding/strip', stripView::class)->name('paymentstrip');
         Route::get('paytabs', '\App\Http\Livewire\pay@test')->name('paytabs');
@@ -118,10 +144,11 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('description', Description::class)->name('description');
         Route::get('/AcceptRequest', AcceptFinancialRequest::class)->name('AcceptFinancialRequest')->middleware('CloseAuth');
 
-
+         Route::get('/Sponsorship', function () {
+             SponsorshipFacade::testexecuteDelayedSponsorship(999952207);
+         });
 
     });
-//    Route::get('login', Login::class)->name('login');
     Route::get('registre', Registre::class)->name('registre');
     Route::get('forgetpassword', ForgotPassword::class)->name('forgetpassword');
     Route::get('/CheckOptCode/{iduser}/{ccode}/{numTel}', CheckOptCode::class)->name('CheckOptCode');
@@ -150,7 +177,7 @@ Route::group(['prefix' => 'API'], function () {
     Route::get('user_invitations', 'App\Http\Controllers\ApiController@getInvitationsUser')->name('API_userinvitations');
     Route::get('user_purchaseBFS', 'App\Http\Controllers\ApiController@getPurchaseBFSUser')->name('API_userBFSPurchase');
     Route::post('paytabs_notification', 'App\Http\Controllers\ApiController@handlePaymentNotification')->name('paytabs_notification')->withoutMiddleware('web');
-   // Route::post('paytabs_notification1', 'App\Http\Controllers\ApiController@handlePaymentNotification1')->name('paytabs_notification1')->withoutMiddleware('web');
+    // Route::post('paytabs_notification1', 'App\Http\Controllers\ApiController@handlePaymentNotification1')->name('paytabs_notification1')->withoutMiddleware('web');
 
     Route::get('users_list', 'App\Http\Controllers\ApiController@getUsersList')->name('API_UsersList');
     Route::get('stat_countries', 'App\Http\Controllers\ApiController@getCountriStat')->name('API_stat_countries');
@@ -171,9 +198,11 @@ Route::group(['prefix' => 'API'], function () {
 
     Route::get('get-updated-card-content', 'App\Http\Controllers\ApiController@getUpdatedCardContent')->name('get-updated-card-content');
     Route::post('add_cash', 'App\Http\Controllers\ApiController@addCash')->name('addCash');
+    Route::post('send_sms', 'App\Http\Controllers\ApiController@sendSMS')->name('sendSMS');
     Route::post('update-balance-status', 'App\Http\Controllers\ApiController@updateBalanceStatus')->name('update-balance-status');
     Route::post('update-reserve-date', 'App\Http\Controllers\ApiController@updateReserveDate')->name('update-reserve-date');
     Route::post('update-balance-real', 'App\Http\Controllers\ApiController@updateBalanceReal')->name('update-balance-real');
+    Route::post('validate-phone', 'App\Http\Controllers\ApiController@validatePhone')->name('validate_phone');
 
     Route::post('buy-action', 'App\Http\Controllers\ApiController@buyAction')->name('buyAction');
     Route::get('action-by-ammount', 'App\Http\Controllers\ApiController@actionByAmmount')->name('action-by-ammount');
