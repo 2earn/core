@@ -80,7 +80,7 @@ class Home extends Component
         $this->cashBalance = $solde->soldeCB;
         $this->balanceForSopping = $solde->soldeBFS;
         $this->discountBalance = $solde->soldeDB;
-        $this->SMSBalance = $solde->soldeSMS;
+        $this->SMSBalance = intval($solde->soldeSMS);
         $arraySoldeD = [];
         $solde = $balancesManager->getCurrentBalance($user->idUser);
         $s = $balancesManager->getBalances($user->idUser);
@@ -96,7 +96,7 @@ class Home extends Component
         $actualActionValueWhole = intval($actualActionValue);
         $actualActionValue2Fraction = intval(($actualActionValue - floor($actualActionValue)) * 100);
         $actualActionValue3_2Fraction = intval(($actualActionValue - floor($actualActionValue)) * 100000) - $actualActionValue2Fraction * 1000;
-        $actualAction = ['int' => $actualActionValueWhole,'2Fraction' => $actualActionValue2Fraction,'3_2Fraction' => $actualActionValue3_2Fraction];
+        $actualAction = ['int' => $actualActionValueWhole, '2Fraction' => $actualActionValue2Fraction, '3_2Fraction' => $actualActionValue3_2Fraction];
         $params = ["solde" => $s, 'arraySoldeD' => $arraySoldeD, 'usermetta_info' => $usermetta_info, "actualActionValue" => $actualAction];
         return view('livewire.home', $params)->extends('layouts.master')->section('content');
     }

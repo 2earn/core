@@ -335,7 +335,7 @@
                         <form class="needs-validation" novalidate>
                             <div class="row mt-3 alert alert-primary">
                                 <div class="col-2">
-                                    <label class="form-label">{{ __('Buy For') }}:</label>
+                                    <span class="form-label">{{ __('Buy For') }}:</span>
                                 </div>
                                 <div class="col-4">
                                     <div class="form-check form-check-inline">
@@ -353,27 +353,27 @@
                                 </div>
                                 <div class="col-6 d-none" id="contact-select">
                                     <div>
-                                        <label for="firstName" class="form-label">{{ __('Mobile_Number') }}</label>
+                                        <label for="phone" class="form-label">{{ __('Mobile_Number') }}</label>
                                         <input type="tel" class="form-control" name="mobile" id="phone" required>
                                     </div>
                                 </div>
                                 <div class="col-6 d-none" id="bfs-select">
-                                    <label class="form-label mb-3">{{ __('BFS bonuses  for') }} </label>
+                                    <span class="form-label mb-3">{{ __('BFS bonuses  for') }} </span>
                                     <div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="bfs-for" value="me">
-                                            <label class="form-check-label">{{ __('me') }}</label>
+                                            <input class="form-check-input" type="radio" name="bfs-for" id="bfs-for-1" value="me">
+                                            <label for="bfs-for-1" class="form-check-label">{{ __('me') }}</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="bfs-for" value="other">
-                                            <label class="form-check-label">{{ __('The chosen user') }}</label>
+                                            <input class="form-check-input" type="radio" name="bfs-for" id="bfs-for-2" value="other">
+                                            <label  for="bfs-for-2" class="form-check-label">{{ __('The chosen user') }}</label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div id="simulator" class="row mt-3">
                                 <div class="col-12">
-                                    <label for="customer-name" class="col-form-label">{{ __('Amount_pay') }}($)</label>
+                                    <label for="ammount" class="col-form-label">{{ __('Amount_pay') }}($)</label>
                                     <div class="input-group">
                                         <input aria-describedby="simulate" type="number" max="{{$cashBalance}}"
                                                wire:keyup.debounce="simulate()" wire:model="ammount"
@@ -390,7 +390,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-sm-6 col-xs-6">
-                                    <label for="customer-name" class="col-form-label">
+                                    <label for="number-of-action" class="col-form-label">
                                         {{ __('Number Of Shares') }}
                                     </label>
                                     <input type="number" disabled class="form-control" id="number-of-action"
@@ -398,7 +398,7 @@
                                            value="0000">
                                 </div>
                                 <div class="col-md-4 col-sm-6 col-xs-6">
-                                    <label for="customer-name" class="col-form-label">
+                                    <label for="number-of-gifted-action" class="col-form-label">
                                         {{ __('Gifted Shares') }}
                                     </label>
                                     <input type="number" disabled class="form-control" wire:model.live="gift"
@@ -406,7 +406,7 @@
                                            value="0000">
                                 </div>
                                 <div class="col-md-4 mb-3 col-sm-6 col-xs-6">
-                                    <label for="customer-name" class="col-form-label">{{ __('Profit') }}
+                                    <label for="profit" class="col-form-label">{{ __('Profit') }}
                                         ($) </label>
                                     <input type="number" disabled class="form-control" id="profit" value="0000"
                                            wire:model.live="profit">

@@ -153,7 +153,8 @@
 
     <style>
         @import url({{asset('/')."assets/icons/material-design-iconic-font/css/materialdesignicons.min.css"}});
-
+        @import url({{asset('assets/icons/line-awesome/css/line-awesome.min.css')}});
+        @import url({{asset('assets/icons/font-awesome/css/font-awesome.min.css')}});
         .page-title-box-db {
             background-color: #009fe3 !important;;
         }
@@ -175,8 +176,6 @@
             font-display: block ;
         }
 
-        @import url({{asset('assets/icons/line-awesome/css/line-awesome.min.css')}});
-        @import url({{asset('assets/icons/font-awesome/css/font-awesome.min.css')}});
         @font-face {
             font-family: 'shopearn' ;
             src: url({{ asset('assets/fonts/shopearn.eot?jeosj9')}});
