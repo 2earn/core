@@ -181,7 +181,7 @@ input[type=range]::-ms-fill-upper {
 .footer {
     position: relative;
     bottom: 0;
-    color:#0a0c0d;
+    color: #0a0c0d;
 }
 
 .footer.master {
@@ -200,4 +200,16 @@ input[type=range]::-ms-fill-upper {
     position: relative;
     bottom: 0;
     height: 80px;
+}
+
+.logoExterne {
+    display: inline-block;
+    max-width: 40%;
+    height: auto;
+    width: 6%;
+    margin: 3%;
+}
+
+.action_fraction {
+    font-size: .700em;
 }
