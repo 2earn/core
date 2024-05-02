@@ -151,26 +151,18 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('SMS Solde') }}</p>
+                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">{{ __('SMS Solde') }}</p>
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
-                                @if($discountBalance - $arraySoldeD[2] > 0)
-                                    <p class="text-success" style="max-height: 5px">
-                                        +{{$discountBalance - $arraySoldeD[2]}} <i
-                                            class="ri-arrow-right-up-line fs-13 align-middle"></i></p>
-                                @elseif($discountBalance - $arraySoldeD[2] < 0)
-                                    <p class="text-danger"
-                                       style="max-height: 5px">{{$discountBalance - $arraySoldeD[2]}} <i
-                                            class="ri-arrow-right-down-line fs-13 align-middle"></i></p>
-                                @endif
+                                {{$SMSBalance}}
                             </h5>
                         </div>
                     </div>
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
-                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">{{__('DPC')}}<span class="counter-value"
-                                                                                               data-target="{{$SMSBalance}}">0</span>
+                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                <span class="counter-value" data-target="{{$SMSBalance}}">{{$SMSBalance}}</span>
                             </h4>
                             <a href="{{route('user_balance_sms' , app()->getLocale() )}} "
                                class="text-decoration-underline">{{ __('see_details') }}</a>
@@ -197,7 +189,8 @@
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
-                                {{$actualActionValue['int']}},{{$actualActionValue['2Fraction']}}<small class="action_fraction">{{$actualActionValue['3_2Fraction']}}</small>
+                                {{$actualActionValue['int']}},{{$actualActionValue['2Fraction']}}<small
+                                    class="action_fraction">{{$actualActionValue['3_2Fraction']}}</small>
                                 <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
                             </h5>
                         </div>
@@ -342,7 +335,7 @@
                         <form class="needs-validation" novalidate>
                             <div class="row mt-3 alert alert-primary">
                                 <div class="col-2">
-                                    <label class="form-label">{{ __('Buy For') }}:</label>
+                                    <span class="form-label">{{ __('Buy For') }}:</span>
                                 </div>
                                 <div class="col-4">
                                     <div class="form-check form-check-inline">
@@ -360,27 +353,27 @@
                                 </div>
                                 <div class="col-6 d-none" id="contact-select">
                                     <div>
-                                        <label for="firstName" class="form-label">{{ __('Mobile_Number') }}</label>
+                                        <label for="phone" class="form-label">{{ __('Mobile_Number') }}</label>
                                         <input type="tel" class="form-control" name="mobile" id="phone" required>
                                     </div>
                                 </div>
                                 <div class="col-6 d-none" id="bfs-select">
-                                    <label class="form-label mb-3">{{ __('BFS bonuses  for') }} </label>
+                                    <span class="form-label mb-3">{{ __('BFS bonuses  for') }} </span>
                                     <div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="bfs-for" value="me">
-                                            <label class="form-check-label">{{ __('me') }}</label>
+                                            <input class="form-check-input" type="radio" name="bfs-for" id="bfs-for-1" value="me">
+                                            <label for="bfs-for-1" class="form-check-label">{{ __('me') }}</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="bfs-for" value="other">
-                                            <label class="form-check-label">{{ __('The chosen user') }}</label>
+                                            <input class="form-check-input" type="radio" name="bfs-for" id="bfs-for-2" value="other">
+                                            <label  for="bfs-for-2" class="form-check-label">{{ __('The chosen user') }}</label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div id="simulator" class="row mt-3">
                                 <div class="col-12">
-                                    <label for="customer-name" class="col-form-label">{{ __('Amount_pay') }}($)</label>
+                                    <label for="ammount" class="col-form-label">{{ __('Amount_pay') }}($)</label>
                                     <div class="input-group">
                                         <input aria-describedby="simulate" type="number" max="{{$cashBalance}}"
                                                wire:keyup.debounce="simulate()" wire:model="ammount"
@@ -390,14 +383,14 @@
                                             <div wire:loading wire:target="simulate">
                                                 <span class="spinner-border spinner-border-sm" role="status"
                                                       aria-hidden="true"></span>
-                                                <span class="sr-only">Loading...</span>
+                                                <span class="sr-only">{{__('Loading')}}...</span>
                                             </div>
                                             {{ __('simulate') }}
                                         </button>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-sm-6 col-xs-6">
-                                    <label for="customer-name" class="col-form-label">
+                                    <label for="number-of-action" class="col-form-label">
                                         {{ __('Number Of Shares') }}
                                     </label>
                                     <input type="number" disabled class="form-control" id="number-of-action"
@@ -405,7 +398,7 @@
                                            value="0000">
                                 </div>
                                 <div class="col-md-4 col-sm-6 col-xs-6">
-                                    <label for="customer-name" class="col-form-label">
+                                    <label for="number-of-gifted-action" class="col-form-label">
                                         {{ __('Gifted Shares') }}
                                     </label>
                                     <input type="number" disabled class="form-control" wire:model.live="gift"
@@ -413,7 +406,7 @@
                                            value="0000">
                                 </div>
                                 <div class="col-md-4 mb-3 col-sm-6 col-xs-6">
-                                    <label for="customer-name" class="col-form-label">{{ __('Profit') }}
+                                    <label for="profit" class="col-form-label">{{ __('Profit') }}
                                         ($) </label>
                                     <input type="number" disabled class="form-control" id="profit" value="0000"
                                            wire:model.live="profit">
