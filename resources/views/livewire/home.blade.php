@@ -383,7 +383,7 @@
                                             <div wire:loading wire:target="simulate">
                                                 <span class="spinner-border spinner-border-sm" role="status"
                                                       aria-hidden="true"></span>
-                                                <span class="sr-only">Loading...</span>
+                                                <span class="sr-only">{{__('Loading')}}...</span>
                                             </div>
                                             {{ __('simulate') }}
                                         </button>

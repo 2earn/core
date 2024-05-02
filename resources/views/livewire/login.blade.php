@@ -168,7 +168,13 @@
                                                 <div class="mt-4">
                                                     <button onclick="functionLogin()"
                                                             class="btn btn-success w-100 btn2earn"
-                                                            type="button" id="btn">{{ __('Sign in') }}
+                                                            type="button" id="btn">
+                                                        <div wire:loading>
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                                            <span class="sr-only">{{__('Loading')}}...</span>
+                                                        </div>
+                                                        {{ __('Sign in') }}
                                                     </button>
                                                 </div>
                                                 <div class="center" style=" display: flex;  justify-content: center;">
