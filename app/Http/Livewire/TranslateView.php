@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Core\Models\translatearabes;
 use Core\Models\translateenglishs;
 use Core\Models\translatetabs;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\File;
 use Livewire\Component;
 use  Livewire\WithPagination;
@@ -23,16 +24,10 @@ class TranslateView extends Component
     public $tabfinFr = [];
     public $tabfinEn = [];
     public $search = '';
-    public  $nbrPagibation=10 ;
+    public $nbrPagibation = 10;
     protected $rules = [
         'frenchValue' => 'required'
     ];
-//    protected $rules = [
-//        'translate.*.id' => 'required',
-//        'translate.*.name' => 'required',
-//        'translate.*.value' => 'required',
-//        'translate.*.valueFr' => 'required'
-//    ];
     protected $listeners = [
         'AddFieldTranslate' => 'AddFieldTranslate',
         'addArabicField' => 'addArabicField',
@@ -62,11 +57,6 @@ class TranslateView extends Component
         return redirect()->route('translate', app()->getLocale());
     }
 
-    public function mount()
-    {
-
-    }
-
     public function updatingSearch()
     {
         $this->resetPage();
@@ -94,29 +84,14 @@ class TranslateView extends Component
             $jsonAr = collect(json_decode($contentsAr));
             foreach ($jsonAr as $key => $value) {
                 translatetabs::where('name', $key)->update(['value' => $value]);
-//                $flight = translateenglishs::create([
-//                    'name' => $key,
-//                    'value' => $value,
-//                ]);
             }
             $pathFileFr = resource_path() . '/lang/fr.json';
             $contentsFr = File::get($pathFileFr);
             $jsonFr = collect(json_decode($contentsFr));
             foreach ($jsonFr as $key => $value) {
                 translatetabs::where('name', $key)->update(['valueFr' => $value]);
-//                $flight = translateenglishs::create([
-//                    'name' => $key,
-//                    'value' => $value,
-//                ]);
             }
-//            dd($this->tab);
-////            array_push($this->tab,$json);
-//////            dd($this->tab);
-//////            dd(collect($this->tab[0]->Login));
-//////                dd($json);
-//////            File::put( resource_path() . '\lang\ar2.json', $json);
-//////            dd($json);
-        } catch (Illuminate\Contracts\Filesystem\FileNotFoundException $exception) {
+        } catch (FileNotFoundException $exception) {
             die("The file doesn't exist");
         }
     }
@@ -133,17 +108,8 @@ class TranslateView extends Component
                     'name' => $key,
                     'value' => $value,
                 ]);
-                //    array_push($this->tab,$key.$value);
             }
-
-//            dd($this->tab);
-////            array_push($this->tab,$json);
-//////            dd($this->tab);
-//////            dd(collect($this->tab[0]->Login));
-//////                dd($json);
-//////            File::put( resource_path() . '\lang\ar2.json', $json);
-//////            dd($json);
-        } catch (Illuminate\Contracts\Filesystem\FileNotFoundException $exception) {
+        } catch (FileNotFoundException $exception) {
             die("The file doesn't exist");
         }
     }
@@ -168,11 +134,6 @@ class TranslateView extends Component
 
     public function databaseToFile($pass)
     {
-//    translatetabs::where('id', $this->idTranslate)->update([
-//        'value' => $this->arabicValue,
-//        'valueFr' => $this->frenchValue,
-//        'valueEn' => $this->englishValue,
-//    ]);
         if ($pass != '159159') return;
         $all = translatetabs::all();
         foreach ($all as $key => $value) {
@@ -184,8 +145,6 @@ class TranslateView extends Component
             $pathFile = resource_path() . '/lang/ar.json';
             $pathFileFr = resource_path() . '/lang/fr.json';
             $pathFileEn = resource_path() . '/lang/en.json';
-//            dd( $this->tabfinFr);
-//            $contents = File::get($pathFile);
             File::put($pathFile, json_encode($this->tabfin, JSON_UNESCAPED_UNICODE));
             File::put($pathFileFr, json_encode($this->tabfinFr, JSON_UNESCAPED_UNICODE));
             File::put($pathFileEn, json_encode($this->tabfinEn, JSON_UNESCAPED_UNICODE));
@@ -197,52 +156,13 @@ class TranslateView extends Component
 
     public function render()
     {
-//        $translate = translatetabs::all();
         $translate = translatetabs::where('name', 'like', '%' . $this->search . '%')
             ->orWhere('valueFr', 'like', '%' . $this->search . '%')
             ->orWhere('valueEn', 'like', '%' . $this->search . '%')
             ->orWhere('value', 'like', '%' . $this->search . '%')
             ->orderBy('id', 'desc')
             ->paginate($this->nbrPagibation);
-
-//        $this->translate =collect($this->translate)->toArray() ;
-//        $this->translate = collect($this->translate) ;
-//           ->get();
-//        dd($this->translate) ;
-//        $translate= collect($translate)->toArray();
-        //dd($this->translate);
-//        try {
-//            $pathFile = resource_path() . '\lang\ar.json';
-//            $contents = File::get($pathFile);
-//            $json = collect(json_decode($contents));
-//            foreach ($json as $key=>$value)
-//            {
-//                $flight = translatetabs::create([
-//                    'name' => $key,
-//                    'value' => $value,
-//                    'valueFr'=>''
-//                ]);
-//            //    array_push($this->tab,$key.$value);
-//            }
-////            dd($this->tab);
-//////            array_push($this->tab,$json);
-////////            dd($this->tab);
-////////            dd(collect($this->tab[0]->Login));
-////////                dd($json);
-////////            File::put( resource_path() . '\lang\ar2.json', $json);
-////////            dd($json);
-//        } catch (Illuminate\Contracts\Filesystem\FileNotFoundException $exception) {
-//            die("The file doesn't exist");
-//        }
-        return view('livewire.translate-view'
-            ,
-            [
-                "translates" => $translate
-//            'jsonEn'=>$json
-
-            ]
-        )->extends('layouts.master')->section('content');
-//            ->layout('layouts.base');
+        return view('livewire.translate-view', ["translates" => $translate])->extends('layouts.master')->section('content');
     }
 
     public function save()
@@ -253,13 +173,10 @@ class TranslateView extends Component
             $this->tabfin[$value->name] = $value->value;
             $this->tabfinFr[$value->name] = $value->valueFr;
         }
-//      dd(json_encode($this->tabfin,JSON_UNESCAPED_UNICODE));
         try {
             $pathFile = resource_path() . '/lang/ar.json';
             $pathFileFr = resource_path() . '/lang/fr.json';
             $pathFileEn = resource_path() . '/lang/en.json';
-//            dd( $this->tabfinFr);
-//            $contents = File::get($pathFile);
             File::put($pathFile, json_encode($this->tabfin, JSON_UNESCAPED_UNICODE));
             File::put($pathFileFr, json_encode($this->tabfinFr, JSON_UNESCAPED_UNICODE));
             File::put($pathFileEn, json_encode($this->tabfinEn, JSON_UNESCAPED_UNICODE));
@@ -294,8 +211,6 @@ class TranslateView extends Component
             $pathFile = resource_path() . '/lang/ar.json';
             $pathFileFr = resource_path() . '/lang/fr.json';
             $pathFileEn = resource_path() . '/lang/en.json';
-//            dd( $this->tabfinFr);
-//            $contents = File::get($pathFile);
             File::put($pathFile, json_encode($this->tabfin, JSON_UNESCAPED_UNICODE));
             File::put($pathFileFr, json_encode($this->tabfinFr, JSON_UNESCAPED_UNICODE));
             File::put($pathFileEn, json_encode($this->tabfinEn, JSON_UNESCAPED_UNICODE));
@@ -314,6 +229,5 @@ class TranslateView extends Component
             $this->frenchValue = $trans->valueFr;
             $this->englishValue = $trans->valueEn;
         }
-        // dd($this->arabicValue) ;
     }
 }
