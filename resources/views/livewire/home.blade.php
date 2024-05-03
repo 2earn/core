@@ -249,9 +249,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row mt-3 alert alert-info" role="alert">
-                        <h5 class="alert-heading">{{ __('Notice') }}</h5>
-                        <p>{{ __('buy_shares_notice') }}</p>
+                    <div class="row alert alert-info" role="alert">
+                        <p><strong>{{ __('Notice') }}: </strong>{{ __('buy_shares_notice') }}</p>
                     </div>
                     <div class="d-flex">
                         <div class="ms-2 header-item d-flex me-2">
@@ -267,11 +266,10 @@
                             <div class="d-flex align-items-center logoTopCashLabel">
                                 <div class="flex-grow-1 overflow-hidden">
                                     <a href="{{route('user_balance_cb',app()->getLocale())}}">
-                                        <p class="text-uppercase fw-medium mb-0 ms-3">
+                                        <p class="text-uppercase fw-medium mb-0 ms-2">
                                             {{ __('Cash Balance') }}</p>
-                                        <h5 class="fs-14 mb-0 ms-3">
-                                            {{__('DPC')}}
-                                            {{floatval($solde->soldeCB)}}
+                                        <h5 class="text-primary fs-14 mb-0 ms-2">
+                                            {{__('DPC')}}{{intval($solde->soldeCB)}}
                                         </h5>
                                     </a>
                                 </div>
@@ -292,11 +290,10 @@
                             <div class="d-flex align-items-center logoTopBFSLabel">
                                 <div class="flex-grow-1 overflow-hidden">
                                     <a href="{{route('user_balance_bfs',app()->getLocale())}}">
-                                        <p class="text-uppercase fw-medium   mb-0 ms-4">
+                                        <p class="text-uppercase fw-medium mb-0 ms-2">
                                             {{ __('Balance For Shopping') }}</p>
-                                        <h5 class="text-success fs-14 mb-0  ms-3">
-                                            {{__('DPC')}}
-                                            {{floatval($solde->soldeBFS)}}
+                                        <h5 class="text-success fs-14 mb-0 ms-2">
+                                            {{__('DPC')}}{{intval($solde->soldeBFS)}}
                                         </h5>
                                     </a>
                                 </div>
@@ -317,12 +314,11 @@
                             <div class="d-flex align-items-center logoTopDBLabel">
                                 <div class="flex-grow-1 overflow-hidden">
                                     <a href="{{route('user_balance_db',app()->getLocale())}}">
-                                        <p class="text-uppercase fw-medium mb-0 ms-3">
+                                        <p class="text-uppercase fw-medium mb-0 ms-2">
                                             {{ __('Discounts Balance') }}
                                         </p>
-                                        <h5 class="text-secondary fs-14 mb-0 ms-3">
-                                            {{__('DPC')}} </span>
-                                            {{floatval($solde->soldeDB)}}
+                                        <h5 class="text-secondary fs-14 mb-0 ms-2">
+                                            {{__('DPC')}}{{intval($solde->soldeDB)}}
                                         </h5>
                                     </a>
                                 </div>
@@ -333,8 +329,8 @@
                     </div>
                     <div class="d-flex">
                         <form class="needs-validation" novalidate>
-                            <div class="row mt-3 alert alert-primary">
-                                <div class="col-2">
+                            <div class="row mt-2 alert alert-primary">
+                                <div class="col-3">
                                     <span class="form-label">{{ __('Buy For') }}:</span>
                                 </div>
                                 <div class="col-4">
@@ -344,7 +340,7 @@
                                         <label class="form-check-label" for="inlineRadio1">{{ __('me') }}</label>
                                     </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-5">
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="inlineRadioOptions"
                                                id="inlineRadio2" value="other" disabled>
@@ -361,12 +357,15 @@
                                     <span class="form-label mb-3">{{ __('BFS bonuses  for') }} </span>
                                     <div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="bfs-for" id="bfs-for-1" value="me">
+                                            <input class="form-check-input" type="radio" name="bfs-for" id="bfs-for-1"
+                                                   value="me">
                                             <label for="bfs-for-1" class="form-check-label">{{ __('me') }}</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="bfs-for" id="bfs-for-2" value="other">
-                                            <label  for="bfs-for-2" class="form-check-label">{{ __('The chosen user') }}</label>
+                                            <input class="form-check-input" type="radio" name="bfs-for" id="bfs-for-2"
+                                                   value="other">
+                                            <label for="bfs-for-2"
+                                                   class="form-check-label">{{ __('The chosen user') }}</label>
                                         </div>
                                     </div>
                                 </div>
