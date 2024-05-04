@@ -101,7 +101,7 @@ class Registre extends Component
         $usere = $newUser->save();
         $transactionManager->commit();
         if ($usere) {
-            $settingsManager->NotifyUser($newUser->id, TypeEventNotificationEnum::Inscri, [
+             $settingsManager->NotifyUser($newUser->id, TypeEventNotificationEnum::Inscri, [
                 'msg' => $newcode,
                 'type' => TypeNotificationEnum::SMS
             ]);
