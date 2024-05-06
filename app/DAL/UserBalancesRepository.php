@@ -12,9 +12,9 @@ use phpDocumentor\Reflection\Types\Collection;
 
 class  UserBalancesRepository implements IUserBalancesRepository
 {
-    const SOLD_INIT = 0.00;
+    const SOLD_INIT = 0;
 
-    public function getBalance($idUser): calculated_userbalances
+    public function getBalance($idUser, $decimals = 2): calculated_userbalances
     {
         $calculetedUserBalances = new  calculated_userbalances;
         $solde = DB::select("  select * from (
@@ -52,11 +52,11 @@ class  UserBalancesRepository implements IUserBalancesRepository
             $calculetedUserBalances->soldeT = $solde->where("idamounts", "4")->first()->solde;
             $calculetedUserBalances->soldeSMS = $solde->where("idamounts", "5")->first()->solde;
 
-            $calculetedUserBalances->soldeCB = $this->formatSolde($calculetedUserBalances->soldeCB);
-            $calculetedUserBalances->soldeBFS = $this->formatSolde($calculetedUserBalances->soldeBFS);
-            $calculetedUserBalances->soldeDB = $this->formatSolde($calculetedUserBalances->soldeDB);
-            $calculetedUserBalances->soldeT = $this->formatSolde($calculetedUserBalances->soldeT);
-            $calculetedUserBalances->soldeSMS = $this->formatSolde($calculetedUserBalances->soldeSMS);
+            $calculetedUserBalances->soldeCB = $this->formatSolde($calculetedUserBalances->soldeCB, $decimals);
+            $calculetedUserBalances->soldeBFS = $this->formatSolde($calculetedUserBalances->soldeBFS, $decimals);
+            $calculetedUserBalances->soldeDB = $this->formatSolde($calculetedUserBalances->soldeDB, $decimals);
+            $calculetedUserBalances->soldeT = $this->formatSolde($calculetedUserBalances->soldeT, $decimals);
+            $calculetedUserBalances->soldeSMS = $this->formatSolde($calculetedUserBalances->soldeSMS, $decimals);
         } else {
             $calculetedUserBalances->soldeCB = self::SOLD_INIT;
             $calculetedUserBalances->soldeBFS = self::SOLD_INIT;
@@ -68,9 +68,12 @@ class  UserBalancesRepository implements IUserBalancesRepository
         return $calculetedUserBalances;
     }
 
-    public function formatSolde($solde)
+    public function formatSolde($solde, $decimals = 2)
     {
-        return number_format(floatval($solde), 2, '.', '');
+        if ($decimals == -1) {
+            return floatval($solde);
+        }
+        return number_format(floatval($solde), $decimals, '.', ',');
     }
 
     public function getCurrentBalance($idUser): calculated_userbalances

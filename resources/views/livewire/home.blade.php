@@ -28,8 +28,8 @@
                     </div>
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
-                            <h3 class="mb-4 fs-22 fw-semibold ff-secondary">$<span class="counter-value"
-                                                                                   data-target="{{(int)$cashBalance}}">0</span>
+                            <h3 class="mb-4 fs-22 fw-semibold ff-secondary">{{$currency}}
+                                <span class="counter-value" data-target="{{(int)$cashBalance}}">0</span>
                                 <small class="text-muted fs-13">
                                     <?php $val = explode('.', number_format($cashBalance, 2))[1] ?>
                                     @if($val>0)
@@ -60,13 +60,17 @@
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
-                                @if($balanceForSopping - $arraySoldeD[1] > 0)
+                                @php
+                                    $bfs_asd = $balanceForSopping - $arraySoldeD[1];
+                                    $db_asd = $discountBalance - $arraySoldeD[2];
+                                @endphp
+                                @if($bfs_asd > 0)
                                     <p class="text-success" style="max-height: 5px">
-                                        +{{$balanceForSopping - $arraySoldeD[1]}} <i
+                                        +{{$bfs_asd}} <i
                                             class="ri-arrow-right-up-line fs-13 align-middle"></i></p>
-                                @elseif($balanceForSopping - $arraySoldeD[1] < 0)
+                                @elseif($bfs_asd < 0)
                                     <p class="text-danger"
-                                       style="max-height: 5px">{{$balanceForSopping - $arraySoldeD[1]}} <i
+                                       style="max-height: 5px">{{$bfs_asd}} <i
                                             class="ri-arrow-right-down-line fs-13 align-middle"></i></p>
                                 @endif
                             </h5>
@@ -74,8 +78,8 @@
                     </div>
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
-                            <h3 class="mb-4 fs-22 fw-semibold ff-secondary">$<span class="counter-value"
-                                                                                   data-target="{{(int)$balanceForSopping}}">0</span>
+                            <h3 class="mb-4 fs-22 fw-semibold ff-secondary">{{$currency}}<span class="counter-value"
+                                                                                               data-target="{{(int)$balanceForSopping}}">0</span>
                                 <small class="text-muted fs-13">
                                     <?php $val = explode('.', number_format($balanceForSopping, 2))[1] ?>
                                     @if($val>0)
@@ -106,13 +110,13 @@
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
-                                @if($discountBalance - $arraySoldeD[2] > 0)
+                                @if( $db_asd > 0)
                                     <p class="text-success" style="max-height: 5px">
-                                        +{{$discountBalance - $arraySoldeD[2]}} <i
+                                        +{{ $db_asd}} <i
                                             class="ri-arrow-right-up-line fs-13 align-middle"></i></p>
-                                @elseif($discountBalance - $arraySoldeD[2] < 0)
+                                @elseif( $db_asd < 0)
                                     <p class="text-danger"
-                                       style="max-height: 5px">{{$discountBalance - $arraySoldeD[2]}} <i
+                                       style="max-height: 5px">{{ $db_asd}} <i
                                             class="ri-arrow-right-down-line fs-13 align-middle"></i></p>
                                 @endif
                             </h5>
@@ -199,18 +203,15 @@
                         <div>
                             <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
                                 <span class="counter-value"
-                                      data-target="{{getUserSelledActions(Auth()->user()->idUser)}}">0</span>
+                                      data-target="{{$userSelledAction}}">0</span>
                                 <small class="text-muted fs-13">
-                                    <?php $val = number_format(getUserSelledActions(Auth()->user()->idUser) * actualActionValue(getSelledActions()), 5) ?>
-                                    @if(1>0)
-                                        ({{$val}}$)
-                                    @endif
+                                    {{$actionsValues}}
                                 </small></h3>
                             <button data-bs-target="#buy-action" data-bs-toggle="modal"
                                     class="btn btn-sm btn-secondary">{{ __('Buy Shares') }}</button>
                             <span class="badge bg-light text-success  ms-2 mb-0"><i
                                     class="ri-arrow-up-line align-middle"></i>
-                                {{number_format(getUserActualActionsProfit(Auth()->user()->idUser),2) }} $</span>
+                                {{number_format(getUserActualActionsProfit(Auth()->user()->idUser),2) }} {{$currency}}</span>
 
                         </div>
                         <div class="avatar-sm flex-shrink-0">
@@ -242,7 +243,7 @@
     </div>
     <div wire:ignore.self class="modal fade" id="buy-action" tabindex="-1" aria-labelledby="exampleModalgridLabel"
          aria-modal="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog" id="buy-share">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Buy Shares') }}</h5>
@@ -269,7 +270,7 @@
                                         <p class="text-uppercase fw-medium mb-0 ms-2">
                                             {{ __('Cash Balance') }}</p>
                                         <h5 class="text-primary fs-14 mb-0 ms-2">
-                                            {{__('DPC')}}{{intval($solde->soldeCB)}}
+                                            {{__('DPC')}}{{$soldeBuyShares->soldeCB}}
                                         </h5>
                                     </a>
                                 </div>
@@ -293,7 +294,7 @@
                                         <p class="text-uppercase fw-medium mb-0 ms-2">
                                             {{ __('Balance For Shopping') }}</p>
                                         <h5 class="text-success fs-14 mb-0 ms-2">
-                                            {{__('DPC')}}{{intval($solde->soldeBFS)}}
+                                            {{__('DPC')}}{{$soldeBuyShares->soldeBFS}}
                                         </h5>
                                     </a>
                                 </div>
@@ -318,7 +319,7 @@
                                             {{ __('Discounts Balance') }}
                                         </p>
                                         <h5 class="text-secondary fs-14 mb-0 ms-2">
-                                            {{__('DPC')}}{{intval($solde->soldeDB)}}
+                                            {{__('DPC')}}{{$soldeBuyShares->soldeDB}}
                                         </h5>
                                     </a>
                                 </div>
@@ -372,7 +373,8 @@
                             </div>
                             <div id="simulator" class="row mt-3">
                                 <div class="col-12">
-                                    <label for="ammount" class="col-form-label">{{ __('Amount_pay') }}($)</label>
+                                    <label for="ammount" class="col-form-label">{{ __('Amount_pay') }}({{$currency}}
+                                        )</label>
                                     <div class="input-group">
                                         <input aria-describedby="simulate" type="number" max="{{$cashBalance}}"
                                                wire:keyup.debounce="simulate()" wire:model="ammount"
@@ -406,7 +408,7 @@
                                 </div>
                                 <div class="col-md-4 mb-3 col-sm-6 col-xs-6">
                                     <label for="profit" class="col-form-label">{{ __('Profit') }}
-                                        ($) </label>
+                                        ({{$currency}}) </label>
                                     <input type="number" disabled class="form-control" id="profit" value="0000"
                                            wire:model.live="profit">
                                 </div>

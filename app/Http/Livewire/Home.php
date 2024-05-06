@@ -22,7 +22,10 @@ class Home extends Component
     public $balanceForSopping;
     public $discountBalance;
     public $SMSBalance;
-    public $cash = 25.033;
+    public $currency = '$';
+    public $actionsValues = 0;
+    public $userSelledAction = 0;
+    public $userActualActionsProfit = 0;
     private settingsManager $settingsManager;
     private BalancesManager $balancesManager;
     public $ammount;
@@ -30,20 +33,13 @@ class Home extends Component
     public $gift;
     public $profit;
 
-
     protected $listeners = [
         'checkContactNumbre' => 'checkContactNumbre',
         'simulate' => 'simulate'
     ];
 
-    function checkContactNumbre()
-    {
-    }
 
-    public function mount(
-        settingsManager $settingsManager,
-        BalancesManager $balancesManager
-    )
+    public function mount(settingsManager $settingsManager, BalancesManager $balancesManager)
     {
         $this->settingsManager = $settingsManager;
         $this->balancesManager = $balancesManager;
@@ -61,7 +57,7 @@ class Home extends Component
         foreach (array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key) {
             if (array_key_exists($key, $_SERVER) === true) {
                 foreach (explode(',', $_SERVER[$key]) as $ip) {
-                    $ip = trim($ip); // just to be safe
+                    $ip = trim($ip);
                     if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false) {
                         return $ip;
                     }
@@ -74,30 +70,30 @@ class Home extends Component
     {
         $user = $settingsManager->getAuthUser();
         delUsertransaction($user->idUser);
-        if (!$user)
+        if (!$user) {
             dd('not found page');
-        $solde = $balancesManager->getBalances($user->idUser);
+        }
+        $solde = $balancesManager->getBalances($user->idUser, -1);
         $this->cashBalance = $solde->soldeCB;
         $this->balanceForSopping = $solde->soldeBFS;
         $this->discountBalance = $solde->soldeDB;
         $this->SMSBalance = intval($solde->soldeSMS);
-        $arraySoldeD = [];
         $solde = $balancesManager->getCurrentBalance($user->idUser);
-        $s = $balancesManager->getBalances($user->idUser);
-        $soldeCBd = $solde->soldeCB;
-        $soldeBFSd = $solde->soldeBFS;
-        $soldeDBd = $solde->soldeDB;
-        array_push($arraySoldeD, $soldeCBd);
-        array_push($arraySoldeD, $soldeBFSd);
-        array_push($arraySoldeD, $soldeDBd);
         $usermetta_info = collect(DB::table('metta_users')->where('idUser', $user->idUser)->first());
-
+        $this->actionsValues = number_format(getUserSelledActions(Auth()->user()->idUser) * actualActionValue(getSelledActions()), 5);
+        $this->userActualActionsProfit = number_format(getUserActualActionsProfit(Auth()->user()->idUser), 2);
+        $this->userSelledAction = getUserSelledActions(Auth()->user()->idUser);
         $actualActionValue = actualActionValue(getSelledActions(), false);
-        $actualActionValueWhole = intval($actualActionValue);
-        $actualActionValue2Fraction = intval(($actualActionValue - floor($actualActionValue)) * 100);
-        $actualActionValue3_2Fraction = intval(($actualActionValue - floor($actualActionValue)) * 100000) - $actualActionValue2Fraction * 1000;
-        $actualAction = ['int' => $actualActionValueWhole, '2Fraction' => $actualActionValue2Fraction, '3_2Fraction' => $actualActionValue3_2Fraction];
-        $params = ["solde" => $s, 'arraySoldeD' => $arraySoldeD, 'usermetta_info' => $usermetta_info, "actualActionValue" => $actualAction];
+
+        $params = [
+            "soldeBuyShares" => $balancesManager->getBalances($user->idUser, 2),
+            'arraySoldeD' => [$solde->soldeCB, $solde->soldeBFS, $solde->soldeDB],
+            'usermetta_info' => $usermetta_info,
+            "actualActionValue" => [
+                'int' => intval($actualActionValue),
+                '2Fraction' => intval(($actualActionValue - floor($actualActionValue)) * 100),
+                '3_2Fraction' => intval(($actualActionValue - floor($actualActionValue)) * 100000) - intval(($actualActionValue - floor($actualActionValue)) * 100) * 1000]
+        ];
         return view('livewire.home', $params)->extends('layouts.master')->section('content');
     }
 }

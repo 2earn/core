@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Livewire;
 
 use Core\Models\language;
@@ -15,10 +16,7 @@ class TopBar extends Component
     private settingsManager $settingsManager;
     private BalancesManager $balancesManager;
 
-    public function mount(
-        settingsManager $settingsManager,
-        BalancesManager $balancesManager
-    )
+    public function mount(settingsManager $settingsManager, BalancesManager $balancesManager)
     {
         $this->settingsManager = $settingsManager;
         $this->balancesManager = $balancesManager;
@@ -31,7 +29,7 @@ class TopBar extends Component
         if (!$user)
             dd('not found page');
         $params = [
-            'solde' => $this->balancesManager->getBalances($user->idUser),
+            'solde' => $this->balancesManager->getBalances($user->idUser, 0),
             'user' => $user,
             'notificationbr' => $settingsManager->getNomberNotification(),
             'userRole' => $userById->getRoleNames()->first()
