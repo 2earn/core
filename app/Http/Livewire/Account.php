@@ -67,7 +67,6 @@ class Account extends Component
 
     public function SaveChangeEdit()
     {
-//        $um = metta_user::find($this->usermetta_info['id']);
         $um = metta_user::find($this->usermetta_info['id']);
         $um->enLastName = $this->usermetta_info['enLastName'];
         $um->enFirstName = $this->usermetta_info['enFirstName'];
@@ -75,17 +74,12 @@ class Account extends Component
         $um->nationalID = $this->usermetta_info['nationalID'];
         $um->save();
         if ($this->photoFront != null) {
-//            dd($this->photoFront);
             $p = $this->photoFront->storeAs('profiles', 'front-id-image' . $um->idUser . '.png', 'public2');
         }
-
         if ($this->backback != null) {
             $p = $this->backback->storeAs('profiles', 'back-id-image' . $um->idUser . '.png', 'public2');
         }
-
-
         return redirect()->route('account', app()->getLocale())->with('SuccesUpdateProfile', Lang::get('Edit_profil_succes'));
-//        dd('ssfsdfsdf');
     }
 
     public function mount(settingsManager $settingManager)
@@ -106,7 +100,6 @@ class Account extends Component
     {
         $this->paramIdUser = $request->input('paramIdUser');
         if ($this->paramIdUser == null) $this->paramIdUser = "";
-
         if ($this->paramIdUser == null || $this->paramIdUser == "")
             $userAuth = $settingsManager->getAuthUser();
         else {
@@ -136,10 +129,7 @@ class Account extends Component
         $this->CalculPercenteComplete();
         $hasRequest = $userAuth->hasIdetificationReques();
 
-        return view('livewire.account', [
-            'hasRequest' => $hasRequest,
-            'errors_array' => $this->errors_array
-        ])->extends('layouts.master')->section('content');
+        return view('livewire.account', ['hasRequest' => $hasRequest, 'errors_array' => $this->errors_array])->extends('layouts.master')->section('content');
     }
 
     public function CalculPercenteComplete()
@@ -159,7 +149,6 @@ class Account extends Component
         }
 
         if (isset($this->usermetta_info['birthday'])) {
-
             $this->PercentComplete += 20;
         } else {
             array_push($this->errors_array, $this->getMsgErreur('birthday'));
@@ -205,7 +194,6 @@ class Account extends Component
     {
         $canModify = true;
         $us = User::find($this->user['id']);
-
         $um = metta_user::find($this->usermetta_info['id']);
 
         if ($this->paramIdUser == "" && $us->hasIdetificationReques()) {
@@ -219,18 +207,12 @@ class Account extends Component
             $um->birthday = $this->usermetta_info['birthday'];
             $um->adresse = $this->usermetta_info['adresse'];
             $um->nationalID = $this->usermetta_info['nationalID'];
-//            $us->email = $this->user['email'];
         }
-//        $um->email = $this->usermetta_info['email'];
-//        $um->childrenCount = $this->usermetta_info['childrenCount'];
-
         if ($nbrChild < 0)
             $nbrChild = 0;
         if ($nbrChild > 20)
             $nbrChild = 20;
         $um->childrenCount = $nbrChild;
-
-//        $um->idCountry = $this->usermetta_info['idCountry'];
         $um->idState = $this->usermetta_info['idState'];
         $um->gender = $this->usermetta_info['gender'];
         $um->personaltitle = $this->usermetta_info['personaltitle'];
@@ -254,39 +236,23 @@ class Account extends Component
         }
     }
 
-    ///Changer Pass
     public function PreChangePass(settingsManager $settingManager)
     {
-
         $userAuth = $settingManager->getAuthUser();
         if (!$userAuth) return;
         if ($this->sendPassSMS) {
             $soldeSms = $settingManager->getSoldeByAmount($userAuth->idUser, AmoutEnum::Sms_Balance);
-//            if(!$soldeSms > 0)
-//            {
-//                return redirect()->route('account', app()->getLocale())->with('SoldeSmsInsuffisant', Lang::get('Sms_Solde'));
-//            }
         }
         $userMail = $settingManager->getUserById($userAuth->id)->email;
-        /*if ($userMail == null || $userMail == "") {
-            return redirect()->route('account', app()->getLocale())->with('MailNonValide', Lang::get('Email_not_verified'));
-        }*/
-
         if ($this->newPassword != $this->confirmedPassword) {
             $this->earnDebug('Edit password input confirmed password invalide  : userid- ' . $userAuth->id . 'newPassword- ' . $this->newPassword . ' confirmedPassword- ' . $this->confirmedPassword);
-            return redirect()->route("account", app()->getLocale())->with('ErrorConfirmPassWord',Lang::get('Password_not_Confirmed') );
+            return redirect()->route("account", app()->getLocale())->with('ErrorConfirmPassWord', Lang::get('Password_not_Confirmed'));
         }
-//             return redirect("/".app()->getLocale().'/account')->with('ErrorConfirmPassWord', 'Password not confirmed!');
-//        $user = $settingManager->getAuthUser();
         if (!Hash::check($this->oldPassword, auth()->user()->password)) {
             return redirect()->route('account', app()->getLocale())->with('ErrorOldPassWord', Lang::get('Old_Password_invalid'));
-
-//            return back()->with('ErrorOldPassWord', Lang::get('Old_Password_invalid'));
         }
 
-
         $check_exchange = $settingManager->randomNewCodeOpt();
-        //dd($check_exchange);
         User::where('id', $userAuth->id)->update(['activationCodeValue' => $check_exchange]);
 
         $settingManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::OPTVerification, [
@@ -312,18 +278,12 @@ class Account extends Component
             $this->earnDebug('Edit password input opt code OPT invalide  :  userid- ' . $userAuth->id . ' code- ' . $code);
             return redirect()->route("account", app()->getLocale())->with('ErrorOptCodeUpdatePass', Lang::get('Invalid_OPT_code'));
         }
-
-//        $this->validate();
         if ($this->newPassword != $this->confirmedPassword) {
             $this->earnDebug('Edit password input confirmed password invalide  : userid- ' . $userAuth->id . 'newPassword- ' . $this->newPassword . ' confirmedPassword- ' . $this->confirmedPassword);
-            return redirect()->route("account", app()->getLocale())->with('ErrorConfirmPassWord',Lang::get('Password_not_Confirmed') );
+            return redirect()->route("account", app()->getLocale())->with('ErrorConfirmPassWord', Lang::get('Password_not_Confirmed'));
         }
-//             return redirect("/".app()->getLocale().'/account')->with('ErrorConfirmPassWord', 'Password not confirmed!');
-//        $user = $settingManager->getAuthUser();
         if (!Hash::check($this->oldPassword, auth()->user()->password)) {
             return redirect()->route('account', app()->getLocale())->with('ErrorOldPassWord', Lang::get('Old_Password_invalid'));
-
-//            return back()->with('ErrorOldPassWord', Lang::get('Old_Password_invalid'));
         }
 
         $new_pass = Hash::make($this->newPassword);
@@ -337,22 +297,17 @@ class Account extends Component
         return redirect()->route('account', app()->getLocale())->with('SuccesUpdatePassword', Lang::get('Password updated'));
     }
 
-    ///
     public function sendVerificationMail($mail, settingsManager $settingsManager)
     {
-
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) abort(404);
         if ($mail == "") return;
         $userExisteMail = $settingsManager->getConditionalUser('email', $mail);
-
-//        dd($mettauser && $mettauser->idUser != $userAuth->idUser) ;
         if ($userExisteMail && $userExisteMail->idUser != $userAuth->idUser) {
             return redirect()->route('account', app()->getLocale())->with('ErrorMailUsed', Lang::get('mail_used'));
         }
         $opt = $this->randomNewCodeOpt();
         $us = User::find($this->user['id']);
-//      dd($us);
         $us->OptActivation = $opt;
         $us->OptActivation_at = Carbon::now();
         $us->save();
@@ -370,9 +325,7 @@ class Account extends Component
             'text' => '',
             'numberActif' => $numberActif,
         ]);
-
         $this->newMail = $mail;
-
     }
 
     public function saveVerifiedMail($codeOpt)
@@ -401,11 +354,7 @@ class Account extends Component
         $userAuth = $settingsManager->getAuthUser();
         $hasRequest = $userAuth->hasIdetificationReques();
         if ($hasRequest) {
-            $this->dispatchBrowserEvent('existIdentificationRequest', [
-                'tyepe' => 'warning',
-                'title' => "Opt",
-                'text' => '',
-            ]);
+            $this->dispatchBrowserEvent('existIdentificationRequest', ['tyepe' => 'warning', 'title' => "Opt", 'text' => '',]);
         } else {
             $sensIdentification = identificationuserrequest::create([
                 'idUser' => $userAuth->idUser,
@@ -414,7 +363,6 @@ class Account extends Component
                 'response' => 0,
                 'note' => '',
                 'status' => 1,
-//        'responseDate'=>'',
             ]);
         }
     }
