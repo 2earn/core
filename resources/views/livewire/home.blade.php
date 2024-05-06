@@ -205,14 +205,14 @@
                                 <span class="counter-value"
                                       data-target="{{$userSelledAction}}">0</span>
                                 <small class="text-muted fs-13">
-                                    {{$actionsValues}}
+                                    ({{$actionsValues}}{{$currency}})
                                 </small></h3>
                             <button data-bs-target="#buy-action" data-bs-toggle="modal"
                                     class="btn btn-sm btn-secondary">{{ __('Buy Shares') }}</button>
                             <span class="badge bg-light text-success  ms-2 mb-0"><i
                                     class="ri-arrow-up-line align-middle"></i>
-                                {{number_format(getUserActualActionsProfit(Auth()->user()->idUser),2) }} {{$currency}}</span>
-
+                                {{$userActualActionsProfit }} {{$currency}}
+                            </span>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <lord-icon
@@ -220,7 +220,6 @@
                                 colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
                             </lord-icon>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -426,7 +425,6 @@
                         </form>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -452,8 +450,6 @@
                             $('#bfs-select').addClass('d-none');
                         }
                     });
-
-// Utilisation de la fonction générique avec votre exemple
                     $(document).on("click", "#buy-action-submit", function () {
                         this.disabled = true;
                         let ammount = $('#ammount').val();
@@ -539,17 +535,7 @@
                             {from: 100, to: 500},
                             {greater: 500}
                         ]);
-                        scale.colors([
-                            '#81d4fa',
-                            '#4fc3f7',
-                            '#29b6f6',
-                            '#039be5',
-                            '#0288d1',
-                            '#0277bd',
-                            '#01579b',
-                            '#014377',
-                            '#000000'
-                        ]);
+                        scale.colors(['#81d4fa', '#4fc3f7', '#29b6f6', '#039be5', '#0288d1', '#0277bd', '#01579b', '#014377', '#000000']);
                         series.colorScale(scale);
                         var zoomController = anychart.ui.zoom();
                         zoomController.render(map);
@@ -559,52 +545,34 @@
                         var colors = anychart.scales
                             .ordinalColor()
                             .colors(['#26959f', '#f18126', '#3b8ad8', '#60727b', '#e24b26']);
-
-                        // create tag cloud
                         var chart = anychart.tagCloud();
-                        // set chart title
                         chart
-                            // set data with settings
                             .data(mapping)
-                            // set color scale
                             .colorScale(colors)
-                            // set array of angles, by which words will be placed
                             .angles([-90, 0, 90,]);
                         chart
                             .tooltip(false);
                         var colorRange = chart.colorRange();
-                        // enabled color range
                         colorRange
                             .enabled(true)
-                            // sets color line size
                             .colorLineSize(15);
-                        // save normal fill function to variable
                         var normalFillFunction = chart.normal().fill();
-                        // save hover fill function to variable
                         var hoveredFillFunction = chart.hovered().fill();
-
-                        // create custom interactivity to hover colorRange
                         chart.listen('pointsHover', function (e) {
                             if (e.actualTarget === colorRange) {
-                                // if points exist
                                 if (e.points.length) {
-                                    // set settings for normal state
                                     chart.normal({
                                         fill: 'black 0.1'
                                     });
-                                    // set settings for hovered state
                                     chart.hovered({
-                                        // get fill color ratio by its number and set fill to hovered state
                                         fill: chart
                                             .colorScale()
                                             .valueToColor(e.point.get('category'))
                                     });
                                 } else {
-                                    // set function for normal state
                                     chart.normal({
                                         fill: normalFillFunction
                                     });
-                                    // set function for hovered state
                                     chart.hovered({
                                         fill: hoveredFillFunction
                                     });
