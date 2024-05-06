@@ -4,10 +4,10 @@
             {{ __('Home') }}
         @endslot
     @endcomponent
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"
-          type="text/css"/>
+    <link type="text/css" rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"/>
     <div class="row">
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-3 col-md-6 solde-cash">
             <div class="card card-animate">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -16,13 +16,15 @@
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
-                                @if($cashBalance - $arraySoldeD[0] > 0)
-                                    <p class="text-success" style="max-height: 5px">+{{$cashBalance - $arraySoldeD[0]}}
-                                        <i class="ri-arrow-right-up-line fs-13 align-middle"></i></p>
-                                @elseif($cashBalance - $arraySoldeD[0] < 0)
-                                    <p class="text-danger" style="max-height: 5px">{{$cashBalance - $arraySoldeD[0]}} <i
-                                            class="ri-arrow-right-down-line fs-13 align-middle"></i></p>
-                                @endif
+                                @php
+                                    $cb_asd =$cashBalance - $arraySoldeD[0];
+                                @endphp
+                                <p class="@if($cb_asd > 0) text-success @elseif($cb_asd < 0) text-danger @endif"
+                                   style="max-height: 5px">@if ($cb_asd > 0)
+                                        +
+                                    @endif{{$cb_asd}}
+                                    <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
+                                </p>
                             </h5>
                         </div>
                     </div>
@@ -51,7 +53,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6">
+        <div class="col-xl-2 col-md-6 solde-bfs">
             <div class="card card-animate">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -62,24 +64,22 @@
                             <h5 class="text-success fs-14 mb-0">
                                 @php
                                     $bfs_asd = $balanceForSopping - $arraySoldeD[1];
-                                    $db_asd = $discountBalance - $arraySoldeD[2];
                                 @endphp
-                                @if($bfs_asd > 0)
-                                    <p class="text-success" style="max-height: 5px">
-                                        +{{$bfs_asd}} <i
-                                            class="ri-arrow-right-up-line fs-13 align-middle"></i></p>
-                                @elseif($bfs_asd < 0)
-                                    <p class="text-danger"
-                                       style="max-height: 5px">{{$bfs_asd}} <i
-                                            class="ri-arrow-right-down-line fs-13 align-middle"></i></p>
-                                @endif
+                                <p class="@if ($bfs_asd > 0) text-success @elseif ($bfs_asd < 0) text-danger @endif"
+                                   style="max-height: 5px">
+                                    @if ($bfs_asd > 0)
+                                        +
+                                    @endif
+                                    {{$bfs_asd}}
+                                    <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
+                                </p>
                             </h5>
                         </div>
                     </div>
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
-                            <h3 class="mb-4 fs-22 fw-semibold ff-secondary">{{$currency}}<span class="counter-value"
-                                                                                               data-target="{{(int)$balanceForSopping}}">0</span>
+                            <h3 class="mb-4 fs-22 fw-semibold ff-secondary">{{$currency}}
+                                <span class="counter-value" data-target="{{(int)$balanceForSopping}}">0</span>
                                 <small class="text-muted fs-13">
                                     <?php $val = explode('.', number_format($balanceForSopping, 2))[1] ?>
                                     @if($val>0)
@@ -101,7 +101,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6">
+        <div class="col-xl-2 col-md-6 solde-discount">
             <div class="card card-animate">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -110,15 +110,16 @@
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
-                                @if( $db_asd > 0)
-                                    <p class="text-success" style="max-height: 5px">
-                                        +{{ $db_asd}} <i
-                                            class="ri-arrow-right-up-line fs-13 align-middle"></i></p>
-                                @elseif( $db_asd < 0)
-                                    <p class="text-danger"
-                                       style="max-height: 5px">{{ $db_asd}} <i
-                                            class="ri-arrow-right-down-line fs-13 align-middle"></i></p>
-                                @endif
+                                @php
+                                    $db_asd = $discountBalance - $arraySoldeD[2];
+                                @endphp
+                                <p class="@if ( $db_asd > 0) text-success @elseif( $db_asd < 0) text-danger @endif"
+                                   style="max-height: 5px">
+                                    @if ($db_asd > 0)
+                                        +
+                                    @endif{{ $db_asd}}
+                                    <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
+                                </p>
                             </h5>
                         </div>
                     </div>
@@ -149,8 +150,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6">
-            <!-- card -->
+        <div class="col-xl-2 col-md-6 solde-sms">
             <div class="card card-animate">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -181,7 +181,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-3 col-md-6 solde-actions">
             <div class="card card-animate">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -394,8 +394,7 @@
                                         {{ __('Number Of Shares') }}
                                     </label>
                                     <input type="number" disabled class="form-control" id="number-of-action"
-                                           wire:model.live="action"
-                                           value="0000">
+                                           wire:model.live="action" value="0000">
                                 </div>
                                 <div class="col-md-4 col-sm-6 col-xs-6">
                                     <label for="number-of-gifted-action" class="col-form-label">
