@@ -22,7 +22,8 @@
                                 <p class="@if($cb_asd > 0) text-success @elseif($cb_asd < 0) text-danger @endif"
                                    style="max-height: 5px">@if ($cb_asd > 0)
                                         +
-                                    @endif{{$cb_asd}}
+                                    @endif
+                                    {{formatSolde($cb_asd)}}
                                     <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
                                 </p>
                             </h5>
@@ -70,7 +71,7 @@
                                     @if ($bfs_asd > 0)
                                         +
                                     @endif
-                                    {{$bfs_asd}}
+                                    {{formatSolde($bfs_asd)}}
                                     <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
                                 </p>
                             </h5>
@@ -117,7 +118,8 @@
                                    style="max-height: 5px">
                                     @if ($db_asd > 0)
                                         +
-                                    @endif{{ $db_asd}}
+                                    @endif
+                                        {{ formatSolde($db_asd)}}
                                     <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
                                 </p>
                             </h5>

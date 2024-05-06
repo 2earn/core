@@ -52,11 +52,11 @@ class  UserBalancesRepository implements IUserBalancesRepository
             $calculetedUserBalances->soldeT = $solde->where("idamounts", "4")->first()->solde;
             $calculetedUserBalances->soldeSMS = $solde->where("idamounts", "5")->first()->solde;
 
-            $calculetedUserBalances->soldeCB = $this->formatSolde($calculetedUserBalances->soldeCB, $decimals);
-            $calculetedUserBalances->soldeBFS = $this->formatSolde($calculetedUserBalances->soldeBFS, $decimals);
-            $calculetedUserBalances->soldeDB = $this->formatSolde($calculetedUserBalances->soldeDB, $decimals);
-            $calculetedUserBalances->soldeT = $this->formatSolde($calculetedUserBalances->soldeT, $decimals);
-            $calculetedUserBalances->soldeSMS = $this->formatSolde($calculetedUserBalances->soldeSMS, $decimals);
+            $calculetedUserBalances->soldeCB = formatSolde($calculetedUserBalances->soldeCB, $decimals);
+            $calculetedUserBalances->soldeBFS = formatSolde($calculetedUserBalances->soldeBFS, $decimals);
+            $calculetedUserBalances->soldeDB = formatSolde($calculetedUserBalances->soldeDB, $decimals);
+            $calculetedUserBalances->soldeT = formatSolde($calculetedUserBalances->soldeT, $decimals);
+            $calculetedUserBalances->soldeSMS = formatSolde($calculetedUserBalances->soldeSMS, $decimals);
         } else {
             $calculetedUserBalances->soldeCB = self::SOLD_INIT;
             $calculetedUserBalances->soldeBFS = self::SOLD_INIT;
@@ -66,14 +66,6 @@ class  UserBalancesRepository implements IUserBalancesRepository
         }
 
         return $calculetedUserBalances;
-    }
-
-    public function formatSolde($solde, $decimals = 2)
-    {
-        if ($decimals == -1) {
-            return floatval($solde);
-        }
-        return number_format(floatval($solde), $decimals, '.', ',');
     }
 
     public function getCurrentBalance($idUser): calculated_userbalances

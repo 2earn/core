@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Models\User;
 use Carbon\Carbon;
 use Core\Enum\OperateurSmsEnum;
@@ -26,7 +25,6 @@ use Core\Services\BalancesManager;
 use Paytabscom\Laravel_paytabs\Facades\paypage;
 use Core\Models\Setting;
 
-
 if (!function_exists('getUserBalanceSoldes')) {
     function getUserBalanceSoldes($idUser, $amount)
     {
@@ -38,7 +36,6 @@ if (!function_exists('getUserBalanceSoldes')) {
             ->where('u.idamount', $amount)
             ->groupBy('u.idUser', 'u.idamount')
             ->first();
-
 
         if ($result) {
             return $result->value;
@@ -69,12 +66,10 @@ if (!function_exists('getRegisterUpline')) {
             ->where('users.idUser', $iduser)
             ->first(['users.fullphone_number', 'metta_users.arFirstName', 'metta_users.enFirstName', 'metta_users.arLastName', 'metta_users.enLastName']);
 
-// Construire le nom complet en utilisant les valeurs des colonnes arFirstName, enFirstName, arLastName, enLastName
         $fullName = $userData->arFirstName ?? $userData->enFirstName;
         $fullName .= ' ';
         $fullName .= $userData->arLastName ?? $userData->enLastName;
 
-// Si le nom complet est vide, utilisez le numéro de téléphone complet
         if (empty(trim($fullName))) {
             $result = $userData->fullphone_number;
         } else {
@@ -97,11 +92,11 @@ if (!function_exists('getUserListCards')) {
         }, 'a')
             ->select('a.idamount', DB::raw('SUM(a.value) as value'))
             ->groupBy('a.idamount')
-            ->orderBy('a.idamount') // Ajout de l'ordre par idamount
+            ->orderBy('a.idamount')
             ->union(DB::table('user_balances')
                 ->select(DB::raw('7 as idamount'), DB::raw('SUM(value) as value'))
                 ->where('idBalancesOperation', 48))
-            ->orderBy('idamount') // Ajout de l'ordre par idamount pour le second ensemble de données
+            ->orderBy('idamount')
             ->get();
         $dataArray = $data->pluck('value')->toArray();
         return $dataArray;
@@ -161,14 +156,12 @@ if (!function_exists('delUsertransaction')) {
         $del = DB::table('user_transactions')
             ->where('idUser', $user)
             ->delete();
-
         return response()->json($del);
     }
 }
 if (!function_exists('getPhoneByUser')) {
     function getPhoneByUser($user)
     {
-
         $us = \App\Models\User::where('idUser', $user)->first();
         return $us ? $us->fullphone_number : NULL;
     }
@@ -183,7 +176,6 @@ if (!function_exists('getUserByPhone')) {
 }
 
 
-// parrainage proactif
 if (!function_exists('getUserByContact')) {
     function getUserByContact($phone)
     {
@@ -267,7 +259,6 @@ if (!function_exists('getRevenuSharesReal')) {
 if (!function_exists('getUserSelledActions')) {
     function getUserSelledActions($user)
     {
-        //nbr des actions pour un utilisateur
         return \Core\Models\user_balance::where('idBalancesOperation', 44)->where('idUser', $user)->selectRaw('SUM(value + gifted_shares) as total_sum')->first()->total_sum;
     }
 }
@@ -341,7 +332,6 @@ if (!function_exists('getLocationByIP')) {
         $samePay = true;
         $ip = ip2long(request()->ip());
 
-
         $ip = long2ip($ip);
         earnDebug("ippp1: " . $ip);
         if ($ip == '0.0.0.0' || $ip == '127.0.0.1') {
@@ -362,7 +352,6 @@ if (!function_exists('getLocationByIP')) {
             }
             if (strtolower(getActifNumber()->isoP) != strtolower($country_code) && strtolower($country_code) == strtolower($countryAuth->apha2)) {
                 $num = collect(DB::select('select * from usercontactnumber where idUser = ? and mobile = ?', [Auth::user()->idUser, $authUser->mobile]))->first();
-
                 DB::update('update usercontactnumber set active = 0 where idUser = ?', [$authUser->idUser]);
                 DB::update('update usercontactnumber set active = 1 where id = ?', [$num->id]);
             }
@@ -370,7 +359,6 @@ if (!function_exists('getLocationByIP')) {
         return $samePay;
     }
 }
-
 
 if (!function_exists('getActifNumber')) {
     function getActifNumber()
@@ -402,6 +390,15 @@ if (!function_exists('earnDebug')) {
         }
 
         Log::channel('earnDebug')->debug('Client IP : ' . $clientIP . 'Details-Log : ' . $message);
+    }
+}
+if (!function_exists('formatSolde')) {
+    function formatSolde($solde, $decimals = 2)
+    {
+        if ($decimals == -1) {
+            return floatval($solde);
+        }
+        return number_format(floatval($solde), $decimals, '.', ',');
     }
 }
 
