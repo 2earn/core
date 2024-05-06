@@ -23,6 +23,7 @@ class Home extends Component
     public $discountBalance;
     public $SMSBalance;
     public $currency = '$';
+    public $decimalSeperator = '.';
     public $actionsValues = 0;
     public $userSelledAction = 0;
     public $userActualActionsProfit = 0;

@@ -31,14 +31,26 @@
                     </div>
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
-                            <h3 class="mb-4 fs-22 fw-semibold ff-secondary">{{$currency}}
-                                <span class="counter-value" data-target="{{(int)$cashBalance}}">0</span>
-                                <small class="text-muted fs-13">
-                                    <?php $val = explode('.', number_format($cashBalance, 2))[1] ?>
-                                    @if($val>0)
-                                        .{{$val}}
-                                    @endif
-                                </small>
+                            <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
+                                @if(app()->getLocale()!="ar")
+                                    {{$currency}}
+                                    <span class="counter-value" data-target="{{intval($cashBalance)}}">0</span>
+                                    <small class="text-muted fs-13">
+                                        @if(getDecimals($cashBalance))
+                                            {{$decimalSeperator}}
+                                            {{getDecimals($cashBalance)}}
+                                        @endif
+                                    </small>
+                                @else
+                                    <small class="text-muted fs-13">
+                                        @if(getDecimals($cashBalance))
+                                            {{getDecimals($cashBalance)}}
+                                            {{$decimalSeperator}}
+                                        @endif
+                                    </small>
+                                    <span class="counter-value" data-target="{{intval($cashBalance)}}">0</span>
+                                    {{$currency}}
+                                @endif
                             </h3>
                             <a href="{{route('user_balance_cb' , app()->getLocale() )}} "
                                class="text-decoration-underline">{{ __('see_details') }}</a>
@@ -79,14 +91,26 @@
                     </div>
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
-                            <h3 class="mb-4 fs-22 fw-semibold ff-secondary">{{$currency}}
-                                <span class="counter-value" data-target="{{(int)$balanceForSopping}}">0</span>
-                                <small class="text-muted fs-13">
-                                    <?php $val = explode('.', number_format($balanceForSopping, 2))[1] ?>
-                                    @if($val>0)
-                                        .{{$val}}
-                                    @endif
-                                </small>
+                            <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
+                                @if(app()->getLocale()!="ar")
+                                    {{$currency}}
+                                    <span class="counter-value" data-target="{{intval($balanceForSopping)}}">0</span>
+                                    <small class="text-muted fs-13">
+                                        @if(getDecimals($balanceForSopping))
+                                            {{$decimalSeperator}}
+                                            {{getDecimals($balanceForSopping)}}
+                                        @endif
+                                    </small>
+                                @else
+                                    <small class="text-muted fs-13">
+                                        @if(getDecimals($balanceForSopping))
+                                            {{getDecimals($balanceForSopping)}}
+                                            {{$decimalSeperator}}
+                                        @endif
+                                    </small>
+                                    <span class="counter-value" data-target="{{intval($balanceForSopping)}}">0</span>
+                                    {{$currency}}
+                                @endif
                             </h3>
                             <a href="{{route('user_balance_bfs' , app()->getLocale() )}} "
                                class="text-decoration-underline">{{ __('see_details') }}</a>
@@ -119,7 +143,7 @@
                                     @if ($db_asd > 0)
                                         +
                                     @endif
-                                        {{ formatSolde($db_asd)}}
+                                    {{ formatSolde($db_asd)}}
                                     <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
                                 </p>
                             </h5>
@@ -128,14 +152,25 @@
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
                             <h4 class="mb-4 fs-22 fw-semibold ff-secondary">
-                                {{__('DPC')}}
-                                <span class="counter-value" data-target="{{(int)$discountBalance}}">0</span><small
-                                    class="text-muted fs-13">
-                                    <?php $val = explode('.', number_format($discountBalance, 2))[1] ?>
-                                    @if($val>0)
-                                        .{{$val}}
-                                    @endif
-                                </small>
+                                @if(app()->getLocale()!="ar")
+                                    {{$currency}}
+                                    <span class="counter-value" data-target="{{intval($discountBalance)}}">0</span>
+                                    <small class="text-muted fs-13">
+                                        @if(getDecimals($discountBalance))
+                                            {{$decimalSeperator}}
+                                            {{getDecimals($discountBalance)}}
+                                        @endif
+                                    </small>
+                                @else
+                                    <small class="text-muted fs-13">
+                                        @if(getDecimals($discountBalance))
+                                            {{getDecimals($discountBalance)}}
+                                            {{$decimalSeperator}}
+                                        @endif
+                                    </small>
+                                    <span class="counter-value" data-target="{{intval($discountBalance)}}">0</span>
+                                    {{$currency}}
+                                @endif
                             </h4>
                             <a href="{{route('user_balance_db' , app()->getLocale() )}} "
                                class="text-decoration-underline">{{ __('see_details') }}</a>

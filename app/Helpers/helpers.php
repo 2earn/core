@@ -392,15 +392,7 @@ if (!function_exists('earnDebug')) {
         Log::channel('earnDebug')->debug('Client IP : ' . $clientIP . 'Details-Log : ' . $message);
     }
 }
-if (!function_exists('formatSolde')) {
-    function formatSolde($solde, $decimals = 2)
-    {
-        if ($decimals == -1) {
-            return floatval($solde);
-        }
-        return number_format(floatval($solde), $decimals, '.', ',');
-    }
-}
+
 
 if (!function_exists('usdToSar')) {
     function usdToSar()
@@ -424,5 +416,21 @@ if (!function_exists('usdToSar')) {
                 ->count();
             return $result ? $result : null;
         }
+    }
+}
+
+if (!function_exists('formatSolde')) {
+    function formatSolde($solde, $decimals = 2)
+    {
+        if ($decimals == -1) {
+            return floatval($solde);
+        }
+        return number_format(floatval($solde), $decimals, '.', ',');
+    }
+}
+if (!function_exists('getDecimals')) {
+    function getDecimals($number, $decimals = 2)
+    {
+        return substr(number_format($number - intval($number), $decimals, '.', ','), 2);
     }
 }
