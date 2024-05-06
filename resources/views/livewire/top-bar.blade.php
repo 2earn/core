@@ -6,18 +6,18 @@
                     <div class="navbar-brand-box horizontal-logo">
                         <a href="index" class="logo logo-dark">
                         <span class="logo-sm">
-                            <img src="{{ URL::asset('assets/images/logo-sm.png') }}" alt="" height="22">
+                            <img src="{{ URL::asset('assets/images/logo-sm.png') }}" height="22">
                         </span>
                             <span class="logo-lg">
-                            <img src="{{ URL::asset('assets/images/logo-dark.png') }}" alt="" height="17">
+                            <img src="{{ URL::asset('assets/images/logo-dark.png') }}" height="17">
                         </span>
                         </a>
                         <a href="index" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="{{ URL::asset('assets/images/logo-sm.png') }}" alt="" height="22">
+                            <img src="{{ URL::asset('assets/images/logo-sm.png') }}" height="22">
                         </span>
                             <span class="logo-lg">
-                            <img src="{{ URL::asset('assets/images/logo-light.png') }}" alt="" height="17">
+                            <img src="{{ URL::asset('assets/images/logo-light.png') }}" height="17">
                         </span>
                         </a>
                     </div>
@@ -45,7 +45,7 @@
                                     <p class="text-uppercase fw-medium     mb-0 ms-2">
                                         {{ __('Cash Balance') }}</p>
                                     <h5 class="fs-14 mb-0 ms-2">
-                                        {{__('DPC')}}  {{intval($solde->soldeCB)}}
+                                        {{__('DPC')}}{{$solde->soldeCB}}
                                     </h5>
                                 </a>
                             </div>
@@ -69,7 +69,7 @@
                                     <p class="text-uppercase fw-medium     mb-0 ms-2">
                                         {{ __('Balance For Shopping') }}</p>
                                     <h5 class="text-success fs-14 mb-0  ms-2">
-                                        {{__('DPC')}} {{intval($solde->soldeBFS)}}
+                                        {{__('DPC')}}{{$solde->soldeBFS}}
                                     </h5>
                                 </a>
                             </div>
@@ -93,9 +93,9 @@
                                     <p class="text-uppercase fw-medium     mb-0 ms-2">
                                         {{ __('Discounts Balance') }}</p>
                                     <h5 class="text-secondary fs-14 mb-0 ms-2">
-                                        {{__('DPC')}} </span>
-                                        {{intval($solde->soldeDB)}}
-                                    </h5></a>
+                                        {{__('DPC')}}{{$solde->soldeDB}}
+                                    </h5>
+                                </a>
                             </div>
                             <div class="flex-shrink-0">
                             </div>

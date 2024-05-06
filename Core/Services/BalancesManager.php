@@ -21,21 +21,24 @@ class BalancesManager
         $this->balanceOperationRepositoty = $balanceOperationRepositoty;
     }
 
-    public function getBalances($IdUser)
+    public function getBalances($IdUser, $decimals = 2)
     {
-        return $this->userBalancesRepository->getBalance($IdUser);
+        return $this->userBalancesRepository->getBalance($IdUser, $decimals);
     }
+
     public function getCurrentBalance($IdUser)
     {
         return $this->userBalancesRepository->getCurrentBalance($IdUser);
     }
+
     public function getBalanceOperation(BalanceOperationsEnum $operation)
     {
-       return $this->balanceOperationRepositoty->getBalanceOperationById($operation);
+        return $this->balanceOperationRepositoty->getBalanceOperationById($operation);
     }
+
     public function getAllBalanceOperation()
     {
-        return $this->balanceOperationRepositoty->getBalanceOperation( );
+        return $this->balanceOperationRepositoty->getBalanceOperation();
     }
 
 }

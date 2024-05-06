@@ -4,10 +4,10 @@
             {{ __('Home') }}
         @endslot
     @endcomponent
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"
-          type="text/css"/>
+    <link type="text/css" rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"/>
     <div class="row">
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-3 col-md-6 solde-cash">
             <div class="card card-animate">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -16,26 +16,41 @@
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
-                                @if($cashBalance - $arraySoldeD[0] > 0)
-                                    <p class="text-success" style="max-height: 5px">+{{$cashBalance - $arraySoldeD[0]}}
-                                        <i class="ri-arrow-right-up-line fs-13 align-middle"></i></p>
-                                @elseif($cashBalance - $arraySoldeD[0] < 0)
-                                    <p class="text-danger" style="max-height: 5px">{{$cashBalance - $arraySoldeD[0]}} <i
-                                            class="ri-arrow-right-down-line fs-13 align-middle"></i></p>
-                                @endif
+                                @php
+                                    $cb_asd =$cashBalance - $arraySoldeD[0];
+                                @endphp
+                                <p class="@if($cb_asd > 0) text-success @elseif($cb_asd < 0) text-danger @endif"
+                                   style="max-height: 5px">@if ($cb_asd > 0)
+                                        +
+                                    @endif
+                                    {{formatSolde($cb_asd)}}
+                                    <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
+                                </p>
                             </h5>
                         </div>
                     </div>
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
-                            <h3 class="mb-4 fs-22 fw-semibold ff-secondary">$<span class="counter-value"
-                                                                                   data-target="{{(int)$cashBalance}}">0</span>
-                                <small class="text-muted fs-13">
-                                    <?php $val = explode('.', number_format($cashBalance, 2))[1] ?>
-                                    @if($val>0)
-                                        .{{$val}}
-                                    @endif
-                                </small>
+                            <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
+                                @if(app()->getLocale()!="ar")
+                                    {{$currency}}
+                                    <span class="counter-value" data-target="{{intval($cashBalance)}}">0</span>
+                                    <small class="text-muted fs-13">
+                                        @if(getDecimals($cashBalance))
+                                            {{$decimalSeperator}}
+                                            {{getDecimals($cashBalance)}}
+                                        @endif
+                                    </small>
+                                @else
+                                    <small class="text-muted fs-13">
+                                        @if(getDecimals($cashBalance))
+                                            {{getDecimals($cashBalance)}}
+                                            {{$decimalSeperator}}
+                                        @endif
+                                    </small>
+                                    <span class="counter-value" data-target="{{intval($cashBalance)}}">0</span>
+                                    {{$currency}}
+                                @endif
                             </h3>
                             <a href="{{route('user_balance_cb' , app()->getLocale() )}} "
                                class="text-decoration-underline">{{ __('see_details') }}</a>
@@ -51,7 +66,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6">
+        <div class="col-xl-2 col-md-6 solde-bfs">
             <div class="card card-animate">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -60,28 +75,42 @@
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
-                                @if($balanceForSopping - $arraySoldeD[1] > 0)
-                                    <p class="text-success" style="max-height: 5px">
-                                        +{{$balanceForSopping - $arraySoldeD[1]}} <i
-                                            class="ri-arrow-right-up-line fs-13 align-middle"></i></p>
-                                @elseif($balanceForSopping - $arraySoldeD[1] < 0)
-                                    <p class="text-danger"
-                                       style="max-height: 5px">{{$balanceForSopping - $arraySoldeD[1]}} <i
-                                            class="ri-arrow-right-down-line fs-13 align-middle"></i></p>
-                                @endif
+                                @php
+                                    $bfs_asd = $balanceForSopping - $arraySoldeD[1];
+                                @endphp
+                                <p class="@if ($bfs_asd > 0) text-success @elseif ($bfs_asd < 0) text-danger @endif"
+                                   style="max-height: 5px">
+                                    @if ($bfs_asd > 0)
+                                        +
+                                    @endif
+                                    {{formatSolde($bfs_asd)}}
+                                    <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
+                                </p>
                             </h5>
                         </div>
                     </div>
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
-                            <h3 class="mb-4 fs-22 fw-semibold ff-secondary">$<span class="counter-value"
-                                                                                   data-target="{{(int)$balanceForSopping}}">0</span>
-                                <small class="text-muted fs-13">
-                                    <?php $val = explode('.', number_format($balanceForSopping, 2))[1] ?>
-                                    @if($val>0)
-                                        .{{$val}}
-                                    @endif
-                                </small>
+                            <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
+                                @if(app()->getLocale()!="ar")
+                                    {{$currency}}
+                                    <span class="counter-value" data-target="{{intval($balanceForSopping)}}">0</span>
+                                    <small class="text-muted fs-13">
+                                        @if(getDecimals($balanceForSopping))
+                                            {{$decimalSeperator}}
+                                            {{getDecimals($balanceForSopping)}}
+                                        @endif
+                                    </small>
+                                @else
+                                    <small class="text-muted fs-13">
+                                        @if(getDecimals($balanceForSopping))
+                                            {{getDecimals($balanceForSopping)}}
+                                            {{$decimalSeperator}}
+                                        @endif
+                                    </small>
+                                    <span class="counter-value" data-target="{{intval($balanceForSopping)}}">0</span>
+                                    {{$currency}}
+                                @endif
                             </h3>
                             <a href="{{route('user_balance_bfs' , app()->getLocale() )}} "
                                class="text-decoration-underline">{{ __('see_details') }}</a>
@@ -97,7 +126,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6">
+        <div class="col-xl-2 col-md-6 solde-discount">
             <div class="card card-animate">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -106,29 +135,42 @@
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
-                                @if($discountBalance - $arraySoldeD[2] > 0)
-                                    <p class="text-success" style="max-height: 5px">
-                                        +{{$discountBalance - $arraySoldeD[2]}} <i
-                                            class="ri-arrow-right-up-line fs-13 align-middle"></i></p>
-                                @elseif($discountBalance - $arraySoldeD[2] < 0)
-                                    <p class="text-danger"
-                                       style="max-height: 5px">{{$discountBalance - $arraySoldeD[2]}} <i
-                                            class="ri-arrow-right-down-line fs-13 align-middle"></i></p>
-                                @endif
+                                @php
+                                    $db_asd = $discountBalance - $arraySoldeD[2];
+                                @endphp
+                                <p class="@if ( $db_asd > 0) text-success @elseif( $db_asd < 0) text-danger @endif"
+                                   style="max-height: 5px">
+                                    @if ($db_asd > 0)
+                                        +
+                                    @endif
+                                    {{ formatSolde($db_asd)}}
+                                    <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
+                                </p>
                             </h5>
                         </div>
                     </div>
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
                             <h4 class="mb-4 fs-22 fw-semibold ff-secondary">
-                                {{__('DPC')}}
-                                <span class="counter-value" data-target="{{(int)$discountBalance}}">0</span><small
-                                    class="text-muted fs-13">
-                                    <?php $val = explode('.', number_format($discountBalance, 2))[1] ?>
-                                    @if($val>0)
-                                        .{{$val}}
-                                    @endif
-                                </small>
+                                @if(app()->getLocale()!="ar")
+                                    {{$currency}}
+                                    <span class="counter-value" data-target="{{intval($discountBalance)}}">0</span>
+                                    <small class="text-muted fs-13">
+                                        @if(getDecimals($discountBalance))
+                                            {{$decimalSeperator}}
+                                            {{getDecimals($discountBalance)}}
+                                        @endif
+                                    </small>
+                                @else
+                                    <small class="text-muted fs-13">
+                                        @if(getDecimals($discountBalance))
+                                            {{getDecimals($discountBalance)}}
+                                            {{$decimalSeperator}}
+                                        @endif
+                                    </small>
+                                    <span class="counter-value" data-target="{{intval($discountBalance)}}">0</span>
+                                    {{$currency}}
+                                @endif
                             </h4>
                             <a href="{{route('user_balance_db' , app()->getLocale() )}} "
                                class="text-decoration-underline">{{ __('see_details') }}</a>
@@ -145,8 +187,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6">
-            <!-- card -->
+        <div class="col-xl-2 col-md-6 solde-sms">
             <div class="card card-animate">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -177,7 +218,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-3 col-md-6 solde-actions">
             <div class="card card-animate">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -199,19 +240,16 @@
                         <div>
                             <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
                                 <span class="counter-value"
-                                      data-target="{{getUserSelledActions(Auth()->user()->idUser)}}">0</span>
+                                      data-target="{{$userSelledAction}}">0</span>
                                 <small class="text-muted fs-13">
-                                    <?php $val = number_format(getUserSelledActions(Auth()->user()->idUser) * actualActionValue(getSelledActions()), 5) ?>
-                                    @if(1>0)
-                                        ({{$val}}$)
-                                    @endif
+                                    ({{$actionsValues}}{{$currency}})
                                 </small></h3>
                             <button data-bs-target="#buy-action" data-bs-toggle="modal"
                                     class="btn btn-sm btn-secondary">{{ __('Buy Shares') }}</button>
                             <span class="badge bg-light text-success  ms-2 mb-0"><i
                                     class="ri-arrow-up-line align-middle"></i>
-                                {{number_format(getUserActualActionsProfit(Auth()->user()->idUser),2) }} $</span>
-
+                                {{$userActualActionsProfit }} {{$currency}}
+                            </span>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <lord-icon
@@ -219,7 +257,6 @@
                                 colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
                             </lord-icon>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -242,16 +279,15 @@
     </div>
     <div wire:ignore.self class="modal fade" id="buy-action" tabindex="-1" aria-labelledby="exampleModalgridLabel"
          aria-modal="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog" id="buy-share">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Buy Shares') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row mt-3 alert alert-info" role="alert">
-                        <h5 class="alert-heading">{{ __('Notice') }}</h5>
-                        <p>{{ __('buy_shares_notice') }}</p>
+                    <div class="row alert alert-info" role="alert">
+                        <p><strong>{{ __('Notice') }}: </strong>{{ __('buy_shares_notice') }}</p>
                     </div>
                     <div class="d-flex">
                         <div class="ms-2 header-item d-flex me-2">
@@ -267,11 +303,10 @@
                             <div class="d-flex align-items-center logoTopCashLabel">
                                 <div class="flex-grow-1 overflow-hidden">
                                     <a href="{{route('user_balance_cb',app()->getLocale())}}">
-                                        <p class="text-uppercase fw-medium mb-0 ms-3">
+                                        <p class="text-uppercase fw-medium mb-0 ms-2">
                                             {{ __('Cash Balance') }}</p>
-                                        <h5 class="fs-14 mb-0 ms-3">
-                                            {{__('DPC')}}
-                                            {{floatval($solde->soldeCB)}}
+                                        <h5 class="text-primary fs-14 mb-0 ms-2">
+                                            {{__('DPC')}}{{$soldeBuyShares->soldeCB}}
                                         </h5>
                                     </a>
                                 </div>
@@ -292,11 +327,10 @@
                             <div class="d-flex align-items-center logoTopBFSLabel">
                                 <div class="flex-grow-1 overflow-hidden">
                                     <a href="{{route('user_balance_bfs',app()->getLocale())}}">
-                                        <p class="text-uppercase fw-medium   mb-0 ms-4">
+                                        <p class="text-uppercase fw-medium mb-0 ms-2">
                                             {{ __('Balance For Shopping') }}</p>
-                                        <h5 class="text-success fs-14 mb-0  ms-3">
-                                            {{__('DPC')}}
-                                            {{floatval($solde->soldeBFS)}}
+                                        <h5 class="text-success fs-14 mb-0 ms-2">
+                                            {{__('DPC')}}{{$soldeBuyShares->soldeBFS}}
                                         </h5>
                                     </a>
                                 </div>
@@ -317,12 +351,11 @@
                             <div class="d-flex align-items-center logoTopDBLabel">
                                 <div class="flex-grow-1 overflow-hidden">
                                     <a href="{{route('user_balance_db',app()->getLocale())}}">
-                                        <p class="text-uppercase fw-medium mb-0 ms-3">
+                                        <p class="text-uppercase fw-medium mb-0 ms-2">
                                             {{ __('Discounts Balance') }}
                                         </p>
-                                        <h5 class="text-secondary fs-14 mb-0 ms-3">
-                                            {{__('DPC')}} </span>
-                                            {{floatval($solde->soldeDB)}}
+                                        <h5 class="text-secondary fs-14 mb-0 ms-2">
+                                            {{__('DPC')}}{{$soldeBuyShares->soldeDB}}
                                         </h5>
                                     </a>
                                 </div>
@@ -333,8 +366,8 @@
                     </div>
                     <div class="d-flex">
                         <form class="needs-validation" novalidate>
-                            <div class="row mt-3 alert alert-primary">
-                                <div class="col-2">
+                            <div class="row mt-2 alert alert-primary">
+                                <div class="col-3">
                                     <span class="form-label">{{ __('Buy For') }}:</span>
                                 </div>
                                 <div class="col-4">
@@ -344,7 +377,7 @@
                                         <label class="form-check-label" for="inlineRadio1">{{ __('me') }}</label>
                                     </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-5">
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="inlineRadioOptions"
                                                id="inlineRadio2" value="other" disabled>
@@ -361,19 +394,23 @@
                                     <span class="form-label mb-3">{{ __('BFS bonuses  for') }} </span>
                                     <div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="bfs-for" id="bfs-for-1" value="me">
+                                            <input class="form-check-input" type="radio" name="bfs-for" id="bfs-for-1"
+                                                   value="me">
                                             <label for="bfs-for-1" class="form-check-label">{{ __('me') }}</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="bfs-for" id="bfs-for-2" value="other">
-                                            <label  for="bfs-for-2" class="form-check-label">{{ __('The chosen user') }}</label>
+                                            <input class="form-check-input" type="radio" name="bfs-for" id="bfs-for-2"
+                                                   value="other">
+                                            <label for="bfs-for-2"
+                                                   class="form-check-label">{{ __('The chosen user') }}</label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div id="simulator" class="row mt-3">
                                 <div class="col-12">
-                                    <label for="ammount" class="col-form-label">{{ __('Amount_pay') }}($)</label>
+                                    <label for="ammount" class="col-form-label">{{ __('Amount_pay') }}({{$currency}}
+                                        )</label>
                                     <div class="input-group">
                                         <input aria-describedby="simulate" type="number" max="{{$cashBalance}}"
                                                wire:keyup.debounce="simulate()" wire:model="ammount"
@@ -394,8 +431,7 @@
                                         {{ __('Number Of Shares') }}
                                     </label>
                                     <input type="number" disabled class="form-control" id="number-of-action"
-                                           wire:model.live="action"
-                                           value="0000">
+                                           wire:model.live="action" value="0000">
                                 </div>
                                 <div class="col-md-4 col-sm-6 col-xs-6">
                                     <label for="number-of-gifted-action" class="col-form-label">
@@ -407,7 +443,7 @@
                                 </div>
                                 <div class="col-md-4 mb-3 col-sm-6 col-xs-6">
                                     <label for="profit" class="col-form-label">{{ __('Profit') }}
-                                        ($) </label>
+                                        ({{$currency}}) </label>
                                     <input type="number" disabled class="form-control" id="profit" value="0000"
                                            wire:model.live="profit">
                                 </div>
@@ -425,7 +461,6 @@
                         </form>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -451,8 +486,6 @@
                             $('#bfs-select').addClass('d-none');
                         }
                     });
-
-// Utilisation de la fonction générique avec votre exemple
                     $(document).on("click", "#buy-action-submit", function () {
                         this.disabled = true;
                         let ammount = $('#ammount').val();
@@ -538,17 +571,7 @@
                             {from: 100, to: 500},
                             {greater: 500}
                         ]);
-                        scale.colors([
-                            '#81d4fa',
-                            '#4fc3f7',
-                            '#29b6f6',
-                            '#039be5',
-                            '#0288d1',
-                            '#0277bd',
-                            '#01579b',
-                            '#014377',
-                            '#000000'
-                        ]);
+                        scale.colors(['#81d4fa', '#4fc3f7', '#29b6f6', '#039be5', '#0288d1', '#0277bd', '#01579b', '#014377', '#000000']);
                         series.colorScale(scale);
                         var zoomController = anychart.ui.zoom();
                         zoomController.render(map);
@@ -558,52 +581,34 @@
                         var colors = anychart.scales
                             .ordinalColor()
                             .colors(['#26959f', '#f18126', '#3b8ad8', '#60727b', '#e24b26']);
-
-                        // create tag cloud
                         var chart = anychart.tagCloud();
-                        // set chart title
                         chart
-                            // set data with settings
                             .data(mapping)
-                            // set color scale
                             .colorScale(colors)
-                            // set array of angles, by which words will be placed
                             .angles([-90, 0, 90,]);
                         chart
                             .tooltip(false);
                         var colorRange = chart.colorRange();
-                        // enabled color range
                         colorRange
                             .enabled(true)
-                            // sets color line size
                             .colorLineSize(15);
-                        // save normal fill function to variable
                         var normalFillFunction = chart.normal().fill();
-                        // save hover fill function to variable
                         var hoveredFillFunction = chart.hovered().fill();
-
-                        // create custom interactivity to hover colorRange
                         chart.listen('pointsHover', function (e) {
                             if (e.actualTarget === colorRange) {
-                                // if points exist
                                 if (e.points.length) {
-                                    // set settings for normal state
                                     chart.normal({
                                         fill: 'black 0.1'
                                     });
-                                    // set settings for hovered state
                                     chart.hovered({
-                                        // get fill color ratio by its number and set fill to hovered state
                                         fill: chart
                                             .colorScale()
                                             .valueToColor(e.point.get('category'))
                                     });
                                 } else {
-                                    // set function for normal state
                                     chart.normal({
                                         fill: normalFillFunction
                                     });
-                                    // set function for hovered state
                                     chart.hovered({
                                         fill: hoveredFillFunction
                                     });
