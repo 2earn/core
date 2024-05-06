@@ -1,18 +1,16 @@
 <div>
-
     @section('title')
         @lang('translation.team')
     @endsection
     @section('content')
         @component('components.breadcrumb')
             @slot('li_1')
-                Pages
+                {{__('Pages')}}
             @endslot
             @slot('title')
-                Team
+                {{__('Team')}}
             @endslot
         @endcomponent
-
         <div class="row">
             <div class="col-12">
                 <div class="justify-content-between d-flex align-items-center mt-3 mb-4">
@@ -36,15 +34,13 @@
                                 <h6 class="mb-1">{{$req->nationalID}}</h6>
                                 <p class="card-text text-muted">{{$req->DateCreation}}</p>
                                 <a href=" {{route('validateaccount', ['locale' => app()->getLocale(), 'paramIdUser' => $req->id]) }}"
-                                   class="btn btn-primary btn-sm">See Details</a>
+                                   class="btn btn-primary btn-sm">
+                                    {{__('See Details')}}</a>
                             </div>
                         </div>
                     @endforeach
                 </div>
             </div>
         </div>
-
     @endsection
-
-
 </div>

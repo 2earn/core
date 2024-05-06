@@ -16,9 +16,6 @@ inner join users u1 on ir.IdUser = u1.idUser
 left join users u2 on ir.idUserResponse = u2.idUser
 where ir.status = ?
 ", [StatusRequst::EnCours->value]);
-//dd($query);
-        return view('livewire.identification-request', [
-            'requestIdentif' => $query
-        ])->extends('layouts.master')->section('content');
+        return view('livewire.identification-request', ['requestIdentif' => $query])->extends('layouts.master')->section('content');
     }
 }
