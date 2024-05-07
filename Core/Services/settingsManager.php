@@ -648,17 +648,22 @@ class settingsManager
         }
     }
 
-    public function rejectIdentity($idUser, $note)
+    public function updateIdentity($requestIdentification, $status, $response, $note)
     {
-        $requestIdentification = identificationuserrequest::where('idUser', $idUser)->where('status', StatusRequst::EnCours)->first();
-        dd($idUser,$note,$requestIdentification);
-        if ($requestIdentification == null) return;
-        $requestIdentification->status = StatusRequst::Rejected;
+        $requestIdentification->status = $status;
         $requestIdentification->idUserResponse = $this->getAuthUser()->idUser;
-        $requestIdentification->response = 1;
+        $requestIdentification->response = $response;
         $requestIdentification->note = $note;
         $requestIdentification->responseDate = Carbon::now();
         $requestIdentification->save();
+    }
+
+    public function rejectIdentity($idUser, $note)
+    {
+        $requestIdentification = identificationuserrequest::where('idUser', $idUser)->where('status', StatusRequst::EnCours)->first();
+        if ($requestIdentification == null) return;
+        $this->updateIdentity($requestIdentification, StatusRequst::Rejected, 1, $note);
+
         User::where('idUser', $idUser)->update(['status' => 4]);
         $user = User::where('idUser', $idUser)->first();
         $uMetta = metta_user::where('idUser', $idUser)->first();
@@ -681,11 +686,7 @@ class settingsManager
     {
         $requestIdentification = identificationuserrequest::where('idUser', $idUser)->where('status', StatusRequst::EnCours)->first();
         if ($requestIdentification == null) return;
-        $requestIdentification->status = StatusRequst::Valid;
-        $requestIdentification->idUserResponse = $this->getAuthUser()->idUser;
-        $requestIdentification->response = 1;
-        $requestIdentification->responseDate = Carbon::now();
-        $requestIdentification->save();
+        $this->updateIdentity($requestIdentification, StatusRequst::Valid, 1, null);
         User::where('idUser', $idUser)->update(['status' => 1]);
         $user = User::where('idUser', $idUser)->first();
         $uMetta = metta_user::where('idUser', $idUser)->first();

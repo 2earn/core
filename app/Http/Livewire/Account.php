@@ -338,7 +338,7 @@ class Account extends Component
     {
         $user = User::find($idUser);
         if ($user) {
-            $settingsManager->validateIdentity($idUser);
+            $settingsManager->validateIdentity($user->idUser);
             return redirect()->route('identificationRequest', app()->getLocale())->with('success', Lang::get('User identification request approuved') . ' : ' . $user->email);
         }
     }
@@ -347,7 +347,7 @@ class Account extends Component
     {
         $user = User::find($idUser);
         if ($user) {
-            $settingsManager->rejectIdentity($idUser, $this->noteReject);
+            $settingsManager->rejectIdentity($user->idUser, $this->noteReject);
             return redirect()->route('identificationRequest', app()->getLocale())->with('success', Lang::get('User identification request rejected') . ' : ' . $user->email);
         }
     }
