@@ -132,7 +132,7 @@ class ContactNumber extends Component
         }
 
         $this->dispatchBrowserEvent('PreAddNumber', [
-            'tyepe' => 'warning',
+            'type' => 'warning',
             'title' => "Opt",
             'text' => '',
             'FullNumber' => $numberID,

@@ -358,7 +358,6 @@
                                             verification, you may want to add multiple methods form the")}}
                                             <span class="fw-medium">{{__('Crypto > KYC Application.')}}</span>
                                         </p>
-
                                         <div class="hstack justify-content-center gap-2">
                                             <button type="button" class="btn btn-ghost-success"
                                                     data-bs-dismiss="modal">

@@ -265,7 +265,7 @@ class Account extends Component
         $fullNumberSend = $userContactActif->fullNumber;
 
         $this->dispatchBrowserEvent('OptChangePass', [
-            'tyepe' => 'warning',
+            'type' => 'warning',
             'title' => "Opt",
             'text' => '',
             'mail' => $fullNumberSend
@@ -318,7 +318,7 @@ class Account extends Component
 
         $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::VerifMail, ['msg' => $opt, 'type' => TypeNotificationEnum::SMS]);
 
-        $this->dispatchBrowserEvent('confirmOPTVerifMail', ['tyepe' => 'warning', 'title' => "Opt", 'text' => '', 'numberActif' => $numberActif]);
+        $this->dispatchBrowserEvent('confirmOPTVerifMail', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'numberActif' => $numberActif]);
         $this->newMail = $mail;
     }
 

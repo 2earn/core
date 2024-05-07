@@ -145,7 +145,7 @@ class FinancialTransaction extends Component
             'type' => TypeNotificationEnum::SMS
         ]);
         $this->dispatchBrowserEvent('confirmSms', [
-            'tyepe' => 'warning',
+            'type' => 'warning',
             'title' => "Opt",
             'text' => '',
             'FullNumber' => $fullNumber,
@@ -252,7 +252,7 @@ class FinancialTransaction extends Component
             'type' => TypeNotificationEnum::SMS
         ]);
         $this->dispatchBrowserEvent('OptExBFSCash', [
-            'tyepe' => 'warning',
+            'type' => 'warning',
             'title' => "Opt",
             'text' => '',
             'FullNumber' => $fullNumber,

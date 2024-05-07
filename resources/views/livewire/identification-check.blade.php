@@ -213,9 +213,11 @@
                             </div>
                             <div class="tab-pane fade" id="pills-payment" role="tabpanel"
                                  aria-labelledby="pills-payment-tab">
-                                <div class="row" style="margin: 20px">
-                                    <div class="col-6">
+                                <div class="row mt-2">
+                                    <div class="col-sm-12 col-md-6">
                                         <div>
+                                            {{$hasFrontImage}}
+                                            {{$hasBackImage}}
                                             <label class="form-label">{{ __('Front ID') }}</label>
                                         </div>
                                         <div>
@@ -238,7 +240,7 @@
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-sm-12 col-md-6">
                                         <div>
                                             <label class="form-label">{{ __('Back ID') }}</label>
                                         </div>
@@ -396,7 +398,8 @@
                     }
                 },
                 error: (error) => {
-                    alert('Something went wrong to fetch datas...');
+                    console.log('Something went wrong to fetch datas...');
+                    console.log(error);
                 }
             });
             var optChecker = document.querySelector("#optChecker");
@@ -486,7 +489,8 @@
                     }
                 },
                 error: (error) => {
-                    alert('Something went wrong to fetch datas...');
+                    console.log('Something went wrong to fetch datas...');
+                    console.log(error);
                 }
             });
             return valreturn;

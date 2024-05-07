@@ -111,6 +111,7 @@ class IdentificationCheck extends Component
         $hasRequest = $userAuth->hasIdetificationReques();
         $hasFrontImage = $userAuth->hasFrontImage();
         $hasBackImage = $userAuth->hasBackImage();
+
         $requestIdentification = identificationuserrequest::where('idUser', $userAuth->idUser)
             ->where('status', StatusRequst::Rejected->value)
             ->latest('responseDate')
@@ -127,7 +128,7 @@ class IdentificationCheck extends Component
         $userAuth = $settingsManager->getAuthUser();
         $hasRequest = $userAuth->hasIdetificationReques();
         if ($hasRequest) {
-            $this->dispatchBrowserEvent('existIdentificationRequest', ['tyepe' => 'warning', 'title' => "Opt", 'text' => '',]);
+            $this->dispatchBrowserEvent('existIdentificationRequest', ['type' => 'warning', 'title' => "Opt", 'text' => '',]);
         } else {
             $sensIdentification = identificationuserrequest::create(['idUser' => $userAuth->idUser, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(), 'response' => 0, 'note' => '', 'status' => 1]);
         }
