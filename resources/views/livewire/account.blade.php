@@ -467,56 +467,54 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
-                                        <div class="hstack gap-2 justify-content-end">
-                                            @if($paramIdUser =="")
-                                                <button type="button" id="btnsaveUser"
-                                                        class="btn btn-primary btn2earn">{{ __('Save') }}</button>
-                                            @else
-                                                <div class="form-inline" x-data="{ open: false }">
-                                                    <div class="form-group mb-2">
-                                                        <button x-show="!open" type="button" @click="open = true"
-                                                                class="btn btn-secondary ps-5 pe-5" id="reject">
-                                                            {{ __('Reject') }}
-                                                        </button>
-                                                        <button x-show="!open" class="btn btn-success ps-5 pe-5"
-                                                                wire:click="approuve({{$paramIdUser}})"
-                                                                id="validate">
-                                                            <div wire:loading wire:target="approuve({{$paramIdUser}})">
+                                        @if($paramIdUser =="")
+                                            <button type="button" id="btnsaveUser"
+                                                    class="btn btn-primary btn2earn">{{ __('Save') }}</button>
+                                        @else
+                                            <div class="form-inline" x-data="{ open: false }">
+                                                <div class="form-group mb-2">
+                                                    <button x-show="!open" type="button" @click="open = true"
+                                                            class="btn btn-secondary ps-5 pe-5" id="reject">
+                                                        {{ __('Reject') }}
+                                                    </button>
+                                                    <button x-show="!open" class="btn btn-success ps-5 pe-5"
+                                                            wire:click="approuve({{$paramIdUser}})"
+                                                            id="validate">
+                                                        <div wire:loading wire:target="approuve({{$paramIdUser}})">
                                                 <span class="spinner-border spinner-border-sm" role="status"
                                                       aria-hidden="true"></span>
-                                                                <span class="sr-only">{{__('Loading')}}...</span>
-                                                            </div>
-                                                            {{ __('Approve') }}
-                                                        </button>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label x-show="open">{{ __('Libele_Note') }}</label>
-                                                        <textarea class="form-control" wire:model.defer="noteReject"
-                                                                  name="Text1" cols="80"
-                                                                  rows="5"
-                                                                  x-show="open">
-                                                        </textarea>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <button type="button" x-show="open"
-                                                                wire:click="reject({{$paramIdUser}})"
-                                                                class="btn btn-secondary ps-5 pe-5">
-                                                            <div wire:loading wire:target="reject({{$paramIdUser}})">
-                                                <span class="spinner-border spinner-border-sm" role="status"
-                                                      aria-hidden="true"></span>
-                                                                <span class="sr-only">{{__('Loading')}}...</span>
-                                                            </div>
-                                                            {{ __('Reject') }}
-                                                        </button>
-                                                        <button type="button" x-show="open"
-                                                                class="btn btn-danger ps-5 pe-5"
-                                                                @click="open = false">
-                                                            {{ __('canceled !') }}
-                                                        </button>
-                                                    </div>
+                                                            <span class="sr-only">{{__('Loading')}}...</span>
+                                                        </div>
+                                                        {{ __('Approve') }}
+                                                    </button>
                                                 </div>
-                                            @endif
-                                        </div>
+                                                <div class="form-group mb-2">
+                                                    <label x-show="open">{{ __('Libele_Note') }}</label>
+                                                    <textarea class="form-control" wire:model.defer="noteReject"
+                                                              name="Text1" cols="80"
+                                                              rows="5"
+                                                              x-show="open">
+                                                        </textarea>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <button type="button" x-show="open"
+                                                            wire:click="reject({{$paramIdUser}})"
+                                                            class="btn btn-secondary ps-5 pe-5">
+                                                        <div wire:loading wire:target="reject({{$paramIdUser}})">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                                            <span class="sr-only">{{__('Loading')}}...</span>
+                                                        </div>
+                                                        {{ __('Reject') }}
+                                                    </button>
+                                                    <button type="button" x-show="open"
+                                                            class="btn btn-danger ps-5 pe-5"
+                                                            @click="open = false">
+                                                        {{ __('canceled !') }}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </form>
