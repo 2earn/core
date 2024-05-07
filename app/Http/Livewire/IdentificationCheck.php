@@ -30,15 +30,16 @@ class IdentificationCheck extends Component
     public $messageVerif = "";
 
     public $listeners = [
-        'saveimg' => 'saveimg'
+        'sendIndentificationRequest' => 'sendIndentificationRequest'
     ];
 
 
     public function sendIndentificationRequest(settingsManager $settingsManager)
     {
+
         $this->messageVerif = Lang::get('Sending identification request in progress');
         $userAuth = $settingsManager->getAuthUser();
-        if (!$userAuth) abort(4040);
+        if (!$userAuth) abort(404);
         $hasRequest = $userAuth->hasIdetificationReques();
         if ($hasRequest) {
             $this->messageVerif = Lang::get('identification_exist');;
@@ -54,13 +55,17 @@ class IdentificationCheck extends Component
             'birthday' => $this->usermetta_info2['birthday'],
             'nationalID' => $this->usermetta_info2['nationalID'],
         ]);
+        $photoFrontValidated = $userAuth->hasFrontImage();
+        $photoBackValidated = $userAuth->hasBackImage();
         if (!is_null($this->photoFront) && gettype($this->photoFront) == "object") {
             $this->photoFront->storeAs('profiles', 'front-id-image' . $userAuth->idUser . '.png', 'public2');
+            $photoFrontValidated = true;
         }
         if (!is_null($this->photoBack) && gettype($this->photoBack) == "object") {
             $this->photoBack->storeAs('profiles', 'back-id-image' . $userAuth->idUser . '.png', 'public2');
+            $photoBackValidated = true;
         }
-        if ($userAuth->hasFrontImage() && $userAuth->hasBackImage()) {
+        if ($photoBackValidated && $photoFrontValidated) {
             $this->sendIdentificationRequest($settingsManager);
             User::where('idUser', $userAuth->idUser)->update(['status' => -1, 'asked_at' => date('Y-m-d H:i:s'), 'iden_notif' => $this->notify]);
             $this->messageVerif = Lang::get('demande_creer');
@@ -132,10 +137,12 @@ class IdentificationCheck extends Component
     {
         $userAuth = $settingsManager->getAuthUser();
         $hasRequest = $userAuth->hasIdetificationReques();
-        if ($hasRequest) {
-            $this->dispatchBrowserEvent('existIdentificationRequest', ['type' => 'warning', 'title' => "Opt", 'text' => '',]);
-        } else {
-            $sensIdentification = identificationuserrequest::create(['idUser' => $userAuth->idUser, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(), 'response' => 0, 'note' => '', 'status' => 1]);
+        if (!$hasRequest) {
+            $sensIdentification = identificationuserrequest::create(
+                ['idUser' => $userAuth->idUser, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(), 'response' => 0, 'note' => '', 'status' => 1]
+            );
+            dd($sensIdentification);
         }
+        $this->dispatchBrowserEvent('existIdentificationRequest', ['type' => 'warning', 'title' => "Opt", 'text' => '',]);
     }
 }
