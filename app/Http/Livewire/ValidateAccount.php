@@ -8,7 +8,6 @@ use Livewire\Component;
 class ValidateAccount extends Component
 {
     public $paramIdUser;
-    public $idjo;
 
     public function mount()
     {

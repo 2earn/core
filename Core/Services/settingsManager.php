@@ -651,6 +651,7 @@ class settingsManager
     public function rejectIdentity($idUser, $note)
     {
         $requestIdentification = identificationuserrequest::where('idUser', $idUser)->where('status', StatusRequst::EnCours)->first();
+        dd($idUser,$note,$requestIdentification);
         if ($requestIdentification == null) return;
         $requestIdentification->status = StatusRequst::Rejected;
         $requestIdentification->idUserResponse = $this->getAuthUser()->idUser;
@@ -662,13 +663,9 @@ class settingsManager
         $user = User::where('idUser', $idUser)->first();
         $uMetta = metta_user::where('idUser', $idUser)->first();
         if (($user->iden_notif == 1)) {
-
             $lang = app()->getLocale();
-
             if ($uMetta && $uMetta->idLanguage != null) {
-
                 $language = language::where('name', $uMetta->idLanguage)->first();
-
                 $lang = $language->PrefixLanguage;
             }
             $this->NotifyUser($user->id, TypeEventNotificationEnum::RequestDenied, [
@@ -692,16 +689,12 @@ class settingsManager
         User::where('idUser', $idUser)->update(['status' => 1]);
         $user = User::where('idUser', $idUser)->first();
         $uMetta = metta_user::where('idUser', $idUser)->first();
-
         if (($user->iden_notif == 1)) {
             $lang = app()->getLocale();
             if ($uMetta && $uMetta->idLanguage != null) {
-
                 $language = language::where('name', $uMetta->idLanguage)->first();
-
                 $lang = $language->PrefixLanguage;
             }
-
             $this->NotifyUser($user->id, TypeEventNotificationEnum::RequestAccepted, [
                 'msg' => " ",
                 'type' => TypeNotificationEnum::SMS,

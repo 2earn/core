@@ -44,6 +44,7 @@ class Account extends Component
     public $soldeSms = 0;
     public $PercentComplete = 0;
     public $errors_array;
+
     protected $listeners = [
         'PreChangePass' => 'PreChangePass',
         'changePassword' => 'changePassword',
@@ -58,10 +59,7 @@ class Account extends Component
 
     protected $rules = [
         'oldPassword' => 'required',
-        'newPassword' => [
-            'required',
-            'regex:/[0-9]/'
-        ],
+        'newPassword' => ['required', 'regex:/[0-9]/'],
         'confirmedPassword' => 'required|same:newPassword'
     ];
 
@@ -84,7 +82,7 @@ class Account extends Component
 
     public function mount(settingsManager $settingManager)
     {
-        $notSetings = $settingManager->getNotificationSetting($settingManager->getAuthUser()->idUser)
+        $notSetings = $settingManager->getNotificationSetting(auth()->user()->idUser)
             ->where('idNotification', '=', NotificationSettingEnum::change_pwd_sms->value)->first();
         $this->sendPassSMS = $notSetings->value;
     }
@@ -208,10 +206,12 @@ class Account extends Component
             $um->adresse = $this->usermetta_info['adresse'];
             $um->nationalID = $this->usermetta_info['nationalID'];
         }
-        if ($nbrChild < 0)
+        if ($nbrChild < 0) {
             $nbrChild = 0;
-        if ($nbrChild > 20)
+        }
+        if ($nbrChild > 20) {
             $nbrChild = 20;
+        }
         $um->childrenCount = $nbrChild;
         $um->idState = $this->usermetta_info['idState'];
         $um->gender = $this->usermetta_info['gender'];
@@ -314,17 +314,9 @@ class Account extends Component
 
         $numberActif = $settingsManager->getNumberCOntactActif($userAuth->idUser)->fullNumber;
 
-        $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::VerifMail, [
-            'msg' => $opt,
-            'type' => TypeNotificationEnum::SMS
-        ]);
+        $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::VerifMail, ['msg' => $opt, 'type' => TypeNotificationEnum::SMS]);
 
-        $this->dispatchBrowserEvent('confirmOPTVerifMail', [
-            'tyepe' => 'warning',
-            'title' => "Opt",
-            'text' => '',
-            'numberActif' => $numberActif,
-        ]);
+        $this->dispatchBrowserEvent('confirmOPTVerifMail', ['tyepe' => 'warning', 'title' => "Opt", 'text' => '', 'numberActif' => $numberActif]);
         $this->newMail = $mail;
     }
 
@@ -342,11 +334,22 @@ class Account extends Component
         return redirect()->route('account', app()->getLocale());
     }
 
-    public function reject(settingsManager $settingsManager)
+    public function approuve($idUser, settingsManager $settingsManager)
     {
-        $us = User::find($this->user['id']);
-        $settingsManager->rejectIdentity($us->idUser, $this->noteReject);
-        return redirect()->route('identificationRequest', app()->getLocale());
+        $user = User::find($idUser);
+        if ($user) {
+            $settingsManager->validateIdentity($idUser);
+            return redirect()->route('identificationRequest', app()->getLocale())->with('success', Lang::get('User identification request approuved') . ' : ' . $user->email);
+        }
+    }
+
+    public function reject($idUser, settingsManager $settingsManager)
+    {
+        $user = User::find($idUser);
+        if ($user) {
+            $settingsManager->rejectIdentity($idUser, $this->noteReject);
+            return redirect()->route('identificationRequest', app()->getLocale())->with('success', Lang::get('User identification request rejected') . ' : ' . $user->email);
+        }
     }
 
     public function sendIdentificationRequest(settingsManager $settingsManager)
@@ -354,16 +357,9 @@ class Account extends Component
         $userAuth = $settingsManager->getAuthUser();
         $hasRequest = $userAuth->hasIdetificationReques();
         if ($hasRequest) {
-            $this->dispatchBrowserEvent('existIdentificationRequest', ['tyepe' => 'warning', 'title' => "Opt", 'text' => '',]);
+            $this->dispatchBrowserEvent('existIdentificationRequest', ['type' => 'warning', 'title' => "Opt", 'text' => '',]);
         } else {
-            $sensIdentification = identificationuserrequest::create([
-                'idUser' => $userAuth->idUser,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-                'response' => 0,
-                'note' => '',
-                'status' => 1,
-            ]);
+            $sensIdentification = identificationuserrequest::create(['idUser' => $userAuth->idUser, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(), 'response' => 0, 'note' => '', 'status' => 1]);
         }
     }
 }

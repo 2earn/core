@@ -73,13 +73,11 @@
         }
         var ErrorMailUsed = '{{ Session::has('ErrorMailUsed')}}'
         if (ErrorMailUsed) {
-
             Swal.fire({
                 title: '{{Session::get('ErrorMailUsed')}}',
                 confirmButtonText: '{{trans('ok')}}',
                 showClass: {popup: 'animate__animated animate__fadeInDown'},
                 hideClass: {popup: 'animate__animated animate__fadeOutUp'}
-
             });
         }
         var SoldeSms = '{{ Session::has('SoldeSmsInsuffisant')}}'
@@ -87,12 +85,8 @@
             Swal.fire({
                 title: '{{Session::get('SoldeSmsInsuffisant')}}',
                 confirmButtonText: '{{trans('ok')}}',
-                showClass: {
-                    popup: 'animate__animated animate__fadeInDown'
-                },
-                hideClass: {
-                    popup: 'animate__animated animate__fadeOutUp'
-                }
+                showClass: {popup: 'animate__animated animate__fadeInDown'},
+                hideClass: {popup: 'animate__animated animate__fadeOutUp'}
             });
         }
         var MailNonValide = '{{ Session::has('MailNonValide')}}'
@@ -100,12 +94,8 @@
             Swal.fire({
                 title: '{{Session::get('MailNonValide')}}',
                 confirmButtonText: '{{trans('ok')}}',
-                showClass: {
-                    popup: 'animate__animated animate__fadeInDown'
-                },
-                hideClass: {
-                    popup: 'animate__animated animate__fadeOutUp'
-                }
+                showClass: {popup: 'animate__animated animate__fadeInDown'},
+                hideClass: {popup: 'animate__animated animate__fadeOutUp'}
             });
         }
         var SuccesUpdatePassword = '{{ Session::has('SuccesUpdatePassword')}}'
@@ -122,17 +112,11 @@
         }
 
     </script>
-    {{--    @extends('layouts.master')--}}
-    {{--    @section('title')--}}
-    {{--        @lang('Account')--}}
-    {{--    @endsection--}}
     @component('components.breadcrumb')
         @slot('title')
             {{ __('Profile') }}
         @endslot
     @endcomponent
-
-
     <div class="row">
         <div class="col-xxl-3">
             <div class="card  ">
@@ -146,7 +130,7 @@
                                 </br>
                                 @endif
                                 </br>
-                                <div wire:loading wire:target="imageProfil">Uploading...</div>
+                                <div wire:loading wire:target="imageProfil">{{__('Uploading')}}...</div>
                                 <img
                                     src="@if (file_exists('uploads/profiles/profile-image-' . $user['idUser'] . '.png')) {{ URL::asset('uploads/profiles/profile-image-'.$user['idUser'].'.png') }}@else{{ URL::asset('uploads/profiles/default.png') }} @endif"
                                     class="  rounded-circle avatar-xl img-thumbnail user-profile-image"
@@ -198,8 +182,9 @@
                         <div class="form-check form-switch" dir="ltr">
                             <input wire:model.defer="user.is_public" type="checkbox" class="form-check-input"
                                    id="customSwitchsizesm" checked="">
-                            <label class="form-check-label"
-                                   for="customSwitchsizesm">{{ __('I agree to receive funding requests') }}</label>
+                            <label class="form-check-label" for="customSwitchsizesm">
+                                {{ __('I agree to receive funding requests') }}
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -234,7 +219,8 @@
                             @else
                                 <button style="background-color: #009fe3!important" onclick="sendRequest()"
                                         class="btn btn-primary"
-                                        type="button"> {{__('Send Request')}}</button>
+                                        type="button"> {{__('Send Request')}}
+                                </button>
                             @endif
                         @endif
                     @else
@@ -280,7 +266,6 @@
                                 {{__('ChangePassword')}}
                             </a>
                         </li>
-
                         <li class="nav-item">
                             <a class="nav-link" data-bs-toggle="tab" href="#privacy" role="tab">
                                 <i class="far fa-envelope"></i>
@@ -314,17 +299,16 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="firstnameInput" class="form-label">Last
-                                                Name </label>
-                                            <input type="text" class="form-control" id=""
-                                                   wire:model.defer="usermetta_info.enLastName"
-                                                   placeholder="" value="">
+                                            <label for="firstnameInput" class="form-label">
+                                                {{__('Last Name')}}
+                                            </label>
+                                            <input type="text" class="form-control"
+                                                   wire:model.defer="usermetta_info.enLastName" placeholder="" value="">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="firstnameInput" class="form-label">First
-                                                Name</label>
+                                            <label for="firstnameInput" class="form-label">{{__('First Name')}}</label>
                                             <input wire:model.defer="usermetta_info.enFirstName" class="form-control">
                                         </div>
                                     </div>
@@ -371,9 +355,7 @@
                                                 {{__('Date of birth')  }}
                                             </label>
                                             <input wire:model.defer="usermetta_info.birthday" type="date"
-                                                   class="form-control"
-                                                   id="JoiningdatInput"
-                                                   placeholder=""/>
+                                                   class="form-control" id="JoiningdatInput"/>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -394,7 +376,6 @@
                                         <div class="mb-3">
                                             <label for="designationInput"
                                                    class="form-label">{{ __('Personal Title') }}</label>
-
                                             <select class="form-select mb-3" aria-label=" "
                                                     wire:model.defer="usermetta_info.personaltitle">
                                                 <option value="">-------</option>
@@ -411,7 +392,6 @@
                                     <div class="col-lg-4">
                                         <div class="mb-3">
                                             <label for="websiteInput1" class="form-label">{{ __('Gender') }}</label>
-
                                             <select class="form-select mb-3" aria-label=" "
                                                     wire:model.defer="usermetta_info.gender">
                                                 <
@@ -429,7 +409,6 @@
                                         <div class="mb-3">
                                             <label for="websiteInput1"
                                                    class="form-label">{{ __('Your Preferred Language') }}</label>
-
                                             <select class="form-select mb-3" aria-label=" "
                                                     wire:model.defer="usermetta_info.idLanguage">
                                                 <option value="" selected>-------</option>
@@ -444,7 +423,6 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <!--end col-->
                                     <div class="col-lg-4">
                                         <div class="mb-3">
                                             <label for="cityInput" class="form-label">{{ __('State') }}</label>
@@ -494,26 +472,38 @@
                                                 <button type="button" id="btnsaveUser"
                                                         class="btn btn-primary btn2earn">{{ __('Save') }}</button>
                                             @else
-                                                <div x-data="{ open: false }">
-                                                    <button x-show="!open" type="button" @click="open = true"
-                                                            class="btn btn-secondary ps-5 pe-5"
-                                                            id="reject">{{ __('Reject') }}</button>
-                                                    <button x-show="!open" class="btn btn-success ps-5 pe-5"
-                                                            id="validate">{{ __('Approve') }}</button>
-                                                    </br>
-                                                    <label x-show="open">{{ __('Libele_Note') }}</label>
-                                                    </br>
-                                                    <textarea wire:model.defer="noteReject" name="Text1" cols="80"
-                                                              rows="5"
-                                                              x-show="open"></textarea>
-                                                    </br>
-                                                    <button type="button" x-show="open" wire:click="reject"
-                                                            class="btn btn-secondary ps-5 pe-5"
-                                                            id="">{{ __('Reject') }}</button>
-                                                    <button type="button" x-show="open" class="btn btn-danger ps-5 pe-5"
-                                                            id=""
-                                                            @click="open = false">{{ __('canceled !') }}
-                                                    </button>
+                                                <div class="form-inline" x-data="{ open: false }">
+                                                    <div class="form-group mb-2">
+                                                        <button x-show="!open" type="button" @click="open = true"
+                                                                class="btn btn-secondary ps-5 pe-5" id="reject">
+                                                            {{ __('Reject') }}
+                                                        </button>
+                                                        <button x-show="!open" class="btn btn-success ps-5 pe-5"
+                                                                wire:click="approuve({{$paramIdUser}})"
+                                                                id="validate">
+                                                            {{ __('Approve') }}
+                                                        </button>
+                                                    </div>
+                                                    <div class="form-group mb-2">
+                                                        <label x-show="open">{{ __('Libele_Note') }}</label>
+                                                        <textarea class="form-control" wire:model.defer="noteReject"
+                                                                  name="Text1" cols="80"
+                                                                  rows="5"
+                                                                  x-show="open">
+                                                        </textarea>
+                                                    </div>
+                                                    <div class="form-group mb-2">
+                                                        <button type="button" x-show="open"
+                                                                wire:click="reject({{$paramIdUser}})"
+                                                                class="btn btn-secondary ps-5 pe-5">
+                                                            {{ __('Reject') }}
+                                                        </button>
+                                                        <button type="button" x-show="open"
+                                                                class="btn btn-danger ps-5 pe-5"
+                                                                @click="open = false">
+                                                            {{ __('canceled !') }}
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             @endif
                                         </div>
@@ -527,10 +517,10 @@
                                     <div class="col-lg-4">
                                         <label for="oldpasswordInput"
                                                class="form-label">{{ __('Current Password') }}</label>
-                                        <div class="position-relative auth-pass-inputgroup mb-3">
+                                        <div class="position-relative auth-p
+                                        ass-inputgroup mb-3">
                                             <input wire:model.defer="oldPassword" type="password"
-                                                   class="form-control pe-5  "
-                                                   name="password" placeholder="********"
+                                                   class="form-control pe-5" name="password" placeholder="********"
                                                    id="oldpasswordInput">
                                             <button
                                                 class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
@@ -548,8 +538,9 @@
                                                    id="newpasswordInput">
                                             <button
                                                 class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
-                                                type="button" id="toggleNewPassword"><i
-                                                    class="ri-eye-fill align-middle"></i></button>
+                                                type="button" id="toggleNewPassword">
+                                                <i class="ri-eye-fill align-middle"></i>
+                                            </button>
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
@@ -562,8 +553,9 @@
                                                        placeholder="********">
                                                 <button
                                                     class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
-                                                    type="button" id="toggleConfirmPassword"><i
-                                                        class="ri-eye-fill align-middle"></i></button>
+                                                    type="button" id="toggleConfirmPassword">
+                                                    <i class="ri-eye-fill align-middle"></i>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -571,8 +563,9 @@
                                         <div class="form-check form-switch ms-5 me-5 mb-3" dir="ltr">
                                             <input wire:model.defer="sendPassSMS" type="checkbox" id="send"
                                                    class="form-check-input" id="flexSwitchCheckDefault" checked="">
-                                            <label class="form-check-label"
-                                                   for="customSwitchsizesm">{{ __('I want to receive my password by SMS') }}  </label>
+                                            <label class="form-check-label" for="customSwitchsizesm">
+                                                {{ __('I want to receive my password by SMS') }}
+                                            </label>
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
@@ -616,10 +609,12 @@
                             </div>
                             <div class="col-lg-12">
                                 <div class="hstack gap-2 justify-content-end">
-                                    <button type="button" class="btn btn-light"
-                                            data-bs-dismiss="modal">{{ __('Close')}}</button>
-                                    <button type="button" id="validateMail"
-                                            class="btn btn-primary">{{ __('Save_changes')}}</button>
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                                        {{ __('Close')}}
+                                    </button>
+                                    <button type="button" id="validateMail" class="btn btn-primary">
+                                        {{ __('Save_changes')}}
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -641,16 +636,15 @@
                         <div class="row g-3">
                             <div class="col-lg-6">
                                 <div>
-                                    <label for="lastName" class="form-label">First Name</label>
+                                    <label for="lastName" class="form-label">{{__('First Name')}}</label>
                                     <input wire:model.defer="usermetta_info.enFirstName" type="text"
                                            class="form-control" id=""
                                            placeholder="Enter your lastname">
                                 </div>
                             </div>
-                            <!--end col-->
                             <div class="col-lg-6">
                                 <div>
-                                    <label for="phoneNumber" class="form-label">Last Name</label>
+                                    <label for="phoneNumber" class="form-label">{{__('Last Name')}}</label>
                                     <input wire:model.defer="usermetta_info.enLastName" type="text"
                                            class="form-control" id=""
                                            placeholder="Enter your phone number">
@@ -661,8 +655,7 @@
                                     <label for="JoiningdatInput" class="form-label">
                                         {{__('Date of birth')  }}
                                     </label>
-                                    <input wire:model.defer="usermetta_info.birthday" type="date" class="form-control"
-                                           placeholder=""/>
+                                    <input wire:model.defer="usermetta_info.birthday" type="date" class="form-control"/>
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -678,8 +671,7 @@
                                            class="form-label">{{ __('Your Email') }}</label>
                                     <div class="input-group form-icon">
                                         <input disabled wire:model.defer="user.email" type="email"
-                                               class="form-control form-control-icon"
-                                               name="email" placeholder="">
+                                               class="form-control form-control-icon" name="email" placeholder="">
                                         <i style="font-size: 20px" class="ri-mail-unread-line"></i>
                                     </div>
                                 </div>
@@ -731,14 +723,16 @@
                                         <span> <i class="ri-camera-fill"></i> </span>
                                     </label>
                                 </div>
-
                             </div>
                             <div class="col-lg-12">
                                 <div class="hstack gap-2 justify-content-end">
-                                    <button type="button" class="btn btn-light"
-                                            data-bs-dismiss="modal">{{ __('Close')}}</button>
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                                        {{ __('Close')}}
+                                    </button>
                                     <button onclick="SaveChangeEdit()" type="button" id="SaveCahngeEdit"
-                                            class="btn btn-primary">{{ __('Save_changes')}}</button>
+                                            class="btn btn-primary">
+                                        {{ __('Save_changes')}}
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -813,17 +807,14 @@
                 if (resultat.value) {
                     window.livewire.emit('changePassword', resultat.value);
                 }
-                if (resultat.isDismissed) {
-                    // location.reload();
-                }
             })
         })
 
 
         $("#validateMail").click(function () {
-
             window.livewire.emit("sendVerificationMail", $('#inputEmail').val());
         });
+
         window.addEventListener('confirmOPTVerifMail', event => {
             Swal.fire({
                 title: '{{ __('Your verification code') }}',
@@ -908,32 +899,32 @@
         var toggleOldPassword = document.querySelector("#toggleOldPassword");
         var Oldpassword = document.querySelector("#oldpasswordInput");
         toggleOldPassword.addEventListener("click", function () {
-            // toggle the type attribute
             var type = Oldpassword.getAttribute("type") === "password" ? "text" : "password";
             Oldpassword.setAttribute("type", type);
-            // toggle the icon
             this.classList.toggle("bi-eye");
         });
-
 
         var toggleNewPassword = document.querySelector("#toggleNewPassword");
         var Newpassword = document.querySelector("#newpasswordInput");
         toggleNewPassword.addEventListener("click", function () {
-            // toggle the type attribute
             var type = Newpassword.getAttribute("type") === "password" ? "text" : "password";
             Newpassword.setAttribute("type", type);
-            // toggle the icon
             this.classList.toggle("bi-eye");
         });
 
         var toggleConfirmPassword = document.querySelector("#toggleConfirmPassword");
         var confirmPassword = document.querySelector("#confirmpasswordInput");
         toggleConfirmPassword.addEventListener("click", function () {
-            // toggle the type attribute
             var type = confirmPassword.getAttribute("type") === "password" ? "text" : "password";
             confirmPassword.setAttribute("type", type);
-            // toggle the icon
             this.classList.toggle("bi-eye");
         });
     </script>
+    <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/libs/bootstrap/bootstrap.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/libs/node-waves/node-waves.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/libs/feather-icons/feather-icons.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/js/pages/plugins/lord-icon-2.1.0.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/js/plugins.min.js') }}"></script>
 </div>
