@@ -372,9 +372,36 @@
         });
 
         function checkRequiredrFieldInfo() {
-            if ($("#firstName").val().trim() === "" || $("#lastName").val().trim() === "" || $("#nationalId").val().trim() === "" || $("#dateofBirth").val().trim() === "")
-                return false;
-            return true;
+            validRequiredrFieldInfo = true;
+
+            if ($("#firstName").val().trim() === "") {
+                $("#firstName").val().css('border-color', 'red')
+                validRequiredrFieldInfo = false;
+            } else {
+                $("#firstName").val().css('border-color', 'green')
+            }
+
+            if ($("#lastName").val().trim() === "") {
+                $("#lastName").val().css('border-color', 'red')
+                validRequiredrFieldInfo = false;
+            } else {
+                $("#lastName").val().css('border-color', 'green')
+            }
+
+            if ($("#nationalId").val().trim() === "") {
+                $("#nationalId").val().css('border-color', 'red')
+                validRequiredrFieldInfo = false;
+            } else {
+                $("#nationalId").val().css('border-color', 'green')
+            }
+
+            if ($("#dateofBirth").val().trim() === "") {
+                $("#dateofBirth").val().css('border-color', 'red')
+                validRequiredrFieldInfo = false;
+            } else {
+                $("#dateofBirth").val().css('border-color', 'green')
+            }
+            return validRequiredrFieldInfo;
         }
 
         function checkRequiredrFieldMail() {

@@ -671,7 +671,7 @@ class settingsManager
             $lang = app()->getLocale();
             if ($uMetta && $uMetta->idLanguage != null) {
                 $language = language::where('name', $uMetta->idLanguage)->first();
-                $lang = $language->PrefixLanguage;
+                $lang = $language?->PrefixLanguage;
             }
             $this->NotifyUser($user->id, TypeEventNotificationEnum::RequestDenied, [
                 'msg' => $note,
@@ -694,7 +694,7 @@ class settingsManager
             $lang = app()->getLocale();
             if ($uMetta && $uMetta->idLanguage != null) {
                 $language = language::where('name', $uMetta->idLanguage)->first();
-                $lang = $language->PrefixLanguage;
+                $lang = $language?->PrefixLanguage;
             }
             $this->NotifyUser($user->id, TypeEventNotificationEnum::RequestAccepted, [
                 'msg' => " ",
