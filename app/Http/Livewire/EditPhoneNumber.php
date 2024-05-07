@@ -105,7 +105,7 @@ class EditPhoneNumber extends Component
 //            'type' => TypeNotificationEnum::SMS
 //        ]);
         $this->dispatchBrowserEvent('PreChPhone', [
-            'tyepe' => 'warning',
+            'type' => 'warning',
             'title' => "Opt",
             'text' => '',
             'FullNumber' => $sendin,

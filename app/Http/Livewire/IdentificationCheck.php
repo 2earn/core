@@ -8,12 +8,10 @@ use Core\Enum\StatusRequst;
 use Core\Models\identificationuserrequest;
 use Core\Models\metta_user;
 use Core\Services\settingsManager;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
-
 use Livewire\WithFileUploads;
 
 
@@ -22,28 +20,30 @@ class IdentificationCheck extends Component
 
     use WithFileUploads;
 
-    public $photoFront=0;
+    public $photoFront = 0;
     public $backback;
-    public $photoBack;
+    public $photoBack = 0;
     public $notify = true;
     public $usermetta_info2;
     public $photo;
     public $userF;
-    public $messageVerif ="";
+    public $messageVerif = "";
+
     public $listeners = [
-        'saveimg' => 'saveimg'
+        'sendIndentificationRequest' => 'sendIndentificationRequest'
     ];
 
 
-    public function saveimg(settingsManager $settingsManager)
+    public function sendIndentificationRequest(settingsManager $settingsManager)
     {
+
+        $this->messageVerif = Lang::get('Sending identification request in progress');
         $userAuth = $settingsManager->getAuthUser();
-        if (!$userAuth) abort(4040);
+        if (!$userAuth) abort(404);
         $hasRequest = $userAuth->hasIdetificationReques();
-        if($hasRequest)
-        {
-            $this->messageVerif =Lang::get('identification_exist') ; ;
-            return ;
+        if ($hasRequest) {
+            $this->messageVerif = Lang::get('identification_exist');;
+            return;
         }
 
         User::where('idUser', $userAuth->idUser)->update([
@@ -55,16 +55,24 @@ class IdentificationCheck extends Component
             'birthday' => $this->usermetta_info2['birthday'],
             'nationalID' => $this->usermetta_info2['nationalID'],
         ]);
-
-        if ($this->photoFront != null && $this->photoFront != 0)
-            $p = $this->photoFront->storeAs('profiles', 'front-id-image' . $userAuth->idUser . '.png', 'public2');
-        if ($this->backback != null)
-            $p = $this->backback->storeAs('profiles', 'back-id-image' . $userAuth->idUser . '.png', 'public2');
-
-        // NOTE TO DO check identification workflow
-        $this->sendIdentificationRequest($settingsManager);
-        User::where('idUser', $userAuth->idUser)->update(['status' => -1, 'asked_at' => date('Y-m-d H:i:s'), 'iden_notif' => $this->notify]);
-        $this->messageVerif = Lang::get('demande_creer') ;
+        $photoFrontValidated = $userAuth->hasFrontImage();
+        $photoBackValidated = $userAuth->hasBackImage();
+        if (!is_null($this->photoFront) && gettype($this->photoFront) == "object") {
+            $this->photoFront->storeAs('profiles', 'front-id-image' . $userAuth->idUser . '.png', 'public2');
+            $photoFrontValidated = true;
+        }
+        if (!is_null($this->photoBack) && gettype($this->photoBack) == "object") {
+            $this->photoBack->storeAs('profiles', 'back-id-image' . $userAuth->idUser . '.png', 'public2');
+            $photoBackValidated = true;
+        }
+        if ($photoBackValidated && $photoFrontValidated) {
+            $this->sendIdentificationRequest($settingsManager);
+            User::where('idUser', $userAuth->idUser)->update(['status' => -1, 'asked_at' => date('Y-m-d H:i:s'), 'iden_notif' => $this->notify]);
+            $this->messageVerif = Lang::get('demande_creer');
+        } else {
+            $this->messageVerif = Lang::get('Identification request missing information');;
+            $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => "Opt", 'text' => '',]);
+        }
     }
 
     public function save(settingsManager $settingsManager)
@@ -73,29 +81,7 @@ class IdentificationCheck extends Component
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth)
             dd('not found page');
-//        if ($this->photoFront != null) {
-//            $this->validate([
-//                'photoFront' => 'image',
-//            ]);
-//            $lenthFront = strlen($this->photoFront->getClientOriginalName());
-//            $posFront = strrpos($this->photoFront->getClientOriginalName(), '.');
-//            $extFront = substr($this->photoFront->getClientOriginalName(), $posFront, $lenthFront);
-//            $p = $this->photoFront->storeAs('profiles', 'front-id-image' . $userAuth->idUser . '.png', 'public2');
-//            $redirect = true;
-//        }
-//        if ($this->photoBack != null) {
-//            $this->validate([
-//                'photoBack' => 'image',
-//            ]);
-//            $lenthBack = strlen($this->photoBack->getClientOriginalName());
-//            $posBack = strrpos($this->photoBack->getClientOriginalName(), '.');
-//            $extBack = substr($this->photoBack->getClientOriginalName(), $posBack, $lenthBack);
-//            $p = $this->photoBack->storeAs('profiles', 'back-id-image' . $userAuth->idUser . '.png', 'public2');
-//            $redirect = true;
-//        }
         User::where('idUser', $userAuth->idUser)->update(['status' => -1, 'asked_at' => date('Y-m-d H:i:s'), 'iden_notif' => $this->notify]);
-//        dd($this->photoBack->getMimeType());
-        //  if ($redirect)
         return redirect()->route('account', app()->getLocale())->with('SuccesUpdateIdentification', Lang::get('Identification_send_succes'));
     }
 
@@ -111,12 +97,9 @@ class IdentificationCheck extends Component
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth)
             dd('not found page');
-
-//        $user = $settingsManager->getUserById($userAuth->id);
         $user = DB::table('users')->where('idUser', $userAuth->idUser)->first();
         if (!$user) abort(404);
         $this->userF = collect($user);
-//        $userAuth = $userAuth;
         $errors_array = array();
 
         $usermetta_info = DB::table('metta_users')->where('idUser', $userAuth->idUser)->first();
@@ -134,14 +117,11 @@ class IdentificationCheck extends Component
         if ($usermetta_info->nationalID == null) {
             array_push($errors_array, $this->getMsgErreur('nationalID'));
         }
-//        if ($usermetta_info->email == null)
-//        {
-//            array_push($errors_array, $this->getMsgErreur('email'));
-//        }
         $this->notify = $userAuth->iden_notif;
         $hasRequest = $userAuth->hasIdetificationReques();
         $hasFrontImage = $userAuth->hasFrontImage();
         $hasBackImage = $userAuth->hasBackImage();
+
         $requestIdentification = identificationuserrequest::where('idUser', $userAuth->idUser)
             ->where('status', StatusRequst::Rejected->value)
             ->latest('responseDate')
@@ -157,24 +137,12 @@ class IdentificationCheck extends Component
     {
         $userAuth = $settingsManager->getAuthUser();
         $hasRequest = $userAuth->hasIdetificationReques();
-        if ($hasRequest) {
-
-            $this->dispatchBrowserEvent('existIdentificationRequest', [
-                'tyepe' => 'warning',
-                'title' => "Opt",
-                'text' => '',
-            ]);
-        } else {
-
-            $sensIdentification = identificationuserrequest::create([
-                'idUser' => $userAuth->idUser,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-                'response' => 0,
-                'note' => '',
-                'status' => 1,
-//        'responseDate'=>'',
-            ]);
+        if (!$hasRequest) {
+            $sensIdentification = identificationuserrequest::create(
+                ['idUser' => $userAuth->idUser, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(), 'response' => 0, 'note' => '', 'status' => 1]
+            );
+            dd($sensIdentification);
         }
+        $this->dispatchBrowserEvent('existIdentificationRequest', ['type' => 'warning', 'title' => "Opt", 'text' => '',]);
     }
 }

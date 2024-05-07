@@ -1,77 +1,4 @@
 <div>
-    <style>
-        .wrap-custom-file {
-            position: relative;
-            display: inline-block;
-            width: 150px;
-            height: 150px;
-            margin: 0 0.5rem 1rem;
-            text-align: center;
-        }
-
-        .wrap-custom-file input[type="file"] {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 2px;
-            height: 2px;
-            overflow: hidden;
-            opacity: 0;
-        }
-
-        .wrap-custom-file label {
-            z-index: 1;
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            width: 100%;
-            overflow: hidden;
-            padding: 0 0.5rem;
-            cursor: pointer;
-            background-color: #fff;
-            border-radius: 4px;
-            -webkit-transition: -webkit-transform 0.4s;
-            transition: -webkit-transform 0.4s;
-            transition: transform 0.4s;
-            transition: transform 0.4s, -webkit-transform 0.4s;
-        }
-
-        .wrap-custom-file label span {
-            display: block;
-            margin-top: 2rem;
-            font-size: 1.4rem;
-            color: #777;
-            -webkit-transition: color 0.4s;
-            transition: color 0.4s;
-        }
-
-        .wrap-custom-file label:hover {
-            -webkit-transform: translateY(-1rem);
-            transform: translateY(-1rem);
-        }
-
-        .wrap-custom-file label:hover span {
-            color: #333;
-        }
-
-        .wrap-custom-file label.file-ok {
-            background-size: cover;
-            background-position: center;
-        }
-
-        .wrap-custom-file label.file-ok span {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 0.3rem;
-            font-size: 1.1rem;
-            color: #000;
-            background-color: rgba(255, 255, 255, 0.7);
-        }
-    </style>
     <div class="row justify-content-center">
         <div class="col-lg-6">
             <div class="card">
@@ -87,7 +14,8 @@
                                     <button onclick="verifRequest()" type="button" class="btn btn-primary"
                                             data-bs-toggle="modal"
                                             data-bs-target=@if($hasRequest) "#modalRequestExiste" @else
-                                        "#exampleModal"  @endif>
+                                        "#exampleModal"
+                                    @endif>
                                     {{__('Click_here_for_Verification')}}
                                     </button>
                                 </div>
@@ -102,10 +30,7 @@
                     </div>
                 </div>
             </div>
-            <!--end card-->
         </div>
-
-        <!--end col-->
     </div>
     <div class="modal fade" id="modalRequestExiste" tabindex="-1" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
@@ -120,7 +45,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
-                    {{--                    <button type="button" class="btn btn-primary">Save changes</button>--}}
                 </div>
             </div>
         </div>
@@ -170,12 +94,15 @@
                             </ul>
                         </div>
                     </div>
-                    <!--end modal-body-->
                     <div class="modal-body">
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="pills-bill-info" role="tabpanel"
                                  aria-labelledby="pills-bill-info-tab">
                                 <div class="row g-3">
+                                    <div id="personalInformationMessage" class="alert alert-danger" role="alert"
+                                         style="display: none">
+                                        {{__('Please check form data')}}
+                                    </div>
                                     <div class="col-lg-6">
                                         <div>
                                             <label for="firstName" class="form-label">First Name</label>
@@ -184,7 +111,6 @@
                                                    placeholder="Enter your firstname">
                                         </div>
                                     </div>
-                                    <!--end col-->
                                     <div class="col-lg-6">
                                         <div>
                                             <label for="lastName" class="form-label">Last Name</label>
@@ -193,11 +119,9 @@
                                                    placeholder="Enter your lastname">
                                         </div>
                                     </div>
-                                    <!--end col-->
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="JoiningdatInput" class="form-label">
-                                                {{--                                                    Joining Date--}}
                                                 {{__('Date of birth')  }}
                                             </label>
                                             <input wire:model.defer="usermetta_info2.birthday" type="date"
@@ -206,17 +130,15 @@
                                                    placeholder=""/>
                                         </div>
                                     </div>
-                                    <!--end col-->
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="zipcodeInput" class="form-label">{{ __('National ID') }}</label>
+                                            <label for="nationalId" class="form-label">{{ __('National ID') }}</label>
                                             <input type="text" class="form-control" minlength="5" maxlength="50"
                                                    wire:model.defer="usermetta_info2.nationalID"
-                                                   id="nationalId" placeholder="">
+                                                   id="nationalId" placeholder="{{__('National ID')}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
-
                                         <div class="form-check form-switch   ms-5 me-5 mb-3" dir="ltr">
                                             <input wire:model.defer="notify" type="checkbox"
                                                    class="form-check-input" id="" checked="">
@@ -224,11 +146,9 @@
                                                    for="customSwitchsizesm">{{ __('I want to receive an SMS when my identification completed successfully') }}</label>
                                         </div>
                                     </div>
-                                    <!--end col-->
-                                    <!--end col-->
                                     <div class="col-lg-12">
                                         <div class="d-flex align-items-start gap-3 mt-3">
-                                            <button id="btnNextAdresse" type="button"
+                                            <button id="btnNextMailAdress" type="button"
                                                     class="btn btn-primary btn-label right ms-auto nexttab"
                                                     data-nexttab="pills-bill-address-tab"><i
                                                     class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
@@ -236,12 +156,8 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <!--end col-->
                                 </div>
-                                <!--end row-->
                             </div>
-                            <!-- end tab pane -->
-
                             <div class="tab-pane fade" id="pills-bill-address" role="tabpanel"
                                  aria-labelledby="pills-bill-address-tab">
                                 <div class="row">
@@ -252,15 +168,14 @@
                                             <div class="input-group">
                                                 <input id="inputEmailUser" wire:model.defer="userF.email" type="email"
                                                        class="form-control"
-                                                       name="email" placeholder="Enter your email" required>
+                                                       name="email" placeholder="{{__('Enter your email')}}" required>
                                             </div>
                                             <span id='error-mail' class='hide'></span>
-                                            {{--                                            {{$user['email']}}--}}
                                         </div>
                                     </div>
                                     <div id="optChecker" class="col-lg-6 invisible">
-                                        <div class=''
-                                             class="container height-100 d-flex justify-content-center align-items-center">
+                                        <div
+                                            class="container height-100 d-flex justify-content-center align-items-center">
                                             <div class="position-relative">
                                                 <div class="card p-2 text-center">
                                                     <h6>{{__('Opt_verif_mail')}} <br> {{__('To_verif_Account')}}
@@ -278,51 +193,11 @@
                                                                id="optThird" maxlength="1"/>
                                                         <input class="m-2 text-center form-control rounded" type="text"
                                                                id="optFourth" maxlength="1"/>
-
                                                     </div>
-                                                    {{--                                                    <div class="mt-4">--}}
-                                                    {{--                                                        <button onclick="checkOpt()"--}}
-                                                    {{--                                                                class="btn btn-danger px-4 validate">Validate--}}
-                                                    {{--                                                        </button>--}}
-                                                    {{--                                                    </div>--}}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!--end col-->
-                                {{--                                    <div class="col-lg-6">--}}
-                                {{--                                        <div class="mb-3">--}}
-                                {{--                                            <label for="branchInput" class="form-label">Branch</label>--}}
-                                {{--                                            <input type="text" class="form-control" id="branchInput"--}}
-                                {{--                                                   placeholder="Branch">--}}
-                                {{--                                        </div>--}}
-                                {{--                                    </div>--}}
-                                <!--end col-->
-                                {{--                                    <div class="col-lg-12">--}}
-                                {{--                                        <div class="mb-3">--}}
-                                {{--                                            <label for="accountnameInput" class="form-label">Account--}}
-                                {{--                                                Holder Name</label>--}}
-                                {{--                                            <input type="text" class="form-control" id="accountnameInput"--}}
-                                {{--                                                   placeholder="Enter account holder name">--}}
-                                {{--                                        </div>--}}
-                                {{--                                    </div>--}}
-                                <!--end col-->
-                                {{--                                    <div class="col-lg-6">--}}
-                                {{--                                        <div class="mb-3">--}}
-                                {{--                                            <label for="accountnumberInput" class="form-label">Account--}}
-                                {{--                                                Number</label>--}}
-                                {{--                                            <input type="number" class="form-control" id="accountnumberInput"--}}
-                                {{--                                                   placeholder="Enter account number">--}}
-                                {{--                                        </div>--}}
-                                {{--                                    </div>--}}
-                                <!--end col-->
-                                {{--                                    <div class="col-lg-6">--}}
-                                {{--                                        <div class="mb-3">--}}
-                                {{--                                            <label for="ifscInput" class="form-label">IFSC</label>--}}
-                                {{--                                            <input type="number" class="form-control" id="ifscInput" placeholder="IFSC">--}}
-                                {{--                                        </div>--}}
-                                {{--                                    </div>--}}
-                                <!--end col-->
                                     <div class="col-lg-12">
                                         <div class="hstack align-items-start gap-3 mt-4">
                                             <button type="button" class="btn btn-light btn-label previestab"
@@ -338,14 +213,11 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <!--end col-->
                                 </div>
                             </div>
-                            <!-- end tab pane -->
                             <div class="tab-pane fade" id="pills-payment" role="tabpanel"
                                  aria-labelledby="pills-payment-tab">
-                                {{--                                <h5 class="mb-3">Choose Document Type</h5>--}}
-                                <div class="row" style="margin: 20px">
+                                <div class="row">
                                     <div class="col-6">
                                         <div>
                                             <label class="form-label">{{ __('Front ID') }}</label>
@@ -354,16 +226,18 @@
                                             @if(file_exists(public_path('/uploads/profiles/front-id-image'.$userAuth->idUser.'.png')))
                                                 <img width="150" height="100"
                                                      src={{asset(('/uploads/profiles/front-id-image'.$userAuth->idUser.'.png'))}} >
+                                            @else
+                                                <img width="150" height="100"
+                                                     src={{asset(('/uploads/profiles/default.png'))}} >
                                             @endif
                                         </div>
                                         <div class="wrap-custom-file" style="margin-top: 10px">
-                                            <input wire:model.defer="photoFront" type="file" name="image1" id="image1"
+                                            <input wire:model.defer="photoFront" type="file" name="photoFront"
+                                                   id="photoFront"
                                                    accept=".png"/>
-                                            <label for="image1">
-                                                <lord-icon
-                                                    src="https://cdn.lordicon.com/vixtkkbk.json"
-                                                    trigger="loop" delay="1000"
-                                                    style="width:100px;height:100px">
+                                            <label for="photoFront">
+                                                <lord-icon src="https://cdn.lordicon.com/vixtkkbk.json" trigger="loop"
+                                                           delay="1000" style="width:100px;height:100px">
                                                 </lord-icon>
                                                 <span> <i class="ri-camera-fill"></i> </span>
                                             </label>
@@ -377,40 +251,38 @@
                                             @if(file_exists(public_path('/uploads/profiles/back-id-image'.$userAuth->idUser.'.png')))
                                                 <img width="150" height="100"
                                                      src={{asset(('/uploads/profiles/back-id-image'.$userAuth->idUser.'.png'))}} >
+                                            @else
+                                                <img width="150" height="100"
+                                                     src={{asset(('/uploads/profiles/default.png'))}} >
                                             @endif
                                         </div>
-                                        <div class="wrap-custom-file" style="margin-top: 10px">
-                                            <input wire:model.defer="backback" type="file" name="image33" id="image33"
-                                                   accept=".png"/>
-                                            <label for="image33">
-                                                <lord-icon
-                                                    src="https://cdn.lordicon.com/vixtkkbk.json"
-                                                    trigger="loop" delay="1000"
-                                                    style="width:100px;height:100px">
+                                        <div class="wrap-custom-file ml-2">
+                                            <input wire:model.defer="photoBack" type="file" name="photoBack"
+                                                   id="photoBack" accept=".png"/>
+                                            <label for="photoBack">
+                                                <lord-icon src="https://cdn.lordicon.com/vixtkkbk.json" trigger="loop"
+                                                           delay="1000" style="width:100px;height:100px">
+
                                                 </lord-icon>
                                                 <span> <i class="ri-camera-fill"></i> </span>
                                             </label>
                                         </div>
-
                                     </div>
-                                    {{--                                                            <button  onclick="saveimg()"  type="button" >ssave</button>--}}
                                 </div>
-                                <!-- end dropzon-preview -->
                                 <div class="d-flex align-items-start gap-3 mt-4">
                                     <button type="button" class="btn btn-light btn-label previestab"
-                                            data-previous="pills-bill-address-tab"><i
-                                            class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
+                                            data-previous="pills-bill-address-tab">
+                                        <i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
                                         {{__('Back_to_mail_verif')}}
                                     </button>
-                                    <button onclick="saveimg()" type="button"
+                                    <button onclick="sendIndentificationRequest()" type="button"
                                             class="btn btn-primary btn-label right ms-auto nexttab"
                                             data-nexttab="pills-finish-tab"><i
-                                            class="ri-save-line label-icon align-middle fs-16 ms-2"></i>{{__('Submit')}}
+                                            class="ri-save-line label-icon align-middle fs-16 ms-2"></i>
+                                        {{__('Submit')}}
                                     </button>
                                 </div>
                             </div>
-                            <!-- end tab pane -->
-
                             <div class="tab-pane fade" id="pills-finish" role="tabpanel"
                                  aria-labelledby="pills-finish-tab">
                                 <div class="row text-center justify-content-center py-4">
@@ -422,31 +294,21 @@
                                             </lord-icon>
                                         </div>
                                         <h5>{{__('Verification_Completed')}}</h5>
-                                        <input readonly style="border: none;width: 100%" wire:model="messageVerif">
-                                        <p type="text" wire:model="messageVerif">{{$messageVerif}}</p>
+                                        <p class="text-center mb-4">
                                         <h6>{{$messageVerif}}</h6>
-                                        <p class="text-muted mb-4">
-                                            {{__('txt_Verification_Completed')}}
-                                            {{--                                            <span class="fw-medium">Crypto > KYC Application.</span>--}}
+                                        <hr>
+                                        {{__('txt_Verification_Completed')}}
                                         </p>
-
                                         <div class="hstack justify-content-center gap-2">
                                             <button onclick="doneVerify()" type="button" class="btn btn-ghost-success"
                                                     data-bs-dismiss="modal">{{__('Done')}}<i
                                                     class="ri-thumb-up-fill align-bottom me-1"></i></button>
-                                            {{--                                            <button  onclick="verifRequest()" type="button" class="btn btn-primary"><i--}}
-                                            {{--                                                    class="ri-home-4-line align-bottom ms-1"></i> Back--}}
-                                            {{--                                                to Home--}}
-                                            {{--                                            </button>--}}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- end tab pane -->
                         </div>
-                        <!-- end tab content -->
                     </div>
-                    <!--end modal-body-->
                 </form>
             </div>
         </div>
@@ -462,14 +324,6 @@
                 errorMail2.classList.add("hide");
             }
         });
-        // $("#inputEmailUser").addEventListener('keyup', function () {
-        //     // resetUpPhone();
-        //     alert('fsdf');
-        //     if ($("#inputEmailUser").value.trim()!="") {
-        //         errorMail.innerHTML = '';
-        //         errorMail.classList.add("hide");
-        //     }
-        // });
         var nextTomail = false;
         $('input[type="file"]').each(function () {
             var $file = $(this),
@@ -477,40 +331,22 @@
                 $labelText = $label.find('span'),
                 labelDefault = $labelText.text();
             $file.on('change', function (event) {
-
                 var fileName = $file.val().split('\\').pop(),
-
                     tmppath = URL.createObjectURL(event.target.files[0]);
-
                 if (fileName) {
-
-                    $label
-
-                        .addClass('file-ok')
-
-                        .css('background-image', 'url(' + tmppath + ')');
-
+                    $label.addClass('file-ok').css('background-image', 'url(' + tmppath + ')');
                     $labelText.text(fileName);
-
                 } else {
-
                     $label.removeClass('file-ok');
-
                     $labelText.text(labelDefault);
-
                 }
-
             });
-
         });
 
-        function saveimg() {
-
-            var dd = {{ $photoFront}};
-            alert(dd) ;
-            return ;
-            if (checkRequiredrFieldInfo() && checkRequiredrFieldMail())
-                window.livewire.emit('saveimg');
+        function sendIndentificationRequest() {
+            if (checkRequiredrFieldInfo() && checkRequiredrFieldMail()) {
+                window.livewire.emit('sendIndentificationRequest');
+            }
         }
 
         document.getElementById('pills-bill-address-tab').addEventListener('shown.bs.tab', function (event) {
@@ -531,14 +367,41 @@
                     $("inputEmailUser").attr('required', true);
                 $('#myTab   button[id="pills-bill-address-tab"] ').tab('show');
             } else {
-                saveimg();
+                sendIndentificationRequest();
             }
         });
 
         function checkRequiredrFieldInfo() {
-            if ($("#firstName").val().trim() === "" || $("#lastName").val().trim() === "" || $("#nationalId").val().trim() === "" || $("#dateofBirth").val().trim() === "")
-                return false;
-            return true;
+            validRequiredrFieldInfo = true;
+
+            if ($("#firstName").val().trim() === "") {
+                $("#firstName").val().css('border-color', 'red')
+                validRequiredrFieldInfo = false;
+            } else {
+                $("#firstName").val().css('border-color', 'green')
+            }
+
+            if ($("#lastName").val().trim() === "") {
+                $("#lastName").val().css('border-color', 'red')
+                validRequiredrFieldInfo = false;
+            } else {
+                $("#lastName").val().css('border-color', 'green')
+            }
+
+            if ($("#nationalId").val().trim() === "") {
+                $("#nationalId").val().css('border-color', 'red')
+                validRequiredrFieldInfo = false;
+            } else {
+                $("#nationalId").val().css('border-color', 'green')
+            }
+
+            if ($("#dateofBirth").val().trim() === "") {
+                $("#dateofBirth").val().css('border-color', 'red')
+                validRequiredrFieldInfo = false;
+            } else {
+                $("#dateofBirth").val().css('border-color', 'green')
+            }
+            return validRequiredrFieldInfo;
         }
 
         function checkRequiredrFieldMail() {
@@ -567,7 +430,8 @@
                     }
                 },
                 error: (error) => {
-                    alert('Something went wrong to fetch datas...');
+                    console.log('Something went wrong to fetch datas...');
+                    console.log(error);
                 }
             });
             var optChecker = document.querySelector("#optChecker");
@@ -579,18 +443,12 @@
                             url: "/sendMailNotification",
                             async: false,
                             success: (result) => {
-                                if (result == 'ok') {
-
-
-                                }
                             },
                             error: (error) => {
                                 alert('Something went wrong to send datas...');
                             }
                         });
-
                     }
-
                     optChecker.classList.remove("invisible");
                     if (checkOptVerify())
                         checkOpt = true;
@@ -611,14 +469,17 @@
             return true;
         }
 
-        $(function () {
-            $('#btnNextAdresse').click(function (e) {
-                if ($("#firstName").val() == "") {
-                    e.preventDefault();
-                    $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
-                }
-            })
-        })
+        $('#btnNextMailAdress').click(function (e) {
+            $('#personalInformationMessage').css("display", "none");
+            e.preventDefault();
+            console.log(checkRequiredrFieldInfo())
+            if (checkRequiredrFieldInfo()) {
+                $('#personalInformationMessage').css("display", "none");
+                $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
+            } else {
+                $('#personalInformationMessage').css("display", "block");
+            }
+        });
 
         function checkOptVerify() {
             var valreturn = false;
@@ -652,9 +513,7 @@
                 method: "GET",
                 url: "/mailVerifNew",
                 async: false,
-                data: {
-                    mail: $("#inputEmailUser").val().trim(),
-                },
+                data: {mail: $("#inputEmailUser").val().trim(),},
                 success: (result) => {
                     if (result == 'no') {
                         valreturn = false;
@@ -663,7 +522,8 @@
                     }
                 },
                 error: (error) => {
-                    alert('Something went wrong to fetch datas...');
+                    console.log('Something went wrong to fetch datas...');
+                    console.log(error);
                 }
             });
             return valreturn;
@@ -674,14 +534,11 @@
         }
 
         function verifRequest() {
-            // swal.fire('fdsfsdfsdfsd');
             $("#exampleModal").modal("hide");
-
         }
 
-        // $('#exampleModal').on('show.bs.modal', function (e) {
-        //
-        //     $("#exampleModal").modal("hide");
-        // })
+        window.addEventListener('IdentificationRequestMissingInformation', event => {
+            console.log('IdentificationRequestMissingInformation');
+        })
     </script>
 </div>

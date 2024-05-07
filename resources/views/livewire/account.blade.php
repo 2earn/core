@@ -303,13 +303,22 @@
                                                 {{__('Last Name')}}
                                             </label>
                                             <input type="text" class="form-control"
-                                                   wire:model.defer="usermetta_info.enLastName" placeholder="" value="">
+                                                   @if($user['status'] == 1)
+                                                       disabled
+                                                   @endif
+                                                   wire:model.defer="usermetta_info.enLastName"
+                                                   placeholder="{{__('Last name')}}" value="">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="firstnameInput" class="form-label">{{__('First Name')}}</label>
-                                            <input wire:model.defer="usermetta_info.enFirstName" class="form-control">
+                                            <input
+                                                @if($user['status'] == 1)
+                                                    disabled
+                                                @endif
+                                                wire:model.defer="usermetta_info.enFirstName"
+                                                placeholder="{{__('First name')}}" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -354,8 +363,12 @@
                                             <label for="JoiningdatInput" class="form-label">
                                                 {{__('Date of birth')  }}
                                             </label>
-                                            <input wire:model.defer="usermetta_info.birthday" type="date"
-                                                   class="form-control" id="JoiningdatInput"/>
+                                            <input
+                                                @if($user['status'] == 1)
+                                                    disabled
+                                                @endif
+                                                wire:model.defer="usermetta_info.birthday" type="date"
+                                                class="form-control" id="JoiningdatInput"/>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -444,7 +457,10 @@
                                             <input readonly wire:model.defer="countryUser" type="text"
                                                    class="form-control"
                                                    id="countryInput"
-                                                   placeholder="" value="United States"/>
+                                                   @if($user['status'] == 1)
+                                                       disabled
+                                                   @endif
+                                                   value="United States"/>
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
@@ -452,7 +468,11 @@
                                             <label for="zipcodeInput" class="form-label">{{ __('National ID') }}</label>
                                             <input type="text" class="form-control" minlength="5" maxlength="50"
                                                    wire:model.defer="usermetta_info.nationalID"
-                                                   id="zipcodeInput" placeholder="">
+                                                   id="zipcodeInput"
+                                                   @if($user['status'] == 1)
+                                                       disabled
+                                                @endif
+                                            >
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
@@ -646,16 +666,16 @@
                                 <div>
                                     <label for="lastName" class="form-label">{{__('First Name')}}</label>
                                     <input wire:model.defer="usermetta_info.enFirstName" type="text"
-                                           class="form-control" id=""
-                                           placeholder="Enter your lastname">
+                                           class="form-control"
+                                           placeholder="{{__('Enter your name')}}">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div>
                                     <label for="phoneNumber" class="form-label">{{__('Last Name')}}</label>
                                     <input wire:model.defer="usermetta_info.enLastName" type="text"
-                                           class="form-control" id=""
-                                           placeholder="Enter your phone number">
+                                           class="form-control"
+                                           placeholder="{{__('Enter your lastname')}}">
                                 </div>
                             </div>
                             <div class="col-lg-6">

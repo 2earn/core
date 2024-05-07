@@ -44,7 +44,7 @@ class ForgotPassword extends Component
         $fullNumberSend = $userContactActif->fullNumber;
 
         $this->dispatchBrowserEvent('OptForgetPass', [
-            'tyepe' => 'warning',
+            'type' => 'warning',
             'title' => "Opt",
             'text' => '',
             'FullNumber'=>$fullNumberSend,

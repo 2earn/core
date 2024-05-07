@@ -39,7 +39,7 @@ class TranslateView extends Component
     public function PreImport($param)
     {
         $this->dispatchBrowserEvent('PassEnter', [
-            'tyepe' => 'warning',
+            'type' => 'warning',
             'title' => "Opt",
             'text' => '',
             'ev' => $param
@@ -188,7 +188,7 @@ class TranslateView extends Component
     public function PreAjout()
     {
         $this->dispatchBrowserEvent('PreAjoutTrans', [
-            'tyepe' => 'warning',
+            'type' => 'warning',
             'title' => "Opt",
             'text' => '',
         ]);

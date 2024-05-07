@@ -15,7 +15,6 @@ use App\Http\Livewire\EntretienArbre;
 use App\Http\Livewire\EvolutionArbre;
 use App\Http\Livewire\FinancialTransaction;
 
-//use App\Http\Livewire\FinancialRequest;
 use App\Http\Livewire\ForgotPassword;
 
 use App\Http\Livewire\HistoriqueRecuperation;
@@ -26,7 +25,6 @@ use App\Http\Livewire\Login;
 use App\Http\Livewire\NotificationHistory;
 use App\Http\Livewire\NotificationSettings;
 
-//use App\Http\Livewire\UserBalanceBFS;
 use App\Http\Livewire\pay;
 use App\Http\Livewire\PaymentController;
 use App\Http\Livewire\Registre;
@@ -53,28 +51,14 @@ use Illuminate\Support\Facades\Auth;
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
-
-
 |
 */
 
-Route::get('/pdf', function (){
-
-
-    $data = array(
-        'name' => 'ghazi',
-        'detail'=>'sdfsdf',
-        'sender' => '2earn.cash'
-    );
-
+Route::get('/pdf', function () {
+    $data = array('name' => 'ghazi', 'detail' => 'sdfsdf', 'sender' => '2earn.cash');
     $pdf = Pdf::loadView('pdf');
-
-    Mail::send('pwd_email',['data' => "azerty"], function($message) use($pdf)
-    {
-
-
+    Mail::send('pwd_email', ['data' => "azerty"], function ($message) use ($pdf) {
         $message->to('khalil@2earn.cash')->subject('Invoice');
-
         $message->attachData($pdf->output(), "invoice.pdf");
     });
 
@@ -84,10 +68,6 @@ Route::get('/pdf', function (){
 Route::get('test', \App\Http\Livewire\Test::class)->name('test');
 Route::get('changePassword/{idUser}', ChangePassword::class)->name('resetPassword');
 
-
-//Route::get('/tables', function () {
-//    return view('tables-datatables', ['name' => 'Victoria']);
-// });
 Route::get('tables-datatables', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
 Route::get('coming-soon-Move', [App\Http\Controllers\HomeController::class, 'index'])->name('ComingMove');
 Route::get('coming-soon-learn', [App\Http\Controllers\HomeController::class, 'index'])->name('ComingLearn');
@@ -100,8 +80,6 @@ Route::get('/offline', function () {
 Route::get('/privacy', function () {
     return view('livewire.privacy')->extends('layouts.master-without-nav')->section('content');
 });
-
-//Route::get('user_balance_bfs', UserBalanceBFS::class)->name('user_balance_bfs');
 
 Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'middleware' => 'setlocale'], function () {
     Route::middleware(['auth', 'CloseAuth'])->group(function () {
@@ -126,7 +104,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('user_balance_sms', UserBalanceSMS::class)->name('user_balance_sms');
         Route::get('user_balance_cb', UserBalanceCB::class)->name('user_balance_cb');
 
-
         Route::get('/paytabs/notification', PaymentController::class)->name('paytabs_notification');
         Route::get('user_balance_db', UserBalanceDB::class)->name('user_balance_db');
         Route::get('user_balance_bfs', UserBalanceBFS::class)->name('user_balance_bfs');
@@ -144,9 +121,9 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('description', Description::class)->name('description');
         Route::get('/AcceptRequest', AcceptFinancialRequest::class)->name('AcceptFinancialRequest')->middleware('CloseAuth');
 
-         Route::get('/Sponsorship', function () {
-             SponsorshipFacade::testexecuteDelayedSponsorship(999952207);
-         });
+        Route::get('/Sponsorship', function () {
+            SponsorshipFacade::testexecuteDelayedSponsorship(999952207);
+        });
 
     });
     Route::get('registre', Registre::class)->name('registre');
@@ -177,7 +154,6 @@ Route::group(['prefix' => 'API'], function () {
     Route::get('user_invitations', 'App\Http\Controllers\ApiController@getInvitationsUser')->name('API_userinvitations');
     Route::get('user_purchaseBFS', 'App\Http\Controllers\ApiController@getPurchaseBFSUser')->name('API_userBFSPurchase');
     Route::post('paytabs_notification', 'App\Http\Controllers\ApiController@handlePaymentNotification')->name('paytabs_notification')->withoutMiddleware('web');
-    // Route::post('paytabs_notification1', 'App\Http\Controllers\ApiController@handlePaymentNotification1')->name('paytabs_notification1')->withoutMiddleware('web');
 
     Route::get('users_list', 'App\Http\Controllers\ApiController@getUsersList')->name('API_UsersList');
     Route::get('stat_countries', 'App\Http\Controllers\ApiController@getCountriStat')->name('API_stat_countries');
@@ -214,9 +190,7 @@ Route::get('/ResetNotOut', 'App\Http\Controllers\FinancialRequestController@rese
 Route::get('/', function () {
     return redirect(app()->getLocale());
 });
-//Route::get('/login', function () {
-//    return redirect( '/'. app()->getLocale().'/login');
-//});
+
 Route::get('store-form', 'App\Http\Controllers\PostController@store')->name('saveph');
 Route::get('mailVerif', 'App\Http\Controllers\PostController@verifyMail')->name('mailVerif');
 Route::get('mailVerifOpt', 'App\Http\Controllers\PostController@mailVerifOpt')->name('mailVerifOpt');
@@ -229,7 +203,3 @@ Route::get('getRequestAjax', 'App\Http\Controllers\ApiController@getRequestAjax'
 Route::get('logoutSSo', 'App\Http\Controllers\ApiController@logoutSSo')->name('logoutSSo')->middleware('auth:api');
 Route::view('/tests', 'tests');
 
-
-
-
-/// end added by Amine
