@@ -358,14 +358,14 @@
                                             verification, you may want to add multiple methods form the")}}
                                             <span class="fw-medium">{{__('Crypto > KYC Application.')}}</span>
                                         </p>
-                                        <div class="hstack justify-content-center gap-2">
-                                            <button type="button" class="btn btn-ghost-success"
-                                                    data-bs-dismiss="modal">
+                                        <div class="justify-content-center gap-2">
+                                            <button type="button" class="btn btn-ghost-success" data-bs-dismiss="modal">
                                                 {{__('Done')}}
-                                                <i class="ri-thumb-up-fill align-bottom me-1"></i></button>
-                                            <button type="button" class="btn btn-primary"><i
-                                                    class="ri-home-4-line align-bottom ms-1"></i>
-                                                {{__('Back to Home')}}
+                                                <i class="ri-thumb-up-fill align-bottom me-1"></i>
+                                            </button>
+                                 ddzdzdzdz           <button type="button" class="btn btn-primary">
+                                                <i class="ri-home-4-line align-bottom ms-1"></i>
+                                           AAAAAAAAAAAAAAAA     {{__('Back to Home')}}
                                             </button>
                                         </div>
                                     </div>

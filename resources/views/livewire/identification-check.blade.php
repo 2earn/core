@@ -99,6 +99,10 @@
                             <div class="tab-pane fade show active" id="pills-bill-info" role="tabpanel"
                                  aria-labelledby="pills-bill-info-tab">
                                 <div class="row g-3">
+                                    <div id="personalInformationMessage" class="alert alert-danger" role="alert"
+                                         style="display: none">
+                                        {{__('Please check form data')}}
+                                    </div>
                                     <div class="col-lg-6">
                                         <div>
                                             <label for="firstName" class="form-label">First Name</label>
@@ -126,12 +130,12 @@
                                                    placeholder=""/>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="zipcodeInput" class="form-label">{{ __('National ID') }}</label>
+                                            <label for="nationalId" class="form-label">{{ __('National ID') }}</label>
                                             <input type="text" class="form-control" minlength="5" maxlength="50"
                                                    wire:model.defer="usermetta_info2.nationalID"
-                                                   id="nationalId" placeholder="">
+                                                   id="nationalId" placeholder="{{__('National ID')}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
@@ -144,7 +148,7 @@
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="d-flex align-items-start gap-3 mt-3">
-                                            <button id="btnNextAdresse" type="button"
+                                            <button id="btnNextMailAdress" type="button"
                                                     class="btn btn-primary btn-label right ms-auto nexttab"
                                                     data-nexttab="pills-bill-address-tab"><i
                                                     class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
@@ -164,7 +168,7 @@
                                             <div class="input-group">
                                                 <input id="inputEmailUser" wire:model.defer="userF.email" type="email"
                                                        class="form-control"
-                                                       name="email" placeholder="Enter your email" required>
+                                                       name="email" placeholder="{{__('Enter your email')}}" required>
                                             </div>
                                             <span id='error-mail' class='hide'></span>
                                         </div>
@@ -213,51 +217,52 @@
                             </div>
                             <div class="tab-pane fade" id="pills-payment" role="tabpanel"
                                  aria-labelledby="pills-payment-tab">
-                                <div class="row mt-2">
-                                    <div class="col-sm-12 col-md-6">
+                                <div class="row">
+                                    <div class="col-6">
                                         <div>
-                                            {{$hasFrontImage}}
-                                            {{$hasBackImage}}
                                             <label class="form-label">{{ __('Front ID') }}</label>
                                         </div>
                                         <div>
                                             @if(file_exists(public_path('/uploads/profiles/front-id-image'.$userAuth->idUser.'.png')))
-                                                <img class="img-thumbnail"
+                                                <img width="150" height="100"
                                                      src={{asset(('/uploads/profiles/front-id-image'.$userAuth->idUser.'.png'))}} >
+                                            @else
+                                                <img width="150" height="100"
+                                                     src={{asset(('/uploads/profiles/default.png'))}} >
                                             @endif
                                         </div>
                                         <div class="wrap-custom-file" style="margin-top: 10px">
                                             <input wire:model.defer="photoFront" type="file" name="photoFront"
                                                    id="photoFront"
                                                    accept=".png"/>
-                                            <label for="image1">
-                                                <lord-icon
-                                                    src="https://cdn.lordicon.com/vixtkkbk.json"
-                                                    trigger="loop" delay="1000"
-                                                    class="img-thumbnail">
+                                            <label for="photoFront">
+                                                <lord-icon src="https://cdn.lordicon.com/vixtkkbk.json" trigger="loop"
+                                                           delay="1000" style="width:100px;height:100px">
                                                 </lord-icon>
                                                 <span> <i class="ri-camera-fill"></i> </span>
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12 col-md-6">
+                                    <div class="col-6">
                                         <div>
                                             <label class="form-label">{{ __('Back ID') }}</label>
                                         </div>
                                         <div>
                                             @if(file_exists(public_path('/uploads/profiles/back-id-image'.$userAuth->idUser.'.png')))
-                                                <img class="img-thumbnail"
+                                                <img width="150" height="100"
                                                      src={{asset(('/uploads/profiles/back-id-image'.$userAuth->idUser.'.png'))}} >
+                                            @else
+                                                <img width="150" height="100"
+                                                     src={{asset(('/uploads/profiles/default.png'))}} >
                                             @endif
                                         </div>
                                         <div class="wrap-custom-file ml-2">
                                             <input wire:model.defer="photoBack" type="file" name="photoBack"
                                                    id="photoBack" accept=".png"/>
-                                            <label for="image33">
-                                                <lord-icon
-                                                    src="https://cdn.lordicon.com/vixtkkbk.json"
-                                                    trigger="loop" delay="1000"
-                                                    class="img-thumbnail">
+                                            <label for="photoBack">
+                                                <lord-icon src="https://cdn.lordicon.com/vixtkkbk.json" trigger="loop"
+                                                           delay="1000" style="width:100px;height:100px">
+
                                                 </lord-icon>
                                                 <span> <i class="ri-camera-fill"></i> </span>
                                             </label>
@@ -266,14 +271,15 @@
                                 </div>
                                 <div class="d-flex align-items-start gap-3 mt-4">
                                     <button type="button" class="btn btn-light btn-label previestab"
-                                            data-previous="pills-bill-address-tab"><i
-                                            class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
+                                            data-previous="pills-bill-address-tab">
+                                        <i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
                                         {{__('Back_to_mail_verif')}}
                                     </button>
-                                    <button onclick="saveimg()" type="button"
+                                    <button onclick="sendIndentificationRequest()" type="button"
                                             class="btn btn-primary btn-label right ms-auto nexttab"
                                             data-nexttab="pills-finish-tab"><i
-                                            class="ri-save-line label-icon align-middle fs-16 ms-2"></i>{{__('Submit')}}
+                                            class="ri-save-line label-icon align-middle fs-16 ms-2"></i>
+                                        {{__('Submit')}}
                                     </button>
                                 </div>
                             </div>
@@ -288,11 +294,10 @@
                                             </lord-icon>
                                         </div>
                                         <h5>{{__('Verification_Completed')}}</h5>
-                                        <input readonly style="border: none;width: 100%" wire:model="messageVerif">
-                                        <p type="text" wire:model="messageVerif">{{$messageVerif}}</p>
+                                        <p class="text-center mb-4">
                                         <h6>{{$messageVerif}}</h6>
-                                        <p class="text-muted mb-4">
-                                            {{__('txt_Verification_Completed')}}
+                                        <hr>
+                                        {{__('txt_Verification_Completed')}}
                                         </p>
                                         <div class="hstack justify-content-center gap-2">
                                             <button onclick="doneVerify()" type="button" class="btn btn-ghost-success"
@@ -338,9 +343,9 @@
             });
         });
 
-        function saveimg() {
+        function sendIndentificationRequest() {
             if (checkRequiredrFieldInfo() && checkRequiredrFieldMail()) {
-                window.livewire.emit('saveimg');
+                window.livewire.emit('sendIndentificationRequest');
             }
         }
 
@@ -362,7 +367,7 @@
                     $("inputEmailUser").attr('required', true);
                 $('#myTab   button[id="pills-bill-address-tab"] ').tab('show');
             } else {
-                saveimg();
+                sendIndentificationRequest();
             }
         });
 
@@ -437,14 +442,17 @@
             return true;
         }
 
-        $(function () {
-            $('#btnNextAdresse').click(function (e) {
-                if ($("#firstName").val() == "") {
-                    e.preventDefault();
-                    $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
-                }
-            })
-        })
+        $('#btnNextMailAdress').click(function (e) {
+            $('#personalInformationMessage').css("display", "none");
+            e.preventDefault();
+            console.log(checkRequiredrFieldInfo())
+            if (checkRequiredrFieldInfo()) {
+                $('#personalInformationMessage').css("display", "none");
+                $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
+            } else {
+                $('#personalInformationMessage').css("display", "block");
+            }
+        });
 
         function checkOptVerify() {
             var valreturn = false;
@@ -478,9 +486,7 @@
                 method: "GET",
                 url: "/mailVerifNew",
                 async: false,
-                data: {
-                    mail: $("#inputEmailUser").val().trim(),
-                },
+                data: {mail: $("#inputEmailUser").val().trim(),},
                 success: (result) => {
                     if (result == 'no') {
                         valreturn = false;
@@ -502,7 +508,10 @@
 
         function verifRequest() {
             $("#exampleModal").modal("hide");
-
         }
+
+        window.addEventListener('IdentificationRequestMissingInformation', event => {
+            console.log('IdentificationRequestMissingInformation');
+        })
     </script>
 </div>

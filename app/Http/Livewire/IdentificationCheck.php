@@ -8,12 +8,10 @@ use Core\Enum\StatusRequst;
 use Core\Models\identificationuserrequest;
 use Core\Models\metta_user;
 use Core\Services\settingsManager;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
-
 use Livewire\WithFileUploads;
 
 
@@ -30,13 +28,15 @@ class IdentificationCheck extends Component
     public $photo;
     public $userF;
     public $messageVerif = "";
+
     public $listeners = [
         'saveimg' => 'saveimg'
     ];
 
 
-    public function saveimg(settingsManager $settingsManager)
+    public function sendIndentificationRequest(settingsManager $settingsManager)
     {
+        $this->messageVerif = Lang::get('Sending identification request in progress');
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) abort(4040);
         $hasRequest = $userAuth->hasIdetificationReques();
@@ -54,15 +54,20 @@ class IdentificationCheck extends Component
             'birthday' => $this->usermetta_info2['birthday'],
             'nationalID' => $this->usermetta_info2['nationalID'],
         ]);
-        if (!is_null($this->photoFront)) {
+        if (!is_null($this->photoFront) && gettype($this->photoFront) == "object") {
             $this->photoFront->storeAs('profiles', 'front-id-image' . $userAuth->idUser . '.png', 'public2');
         }
-        if (!is_null($this->photoBack)) {
+        if (!is_null($this->photoBack) && gettype($this->photoBack) == "object") {
             $this->photoBack->storeAs('profiles', 'back-id-image' . $userAuth->idUser . '.png', 'public2');
         }
-        $this->sendIdentificationRequest($settingsManager);
-        User::where('idUser', $userAuth->idUser)->update(['status' => -1, 'asked_at' => date('Y-m-d H:i:s'), 'iden_notif' => $this->notify]);
-        $this->messageVerif = Lang::get('demande_creer');
+        if ($userAuth->hasFrontImage() && $userAuth->hasBackImage()) {
+            $this->sendIdentificationRequest($settingsManager);
+            User::where('idUser', $userAuth->idUser)->update(['status' => -1, 'asked_at' => date('Y-m-d H:i:s'), 'iden_notif' => $this->notify]);
+            $this->messageVerif = Lang::get('demande_creer');
+        } else {
+            $this->messageVerif = Lang::get('Identification request missing information');;
+            $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => "Opt", 'text' => '',]);
+        }
     }
 
     public function save(settingsManager $settingsManager)

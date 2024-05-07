@@ -15,18 +15,22 @@ use Illuminate\Support\Facades\Lang;
 class PostController extends Controller
 {
     use earnLog;
+
     public function store(Request $request)
     {
         redirect()->route('home', app()->getLocale());
-
         $p = $request->file('image1')->storeAs('profiles', 'front-id-image' . '998877' . '.png', 'public2');
     }
 
     public function verifyMail(Request $request, settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
-        $userExisteMail = $settingsManager->getConditionalUser('email', $request->mail);
-        if ($userExisteMail && $userExisteMail->idUser != $userAuth->idUser) {
+        try {
+            $userExisteMail = $settingsManager->getConditionalUser('email', $request->mail);
+            if ($userExisteMail && $userExisteMail->idUser != $userAuth->idUser) {
+                return 'no';
+            }
+        } catch (\Exception $exception) {
             return 'no';
         }
         return 'ok';
@@ -36,19 +40,19 @@ class PostController extends Controller
     {
         $this->earnDebug("debut verification mail opt:");
         $userAuth = $settingsManager->getAuthUser();
-        $this->earnDebug("connected user : " .$userAuth->id);
+        $this->earnDebug("connected user : " . $userAuth->id);
         $us = User::find($userAuth->id);
-        $this->earnDebug("find user : " .$userAuth->id);
+        $this->earnDebug("find user : " . $userAuth->id);
         if ($request->opt != $us->OptActivation) {
-            $this->earnDebug("opt failed  : " .$request->opt);
+            $this->earnDebug("opt failed  : " . $request->opt);
             return 'no';
         }
-        $this->earnDebug("change user information  : " .$request->opt);
+        $this->earnDebug("change user information  : " . $request->opt);
         $us->email_verified = 1;
         $us->email = $request->mail;
         $us->email_verified_at = Carbon::now();
         $us->save();
-        $this->earnDebug("opt ok  : " .$request->opt);
+        $this->earnDebug("opt ok  : " . $request->opt);
         return 'ok';
 
     }
@@ -64,42 +68,21 @@ class PostController extends Controller
 
     public function sendMail(Request $request, settingsManager $settingsManager)
     {
-
         $userAuth = $settingsManager->getAuthUser();
-//
-////        $userExisteMail = $settingsManager->getConditionalUser('email', $mail);
-//
-////        dd($mettauser && $mettauser->idUser != $userAuth->idUser) ;
-////        if ($userExisteMail && $userExisteMail->idUser != $userAuth->idUser) {
-////            return redirect()->route('account', app()->getLocale())->with('ErrorMailUsed', Lang::get('mail_used'));
-////        }
         $opt = $settingsManager->randomNewCodeOpt();
         $us = User::find($userAuth->id);
-//      dd($us);
         $us->OptActivation = $opt;
         $us->OptActivation_at = Carbon::now();
         $us->save();
-        $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::VerifMail, [
-            'msg' => $opt,
-            'type' => TypeNotificationEnum::SMS
-        ]);
+        $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::VerifMail, ['msg' => $opt, 'type' => TypeNotificationEnum::SMS]);
         return 'ok';
     }
 
     public function getMember()
     {
-
-//        $path = asset("/assets/json/team-member-list.json") ;
-       $pathFile = public_path() . '\assets\json\team-member-list.json';
+        $pathFile = public_path() . '\assets\json\team-member-list.json';
         $contents = File::get($pathFile);
         $json = collect(json_decode($contents));
-//        dd($path);
-//        $json = json_decode(file_get_contents($path), true);
-
-        return $json ;
-
-
+        return $json;
     }
-
-
 }
