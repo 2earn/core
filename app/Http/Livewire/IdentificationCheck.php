@@ -37,7 +37,6 @@ class IdentificationCheck extends Component
 
     public function saveimg(settingsManager $settingsManager)
     {
-
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) abort(4040);
         $hasRequest = $userAuth->hasIdetificationReques();
@@ -62,6 +61,7 @@ class IdentificationCheck extends Component
         if ($this->backback != null)
             $p = $this->backback->storeAs('profiles', 'back-id-image' . $userAuth->idUser . '.png', 'public2');
 
+        // NOTE TO DO check identification workflow
         $this->sendIdentificationRequest($settingsManager);
         User::where('idUser', $userAuth->idUser)->update(['status' => -1, 'asked_at' => date('Y-m-d H:i:s'), 'iden_notif' => $this->notify]);
         $this->messageVerif = Lang::get('demande_creer') ;

@@ -5,11 +5,9 @@ namespace Core\Services;
 use App\Http\Traits\earnLog;
 use App\Http\Traits\earnTrait;
 
-//use App\Models\MettaUser;
 use App\Models\ContactUser;
 use App\Models\User;
 
-//use App\Models\UserEarn;
 use Carbon\Carbon;
 use Core\Enum\AmoutEnum;
 use Core\Enum\BalanceOperationsEnum;
@@ -336,7 +334,6 @@ class settingsManager
 
     public function createUserContactNumberByProp($idUser, $mobile, $idCountry, $iso, $fullNumber)
     {
-
         return $contactNumber = UserContactNumber::create([
             'idUser' => $idUser,
             'mobile' => $mobile,
@@ -387,24 +384,6 @@ class settingsManager
         $actifNumber = $this->getNumberCOntactActif($this->getUserById($id)->idUser);
         return $actifNumber;
     }
-
-//    public function notifyUser($idUser, $notification)
-//    {
-//        switch ($notification) {
-//            case  NotificationSettingEnum::cont_inscri_sms :
-//                $NotificationUserSetting = $this->getUserNotificationSetting($idUser)
-//                    ->where('idNotification', '=', NotificationSettingEnum::cont_inscri_sms)
-//                    ->where('value', '=', 1)
-//                    ->get()->first();
-//                if (!empty($NotificationUserSetting)) {
-//                    $user = $this->userRepository->getUserEarnByIdUser($idUser);
-//                    dd($user);
-//                    $this->notifyHelper->notifyuser(TypeNotificationEnum::SMS, OperateurSmsEnum::Tunisie, $param);
-//                }
-//                break;
-//        }
-//        return $NotificationUserSetting = $this->getUserNotificationSetting($idUser);
-//    }
 
     /**
      * Returns void
@@ -489,9 +468,6 @@ class settingsManager
                                 TypeNotificationEnum::SMS, OperateurSmsEnum::international, $typeEventNotification, $param);
                             break;
                     }
-//                    $notifPayer = $this->notificationRepository->getAllNotification()
-//                        ->where('id', '=',)
-//                        ->first();
                     break;
             }
             $this->earnDebugSms("End notify - result send SMS for user : full number- " . $fullNumber . "; message fournisseur sms- " . $result);
@@ -550,9 +526,6 @@ class settingsManager
                                         TypeNotificationEnum::SMS, OperateurSmsEnum::international, $typeEventNotification, $param);
                                     break;
                             }
-//                            $notifSetting = $this->notificationRepository->getAllNotification()
-//                                ->where('id', '=', $typeEventNotification->getSettingSms()->value)
-//                                ->first();
                             if ($notifSetting && $notifSetting->payer) {
                                 $this->userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::SendSMS, $user->idUser);
                             }
@@ -566,7 +539,6 @@ class settingsManager
                             $mstest = $this->getMessageFinalByLang($params['msg'], $typeEventNotification, $params['lang']);
                         else
                             $mstest = $this->getMessageFinal($params['msg'], $typeEventNotification);
-//                        $mstest = $params['msg'];
                         $params['msg'] = $mstest;
 
                         $this->notifyHelper->notifyuser(
@@ -575,7 +547,6 @@ class settingsManager
                     break;
             }
         }
-//        $this->earnDebug($result);
         $this->earnDebugSms("result send SMS for user : full number-" . $fullNumber . "; message fournisseur sms-" . $result);
         return $result;
     }
@@ -611,8 +582,6 @@ class settingsManager
 
     public function getSoldeByAmount($idUser, AmoutEnum $amount)
     {
-//        return $this->userRepository->getSoldeUserByAmount($idUser, $amount);
-
         return $this->userBalanceRepository->getSoldeByAmount($idUser, $amount->value);
     }
 
@@ -679,27 +648,29 @@ class settingsManager
         }
     }
 
+    public function updateIdentity($requestIdentification, $status, $response, $note)
+    {
+        $requestIdentification->status = $status;
+        $requestIdentification->idUserResponse = $this->getAuthUser()->idUser;
+        $requestIdentification->response = $response;
+        $requestIdentification->note = $note;
+        $requestIdentification->responseDate = Carbon::now();
+        $requestIdentification->save();
+    }
+
     public function rejectIdentity($idUser, $note)
     {
         $requestIdentification = identificationuserrequest::where('idUser', $idUser)->where('status', StatusRequst::EnCours)->first();
         if ($requestIdentification == null) return;
-        $requestIdentification->status = StatusRequst::Rejected;
-        $requestIdentification->idUserResponse = $this->getAuthUser()->idUser;
-        $requestIdentification->response = 1;
-        $requestIdentification->note = $note;
-        $requestIdentification->responseDate = Carbon::now();
-        $requestIdentification->save();
+        $this->updateIdentity($requestIdentification, StatusRequst::Rejected, 1, $note);
+
         User::where('idUser', $idUser)->update(['status' => 4]);
         $user = User::where('idUser', $idUser)->first();
         $uMetta = metta_user::where('idUser', $idUser)->first();
         if (($user->iden_notif == 1)) {
-
             $lang = app()->getLocale();
-
             if ($uMetta && $uMetta->idLanguage != null) {
-
                 $language = language::where('name', $uMetta->idLanguage)->first();
-
                 $lang = $language->PrefixLanguage;
             }
             $this->NotifyUser($user->id, TypeEventNotificationEnum::RequestDenied, [
@@ -715,25 +686,16 @@ class settingsManager
     {
         $requestIdentification = identificationuserrequest::where('idUser', $idUser)->where('status', StatusRequst::EnCours)->first();
         if ($requestIdentification == null) return;
-        $requestIdentification->status = StatusRequst::Valid;
-        $requestIdentification->idUserResponse = $this->getAuthUser()->idUser;
-        $requestIdentification->response = 1;
-//        $requestIdentification->note = $note ;
-        $requestIdentification->responseDate = Carbon::now();
-        $requestIdentification->save();
+        $this->updateIdentity($requestIdentification, StatusRequst::Valid, 1, null);
         User::where('idUser', $idUser)->update(['status' => 1]);
         $user = User::where('idUser', $idUser)->first();
         $uMetta = metta_user::where('idUser', $idUser)->first();
-
         if (($user->iden_notif == 1)) {
             $lang = app()->getLocale();
             if ($uMetta && $uMetta->idLanguage != null) {
-
                 $language = language::where('name', $uMetta->idLanguage)->first();
-
                 $lang = $language->PrefixLanguage;
             }
-
             $this->NotifyUser($user->id, TypeEventNotificationEnum::RequestAccepted, [
                 'msg' => " ",
                 'type' => TypeNotificationEnum::SMS,
@@ -741,103 +703,49 @@ class settingsManager
                 'lang' => $lang
             ]);
         }
-//        $user = User::where('idUser',$idUser)->first();
-//        $data=[
-//            "arFirstName" => $info["arFirstName"],
-//            "arLastName" => $info["arLastName"],
-//            "enFirstName" => $info["enFirstName"],
-//            "enLastName" => $info["enLastName"],
-//            "birthday" =>  date("Y-m-d", strtotime($info["birthday"])),
-//            "adresse" => $info["adresse"],
-//            "idCountry" => $info["country"],
-//            "idState" => $info["state"],
-//            "personaltitle" => $info["personaltitle"],
-//            "gender" => $info["gender"],
-//            "nationalID" => $info["nationalID"],
-//        ];
-//        MettaUser::where('idUser',$idUser)->update($data);
     }
 
     public function getMessageFinal($mes, TypeEventNotificationEnum $typeOperation): string
     {
         $PrefixMsg = "";
         $finalMsg = "";
-//        $locale = app()->getLocale();
         $langage = "";
-//        switch ($locale) {
-//            case 'en':
-//                $langage = "English";
+
         switch ($typeOperation) {
             case TypeEventNotificationEnum::Inscri :
-//                $PrefixMsg = "Welcome to the 2earn.cash concept. your verification code is: ";
                 $PrefixMsg = Lang::get('Prefix_SmsInscri');
                 break;
             case TypeEventNotificationEnum::Password  :
-//                $PrefixMsg = "Welcome to the 2earn.cash concept. you have just activated your registration, your password is: ";
                 $PrefixMsg = Lang::get('Prefix_SmsPassword');
                 break;
             case TypeEventNotificationEnum::ToUpline  :
-//                $PrefixMsg = "Welcome to the 2earn.cash concept.Congratulations, he has joined your team the user with the phone number: ";
                 $PrefixMsg = Lang::get('Prefix_SmsToUpline');
                 break;
             case TypeEventNotificationEnum::RequestDenied  :
-//                $PrefixMsg = "Welcome to the 2earn.cash concept.Congratulations, Your identification request was denied due to this invalid information: ";
                 $PrefixMsg = Lang::get('Prefix_SmsRequestDenied');
                 break;
             case TypeEventNotificationEnum::ForgetPassword  :
-//                $PrefixMsg = "Your verification code is: ";
                 $PrefixMsg = Lang::get('Prefix_SmsForgetPassword');
                 break;
             case TypeEventNotificationEnum::OPTVerification  :
-//                $PrefixMsg = "Your verification code is : ";
                 $PrefixMsg = Lang::get('Prefix_SmsOPTVerification');
                 break;
             case TypeEventNotificationEnum::VerifMail  :
-//                $PrefixMsg = "Your verification code is : ";
                 $PrefixMsg = Lang::get('Prefix_MailVerifMail');
                 break;
             case TypeEventNotificationEnum::SendNewSMS  :
-//                $PrefixMsg = "Your verification code is : ";
                 $PrefixMsg = Lang::get('Prefix_SMSNewPass');
                 break;
             case TypeEventNotificationEnum::RequestAccepted  :
-//                $PrefixMsg = "Welcome to the 2earn.cash concept.Congratulations, Your identification request was denied due to this invalid information: ";
                 $PrefixMsg = Lang::get('Prefix_SmsRequestAccepted');
                 break;
             case TypeEventNotificationEnum::NewContactNumber  :
-//                $PrefixMsg = "Welcome to the 2earn.cash concept.Congratulations, Your identification request was denied due to this invalid information: ";
                 $PrefixMsg = Lang::get('Prefix_MailNewContactNumber');
                 break;
             case TypeEventNotificationEnum::none  :
-//                $PrefixMsg = "Welcome to the 2earn.cash concept.Congratulations, Your identification request was denied due to this invalid information: ";
                 $PrefixMsg = "";
                 break;
         }
-//                break;
-//            case 'fr':
-//                $langage = "Frensh";
-//                switch ($typeOperation) {
-//                    case TypeEventNotificationEnum::Inscri :
-//                        $PrefixMsg = "Bienvenue au concept 2earn.cash. votre code de vérification est : ";
-//                        break;
-//                    case TypeEventNotificationEnum::Password  :
-//                        $PrefixMsg = "Bienvenu au concept 2earn.cash. vous venez d'activer votre inscription, votre mot de passe est: ";
-//                        break;
-//                    case TypeEventNotificationEnum::ToUpline  :
-//                        $PrefixMsg = "Bienvenu au concept 2earn.cash. Félicitations, il s’est joint à votre équipe l’utilisateur avec le numéro de téléphone: ";
-//                        break;
-//                    case TypeEventNotificationEnum::RequestDenied  :
-//                        $PrefixMsg = "Bienvenu au concept 2earn.cash. Votre demande d'identification a été refusée en raison de ces informations non valides: ";
-//                        break;
-//                    case TypeEventNotificationEnum::ForgetPassword  :
-//                        $PrefixMsg = "Votre code de vérification est : ";
-//                        break;
-//                    case TypeEventNotificationEnum::OPTVerification  :
-//                        $PrefixMsg = "Votre code de vérification est :  ";
-//                        break;
-//                }
-//                break;
-//        }
         return $finalMsg = $PrefixMsg . " " . $mes;
     }
 
@@ -848,12 +756,7 @@ class settingsManager
         $finalMsg = "";
         $ancLang = app()->getLocale();
         app()->setLocale($newLang);
-
-//        $locale = app()->getLocale();
         $langage = "";
-//        switch ($locale) {
-//            case 'en':
-//                $langage = "English";
         switch ($typeOperation) {
             case TypeEventNotificationEnum::Inscri :
                 $PrefixMsg = Lang::get('Prefix_SmsInscri');
@@ -886,7 +789,6 @@ class settingsManager
                 $PrefixMsg = Lang::get('Prefix_MailNewContactNumber');
                 break;
         }
-
         app()->setLocale($ancLang);
         return $finalMsg = $PrefixMsg . " " . $mes;
     }
@@ -904,7 +806,6 @@ class settingsManager
             $notSetting->idNotification = $not->id;
             $data[] = $notSetting->attributesToArray();
         }
-//        dd($data);
         $this->notificationRepository->insertuserNotification($data);
     }
 
@@ -948,13 +849,11 @@ class settingsManager
         DB::delete('delete from usercurrentbalances where idUser=? ', [$idUser]);
         DB::delete('delete  from user_notification_setting where idUser = ?', [$idUser]);
         DB::delete('delete from metta_users where idUser = ?', [$idUser]);
-//        DB::delete('delete from user_earns where iduser=?', [$idUser]);
         DB::delete('delete   from user_contacts where idUser = ? ', [$idUser]);
         DB::delete('delete  from usercontactnumber where idUser = ?', [$idUser]);
         DB::delete('delete from identificationuserrequest where idUser = ?', [$idUser]);
         DB::delete('delete from users  where idUser = ? ', [$idUser]);
     }
-
 
     public function getStatesContrie($CodePhone)
     {
@@ -1012,10 +911,6 @@ class settingsManager
         return $contact_user;
     }
 
-    /**
-     * @param ContactUser $contactUser
-     * @return null
-     */
     public function getUserContactV2(ContactUser $contactUser)
     {
         return $this->userRepository->updateUserContactV2($contactUser);
@@ -1043,5 +938,4 @@ class settingsManager
         $reservation = Setting::find(25);
         return $this->userRepository->checkCanSponsorship(\auth()->user()->idUser, $reservation->IntegerValue, $maxSponsorship->IntegerValue);
     }
-
 }
