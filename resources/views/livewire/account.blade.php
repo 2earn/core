@@ -481,6 +481,11 @@
                                                         <button x-show="!open" class="btn btn-success ps-5 pe-5"
                                                                 wire:click="approuve({{$paramIdUser}})"
                                                                 id="validate">
+                                                            <div wire:loading wire:target="approuve({{$paramIdUser}})">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                                                <span class="sr-only">{{__('Loading')}}...</span>
+                                                            </div>
                                                             {{ __('Approve') }}
                                                         </button>
                                                     </div>
@@ -496,6 +501,11 @@
                                                         <button type="button" x-show="open"
                                                                 wire:click="reject({{$paramIdUser}})"
                                                                 class="btn btn-secondary ps-5 pe-5">
+                                                            <div wire:loading wire:target="reject({{$paramIdUser}})">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                                                <span class="sr-only">{{__('Loading')}}...</span>
+                                                            </div>
                                                             {{ __('Reject') }}
                                                         </button>
                                                         <button type="button" x-show="open"

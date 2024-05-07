@@ -82,9 +82,11 @@ class Account extends Component
 
     public function mount(settingsManager $settingManager)
     {
-        $notSetings = $settingManager->getNotificationSetting(auth()->user()->idUser)
-            ->where('idNotification', '=', NotificationSettingEnum::change_pwd_sms->value)->first();
-        $this->sendPassSMS = $notSetings->value;
+        if (!is_null(auth()->user())) {
+            $notSetings = $settingManager->getNotificationSetting(auth()->user()->idUser)
+                ->where('idNotification', '=', NotificationSettingEnum::change_pwd_sms->value)->first();
+            $this->sendPassSMS = $notSetings->value;
+        }
     }
 
     public function ParamSendChanged(settingsManager $settingManager)
