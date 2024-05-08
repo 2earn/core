@@ -1,117 +1,4 @@
 <div>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
-    <script data-turbolinks-eval="false">
-        var ErrorConfirmPassWord = '{{Session::has('ErrorConfirmPassWord')}}';
-        if (ErrorConfirmPassWord) {
-            var tabChangePhone = document.querySelector('#tabEditPass');
-            var tab = new bootstrap.Tab(tabChangePhone);
-            tab.show();
-            Swal.fire({
-                title: '{{Session::get('ErrorConfirmPassWord')}}',
-                icon: 'info',
-                showCloseButton: true,
-                confirmButtonText: '{{trans('ok')}}',
-                showCancelButton: false,
-                focusConfirm: false,
-            })
-        }
-        var ErrorOldPassWord = '{{Session::has('ErrorOldPassWord')}}';
-        if (ErrorOldPassWord) {
-            var tabChangePhone = document.querySelector('#tabEditPass');
-            var tab = new bootstrap.Tab(tabChangePhone);
-            tab.show();
-            Swal.fire({
-                title: '{{Session::get('ErrorOldPassWord')}}',
-                icon: 'info',
-                showCloseButton: true,
-                confirmButtonText: '{{trans('ok')}}',
-                showCancelButton: false,
-                focusConfirm: false,
-            })
-        }
-
-        var ChangeLanguge = '{{Session::has('ChangeLanguge')}}';
-        if (ChangeLanguge) {
-            location.reload();
-        }
-        var exisPhoneUpdated = '{{Session::has('SuccesUpdatePhone')}}';
-        if (exisPhoneUpdated) {
-            var tabChangePhone = document.querySelector('#pills-UpdatePhone-tab');
-            var tab = new bootstrap.Tab(tabChangePhone);
-            tab.show();
-            toastr.success('{{Session::get('SuccesUpdatePhone')}}');
-        }
-        var existSamePhone = '{{Session::has('ErrorSamePhone')}}';
-        if (existSamePhone) {
-            Swal.fire({
-                title: '{{Session::get('ErrorSamePhone')}}',
-                showClass: {popup: 'animate__animated animate__fadeInDown'},
-                hideClass: {popup: 'animate__animated animate__fadeOutUp'}
-            }).then(okay => {
-                if (okay) {
-                    var tabChangePhone = document.querySelector('#pills-UpdatePhone-tab');
-                    var tab = new bootstrap.Tab(tabChangePhone);
-                    tab.show();
-                }
-            });
-        }
-        var existeErrorOpt = '{{ Session::has('ErrorOptCodeUpdatePass')}}'
-        if (existeErrorOpt) {
-            Swal.fire({
-                title: '{{Session::get('ErrorOptCodeUpdatePass')}}',
-                confirmButtonText: '{{trans('ok')}}',
-                showClass: {popup: 'animate__animated animate__fadeInDown'},
-                hideClass: {popup: 'animate__animated animate__fadeOutUp'}
-            }).then(okay => {
-                if (okay) {
-                    var tabChangePass = document.querySelector('#pills-changePass-tab');
-                    var tab = new bootstrap.Tab(tabChangePass);
-                    tab.show();
-                }
-            });
-        }
-        var ErrorMailUsed = '{{ Session::has('ErrorMailUsed')}}'
-        if (ErrorMailUsed) {
-            Swal.fire({
-                title: '{{Session::get('ErrorMailUsed')}}',
-                confirmButtonText: '{{trans('ok')}}',
-                showClass: {popup: 'animate__animated animate__fadeInDown'},
-                hideClass: {popup: 'animate__animated animate__fadeOutUp'}
-            });
-        }
-        var SoldeSms = '{{ Session::has('SoldeSmsInsuffisant')}}'
-        if (SoldeSms) {
-            Swal.fire({
-                title: '{{Session::get('SoldeSmsInsuffisant')}}',
-                confirmButtonText: '{{trans('ok')}}',
-                showClass: {popup: 'animate__animated animate__fadeInDown'},
-                hideClass: {popup: 'animate__animated animate__fadeOutUp'}
-            });
-        }
-        var MailNonValide = '{{ Session::has('MailNonValide')}}'
-        if (MailNonValide) {
-            Swal.fire({
-                title: '{{Session::get('MailNonValide')}}',
-                confirmButtonText: '{{trans('ok')}}',
-                showClass: {popup: 'animate__animated animate__fadeInDown'},
-                hideClass: {popup: 'animate__animated animate__fadeOutUp'}
-            });
-        }
-        var SuccesUpdatePassword = '{{ Session::has('SuccesUpdatePassword')}}'
-        if (SuccesUpdatePassword) {
-            toastr.success('{{Session::get('SuccesUpdatePassword')}}');
-        }
-        var SuccesUpdateProfile = '{{ Session::has('SuccesUpdateProfile')}}'
-        if (SuccesUpdateProfile) {
-            toastr.success('{{Session::get('SuccesUpdateProfile')}}');
-        }
-        var SuccesUpdateIdentification = '{{Session::has('SuccesUpdateIdentification')}}';
-        if (SuccesUpdateIdentification) {
-            toastr.success('{{Session::get('SuccesUpdateIdentification')}}');
-        }
-
-    </script>
     @component('components.breadcrumb')
         @slot('title')
             {{ __('Profile') }}
@@ -740,6 +627,119 @@
             </div>
         </div>
     </div>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+    <script data-turbolinks-eval="false">
+        var ErrorConfirmPassWord = '{{Session::has('ErrorConfirmPassWord')}}';
+        if (ErrorConfirmPassWord) {
+            var tabChangePhone = document.querySelector('#tabEditPass');
+            var tab = new bootstrap.Tab(tabChangePhone);
+            tab.show();
+            Swal.fire({
+                title: '{{Session::get('ErrorConfirmPassWord')}}',
+                icon: 'info',
+                showCloseButton: true,
+                confirmButtonText: '{{trans('ok')}}',
+                showCancelButton: false,
+                focusConfirm: false,
+            })
+        }
+        var ErrorOldPassWord = '{{Session::has('ErrorOldPassWord')}}';
+        if (ErrorOldPassWord) {
+            var tabChangePhone = document.querySelector('#tabEditPass');
+            var tab = new bootstrap.Tab(tabChangePhone);
+            tab.show();
+            Swal.fire({
+                title: '{{Session::get('ErrorOldPassWord')}}',
+                icon: 'info',
+                showCloseButton: true,
+                confirmButtonText: '{{trans('ok')}}',
+                showCancelButton: false,
+                focusConfirm: false,
+            })
+        }
+
+        var ChangeLanguge = '{{Session::has('ChangeLanguge')}}';
+        if (ChangeLanguge) {
+            location.reload();
+        }
+        var exisPhoneUpdated = '{{Session::has('SuccesUpdatePhone')}}';
+        if (exisPhoneUpdated) {
+            var tabChangePhone = document.querySelector('#pills-UpdatePhone-tab');
+            var tab = new bootstrap.Tab(tabChangePhone);
+            tab.show();
+            toastr.success('{{Session::get('SuccesUpdatePhone')}}');
+        }
+        var existSamePhone = '{{Session::has('ErrorSamePhone')}}';
+        if (existSamePhone) {
+            Swal.fire({
+                title: '{{Session::get('ErrorSamePhone')}}',
+                showClass: {popup: 'animate__animated animate__fadeInDown'},
+                hideClass: {popup: 'animate__animated animate__fadeOutUp'}
+            }).then(okay => {
+                if (okay) {
+                    var tabChangePhone = document.querySelector('#pills-UpdatePhone-tab');
+                    var tab = new bootstrap.Tab(tabChangePhone);
+                    tab.show();
+                }
+            });
+        }
+        var existeErrorOpt = '{{ Session::has('ErrorOptCodeUpdatePass')}}'
+        if (existeErrorOpt) {
+            Swal.fire({
+                title: '{{Session::get('ErrorOptCodeUpdatePass')}}',
+                confirmButtonText: '{{trans('ok')}}',
+                showClass: {popup: 'animate__animated animate__fadeInDown'},
+                hideClass: {popup: 'animate__animated animate__fadeOutUp'}
+            }).then(okay => {
+                if (okay) {
+                    var tabChangePass = document.querySelector('#pills-changePass-tab');
+                    var tab = new bootstrap.Tab(tabChangePass);
+                    tab.show();
+                }
+            });
+        }
+        var ErrorMailUsed = '{{ Session::has('ErrorMailUsed')}}'
+        if (ErrorMailUsed) {
+            Swal.fire({
+                title: '{{Session::get('ErrorMailUsed')}}',
+                confirmButtonText: '{{trans('ok')}}',
+                showClass: {popup: 'animate__animated animate__fadeInDown'},
+                hideClass: {popup: 'animate__animated animate__fadeOutUp'}
+            });
+        }
+        var SoldeSms = '{{ Session::has('SoldeSmsInsuffisant')}}'
+        if (SoldeSms) {
+            Swal.fire({
+                title: '{{Session::get('SoldeSmsInsuffisant')}}',
+                confirmButtonText: '{{trans('ok')}}',
+                showClass: {popup: 'animate__animated animate__fadeInDown'},
+                hideClass: {popup: 'animate__animated animate__fadeOutUp'}
+            });
+        }
+        var MailNonValide = '{{ Session::has('MailNonValide')}}'
+        if (MailNonValide) {
+            Swal.fire({
+                title: '{{Session::get('MailNonValide')}}',
+                confirmButtonText: '{{trans('ok')}}',
+                showClass: {popup: 'animate__animated animate__fadeInDown'},
+                hideClass: {popup: 'animate__animated animate__fadeOutUp'}
+            });
+        }
+        var SuccesUpdatePassword = '{{ Session::has('SuccesUpdatePassword')}}'
+        if (SuccesUpdatePassword) {
+            toastr.success('{{Session::get('SuccesUpdatePassword')}}');
+        }
+        var SuccesUpdateProfile = '{{ Session::has('SuccesUpdateProfile')}}'
+        if (SuccesUpdateProfile) {
+            toastr.success('{{Session::get('SuccesUpdateProfile')}}');
+        }
+        var SuccesUpdateIdentification = '{{Session::has('SuccesUpdateIdentification')}}';
+        if (SuccesUpdateIdentification) {
+            toastr.success('{{Session::get('SuccesUpdateIdentification')}}');
+        }
+
+    </script>
     <script>
         $("#btnsaveUser").click(function () {
             window.livewire.emit('saveUser', parseInt($("#inputChild").val()));
@@ -808,7 +808,6 @@
                 }
             })
         })
-
 
         $("#validateMail").click(function () {
             window.livewire.emit("sendVerificationMail", $('#inputEmail').val());
