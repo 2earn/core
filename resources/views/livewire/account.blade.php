@@ -146,38 +146,7 @@
                                 </div>
                         </div>
                         <h5 class="fs-16 mb-3">
-                            @if(config('app.available_locales')[app()->getLocale()]['direction'] === 'rtl')
-                                @if(isset($usermetta_info['arFirstName']) && isset($usermetta_info['arLastName']) && !empty($usermetta_info['arFirstName']) && !empty($usermetta_info['arLastName']))
-                                    {{$usermetta_info['arFirstName']}} {{$usermetta_info['arLastName']}}
-                                @else
-                                    @if((isset($usermetta_info['arFirstName'])&&!empty($usermetta_info['arFirstName'])) || (isset($usermetta_info['arLastName'])&&!empty($usermetta_info['arLastName'])))
-                                        @if(isset($usermetta_info['arFirstName'])&& !empty($usermetta_info['arFirstName']))
-                                            {{$usermetta_info['arFirstName']}}
-                                        @endif
-                                        @if(isset($usermetta_info['arLastName'])&& !empty($usermetta_info['arLastName']))
-                                            {{$usermetta_info['arLastName']}}
-                                        @endif
-                                    @else
-                                        {{$user['fullphone_number']}}
-                                    @endif
-                                @endif
-                            @else
-                                @if(isset($usermetta_info['enFirstName']) && isset($usermetta_info['enLastName']) && !empty($usermetta_info['enFirstName']) && !empty($usermetta_info['enLastName']))
-                                    {{$usermetta_info['enFirstName']}} {{$usermetta_info['enLastName']}}
-                                @else
-                                    @if(   (isset($usermetta_info['enFirstName'])&&!empty($usermetta_info['enFirstName'])) || (isset($usermetta_info['enLastName'])&&!empty($usermetta_info['enLastName'])))
-                                        @if(isset($usermetta_info['enFirstName']) && !empty($usermetta_info['enFirstName']))
-                                            {{$usermetta_info['enFirstName']}}
-                                        @endif
-                                        @if(isset($usermetta_info['enLastName'])&& !empty($usermetta_info['enLastName']))
-                                            {{$usermetta_info['enLastName']}}
-                                        @endif
-                                    @else
-                                        {{$user['fullphone_number']}}
-                                    @endif
-                                @endif
-                            @endif
-
+                            {{$dispalyedUserCred}}
                         </h5>
                         <div class="form-check form-switch" dir="ltr">
                             <input wire:model.defer="user.is_public" type="checkbox" class="form-check-input"
@@ -189,59 +158,54 @@
                     </div>
                 </div>
             </div>
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex align-items-center mb-5">
-                        <div class="flex-grow-1">
-                            <h5 class="card-title mb-0">{{ __('Complete_Profile') }}</h5>
+            @if($user['status']!=1)
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-5">
+                            <div class="flex-grow-1">
+                                <h5 class="card-title mb-0">{{ __('Complete_Profile') }}</h5>
+                            </div>
+                            <div class="flex-shrink-0">
+                                <a style="color: #009fe3!important" data-bs-toggle="modal"
+                                   data-bs-target="#modalEditProf"
+                                   href="javascript:void(0);"
+                                   class="badge bg-light text-primary fs-12"><i
+                                        class="ri-edit-box-line align-bottom me-1"></i> {{__('Edit')}}</a>
+                            </div>
                         </div>
-                        <div class="flex-shrink-0">
-                            <a style="color: #009fe3!important" data-bs-toggle="modal" data-bs-target="#modalEditProf"
-                               href="javascript:void(0);"
-                               class="badge bg-light text-primary fs-12"><i
-                                    class="ri-edit-box-line align-bottom me-1"></i> {{__('Edit')}}</a>
+                        <div class="progress animated-progress custom-progress progress-label">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: {{$PercentComplete}}%"
+                                 aria-valuenow="1"
+                                 aria-valuemin="0" aria-valuemax="100">
+                                <div style="background-color: #009fe3!important" class="label">{{$PercentComplete}}%
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="progress animated-progress custom-progress progress-label">
-                        <div class="progress-bar bg-danger" role="progressbar" style="width: {{$PercentComplete}}%"
-                             aria-valuenow="1"
-                             aria-valuemin="0" aria-valuemax="100">
-                            <div style="background-color: #009fe3!important" class="label">{{$PercentComplete}}%</div>
-                        </div>
-                    </div>
-                    @if($PercentComplete==100)
-                        <br>
-                        @if($hasRequest)
-                            <h6>{{__('voter_demande_déja_en_cours')}}</h6>
-                        @else
-                            @if($user['status'] == 1)
-                                <h6>{{__('votre_compte_est_déja_validé')}}</h6>
+                        @if($PercentComplete==100)
+                            <br>
+                            @if($hasRequest)
+                                <h6>{{__('voter_demande_déja_en_cours')}}</h6>
                             @else
-                                <button style="background-color: #009fe3!important" onclick="sendRequest()"
-                                        class="btn btn-primary"
-                                        type="button"> {{__('Send Request')}}
-                                </button>
+                                @if($user['status'] == 1)
+                                    <h6>{{__('votre_compte_est_déja_validé')}}</h6>
+                                @else
+                                    <button style="background-color: #009fe3!important" onclick="sendRequest()"
+                                            class="btn btn-primary"
+                                            type="button"> {{__('Send Request')}}
+                                    </button>
+                                @endif
+                            @endif
+                        @else
+                            <br>
+                            @if(!empty($errors_array))
+                                @foreach ($errors_array as $error)
+                                    <p class="text-danger">{{ $error }}</p>
+                                @endforeach
                             @endif
                         @endif
-                    @else
-                        <br>
-                        @if(!empty($errors_array))
-                            @foreach ($errors_array as $error)
-                                <p class="text-danger">{{ $error }}</p>
-                            @endforeach
-                        @endif
-                    @endif
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex align-items-center mb-4">
-                        <div class="flex-grow-1">
-                            <h5 class="card-title mb-0">{{__('Type_Profil')}}</h5>
-                        </div>
                     </div>
                 </div>
-            </div>
+            @endif
         </div>
         <div class="col-xxl-9">
             <div class="card  ">
@@ -254,12 +218,14 @@
                                 {{__('Edit_Profile')}}
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" href="#experience" role="tab">
-                                <i class="far fa-envelope"></i>
-                                {{__('Identifications')}}
-                            </a>
-                        </li>
+                        @if($user['status']!=1)
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#experience" role="tab">
+                                    <i class="far fa-envelope"></i>
+                                    {{__('Identifications')}}
+                                </a>
+                            </li>
+                        @endif
                         <li class="nav-item">
                             <a class="nav-link" data-bs-toggle="tab" href="#changePassword" role="tab" id="tabEditPass">
                                 <i class="far fa-user"></i>
@@ -303,9 +269,7 @@
                                                 {{__('Last Name')}}
                                             </label>
                                             <input type="text" class="form-control"
-                                                   @if($user['status'] == 1)
-                                                       disabled
-                                                   @endif
+                                                   {{$disabled}}
                                                    wire:model.defer="usermetta_info.enLastName"
                                                    placeholder="{{__('Last name')}}" value="">
                                         </div>
@@ -314,9 +278,7 @@
                                         <div class="mb-3">
                                             <label for="firstnameInput" class="form-label">{{__('First Name')}}</label>
                                             <input
-                                                @if($user['status'] == 1)
-                                                    disabled
-                                                @endif
+                                                {{$disabled}}
                                                 wire:model.defer="usermetta_info.enFirstName"
                                                 placeholder="{{__('First name')}}" class="form-control">
                                         </div>
@@ -354,7 +316,8 @@
                                                         {{__('add')}}
                                                     @else
                                                         {{__('Change')}}
-                                                    @endif</button>
+                                                    @endif
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -364,9 +327,7 @@
                                                 {{__('Date of birth')  }}
                                             </label>
                                             <input
-                                                @if($user['status'] == 1)
-                                                    disabled
-                                                @endif
+                                                {{$disabled}}
                                                 wire:model.defer="usermetta_info.birthday" type="date"
                                                 class="form-control" id="JoiningdatInput"/>
                                         </div>
@@ -457,9 +418,7 @@
                                             <input readonly wire:model.defer="countryUser" type="text"
                                                    class="form-control"
                                                    id="countryInput"
-                                                   @if($user['status'] == 1)
-                                                       disabled
-                                                   @endif
+                                                   {{$disabled}}
                                                    value="United States"/>
                                         </div>
                                     </div>
@@ -468,11 +427,7 @@
                                             <label for="zipcodeInput" class="form-label">{{ __('National ID') }}</label>
                                             <input type="text" class="form-control" minlength="5" maxlength="50"
                                                    wire:model.defer="usermetta_info.nationalID"
-                                                   id="zipcodeInput"
-                                                   @if($user['status'] == 1)
-                                                       disabled
-                                                @endif
-                                            >
+                                                   id="zipcodeInput" {{$disabled}} >
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
@@ -607,9 +562,11 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="tab-pane" id="experience" role="tabpanel">
-                            <livewire:identification-check/>
-                        </div>
+                        @if($user['status']!=1)
+                            <div class="tab-pane" id="experience" role="tabpanel">
+                                <livewire:identification-check/>
+                            </div>
+                        @endif
                         <div class="tab-pane" id="privacy" role="tabpanel">
                             <livewire:edit-phone-number/>
                         </div>
@@ -666,7 +623,7 @@
                                 <div>
                                     <label for="lastName" class="form-label">{{__('First Name')}}</label>
                                     <input wire:model.defer="usermetta_info.enFirstName" type="text"
-                                           class="form-control"
+                                           class="form-control" {{$disabled}}
                                            placeholder="{{__('Enter your name')}}">
                                 </div>
                             </div>
@@ -674,7 +631,7 @@
                                 <div>
                                     <label for="phoneNumber" class="form-label">{{__('Last Name')}}</label>
                                     <input wire:model.defer="usermetta_info.enLastName" type="text"
-                                           class="form-control"
+                                           class="form-control" {{$disabled}}
                                            placeholder="{{__('Enter your lastname')}}">
                                 </div>
                             </div>
@@ -683,14 +640,16 @@
                                     <label for="JoiningdatInput" class="form-label">
                                         {{__('Date of birth')  }}
                                     </label>
-                                    <input wire:model.defer="usermetta_info.birthday" type="date" class="form-control"/>
+                                    <input wire:model.defer="usermetta_info.birthday" {{$disabled}}  type="date"
+                                           class="form-control"/>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="mb-3">
                                     <label for="zipcodeInput" class="form-label">{{ __('National ID') }}</label>
                                     <input type="text" class="form-control" minlength="5" maxlength="50"
-                                           wire:model.defer="usermetta_info.nationalID" id="zipcodeInput">
+                                           {{$disabled}}        wire:model.defer="usermetta_info.nationalID"
+                                           id="zipcodeInput">
                                 </div>
                             </div>
                             <div class="col-lg-12">
@@ -716,6 +675,7 @@
                                 </div>
                                 <div class="wrap-custom-file" style="margin-top: 10px">
                                     <input wire:model.defer="photoFront" type="file" name="image55" id="image55"
+                                           {{$disabled}}
                                            accept=".png"/>
                                     <label for="image55">
                                         <lord-icon
@@ -739,8 +699,8 @@
                                     @endif
                                 </div>
                                 <div class="wrap-custom-file" style="margin-top: 10px">
-                                    <input wire:model.defer="backback" type="file" name="image44" id="image44"
-                                           accept=".png"/>
+                                    <input wire:model.defer="photoBack" type="file" name="image44" id="image44"
+                                           {{$disabled}}   accept=".png"/>
                                     <label for="image44">
                                         <lord-icon
                                             src="https://cdn.lordicon.com/vixtkkbk.json"

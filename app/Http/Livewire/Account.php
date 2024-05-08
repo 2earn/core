@@ -44,6 +44,8 @@ class Account extends Component
     public $soldeSms = 0;
     public $PercentComplete = 0;
     public $errors_array;
+    public $disabled;
+    public $dispalyedUserCred;
 
     protected $listeners = [
         'PreChangePass' => 'PreChangePass',
@@ -71,12 +73,14 @@ class Account extends Component
         $um->birthday = $this->usermetta_info['birthday'];
         $um->nationalID = $this->usermetta_info['nationalID'];
         $um->save();
-        if ($this->photoFront != null) {
-            $p = $this->photoFront->storeAs('profiles', 'front-id-image' . $um->idUser . '.png', 'public2');
+
+        if (!is_null($this->photoFront) && gettype($this->photoFront) == "object") {
+            $this->photoFront->storeAs('profiles', 'front-id-image' . $um->idUser . '.png', 'public2');
         }
-        if ($this->backback != null) {
-            $p = $this->backback->storeAs('profiles', 'back-id-image' . $um->idUser . '.png', 'public2');
+        if (!is_null($this->photoBack) && gettype($this->photoBack) == "object") {
+            $this->photoBack->storeAs('profiles', 'back-id-image' . $um->idUser . '.png', 'public2');
         }
+
         return redirect()->route('account', app()->getLocale())->with('SuccesUpdateProfile', Lang::get('Edit_profil_succes'));
     }
 
@@ -128,11 +132,13 @@ class Account extends Component
         }
         $this->CalculPercenteComplete();
         $hasRequest = $userAuth->hasIdetificationReques();
-
+        $this->dispalyedUserCred = getConnectedUserDisplayedName();
+        $this->disabled = abs($user->status) == 1 ? "disabled" : '';
         return view('livewire.account', ['hasRequest' => $hasRequest, 'errors_array' => $this->errors_array])->extends('layouts.master')->section('content');
     }
 
-    public function CalculPercenteComplete()
+
+    public    function CalculPercenteComplete()
     {
         $this->errors_array = array();
         $this->PercentComplete = 0;
@@ -175,14 +181,16 @@ class Account extends Component
         }
     }
 
-    private function getMsgErreur($typeErreur)
+    private
+    function getMsgErreur($typeErreur)
     {
         $typeErreur = 'Identify_' . $typeErreur;
         return Lang::get($typeErreur);
     }
 
 
-    public function deleteContact($id, settingsManager $settingsManager)
+    public
+    function deleteContact($id, settingsManager $settingsManager)
     {
         $userC = $settingsManager->getUserContactsById($id);
         if (!$userC) return;
@@ -190,7 +198,8 @@ class Account extends Component
         return redirect()->route('myAccount', app()->getLocale());
     }
 
-    public function saveUser($nbrChild, settingsManager $settingsManager)
+    public
+    function saveUser($nbrChild, settingsManager $settingsManager)
     {
         $canModify = true;
         $us = User::find($this->user['id']);
@@ -238,7 +247,8 @@ class Account extends Component
         }
     }
 
-    public function PreChangePass(settingsManager $settingManager)
+    public
+    function PreChangePass(settingsManager $settingManager)
     {
         $userAuth = $settingManager->getAuthUser();
         if (!$userAuth) return;
@@ -272,7 +282,8 @@ class Account extends Component
         ]);
     }
 
-    public function changePassword($code, settingsManager $settingManager)
+    public
+    function changePassword($code, settingsManager $settingManager)
     {
         $userAuth = $settingManager->getAuthUser();
         $user = $settingManager->getUserById($userAuth->id);
@@ -299,7 +310,8 @@ class Account extends Component
         return redirect()->route('account', app()->getLocale())->with('SuccesUpdatePassword', Lang::get('Password updated'));
     }
 
-    public function sendVerificationMail($mail, settingsManager $settingsManager)
+    public
+    function sendVerificationMail($mail, settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) abort(404);
@@ -322,7 +334,8 @@ class Account extends Component
         $this->newMail = $mail;
     }
 
-    public function saveVerifiedMail($codeOpt)
+    public
+    function saveVerifiedMail($codeOpt)
     {
 
         $us = User::find($this->user['id']);
@@ -336,7 +349,8 @@ class Account extends Component
         return redirect()->route('account', app()->getLocale());
     }
 
-    public function approuve($idUser, settingsManager $settingsManager)
+    public
+    function approuve($idUser, settingsManager $settingsManager)
     {
         $user = User::find($idUser);
         if ($user) {
@@ -345,7 +359,8 @@ class Account extends Component
         }
     }
 
-    public function reject($idUser, settingsManager $settingsManager)
+    public
+    function reject($idUser, settingsManager $settingsManager)
     {
         $user = User::find($idUser);
         if ($user) {
@@ -354,7 +369,8 @@ class Account extends Component
         }
     }
 
-    public function sendIdentificationRequest(settingsManager $settingsManager)
+    public
+    function sendIdentificationRequest(settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
         $hasRequest = $userAuth->hasIdetificationReques();
