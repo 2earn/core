@@ -132,47 +132,13 @@ class Account extends Component
         }
         $this->CalculPercenteComplete();
         $hasRequest = $userAuth->hasIdetificationReques();
-        $this->getDisplayedName($usermetta_info, $user);
+        $this->dispalyedUserCred = getConnectedUserDisplayedName();
         $this->disabled = abs($user->status) == 1 ? "disabled" : '';
         return view('livewire.account', ['hasRequest' => $hasRequest, 'errors_array' => $this->errors_array])->extends('layouts.master')->section('content');
     }
 
-    private function getDisplayedName($usermetta_info, $user)
-    {
-        if (config('app.available_locales')[app()->getLocale()]['direction'] === 'rtl')
-            if (isset($usermetta_info['arFirstName']) && isset($usermetta_info['arLastName']) && !empty($usermetta_info['arFirstName']) && !empty($usermetta_info['arLastName'])) {
-                $this->dispalyedUserCred = $usermetta_info['arFirstName'] . ' ' . $usermetta_info['arLastName'];
-            } else {
-                if ((isset($usermetta_info['arFirstName']) && !empty($usermetta_info['arFirstName'])) || (isset($usermetta_info['arLastName']) && !empty($usermetta_info['arLastName']))) {
-                    if (isset($usermetta_info['arFirstName']) && !empty($usermetta_info['arFirstName'])) {
-                        $this->dispalyedUserCred = $usermetta_info['arFirstName'];
-                    }
-                    if (isset($usermetta_info['arLastName']) && !empty($usermetta_info['arLastName'])) {
-                        $this->dispalyedUserCred = $usermetta_info['arLastName'];
-                    }
-                } else {
-                    $this->dispalyedUserCred = $user->fullphone_number;
-                }
-            }
-        else
-            if (isset($usermetta_info['enFirstName']) && isset($usermetta_info['enLastName']) && !empty($usermetta_info['enFirstName']) && !empty($usermetta_info['enLastName'])) {
-                $this->dispalyedUserCred = $usermetta_info['enFirstName'] . ' ' . $usermetta_info['enLastName'];
-            } else {
-                if ((isset($usermetta_info['enFirstName']) && !empty($usermetta_info['enFirstName'])) || (isset($usermetta_info['enLastName']) && !empty($usermetta_info['enLastName']))) {
-                    if (isset($usermetta_info['enFirstName']) && !empty($usermetta_info['enFirstName'])) {
-                        $this->dispalyedUserCred = $usermetta_info['enFirstName'];
-                    }
-                    if (isset($usermetta_info['enLastName']) && !empty($usermetta_info['enLastName'])) {
-                        $this->dispalyedUserCred = $usermetta_info['enLastName'];
-                    }
-                } else {
-                    $this->dispalyedUserCred = $user->fullphone_number;
-                }
-            }
-    }
 
-    public
-    function CalculPercenteComplete()
+    public    function CalculPercenteComplete()
     {
         $this->errors_array = array();
         $this->PercentComplete = 0;

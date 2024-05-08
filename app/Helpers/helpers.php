@@ -434,3 +434,43 @@ if (!function_exists('getDecimals')) {
         return substr(number_format($number - intval($number), $decimals, '.', ','), 2);
     }
 }
+if (!function_exists('getConnectedUserDisplayedName')) {
+     function getConnectedUserDisplayedName()
+    {
+        $usermetta_info = collect(DB::table('metta_users')->where('idUser', auth()->user()->idUser)->first());
+        $user = DB::table('users')->where('idUser', auth()->user()->idUser)->first();
+        $displayedName = "";
+        if (config('app.available_locales')[app()->getLocale()]['direction'] === 'rtl')
+            if (isset($usermetta_info['arFirstName']) && isset($usermetta_info['arLastName']) && !empty($usermetta_info['arFirstName']) && !empty($usermetta_info['arLastName'])) {
+                $displayedName = $usermetta_info['arFirstName'] . ' ' . $usermetta_info['arLastName'];
+            } else {
+                if ((isset($usermetta_info['arFirstName']) && !empty($usermetta_info['arFirstName'])) || (isset($usermetta_info['arLastName']) && !empty($usermetta_info['arLastName']))) {
+                    if (isset($usermetta_info['arFirstName']) && !empty($usermetta_info['arFirstName'])) {
+                        $displayedName = $usermetta_info['arFirstName'];
+                    }
+                    if (isset($usermetta_info['arLastName']) && !empty($usermetta_info['arLastName'])) {
+                        $displayedName = $usermetta_info['arLastName'];
+                    }
+                } else {
+                    $displayedName = $user->fullphone_number;
+                }
+            }
+        else
+            if (isset($usermetta_info['enFirstName']) && isset($usermetta_info['enLastName']) && !empty($usermetta_info['enFirstName']) && !empty($usermetta_info['enLastName'])) {
+                $displayedName = $usermetta_info['enFirstName'] . ' ' . $usermetta_info['enLastName'];
+            } else {
+                if ((isset($usermetta_info['enFirstName']) && !empty($usermetta_info['enFirstName'])) || (isset($usermetta_info['enLastName']) && !empty($usermetta_info['enLastName']))) {
+                    if (isset($usermetta_info['enFirstName']) && !empty($usermetta_info['enFirstName'])) {
+                        $displayedName = $usermetta_info['enFirstName'];
+                    }
+                    if (isset($usermetta_info['enLastName']) && !empty($usermetta_info['enLastName'])) {
+                        $displayedName = $usermetta_info['enLastName'];
+                    }
+                } else {
+                    $displayedName = $user->fullphone_number;
+                }
+            }
+        return $displayedName;
+    }
+
+}

@@ -227,7 +227,6 @@
                                     </ul>
                                 </div>
                             </div>
-
                             <div class="tab-content" id="notificationItemsTabContent">
                                 <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
                                     <div data-simplebar style="max-height: 300px;" class="pe-2">
@@ -262,50 +261,18 @@
                         <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
-                            <img class="rounded-circle header-profile-user"
-                                 src="@if (file_exists('uploads/profiles/profile-image-' . $user->idUser . '.png')) {{ URL::asset('uploads/profiles/profile-image-'.$user->idUser.'.png') }}@else{{ URL::asset('uploads/profiles/default.png') }} @endif"
-                                 alt="Header Avatar">
+                            <img class="rounded-circle header-profile-user" alt="Header Avatar"
+                                 src="@if (file_exists('uploads/profiles/profile-image-' . $user->idUser . '.png')) {{ URL::asset('uploads/profiles/profile-image-'.$user->idUser.'.png') }}@else{{ URL::asset('uploads/profiles/default.png') }} @endif">
                             <span class="text-start ms-xl-2">
-                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">
-                                    @if(config('app.available_locales')[app()->getLocale()]['direction'] === 'rtl')
-                                        @if(isset($user->arFirstName) && isset($user->arLastName) && !empty($user->arFirstName) && !empty($user->arLastName))
-                                            {{$user->arFirstName}} {{$user->arLastName}}
-                                        @else
-                                            @if((isset($user->arFirstName)&&!empty($user->arFirstName)) || (isset($user->arLastName)&&!empty($user->arLastName)))
-                                                @if(isset($user->arFirstName)&& !empty($user->arFirstName))
-                                                    {{$user->arFirstName}}
-                                                @endif
-                                                @if(isset($user->arLastName)&& !empty($user->arLastName))
-                                                    {{$user->arLastName}}
-                                                @endif
-                                            @else
-                                                {{$user->fullNumber}}
-                                            @endif
-                                        @endif
-                                    @else
-                                        @if(isset($user->enFirstName) && isset($user->enLastName) && !empty($user->enFirstName) && !empty($user->enLastName))
-                                            {{$user->enFirstName}} {{$user->enLastName}}
-                                        @else
-                                            @if(   (isset( $user->enFirstName)&&!empty($user->enFirstName)) || (isset($user->enLastName)&&!empty($user->enLastName)))
-                                                @if(isset($user->enFirstName) && !empty($user->enFirstName))
-                                                    {{$user->enFirstName}}
-                                                @endif
-                                                @if(isset($user->enLastName)&& !empty($user->enLastName))
-                                                    {{$user->enLastName}}
-                                                @endif
-                                            @else
-                                                {{$user->fullNumber}}
-                                            @endif
-                                        @endif
-                                    @endif
-                                </span>
-                                                           <span
-                                                               class="d-none d-xl-block badge bg-light @if($user->status==1) text-success  @else text-muted @endif mb-0">
+                                <span
+                                    class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"> {{getConnectedUserDisplayedName()}} </span>
+                                 <span
+                                     class="d-none d-xl-block badge bg-light @if($user->status==1) text-success  @else text-muted @endif mb-0">
                                         <span class="mb-5">{{__($userRole)}}</span>
                                         @if($user->status==1)
-                                                                   <i class="mdi mdi-24px mdi-account-check green validated-user"></i>
-                                                               @endif
-                                    </span>
+                                         <i class="mdi mdi-24px mdi-account-check green validated-user"></i>
+                                     @endif
+                                 </span>
                             </span>
                         </span>
                         </button>
