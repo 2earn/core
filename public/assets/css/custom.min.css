@@ -140,42 +140,42 @@ input[type=range]::-ms-fill-upper {
 
 .swal2-footer {
     display: block !important;
-    flex-direction: row !important
+    flex-direction: row !important;
 }
 
 .navbar-brand-box {
-    border-bottom: 1px solid #cdcdcd
+    border-bottom: 1px solid #464fed;
 }
 
 #logo-paytabs {
     width: 160px;
-    height: 80px
+    height: 80px;
 }
 
 #logo-pay {
     width: 120px;
     height: 60px;
-    margin-top: 10px
+    margin-top: 10px;
 }
 
 #validate-group {
-    margin-top: 20px
+    margin-top: 20px;
 }
 
 #ammount1 {
-    max-width: 200px
+    max-width: 200px;
 }
 
 .simplebar-mask, .simplebar-offset {
-    padding-top: 10px
+    padding-top: 10px;
 }
 
 .text-purple {
-    color: #a020f0
+    color: #a020f0;
 }
 
 #super-logo {
-    margin: 5px
+    margin: 5px;
 }
 
 .footer {
@@ -341,4 +341,8 @@ nav svg {
 
 .validated-user {
     float: left;
+}
+
+.simplebar-content .nav-item:hover {
+    background-color: #e6e4e4;
 }
