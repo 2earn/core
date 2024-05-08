@@ -45,7 +45,7 @@
                                             <div class="flex-shrink-0">
                                                 <i class="ri-shopping-cart-2-line display-6 text-muted"></i>
                                             </div>
-                                            <div class="card-footer bg-transparent border-success">
+                                            <div class="card-footer bg-transparent">
                                                 <h4 class="mb-0">{{ $currency }}<span class="counter-value"
                                                                                       data-target="{{getUserListCards()[1]}}">{{getUserListCards()[1]}}</span>
                                                 </h4>

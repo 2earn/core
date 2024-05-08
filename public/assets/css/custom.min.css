@@ -343,7 +343,7 @@ nav svg {
     float: left;
 }
 
-.simplebar-content .nav-item:hover {
+.simplebar-content .nav-item:hover, .simplebar-content .nav-item active {
     background-color: #e6e4e4;
 }
 
