@@ -146,38 +146,7 @@
                                 </div>
                         </div>
                         <h5 class="fs-16 mb-3">
-                            @if(config('app.available_locales')[app()->getLocale()]['direction'] === 'rtl')
-                                @if(isset($usermetta_info['arFirstName']) && isset($usermetta_info['arLastName']) && !empty($usermetta_info['arFirstName']) && !empty($usermetta_info['arLastName']))
-                                    {{$usermetta_info['arFirstName']}} {{$usermetta_info['arLastName']}}
-                                @else
-                                    @if((isset($usermetta_info['arFirstName'])&&!empty($usermetta_info['arFirstName'])) || (isset($usermetta_info['arLastName'])&&!empty($usermetta_info['arLastName'])))
-                                        @if(isset($usermetta_info['arFirstName'])&& !empty($usermetta_info['arFirstName']))
-                                            {{$usermetta_info['arFirstName']}}
-                                        @endif
-                                        @if(isset($usermetta_info['arLastName'])&& !empty($usermetta_info['arLastName']))
-                                            {{$usermetta_info['arLastName']}}
-                                        @endif
-                                    @else
-                                        {{$user['fullphone_number']}}
-                                    @endif
-                                @endif
-                            @else
-                                @if(isset($usermetta_info['enFirstName']) && isset($usermetta_info['enLastName']) && !empty($usermetta_info['enFirstName']) && !empty($usermetta_info['enLastName']))
-                                    {{$usermetta_info['enFirstName']}} {{$usermetta_info['enLastName']}}
-                                @else
-                                    @if(   (isset($usermetta_info['enFirstName'])&&!empty($usermetta_info['enFirstName'])) || (isset($usermetta_info['enLastName'])&&!empty($usermetta_info['enLastName'])))
-                                        @if(isset($usermetta_info['enFirstName']) && !empty($usermetta_info['enFirstName']))
-                                            {{$usermetta_info['enFirstName']}}
-                                        @endif
-                                        @if(isset($usermetta_info['enLastName'])&& !empty($usermetta_info['enLastName']))
-                                            {{$usermetta_info['enLastName']}}
-                                        @endif
-                                    @else
-                                        {{$user['fullphone_number']}}
-                                    @endif
-                                @endif
-                            @endif
-
+                            {{$dispalyedUserCred}}
                         </h5>
                         <div class="form-check form-switch" dir="ltr">
                             <input wire:model.defer="user.is_public" type="checkbox" class="form-check-input"
@@ -236,7 +205,7 @@
                         @endif
                     </div>
                 </div>
-            @endifg
+            @endif
         </div>
         <div class="col-xxl-9">
             <div class="card  ">
@@ -249,12 +218,14 @@
                                 {{__('Edit_Profile')}}
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" href="#experience" role="tab">
-                                <i class="far fa-envelope"></i>
-                                {{__('Identifications')}}
-                            </a>
-                        </li>
+                        @if($user['status']!=1)
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#experience" role="tab">
+                                    <i class="far fa-envelope"></i>
+                                    {{__('Identifications')}}
+                                </a>
+                            </li>
+                        @endif
                         <li class="nav-item">
                             <a class="nav-link" data-bs-toggle="tab" href="#changePassword" role="tab" id="tabEditPass">
                                 <i class="far fa-user"></i>
@@ -591,9 +562,11 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="tab-pane" id="experience" role="tabpanel">
-                            <livewire:identification-check/>
-                        </div>
+                        @if($user['status']!=1)
+                            <div class="tab-pane" id="experience" role="tabpanel">
+                                <livewire:identification-check/>
+                            </div>
+                        @endif
                         <div class="tab-pane" id="privacy" role="tabpanel">
                             <livewire:edit-phone-number/>
                         </div>

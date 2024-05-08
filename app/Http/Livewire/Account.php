@@ -45,6 +45,7 @@ class Account extends Component
     public $PercentComplete = 0;
     public $errors_array;
     public $disabled;
+    public $dispalyedUserCred;
 
     protected $listeners = [
         'PreChangePass' => 'PreChangePass',
@@ -131,12 +132,47 @@ class Account extends Component
         }
         $this->CalculPercenteComplete();
         $hasRequest = $userAuth->hasIdetificationReques();
-
+        $this->getDisplayedName($usermetta_info, $user);
         $this->disabled = abs($user->status) == 1 ? "disabled" : '';
         return view('livewire.account', ['hasRequest' => $hasRequest, 'errors_array' => $this->errors_array])->extends('layouts.master')->section('content');
     }
 
-    public function CalculPercenteComplete()
+    private function getDisplayedName($usermetta_info, $user)
+    {
+        if (config('app.available_locales')[app()->getLocale()]['direction'] === 'rtl')
+            if (isset($usermetta_info['arFirstName']) && isset($usermetta_info['arLastName']) && !empty($usermetta_info['arFirstName']) && !empty($usermetta_info['arLastName'])) {
+                $this->dispalyedUserCred = $usermetta_info['arFirstName'] . ' ' . $usermetta_info['arLastName'];
+            } else {
+                if ((isset($usermetta_info['arFirstName']) && !empty($usermetta_info['arFirstName'])) || (isset($usermetta_info['arLastName']) && !empty($usermetta_info['arLastName']))) {
+                    if (isset($usermetta_info['arFirstName']) && !empty($usermetta_info['arFirstName'])) {
+                        $this->dispalyedUserCred = $usermetta_info['arFirstName'];
+                    }
+                    if (isset($usermetta_info['arLastName']) && !empty($usermetta_info['arLastName'])) {
+                        $this->dispalyedUserCred = $usermetta_info['arLastName'];
+                    }
+                } else {
+                    $this->dispalyedUserCred = $user->fullphone_number;
+                }
+            }
+        else
+            if (isset($usermetta_info['enFirstName']) && isset($usermetta_info['enLastName']) && !empty($usermetta_info['enFirstName']) && !empty($usermetta_info['enLastName'])) {
+                $this->dispalyedUserCred = $usermetta_info['enFirstName'] . ' ' . $usermetta_info['enLastName'];
+            } else {
+                if ((isset($usermetta_info['enFirstName']) && !empty($usermetta_info['enFirstName'])) || (isset($usermetta_info['enLastName']) && !empty($usermetta_info['enLastName']))) {
+                    if (isset($usermetta_info['enFirstName']) && !empty($usermetta_info['enFirstName'])) {
+                        $this->dispalyedUserCred = $usermetta_info['enFirstName'];
+                    }
+                    if (isset($usermetta_info['enLastName']) && !empty($usermetta_info['enLastName'])) {
+                        $this->dispalyedUserCred = $usermetta_info['enLastName'];
+                    }
+                } else {
+                    $this->dispalyedUserCred = $user->fullphone_number;
+                }
+            }
+    }
+
+    public
+    function CalculPercenteComplete()
     {
         $this->errors_array = array();
         $this->PercentComplete = 0;
@@ -179,14 +215,16 @@ class Account extends Component
         }
     }
 
-    private function getMsgErreur($typeErreur)
+    private
+    function getMsgErreur($typeErreur)
     {
         $typeErreur = 'Identify_' . $typeErreur;
         return Lang::get($typeErreur);
     }
 
 
-    public function deleteContact($id, settingsManager $settingsManager)
+    public
+    function deleteContact($id, settingsManager $settingsManager)
     {
         $userC = $settingsManager->getUserContactsById($id);
         if (!$userC) return;
@@ -194,7 +232,8 @@ class Account extends Component
         return redirect()->route('myAccount', app()->getLocale());
     }
 
-    public function saveUser($nbrChild, settingsManager $settingsManager)
+    public
+    function saveUser($nbrChild, settingsManager $settingsManager)
     {
         $canModify = true;
         $us = User::find($this->user['id']);
@@ -242,7 +281,8 @@ class Account extends Component
         }
     }
 
-    public function PreChangePass(settingsManager $settingManager)
+    public
+    function PreChangePass(settingsManager $settingManager)
     {
         $userAuth = $settingManager->getAuthUser();
         if (!$userAuth) return;
@@ -276,7 +316,8 @@ class Account extends Component
         ]);
     }
 
-    public function changePassword($code, settingsManager $settingManager)
+    public
+    function changePassword($code, settingsManager $settingManager)
     {
         $userAuth = $settingManager->getAuthUser();
         $user = $settingManager->getUserById($userAuth->id);
@@ -303,7 +344,8 @@ class Account extends Component
         return redirect()->route('account', app()->getLocale())->with('SuccesUpdatePassword', Lang::get('Password updated'));
     }
 
-    public function sendVerificationMail($mail, settingsManager $settingsManager)
+    public
+    function sendVerificationMail($mail, settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) abort(404);
@@ -326,7 +368,8 @@ class Account extends Component
         $this->newMail = $mail;
     }
 
-    public function saveVerifiedMail($codeOpt)
+    public
+    function saveVerifiedMail($codeOpt)
     {
 
         $us = User::find($this->user['id']);
@@ -340,7 +383,8 @@ class Account extends Component
         return redirect()->route('account', app()->getLocale());
     }
 
-    public function approuve($idUser, settingsManager $settingsManager)
+    public
+    function approuve($idUser, settingsManager $settingsManager)
     {
         $user = User::find($idUser);
         if ($user) {
@@ -349,7 +393,8 @@ class Account extends Component
         }
     }
 
-    public function reject($idUser, settingsManager $settingsManager)
+    public
+    function reject($idUser, settingsManager $settingsManager)
     {
         $user = User::find($idUser);
         if ($user) {
@@ -358,7 +403,8 @@ class Account extends Component
         }
     }
 
-    public function sendIdentificationRequest(settingsManager $settingsManager)
+    public
+    function sendIdentificationRequest(settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
         $hasRequest = $userAuth->hasIdetificationReques();
