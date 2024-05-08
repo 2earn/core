@@ -35,19 +35,23 @@
                             <div class="form-group">
                                 <label class="form-label">{{ __('Last Name') }}</label>
                                 <input id="inputlLastNameContact" type="text"
-                                       class="form-control" name=" " wire:model.defer="lastNameUserContact"
+                                       class="form-control" name="inputlLastNameContact"
+                                       wire:model.defer="lastNameUserContact"
                                        placeholder="{{ __('Last Name') }} "
                                 >
                             </div>
-                            @error('lastNameUserContact') <span class="error alert-danger  ">{{ $message }}</span> @enderror
+                            @error('lastNameUserContact') <span
+                                class="error alert-danger  ">{{ $message }}</span> @enderror
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">{{ __('Mobile_Number') }}</label>
-                                <div id="ipAddContact"  data-turbolinks-permanent class="input-group signup mb-3">
+                                <div id="ipAddContact" data-turbolinks-permanent class="input-group signup mb-3">
                                 </div>
-                                <input type="tel" hidden id="pho" wire:model.defer="phoneNumber" value="{{$phoneNumber}}">
-                                <input type="text" hidden id="phoneAddContact" name="phoneAddContact" value="{{$phoneNumber}}">
+                                <input type="tel" hidden id="pho" wire:model.defer="phoneNumber"
+                                       value="{{$phoneNumber}}">
+                                <input type="text" hidden id="phoneAddContact" name="phoneAddContact"
+                                       value="{{$phoneNumber}}">
                                 <p hidden id="codecode">{{$phoneCode}}</p>
                             </div>
                         </div>
@@ -63,7 +67,7 @@
                                     <div wire:loading wire:target="save">
                                             <span class="spinner-border spinner-border-sm" role="status"
                                                   aria-hidden="true"></span>
-                                        <span class="sr-only">__('Loading')</span>
+                                        <span class="sr-only">{{__('Loading')}}</span>
                                     </div>
                                 </button>
                             </div>
@@ -83,7 +87,7 @@
             if (ccode.value.trim() && fullNumber.value.trim() && phone.value.trim())
                 window.livewire.emit('save', ccode.value.trim(), fullNumber.value.trim(), phone.value.trim());
             else
-                alert("erreur number");
+                console.log("erreur number");
         }
     </script>
 </div>

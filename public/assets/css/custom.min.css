@@ -343,6 +343,25 @@ nav svg {
     float: left;
 }
 
-.simplebar-content .nav-item:hover {
+.simplebar-content .nav-item:hover, .simplebar-content .nav-item active {
     background-color: #e6e4e4;
+}
+
+.btn-ghost-danger {
+    color: #bc34b6 !important;
+
+}
+
+.btn-ghost-danger:active, .btn-ghost-danger:focus, .btn-ghost-danger:hover {
+    color: #bc34b6 !important;
+    background-color: rgba(188, 52, 182, 0.1) !important;
+}
+
+.btn-ghost-secondary {
+    color: #464fed !important;
+}
+
+.btn-ghost-secondary:active, .btn-ghost-secondary:focus, .btn-ghost-secondary:hover {
+    color: #464fed !important;
+    background-color: rgba(70, 79, 237, 0.1) !important;
 }
