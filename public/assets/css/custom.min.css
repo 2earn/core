@@ -338,3 +338,7 @@ nav svg {
     width: 150px;
     height: 100px;
 }
+
+.validated-user {
+    float: left;
+}

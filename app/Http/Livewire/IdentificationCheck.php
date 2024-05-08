@@ -141,7 +141,6 @@ class IdentificationCheck extends Component
             $sensIdentification = identificationuserrequest::create(
                 ['idUser' => $userAuth->idUser, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(), 'response' => 0, 'note' => '', 'status' => 1]
             );
-            dd($sensIdentification);
         }
         $this->dispatchBrowserEvent('existIdentificationRequest', ['type' => 'warning', 'title' => "Opt", 'text' => '',]);
     }

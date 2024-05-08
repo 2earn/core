@@ -44,6 +44,7 @@ class Account extends Component
     public $soldeSms = 0;
     public $PercentComplete = 0;
     public $errors_array;
+    public $disabled;
 
     protected $listeners = [
         'PreChangePass' => 'PreChangePass',
@@ -71,12 +72,14 @@ class Account extends Component
         $um->birthday = $this->usermetta_info['birthday'];
         $um->nationalID = $this->usermetta_info['nationalID'];
         $um->save();
-        if ($this->photoFront != null) {
-            $p = $this->photoFront->storeAs('profiles', 'front-id-image' . $um->idUser . '.png', 'public2');
+
+        if (!is_null($this->photoFront) && gettype($this->photoFront) == "object") {
+            $this->photoFront->storeAs('profiles', 'front-id-image' . $um->idUser . '.png', 'public2');
         }
-        if ($this->backback != null) {
-            $p = $this->backback->storeAs('profiles', 'back-id-image' . $um->idUser . '.png', 'public2');
+        if (!is_null($this->photoBack) && gettype($this->photoBack) == "object") {
+            $this->photoBack->storeAs('profiles', 'back-id-image' . $um->idUser . '.png', 'public2');
         }
+
         return redirect()->route('account', app()->getLocale())->with('SuccesUpdateProfile', Lang::get('Edit_profil_succes'));
     }
 
@@ -129,6 +132,7 @@ class Account extends Component
         $this->CalculPercenteComplete();
         $hasRequest = $userAuth->hasIdetificationReques();
 
+        $this->disabled = abs($user->status) == 1 ? "disabled" : '';
         return view('livewire.account', ['hasRequest' => $hasRequest, 'errors_array' => $this->errors_array])->extends('layouts.master')->section('content');
     }
 

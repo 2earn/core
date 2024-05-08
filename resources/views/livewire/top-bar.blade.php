@@ -299,9 +299,13 @@
                                         @endif
                                     @endif
                                 </span>
-                                <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">
-                                    {{__($userRole)}}
-                                </span>
+                                                           <span
+                                                               class="d-none d-xl-block badge bg-light @if($user->status==1) text-success  @else text-muted @endif mb-0">
+                                        <span class="mb-5">{{__($userRole)}}</span>
+                                        @if($user->status==1)
+                                                                   <i class="mdi mdi-24px mdi-account-check green validated-user"></i>
+                                                               @endif
+                                    </span>
                             </span>
                         </span>
                         </button>
