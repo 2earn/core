@@ -34,7 +34,8 @@
                             <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
                                 @if(app()->getLocale()!="ar")
                                     {{$currency}}
-                                    <span class="counter-value" data-target="{{intval($cashBalance)}}">0</span>
+                                    <span class="counter-value"
+                                          data-target="{{intval($cashBalance)}}">{{intval($cashBalance)}}</span>
                                     <small class="text-muted fs-13">
                                         @if(getDecimals($cashBalance))
                                             {{$decimalSeperator}}
@@ -48,7 +49,8 @@
                                             {{$decimalSeperator}}
                                         @endif
                                     </small>
-                                    <span class="counter-value" data-target="{{intval($cashBalance)}}">0</span>
+                                    <span class="counter-value"
+                                          data-target="{{intval($cashBalance)}}">{{intval($cashBalance)}}</span>
                                     {{$currency}}
                                 @endif
                             </h3>
@@ -94,7 +96,8 @@
                             <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
                                 @if(app()->getLocale()!="ar")
                                     {{$currency}}
-                                    <span class="counter-value" data-target="{{intval($balanceForSopping)}}">0</span>
+                                    <span class="counter-value"
+                                          data-target="{{intval($balanceForSopping)}}">{{intval($balanceForSopping)}}</span>
                                     <small class="text-muted fs-13">
                                         @if(getDecimals($balanceForSopping))
                                             {{$decimalSeperator}}
@@ -108,7 +111,8 @@
                                             {{$decimalSeperator}}
                                         @endif
                                     </small>
-                                    <span class="counter-value" data-target="{{intval($balanceForSopping)}}">0</span>
+                                    <span class="counter-value"
+                                          data-target="{{intval($balanceForSopping)}}">{{intval($balanceForSopping)}}</span>
                                     {{$currency}}
                                 @endif
                             </h3>
@@ -154,7 +158,8 @@
                             <h4 class="mb-4 fs-22 fw-semibold ff-secondary">
                                 @if(app()->getLocale()!="ar")
                                     {{$currency}}
-                                    <span class="counter-value" data-target="{{intval($discountBalance)}}">0</span>
+                                    <span class="counter-value"
+                                          data-target="{{intval($discountBalance)}}">{{intval($discountBalance)}}</span>
                                     <small class="text-muted fs-13">
                                         @if(getDecimals($discountBalance))
                                             {{$decimalSeperator}}
@@ -168,7 +173,8 @@
                                             {{$decimalSeperator}}
                                         @endif
                                     </small>
-                                    <span class="counter-value" data-target="{{intval($discountBalance)}}">0</span>
+                                    <span class="counter-value"
+                                          data-target="{{intval($discountBalance)}}">{{intval($discountBalance)}}</span>
                                     {{$currency}}
                                 @endif
                             </h4>
@@ -240,7 +246,7 @@
                         <div>
                             <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
                                 <span class="counter-value"
-                                      data-target="{{$userSelledAction}}">0</span>
+                                      data-target="{{$userSelledAction}}">{{formatSolde($userSelledAction,0)}}</span>
                                 <small class="text-muted fs-13">
                                     ({{$actionsValues}}{{$currency}})
                                 </small></h3>
