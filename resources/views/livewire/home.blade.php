@@ -475,7 +475,7 @@
                     const iti = window.intlTelInput(input, {
                         initialCountry: "auto",
                         useFullscreenPopup: false,
-                        utilsScript: "{{asset('assets/js/utils.js')}}" // just for formatting/placeholders etc
+                        utilsScript: "{{asset('assets/js/utils.js')}}"
                     });
                     $('[name="inlineRadioOptions"]').on('change', function () {
                         if ($('#inlineRadio2').is(':checked')) {
@@ -526,11 +526,7 @@
                             },
                             error: function (data) {
                                 var responseData = JSON.parse(data.responseText);
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: responseData.error[0],
-                                });
+                                Swal.fire({icon: 'error', title: 'Oops...', text: responseData.error[0]});
                             }
                         });
                         setTimeout(() => {
@@ -540,8 +536,7 @@
                     })
                 }
             );
-        </script>
-        <script>
+
             var series;
             anychart.onDocumentReady(function () {
                 anychart.data.loadJsonFile(
@@ -554,12 +549,8 @@
                         var densityData = dataSet.mapAs({id: 'apha2', value: 'COUNT_USERS'});
                         series = map.choropleth(densityData);
                         series.labels(false);
-                        series
-                            .hovered()
-                            .fill('#f48fb1')
-                            .stroke(anychart.color.darken('#f48fb1'));
-                        series
-                            .tooltip(false);
+                        series.hovered().fill('#f48fb1').stroke(anychart.color.darken('#f48fb1'));
+                        series.tooltip(false);
                         var scale = anychart.scales.ordinalColor([
                             {less: 2},
                             {from: 2, to: 5},
@@ -578,20 +569,12 @@
                         map.container('any4');
                         map.draw();
                         var mapping = dataSet.mapAs({x: "name", value: "COUNT_USERS", category: "continant"});
-                        var colors = anychart.scales
-                            .ordinalColor()
-                            .colors(['#26959f', '#f18126', '#3b8ad8', '#60727b', '#e24b26']);
+                        var colors = anychart.scales.ordinalColor().colors(['#26959f', '#f18126', '#3b8ad8', '#60727b', '#e24b26']);
                         var chart = anychart.tagCloud();
-                        chart
-                            .data(mapping)
-                            .colorScale(colors)
-                            .angles([-90, 0, 90,]);
-                        chart
-                            .tooltip(false);
+                        chart.data(mapping).colorScale(colors).angles([-90, 0, 90,]);
+                        chart.tooltip(false);
                         var colorRange = chart.colorRange();
-                        colorRange
-                            .enabled(true)
-                            .colorLineSize(15);
+                        colorRange.enabled(true).colorLineSize(15);
                         var normalFillFunction = chart.normal().fill();
                         var hoveredFillFunction = chart.hovered().fill();
                         chart.listen('pointsHover', function (e) {
@@ -601,17 +584,11 @@
                                         fill: 'black 0.1'
                                     });
                                     chart.hovered({
-                                        fill: chart
-                                            .colorScale()
-                                            .valueToColor(e.point.get('category'))
+                                        fill: chart.colorScale().valueToColor(e.point.get('category'))
                                     });
                                 } else {
-                                    chart.normal({
-                                        fill: normalFillFunction
-                                    });
-                                    chart.hovered({
-                                        fill: hoveredFillFunction
-                                    });
+                                    chart.normal({fill: normalFillFunction});
+                                    chart.hovered({fill: hoveredFillFunction});
                                 }
                             }
                         });
