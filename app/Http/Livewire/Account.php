@@ -29,7 +29,7 @@ class Account extends Component
 
     public $nbrChild = 9;
     public $photoFront;
-    public $backback;
+    public $photoBack;
     public $user;
     public $usermetta_info;
     public $numberActif;
@@ -73,14 +73,12 @@ class Account extends Component
         $um->birthday = $this->usermetta_info['birthday'];
         $um->nationalID = $this->usermetta_info['nationalID'];
         $um->save();
-
         if (!is_null($this->photoFront) && gettype($this->photoFront) == "object") {
             $this->photoFront->storeAs('profiles', 'front-id-image' . $um->idUser . '.png', 'public2');
         }
         if (!is_null($this->photoBack) && gettype($this->photoBack) == "object") {
             $this->photoBack->storeAs('profiles', 'back-id-image' . $um->idUser . '.png', 'public2');
         }
-
         return redirect()->route('account', app()->getLocale())->with('SuccesUpdateProfile', Lang::get('Edit_profil_succes'));
     }
 
@@ -138,7 +136,7 @@ class Account extends Component
     }
 
 
-    public    function CalculPercenteComplete()
+    public function CalculPercenteComplete()
     {
         $this->errors_array = array();
         $this->PercentComplete = 0;

@@ -671,6 +671,9 @@
                                     @if(file_exists(public_path('/uploads/profiles/front-id-image'.$user['idUser'].'.png')))
                                         <img width="150" height="100"
                                              src={{asset(('/uploads/profiles/front-id-image'.$user['idUser'].'.png'))}} >
+                                    @else
+                                        <img width="150" height="100"
+                                             src={{asset(('/uploads/profiles/default.png'))}} >
                                     @endif
                                 </div>
                                 <div class="wrap-custom-file" style="margin-top: 10px">
@@ -696,6 +699,9 @@
                                     @if(file_exists(public_path('/uploads/profiles/back-id-image'.$user['idUser'].'.png')))
                                         <img width="150" height="100"
                                              src={{asset(('/uploads/profiles/back-id-image'.$user['idUser'].'.png'))}} >
+                                    @else
+                                        <img width="150" height="100"
+                                             src={{asset(('/uploads/profiles/default.png'))}} >
                                     @endif
                                 </div>
                                 <div class="wrap-custom-file" style="margin-top: 10px">
@@ -719,6 +725,11 @@
                                     </button>
                                     <button onclick="SaveChangeEdit()" type="button" id="SaveCahngeEdit"
                                             class="btn btn-primary">
+                                        <div wire:loading wire:target="SaveChangeEdit">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                            <span class="sr-only">{{__('Loading')}}...</span>
+                                        </div>
                                         {{ __('Save_changes')}}
                                     </button>
                                 </div>
