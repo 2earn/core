@@ -155,6 +155,7 @@
         @import url({{asset('/')."assets/icons/material-design-iconic-font/css/materialdesignicons.min.css"}});
         @import url({{asset('assets/icons/line-awesome/css/line-awesome.min.css')}});
         @import url({{asset('assets/icons/font-awesome/css/font-awesome.min.css')}});
+
         .page-title-box-db {
             background-color: #009fe3 !important;;
         }
@@ -953,34 +954,20 @@
         );
 
         $(document).on('click', '.badge', function () {
-            console.log("aaaaaa");
             var id = $(this).data('id');
-
             var phone = $(this).data('phone');
-
             var amount = String($(this).data('amount')).replace(',', '');
             var asset = $(this).data('asset');
-            //console.log(status);
-
-            // Make an AJAX request to update the status
-
             $('#realsold-country').attr('src', asset);
             $('#realsold-reciver').attr('value', id);
             $('#realsold-phone').attr('value', phone);
             $('#realsold-ammount').attr('value', amount);
             $('#realsold-ammount-total').attr('value', amount);
-
-            //console.log(reciver);
             $('#realsoldmodif').modal('show');
-
-
             fetchAndUpdateCardContent();
             $('#shares-sold').DataTable().ajax.reload();
         });
         $(document).on("click", "#realsold-submit", function () {
-
-            //console.log( $('#realsold-reciver').val());
-            //console.log( $('#realsold-ammount').val()) ;
             let reciver = $('#realsold-reciver').val();
             let ammount = $('#realsold-ammount').val();
             let total = $('#realsold-ammount-total').val()
@@ -1013,12 +1000,10 @@
                 url: '{{ route('get-updated-card-content') }}', // Adjust the endpoint URL
                 method: 'GET',
                 success: function (data) {
-                    // console.log(data);
                     $('#realrev').html('$' + data.value);
                 },
                 error: function (xhr, status, error) {
-                    // Handle error
-                    // ...
+                    console.log(error)
                 }
             });
         }
@@ -1960,8 +1945,8 @@
         console.log($('#ammount').val());
         let reciver = $('#userlist-reciver').val();
         let ammount = $('#ammount').val();
-        let msg = "vous avez transferé "+ ammount + " $ à "+ reciver;
-        let user=126;
+        let msg = "vous avez transferé " + ammount + " $ à " + reciver;
+        let user = 126;
         $.ajax({
             url: "{{ route('addCash') }}",
             type: "POST",
