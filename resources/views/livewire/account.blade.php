@@ -311,10 +311,11 @@
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="mb-3">
-                                            <label for="zipcodeInput" class="form-label">{{ __('National ID') }}</label>
+                                            <label for="zipcodeInput1"
+                                                   class="form-label">{{ __('National ID') }}</label>
                                             <input type="text" class="form-control" minlength="5" maxlength="50"
                                                    wire:model.defer="usermetta_info.nationalID"
-                                                   id="zipcodeInput" {{$disabled}} >
+                                                   id="zipcodeInput1" {{$disabled}} >
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
@@ -323,7 +324,7 @@
                                                    class="form-label">{{ __('Address') }}</label>
                                             <textarea wire:model.defer="usermetta_info.adresse" class="form-control"
                                                       id="exampleFormControlTextarea"
-                                                      placeholder=""
+                                                      placeholder="{{__('Address')}}"
                                                       rows="3">
                                                     </textarea>
                                         </div>
@@ -533,10 +534,10 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="mb-3">
-                                    <label for="zipcodeInput" class="form-label">{{ __('National ID') }}</label>
+                                    <label for="zipcodeInput2" class="form-label">{{ __('National ID') }}</label>
                                     <input type="text" class="form-control" minlength="5" maxlength="50"
                                            {{$disabled}}        wire:model.defer="usermetta_info.nationalID"
-                                           id="zipcodeInput">
+                                           id="zipcodeInput2">
                                 </div>
                             </div>
                             <div class="col-lg-12">
@@ -918,11 +919,4 @@
             this.classList.toggle("bi-eye");
         });
     </script>
-    <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/libs/bootstrap/bootstrap.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/libs/node-waves/node-waves.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/libs/feather-icons/feather-icons.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/pages/plugins/lord-icon-2.1.0.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/plugins.min.js') }}"></script>
 </div>
