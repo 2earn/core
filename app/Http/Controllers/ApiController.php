@@ -788,11 +788,17 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
         $limit = getSelledActions() * 1.05;
 
         $data = [];
+        $setting = \Core\Models\Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
+        $initial_value = $setting[0];
+        $final_value = $initial_value*5;
+        $total_actions = $setting[2];
+
 
         for ($x = 0; $x <= $limit; $x += intval($limit / 20)) {
+            $val = ($final_value - $initial_value) / ($total_actions - 1) * ($x + 1) + ($initial_value - ($final_value - $initial_value) / ($total_actions - 1));
             $data[] = [
                 'x' => $x,
-                'y' => actualActionValue($x), // Call your helper function
+                'y' => $val, // Call your helper function
             ];
         }
         return response()->json($data);
