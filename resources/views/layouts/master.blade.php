@@ -953,34 +953,20 @@
         );
 
         $(document).on('click', '.badge', function () {
-            console.log("aaaaaa");
             var id = $(this).data('id');
-
             var phone = $(this).data('phone');
-
             var amount = String($(this).data('amount')).replace(',', '');
             var asset = $(this).data('asset');
-            //console.log(status);
-
-            // Make an AJAX request to update the status
-
             $('#realsold-country').attr('src', asset);
             $('#realsold-reciver').attr('value', id);
             $('#realsold-phone').attr('value', phone);
             $('#realsold-ammount').attr('value', amount);
             $('#realsold-ammount-total').attr('value', amount);
-
-            //console.log(reciver);
             $('#realsoldmodif').modal('show');
-
-
             fetchAndUpdateCardContent();
             $('#shares-sold').DataTable().ajax.reload();
         });
         $(document).on("click", "#realsold-submit", function () {
-
-            //console.log( $('#realsold-reciver').val());
-            //console.log( $('#realsold-ammount').val()) ;
             let reciver = $('#realsold-reciver').val();
             let ammount = $('#realsold-ammount').val();
             let total = $('#realsold-ammount-total').val()

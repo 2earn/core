@@ -1,9 +1,11 @@
-const preLoad = function () {
-    return caches.open("offline").then(function (cache) {
-        // caching index and important routes
-        return cache.addAll(filesToCache);
-    });
-};
+if (typeof preLoad !== 'undefined') {
+    const preLoad = function () {
+        return caches.open("offline").then(function (cache) {
+            // caching index and important routes
+            return cache.addAll(filesToCache);
+        });
+    };
+}
 
 self.addEventListener("install", function (event) {
     event.waitUntil(preLoad());
@@ -50,7 +52,7 @@ self.addEventListener("fetch", function (event) {
     event.respondWith(checkResponse(event.request).catch(function () {
         return returnFromCache(event.request);
     }));
-    if(!event.request.url.startsWith('http')){
+    if (!event.request.url.startsWith('http')) {
         event.waitUntil(addToCache(event.request));
     }
 });

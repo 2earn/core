@@ -27,7 +27,6 @@
                 <div id="two-column-menu">
                 </div>
                 <ul class="navbar-nav" id="navbar-nav">
-                    <li class="menu-title"><span data-key="t-menu">{{ __('Menu') }}</span></li>
                     <li class="nav-item {{Route::currentRouteName()=='home'? 'active' : ''}}">
                         <a href="{{route('home',app()->getLocale())}}"
                            class="nav-link menu-link {{Route::currentRouteName()=='home'? 'active' : ''}}"
