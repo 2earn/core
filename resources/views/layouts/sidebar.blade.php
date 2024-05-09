@@ -9,7 +9,7 @@
                 <img src="{{ URL::asset('assets/images/logo-dark.png') }}" alt="" height="35px">
             </span>
             </a>
-            <a id="MyHover" class="logo logo-light">
+            <a id="MyHover" href="{{route('home',app()->getLocale())}}" class="logo logo-light">
             <span class="logo-sm">
                 <img src="{{ URL::asset('assets/images/logo-sm.png') }}" alt="" height="40">
             </span>
