@@ -236,7 +236,7 @@
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
-                                {{$actualActionValue['int']}},{{$actualActionValue['2Fraction']}}<small
+                                {{$actualActionValue['int']}}.{{$actualActionValue['2Fraction']}}<small
                                     class="action_fraction">{{$actualActionValue['3_2Fraction']}}</small>
                                 <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
                             </h5>
