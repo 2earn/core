@@ -186,8 +186,8 @@
                                 aria-expanded="false" data-bs-auto-close="false">
                             <i class='bx bx-bell fs-22'></i>
                             <span
-                                class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">0<span
-                                    class="visually-hidden">{{__('unread messages')}}unread messages</span></span>
+                                class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">{{count($notifications)}}<span
+                                    class="visually-hidden">{{__('unread messages')}}</span></span>
                         </button>
                         <div wire:ignore class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
                              aria-labelledby="page-header-notifications-dropdown">
@@ -198,7 +198,8 @@
                                             <h1 class="m-0 fs-16 text-white">{{__('Notifications')}}</h1>
                                         </div>
                                         <div class="col-auto dropdown-tabs">
-                                            <span class="badge badge-soft-light fs-13"> 0 {{__('New')}}</span>
+                                            <span
+                                                class="badge badge-soft-light fs-13"> {{count($notifications)}} {{__('New')}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -206,10 +207,10 @@
                                     <ul class="nav nav-tabs dropdown-tabs nav-tabs-custom" data-dropdown-tabs="true"
                                         id="notificationItemsTab" role="tablist">
                                         <li class="nav-item waves-effect waves-light">
-                                            <a class="nav-link active" data-bs-toggle="tab" href=""
+                                            <a class="nav-link active" data-bs-toggle="tab"
                                                role="tab"
                                                aria-selected="true">
-                                                {{__('All')}} (4)
+                                                {{__('All')}} ({{count($notifications)}})
                                             </a>
                                         </li>
                                         <li class="nav-item waves-effect waves-light">
@@ -219,7 +220,7 @@
                                             </a>
                                         </li>
                                         <li class="nav-item waves-effect waves-light">
-                                            <a class="nav-link" data-bs-toggle="tab" href="" role="tab"
+                                            <a class="nav-link" data-bs-toggle="tab" href="#alert-tab" role="tab"
                                                aria-selected="false">
                                                 {{__('Alerts')}}
                                             </a>
@@ -229,30 +230,26 @@
                             </div>
                             <div class="tab-content" id="notificationItemsTabContent">
                                 <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
-                                    <div data-simplebar style="max-height: 300px;" class="pe-2">
-                                        <div
-                                            class="text-reset notification-item d-block dropdown-item position-relative">
-                                            <div class="d-flex">
-                                                <div class="avatar-xs me-3">
+                                    <div data-simplebar class="pe-2">
+                                        @foreach($notifications as $notification)
+                                            <div
+                                                class="text-reset notification-item d-block dropdown-item position-relative">
+                                                <div class="d-flex">
+                                                    <div class="avatar-xs me-3">
                                                 <span class="avatar-title bg-soft-info text-info rounded-circle fs-16">
-                                                    <i class="bx bx-badge-check"></i>
+{{Illuminate\Support\Js::from($notification)}}
                                                 </span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div
-                                            class="text-reset notification-item d-block dropdown-item position-relative">
-                                        </div>
-                                        <div
-                                            class="text-reset notification-item d-block dropdown-item position-relative">
-                                        </div>
-                                        <div
-                                            class="text-reset notification-item d-block dropdown-item position-relative">
-                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
                                 <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel"
                                      aria-labelledby="messages-tab">
+                                </div>
+                                <div class="tab-pane fade py-2 ps-2" id="alert-tab" role="tabpanel"
+                                     aria-labelledby="alert-tab">
                                 </div>
                             </div>
                         </div>

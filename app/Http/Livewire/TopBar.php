@@ -12,6 +12,7 @@ use Livewire\Component;
 
 class TopBar extends Component
 {
+    protected $notifications = [];
     protected $user_info = "";
     private settingsManager $settingsManager;
     private BalancesManager $balancesManager;
@@ -24,15 +25,16 @@ class TopBar extends Component
 
     public function render(settingsManager $settingsManager)
     {
-        $user = $settingsManager->getAuthUser();
-        $userById = $settingsManager->getUserById($user->id);
-        if (!$user)
+        $authUser = $settingsManager->getAuthUser();
+        $user = $settingsManager->getUserById($authUser->id);
+        if (!$authUser)
             dd('not found page');
         $params = [
-            'solde' => $this->balancesManager->getBalances($user->idUser, 0),
-            'user' => $user,
+            'solde' => $this->balancesManager->getBalances($authUser->idUser, 0),
+            'user' => $authUser,
+            'notifications' => $user->notifications,
             'notificationbr' => $settingsManager->getNomberNotification(),
-            'userRole' => $userById->getRoleNames()->first()
+            'userRole' => $user->getRoleNames()->first()
         ];
         return view('livewire.top-bar', $params);
     }
