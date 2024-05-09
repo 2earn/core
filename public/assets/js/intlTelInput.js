@@ -340,7 +340,7 @@
                     }
                     // containers (mostly for positioning)
                     var parentClass = "iti";
-                    if (this.options.allowDropdown) parentClass += " iti--allow-dropdown";
+                    if (this.options.allowDropdown) parentClass += " w-100 iti--allow-dropdown";
                     if (this.options.separateDialCode) parentClass += " iti--separate-dial-code";
                     if (this.options.customContainer) {
                         parentClass += " ";

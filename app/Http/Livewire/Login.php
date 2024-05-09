@@ -12,36 +12,34 @@ use Illuminate\Http\Request;
 
 class Login extends Component
 {
-    use RedirectsUsers ;
+    use RedirectsUsers;
     use earnLog;
-//    public $redirectTo = '/en/Home';
 
     protected $listeners = [
         'login' => 'login',
         'changeLanguage' => 'changeLanguage'
     ];
+
     public function render(settingsManager $settingsManager)
     {
         $settingsManager->logoutUser();
         return view('livewire.login')->extends('layouts.master-without-nav')->section('content');
     }
-    public function login($number, $code, $pass,$iso, settingsManager $settingsManager,Request $request)
+
+    public function login($number, $code, $pass, $iso, settingsManager $settingsManager, Request $request)
     {
 
-        if ($number == "" || $code == "" || $pass == ""||$iso=="") {
-            return redirect()->route('login', ['locale'=>app()->getLocale()])->with('messageFailedInformation', Lang::get('your phone or your password is incorrect !'));
+        if ($number == "" || $code == "" || $pass == "" || $iso == "") {
+            return redirect()->route('login', ['locale' => app()->getLocale()])->with('messageFailedInformation', Lang::get('your phone or your password is incorrect !'));
         }
-        if ( strlen($iso)>2) {
-            return redirect()->route('login',['locale'=>app()->getLocale()])->with('messageFailedIso', Lang::get('Code_pays_incorrect'));
+        if (strlen($iso) > 2) {
+            return redirect()->route('login', ['locale' => app()->getLocale()])->with('messageFailedIso', Lang::get('Code_pays_incorrect'));
         }
-        $user = $settingsManager->loginUser($number, $code, false, $pass,$iso);
+        $user = $settingsManager->loginUser($number, $code, false, $pass, $iso);
         if (!$user) {
-            $this->earnDebug('Failed login : number phone -  ' . $number . ' Code pays- : ' . $code . ' Password- : ' . $pass . ' Iso- :' .$iso );
-            return redirect()->route('login', ['locale'=>app()->getLocale()])->with('message', Lang::get('your phone or your password is incorrect !'));
+            $this->earnDebug('Failed login : number phone -  ' . $number . ' Code pays- : ' . $code . ' Password- : ' . $pass . ' Iso- :' . $iso);
+            return redirect()->route('login', ['locale' => app()->getLocale()])->with('message', Lang::get('your phone or your password is incorrect !'));
         }
-//        return redirect()->intended()->route();
-        return redirect()->intended(route('home', app()->getLocale()))->with('fromLogin','fromLogin');
-//        return redirect()->intended($this->redirectPath(),app()->getLocale())->with('fromLogin','fromLogin');
-//        return redirect()->route('home', app()->getLocale())->with('fromLogin','fromLogin');
+        return redirect()->intended(route('home', app()->getLocale()))->with('fromLogin', 'fromLogin');
     }
 }

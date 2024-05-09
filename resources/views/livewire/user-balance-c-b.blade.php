@@ -20,10 +20,13 @@
                                      class="img-fluid img-thumbnail rounded avatar-lg">
                             </div>
                             <div class="col-sm-6 col-md-8 col-lg-10 col-xl-10">
-                                <div class="d-flex">
-                                    <div class="search-box ms-2">
-                                        <p>{!! __('Cash Balance description') !!}</p>
-                                    </div>
+                                <div class="search-box ms-2">
+                                    <p>{!! __('You can replenish your Cash Balance through various payment methods') !!}</p>
+                                    <ol>
+                                        <li>{{__('Bank transfer to Al Rajhi account: 379000010006080004540, IBAN: SA5680000379000010006080004540')}}</li>
+                                        <li>{{__('Use of Visa and MasterCard.')}}</li>
+                                        <li>{{__('Payment via ApplePay.')}}</li>
+                                    </ol>
                                 </div>
                             </div>
                         </div>

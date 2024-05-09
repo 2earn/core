@@ -9,7 +9,7 @@
                 <img src="{{ URL::asset('assets/images/logo-dark.png') }}" alt="" height="35px">
             </span>
             </a>
-            <a id="MyHover" class="logo logo-light">
+            <a id="MyHover" href="{{route('home',app()->getLocale())}}" class="logo logo-light">
             <span class="logo-sm">
                 <img src="{{ URL::asset('assets/images/logo-sm.png') }}" alt="" height="40">
             </span>
@@ -152,7 +152,7 @@
                                class="nav-link menu-link {{Route::currentRouteName()=='user_list'? 'active' : ''}}"
                                role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-user-settings-line"></i>
-                                <span>{{ __('UserList') }}</span>
+                                <span>{{ __('Users') }}</span>
                             </a>
                         </li>
                         <li class="nav-item {{Route::currentRouteName()=='countries_management'? 'active' : ''}}">

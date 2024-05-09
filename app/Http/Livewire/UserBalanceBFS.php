@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Livewire;
+
 use Core\Services\settingsManager;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
@@ -11,13 +12,8 @@ use Livewire\WithPagination;
 
 class UserBalanceBFS extends Component
 {
-
-
     public function render()
     {
-
         return view('livewire.user-balance-b-f-s')->extends('layouts.master')->section('content');
     }
-
-
 }
