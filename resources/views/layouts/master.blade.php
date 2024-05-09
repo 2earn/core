@@ -155,6 +155,7 @@
         @import url({{asset('/')."assets/icons/material-design-iconic-font/css/materialdesignicons.min.css"}});
         @import url({{asset('assets/icons/line-awesome/css/line-awesome.min.css')}});
         @import url({{asset('assets/icons/font-awesome/css/font-awesome.min.css')}});
+
         .page-title-box-db {
             background-color: #009fe3 !important;;
         }
@@ -999,12 +1000,10 @@
                 url: '{{ route('get-updated-card-content') }}', // Adjust the endpoint URL
                 method: 'GET',
                 success: function (data) {
-                    // console.log(data);
                     $('#realrev').html('$' + data.value);
                 },
                 error: function (xhr, status, error) {
-                    // Handle error
-                    // ...
+                    console.log(error)
                 }
             });
         }
@@ -1946,8 +1945,8 @@
         console.log($('#ammount').val());
         let reciver = $('#userlist-reciver').val();
         let ammount = $('#ammount').val();
-        let msg = "vous avez transferé "+ ammount + " $ à "+ reciver;
-        let user=126;
+        let msg = "vous avez transferé " + ammount + " $ à " + reciver;
+        let user = 126;
         $.ajax({
             url: "{{ route('addCash') }}",
             type: "POST",
