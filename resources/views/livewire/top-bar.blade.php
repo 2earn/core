@@ -116,13 +116,15 @@
                         @endphp
                         <div class="dropdown-menu dropdown-menu-end">
                             @foreach (config('app.available_locales') as  $locale => $value )
-                                <a href="{{ route($var, ['locale'=> $locale ]) }} "
-                                   class="dropdown-item notify-item language py-2" data-lang="en"
-                                   title="{{ __('lang'.$locale)  }}" data-turbolinks="false">
-                                    <img src="{{ URL::asset('assets/images/flags/'.$value['flag'].'.svg') }}"
-                                         alt="user-image" class="me-2 rounded" height="20">
-                                    <span class="align-middle">{{ __('lang'.$locale)  }}</span>
-                                </a>
+                                @if(isset($yourVariableName))
+                                    <a href="{{ route($var, ['locale'=> $locale ]) }} "
+                                       class="dropdown-item notify-item language py-2" data-lang="en"
+                                       title="{{ __('lang'.$locale)  }}" data-turbolinks="false">
+                                        <img src="{{ URL::asset('assets/images/flags/'.$value['flag'].'.svg') }}"
+                                             alt="user-image" class="me-2 rounded" height="20">
+                                        <span class="align-middle">{{ __('lang'.$locale)  }}</span>
+                                    </a>
+                                @endif
                             @endforeach
                         </div>
                     </div>
@@ -186,11 +188,12 @@
                                 aria-expanded="false" data-bs-auto-close="false">
                             <i class='bx bx-bell fs-22'></i>
                             <span
-                                class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">{{count($notifications)}}<span
-                                    class="visually-hidden">{{__('unread messages')}}</span></span>
+                                class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger .unreadedNotificationNumber">{{$unreadNotificationsNumber}}
+                                <span class="visually-hidden">{{__('unread messages')}}</span>
+                            </span>
                         </button>
                         <div wire:ignore class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
-                             aria-labelledby="page-header-notifications-dropdown">
+                             id="notification-dropdown" aria-labelledby="page-header-notifications-dropdown">
                             <div class="dropdown-head bg-primary bg-pattern rounded-top">
                                 <div class="p-3">
                                     <div class="row align-items-center">
@@ -198,29 +201,33 @@
                                             <h1 class="m-0 fs-16 text-white">{{__('Notifications')}}</h1>
                                         </div>
                                         <div class="col-auto dropdown-tabs">
-                                            <span
-                                                class="badge badge-soft-light fs-13"> {{count($notifications)}} {{__('New')}}</span>
+                                            <span class="badge badge-soft-light fs-13">
+                                                <p class="newUreadNotificationsNumber" >{{$newUreadNotificationsNumber}} </p>
+                                                {{__('New')}}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                                 <div wire:ignore class="px-2 pt-2">
-                                    <ul class="nav nav-tabs dropdown-tabs nav-tabs-custom" data-dropdown-tabs="true"
+                                    <ul class="nav nav-pills dropdown-tabs nav-tabs-custom" data-dropdown-tabs="true"
                                         id="notificationItemsTab" role="tablist">
                                         <li class="nav-item waves-effect waves-light">
-                                            <a class="nav-link active" data-bs-toggle="tab"
-                                               role="tab"
+                                            <a class="nav-link active" data-bs-toggle="pill"
+                                               data-bs-target="#all-noti-tab" role="tab"
                                                aria-selected="true">
                                                 {{__('All')}} ({{count($notifications)}})
                                             </a>
                                         </li>
                                         <li class="nav-item waves-effect waves-light">
-                                            <a class="nav-link" data-bs-toggle="tab" href="#messages-tab" role="tab"
+                                            <a class="nav-link" data-bs-toggle="pill" data-bs-target="#messages-tab"
+                                               href="#messages-tab" role="tab"
                                                aria-selected="false">
                                                 {{__('Messages')}}
                                             </a>
                                         </li>
                                         <li class="nav-item waves-effect waves-light">
-                                            <a class="nav-link" data-bs-toggle="tab" href="#alert-tab" role="tab"
+                                            <a class="nav-link" data-bs-toggle="pill" data-bs-target="#alert-tab"
+                                               href="#alert-tab" role="tab"
                                                aria-selected="false">
                                                 {{__('Alerts')}}
                                             </a>
@@ -233,12 +240,38 @@
                                     <div data-simplebar class="pe-2">
                                         @foreach($notifications as $notification)
                                             <div
-                                                class="text-reset notification-item d-block dropdown-item position-relative">
+                                                class="text-reset notification-item d-block dropdown-item position-relative"
+                                                id="{{$notification->id}}">
                                                 <div class="d-flex">
-                                                    <div class="avatar-xs me-3">
-                                                <span class="avatar-title bg-soft-info text-info rounded-circle fs-16">
-{{Illuminate\Support\Js::from($notification)}}
+                                                    <div class="avatar-xs me-3 flex-shrink-0">
+                                                <span
+                                                    class="avatar-title bg-danger-subtle text-danger rounded-circle fs-16">
+                                                    <i class="bx bx-message-square-dots"></i>
                                                 </span>
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <div class="float-end">
+                                                            <div class="form-check notification-check">
+                                                                <button type="button" class="btn btn-link"
+                                                                        wire:click="markAsRead('{{$notification->id}}')"
+                                                                        id="all-notification-check{{$notification->id}}">
+                                                                    {{__('Mark as read')}}
+                                                                    <div wire:loading
+                                                                         wire:target="markAsRead('{{$notification->id}}')">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                                                        <span
+                                                                            class="sr-only">{{__('Loading')}}...</span>
+                                                                    </div>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <h6 class="mt-0 mb-2 fs-13 lh-base">
+                                                            {{ formatNotification($notification) }}
+                                                        </h6>
+                                                        <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                            <span><i class="mdi mdi-clock-outline"></i> {{time_ago($notification->created_at)}}</span>
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -296,4 +329,11 @@
             </div>
         </div>
     </header>
+    <script>
+        window.addEventListener('markAsRead', event => {
+            $('#' + event.detail.idNotification).fadeOut();
+                $('.unreadedNotificationNumber').empty().append(event.detail.unreadedNotificationNumber);
+                $('.newUreadNotificationsNumber').empty().append(event.detail.newUreadNotificationsNumber);
+        });
+    </script>
 </div>
