@@ -81,7 +81,7 @@ class Home extends Component
         $this->SMSBalance = intval($solde->soldeSMS);
         $solde = $balancesManager->getCurrentBalance($user->idUser);
         $usermetta_info = collect(DB::table('metta_users')->where('idUser', $user->idUser)->first());
-        $this->actionsValues = number_format(getUserSelledActions(Auth()->user()->idUser) * actualActionValue(getSelledActions()), 5);
+        $this->actionsValues = formatSolde(getUserSelledActions(Auth()->user()->idUser) * actualActionValue(getSelledActions()), 2);
         $this->userActualActionsProfit = number_format(getUserActualActionsProfit(Auth()->user()->idUser), 2);
         $this->userSelledAction = getUserSelledActions(Auth()->user()->idUser);
         $actualActionValue = actualActionValue(getSelledActions(), false);
