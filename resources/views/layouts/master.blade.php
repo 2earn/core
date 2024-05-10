@@ -256,7 +256,7 @@
 </script>
 <!-- Begin page -->
 <div id="layout-wrapper">
-    <livewire:top-bar/>
+    <livewire:top-bar :currentRoute="Route::currentRouteName()"/>
     @include('layouts.sidebar')
     <!-- ============================================================== -->
     <!-- Start right Content here -->
