@@ -97,7 +97,7 @@
                                 @if(app()->getLocale()!="ar")
                                     {{$currency}}
                                     <span class="counter-value"
-                                          data-target="{{intval($balanceForSopping)}}">{{intval($balanceForSopping)}}</span>
+                                          data-target="{{intval($balanceForSopping)}}">{{formatSolde($balanceForSopping,0)}}</span>
                                     <small class="text-muted fs-13">
                                         @if(getDecimals($balanceForSopping))
                                             {{$decimalSeperator}}
@@ -112,7 +112,7 @@
                                         @endif
                                     </small>
                                     <span class="counter-value"
-                                          data-target="{{intval($balanceForSopping)}}">{{intval($balanceForSopping)}}</span>
+                                          data-target="{{intval($balanceForSopping)}}">{{formatSolde($balanceForSopping,0)}}</span>
                                     {{$currency}}
                                 @endif
                             </h3>
@@ -174,7 +174,7 @@
                                         @endif
                                     </small>
                                     <span class="counter-value"
-                                          data-target="{{intval($discountBalance)}}">{{intval($discountBalance)}}</span>
+                                          data-target="{{intval($discountBalance)}}">{{formatSolde($discountBalance,0)}}</span>
                                     {{$currency}}
                                 @endif
                             </h4>

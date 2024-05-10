@@ -24,16 +24,18 @@ class SharesSold extends Component
     public $balanceForSopping;
     public $discountBalance;
     public $SMSBalance;
-    public  $cash = 25.033 ;
+    public $cash = 25.033;
     private settingsManager $settingsManager;
     private BalancesManager $balancesManager;
-    protected $listeners=[
+    protected $listeners = [
         'checkContactNumbre' => 'checkContactNumbre'
     ];
+
     function checkContactNumbre()
     {
         dd('ddd');
     }
+
     public function mount(
         settingsManager $settingsManager,
         BalancesManager $balancesManager
@@ -64,22 +66,16 @@ class SharesSold extends Component
 
         if (!$user)
             dd('not found page');
-//        dd($settingsManager->getAuthUser());
-//       $remember_me = false;
-//          $usersauth = $this->settingsManager->getUserById(2) ;
-//        Auth::login($usersauth, $remember_me);
-//        $user = Auth::user();
-        $solde = $this->balancesManager->getBalances($user->idUser);
+        $solde = $this->balancesManager->getBalances($user->idUser, -1);
         $this->cashBalance = $solde->soldeCB;
         $this->balanceForSopping = $solde->soldeBFS;
         $this->discountBalance = $solde->soldeDB;
         $this->SMSBalance = $solde->soldeSMS;
 
 
-
         $arraySoldeD = [];
-        $solde = $this->balancesManager->getCurrentBalance($user->idUser);
-        $s = $this->balancesManager->getBalances($user->idUser);
+        $solde = $this->balancesManager->getCurrentBalance($user->idUser, -1);
+        $s = $this->balancesManager->getBalances($user->idUser, -1);
         $soldeCBd = $solde->soldeCB;
         $soldeBFSd = $solde->soldeBFS;
         $soldeDBd = $solde->soldeDB;
@@ -88,26 +84,24 @@ class SharesSold extends Component
         array_push($arraySoldeD, $soldeDBd);
         $usermetta_info = collect(DB::table('metta_users')->where('idUser', $user->idUser)->first());
         $dateAujourdhui = Carbon::now()->format('Y-m-d');
-        $vente_jour=\Core\Models\user_balance::where('idBalancesOperation',42)
-        ->where('idUser',$user->idUser)
-        ->whereDate('Date', '=', $dateAujourdhui)
-        ->selectRaw('SUM(value) as total_sum')->first()->total_sum   ;
-        $vente_total=\Core\Models\user_balance::where('idBalancesOperation',42)
-        ->where('idUser',$user->idUser)
-        ->selectRaw('SUM(value) as total_sum')->first()->total_sum   ;
-
+        $vente_jour = \Core\Models\user_balance::where('idBalancesOperation', 42)
+            ->where('idUser', $user->idUser)
+            ->whereDate('Date', '=', $dateAujourdhui)
+            ->selectRaw('SUM(value) as total_sum')->first()->total_sum;
+        $vente_total = \Core\Models\user_balance::where('idBalancesOperation', 42)
+            ->where('idUser', $user->idUser)
+            ->selectRaw('SUM(value) as total_sum')->first()->total_sum;
 
 
 // ...
 
 
-
         return view('livewire.shares-sold'
             ,
             [
-              "solde"=>$s ,
-              "vente_jour"=>$vente_jour ,
-              "vente_total"=>$vente_total ,
+                "solde" => $s,
+                "vente_jour" => $vente_jour,
+                "vente_total" => $vente_total,
                 'arraySoldeD' => $arraySoldeD,
                 'usermetta_info' => $usermetta_info
 //                'userearn' => $userearn

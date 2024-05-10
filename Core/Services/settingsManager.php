@@ -593,7 +593,7 @@ class settingsManager
                 if (floatval($montant) <= 0) {
                     dd("exception invalid montant");
                 }
-                $solde = $this->balancesManager->getBalances($idUser);
+                $solde = $this->balancesManager->getBalances($idUser, -1);
                 $newSoldeCashBalance = floatval($solde->soldeCB) - floatval($montant);
                 if ($newSoldeCashBalance < 0)
                     dd("exception solde insuffisant");
@@ -612,7 +612,7 @@ class settingsManager
                 $this->userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::ExchangeCashToBFS, $idUser, $param);
                 break;
             case ExchangeTypeEnum::BFSToSMS :
-                $solde = $this->balancesManager->getBalances($idUser);
+                $solde = $this->balancesManager->getBalances($idUser, -1);
                 $soldeBfs = $solde->soldeBFS;
                 $seting = DB::table('settings')->where("idSETTINGS", "=", "13")->first();
                 $prix_sms = $seting->IntegerValue;
