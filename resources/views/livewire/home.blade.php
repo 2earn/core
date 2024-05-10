@@ -35,7 +35,7 @@
                                 @if(app()->getLocale()!="ar")
                                     {{$currency}}
                                     <span class="counter-value"
-                                          data-target="{{intval($cashBalance)}}">{{intval($cashBalance)}}</span>
+                                          data-target="{{intval($cashBalance)}}">{{formatSolde($cashBalance,0)}}</span>
                                     <small class="text-muted fs-13">
                                         @if(getDecimals($cashBalance))
                                             {{$decimalSeperator}}
