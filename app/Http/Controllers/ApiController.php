@@ -101,7 +101,7 @@ left join users user on user.idUser = recharge_requests.idUser";
 
         // share sold
         $user_balance = new user_balance();
-        // Action
+        // Actio
         $user_balance->ref = $ref;
         $user_balance->idBalancesOperation = 44;
         $user_balance->Date = now();
@@ -125,7 +125,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         $user_balance->value = ($number_of_action + $gift) * $PU;
         $user_balance->WinPurchaseAmount = "0.000";
         $user_balance->Description = "purchase of " . ($number_of_action + $gift) . " shares for " . $a;
-        $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser,-1)->soldeCB - ($number_of_action + $gift) * $PU;
+        $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeCB - ($number_of_action + $gift) * $PU;
         $user_balance->save();
 
         //bfs
@@ -138,7 +138,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         $user_balance->idamount = AmoutEnum::BFS;
         $user_balance->value = intval($number_of_action / $palier) * $actual_price * $palier;
         $user_balance->WinPurchaseAmount = "0.000";
-        $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser,-1)->soldeBFS + intval($number_of_action / $palier) * $actual_price * $palier;
+        $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeBFS + intval($number_of_action / $palier) * $actual_price * $palier;
         $user_balance->save();
         return response()->json(['type' => ['success'], 'message' => ['success']],);
     }
@@ -180,10 +180,9 @@ left join users user on user.idUser = recharge_requests.idUser";
             $user_balance->value = $request->input('amount');
             $user_balance->WinPurchaseAmount = "0.000";
             $user_balance->Description = "Transfered to " . getPhoneByUser($request->input('reciver'));
-            $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser,-1)->soldeCB - $request->input('amount');
+            $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeCB - $request->input('amount');
 
             $user_balance->save();
-
 
 
             $user_balance = new user_balance();
@@ -196,7 +195,7 @@ left join users user on user.idUser = recharge_requests.idUser";
             $user_balance->value = $request->input('amount');
             $user_balance->WinPurchaseAmount = "0.000";
             $user_balance->Description = "Transfered from " . getPhoneByUser(Auth()->user()->idUser);
-            $user_balance->Balance = $balancesManager->getBalances($request->input('reciver'),-1)->soldeCB + $request->input('amount');
+            $user_balance->Balance = $balancesManager->getBalances($request->input('reciver'), -1)->soldeCB + $request->input('amount');
 
             $user_balance->save();
 
