@@ -461,7 +461,9 @@
                                     <button type="button" id="buy-action-submit" wire:loading.attr="disabled"
                                             wire:target="simulate" class="btn btn-primary swal2-styled d-inline-flex">
                                         {{ __('Submit') }}
-                                        <div class="spinner-border spinner-border-sm mx-2 mt-1 buy-action-submit-spinner" role="status"></div>
+                                        <div
+                                            class="spinner-border spinner-border-sm mx-2 mt-1 buy-action-submit-spinner"
+                                            role="status"></div>
                                     </button>
                                 </div>
                             </div>
@@ -496,7 +498,7 @@
                     $(document).on("click", "#buy-action-submit", function () {
                         this.disabled = true;
                         $('.buy-action-submit-spinner').show()
-                        let ammount = $('#ammount').val();
+                        let ammount = parseInt($('#ammount').val());
                         let phone = $('#phone').val();
                         let me_or_other = $("input[name='inlineRadioOptions']:checked").val();
                         let bfs_for = $("input[name='bfs-for']:checked").val();
