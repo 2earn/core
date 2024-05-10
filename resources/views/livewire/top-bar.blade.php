@@ -182,17 +182,17 @@
                             <i class='bx bx-moon fs-22'></i>
                         </button>
                     </div>
-                    <div wire:ignore class="dropdown topbar-head-dropdown ms-1 header-item">
+                    <div  class="dropdown topbar-head-dropdown ms-1 header-item">
                         <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
                                 id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false" data-bs-auto-close="false">
                             <i class='bx bx-bell fs-22'></i>
                             <span
-                                class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger .unreadedNotificationNumber">{{$unreadNotificationsNumber}}
+                                class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">{{$count}}
                                 <span class="visually-hidden">{{__('unread messages')}}</span>
                             </span>
                         </button>
-                        <div wire:ignore class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
                              id="notification-dropdown" aria-labelledby="page-header-notifications-dropdown">
                             <div class="dropdown-head bg-primary bg-pattern rounded-top">
                                 <div class="p-3">
@@ -202,31 +202,32 @@
                                         </div>
                                         <div class="col-auto dropdown-tabs">
                                             <span class="badge badge-soft-light fs-13">
-                                                <p class="newUreadNotificationsNumber" >{{$newUreadNotificationsNumber}} </p>
                                                 {{__('New')}}
                                             </span>
                                         </div>
                                     </div>
                                 </div>
-                                <div wire:ignore class="px-2 pt-2">
+                                <div class="px-2 pt-2">
                                     <ul class="nav nav-pills dropdown-tabs nav-tabs-custom" data-dropdown-tabs="true"
                                         id="notificationItemsTab" role="tablist">
                                         <li class="nav-item waves-effect waves-light">
-                                            <a class="nav-link active" data-bs-toggle="pill"
+                                            <a class="nav-link active py-1 px-2" data-bs-toggle="pill"
                                                data-bs-target="#all-noti-tab" role="tab"
                                                aria-selected="true">
-                                                {{__('All')}} ({{count($notifications)}})
+                                                {{__('All')}} ( {{$count}} )
                                             </a>
                                         </li>
                                         <li class="nav-item waves-effect waves-light">
-                                            <a class="nav-link" data-bs-toggle="pill" data-bs-target="#messages-tab"
+                                            <a class="nav-link py-1 px-2" data-bs-toggle="pill"
+                                               data-bs-target="#messages-tab"
                                                href="#messages-tab" role="tab"
                                                aria-selected="false">
                                                 {{__('Messages')}}
                                             </a>
                                         </li>
                                         <li class="nav-item waves-effect waves-light">
-                                            <a class="nav-link" data-bs-toggle="pill" data-bs-target="#alert-tab"
+                                            <a class="nav-link py-1 px-2" data-bs-toggle="pill"
+                                               data-bs-target="#alert-tab"
                                                href="#alert-tab" role="tab"
                                                aria-selected="false">
                                                 {{__('Alerts')}}
@@ -237,7 +238,6 @@
                             </div>
                             <div class="tab-content" id="notificationItemsTabContent">
                                 <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
-                                    <div data-simplebar class="pe-2">
                                         @foreach($notifications as $notification)
                                             <div
                                                 class="text-reset notification-item d-block dropdown-item position-relative"
@@ -276,7 +276,6 @@
                                                 </div>
                                             </div>
                                         @endforeach
-                                    </div>
                                 </div>
                                 <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel"
                                      aria-labelledby="messages-tab">
@@ -329,11 +328,4 @@
             </div>
         </div>
     </header>
-    <script>
-        window.addEventListener('markAsRead', event => {
-            $('#' + event.detail.idNotification).fadeOut();
-                $('.unreadedNotificationNumber').empty().append(event.detail.unreadedNotificationNumber);
-                $('.newUreadNotificationsNumber').empty().append(event.detail.newUreadNotificationsNumber);
-        });
-    </script>
 </div>

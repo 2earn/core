@@ -496,12 +496,11 @@ if (!function_exists('formatNotification')) {
 
 if (!function_exists('time_ago')) {
 
-    function time_ago(\Datetime $date)
-    {
+    function time_ago(\Datetime $date)    {
         $time_ago = '';
-        $diff = $date->diff(new Datetime('now'));
+        $diff = $date->diff(new \Datetime('now'));
         if (($t = $diff->format("%y")) > 0)
-            $time_ago = $t . 'years';
+            $time_ago = $t . ' years';
         else if (($t = $diff->format("%m")) > 0)
             $time_ago = $t . ' months';
         else if (($t = $diff->format("%d")) > 0)

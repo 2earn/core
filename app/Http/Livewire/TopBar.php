@@ -12,10 +12,7 @@ use Livewire\Component;
 
 class TopBar extends Component
 {
-    protected $notifications = [];
-    public $unreadNotificationsNumber = 0;
-    public $newUreadNotificationsNumber = 0;
-    protected $user_info = "";
+    public $count = 0;
     private settingsManager $settingsManager;
     private BalancesManager $balancesManager;
 
@@ -27,19 +24,19 @@ class TopBar extends Component
     {
         $this->settingsManager = $settingsManager;
         $this->balancesManager = $balancesManager;
-        $this->updateNotifications();
+        $this->count = \auth()->user()->unreadNotifications()->count();
     }
 
     public function render(settingsManager $settingsManager, BalancesManager $balancesManager)
     {
         $authUser = $settingsManager->getAuthUser();
         $user = $settingsManager->getUserById($authUser->id);
-        $this->updateNotifications();
         if (!$authUser)
             dd('not found page');
         $params = [
             'solde' => $balancesManager->getBalances($authUser->idUser, 0),
             'user' => $authUser,
+            'newUreadNotificationsNumber' => \auth()->user()->unreadNotifications()->count(),
             'notifications' => $user->unreadNotifications()->get(),
             'notificationbr' => $settingsManager->getNomberNotification(),
             'userRole' => $user->getRoleNames()->first()
@@ -47,22 +44,11 @@ class TopBar extends Component
         return view('livewire.top-bar', $params);
     }
 
-    public function updateNotifications()
-    {
-        $this->unreadNotificationsNumber = \auth()->user()->notifications()->count();
-        $this->newUreadNotificationsNumber = \auth()->user()->unreadNotifications()->count();
-    }
 
     public function markAsRead($idNotification, settingsManager $settingsManager)
     {
         auth()->user()->unreadNotifications->where('id', $idNotification)->first()?->markAsRead();
-        $this->updateNotifications();
-        $params = [
-            'idNotification' => $idNotification,
-            'unreadedNotificationNumber' => \auth()->user()->notifications()->count(),
-            'unreadedNotificationNumber' => \auth()->user()->unreadNotifications()->count()
-        ];
-        $this->dispatchBrowserEvent('markAsRead', $params);
+        $this->count = \auth()->user()->unreadNotifications()->count();
     }
 
     public function logout(settingsManager $settingsManager)
