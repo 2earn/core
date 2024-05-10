@@ -111,18 +111,15 @@
                                 class="rounded" alt="Header Language"
                                 height="20">
                         </button>
-                        @php
-                            $var = \Illuminate\Support\Facades\Route::currentRouteName() ;
-                        @endphp
                         <div class="dropdown-menu dropdown-menu-end">
                             @foreach (config('app.available_locales') as  $locale => $value )
-                                    <a href="{{ route($currentRoute, ['locale'=> $locale ]) }} "
-                                       class="dropdown-item notify-item language py-2" data-lang="en"
-                                       title="{{ __('lang'.$locale)  }}" data-turbolinks="false">
-                                        <img src="{{ URL::asset('assets/images/flags/'.$value['flag'].'.svg') }}"
-                                             alt="user-image" class="me-2 rounded" height="20">
-                                        <span class="align-middle">{{ __('lang'.$locale)  }}</span>
-                                    </a>
+                                <a href="{{ route($currentRoute, ['locale'=> $locale ]) }} "
+                                   class="dropdown-item notify-item language py-2" data-lang="en"
+                                   title="{{ __('lang'.$locale)  }}" data-turbolinks="false">
+                                    <img src="{{ URL::asset('assets/images/flags/'.$value['flag'].'.svg') }}"
+                                         alt="user-image" class="me-2 rounded" height="20">
+                                    <span class="align-middle">{{ __('lang'.$locale)  }}</span>
+                                </a>
                             @endforeach
                         </div>
                     </div>
@@ -182,8 +179,8 @@
                     </div>
                     <div class="dropdown topbar-head-dropdown ms-1 header-item">
                         <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
-                                id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
+                                id="page-header-notifications-dropdown"
+                                data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                             <i class='bx bx-bell fs-22'></i>
                             <span
                                 class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">{{$count}}
@@ -328,7 +325,6 @@
     </header>
     <script>
         window.addEventListener('updateNotifications', event => {
-            console.log('updateNotifications');
             $("#page-header-notifications-dropdown").click();
         })
     </script>
