@@ -101,7 +101,7 @@ left join users user on user.idUser = recharge_requests.idUser";
 
         // share sold
         $user_balance = new user_balance();
-        // Actio
+        // Action
         $user_balance->ref = $ref;
         $user_balance->idBalancesOperation = 44;
         $user_balance->Date = now();
@@ -774,10 +774,11 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
             $val = ($final_value - $initial_value) / ($total_actions - 1) * ($x + 1) + ($initial_value - ($final_value - $initial_value) / ($total_actions - 1));
             $data[] = [
                 'x' => $x,
-                'y' => $val, // Call your helper function
+                'y' => number_format($val, 2, '.', '') * 1 // Call your helper function
             ];
         }
         return response()->json($data);
+
     }
 
 
