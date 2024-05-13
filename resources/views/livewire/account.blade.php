@@ -181,7 +181,7 @@
                                                 (الإسم العائلي) </label>
                                             <input wire:model.defer="usermetta_info.arLastName" type="text"
                                                    class="form-control" id="firstnameInput"
-                                                   placeholder="Enter your firstname" value="">
+                                                   placeholder="{{__('Enter your ar firstname')}}" value="">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -190,7 +190,7 @@
                                                 الاسم</label>
                                             <input wire:model.defer="usermetta_info.arFirstName" type="text"
                                                    class="form-control" id="lastnameInput"
-                                                   placeholder="" value="">
+                                                   placeholder="{{__('Enter your ar last')}}" value="">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
