@@ -93,6 +93,43 @@
                     </div>
                 </div>
             @endif
+            @if($user['status']!=1)
+                <div class="card">
+                    <div class="card-body row">
+                        <h5 class="card-title mb-0">{{ __('Identities cards') }}</h5>
+                        <div class="col-6">
+                            <div>
+                                <label>{{ __('Front ID') }}</label>
+                            </div>
+                            <div>
+                                @if(file_exists(public_path('/uploads/profiles/front-id-image'.$user['idUser'].'.png')))
+                                    <img width="150" height="100"
+                                         src={{asset(('/uploads/profiles/front-id-image'.$user['idUser'].'.png'))}} >
+                                @else
+                                    <div class="alert alert-warning" role="alert">
+                                        {{__('No image uploaded')}}
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div>
+                                <label>{{ __('Back ID') }}</label>
+                            </div>
+                            <div>
+                                @if(file_exists(public_path('/uploads/profiles/back-id-image'.$user['idUser'].'.png')))
+                                    <img width="150" height="100"
+                                         src={{asset(('/uploads/profiles/back-id-image'.$user['idUser'].'.png'))}} >
+                                @else
+                                    <div class="alert alert-warning" role="alert">
+                                        {{__('No image uploaded')}}
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
         <div class="col-xxl-9">
             <div class="card  ">
@@ -855,6 +892,8 @@
                 }
             })
         })
+
+
     </script>
     <script data-turbolinks-eval="false">
         $("#btnPlus").click(function () {
