@@ -50,7 +50,7 @@ class Home extends Component
     {
         $this->action = intval(intval($this->ammount) / actualActionValue(getSelledActions()));
         $this->gift = getGiftedActions($this->action);
-        $this->profit = actualActionValue(getSelledActions()) * $this->gift;
+        $this->profit = formatSolde(actualActionValue(getSelledActions(), false) * $this->gift, 3);
     }
 
     public function getIp()
