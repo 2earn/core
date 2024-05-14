@@ -150,8 +150,8 @@
                                         <div class="d-flex align-items-start gap-3 mt-3">
                                             <button id="btnNextMailAdress" type="button"
                                                     class="btn btn-primary btn-label right ms-auto nexttab"
-                                                    data-nexttab="pills-bill-address-tab"><i
-                                                    class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
+                                                    data-nexttab="pills-bill-address-tab">
+                                                <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
                                                 {{__('Next_Step')}}
                                             </button>
                                         </div>
@@ -161,7 +161,7 @@
                             <div class="tab-pane fade" id="pills-bill-address" role="tabpanel"
                                  aria-labelledby="pills-bill-address-tab">
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label for="emailInput"
                                                    class="form-label">{{ __('Your Email') }}</label>
@@ -170,10 +170,12 @@
                                                        class="form-control"
                                                        name="email" placeholder="{{__('Enter your email')}}" required>
                                             </div>
-                                            <span id='error-mail' class='hide'></span>
                                         </div>
                                     </div>
-                                    <div id="optChecker" class="col-lg-6 invisible">
+                                    <div class="col-lg-12">
+                                        <div class="alert alert-danger hide" role="alert" id='error-mail'></div>
+                                    </div>
+                                    <div id="optChecker" class="col-lg-12 invisible">
                                         <div
                                             class="container height-100 d-flex justify-content-center align-items-center">
                                             <div class="position-relative">
@@ -317,13 +319,21 @@
         var errorMail2 = document.querySelector("#error-mail");
         $("#inputEmailUser").keyup(function () {
             if ($("#inputEmailUser").val().trim() == "") {
-                errorMail2.innerHTML = 'required field';
+                errorMail2.innerHTML = '{{__('Required field')}}';
                 errorMail2.classList.remove("hide");
-            } else {
-                errorMail2.innerHTML = '';
-                errorMail2.classList.add("hide");
+                return
             }
+            if (!validateEmail($("#inputEmailUser").val().trim())) {
+                errorMail2.innerHTML = '{{__('Invalid Format')}}';
+                errorMail2.classList.remove("hide");
+                return
+            }
+            errorMail2.innerHTML = '';
+            errorMail2.classList.add("hide");
+            $("#inputEmailUser").css('border-color', 'green');
+
         });
+
         var nextTomail = false;
         $('input[type="file"]').each(function () {
             var $file = $(this),
@@ -353,13 +363,20 @@
             if (!checkRequiredrFieldInfo())
                 $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
         });
+
         document.getElementById('pills-payment-tab').addEventListener('shown.bs.tab', function (event) {
             if (!checkRequiredrFieldInfo())
                 $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
-            if (!checkRequiredrFieldMail())
+            if (!checkRequiredrFieldMail()) {
                 $('#myTab   button[id="pills-bill-address-tab"] ').tab('show');
+                $("#inputEmailUser").css('border-color', 'red')
+            } else {
+                $("#inputEmailUser").css('border-color', 'green')
+            }
         });
+
         document.getElementById('pills-finish-tab').addEventListener('shown.bs.tab', function (event) {
+            console.log('pills-finish-tab');
             if (!checkRequiredrFieldInfo())
                 $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
             else if (!checkRequiredrFieldMail()) {
@@ -375,51 +392,65 @@
             validRequiredrFieldInfo = true;
 
             if ($("#firstName").val().trim() === "") {
-                $("#firstName").val().css('border-color', 'red')
+                $("#firstName").css('border-color', 'red')
                 validRequiredrFieldInfo = false;
             } else {
-                $("#firstName").val().css('border-color', 'green')
+                $("#firstName").css('border-color', 'green')
             }
 
             if ($("#lastName").val().trim() === "") {
-                $("#lastName").val().css('border-color', 'red')
+                $("#lastName").css('border-color', 'red')
                 validRequiredrFieldInfo = false;
             } else {
-                $("#lastName").val().css('border-color', 'green')
+                $("#lastName").css('border-color', 'green')
             }
 
             if ($("#nationalId").val().trim() === "") {
-                $("#nationalId").val().css('border-color', 'red')
+                $("#nationalId").css('border-color', 'red')
                 validRequiredrFieldInfo = false;
             } else {
-                $("#nationalId").val().css('border-color', 'green')
+                $("#nationalId").css('border-color', 'green')
             }
 
             if ($("#dateofBirth").val().trim() === "") {
-                $("#dateofBirth").val().css('border-color', 'red')
+                $("#dateofBirth").css('border-color', 'red')
                 validRequiredrFieldInfo = false;
             } else {
-                $("#dateofBirth").val().css('border-color', 'green')
+                $("#dateofBirth").css('border-color', 'green')
             }
             return validRequiredrFieldInfo;
         }
 
+        function validateEmail(email) {
+            return String(email)
+                .toLowerCase()
+                .match(
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                );
+        }
+
         function checkRequiredrFieldMail() {
             var checkOpt = false;
+            var errorMail = document.querySelector("#error-mail");
             if ($("#inputEmailUser").val().trim() === "") {
-                var errorMail = document.querySelector("#error-mail");
-                errorMail.innerHTML = 'required field';
+                errorMail.innerHTML = '{{__('Required field')}}';
                 errorMail.classList.remove("hide");
                 return false;
             }
+
+            if (!validateEmail($("#inputEmailUser").val().trim())) {
+                errorMail.innerHTML = '{{__('Invalid Format')}}';
+                errorMail.classList.remove("hide");
+                return false;
+            }
+            errorMail.classList.add("hide");
+
             var failed = false;
             $.ajax({
                 method: "GET",
                 url: "/mailVerif",
                 async: false,
-                data: {
-                    mail: $("#inputEmailUser").val().trim(),
-                },
+                data: {mail: $("#inputEmailUser").val().trim(),},
                 success: (result) => {
                     if (result == 'no') {
                         failed = true;
@@ -445,15 +476,20 @@
                             success: (result) => {
                             },
                             error: (error) => {
-                                alert('Something went wrong to send datas...');
+                                alert('{{__('Something went wrong to send datas...')}}');
                             }
                         });
                     }
                     optChecker.classList.remove("invisible");
-                    if (checkOptVerify())
+                    if (checkOptVerify()) {
                         checkOpt = true;
-                    else
+                        $('#optFirst').addClass("disabled");
+                        $('#optSecond').addClass("disabled");
+                        $('#optThird').addClass("disabled");
+                        $('#optFourth').addClass("disabled");
+                    } else {
                         checkOpt = false;
+                    }
                 } else
                     checkOpt = true;
             }
@@ -472,7 +508,6 @@
         $('#btnNextMailAdress').click(function (e) {
             $('#personalInformationMessage').css("display", "none");
             e.preventDefault();
-            console.log(checkRequiredrFieldInfo())
             if (checkRequiredrFieldInfo()) {
                 $('#personalInformationMessage').css("display", "none");
                 $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
@@ -482,33 +517,38 @@
         });
 
         function checkOptVerify() {
-            var valreturn = false;
+            var errorMail = document.querySelector("#error-mail");
+            var returnValue = false;
             var opt = $('#optFirst').val() + $('#optSecond').val() + $('#optThird').val() + $('#optFourth').val();
-
-            $.ajax({
-                method: "GET",
-                url: "/mailVerifOpt",
-                async: false,
-                data: {
-                    opt: opt,
-                    mail: $("#inputEmailUser").val().trim(),
-                },
-                success: (result) => {
-                    if (result == 'no') {
-                        valreturn = false;
-                    } else {
-                        valreturn = true;
+            console.log(opt);
+            if (opt.length == 4) {
+                $.ajax({
+                    method: "GET",
+                    url: "/mailVerifOpt",
+                    async: false,
+                    data: {opt: opt, mail: $("#inputEmailUser").val().trim(),},
+                    success: (result) => {
+                        if (result == 'no') {
+                            returnValue = false;
+                            errorMail.innerHTML = '{{__('Validation OTP code Failed')}}';
+                            errorMail.classList.remove("hide");
+                        } else {
+                            returnValue = true;
+                        }
+                    },
+                    error: (error) => {
+                        alert('{{__('Something went wrong to check datas...')}}');
+                        errorMail.innerHTML = '{{__('Invalid OTP code')}}';
+                        errorMail.classList.remove("hide");
+                        returnValue = false;
                     }
-                },
-                error: (error) => {
-                    alert('Something went wrong to check datas...');
-                }
-            });
-            return valreturn;
+                });
+                return returnValue;
+            }
         }
 
         function checkNewMail() {
-            var valreturn = false;
+            var returnValue = false;
             $.ajax({
                 method: "GET",
                 url: "/mailVerifNew",
@@ -516,9 +556,9 @@
                 data: {mail: $("#inputEmailUser").val().trim(),},
                 success: (result) => {
                     if (result == 'no') {
-                        valreturn = false;
+                        returnValue = false;
                     } else {
-                        valreturn = true;
+                        returnValue = true;
                     }
                 },
                 error: (error) => {
@@ -526,7 +566,7 @@
                     console.log(error);
                 }
             });
-            return valreturn;
+            return returnValue;
         }
 
         function doneVerify() {
