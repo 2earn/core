@@ -450,7 +450,8 @@
                                 <div class="col-md-4 mb-3 col-sm-6 col-xs-6">
                                     <label for="profit" class="col-form-label">{{ __('Profit') }}
                                         ({{$currency}}) </label>
-                                    <input type="number" disabled class="form-control" id="profit" value="0000"
+                                    <input type="text" inputmode="numeric" pattern="[-+]?[0-9]*[.,]?[0-9]+" disabled
+                                           class="form-control" id="profit" value="0000"
                                            wire:model.live="profit">
                                 </div>
                             </div>
@@ -497,7 +498,7 @@
                     });
                     $(document).on("click", "#buy-action-submit", function () {
                         this.disabled = true;
-                        $('.buy-action-submit-spinner').show()
+                        $('.buy-action-submit-spinner').show();
                         let ammount = parseInt($('#ammount').val());
                         let phone = $('#phone').val();
                         let me_or_other = $("input[name='inlineRadioOptions']:checked").val();
@@ -533,16 +534,17 @@
                                     position: "center",
                                     backgroundColor: backgroundColor
                                 }).showToast();
-                                $('.buy-action-submit-spinner').show()
+                                $('.buy-action-submit-spinner').hide();
                             },
                             error: function (data) {
                                 var responseData = JSON.parse(data.responseText);
                                 Swal.fire({icon: 'error', title: 'Oops...', text: responseData.error[0]});
+                                $('.buy-action-submit-spinner').hide();
                             }
                         });
                         setTimeout(() => {
                             this.disabled = false;
-                            $('.buy-action-submit-spinner').hide()
+                            $('.buy-action-submit-spinner').hide();
                         }, 2000);
 
                     })

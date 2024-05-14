@@ -48,9 +48,13 @@ class Home extends Component
 
     public function simulate()
     {
+        if ($this->ammount < 0 && $this->ammount <> "") {
+            $this->ammount = 0;
+        }
         $this->action = intval(intval($this->ammount) / actualActionValue(getSelledActions()));
         $this->gift = getGiftedActions($this->action);
-        $this->profit = formatSolde(actualActionValue(getSelledActions(), false) * $this->gift, 3);
+        $profitRaw = actualActionValue(getSelledActions(), false) * $this->gift;
+        $this->profit = formatSolde($profitRaw, 2);
     }
 
     public function getIp()

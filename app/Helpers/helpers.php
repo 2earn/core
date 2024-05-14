@@ -450,9 +450,9 @@ if (!function_exists('formatSolde')) {
     function formatSolde($solde, $decimals = 2)
     {
         if ($decimals == -1) {
-            return floatval($solde);
+            return $solde;
         }
-        return number_format(floatval($solde), $decimals, '.', ',');
+        return number_format($solde, $decimals, '.', ',');
     }
 }
 if (!function_exists('getDecimals')) {
