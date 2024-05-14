@@ -30,7 +30,6 @@ use phpDocumentor\Reflection\Types\Collection;
 use Propaganistas\LaravelPhone\PhoneNumber;
 use Yajra\DataTables\Facades\DataTables;
 
-//use App\Models\UserBalance;
 
 class ApiController extends BaseController
 {
@@ -55,24 +54,19 @@ left join users user on user.idUser = recharge_requests.idUser";
     public function buyAction(Req $request, BalancesManager $balancesManager)
     {
         $validator = Val::make($request->all(), [
-            'ammount' => ['required', 'numeric', 'lte:' . $balancesManager->getBalances(Auth()->user()->idUser, -1)->soldeCB],
-            'phone' => [
-                Rule::requiredIf($request->me_or_other == "other"),
-            ],
-            'bfs_for' => [
-                Rule::requiredIf($request->me_or_other == "other"),
-            ],
+            'ammount' => ['required', 'numeric', 'gt:0', 'lte:' . $balancesManager->getBalances(Auth()->user()->idUser, -1)->soldeCB],
+            'phone' => [Rule::requiredIf($request->me_or_other == "other")],
+            'bfs_for' => [Rule::requiredIf($request->me_or_other == "other")],
         ], [
-            'ammount.required' => 'ammonut is required !',
-            'ammount.numeric' => 'Ammount must be numeric !!',
-            'ammount.lte' => 'Ammount > Cash Balance !!',
-            'teinte.exists' => 'Le champ Teinte est obligatoire !',
+            'ammount.required' => Lang::get('ammonut is required !'),
+            'ammount.numeric' => Lang::get('Ammount must be numeric !!'),
+            'ammount.gt' => Lang::get('The ammount must be greater than 0.'),
+            'ammount.lte' => Lang::get('Ammount > Cash Balance !!'),
+            'teinte.exists' => Lang::get('Le champ Teinte est obligatoire !'),
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->errors()->all()
-            ], 400);
+            return response()->json(['error' => $validator->errors()->all()], 400);
         }
         $number_of_action = intval($request->ammount / actualActionValue(getSelledActions()));
         $gift = getGiftedActions($number_of_action);
