@@ -84,13 +84,6 @@
                                         {{__('Interface_Verification')}}
                                     </button>
                                 </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link p-3" id="pills-finish-tab" data-bs-toggle="pill"
-                                            data-bs-target="#pills-finish" type="button" role="tab"
-                                            aria-controls="pills-finish"
-                                            aria-selected="false">{{__('Verified')}}
-                                    </button>
-                                </li>
                             </ul>
                         </div>
                     </div>
@@ -278,35 +271,14 @@
                                         {{__('Back_to_mail_verif')}}
                                     </button>
                                     <button onclick="sendIndentificationRequest()" type="button"
-                                            class="btn btn-primary btn-label right ms-auto nexttab"
-                                            data-nexttab="pills-finish-tab"><i
-                                            class="ri-save-line label-icon align-middle fs-16 ms-2"></i>
+                                            class="btn btn-primary btn-label right ms-auto nexttab">
+                                        <div wire:loading wire:target="sendIndentificationRequest">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                            <span class="sr-only">{{__('Loading')}}...</span>
+                                        </div>
                                         {{__('Submit')}}
                                     </button>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="pills-finish" role="tabpanel"
-                                 aria-labelledby="pills-finish-tab">
-                                <div class="row text-center justify-content-center py-4">
-                                    <div class="col-lg-11">
-                                        <div class="mb-4">
-                                            <lord-icon src="https://cdn.lordicon.com/lupuorrc.json" trigger="loop"
-                                                       colors="primary:#0ab39c,secondary:#405189"
-                                                       style="width:120px;height:120px">
-                                            </lord-icon>
-                                        </div>
-                                        <h5>{{__('Verification_Completed')}}</h5>
-                                        <p class="text-center mb-4">
-                                        <h6>{{$messageVerif}}</h6>
-                                        <hr>
-                                        {{__('txt_Verification_Completed')}}
-                                        </p>
-                                        <div class="hstack justify-content-center gap-2">
-                                            <button onclick="doneVerify()" type="button" class="btn btn-ghost-success"
-                                                    data-bs-dismiss="modal">{{__('Done')}}<i
-                                                    class="ri-thumb-up-fill align-bottom me-1"></i></button>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -317,76 +289,73 @@
     </div>
     <script>
         var errorMail2 = document.querySelector("#error-mail");
-        $("#inputEmailUser").keyup(function () {
-            if ($("#inputEmailUser").val().trim() == "") {
-                errorMail2.innerHTML = '{{__('Required field')}}';
-                errorMail2.classList.remove("hide");
-                return
-            }
-            if (!validateEmail($("#inputEmailUser").val().trim())) {
-                errorMail2.innerHTML = '{{__('Invalid Format')}}';
-                errorMail2.classList.remove("hide");
-                return
-            }
-            errorMail2.innerHTML = '';
-            errorMail2.classList.add("hide");
-            $("#inputEmailUser").css('border-color', 'green');
 
-        });
-
-        var nextTomail = false;
-        $('input[type="file"]').each(function () {
-            var $file = $(this),
-                $label = $file.next('label'),
-                $labelText = $label.find('span'),
-                labelDefault = $labelText.text();
-            $file.on('change', function (event) {
-                var fileName = $file.val().split('\\').pop(),
-                    tmppath = URL.createObjectURL(event.target.files[0]);
-                if (fileName) {
-                    $label.addClass('file-ok').css('background-image', 'url(' + tmppath + ')');
-                    $labelText.text(fileName);
-                } else {
-                    $label.removeClass('file-ok');
-                    $labelText.text(labelDefault);
-                }
-            });
-        });
-
-        function sendIndentificationRequest() {
-            if (checkRequiredrFieldInfo() && checkRequiredrFieldMail()) {
-                window.livewire.emit('sendIndentificationRequest');
+        function checkOptVerify() {
+            var errorMail = document.querySelector("#error-mail");
+            var returnValue = false;
+            var opt = $('#optFirst').val() + $('#optSecond').val() + $('#optThird').val() + $('#optFourth').val();
+            console.log(opt);
+            if (opt.length == 4) {
+                $.ajax({
+                    method: "GET",
+                    url: "/mailVerifOpt",
+                    async: false,
+                    data: {opt: opt, mail: $("#inputEmailUser").val().trim(),},
+                    success: (result) => {
+                        if (result == 'no') {
+                            returnValue = false;
+                            errorMail.innerHTML = '{{__('Validation OTP code Failed')}}';
+                            errorMail.classList.remove("hide");
+                            $('#optFirst').val('')
+                            $('#optSecond').val('')
+                            $('#optThird').val('')
+                            $('#optFourth').val('')
+                        } else {
+                            errorMail.classList.add("hide");
+                            optVerify = true
+                            returnValue = true;
+                        }
+                    },
+                    error: (error) => {
+                        alert('{{__('Something went wrong to check datas...')}}');
+                        errorMail.innerHTML = '{{__('Invalid OTP code')}}';
+                        errorMail.classList.remove("hide");
+                        returnValue = false;
+                    }
+                });
+                return returnValue;
             }
         }
 
-        document.getElementById('pills-bill-address-tab').addEventListener('shown.bs.tab', function (event) {
-            if (!checkRequiredrFieldInfo())
-                $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
-        });
+        function checkNewMail() {
+            var returnValue = false;
+            $.ajax({
+                method: "GET",
+                url: "/mailVerifNew",
+                async: false,
+                data: {mail: $("#inputEmailUser").val().trim(),},
+                success: (result) => {
+                    if (result == 'no') {
+                        returnValue = false;
+                    } else {
+                        returnValue = true;
+                    }
+                },
+                error: (error) => {
+                    console.log('Something went wrong to fetch datas...');
+                    console.log(error);
+                }
+            });
+            return returnValue;
+        }
 
-        document.getElementById('pills-payment-tab').addEventListener('shown.bs.tab', function (event) {
-            if (!checkRequiredrFieldInfo())
-                $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
-            if (!checkRequiredrFieldMail()) {
-                $('#myTab   button[id="pills-bill-address-tab"] ').tab('show');
-                $("#inputEmailUser").css('border-color', 'red')
-            } else {
-                $("#inputEmailUser").css('border-color', 'green')
-            }
-        });
+        function doneVerify() {
+            window.location.reload();
+        }
 
-        document.getElementById('pills-finish-tab').addEventListener('shown.bs.tab', function (event) {
-            console.log('pills-finish-tab');
-            if (!checkRequiredrFieldInfo())
-                $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
-            else if (!checkRequiredrFieldMail()) {
-                if ($("#inputEmailUser").val().trim() === "")
-                    $("inputEmailUser").attr('required', true);
-                $('#myTab   button[id="pills-bill-address-tab"] ').tab('show');
-            } else {
-                sendIndentificationRequest();
-            }
-        });
+        function verifRequest() {
+            $("#exampleModal").modal("hide");
+        }
 
         function checkRequiredrFieldInfo() {
             validRequiredrFieldInfo = true;
@@ -427,6 +396,12 @@
                 .match(
                     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
                 );
+        }
+
+        function sendIndentificationRequest() {
+            if (checkRequiredrFieldInfo() && checkRequiredrFieldMail()) {
+                window.livewire.emit('sendIndentificationRequest');
+            }
         }
 
         function checkRequiredrFieldMail() {
@@ -505,6 +480,39 @@
             return true;
         }
 
+        $("#inputEmailUser").keyup(function () {
+            if ($("#inputEmailUser").val().trim() == "") {
+                errorMail2.innerHTML = '{{__('Required field')}}';
+                errorMail2.classList.remove("hide");
+                return
+            }
+            if (!validateEmail($("#inputEmailUser").val().trim())) {
+                errorMail2.innerHTML = '{{__('Invalid Format')}}';
+                errorMail2.classList.remove("hide");
+                return
+            }
+            errorMail2.innerHTML = '';
+            errorMail2.classList.add("hide");
+            $("#inputEmailUser").css('border-color', 'green');
+
+        });
+        $('input[type="file"]').each(function () {
+            var $file = $(this),
+                $label = $file.next('label'),
+                $labelText = $label.find('span'),
+                labelDefault = $labelText.text();
+            $file.on('change', function (event) {
+                var fileName = $file.val().split('\\').pop(),
+                    tmppath = URL.createObjectURL(event.target.files[0]);
+                if (fileName) {
+                    $label.addClass('file-ok').css('background-image', 'url(' + tmppath + ')');
+                    $labelText.text(fileName);
+                } else {
+                    $label.removeClass('file-ok');
+                    $labelText.text(labelDefault);
+                }
+            });
+        });
         $('#btnNextMailAdress').click(function (e) {
             $('#personalInformationMessage').css("display", "none");
             e.preventDefault();
@@ -515,68 +523,20 @@
                 $('#personalInformationMessage').css("display", "block");
             }
         });
-
-        function checkOptVerify() {
-            var errorMail = document.querySelector("#error-mail");
-            var returnValue = false;
-            var opt = $('#optFirst').val() + $('#optSecond').val() + $('#optThird').val() + $('#optFourth').val();
-            console.log(opt);
-            if (opt.length == 4) {
-                $.ajax({
-                    method: "GET",
-                    url: "/mailVerifOpt",
-                    async: false,
-                    data: {opt: opt, mail: $("#inputEmailUser").val().trim(),},
-                    success: (result) => {
-                        if (result == 'no') {
-                            returnValue = false;
-                            errorMail.innerHTML = '{{__('Validation OTP code Failed')}}';
-                            errorMail.classList.remove("hide");
-                        } else {
-                            returnValue = true;
-                        }
-                    },
-                    error: (error) => {
-                        alert('{{__('Something went wrong to check datas...')}}');
-                        errorMail.innerHTML = '{{__('Invalid OTP code')}}';
-                        errorMail.classList.remove("hide");
-                        returnValue = false;
-                    }
-                });
-                return returnValue;
+        document.getElementById('pills-bill-address-tab').addEventListener('shown.bs.tab', function (event) {
+            if (!checkRequiredrFieldInfo())
+                $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
+        });
+        document.getElementById('pills-payment-tab').addEventListener('shown.bs.tab', function (event) {
+            if (!checkRequiredrFieldInfo())
+                $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
+            if (!checkRequiredrFieldMail()) {
+                $('#myTab   button[id="pills-bill-address-tab"] ').tab('show');
+                $("#inputEmailUser").css('border-color', 'red')
+            } else {
+                $("#inputEmailUser").css('border-color', 'green')
             }
-        }
-
-        function checkNewMail() {
-            var returnValue = false;
-            $.ajax({
-                method: "GET",
-                url: "/mailVerifNew",
-                async: false,
-                data: {mail: $("#inputEmailUser").val().trim(),},
-                success: (result) => {
-                    if (result == 'no') {
-                        returnValue = false;
-                    } else {
-                        returnValue = true;
-                    }
-                },
-                error: (error) => {
-                    console.log('Something went wrong to fetch datas...');
-                    console.log(error);
-                }
-            });
-            return returnValue;
-        }
-
-        function doneVerify() {
-            window.location.reload();
-        }
-
-        function verifRequest() {
-            $("#exampleModal").modal("hide");
-        }
-
+        });
         window.addEventListener('IdentificationRequestMissingInformation', event => {
             console.log('IdentificationRequestMissingInformation');
         })
