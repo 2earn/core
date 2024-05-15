@@ -535,6 +535,7 @@
                                     backgroundColor: backgroundColor
                                 }).showToast();
                                 $('.buy-action-submit-spinner').hide();
+                                location.reload();
                             },
                             error: function (data) {
                                 var responseData = JSON.parse(data.responseText);
