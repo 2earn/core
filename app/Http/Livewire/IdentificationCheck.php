@@ -36,7 +36,6 @@ class IdentificationCheck extends Component
 
     public function sendIndentificationRequest(settingsManager $settingsManager)
     {
-
         $this->messageVerif = Lang::get('Sending identification request in progress');
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) abort(404);
@@ -69,6 +68,7 @@ class IdentificationCheck extends Component
             $this->sendIdentificationRequest($settingsManager);
             User::where('idUser', $userAuth->idUser)->update(['status' => -1, 'asked_at' => date('Y-m-d H:i:s'), 'iden_notif' => $this->notify]);
             $this->messageVerif = Lang::get('demande_creer');
+            return redirect()->route('account', app()->getLocale())->with('SuccesUpdateIdentification', Lang::get('Identification_send_succes'));
         } else {
             $this->messageVerif = Lang::get('Identification request missing information');;
             $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => "Opt", 'text' => '',]);
