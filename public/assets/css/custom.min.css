@@ -350,7 +350,7 @@ nav svg {
     background-color: rgba(70, 79, 237, .1) !important
 }
 
-#login-form .iti {
+#login-form .iti, #forget-password-form .iti {
     width: 100% !important
 }
 

@@ -1,49 +1,10 @@
-<div  data-turbolinks='false'>
-    <style>
-        .iti {
-            width: 100% !important;
-        }
-        .footer {
-            height: auto !important;
-        }
-    </style>
+<div data-turbolinks='false'>
     <meta name="turbolinks-visit-control" content="reload">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script>
-        var exist = '{{Session::has('ErrorOptCodeForget')}}';
-
-        if (exist) {
-            var msg = '{{Session::get('ErrorOptCodeForget')}}';
-            Swal.fire({
-                title: ' ',
-                text: msg,
-                icon: 'error',
-                confirmButtonText: '{{trans('ok')}}'
-            }).then(okay => {
-                if (okay) {
-                    window.location.reload();
-                }
-            });
-        }
-        var exist = '{{Session::has('ErrorUserFound')}}';
-        if (exist) {
-            var msg =  '{{Session::get('ErrorUserFound')}}' ;
-            Swal.fire({
-                title: ' ',
-                text: msg,
-                icon: 'error',
-                confirmButtonText: '{{trans('ok')}}'
-            }).then(okay => {
-                if (okay) {
-                    window.location.reload();
-                }
-            });
-        }</script>
     <div class="auth-page-wrapper pt-5">
         <div class="auth-one-bg-position auth-one-bg" id="auth-particles">
             <div class="bg-overlay"></div>
-
             <div class="shape">
                 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
                      viewBox="0 0 1440 120">
@@ -61,7 +22,7 @@
                                     <img src="{{ URL::asset('assets/images/2Earn.png') }}" alt="" height="60">
                                 </a>
                             </div>
-                            <p class="mt-3 fs-15 fw-medium"> </p>
+                            <p class="mt-3 fs-15 fw-medium"></p>
                         </div>
                     </div>
                 </div>
@@ -80,27 +41,30 @@
                                     {{__('Enter your mobile  will be sent to you!')}}
                                 </div>
                                 <div class="p-2">
-                                    <form  >
+                                    <form id="forget-password-form">
                                         @csrf
                                         <div class="mb-3">
-                                            <label for="useremail" class="form-label">{{ __('Your phone number') }}</label>
+                                            <label for="useremail"
+                                                   class="form-label">{{ __('Your phone number') }}</label>
                                             <input type="tel" name="mobile" id="phoneforget"
                                                    class="form-control @error('mobile') is-invalid @enderror"
-                                                    placeholder="{{ __('PH_MobileNumber') }}"
-                                                   value=""  >
+                                                   placeholder="{{ __('PH_MobileNumber') }}"
+                                                   value="">
                                             @error('email')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                             @enderror
-                                            <input type="text"   hidden name="fullnumber" id="outputforget"
+                                            <input type="text" hidden name="fullnumber" id="outputforget"
                                                    value=""
                                                    class="form-control">
-                                            <input type="text" hidden   name="ccodeforget" id="ccodeforget" >
+                                            <input type="text" hidden name="ccodeforget" id="ccodeforget">
                                         </div>
 
-                                        <div   class="">
-                                            <button style="width: 100%" onclick="sendSmsEvent()" class="btn btn-primary w-md waves-effect waves-light btn2earn" type="button">
+                                        <div class="">
+                                            <button style="width: 100%" onclick="sendSmsEvent()"
+                                                    class="btn btn-primary w-md waves-effect waves-light btn2earn"
+                                                    type="button">
                                                 {{ __('Send') }}
                                             </button>
                                         </div>
@@ -113,14 +77,16 @@
                                         <li class="active active-underline">
                                             <div>
                                                 <a href="{{env('SHOP_LIEN')}}">
-                                                    <img src="{{asset('assets/images/icon-shop.png')}}" width="70" height="70">
+                                                    <img src="{{asset('assets/images/icon-shop.png')}}" width="70"
+                                                         height="70">
                                                 </a>
                                             </div>
                                         </li>
                                         <li>
                                             <div>
                                                 <a href="{{env('LEARN_LIEN')}}">
-                                                    <img src="{{asset('assets/images/icon-learn.png')}}" width="70" height="70">
+                                                    <img src="{{asset('assets/images/icon-learn.png')}}" width="70"
+                                                         height="70">
                                                 </a>
                                             </div>
                                         </li>
@@ -150,12 +116,9 @@
                                             <span
                                                 style="margin: 10px">{{ __('lang'.app()->getLocale())  }}</span>
                                         </button>
-                                        @php
-                                            $var = \Illuminate\Support\Facades\Route::currentRouteName() ;
-                                        @endphp
                                         <div class="dropdown-menu dropdown-menu-end">
-                                            @foreach (config('app.available_locales') as  $locale => $value )
-                                                <a href="{{ route('forgetpassword', ['locale'=>app()->getLocale()]) }} "
+                                            @foreach ($locales as  $locale => $value )
+                                                <a href="{{ route('forgetpassword', ['locale'=>$locale]) }} "
                                                    class="dropdown-item notify-item language py-2"
                                                    data-lang="en"
                                                    title="{{ __('lang'.$locale)  }}"
@@ -163,19 +126,23 @@
                                                     <img
                                                         src="{{ URL::asset('assets/images/flags/'.$value['flag'].'.svg') }}"
                                                         alt="user-image" class="me-2 rounded" height="20">
-                                                    <span
-                                                        class="align-middle">{{ __('lang'.$locale)  }}</span>
+                                                    <span class="align-middle">
+                                                        {{ __('lang'.$locale)  }}
+                                                    </span>
                                                 </a>
                                             @endforeach
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="mt-4 text-center">
-                            <p class="mb-0">{{__('remember my password')}}<a href="{{route('login',['locale'=>app()->getLocale()])}}" class="fw-semibold text-primary text-decoration-underline">
-                                  {{__('Click_here')}} </a></p>
+                            <p class="mb-0">{{__('remember my password')}}
+                                <a href="{{route('login',['locale'=>app()->getLocale()])}}"
+                                   class="fw-semibold text-primary text-decoration-underline">
+                                    {{__('Click_here')}}
+                                </a>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -184,35 +151,65 @@
         @include('layouts.footer', ['pageName' => 'forget'])
     </div>
     <script>
+        var exist = '{{Session::has('ErrorOptCodeForget')}}';
+
+        if (exist) {
+            var msg = '{{Session::get('ErrorOptCodeForget')}}';
+            Swal.fire({
+                title: ' ',
+                text: msg,
+                icon: 'error',
+                confirmButtonText: '{{trans('ok')}}'
+            }).then(okay => {
+                if (okay) {
+                    window.location.reload();
+                }
+            });
+        }
+        var exist = '{{Session::has('ErrorUserFound')}}';
+        if (exist) {
+            var msg = '{{Session::get('ErrorUserFound')}}';
+            Swal.fire({
+                title: ' ',
+                text: msg,
+                icon: 'error',
+                confirmButtonText: '{{trans('ok')}}'
+            }).then(okay => {
+                if (okay) {
+                    window.location.reload();
+                }
+            });
+        }</script>
+    <script>
         document.querySelector("#phoneforget").addEventListener("keypress", function (evt) {
             if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57) {
                 evt.preventDefault();
             }
         });
-        function sendSmsEvent()
-        {
-            window.livewire.emit('Presend',$("#ccodeforget").val(),$("#outputforget").val());
+
+        function sendSmsEvent() {
+            window.livewire.emit('Presend', $("#ccodeforget").val(), $("#outputforget").val());
         }
-        window.addEventListener('OptForgetPass',event=>{
+
+        window.addEventListener('OptForgetPass', event => {
             Swal.fire({
                 title: '{{ __('Your verification code') }}',
                 html: '{{ __('We_will_send') }}<br> ',
-                html :  '{{ __('We_will_send') }}<br>'+event.detail.FullNumber +'<br>'+'{{ __('Your OTP Code') }}',
+                html: '{{ __('We_will_send') }}<br>' + event.detail.FullNumber + '<br>' + '{{ __('Your OTP Code') }}',
                 input: 'text',
                 inputAttributes: {
                     autocapitalize: 'off'
                 },
                 showCancelButton: true,
                 timer: '{{ env('timeOPT') }}',
-                confirmButtonText: 'Confirm' ,
+                confirmButtonText: 'Confirm',
                 confirmButtonText: '{{trans('ok')}}',
                 cancelButtonText: '{{trans('canceled !')}}',
                 footer: ' <i></i><div class="footerOpt"></div>',
                 didOpen: () => {
-                    // Swal.showLoading()
                     const b = Swal.getFooter().querySelector('i')
                     const p22 = Swal.getFooter().querySelector('div')
-                    p22.innerHTML='{{trans('Dont get code?') }}'   +' <a>'+  '{{trans('Resend')}}' + '</a>' ;
+                    p22.innerHTML = '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>';
 
                     timerInterval = setInterval(() => {
                         b.textContent = '{{trans('It will close in')}}' + (Swal.getTimerLeft() / 1000).toFixed(0) + '{{trans('secondes')}}'
@@ -222,12 +219,11 @@
                     clearInterval(timerInterval)
                 },
 
-            }).then((resultat)=>{
-                if(resultat.value){
-                    window.livewire.emit('sendSms',resultat.value,$("#outputforget").val());
+            }).then((resultat) => {
+                if (resultat.value) {
+                    window.livewire.emit('sendSms', resultat.value, $("#outputforget").val());
                 }
-                if(resultat.isDismissed)
-                {
+                if (resultat.isDismissed) {
                     location.reload();
                 }
             })
