@@ -44,10 +44,38 @@
                     },
                     xaxis: {
                         type: 'numeric',
+
                     },
+
                     stroke: {
                         curve: 'straight',
                     },
+                    annotations: {
+                        points: [{
+                            x: {{getSelledActions() * 1.05/2}},
+                            y: {{getHalfActionValue()*1.01}},
+                            marker: {
+                                size: 0,
+                                fillColor: '#fff',
+                                strokeColor: 'transparent',
+                                radius: 0,
+                                cssClass: 'apexcharts-custom-class'
+                            },
+                            label: {
+                                borderColor: '#ffffff',
+                                offsetY: 0,
+                                style: {
+                                    color: '#fff',
+                                    background: '#00e396',
+                                    fontSize: '15px',
+
+
+                                },
+
+                                text: "{{__('x_times')}}",
+                            }
+                        }]
+                    }
 
 
                 }
@@ -79,6 +107,7 @@
                         name: 'Function',
                         type: 'line',
                         data: response2[0]
+
                     };
                     var series3 = {
                         name: 'My Shares',

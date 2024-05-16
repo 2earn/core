@@ -93,6 +93,49 @@
                     </div>
                 </div>
             @endif
+            @if($user['status']!=1)
+                <div class="card">
+                    <div class="card-body row">
+                        <h5 class="card-title mb-0">{{ __('Identities cards') }}</h5>
+                        <div class="col-6">
+                            <div>
+                                <label>{{ __('Front ID') }}</label>
+                            </div>
+                            <div>
+                                @if(file_exists(public_path('/uploads/profiles/front-id-image'.$user['idUser'].'.png')))
+                                    <img width="150" height="100" id="front-id-image" title="{{__('Front id image')}}"
+                                         src={{asset(('/uploads/profiles/front-id-image'.$user['idUser'].'.png'))}} >
+                                    <button type="button" class="btn btn-outline-primary mt-1" data-toggle="modal"
+                                            id="show-identity-front"
+                                            data-target=".bd-example-modal-lg">{{__('Show Identity')}}</button>
+                                @else
+                                    <div class="alert alert-warning" role="alert">
+                                        {{__('No image uploaded')}}
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div>
+                                <label>{{ __('Back ID') }}</label>
+                            </div>
+                            <div>
+                                @if(file_exists(public_path('/uploads/profiles/back-id-image'.$user['idUser'].'.png')))
+                                    <img width="150" height="100" id="back-id-image" title="{{__('Back id image')}}"
+                                         src={{asset(('/uploads/profiles/back-id-image'.$user['idUser'].'.png'))}} >
+                                    <button type="button" class="btn btn-outline-primary mt-1" data-toggle="modal"
+                                            id="show-identity-back"
+                                            data-target=".bd-example-modal-lg">{{__('Show Identity')}}</button>
+                                @else
+                                    <div class="alert alert-warning" role="alert">
+                                        {{__('No image uploaded')}}
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
         <div class="col-xxl-9">
             <div class="card  ">
@@ -138,7 +181,7 @@
                                                 (الإسم العائلي) </label>
                                             <input wire:model.defer="usermetta_info.arLastName" type="text"
                                                    class="form-control" id="firstnameInput"
-                                                   placeholder="Enter your firstname" value="">
+                                                   placeholder="{{__('Enter your ar firstname')}}" value="">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -147,7 +190,7 @@
                                                 الاسم</label>
                                             <input wire:model.defer="usermetta_info.arFirstName" type="text"
                                                    class="form-control" id="lastnameInput"
-                                                   placeholder="" value="">
+                                                   placeholder="{{__('Enter your ar last')}}" value="">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -628,295 +671,323 @@
             </div>
         </div>
     </div>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
-    <script data-turbolinks-eval="false">
-        var ErrorConfirmPassWord = '{{Session::has('ErrorConfirmPassWord')}}';
-        if (ErrorConfirmPassWord) {
-            var tabChangePhone = document.querySelector('#tabEditPass');
-            var tab = new bootstrap.Tab(tabChangePhone);
-            tab.show();
-            Swal.fire({
-                title: '{{Session::get('ErrorConfirmPassWord')}}',
-                icon: 'info',
-                showCloseButton: true,
-                confirmButtonText: '{{trans('ok')}}',
-                showCancelButton: false,
-                focusConfirm: false,
-            })
-        }
-        var ErrorOldPassWord = '{{Session::has('ErrorOldPassWord')}}';
-        if (ErrorOldPassWord) {
-            var tabChangePhone = document.querySelector('#tabEditPass');
-            var tab = new bootstrap.Tab(tabChangePhone);
-            tab.show();
-            Swal.fire({
-                title: '{{Session::get('ErrorOldPassWord')}}',
-                icon: 'info',
-                showCloseButton: true,
-                confirmButtonText: '{{trans('ok')}}',
-                showCancelButton: false,
-                focusConfirm: false,
-            })
-        }
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="identies-viewer" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header mb-2">
+                    <h3 class="modal-title" id="identies-viewer-title"></h3>
+                </div>
+                <div class="modal-content" id="identies-viewer-content">
 
-        var ChangeLanguge = '{{Session::has('ChangeLanguge')}}';
-        if (ChangeLanguge) {
-            location.reload();
-        }
-        var exisPhoneUpdated = '{{Session::has('SuccesUpdatePhone')}}';
-        if (exisPhoneUpdated) {
-            var tabChangePhone = document.querySelector('#pills-UpdatePhone-tab');
-            var tab = new bootstrap.Tab(tabChangePhone);
-            tab.show();
-            toastr.success('{{Session::get('SuccesUpdatePhone')}}');
-        }
-        var existSamePhone = '{{Session::has('ErrorSamePhone')}}';
-        if (existSamePhone) {
-            Swal.fire({
-                title: '{{Session::get('ErrorSamePhone')}}',
-                showClass: {popup: 'animate__animated animate__fadeInDown'},
-                hideClass: {popup: 'animate__animated animate__fadeOutUp'}
-            }).then(okay => {
-                if (okay) {
-                    var tabChangePhone = document.querySelector('#pills-UpdatePhone-tab');
-                    var tab = new bootstrap.Tab(tabChangePhone);
-                    tab.show();
-                }
-            });
-        }
-        var existeErrorOpt = '{{ Session::has('ErrorOptCodeUpdatePass')}}'
-        if (existeErrorOpt) {
-            Swal.fire({
-                title: '{{Session::get('ErrorOptCodeUpdatePass')}}',
-                confirmButtonText: '{{trans('ok')}}',
-                showClass: {popup: 'animate__animated animate__fadeInDown'},
-                hideClass: {popup: 'animate__animated animate__fadeOutUp'}
-            }).then(okay => {
-                if (okay) {
-                    var tabChangePass = document.querySelector('#pills-changePass-tab');
-                    var tab = new bootstrap.Tab(tabChangePass);
-                    tab.show();
-                }
-            });
-        }
-        var ErrorMailUsed = '{{ Session::has('ErrorMailUsed')}}'
-        if (ErrorMailUsed) {
-            Swal.fire({
-                title: '{{Session::get('ErrorMailUsed')}}',
-                confirmButtonText: '{{trans('ok')}}',
-                showClass: {popup: 'animate__animated animate__fadeInDown'},
-                hideClass: {popup: 'animate__animated animate__fadeOutUp'}
-            });
-        }
-        var SoldeSms = '{{ Session::has('SoldeSmsInsuffisant')}}'
-        if (SoldeSms) {
-            Swal.fire({
-                title: '{{Session::get('SoldeSmsInsuffisant')}}',
-                confirmButtonText: '{{trans('ok')}}',
-                showClass: {popup: 'animate__animated animate__fadeInDown'},
-                hideClass: {popup: 'animate__animated animate__fadeOutUp'}
-            });
-        }
-        var MailNonValide = '{{ Session::has('MailNonValide')}}'
-        if (MailNonValide) {
-            Swal.fire({
-                title: '{{Session::get('MailNonValide')}}',
-                confirmButtonText: '{{trans('ok')}}',
-                showClass: {popup: 'animate__animated animate__fadeInDown'},
-                hideClass: {popup: 'animate__animated animate__fadeOutUp'}
-            });
-        }
-        var SuccesUpdatePassword = '{{ Session::has('SuccesUpdatePassword')}}'
-        if (SuccesUpdatePassword) {
-            toastr.success('{{Session::get('SuccesUpdatePassword')}}');
-        }
-        var SuccesUpdateProfile = '{{ Session::has('SuccesUpdateProfile')}}'
-        if (SuccesUpdateProfile) {
-            toastr.success('{{Session::get('SuccesUpdateProfile')}}');
-        }
-        var SuccesUpdateIdentification = '{{Session::has('SuccesUpdateIdentification')}}';
-        if (SuccesUpdateIdentification) {
-            toastr.success('{{Session::get('SuccesUpdateIdentification')}}');
-        }
-
-    </script>
-    <script>
-        $("#btnsaveUser").click(function () {
-            window.livewire.emit('saveUser', parseInt($("#inputChild").val()));
-        });
-        $('input[type="file"]').each(function () {
-            var $file = $(this),
-                $label = $file.next('label'),
-                $labelText = $label.find('span'),
-                labelDefault = $labelText.text();
-            $file.on('change', function (event) {
-                var fileName = $file.val().split('\\').pop(),
-                    tmppath = URL.createObjectURL(event.target.files[0]);
-                if (fileName) {
-                    $label.addClass('file-ok')
-                        .css('background-image', 'url(' + tmppath + ')');
-                    $labelText.text(fileName);
-
-                } else {
-                    $label.removeClass('file-ok');
-                    $labelText.text(labelDefault);
-                }
-            });
-        });
-
-        function SaveChangeEdit() {
-            window.livewire.emit('SaveChangeEdit');
-        }
-
-        function sendRequest() {
-            window.livewire.emit('sendIdentificationRequest');
-        }
-
-        function ConfirmChangePass() {
-            window.livewire.emit('PreChangePass');
-        }
-
-        window.addEventListener('OptChangePass', event => {
-            Swal.fire({
-                title: '{{trans('Your verification code')}}',
-                html: '{{ __('We_will_send') }}' + '<br>' + event.detail.mail + '<br>' + '{{__('Your OTP Code')}}',
-                allowOutsideClick: false,
-                timer: '{{ env('timeOPT') }}',
-                timerProgressBar: true,
-                showCancelButton: true,
-                cancelButtonText: '{{trans('canceled !')}}',
-                confirmButtonText: '{{trans('ok')}}',
-                footer: ' <i></i><div class="footerOpt"></div>',
-                didOpen: () => {
-                    const b = Swal.getFooter().querySelector('i')
-                    const p22 = Swal.getFooter().querySelector('div')
-                    p22.innerHTML = '<br>' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>';
-                    timerInterval = setInterval(() => {
-                        b.innerHTML = '{{trans('It will close in')}}' + (Swal.getTimerLeft() / 1000).toFixed(0) + '{{trans('secondes')}}'
-                    }, 100)
-                },
-                willClose: () => {
-                    clearInterval(timerInterval)
-                },
-                input: 'text',
-                inputAttributes: {
-                    autocapitalize: 'off'
-                },
-            }).then((resultat) => {
-                if (resultat.value) {
-                    window.livewire.emit('changePassword', resultat.value);
-                }
-            })
-        })
-
-        $("#validateMail").click(function () {
-            window.livewire.emit("sendVerificationMail", $('#inputEmail').val());
-        });
-
-        window.addEventListener('confirmOPTVerifMail', event => {
-            Swal.fire({
-                title: '{{ __('Your verification code') }}',
-                html: '{{ __('We_will_send_Sms') }}<br> ',
-                html: '{{ __('We_will_send_Sms') }}<br>' + event.detail.numberActif + '<br>' + '{{ __('Your OTP Code') }}',
-                input: 'text',
-                allowOutsideClick: false,
-                timer: '{{ env('timeOPT') }}',
-                timerProgressBar: true,
-                confirmButtonText: '{{trans('ok')}}',
-                showCancelButton: true,
-                cancelButtonText: '{{trans('canceled !')}}',
-                footer: ' <i></i><div class="footerOpt"></div>',
-                didOpen: () => {
-                    const b = Swal.getFooter().querySelector('i')
-                    const p22 = Swal.getFooter().querySelector('div')
-                    p22.innerHTML = '{{trans('Dont get code?') }}' + ' <a OnClick="ResendMail()" >' + '{{trans('Resend')}}' + '</a>';
-
-                    timerInterval = setInterval(() => {
-                        b.textContent = '{{trans('It will close in')}}' + (Swal.getTimerLeft() / 1000).toFixed(0) + '{{trans('secondes')}}'
-                    }, 100)
-                },
-                willClose: () => {
-                    clearInterval(timerInterval)
-                },
-                input: 'text',
-                inputAttributes: {
-                    autocapitalize: 'off'
-                },
-                inputAttributes: {
-                    autocapitalize: 'off'
-                },
-            }).then((resultat) => {
-                if (resultat.value) {
-                    window.livewire.emit('saveVerifiedMail', resultat.value);
-                }
-                if (resultat.isDismissed) {
-                    location.reload();
-                }
-            })
-        })
-    </script>
-    <script data-turbolinks-eval="false">
-        $("#btnPlus").click(function () {
-            var child = parseInt($("#inputChild").val());
-            child = child + 1;
-            if (child <= 20)
-                $("#inputChild").val(child);
-            else
-                $("#inputChild").val(20);
-        });
-        $("#btnMinus").click(function () {
-            var child = parseInt($("#inputChild").val());
-            child = child - 1;
-            if (child >= 0)
-                $("#inputChild").val(child);
-            else
-                $("#inputChild").val(0);
-        });
-
-        $('#send').change(function () {
-            if (this.checked && !{{$soldeSms}} > 0) {
+                </div>
+            </div>
+        </div>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+        <script data-turbolinks-eval="false">
+            var ErrorConfirmPassWord = '{{Session::has('ErrorConfirmPassWord')}}';
+            if (ErrorConfirmPassWord) {
+                var tabChangePhone = document.querySelector('#tabEditPass');
+                var tab = new bootstrap.Tab(tabChangePhone);
+                tab.show();
                 Swal.fire({
-                    title: '{{ __('solde_sms_ins') }}',
+                    title: '{{Session::get('ErrorConfirmPassWord')}}',
+                    icon: 'info',
+                    showCloseButton: true,
                     confirmButtonText: '{{trans('ok')}}',
-                });
-                return;
+                    showCancelButton: false,
+                    focusConfirm: false,
+                })
             }
-            Swal.fire({
-                title: '{{ __('upate_notification_setting') }}',
-                showDenyButton: true,
-                confirmButtonText: '{{trans('Yes')}}',
-                denyButtonText: '{{trans('No')}}'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.livewire.emit('ParamSendChanged');
-                } else if (result.isDenied) {
-                }
+            var ErrorOldPassWord = '{{Session::has('ErrorOldPassWord')}}';
+            if (ErrorOldPassWord) {
+                var tabChangePhone = document.querySelector('#tabEditPass');
+                var tab = new bootstrap.Tab(tabChangePhone);
+                tab.show();
+                Swal.fire({
+                    title: '{{Session::get('ErrorOldPassWord')}}',
+                    icon: 'info',
+                    showCloseButton: true,
+                    confirmButtonText: '{{trans('ok')}}',
+                    showCancelButton: false,
+                    focusConfirm: false,
+                })
+            }
+
+            var ChangeLanguge = '{{Session::has('ChangeLanguge')}}';
+            if (ChangeLanguge) {
+                location.reload();
+            }
+            var exisPhoneUpdated = '{{Session::has('SuccesUpdatePhone')}}';
+            if (exisPhoneUpdated) {
+                var tabChangePhone = document.querySelector('#pills-UpdatePhone-tab');
+                var tab = new bootstrap.Tab(tabChangePhone);
+                tab.show();
+                toastr.success('{{Session::get('SuccesUpdatePhone')}}');
+            }
+            var existSamePhone = '{{Session::has('ErrorSamePhone')}}';
+            if (existSamePhone) {
+                Swal.fire({
+                    title: '{{Session::get('ErrorSamePhone')}}',
+                    showClass: {popup: 'animate__animated animate__fadeInDown'},
+                    hideClass: {popup: 'animate__animated animate__fadeOutUp'}
+                }).then(okay => {
+                    if (okay) {
+                        var tabChangePhone = document.querySelector('#pills-UpdatePhone-tab');
+                        var tab = new bootstrap.Tab(tabChangePhone);
+                        tab.show();
+                    }
+                });
+            }
+            var existeErrorOpt = '{{ Session::has('ErrorOptCodeUpdatePass')}}'
+            if (existeErrorOpt) {
+                Swal.fire({
+                    title: '{{Session::get('ErrorOptCodeUpdatePass')}}',
+                    confirmButtonText: '{{trans('ok')}}',
+                    showClass: {popup: 'animate__animated animate__fadeInDown'},
+                    hideClass: {popup: 'animate__animated animate__fadeOutUp'}
+                }).then(okay => {
+                    if (okay) {
+                        var tabChangePass = document.querySelector('#pills-changePass-tab');
+                        var tab = new bootstrap.Tab(tabChangePass);
+                        tab.show();
+                    }
+                });
+            }
+            var ErrorMailUsed = '{{ Session::has('ErrorMailUsed')}}'
+            if (ErrorMailUsed) {
+                Swal.fire({
+                    title: '{{Session::get('ErrorMailUsed')}}',
+                    confirmButtonText: '{{trans('ok')}}',
+                    showClass: {popup: 'animate__animated animate__fadeInDown'},
+                    hideClass: {popup: 'animate__animated animate__fadeOutUp'}
+                });
+            }
+            var SoldeSms = '{{ Session::has('SoldeSmsInsuffisant')}}'
+            if (SoldeSms) {
+                Swal.fire({
+                    title: '{{Session::get('SoldeSmsInsuffisant')}}',
+                    confirmButtonText: '{{trans('ok')}}',
+                    showClass: {popup: 'animate__animated animate__fadeInDown'},
+                    hideClass: {popup: 'animate__animated animate__fadeOutUp'}
+                });
+            }
+            var MailNonValide = '{{ Session::has('MailNonValide')}}'
+            if (MailNonValide) {
+                Swal.fire({
+                    title: '{{Session::get('MailNonValide')}}',
+                    confirmButtonText: '{{trans('ok')}}',
+                    showClass: {popup: 'animate__animated animate__fadeInDown'},
+                    hideClass: {popup: 'animate__animated animate__fadeOutUp'}
+                });
+            }
+            var SuccesUpdatePassword = '{{ Session::has('SuccesUpdatePassword')}}'
+            if (SuccesUpdatePassword) {
+                toastr.success('{{Session::get('SuccesUpdatePassword')}}');
+            }
+            var SuccesUpdateProfile = '{{ Session::has('SuccesUpdateProfile')}}'
+            if (SuccesUpdateProfile) {
+                toastr.success('{{Session::get('SuccesUpdateProfile')}}');
+            }
+            var SuccesUpdateIdentification = '{{Session::has('SuccesUpdateIdentification')}}';
+            if (SuccesUpdateIdentification) {
+                toastr.success('{{Session::get('SuccesUpdateIdentification')}}');
+            }
+
+        </script>
+        <script>
+            $("#btnsaveUser").click(function () {
+                window.livewire.emit('saveUser', parseInt($("#inputChild").val()));
+            });
+            $('input[type="file"]').each(function () {
+                var $file = $(this),
+                    $label = $file.next('label'),
+                    $labelText = $label.find('span'),
+                    labelDefault = $labelText.text();
+                $file.on('change', function (event) {
+                    var fileName = $file.val().split('\\').pop(),
+                        tmppath = URL.createObjectURL(event.target.files[0]);
+                    if (fileName) {
+                        $label.addClass('file-ok')
+                            .css('background-image', 'url(' + tmppath + ')');
+                        $labelText.text(fileName);
+
+                    } else {
+                        $label.removeClass('file-ok');
+                        $labelText.text(labelDefault);
+                    }
+                });
+            });
+
+            function SaveChangeEdit() {
+                window.livewire.emit('SaveChangeEdit');
+            }
+
+            function sendRequest() {
+                window.livewire.emit('sendIdentificationRequest');
+            }
+
+            function ConfirmChangePass() {
+                window.livewire.emit('PreChangePass');
+            }
+
+            window.addEventListener('OptChangePass', event => {
+                Swal.fire({
+                    title: '{{trans('Your verification code')}}',
+                    html: '{{ __('We_will_send') }}' + '<br>' + event.detail.mail + '<br>' + '{{__('Your OTP Code')}}',
+                    allowOutsideClick: false,
+                    timer: '{{ env('timeOPT') }}',
+                    timerProgressBar: true,
+                    showCancelButton: true,
+                    cancelButtonText: '{{trans('canceled !')}}',
+                    confirmButtonText: '{{trans('ok')}}',
+                    footer: ' <i></i><div class="footerOpt"></div>',
+                    didOpen: () => {
+                        const b = Swal.getFooter().querySelector('i')
+                        const p22 = Swal.getFooter().querySelector('div')
+                        p22.innerHTML = '<br>' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>';
+                        timerInterval = setInterval(() => {
+                            b.innerHTML = '{{trans('It will close in')}}' + (Swal.getTimerLeft() / 1000).toFixed(0) + '{{trans('secondes')}}'
+                        }, 100)
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    },
+                    input: 'text',
+                    inputAttributes: {
+                        autocapitalize: 'off'
+                    },
+                }).then((resultat) => {
+                    if (resultat.value) {
+                        window.livewire.emit('changePassword', resultat.value);
+                    }
+                })
             })
-        });
 
-        var toggleOldPassword = document.querySelector("#toggleOldPassword");
-        var Oldpassword = document.querySelector("#oldpasswordInput");
-        toggleOldPassword.addEventListener("click", function () {
-            var type = Oldpassword.getAttribute("type") === "password" ? "text" : "password";
-            Oldpassword.setAttribute("type", type);
-            this.classList.toggle("bi-eye");
-        });
+            $("#validateMail").click(function () {
+                window.livewire.emit("sendVerificationMail", $('#inputEmail').val());
+            });
 
-        var toggleNewPassword = document.querySelector("#toggleNewPassword");
-        var Newpassword = document.querySelector("#newpasswordInput");
-        toggleNewPassword.addEventListener("click", function () {
-            var type = Newpassword.getAttribute("type") === "password" ? "text" : "password";
-            Newpassword.setAttribute("type", type);
-            this.classList.toggle("bi-eye");
-        });
+            window.addEventListener('confirmOPTVerifMail', event => {
+                Swal.fire({
+                    title: '{{ __('Your verification code') }}',
+                    html: '{{ __('We_will_send_Sms') }}<br> ',
+                    html: '{{ __('We_will_send_Sms') }}<br>' + event.detail.numberActif + '<br>' + '{{ __('Your OTP Code') }}',
+                    input: 'text',
+                    allowOutsideClick: false,
+                    timer: '{{ env('timeOPT') }}',
+                    timerProgressBar: true,
+                    confirmButtonText: '{{trans('ok')}}',
+                    showCancelButton: true,
+                    cancelButtonText: '{{trans('canceled !')}}',
+                    footer: ' <i></i><div class="footerOpt"></div>',
+                    didOpen: () => {
+                        const b = Swal.getFooter().querySelector('i')
+                        const p22 = Swal.getFooter().querySelector('div')
+                        p22.innerHTML = '{{trans('Dont get code?') }}' + ' <a OnClick="ResendMail()" >' + '{{trans('Resend')}}' + '</a>';
 
-        var toggleConfirmPassword = document.querySelector("#toggleConfirmPassword");
-        var confirmPassword = document.querySelector("#confirmpasswordInput");
-        toggleConfirmPassword.addEventListener("click", function () {
-            var type = confirmPassword.getAttribute("type") === "password" ? "text" : "password";
-            confirmPassword.setAttribute("type", type);
-            this.classList.toggle("bi-eye");
-        });
-    </script>
-</div>
+                        timerInterval = setInterval(() => {
+                            b.textContent = '{{trans('It will close in')}}' + (Swal.getTimerLeft() / 1000).toFixed(0) + '{{trans('secondes')}}'
+                        }, 100)
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    },
+                    input: 'text',
+                    inputAttributes: {
+                        autocapitalize: 'off'
+                    },
+                    inputAttributes: {
+                        autocapitalize: 'off'
+                    },
+                }).then((resultat) => {
+                    if (resultat.value) {
+                        window.livewire.emit('saveVerifiedMail', resultat.value);
+                    }
+                    if (resultat.isDismissed) {
+                        location.reload();
+                    }
+                })
+            })
+
+            function showIdentitiesModal(typeIdentitie) {
+                $('#identies-viewer-title').empty().append($('#' + typeIdentitie + '-id-image').attr('title'));
+                $('#identies-viewer-content').empty().append($('#' + typeIdentitie + '-id-image').clone().width('100%').height('200%'));
+                $('#identies-viewer').modal('show');
+            }
+
+            $("#show-identity-front").click(function () {
+                showIdentitiesModal('front')
+            });
+            $("#show-identity-back").click(function () {
+                showIdentitiesModal('back')
+
+            });
+
+        </script>
+        <script data-turbolinks-eval="false">
+            $("#btnPlus").click(function () {
+                var child = parseInt($("#inputChild").val());
+                child = child + 1;
+                if (child <= 20)
+                    $("#inputChild").val(child);
+                else
+                    $("#inputChild").val(20);
+            });
+            $("#btnMinus").click(function () {
+                var child = parseInt($("#inputChild").val());
+                child = child - 1;
+                if (child >= 0)
+                    $("#inputChild").val(child);
+                else
+                    $("#inputChild").val(0);
+            });
+
+            $('#send').change(function () {
+                if (this.checked && !{{$soldeSms}} > 0) {
+                    Swal.fire({
+                        title: '{{ __('solde_sms_ins') }}',
+                        confirmButtonText: '{{trans('ok')}}',
+                    });
+                    return;
+                }
+                Swal.fire({
+                    title: '{{ __('upate_notification_setting') }}',
+                    showDenyButton: true,
+                    confirmButtonText: '{{trans('Yes')}}',
+                    denyButtonText: '{{trans('No')}}'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.livewire.emit('ParamSendChanged');
+                    } else if (result.isDenied) {
+                    }
+                })
+            });
+
+            var toggleOldPassword = document.querySelector("#toggleOldPassword");
+            var Oldpassword = document.querySelector("#oldpasswordInput");
+            toggleOldPassword.addEventListener("click", function () {
+                var type = Oldpassword.getAttribute("type") === "password" ? "text" : "password";
+                Oldpassword.setAttribute("type", type);
+                this.classList.toggle("bi-eye");
+            });
+
+            var toggleNewPassword = document.querySelector("#toggleNewPassword");
+            var Newpassword = document.querySelector("#newpasswordInput");
+            toggleNewPassword.addEventListener("click", function () {
+                var type = Newpassword.getAttribute("type") === "password" ? "text" : "password";
+                Newpassword.setAttribute("type", type);
+                this.classList.toggle("bi-eye");
+            });
+
+            var toggleConfirmPassword = document.querySelector("#toggleConfirmPassword");
+            var confirmPassword = document.querySelector("#confirmpasswordInput");
+            toggleConfirmPassword.addEventListener("click", function () {
+                var type = confirmPassword.getAttribute("type") === "password" ? "text" : "password";
+                confirmPassword.setAttribute("type", type);
+                this.classList.toggle("bi-eye");
+            });
+        </script>
+    </div>

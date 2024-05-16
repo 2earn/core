@@ -204,6 +204,26 @@ if (!function_exists('getSwitchBlock')) {
 }
 
 
+if (!function_exists('getHalfActionValue')) {
+    function getHalfActionValue()
+    {
+        // Call getSelledActions to determine the limit
+        $x = getSelledActions() * 1.05 / 2;
+
+        $data = [];
+        $setting = \Core\Models\Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
+        $initial_value = $setting[0];
+        $final_value = $initial_value * 5;
+        $total_actions = $setting[2];
+
+
+        $val = ($final_value - $initial_value) / ($total_actions - 1) * ($x + 1) + ($initial_value - ($final_value - $initial_value) / ($total_actions - 1));
+
+
+        return $val;
+
+    }
+}
 if (!function_exists('getGiftedActions')) {
     function getGiftedActions($actions)
     {
@@ -214,7 +234,14 @@ if (!function_exists('getGiftedActions')) {
 
         $a = (($total_actions * $max_bonus) / 100);
         $b = (1 - exp(-$k * $actions));
-        return intval($a * $b);
+        $result = intval($a * $b);
+        if ($actions / 3000 >= 1) {
+            $result = intval($actions / 3000) * 3000 * 2;
+        }
+        if ($actions / 30000 >= 1) {
+            $result = intval($actions / 30000) * 30000 * 6;
+        }
+        return $result;
     }
 }
 
@@ -424,9 +451,9 @@ if (!function_exists('formatSolde')) {
     function formatSolde($solde, $decimals = 2)
     {
         if ($decimals == -1) {
-            return floatval($solde);
+            return $solde;
         }
-        return number_format(floatval($solde), $decimals, '.', ',');
+        return number_format($solde, $decimals, '.', ',');
     }
 }
 if (!function_exists('getDecimals')) {

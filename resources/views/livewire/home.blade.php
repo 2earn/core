@@ -6,6 +6,19 @@
     @endcomponent
     <link type="text/css" rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"/>
+
+    <div class="row">
+        @if(Session::has('success'))
+            <div class="alert alert-success" role="alert">
+                {{ Session::get('success') }}
+            </div>
+        @endif
+        @if(Session::has('danger'))
+            <div class="alert alert-danger" role="alert">
+                {{ Session::get('danger') }}
+            </div>
+        @endif
+    </div>
     <div class="row">
         <div class="col-xl-3 col-md-6 solde-cash">
             <div class="card card-animate">
@@ -35,7 +48,7 @@
                                 @if(app()->getLocale()!="ar")
                                     {{$currency}}
                                     <span class="counter-value"
-                                          data-target="{{intval($cashBalance)}}">{{intval($cashBalance)}}</span>
+                                          data-target="{{intval($cashBalance)}}">{{formatSolde($cashBalance,0)}}</span>
                                     <small class="text-muted fs-13">
                                         @if(getDecimals($cashBalance))
                                             {{$decimalSeperator}}
@@ -97,7 +110,7 @@
                                 @if(app()->getLocale()!="ar")
                                     {{$currency}}
                                     <span class="counter-value"
-                                          data-target="{{intval($balanceForSopping)}}">{{intval($balanceForSopping)}}</span>
+                                          data-target="{{intval($balanceForSopping)}}">{{formatSolde($balanceForSopping,0)}}</span>
                                     <small class="text-muted fs-13">
                                         @if(getDecimals($balanceForSopping))
                                             {{$decimalSeperator}}
@@ -112,7 +125,7 @@
                                         @endif
                                     </small>
                                     <span class="counter-value"
-                                          data-target="{{intval($balanceForSopping)}}">{{intval($balanceForSopping)}}</span>
+                                          data-target="{{intval($balanceForSopping)}}">{{formatSolde($balanceForSopping,0)}}</span>
                                     {{$currency}}
                                 @endif
                             </h3>
@@ -174,7 +187,7 @@
                                         @endif
                                     </small>
                                     <span class="counter-value"
-                                          data-target="{{intval($discountBalance)}}">{{intval($discountBalance)}}</span>
+                                          data-target="{{intval($discountBalance)}}">{{formatSolde($discountBalance,0)}}</span>
                                     {{$currency}}
                                 @endif
                             </h4>
@@ -450,7 +463,8 @@
                                 <div class="col-md-4 mb-3 col-sm-6 col-xs-6">
                                     <label for="profit" class="col-form-label">{{ __('Profit') }}
                                         ({{$currency}}) </label>
-                                    <input type="number" disabled class="form-control" id="profit" value="0000"
+                                    <input type="text" inputmode="numeric" pattern="[-+]?[0-9]*[.,]?[0-9]+" disabled
+                                           class="form-control" id="profit" value="0000"
                                            wire:model.live="profit">
                                 </div>
                             </div>
@@ -459,9 +473,11 @@
                                     <button type="button" class="btn btn-light"
                                             data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                                     <button type="button" id="buy-action-submit" wire:loading.attr="disabled"
-                                            wire:target="simulate" class="btn btn-primary swal2-styled w-50 d-inline-flex">
+                                            wire:target="simulate" class="btn btn-primary swal2-styled d-inline-flex">
                                         {{ __('Submit') }}
-                                        <div class="spinner-border spinner-border-sm mx-2 mt-1 buy-action-submit-spinner" role="status"></div>
+                                        <div
+                                            class="spinner-border spinner-border-sm mx-2 mt-1 buy-action-submit-spinner"
+                                            role="status"></div>
                                     </button>
                                 </div>
                             </div>
@@ -495,8 +511,8 @@
                     });
                     $(document).on("click", "#buy-action-submit", function () {
                         this.disabled = true;
-                        $('.buy-action-submit-spinner').show()
-                        let ammount = $('#ammount').val();
+                        $('.buy-action-submit-spinner').show();
+                        let ammount = parseInt($('#ammount').val());
                         let phone = $('#phone').val();
                         let me_or_other = $("input[name='inlineRadioOptions']:checked").val();
                         let bfs_for = $("input[name='bfs-for']:checked").val();
@@ -531,16 +547,18 @@
                                     position: "center",
                                     backgroundColor: backgroundColor
                                 }).showToast();
-                                $('.buy-action-submit-spinner').show()
+                                $('.buy-action-submit-spinner').hide();
+                                location.reload();
                             },
                             error: function (data) {
                                 var responseData = JSON.parse(data.responseText);
                                 Swal.fire({icon: 'error', title: 'Oops...', text: responseData.error[0]});
+                                $('.buy-action-submit-spinner').hide();
                             }
                         });
                         setTimeout(() => {
                             this.disabled = false;
-                            $('.buy-action-submit-spinner').hide()
+                            $('.buy-action-submit-spinner').hide();
                         }, 2000);
 
                     })
