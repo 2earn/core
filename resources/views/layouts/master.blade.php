@@ -265,7 +265,6 @@
         <div class="page-content">
             <div class="container-fluid">
                 @yield('content')
-
             </div>
             <!-- container-fluid -->
         </div>

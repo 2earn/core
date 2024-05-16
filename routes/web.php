@@ -83,9 +83,6 @@ Route::get('/privacy', function () {
 
 Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'middleware' => 'setlocale'], function () {
     Route::middleware(['auth', 'CloseAuth'])->group(function () {
-        Route::get('/admin/identification_request', identificationRequest::class)->name('identificationRequest');
-        Route::get('/translation', TranslateView::class)->name('translate');
-        Route::get('configuration', Configuration::class)->name('configuration');
         Route::get('/', Home::class)->name('main');
         Route::get('Home', Home::class)->name('home');
         Route::get('Account', Account::class)->name('account');
@@ -93,12 +90,9 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('NotificationHistory', NotificationHistory::class)->name('notification_history');
         Route::get('NotificationSettings', NotificationSettings::class)->name('notification_settings');
         Route::get('user_purchase', UserPurchaseHistory::class)->name('user_purchase');
-        Route::get('user_list', \App\Http\Livewire\UsersList::class)->name('user_list');
         Route::get('stat_countrie', \App\Http\Livewire\StatCountrie::class)->name('stat_countrie');
         Route::get('sharessolde', \App\Http\Livewire\SharesSolde::class)->name('sharessolde');
         Route::get('shares_sold', \App\Http\Livewire\SharesSold::class)->name('shares_sold');
-        Route::get('edit_admin', \App\Http\Livewire\EditAdmin::class)->name('edit_admin');
-        Route::get('countries_management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
         Route::get('treeview', \App\Http\Livewire\treeview::class)->name('treeview');
 
         Route::get('user_balance_sms', UserBalanceSMS::class)->name('user_balance_sms');
@@ -121,15 +115,22 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('description', Description::class)->name('description');
         Route::get('/AcceptRequest', AcceptFinancialRequest::class)->name('AcceptFinancialRequest')->middleware('CloseAuth');
 
-        Route::get('/Sponsorship', function () {
-            SponsorshipFacade::testexecuteDelayedSponsorship(999952207);
+        Route::middleware(['IsSuperAdmin'])->group(function () {
+            Route::get('user_list', \App\Http\Livewire\UsersList::class)->name('user_list');
+            Route::get('configuration', Configuration::class)->name('configuration');
+            Route::get('edit_admin', \App\Http\Livewire\EditAdmin::class)->name('edit_admin');
+            Route::get('countries_management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
+            Route::get('stat_countries', 'App\Http\Controllers\ApiController@getCountriStat')->name('API_stat_countries');
+            Route::get('/admin/identification_request', identificationRequest::class)->name('identificationRequest');
+            Route::get('/translation', TranslateView::class)->name('translate');
         });
-
     });
+
     Route::get('registre', Registre::class)->name('registre');
     Route::get('forgetpassword', ForgotPassword::class)->name('forgetpassword');
     Route::get('/CheckOptCode/{iduser}/{ccode}/{numTel}', CheckOptCode::class)->name('CheckOptCode');
     Route::get('validate-account', ValidateAccount::class)->name('validateaccount');
+
 });
 
 Route::group(['prefix' => 'API'], function () {
@@ -147,7 +148,6 @@ Route::group(['prefix' => 'API'], function () {
     Route::get('HistoryNotification', 'App\Http\Controllers\ApiController@getHistoryNotification')->name('API_HistoryNotification');
     Route::get('Request', 'App\Http\Controllers\ApiController@getRequest')->name('API_Request');
     Route::get('Representatives', 'App\Http\Controllers\ApiController@getRepresentatives')->name('API_Representatives');
-    Route::get('IdentificationRequest', 'App\Http\Controllers\ApiController@getIdentificationRequest')->name('API_IdentificationRequest');
     Route::get('user_balancesCB', 'App\Http\Controllers\ApiController@getUserBalancesCB')->name('API_userBalancesCB');
     Route::get('user_purchase', 'App\Http\Controllers\ApiController@getPurchaseUser')->name('API_userPurchase');
     Route::get('user_manager', 'App\Http\Controllers\ApiController@getAllUsers')->name('API_usermanager');
@@ -156,7 +156,6 @@ Route::group(['prefix' => 'API'], function () {
     Route::post('paytabs_notification', 'App\Http\Controllers\ApiController@handlePaymentNotification')->name('paytabs_notification')->withoutMiddleware('web');
 
     Route::get('users_list', 'App\Http\Controllers\ApiController@getUsersList')->name('API_UsersList');
-    Route::get('stat_countries', 'App\Http\Controllers\ApiController@getCountriStat')->name('API_stat_countries');
     Route::get('sankey', 'App\Http\Controllers\ApiController@getSankey')->name('API_sankey');
 
     Route::get('shares_solde', 'App\Http\Controllers\ApiController@getSharesSolde')->name('API_sharessolde');
