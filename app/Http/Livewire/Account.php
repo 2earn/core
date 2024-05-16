@@ -280,8 +280,7 @@ class Account extends Component
         ]);
     }
 
-    public
-    function changePassword($code, settingsManager $settingManager)
+    public function changePassword($code, settingsManager $settingManager)
     {
         $userAuth = $settingManager->getAuthUser();
         $user = $settingManager->getUserById($userAuth->id);
@@ -301,15 +300,11 @@ class Account extends Component
         DB::table('users')->where('id', auth()->user()->id)->update(['password' => $new_pass]);
         $sendSMS = $this->sendPassSMS == true ? 1 : 0;
 
-        $settingManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::SendNewSMS, [
-            'msg' => $this->newPassword,
-            'canSendSMS' => $sendSMS
-        ]);
+        $settingManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::SendNewSMS, ['msg' => $this->newPassword, 'canSendSMS' => $sendSMS]);
         return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Password updated'));
     }
 
-    public
-    function sendVerificationMail($mail, settingsManager $settingsManager)
+    public function sendVerificationMail($mail, settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) abort(404);
@@ -336,8 +331,7 @@ class Account extends Component
         $this->newMail = $mail;
     }
 
-    public
-    function saveVerifiedMail($codeOpt)
+    public function saveVerifiedMail($codeOpt)
     {
         $us = User::find($this->user['id']);
         if ($codeOpt != $us->OptActivation) {
@@ -350,8 +344,7 @@ class Account extends Component
         return redirect()->route('account', app()->getLocale())->with('success', Lang::get('User email change completed successfully'));
     }
 
-    public
-    function approuve($idUser, settingsManager $settingsManager)
+    public function approuve($idUser, settingsManager $settingsManager)
     {
         $user = User::find($idUser);
         if ($user) {
@@ -360,8 +353,7 @@ class Account extends Component
         }
     }
 
-    public
-    function reject($idUser, settingsManager $settingsManager)
+    public function reject($idUser, settingsManager $settingsManager)
     {
         $user = User::find($idUser);
         if ($user) {
@@ -370,8 +362,7 @@ class Account extends Component
         }
     }
 
-    public
-    function sendIdentificationRequest(settingsManager $settingsManager)
+    public function sendIdentificationRequest(settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
         $hasRequest = $userAuth->hasIdetificationReques();

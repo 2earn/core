@@ -145,7 +145,7 @@
                                                     class="btn btn-primary btn-label right ms-auto nexttab"
                                                     data-nexttab="pills-bill-address-tab">
                                                 <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
-                                                {{__('Next_Step')}}
+                                                {{__('Next step : Check your email')}}
                                             </button>
                                         </div>
                                     </div>
@@ -204,7 +204,7 @@
                                                     class="btn btn-primary btn-label right ms-auto nexttab"
                                                     data-nexttab="pills-payment-tab"><i
                                                     class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
-                                                {{__('Next_Step')}}
+                                                {{__('Next step : Import identity card')}}
                                             </button>
                                         </div>
                                     </div>
@@ -290,6 +290,20 @@
     <script>
         var errorMail2 = document.querySelector("#error-mail");
 
+        function OptInputEmpty() {
+            $('#optFirst').val("");
+            $('#optSecond').val("");
+            $('#optThird').val("");
+            $('#optFourth').val("");
+        }
+
+        function OptInputChangeColor(optColor) {
+            $('#optFirst').css('border-color', optColor);
+            $('#optSecond').css('border-color', optColor);
+            $('#optThird').css('border-color', optColor);
+            $('#optFourth').css('border-color', optColor);
+        }
+
         function checkOptVerify() {
             var errorMail = document.querySelector("#error-mail");
             var returnValue = false;
@@ -310,8 +324,14 @@
                             $('#optSecond').val('')
                             $('#optThird').val('')
                             $('#optFourth').val('')
+                            OptInputChangeColor('red')
                         } else {
                             errorMail.classList.add("hide");
+                            OptInputChangeColor('green')
+                            $('#optFirst').addClass("disabled");
+                            $('#optSecond').addClass("disabled");
+                            $('#optThird').addClass("disabled");
+                            $('#optFourth').addClass("disabled");
                             optVerify = true
                             returnValue = true;
                         }
@@ -357,7 +377,7 @@
             $("#exampleModal").modal("hide");
         }
 
-        function checkRequiredrFieldInfo() {
+        function checkRequiredFieldInfo() {
             validRequiredrFieldInfo = true;
 
             if ($("#firstName").val().trim() === "") {
@@ -399,12 +419,27 @@
         }
 
         function sendIndentificationRequest() {
-            if (checkRequiredrFieldInfo() && checkRequiredrFieldMail()) {
+            if (checkRequiredFieldInfo() && checkRequiredFieldMail()) {
                 window.livewire.emit('sendIndentificationRequest');
             }
         }
 
-        function checkRequiredrFieldMail() {
+        function sendMailNotification() {
+            $("#inputEmailUser").css('border-color', 'green');
+            $.ajax({
+                method: "GET",
+                url: "/sendMailNotification",
+                async: false,
+                success: (result) => {
+                    $("#inputEmailUser").css('border-color', 'green');
+                },
+                error: (error) => {
+                    alert('{{__('Something went wrong to send datas...')}}');
+                }
+            });
+        }
+
+        function checkRequiredFieldMail() {
             var checkOpt = false;
             var errorMail = document.querySelector("#error-mail");
             if ($("#inputEmailUser").val().trim() === "") {
@@ -420,7 +455,7 @@
             }
             errorMail.classList.add("hide");
 
-            var failed = false;
+            var isNewEmailAddress = false;
             $.ajax({
                 method: "GET",
                 url: "/mailVerif",
@@ -428,7 +463,7 @@
                 data: {mail: $("#inputEmailUser").val().trim(),},
                 success: (result) => {
                     if (result == 'no') {
-                        failed = true;
+                        isNewEmailAddress = true;
                         var errorMail = document.querySelector("#error-mail");
                         errorMail.innerHTML = 'mail used';
                         errorMail.classList.remove("hide");
@@ -441,40 +476,24 @@
                 }
             });
             var optChecker = document.querySelector("#optChecker");
-            if (!failed) {
+            if (!isNewEmailAddress) {
                 if (checkNewMail()) {
-                    if ($('#optFirst').val().trim() == "" && $('#optSecond').val().trim() == "" && $('#optThird').val().trim() == "" && $('#optFourth').val().trim() == "") {
-                        $.ajax({
-                            method: "GET",
-                            url: "/sendMailNotification",
-                            async: false,
-                            success: (result) => {
-                            },
-                            error: (error) => {
-                                alert('{{__('Something went wrong to send datas...')}}');
-                            }
-                        });
-                    }
+                    sendMailNotification();
                     optChecker.classList.remove("invisible");
-                    if (checkOptVerify()) {
-                        checkOpt = true;
-                        $('#optFirst').addClass("disabled");
-                        $('#optSecond').addClass("disabled");
-                        $('#optThird').addClass("disabled");
-                        $('#optFourth').addClass("disabled");
-                    } else {
-                        checkOpt = false;
+                    if ($('#optFirst').val().trim() != "" && $('#optSecond').val().trim() != "" && $('#optThird').val().trim() != "" && $('#optFourth').val().trim() != "") {
+                        if (checkOptVerify()) {
+                            checkOpt = true;
+                        } else {
+                            checkOpt = false;
+                        }
                     }
                 } else
                     checkOpt = true;
             }
-            if (failed || !checkOpt) return false
+            if (isNewEmailAddress || !checkOpt) return false
             else {
                 optChecker.classList.add("invisible");
-                $('#optFirst').val("");
-                $('#optSecond').val("");
-                $('#optThird').val("");
-                $('#optFourth').val("");
+                OptInputEmpty()
                 checkOpt = false;
             }
             return true;
@@ -516,7 +535,7 @@
         $('#btnNextMailAdress').click(function (e) {
             $('#personalInformationMessage').css("display", "none");
             e.preventDefault();
-            if (checkRequiredrFieldInfo()) {
+            if (checkRequiredFieldInfo()) {
                 $('#personalInformationMessage').css("display", "none");
                 $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
             } else {
@@ -524,13 +543,13 @@
             }
         });
         document.getElementById('pills-bill-address-tab').addEventListener('shown.bs.tab', function (event) {
-            if (!checkRequiredrFieldInfo())
+            if (!checkRequiredFieldInfo())
                 $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
         });
         document.getElementById('pills-payment-tab').addEventListener('shown.bs.tab', function (event) {
-            if (!checkRequiredrFieldInfo())
+            if (!checkRequiredFieldInfo())
                 $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
-            if (!checkRequiredrFieldMail()) {
+            if (!checkRequiredFieldMail()) {
                 $('#myTab   button[id="pills-bill-address-tab"] ').tab('show');
                 $("#inputEmailUser").css('border-color', 'red')
             } else {
