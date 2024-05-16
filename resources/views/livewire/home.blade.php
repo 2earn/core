@@ -6,18 +6,8 @@
     @endcomponent
     <link type="text/css" rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"/>
-
     <div class="row">
-        @if(Session::has('success'))
-            <div class="alert alert-success" role="alert">
-                {{ Session::get('success') }}
-            </div>
-        @endif
-        @if(Session::has('danger'))
-            <div class="alert alert-danger" role="alert">
-                {{ Session::get('danger') }}
-            </div>
-        @endif
+        @include('layouts.flash-messages')
     </div>
     <div class="row">
         <div class="col-xl-3 col-md-6 solde-cash">

@@ -79,7 +79,7 @@ class Account extends Component
         if (!is_null($this->photoBack) && gettype($this->photoBack) == "object") {
             $this->photoBack->storeAs('profiles', 'back-id-image' . $um->idUser . '.png', 'public2');
         }
-        return redirect()->route('account', app()->getLocale())->with('SuccesUpdateProfile', Lang::get('Edit_profil_succes'));
+        return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Edit_profil_succes'));
     }
 
     public function mount(settingsManager $settingManager)
@@ -238,7 +238,7 @@ class Account extends Component
             $p = $this->imageProfil->storeAs('profiles', 'profile-image-' . $us->idUser . '.png', 'public2');
         }
         if ($this->paramIdUser == "")
-            return redirect()->route('account', app()->getLocale())->with('SuccesUpdateProfile', Lang::get('Edit_profil_succes'));
+            return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Edit_profil_succes'));
         else {
             $settingsManager->validateIdentity($us->idUser);
             return redirect()->route('identificationRequest', app()->getLocale());
@@ -256,10 +256,10 @@ class Account extends Component
         $userMail = $settingManager->getUserById($userAuth->id)->email;
         if ($this->newPassword != $this->confirmedPassword) {
             $this->earnDebug('Edit password input confirmed password invalide  : userid- ' . $userAuth->id . 'newPassword- ' . $this->newPassword . ' confirmedPassword- ' . $this->confirmedPassword);
-            return redirect()->route("account", app()->getLocale())->with('ErrorConfirmPassWord', Lang::get('Password_not_Confirmed'));
+            return redirect()->route("account", app()->getLocale())->with('danger', Lang::get('Password_not_Confirmed'));
         }
         if (!Hash::check($this->oldPassword, auth()->user()->password)) {
-            return redirect()->route('account', app()->getLocale())->with('ErrorOldPassWord', Lang::get('Old_Password_invalid'));
+            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Old_Password_invalid'));
         }
 
         $check_exchange = $settingManager->randomNewCodeOpt();
@@ -287,14 +287,14 @@ class Account extends Component
         $user = $settingManager->getUserById($userAuth->id);
         if ($code != $user->activationCodeValue) {
             $this->earnDebug('Edit password input opt code OPT invalide  :  userid- ' . $userAuth->id . ' code- ' . $code);
-            return redirect()->route("account", app()->getLocale())->with('ErrorOptCodeUpdatePass', Lang::get('Invalid_OPT_code'));
+            return redirect()->route("account", app()->getLocale())->with('danger', Lang::get('Invalid_OPT_code'));
         }
         if ($this->newPassword != $this->confirmedPassword) {
             $this->earnDebug('Edit password input confirmed password invalide  : userid- ' . $userAuth->id . 'newPassword- ' . $this->newPassword . ' confirmedPassword- ' . $this->confirmedPassword);
-            return redirect()->route("account", app()->getLocale())->with('ErrorConfirmPassWord', Lang::get('Password_not_Confirmed'));
+            return redirect()->route("account", app()->getLocale())->with('danger', Lang::get('Password_not_Confirmed'));
         }
         if (!Hash::check($this->oldPassword, auth()->user()->password)) {
-            return redirect()->route('account', app()->getLocale())->with('ErrorOldPassWord', Lang::get('Old_Password_invalid'));
+            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Old_Password_invalid'));
         }
 
         $new_pass = Hash::make($this->newPassword);
@@ -305,7 +305,7 @@ class Account extends Component
             'msg' => $this->newPassword,
             'canSendSMS' => $sendSMS
         ]);
-        return redirect()->route('account', app()->getLocale())->with('SuccesUpdatePassword', Lang::get('Password updated'));
+        return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Password updated'));
     }
 
     public
@@ -313,17 +313,21 @@ class Account extends Component
     {
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) abort(404);
-        if ($mail == "") return;
+        if (!isValidEmailAdressFormat($mail)) {
+            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Not valid Email Format'));
+        }
+        if ($userAuth->email == $mail) {
+            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Same email Adress'));
+        }
         $userExisteMail = $settingsManager->getConditionalUser('email', $mail);
         if ($userExisteMail && $userExisteMail->idUser != $userAuth->idUser) {
-            return redirect()->route('account', app()->getLocale())->with('ErrorMailUsed', Lang::get('mail_used'));
+            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('mail_used'));
         }
         $opt = $this->randomNewCodeOpt();
         $us = User::find($this->user['id']);
         $us->OptActivation = $opt;
         $us->OptActivation_at = Carbon::now();
         $us->save();
-
         $numberActif = $settingsManager->getNumberCOntactActif($userAuth->idUser)->fullNumber;
 
         $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::VerifMail, ['msg' => $opt, 'type' => TypeNotificationEnum::SMS]);
@@ -335,16 +339,15 @@ class Account extends Component
     public
     function saveVerifiedMail($codeOpt)
     {
-
         $us = User::find($this->user['id']);
         if ($codeOpt != $us->OptActivation) {
-            dd('not verif');
+            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('change user email failed - Code OPT '));
         }
         $us->email_verified = 1;
         $us->email = $this->newMail;
         $us->email_verified_at = Carbon::now();
         $us->save();
-        return redirect()->route('account', app()->getLocale());
+        return redirect()->route('account', app()->getLocale())->with('success', Lang::get('User email change completed successfully'));
     }
 
     public

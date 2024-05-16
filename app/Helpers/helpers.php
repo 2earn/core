@@ -523,7 +523,8 @@ if (!function_exists('formatNotification')) {
 
 if (!function_exists('time_ago')) {
 
-    function time_ago(\Datetime $date)    {
+    function time_ago(\Datetime $date)
+    {
         $time_ago = '';
         $diff = $date->diff(new \Datetime('now'));
         if (($t = $diff->format("%y")) > 0)
@@ -538,5 +539,15 @@ if (!function_exists('time_ago')) {
             $time_ago = 'minutes';
 
         return $time_ago . ' ago (' . $date->format('M j, Y') . ')';
+    }
+}
+
+if (!function_exists('isValidEmailAdressFormat')) {
+    function isValidEmailAdressFormat($email)
+    {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
+        return true;
     }
 }

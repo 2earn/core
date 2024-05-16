@@ -4,6 +4,9 @@
             {{ __('Profile') }}
         @endslot
     @endcomponent
+    <div class="col-xxl-12">
+        @include('layouts.flash-messages')
+    </div>
     <div class="row">
         <div class="col-xxl-3">
             <div class="card  ">
@@ -529,7 +532,7 @@
                                         {{ __('Close')}}
                                     </button>
                                     <button type="button" id="validateMail" class="btn btn-primary">
-                                        {{ __('Save_changes')}}
+                                        {{ __('Change Email')}}
                                     </button>
                                 </div>
                             </div>
@@ -873,7 +876,6 @@
             window.addEventListener('confirmOPTVerifMail', event => {
                 Swal.fire({
                     title: '{{ __('Your verification code') }}',
-                    html: '{{ __('We_will_send_Sms') }}<br> ',
                     html: '{{ __('We_will_send_Sms') }}<br>' + event.detail.numberActif + '<br>' + '{{ __('Your OTP Code') }}',
                     input: 'text',
                     allowOutsideClick: false,
