@@ -225,6 +225,7 @@
             src: url("{{asset('assets/NotoKufiArabic-Regular.ttf')}}");
             font-weight: 400;
         }
+
         label, h1, h2, h3, h4, h5, h6, a, button, p, i, span, strong, .btn, div {
             font-family: ar400;
             font-weight: 500 !important;
@@ -993,56 +994,24 @@
                 ordering: true,
                 retrieve: true,
                 searching: false,
-                // dom: 'Bfstrip',
-                // buttons: [
-                //     'csv', 'excel'
-                // ],
                 "orderCellsTop": true,
                 "fixedHeader": true,
-                /*initComplete: function () {
-                    // Apply the search
-                    this.api()
-                        .columns()
-                        .every(function () {
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
-                            if ($.fn.dataTable.isDataTable('#countries_table')) {
-                                var that = $('#ub_table').DataTable();
-                            }
-                            $('input', this.footer()).on('keydown', function (ev) {
-                                if (ev.keyCode == 13) {//only on enter keypress (code 13)
-                                    that
-
-                                        .search(this.value)
-                                        .draw();
-                                }
-                            });
-                        });
-                },*/
                 "order": [[1, 'desc']],
                 "processing": true,
                 "serverSide": true,
                 "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                search: {
-                    return: false
-                },
+                search: {return: false},
                 "ajax": "{{route('API_UserBalances',['locale'=> app()->getLocale(), 'idAmounts'=>'cash-Balance'])}}",
                 "columns": [
-
                     {data: 'Ref'},
                     {data: 'Date'},
                     {data: 'Designation'},
                     {data: 'Description'},
-
                     {data: 'value'},
                     {data: 'balance'},
                     {data: 'ranks'},
                     {data: 'idamount'},
-
-                    // {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
-
                 "columnDefs":
                     [
                         {
@@ -1070,23 +1039,14 @@
 
                             }
                         },
-                        {
-                            "targets": [6, 7],
-                            searchable: false,
-                            visible: false
-                        },
-                        {
-                            "targets": [5],
-                            className: classAl,
-                        },
-
+                        {"targets": [6, 7], searchable: false, visible: false},
+                        {"targets": [5], className: classAl},
                     ],
                 "language": {
                     "url": urlLang
                 }
             }
         );
-
 
         $('#userBalanceDB_table').DataTable(
             {

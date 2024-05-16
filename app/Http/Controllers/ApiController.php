@@ -1086,7 +1086,7 @@ when bo.IO = 'IO' then 'IO'
 end)   OVER(ORDER BY date) ,0) ,' ') when idAmount = 3 then concat( format(  SUM(case when bo.IO = 'I' then   format(format(ub.value,3)/format(PrixUnitaire,3) ,3)
 when bo.IO ='O' then  format(format(ub.value,3)/format(PrixUnitaire *-1,3) ,3)
 when bo.IO = 'IO' then 'IO'
-end)   OVER(ORDER BY date) ,3) , ' $') else concat( format( ub.balance ,3,'pt_BR') ,' $') end  as balance,ub.PrixUnitaire,'d' as sensP
+end)   OVER(ORDER BY date) ,3) , ' $') else concat( format( ub.balance ,3,'en_EN') ,' $') end  as balance,ub.PrixUnitaire,'d' as sensP
   FROM user_balances ub inner join balanceoperations bo on
 ub.idBalancesOperation = bo.idBalanceOperations
 where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [$idAmounts, $user->idUser]
@@ -1097,20 +1097,12 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [$idAmounts, $u
                 return Carbon\Carbon::parse($user->Date)->format('Y-m-d');
             })
             ->editColumn('Description', function ($row) use ($idAmounts) {
-
                 if ($idAmounts == 3)
-                    // return '<span style="text-align:right;">'.htmlspecialchars($row->Description).'</span>';
                     return '<div style="text-align:right;">' . htmlspecialchars($row->Description) . '</div>';
                 else return $row->Description;
             })
             ->rawColumns(['Description', 'formatted_date'])
-//           ->orderColumn('name', 'email $1')
             ->make(true);
-
-//        return datatables($userData)
-//
-//            ->make(true);
-
     }
 
     public function getPurchaseBFSUser()
