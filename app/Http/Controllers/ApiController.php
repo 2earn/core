@@ -842,7 +842,7 @@ class="btn btn-ghost-success waves-effect waves-light sh"  >
         $phoneNumber = $request->input('phoneNumber');
         $inputName = $request->input('inputName');
         if (is_null($inputName) or is_null($phoneNumber)) {
-            return Lang::get('Invalid phone number format');
+            return new JsonResponse(['message' => Lang::get('Invalid phone number format')], 200);
         }
         try {
             $country = DB::table('countries')->where('phonecode', $inputName)->first();
