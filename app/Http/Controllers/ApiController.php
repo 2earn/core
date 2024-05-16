@@ -841,7 +841,9 @@ class="btn btn-ghost-success waves-effect waves-light sh"  >
     {
         $phoneNumber = $request->input('phoneNumber');
         $inputName = $request->input('inputName');
-
+        if (is_null($inputName) or is_null($phoneNumber)) {
+            return Lang::get('Invalid phone number format');
+        }
         try {
             $country = DB::table('countries')->where('phonecode', $inputName)->first();
             $phone = new PhoneNumber($phoneNumber, $country->apha2);
@@ -855,16 +857,12 @@ class="btn btn-ghost-success waves-effect waves-light sh"  >
     public function getCountries()
     {
         $query = countrie::all('id', 'name', 'phonecode', 'langage');
-        // $query=DB::table('countries')->select('id','name','phonecode','langage');
         return datatables($query)
             ->addColumn('action', function ($settings) {
                 return '<a data-bs-toggle="modal" data-bs-target="#editCountriesModal"  onclick="getEditCountrie(' . $settings->id . ')"
 class="btn btn-xs btn-primary btn2earnTable"  >
 <i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a> ';
             })
-//            ->addColumn('action', function ($query) {
-//                return '<a href="#edit-' . $query->id . '" "><i class="fa fa-edit" aria-hidden="true" style="cursor: pointer;color: green; padding-left: 10px;"></i></a>';
-//            })
             ->make(true);
     }
 
