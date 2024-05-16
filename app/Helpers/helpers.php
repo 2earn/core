@@ -20,6 +20,7 @@ use Illuminate\Http\Request as Req;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Core\Services\BalancesManager;
 use Paytabscom\Laravel_paytabs\Facades\paypage;
@@ -500,4 +501,42 @@ if (!function_exists('getConnectedUserDisplayedName')) {
         return $displayedName;
     }
 
+}
+if (!function_exists('formatNotification')) {
+    function formatNotification($notification)
+    {
+        $notificationText = '';
+        switch ($notification->type) {
+            case 'App\Notifications\contact_registred':
+                $notificationText = Lang::get('New contact registred') . ' ' . $notification->data['fullphone_number'];
+                break;
+            case 1:
+                echo "i equals 1";
+                break;
+            case 2:
+                echo "i equals 2";
+                break;
+        }
+        return $notificationText;
+    }
+}
+
+if (!function_exists('time_ago')) {
+
+    function time_ago(\Datetime $date)    {
+        $time_ago = '';
+        $diff = $date->diff(new \Datetime('now'));
+        if (($t = $diff->format("%y")) > 0)
+            $time_ago = $t . ' years';
+        else if (($t = $diff->format("%m")) > 0)
+            $time_ago = $t . ' months';
+        else if (($t = $diff->format("%d")) > 0)
+            $time_ago = $t . ' days';
+        else if (($t = $diff->format("%H")) > 0)
+            $time_ago = $t . ' hours';
+        else
+            $time_ago = 'minutes';
+
+        return $time_ago . ' ago (' . $date->format('M j, Y') . ')';
+    }
 }

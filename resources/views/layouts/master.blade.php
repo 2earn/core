@@ -131,7 +131,6 @@
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
 
-
     <script src="{{ URL::asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
@@ -189,14 +188,8 @@
             font-display: block;
         }
     </style>
-    {{--    <script src="{{ URL::asset('assets/libs/multi.js/multi.js.min.js') }}"></script>--}}
-    {{--    <script src="{{ URL::asset('assets/libs/@tarekraafat/@tarekraafat.min.js') }}"></script>--}}
-    {{--    <script src="{{ URL::asset('assets/js/pages/form-advanced.init.js') }}"></script>--}}
-    {{--    <script src="{{ URL::asset('assets/js/pages/form-input-spin.init.js') }}"></script>--}}
     @livewireStyles
-
     <meta name="turbolinks-cache-control" content="no-cache">
-    <!-- PWA  -->
     <meta name="theme-color" content="#6777ef"/>
     <link rel="apple-touch-icon" href="{{ asset('logo.PNG') }}">
     <link rel="manifest" href="{{ asset('/manifest.json') }}">
@@ -211,17 +204,14 @@
     var fromLogin = '{{Session::has('fromLogin')}}';
 
     if (fromLogin) {
-        // alert('er');
         location.reload();
     }
 </script>
 @section('body')
-    <!-- Google Tag Manager (noscript) -->
     <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PMK39HQQ"
                 height="0" width="0" style="display:none;visibility:hidden"></iframe>
     </noscript>
-    <!-- End Google Tag Manager (noscript) -->
     @include('layouts.body')
     <script src="{{ asset('/sw.js') }}"></script>
 
@@ -235,10 +225,6 @@
             src: url("{{asset('assets/NotoKufiArabic-Regular.ttf')}}");
             font-weight: 400;
         }
-
-        /*.label_phone {*/
-        /*    text-align: end;*/
-        /*}*/
         label, h1, h2, h3, h4, h5, h6, a, button, p, i, span, strong, .btn, div {
             font-family: ar400;
             font-weight: 500 !important;
@@ -250,13 +236,8 @@
         }
     </style>
 @endif
-
-<script>
-    //console.log('from master');
-</script>
-<!-- Begin page -->
 <div id="layout-wrapper">
-    <livewire:top-bar/>
+    <livewire:top-bar :currentRoute="Route::currentRouteName()"/>
     @include('layouts.sidebar')
     <!-- ============================================================== -->
     <!-- Start right Content here -->

@@ -105,18 +105,15 @@
                 <div class="d-flex align-items-center">
                     <div class="dropdown ms-1 topbar-head-dropdown header-item">
                         <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="true">
                             <img
                                 src="{{ URL::asset('/assets/images/flags/'.config('app.available_locales')[app()->getLocale()]['flag'].'.svg') }}"
                                 class="rounded" alt="Header Language"
                                 height="20">
                         </button>
-                        @php
-                            $var = \Illuminate\Support\Facades\Route::currentRouteName() ;
-                        @endphp
                         <div class="dropdown-menu dropdown-menu-end">
                             @foreach (config('app.available_locales') as  $locale => $value )
-                                <a href="{{ route($var, ['locale'=> $locale ]) }} "
+                                <a href="{{ route($currentRoute, ['locale'=> $locale ]) }} "
                                    class="dropdown-item notify-item language py-2" data-lang="en"
                                    title="{{ __('lang'.$locale)  }}" data-turbolinks="false">
                                     <img src="{{ URL::asset('assets/images/flags/'.$value['flag'].'.svg') }}"
@@ -135,10 +132,10 @@
                             <div class="p-3 border-top-0 border-start-0 border-end-0 border-dashed border">
                                 <div class="row align-items-center">
                                     <div class="col">
-                                        <h6 class="m-0 fw-semibold fs-15"> Web Apps </h6>
+                                        <h6 class="m-0 fw-semibold fs-15"> {{__('Web Apps')}} </h6>
                                     </div>
                                     <div class="col-auto">
-                                        <a href="" class="btn btn-sm btn-soft-info"> View All Apps
+                                        <a href="" class="btn btn-sm btn-soft-info"> {{__('View All Apps')}}
                                             <i class="ri-arrow-right-s-line align-middle"></i></a>
                                     </div>
                                 </div>
@@ -180,17 +177,18 @@
                             <i class='bx bx-moon fs-22'></i>
                         </button>
                     </div>
-                    <div wire:ignore class="dropdown topbar-head-dropdown ms-1 header-item">
+                    <div class="dropdown topbar-head-dropdown ms-1 header-item">
                         <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
-                                id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false" data-bs-auto-close="false">
+                                id="page-header-notifications-dropdown"
+                                data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                             <i class='bx bx-bell fs-22'></i>
                             <span
-                                class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">0<span
-                                    class="visually-hidden">{{__('unread messages')}}unread messages</span></span>
+                                class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">{{$count}}
+                                <span class="visually-hidden">{{__('unread messages')}}</span>
+                            </span>
                         </button>
-                        <div wire:ignore class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
-                             aria-labelledby="page-header-notifications-dropdown">
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                             id="notification-dropdown" aria-labelledby="page-header-notifications-dropdown">
                             <div class="dropdown-head bg-primary bg-pattern rounded-top">
                                 <div class="p-3">
                                     <div class="row align-items-center">
@@ -198,28 +196,34 @@
                                             <h1 class="m-0 fs-16 text-white">{{__('Notifications')}}</h1>
                                         </div>
                                         <div class="col-auto dropdown-tabs">
-                                            <span class="badge badge-soft-light fs-13"> 0 {{__('New')}}</span>
+                                            <span class="badge badge-soft-light fs-13">
+                                                {{__('New')}}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
-                                <div wire:ignore class="px-2 pt-2">
-                                    <ul class="nav nav-tabs dropdown-tabs nav-tabs-custom" data-dropdown-tabs="true"
+                                <div class="px-2 pt-2">
+                                    <ul class="nav nav-pills dropdown-tabs nav-tabs-custom" data-dropdown-tabs="true"
                                         id="notificationItemsTab" role="tablist">
                                         <li class="nav-item waves-effect waves-light">
-                                            <a class="nav-link active" data-bs-toggle="tab" href=""
-                                               role="tab"
+                                            <a class="nav-link active py-1 px-2" data-bs-toggle="pill"
+                                               data-bs-target="#all-noti-tab" role="tab"
                                                aria-selected="true">
-                                                {{__('All')}} (4)
+                                                {{__('All')}} ( {{$count}} )
                                             </a>
                                         </li>
                                         <li class="nav-item waves-effect waves-light">
-                                            <a class="nav-link" data-bs-toggle="tab" href="#messages-tab" role="tab"
+                                            <a class="nav-link py-1 px-2" data-bs-toggle="pill"
+                                               data-bs-target="#messages-tab"
+                                               href="#messages-tab" role="tab"
                                                aria-selected="false">
                                                 {{__('Messages')}}
                                             </a>
                                         </li>
                                         <li class="nav-item waves-effect waves-light">
-                                            <a class="nav-link" data-bs-toggle="tab" href="" role="tab"
+                                            <a class="nav-link py-1 px-2" data-bs-toggle="pill"
+                                               data-bs-target="#alert-tab"
+                                               href="#alert-tab" role="tab"
                                                aria-selected="false">
                                                 {{__('Alerts')}}
                                             </a>
@@ -229,30 +233,50 @@
                             </div>
                             <div class="tab-content" id="notificationItemsTabContent">
                                 <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
-                                    <div data-simplebar style="max-height: 300px;" class="pe-2">
+                                    @foreach($notifications as $notification)
                                         <div
-                                            class="text-reset notification-item d-block dropdown-item position-relative">
+                                            class="text-reset notification-item d-block dropdown-item position-relative"
+                                            id="{{$notification->id}}" title="{{$notification->id}}">
                                             <div class="d-flex">
-                                                <div class="avatar-xs me-3">
-                                                <span class="avatar-title bg-soft-info text-info rounded-circle fs-16">
-                                                    <i class="bx bx-badge-check"></i>
+                                                <div class="avatar-xs me-3 flex-shrink-0">
+                                                <span
+                                                    class="avatar-title bg-danger-subtle text-danger rounded-circle fs-16">
+                                                    <i class="bx bx-message-square-dots"></i>
                                                 </span>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <div class="float-end">
+                                                        <div class="form-check notification-check">
+                                                            <button type="button" class="btn btn-link"
+                                                                    wire:click="markAsRead('{{$notification->id}}')"
+                                                                    id="all-notification-check{{$notification->id}}">
+                                                                {{__('Mark as read')}}
+                                                                <div wire:loading
+                                                                     wire:target="markAsRead('{{$notification->id}}')">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                                                    <span
+                                                                        class="sr-only">{{__('Loading')}}...</span>
+                                                                </div>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <h6 class="mt-0 mb-2 fs-13 lh-base">
+                                                        {{ formatNotification($notification) }}
+                                                    </h6>
+                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                        <span><i class="mdi mdi-clock-outline"></i> {{time_ago($notification->created_at)}}</span>
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div
-                                            class="text-reset notification-item d-block dropdown-item position-relative">
-                                        </div>
-                                        <div
-                                            class="text-reset notification-item d-block dropdown-item position-relative">
-                                        </div>
-                                        <div
-                                            class="text-reset notification-item d-block dropdown-item position-relative">
-                                        </div>
-                                    </div>
+                                    @endforeach
                                 </div>
                                 <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel"
                                      aria-labelledby="messages-tab">
+                                </div>
+                                <div class="tab-pane fade py-2 ps-2" id="alert-tab" role="tabpanel"
+                                     aria-labelledby="alert-tab">
                                 </div>
                             </div>
                         </div>
@@ -299,4 +323,9 @@
             </div>
         </div>
     </header>
+    <script>
+        window.addEventListener('updateNotifications', event => {
+            $("#page-header-notifications-dropdown").click();
+        })
+    </script>
 </div>

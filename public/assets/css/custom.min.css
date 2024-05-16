@@ -144,7 +144,7 @@ input[type=range]::-ms-fill-upper {
 }
 
 .navbar-brand-box {
-    border-bottom: 1px solid #cdcdcd
+    border-bottom: 1px solid #464fed
 }
 
 #logo-paytabs {
@@ -356,4 +356,25 @@ nav svg {
 
 .buy-action-submit-spinner {
     display: none
+}
+
+#notification-dropdown {
+    max-height: 450px;
+}
+
+#notification-dropdown .simplebar-content {
+    max-height: 300px;
+}
+
+#notification-dropdown .simplebar-mask {
+    max-height: 300px;
+}
+
+#notification-dropdown .simplebar-offset, #notification-dropdown .simplebar-wrapper, #notification-dropdown #notificationItemsTabContent, #notification-dropdown #all-noti-tab {
+    max-height: 300px;
+    overflow-x: auto;
+}
+
+#notification-dropdown .simplebar-content-wrapper {
+    max-height: 300px;
 }
