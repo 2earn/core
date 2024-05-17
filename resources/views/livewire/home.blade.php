@@ -7,6 +7,40 @@
     <link type="text/css" rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"/>
 
+
+
+
+
+        <style>
+            .ribbon-info{
+                background-color: gold !important;
+            }
+            .ribbon-info:before{
+
+                border-right-color: gold !important;
+                border-top-color: gold !important;
+                border-bottom-color: gold !important;
+            }
+            .ribbon-info:after{
+
+                border-right-color: gold !important;
+                border-top-color: gold !important;
+                border-bottom-color: gold !important;
+            }
+             .discount-time {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                text-align: center;
+                background-color: #fff6;
+                -webkit-backdrop-filter: blur(5px);
+                backdrop-filter: blur(5px);
+                padding: 8px;
+            }
+
+        </style>
+
     <div class="row">
         @if(Session::has('success'))
             <div class="alert alert-success" role="alert">
@@ -298,8 +332,11 @@
     </div>
     <div wire:ignore.self class="modal fade" id="buy-action" tabindex="-1" aria-labelledby="exampleModalgridLabel"
          aria-modal="true">
+
         <div class="modal-dialog" id="buy-share">
+
             <div class="modal-content">
+
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Buy Shares') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -427,7 +464,11 @@
                                 </div>
                             </div>
                             <div id="simulator" class="row mt-3">
-                                <div class="col-12">
+                                <div class="discount-time text-center">
+                                    <h5 id="auction-time-6" class="mb-0 text-black"></h5>
+                                </div>
+                                <div class="col-12  ribbon-box right overflow-hidden">
+                                    <div class="ribbon ribbon-info ribbon-shape trending-ribbon"><i class="ri-flashlight-fill text-white align-bottom"></i> <span class="trending-ribbon-text">Trending</span></div>
                                     <label for="ammount" class="col-form-label">{{ __('Amount_pay') }}({{$currency}}
                                         )</label>
                                     <div class="input-group">
@@ -488,6 +529,51 @@
         </div>
     </div>
     @push('scripts')
+       <script>
+           var setEndDate6 = "May 20, 2024 2:5:5";
+           function startCountDownDate(dateVal) {
+               var countDownDate = new Date(dateVal).getTime();
+               return countDownDate;
+           }
+
+           function countDownTimer(start, targetDOM) {
+               // Get todays date and time
+               var now = new Date().getTime();
+
+               // Find the distance between now and the count down date
+               var distance = start - now;
+
+               // Time calculations for days, hours, minutes and seconds
+               var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+               var hours = Math.floor(
+                   (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+               );
+               var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+               var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+               // add 0 at the beginning if days, hours, minutes, seconds values are less than 10
+               days = days < 10 ? "0" + days : days;
+               hours = hours < 10 ? "0" + hours : hours;
+               minutes = minutes < 10 ? "0" + minutes : minutes;
+               seconds = seconds < 10 ? "0" + seconds : seconds;
+
+               // Output the result in an element with auction-item-x"
+               document.querySelector("#" + targetDOM).textContent =
+                   days + " : " + hours + " : " + minutes + " : " + seconds;
+
+               // If the count down is over, write some text
+               if (distance < 0) {
+                   // clearInterval();
+                   document.querySelector("#" + targetDOM).textContent = "00 : 00 : 00 : 00";
+               }
+           }
+           var cdd6 = startCountDownDate(setEndDate6);
+           if (document.getElementById("auction-time-6"))
+               setInterval(function () {
+                   countDownTimer(cdd6, "auction-time-6");
+               }, 1000);
+
+       </script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="{{ URL::asset('assets/libs/prismjs/prismjs.min.js') }}"></script>
         <script src="{{ URL::asset('assets/js/pages/form-validation.init.js') }}"></script>
