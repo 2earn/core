@@ -307,7 +307,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row alert-flash alert-info" role="alert">
+                    <div class="row @if($flash) alert-flash @else alert  @endif alert-info" role="alert">
                         <p><strong>{{ __('Notice') }}: </strong>{{ __('buy_shares_notice') }}</p>
                     </div>
                     <div class="d-flex">
@@ -387,7 +387,7 @@
                     </div>
                     <div class="d-flex">
                         <form class="needs-validation" novalidate>
-                            <div class="row mt-2 alert-flash alert-primary">
+                            <div class="row mt-2  @if($flash) alert-flash @else alert  @endif alert-primary">
                                 <div class="col-3">
                                     <span class="form-label">{{ __('Buy For') }}:</span>
                                 </div>
@@ -429,13 +429,21 @@
                                 </div>
                             </div>
                             <div id="simulator" class="row mt-3">
-                                <div class="discount-time text-center">
-                                    <h5 id="auction-time-6" class="mb-0 text-black"></h5>
-                                </div>
-                                <div class="col-12  ribbon-box right overflow-hidden">
-                                    <div class="ribbon ribbon-info ribbon-shape trending-ribbon"><i
-                                            class="ri-flashlight-fill text-white align-bottom"></i> <span
-                                            class="trending-ribbon-text">{{__('Trending')}}</span></div>
+                                @if($flash)
+                                    <div class="discount-time text-center">
+                                        <h5 id="flash-timer" class="mb-0 text-black"></h5>
+                                    </div>
+                                @endif
+                                <div class="col-12  @if($flash) ribbon-box right overflow-hidden @endif ">
+
+                                    @if($flash)
+                                        <div class="ribbon ribbon-info ribbon-shape trending-ribbon">
+                                            <i class="ri-flashlight-fill text-white align-bottom"></i>
+                                            <span class="trending-ribbon-text">
+                                                {{__('Trending')}}
+                                            </span>
+                                        </div>
+                                    @endif
                                     <label for="ammount" class="col-form-label">{{ __('Amount_pay') }}({{$currency}}
                                         )</label>
                                     <div class="input-group">
@@ -478,8 +486,22 @@
                             </div>
                             <div class="col-lg-12">
                                 <div class="hstack gap-2 justify-content-end">
-                                    <button type="button" class="btn btn-light"
-                                            data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                                    @if($flash)
+                                        <button type="button" class="btn btn-outline-secondary">
+                                            {{__('Flash gift')}}
+                                            <span class="badge bg-success ms-1">{{$flashGift}}</span>
+                                        </button>
+
+                                        <button type="button" class="btn btn-outline-secondary">
+                                            {{__('Flash gain')}}
+                                            <span class="badge bg-success ms-1">{{$flashGain}}</span>
+                                        </button>
+                                    @endif
+                                    @if(!$flash)
+                                        <button type="button" class="btn btn-light"
+                                                data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                                    @endif
+
                                     <button type="button" id="buy-action-submit" wire:loading.attr="disabled"
                                             wire:target="simulate" class="btn btn-primary swal2-styled d-inline-flex">
                                         {{ __('Submit') }}
@@ -500,44 +522,47 @@
         <script src="{{ URL::asset('assets/libs/prismjs/prismjs.min.js') }}"></script>
         <script src="{{ URL::asset('assets/js/pages/form-validation.init.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script>
-            var setEndDate6 = "May 20, 2024 2:5:5";
+        @if($flash)
+            <script>
+                var setEndDate6 = "May 20, 2024 2:5:5";
 
-            function startCountDownDate(dateVal) {
-                var countDownDate = new Date(dateVal).getTime();
-                return countDownDate;
-            }
-
-            function countDownTimer(start, targetDOM) {
-                var now = new Date().getTime();
-                var distance = start - now;
-
-                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                var hours = Math.floor(
-                    (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-                );
-                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                days = days < 10 ? "0" + days : days;
-                hours = hours < 10 ? "0" + hours : hours;
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
-
-                document.querySelector("#" + targetDOM).textContent =
-                    days + " : " + hours + " : " + minutes + " : " + seconds;
-
-                if (distance < 0) {
-                    document.querySelector("#" + targetDOM).textContent = "00 : 00 : 00 : 00";
+                function startCountDownDate(dateVal) {
+                    var countDownDate = new Date(dateVal).getTime();
+                    return countDownDate;
                 }
-            }
 
-            var flashTimer = startCountDownDate(setEndDate6);
-            if (document.getElementById("auction-time-6"))
-                setInterval(function () {
-                    countDownTimer(flashTimer, "auction-time-6");
-                }, 1000);
+                function countDownTimer(start, targetDOM) {
+                    var now = new Date().getTime();
+                    var distance = start - now;
 
+                    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    var hours = Math.floor(
+                        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+                    );
+                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    days = days < 10 ? "0" + days : days;
+                    hours = hours < 10 ? "0" + hours : hours;
+                    minutes = minutes < 10 ? "0" + minutes : minutes;
+                    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                    document.querySelector("#" + targetDOM).textContent =
+                        days + " : " + hours + " : " + minutes + " : " + seconds;
+
+                    if (distance < 0) {
+                        document.querySelector("#" + targetDOM).textContent = "00 : 00 : 00 : 00";
+                    }
+                }
+
+                var flashTimer = startCountDownDate(setEndDate6);
+                if (document.getElementById("flash-timer"))
+                    setInterval(function () {
+                        countDownTimer(flashTimer, "flash-timer");
+                    }, 1000);
+            </script>
+        @endif
+        <script>
 
             $(document).on('ready ', function () {
                     const input = document.querySelector("#phone");

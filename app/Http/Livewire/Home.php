@@ -32,7 +32,10 @@ class Home extends Component
     public $ammount;
     public $action;
     public $gift;
+    public $flashGift;
+    public $flashGain;
     public $profit;
+    public $flash = true;
 
     protected $listeners = [
         'checkContactNumbre' => 'checkContactNumbre',
@@ -55,6 +58,10 @@ class Home extends Component
         $this->gift = getGiftedActions($this->action);
         $profitRaw = actualActionValue(getSelledActions(), false) * $this->gift;
         $this->profit = formatSolde($profitRaw, 2);
+        if ($this->flash) {
+            $this->flashGift = getFlashGiftedActions($this->action);
+            $this->flashGain = formatSolde($this->flashGift * actualActionValue(getSelledActions(), false), 2);
+        }
     }
 
     public function getIp()

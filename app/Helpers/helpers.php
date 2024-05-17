@@ -227,10 +227,10 @@ if (!function_exists('getHalfActionValue')) {
 if (!function_exists('getGiftedActions')) {
     function getGiftedActions($actions)
     {
-        $setting = \Core\Models\Setting::WhereIn('idSETTINGS', ['20', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
+        $setting = Setting::WhereIn('idSETTINGS', ['20', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
         $max_bonus = $setting[0];
         $total_actions = $setting[1];
-        $k = \Core\Models\Setting::Where('idSETTINGS', '21')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
+        $k = Setting::Where('idSETTINGS', '21')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
 
         $a = (($total_actions * $max_bonus) / 100);
         $b = (1 - exp(-$k * $actions));
@@ -244,7 +244,26 @@ if (!function_exists('getGiftedActions')) {
         return $result;
     }
 }
+if (!function_exists('getFlashGiftedActions')) {
+    function getFlashGiftedActions($actions)
+    {
+        $setting = Setting::WhereIn('idSETTINGS', ['20', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
+        $max_bonus = $setting[0];
+        $total_actions = $setting[1];
+        $k = Setting::Where('idSETTINGS', '21')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
 
+        $a = (($total_actions * $max_bonus) / 100);
+        $b = (1 - exp(-$k * $actions));
+        $result = intval($a * $b);
+        if ($actions / 3000 >= 1) {
+            $result = intval($actions / 3000) * 3000 * 2;
+        }
+        if ($actions / 30000 >= 1) {
+            $result = intval($actions / 30000) * 30000 * 6;
+        }
+        return $result;
+    }
+}
 if (!function_exists('actualActionValue')) {
     function actualActionValue($selled_actions, $formated = true)
     {
@@ -523,7 +542,8 @@ if (!function_exists('formatNotification')) {
 
 if (!function_exists('time_ago')) {
 
-    function time_ago(\Datetime $date)    {
+    function time_ago(\Datetime $date)
+    {
         $time_ago = '';
         $diff = $date->diff(new \Datetime('now'));
         if (($t = $diff->format("%y")) > 0)
