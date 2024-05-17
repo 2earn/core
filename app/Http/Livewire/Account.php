@@ -211,7 +211,11 @@ class Account extends Component
             $um->arFirstName = $this->usermetta_info['arFirstName'];
             $um->enLastName = $this->usermetta_info['enLastName'];
             $um->enFirstName = $this->usermetta_info['enFirstName'];
-            $um->birthday = $this->usermetta_info['birthday'];
+            if (!empty($this->usermetta_info['birthday'])) {
+                $um->birthday = $this->usermetta_info['birthday'];
+            } else {
+                $um->birthday = null;
+            }
             $um->adresse = $this->usermetta_info['adresse'];
             $um->nationalID = $this->usermetta_info['nationalID'];
         }
@@ -222,7 +226,11 @@ class Account extends Component
             $nbrChild = 20;
         }
         $um->childrenCount = $nbrChild;
-        $um->idState = $this->usermetta_info['idState'];
+        if (!empty($this->usermetta_info['idState'])) {
+            $um->idState = $this->usermetta_info['idState'];
+        } else {
+            $um->idState = null;
+        }
         $um->gender = $this->usermetta_info['gender'];
         $um->personaltitle = $this->usermetta_info['personaltitle'];
         $um->idLanguage = $this->usermetta_info['idLanguage'];
