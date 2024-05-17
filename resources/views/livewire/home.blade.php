@@ -6,41 +6,6 @@
     @endcomponent
     <link type="text/css" rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"/>
-
-
-
-
-
-        <style>
-            .ribbon-info{
-                background-color: gold !important;
-            }
-            .ribbon-info:before{
-
-                border-right-color: gold !important;
-                border-top-color: gold !important;
-                border-bottom-color: gold !important;
-            }
-            .ribbon-info:after{
-
-                border-right-color: gold !important;
-                border-top-color: gold !important;
-                border-bottom-color: gold !important;
-            }
-             .discount-time {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                text-align: center;
-                background-color: #fff6;
-                -webkit-backdrop-filter: blur(5px);
-                backdrop-filter: blur(5px);
-                padding: 8px;
-            }
-
-        </style>
-
     <div class="row">
         @if(Session::has('success'))
             <div class="alert alert-success" role="alert">
@@ -342,7 +307,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row alert alert-info" role="alert">
+                    <div class="row alert-flash alert-info" role="alert">
                         <p><strong>{{ __('Notice') }}: </strong>{{ __('buy_shares_notice') }}</p>
                     </div>
                     <div class="d-flex">
@@ -422,7 +387,7 @@
                     </div>
                     <div class="d-flex">
                         <form class="needs-validation" novalidate>
-                            <div class="row mt-2 alert alert-primary">
+                            <div class="row mt-2 alert-flash alert-primary">
                                 <div class="col-3">
                                     <span class="form-label">{{ __('Buy For') }}:</span>
                                 </div>

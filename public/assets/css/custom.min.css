@@ -378,3 +378,49 @@ nav svg {
 #notification-dropdown .simplebar-content-wrapper {
     max-height: 300px;
 }
+
+.alert-flash {
+    --vz-alert-bg: transparent;
+    --vz-alert-padding-x: 1rem;
+    --vz-alert-padding-y: 0.8rem;
+    --vz-alert-margin-bottom: 1rem;
+    --vz-alert-color: inherit;
+    --vz-alert-border-color: transparent;
+    --vz-alert-border: gold;
+    --vz-alert-border-radius: 0.25rem;
+    position: relative;
+    padding: var(--vz-alert-padding-y) var(--vz-alert-padding-x);
+    margin-bottom: var(--vz-alert-margin-bottom);
+    color: var(--vz-alert-color);
+    background-color: #ffd7001a;
+    border: var(--vz-alert-border);
+    border-radius: var(--vz-alert-border-radius);
+}
+
+.ribbon-info {
+    background-color: gold !important;
+}
+
+.ribbon-info:before {
+    border-right-color: gold !important;
+    border-top-color: gold !important;
+    border-bottom-color: gold !important;
+}
+
+.ribbon-info:after {
+    border-right-color: gold !important;
+    border-top-color: gold !important;
+    border-bottom-color: gold !important;
+}
+
+.discount-time {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background-color: gold;
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    padding: 8px;
+}
+
