@@ -33,7 +33,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="row justify-content-center mt-5 mb-2">
                             <div class="col-sm-7 col-8">
                                 <img src="{{ URL::asset('assets/images/verification-img.png') }}" alt=""
@@ -93,34 +92,34 @@
                             <div class="tab-pane fade show active" id="pills-bill-info" role="tabpanel"
                                  aria-labelledby="pills-bill-info-tab">
                                 <div class="row g-3">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <div>
                                             <label for="firstName" class="form-label">{{__('First Name')}}</label>
                                             <input type="text" class="form-control" id="firstName"
-                                                   placeholder="Enter your firstname">
+                                                   placeholder="{{__('Enter your firstname')}}">
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <div>
                                             <label for="lastName" class="form-label">{{__('Last Name')}}</label>
                                             <input type="text" class="form-control" id="lastName"
-                                                   placeholder="Enter your lastname">
+                                                   placeholder="{{__('Enter your lastname')}}">
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <div>
                                             <label for="phoneNumber" class="form-label">{{__('Phone')}}</label>
                                             <input type="text" class="form-control" id="phoneNumber"
-                                                   placeholder="Enter your phone number">
+                                                   placeholder="{{__('Enter your phone number')}}">
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <div>
                                             <label for="dateofBirth" class="form-label">
                                                 {{__('Date of Birth')}}
                                             </label>
                                             <input type="text" class="form-control" id="dateofBirth"
-                                                   data-provider="flatpickr" placeholder="Enter your date of birth">
+                                                   data-provider="flatpickr" placeholder="{{__('Enter your date of birth')}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
@@ -136,7 +135,7 @@
                                         <div>
                                             <label for="password" class="form-label">{{__('Password')}}</label>
                                             <input type="password" class="form-control" id="password"
-                                                   placeholder="Enter your password">
+                                                   placeholder="{{__('Enter your password')}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
@@ -145,14 +144,14 @@
                                                 {{__('Confirm Password')}}
                                             </label>
                                             <input type="password" class="form-control" id="confirmPassword"
-                                                   placeholder="Enter your confirm password">
+                                                   placeholder="{{__('Enter your confirm password')}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div>
                                             <label for="vatNo" class="form-label">{{__('VAT/TIN No.')}}</label>
                                             <input type="text" class="form-control" id="vatNo"
-                                                   placeholder="Enter your VAT/TIN no">
+                                                   placeholder="{{__('Enter your VAT/TIN no')}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -209,7 +208,7 @@
                                                 {{__('Bank Name')}}
                                             </label>
                                             <input type="text" class="form-control" id="banknameInput"
-                                                   placeholder="Enter your bank name">
+                                                   placeholder="{{__('Enter your bank name')}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -218,7 +217,7 @@
                                                 {{__('Branch')}}
                                             </label>
                                             <input type="text" class="form-control" id="branchInput"
-                                                   placeholder="Branch">
+                                                   placeholder="{{__('Branch')}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
@@ -227,7 +226,7 @@
                                                 {{__('Account Holder Name')}}
                                             </label>
                                             <input type="text" class="form-control" id="accountnameInput"
-                                                   placeholder="Enter account holder name">
+                                                   placeholder="{{__('Enter account holder name')}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -236,13 +235,13 @@
                                                 {{__('Account Number')}}
                                             </label>
                                             <input type="number" class="form-control" id="accountnumberInput"
-                                                   placeholder="Enter account number">
+                                                   placeholder="{{__('Enter account number')}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="ifscInput" class="form-label">IFSC</label>
-                                            <input type="number" class="form-control" id="ifscInput" placeholder="IFSC">
+                                            <input type="number" class="form-control" id="ifscInput" placeholder="{{__('IFSC')}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
@@ -363,9 +362,9 @@
                                                 {{__('Done')}}
                                                 <i class="ri-thumb-up-fill align-bottom me-1"></i>
                                             </button>
-                                 ddzdzdzdz           <button type="button" class="btn btn-primary">
+                                            <button type="button" class="btn btn-primary">
                                                 <i class="ri-home-4-line align-bottom ms-1"></i>
-                                           AAAAAAAAAAAAAAAA     {{__('Back to Home')}}
+                                                 {{__('Back to Home')}}
                                             </button>
                                         </div>
                                     </div>
