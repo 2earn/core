@@ -346,7 +346,7 @@
         }
 
         function checkNewMail() {
-            var returnValue = false;
+            var isNewEmail = false;
             $.ajax({
                 method: "GET",
                 url: "{{route('mailVerifNew')}}",
@@ -354,13 +354,14 @@
                 data: {mail: $("#inputEmailUser").val().trim(),},
                 success: (result) => {
                     if (result == 'no') {
-                        returnValue = false;
+                        isNewEmail = false;
                     } else {
-                        returnValue = true;
+                        isNewEmail = true;
                     }
                 }
             });
-            return returnValue;
+
+            return isNewEmail;
         }
 
         function doneVerify() {
@@ -457,7 +458,6 @@
         }
 
         function checkRequiredFieldMail() {
-
             if ($("#inputEmailUser").val().trim() === "") {
                 displayMailErrorMessage('{{__('Required field')}}')
                 return false;
@@ -476,10 +476,12 @@
             var optChecker = document.querySelector("#optChecker");
             if (!canUseEmail) {
                 if (checkNewMail()) {
+
                     if (sendEmailNotification) {
                         sendMailNotification();
                     }
                     optChecker.classList.remove("invisible");
+                    $("#inputEmailUser").prop('disabled', true);
                     if (checkOptFields()) {
                         if (checkOptVerify()) {
                             checkOpt = true;
