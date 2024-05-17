@@ -433,7 +433,9 @@
                                     <h5 id="auction-time-6" class="mb-0 text-black"></h5>
                                 </div>
                                 <div class="col-12  ribbon-box right overflow-hidden">
-                                    <div class="ribbon ribbon-info ribbon-shape trending-ribbon"><i class="ri-flashlight-fill text-white align-bottom"></i> <span class="trending-ribbon-text">Trending</span></div>
+                                    <div class="ribbon ribbon-info ribbon-shape trending-ribbon"><i
+                                            class="ri-flashlight-fill text-white align-bottom"></i> <span
+                                            class="trending-ribbon-text">{{__('Trending')}}</span></div>
                                     <label for="ammount" class="col-form-label">{{ __('Amount_pay') }}({{$currency}}
                                         )</label>
                                     <div class="input-group">
@@ -494,56 +496,49 @@
         </div>
     </div>
     @push('scripts')
-       <script>
-           var setEndDate6 = "May 20, 2024 2:5:5";
-           function startCountDownDate(dateVal) {
-               var countDownDate = new Date(dateVal).getTime();
-               return countDownDate;
-           }
-
-           function countDownTimer(start, targetDOM) {
-               // Get todays date and time
-               var now = new Date().getTime();
-
-               // Find the distance between now and the count down date
-               var distance = start - now;
-
-               // Time calculations for days, hours, minutes and seconds
-               var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-               var hours = Math.floor(
-                   (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-               );
-               var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-               var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-               // add 0 at the beginning if days, hours, minutes, seconds values are less than 10
-               days = days < 10 ? "0" + days : days;
-               hours = hours < 10 ? "0" + hours : hours;
-               minutes = minutes < 10 ? "0" + minutes : minutes;
-               seconds = seconds < 10 ? "0" + seconds : seconds;
-
-               // Output the result in an element with auction-item-x"
-               document.querySelector("#" + targetDOM).textContent =
-                   days + " : " + hours + " : " + minutes + " : " + seconds;
-
-               // If the count down is over, write some text
-               if (distance < 0) {
-                   // clearInterval();
-                   document.querySelector("#" + targetDOM).textContent = "00 : 00 : 00 : 00";
-               }
-           }
-           var cdd6 = startCountDownDate(setEndDate6);
-           if (document.getElementById("auction-time-6"))
-               setInterval(function () {
-                   countDownTimer(cdd6, "auction-time-6");
-               }, 1000);
-
-       </script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="{{ URL::asset('assets/libs/prismjs/prismjs.min.js') }}"></script>
         <script src="{{ URL::asset('assets/js/pages/form-validation.init.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
+            var setEndDate6 = "May 20, 2024 2:5:5";
+
+            function startCountDownDate(dateVal) {
+                var countDownDate = new Date(dateVal).getTime();
+                return countDownDate;
+            }
+
+            function countDownTimer(start, targetDOM) {
+                var now = new Date().getTime();
+                var distance = start - now;
+
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor(
+                    (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+                );
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                days = days < 10 ? "0" + days : days;
+                hours = hours < 10 ? "0" + hours : hours;
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                document.querySelector("#" + targetDOM).textContent =
+                    days + " : " + hours + " : " + minutes + " : " + seconds;
+
+                if (distance < 0) {
+                    document.querySelector("#" + targetDOM).textContent = "00 : 00 : 00 : 00";
+                }
+            }
+
+            var flashTimer = startCountDownDate(setEndDate6);
+            if (document.getElementById("auction-time-6"))
+                setInterval(function () {
+                    countDownTimer(flashTimer, "auction-time-6");
+                }, 1000);
+
+
             $(document).on('ready ', function () {
                     const input = document.querySelector("#phone");
                     const iti = window.intlTelInput(input, {
