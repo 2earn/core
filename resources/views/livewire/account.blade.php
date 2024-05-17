@@ -874,6 +874,7 @@
             });
 
             window.addEventListener('confirmOPTVerifMail', event => {
+                console.log('confirmOPTVerifMail');
                 Swal.fire({
                     title: '{{ __('Your verification code') }}',
                     html: '{{ __('We_will_send_Sms') }}<br>' + event.detail.numberActif + '<br>' + '{{ __('Your OTP Code') }}',
@@ -884,12 +885,11 @@
                     confirmButtonText: '{{trans('ok')}}',
                     showCancelButton: true,
                     cancelButtonText: '{{trans('canceled !')}}',
-                    footer: ' <i></i><div class="footerOpt"></div>',
+                    footer: '<div class="footerOpt"></div>',
                     didOpen: () => {
                         const b = Swal.getFooter().querySelector('i')
                         const p22 = Swal.getFooter().querySelector('div')
                         p22.innerHTML = '{{trans('Dont get code?') }}' + ' <a OnClick="ResendMail()" >' + '{{trans('Resend')}}' + '</a>';
-
                         timerInterval = setInterval(() => {
                             b.textContent = '{{trans('It will close in')}}' + (Swal.getTimerLeft() / 1000).toFixed(0) + '{{trans('secondes')}}'
                         }, 100)
@@ -898,12 +898,7 @@
                         clearInterval(timerInterval)
                     },
                     input: 'text',
-                    inputAttributes: {
-                        autocapitalize: 'off'
-                    },
-                    inputAttributes: {
-                        autocapitalize: 'off'
-                    },
+                    inputAttributes: {autocapitalize: 'off'}
                 }).then((resultat) => {
                     if (resultat.value) {
                         window.livewire.emit('saveVerifiedMail', resultat.value);
@@ -993,3 +988,4 @@
             });
         </script>
     </div>
+</div>
