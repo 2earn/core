@@ -843,17 +843,23 @@
                     showCancelButton: true,
                     cancelButtonText: '{{trans('canceled !')}}',
                     confirmButtonText: '{{trans('ok')}}',
-                    footer: ' <i></i><div class="footerOpt"></div>',
+                    footer: '<i></i><div class="footerOpt"></div>',
                     didOpen: () => {
-                        const b = Swal.getFooter().querySelector('i')
-                        const p22 = Swal.getFooter().querySelector('div')
+                        const b = Swal.getFooter().querySelector('i');
+                        const p22 = Swal.getFooter().querySelector('div');
                         p22.innerHTML = '<br>' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>';
+
                         timerInterval = setInterval(() => {
-                            b.innerHTML = '{{trans('It will close in')}}' + (Swal.getTimerLeft() / 1000).toFixed(0) + '{{trans('secondes')}}'
-                        }, 100)
+                            let timerLeft = Swal.getTimerLeft();
+                            if (timerLeft !== null) {
+                                b.innerHTML = '{{trans('It will close in')}}' + (timerLeft / 1000).toFixed(0) + '{{trans('secondes')}}';
+                            } else {
+                                clearInterval(timerInterval);
+                            }
+                        }, 100);
                     },
                     willClose: () => {
-                        clearInterval(timerInterval)
+                        clearInterval(timerInterval);
                     },
                     input: 'text',
                     inputAttributes: {
@@ -863,8 +869,11 @@
                     if (resultat.value) {
                         window.livewire.emit('changePassword', resultat.value);
                     }
-                })
-            })
+                }).catch((error) => {
+                    console.error('SweetAlert Error:', error);
+                });
+            });
+
 
             $("#validateMail").click(function () {
                 window.livewire.emit("sendVerificationMail", $('#inputEmail').val());
