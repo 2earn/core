@@ -151,6 +151,22 @@ left join users user on user.idUser = recharge_requests.idUser";
         return response()->json($array);
     }
 
+    public function vip(Req $request)
+    {
+
+        User::where('idUser', $request->reciver)->update(
+            [
+                'flashCoefficient' => $request->coefficient,
+                'flashDeadline' => $request->periode,
+                'flashNote' => $request->note,
+                'flashMinAmount' => $request->minshares,
+                'dateFNS' => now(),
+            ]
+        );
+        return "success";
+
+    }
+
     public function addCash(Req $request, BalancesManager $balancesManager)
     {
 
@@ -779,10 +795,10 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
     public function getUsersList()
     {
 
-        $query = User::select('countries.apha2', 'users.idUser', 'idUplineRegister', DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'), 'users.mobile', 'users.created_at', 'OptActivation', 'pass')
+        $query = User::select('countries.apha2', 'users.idUser', 'idUplineRegister', DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'), 'users.mobile', 'users.created_at', 'OptActivation', 'pass', 'flashCoefficient as coeff', 'flashDeadline as periode', 'flashNote as note', 'flashMinAmount as minshares', 'dateFNS as date')
             ->join('metta_users as meta', 'meta.idUser', '=', 'users.idUser')
-            ->join('countries', 'countries.id', '=', 'users.idCountry');
-        //->where('users.idUser','<' ,197604180);
+            ->join('countries', 'countries.id', '=', 'users.idCountry')
+            ->where('users.idUser', '<', 197604180);
 
         //  dd($query) ;
         return datatables($query)
@@ -802,6 +818,12 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
                 return '<a data-bs-toggle="modal" data-bs-target="#AddCash"   data-phone="' . $settings->mobile . '" data-country="' . Asset("assets/images/flags/" . strtolower($settings->apha2)) . '.svg" data-reciver="' . $settings->idUser . '"
 class="btn btn-xs btn-primary btn2earnTable addCash"  >
 <i class="glyphicon glyphicon-add"></i>' . Lang::get('AddCash') . '</a> ';
+            })
+            ->addColumn('VIP', function ($settings) {
+
+                return '<a data-bs-toggle="modal" data-bs-target="#vip"   data-phone="' . $settings->mobile . '" data-country="' . Asset("assets/images/flags/" . strtolower($settings->apha2)) . '.svg" data-reciver="' . $settings->idUser . '"
+class="btn btn-xs btn-flash btn2earnTable vip"  >
+<i class="glyphicon glyphicon-add"></i>' . Lang::get('VIP') . '</a> ';
             })
             ->addColumn('flag', function ($settings) {
 
@@ -833,7 +855,7 @@ class="btn btn-ghost-warning waves-effect waves-light smsb"  >
 class="btn btn-ghost-success waves-effect waves-light sh"  >
 <i class="glyphicon glyphicon-add"></i>' . number_format(getUserSelledActions($user_balance->idUser), 0) . '</a> '; //number_format(getUserSelledActions($user_balance->idUser),0);
             })
-            ->rawColumns(['action', 'flag', 'SoldeCB', 'SoldeBFS', 'SoldeDB', 'SoldeSMS', 'SoldeSH'])
+            ->rawColumns(['action', 'flag', 'SoldeCB', 'SoldeBFS', 'SoldeDB', 'SoldeSMS', 'SoldeSH', 'VIP'])
             ->make(true);
     }
 

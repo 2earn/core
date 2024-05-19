@@ -245,22 +245,11 @@ if (!function_exists('getGiftedActions')) {
     }
 }
 if (!function_exists('getFlashGiftedActions')) {
-    function getFlashGiftedActions($actions)
+    function getFlashGiftedActions($actions,$times)
     {
-        $setting = Setting::WhereIn('idSETTINGS', ['20', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
-        $max_bonus = $setting[0];
-        $total_actions = $setting[1];
-        $k = Setting::Where('idSETTINGS', '21')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
 
-        $a = (($total_actions * $max_bonus) / 100);
-        $b = (1 - exp(-$k * $actions));
-        $result = intval($a * $b);
-        if ($actions / 3000 >= 1) {
-            $result = intval($actions / 3000) * 3000 * 2;
-        }
-        if ($actions / 30000 >= 1) {
-            $result = intval($actions / 30000) * 30000 * 6;
-        }
+            $result = intval($actions * $times);
+
         return $result;
     }
 }

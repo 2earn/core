@@ -170,6 +170,12 @@
                             <th>{{__('Password')}}</th>
                             <th>{{__('register_upline')}}</th>
                             <th>{{__('Action')}}</th>
+                            <th>{{__('MinShare')}}</th>
+                            <th>{{__('Periode')}}</th>
+                            <th>{{__('Date')}}</th>
+                            <th>{{__('COeff')}}</th>
+                            <th>{{__('Note')}}</th>
+                            <th>{{__('VIP')}}</th>
                         </tr>
                         </thead>
                         <tbody class="body2earn">
@@ -217,6 +223,54 @@
                 </div>
             </div>
         </div>
+            <div class="modal fade" id="vip" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Transfert Cash') }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="javascript:void(0);">
+                                <div class="row g-3">
+                                    <div class="col-xxl-6">
+                                        <div class="input-group">
+                                        <span class="input-group-text">
+                                            <img id="vip-country" class="avatar-xxs me-2"/></span>
+                                            <input type="text" class="form-control" disabled id="vip-phone"
+                                                   aria-describedby="basic-addon1">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row g-3">
+                                    <div class="col-xxl-6">
+                                        <div class="input-group">
+                                            <input id="vip-reciver" type="hidden">
+                                            <input type="hidden"  id="created_at">
+                                            <label class="form-label">minshares</label>
+                                            <input type="number" class="form-control-flash" id="minshares">
+                                            <label class="form-label">periode</label>
+                                            <input type="number" class="form-control-flash" id="periode">
+                                            <label class="form-label">coefficient</label>
+                                            <input type="number" class="form-control-flash" id="coefficient">
+                                            <label class="form-label">note</label>
+                                            <input type="text" class="form-control-flash" id="note">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="hstack gap-2 justify-content-end">
+                                            <button type="button" class="btn btn-light"
+                                                    data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                                            <button type="button" id="vip-submit"
+                                                    class="btn btn-flash">{{ __('Submit') }}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         <div class="modal fade modal-xl" id="detail" tabindex="-1" aria-labelledby="exampleModalgridLabel"
              aria-modal="true">
             <div class="modal-dialog">
