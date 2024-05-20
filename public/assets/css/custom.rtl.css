@@ -295,12 +295,13 @@ input[type=range]::-ms-fill-upper {
 
 }
 
-
-
-
 .btn-outline-gold {
     color: black;
 }
 .btn-outline-gold:hover {
     color: black;
+}
+
+.buy-action-submit-spinner {
+    display: none;
 }
