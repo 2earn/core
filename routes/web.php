@@ -173,6 +173,7 @@ Route::group(['prefix' => 'API'], function () {
 
     Route::get('get-updated-card-content', 'App\Http\Controllers\ApiController@getUpdatedCardContent')->name('get-updated-card-content');
     Route::post('add_cash', 'App\Http\Controllers\ApiController@addCash')->name('addCash');
+    Route::post('vip', 'App\Http\Controllers\ApiController@vip')->name('vip');
     Route::post('send_sms', 'App\Http\Controllers\ApiController@sendSMS')->name('sendSMS');
     Route::post('update-balance-status', 'App\Http\Controllers\ApiController@updateBalanceStatus')->name('update-balance-status');
     Route::post('update-reserve-date', 'App\Http\Controllers\ApiController@updateReserveDate')->name('update-reserve-date');

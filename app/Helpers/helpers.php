@@ -227,10 +227,10 @@ if (!function_exists('getHalfActionValue')) {
 if (!function_exists('getGiftedActions')) {
     function getGiftedActions($actions)
     {
-        $setting = \Core\Models\Setting::WhereIn('idSETTINGS', ['20', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
+        $setting = Setting::WhereIn('idSETTINGS', ['20', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
         $max_bonus = $setting[0];
         $total_actions = $setting[1];
-        $k = \Core\Models\Setting::Where('idSETTINGS', '21')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
+        $k = Setting::Where('idSETTINGS', '21')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
 
         $a = (($total_actions * $max_bonus) / 100);
         $b = (1 - exp(-$k * $actions));
@@ -244,7 +244,15 @@ if (!function_exists('getGiftedActions')) {
         return $result;
     }
 }
+if (!function_exists('getFlashGiftedActions')) {
+    function getFlashGiftedActions($actions,$times)
+    {
 
+            $result = intval($actions * $times);
+
+        return $result;
+    }
+}
 if (!function_exists('actualActionValue')) {
     function actualActionValue($selled_actions, $formated = true)
     {

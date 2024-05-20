@@ -693,13 +693,20 @@
                     {data: 'pass'},
                     {data: 'register_upline'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
+
+                    {data: 'minshares'},
+                    {data: 'periode'},
+                    {data: 'date'},
+                    {data: 'coeff'},
+                    {data: 'note'},
+                    {data: 'VIP', name: 'action', orderable: false, searchable: false},
                     {data: 'mobile'},
 
 
                 ],
                 "columnDefs": [
                     {
-                        "targets": [13],
+                        "targets": [19],
                         searchable: true,
                         visible: false
                     },
@@ -1877,8 +1884,6 @@
         $('#userlist-phone').attr('value', phone);
         console.log(reciver);
     });
-
-
     $(document).on("click", "#userlist-submit", function () {
 
         console.log($('#userlist-reciver').val());
@@ -1914,6 +1919,72 @@
                 });
 
                 $('#AddCash').modal('hide');
+                Toastify({
+                    text: data,
+                    gravity: "top",
+                    duration: 3000,
+                    className: "info",
+                    position: "center",
+                    backgroundColor: "#27a706"
+                }).showToast();
+            }
+
+        });
+    });
+    $(document).on("click", ".vip", function () {
+        let reciver = $(this).data('reciver');
+        let phone = $(this).data('phone');
+        let country = $(this).data('country');
+        console.log(reciver);
+        $('#vip-country').attr('src', country);
+        $('#vip-reciver').attr('value', reciver);
+        $('#vip-phone').attr('value', phone);
+        console.log(reciver);
+    });
+    $(document).on("click", "#vip-submit", function () {
+
+        console.log($('#vip-reciver').val());
+
+        let reciver = $('#vip-reciver').val();
+        let minshares = $('#minshares').val();
+        let periode = $('#periode').val();
+        let coefficient = $('#coefficient').val();
+        let note = $('#note').val();
+        let date = Date.now();
+        let msg = "vous avez transferé " + ammount + " $ à " + reciver;
+        let msgvip = "l'utilisateur "+ reciver +" est VIP(x"+coefficient+") pour une periode de "+periode+ " à partir de "+ date + " avec un minimum de " + minshares+ " actions acheté" ;
+        let user = 126;
+        $.ajax({
+            url: "{{ route('vip') }}",
+            type: "POST",
+
+            data: {
+                reciver: reciver,
+                minshares: minshares,
+                periode: periode,
+                coefficient: coefficient,
+                note: note,
+                date: date,
+                "_token": "{{ csrf_token() }}"
+            },
+            success: function (data) {
+                console.log(data);
+                $.ajax({
+                    url: "{{ route('sendSMS') }}",
+                    type: "POST",
+
+                    data: {
+                        user: user,
+                        msg: msgvip,
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    success: function (data) {
+                        console.log(data);
+                    }
+
+                });
+
+                $('#vip').modal('hide');
                 Toastify({
                     text: data,
                     gravity: "top",

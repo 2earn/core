@@ -5,8 +5,9 @@ namespace App\Http\Livewire;
 
 use App\Http\Traits\contactNumberCheker;
 use Core\Services\BalancesManager;
-
 use Core\Services\settingsManager;
+use DateInterval;
+use DateTime;
 use Illuminate\Http\Request as Req;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -33,6 +34,17 @@ class Home extends Component
     public $action;
     public $gift;
     public $profit;
+    public $flashGift = 0;
+    public $flashTimes;
+    public $flashPeriod;
+    public $flashDate;
+    public $flashMinShares;
+
+    public $flashGain = 0;
+
+    public $flash = false;
+    public $hasFlashAmount = false;
+
 
     protected $listeners = [
         'checkContactNumbre' => 'checkContactNumbre',
@@ -51,11 +63,24 @@ class Home extends Component
         if ($this->ammount < 0 && $this->ammount <> "") {
             $this->ammount = 0;
         }
+
         $this->action = intval(intval($this->ammount) / actualActionValue(getSelledActions()));
         $this->gift = getGiftedActions($this->action);
         $profitRaw = actualActionValue(getSelledActions(), false) * $this->gift;
         $this->profit = formatSolde($profitRaw, 2);
+        if ($this->flash) {
+            if ($this->action >= $this->flashMinShares) {
+                $hasFlashAmount = true;
+                $this->flashGift = '+' . getFlashGiftedActions($this->action, $this->flashTimes);
+                $this->flashGain = '+' . formatSolde($this->flashGift * actualActionValue(getSelledActions(), false), 2);
+            } else {
+                $this->flashGift = 0;
+                $this->flashGain = 0;
+            }
+
+        }
     }
+
 
     public function getIp()
     {
@@ -89,6 +114,8 @@ class Home extends Component
         $this->userActualActionsProfit = number_format(getUserActualActionsProfit(Auth()->user()->idUser), 2);
         $this->userSelledAction = getUserSelledActions(Auth()->user()->idUser);
         $actualActionValue = actualActionValue(getSelledActions(), false);
+        $flashUser =
+
 
         $params = [
             "soldeBuyShares" => $balancesManager->getBalances($user->idUser, 2),
@@ -99,6 +126,18 @@ class Home extends Component
                 '2Fraction' => intval(($actualActionValue - floor($actualActionValue)) * 100),
                 '3_2Fraction' => intval(($actualActionValue - floor($actualActionValue)) * 100000) - intval(($actualActionValue - floor($actualActionValue)) * 100) * 1000]
         ];
+        if ($user->flashCoefficient) {
+            $this->flashTimes = $user->flashCoefficient;
+            $this->flashPeriod = $user->flashDeadline;
+            $this->flashDate = $user->dateFNS;
+            $this->flashMinShares = $user->flashMinAmount;
+            $currentDateTime = new DateTime();
+            $dateFlash = new DateTime($this->flashDate);
+            $interval = new DateInterval('PT' . $this->flashPeriod . 'H');
+            $dateFlash = $dateFlash->add($interval);
+            $this->flashDate = $dateFlash->format('F j, Y G:i:s');
+            $this->flash = $currentDateTime < $dateFlash;
+        }
         return view('livewire.home', $params)->extends('layouts.master')->section('content');
     }
 }

@@ -223,8 +223,6 @@ class settingsManager
     {
         $user = $this->userRepository->getAuthenticatedUser();
 
-        if (!$user)
-            return null;
         $userMetta = $this->getMettaUser()
             ->where('idUser', '=', $user->idUser)->first();
         $userAuth = new AuthenticatedUser();
@@ -240,6 +238,12 @@ class settingsManager
         $userAuth->fullNumber = $user->fullphone_number;
         $userAuth->status = $user->status;
         $userAuth->idCountry = $user->idCountry;
+        $userAuth->flashCoefficient = $user->flashCoefficient;
+        $userAuth->flashDeadline = $user->flashDeadline;
+        $userAuth->flashNote = $user->flashNote;
+        $userAuth->flashMinAmount = $user->flashMinAmount;
+        $userAuth->dateFNS = $user->dateFNS;
+
         return $userAuth;
     }
 

@@ -286,7 +286,7 @@
                                             <select class="form-select mb-3" aria-label=" "
                                                     wire:model.defer="usermetta_info.personaltitle">
                                                 <option value="">-------</option>
-                                                <?php if (isset($personaltitles)){
+                                                    <?php if (isset($personaltitles)){
                                                 foreach ($personaltitles as $personaltitle){
                                                     ?>
                                                 <option
@@ -303,7 +303,7 @@
                                                     wire:model.defer="usermetta_info.gender">
                                                 <
                                                 <option value="">-------</option>
-                                                <?php if (isset($genders)){
+                                                    <?php if (isset($genders)){
                                                 foreach ($genders as $gender){
                                                     ?>
                                                 <option value="{{$gender->id}}">{{ __( $gender->name)  }}</option>
@@ -319,7 +319,7 @@
                                             <select class="form-select mb-3" aria-label=" "
                                                     wire:model.defer="usermetta_info.idLanguage">
                                                 <option value="" selected>-------</option>
-                                                <?php if (isset($languages)){ ?>
+                                                    <?php if (isset($languages)){ ?>
                                                     <?php
                                                 foreach ($languages as $language){
                                                     ?>
@@ -846,17 +846,23 @@
                     showCancelButton: true,
                     cancelButtonText: '{{trans('canceled !')}}',
                     confirmButtonText: '{{trans('ok')}}',
-                    footer: ' <i></i><div class="footerOpt"></div>',
+                    footer: '<i></i><div class="footerOpt"></div>',
                     didOpen: () => {
-                        const b = Swal.getFooter().querySelector('i')
-                        const p22 = Swal.getFooter().querySelector('div')
+                        const b = Swal.getFooter().querySelector('i');
+                        const p22 = Swal.getFooter().querySelector('div');
                         p22.innerHTML = '<br>' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>';
+
                         timerInterval = setInterval(() => {
-                            b.innerHTML = '{{trans('It will close in')}}' + (Swal.getTimerLeft() / 1000).toFixed(0) + '{{trans('secondes')}}'
-                        }, 100)
+                            let timerLeft = Swal.getTimerLeft();
+                            if (timerLeft !== null) {
+                                b.innerHTML = '{{trans('It will close in')}}' + (timerLeft / 1000).toFixed(0) + '{{trans('secondes')}}';
+                            } else {
+                                clearInterval(timerInterval);
+                            }
+                        }, 100);
                     },
                     willClose: () => {
-                        clearInterval(timerInterval)
+                        clearInterval(timerInterval);
                     },
                     input: 'text',
                     inputAttributes: {
@@ -866,48 +872,56 @@
                     if (resultat.value) {
                         window.livewire.emit('changePassword', resultat.value);
                     }
-                })
-            })
+                }).catch((error) => {
+                    console.error('SweetAlert Error:', error);
+                });
+            });
+            window.addEventListener('confirmOPTVerifMail', event => {
+                Swal.fire({
+                    title: '{{trans('Your verification code')}}',
+                    html: '{{ __('We_will_send') }}' + '<br>' + event.detail.mail + '<br>' + '{{__('Your OTP Code')}}',
+                    allowOutsideClick: false,
+                    timer: '{{ env('timeOPT') }}',
+                    timerProgressBar: true,
+                    showCancelButton: true,
+                    cancelButtonText: '{{trans('canceled !')}}',
+                    confirmButtonText: '{{trans('ok')}}',
+                    footer: '<i></i><div class="footerOpt"></div>',
+                    didOpen: () => {
+                        const b = Swal.getFooter().querySelector('i');
+                        const p22 = Swal.getFooter().querySelector('div');
+                        p22.innerHTML = '<br>' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>';
+
+                        timerInterval = setInterval(() => {
+                            let timerLeft = Swal.getTimerLeft();
+                            if (timerLeft !== null) {
+                                b.innerHTML = '{{trans('It will close in')}}' + (timerLeft / 1000).toFixed(0) + '{{trans('secondes')}}';
+                            } else {
+                                clearInterval(timerInterval);
+                            }
+                        }, 100);
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval);
+                    },
+                    input: 'text',
+                    inputAttributes: {
+                        autocapitalize: 'off'
+                    },
+                }).then((resultat) => {
+                    if (resultat.value) {
+                        window.livewire.emit('saveVerifiedMail', resultat.value);
+                    }
+                }).catch((error) => {
+                    console.error('SweetAlert Error:', error);
+                });
+            });
+
 
             $("#validateMail").click(function () {
                 window.livewire.emit("sendVerificationMail", $('#inputEmail').val());
             });
 
-            window.addEventListener('confirmOPTVerifMail', event => {
-                console.log('confirmOPTVerifMail');
-                Swal.fire({
-                    title: '{{ __('Your verification code') }}',
-                    html: '{{ __('We_will_send_Sms') }}<br>' + event.detail.numberActif + '<br>' + '{{ __('Your OTP Code') }}',
-                    input: 'text',
-                    allowOutsideClick: false,
-                    timer: '{{ env('timeOPT') }}',
-                    timerProgressBar: true,
-                    confirmButtonText: '{{trans('ok')}}',
-                    showCancelButton: true,
-                    cancelButtonText: '{{trans('canceled !')}}',
-                    footer: '<div class="footerOpt"></div>',
-                    didOpen: () => {
-                        const b = Swal.getFooter().querySelector('i')
-                        const p22 = Swal.getFooter().querySelector('div')
-                        p22.innerHTML = '{{trans('Dont get code?') }}' + ' <a OnClick="ResendMail()" >' + '{{trans('Resend')}}' + '</a>';
-                        timerInterval = setInterval(() => {
-                            b.textContent = '{{trans('It will close in')}}' + (Swal.getTimerLeft() / 1000).toFixed(0) + '{{trans('secondes')}}'
-                        }, 100)
-                    },
-                    willClose: () => {
-                        clearInterval(timerInterval)
-                    },
-                    input: 'text',
-                    inputAttributes: {autocapitalize: 'off'}
-                }).then((resultat) => {
-                    if (resultat.value) {
-                        window.livewire.emit('saveVerifiedMail', resultat.value);
-                    }
-                    if (resultat.isDismissed) {
-                        location.reload();
-                    }
-                })
-            })
 
             function showIdentitiesModal(typeIdentitie) {
                 $('#identies-viewer-title').empty().append($('#' + typeIdentitie + '-id-image').attr('title'));
