@@ -242,7 +242,7 @@ if (!function_exists('getFlashGiftedActions')) {
     function getFlashGiftedActions($actions,$times)
     {
 
-            $result = intval($actions * $times);
+            $result = intval($actions * ($times-1));
 
         return $result;
     }
