@@ -546,7 +546,7 @@
                     seconds = seconds < 10 ? "0" + seconds : seconds;
 
                     document.querySelector("#" + targetDOM).textContent =
-                        days + " : " + hours + " : " + minutes + " : " + seconds;
+                        "- " + days + " {{__('days')}} : " + hours + " {{__('hours')}} : " + minutes + " {{__('minutes')}} : " + seconds + "  {{__('seconds')}}";
 
                     if (distance < 0) {
                         document.querySelector("#" + targetDOM).textContent = "00 : 00 : 00 : 00";
