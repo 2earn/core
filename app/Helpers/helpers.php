@@ -235,12 +235,6 @@ if (!function_exists('getGiftedActions')) {
         $a = (($total_actions * $max_bonus) / 100);
         $b = (1 - exp(-$k * $actions));
         $result = intval($a * $b);
-        if ($actions / 3000 >= 1) {
-            $result = intval($actions / 3000) * 3000 * 2;
-        }
-        if ($actions / 30000 >= 1) {
-            $result = intval($actions / 30000) * 30000 * 6;
-        }
         return $result;
     }
 }
