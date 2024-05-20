@@ -297,22 +297,24 @@
     </div>
     <div wire:ignore.self class="modal fade" id="buy-action" tabindex="-1" aria-labelledby="exampleModalgridLabel"
          aria-modal="true">
-
         <div class="modal-dialog" id="buy-share">
-
             <div class="modal-content">
-
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Buy Shares') }}@if($flash)<div class="flash-background">V I P </div>@endif</h5>
+                    <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Buy Shares') }}@if($flash)
+                            <div class="flash-background">{{__('V I P')}}</div>
+                        @endif</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
-
                 </div>
                 <div class="modal-body">
                     @if($flash)
-                    <div class="row pink col-12" role="alert">
-                        <p>A mode for a <span class="pinkbold col-auto">{{$flashTimes}}</span> times bonus over <span class="pinkbold col-auto">{{$flashPeriod}} hours</span> with a minimum of <span class="pinkbold col-auto">{{$flashMinShares}} Shares</span></p>
-                    </div>
+                        <div class="row pink col-12" role="alert">
+                            <p>{{__('A mode for a ')}}<span
+                                    class="pinkbold col-auto">{{$flashTimes}}</span> {{__('times bonus over')}}
+                                <span
+                                    class="pinkbold col-auto">{{$flashPeriod}} {{__('hours')}}</span> {{__('with a minimum of')}}
+                                <span
+                                    class="pinkbold col-auto">{{$flashMinShares}} {{__('Shares')}}</span></p>
+                        </div>
                     @endif
                     <div class="row @if($flash) alert-flash @else alert  @endif alert-info" role="alert">
                         <p><strong>{{ __('Notice') }}: </strong>{{ __('buy_shares_notice') }}</p>
@@ -415,7 +417,9 @@
                                 <div class="col-6 d-none" id="contact-select">
                                     <div>
                                         <label for="phone" class="form-label">{{ __('Mobile_Number') }}</label>
-                                        <input type="tel" class="@if($flash) form-control-flash @else form-control  @endif" name="mobile" id="phone" required>
+                                        <input type="tel"
+                                               class="@if($flash) form-control-flash @else form-control  @endif"
+                                               name="mobile" id="phone" required>
                                     </div>
                                 </div>
                                 <div class="col-6 d-none" id="bfs-select">
@@ -442,8 +446,6 @@
                                     </div>
                                 @endif
                                 <div class="col-12  @if($flash) ribbon-box right overflow-hidden @endif ">
-
-
                                     <label for="ammount" class="col-form-label">{{ __('Amount_pay') }}({{$currency}}
                                         )</label>
                                     <div class="input-group">
@@ -451,7 +453,8 @@
                                                wire:keyup.debounce="simulate()" wire:model="ammount"
                                                class="form-control @if($flash) flash @endif"
                                                id="ammount" required>
-                                        <button wire:click="simulate()" class="btn @if($flash) btn-outline-flash @else btn-outline-primary  @endif">
+                                        <button wire:click="simulate()"
+                                                class="btn @if($flash) btn-outline-flash @else btn-outline-primary  @endif">
                                             <div wire:loading wire:target="simulate">
                                                 <span class="spinner-border spinner-border-sm" role="status"
                                                       aria-hidden="true"></span>
@@ -465,14 +468,18 @@
                                     <label for="number-of-action" class="col-form-label">
                                         {{ __('Number Of Shares') }}
                                     </label>
-                                    <input type="number" disabled class="@if($flash) form-control-flash @else form-control  @endif" id="number-of-action"
+                                    <input type="number" disabled
+                                           class="@if($flash) form-control-flash @else form-control  @endif"
+                                           id="number-of-action"
                                            wire:model.live="action" value="0000">
                                 </div>
                                 <div class="col-md-4 col-sm-6 col-xs-6">
                                     <label for="number-of-gifted-action" class="col-form-label">
                                         {{ __('Gifted Shares') }}
                                     </label>
-                                    <input type="number" disabled class="@if($flash) form-control-flash @else form-control  @endif" wire:model.live="gift"
+                                    <input type="number" disabled
+                                           class="@if($flash) form-control-flash @else form-control  @endif"
+                                           wire:model.live="gift"
                                            id="number-of-gifted-action"
                                            value="0000">
                                 </div>
@@ -480,33 +487,30 @@
                                     <label for="profit" class="col-form-label">{{ __('Profit') }}
                                         ({{$currency}}) </label>
                                     <input type="text" inputmode="numeric" pattern="[-+]?[0-9]*[.,]?[0-9]+" disabled
-                                           class="@if($flash) form-control-flash @else form-control  @endif" id="profit" value="0000"
+                                           class="@if($flash) form-control-flash @else form-control  @endif" id="profit"
+                                           value="0000"
                                            wire:model.live="profit">
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="hstack gap-2 justify-content-end">
                                     @if($flash)
-
                                         <button type="button" class="btn btn-outline-gold">
                                             {{__('Flash gift')}}
                                             <span class="flash-background">{{$flashGift}}</span>
-
                                         </button>
-
                                         <button type="button" class="btn btn-outline-gold">
                                             {{__('Flash gain')}}
                                             <span class="flash-background">{{$flashGain}}$</span>
                                         </button>
-
                                     @endif
                                     @if(!$flash)
                                         <button type="button" class="btn btn-light"
                                                 data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                                     @endif
-
                                     <button type="button" id="buy-action-submit" wire:loading.attr="disabled"
-                                            wire:target="simulate" class="btn @if($flash) btn-flash @else btn-primary  @endif swal2-styled d-inline-flex">
+                                            wire:target="simulate"
+                                            class="btn @if($flash) btn-flash @else btn-primary  @endif swal2-styled d-inline-flex">
                                         {{ __('Submit') }}
                                         <div
                                             class="spinner-border spinner-border-sm mx-2 mt-1 buy-action-submit-spinner"
