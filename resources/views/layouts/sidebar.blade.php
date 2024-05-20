@@ -61,7 +61,7 @@
                     </li>
                     <li class="nav-item {{Route::currentRouteName()=='RecuperationHistory'? 'active' : ''}}">
                         <a href="{{route('RecuperationHistory',app()->getLocale())}}"
-                           class="nav-link menu-link {{Route::currentRouteName()=='RecuperationHistory'? 'active' : ''}}"
+                           class="nav-link menu-link {{Route::currentRouteName()=='RecuperationHistory'? 'active' : ''}} disabled"
                            role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                             <i class="ri-history-line"></i>
                             <span>{{ __('Historique_recuperation') }}</span>
@@ -77,7 +77,7 @@
                     </li>
                     <li class="nav-item {{Route::currentRouteName()=='TreeMaintenance'? 'active' : ''}}">
                         <a href="{{route('TreeMaintenance',app()->getLocale())}}"
-                           class="nav-link menu-link {{Route::currentRouteName()=='TreeMaintenance'? 'active' : ''}}"
+                           class="nav-link menu-link {{Route::currentRouteName()=='TreeMaintenance'? 'active' : ''}} disabled"
                            role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                             <i class="fa-brands fa-pagelines"></i>
                             <span>{{ __('Entretien_arbre') }}</span>
