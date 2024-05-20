@@ -263,7 +263,7 @@
                                     ({{$actionsValues}}{{$currency}})
                                 </small></h3>
                             <button data-bs-target="#buy-action" data-bs-toggle="modal"
-                                    class="btn btn-sm btn-secondary">{{ __('Buy Shares') }}</button>
+                                    class="btn btn-sm @if($flash) btn-flash @else btn-secondary  @endif">{{ __('Buy Shares') }}</button>
                             <span class="badge bg-light text-success  ms-2 mb-0"><i
                                     class="ri-arrow-up-line align-middle"></i>
                                 {{$userActualActionsProfit }} {{$currency}}
