@@ -297,9 +297,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    @if($flash)
-                        <div class="row pink col-12" role="alert">
-                            <p>{{__('A mode for a ')}}<span
+                    @($flash)
+                        <div classif="row pink col-12" role="alert">
+                            <p>{{__('A mode for a')}} <span
                                     class="pinkbold col-auto">{{$flashTimes}}</span> {{__('times bonus over')}}
                                 <span
                                     class="pinkbold col-auto">{{$flashPeriod}} {{__('hours')}}</span> {{__('with a minimum of')}}
