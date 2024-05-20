@@ -41,7 +41,6 @@ class TopBar extends Component
         $this->count = \auth()->user()->unreadNotifications()->count();
         $this->notifications = auth()->user()->unreadNotifications()->get();
         $this->locales = config('app.available_locales');
-
         if (!$authUser)
             dd('not found page');
         $params = [
