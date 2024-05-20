@@ -549,3 +549,13 @@ if (!function_exists('time_ago')) {
         return $time_ago . ' ago (' . $date->format('M j, Y') . ')';
     }
 }
+
+if (!function_exists('isValidEmailAdressFormat')) {
+    function isValidEmailAdressFormat($email)
+    {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
+        return true;
+    }
+}

@@ -4,6 +4,9 @@
             {{ __('Profile') }}
         @endslot
     @endcomponent
+    <div class="col-xxl-12">
+        @include('layouts.flash-messages')
+    </div>
     <div class="row">
         <div class="col-xxl-3">
             <div class="card  ">
@@ -283,7 +286,7 @@
                                             <select class="form-select mb-3" aria-label=" "
                                                     wire:model.defer="usermetta_info.personaltitle">
                                                 <option value="">-------</option>
-                                                <?php if (isset($personaltitles)){
+                                                    <?php if (isset($personaltitles)){
                                                 foreach ($personaltitles as $personaltitle){
                                                     ?>
                                                 <option
@@ -300,7 +303,7 @@
                                                     wire:model.defer="usermetta_info.gender">
                                                 <
                                                 <option value="">-------</option>
-                                                <?php if (isset($genders)){
+                                                    <?php if (isset($genders)){
                                                 foreach ($genders as $gender){
                                                     ?>
                                                 <option value="{{$gender->id}}">{{ __( $gender->name)  }}</option>
@@ -316,7 +319,7 @@
                                             <select class="form-select mb-3" aria-label=" "
                                                     wire:model.defer="usermetta_info.idLanguage">
                                                 <option value="" selected>-------</option>
-                                                <?php if (isset($languages)){ ?>
+                                                    <?php if (isset($languages)){ ?>
                                                     <?php
                                                 foreach ($languages as $language){
                                                     ?>
@@ -529,7 +532,7 @@
                                         {{ __('Close')}}
                                     </button>
                                     <button type="button" id="validateMail" class="btn btn-primary">
-                                        {{ __('Save_changes')}}
+                                        {{ __('Change Email')}}
                                     </button>
                                 </div>
                             </div>
@@ -920,7 +923,6 @@
             });
 
 
-
             function showIdentitiesModal(typeIdentitie) {
                 $('#identies-viewer-title').empty().append($('#' + typeIdentitie + '-id-image').attr('title'));
                 $('#identies-viewer-content').empty().append($('#' + typeIdentitie + '-id-image').clone().width('100%').height('200%'));
@@ -1000,3 +1002,4 @@
             });
         </script>
     </div>
+</div>

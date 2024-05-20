@@ -26,7 +26,7 @@
     <img src="{{ URL::asset('assets/images/2Earn.png') }}" id="super-logo" alt="" height="60">
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.ico')}}">
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="{{asset('assets/Styles/intlTelInput.css')}}">
     <script src="{{asset('assets/js/intlTelInput.js')}}"></script>
     @include('layouts.head-css')

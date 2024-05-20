@@ -145,7 +145,7 @@
                                                     class="btn btn-primary btn-label right ms-auto nexttab"
                                                     data-nexttab="pills-bill-address-tab">
                                                 <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
-                                                {{__('Next_Step')}}
+                                                {{__('Next step : Check your email')}}
                                             </button>
                                         </div>
                                     </div>
@@ -204,7 +204,7 @@
                                                     class="btn btn-primary btn-label right ms-auto nexttab"
                                                     data-nexttab="pills-payment-tab"><i
                                                     class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
-                                                {{__('Next_Step')}}
+                                                {{__('Next step : Import identity card')}}
                                             </button>
                                         </div>
                                     </div>
@@ -288,38 +288,56 @@
         </div>
     </div>
     <script>
-        var errorMail2 = document.querySelector("#error-mail");
+        var errorMail = document.querySelector("#error-mail");
+        var checkOpt = false;
+        var canUseEmail = false;
+        var sendEmailNotification = false;
+
+        function OptDisable() {
+            $('#optFirst').addClass("disabled");
+            $('#optSecond').addClass("disabled");
+            $('#optThird').addClass("disabled");
+            $('#optFourth').addClass("disabled");
+        }
+
+        function OptInputEmpty() {
+            $('#optFirst').val("");
+            $('#optSecond').val("");
+            $('#optThird').val("");
+            $('#optFourth').val("");
+        }
+
+        function OptInputChangeColor(optColor) {
+            $('#optFirst').css('border-color', optColor);
+            $('#optSecond').css('border-color', optColor);
+            $('#optThird').css('border-color', optColor);
+            $('#optFourth').css('border-color', optColor);
+        }
 
         function checkOptVerify() {
-            var errorMail = document.querySelector("#error-mail");
             var returnValue = false;
             var opt = $('#optFirst').val() + $('#optSecond').val() + $('#optThird').val() + $('#optFourth').val();
-            console.log(opt);
             if (opt.length == 4) {
                 $.ajax({
                     method: "GET",
-                    url: "/mailVerifOpt",
+                    url: "{{route('mailVerifOpt')}}",
                     async: false,
                     data: {opt: opt, mail: $("#inputEmailUser").val().trim(),},
                     success: (result) => {
                         if (result == 'no') {
                             returnValue = false;
-                            errorMail.innerHTML = '{{__('Validation OTP code Failed')}}';
-                            errorMail.classList.remove("hide");
-                            $('#optFirst').val('')
-                            $('#optSecond').val('')
-                            $('#optThird').val('')
-                            $('#optFourth').val('')
+                            displayMailErrorMessage('{{__('Validation OTP code Failed')}}')
+                            OptInputEmpty();
+                            OptInputChangeColor('red');
                         } else {
                             errorMail.classList.add("hide");
-                            optVerify = true
+                            OptInputChangeColor('green');
+                            OptDisable();
                             returnValue = true;
                         }
                     },
                     error: (error) => {
-                        alert('{{__('Something went wrong to check datas...')}}');
-                        errorMail.innerHTML = '{{__('Invalid OTP code')}}';
-                        errorMail.classList.remove("hide");
+                        displayMailErrorMessage('{{__('Invalid OTP code')}}')
                         returnValue = false;
                     }
                 });
@@ -328,25 +346,22 @@
         }
 
         function checkNewMail() {
-            var returnValue = false;
+            var isNewEmail = false;
             $.ajax({
                 method: "GET",
-                url: "/mailVerifNew",
+                url: "{{route('mailVerifNew')}}",
                 async: false,
                 data: {mail: $("#inputEmailUser").val().trim(),},
                 success: (result) => {
                     if (result == 'no') {
-                        returnValue = false;
+                        isNewEmail = false;
                     } else {
-                        returnValue = true;
+                        isNewEmail = true;
                     }
-                },
-                error: (error) => {
-                    console.log('Something went wrong to fetch datas...');
-                    console.log(error);
                 }
             });
-            return returnValue;
+
+            return isNewEmail;
         }
 
         function doneVerify() {
@@ -357,9 +372,8 @@
             $("#exampleModal").modal("hide");
         }
 
-        function checkRequiredrFieldInfo() {
+        function checkRequiredFieldInfo() {
             validRequiredrFieldInfo = true;
-
             if ($("#firstName").val().trim() === "") {
                 $("#firstName").css('border-color', 'red')
                 validRequiredrFieldInfo = false;
@@ -399,82 +413,89 @@
         }
 
         function sendIndentificationRequest() {
-            if (checkRequiredrFieldInfo() && checkRequiredrFieldMail()) {
+            if (checkRequiredFieldInfo() && checkRequiredFieldMail()) {
                 window.livewire.emit('sendIndentificationRequest');
             }
         }
 
-        function checkRequiredrFieldMail() {
-            var checkOpt = false;
-            var errorMail = document.querySelector("#error-mail");
-            if ($("#inputEmailUser").val().trim() === "") {
-                errorMail.innerHTML = '{{__('Required field')}}';
-                errorMail.classList.remove("hide");
-                return false;
-            }
-
-            if (!validateEmail($("#inputEmailUser").val().trim())) {
-                errorMail.innerHTML = '{{__('Invalid Format')}}';
-                errorMail.classList.remove("hide");
-                return false;
-            }
-            errorMail.classList.add("hide");
-
-            var failed = false;
+        function sendMailNotification() {
+            $("#inputEmailUser").css('border-color', 'green');
             $.ajax({
                 method: "GET",
-                url: "/mailVerif",
+                url: "/sendMailNotification",
+                async: false,
+                success: (result) => {
+                    $("#inputEmailUser").css('border-color', 'green');
+                    sendEmailNotification = true;
+                }
+            });
+        }
+
+        function sendMailVerifRequest() {
+            $.ajax({
+                method: "GET",
+                url: "{{route('mailVerif')}}",
                 async: false,
                 data: {mail: $("#inputEmailUser").val().trim(),},
                 success: (result) => {
                     if (result == 'no') {
-                        failed = true;
-                        var errorMail = document.querySelector("#error-mail");
-                        errorMail.innerHTML = 'mail used';
-                        errorMail.classList.remove("hide");
-                        alert('mail used ');
+                        displayMailErrorMessage('{{__('mail used')}}')
+                        return true;
                     }
-                },
-                error: (error) => {
-                    console.log('Something went wrong to fetch datas...');
-                    console.log(error);
                 }
             });
+            return false;
+        }
+
+        function displayMailErrorMessage(message) {
+            errorMail.innerHTML = message;
+            errorMail.classList.remove("hide");
+            $("#inputEmailUser").css('border-color', 'red');
+        }
+
+        function checkOptFields() {
+            return $('#optFirst').val().trim() != "" && $('#optSecond').val().trim() != "" && $('#optThird').val().trim() != "" && $('#optFourth').val().trim() != "";
+        }
+
+        function checkRequiredFieldMail() {
+            if ($("#inputEmailUser").val().trim() === "") {
+                displayMailErrorMessage('{{__('Required field')}}')
+                return false;
+            }
+
+            if (!validateEmail($("#inputEmailUser").val().trim())) {
+                displayMailErrorMessage('{{__('Invalid Format')}}')
+                return false;
+            }
+
+            errorMail.classList.add("hide");
+            $("#inputEmailUser").css('border-color', 'green');
+
+            canUseEmail = sendMailVerifRequest()
+
             var optChecker = document.querySelector("#optChecker");
-            if (!failed) {
+            if (!canUseEmail) {
                 if (checkNewMail()) {
-                    if ($('#optFirst').val().trim() == "" && $('#optSecond').val().trim() == "" && $('#optThird').val().trim() == "" && $('#optFourth').val().trim() == "") {
-                        $.ajax({
-                            method: "GET",
-                            url: "/sendMailNotification",
-                            async: false,
-                            success: (result) => {
-                            },
-                            error: (error) => {
-                                alert('{{__('Something went wrong to send datas...')}}');
-                            }
-                        });
+
+                    if (sendEmailNotification) {
+                        sendMailNotification();
                     }
                     optChecker.classList.remove("invisible");
-                    if (checkOptVerify()) {
-                        checkOpt = true;
-                        $('#optFirst').addClass("disabled");
-                        $('#optSecond').addClass("disabled");
-                        $('#optThird').addClass("disabled");
-                        $('#optFourth').addClass("disabled");
-                    } else {
-                        checkOpt = false;
+                    $("#inputEmailUser").prop('disabled', true);
+                    if (checkOptFields()) {
+                        if (checkOptVerify()) {
+                            checkOpt = true;
+                        } else {
+                            checkOpt = false;
+                        }
                     }
                 } else
                     checkOpt = true;
             }
-            if (failed || !checkOpt) return false
+            if (canUseEmail || !checkOpt) return false
             else {
                 optChecker.classList.add("invisible");
-                $('#optFirst').val("");
-                $('#optSecond').val("");
-                $('#optThird').val("");
-                $('#optFourth').val("");
+                OptInputEmpty()
                 checkOpt = false;
             }
             return true;
@@ -482,20 +503,18 @@
 
         $("#inputEmailUser").keyup(function () {
             if ($("#inputEmailUser").val().trim() == "") {
-                errorMail2.innerHTML = '{{__('Required field')}}';
-                errorMail2.classList.remove("hide");
+                displayMailErrorMessage('{{__('Required field')}}')
                 return
             }
             if (!validateEmail($("#inputEmailUser").val().trim())) {
-                errorMail2.innerHTML = '{{__('Invalid Format')}}';
-                errorMail2.classList.remove("hide");
+                displayMailErrorMessage('{{__('Invalid Format')}}')
                 return
             }
-            errorMail2.innerHTML = '';
-            errorMail2.classList.add("hide");
+            errorMail.innerHTML = '';
+            errorMail.classList.add("hide");
             $("#inputEmailUser").css('border-color', 'green');
-
         });
+
         $('input[type="file"]').each(function () {
             var $file = $(this),
                 $label = $file.next('label'),
@@ -513,30 +532,31 @@
                 }
             });
         });
+
         $('#btnNextMailAdress').click(function (e) {
             $('#personalInformationMessage').css("display", "none");
             e.preventDefault();
-            if (checkRequiredrFieldInfo()) {
+            if (checkRequiredFieldInfo()) {
                 $('#personalInformationMessage').css("display", "none");
                 $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
             } else {
                 $('#personalInformationMessage').css("display", "block");
             }
         });
+
         document.getElementById('pills-bill-address-tab').addEventListener('shown.bs.tab', function (event) {
-            if (!checkRequiredrFieldInfo())
+            if (!checkRequiredFieldInfo())
                 $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
         });
+
         document.getElementById('pills-payment-tab').addEventListener('shown.bs.tab', function (event) {
-            if (!checkRequiredrFieldInfo())
+            if (!checkRequiredFieldInfo())
                 $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
-            if (!checkRequiredrFieldMail()) {
+            if (!checkRequiredFieldMail()) {
                 $('#myTab   button[id="pills-bill-address-tab"] ').tab('show');
-                $("#inputEmailUser").css('border-color', 'red')
-            } else {
-                $("#inputEmailUser").css('border-color', 'green')
             }
         });
+
         window.addEventListener('IdentificationRequestMissingInformation', event => {
             console.log('IdentificationRequestMissingInformation');
         })

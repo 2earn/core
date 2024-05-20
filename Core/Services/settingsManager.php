@@ -229,6 +229,7 @@ class settingsManager
         $userAuth->id = $user->id;
         $userAuth->idUser = $user->idUser;
         $userAuth->mobile = $user->mobile;
+        $userAuth->email = $user->email;
         $userAuth->arFirstName = $userMetta->arFirstName;
         $userAuth->arLastName = $userMetta->arLastName;
         $userAuth->enFirstName = $userMetta->enFirstName;
