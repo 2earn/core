@@ -71,8 +71,8 @@ class Home extends Component
         if ($this->flash) {
             if ($this->action >= $this->flashMinShares) {
                 $hasFlashAmount = true;
-                $this->flashGift = getFlashGiftedActions($this->action, $this->flashTimes);
-                $this->flashGain = formatSolde($this->flashGift * actualActionValue(getSelledActions(), false), 2);
+                $this->flashGift = '+' . getFlashGiftedActions($this->action, $this->flashTimes);
+                $this->flashGain = '+' . formatSolde($this->flashGift * actualActionValue(getSelledActions(), false), 2);
             } else {
                 $this->flashGift = 0;
                 $this->flashGain = 0;
