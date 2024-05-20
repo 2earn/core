@@ -5,7 +5,6 @@ namespace App\Http\Livewire;
 
 use App\Http\Traits\contactNumberCheker;
 use Core\Services\BalancesManager;
-
 use Core\Services\settingsManager;
 use DateInterval;
 use DateTime;
@@ -70,7 +69,6 @@ class Home extends Component
         $profitRaw = actualActionValue(getSelledActions(), false) * $this->gift;
         $this->profit = formatSolde($profitRaw, 2);
         if ($this->flash) {
-
             if ($this->action >= $this->flashMinShares) {
                 $hasFlashAmount = true;
                 $this->flashGift = getFlashGiftedActions($this->action, $this->flashTimes);
@@ -128,24 +126,18 @@ class Home extends Component
                 '2Fraction' => intval(($actualActionValue - floor($actualActionValue)) * 100),
                 '3_2Fraction' => intval(($actualActionValue - floor($actualActionValue)) * 100000) - intval(($actualActionValue - floor($actualActionValue)) * 100) * 1000]
         ];
-        /*FNS*/
-        if($user->flashCoefficient)
-        {
+        if ($user->flashCoefficient) {
             $this->flashTimes = $user->flashCoefficient;
             $this->flashPeriod = $user->flashDeadline;
             $this->flashDate = $user->dateFNS;
             $this->flashMinShares = $user->flashMinAmount;
             $currentDateTime = new DateTime();
-            // dd($user );
             $dateFlash = new DateTime($this->flashDate);
             $interval = new DateInterval('PT' . $this->flashPeriod . 'H');
             $dateFlash = $dateFlash->add($interval);
             $this->flashDate = $dateFlash->format('F j, Y G:i:s');
             $this->flash = $currentDateTime < $dateFlash;
-            /*Fin FNS*/
         }
-
-
         return view('livewire.home', $params)->extends('layouts.master')->section('content');
     }
 }
