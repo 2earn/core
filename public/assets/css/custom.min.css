@@ -433,13 +433,14 @@ nav svg {
     background: linear-gradient(45deg, #AE8625, #f7ef8a, #d2ac47, #edc967, #AE8625, #f7ef8a, #d2ac47, #edc967, #AE8625, #f7ef8a, #d2ac47, #edc967);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    border: 1px solid #ffd700;
 }
 
-.btn-outline-flash:hover {
+.btn-outline-flash:hover, .btn-outline-flash:focus {
     background: linear-gradient(45deg, #AE8625, #f7ef8a, #d2ac47, #edc967);
     -webkit-background-clip: unset;
     -webkit-text-fill-color: unset;
-
+    border: 1px solid #ffd700;
 }
 
 .pink {

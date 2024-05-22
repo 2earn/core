@@ -39,6 +39,7 @@ class Home extends Component
     public $flashPeriod;
     public $flashDate;
     public $flashMinShares;
+    public $maxActions;
 
     public $flashGain = 0;
 
@@ -58,13 +59,27 @@ class Home extends Component
         $this->balancesManager = $balancesManager;
     }
 
-    public function simulate()
+    public function simulateAction()
+    {
+        if ($this->action < 0 && $this->action <> "") {
+            $this->action = 0;
+        }
+        $this->ammount = round($this->action * actualActionValue(getSelledActions()),3);
+        $this->getCommounSimulation();
+    }
+
+    public function simulateAmmount()
     {
         if ($this->ammount < 0 && $this->ammount <> "") {
             $this->ammount = 0;
         }
 
         $this->action = intval(intval($this->ammount) / actualActionValue(getSelledActions()));
+        $this->getCommounSimulation();
+    }
+
+    public function getCommounSimulation()
+    {
         $this->gift = getGiftedActions($this->action);
         $profitRaw = actualActionValue(getSelledActions(), false) * $this->gift;
         $this->profit = formatSolde($profitRaw, 2);
@@ -74,13 +89,11 @@ class Home extends Component
                 $this->flashGift = '+' . getFlashGiftedActions($this->action, $this->flashTimes);
                 $this->flashGain = '+' . formatSolde($this->flashGift * actualActionValue(getSelledActions(), false), 2);
             } else {
-                $this->flashGift = 0;
-                $this->flashGain = 0;
+                $this->flashGift = $this->flashGain = 0;
             }
 
         }
     }
-
 
     public function getIp()
     {
