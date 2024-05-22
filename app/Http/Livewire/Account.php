@@ -294,7 +294,7 @@ class Account extends Component
         $user = $settingManager->getUserById($userAuth->id);
         if ($code != $user->activationCodeValue) {
             $this->earnDebug('Edit password input opt code OPT invalide  :  userid- ' . $userAuth->id . ' code- ' . $code);
-            return redirect()->route("account", app()->getLocale())->with('danger', Lang::get('Invalid_OPT_code'));
+            return redirect()->route("account", app()->getLocale())->with('danger', Lang::get('Invalid OPT code'));
         }
         if ($this->newPassword != $this->confirmedPassword) {
             $this->earnDebug('Edit password input confirmed password invalide  : userid- ' . $userAuth->id . 'newPassword- ' . $this->newPassword . ' confirmedPassword- ' . $this->confirmedPassword);
@@ -343,7 +343,7 @@ class Account extends Component
     {
         $us = User::find($this->user['id']);
         if ($codeOpt != $us->OptActivation) {
-            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('change user email failed - Code OPT '));
+            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Change user email failed - Code OPT'));
         }
         $us->email_verified = 1;
         $us->email = $this->newMail;
