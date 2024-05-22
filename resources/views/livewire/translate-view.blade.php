@@ -9,30 +9,28 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit field</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{__('Edit field')}}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form>
                         <div class="mb-3">
-                            <label for="recipient-name" class="col-form-label">Arabe:</label>
+                            <label for="recipient-name" class="col-form-label">{{__('Arabe')}}</label>
                             <input type="text" class="form-control" wire:model.defer="arabicValue">
                         </div>
                         <div class="mb-3">
-                            <label for="message-text" class="col-form-label">Francais:</label>
+                            <label for="message-text" class="col-form-label">{{__('Francais')}}</label>
                             <input type="text" class="form-control" wire:model.defer="frenchValue">
-                            {{--                                <textarea class="form-control" id="message-text"></textarea>--}}
                         </div>
                         <div class="mb-3">
-                            <label for="message-text" class="col-form-label">English:</label>
+                            <label for="message-text" class="col-form-label">{{__('English')}}</label>
                             <input type="text" class="form-control" wire:model.defer="englishValue">
-                            {{--                                <textarea class="form-control" id="message-text"></textarea>--}}
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" wire:click="saveTranslate" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
+                    <button type="button" wire:click="saveTranslate" class="btn btn-primary">{{__('Save')}}</button>
                 </div>
             </div>
         </div>
@@ -53,7 +51,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         <div class="col">
             <div class="row">
                 <div>
-                    <a href="{{route('home',app()->getLocale())}}" class="btn btn-primary btnTrans">{{__('home')}}</a>
+                    <a href="{{route('home',app()->getLocale())}}" class="btn btn-primary btnTrans">{{__('Home')}}</a>
                     <a class="btn btn-primary btnTrans " type="button"
                        wire:click="PreImport('arToData')">{{__('Arabic field To base')}}</a>
                     <a class="btn btn-primary btnTrans" type="button"
@@ -79,7 +77,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                             <div class="row">
                                 <div class="col-md-8">
                                     <a class="btnTrans btn btn-success" type=""
-                                       wire:click="PreAjout">{{__('Ajouter')}}</a>
+                                       wire:click="PreAjout">{{__('Add')}}</a>
                                 </div>
                                 <div class="col-md-4">
                                     <input type="text" class="form-control" placeholder="{{__('Search')}}..."
@@ -108,9 +106,12 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                         <td><span> {{$value->value}}</span></td>
                                         <td><span>{{$value->valueFr}}</span></td>
                                         <td>
-                                            <a type=" " wire:click="initTranslate({{$value->id}})"
+                                            <a type="btn" wire:click="initTranslate({{$value->id}})"
                                                data-bs-toggle="modal" data-bs-target="#exampleModal"
                                                class="btn btn-info">{{__('Edit')}}
+                                            </a>
+                                            <a type="btn" onclick="confirmDelete({{$value->id}})"
+                                               class="btn btn-danger">{{__('Delete')}}
                                             </a>
                                         </td>
                                     </tr>
@@ -125,6 +126,21 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         </div>
     </div>
     <script>
+        function confirmDelete(idTranslate) {
+            Swal.fire({
+                title: '{{__('Confirm delete')}}',
+                showDenyButton: true,
+                confirmButtonText: '{{__('yes')}}',
+                denyButtonText: '{{__('no')}}'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.livewire.emit('deleteTranslate', idTranslate);
+                } else if (result.isDenied) {
+                    location.reload();
+                }
+            })
+        }
+
         window.addEventListener('closeModal', event => {
             $("#exampleModal").modal('hide');
         })
