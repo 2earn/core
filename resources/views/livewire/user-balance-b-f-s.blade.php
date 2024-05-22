@@ -8,7 +8,6 @@
             {{ __('Balance For Shopping') }}
         @endslot
     @endcomponent
-
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -38,12 +37,11 @@
                             <th>{{ __('Date') }}</th>
                             <th>{{ __('Operation Designation') }}</th>
                             <th>{{ __('Description') }}</th>
-                            <th style=" border: none ">{{ __('Value') }}</th>
-                            <th style=" border: none ">{{ __('Balance') }}</th>
+                            <th>{{ __('Value') }}</th>
+                            <th>{{ __('Balance') }}</th>
                         </tr>
                         </thead>
                         <tbody class="body2earn">
-
                         </tbody>
                     </table>
                 </div>

@@ -213,6 +213,11 @@
                             <div class="tab-pane fade" id="pills-payment" role="tabpanel"
                                  aria-labelledby="pills-payment-tab">
                                 <div class="row">
+                                    <div class="col-12">
+                                        <div class="alert border-0 alert-primary material-shadow" role="alert">
+                                            <strong>{{__('Note')}}: </strong>{{__('The photo must be in PNG format, and must not exceed 2 Mb in size')}}
+                                        </div>
+                                    </div>
                                     <div class="col-6">
                                         <div>
                                             <label class="form-label">{{ __('Front ID') }}</label>
@@ -226,6 +231,7 @@
                                                      src={{asset(('/uploads/profiles/default.png'))}} >
                                             @endif
                                         </div>
+
                                         <div class="wrap-custom-file" style="margin-top: 10px">
                                             <input wire:model.defer="photoFront" type="file" name="photoFront"
                                                    id="photoFront"

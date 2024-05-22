@@ -35,10 +35,13 @@
                                     </label>
                                 </div>
                         </div>
-                        <h5 class="fs-16 mb-3">
+                        <h2>
                             {{$dispalyedUserCred}}
-                        </h5>
-                        <div class="form-check form-switch" dir="ltr">
+                        </h2>
+                        <h4>
+                            <span class="badge text-bg-secondary">[{{$user['idUser']}}]</span>
+                        </h4>
+                        <div class="form-check form-switch mt-3" dir="ltr">
                             <input wire:model.defer="user.is_public" type="checkbox" class="form-check-input"
                                    id="customSwitchsizesm" checked="">
                             <label class="form-check-label" for="customSwitchsizesm">
@@ -286,7 +289,7 @@
                                             <select class="form-select mb-3" aria-label=" "
                                                     wire:model.defer="usermetta_info.personaltitle">
                                                 <option value="">-------</option>
-                                                    <?php if (isset($personaltitles)){
+                                                <?php if (isset($personaltitles)){
                                                 foreach ($personaltitles as $personaltitle){
                                                     ?>
                                                 <option
@@ -303,7 +306,7 @@
                                                     wire:model.defer="usermetta_info.gender">
                                                 <
                                                 <option value="">-------</option>
-                                                    <?php if (isset($genders)){
+                                                <?php if (isset($genders)){
                                                 foreach ($genders as $gender){
                                                     ?>
                                                 <option value="{{$gender->id}}">{{ __( $gender->name)  }}</option>
@@ -319,7 +322,7 @@
                                             <select class="form-select mb-3" aria-label=" "
                                                     wire:model.defer="usermetta_info.idLanguage">
                                                 <option value="" selected>-------</option>
-                                                    <?php if (isset($languages)){ ?>
+                                                <?php if (isset($languages)){ ?>
                                                     <?php
                                                 foreach ($languages as $language){
                                                     ?>

@@ -1137,16 +1137,16 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [$idAmounts, $u
 case when ub.idSource = '11111111' then 'system' else
 (select concat( IFNULL(enfirstname,''),' ',  IFNULL( enlastname,''))  from metta_users mu  where mu.idUser = ub.idSource)
 end as source,
-case when bo.IO = 'I' then  concat('+ ','$ ', format(ub.value/PrixUnitaire,2) )
-when bo.IO ='O' then concat('- ', format(ub.value/PrixUnitaire,2),' $' )
+case when bo.IO = 'I' then  concat('+ ','$ ', format(ub.value/PrixUnitaire,3) )
+when bo.IO ='O' then concat('- ', format(ub.value/PrixUnitaire,3),' $' )
 when bo.IO = 'IO' then 'IO'
-end as value , case when idAmount = 5  then  concat( format(  SUM(case when bo.IO = 'I' then   format(format(ub.value,2)/format(PrixUnitaire,2) ,2)
-when bo.IO ='O' then  format(format(ub.value,2)/format(PrixUnitaire *-1,2) ,2)
+end as value , case when idAmount = 5  then  concat( format(  SUM(case when bo.IO = 'I' then   format(format(ub.value,3)/format(PrixUnitaire,3) ,3)
+when bo.IO ='O' then  format(format(ub.value,3)/format(PrixUnitaire *-1,3) ,3)
 when bo.IO = 'IO' then 'IO'
-end)   OVER(ORDER BY date) ,0) ,' ') when idAmount = 3 then concat('$ ', format(  SUM(case when bo.IO = 'I' then   format(format(ub.value,2)/format(PrixUnitaire,2) ,2)
-when bo.IO ='O' then  format(format(ub.value,2)/format(PrixUnitaire *-1,2) ,2)
+end)   OVER(ORDER BY date) ,0) ,' ') when idAmount = 3 then concat('$ ', format(  SUM(case when bo.IO = 'I' then   format(format(ub.value,3)/format(PrixUnitaire,3) ,3)
+when bo.IO ='O' then  format(format(ub.value,3)/format(PrixUnitaire *-1,3) ,3)
 when bo.IO = 'IO' then 'IO'
-end)   OVER(ORDER BY date) ,2) ) else concat( '$ ', format( ub.balance ,2,'pt_BR') ) end  as balance,ub.PrixUnitaire, bo.IO as sensP
+end)   OVER(ORDER BY date) ,2) ) else concat( '$ ', format( ub.balance ,3,'en_EN') ) end  as balance,ub.PrixUnitaire, bo.IO as sensP
   FROM user_balances ub inner join balanceoperations bo on
 ub.idBalancesOperation = bo.idBalanceOperations
 where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [2, $user->idUser]
@@ -1161,9 +1161,6 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [2, $user->idUs
      */
     public function getUserAdmin()
     {
-
-//        $id= auth()->user()->id;
-//        $idUser= auth()->user()->idUser;
         $authorizedRoles = ['admin', 'Moderateur'];
         $admins = User::whereHas('roles', static function ($query) use ($authorizedRoles) {
             return
@@ -1271,26 +1268,8 @@ class="btn btn-primary btn2earnTable">' . __("Edit") . '</a> ';
             ->make(true);
     }
 
-//onclick='f(" . $query->id . ")'
     public function getUserBalancesCB()
     {
-//        $idAmounts = 0;
-//        switch ($typeAmounts) {
-//            case 'cash-Balance':
-//                $idAmounts = 1;
-//                break;
-//            case 'Balance-For-Shopping':
-//                $idAmounts = 2;
-//                break;
-//            case 'Discounts-Balance':
-//                $idAmounts = 3;
-//            case 'SMS-Balance':
-//                $idAmounts = 5;
-//                break;
-//            default :
-//                $idAmounts = 0;
-//                break ;
-//        }
         $user = $this->settingsManager->getAuthUser();
         if (!$user) $user->idUser = '';
         $userData = DB::select("SELECT ub.idUser, ub.id ,ub.idSource ,ub.Ref , ub.Date, bo.Designation,ub.Description,
@@ -1305,14 +1284,7 @@ end as value , ub.Balance as balance
 ub.idBalancesOperation = bo.idBalanceOperations
 where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUser]
         );
-//        return Datatables::of($userData)
-////           ->orderColumn('name', 'email $1')
-//            ->make(true);
-
-
-        return datatables($userData)
-            ->make(true);
-
+        return datatables($userData)->make(true);
     }
 
     public function getPurchaseUser()
