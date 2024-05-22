@@ -1060,28 +1060,18 @@
                 "ordering": true,
                 retrieve: true,
                 "colReorder": false,
-                // dom: 'Bfstrip',
-                // buttons: [
-                //     'csv', 'excel'
-                // ],
                 "orderCellsTop": true,
                 "fixedHeader": true,
                 initComplete: function () {
-                    // Apply the search
                     this.api()
                         .columns()
                         .every(function () {
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
                             if ($.fn.dataTable.isDataTable('#countries_table')) {
-
                                 var that = $('#userBalanceDB_table').DataTable();
                             }
                             $('input', this.footer()).on('keydown', function (ev) {
                                 if (ev.keyCode == 13) {//only on enter keypress (code 13)
                                     that
-
                                         .search(this.value)
                                         .draw();
                                 }
@@ -1105,7 +1095,6 @@
                     {data: 'balance', className: classAl},
                     {data: 'ranks'},
                     {data: 'idamount'},
-                    // {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
                 "columnDefs":
                     [
@@ -1123,7 +1112,6 @@
                         {
                             "targets": [5],
                             render: function (data, type, row) {
-
                                 if (row.ranks == 1)
                                     if (row.idamount == 1)
                                         return '<div class="logoTopCashLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
@@ -1131,7 +1119,6 @@
                                         return '<div class="logoTopDBLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
                                 else
                                     return data;
-
                             }
                         },
                         {
@@ -1147,7 +1134,6 @@
                     ],
                 "language": {
                     "url": urlLang
-
                 }
             }
         );
@@ -1351,17 +1337,9 @@
                 initComplete: function () {
                     // Apply the search
                     this.api()
-
-                        .columns(
-
-                        )
+                        .columns()
                         .every(function () {
-
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
                             if ($.fn.dataTable.isDataTable('#ub_table_bfs')) {
-
                                 var that = $('#ub_table_bfs').DataTable();
                             }
                             $('input', this.footer()).on('keydown', function (ev) {
@@ -1372,8 +1350,6 @@
                                 }
                             });
                         });
-
-
                 },
                 "processing": true,
                 search: {
@@ -1388,14 +1364,12 @@
                     {data: 'Description'},
                     {data: 'value', className: classAl},
                     {data: 'balance', className: classAl},
-                    // {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
                 "columnDefs":
                     [
                         {
                             "targets": [5],
                             render: function (data, type, row) {
-
                                 if (data.indexOf('+') == -1)
                                     return '<span class="badge bg-danger con">' + data + '</span>';
                                 else
@@ -1417,12 +1391,9 @@
                         {
                             "targets": [3],
                             render: function (data, type, row) {
-
                                 if (select2_array.indexOf(data) == -1) {
                                     select2_array.push(data);
-
                                     $('.bfs_operation_multiple').append(('<option value="' + data + '">' + data + '</option>'));
-
                                 }
                                 return data;
                             }
@@ -1952,7 +1923,7 @@
         let note = $('#note').val();
         let date = Date.now();
         let msg = "vous avez transferé " + ammount + " $ à " + reciver;
-        let msgvip = "l'utilisateur "+ reciver +" est VIP(x"+coefficient+") pour une periode de "+periode+ " à partir de "+ date + " avec un minimum de " + minshares+ " actions acheté" ;
+        let msgvip = "l'utilisateur " + reciver + " est VIP(x" + coefficient + ") pour une periode de " + periode + " à partir de " + date + " avec un minimum de " + minshares + " actions acheté";
         let user = 126;
         $.ajax({
             url: "{{ route('vip') }}",
