@@ -88,15 +88,14 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Transfert') }}</h5>
+                        <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Cash transfert') }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <h5>{{ __('validate_transfert') }}</h5>
-                        <h5 style="color:#464fed">
-                            <div id="usd"></div>
+                        <h5 class="text-secondary">
+                            <div class="row" id="usd"></div>
                         </h5>
-                        <h6>{{ __('markup') }}</h6>
                         <form class="needs-validation" novalidate>
                             <div class="row g-3">
                                 <div class="col-lg-12">
@@ -134,7 +133,9 @@
 
             $(document).on("click", "#validate", function () {
                 const usd = document.getElementById("usd");
-                usd.innerHTML = $("#ammount1").val() + " USD" + " = " + $("#ammount1").val() * {{ usdToSar() }} + " SAR";
+
+                usd.innerHTML = '<div class="fs-20 ff-secondary fw-semibold mb-0 mt-2 col-12">' + $("#ammount1").val() + ' USD</div><div class="fs-20 ff-secondary fw-semibold mb-0 mt-2">{{__('to')}}</div><div class="fs-20 ff-secondary fw-semibold mb-0 mt-2 col-12">' + $("#ammount1").val() * {{ usdToSar() }} + ' SQR</div>';
+
                 $('#ammount2').val($("#ammount1").val() * {{ usdToSar() }});
             });
             $(document).on("click", "#tran_paytabs", function () {
