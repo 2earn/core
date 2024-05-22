@@ -914,17 +914,17 @@
                 }).then((resultat) => {
                     if (resultat.value) {
                         window.livewire.emit('saveVerifiedMail', resultat.value);
+                    } else if (resultat.isDismissed) {
+                        window.location.reload();
                     }
                 }).catch((error) => {
                     console.error('SweetAlert Error:', error);
                 });
             });
 
-
             $("#validateMail").click(function () {
                 window.livewire.emit("sendVerificationMail", $('#inputEmail').val());
             });
-
 
             function showIdentitiesModal(typeIdentitie) {
                 $('#identies-viewer-title').empty().append($('#' + typeIdentitie + '-id-image').attr('title'));
