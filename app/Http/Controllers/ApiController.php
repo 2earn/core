@@ -97,7 +97,7 @@ left join users user on user.idUser = recharge_requests.idUser";
             SponsorshipFacade::executeProactifSponsorship($userSponsored->idUser, $ref, $number_of_action, $gift, $PU, $fullphone_number);
         }
         $this->userRepository->increasePurchasesNumber($reciver);
-        dd($request, $gift);
+
         // share sold
         $user_balance = new user_balance();
         // Action
