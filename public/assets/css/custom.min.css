@@ -41,7 +41,7 @@
     color: red !important
 }
 
-.logoTopCash span, .page-title-box ,.logoTopCashLabel p{
+.logoTopCash span, .page-title-box ,#buy-action .logoTopCashLabel p{
     background-color: #464fed !important;
 }
 

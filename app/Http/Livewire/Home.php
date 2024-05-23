@@ -61,7 +61,7 @@ class Home extends Component
 
     public function simulateAction()
     {
-        if ($this->action < 0 && $this->action <> "") {
+        if ($this->action < 0 && $this->action == "") {
             $this->action = 0;
         }
         if ($this->action > $this->maxActions) {
@@ -74,7 +74,7 @@ class Home extends Component
 
     public function simulateAmmount()
     {
-        if ($this->ammount < 0 && $this->ammount <> "") {
+        if ($this->ammount < 0 && $this->ammount == "") {
             $this->ammount = 0;
         }
         $this->action = intval(intval($this->ammount) / actualActionValue(getSelledActions()));
