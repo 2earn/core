@@ -35,16 +35,16 @@ class Home extends Component
     public $gift;
     public $profit;
     public $flashGift = 0;
-    public $flashTimes;
+    public $flashTimes=1;
     public $flashPeriod;
     public $flashDate;
-    public $flashMinShares;
+    public $flashMinShares=-1;
     public $maxActions;
 
     public $flashGain = 0;
 
     public $flash = false;
-    public $hasFlashAmount = false;
+    public $hasFlashAmount = 0;
 
 
     protected $listeners = [
@@ -88,7 +88,7 @@ class Home extends Component
         $this->profit = formatSolde($profitRaw, 2);
         if ($this->flash) {
             if ($this->action >= $this->flashMinShares) {
-                $hasFlashAmount = true;
+                $this->hasFlashAmount = 1;
                 $this->flashGift = '+' . getFlashGiftedActions($this->action, $this->flashTimes);
                 $this->flashGain = '+' . formatSolde($this->flashGift * actualActionValue(getSelledActions(), false), 2);
             } else {

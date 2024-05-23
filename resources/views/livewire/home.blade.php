@@ -550,6 +550,9 @@
                                 phone: phone,
                                 country_code: country_code,
                                 ammount: ammount,
+                                vip: {{$flashTimes}},
+                                flashMinShares:{{$flashMinShares}},
+                                flash:"{{$flash}}",
                                 "_token": "{{ csrf_token() }}"
                             },
                             success: function (data) {
