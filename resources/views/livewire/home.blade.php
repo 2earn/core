@@ -308,84 +308,23 @@
                         </div>
                     @endif
                     <div class="row @if($flash) alert-flash @else alert  @endif alert-info" role="alert">
-                        <p><strong>{{ __('Notice') }}: </strong>{{ __('buy_shares_notice') }}</p>
+                        <strong>{{ __('Notice') }}: </strong>{{ __('buy_shares_notice') }}
                     </div>
-                    <div class="d-flex">
-                        <div class="ms-2 header-item d-flex me-2">
-                            <div class="d-flex align-items-end justify-content-between logoTopCash ">
-                                <a href="{{route('user_balance_cb',app()->getLocale())}}">
-                                    <div class="avatar-xs flex-shrink-0">
-                                    <span class="avatar-title bg-soft-info rounded fs-3">
-                                       <i class="bx bx-dollar-circle text-info"></i>
-                                    </span>
-                                    </div>
-                                </a>
+                    <a href="{{route('user_balance_cb',app()->getLocale())}}"
+                       class="@if($cashBalance < $ammount) logoTopCashDanger  @else logoTopCash  @endif">
+                        <div class="row d-flex mt-1">
+                            <div class="col-4 avatar-xs flex-shrink-1 ">
+                                <span class="avatar-title bg-soft-info custom rounded fs-3">
+                                    <i class="bx bx-dollar-circle text-info"></i>
+                                </span>
                             </div>
-                            <div class="d-flex align-items-center logoTopCashLabel">
-                                <div class="flex-grow-1 overflow-hidden">
-                                    <a href="{{route('user_balance_cb',app()->getLocale())}}">
-                                        <p class="text-uppercase fw-medium mb-0 ms-2">
-                                            {{ __('Cash Balance') }}</p>
-                                        <h5 class="text-primary fs-14 mb-0 ms-2">
-                                            {{__('DPC')}}{{$soldeBuyShares->soldeCB}}
-                                        </h5>
-                                    </a>
-                                </div>
-                                <div class="flex-shrink-0">
-                                </div>
+                            <div class="col-8 text-primary text-uppercase fs-16 pt-1 ms-5">
+                                <h5 class="@if($cashBalance < $ammount) logoTopCashDanger  @else logoTopCashLabel  @endif">  {{ __('Cash Balance') }}
+                                    : {{__('DPC')}}{{$soldeBuyShares->soldeCB}}</h5>
                             </div>
                         </div>
-                        <div class="ms-2 header-item  d-flex me-2">
-                            <div class="d-flex align-items-end justify-content-between logoTopBFS">
-                                <a href="{{route('user_balance_bfs',app()->getLocale())}}">
-                                    <div class="avatar-xs flex-shrink-0">
-                                    <span class="avatar-title bg-soft-success rounded fs-3">
-                                        <i class="ri-shopping-cart-2-line text-success"></i>
-                                    </span>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="d-flex align-items-center logoTopBFSLabel">
-                                <div class="flex-grow-1 overflow-hidden">
-                                    <a href="{{route('user_balance_bfs',app()->getLocale())}}">
-                                        <p class="text-uppercase fw-medium mb-0 ms-2">
-                                            {{ __('Balance For Shopping') }}</p>
-                                        <h5 class="text-success fs-14 mb-0 ms-2">
-                                            {{__('DPC')}}{{$soldeBuyShares->soldeBFS}}
-                                        </h5>
-                                    </a>
-                                </div>
-                                <div class="flex-shrink-0">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ms-2 header-item  d-flex me-2">
-                            <div class="d-flex align-items-end justify-content-between logoTopDB">
-                                <a href="{{route('user_balance_db',app()->getLocale())}}">
-                                    <div class="avatar-xs flex-shrink-0">
-                                    <span class="avatar-title bg-soft-secondary rounded fs-3">
-                                        <i class=" ri-coupon-4-line text-secondary"></i>
-                                    </span>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="d-flex align-items-center logoTopDBLabel">
-                                <div class="flex-grow-1 overflow-hidden">
-                                    <a href="{{route('user_balance_db',app()->getLocale())}}">
-                                        <p class="text-uppercase fw-medium mb-0 ms-2">
-                                            {{ __('Discounts Balance') }}
-                                        </p>
-                                        <h5 class="text-secondary fs-14 mb-0 ms-2">
-                                            {{__('DPC')}}{{$soldeBuyShares->soldeDB}}
-                                        </h5>
-                                    </a>
-                                </div>
-                                <div class="flex-shrink-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex">
+                    </a>
+                    <div class="row d-flex">
                         <form class="needs-validation" novalidate>
                             <div class="row mt-2  @if($flash) alert-flash @else alert  @endif alert-primary">
                                 <div class="col-3">
@@ -490,7 +429,7 @@
                                            id="number-of-gifted-action"
                                            value="0000">
                                 </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
                                     <label for="profit" class="col-form-label">{{ __('Profit') }}
                                         ({{$currency}}) </label>
                                     <input type="text" inputmode="numeric" pattern="[-+]?[0-9]*[.,]?[0-9]+" disabled
