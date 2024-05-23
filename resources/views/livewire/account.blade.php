@@ -58,7 +58,7 @@
                             <div class="flex-grow-1">
                                 <h5 class="card-title mb-0">{{ __('Complete_Profile') }}</h5>
                             </div>
-                            <div class="flex-shrink-0">
+                            <div class="flex-shrink-0 d-none">
                                 <a style="color: #009fe3!important" data-bs-toggle="modal"
                                    data-bs-target="#modalEditProf"
                                    href="javascript:void(0);"
