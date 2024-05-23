@@ -133,18 +133,25 @@
 
             $(document).on("click", "#validate", function () {
                 const usd = document.getElementById("usd");
-
+                $('#usd').removeClass("text-success");
+                $('#usd').removeClass("text-danger");
                 usd.innerHTML = '<div class="fs-20 ff-secondary fw-semibold mb-0 mt-2 col-12">' + $("#ammount1").val() + ' USD</div><div class="fs-20 ff-secondary fw-semibold mb-0 mt-2">{{__('to')}}</div><div class="fs-20 ff-secondary fw-semibold mb-0 mt-2 col-12">' + $("#ammount1").val() * {{ usdToSar() }} + ' SQR</div>';
-
                 $('#ammount2').val($("#ammount1").val() * {{ usdToSar() }});
             });
             $(document).on("click", "#tran_paytabs", function () {
-                this.disabled = true;
-                $('#ammount2').val($("#ammount1").val() * {{ usdToSar() }});
-                var amount = $('#ammount2').val();
-                var routeUrl = "{{ route('paytabs', app()->getLocale()) }}";
-                routeUrl += "?amount=" + encodeURIComponent(amount);
-                window.location.href = routeUrl;
+                if ($("#ammount1").val() > 0 && $("#ammount2").val() > 0) {
+                    this.disabled = true;
+                    $('#usd').removeClass("text-danger");
+                    $('#usd').addClass("text-success");
+                    $('#ammount2').val($("#ammount1").val() * {{ usdToSar() }});
+                    var amount = $('#ammount2').val();
+                    var routeUrl = "{{ route('paytabs', app()->getLocale()) }}";
+                    routeUrl += "?amount=" + encodeURIComponent(amount);
+                    window.location.href = routeUrl;
+                } else {
+                    $('#usd').addClass("text-danger");
+                    $('#usd').removeClass("text-success");
+                }
             });
         </script>
 </div>
