@@ -64,7 +64,11 @@ class Home extends Component
         if ($this->action < 0 && $this->action <> "") {
             $this->action = 0;
         }
-        $this->ammount = round($this->action * actualActionValue(getSelledActions()),3);
+        if ($this->action > $this->maxActions) {
+            $this->action = $this->maxActions;
+        }
+
+        $this->ammount = round($this->action * actualActionValue(getSelledActions()), 3);
         $this->getCommounSimulation();
     }
 
@@ -73,7 +77,6 @@ class Home extends Component
         if ($this->ammount < 0 && $this->ammount <> "") {
             $this->ammount = 0;
         }
-
         $this->action = intval(intval($this->ammount) / actualActionValue(getSelledActions()));
         $this->getCommounSimulation();
     }
@@ -91,7 +94,6 @@ class Home extends Component
             } else {
                 $this->flashGift = $this->flashGain = 0;
             }
-
         }
     }
 
@@ -121,6 +123,8 @@ class Home extends Component
         $this->balanceForSopping = $solde->soldeBFS;
         $this->discountBalance = $solde->soldeDB;
         $this->SMSBalance = intval($solde->soldeSMS);
+
+        $this->maxActions = intval($solde->soldeCB / actualActionValue(getSelledActions(), false));
         $solde = $balancesManager->getCurrentBalance($user->idUser);
         $usermetta_info = collect(DB::table('metta_users')->where('idUser', $user->idUser)->first());
         $this->actionsValues = formatSolde(getUserSelledActions(Auth()->user()->idUser) * actualActionValue(getSelledActions()), 2);

@@ -34,11 +34,19 @@
 }
 
 .btn-ghost-secondary, .logoTopCashLabel a, .logoTopCashLabel h5, .tab2earn > li > a, [data-layout-mode=dark] .logoTopCash span > i {
-    color: #464fed !important
+    color: #464fed !important;
 }
 
-.logoTopCash span, .page-title-box {
-    background-color: #464fed !important
+.logoTopCashDanger {
+    color: red !important
+}
+
+.logoTopCash span, .page-title-box ,.logoTopCashLabel p{
+    background-color: #464fed !important;
+}
+
+.logoTopCashDanger span, .page-title-box {
+    background-color: red !important
 }
 
 .logoTopBFS span > i, .logoTopCash span > i, .logoTopDB span > i, .page-title-box > h4, [data-layout-mode=dark] .logoTopBFSLabel a, [data-layout-mode=dark] .logoTopBFSLabel h5, [data-layout-mode=dark] .logoTopCashLabel a, [data-layout-mode=dark] .logoTopCashLabel h5, [data-layout-mode=dark] .logoTopDBLabel a, [data-layout-mode=dark] .logoTopDBLabel h5, [data-layout-mode=dark] .tab2earn > li > a {
@@ -423,6 +431,7 @@ nav svg {
     backdrop-filter: blur(5px);
     padding: 8px;
     border-radius: 0.25rem;
+    height: 36px;
 }
 
 .btn-flash {
@@ -503,4 +512,8 @@ nav svg {
 
 .btn-outline-gold:hover {
     color: black;
+}
+
+.bg-soft-info.custom {
+    width: 40px;
 }
