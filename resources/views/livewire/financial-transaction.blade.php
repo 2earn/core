@@ -432,10 +432,10 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach ($requestFromMee as $value)
+                                        @forelse  ($requestFromMee as $value)
                                             <tr>
-                                                <td onclick="hiddenTr({{$value->numeroReq}})"><i style="color: #51A351"
-                                                                                                 class="fas fa-plus-circle"></i>
+                                                <td onclick="hiddenTr({{$value->numeroReq}})">
+                                                    <i style="color: #51A351" class="fas fa-plus-circle"></i>
                                                 </td>
                                                 <td onclick="hiddenTr({{$value->numeroReq}})">
                                                     <span>{{$value->numeroReq}}</span></td>
@@ -498,7 +498,11 @@
                                                     </table>
                                                 </td>
                                             </tr>
-                                        @endforeach
+                                        @empty
+                                            <tr>
+                                                <td colspan="5">{{__('No Outgoing requests')}}</td>
+                                            </tr>
+                                        @endforelse
                                         </tbody>
                                     </table>
                                 </div>
