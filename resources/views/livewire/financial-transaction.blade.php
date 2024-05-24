@@ -8,14 +8,6 @@
             align-items: center;
         }
 
-        .footerOpt {
-            align-self: flex-start;
-        }
-
-        .footerOpt a {
-            cursor: pointer;
-            font-weight: bold;
-        }
 
         .input-container {
             display: block;
@@ -111,6 +103,7 @@
                 confirmButtonText: {{trans('ok')}}
             }).then(okay => {
                 if (okay) {
+                    console.log(' reload 106');
                     window.location.reload();
                 }
             });
@@ -594,7 +587,7 @@
     </div>
     <script>
         var mnt = {{$testprop}};
-
+        var timerInterval;
         var prixSms = {{$prix_sms}};
         var soldeBFS = {{$soldeBFS}};
         var inputMontantSms = $("#soldeSMS");
@@ -662,12 +655,10 @@
                 didOpen: () => {
                     const b = Swal.getFooter().querySelector('i')
                     const p22 = Swal.getFooter().querySelector('div')
-
                     timerInterval = setInterval(() => {
                         p22.innerHTML = '{{trans('It will close in')}}' + ' ' + (Swal.getTimerLeft() / 1000).toFixed(0) + ' ' + '{{trans('secondes')}}' + '</br> ' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a> '
                     }, 100)
                 },
-
                 willClose: () => {
                     clearInterval(timerInterval)
                 },
@@ -677,9 +668,6 @@
             }).then((resultat) => {
                 if (resultat.value) {
                     window.livewire.emit('ExchangeCashToBFS', resultat.value);
-                }
-                if (resultat.isDismissed) {
-                    location.reload();
                 }
             })
         })
@@ -781,6 +769,7 @@
         }
 
         window.addEventListener('confirmSms', event => {
+            console.log({{env('timeOPT')}})
             Swal.fire({
                 title: '{{ __('Your verification code') }}',
                 html: '{{ __('We_will_send') }}<br> ',
@@ -811,6 +800,7 @@
                     window.livewire.emit('exchangeSms', resultat.value, $("#NSMS").val());
                 }
                 if (resultat.isDismissed) {
+                    console.log(' reload 807');
                     location.reload();
                 }
             })
@@ -819,7 +809,6 @@
         var theUrl = '';
 
         function setPaymentFormTarget(gate) {
-            console.log('gate', gate);
             if (gate == 0) {
                 theUrl = "paymentpaypal";
             } else if (gate == 1) {
