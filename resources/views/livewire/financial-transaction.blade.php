@@ -2,13 +2,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
     <style>
-        .swal2-footer {
-            display: flex !important;
-            flex-direction: column;
-            align-items: center;
-        }
-
-
         .input-container {
             display: block;
             position: relative;
@@ -103,7 +96,6 @@
                 confirmButtonText: {{trans('ok')}}
             }).then(okay => {
                 if (okay) {
-                    console.log(' reload 106');
                     window.location.reload();
                 }
             });
@@ -653,10 +645,11 @@
                 cancelButtonText: '{{trans('canceled !')}}',
                 footer: ' <i></i><div class="footerOpt"></div>',
                 didOpen: () => {
-                    const b = Swal.getFooter().querySelector('i')
-                    const p22 = Swal.getFooter().querySelector('div')
+                    const b = Swal.getFooter().querySelector('i');
+                    Swal.getFooter().querySelector('div').classList.add("row");
+                    const p22 = Swal.getFooter().querySelector('div');
                     timerInterval = setInterval(() => {
-                        p22.innerHTML = '{{trans('It will close in')}}' + ' ' + (Swal.getTimerLeft() / 1000).toFixed(0) + ' ' + '{{trans('secondes')}}' + '</br> ' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a> '
+                        p22.innerHTML = '<div class="col-12">{{trans('It will close in')}}' + ' ' + (Swal.getTimerLeft() / 1000).toFixed(0) + ' ' + '{{trans('secondes')}}' + '</br> ' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a> </div>'
                     }, 100)
                 },
                 willClose: () => {
@@ -769,7 +762,6 @@
         }
 
         window.addEventListener('confirmSms', event => {
-            console.log({{env('timeOPT')}})
             Swal.fire({
                 title: '{{ __('Your verification code') }}',
                 html: '{{ __('We_will_send') }}<br> ',
@@ -800,7 +792,6 @@
                     window.livewire.emit('exchangeSms', resultat.value, $("#NSMS").val());
                 }
                 if (resultat.isDismissed) {
-                    console.log(' reload 807');
                     location.reload();
                 }
             })
@@ -923,7 +914,6 @@
         })
         $("#pay").click(function () {
             var amount = $("#amount").val();
-            console.log('amount', amount);
             if (!(amount) || (amount == 0)) {
                 swal.fire({
                     title: `{{trans('the funding amount field can not be empty or 0! Please enter a valid amount!')}}`,
