@@ -9,7 +9,7 @@
     <div class="row">
         @include('layouts.flash-messages')
     </div>
-        <div class="row justify-content-center">
+        @if($flash)<div class="row justify-content-center">
             <div class="col-12">
                 <div class="card vip-background">
                     <div class="card-body">
@@ -23,12 +23,12 @@
                                     class="col-auto flash-red">{{formatSolde($vip->solde,0)}}{{__('Shares')}}</span>
                                 {{__('à conssommer. avec lachat de')}}
                                 <span
-                                    class="col-auto flash-red">{{formatSolde($vip->actions,0)}}</span>
+                                    class="col-auto flash-red">{{formatSolde($actions,0)}}</span>
                                 {{__('actions, le prix de laction atteindra')}}
                                 <span
-                                    class="col-auto flash-red">{{formatSolde($vip->cout,2)}}{{$currency}}</span> {{__('et les benefices instentannés seront')}}
+                                    class="col-auto flash-red">{{formatSolde($cout,2)}}{{$currency}}</span> {{__('et les benefices instentannés seront')}}
                                 <span
-                                    class="col-auto flash-red">{{formatSolde($vip->benefices,2)}}{{$currency}}</span></p>
+                                    class="col-auto flash-red">{{formatSolde($benefices,2)}}{{$currency}}</span></p>
                         </div>
                         <div class="row col-12">
                             <div class="discount-time text-center">
@@ -39,7 +39,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> @endif
     <div class="row">
         <div class="col-xl-3 col-md-6 solde-cash">
             <div class="card card-animate">
