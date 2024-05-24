@@ -4,6 +4,8 @@ namespace App\Http\Livewire;
 
 
 use App\Http\Traits\contactNumberCheker;
+use App\Models\vip;
+use Core\Models\Setting;
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
 use DateInterval;
@@ -35,17 +37,17 @@ class Home extends Component
     public $gift;
     public $profit;
     public $flashGift = 0;
-    public $flashTimes;
+    public $flashTimes=1;
     public $flashPeriod;
     public $flashDate;
-    public $flashMinShares;
+    public $flashMinShares=-1;
     public $maxActions;
 
     public $flashGain = 0;
 
     public $flash = false;
-    public $hasFlashAmount = false;
-
+    public $hasFlashAmount = 0;
+    public $vip = 0;
 
     protected $listeners = [
         'checkContactNumbre' => 'checkContactNumbre',
@@ -61,20 +63,18 @@ class Home extends Component
 
     public function simulateAction()
     {
-        if ($this->action < 0 && $this->action <> "") {
+        if ($this->action < 0 && $this->action == "") {
             $this->action = 0;
         }
-        if ($this->action > $this->maxActions) {
-            $this->action = $this->maxActions;
-        }
 
-        $this->ammount = round($this->action * actualActionValue(getSelledActions()), 3);
+
+        $this->ammount = round($this->action * actualActionValue(getSelledActions(),false), 3);
         $this->getCommounSimulation();
     }
 
     public function simulateAmmount()
     {
-        if ($this->ammount < 0 && $this->ammount <> "") {
+        if ($this->ammount < 0 && $this->ammount == "") {
             $this->ammount = 0;
         }
         $this->action = intval(intval($this->ammount) / actualActionValue(getSelledActions()));
@@ -88,7 +88,7 @@ class Home extends Component
         $this->profit = formatSolde($profitRaw, 2);
         if ($this->flash) {
             if ($this->action >= $this->flashMinShares) {
-                $hasFlashAmount = true;
+                $this->hasFlashAmount = 1;
                 $this->flashGift = '+' . getFlashGiftedActions($this->action, $this->flashTimes);
                 $this->flashGain = '+' . formatSolde($this->flashGift * actualActionValue(getSelledActions(), false), 2);
             } else {
@@ -131,7 +131,6 @@ class Home extends Component
         $this->userActualActionsProfit = number_format(getUserActualActionsProfit(Auth()->user()->idUser), 2);
         $this->userSelledAction = getUserSelledActions(Auth()->user()->idUser);
         $actualActionValue = actualActionValue(getSelledActions(), false);
-        $flashUser =
 
 
         $params = [
@@ -141,13 +140,28 @@ class Home extends Component
             "actualActionValue" => [
                 'int' => intval($actualActionValue),
                 '2Fraction' => intval(($actualActionValue - floor($actualActionValue)) * 100),
-                '3_2Fraction' => intval(($actualActionValue - floor($actualActionValue)) * 100000) - intval(($actualActionValue - floor($actualActionValue)) * 100) * 1000]
+                '3_2Fraction' => str_pad(intval(($actualActionValue - floor($actualActionValue)) * 100000) - intval(($actualActionValue - floor($actualActionValue)) * 100) * 1000
+                    , 3, "0", STR_PAD_LEFT)]
         ];
-        if ($user->flashCoefficient) {
-            $this->flashTimes = $user->flashCoefficient;
-            $this->flashPeriod = $user->flashDeadline;
-            $this->flashDate = $user->dateFNS;
-            $this->flashMinShares = $user->flashMinAmount;
+        $this->vip=vip::Where('idUser','=',$user->idUser)
+        ->where('closed','=',false)->first();
+
+
+
+        if ($this->vip) {
+            $setting = Setting::WhereIn('idSETTINGS', ['20', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
+            $max_bonus = $setting[0];
+            $total_actions = $setting[1];
+
+            $k = Setting::Where('idSETTINGS', '21')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
+            $this->vip->actions=find_actions($this->vip->solde, $total_actions, $max_bonus, $k, $this->vip->flashCoefficient);
+            $this->vip->benefices=($this->vip->solde-find_actions($this->vip->solde, $total_actions, $max_bonus, $k, $this->vip->flashCoefficient))*$actualActionValue;
+            $this->vip->cout=formatSolde($this->vip->actions*$actualActionValue/(($this->vip->actions*$this->vip->flashCoefficient)+getGiftedActions($this->vip->actions)), 2);
+
+            $this->flashTimes = $this->vip->flashCoefficient;
+            $this->flashPeriod = $this->vip->flashDeadline;
+            $this->flashDate = $this->vip->dateFNS;
+            $this->flashMinShares = $this->vip->flashMinAmount;
             $currentDateTime = new DateTime();
             $dateFlash = new DateTime($this->flashDate);
             $interval = new DateInterval('PT' . $this->flashPeriod . 'H');
