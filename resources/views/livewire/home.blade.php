@@ -585,6 +585,7 @@
                                 vip: {{$flashTimes}},
                                 flashMinShares: {{$flashMinShares}},
                                 flash: "{{$flash}}",
+                                actions:{{$actions}},
                                 "_token": "{{ csrf_token() }}"
                             },
                             success: function (data) {
