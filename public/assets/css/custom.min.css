@@ -505,9 +505,16 @@ nav svg {
     margin-left: 10px;
     font-weight: 800;
 }
+.vip-background {
+    background: linear-gradient(45deg, #AE8625, #f7ef8a, #d2ac47, #edc967, #AE8625, #f7ef8a, #d2ac47, #edc967) !important;
+    font-weight: 600;
+}
 
 .btn-outline-gold {
     color: black;
+}
+.flash-red{
+    color: #c32a2a;
 }
 
 .btn-outline-gold:hover {

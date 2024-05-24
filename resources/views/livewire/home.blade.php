@@ -9,6 +9,37 @@
     <div class="row">
         @include('layouts.flash-messages')
     </div>
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="card vip-background">
+                    <div class="card-body">
+                        <div class="row col-12" role="alert">
+                            <p>{{__('A mode for a')}} <span
+                                    class="col-auto flash-red">{{$flashTimes}}</span> {{__('times bonus over')}}
+                                <span
+                                    class="col-auto flash-red">{{$flashPeriod}} {{__('hours')}}</span> {{__('with a minimum of')}}
+                                <span
+                                    class="col-auto flash-red">{{formatSolde($flashMinShares,0)}} {{__('Shares')}}</span>. {{__('il vous reste')}} <span
+                                    class="col-auto flash-red">{{formatSolde($vip->solde,0)}}{{__('Shares')}}</span>
+                                {{__('à conssommer. avec lachat de')}}
+                                <span
+                                    class="col-auto flash-red">{{formatSolde($vip->actions,0)}}</span>
+                                {{__('actions, le prix de laction atteindra')}}
+                                <span
+                                    class="col-auto flash-red">{{formatSolde($vip->cout,2)}}{{$currency}}</span> {{__('et les benefices instentannés seront')}}
+                                <span
+                                    class="col-auto flash-red">{{formatSolde($vip->benefices,2)}}{{$currency}}</span></p>
+                        </div>
+                        <div class="row col-12">
+                            <div class="discount-time text-center">
+                                <h5 id="flash-timer" class="mb-0 flash-red"></h5>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     <div class="row">
         <div class="col-xl-3 col-md-6 solde-cash">
             <div class="card card-animate">
@@ -271,6 +302,7 @@
             </div>
         </div>
     </div>
+
     <h4 class="card-title" style="text-align: center">{{ __('we_are_present_in') }} </h4>
     <div class="col-12" style="padding-right: 0;padding-left: 0;">
         <div class="card" style="height: 500px;">
@@ -551,8 +583,8 @@
                                 country_code: country_code,
                                 ammount: ammount,
                                 vip: {{$flashTimes}},
-                                flashMinShares:{{$flashMinShares}},
-                                flash:"{{$flash}}",
+                                flashMinShares: {{$flashMinShares}},
+                                flash: "{{$flash}}",
                                 "_token": "{{ csrf_token() }}"
                             },
                             success: function (data) {
