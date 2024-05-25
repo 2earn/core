@@ -102,15 +102,36 @@ left join users user on user.idUser = recharge_requests.idUser";
             if ($vip->declenched) {
                 if ($number_of_action >= $request->actions) {
                     $flashGift = getFlashGiftedActions($request->actions, $request->vip);
+                    vip::where('idUser', $request->reciver)
+                        ->where('closed', '=', 0)
+                        ->update([
+                            'closed' => 1,
+                            'closedDate' => now(),
+                        ]);
                 } else {
                     $flashGift = getFlashGiftedActions($number_of_action, $request->vip);
                 }
             } else {
                 if ($number_of_action >= $request->flashMinShares) {
                 if ($number_of_action >= $request->actions) {
+
                     $flashGift = getFlashGiftedActions($request->actions, $request->vip);
+                    vip::where('idUser', $request->reciver)
+                        ->where('closed', '=', 0)
+                        ->update([
+                            'closed' => 1,
+                            'closedDate' => now(),
+                            'declenched' => 1,
+                            'declenchedDate' => now(),
+                        ]);
                 } else {
                     $flashGift = getFlashGiftedActions($number_of_action, $request->vip);
+                    vip::where('idUser', $request->reciver)
+                        ->where('closed', '=', 0)
+                        ->update([
+                            'declenched' => 1,
+                            'declenchedDate' => now(),
+                        ]);
                 }
             } else {
                     $flashGift = 0;
