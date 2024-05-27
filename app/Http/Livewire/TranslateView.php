@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use Carbon\Carbon;
 use Core\Models\translatearabes;
 use Core\Models\translateenglishs;
 use Core\Models\translatetabs;
@@ -15,6 +16,7 @@ class TranslateView extends Component
 {
     use WithPagination;
 
+    const TRANSLATION_PASSWORD = "159159";
     protected $paginationTheme = 'bootstrap';
     public $arabicValue = "";
     public $frenchValue = "";
@@ -46,8 +48,12 @@ class TranslateView extends Component
 
     public function AddFieldTranslate($val)
     {
-        $flight = translatetabs::create(['name' => $val, 'value' => '', 'valueFr' => '', 'valueEn' => '']);
-        return redirect()->route('translate', app()->getLocale());
+        if (translatetabs::where('name', $val)->get()->count() == 0) {
+            translatetabs::create(['name' => $val, 'value' => '', 'valueFr' => '', 'valueEn' => '']);
+            return redirect()->route('translate', app()->getLocale())->with('success', trans('key added successfully') . ' : ' . $val);
+        } else {
+            return redirect()->route('translate', app()->getLocale())->with('danger', trans('key exist!'));
+        }
     }
 
     public function deleteTranslate($idTranslate)
@@ -63,7 +69,7 @@ class TranslateView extends Component
 
     public function mergeTransaction($pass)
     {
-        if ($pass != '159159') return;
+        if ($pass != self::TRANSLATION_PASSWORD) return;
         try {
             translatetabs::truncate();
             $pathFile = resource_path() . '/lang/en.json';
@@ -71,7 +77,13 @@ class TranslateView extends Component
             $json = collect(json_decode($contents));
 
             foreach ($json as $key => $value) {
-                $flight = translatetabs::create(['name' => $key, 'valueEn' => $value, 'value' => '', 'valueFr' => '']);
+                if ($value) {
+                    if (translatetabs::where('name', $key)->get()->count() == 0) {
+                        translatetabs::create(['name' => $key, 'valueEn' => $value, 'value' => '', 'valueFr' => '']);
+                    } else {
+                        translatetabs::where('name', $key)->update(['valueEn' => $value]);
+                    }
+                }
             }
             $pathFileAr = resource_path() . '/lang/ar.json';
             $contentsAr = File::get($pathFileAr);
@@ -92,13 +104,19 @@ class TranslateView extends Component
 
     public function addEnglishField($pass)
     {
-        if ($pass != '159159') return;
+        if ($pass != self::TRANSLATION_PASSWORD) return;
         try {
             $pathFile = resource_path() . '\lang\en.json';
             $contents = File::get($pathFile);
             $json = collect(json_decode($contents));
             foreach ($json as $key => $value) {
-                $flight = translateenglishs::create(['name' => $key, 'value' => $value]);
+                if ($value) {
+                    if (translateenglishs::where('name', $key)->get()->count() != 0) {
+                        translateenglishs::where('name', $key)->update(['value' => $value, 'updated_at' => Carbon::now()]);
+                    } else {
+                        translateenglishs::create(['name' => $key, 'value' => $value, 'created_at' => Carbon::now()]);
+                    }
+                }
             }
         } catch (FileNotFoundException $exception) {
             die(Lang::get($exception->getMessage()));
@@ -107,13 +125,19 @@ class TranslateView extends Component
 
     public function addArabicField($pass)
     {
-        if ($pass != '159159') return;
+        if ($pass != self::TRANSLATION_PASSWORD) return;
         try {
             $pathFile = resource_path() . '\lang\ar.json';
             $contents = File::get($pathFile);
             $json = collect(json_decode($contents));
             foreach ($json as $key => $value) {
-                $flight = translatearabes::create(['name' => $key, 'value' => $value]);
+                if ($value) {
+                    if (translatearabes::where('name', $key)->get()->count() != 0) {
+                        translatearabes::where('name', $key)->update(['value' => $value, 'updated_at' => Carbon::now()]);
+                    } else {
+                        translatearabes::create(['name' => $key, 'value' => $value, 'created_at' => Carbon::now()]);
+                    }
+                }
             }
         } catch (FileNotFoundException $exception) {
             die(Lang::get($exception->getMessage()));
@@ -122,7 +146,7 @@ class TranslateView extends Component
 
     public function databaseToFile($pass)
     {
-        if ($pass != '159159') return;
+        if ($pass != self::TRANSLATION_PASSWORD) return;
         $all = translatetabs::all();
         foreach ($all as $key => $value) {
             $this->tabfin[$value->name] = $value->value;

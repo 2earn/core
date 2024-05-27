@@ -30,7 +30,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
-                    <button type="button" wire:click="saveTranslate" class="btn btn-primary">{{__('Save')}}</button>
+                    <button type="button" wire:click="saveTranslate"
+                            class="btn btn-success">{{__('Save translation')}}</button>
                 </div>
             </div>
         </div>
@@ -46,6 +47,9 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                 <div></div>
             </div>
         </div>
+    </div>
+    <div class="row">
+        @include('layouts.flash-messages')
     </div>
     <div class="row">
         <div class="col">
@@ -90,7 +94,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                 <thead>
                                 <tr>
                                     <th scope="Id">{{__('Id')}}</th>
-                                    <th scope="Name">{{__('Name')}}</th>
+                                    <th scope="key">{{__('key')}}</th>
                                     <th scope="English">{{__('English')}}</th>
                                     <th scope="Arabe">{{__('Arabe')}}</th>
                                     <th scope="Francais">{{__('Francais')}}</th>
