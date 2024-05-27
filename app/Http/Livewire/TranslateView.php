@@ -7,6 +7,7 @@ use Core\Models\translateenglishs;
 use Core\Models\translatetabs;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
 use  Livewire\WithPagination;
 
@@ -25,6 +26,7 @@ class TranslateView extends Component
     public $tabfinEn = [];
     public $search = '';
     public $nbrPagibation = 10;
+
     protected $rules = [
         'frenchValue' => 'required'
     ];
@@ -33,28 +35,25 @@ class TranslateView extends Component
         'addArabicField' => 'addArabicField',
         'addEnglishField' => 'addEnglishField',
         'mergeTransaction' => 'mergeTransaction',
-        'databaseToFile' => 'databaseToFile'
+        'databaseToFile' => 'databaseToFile',
+        'deleteTranslate' => 'deleteTranslate'
     ];
 
     public function PreImport($param)
     {
-        $this->dispatchBrowserEvent('PassEnter', [
-            'type' => 'warning',
-            'title' => "Opt",
-            'text' => '',
-            'ev' => $param
-        ]);
+        $this->dispatchBrowserEvent('PassEnter', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'ev' => $param]);
     }
 
     public function AddFieldTranslate($val)
     {
-        $flight = translatetabs::create([
-            'name' => $val,
-            'value' => '',
-            'valueFr' => '',
-            'valueEn' => ''
-        ]);
+        $flight = translatetabs::create(['name' => $val, 'value' => '', 'valueFr' => '', 'valueEn' => '']);
         return redirect()->route('translate', app()->getLocale());
+    }
+
+    public function deleteTranslate($idTranslate)
+    {
+        translatetabs::where('id', $idTranslate)->delete();
+        return redirect()->route('translate', app()->getLocale())->with('success', Lang::get('Translation item deleted'));
     }
 
     public function updatingSearch()
@@ -72,12 +71,7 @@ class TranslateView extends Component
             $json = collect(json_decode($contents));
 
             foreach ($json as $key => $value) {
-                $flight = translatetabs::create([
-                    'name' => $key,
-                    'valueEn' => $value,
-                    'value' => '',
-                    'valueFr' => '',
-                ]);
+                $flight = translatetabs::create(['name' => $key, 'valueEn' => $value, 'value' => '', 'valueFr' => '']);
             }
             $pathFileAr = resource_path() . '/lang/ar.json';
             $contentsAr = File::get($pathFileAr);
@@ -92,7 +86,7 @@ class TranslateView extends Component
                 translatetabs::where('name', $key)->update(['valueFr' => $value]);
             }
         } catch (FileNotFoundException $exception) {
-            die("The file doesn't exist");
+            die(Lang::get($exception->getMessage()));
         }
     }
 
@@ -104,13 +98,10 @@ class TranslateView extends Component
             $contents = File::get($pathFile);
             $json = collect(json_decode($contents));
             foreach ($json as $key => $value) {
-                $flight = translateenglishs::create([
-                    'name' => $key,
-                    'value' => $value,
-                ]);
+                $flight = translateenglishs::create(['name' => $key, 'value' => $value]);
             }
         } catch (FileNotFoundException $exception) {
-            die("The file doesn't exist");
+            die(Lang::get($exception->getMessage()));
         }
     }
 
@@ -122,13 +113,10 @@ class TranslateView extends Component
             $contents = File::get($pathFile);
             $json = collect(json_decode($contents));
             foreach ($json as $key => $value) {
-                $flight = translatearabes::create([
-                    'name' => $key,
-                    'value' => $value,
-                ]);
+                $flight = translatearabes::create(['name' => $key, 'value' => $value]);
             }
-        } catch (Illuminate\Contracts\Filesystem\FileNotFoundException $exception) {
-            die("The file doesn't exist");
+        } catch (FileNotFoundException $exception) {
+            die(Lang::get($exception->getMessage()));
         }
     }
 
@@ -148,8 +136,8 @@ class TranslateView extends Component
             File::put($pathFile, json_encode($this->tabfin, JSON_UNESCAPED_UNICODE));
             File::put($pathFileFr, json_encode($this->tabfinFr, JSON_UNESCAPED_UNICODE));
             File::put($pathFileEn, json_encode($this->tabfinEn, JSON_UNESCAPED_UNICODE));
-        } catch (Illuminate\Contracts\Filesystem\FileNotFoundException $exception) {
-            die("The file doesn't exist");
+        } catch (FileNotFoundException $exception) {
+            die(Lang::get($exception->getMessage()));
         }
         $this->dispatchBrowserEvent('closeModal');
     }
@@ -180,27 +168,19 @@ class TranslateView extends Component
             File::put($pathFile, json_encode($this->tabfin, JSON_UNESCAPED_UNICODE));
             File::put($pathFileFr, json_encode($this->tabfinFr, JSON_UNESCAPED_UNICODE));
             File::put($pathFileEn, json_encode($this->tabfinEn, JSON_UNESCAPED_UNICODE));
-        } catch (Illuminate\Contracts\Filesystem\FileNotFoundException $exception) {
-            die("The file doesn't exist");
+        } catch (FileNotFoundException $exception) {
+            die(Lang::get($exception->getMessage()));
         }
     }
 
     public function PreAjout()
     {
-        $this->dispatchBrowserEvent('PreAjoutTrans', [
-            'type' => 'warning',
-            'title' => "Opt",
-            'text' => '',
-        ]);
+        $this->dispatchBrowserEvent('PreAjoutTrans', ['type' => 'warning', 'title' => "Opt", 'text' => '']);
     }
 
     public function saveTranslate()
     {
-        translatetabs::where('id', $this->idTranslate)->update([
-            'value' => $this->arabicValue,
-            'valueFr' => $this->frenchValue,
-            'valueEn' => $this->englishValue,
-        ]);
+        translatetabs::where('id', $this->idTranslate)->update(['value' => $this->arabicValue, 'valueFr' => $this->frenchValue, 'valueEn' => $this->englishValue]);
         $all = translatetabs::all();
         foreach ($all as $key => $value) {
             $this->tabfin[$value->name] = $value->value;
@@ -214,8 +194,8 @@ class TranslateView extends Component
             File::put($pathFile, json_encode($this->tabfin, JSON_UNESCAPED_UNICODE));
             File::put($pathFileFr, json_encode($this->tabfinFr, JSON_UNESCAPED_UNICODE));
             File::put($pathFileEn, json_encode($this->tabfinEn, JSON_UNESCAPED_UNICODE));
-        } catch (Illuminate\Contracts\Filesystem\FileNotFoundException $exception) {
-            die("The file doesn't exist");
+        } catch (FileNotFoundException $exception) {
+            die(Lang::get($exception->getMessage()));
         }
         $this->dispatchBrowserEvent('closeModal');
     }
