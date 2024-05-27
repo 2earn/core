@@ -146,8 +146,8 @@ class Contacts extends Component
                             } else {
                                 $resteReserved = 0;
                             }
-                            if($resteReserved>0)
-                            $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('blocked for') . ' ' . $resteReserved . ' ' . Lang::get('hours'), 'warning', false, false);
+                            if ($resteReserved > 0)
+                                $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('blocked for') . ' ' . $resteReserved . ' ' . Lang::get('hours'), 'warning', false, false);
                             else $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Available'), 'success', true, false);
                         }
                     } else {
@@ -200,14 +200,13 @@ class Contacts extends Component
             ->where('phonecode', $ccode)
             ->get()->first();
         if ($contact_user_exist) {
-            return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('danger') . $contact_user_exist->name . ' ' . $contact_user_exist->lastName);
+            return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('Contact with first name and last name') . ' : ' . $contact_user_exist->name . ' ' . $contact_user_exist->lastName . ' ' . Lang::get('exists in the contact list'));
         }
 
         try {
             $user = $settingsManager->getUserByFullNumber($fullNumber);
 
             if (!$user) {
-
                 $user = $settingsManager->createNewUser($this->mobile, $fullNumber, $ccode, auth()->user()->idUser);
             }
             $contact_user = $settingsManager->createNewContactUser($settingsManager->getAuthUser()->idUser, $this->contactName, $user->idUser, $this->contactLastName, $phone, $fullNumber, $ccode,);
@@ -215,11 +214,10 @@ class Contacts extends Component
             return redirect()->route('contacts', app()->getLocale())->with('success', Lang::get('User created successfully') . ' : ' . $contact_user->name . ' ' . $contact_user->lastName . ' : ' . $contact_user->mobile);
 
         } catch (\Exception $exp) {
+            $this->transactionManager->rollback();
             if ($exp->getMessage() == "Number does not match the provided country.") {
-                $this->transactionManager->rollback();
                 return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('Phone Number does not match the provided country.'));
             } else {
-                $this->transactionManager->rollback();
                 return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('User creation failed'));
             }
         }
