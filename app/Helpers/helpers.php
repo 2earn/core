@@ -230,6 +230,7 @@ if (!function_exists('getGiftedActions')) {
         $setting = Setting::WhereIn('idSETTINGS', ['20', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
         $max_bonus = $setting[0];
         $total_actions = $setting[1];
+
         $k = Setting::Where('idSETTINGS', '21')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
 
         $a = (($total_actions * $max_bonus) / 100);
@@ -241,9 +242,7 @@ if (!function_exists('getGiftedActions')) {
 if (!function_exists('getFlashGiftedActions')) {
     function getFlashGiftedActions($actions,$times)
     {
-
             $result = intval($actions * ($times-1));
-
         return $result;
     }
 }

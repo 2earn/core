@@ -129,10 +129,6 @@ input[type=range]::-ms-fill-upper {
     background-color: #9a905d
 }
 
-.footerOpt {
-    align-self: flex-start
-}
-
 .footerOpt a {
     cursor: pointer;
     font-weight: 700
@@ -144,7 +140,7 @@ input[type=range]::-ms-fill-upper {
 }
 
 .navbar-brand-box {
-    border-bottom: 1px solid #464fed
+    box-shadow: 2px 2px 4px rgba(15, 34, 58, 0.2);
 }
 
 #logo-paytabs {

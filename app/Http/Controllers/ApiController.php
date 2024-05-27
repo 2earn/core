@@ -70,6 +70,11 @@ left join users user on user.idUser = recharge_requests.idUser";
         }
         $number_of_action = intval($request->ammount / actualActionValue(getSelledActions()));
         $gift = getGiftedActions($number_of_action);
+        if($request->flash==1){
+            if ($number_of_action>=$request->flashMinShares){
+                $gift = getGiftedActions($number_of_action) + getFlashGiftedActions($number_of_action, $request->vip);
+            }
+        }
         $actual_price = actualActionValue(getSelledActions());
         $PU = $number_of_action * ($actual_price) / ($number_of_action + $gift);
         $Count = DB::table('user_balances')->count();
