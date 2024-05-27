@@ -880,6 +880,7 @@
                 });
             });
             window.addEventListener('confirmOPTVerifMail', event => {
+                console.log('confirmOPTVerifMail')
                 Swal.fire({
                     title: '{{trans('Your verification code')}}',
                     html: '{{ __('We_will_send') }}' + '<br>' + event.detail.mail + '<br>' + '{{__('Your OTP Code')}}',
@@ -915,7 +916,7 @@
                     if (resultat.value) {
                         window.livewire.emit('saveVerifiedMail', resultat.value);
                     } else if (resultat.isDismissed) {
-                        window.location.reload();
+                        $('.modal-backdrop').remove();
                     }
                 }).catch((error) => {
                     console.error('SweetAlert Error:', error);
