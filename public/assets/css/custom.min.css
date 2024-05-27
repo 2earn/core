@@ -129,10 +129,6 @@ input[type=range]::-ms-fill-upper {
     background-color: #9a905d
 }
 
-.footerOpt {
-    align-self: flex-start
-}
-
 .footerOpt a {
     cursor: pointer;
     font-weight: 700

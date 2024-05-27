@@ -24,6 +24,9 @@ use Livewire\Component;
 
 class FinancialTransaction extends Component
 {
+
+    const DATE_FORMAT = 'Y-m-d H:i:s';
+
     public $soldecashB;
     public $soldeBFS;
     public $soldeExchange = 0;
@@ -36,6 +39,7 @@ class FinancialTransaction extends Component
     public $FinRequestN;
     public $showCanceled;
     public $fromTab;
+
     protected $listeners = [
         'PreExchange' => 'PreExchange',
         'ExchangeCashToBFS' => 'ExchangeCashToBFS',
@@ -61,14 +65,15 @@ class FinancialTransaction extends Component
             ->first();
         if (!$detailReques) abort(404);
         detail_financial_request::where('numeroRequest', '=', $numeroRequste)
-            ->where('idUser', '=', $userAuth->idUser)->update(['response' => 2, 'dateResponse' => date('Y-m-d H:i:s')]);
+            ->where('idUser', '=', $userAuth->idUser)
+            ->update(['response' => 2, 'dateResponse' => date(self::DATE_FORMAT)]);
 
         $detailRest = detail_financial_request::where('numeroRequest', '=', $numeroRequste)
             ->where('response', '=', null)
             ->get();
         if (count($detailRest) == 0) {
             FinancialRequest::where('numeroReq', '=', $numeroRequste)
-                ->update(['status' => 5, 'idUserAccepted' => $userAuth->idUser, 'dateAccepted' => date('Y-m-d H:i:s')]);
+                ->update(['status' => 5, 'idUserAccepted' => $userAuth->idUser, 'dateAccepted' => date(self::DATE_FORMAT)]);
         }
     }
 
@@ -76,13 +81,12 @@ class FinancialTransaction extends Component
     {
         $this->showCanceled = $val;
         $this->fromTab = 'fromRequestOut';
-        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'ShowCancel' => $val])->with('tabRequest', 'sdf');;
+        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'ShowCancel' => $val])->with('tabRequest', 'sdf');
     }
 
     public function redirectToTransfertCash($mnt, $req)
     {
         return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'montant' => $mnt, 'FinRequestN' => $req]);
-
     }
 
     public function mount(Request $request)
@@ -107,7 +111,6 @@ class FinancialTransaction extends Component
         if (!$financialRequest) return;
         if ($financialRequest->status != 0) return;
         return redirect()->route('AcceptFinancialRequest', ['locale' => app()->getLocale(), 'numeroReq' => $numeroRequste]);
-
     }
 
     public function redirectPay($url, $amount)
@@ -122,15 +125,7 @@ class FinancialTransaction extends Component
             case 'req_public_user' :
                 return redirect()->route('RequesPublicUser', ["locale" => app()->getLocale(), "amount" => $amount]);
                 break;
-
-//            case 1:
-//                echo "i equals 1";
-//                break;
-//            case 2:
-//                echo "i equals 2";
-//                break;
         }
-//        dd("url: ".$url ."amount : ".$amount);
     }
 
     public function PExchangeSms(settingsManager $settingsManager)
@@ -141,35 +136,23 @@ class FinancialTransaction extends Component
         User::where('id', $userAuth->id)->update(['activationCodeValue' => $check_exchange]);
         $userContactActif = $settingsManager->getidCountryForSms($userAuth->id);
         $fullNumber = $userContactActif->fullNumber;
-        $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::OPTVerification, [
-            'msg' => $check_exchange,
-            'type' => TypeNotificationEnum::SMS
-        ]);
-        $this->dispatchBrowserEvent('confirmSms', [
-            'type' => 'warning',
-            'title' => "Opt",
-            'text' => '',
-            'FullNumber' => $fullNumber,
-        ]);
+        $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::OPTVerification, ['msg' => $check_exchange, 'type' => TypeNotificationEnum::SMS]);
+        $this->dispatchBrowserEvent('confirmSms', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'FullNumber' => $fullNumber]);
     }
 
-    public function render(
-        settingsManager $settingsManager, BalancesManager $balancesManager)
+    public function render(settingsManager $settingsManager, BalancesManager $balancesManager)
     {
-
-
-        if ($this->showCanceled == null || $this->showCanceled == "")
+        if ($this->showCanceled == null || $this->showCanceled == "") {
             $this->showCanceled = 0;
+        }
         $this->getRequestIn($settingsManager);
 
         $userAuth = $settingsManager->getAuthUser();
 
         $this->mobile = $userAuth->fullNumber;
         $solde = $balancesManager->getBalances($userAuth->idUser, -1);
-        $this->soldecashB = floatval($solde->soldeCB)
-            - floatval($this->soldeExchange);
-        $this->soldeBFS = floatval($solde->soldeBFS)
-            - floatval($this->numberSmsExchange);
+        $this->soldecashB = floatval($solde->soldeCB) - floatval($this->soldeExchange);
+        $this->soldeBFS = floatval($solde->soldeBFS) - floatval($this->numberSmsExchange);
 
         $seting = DB::table('settings')->where("idSETTINGS", "=", "13")->first();
 
@@ -178,19 +161,12 @@ class FinancialTransaction extends Component
 
         number_format($this->soldecashB, 2, '.', ',');
         number_format($this->soldeBFS, 2, '.', ',');
-//        dd($this->soldeBFS) ;
 
         $requestToMee = detail_financial_request::join('financial_request', 'financial_request.numeroReq', '=', 'detail_financial_request.numeroRequest')
             ->join('users', 'financial_request.idSender', '=', 'users.idUser')
             ->where('detail_financial_request.idUser', $userAuth->idUser)
             ->orderBy('financial_request.date', 'desc')
             ->get(['financial_request.numeroReq', 'financial_request.date', 'users.name', 'users.mobile', 'financial_request.amount', 'financial_request.status']);
-//dd($requestToMee);
-
-//        $requestFromMee = detail_financial_request::join('financial_request', 'financial_request.numeroReq', '=', 'detail_financial_request.numeroRequest')
-//            ->join('users', 'financial_request.idSender', '=', 'users.idUser')
-//            ->where('financial_request.idSender', $userAuth->idUser)
-//            ->get(['financial_request.numeroReq', 'financial_request.date', 'users.name', 'users.mobile', 'financial_request.amount', 'financial_request.status']);
         if ($this->showCanceled == '1') {
             $requestFromMee = FinancialRequest::where('financial_request.idSender', $userAuth->idUser)
                 ->join('users as u1', 'financial_request.idSender', '=', 'u1.idUser')
@@ -206,14 +182,11 @@ class FinancialTransaction extends Component
                 ->get(['financial_request.numeroReq', 'financial_request.date', 'u1.name', 'u1.mobile', 'financial_request.amount', 'financial_request.status as FStatus', 'financial_request.securityCode']);
         }
 
-
         $requestInOpen = detail_financial_request::join('financial_request', 'financial_request.numeroReq', '=', 'detail_financial_request.numeroRequest')
             ->where('detail_financial_request.idUser', $userAuth->idUser)
             ->where('financial_request.Status', 0)
             ->where('detail_financial_request.vu', 0)
             ->count();
-//        dd($requestInOpen);
-
         $requestOutAccepted = FinancialRequest::where('financial_request.idSender', $userAuth->idUser)
             ->where('financial_request.Status', 1)
             ->where('financial_request.vu', 0)
@@ -222,24 +195,14 @@ class FinancialTransaction extends Component
             ->where('financial_request.Status', 5)
             ->where('financial_request.vu', 0)
             ->count();
-
-//            ->get();
-//dd($requestFromMee);
-//        dd($requestFromMee);
-//        if ($this->fromTab == "fromRequestOut") {
-//
-//            return view('livewire.financial-transaction', [
-//                'requestToMee' => $requestToMee,
-//                'requestFromMee' => $requestFromMee
-//            ])->with('fromRequestOut', 'ss');
-//        }
-        return view('livewire.financial-transaction', [
+        $params = [
             'requestToMee' => $requestToMee,
             'requestFromMee' => $requestFromMee,
             'requestInOpen' => $requestInOpen,
             'requestOutAccepted' => $requestOutAccepted,
             'requestOutRefused' => $requestOutRefused
-        ])->extends('layouts.master')->section('content');
+        ];
+        return view('livewire.financial-transaction', $params)->extends('layouts.master')->section('content');
     }
 
     public function PreExchange(settingsManager $settingsManager)
@@ -250,16 +213,8 @@ class FinancialTransaction extends Component
         User::where('id', $userAuth->id)->update(['activationCodeValue' => $check_exchange]);
         $userContactActif = $settingsManager->getidCountryForSms($userAuth->id);
         $fullNumber = $userContactActif->fullNumber;
-        $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::OPTVerification, [
-            'msg' => $check_exchange,
-            'type' => TypeNotificationEnum::SMS
-        ]);
-        $this->dispatchBrowserEvent('OptExBFSCash', [
-            'type' => 'warning',
-            'title' => "Opt",
-            'text' => '',
-            'FullNumber' => $fullNumber,
-        ]);
+        $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::OPTVerification, ['msg' => $check_exchange, 'type' => TypeNotificationEnum::SMS]);
+        $this->dispatchBrowserEvent('OptExBFSCash', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'FullNumber' => $fullNumber]);
     }
 
     public function ExchangeCashToBFS($code, settingsManager $settingsManager)
@@ -272,8 +227,6 @@ class FinancialTransaction extends Component
             ExchangeTypeEnum::CashToBFS,
             $settingsManager->getAuthUser()->idUser,
             $this->soldeExchange);
-//        $this->emitTo('livewire-toast', 'show', 'Project Added Successfully'); //Will show Success Message
-
         if ($this->FinRequestN != null && $this->FinRequestN != '') {
             return redirect()->route('AcceptFinancialRequest', ['locale' => app()->getLocale(), 'numeroReq' => $this->FinRequestN]);
         }
@@ -296,21 +249,15 @@ class FinancialTransaction extends Component
     public function getRequestIn($settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
-        $reqRequest = "select recharge_requests.Date , user.name user  ,
-recharge_requests.payeePhone userphone, recharge_requests.amount  from recharge_requests
-left join users user on user.idUser = recharge_requests.idPayee where recharge_requests.idUser = ? ";
+        $reqRequest = "select recharge_requests.Date , user.name user  , recharge_requests.payeePhone userphone, recharge_requests.amount  from recharge_requests left join users user on user.idUser = recharge_requests.idPayee where recharge_requests.idUser = ? ";
         $request = DB::select($reqRequest, [$userAuth->idUser]);
-
     }
 
     public function getRequestOut($settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
-        $reqRequest = "select recharge_requests.Date , user.name user  ,
-recharge_requests.payeePhone userphone, recharge_requests.amount  from recharge_requests
-left join users user on user.idUser = recharge_requests.idPayee where recharge_requests.idSender = ? ";
+        $reqRequest = "select recharge_requests.Date , user.name user  ,recharge_requests.payeePhone userphone, recharge_requests.amount  from recharge_requests left join users user on user.idUser = recharge_requests.idPayee where recharge_requests.idSender = ? ";
         $request = DB::select($reqRequest, [$userAuth->idUser]);
-
     }
 
 
@@ -322,11 +269,9 @@ left join users user on user.idUser = recharge_requests.idPayee where recharge_r
         if (!$financialRequest) abort(404);
         if ($financialRequest->status != 0) abort(404);
         FinancialRequest::where('numeroReq', '=', $num)
-            ->update(['status' => 3, 'idUserAccepted' => $userAuth->idUser, 'dateAccepted' => date('Y-m-d H:i:s')]);
+            ->update(['status' => 3, 'idUserAccepted' => $userAuth->idUser, 'dateAccepted' => date(self::DATE_FORMAT)]);
         return redirect()->route('financial_transaction', app()->getLocale())->with('SuccesDelteAccepted', '');
     }
-
-
 }
 
 
