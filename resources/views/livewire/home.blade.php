@@ -606,7 +606,7 @@
                                     backgroundColor = "#ba0404";
                                     Swal.fire({
                                         icon: "error",
-                                        title: "Validation Failed",
+                                        title: "{{__('Validation failed')}}",
                                         html: response.error.join('<br>')
                                     });
                                 }
@@ -624,7 +624,7 @@
                             },
                             error: function (data) {
                                 var responseData = JSON.parse(data.responseText);
-                                Swal.fire({icon: 'error', title: 'Oops...', text: responseData.error[0]});
+                                Swal.fire({icon: 'error', title: "{{__('Error in action purchase transaction')}}", text: responseData.error[0]});
                                 $('.buy-action-submit-spinner').hide();
                             }
                         });
