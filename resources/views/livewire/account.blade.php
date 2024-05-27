@@ -102,7 +102,7 @@
             @if($user['status']!=1)
                 <div class="card">
                     <div class="card-body row">
-                        <h5 class="card-title mb-0">{{ __('Identities cards') }}</h5>
+                        <h5 class="card-title mb-2 text-info">{{ __('Identities cards') }}</h5>
                         <div class="col-6">
                             <div>
                                 <label>{{ __('Front ID') }}</label>
@@ -155,20 +155,20 @@
                             </a>
                         </li>
                         @if($user['status']!=1)
-                            <li class="nav-item">
+                            <li class="nav-item @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif">
                                 <a class="nav-link" data-bs-toggle="tab" href="#experience" role="tab">
                                     <i class="far fa-envelope"></i>
                                     {{__('Identifications')}}
                                 </a>
                             </li>
                         @endif
-                        <li class="nav-item">
+                        <li class="nav-item @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif">
                             <a class="nav-link" data-bs-toggle="tab" href="#changePassword" role="tab" id="tabEditPass">
                                 <i class="far fa-user"></i>
                                 {{__('ChangePassword')}}
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif">
                             <a class="nav-link" data-bs-toggle="tab" href="#privacy" role="tab">
                                 <i class="far fa-envelope"></i>
                                 {{__('UpdatePhoneNumber')}}
@@ -431,7 +431,7 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="tab-pane" id="changePassword" role="tabpanel">
+                        <div class="tab-pane @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif" id="changePassword" role="tabpanel">
                             <form action="">
                                 <div class="row g-2">
                                     <div class="col-lg-4">
@@ -500,11 +500,11 @@
                             </form>
                         </div>
                         @if($user['status']!=1)
-                            <div class="tab-pane" id="experience" role="tabpanel">
+                            <div class="tab-pane @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif" id="experience" role="tabpanel">
                                 <livewire:identification-check/>
                             </div>
                         @endif
-                        <div class="tab-pane" id="privacy" role="tabpanel">
+                        <div class="tab-pane @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif" id="privacy" role="tabpanel">
                             <livewire:edit-phone-number/>
                         </div>
                     </div>
