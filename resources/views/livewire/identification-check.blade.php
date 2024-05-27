@@ -98,7 +98,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div>
-                                            <label for="firstName" class="form-label">{{__('First Name')}}</label>
+                                            <label for="firstName" class="form-label">{{__('First name')}}</label>
                                             <input wire:model.defer="usermetta_info2.enFirstName" type="text"
                                                    class="form-control" id="firstName"
                                                    placeholder="{{__('Enter your firstname')}}">
@@ -106,7 +106,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div>
-                                            <label for="lastName" class="form-label">{{__('Last Name')}}</label>
+                                            <label for="lastName" class="form-label">{{__('Last name')}}</label>
                                             <input wire:model.defer="usermetta_info2.enLastName" type="text"
                                                    class="form-control" id="lastName"
                                                    placeholder="{{__('Enter your lastname')}}">
