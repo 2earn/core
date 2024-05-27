@@ -29,7 +29,7 @@
                 <div class="row justify-content-center">
                     <div class="col-md-8 col-lg-6 col-xl-5">
                         <div class="card mt-4">
-                            <div class="card-body p-4">
+                            <div class="card-body">
                                 <div class="text-center mt-2">
                                     <h5 class="text-primary">{{__('Forgot Password?')}}</h5>
                                     <p class="text-muted">{{__('Reset password with 2earn')}}</p>
@@ -40,7 +40,6 @@
                                 <div class="alert alert-borderless alert-warning text-center mb-2 mx-2" role="alert">
                                     {{__('Enter your mobile  will be sent to you!')}}
                                 </div>
-                                <div class="p-2">
                                     <form id="forget-password-form">
                                         @csrf
                                         <div class="mb-3">
@@ -69,7 +68,6 @@
                                             </button>
                                         </div>
                                     </form>
-                                </div>
                             </div>
                             <div class=" text-center mt-4" style="background-color: #FFFFFF">
                                 <nav class="">
