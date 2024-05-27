@@ -116,7 +116,7 @@
                                    class="btn btn-outline-primary ">
                                     {{__('Edit')}}
                                 </a>
-                                <a wire:click="deleteId('{{$value->id}}')"
+                                <a onclick="confirmDeleteContact({{$value->id}},'{{$value->name .' ' . $value->lastName}}')"
                                    class="btn btn-outline-danger">
                                     <div wire:loading wire:target="deleteId('{{$value->id}}')">
                                               <span class="spinner-border spinner-border-sm" role="status"
@@ -242,7 +242,6 @@
                             </button>
                         </div>
                     </div>
-
                 </form>
             </div>
         </div>
@@ -275,7 +274,6 @@
         }
 
         function saveContactEvent() {
-
             inputphone = document.getElementById("ipAdd2Contact");
             inputname = document.getElementById("ccodeAdd2Contact");
             inputlast = document.getElementById("outputAdd2Contact");
@@ -303,14 +301,33 @@
         }
 
         function editContact(id) {
-            console.log(id)
             window.livewire.emit('initUserContact', id);
         }
 
+        function confirmDeleteContact(contactId, ContactFullName) {
+            Swal.fire({
+                title: '{{ __('delete_contact') }}' + '<br>' + ContactFullName,
+                text: '{{ __('operation_irreversible') }}',
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: '{{__('ok')}}',
+                cancelButtonText: '{{__('cancel !')}}',
+                denyButtonText: '{{__('No')}}',
+                customClass: {
+                    actions: 'my-actions',
+                    cancelButton: 'order-1 right-gap',
+                    confirmButton: 'order-2',
+                    denyButton: 'order-3',
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.livewire.emit('deleteContact', contactId);
+                }
+            });
 
-        function deleteContact(dd) {
-            window.livewire.emit('deleteContact', dd);
+
         }
+
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.0.2/list.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/list.pagination.js/0.1.1/list.pagination.min.js"></script>

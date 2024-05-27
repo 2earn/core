@@ -30,7 +30,6 @@ use phpDocumentor\Reflection\Types\Collection;
 use Propaganistas\LaravelPhone\PhoneNumber;
 use Yajra\DataTables\Facades\DataTables;
 
-//use App\Models\UserBalance;
 
 class ApiController extends BaseController
 {
@@ -41,7 +40,8 @@ left join users user on user.idUser = recharge_requests.idUser";
     public function __construct(private settingsManager $settingsManager, private BalancesManager $balancesManager, private UserRepository $userRepository)
     {
     }
-   public function SendSMS(Req $request,settingsManager $settingsManager)
+
+    public function SendSMS(Req $request, settingsManager $settingsManager)
     {
 
         $settingsManager->NotifyUser($request->user, TypeEventNotificationEnum::none, [
@@ -54,27 +54,27 @@ left join users user on user.idUser = recharge_requests.idUser";
     public function buyAction(Req $request, BalancesManager $balancesManager)
     {
         $validator = Val::make($request->all(), [
-            'ammount' => ['required', 'numeric', 'lte:' . $balancesManager->getBalances(Auth()->user()->idUser)->soldeCB],
-            'phone' => [
-                Rule::requiredIf($request->me_or_other == "other"),
-            ],
-            'bfs_for' => [
-                Rule::requiredIf($request->me_or_other == "other"),
-            ],
+            'ammount' => ['required', 'numeric', 'gt:0', 'lte:' . $balancesManager->getBalances(Auth()->user()->idUser, -1)->soldeCB],
+            'phone' => [Rule::requiredIf($request->me_or_other == "other")],
+            'bfs_for' => [Rule::requiredIf($request->me_or_other == "other")],
         ], [
-            'ammount.required' => 'ammonut is required !',
-            'ammount.numeric' => 'Ammount must be numeric !!',
-            'ammount.lte' => 'Ammount > Cash Balance !!',
-            'teinte.exists' => 'Le champ Teinte est obligatoire !',
+            'ammount.required' => Lang::get('ammonut is required !'),
+            'ammount.numeric' => Lang::get('Ammount must be numeric !!'),
+            'ammount.gt' => Lang::get('The ammount must be greater than 0.'),
+            'ammount.lte' => Lang::get('Ammount > Cash Balance !!'),
+            'teinte.exists' => Lang::get('Le champ Teinte est obligatoire !'),
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->errors()->all()
-            ], 400);
+            return response()->json(['error' => $validator->errors()->all()], 400);
         }
         $number_of_action = intval($request->ammount / actualActionValue(getSelledActions()));
         $gift = getGiftedActions($number_of_action);
+        if($request->flash==1){
+            if ($number_of_action>=$request->flashMinShares){
+                $gift = getGiftedActions($number_of_action) + getFlashGiftedActions($number_of_action, $request->vip);
+            }
+        }
         $actual_price = actualActionValue(getSelledActions());
         $PU = $number_of_action * ($actual_price) / ($number_of_action + $gift);
         $Count = DB::table('user_balances')->count();
@@ -124,7 +124,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         $user_balance->value = ($number_of_action + $gift) * $PU;
         $user_balance->WinPurchaseAmount = "0.000";
         $user_balance->Description = "purchase of " . ($number_of_action + $gift) . " shares for " . $a;
-        $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser)->soldeCB - ($number_of_action + $gift) * $PU;
+        $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeCB - ($number_of_action + $gift) * $PU;
         $user_balance->save();
 
         //bfs
@@ -137,7 +137,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         $user_balance->idamount = AmoutEnum::BFS;
         $user_balance->value = intval($number_of_action / $palier) * $actual_price * $palier;
         $user_balance->WinPurchaseAmount = "0.000";
-        $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser)->soldeBFS + intval($number_of_action / $palier) * $actual_price * $palier;
+        $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeBFS + intval($number_of_action / $palier) * $actual_price * $palier;
         $user_balance->save();
         return response()->json(['type' => ['success'], 'message' => ['success']],);
     }
@@ -154,6 +154,22 @@ left join users user on user.idUser = recharge_requests.idUser";
         $profit = actualActionValue(getSelledActions()) * $gifted_action;
         $array = array('action' => $action, "gift" => $gifted_action, 'profit' => $profit);
         return response()->json($array);
+    }
+
+    public function vip(Req $request)
+    {
+
+        User::where('idUser', $request->reciver)->update(
+            [
+                'flashCoefficient' => $request->coefficient,
+                'flashDeadline' => $request->periode,
+                'flashNote' => $request->note,
+                'flashMinAmount' => $request->minshares,
+                'dateFNS' => now(),
+            ]
+        );
+        return "success";
+
     }
 
     public function addCash(Req $request, BalancesManager $balancesManager)
@@ -179,21 +195,9 @@ left join users user on user.idUser = recharge_requests.idUser";
             $user_balance->value = $request->input('amount');
             $user_balance->WinPurchaseAmount = "0.000";
             $user_balance->Description = "Transfered to " . getPhoneByUser($request->input('reciver'));
-            $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser)->soldeCB - $request->input('amount');
+            $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeCB - $request->input('amount');
 
             $user_balance->save();
-//            $id_balance = DB::table('user_balances')
-//                ->insertGetId([
-//                    'ref' => "42" . date('ymd') . substr((10000 + $Count + 1), 1, 4),
-//                    'idBalancesOperation' => 42,
-//                    'Date' => date("Y-m-d H:i:s"),
-//                    'idSource' => Auth()->user()->idUser,
-//                    'idUser' => $request->all()['reciver'],
-//                    'idamount' => AmoutEnum::CASH_BALANCE,
-//                    'value' => $request->all()['amount'],
-//                    'WinPurchaseAmount' => "0.000" ,
-//                    'Balance' =>$balancesManager->getBalances(Auth()->user()->idUser)->soldeCB -$request->all()['amount']
-//                ]);
 
 
             $user_balance = new user_balance();
@@ -206,22 +210,9 @@ left join users user on user.idUser = recharge_requests.idUser";
             $user_balance->value = $request->input('amount');
             $user_balance->WinPurchaseAmount = "0.000";
             $user_balance->Description = "Transfered from " . getPhoneByUser(Auth()->user()->idUser);
-            $user_balance->Balance = $balancesManager->getBalances($request->input('reciver'))->soldeCB + $request->input('amount');
+            $user_balance->Balance = $balancesManager->getBalances($request->input('reciver'), -1)->soldeCB + $request->input('amount');
 
             $user_balance->save();
-//            $id_balance = DB::table('user_balances')
-//                ->insertGetId([
-//                    'ref' => "43" . date('ymd') . substr((10000 + $Count + 1), 1, 4),
-//                    'idBalancesOperation' => 43,
-//                    'Date' => date("Y-m-d H:i:s"),
-//                    'idSource' => "11111111",
-//                    'idUser' => $request->all()['reciver'],
-//                    'idamount' => AmoutEnum::CASH_BALANCE,
-//                    'value' => $request->all()['amount'],
-//                    'WinPurchaseAmount' => "0.000",
-//                    'Balance' =>$balancesManager->getBalances($request->input('reciver'))->soldeCB + $request->all()['amount']
-//                ]);
-
 
             // adjust new value for admin
 
@@ -456,12 +447,12 @@ left join users user on user.idUser = recharge_requests.idUser";
         $chaine = $data->cart_id;
         $user = explode('-', $chaine)[0];
         $k = \Core\Models\Setting::Where('idSETTINGS', '30')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
-        $msg=$settingsManager->getUserByIdUser($user)->mobile." ".$data->payment_result->response_message;
-             if ($data->success) {
+        $msg = $settingsManager->getUserByIdUser($user)->mobile . " " . $data->payment_result->response_message;
+        if ($data->success) {
 
-                 $msg=$msg." transfert de ".$data->tran_total.$data->cart_currency."(".number_format($data->tran_total/$k, 2)."$)";
-             }
-        $idUser=$settingsManager->getUserByIdUser($user)->id;
+            $msg = $msg . " transfert de " . $data->tran_total . $data->cart_currency . "(" . number_format($data->tran_total / $k, 2) . "$)";
+        }
+        $idUser = $settingsManager->getUserByIdUser($user)->id;
         $settingsManager->NotifyUser(2, TypeEventNotificationEnum::none, [
             'msg' => $msg,
             'type' => TypeNotificationEnum::SMS
@@ -809,19 +800,18 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
     public function getUsersList()
     {
 
-        $query = User::select('countries.apha2', 'users.idUser','idUplineRegister', DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'), 'users.mobile', 'users.created_at', 'OptActivation', 'pass')
+        $query = User::select('countries.apha2', 'users.idUser', 'idUplineRegister', DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'), 'users.mobile', 'users.created_at', 'OptActivation', 'pass', 'flashCoefficient as coeff', 'flashDeadline as periode', 'flashNote as note', 'flashMinAmount as minshares', 'dateFNS as date')
             ->join('metta_users as meta', 'meta.idUser', '=', 'users.idUser')
             ->join('countries', 'countries.id', '=', 'users.idCountry');
-        //->where('users.idUser','<' ,197604180);
 
-        //  dd($query) ;
+
         return datatables($query)
             ->addColumn('formatted_mobile', function ($user) {
                 $phone = new PhoneNumber($user->mobile, $user->apha2);
                 return $phone->formatForCountry($user->apha2);
             })
             ->addColumn('register_upline', function ($user) {
-                if($user->idUplineRegister==11111111)return "system"; else
+                if ($user->idUplineRegister == 11111111) return "system"; else
                     return getRegisterUpline($user->idUplineRegister);
             })
             ->addColumn('formatted_created_at', function ($user) {
@@ -832,6 +822,12 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
                 return '<a data-bs-toggle="modal" data-bs-target="#AddCash"   data-phone="' . $settings->mobile . '" data-country="' . Asset("assets/images/flags/" . strtolower($settings->apha2)) . '.svg" data-reciver="' . $settings->idUser . '"
 class="btn btn-xs btn-primary btn2earnTable addCash"  >
 <i class="glyphicon glyphicon-add"></i>' . Lang::get('AddCash') . '</a> ';
+            })
+            ->addColumn('VIP', function ($settings) {
+
+                return '<a data-bs-toggle="modal" data-bs-target="#vip"   data-phone="' . $settings->mobile . '" data-country="' . Asset("assets/images/flags/" . strtolower($settings->apha2)) . '.svg" data-reciver="' . $settings->idUser . '"
+class="btn btn-xs btn-flash btn2earnTable vip"  >
+<i class="glyphicon glyphicon-add"></i>' . Lang::get('VIP') . '</a> ';
             })
             ->addColumn('flag', function ($settings) {
 
@@ -863,7 +859,7 @@ class="btn btn-ghost-warning waves-effect waves-light smsb"  >
 class="btn btn-ghost-success waves-effect waves-light sh"  >
 <i class="glyphicon glyphicon-add"></i>' . number_format(getUserSelledActions($user_balance->idUser), 0) . '</a> '; //number_format(getUserSelledActions($user_balance->idUser),0);
             })
-            ->rawColumns(['action', 'flag', 'SoldeCB', 'SoldeBFS', 'SoldeDB', 'SoldeSMS', 'SoldeSH'])
+            ->rawColumns(['action', 'flag', 'SoldeCB', 'SoldeBFS', 'SoldeDB', 'SoldeSMS', 'SoldeSH', 'VIP'])
             ->make(true);
     }
 
@@ -871,7 +867,9 @@ class="btn btn-ghost-success waves-effect waves-light sh"  >
     {
         $phoneNumber = $request->input('phoneNumber');
         $inputName = $request->input('inputName');
-
+        if (is_null($inputName) or is_null($phoneNumber)) {
+            return new JsonResponse(['message' => Lang::get('Invalid phone number format')], 200);
+        }
         try {
             $country = DB::table('countries')->where('phonecode', $inputName)->first();
             $phone = new PhoneNumber($phoneNumber, $country->apha2);
@@ -885,16 +883,12 @@ class="btn btn-ghost-success waves-effect waves-light sh"  >
     public function getCountries()
     {
         $query = countrie::all('id', 'name', 'phonecode', 'langage');
-        // $query=DB::table('countries')->select('id','name','phonecode','langage');
         return datatables($query)
             ->addColumn('action', function ($settings) {
                 return '<a data-bs-toggle="modal" data-bs-target="#editCountriesModal"  onclick="getEditCountrie(' . $settings->id . ')"
 class="btn btn-xs btn-primary btn2earnTable"  >
 <i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a> ';
             })
-//            ->addColumn('action', function ($query) {
-//                return '<a href="#edit-' . $query->id . '" "><i class="fa fa-edit" aria-hidden="true" style="cursor: pointer;color: green; padding-left: 10px;"></i></a>';
-//            })
             ->make(true);
     }
 
@@ -1118,7 +1112,7 @@ when bo.IO = 'IO' then 'IO'
 end)   OVER(ORDER BY date) ,0) ,' ') when idAmount = 3 then concat( format(  SUM(case when bo.IO = 'I' then   format(format(ub.value,3)/format(PrixUnitaire,3) ,3)
 when bo.IO ='O' then  format(format(ub.value,3)/format(PrixUnitaire *-1,3) ,3)
 when bo.IO = 'IO' then 'IO'
-end)   OVER(ORDER BY date) ,3) , ' $') else concat( format( ub.balance ,3,'pt_BR') ,' $') end  as balance,ub.PrixUnitaire,'d' as sensP
+end)   OVER(ORDER BY date) ,3) , ' $') else concat( format( ub.balance ,3,'en_EN') ,' $') end  as balance,ub.PrixUnitaire,'d' as sensP
   FROM user_balances ub inner join balanceoperations bo on
 ub.idBalancesOperation = bo.idBalanceOperations
 where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [$idAmounts, $user->idUser]
@@ -1129,20 +1123,12 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [$idAmounts, $u
                 return Carbon\Carbon::parse($user->Date)->format('Y-m-d');
             })
             ->editColumn('Description', function ($row) use ($idAmounts) {
-
                 if ($idAmounts == 3)
-                    // return '<span style="text-align:right;">'.htmlspecialchars($row->Description).'</span>';
                     return '<div style="text-align:right;">' . htmlspecialchars($row->Description) . '</div>';
                 else return $row->Description;
             })
             ->rawColumns(['Description', 'formatted_date'])
-//           ->orderColumn('name', 'email $1')
             ->make(true);
-
-//        return datatables($userData)
-//
-//            ->make(true);
-
     }
 
     public function getPurchaseBFSUser()
@@ -1156,16 +1142,16 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [$idAmounts, $u
 case when ub.idSource = '11111111' then 'system' else
 (select concat( IFNULL(enfirstname,''),' ',  IFNULL( enlastname,''))  from metta_users mu  where mu.idUser = ub.idSource)
 end as source,
-case when bo.IO = 'I' then  concat('+ ','$ ', format(ub.value/PrixUnitaire,2) )
-when bo.IO ='O' then concat('- ', format(ub.value/PrixUnitaire,2),' $' )
+case when bo.IO = 'I' then  concat('+ ','$ ', format(ub.value/PrixUnitaire,3) )
+when bo.IO ='O' then concat('- ', format(ub.value/PrixUnitaire,3),' $' )
 when bo.IO = 'IO' then 'IO'
-end as value , case when idAmount = 5  then  concat( format(  SUM(case when bo.IO = 'I' then   format(format(ub.value,2)/format(PrixUnitaire,2) ,2)
-when bo.IO ='O' then  format(format(ub.value,2)/format(PrixUnitaire *-1,2) ,2)
+end as value , case when idAmount = 5  then  concat( format(  SUM(case when bo.IO = 'I' then   format(format(ub.value,3)/format(PrixUnitaire,3) ,3)
+when bo.IO ='O' then  format(format(ub.value,3)/format(PrixUnitaire *-1,3) ,3)
 when bo.IO = 'IO' then 'IO'
-end)   OVER(ORDER BY date) ,0) ,' ') when idAmount = 3 then concat('$ ', format(  SUM(case when bo.IO = 'I' then   format(format(ub.value,2)/format(PrixUnitaire,2) ,2)
-when bo.IO ='O' then  format(format(ub.value,2)/format(PrixUnitaire *-1,2) ,2)
+end)   OVER(ORDER BY date) ,0) ,' ') when idAmount = 3 then concat('$ ', format(  SUM(case when bo.IO = 'I' then   format(format(ub.value,3)/format(PrixUnitaire,3) ,3)
+when bo.IO ='O' then  format(format(ub.value,3)/format(PrixUnitaire *-1,3) ,3)
 when bo.IO = 'IO' then 'IO'
-end)   OVER(ORDER BY date) ,2) ) else concat( '$ ', format( ub.balance ,2,'pt_BR') ) end  as balance,ub.PrixUnitaire, bo.IO as sensP
+end)   OVER(ORDER BY date) ,2) ) else concat( '$ ', format( ub.balance ,3,'en_EN') ) end  as balance,ub.PrixUnitaire, bo.IO as sensP
   FROM user_balances ub inner join balanceoperations bo on
 ub.idBalancesOperation = bo.idBalanceOperations
 where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [2, $user->idUser]
@@ -1180,9 +1166,6 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [2, $user->idUs
      */
     public function getUserAdmin()
     {
-
-//        $id= auth()->user()->id;
-//        $idUser= auth()->user()->idUser;
         $authorizedRoles = ['admin', 'Moderateur'];
         $admins = User::whereHas('roles', static function ($query) use ($authorizedRoles) {
             return
@@ -1290,26 +1273,8 @@ class="btn btn-primary btn2earnTable">' . __("Edit") . '</a> ';
             ->make(true);
     }
 
-//onclick='f(" . $query->id . ")'
     public function getUserBalancesCB()
     {
-//        $idAmounts = 0;
-//        switch ($typeAmounts) {
-//            case 'cash-Balance':
-//                $idAmounts = 1;
-//                break;
-//            case 'Balance-For-Shopping':
-//                $idAmounts = 2;
-//                break;
-//            case 'Discounts-Balance':
-//                $idAmounts = 3;
-//            case 'SMS-Balance':
-//                $idAmounts = 5;
-//                break;
-//            default :
-//                $idAmounts = 0;
-//                break ;
-//        }
         $user = $this->settingsManager->getAuthUser();
         if (!$user) $user->idUser = '';
         $userData = DB::select("SELECT ub.idUser, ub.id ,ub.idSource ,ub.Ref , ub.Date, bo.Designation,ub.Description,
@@ -1324,14 +1289,7 @@ end as value , ub.Balance as balance
 ub.idBalancesOperation = bo.idBalanceOperations
 where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUser]
         );
-//        return Datatables::of($userData)
-////           ->orderColumn('name', 'email $1')
-//            ->make(true);
-
-
-        return datatables($userData)
-            ->make(true);
-
+        return datatables($userData)->make(true);
     }
 
     public function getPurchaseUser()

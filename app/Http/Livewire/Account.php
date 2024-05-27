@@ -29,7 +29,7 @@ class Account extends Component
 
     public $nbrChild = 9;
     public $photoFront;
-    public $backback;
+    public $photoBack;
     public $user;
     public $usermetta_info;
     public $numberActif;
@@ -44,6 +44,9 @@ class Account extends Component
     public $soldeSms = 0;
     public $PercentComplete = 0;
     public $errors_array;
+    public $disabled;
+    public $dispalyedUserCred;
+
     protected $listeners = [
         'PreChangePass' => 'PreChangePass',
         'changePassword' => 'changePassword',
@@ -58,41 +61,34 @@ class Account extends Component
 
     protected $rules = [
         'oldPassword' => 'required',
-        'newPassword' => [
-            'required',
-            'regex:/[0-9]/'
-        ],
+        'newPassword' => ['required', 'regex:/[0-9]/'],
         'confirmedPassword' => 'required|same:newPassword'
     ];
 
     public function SaveChangeEdit()
     {
-//        $um = metta_user::find($this->usermetta_info['id']);
         $um = metta_user::find($this->usermetta_info['id']);
         $um->enLastName = $this->usermetta_info['enLastName'];
         $um->enFirstName = $this->usermetta_info['enFirstName'];
         $um->birthday = $this->usermetta_info['birthday'];
         $um->nationalID = $this->usermetta_info['nationalID'];
         $um->save();
-        if ($this->photoFront != null) {
-//            dd($this->photoFront);
-            $p = $this->photoFront->storeAs('profiles', 'front-id-image' . $um->idUser . '.png', 'public2');
+        if (!is_null($this->photoFront) && gettype($this->photoFront) == "object") {
+            $this->photoFront->storeAs('profiles', 'front-id-image' . $um->idUser . '.png', 'public2');
         }
-
-        if ($this->backback != null) {
-            $p = $this->backback->storeAs('profiles', 'back-id-image' . $um->idUser . '.png', 'public2');
+        if (!is_null($this->photoBack) && gettype($this->photoBack) == "object") {
+            $this->photoBack->storeAs('profiles', 'back-id-image' . $um->idUser . '.png', 'public2');
         }
-
-
-        return redirect()->route('account', app()->getLocale())->with('SuccesUpdateProfile', Lang::get('Edit_profil_succes'));
-//        dd('ssfsdfsdf');
+        return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Edit_profil_succes'));
     }
 
     public function mount(settingsManager $settingManager)
     {
-        $notSetings = $settingManager->getNotificationSetting($settingManager->getAuthUser()->idUser)
-            ->where('idNotification', '=', NotificationSettingEnum::change_pwd_sms->value)->first();
-        $this->sendPassSMS = $notSetings->value;
+        if (!is_null(auth()->user())) {
+            $notSetings = $settingManager->getNotificationSetting(auth()->user()->idUser)
+                ->where('idNotification', '=', NotificationSettingEnum::change_pwd_sms->value)->first();
+            $this->sendPassSMS = $notSetings->value;
+        }
     }
 
     public function ParamSendChanged(settingsManager $settingManager)
@@ -106,7 +102,6 @@ class Account extends Component
     {
         $this->paramIdUser = $request->input('paramIdUser');
         if ($this->paramIdUser == null) $this->paramIdUser = "";
-
         if ($this->paramIdUser == null || $this->paramIdUser == "")
             $userAuth = $settingsManager->getAuthUser();
         else {
@@ -135,12 +130,11 @@ class Account extends Component
         }
         $this->CalculPercenteComplete();
         $hasRequest = $userAuth->hasIdetificationReques();
-
-        return view('livewire.account', [
-            'hasRequest' => $hasRequest,
-            'errors_array' => $this->errors_array
-        ])->extends('layouts.master')->section('content');
+        $this->dispalyedUserCred = getConnectedUserDisplayedName();
+        $this->disabled = abs($user->status) == 1 ? "disabled" : '';
+        return view('livewire.account', ['hasRequest' => $hasRequest, 'errors_array' => $this->errors_array])->extends('layouts.master')->section('content');
     }
+
 
     public function CalculPercenteComplete()
     {
@@ -159,7 +153,6 @@ class Account extends Component
         }
 
         if (isset($this->usermetta_info['birthday'])) {
-
             $this->PercentComplete += 20;
         } else {
             array_push($this->errors_array, $this->getMsgErreur('birthday'));
@@ -186,14 +179,16 @@ class Account extends Component
         }
     }
 
-    private function getMsgErreur($typeErreur)
+    private
+    function getMsgErreur($typeErreur)
     {
         $typeErreur = 'Identify_' . $typeErreur;
         return Lang::get($typeErreur);
     }
 
 
-    public function deleteContact($id, settingsManager $settingsManager)
+    public
+    function deleteContact($id, settingsManager $settingsManager)
     {
         $userC = $settingsManager->getUserContactsById($id);
         if (!$userC) return;
@@ -201,11 +196,11 @@ class Account extends Component
         return redirect()->route('myAccount', app()->getLocale());
     }
 
-    public function saveUser($nbrChild, settingsManager $settingsManager)
+    public
+    function saveUser($nbrChild, settingsManager $settingsManager)
     {
         $canModify = true;
         $us = User::find($this->user['id']);
-
         $um = metta_user::find($this->usermetta_info['id']);
 
         if ($this->paramIdUser == "" && $us->hasIdetificationReques()) {
@@ -216,22 +211,26 @@ class Account extends Component
             $um->arFirstName = $this->usermetta_info['arFirstName'];
             $um->enLastName = $this->usermetta_info['enLastName'];
             $um->enFirstName = $this->usermetta_info['enFirstName'];
-            $um->birthday = $this->usermetta_info['birthday'];
+            if (!empty($this->usermetta_info['birthday'])) {
+                $um->birthday = $this->usermetta_info['birthday'];
+            } else {
+                $um->birthday = null;
+            }
             $um->adresse = $this->usermetta_info['adresse'];
             $um->nationalID = $this->usermetta_info['nationalID'];
-//            $us->email = $this->user['email'];
         }
-//        $um->email = $this->usermetta_info['email'];
-//        $um->childrenCount = $this->usermetta_info['childrenCount'];
-
-        if ($nbrChild < 0)
+        if ($nbrChild < 0) {
             $nbrChild = 0;
-        if ($nbrChild > 20)
+        }
+        if ($nbrChild > 20) {
             $nbrChild = 20;
+        }
         $um->childrenCount = $nbrChild;
-
-//        $um->idCountry = $this->usermetta_info['idCountry'];
-        $um->idState = $this->usermetta_info['idState'];
+        if (!empty($this->usermetta_info['idState'])) {
+            $um->idState = $this->usermetta_info['idState'];
+        } else {
+            $um->idState = null;
+        }
         $um->gender = $this->usermetta_info['gender'];
         $um->personaltitle = $this->usermetta_info['personaltitle'];
         $um->idLanguage = $this->usermetta_info['idLanguage'];
@@ -247,46 +246,31 @@ class Account extends Component
             $p = $this->imageProfil->storeAs('profiles', 'profile-image-' . $us->idUser . '.png', 'public2');
         }
         if ($this->paramIdUser == "")
-            return redirect()->route('account', app()->getLocale())->with('SuccesUpdateProfile', Lang::get('Edit_profil_succes'));
+            return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Edit_profil_succes'));
         else {
             $settingsManager->validateIdentity($us->idUser);
             return redirect()->route('identificationRequest', app()->getLocale());
         }
     }
 
-    ///Changer Pass
-    public function PreChangePass(settingsManager $settingManager)
+    public
+    function PreChangePass(settingsManager $settingManager)
     {
-
         $userAuth = $settingManager->getAuthUser();
         if (!$userAuth) return;
         if ($this->sendPassSMS) {
             $soldeSms = $settingManager->getSoldeByAmount($userAuth->idUser, AmoutEnum::Sms_Balance);
-//            if(!$soldeSms > 0)
-//            {
-//                return redirect()->route('account', app()->getLocale())->with('SoldeSmsInsuffisant', Lang::get('Sms_Solde'));
-//            }
         }
         $userMail = $settingManager->getUserById($userAuth->id)->email;
-        /*if ($userMail == null || $userMail == "") {
-            return redirect()->route('account', app()->getLocale())->with('MailNonValide', Lang::get('Email_not_verified'));
-        }*/
-
         if ($this->newPassword != $this->confirmedPassword) {
             $this->earnDebug('Edit password input confirmed password invalide  : userid- ' . $userAuth->id . 'newPassword- ' . $this->newPassword . ' confirmedPassword- ' . $this->confirmedPassword);
-            return redirect()->route("account", app()->getLocale())->with('ErrorConfirmPassWord',Lang::get('Password_not_Confirmed') );
+            return redirect()->route("account", app()->getLocale())->with('danger', Lang::get('Password_not_Confirmed'));
         }
-//             return redirect("/".app()->getLocale().'/account')->with('ErrorConfirmPassWord', 'Password not confirmed!');
-//        $user = $settingManager->getAuthUser();
         if (!Hash::check($this->oldPassword, auth()->user()->password)) {
-            return redirect()->route('account', app()->getLocale())->with('ErrorOldPassWord', Lang::get('Old_Password_invalid'));
-
-//            return back()->with('ErrorOldPassWord', Lang::get('Old_Password_invalid'));
+            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Old_Password_invalid'));
         }
-
 
         $check_exchange = $settingManager->randomNewCodeOpt();
-        //dd($check_exchange);
         User::where('id', $userAuth->id)->update(['activationCodeValue' => $check_exchange]);
 
         $settingManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::OPTVerification, [
@@ -297,7 +281,7 @@ class Account extends Component
         $fullNumberSend = $userContactActif->fullNumber;
 
         $this->dispatchBrowserEvent('OptChangePass', [
-            'tyepe' => 'warning',
+            'type' => 'warning',
             'title' => "Opt",
             'text' => '',
             'mail' => $fullNumberSend
@@ -310,90 +294,80 @@ class Account extends Component
         $user = $settingManager->getUserById($userAuth->id);
         if ($code != $user->activationCodeValue) {
             $this->earnDebug('Edit password input opt code OPT invalide  :  userid- ' . $userAuth->id . ' code- ' . $code);
-            return redirect()->route("account", app()->getLocale())->with('ErrorOptCodeUpdatePass', Lang::get('Invalid_OPT_code'));
+            return redirect()->route("account", app()->getLocale())->with('danger', Lang::get('Invalid OPT code'));
         }
-
-//        $this->validate();
         if ($this->newPassword != $this->confirmedPassword) {
             $this->earnDebug('Edit password input confirmed password invalide  : userid- ' . $userAuth->id . 'newPassword- ' . $this->newPassword . ' confirmedPassword- ' . $this->confirmedPassword);
-            return redirect()->route("account", app()->getLocale())->with('ErrorConfirmPassWord',Lang::get('Password_not_Confirmed') );
+            return redirect()->route("account", app()->getLocale())->with('danger', Lang::get('Password_not_Confirmed'));
         }
-//             return redirect("/".app()->getLocale().'/account')->with('ErrorConfirmPassWord', 'Password not confirmed!');
-//        $user = $settingManager->getAuthUser();
         if (!Hash::check($this->oldPassword, auth()->user()->password)) {
-            return redirect()->route('account', app()->getLocale())->with('ErrorOldPassWord', Lang::get('Old_Password_invalid'));
-
-//            return back()->with('ErrorOldPassWord', Lang::get('Old_Password_invalid'));
+            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Old_Password_invalid'));
         }
 
         $new_pass = Hash::make($this->newPassword);
         DB::table('users')->where('id', auth()->user()->id)->update(['password' => $new_pass]);
         $sendSMS = $this->sendPassSMS == true ? 1 : 0;
 
-        $settingManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::SendNewSMS, [
-            'msg' => $this->newPassword,
-            'canSendSMS' => $sendSMS
-        ]);
-        return redirect()->route('account', app()->getLocale())->with('SuccesUpdatePassword', Lang::get('Password updated'));
+        $settingManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::SendNewSMS, ['msg' => $this->newPassword, 'canSendSMS' => $sendSMS]);
+        return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Password updated'));
     }
 
-    ///
     public function sendVerificationMail($mail, settingsManager $settingsManager)
     {
-
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) abort(404);
-        if ($mail == "") return;
+        if (!isValidEmailAdressFormat($mail)) {
+            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Not valid Email Format'));
+        }
+        if ($userAuth->email == $mail) {
+            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Same email Adress'));
+        }
         $userExisteMail = $settingsManager->getConditionalUser('email', $mail);
-
-//        dd($mettauser && $mettauser->idUser != $userAuth->idUser) ;
         if ($userExisteMail && $userExisteMail->idUser != $userAuth->idUser) {
-            return redirect()->route('account', app()->getLocale())->with('ErrorMailUsed', Lang::get('mail_used'));
+            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('mail_used'));
         }
         $opt = $this->randomNewCodeOpt();
         $us = User::find($this->user['id']);
-//      dd($us);
         $us->OptActivation = $opt;
         $us->OptActivation_at = Carbon::now();
         $us->save();
-
         $numberActif = $settingsManager->getNumberCOntactActif($userAuth->idUser)->fullNumber;
 
-        $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::VerifMail, [
-            'msg' => $opt,
-            'type' => TypeNotificationEnum::SMS
-        ]);
+        $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::VerifMail, ['msg' => $opt, 'type' => TypeNotificationEnum::SMS]);
 
-        $this->dispatchBrowserEvent('confirmOPTVerifMail', [
-            'tyepe' => 'warning',
-            'title' => "Opt",
-            'text' => '',
-            'numberActif' => $numberActif,
-        ]);
-
+        $this->dispatchBrowserEvent('confirmOPTVerifMail', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'numberActif' => $numberActif]);
         $this->newMail = $mail;
-
     }
 
     public function saveVerifiedMail($codeOpt)
     {
-
         $us = User::find($this->user['id']);
         if ($codeOpt != $us->OptActivation) {
-            dd('not verif');
+            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Change user email failed - Code OPT'));
         }
         $us->email_verified = 1;
         $us->email = $this->newMail;
         $us->email_verified_at = Carbon::now();
         $us->save();
-        return redirect()->route('account', app()->getLocale());
+        return redirect()->route('account', app()->getLocale())->with('success', Lang::get('User email change completed successfully'));
     }
 
-    public function reject(settingsManager $settingsManager)
+    public function approuve($idUser, settingsManager $settingsManager)
     {
-        $us = User::find($this->user['id']);
-        $settingsManager->rejectIdentity($us->idUser, $this->noteReject);
-        return redirect()->route('identificationRequest', app()->getLocale());
+        $user = User::find($idUser);
+        if ($user) {
+            $settingsManager->validateIdentity($user->idUser);
+            return redirect()->route('identificationRequest', app()->getLocale())->with('success', Lang::get('User identification request approuved') . ' : ' . $user->email);
+        }
+    }
+
+    public function reject($idUser, settingsManager $settingsManager)
+    {
+        $user = User::find($idUser);
+        if ($user) {
+            $settingsManager->rejectIdentity($user->idUser, $this->noteReject);
+            return redirect()->route('identificationRequest', app()->getLocale())->with('success', Lang::get('User identification request rejected') . ' : ' . $user->email);
+        }
     }
 
     public function sendIdentificationRequest(settingsManager $settingsManager)
@@ -401,21 +375,9 @@ class Account extends Component
         $userAuth = $settingsManager->getAuthUser();
         $hasRequest = $userAuth->hasIdetificationReques();
         if ($hasRequest) {
-            $this->dispatchBrowserEvent('existIdentificationRequest', [
-                'tyepe' => 'warning',
-                'title' => "Opt",
-                'text' => '',
-            ]);
+            $this->dispatchBrowserEvent('existIdentificationRequest', ['type' => 'warning', 'title' => "Opt", 'text' => '',]);
         } else {
-            $sensIdentification = identificationuserrequest::create([
-                'idUser' => $userAuth->idUser,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-                'response' => 0,
-                'note' => '',
-                'status' => 1,
-//        'responseDate'=>'',
-            ]);
+            $sensIdentification = identificationuserrequest::create(['idUser' => $userAuth->idUser, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(), 'response' => 0, 'note' => '', 'status' => 1]);
         }
     }
 }

@@ -146,7 +146,9 @@ class Contacts extends Component
                             } else {
                                 $resteReserved = 0;
                             }
+                            if($resteReserved>0)
                             $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('blocked for') . ' ' . $resteReserved . ' ' . Lang::get('hours'), 'warning', false, false);
+                            else $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Available'), 'success', true, false);
                         }
                     } else {
                         if ($diff < $reservation) {
@@ -230,7 +232,7 @@ class Contacts extends Component
         }
     }
 
-    public function deleteId($id)
+    public function deleteContact($id)
     {
         $existeuser = ContactUser::find($id);
         $message = Lang::get('User deleted successfully') . ' : ' . $existeuser->name . ' ' . $existeuser->lastName . ' : ' . $existeuser->mobile;

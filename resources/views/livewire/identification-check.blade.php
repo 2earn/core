@@ -1,77 +1,4 @@
 <div>
-    <style>
-        .wrap-custom-file {
-            position: relative;
-            display: inline-block;
-            width: 150px;
-            height: 150px;
-            margin: 0 0.5rem 1rem;
-            text-align: center;
-        }
-
-        .wrap-custom-file input[type="file"] {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 2px;
-            height: 2px;
-            overflow: hidden;
-            opacity: 0;
-        }
-
-        .wrap-custom-file label {
-            z-index: 1;
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            width: 100%;
-            overflow: hidden;
-            padding: 0 0.5rem;
-            cursor: pointer;
-            background-color: #fff;
-            border-radius: 4px;
-            -webkit-transition: -webkit-transform 0.4s;
-            transition: -webkit-transform 0.4s;
-            transition: transform 0.4s;
-            transition: transform 0.4s, -webkit-transform 0.4s;
-        }
-
-        .wrap-custom-file label span {
-            display: block;
-            margin-top: 2rem;
-            font-size: 1.4rem;
-            color: #777;
-            -webkit-transition: color 0.4s;
-            transition: color 0.4s;
-        }
-
-        .wrap-custom-file label:hover {
-            -webkit-transform: translateY(-1rem);
-            transform: translateY(-1rem);
-        }
-
-        .wrap-custom-file label:hover span {
-            color: #333;
-        }
-
-        .wrap-custom-file label.file-ok {
-            background-size: cover;
-            background-position: center;
-        }
-
-        .wrap-custom-file label.file-ok span {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 0.3rem;
-            font-size: 1.1rem;
-            color: #000;
-            background-color: rgba(255, 255, 255, 0.7);
-        }
-    </style>
     <div class="row justify-content-center">
         <div class="col-lg-6">
             <div class="card">
@@ -87,7 +14,8 @@
                                     <button onclick="verifRequest()" type="button" class="btn btn-primary"
                                             data-bs-toggle="modal"
                                             data-bs-target=@if($hasRequest) "#modalRequestExiste" @else
-                                        "#exampleModal"  @endif>
+                                        "#exampleModal"
+                                    @endif>
                                     {{__('Click_here_for_Verification')}}
                                     </button>
                                 </div>
@@ -102,10 +30,7 @@
                     </div>
                 </div>
             </div>
-            <!--end card-->
         </div>
-
-        <!--end col-->
     </div>
     <div class="modal fade" id="modalRequestExiste" tabindex="-1" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
@@ -120,7 +45,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
-                    {{--                    <button type="button" class="btn btn-primary">Save changes</button>--}}
                 </div>
             </div>
         </div>
@@ -160,22 +84,18 @@
                                         {{__('Interface_Verification')}}
                                     </button>
                                 </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link p-3" id="pills-finish-tab" data-bs-toggle="pill"
-                                            data-bs-target="#pills-finish" type="button" role="tab"
-                                            aria-controls="pills-finish"
-                                            aria-selected="false">{{__('Verified')}}
-                                    </button>
-                                </li>
                             </ul>
                         </div>
                     </div>
-                    <!--end modal-body-->
                     <div class="modal-body">
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="pills-bill-info" role="tabpanel"
                                  aria-labelledby="pills-bill-info-tab">
                                 <div class="row g-3">
+                                    <div id="personalInformationMessage" class="alert alert-danger" role="alert"
+                                         style="display: none">
+                                        {{__('Please check form data')}}
+                                    </div>
                                     <div class="col-lg-6">
                                         <div>
                                             <label for="firstName" class="form-label">First Name</label>
@@ -184,7 +104,6 @@
                                                    placeholder="Enter your firstname">
                                         </div>
                                     </div>
-                                    <!--end col-->
                                     <div class="col-lg-6">
                                         <div>
                                             <label for="lastName" class="form-label">Last Name</label>
@@ -193,11 +112,9 @@
                                                    placeholder="Enter your lastname">
                                         </div>
                                     </div>
-                                    <!--end col-->
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="JoiningdatInput" class="form-label">
-                                                {{--                                                    Joining Date--}}
                                                 {{__('Date of birth')  }}
                                             </label>
                                             <input wire:model.defer="usermetta_info2.birthday" type="date"
@@ -206,17 +123,15 @@
                                                    placeholder=""/>
                                         </div>
                                     </div>
-                                    <!--end col-->
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="zipcodeInput" class="form-label">{{ __('National ID') }}</label>
+                                            <label for="nationalId" class="form-label">{{ __('National ID') }}</label>
                                             <input type="text" class="form-control" minlength="5" maxlength="50"
                                                    wire:model.defer="usermetta_info2.nationalID"
-                                                   id="nationalId" placeholder="">
+                                                   id="nationalId" placeholder="{{__('National ID')}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
-
                                         <div class="form-check form-switch   ms-5 me-5 mb-3" dir="ltr">
                                             <input wire:model.defer="notify" type="checkbox"
                                                    class="form-check-input" id="" checked="">
@@ -224,43 +139,38 @@
                                                    for="customSwitchsizesm">{{ __('I want to receive an SMS when my identification completed successfully') }}</label>
                                         </div>
                                     </div>
-                                    <!--end col-->
-                                    <!--end col-->
                                     <div class="col-lg-12">
                                         <div class="d-flex align-items-start gap-3 mt-3">
-                                            <button id="btnNextAdresse" type="button"
+                                            <button id="btnNextMailAdress" type="button"
                                                     class="btn btn-primary btn-label right ms-auto nexttab"
-                                                    data-nexttab="pills-bill-address-tab"><i
-                                                    class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
-                                                {{__('Next_Step')}}
+                                                    data-nexttab="pills-bill-address-tab">
+                                                <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
+                                                {{__('Next step : Check your email')}}
                                             </button>
                                         </div>
                                     </div>
-                                    <!--end col-->
                                 </div>
-                                <!--end row-->
                             </div>
-                            <!-- end tab pane -->
-
                             <div class="tab-pane fade" id="pills-bill-address" role="tabpanel"
                                  aria-labelledby="pills-bill-address-tab">
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label for="emailInput"
                                                    class="form-label">{{ __('Your Email') }}</label>
                                             <div class="input-group">
                                                 <input id="inputEmailUser" wire:model.defer="userF.email" type="email"
                                                        class="form-control"
-                                                       name="email" placeholder="Enter your email" required>
+                                                       name="email" placeholder="{{__('Enter your email')}}" required>
                                             </div>
-                                            <span id='error-mail' class='hide'></span>
-                                            {{--                                            {{$user['email']}}--}}
                                         </div>
                                     </div>
-                                    <div id="optChecker" class="col-lg-6 invisible">
-                                        <div class=''
-                                             class="container height-100 d-flex justify-content-center align-items-center">
+                                    <div class="col-lg-12">
+                                        <div class="alert alert-danger hide" role="alert" id='error-mail'></div>
+                                    </div>
+                                    <div id="optChecker" class="col-lg-12 invisible">
+                                        <div
+                                            class="container height-100 d-flex justify-content-center align-items-center">
                                             <div class="position-relative">
                                                 <div class="card p-2 text-center">
                                                     <h6>{{__('Opt_verif_mail')}} <br> {{__('To_verif_Account')}}
@@ -278,51 +188,11 @@
                                                                id="optThird" maxlength="1"/>
                                                         <input class="m-2 text-center form-control rounded" type="text"
                                                                id="optFourth" maxlength="1"/>
-
                                                     </div>
-                                                    {{--                                                    <div class="mt-4">--}}
-                                                    {{--                                                        <button onclick="checkOpt()"--}}
-                                                    {{--                                                                class="btn btn-danger px-4 validate">Validate--}}
-                                                    {{--                                                        </button>--}}
-                                                    {{--                                                    </div>--}}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!--end col-->
-                                {{--                                    <div class="col-lg-6">--}}
-                                {{--                                        <div class="mb-3">--}}
-                                {{--                                            <label for="branchInput" class="form-label">Branch</label>--}}
-                                {{--                                            <input type="text" class="form-control" id="branchInput"--}}
-                                {{--                                                   placeholder="Branch">--}}
-                                {{--                                        </div>--}}
-                                {{--                                    </div>--}}
-                                <!--end col-->
-                                {{--                                    <div class="col-lg-12">--}}
-                                {{--                                        <div class="mb-3">--}}
-                                {{--                                            <label for="accountnameInput" class="form-label">Account--}}
-                                {{--                                                Holder Name</label>--}}
-                                {{--                                            <input type="text" class="form-control" id="accountnameInput"--}}
-                                {{--                                                   placeholder="Enter account holder name">--}}
-                                {{--                                        </div>--}}
-                                {{--                                    </div>--}}
-                                <!--end col-->
-                                {{--                                    <div class="col-lg-6">--}}
-                                {{--                                        <div class="mb-3">--}}
-                                {{--                                            <label for="accountnumberInput" class="form-label">Account--}}
-                                {{--                                                Number</label>--}}
-                                {{--                                            <input type="number" class="form-control" id="accountnumberInput"--}}
-                                {{--                                                   placeholder="Enter account number">--}}
-                                {{--                                        </div>--}}
-                                {{--                                    </div>--}}
-                                <!--end col-->
-                                {{--                                    <div class="col-lg-6">--}}
-                                {{--                                        <div class="mb-3">--}}
-                                {{--                                            <label for="ifscInput" class="form-label">IFSC</label>--}}
-                                {{--                                            <input type="number" class="form-control" id="ifscInput" placeholder="IFSC">--}}
-                                {{--                                        </div>--}}
-                                {{--                                    </div>--}}
-                                <!--end col-->
                                     <div class="col-lg-12">
                                         <div class="hstack align-items-start gap-3 mt-4">
                                             <button type="button" class="btn btn-light btn-label previestab"
@@ -334,18 +204,20 @@
                                                     class="btn btn-primary btn-label right ms-auto nexttab"
                                                     data-nexttab="pills-payment-tab"><i
                                                     class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
-                                                {{__('Next_Step')}}
+                                                {{__('Next step : Import identity card')}}
                                             </button>
                                         </div>
                                     </div>
-                                    <!--end col-->
                                 </div>
                             </div>
-                            <!-- end tab pane -->
                             <div class="tab-pane fade" id="pills-payment" role="tabpanel"
                                  aria-labelledby="pills-payment-tab">
-                                {{--                                <h5 class="mb-3">Choose Document Type</h5>--}}
-                                <div class="row" style="margin: 20px">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="alert border-0 alert-primary material-shadow" role="alert">
+                                            <strong>{{__('Note')}}: </strong>{{__('The photo must be in PNG format, and must not exceed 2 Mb in size')}}
+                                        </div>
+                                    </div>
                                     <div class="col-6">
                                         <div>
                                             <label class="form-label">{{ __('Front ID') }}</label>
@@ -354,16 +226,19 @@
                                             @if(file_exists(public_path('/uploads/profiles/front-id-image'.$userAuth->idUser.'.png')))
                                                 <img width="150" height="100"
                                                      src={{asset(('/uploads/profiles/front-id-image'.$userAuth->idUser.'.png'))}} >
+                                            @else
+                                                <img width="150" height="100"
+                                                     src={{asset(('/uploads/profiles/default.png'))}} >
                                             @endif
                                         </div>
+
                                         <div class="wrap-custom-file" style="margin-top: 10px">
-                                            <input wire:model.defer="photoFront" type="file" name="image1" id="image1"
+                                            <input wire:model.defer="photoFront" type="file" name="photoFront"
+                                                   id="photoFront"
                                                    accept=".png"/>
-                                            <label for="image1">
-                                                <lord-icon
-                                                    src="https://cdn.lordicon.com/vixtkkbk.json"
-                                                    trigger="loop" delay="1000"
-                                                    style="width:100px;height:100px">
+                                            <label for="photoFront">
+                                                <lord-icon src="https://cdn.lordicon.com/vixtkkbk.json" trigger="loop"
+                                                           delay="1000" style="width:100px;height:100px">
                                                 </lord-icon>
                                                 <span> <i class="ri-camera-fill"></i> </span>
                                             </label>
@@ -377,296 +252,122 @@
                                             @if(file_exists(public_path('/uploads/profiles/back-id-image'.$userAuth->idUser.'.png')))
                                                 <img width="150" height="100"
                                                      src={{asset(('/uploads/profiles/back-id-image'.$userAuth->idUser.'.png'))}} >
+                                            @else
+                                                <img width="150" height="100"
+                                                     src={{asset(('/uploads/profiles/default.png'))}} >
                                             @endif
                                         </div>
-                                        <div class="wrap-custom-file" style="margin-top: 10px">
-                                            <input wire:model.defer="backback" type="file" name="image33" id="image33"
-                                                   accept=".png"/>
-                                            <label for="image33">
-                                                <lord-icon
-                                                    src="https://cdn.lordicon.com/vixtkkbk.json"
-                                                    trigger="loop" delay="1000"
-                                                    style="width:100px;height:100px">
+                                        <div class="wrap-custom-file ml-2">
+                                            <input wire:model.defer="photoBack" type="file" name="photoBack"
+                                                   id="photoBack" accept=".png"/>
+                                            <label for="photoBack">
+                                                <lord-icon src="https://cdn.lordicon.com/vixtkkbk.json" trigger="loop"
+                                                           delay="1000" style="width:100px;height:100px">
+
                                                 </lord-icon>
                                                 <span> <i class="ri-camera-fill"></i> </span>
                                             </label>
                                         </div>
-
                                     </div>
-                                    {{--                                                            <button  onclick="saveimg()"  type="button" >ssave</button>--}}
                                 </div>
-                                <!-- end dropzon-preview -->
                                 <div class="d-flex align-items-start gap-3 mt-4">
                                     <button type="button" class="btn btn-light btn-label previestab"
-                                            data-previous="pills-bill-address-tab"><i
-                                            class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
+                                            data-previous="pills-bill-address-tab">
+                                        <i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
                                         {{__('Back_to_mail_verif')}}
                                     </button>
-                                    <button onclick="saveimg()" type="button"
-                                            class="btn btn-primary btn-label right ms-auto nexttab"
-                                            data-nexttab="pills-finish-tab"><i
-                                            class="ri-save-line label-icon align-middle fs-16 ms-2"></i>{{__('Submit')}}
+                                    <button onclick="sendIndentificationRequest()" type="button"
+                                            class="btn btn-primary btn-label right ms-auto nexttab">
+                                        <div wire:loading wire:target="sendIndentificationRequest">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                            <span class="sr-only">{{__('Loading')}}...</span>
+                                        </div>
+                                        {{__('Submit')}}
                                     </button>
                                 </div>
                             </div>
-                            <!-- end tab pane -->
-
-                            <div class="tab-pane fade" id="pills-finish" role="tabpanel"
-                                 aria-labelledby="pills-finish-tab">
-                                <div class="row text-center justify-content-center py-4">
-                                    <div class="col-lg-11">
-                                        <div class="mb-4">
-                                            <lord-icon src="https://cdn.lordicon.com/lupuorrc.json" trigger="loop"
-                                                       colors="primary:#0ab39c,secondary:#405189"
-                                                       style="width:120px;height:120px">
-                                            </lord-icon>
-                                        </div>
-                                        <h5>{{__('Verification_Completed')}}</h5>
-                                        <input readonly style="border: none;width: 100%" wire:model="messageVerif">
-                                        <p type="text" wire:model="messageVerif">{{$messageVerif}}</p>
-                                        <h6>{{$messageVerif}}</h6>
-                                        <p class="text-muted mb-4">
-                                            {{__('txt_Verification_Completed')}}
-                                            {{--                                            <span class="fw-medium">Crypto > KYC Application.</span>--}}
-                                        </p>
-
-                                        <div class="hstack justify-content-center gap-2">
-                                            <button onclick="doneVerify()" type="button" class="btn btn-ghost-success"
-                                                    data-bs-dismiss="modal">{{__('Done')}}<i
-                                                    class="ri-thumb-up-fill align-bottom me-1"></i></button>
-                                            {{--                                            <button  onclick="verifRequest()" type="button" class="btn btn-primary"><i--}}
-                                            {{--                                                    class="ri-home-4-line align-bottom ms-1"></i> Back--}}
-                                            {{--                                                to Home--}}
-                                            {{--                                            </button>--}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end tab pane -->
                         </div>
-                        <!-- end tab content -->
                     </div>
-                    <!--end modal-body-->
                 </form>
             </div>
         </div>
     </div>
     <script>
-        var errorMail2 = document.querySelector("#error-mail");
-        $("#inputEmailUser").keyup(function () {
-            if ($("#inputEmailUser").val().trim() == "") {
-                errorMail2.innerHTML = 'required field';
-                errorMail2.classList.remove("hide");
-            } else {
-                errorMail2.innerHTML = '';
-                errorMail2.classList.add("hide");
-            }
-        });
-        // $("#inputEmailUser").addEventListener('keyup', function () {
-        //     // resetUpPhone();
-        //     alert('fsdf');
-        //     if ($("#inputEmailUser").value.trim()!="") {
-        //         errorMail.innerHTML = '';
-        //         errorMail.classList.add("hide");
-        //     }
-        // });
-        var nextTomail = false;
-        $('input[type="file"]').each(function () {
-            var $file = $(this),
-                $label = $file.next('label'),
-                $labelText = $label.find('span'),
-                labelDefault = $labelText.text();
-            $file.on('change', function (event) {
+        var errorMail = document.querySelector("#error-mail");
+        var checkOpt = false;
+        var canUseEmail = false;
+        var sendEmailNotification = false;
 
-                var fileName = $file.val().split('\\').pop(),
-
-                    tmppath = URL.createObjectURL(event.target.files[0]);
-
-                if (fileName) {
-
-                    $label
-
-                        .addClass('file-ok')
-
-                        .css('background-image', 'url(' + tmppath + ')');
-
-                    $labelText.text(fileName);
-
-                } else {
-
-                    $label.removeClass('file-ok');
-
-                    $labelText.text(labelDefault);
-
-                }
-
-            });
-
-        });
-
-        function saveimg() {
-
-            var dd = {{ $photoFront}};
-            alert(dd) ;
-            return ;
-            if (checkRequiredrFieldInfo() && checkRequiredrFieldMail())
-                window.livewire.emit('saveimg');
+        function OptDisable() {
+            $('#optFirst').addClass("disabled");
+            $('#optSecond').addClass("disabled");
+            $('#optThird').addClass("disabled");
+            $('#optFourth').addClass("disabled");
         }
 
-        document.getElementById('pills-bill-address-tab').addEventListener('shown.bs.tab', function (event) {
-            if (!checkRequiredrFieldInfo())
-                $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
-        });
-        document.getElementById('pills-payment-tab').addEventListener('shown.bs.tab', function (event) {
-            if (!checkRequiredrFieldInfo())
-                $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
-            if (!checkRequiredrFieldMail())
-                $('#myTab   button[id="pills-bill-address-tab"] ').tab('show');
-        });
-        document.getElementById('pills-finish-tab').addEventListener('shown.bs.tab', function (event) {
-            if (!checkRequiredrFieldInfo())
-                $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
-            else if (!checkRequiredrFieldMail()) {
-                if ($("#inputEmailUser").val().trim() === "")
-                    $("inputEmailUser").attr('required', true);
-                $('#myTab   button[id="pills-bill-address-tab"] ').tab('show');
-            } else {
-                saveimg();
-            }
-        });
-
-        function checkRequiredrFieldInfo() {
-            if ($("#firstName").val().trim() === "" || $("#lastName").val().trim() === "" || $("#nationalId").val().trim() === "" || $("#dateofBirth").val().trim() === "")
-                return false;
-            return true;
+        function OptInputEmpty() {
+            $('#optFirst').val("");
+            $('#optSecond').val("");
+            $('#optThird').val("");
+            $('#optFourth').val("");
         }
 
-        function checkRequiredrFieldMail() {
-            var checkOpt = false;
-            if ($("#inputEmailUser").val().trim() === "") {
-                var errorMail = document.querySelector("#error-mail");
-                errorMail.innerHTML = 'required field';
-                errorMail.classList.remove("hide");
-                return false;
-            }
-            var failed = false;
-            $.ajax({
-                method: "GET",
-                url: "/mailVerif",
-                async: false,
-                data: {
-                    mail: $("#inputEmailUser").val().trim(),
-                },
-                success: (result) => {
-                    if (result == 'no') {
-                        failed = true;
-                        var errorMail = document.querySelector("#error-mail");
-                        errorMail.innerHTML = 'mail used';
-                        errorMail.classList.remove("hide");
-                        alert('mail used ');
-                    }
-                },
-                error: (error) => {
-                    alert('Something went wrong to fetch datas...');
-                }
-            });
-            var optChecker = document.querySelector("#optChecker");
-            if (!failed) {
-                if (checkNewMail()) {
-                    if ($('#optFirst').val().trim() == "" && $('#optSecond').val().trim() == "" && $('#optThird').val().trim() == "" && $('#optFourth').val().trim() == "") {
-                        $.ajax({
-                            method: "GET",
-                            url: "/sendMailNotification",
-                            async: false,
-                            success: (result) => {
-                                if (result == 'ok') {
-
-
-                                }
-                            },
-                            error: (error) => {
-                                alert('Something went wrong to send datas...');
-                            }
-                        });
-
-                    }
-
-                    optChecker.classList.remove("invisible");
-                    if (checkOptVerify())
-                        checkOpt = true;
-                    else
-                        checkOpt = false;
-                } else
-                    checkOpt = true;
-            }
-            if (failed || !checkOpt) return false
-            else {
-                optChecker.classList.add("invisible");
-                $('#optFirst').val("");
-                $('#optSecond').val("");
-                $('#optThird').val("");
-                $('#optFourth').val("");
-                checkOpt = false;
-            }
-            return true;
+        function OptInputChangeColor(optColor) {
+            $('#optFirst').css('border-color', optColor);
+            $('#optSecond').css('border-color', optColor);
+            $('#optThird').css('border-color', optColor);
+            $('#optFourth').css('border-color', optColor);
         }
-
-        $(function () {
-            $('#btnNextAdresse').click(function (e) {
-                if ($("#firstName").val() == "") {
-                    e.preventDefault();
-                    $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
-                }
-            })
-        })
 
         function checkOptVerify() {
-            var valreturn = false;
+            var returnValue = false;
             var opt = $('#optFirst').val() + $('#optSecond').val() + $('#optThird').val() + $('#optFourth').val();
-
-            $.ajax({
-                method: "GET",
-                url: "/mailVerifOpt",
-                async: false,
-                data: {
-                    opt: opt,
-                    mail: $("#inputEmailUser").val().trim(),
-                },
-                success: (result) => {
-                    if (result == 'no') {
-                        valreturn = false;
-                    } else {
-                        valreturn = true;
+            if (opt.length == 4) {
+                $.ajax({
+                    method: "GET",
+                    url: "{{route('mailVerifOpt')}}",
+                    async: false,
+                    data: {opt: opt, mail: $("#inputEmailUser").val().trim(),},
+                    success: (result) => {
+                        if (result == 'no') {
+                            returnValue = false;
+                            displayMailErrorMessage('{{__('Validation OTP code Failed')}}')
+                            OptInputEmpty();
+                            OptInputChangeColor('red');
+                        } else {
+                            errorMail.classList.add("hide");
+                            OptInputChangeColor('green');
+                            OptDisable();
+                            returnValue = true;
+                        }
+                    },
+                    error: (error) => {
+                        displayMailErrorMessage('{{__('Invalid OTP code')}}')
+                        returnValue = false;
                     }
-                },
-                error: (error) => {
-                    alert('Something went wrong to check datas...');
-                }
-            });
-            return valreturn;
+                });
+                return returnValue;
+            }
         }
 
         function checkNewMail() {
-            var valreturn = false;
+            var isNewEmail = false;
             $.ajax({
                 method: "GET",
-                url: "/mailVerifNew",
+                url: "{{route('mailVerifNew')}}",
                 async: false,
-                data: {
-                    mail: $("#inputEmailUser").val().trim(),
-                },
+                data: {mail: $("#inputEmailUser").val().trim(),},
                 success: (result) => {
                     if (result == 'no') {
-                        valreturn = false;
+                        isNewEmail = false;
                     } else {
-                        valreturn = true;
+                        isNewEmail = true;
                     }
-                },
-                error: (error) => {
-                    alert('Something went wrong to fetch datas...');
                 }
             });
-            return valreturn;
+
+            return isNewEmail;
         }
 
         function doneVerify() {
@@ -674,14 +375,196 @@
         }
 
         function verifRequest() {
-            // swal.fire('fdsfsdfsdfsd');
             $("#exampleModal").modal("hide");
-
         }
 
-        // $('#exampleModal').on('show.bs.modal', function (e) {
-        //
-        //     $("#exampleModal").modal("hide");
-        // })
+        function checkRequiredFieldInfo() {
+            validRequiredrFieldInfo = true;
+            if ($("#firstName").val().trim() === "") {
+                $("#firstName").css('border-color', 'red')
+                validRequiredrFieldInfo = false;
+            } else {
+                $("#firstName").css('border-color', 'green')
+            }
+
+            if ($("#lastName").val().trim() === "") {
+                $("#lastName").css('border-color', 'red')
+                validRequiredrFieldInfo = false;
+            } else {
+                $("#lastName").css('border-color', 'green')
+            }
+
+            if ($("#nationalId").val().trim() === "") {
+                $("#nationalId").css('border-color', 'red')
+                validRequiredrFieldInfo = false;
+            } else {
+                $("#nationalId").css('border-color', 'green')
+            }
+
+            if ($("#dateofBirth").val().trim() === "") {
+                $("#dateofBirth").css('border-color', 'red')
+                validRequiredrFieldInfo = false;
+            } else {
+                $("#dateofBirth").css('border-color', 'green')
+            }
+            return validRequiredrFieldInfo;
+        }
+
+        function validateEmail(email) {
+            return String(email)
+                .toLowerCase()
+                .match(
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                );
+        }
+
+        function sendIndentificationRequest() {
+            if (checkRequiredFieldInfo() && checkRequiredFieldMail()) {
+                window.livewire.emit('sendIndentificationRequest');
+            }
+        }
+
+        function sendMailNotification() {
+            $("#inputEmailUser").css('border-color', 'green');
+            $.ajax({
+                method: "GET",
+                url: "/sendMailNotification",
+                async: false,
+                success: (result) => {
+                    $("#inputEmailUser").css('border-color', 'green');
+                    sendEmailNotification = true;
+                }
+            });
+        }
+
+        function sendMailVerifRequest() {
+            $.ajax({
+                method: "GET",
+                url: "{{route('mailVerif')}}",
+                async: false,
+                data: {mail: $("#inputEmailUser").val().trim(),},
+                success: (result) => {
+                    if (result == 'no') {
+                        displayMailErrorMessage('{{__('mail used')}}')
+                        return true;
+                    }
+                }
+            });
+            return false;
+        }
+
+        function displayMailErrorMessage(message) {
+            errorMail.innerHTML = message;
+            errorMail.classList.remove("hide");
+            $("#inputEmailUser").css('border-color', 'red');
+        }
+
+        function checkOptFields() {
+            return $('#optFirst').val().trim() != "" && $('#optSecond').val().trim() != "" && $('#optThird').val().trim() != "" && $('#optFourth').val().trim() != "";
+        }
+
+        function checkRequiredFieldMail() {
+            if ($("#inputEmailUser").val().trim() === "") {
+                displayMailErrorMessage('{{__('Required field')}}')
+                return false;
+            }
+
+            if (!validateEmail($("#inputEmailUser").val().trim())) {
+                displayMailErrorMessage('{{__('Invalid Format')}}')
+                return false;
+            }
+
+            errorMail.classList.add("hide");
+            $("#inputEmailUser").css('border-color', 'green');
+
+            canUseEmail = sendMailVerifRequest()
+
+            var optChecker = document.querySelector("#optChecker");
+            if (!canUseEmail) {
+                if (checkNewMail()) {
+
+                    if (sendEmailNotification) {
+                        sendMailNotification();
+                    }
+                    optChecker.classList.remove("invisible");
+                    $("#inputEmailUser").prop('disabled', true);
+                    if (checkOptFields()) {
+                        if (checkOptVerify()) {
+                            checkOpt = true;
+                        } else {
+                            checkOpt = false;
+                        }
+                    }
+                } else
+                    checkOpt = true;
+            }
+            if (canUseEmail || !checkOpt) return false
+            else {
+                optChecker.classList.add("invisible");
+                OptInputEmpty()
+                checkOpt = false;
+            }
+            return true;
+        }
+
+        $("#inputEmailUser").keyup(function () {
+            if ($("#inputEmailUser").val().trim() == "") {
+                displayMailErrorMessage('{{__('Required field')}}')
+                return
+            }
+            if (!validateEmail($("#inputEmailUser").val().trim())) {
+                displayMailErrorMessage('{{__('Invalid Format')}}')
+                return
+            }
+            errorMail.innerHTML = '';
+            errorMail.classList.add("hide");
+            $("#inputEmailUser").css('border-color', 'green');
+        });
+
+        $('input[type="file"]').each(function () {
+            var $file = $(this),
+                $label = $file.next('label'),
+                $labelText = $label.find('span'),
+                labelDefault = $labelText.text();
+            $file.on('change', function (event) {
+                var fileName = $file.val().split('\\').pop(),
+                    tmppath = URL.createObjectURL(event.target.files[0]);
+                if (fileName) {
+                    $label.addClass('file-ok').css('background-image', 'url(' + tmppath + ')');
+                    $labelText.text(fileName);
+                } else {
+                    $label.removeClass('file-ok');
+                    $labelText.text(labelDefault);
+                }
+            });
+        });
+
+        $('#btnNextMailAdress').click(function (e) {
+            $('#personalInformationMessage').css("display", "none");
+            e.preventDefault();
+            if (checkRequiredFieldInfo()) {
+                $('#personalInformationMessage').css("display", "none");
+                $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
+            } else {
+                $('#personalInformationMessage').css("display", "block");
+            }
+        });
+
+        document.getElementById('pills-bill-address-tab').addEventListener('shown.bs.tab', function (event) {
+            if (!checkRequiredFieldInfo())
+                $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
+        });
+
+        document.getElementById('pills-payment-tab').addEventListener('shown.bs.tab', function (event) {
+            if (!checkRequiredFieldInfo())
+                $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
+            if (!checkRequiredFieldMail()) {
+                $('#myTab   button[id="pills-bill-address-tab"] ').tab('show');
+            }
+        });
+
+        window.addEventListener('IdentificationRequestMissingInformation', event => {
+            console.log('IdentificationRequestMissingInformation');
+        })
     </script>
 </div>

@@ -102,7 +102,7 @@
     {{--    <link rel="stylesheet" href="{{asset('assets/fontawesome/all.min.css'}}">--}}
     <link rel="stylesheet" href="{{asset('assets/Styles/intlTelInput.css')}}">
 
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="{{asset('assets/js/intlTelInput.js')}}"></script>
     @include('layouts.head-css')
@@ -126,11 +126,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js "></script>
+    <script src="https://cdn.datatables.net/responsive/2.0.0/js/dataTables.responsive.min.js "></script>
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
-
 
     <script src="{{ URL::asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
@@ -149,10 +148,12 @@
           type="text/css"/>
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
-    <script src="//unpkg.com/alpinejs" defer></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <style>
         @import url({{asset('/')."assets/icons/material-design-iconic-font/css/materialdesignicons.min.css"}});
+        @import url({{asset('assets/icons/line-awesome/css/line-awesome.min.css')}});
+        @import url({{asset('assets/icons/font-awesome/css/font-awesome.min.css')}});
 
         .page-title-box-db {
             background-color: #009fe3 !important;;
@@ -175,8 +176,6 @@
             font-display: block ;
         }
 
-        @import url({{asset('assets/icons/line-awesome/css/line-awesome.min.css')}});
-        @import url({{asset('assets/icons/font-awesome/css/font-awesome.min.css')}});
         @font-face {
             font-family: 'shopearn' ;
             src: url({{ asset('assets/fonts/shopearn.eot?jeosj9')}});
@@ -189,14 +188,8 @@
             font-display: block;
         }
     </style>
-    {{--    <script src="{{ URL::asset('assets/libs/multi.js/multi.js.min.js') }}"></script>--}}
-    {{--    <script src="{{ URL::asset('assets/libs/@tarekraafat/@tarekraafat.min.js') }}"></script>--}}
-    {{--    <script src="{{ URL::asset('assets/js/pages/form-advanced.init.js') }}"></script>--}}
-    {{--    <script src="{{ URL::asset('assets/js/pages/form-input-spin.init.js') }}"></script>--}}
     @livewireStyles
-
     <meta name="turbolinks-cache-control" content="no-cache">
-    <!-- PWA  -->
     <meta name="theme-color" content="#6777ef"/>
     <link rel="apple-touch-icon" href="{{ asset('logo.PNG') }}">
     <link rel="manifest" href="{{ asset('/manifest.json') }}">
@@ -211,17 +204,14 @@
     var fromLogin = '{{Session::has('fromLogin')}}';
 
     if (fromLogin) {
-        // alert('er');
         location.reload();
     }
 </script>
 @section('body')
-    <!-- Google Tag Manager (noscript) -->
     <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PMK39HQQ"
                 height="0" width="0" style="display:none;visibility:hidden"></iframe>
     </noscript>
-    <!-- End Google Tag Manager (noscript) -->
     @include('layouts.body')
     <script src="{{ asset('/sw.js') }}"></script>
 
@@ -236,9 +226,6 @@
             font-weight: 400;
         }
 
-        /*.label_phone {*/
-        /*    text-align: end;*/
-        /*}*/
         label, h1, h2, h3, h4, h5, h6, a, button, p, i, span, strong, .btn, div {
             font-family: ar400;
             font-weight: 500 !important;
@@ -250,13 +237,8 @@
         }
     </style>
 @endif
-
-<script>
-    //console.log('from master');
-</script>
-<!-- Begin page -->
 <div id="layout-wrapper">
-    <livewire:top-bar/>
+    <livewire:top-bar :currentRoute="Route::currentRouteName()"/>
     @include('layouts.sidebar')
     <!-- ============================================================== -->
     <!-- Start right Content here -->
@@ -265,7 +247,6 @@
         <div class="page-content">
             <div class="container-fluid">
                 @yield('content')
-
             </div>
             <!-- container-fluid -->
         </div>
@@ -712,13 +693,20 @@
                     {data: 'pass'},
                     {data: 'register_upline'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
+
+                    {data: 'minshares'},
+                    {data: 'periode'},
+                    {data: 'date'},
+                    {data: 'coeff'},
+                    {data: 'note'},
+                    {data: 'VIP', name: 'action', orderable: false, searchable: false},
                     {data: 'mobile'},
 
 
                 ],
                 "columnDefs": [
                     {
-                        "targets": [13],
+                        "targets": [19],
                         searchable: true,
                         visible: false
                     },
@@ -954,34 +942,20 @@
         );
 
         $(document).on('click', '.badge', function () {
-            console.log("aaaaaa");
             var id = $(this).data('id');
-
             var phone = $(this).data('phone');
-
             var amount = String($(this).data('amount')).replace(',', '');
             var asset = $(this).data('asset');
-            //console.log(status);
-
-            // Make an AJAX request to update the status
-
             $('#realsold-country').attr('src', asset);
             $('#realsold-reciver').attr('value', id);
             $('#realsold-phone').attr('value', phone);
             $('#realsold-ammount').attr('value', amount);
             $('#realsold-ammount-total').attr('value', amount);
-
-            //console.log(reciver);
             $('#realsoldmodif').modal('show');
-
-
             fetchAndUpdateCardContent();
             $('#shares-sold').DataTable().ajax.reload();
         });
         $(document).on("click", "#realsold-submit", function () {
-
-            //console.log( $('#realsold-reciver').val());
-            //console.log( $('#realsold-ammount').val()) ;
             let reciver = $('#realsold-reciver').val();
             let ammount = $('#realsold-ammount').val();
             let total = $('#realsold-ammount-total').val()
@@ -1014,12 +988,10 @@
                 url: '{{ route('get-updated-card-content') }}', // Adjust the endpoint URL
                 method: 'GET',
                 success: function (data) {
-                    // console.log(data);
                     $('#realrev').html('$' + data.value);
                 },
                 error: function (xhr, status, error) {
-                    // Handle error
-                    // ...
+                    console.log(error)
                 }
             });
         }
@@ -1029,56 +1001,24 @@
                 ordering: true,
                 retrieve: true,
                 searching: false,
-                // dom: 'Bfstrip',
-                // buttons: [
-                //     'csv', 'excel'
-                // ],
                 "orderCellsTop": true,
                 "fixedHeader": true,
-                /*initComplete: function () {
-                    // Apply the search
-                    this.api()
-                        .columns()
-                        .every(function () {
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
-                            if ($.fn.dataTable.isDataTable('#countries_table')) {
-                                var that = $('#ub_table').DataTable();
-                            }
-                            $('input', this.footer()).on('keydown', function (ev) {
-                                if (ev.keyCode == 13) {//only on enter keypress (code 13)
-                                    that
-
-                                        .search(this.value)
-                                        .draw();
-                                }
-                            });
-                        });
-                },*/
                 "order": [[1, 'desc']],
                 "processing": true,
                 "serverSide": true,
                 "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                search: {
-                    return: false
-                },
+                search: {return: false},
                 "ajax": "{{route('API_UserBalances',['locale'=> app()->getLocale(), 'idAmounts'=>'cash-Balance'])}}",
                 "columns": [
-
                     {data: 'Ref'},
                     {data: 'Date'},
                     {data: 'Designation'},
                     {data: 'Description'},
-
                     {data: 'value'},
                     {data: 'balance'},
                     {data: 'ranks'},
                     {data: 'idamount'},
-
-                    // {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
-
                 "columnDefs":
                     [
                         {
@@ -1106,16 +1046,8 @@
 
                             }
                         },
-                        {
-                            "targets": [6, 7],
-                            searchable: false,
-                            visible: false
-                        },
-                        {
-                            "targets": [5],
-                            className: classAl,
-                        },
-
+                        {"targets": [6, 7], searchable: false, visible: false},
+                        {"targets": [5], className: classAl},
                     ],
                 "language": {
                     "url": urlLang
@@ -1123,34 +1055,23 @@
             }
         );
 
-
         $('#userBalanceDB_table').DataTable(
             {
                 "ordering": true,
                 retrieve: true,
                 "colReorder": false,
-                // dom: 'Bfstrip',
-                // buttons: [
-                //     'csv', 'excel'
-                // ],
                 "orderCellsTop": true,
                 "fixedHeader": true,
                 initComplete: function () {
-                    // Apply the search
                     this.api()
                         .columns()
                         .every(function () {
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
                             if ($.fn.dataTable.isDataTable('#countries_table')) {
-
                                 var that = $('#userBalanceDB_table').DataTable();
                             }
                             $('input', this.footer()).on('keydown', function (ev) {
                                 if (ev.keyCode == 13) {//only on enter keypress (code 13)
                                     that
-
                                         .search(this.value)
                                         .draw();
                                 }
@@ -1174,7 +1095,6 @@
                     {data: 'balance', className: classAl},
                     {data: 'ranks'},
                     {data: 'idamount'},
-                    // {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
                 "columnDefs":
                     [
@@ -1192,7 +1112,6 @@
                         {
                             "targets": [5],
                             render: function (data, type, row) {
-
                                 if (row.ranks == 1)
                                     if (row.idamount == 1)
                                         return '<div class="logoTopCashLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
@@ -1200,7 +1119,6 @@
                                         return '<div class="logoTopDBLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
                                 else
                                     return data;
-
                             }
                         },
                         {
@@ -1216,7 +1134,6 @@
                     ],
                 "language": {
                     "url": urlLang
-
                 }
             }
         );
@@ -1420,17 +1337,9 @@
                 initComplete: function () {
                     // Apply the search
                     this.api()
-
-                        .columns(
-
-                        )
+                        .columns()
                         .every(function () {
-
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
                             if ($.fn.dataTable.isDataTable('#ub_table_bfs')) {
-
                                 var that = $('#ub_table_bfs').DataTable();
                             }
                             $('input', this.footer()).on('keydown', function (ev) {
@@ -1441,8 +1350,6 @@
                                 }
                             });
                         });
-
-
                 },
                 "processing": true,
                 search: {
@@ -1457,14 +1364,12 @@
                     {data: 'Description'},
                     {data: 'value', className: classAl},
                     {data: 'balance', className: classAl},
-                    // {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
                 "columnDefs":
                     [
                         {
                             "targets": [5],
                             render: function (data, type, row) {
-
                                 if (data.indexOf('+') == -1)
                                     return '<span class="badge bg-danger con">' + data + '</span>';
                                 else
@@ -1486,12 +1391,9 @@
                         {
                             "targets": [3],
                             render: function (data, type, row) {
-
                                 if (select2_array.indexOf(data) == -1) {
                                     select2_array.push(data);
-
                                     $('.bfs_operation_multiple').append(('<option value="' + data + '">' + data + '</option>'));
-
                                 }
                                 return data;
                             }
@@ -1953,16 +1855,14 @@
         $('#userlist-phone').attr('value', phone);
         console.log(reciver);
     });
-
-
     $(document).on("click", "#userlist-submit", function () {
 
         console.log($('#userlist-reciver').val());
         console.log($('#ammount').val());
         let reciver = $('#userlist-reciver').val();
         let ammount = $('#ammount').val();
-        let msg = "vous avez transferé "+ ammount + " $ à "+ reciver;
-        let user=126;
+        let msg = "vous avez transferé " + ammount + " $ à " + reciver;
+        let user = 126;
         $.ajax({
             url: "{{ route('addCash') }}",
             type: "POST",
@@ -1990,6 +1890,72 @@
                 });
 
                 $('#AddCash').modal('hide');
+                Toastify({
+                    text: data,
+                    gravity: "top",
+                    duration: 3000,
+                    className: "info",
+                    position: "center",
+                    backgroundColor: "#27a706"
+                }).showToast();
+            }
+
+        });
+    });
+    $(document).on("click", ".vip", function () {
+        let reciver = $(this).data('reciver');
+        let phone = $(this).data('phone');
+        let country = $(this).data('country');
+        console.log(reciver);
+        $('#vip-country').attr('src', country);
+        $('#vip-reciver').attr('value', reciver);
+        $('#vip-phone').attr('value', phone);
+        console.log(reciver);
+    });
+    $(document).on("click", "#vip-submit", function () {
+
+        console.log($('#vip-reciver').val());
+
+        let reciver = $('#vip-reciver').val();
+        let minshares = $('#minshares').val();
+        let periode = $('#periode').val();
+        let coefficient = $('#coefficient').val();
+        let note = $('#note').val();
+        let date = Date.now();
+        let msg = "vous avez transferé " + ammount + " $ à " + reciver;
+        let msgvip = "l'utilisateur " + reciver + " est VIP(x" + coefficient + ") pour une periode de " + periode + " à partir de " + date + " avec un minimum de " + minshares + " actions acheté";
+        let user = 126;
+        $.ajax({
+            url: "{{ route('vip') }}",
+            type: "POST",
+
+            data: {
+                reciver: reciver,
+                minshares: minshares,
+                periode: periode,
+                coefficient: coefficient,
+                note: note,
+                date: date,
+                "_token": "{{ csrf_token() }}"
+            },
+            success: function (data) {
+                console.log(data);
+                $.ajax({
+                    url: "{{ route('sendSMS') }}",
+                    type: "POST",
+
+                    data: {
+                        user: user,
+                        msg: msgvip,
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    success: function (data) {
+                        console.log(data);
+                    }
+
+                });
+
+                $('#vip').modal('hide');
                 Toastify({
                     text: data,
                     gravity: "top",

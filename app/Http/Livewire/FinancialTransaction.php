@@ -132,6 +132,7 @@ class FinancialTransaction extends Component
         }
 //        dd("url: ".$url ."amount : ".$amount);
     }
+
     public function PExchangeSms(settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
@@ -145,12 +146,13 @@ class FinancialTransaction extends Component
             'type' => TypeNotificationEnum::SMS
         ]);
         $this->dispatchBrowserEvent('confirmSms', [
-            'tyepe' => 'warning',
+            'type' => 'warning',
             'title' => "Opt",
             'text' => '',
             'FullNumber' => $fullNumber,
         ]);
     }
+
     public function render(
         settingsManager $settingsManager, BalancesManager $balancesManager)
     {
@@ -163,7 +165,7 @@ class FinancialTransaction extends Component
         $userAuth = $settingsManager->getAuthUser();
 
         $this->mobile = $userAuth->fullNumber;
-        $solde = $balancesManager->getBalances($userAuth->idUser);
+        $solde = $balancesManager->getBalances($userAuth->idUser, -1);
         $this->soldecashB = floatval($solde->soldeCB)
             - floatval($this->soldeExchange);
         $this->soldeBFS = floatval($solde->soldeBFS)
@@ -208,17 +210,17 @@ class FinancialTransaction extends Component
         $requestInOpen = detail_financial_request::join('financial_request', 'financial_request.numeroReq', '=', 'detail_financial_request.numeroRequest')
             ->where('detail_financial_request.idUser', $userAuth->idUser)
             ->where('financial_request.Status', 0)
-            ->where('detail_financial_request.vu',0)
+            ->where('detail_financial_request.vu', 0)
             ->count();
 //        dd($requestInOpen);
 
         $requestOutAccepted = FinancialRequest::where('financial_request.idSender', $userAuth->idUser)
             ->where('financial_request.Status', 1)
-            ->where('financial_request.vu',0)
+            ->where('financial_request.vu', 0)
             ->count();
         $requestOutRefused = FinancialRequest::where('financial_request.idSender', $userAuth->idUser)
             ->where('financial_request.Status', 5)
-            ->where('financial_request.vu',0)
+            ->where('financial_request.vu', 0)
             ->count();
 
 //            ->get();
@@ -239,6 +241,7 @@ class FinancialTransaction extends Component
             'requestOutRefused' => $requestOutRefused
         ])->extends('layouts.master')->section('content');
     }
+
     public function PreExchange(settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
@@ -252,12 +255,13 @@ class FinancialTransaction extends Component
             'type' => TypeNotificationEnum::SMS
         ]);
         $this->dispatchBrowserEvent('OptExBFSCash', [
-            'tyepe' => 'warning',
+            'type' => 'warning',
             'title' => "Opt",
             'text' => '',
             'FullNumber' => $fullNumber,
         ]);
     }
+
     public function ExchangeCashToBFS($code, settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
@@ -273,8 +277,9 @@ class FinancialTransaction extends Component
         if ($this->FinRequestN != null && $this->FinRequestN != '') {
             return redirect()->route('AcceptFinancialRequest', ['locale' => app()->getLocale(), 'numeroReq' => $this->FinRequestN]);
         }
-        return redirect()->route('financial_transaction', app()->getLocale())->with('SuccesExchange',Lang::get('SuccesExchange'));
+        return redirect()->route('financial_transaction', app()->getLocale())->with('SuccesExchange', Lang::get('SuccesExchange'));
     }
+
     public function exchangeSms($code, $numberSms, settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
@@ -287,6 +292,7 @@ class FinancialTransaction extends Component
             $numberSms);
         return redirect()->route('financial_transaction', app()->getLocale())->with('succesOpttSms', ' OPT code');
     }
+
     public function getRequestIn($settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();

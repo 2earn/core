@@ -1,27 +1,8 @@
 <div data-turbolinks='false'>
-    <style>
-        .iti {
-            width: 100% !important;
-        }
-
-        .degradee {
-            background-image: linear-gradient(to right, #009fe3, #673bb7, #bc34b6) !important;
-            border-color: #f6f8fe
-        }
-
-        .hide {
-            display: none;
-        }
-
-        .footer {
-            height: auto !important;
-        }
-    </style>
     <div class="auth-page-wrapper auth-bg-cover py-2 justify-content-center align-items-center min-vh-75">
         <div class="bg-overlay"></div>
         <div class="auth-page-content">
             <script>
-
                 var existLogout = '{{Session::has('FromLogOut')}}';
                 if (existLogout) {
                     location.reload();
@@ -80,22 +61,21 @@
                                                             <img src="{{asset('assets/images/icon-shop.png')}}"
                                                                  alt="Shop2earn" height="100"
                                                                  class="responsive-image mb-3">
-                                                            <p class="fs-15 fst-italic text-white">Better Shopping
-                                                                Experience</p>
+                                                            <p class="fs-15 fst-italic text-white">
+                                                                {{__('Better Shopping Experience')}}
+                                                            </p>
                                                         </div>
                                                         <div class="carousel-item">
                                                             <img src="{{asset('assets/images/Move2earn Icon.png')}}"
                                                                  alt="Move2earn" height="100"
                                                                  class="responsive-image mb-3">
-                                                            <p class="fs-15 fst-italic text-white">Exceptional
-                                                                Transportation Services</p>
+                                                            <p class="fs-15 fst-italic text-white">{{__('Exceptional Transportation Services')}}</p>
                                                         </div>
                                                         <div class="carousel-item">
                                                             <img src="{{asset('assets/images/icon-learn.png')}}"
                                                                  alt="Learn2earn" height="100"
                                                                  class="responsive-image mb-3">
-                                                            <p class="fs-15 fst-italic text-white">Empowering knowledge,
-                                                                anywhere, anytime</p>
+                                                            <p class="fs-15 fst-italic text-white">{{__('Empowering knowledge, anywhere, anytime')}}</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -109,11 +89,10 @@
                                             <h5 class="text-primary"> {{__('Welcome_Back')}}</h5>
                                             <p class="text-primary"> {{__('continueTo2earn')}} </p>
                                         </div>
-
                                         <div class="mt-4">
-                                            <form>
+                                            <form id="login-form">
                                                 @csrf
-                                                <div dir="ltr" class="mb-3">
+                                                <div dir="ltr w-100" class="mb-3">
                                                     <label for="username"
                                                            class="float-start form-label">{{ __('Mobile Number') }}</label>
                                                     <br>
@@ -126,12 +105,11 @@
                                                                                             <strong>{{ $message }}</strong>
                                                                                         </span>
                                                     @enderror
-                                                    <span id="valid-msg" class="hide">✓ Valid</span>
-                                                    <span id="error-msg" class="hide"></span>
+                                                    <span id="valid-msg" class="d-none">✓ Valid</span>
+                                                    <span id="error-msg" class="d-none"></span>
                                                     <input type="hidden" name="ccodelog" id="ccodelog">
                                                     <input type="hidden" name="isoCountryLog" id="isoCountryLog">
                                                 </div>
-
                                                 <div class="mb-3">
                                                     <label
                                                         class="float-end">
@@ -157,18 +135,22 @@
                                                         @enderror
                                                     </div>
                                                 </div>
-
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="checkbox" value=""
                                                            id="auth-remember-check">
                                                     <label class="form-check-label"
                                                            for="auth-remember-check">{{ __('Remember me') }}</label>
                                                 </div>
-
                                                 <div class="mt-4">
                                                     <button onclick="functionLogin()"
                                                             class="btn btn-success w-100 btn2earn"
-                                                            type="button" id="btn">{{ __('Sign in') }}
+                                                            type="button" id="btn">
+                                                        <div wire:loading>
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                                            <span class="sr-only">{{__('Loading')}}...</span>
+                                                        </div>
+                                                        {{ __('Sign in') }}
                                                     </button>
                                                 </div>
                                                 <div class="center" style=" display: flex;  justify-content: center;">
@@ -201,9 +183,7 @@
                                                                     <span
                                                                         class="align-middle">{{ __('lang'.$locale)  }}</span>
                                                                 </a>
-
                                                             @endforeach
-
                                                         </div>
                                                     </div>
                                                 </div>
@@ -235,10 +215,8 @@
         var togglePasswordLogin = document.querySelector("#togglePassword");
         var passwordLogin = document.querySelector("#password-input");
         togglePasswordLogin.addEventListener("click", function () {
-            // toggle the type attribute
             var type = passwordLogin.getAttribute("type") === "password" ? "text" : "password";
             passwordLogin.setAttribute("type", type);
-            // toggle the icon
             this.classList.toggle("bi-eye");
         });
 

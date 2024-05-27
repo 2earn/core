@@ -128,7 +128,7 @@ class Sponsorship
             0,
             "0.000",
             'sponsorship commission from ' . $fullphone_number,
-            $this->balancesManager->getBalances($reserve)->soldeCB + $amount * $this->amountCash / 100
+            $this->balancesManager->getBalances($reserve, -1)->soldeCB + $amount * $this->amountCash / 100
         );
 
         $this->createUserBalances(
@@ -142,7 +142,7 @@ class Sponsorship
             0,
             "0.000",
             'sponsorship commission from ' . $fullphone_number,
-            $this->balancesManager->getBalances($reserve)->soldeBFS + $amount * $this->amountBFS / 100
+            $this->balancesManager->getBalances($reserve, -1)->soldeBFS + $amount * $this->amountBFS / 100
         );
     }
 

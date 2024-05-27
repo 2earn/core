@@ -18,6 +18,7 @@ class UserBalanceObserver
         $this->balancesManager = $balancesManager;
         $this->name = "fsdf";
     }
+
     private BalancesManager $balancesManager;
 
     public function saving(user_balance $user_balance)
@@ -48,7 +49,7 @@ class UserBalanceObserver
                 'WinPurchaseAmount' => "0.000",
                 'PrixUnitaire' => 1,
                 'Description' => number_format(100 * min($md, $user_balance->value * (pow(abs($user_balance->value - 10), 1.5) / $rc)) / $md, 2, '.', '') . '%',
-                'Balance' => $this->balancesManager->getBalances($user_balance->idUser)->soldeDB + min($md, $user_balance->value * (pow(abs($user_balance->value - 10), 1.5) / $rc))
+                'Balance' => $this->balancesManager->getBalances($user_balance->idUser, -1)->soldeDB + min($md, $user_balance->value * (pow(abs($user_balance->value - 10), 1.5) / $rc))
             ]);
             $ub->save();
         }

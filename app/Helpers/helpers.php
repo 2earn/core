@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Models\User;
 use Carbon\Carbon;
 use Core\Enum\OperateurSmsEnum;
@@ -21,11 +20,11 @@ use Illuminate\Http\Request as Req;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Core\Services\BalancesManager;
 use Paytabscom\Laravel_paytabs\Facades\paypage;
 use Core\Models\Setting;
-
 
 if (!function_exists('getUserBalanceSoldes')) {
     function getUserBalanceSoldes($idUser, $amount)
@@ -38,7 +37,6 @@ if (!function_exists('getUserBalanceSoldes')) {
             ->where('u.idamount', $amount)
             ->groupBy('u.idUser', 'u.idamount')
             ->first();
-
 
         if ($result) {
             return $result->value;
@@ -69,18 +67,16 @@ if (!function_exists('getRegisterUpline')) {
             ->where('users.idUser', $iduser)
             ->first(['users.fullphone_number', 'metta_users.arFirstName', 'metta_users.enFirstName', 'metta_users.arLastName', 'metta_users.enLastName']);
 
-// Construire le nom complet en utilisant les valeurs des colonnes arFirstName, enFirstName, arLastName, enLastName
         $fullName = $userData->arFirstName ?? $userData->enFirstName;
         $fullName .= ' ';
         $fullName .= $userData->arLastName ?? $userData->enLastName;
 
-// Si le nom complet est vide, utilisez le numéro de téléphone complet
         if (empty(trim($fullName))) {
             $result = $userData->fullphone_number;
         } else {
             $result = $fullName;
         }
-return $result;
+        return $result;
     }
 }
 if (!function_exists('getUserListCards')) {
@@ -97,11 +93,11 @@ if (!function_exists('getUserListCards')) {
         }, 'a')
             ->select('a.idamount', DB::raw('SUM(a.value) as value'))
             ->groupBy('a.idamount')
-            ->orderBy('a.idamount') // Ajout de l'ordre par idamount
+            ->orderBy('a.idamount')
             ->union(DB::table('user_balances')
                 ->select(DB::raw('7 as idamount'), DB::raw('SUM(value) as value'))
                 ->where('idBalancesOperation', 48))
-            ->orderBy('idamount') // Ajout de l'ordre par idamount pour le second ensemble de données
+            ->orderBy('idamount')
             ->get();
         $dataArray = $data->pluck('value')->toArray();
         return $dataArray;
@@ -161,14 +157,12 @@ if (!function_exists('delUsertransaction')) {
         $del = DB::table('user_transactions')
             ->where('idUser', $user)
             ->delete();
-
         return response()->json($del);
     }
 }
 if (!function_exists('getPhoneByUser')) {
     function getPhoneByUser($user)
     {
-
         $us = \App\Models\User::where('idUser', $user)->first();
         return $us ? $us->fullphone_number : NULL;
     }
@@ -183,7 +177,6 @@ if (!function_exists('getUserByPhone')) {
 }
 
 
-// parrainage proactif
 if (!function_exists('getUserByContact')) {
     function getUserByContact($phone)
     {
@@ -212,10 +205,10 @@ if (!function_exists('getSwitchBlock')) {
 
 
 if (!function_exists('getHalfActionValue')) {
-     function getHalfActionValue()
+    function getHalfActionValue()
     {
         // Call getSelledActions to determine the limit
-        $x = getSelledActions() * 1.05/2;
+        $x = getSelledActions() * 1.05 / 2;
 
         $data = [];
         $setting = \Core\Models\Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
@@ -224,10 +217,9 @@ if (!function_exists('getHalfActionValue')) {
         $total_actions = $setting[2];
 
 
-        
-            $val = ($final_value - $initial_value) / ($total_actions - 1) * ($x + 1) + ($initial_value - ($final_value - $initial_value) / ($total_actions - 1));
-            
-        
+        $val = ($final_value - $initial_value) / ($total_actions - 1) * ($x + 1) + ($initial_value - ($final_value - $initial_value) / ($total_actions - 1));
+
+
         return $val;
 
     }
@@ -235,35 +227,34 @@ if (!function_exists('getHalfActionValue')) {
 if (!function_exists('getGiftedActions')) {
     function getGiftedActions($actions)
     {
-        $setting = \Core\Models\Setting::WhereIn('idSETTINGS', ['20', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
+        $setting = Setting::WhereIn('idSETTINGS', ['20', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
         $max_bonus = $setting[0];
         $total_actions = $setting[1];
-        $k = \Core\Models\Setting::Where('idSETTINGS', '21')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
+
+        $k = Setting::Where('idSETTINGS', '21')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
 
         $a = (($total_actions * $max_bonus) / 100);
         $b = (1 - exp(-$k * $actions));
-        $result=intval($a * $b);
-        if($actions/3000 >= 1)
-        {
-            $result = intval($actions/3000)*3000*2;
-        }
-        if($actions/30000 >= 1)
-        {
-            $result = intval($actions/30000)*30000*6;
-        }
+        $result = intval($a * $b);
         return $result;
     }
 }
-
+if (!function_exists('getFlashGiftedActions')) {
+    function getFlashGiftedActions($actions,$times)
+    {
+            $result = intval($actions * ($times-1));
+        return $result;
+    }
+}
 if (!function_exists('actualActionValue')) {
-    function actualActionValue($selled_actions)
+    function actualActionValue($selled_actions, $formated = true)
     {
         $setting = \Core\Models\Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
         $initial_value = $setting[0];
         $final_value = $setting[1];
         $total_actions = $setting[2];
         $x = ($final_value - $initial_value) / ($total_actions - 1) * ($selled_actions + 1) + ($initial_value - ($final_value - $initial_value) / ($total_actions - 1));
-        return number_format($x, 2, '.', '') * 1;
+        return $formated ? number_format($x, 2, '.', '') * 1 : $x;
     }
 }
 
@@ -297,7 +288,6 @@ if (!function_exists('getRevenuSharesReal')) {
 if (!function_exists('getUserSelledActions')) {
     function getUserSelledActions($user)
     {
-        //nbr des actions pour un utilisateur
         return \Core\Models\user_balance::where('idBalancesOperation', 44)->where('idUser', $user)->selectRaw('SUM(value + gifted_shares) as total_sum')->first()->total_sum;
     }
 }
@@ -371,7 +361,6 @@ if (!function_exists('getLocationByIP')) {
         $samePay = true;
         $ip = ip2long(request()->ip());
 
-
         $ip = long2ip($ip);
         earnDebug("ippp1: " . $ip);
         if ($ip == '0.0.0.0' || $ip == '127.0.0.1') {
@@ -392,7 +381,6 @@ if (!function_exists('getLocationByIP')) {
             }
             if (strtolower(getActifNumber()->isoP) != strtolower($country_code) && strtolower($country_code) == strtolower($countryAuth->apha2)) {
                 $num = collect(DB::select('select * from usercontactnumber where idUser = ? and mobile = ?', [Auth::user()->idUser, $authUser->mobile]))->first();
-
                 DB::update('update usercontactnumber set active = 0 where idUser = ?', [$authUser->idUser]);
                 DB::update('update usercontactnumber set active = 1 where id = ?', [$num->id]);
             }
@@ -400,7 +388,6 @@ if (!function_exists('getLocationByIP')) {
         return $samePay;
     }
 }
-
 
 if (!function_exists('getActifNumber')) {
     function getActifNumber()
@@ -435,6 +422,7 @@ if (!function_exists('earnDebug')) {
     }
 }
 
+
 if (!function_exists('usdToSar')) {
     function usdToSar()
     {
@@ -457,5 +445,110 @@ if (!function_exists('usdToSar')) {
                 ->count();
             return $result ? $result : null;
         }
+    }
+}
+
+if (!function_exists('formatSolde')) {
+    function formatSolde($solde, $decimals = 2)
+    {
+        if ($decimals == -1) {
+            return $solde;
+        }
+        return number_format($solde, $decimals, '.', ',');
+    }
+}
+if (!function_exists('getDecimals')) {
+    function getDecimals($number, $decimals = 2)
+    {
+        return substr(number_format($number - intval($number), $decimals, '.', ','), 2);
+    }
+}
+if (!function_exists('getConnectedUserDisplayedName')) {
+    function getConnectedUserDisplayedName()
+    {
+        $usermetta_info = collect(DB::table('metta_users')->where('idUser', auth()->user()->idUser)->first());
+        $user = DB::table('users')->where('idUser', auth()->user()->idUser)->first();
+        $displayedName = "";
+        if (config('app.available_locales')[app()->getLocale()]['direction'] === 'rtl')
+            if (isset($usermetta_info['arFirstName']) && isset($usermetta_info['arLastName']) && !empty($usermetta_info['arFirstName']) && !empty($usermetta_info['arLastName'])) {
+                $displayedName = $usermetta_info['arFirstName'] . ' ' . $usermetta_info['arLastName'];
+            } else {
+                if ((isset($usermetta_info['arFirstName']) && !empty($usermetta_info['arFirstName'])) || (isset($usermetta_info['arLastName']) && !empty($usermetta_info['arLastName']))) {
+                    if (isset($usermetta_info['arFirstName']) && !empty($usermetta_info['arFirstName'])) {
+                        $displayedName = $usermetta_info['arFirstName'];
+                    }
+                    if (isset($usermetta_info['arLastName']) && !empty($usermetta_info['arLastName'])) {
+                        $displayedName = $usermetta_info['arLastName'];
+                    }
+                } else {
+                    $displayedName = $user->fullphone_number;
+                }
+            }
+        else
+            if (isset($usermetta_info['enFirstName']) && isset($usermetta_info['enLastName']) && !empty($usermetta_info['enFirstName']) && !empty($usermetta_info['enLastName'])) {
+                $displayedName = $usermetta_info['enFirstName'] . ' ' . $usermetta_info['enLastName'];
+            } else {
+                if ((isset($usermetta_info['enFirstName']) && !empty($usermetta_info['enFirstName'])) || (isset($usermetta_info['enLastName']) && !empty($usermetta_info['enLastName']))) {
+                    if (isset($usermetta_info['enFirstName']) && !empty($usermetta_info['enFirstName'])) {
+                        $displayedName = $usermetta_info['enFirstName'];
+                    }
+                    if (isset($usermetta_info['enLastName']) && !empty($usermetta_info['enLastName'])) {
+                        $displayedName = $usermetta_info['enLastName'];
+                    }
+                } else {
+                    $displayedName = $user->fullphone_number;
+                }
+            }
+        return $displayedName;
+    }
+
+}
+if (!function_exists('formatNotification')) {
+    function formatNotification($notification)
+    {
+        $notificationText = '';
+        switch ($notification->type) {
+            case 'App\Notifications\contact_registred':
+                $notificationText = Lang::get('New contact registred') . ' ' . $notification->data['fullphone_number'];
+                break;
+            case 1:
+                echo "i equals 1";
+                break;
+            case 2:
+                echo "i equals 2";
+                break;
+        }
+        return $notificationText;
+    }
+}
+
+if (!function_exists('time_ago')) {
+
+    function time_ago(\Datetime $date)
+    {
+        $time_ago = '';
+        $diff = $date->diff(new \Datetime('now'));
+        if (($t = $diff->format("%y")) > 0)
+            $time_ago = $t . ' years';
+        else if (($t = $diff->format("%m")) > 0)
+            $time_ago = $t . ' months';
+        else if (($t = $diff->format("%d")) > 0)
+            $time_ago = $t . ' days';
+        else if (($t = $diff->format("%H")) > 0)
+            $time_ago = $t . ' hours';
+        else
+            $time_ago = 'minutes';
+
+        return $time_ago . ' ago (' . $date->format('M j, Y') . ')';
+    }
+}
+
+if (!function_exists('isValidEmailAdressFormat')) {
+    function isValidEmailAdressFormat($email)
+    {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
+        return true;
     }
 }

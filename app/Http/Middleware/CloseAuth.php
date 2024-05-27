@@ -11,22 +11,12 @@ use Illuminate\Support\Facades\Cache;
 
 class CloseAuth
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
-     */
-
     public function handle(Request $request, Closure $next)
     {
 
         $userAuth = Auth::user();
-        $ses ='Expired' .$userAuth->idUser ;
-        if(!Session::has($ses))
-        {
-
+        $ses = 'Expired' . $userAuth->idUser;
+        if (!Session::has($ses)) {
             Auth::logout();
             Cache::flush();
             return redirect()->route('login', getLangNavigation())->with('FromLogOut', 'FromLogOut ');
@@ -41,9 +31,7 @@ class CloseAuth
                 Cache::flush();
                 return redirect()->route('login', getLangNavigation())->with('FromLogOut', 'FromLogOut ');
             }
-        }catch (\Exception $ex)
-        {
-            dd('3333');
+        } catch (\Exception $ex) {
             Auth::logout();
             Cache::flush();
             return redirect()->route('login', getLangNavigation())->with('FromLogOut', 'FromLogOut ');
@@ -51,4 +39,3 @@ class CloseAuth
         return $next($request);
     }
 }
-

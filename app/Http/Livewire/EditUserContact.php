@@ -108,7 +108,9 @@ class EditUserContact extends Component
                 if (!$user) {
                     $user = $settingsManager->createNewUser($mobile, $fullphone_number, $code, auth()->user()->idUser);
                 } else {
-                    $user = $settingsManager->updateUser($user, $mobile, $fullphone_number, $code, auth()->user()->idUser);
+                    if ($fullphone_number != $user->fullphone_number) {
+                        $user = $settingsManager->updateUser($user, $mobile, $fullphone_number, $code, auth()->user()->idUser);
+                    }
                 }
 
                 $contact_user = new ContactUser([

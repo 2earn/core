@@ -9,7 +9,7 @@ use Spatie\Translatable\HasTranslations;
 class identificationuserrequest extends Model
 {
     protected $table = 'identificationuserrequest';
-    protected $fillable=[
+    protected $fillable = [
         'idUser',
         'created_at',
         'updated_at',

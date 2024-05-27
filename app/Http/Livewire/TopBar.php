@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Livewire;
+
 use Core\Models\language;
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
@@ -8,66 +9,60 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
-
+use Illuminate\Support\Facades\Route;
 
 class TopBar extends Component
 {
-    protected $user_info = "";
+    public $count = 0;
+    public $notifications = [];
+    public $currentRoute;
+    public $locales;
     private settingsManager $settingsManager;
     private BalancesManager $balancesManager;
 
-    public function mount(
-        settingsManager $settingsManager,
-        BalancesManager $balancesManager
-    )
+    protected $listeners = [
+        'markAsRead' => 'markAsRead',
+    ];
+
+    public function boot()
+    {
+     $this->locales = config('app.available_locales');
+    }
+    public function mount(settingsManager $settingsManager, BalancesManager $balancesManager)
     {
         $this->settingsManager = $settingsManager;
         $this->balancesManager = $balancesManager;
-//        App::setLocale(app()->getLocale()) ;
-//          dd(App::getLocale());
-        $dd = Lang::get('Edit');
-        //  dd($dd);
     }
 
-    public function render(settingsManager $settingsManager)
+    public function render(settingsManager $settingsManager, BalancesManager $balancesManager)
     {
-
-        $user = $settingsManager->getAuthUser();
-        $userById = $settingsManager->getUserById($user->id);
-       $userRole = $userById->getRoleNames()->first();
-        $notif = $settingsManager->getNomberNotification();
-
-        if (!$user)
+        $authUser = $settingsManager->getAuthUser();
+        $user = $settingsManager->getUserById($authUser->id);
+        $this->count = \auth()->user()->unreadNotifications()->count();
+        $this->notifications = auth()->user()->unreadNotifications()->get();
+        $this->locales = config('app.available_locales');
+        if (!$authUser)
             dd('not found page');
-        $solde = $this->balancesManager->getBalances($user->idUser);
+        $params = [
+            'solde' => $balancesManager->getBalances($authUser->idUser, 0),
+            'user' => $authUser,
+            'userRole' => $user->getRoleNames()->first()
+        ];
+        return view('livewire.top-bar', $params);
+    }
 
-        return view('livewire.top-bar',
-            [
-                'solde' => $solde,
-                'user' => $user,
-                'notificationbr' => $notif,
-                'userRole'=>$userRole
-            ]
-        );
+
+    public function markAsRead($idNotification, settingsManager $settingsManager)
+    {
+        auth()->user()->unreadNotifications->where('id', $idNotification)->first()?->markAsRead();
+        $this->count = \auth()->user()->unreadNotifications()->count();
+        $this->notifications = auth()->user()->unreadNotifications()->get();
+        $this->dispatchBrowserEvent('updateNotifications', ['type' => 'warning', 'title' => "Opt", 'text' => '',]);
     }
 
     public function logout(settingsManager $settingsManager)
     {
-//        redirect()->route('home', app()->getLocale());
         $settingsManager->logoutUser();
-
-//        dd('sd');
-//        return redirect()->route('login', app()->getLocale())->with('message', Lang::get('your phone or your password is incorrect !'));
-
-        return redirect()->route('login',['locale'=>app()->getLocale()])->with('FromLogOut', 'FromLogOut');
+        return redirect()->route('login', ['locale' => app()->getLocale()])->with('FromLogOut', 'FromLogOut');
     }
-
-
-
-
-
-
-
-
-
 }
