@@ -13,18 +13,28 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <span
+                        class="text-warning">{{ __('Max char is 190! every translation item will be shrinked to 190 char.') }}</span>
                     <form>
                         <div class="mb-3">
                             <label for="recipient-name" class="col-form-label">{{__('Arabe')}}</label>
-                            <input type="text" class="form-control" wire:model.defer="arabicValue">
+                            <textarea rows="4" class="form-control" wire:model.defer="arabicValue" maxlength="190"
+                                      required>
+                            </textarea>
                         </div>
                         <div class="mb-3">
                             <label for="message-text" class="col-form-label">{{__('Francais')}}</label>
-                            <input type="text" class="form-control" wire:model.defer="frenchValue">
+                            <textarea rows="4" class="form-control" wire:model.defer="frenchValue" maxlength="190"
+                                      required>
+                            </textarea>
+
                         </div>
                         <div class="mb-3">
                             <label for="message-text" class="col-form-label">{{__('English')}}</label>
-                            <input type="text" class="form-control" wire:model.defer="englishValue">
+                            <textarea rows="4"  class="form-control" wire:model.defer="englishValue" maxlength="190"
+                                      required>
+                            </textarea>
+
                         </div>
                     </form>
                 </div>

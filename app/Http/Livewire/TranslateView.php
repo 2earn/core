@@ -219,9 +219,12 @@ class TranslateView extends Component
             File::put($pathFileFr, json_encode($this->tabfinFr, JSON_UNESCAPED_UNICODE));
             File::put($pathFileEn, json_encode($this->tabfinEn, JSON_UNESCAPED_UNICODE));
         } catch (FileNotFoundException $exception) {
-            die(Lang::get($exception->getMessage()));
+            return redirect()->route('translate', app()->getLocale())->with('danger', trans('Edit translation failed') . " " . Lang::get($exception->getMessage()));
+
         }
         $this->dispatchBrowserEvent('closeModal');
+        return redirect()->route('translate', app()->getLocale())->with('success', trans('Edit translation succeeded'));
+
     }
 
     public function initTranslate($idTranslate)
