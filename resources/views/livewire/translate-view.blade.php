@@ -125,7 +125,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                class="btn btn-info">{{__('Edit')}}
                                             </a>
                                             <a type="btn" onclick="confirmDelete({{$value->id}})"
-                                               class="btn btn-danger">{{__('Delete')}}
+                                               class="btn btn-danger d-none">{{__('Delete')}}
                                             </a>
                                         </td>
                                     </tr>

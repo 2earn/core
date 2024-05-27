@@ -98,18 +98,18 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div>
-                                            <label for="firstName" class="form-label">First Name</label>
+                                            <label for="firstName" class="form-label">{{__('First name')}}</label>
                                             <input wire:model.defer="usermetta_info2.enFirstName" type="text"
                                                    class="form-control" id="firstName"
-                                                   placeholder="Enter your firstname">
+                                                   placeholder="{{__('Enter your firstname')}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div>
-                                            <label for="lastName" class="form-label">Last Name</label>
+                                            <label for="lastName" class="form-label">{{__('Last name')}}</label>
                                             <input wire:model.defer="usermetta_info2.enLastName" type="text"
                                                    class="form-control" id="lastName"
-                                                   placeholder="Enter your lastname">
+                                                   placeholder="{{__('Enter your lastname')}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -170,7 +170,7 @@
                                     </div>
                                     <div id="optChecker" class="col-lg-12 invisible">
                                         <div
-                                            class="container height-100 d-flex justify-content-center align-items-center">
+                                                class="container height-100 d-flex justify-content-center align-items-center">
                                             <div class="position-relative">
                                                 <div class="card p-2 text-center">
                                                     <h6>{{__('Opt_verif_mail')}} <br> {{__('To_verif_Account')}}
@@ -197,13 +197,13 @@
                                         <div class="hstack align-items-start gap-3 mt-4">
                                             <button type="button" class="btn btn-light btn-label previestab"
                                                     data-previous="pills-bill-info-tab"><i
-                                                    class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
+                                                        class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
                                                 {{__('Back_to_personnel')}}
                                             </button>
                                             <button type="button"
                                                     class="btn btn-primary btn-label right ms-auto nexttab"
                                                     data-nexttab="pills-payment-tab"><i
-                                                    class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
+                                                        class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
                                                 {{__('Next step : Import identity card')}}
                                             </button>
                                         </div>
@@ -215,7 +215,8 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="alert border-0 alert-primary material-shadow" role="alert">
-                                            <strong>{{__('Note')}}: </strong>{{__('The photo must be in PNG format, and must not exceed 2 Mb in size')}}
+                                            <strong>{{__('Note')}}
+                                                : </strong>{{__('The photo must be in PNG format, and must not exceed 2 Mb in size')}}
                                         </div>
                                     </div>
                                     <div class="col-6">
