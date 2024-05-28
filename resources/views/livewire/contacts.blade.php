@@ -104,7 +104,7 @@
                         @php
                             $disableUntil = getSwitchBlock($value->id);
                             if($value->availablity == 1) $disableUntil = now();
-                            else $disableUntil = getSwitchBlock($value->id);// Désactiver le commutateur jusqu'à 24 heures à partir de maintenant
+                            else $disableUntil = getSwitchBlock($value->id);
                         @endphp
                         <td>
                             <button type="button"
@@ -121,7 +121,7 @@
                                     <div wire:loading wire:target="deleteId('{{$value->id}}')">
                                               <span class="spinner-border spinner-border-sm" role="status"
                                                     aria-hidden="true"></span>
-                                        <span class="sr-only">__('Loading')</span>
+                                        <span class="sr-only">{{__('Loading')}}</span>
                                     </div>
                                     {{__('Delete')}}
                                 </a>
@@ -133,7 +133,7 @@
                                         <div wire:loading wire:target="sponsorId('{{$value->id}}')">
                                               <span class="spinner-border spinner-border-sm" role="status"
                                                     aria-hidden="true"></span>
-                                            <span class="sr-only">__('Loading')</span>
+                                            <span class="sr-only">{{__('Loading')}}</span>
                                         </div>
                                         {{__('Sponsor it')}}
                                     </a>
@@ -145,7 +145,7 @@
                                              wire:target="removeSponsoring('{{$value->id}}')">
                                               <span class="spinner-border spinner-border-sm" role="status"
                                                     aria-hidden="true"></span>
-                                            <span class="sr-only">__('Loading')</span>
+                                            <span class="sr-only">{{__('Loading')}}</span>
                                         </div>
                                         {{__('Remove sponsoring')}}
                                     </a>

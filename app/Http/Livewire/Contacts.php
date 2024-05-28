@@ -106,7 +106,7 @@ class Contacts extends Component
             if ($contactUser->idUpline != 0) {
                 if ($contactUser->idUpline == auth()->user()->idUser) {
                     if ($user->purchasesNumber < $saleCcount->IntegerValue) {
-                        $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('I am his sponsor') . " " . ($saleCcount->IntegerValue - $user->purchasesNumber) . "" . Lang::get('purchases left'), 'info', false, false);
+                        $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('I am his sponsor') . " " . ($saleCcount->IntegerValue - $user->purchasesNumber) . " " . Lang::get('purchases left'), 'info', false, false);
                     } else {
                         $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('I am his sponsor no commissions') . Lang::get('(No commissions)'), 'dark text-perple', false, false);
                     }
