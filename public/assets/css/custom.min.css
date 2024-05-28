@@ -41,6 +41,15 @@
     color: red !important
 }
 
+.logoTopCash span, .page-title-box ,#buy-action .logoTopCashLabel p{
+    background-color: #464fed !important;
+    color: #464fed !important;
+}
+
+.logoTopCashDanger {
+    color: red !important
+}
+
 .logoTopCash span, .page-title-box ,.logoTopCashLabel p{
     background-color: #464fed !important;
 }

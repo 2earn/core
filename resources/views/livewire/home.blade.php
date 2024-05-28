@@ -359,7 +359,7 @@
                     <div class="row d-flex">
                         <form class="needs-validation" novalidate>
                             <div class="row mt-2  @if($flash) alert-flash @else alert  @endif alert-primary">
-                                <div class="col-3">
+                                <div class="col-2">
                                     <span class="form-label">{{ __('Buy For') }}:</span>
                                 </div>
                                 <div class="col-4">
@@ -369,7 +369,7 @@
                                         <label class="form-check-label" for="inlineRadio1">{{ __('me') }}</label>
                                     </div>
                                 </div>
-                                <div class="col-5">
+                                <div class="col-6">
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="inlineRadioOptions"
                                                id="inlineRadio2" value="other" disabled>
