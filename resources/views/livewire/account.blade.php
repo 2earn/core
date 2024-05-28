@@ -183,8 +183,7 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="firstnameInput" class="form-label">اللقب
-                                                (الإسم العائلي) </label>
+                                            <label for="firstnameInput" class="form-label">{{__('Enter your ar firstname label')}}</label>
                                             <input wire:model.defer="usermetta_info.arLastName" type="text"
                                                    class="form-control" id="firstnameInput"
                                                    placeholder="{{__('Enter your ar firstname')}}" value="">
@@ -192,8 +191,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="lastnameInput" class="form-label">
-                                                الاسم</label>
+                                            <label for="lastnameInput" class="form-label">{{__('Enter your ar last label')}}</label>
                                             <input wire:model.defer="usermetta_info.arFirstName" type="text"
                                                    class="form-control" id="lastnameInput"
                                                    placeholder="{{__('Enter your ar last')}}" value="">
@@ -202,7 +200,7 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="firstnameInput" class="form-label">
-                                                {{__('Last Name')}}
+                                                {{__('Last name label')}}
                                             </label>
                                             <input type="text" class="form-control"
                                                    {{$disabled}}
@@ -212,7 +210,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="firstnameInput" class="form-label">{{__('First Name')}}</label>
+                                            <label for="firstnameInput" class="form-label">{{__('First name label')}}</label>
                                             <input
                                                     {{$disabled}}
                                                     wire:model.defer="usermetta_info.enFirstName"
