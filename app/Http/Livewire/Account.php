@@ -333,7 +333,9 @@ class Account extends Component
         $us->save();
         $numberActif = $settingsManager->getNumberCOntactActif($userAuth->idUser)->fullNumber;
 
+
         $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::VerifMail, ['msg' => $opt, 'type' => TypeNotificationEnum::SMS]);
+
 
         $this->dispatchBrowserEvent('confirmOPTVerifMail', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'numberActif' => $numberActif]);
         $this->newMail = $mail;
