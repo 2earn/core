@@ -35,7 +35,7 @@
                 <button type="button" class="btn btn-secondary add-btn btn2earn"
                         data-bs-toggle="modal"
                         id="create-btn" data-bs-target="#addModal"><i
-                        class="ri-add-line align-bottom me-1 "></i> {{ __('Add a contact') }}
+                            class="ri-add-line align-bottom me-1 "></i> {{ __('Add a contact') }}
                 </button>
             </div>
         </div>
@@ -84,9 +84,9 @@
                         <td>
                             <div class="d-flex align-items-center fw-medium">
                                 <img
-                                    src="{{ URL::asset('assets/images/flags/'. Illuminate\Support\Str::lower($value->apha2) .'.svg') }}"
-                                    alt=""
-                                    class="avatar-xs me-2 rounded-circle">
+                                        src="{{ URL::asset('assets/images/flags/'. Illuminate\Support\Str::lower($value->apha2) .'.svg') }}"
+                                        alt=""
+                                        class="avatar-xs me-2 rounded-circle">
                                 <a href="javascript:void(0);"
                                    class="currency_name"> {{getCountryByIso($value->apha2)}}</a>
                             </div>
@@ -168,31 +168,31 @@
                             id="close-modal"></button>
                 </div>
                 @error('name') <span
-                    class="error alert-danger">{{ $message }}</span>
+                        class="error alert-danger">{{ $message }}</span>
                 @enderror
                 @error('lastName') <span
-                    class="error alert-danger">{{ $message }}</span>
+                        class="error alert-danger">{{ $message }}</span>
                 @enderror
                 <form action="">
                     @csrf
                     <div class="modal-body">
                         <input
-                            id="id-field"
-                            type="hidden"
-                            class="form-control" name="id-field"
-                            wire:model.defer="selectedContect"
+                                id="id-field"
+                                type="hidden"
+                                class="form-control" name="id-field"
+                                wire:model.defer="selectedContect"
                         >
                         <div class="row g-3">
                             <div class="col-lg-12">
                                 <div>
                                     <label for="nameField" class="form-label">{{ __('Name') }}</label>
                                     <input
-                                        type="text"
-                                        wire:model.defer="contactName"
-                                        id="contactName"
-                                        class="form-control"
-                                        name="contactName"
-                                        required
+                                            type="text"
+                                            wire:model.defer="contactName"
+                                            id="contactName"
+                                            class="form-control"
+                                            name="contactName"
+                                            required
                                     >
                                 </div>
                             </div>
@@ -200,25 +200,25 @@
                                 <div>
                                     <label for="lastNameField" class="form-label">{{ __('Last Name') }}</label>
                                     <input
-                                        type="text"
-                                        wire:model.defer="contactLastName"
-                                        id="contactLastName"
-                                        class="form-control"
-                                        name="contactLastName"
-                                        required>
+                                            type="text"
+                                            wire:model.defer="contactLastName"
+                                            id="contactLastName"
+                                            class="form-control"
+                                            name="contactLastName"
+                                            required>
                                 </div>
                             </div>
                             <div class=" col-lg-12">
                                 <div class="mb-3">
                                     <label for="username" class="form-label">{{ __('Mobile Number') }}</label><br>
                                     <input
-                                        wire:model.defer="mobile"
-                                        type="tel"
-                                        name="mobile"
-                                        id="ipAdd2Contact"
-                                        class="form-control"
-                                        value=""
-                                        placeholder="{{ __('PH_MobileNumber') }}"
+                                            wire:model.defer="mobile"
+                                            type="tel"
+                                            name="mobile"
+                                            id="ipAdd2Contact"
+                                            class="form-control"
+                                            value=""
+                                            placeholder="{{ __('PH_MobileNumber') }}"
                                     >
                                     <input type='hidden' name='fullnumber' id='outputAdd2Contact'
                                            class='form-control'>
@@ -283,7 +283,7 @@
             var inputName = inputname.value.trim();
             if (validateAdd()) {
                 $.ajax({
-                    url: '{{ route('validate_phone') }}',
+                    url: '{{ route('validate_phone',app()->getLocale()) }}',
                     method: 'POST',
                     data: {phoneNumber: phoneNumber, inputName: inputName, "_token": "{{ csrf_token() }}"},
                     success: function (response) {
