@@ -124,6 +124,11 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/admin/identification_request', identificationRequest::class)->name('identificationRequest');
             Route::get('/translation', TranslateView::class)->name('translate');
         });
+
+
+        Route::post('buy-action', 'App\Http\Controllers\ApiController@buyAction')->name('buyAction');
+        Route::get('action-by-ammount', 'App\Http\Controllers\ApiController@actionByAmmount')->name('action-by-ammount');
+        Route::post('gift-action-by-ammount', 'App\Http\Controllers\ApiController@giftActionByAmmount')->name('gift-action-by-ammount');
     });
 
     Route::get('registre', Registre::class)->name('registre');
@@ -180,9 +185,6 @@ Route::group(['prefix' => 'API'], function () {
     Route::post('update-balance-real', 'App\Http\Controllers\ApiController@updateBalanceReal')->name('update-balance-real');
     Route::post('validate-phone', 'App\Http\Controllers\ApiController@validatePhone')->name('validate_phone');
 
-    Route::post('buy-action', 'App\Http\Controllers\ApiController@buyAction')->name('buyAction');
-    Route::get('action-by-ammount', 'App\Http\Controllers\ApiController@actionByAmmount')->name('action-by-ammount');
-    Route::post('gift-action-by-ammount', 'App\Http\Controllers\ApiController@giftActionByAmmount')->name('gift-action-by-ammount');
 });
 
 Route::get('/ResetNot', 'App\Http\Controllers\FinancialRequestController@resetInComingNotification')->name('resetInComingNotification');
