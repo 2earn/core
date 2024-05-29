@@ -50,9 +50,9 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
             <div class="card">
                 <div class="card-header">
                     <div class="">
-                        <button style="border-radius: 20px; padding: 5px 20px;" data-bs-toggle="modal"
+                        <button data-bs-toggle="modal"
                                 data-bs-target="#AddContactNumberModel" type="button"
-                                class="btn btn-primary">{{ __('Add_contact-number') }}
+                                class="btn btn-secondary add-btn btn2earn">{{ __('Add_contact-number') }}
                         </button>
                     </div>
                 </div>
@@ -65,7 +65,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                             <th scope="mobile">{{__('Mobile Number')}}</th>
                             <th scope="Active">{{__('Active')}}</th>
                             <th>{{__('Country')}}</th>
-                            <th scope="">#</th>
+                            <th scope="">{{__('Actions')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -101,13 +101,13 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                 </td>
                                 <td>
                                     @if($value->active!=1)
-                                        <a style="cursor: pointer" onclick="deleteContactNUmber({{$value->id}})"><span
-                                                class="badge rounded-pill text-bg-danger">{{__('Delete')}}</span></a>
-                                        <a style="cursor: pointer" onclick="setActiveNumber({{$value->id}})"><span
-                                                class="badge rounded-pill text-bg-primary">{{ __('Active') }}</span></a>
+                                        <a onclick="deleteContactNUmber({{$value->id}})"><span
+                                                class="btn btn-danger">{{__('Delete')}}</span></a>
+                                        <a onclick="setActiveNumber({{$value->id}})"><span
+                                                class="btn btn-primary">{{ __('Active') }}</span></a>
                                     @else
-                                        <a style="cursor: pointer"><span
-                                                class="badge rounded-pill text-bg-success">{{ __('Activated_number') }}</span></a>
+                                        <a><span
+                                                class="btn btn-info">{{ __('Activated_number') }}</span></a>
                                     @endif
                                 </td>
                             </tr>
