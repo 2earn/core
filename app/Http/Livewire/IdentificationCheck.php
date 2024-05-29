@@ -20,6 +20,8 @@ class IdentificationCheck extends Component
 
     use WithFileUploads;
 
+    const MAX_PHOTO_ALLAWED_SIZE = 2048000;
+
     public $photoFront = 0;
     public $backback;
     public $photoBack = 0;
@@ -28,7 +30,6 @@ class IdentificationCheck extends Component
     public $photo;
     public $userF;
     public $messageVerif = "";
-    const MAX_PHOTO_ALLAWED_SIZE = 2048000;
 
     public $listeners = [
         'sendIndentificationRequest' => 'sendIndentificationRequest'

@@ -949,7 +949,14 @@
                 showIdentitiesModal('back')
 
             });
-
+            window.addEventListener('profilePhotoError', event => {
+                Swal.fire({
+                    title: event.detail.title,
+                    text: event.detail.text,
+                    icon: 'error',
+                    confirmButtonText: "{{__('OK')}}"
+                })
+            })
         </script>
         <script data-turbolinks-eval="false">
             $("#btnPlus").click(function () {
