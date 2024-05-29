@@ -16,17 +16,18 @@
                             <label>{{__('MaxTaillePhoto')}}</label>
                             @if ($imageProfil)
                                 <img class="rounded-circle" width="70" height="70"
-                                     src="{{ $imageProfil->temporaryUrl() }}">
+                                     src="{{ $imageProfil->temporaryUrl() }}?={{Str::random(16)}}">
                                 </br>
                                 @endif
                                 </br>
                                 <div wire:loading wire:target="imageProfil">{{__('Uploading')}}...</div>
                                 <img
-                                    src="@if (file_exists('uploads/profiles/profile-image-' . $user['idUser'] . '.png')) {{ URL::asset('uploads/profiles/profile-image-'.$user['idUser'].'.png') }}@else{{ URL::asset('uploads/profiles/default.png') }} @endif"
+                                    src="@if (file_exists('uploads/profiles/profile-image-' . $user['idUser'] . '.png')) {{ URL::asset('uploads/profiles/profile-image-'.$user['idUser'].'.png') }}?={{Str::random(16)}} @else{{ URL::asset('uploads/profiles/default.png') }} @endif"
                                     class="  rounded-circle avatar-xl img-thumbnail user-profile-image"
                                     alt="user-profile-image">
                                 <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
                                     <input id="profile-img-file-input" type="file" class="profile-img-file-input"
+                                           accept="image/png"
                                            wire:model="imageProfil">
                                     <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
                                     <span class="avatar-title rounded-circle bg-light text-body">
@@ -52,7 +53,7 @@
                 </div>
             </div>
             @if($user['status']!=1)
-                <div class="card">
+                <div class="card @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif">
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-5">
                             <div class="flex-grow-1">
@@ -68,7 +69,8 @@
                             </div>
                         </div>
                         <div class="progress animated-progress custom-progress progress-label">
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: {{$PercentComplete}}%"
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
+                                 role="progressbar" style="width: {{$PercentComplete}}%"
                                  aria-valuenow="1"
                                  aria-valuemin="0" aria-valuemax="100">
                                 <div style="background-color: #009fe3!important" class="label">{{$PercentComplete}}%
@@ -110,8 +112,8 @@
                             </div>
                             <div>
                                 @if(file_exists(public_path('/uploads/profiles/front-id-image'.$user['idUser'].'.png')))
-                                    <img width="150" height="100" id="front-id-image" title="{{__('Front id image')}}"
-                                         src={{asset(('/uploads/profiles/front-id-image'.$user['idUser'].'.png'))}} >
+                                    <img class="img-thumbnail" width="150" height="100" id="front-id-image" title="{{__('Front id image')}}"
+                                         src="{{asset(('/uploads/profiles/front-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}" >
                                     <button type="button" class="btn btn-outline-primary mt-1" data-toggle="modal"
                                             id="show-identity-front"
                                             data-target=".bd-example-modal-lg">{{__('Show Identity')}}</button>
@@ -128,8 +130,8 @@
                             </div>
                             <div>
                                 @if(file_exists(public_path('/uploads/profiles/back-id-image'.$user['idUser'].'.png')))
-                                    <img width="150" height="100" id="back-id-image" title="{{__('Back id image')}}"
-                                         src={{asset(('/uploads/profiles/back-id-image'.$user['idUser'].'.png'))}} >
+                                    <img class="img-thumbnail" width="150" height="100" id="back-id-image" title="{{__('Back id image')}}"
+                                         src="{{asset(('/uploads/profiles/back-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}" >
                                     <button type="button" class="btn btn-outline-primary mt-1" data-toggle="modal"
                                             id="show-identity-back"
                                             data-target=".bd-example-modal-lg">{{__('Show Identity')}}</button>
@@ -290,7 +292,7 @@
                                                    class="form-label">{{ __('Personal Title') }}</label>
                                             <select class="form-select mb-3" aria-label=" "
                                                     wire:model.defer="usermetta_info.personaltitle">
-                                                <option value="">-------</option>
+                                                <option value="">{{__('no selected value')}}</option>
                                                 <?php if (isset($personaltitles)){
                                                 foreach ($personaltitles as $personaltitle){
                                                     ?>
@@ -307,7 +309,7 @@
                                             <select class="form-select mb-3" aria-label=" "
                                                     wire:model.defer="usermetta_info.gender">
                                                 <
-                                                <option value="">-------</option>
+                                                <option value="">{{__('no selected value')}}</option>
                                                 <?php if (isset($genders)){
                                                 foreach ($genders as $gender){
                                                     ?>
@@ -323,7 +325,7 @@
                                                    class="form-label">{{ __('Your Preferred Language') }}</label>
                                             <select class="form-select mb-3" aria-label=" "
                                                     wire:model.defer="usermetta_info.idLanguage">
-                                                <option value="" selected>-------</option>
+                                                <option value="" selected>{{__('no selected value')}}</option>
                                                 <?php if (isset($languages)){ ?>
                                                     <?php
                                                 foreach ($languages as $language){
@@ -402,30 +404,32 @@
                                                         {{ __('Approve') }}
                                                     </button>
                                                 </div>
-                                                <div class="form-group mb-2">
-                                                    <label x-show="open">{{ __('Libele_Note') }}</label>
-                                                    <textarea class="form-control" wire:model.defer="noteReject"
-                                                              name="Text1" cols="80"
-                                                              rows="5"
-                                                              x-show="open">
+                                                <div class="row bg-light ">
+                                                    <div class="form-group mb-2 bg-light ">
+                                                        <label x-show="open">{{ __('Libele_Note') }}</label>
+                                                        <textarea class="form-control" wire:model.defer="noteReject"
+                                                                  name="Text1" cols="80"
+                                                                  rows="5"
+                                                                  x-show="open">
                                                         </textarea>
-                                                </div>
-                                                <div class="form-group mb-2">
-                                                    <button type="button" x-show="open"
-                                                            wire:click="reject({{$paramIdUser}})"
-                                                            class="btn btn-secondary ps-5 pe-5">
-                                                        <div wire:loading wire:target="reject({{$paramIdUser}})">
+                                                    </div>
+                                                    <div class="form-group mb-2">
+                                                        <button type="button" x-show="open"
+                                                                wire:click="reject({{$paramIdUser}})"
+                                                                class="btn btn-secondary ps-5 pe-5">
+                                                            <div wire:loading wire:target="reject({{$paramIdUser}})">
                                                 <span class="spinner-border spinner-border-sm" role="status"
                                                       aria-hidden="true"></span>
-                                                            <span class="sr-only">{{__('Loading')}}...</span>
-                                                        </div>
-                                                        {{ __('Reject') }}
-                                                    </button>
-                                                    <button type="button" x-show="open"
-                                                            class="btn btn-danger ps-5 pe-5"
-                                                            @click="open = false">
-                                                        {{ __('canceled !') }}
-                                                    </button>
+                                                                <span class="sr-only">{{__('Loading')}}...</span>
+                                                            </div>
+                                                            {{ __('Reject') }}
+                                                        </button>
+                                                        <button type="button" x-show="open"
+                                                                class="btn btn-danger ps-5 pe-5"
+                                                                @click="open = false">
+                                                            {{ __('canceled !') }}
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         @endif
@@ -542,7 +546,8 @@
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">
                                         {{ __('Close')}}
                                     </button>
-                                    <button type="button"  wire:loading.attr="disabled" id="validateMail" class="btn btn-primary">
+                                    <button type="button" wire:loading.attr="disabled" id="validateMail"
+                                            class="btn btn-primary">
                                         {{ __('Change Email')}}
                                     </button>
                                 </div>
@@ -614,11 +619,11 @@
                                 </div>
                                 <div>
                                     @if(file_exists(public_path('/uploads/profiles/front-id-image'.$user['idUser'].'.png')))
-                                        <img width="150" height="100"
-                                             src={{asset(('/uploads/profiles/front-id-image'.$user['idUser'].'.png'))}} >
+                                        <img class="img-thumbnail" width="150" height="100"
+                                             src="{{asset(('/uploads/profiles/front-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}" >
                                     @else
-                                        <img width="150" height="100"
-                                             src={{asset(('/uploads/profiles/default.png'))}} >
+                                        <img class="img-thumbnail" width="150" height="100"
+                                             src="{{asset(('/uploads/profiles/default.png'))}}?={{Str::random(16)}}" >
                                     @endif
                                 </div>
                                 <div class="wrap-custom-file" style="margin-top: 10px">
@@ -643,10 +648,10 @@
                                 <div>
                                     @if(file_exists(public_path('/uploads/profiles/back-id-image'.$user['idUser'].'.png')))
                                         <img width="150" height="100"
-                                             src={{asset(('/uploads/profiles/back-id-image'.$user['idUser'].'.png'))}} >
+                                             src="{{asset(('/uploads/profiles/back-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}" >
                                     @else
                                         <img width="150" height="100"
-                                             src={{asset(('/uploads/profiles/default.png'))}} >
+                                             src="{{asset(('/uploads/profiles/default.png'))}}?={{Str::random(16)}}" >
                                     @endif
                                 </div>
                                 <div class="wrap-custom-file" style="margin-top: 10px">
@@ -890,7 +895,7 @@
             window.addEventListener('confirmOPTVerifMail', event => {
                 Swal.fire({
                     title: '{{trans('Your verification code')}}',
-                    html: '{{ __('We_will_send') }}' + '<br>' +  event.detail.numberActif + '<br>' + '{{__('Your OTP Code')}}',
+                    html: '{{ __('We_will_send') }}' + '<br>' + event.detail.numberActif + '<br>' + '{{__('Your OTP Code')}}',
                     allowOutsideClick: false,
                     timer: '{{ env('timeOPT') }}',
                     timerProgressBar: true,
@@ -949,7 +954,14 @@
                 showIdentitiesModal('back')
 
             });
-
+            window.addEventListener('profilePhotoError', event => {
+                Swal.fire({
+                    title: event.detail.title,
+                    text: event.detail.text,
+                    icon: 'error',
+                    confirmButtonText: "{{__('OK')}}"
+                })
+            })
         </script>
         <script data-turbolinks-eval="false">
             $("#btnPlus").click(function () {

@@ -27,6 +27,8 @@ class Account extends Component
     use earnTrait;
     use earnLog;
 
+    const MAX_PHOTO_ALLAWED_SIZE = 2048000;
+
     public $nbrChild = 9;
     public $photoFront;
     public $photoBack;
@@ -242,9 +244,21 @@ class Account extends Component
         $us->is_public = $this->user['is_public'];
         $us->save();
         $us = User::find($this->user['id']);
-        if ($this->imageProfil != null) {
-            $p = $this->imageProfil->storeAs('profiles', 'profile-image-' . $us->idUser . '.png', 'public2');
+
+        if (!is_null($this->imageProfil) && gettype($this->imageProfil) == "object") {
+            if ($this->imageProfil->extension() == 'png') {
+                if ($this->imageProfil->getSize() < self::MAX_PHOTO_ALLAWED_SIZE) {
+                    $this->imageProfil->storeAs('profiles', 'profile-image-' . $us->idUser . '.png', 'public2');
+                } else {
+                    $this->dispatchBrowserEvent('profilePhotoError', ['type' => 'warning', 'title' => Lang::get('Profile photo Error'), 'text' => Lang::get('Profile photo big size'),]);
+                    return;
+                }
+            } else {
+                $this->dispatchBrowserEvent('profilePhotoError', ['type' => 'warning', 'title' => Lang::get('Profile photo Error'), 'text' => Lang::get('Profile photo wrong type'),]);
+                return;
+            }
         }
+
         if ($this->paramIdUser == "")
             return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Edit_profil_succes'));
         else {

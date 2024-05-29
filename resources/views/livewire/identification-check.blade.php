@@ -170,7 +170,7 @@
                                     </div>
                                     <div id="optChecker" class="col-lg-12 invisible">
                                         <div
-                                                class="container height-100 d-flex justify-content-center align-items-center">
+                                            class="container height-100 d-flex justify-content-center align-items-center">
                                             <div class="position-relative">
                                                 <div class="card p-2 text-center">
                                                     <h6>{{__('Opt_verif_mail')}} <br> {{__('To_verif_Account')}}
@@ -197,13 +197,13 @@
                                         <div class="hstack align-items-start gap-3 mt-4">
                                             <button type="button" class="btn btn-light btn-label previestab"
                                                     data-previous="pills-bill-info-tab"><i
-                                                        class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
+                                                    class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
                                                 {{__('Back_to_personnel')}}
                                             </button>
                                             <button type="button"
                                                     class="btn btn-primary btn-label right ms-auto nexttab"
                                                     data-nexttab="pills-payment-tab"><i
-                                                        class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
+                                                    class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
                                                 {{__('Next step : Import identity card')}}
                                             </button>
                                         </div>
@@ -419,7 +419,8 @@
                 );
         }
 
-        function sendIndentificationRequest() {
+        function sendIndentificationRequest(event) {
+            console.log(event);
             if (checkRequiredFieldInfo() && checkRequiredFieldMail()) {
                 window.livewire.emit('sendIndentificationRequest');
             }
@@ -565,7 +566,12 @@
         });
 
         window.addEventListener('IdentificationRequestMissingInformation', event => {
-            console.log('IdentificationRequestMissingInformation');
+            Swal.fire({
+                title: event.detail.title,
+                text: event.detail.text,
+                icon: 'error',
+                confirmButtonText: "{{__('OK')}}"
+            })
         })
     </script>
 </div>
