@@ -226,7 +226,7 @@
                                             <label for="phonenumberInput"
                                                    class="form-label">{{ __('Your Contact number') }}</label>
                                             <div class="input-group form-icon">
-                                                <input readonly wire:model.defer="numberActif" type="text"
+                                                <input disabled wire:model.defer="numberActif" type="text"
                                                        class="form-control inputtest form-control-icon" aria-label=""
                                                        placeholder="">
                                                 <i style="font-size: 20px;" class="ri-phone-line"></i>
@@ -890,7 +890,7 @@
             window.addEventListener('confirmOPTVerifMail', event => {
                 Swal.fire({
                     title: '{{trans('Your verification code')}}',
-                    html: '{{ __('We_will_send') }}' + '<br>' + event.detail.mail + '<br>' + '{{__('Your OTP Code')}}',
+                    html: '{{ __('We_will_send') }}' + '<br>' +  event.detail.numberActif + '<br>' + '{{__('Your OTP Code')}}',
                     allowOutsideClick: false,
                     timer: '{{ env('timeOPT') }}',
                     timerProgressBar: true,

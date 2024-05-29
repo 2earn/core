@@ -51,7 +51,6 @@
                                 <p class="text-center">{{ __('We will send one time code on this number') }} </br> {{$numPhone}}</p>
                                 <form action="javascript:void(0)">
                                     <input type="hidden" wire:model.defer="idUser">
-
                                     @csrf
                                     <div class="mb-3">
                                         <label>{{ __('Your OTP Code') }}</label>
