@@ -31,7 +31,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="message-text" class="col-form-label">{{__('English')}}</label>
-                            <textarea rows="4"  class="form-control" wire:model.defer="englishValue" maxlength="190"
+                            <textarea rows="4" class="form-control" wire:model.defer="englishValue" maxlength="190"
                                       required>
                             </textarea>
 
@@ -185,9 +185,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
             Swal.fire({
                 title: 'Enter field name',
                 input: 'text',
-                inputAttributes: {
-                    autocapitalize: 'off'
-                },
+                inputAttributes: {autocapitalize: 'off'},
                 showCancelButton: true,
                 confirmButtonText: 'Confirm',
             }).then((resultat) => {
