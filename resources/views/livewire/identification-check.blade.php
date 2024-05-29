@@ -566,7 +566,6 @@
         });
 
         window.addEventListener('IdentificationRequestMissingInformation', event => {
-            console.log(event.detail);
             Swal.fire({
                 title: event.detail.title,
                 text: event.detail.text,
