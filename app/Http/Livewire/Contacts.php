@@ -207,7 +207,7 @@ class Contacts extends Component
             $user = $settingsManager->getUserByFullNumber($fullNumber);
 
             if (!$user) {
-                $user = $settingsManager->createNewUser($this->mobile, $fullNumber, $ccode, auth()->user()->idUser);
+                $user = $settingsManager->createNewUser(str_replace(' ', '', $this->mobile), $fullNumber, $ccode, auth()->user()->idUser);
             }
             $contact_user = $settingsManager->createNewContactUser($settingsManager->getAuthUser()->idUser, $this->contactName, $user->idUser, $this->contactLastName, $phone, $fullNumber, $ccode,);
             $this->dispatchBrowserEvent('close-modal');
