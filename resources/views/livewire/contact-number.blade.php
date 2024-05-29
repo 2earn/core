@@ -1,15 +1,4 @@
 <div>
-{{--    <script src="{{ URL::asset('assets/js/pages/datatables.init.js') }}"></script>--}}
-{{--    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>--}}
-{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>--}}
-{{--    <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css"/>--}}
-{{--    <!--datatable responsive css-->--}}
-{{--    <link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" rel="stylesheet"--}}
-{{--          type="text/css"/>--}}
-{{--    <link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" rel="stylesheet"--}}
-{{--          type="text/css"/>--}}
-
-
     <div wire:loading>
         <div style="display: flex;justify-content: center;
 align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z-index: 9999;width: 100%;height: 100%;opacity: 0.75">
@@ -27,12 +16,8 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         if (ErrorOptAddNumber) {
             Swal.fire({
                 title: '{{Session::get('ErrorOptAddNumber')}}',
-                showClass: {
-                    popup: 'animate__animated animate__fadeInDown'
-                },
-                hideClass: {
-                    popup: 'animate__animated animate__fadeOutUp'
-                }
+                showClass: {popup: 'animate__animated animate__fadeInDown'},
+                hideClass: {popup: 'animate__animated animate__fadeOutUp'}
             });
         }
 
@@ -40,12 +25,8 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         if (numberPhoneexiste) {
             Swal.fire({
                 title: '{{Session::get('numberPhoneexiste')}}',
-                showClass: {
-                    popup: 'animate__animated animate__fadeInDown'
-                },
-                hideClass: {
-                    popup: 'animate__animated animate__fadeOutUp'
-                }
+                showClass: {popup: 'animate__animated animate__fadeInDown'},
+                hideClass: {popup: 'animate__animated animate__fadeOutUp'}
             });
         }
 
@@ -58,32 +39,16 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         if (failedDeleteIDNumber) {
             Swal.fire({
                 title: '{{Session::get('failedDeleteIDNumber')}}',
-                showClass: {
-                    popup: 'animate__animated animate__fadeInDown'
-                },
-                hideClass: {
-                    popup: 'animate__animated animate__fadeOutUp'
-                }
+                showClass: {popup: 'animate__animated animate__fadeInDown'},
+                hideClass: {popup: 'animate__animated animate__fadeOutUp'}
             });
         }
-        //
     </script>
-    {{--    <script data-turbolinks-eval="false">--}}
-    {{--        var exisUpdateRole = '{{Session::has('SuccesUpdateRole')}}';--}}
-    {{--        if (exisUpdateRole) {--}}
-    {{--            toastr.success('{{Session::get('SuccesUpdateRole')}}');--}}
-    {{--        }--}}
-    {{--    </script>--}}
+
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-
-{{--                    <div class="">--}}
-{{--                        <input style="border-radius: 30px" type="text" class="form-control"--}}
-{{--                               placeholder="{{ __('PH_search') }}"--}}
-{{--                               wire:model="search"/>--}}
-{{--                    </div>--}}
                     <div class="">
                         <button style="border-radius: 20px; padding: 5px 20px;" data-bs-toggle="modal"
                                 data-bs-target="#AddContactNumberModel" type="button"
@@ -96,7 +61,6 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                            style="width:100%">
                         <thead class="table-light">
                         <tr class="tabHeader2earn">
-
                             <th scope="mobile">{{__('ID_Number')}}</th>
                             <th scope="mobile">{{__('Mobile Number')}}</th>
                             <th scope="Active">{{__('Active')}}</th>
@@ -107,9 +71,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                         <tbody>
                         @foreach ($userContactNumber as $value)
                             <tr>
-
                                 <td style="text-align: center">
-
                                     @if($value->isID ==1)
                                         <span>
                                         <i style="color: #51A351;font-size: 20px" class="ri-checkbox-circle-line"></i>
@@ -121,23 +83,22 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                     @endif
                                 </td>
                                 <td>{{$value->fullNumber}}</td>
-                                <td <?php if($value->active != 1){ ?> onclick="setActiveNumber({{$value->id}})" <?php }?> >
+                                <td <?php if ($value->active != 1){ ?> onclick="setActiveNumber({{$value->id}})" <?php } ?> >
                                     <div class="form-check form-switch" dir="ltr">
-                                        <input <?php if($value->active == 1){ ?> checked disabled
+                                        <input <?php if ($value->active == 1){ ?> checked disabled
                                                style="background-color: #3595f6!important; opacity: 6"
-                                               <?php }?>     type="checkbox" class="form-check-input"
+                                               <?php } ?>     type="checkbox" class="form-check-input"
                                                id="customSwitchsizesm">
-                                        {{--                                        <label class="form-check-label"--}}
-                                        {{--                                               for="customSwitchsizesm">{{ __('I agree to receive funding requests') }}</label>--}}
                                     </div>
                                 </td>
                                 <td>
                                     <div class="d-flex align-items-center fw-medium">
-                                        <img src="{{ URL::asset('assets/images/flags/'.$value->isoP.'.svg') }}" alt="" class="avatar-xxs me-2">
-                                        <a href="javascript:void(0);" class="currency_name"> {{getCountryByIso($value->isoP)}}</a>
+                                        <img src="{{ URL::asset('assets/images/flags/'.$value->isoP.'.svg') }}" alt=""
+                                             class="avatar-xxs me-2">
+                                        <a href="javascript:void(0);"
+                                           class="currency_name"> {{getCountryByIso($value->isoP)}}</a>
                                     </div>
                                 </td>
-
                                 <td>
                                     @if($value->active!=1)
                                         <a style="cursor: pointer" onclick="deleteContactNUmber({{$value->id}})"><span
@@ -151,31 +112,23 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                 </td>
                             </tr>
                         @endforeach
-
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>
-
-
     </div>
-
-    <!-- Modal -->
     <div wire:ignore.self class="modal fade" id="AddContactNumberModel" tabindex="-1" style="z-index: 9000000"
          aria-labelledby="AddContactNumberModel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{ __('Add_User_Number') }}</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ __('Add new user phone number') }}</h5>
                 </div>
                 <div class="modal-body">
-                    <div class="text-center mb-3" dir="ltr">
+                    <div class="mb-3" dir="ltr">
                         <label>{{ __('Your new phone number') }}</label>
-                        <div id="inputNumberContact" data-turbolinks-permanent class="input-group signup mb-3"
-                             style="justify-content:center;">
-
+                        <div id="inputNumberContact" data-turbolinks-permanent class="input-group signup mb-3">
                         </div>
                     </div>
                 </div>
@@ -193,7 +146,6 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         function saveContactNumber() {
             $('#AddContactNumberModel').modal('hide');
             window.livewire.emit('preSaveContact', $("#outputphoneContactNumber").val(), $("#isoContactNumber").val(), $("#phoneContactNumber").val());
-            // window.livewire.emit('saveContactNumber',$("#phoneContactNumber").val(),$("#isoContactNumber").val()) ;
         }
 
         function setActiveNumber($id) {
@@ -201,14 +153,11 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                 $('#modalCeckContactNumber').modal('show');
                 $('#modalCeckContactNumber').modal('hide');
             } catch (e) {
-
             }
 
             Swal.fire({
                 title: '{{ __('activate_number') }}',
-                {{--text: '{{ __('operation_irreversible') }}',--}}
                 icon: "warning",
-                // showDenyButton: true,
                 showCancelButton: true,
                 confirmButtonText: '{{trans('ok')}}',
                 cancelButtonText: '{{trans('canceled !')}}',
@@ -224,16 +173,12 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                     window.livewire.emit('setActiveNumber', 1, $id);
                 }
             });
-            // alert($id);
-            // alert($('#activeNumber').is(":checked"));
         }
 
         function deleteContactNUmber($id) {
             Swal.fire({
                 title: '{{ __('delete_contact') }}',
-                {{--                text: '{{ __('operation_irreversible') }}',--}}
                 icon: "warning",
-                // showDenyButton: true,
                 showCancelButton: true,
                 confirmButtonText: '{{trans('ok')}}',
                 cancelButtonText: '{{trans('canceled !')}}',
@@ -254,7 +199,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         window.addEventListener('PreAddNumber', event => {
             Swal.fire({
                 title: '{{ __('Your verification code') }}',
-                html: event.detail.msgSend   + ' ' + '<br>' + event.detail.FullNumber + '<br>'  + event.detail.userMail + '<br>' + '{{__('Your OTP Code')}}',
+                html: event.detail.msgSend + ' ' + '<br>' + event.detail.FullNumber + '<br>' + event.detail.userMail + '<br>' + '{{__('Your OTP Code')}}',
                 allowOutsideClick: false,
                 timer: '{{ env('timeOPT') }}',
                 timerProgressBar: true,
@@ -263,7 +208,6 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                 confirmButtonText: '{{trans('ok')}}',
                 footer: ' <i></i><div class="footerOpt"></div>',
                 didOpen: () => {
-                    // Swal.showLoading()
                     const b = Swal.getFooter().querySelector('i')
                     const p22 = Swal.getFooter().querySelector('div')
                     p22.innerHTML = '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>';
@@ -275,15 +219,12 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                     clearInterval(timerInterval)
                 },
                 input: 'text',
-                inputAttributes: {
-                    autocapitalize: 'off'
-                },
+                inputAttributes: {autocapitalize: 'off'},
             }).then((resultat) => {
                 if (resultat.value) {
                     window.livewire.emit('saveContactNumber', resultat.value, event.detail.isoP, event.detail.mobile, event.detail.FullNumberNew);
                 }
                 if (resultat.isDismissed) {
-
                     window.location.reload();
                 }
             })
