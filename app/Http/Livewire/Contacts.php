@@ -195,7 +195,6 @@ class Contacts extends Component
 
     public function save($phone, $ccode, $fullNumber, settingsManager $settingsManager, TransactionManager $transactionManager)
     {
-        //   dd($phone,$fullNumber);
         $contact_user_exist = ContactUser::where('idUser', $settingsManager->getAuthUser()->idUser)
             ->where('mobile', $phone)
             ->where('phonecode', $ccode)
