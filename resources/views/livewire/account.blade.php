@@ -52,7 +52,7 @@
                 </div>
             </div>
             @if($user['status']!=1)
-                <div class="card">
+                <div class="card @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif">
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-5">
                             <div class="flex-grow-1">
