@@ -1799,49 +1799,16 @@
 
         function resetAddNumberContact() {
             var phoneCN = itiAddContactNumber.getNumber();
-            // alert(phone);
-            // var textNode = document.createTextNode(phone2);
             phoneCN = phoneCN.replace('+', '00');
             mobileCN = $("#phoneContactNumber").val();
-
             var countryDataCN = itiAddContactNumber.getSelectedCountryData();
-            phoneCN = '00' + countryDataCN.dialCode + phoneCN;
-
-            // console.log(phone2);
-            $("#outputphoneContactNumber").val(phoneCN);
-
-            // $("#output").val(phone);
-            // window.livewire.emit('changefullNumber', phone);
-            // window.livewire.emit('changefullNumber');
-            $("#ccodephoneContactNumber").val(countryDataCN.dialCode);
-
-            $("#isoContactNumber").val(countryDataCN.iso2);
-            // $("#ccodelog").val(countryData.dialCode);
-            // fullphone = $("#output").val();
-            if (inputAddContactNumber.value.trim()) {
-                // console.log(itiAdd2Contact.isValidNumber());
-                if (itiAddContactNumber.isValidNumber()) {
-                    // validMsg.classList.add("invisible");
-                    // errorMsgUp.classList.add("invisible");
-                    // $("#saveAddContactNumber").prop("disabled", false);
-
-                } else {
-                    // $("#saveAddContactNumber").prop("disabled", true);
-                    // inputAddContactNumber.classList.add("error");
-                    // var errorCode = itiUpdatePhoneAd.getValidationError();
-                    // errorMsgUp.innerHTML = errorMap[errorCode];
-                    // errorMsgUp.classList.remove("invisible");
-                }
-            } else {
-                // $("#saveAddContactNumber").prop("disabled", true);
-                // inputUpdatePhoneAd.classList.remove("error");
-                // var errorCode = itiUpdatePhoneAd.getValidationError();
-                // errorMsgUp.innerHTML = errorMap[errorCode];
-                // errorMsgUp.classList.add("invisible");
+            if (!phoneCN.startsWith('00' + countryDataCN.dialCode)) {
+                phoneCN = '00' + countryDataCN.dialCode + phoneCN;
             }
+            $("#outputphoneContactNumber").val(phoneCN);
+            $("#ccodephoneContactNumber").val(countryDataCN.dialCode);
+            $("#isoContactNumber").val(countryDataCN.iso2);
         };
-
-
     });
 
 
