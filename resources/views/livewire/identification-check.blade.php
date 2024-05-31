@@ -244,76 +244,6 @@
         var canUseEmail = false;
         var sendEmailNotification = false;
 
-        function OptDisable() {
-            $('#optFirst').addClass("disabled");
-            $('#optSecond').addClass("disabled");
-            $('#optThird').addClass("disabled");
-            $('#optFourth').addClass("disabled");
-        }
-
-        function OptInputEmpty() {
-            $('#optFirst').val("");
-            $('#optSecond').val("");
-            $('#optThird').val("");
-            $('#optFourth').val("");
-        }
-
-        function OptInputChangeColor(optColor) {
-            $('#optFirst').css('border-color', optColor);
-            $('#optSecond').css('border-color', optColor);
-            $('#optThird').css('border-color', optColor);
-            $('#optFourth').css('border-color', optColor);
-        }
-
-        function checkOptVerify() {
-            var returnValue = false;
-            var opt = $('#optFirst').val() + $('#optSecond').val() + $('#optThird').val() + $('#optFourth').val();
-            if (opt.length == 4) {
-                $.ajax({
-                    method: "GET",
-                    url: "{{route('mailVerifOpt')}}",
-                    async: false,
-                    data: {opt: opt, mail: $("#inputEmailUser").val().trim(),},
-                    success: (result) => {
-                        if (result == 'no') {
-                            returnValue = false;
-                            displayMailErrorMessage('{{__('Validation OTP code Failed')}}')
-                            OptInputEmpty();
-                            OptInputChangeColor('red');
-                        } else {
-                            errorMail.classList.add("hide");
-                            OptInputChangeColor('green');
-                            OptDisable();
-                            returnValue = true;
-                        }
-                    },
-                    error: (error) => {
-                        displayMailErrorMessage('{{__('Invalid OTP code')}}')
-                        returnValue = false;
-                    }
-                });
-                return returnValue;
-            }
-        }
-
-        function checkNewMail() {
-            var isNewEmail = false;
-            $.ajax({
-                method: "GET",
-                url: "{{route('mailVerifNew')}}",
-                async: false,
-                data: {mail: $("#inputEmailUser").val().trim(),},
-                success: (result) => {
-                    if (result == 'no') {
-                        isNewEmail = false;
-                    } else {
-                        isNewEmail = true;
-                    }
-                }
-            });
-
-            return isNewEmail;
-        }
 
         function doneVerify() {
             window.location.reload();
@@ -323,42 +253,22 @@
             $("#exampleModal").modal("hide");
         }
 
-        function checkRequiredFieldInfo() {
-            validRequiredrFieldInfo = true;
-            if ($("#firstName").val().trim() === "") {
-                $("#firstName").css('border-color', 'red')
-                validRequiredrFieldInfo = false;
+        function checkRequiredFieldInfo(idInput) {
+            if ($("#" + idInput).val().trim() === "") {
+                $("#" + idInput).css('border-color', 'red');
+                return false;
             } else {
-                $("#firstName").css('border-color', 'green')
+                $("#" + idInput).css('border-color', 'green');
             }
+            return true;
+        }
 
-            if ($("#lastName").val().trim() === "") {
-                $("#lastName").css('border-color', 'red')
-                validRequiredrFieldInfo = false;
-            } else {
-                $("#lastName").css('border-color', 'green')
-            }
-
-            if ($("#nationalId").val().trim() === "") {
-                $("#nationalId").css('border-color', 'red')
-                validRequiredrFieldInfo = false;
-            } else {
-                $("#nationalId").css('border-color', 'green')
-            }
-
-            if ($("#dateofBirth").val().trim() === "") {
-                $("#dateofBirth").css('border-color', 'red')
-                validRequiredrFieldInfo = false;
-            } else {
-                $("#dateofBirth").css('border-color', 'green')
-            }
-            if ($("#inputEmailUser").val().trim() === "") {
-                $("#inputEmailUser").css('border-color', 'red')
-                validRequiredrFieldInfo = false;
-            } else {
-                $("#inputEmailUser").css('border-color', 'green')
-            }
-            return validRequiredrFieldInfo;
+        function checkRequiredFieldsInfo() {
+            return checkRequiredFieldInfo('firstName') &&
+                checkRequiredFieldInfo('lastName') &&
+                checkRequiredFieldInfo('nationalId') &&
+                checkRequiredFieldInfo('dateofBirth') &&
+                checkRequiredFieldInfo('inputEmailUser');
         }
 
         function validateEmail(email) {
@@ -370,7 +280,7 @@
         }
 
         function sendIndentificationRequest(event) {
-            if (checkRequiredFieldInfo()) {
+            if (checkRequiredFieldsInfo()) {
                 window.livewire.emit('sendIndentificationRequest');
             }
         }
@@ -387,46 +297,6 @@
                 }
             });
         }
-
-        function sendMailVerifRequest() {
-            $.ajax({
-                method: "GET",
-                url: "{{route('mailVerif')}}",
-                async: false,
-                data: {mail: $("#inputEmailUser").val().trim(),},
-                success: (result) => {
-                    if (result == 'no') {
-                        displayMailErrorMessage('{{__('mail used')}}')
-                        return true;
-                    }
-                }
-            });
-            return false;
-        }
-
-        function displayMailErrorMessage(message) {
-            errorMail.innerHTML = message;
-            errorMail.classList.remove("hide");
-            $("#inputEmailUser").css('border-color', 'red');
-        }
-
-        function checkOptFields() {
-            return $('#optFirst').val().trim() != "" && $('#optSecond').val().trim() != "" && $('#optThird').val().trim() != "" && $('#optFourth').val().trim() != "";
-        }
-
-        $("#inputEmailUser").keyup(function () {
-            if ($("#inputEmailUser").val().trim() == "") {
-                displayMailErrorMessage('{{__('Required field')}}')
-                return
-            }
-            if (!validateEmail($("#inputEmailUser").val().trim())) {
-                displayMailErrorMessage('{{__('Invalid Format')}}')
-                return
-            }
-            errorMail.innerHTML = '';
-            errorMail.classList.add("hide");
-            $("#inputEmailUser").css('border-color', 'green');
-        });
 
         $('input[type="file"]').each(function () {
             var $file = $(this),
@@ -447,10 +317,9 @@
         });
 
         $('#btn-next-identities-card').click(function (e) {
-            console.log("btn-next-identities-card");
             $('#personalInformationMessage').css("display", "none");
             e.preventDefault();
-            if (checkRequiredFieldInfo()) {
+            if (checkRequiredFieldsInfo()) {
                 $('#personalInformationMessage').css("display", "none");
                 $('#myTab   button[id="pills-identities-card-tab"] ').tab('show');
             } else {
@@ -459,7 +328,7 @@
         });
 
         document.getElementById('pills-identities-card-tab').addEventListener('shown.bs.tab', function (event) {
-            if (!checkRequiredFieldInfo())
+            if (!checkRequiredFieldsInfo())
                 $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
         });
 
