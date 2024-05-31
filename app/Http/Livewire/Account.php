@@ -391,9 +391,10 @@ class Account extends Component
         $userAuth = $settingsManager->getAuthUser();
         $hasRequest = $userAuth->hasIdetificationReques();
         if ($hasRequest) {
-            $this->dispatchBrowserEvent('existIdentificationRequest', ['type' => 'warning', 'title' => "Opt", 'text' => '',]);
+            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Identificationu request exist'));
         } else {
-            $sensIdentification = identificationuserrequest::create(['idUser' => $userAuth->idUser, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(), 'response' => 0, 'note' => '', 'status' => 1]);
+            identificationuserrequest::create(['idUser' => $userAuth->idUser, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(), 'response' => 0, 'note' => '', 'status' => 1]);
+            return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Identification_send_succes'));
         }
     }
 }
