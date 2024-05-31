@@ -14,7 +14,7 @@
                                     {{__('Txt_KYC_Verification')}}
                                 </p>
                                 <div class="mt-4">
-                                    <button onclick="verifRequest()" type="button" class="btn btn-primary"
+                                    <button onclick="hideIdentificationModal()" type="button" class="btn btn-primary"
                                             data-bs-toggle="modal"
                                             data-bs-target=@if($hasRequest) "#modalRequestExiste" @else
                                         "#exampleModal"
@@ -91,6 +91,13 @@
                                     <div id="personalInformationMessage" class="alert alert-danger" role="alert"
                                          style="display: none">
                                         {{__('Please check form data')}}
+                                        <a class="btn btn-outline-primary ml-2 mr-2"
+                                            href="{{route('account',app()->getLocale())}}"
+                                            class="badge badge-dark" role="button"
+                                            aria-pressed="true">
+                                            {{__('Go to form data')}}
+                                        </a>
+
                                     </div>
                                     <div class="col-lg-6">
                                         <div>
@@ -249,7 +256,7 @@
             window.location.reload();
         }
 
-        function verifRequest() {
+        function hideIdentificationModal() {
             $("#exampleModal").modal("hide");
         }
 
