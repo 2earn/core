@@ -1,11 +1,11 @@
 <div>
     <div class="row justify-content-center">
-        <div class="col-lg-6">
+        <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
                     <div class="text-center">
                         <div class="row justify-content-center">
-                            <div class="col-lg-9">
+                            <div class="col-lg-12">
                                 <h4 class="mt-4 fw-semibold">{{__('KYC_Verification')}}</h4>
                                 <p class="text-muted mt-3">
                                     {{__('Txt_KYC_Verification')}}
@@ -71,16 +71,9 @@
                                     </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link p-3" id="pills-bill-address-tab" data-bs-toggle="pill"
-                                            data-bs-target="#pills-bill-address" type="button" role="tab"
-                                            aria-controls="pills-bill-address" aria-selected="false">
-                                        {{__('Mail_Details')}}
-                                    </button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link p-3" id="pills-payment-tab" data-bs-toggle="pill"
-                                            data-bs-target="#pills-payment" type="button" role="tab"
-                                            aria-controls="pills-payment" aria-selected="false">
+                                    <button class="nav-link p-3" id="pills-identities-card-tab" data-bs-toggle="pill"
+                                            data-bs-target="#pills-identities-card" type="button" role="tab"
+                                            aria-controls="pills-identities-card" aria-selected="false">
                                         {{__('Interface_Verification')}}
                                     </button>
                                 </li>
@@ -100,7 +93,7 @@
                                         <div>
                                             <label for="firstName" class="form-label">{{__('First name')}}</label>
                                             <input wire:model.defer="usermetta_info2.enFirstName" type="text"
-                                                   class="form-control" id="firstName"
+                                                   class="form-control" id="firstName" readonly
                                                    placeholder="{{__('Enter your firstname')}}">
                                         </div>
                                     </div>
@@ -108,7 +101,7 @@
                                         <div>
                                             <label for="lastName" class="form-label">{{__('Last name')}}</label>
                                             <input wire:model.defer="usermetta_info2.enLastName" type="text"
-                                                   class="form-control" id="lastName"
+                                                   class="form-control" id="lastName" readonly
                                                    placeholder="{{__('Enter your lastname')}}">
                                         </div>
                                     </div>
@@ -118,8 +111,7 @@
                                                 {{__('Date of birth')  }}
                                             </label>
                                             <input wire:model.defer="usermetta_info2.birthday" type="date"
-                                                   class="form-control"
-                                                   id="dateofBirth"
+                                                   class="form-control" id="dateofBirth" readonly
                                                    placeholder=""/>
                                         </div>
                                     </div>
@@ -127,11 +119,20 @@
                                         <div class="mb-3">
                                             <label for="nationalId" class="form-label">{{ __('National ID') }}</label>
                                             <input type="text" class="form-control" minlength="5" maxlength="50"
-                                                   wire:model.defer="usermetta_info2.nationalID"
+                                                   wire:model.defer="usermetta_info2.nationalID" readonly
                                                    id="nationalId" placeholder="{{__('National ID')}}">
                                         </div>
                                     </div>
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <div class="input-group">
+                                                <input id="inputEmailUser" wire:model.defer="userF.email" type="email"
+                                                       class="form-control" readonly
+                                                       name="email" placeholder="{{__('Enter your email')}}" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
                                         <div class="form-check form-switch   ms-5 me-5 mb-3" dir="ltr">
                                             <input wire:model.defer="notify" type="checkbox"
                                                    class="form-check-input" id="" checked="">
@@ -141,77 +142,18 @@
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="d-flex align-items-start gap-3 mt-3">
-                                            <button id="btnNextMailAdress" type="button"
+                                            <button id="btn-next-identities-card" type="button"
                                                     class="btn btn-primary btn-label right ms-auto nexttab"
                                                     data-nexttab="pills-bill-address-tab">
                                                 <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
-                                                {{__('Next step : Check your email')}}
+                                                {{__('Next step :  check your identities card')}}
                                             </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="pills-bill-address" role="tabpanel"
-                                 aria-labelledby="pills-bill-address-tab">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="mb-3">
-                                            <label for="emailInput"
-                                                   class="form-label">{{ __('Your Email') }}</label>
-                                            <div class="input-group">
-                                                <input id="inputEmailUser" wire:model.defer="userF.email" type="email"
-                                                       class="form-control"
-                                                       name="email" placeholder="{{__('Enter your email')}}" required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="alert alert-danger hide" role="alert" id='error-mail'></div>
-                                    </div>
-                                    <div id="optChecker" class="col-lg-12 invisible">
-                                        <div
-                                            class="container height-100 d-flex justify-content-center align-items-center">
-                                            <div class="position-relative">
-                                                <div class="card p-2 text-center">
-                                                    <h6>{{__('Opt_verif_mail')}} <br> {{__('To_verif_Account')}}
-                                                    </h6>
-                                                    <div><span>{{__('Code_send_To')}}</span>
-                                                        <small>*******{{ substr(getActifNumber()->fullNumber, -3) }}</small>
-                                                    </div>
-                                                    <div id="otp"
-                                                         class="inputs d-flex flex-row justify-content-center mt-2">
-                                                        <input class="m-2 text-center form-control rounded" type="text"
-                                                               id="optFirst" maxlength="1"/>
-                                                        <input class="m-2 text-center form-control rounded" type="text"
-                                                               id="optSecond" maxlength="1"/>
-                                                        <input class="m-2 text-center form-control rounded" type="text"
-                                                               id="optThird" maxlength="1"/>
-                                                        <input class="m-2 text-center form-control rounded" type="text"
-                                                               id="optFourth" maxlength="1"/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="hstack align-items-start gap-3 mt-4">
-                                            <button type="button" class="btn btn-light btn-label previestab"
-                                                    data-previous="pills-bill-info-tab"><i
-                                                    class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
-                                                {{__('Back_to_personnel')}}
-                                            </button>
-                                            <button type="button"
-                                                    class="btn btn-primary btn-label right ms-auto nexttab"
-                                                    data-nexttab="pills-payment-tab"><i
-                                                    class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
-                                                {{__('Next step : Import identity card')}}
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="pills-payment" role="tabpanel"
-                                 aria-labelledby="pills-payment-tab">
+                            <div class="tab-pane fade" id="pills-identities-card" role="tabpanel"
+                                 aria-labelledby="pills-identities-card-tab">
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="alert border-0 alert-primary material-shadow" role="alert">
@@ -225,10 +167,10 @@
                                         </div>
                                         <div>
                                             @if(file_exists(public_path('/uploads/profiles/front-id-image'.$userAuth->idUser.'.png')))
-                                                <img width="150" height="100"
+                                                <img class="img-thumbnail" width="150" height="100"
                                                      src={{asset(('/uploads/profiles/front-id-image'.$userAuth->idUser.'.png'))}} >
                                             @else
-                                                <img width="150" height="100"
+                                                <img class="img-thumbnail" width="150" height="100"
                                                      src={{asset(('/uploads/profiles/default.png'))}} >
                                             @endif
                                         </div>
@@ -251,10 +193,10 @@
                                         </div>
                                         <div>
                                             @if(file_exists(public_path('/uploads/profiles/back-id-image'.$userAuth->idUser.'.png')))
-                                                <img width="150" height="100"
+                                                <img class="img-thumbnail" width="150" height="100"
                                                      src={{asset(('/uploads/profiles/back-id-image'.$userAuth->idUser.'.png'))}} >
                                             @else
-                                                <img width="150" height="100"
+                                                <img class="img-thumbnail" width="150" height="100"
                                                      src={{asset(('/uploads/profiles/default.png'))}} >
                                             @endif
                                         </div>
@@ -273,9 +215,9 @@
                                 </div>
                                 <div class="d-flex align-items-start gap-3 mt-4">
                                     <button type="button" class="btn btn-light btn-label previestab"
-                                            data-previous="pills-bill-address-tab">
+                                            data-previous="pills-bill-info-tab">
                                         <i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
-                                        {{__('Back_to_mail_verif')}}
+                                        {{__('back to personal info')}}
                                     </button>
                                     <button onclick="sendIndentificationRequest()" type="button"
                                             class="btn btn-primary btn-label right ms-auto nexttab">
@@ -284,7 +226,7 @@
                                                       aria-hidden="true"></span>
                                             <span class="sr-only">{{__('Loading')}}...</span>
                                         </div>
-                                        {{__('Submit')}}
+                                        {{__('Send Identification request')}}
                                     </button>
                                 </div>
                             </div>
@@ -408,6 +350,12 @@
             } else {
                 $("#dateofBirth").css('border-color', 'green')
             }
+            if ($("#inputEmailUser").val().trim() === "") {
+                $("#inputEmailUser").css('border-color', 'red')
+                validRequiredrFieldInfo = false;
+            } else {
+                $("#inputEmailUser").css('border-color', 'green')
+            }
             return validRequiredrFieldInfo;
         }
 
@@ -420,8 +368,7 @@
         }
 
         function sendIndentificationRequest(event) {
-            console.log(event);
-            if (checkRequiredFieldInfo() && checkRequiredFieldMail()) {
+            if (checkRequiredFieldInfo()) {
                 window.livewire.emit('sendIndentificationRequest');
             }
         }
@@ -465,50 +412,6 @@
             return $('#optFirst').val().trim() != "" && $('#optSecond').val().trim() != "" && $('#optThird').val().trim() != "" && $('#optFourth').val().trim() != "";
         }
 
-        function checkRequiredFieldMail() {
-            if ($("#inputEmailUser").val().trim() === "") {
-                displayMailErrorMessage('{{__('Required field')}}')
-                return false;
-            }
-
-            if (!validateEmail($("#inputEmailUser").val().trim())) {
-                displayMailErrorMessage('{{__('Invalid Format')}}')
-                return false;
-            }
-
-            errorMail.classList.add("hide");
-            $("#inputEmailUser").css('border-color', 'green');
-
-            canUseEmail = sendMailVerifRequest()
-
-            var optChecker = document.querySelector("#optChecker");
-            if (!canUseEmail) {
-                if (checkNewMail()) {
-
-                    if (sendEmailNotification) {
-                        sendMailNotification();
-                    }
-                    optChecker.classList.remove("invisible");
-                    $("#inputEmailUser").prop('disabled', true);
-                    if (checkOptFields()) {
-                        if (checkOptVerify()) {
-                            checkOpt = true;
-                        } else {
-                            checkOpt = false;
-                        }
-                    }
-                } else
-                    checkOpt = true;
-            }
-            if (canUseEmail || !checkOpt) return false
-            else {
-                optChecker.classList.add("invisible");
-                OptInputEmpty()
-                checkOpt = false;
-            }
-            return true;
-        }
-
         $("#inputEmailUser").keyup(function () {
             if ($("#inputEmailUser").val().trim() == "") {
                 displayMailErrorMessage('{{__('Required field')}}')
@@ -541,28 +444,21 @@
             });
         });
 
-        $('#btnNextMailAdress').click(function (e) {
+        $('#btn-next-identities-card').click(function (e) {
+            console.log("btn-next-identities-card");
             $('#personalInformationMessage').css("display", "none");
             e.preventDefault();
             if (checkRequiredFieldInfo()) {
                 $('#personalInformationMessage').css("display", "none");
-                $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
+                $('#myTab   button[id="pills-identities-card-tab"] ').tab('show');
             } else {
                 $('#personalInformationMessage').css("display", "block");
             }
         });
 
-        document.getElementById('pills-bill-address-tab').addEventListener('shown.bs.tab', function (event) {
+        document.getElementById('pills-identities-card-tab').addEventListener('shown.bs.tab', function (event) {
             if (!checkRequiredFieldInfo())
                 $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
-        });
-
-        document.getElementById('pills-payment-tab').addEventListener('shown.bs.tab', function (event) {
-            if (!checkRequiredFieldInfo())
-                $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
-            if (!checkRequiredFieldMail()) {
-                $('#myTab   button[id="pills-bill-address-tab"] ').tab('show');
-            }
         });
 
         window.addEventListener('IdentificationRequestMissingInformation', event => {
