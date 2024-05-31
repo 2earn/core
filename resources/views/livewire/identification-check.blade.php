@@ -101,7 +101,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div>
-                                            <label for="firstName" class="form-label">{{__('First name')}}</label>
+                                            <label for="firstName" class="form-label">{{__('First name  identificatdion modal')}}</label>
                                             <input wire:model.defer="usermetta_info2.enFirstName" type="text"
                                                    class="form-control" id="firstName" readonly
                                                    placeholder="{{__('Enter your firstname')}}">
@@ -109,7 +109,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div>
-                                            <label for="lastName" class="form-label">{{__('Last name')}}</label>
+                                            <label for="lastName" class="form-label">{{__('Last name  identificatdion modal')}}</label>
                                             <input wire:model.defer="usermetta_info2.enLastName" type="text"
                                                    class="form-control" id="lastName" readonly
                                                    placeholder="{{__('Enter your lastname')}}">
@@ -118,7 +118,7 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="JoiningdatInput" class="form-label">
-                                                {{__('Date of birth')  }}
+                                                {{__('Date of birth  identificatdion modal')  }}
                                             </label>
                                             <input wire:model.defer="usermetta_info2.birthday" type="date"
                                                    class="form-control" id="dateofBirth" readonly
@@ -127,7 +127,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="nationalId" class="form-label">{{ __('National ID') }}</label>
+                                            <label for="nationalId" class="form-label">{{ __('National ID  identificatdion modal') }}</label>
                                             <input type="text" class="form-control" minlength="5" maxlength="50"
                                                    wire:model.defer="usermetta_info2.nationalID" readonly
                                                    id="nationalId" placeholder="{{__('National ID')}}">
@@ -135,7 +135,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="inputEmailUser" class="form-label">{{ __('Email') }}</label>
+                                            <label for="inputEmailUser" class="form-label">{{ __('Email  identificatdion modal') }}</label>
                                             <input id="inputEmailUser" wire:model.defer="userF.email" type="email"
                                                    class="form-control" readonly
                                                    name="email" placeholder="{{__('Enter your email')}}" required>
