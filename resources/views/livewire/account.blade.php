@@ -87,7 +87,7 @@
                                 @else
                                     <button style="background-color: #009fe3!important" onclick="sendRequest()"
                                             class="btn btn-primary"
-                                            type="button"> {{__('Send Request')}}
+                                            type="button"> {{__('Send identification request')}}
                                     </button>
                                 @endif
                             @endif

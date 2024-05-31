@@ -15,7 +15,7 @@ use Livewire\Component;
 
 class EditPhoneNumber extends Component
 {
-    public $newPhone = 123456;
+
     protected $listeners = [
         'PreChangePhone' => 'PreChangePhone',
         'UpdatePhoneNumber' => 'UpdatePhoneNumber'
@@ -26,10 +26,8 @@ class EditPhoneNumber extends Component
         return view('livewire.edit-phone-number');
     }
 
-    public function UpdatePhoneNumber($code, $phonenumber, $fullNumber, $codeP, $iso,settingsManager $settingsManager)
+    public function UpdatePhoneNumber($code, $phonenumber, $fullNumber, $codeP, $iso, settingsManager $settingsManager)
     {
-
-
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) return;
         $user = $settingsManager->getUserById($userAuth->id);
@@ -39,24 +37,16 @@ class EditPhoneNumber extends Component
             return redirect()->route("account", app()->getLocale())->with('ErrorSamePhone', 'Invalid OPT code');
 
         $country = $settingsManager->getCountryByIso($iso);
-//        user_earn::where('idUser', $userAuth->idUser)->update(['mobile' => $phonenumber, 'fullphone_number' => $fullNumber, 'idCountry' => $codeP]);
-        User::where('idUser', auth()->user()->idUser)->update([
-            'mobile' => $phonenumber,
-            'fullphone_number' => $fullNumber,
-            'idCountry' => $country->id,
-            'activationCodeValue' => $code,
-            'id_phone'=>$codeP
-        ]);
+        User::where('idUser', auth()->user()->idUser)->update(['mobile' => $phonenumber, 'fullphone_number' => $fullNumber, 'idCountry' => $country->id, 'activationCodeValue' => $code, 'id_phone' => $codeP]);
 
         $existeNumner = UserContactNumber::where('mobile', $phonenumber)
             ->where('isoP', $iso)
-            ->where('idUser',$userAuth->idUser)
+            ->where('idUser', $userAuth->idUser)
             ->first();
-        if($existeNumner){
+        if ($existeNumner) {
             DB::update('update usercontactnumber set active = 0 , isID=0 where idUser = ?', [$userAuth->idUser]);
             DB::update('update usercontactnumber set active = ? , isID=1 where id = ?', [1, $existeNumner->id]);
-        }
-        else{
+        } else {
             $newC = $settingsManager->createUserContactNumberByProp($userAuth->idUser, $phonenumber, $country->id, $iso, $fullNumber);
             DB::update('update usercontactnumber set active = 0 , isID= 0 where idUser = ?', [$userAuth->idUser]);
             DB::update('update usercontactnumber set active = ? ,isID = 1  where id = ?', [1, $newC->id]);
@@ -80,37 +70,16 @@ class EditPhoneNumber extends Component
         }
         $check_exchange = rand(1000, 9999);
         User::where('id', $userAuth->id)->update(['activationCodeValue' => $check_exchange]);
-//        user_earn::where('idUser', $userAuth->idUser)->update(['change_to' => $fullNumber, 'activationCodeValue' => $check_exchange]);
         $sendin = "";
         if ($methodeVerification == 'mail') {
-            $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::OPTVerification, [
-                'canSendMail' => 1,
-                'msg' => $check_exchange,
-                'toMail' => $user->email,
-                'emailTitle' => "2Earn.cash",
-            ]);
-            $sendin =  $user->email ;
+            $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::OPTVerification, ['canSendMail' => 1, 'msg' => $check_exchange, 'toMail' => $user->email, 'emailTitle' => "2Earn.cash"]);
+            $sendin = $user->email;
         } elseif ($methodeVerification == 'phone') {
-            $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::OPTVerification, [
-                'fullNumber' => $fullNumber,
-                'msg' => $check_exchange,
-                'type' => TypeNotificationEnum::SMS
-            ]);
-            $sendin =  $fullNumber ;
+            $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::OPTVerification, ['fullNumber' => $fullNumber, 'msg' => $check_exchange, 'type' => TypeNotificationEnum::SMS]);
+            $sendin = $fullNumber;
         } else
             return;
-//        $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::OPTVerification, [
-//            'fullNumber' => $fullNumber,
-//            'msg' => $check_exchange,
-//            'type' => TypeNotificationEnum::SMS
-//        ]);
-        $this->dispatchBrowserEvent('PreChPhone', [
-            'type' => 'warning',
-            'title' => "Opt",
-            'text' => '',
-            'FullNumber' => $sendin,
-            'methodeVerification' => $methodeVerification
-        ]);
 
+        $this->dispatchBrowserEvent('PreChPhone', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'FullNumber' => $sendin, 'methodeVerification' => $methodeVerification]);
     }
 }
