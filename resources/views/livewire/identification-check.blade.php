@@ -1,4 +1,7 @@
 <div>
+    <div class="row">
+        @include('layouts.flash-messages')
+    </div>
     <div class="row justify-content-center">
         <div class="col-lg-12">
             <div class="card">
@@ -125,15 +128,14 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <div class="input-group">
-                                                <input id="inputEmailUser" wire:model.defer="userF.email" type="email"
-                                                       class="form-control" readonly
-                                                       name="email" placeholder="{{__('Enter your email')}}" required>
-                                            </div>
+                                            <label for="inputEmailUser" class="form-label">{{ __('Email') }}</label>
+                                            <input id="inputEmailUser" wire:model.defer="userF.email" type="email"
+                                                   class="form-control" readonly
+                                                   name="email" placeholder="{{__('Enter your email')}}" required>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-check form-switch   ms-5 me-5 mb-3" dir="ltr">
+                                    <div class="col-lg-6 mt-3">
+                                        <div class="form-check form-switch mb-3 mt-3" dir="ltr">
                                             <input wire:model.defer="notify" type="checkbox"
                                                    class="form-check-input" id="" checked="">
                                             <label class="form-check-label"
