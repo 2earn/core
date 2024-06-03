@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Core\Models\translatearabes;
 use Core\Models\translateenglishs;
 use Core\Models\translatetabs;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
@@ -176,10 +177,10 @@ class TranslateView extends Component
 
     public function render()
     {
-        $translate = translatetabs::where('name', 'like', '%' . $this->search . '%')
-            ->orWhere('valueFr', 'like', '%' . $this->search . '%')
-            ->orWhere('valueEn', 'like', '%' . $this->search . '%')
-            ->orWhere('value', 'like', '%' . $this->search . '%')
+        $translate = translatetabs::where(DB::raw('upper(name)'), 'like', '%' . strtoupper($this->search) . '%')
+            ->orWhere(DB::raw('upper(valueFr)'), 'like', '%' . strtoupper($this->search) . '%')
+            ->orWhere(DB::raw('upper(valueEn)'), 'like', '%' . strtoupper($this->search) . '%')
+            ->orWhere(DB::raw('upper(value)'), 'like', '%' . strtoupper($this->search) . '%')
             ->orderBy('id', 'desc')
             ->paginate($this->nbrPagibation);
         return view('livewire.translate-view', ["translates" => $translate])->extends('layouts.master')->section('content');
