@@ -63,38 +63,50 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
     </div>
     <div class="row">
         <div class="col">
-            <div class="row">
-                <div>
-                    <a href="{{route('home',app()->getLocale())}}" class="btn btn-primary btnTrans">{{__('Home')}}</a>
-                    <a class="btn btn-primary btnTrans " type="button"
-                       wire:click="PreImport('arToData')">{{__('Arabic field To base')}}</a>
-                    <a class="btn btn-primary btnTrans" type="button"
-                       wire:click="PreImport('enToData')">{{__('English field To base')}}</a>
-                    <a class="btn btn-primary btnTrans" type="button"
-                       wire:click="PreImport('mergeToData')">{{__('Merge field To base')}}</a>
-                    <a class="btn btn-primary btnTrans " type="button"
-                       wire:click="PreImport('databaseToFile')">{{__('Database To file')}}</a>
-                </div>
+            <div class="btn-group material-shadow" role="group" aria-label="Basic example">
+                <a href="{{route('home',app()->getLocale())}}" class="btn btn-secondary btn-label waves-effect right waves-light">
+                    <i class="ri-home-2-fill label-icon align-middle fs-16 ms-2"></i>
+                    {{__('Home')}}
+                </a>
+                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button" wire:click="PreImport('arToData')">
+                    <i class="ri-dashboard-2-fill label-icon align-middle fs-16 ms-2"></i>
+                    {{__('Arabic field To base')}}
+                </a>
+                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button" wire:click="PreImport('enToData')">
+                    <i class="ri-dashboard-2-fill label-icon align-middle fs-16 ms-2"></i>
+                    {{__('English field To base')}}
+                </a>
+                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
+                   wire:click="PreImport('mergeToData')">
+                    <i class="ri-database-2-fill label-icon align-middle fs-16 ms-2"></i>
+                    {{__('Merge field To base')}}
+                </a>
+                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button" wire:click="PreImport('databaseToFile')">
+                    <i class="ri-file-2-line label-icon align-middle fs-16 ms-2"></i>
+                    {{__('Database To file')}}
+                </a>
+                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button" wire:click="PreAjout"  >
+                    <i class="ri-file-add-fill label-icon align-middle fs-16 ms-2"></i>
+                    {{__('Add a new')}}
+                </a>
+
             </div>
             <div style="margin-top: 10px" class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header headerTranslate">
-                            <div style="margin-bottom: 10px">
-                                <label>{{__('Show')}} </label>
-                                <select wire:model="nbrPagibation" id="cars">
-                                    @for($i=5;$i<=50;$i+=5)
-                                        <option value="{{$i}}">{{$i}}</option>
-                                    @endfor
-                                </select>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <a class="btnTrans btn btn-success" type=""
-                                       wire:click="PreAjout">{{__('Add')}}</a>
+                            <div class="row ">
+                                <div class="col-md-6 form-row">
+                                    <label for="nbrPagibation" class="col-4"> {{__('Show')}} </label>
+                                    <select wire:model="nbrPagibation" class="form-control col-6"  id="nbrPagibation">
+                                        @for($i=5;$i<=50;$i+=5)
+                                            <option value="{{$i}}">{{$i}}</option>
+                                        @endfor
+                                    </select>
                                 </div>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control" placeholder="{{__('Search')}}..."
+                                <div class="col-md-6 form-row">
+                                    <label for="search"  class="col-4">{{__('Search')}} </label>
+                                    <input type="text" class="form-control col-6" placeholder="{{__('Search')}}..." id="search"
                                            wire:model="search"/>
                                 </div>
                             </div>
