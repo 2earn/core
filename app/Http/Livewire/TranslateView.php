@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Core\Models\translatearabes;
 use Core\Models\translateenglishs;
 use Core\Models\translatetabs;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
@@ -99,7 +98,7 @@ class TranslateView extends Component
             foreach ($jsonFr as $key => $value) {
                 translatetabs::where('name', $key)->update(['valueFr' => $value]);
             }
-        } catch (FileNotFoundException $exception) {
+        } catch (\Exception $exception) {
             $this->dispatchBrowserEvent('closeModal');
             return redirect()->route('translate', app()->getLocale())->with('danger', trans('Translation merge failed') . ' : ' . Lang::get($exception->getMessage()));
         }
@@ -123,7 +122,7 @@ class TranslateView extends Component
                     }
                 }
             }
-        } catch (FileNotFoundException $exception) {
+        } catch (\Exception $exception) {
             $this->dispatchBrowserEvent('closeModal');
             return redirect()->route('translate', app()->getLocale())->with('danger', trans('English fields add failed') . ' : ' . Lang::get($exception->getMessage()));
         }
@@ -147,11 +146,9 @@ class TranslateView extends Component
                     }
                 }
             }
-        } catch (FileNotFoundException $exception) {
-            $this->dispatchBrowserEvent('closeSwal');
+        } catch (\Exception $exception) {
             return redirect()->route('translate', app()->getLocale())->with('danger', trans('Arabic fields add failed') . ' : ' . Lang::get($exception->getMessage()));
         }
-        $this->dispatchBrowserEvent('closeSwal');
         return redirect()->route('translate', app()->getLocale())->with('success', trans('Arabic fields added successfully'));
     }
 
@@ -171,11 +168,9 @@ class TranslateView extends Component
             File::put($pathFile, json_encode($this->tabfin, JSON_UNESCAPED_UNICODE));
             File::put($pathFileFr, json_encode($this->tabfinFr, JSON_UNESCAPED_UNICODE));
             File::put($pathFileEn, json_encode($this->tabfinEn, JSON_UNESCAPED_UNICODE));
-        } catch (FileNotFoundException $exception) {
-            $this->dispatchBrowserEvent('closeSwal');
+        } catch (\Exception $exception) {
             return redirect()->route('translate', app()->getLocale())->with('danger', trans('Keys to database  failed') . ' : ' . Lang::get($exception->getMessage()));
         }
-        $this->dispatchBrowserEvent('closeSwal');
         return redirect()->route('translate', app()->getLocale())->with('success', trans('Keys to database added successfully'));
     }
 
@@ -205,11 +200,9 @@ class TranslateView extends Component
             File::put($pathFile, json_encode($this->tabfin, JSON_UNESCAPED_UNICODE));
             File::put($pathFileFr, json_encode($this->tabfinFr, JSON_UNESCAPED_UNICODE));
             File::put($pathFileEn, json_encode($this->tabfinEn, JSON_UNESCAPED_UNICODE));
-        } catch (FileNotFoundException $exception) {
-            $this->dispatchBrowserEvent('closeSwal');
+        } catch (\Exception $exception) {
             return redirect()->route('translate', app()->getLocale())->with('danger', trans('Keys to files  failed') . ' : ' . Lang::get($exception->getMessage()));
         }
-        $this->dispatchBrowserEvent('closeSwal');
         return redirect()->route('translate', app()->getLocale())->with('success', trans('Keys to files added successfully'));
     }
 
@@ -234,11 +227,9 @@ class TranslateView extends Component
             File::put($pathFile, json_encode($this->tabfin, JSON_UNESCAPED_UNICODE));
             File::put($pathFileFr, json_encode($this->tabfinFr, JSON_UNESCAPED_UNICODE));
             File::put($pathFileEn, json_encode($this->tabfinEn, JSON_UNESCAPED_UNICODE));
-        } catch (FileNotFoundException $exception) {
-            $this->dispatchBrowserEvent('closeSwal');
+        } catch (\Exception $exception) {
             return redirect()->route('translate', app()->getLocale())->with('danger', trans('Edit translation failed') . " " . Lang::get($exception->getMessage()));
         }
-        $this->dispatchBrowserEvent('closeSwal');
         return redirect()->route('translate', app()->getLocale())->with('success', trans('Edit translation succeeded'));
     }
 

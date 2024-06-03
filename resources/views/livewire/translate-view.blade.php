@@ -62,9 +62,6 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         </div>
     </div>
     <div class="row">
-        @include('layouts.flash-messages')
-    </div>
-    <div class="row">
         <div class="col">
             <div class="row">
                 <div>
@@ -161,32 +158,34 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         window.addEventListener('closeModal', event => {
             $("#exampleModal").modal('hide');
         });
-        window.addEventListener('closeSwal', event => {
-            swal.close()
-        });
+
         window.addEventListener('PassEnter', event => {
+
             Swal.fire({
                 title: '{{ __('Pass') }}',
                 input: 'text',
                 inputAttributes: {autocapitalize: 'off'},
                 showCancelButton: true,
                 confirmButtonText: 'Confirm',
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                allowEnterKey: false
             }).then((resultat) => {
                 if (resultat.value) {
-                    if (event.detail.ev == 'arToData')
-                        window.livewire.emit('addArabicField', resultat.value);
-                    else if (event.detail.ev == 'enToData')
-                        window.livewire.emit('addEnglishField', resultat.value);
-                    else if (event.detail.ev == 'mergeToData')
-                        window.livewire.emit('mergeTransaction', resultat.value);
-                    else if (event.detail.ev == 'databaseToFile')
-                        window.livewire.emit('databaseToFile', resultat.value);
+                    switch (event.detail.ev) {
+                        case 'arToData':
+                            window.livewire.emit('addArabicField', resultat.value);
+                            break;
+                        case 'enToData':
+                            window.livewire.emit('addEnglishField', resultat.value);
+                            break;
+                        case 'mergeToData':
+                            window.livewire.emit('mergeTransaction', resultat.value);
+                            break;
+                        case 'databaseToFile':
+                            window.livewire.emit('databaseToFile', resultat.value);
+                            break;
+                    }
                 }
                 if (resultat.isDismissed) {
-                    location.reload();
+                    Swal.hideLoading()
                 }
             })
         })
