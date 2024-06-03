@@ -160,7 +160,10 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
 
         window.addEventListener('closeModal', event => {
             $("#exampleModal").modal('hide');
-        })
+        });
+        window.addEventListener('closeSwal', event => {
+            swal.close()
+        });
         window.addEventListener('PassEnter', event => {
             Swal.fire({
                 title: '{{ __('Pass') }}',
@@ -168,12 +171,6 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                 inputAttributes: {autocapitalize: 'off'},
                 showCancelButton: true,
                 confirmButtonText: 'Confirm',
-                onBeforeOpen () {
-                    Swal.showLoading ()
-                },
-                onAfterClose () {
-                    Swal.hideLoading()
-                },
                 allowOutsideClick: false,
                 allowEscapeKey: false,
                 allowEnterKey: false

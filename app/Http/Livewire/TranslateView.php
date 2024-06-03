@@ -100,8 +100,10 @@ class TranslateView extends Component
                 translatetabs::where('name', $key)->update(['valueFr' => $value]);
             }
         } catch (FileNotFoundException $exception) {
+            $this->dispatchBrowserEvent('closeModal');
             return redirect()->route('translate', app()->getLocale())->with('danger', trans('Translation merge failed') . ' : ' . Lang::get($exception->getMessage()));
         }
+        $this->dispatchBrowserEvent('closeModal');
         return redirect()->route('translate', app()->getLocale())->with('success', trans('Translation merged successfully'));
     }
 
@@ -122,8 +124,10 @@ class TranslateView extends Component
                 }
             }
         } catch (FileNotFoundException $exception) {
+            $this->dispatchBrowserEvent('closeModal');
             return redirect()->route('translate', app()->getLocale())->with('danger', trans('English fields add failed') . ' : ' . Lang::get($exception->getMessage()));
         }
+        $this->dispatchBrowserEvent('closeModal');
         return redirect()->route('translate', app()->getLocale())->with('success', trans('English fields added successfully'));
     }
 
@@ -144,10 +148,11 @@ class TranslateView extends Component
                 }
             }
         } catch (FileNotFoundException $exception) {
+            $this->dispatchBrowserEvent('closeSwal');
             return redirect()->route('translate', app()->getLocale())->with('danger', trans('Arabic fields add failed') . ' : ' . Lang::get($exception->getMessage()));
         }
+        $this->dispatchBrowserEvent('closeSwal');
         return redirect()->route('translate', app()->getLocale())->with('success', trans('Arabic fields added successfully'));
-
     }
 
     public function databaseToFile($pass)
@@ -167,8 +172,10 @@ class TranslateView extends Component
             File::put($pathFileFr, json_encode($this->tabfinFr, JSON_UNESCAPED_UNICODE));
             File::put($pathFileEn, json_encode($this->tabfinEn, JSON_UNESCAPED_UNICODE));
         } catch (FileNotFoundException $exception) {
+            $this->dispatchBrowserEvent('closeSwal');
             return redirect()->route('translate', app()->getLocale())->with('danger', trans('Keys to database  failed') . ' : ' . Lang::get($exception->getMessage()));
         }
+        $this->dispatchBrowserEvent('closeSwal');
         return redirect()->route('translate', app()->getLocale())->with('success', trans('Keys to database added successfully'));
     }
 
@@ -199,10 +206,11 @@ class TranslateView extends Component
             File::put($pathFileFr, json_encode($this->tabfinFr, JSON_UNESCAPED_UNICODE));
             File::put($pathFileEn, json_encode($this->tabfinEn, JSON_UNESCAPED_UNICODE));
         } catch (FileNotFoundException $exception) {
+            $this->dispatchBrowserEvent('closeSwal');
             return redirect()->route('translate', app()->getLocale())->with('danger', trans('Keys to files  failed') . ' : ' . Lang::get($exception->getMessage()));
         }
+        $this->dispatchBrowserEvent('closeSwal');
         return redirect()->route('translate', app()->getLocale())->with('success', trans('Keys to files added successfully'));
-
     }
 
     public function PreAjout()
@@ -227,11 +235,11 @@ class TranslateView extends Component
             File::put($pathFileFr, json_encode($this->tabfinFr, JSON_UNESCAPED_UNICODE));
             File::put($pathFileEn, json_encode($this->tabfinEn, JSON_UNESCAPED_UNICODE));
         } catch (FileNotFoundException $exception) {
+            $this->dispatchBrowserEvent('closeSwal');
             return redirect()->route('translate', app()->getLocale())->with('danger', trans('Edit translation failed') . " " . Lang::get($exception->getMessage()));
-
         }
+        $this->dispatchBrowserEvent('closeSwal');
         return redirect()->route('translate', app()->getLocale())->with('success', trans('Edit translation succeeded'));
-
     }
 
     public function initTranslate($idTranslate)
