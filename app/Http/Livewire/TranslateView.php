@@ -85,12 +85,14 @@ class TranslateView extends Component
                     }
                 }
             }
+
             $pathFileAr = resource_path() . '/lang/ar.json';
             $contentsAr = File::get($pathFileAr);
             $jsonAr = collect(json_decode($contentsAr));
             foreach ($jsonAr as $key => $value) {
                 translatetabs::where('name', $key)->update(['value' => $value]);
             }
+
             $pathFileFr = resource_path() . '/lang/fr.json';
             $contentsFr = File::get($pathFileFr);
             $jsonFr = collect(json_decode($contentsFr));
@@ -98,8 +100,9 @@ class TranslateView extends Component
                 translatetabs::where('name', $key)->update(['valueFr' => $value]);
             }
         } catch (FileNotFoundException $exception) {
-            die(Lang::get($exception->getMessage()));
+            return redirect()->route('translate', app()->getLocale())->with('danger', trans('Translation merge failed') . ' : ' . Lang::get($exception->getMessage()));
         }
+        return redirect()->route('translate', app()->getLocale())->with('success', trans('Translation merged successfully'));
     }
 
     public function addEnglishField($pass)
@@ -119,8 +122,9 @@ class TranslateView extends Component
                 }
             }
         } catch (FileNotFoundException $exception) {
-            die(Lang::get($exception->getMessage()));
+            return redirect()->route('translate', app()->getLocale())->with('danger', trans('English fields add failed') . ' : ' . Lang::get($exception->getMessage()));
         }
+        return redirect()->route('translate', app()->getLocale())->with('success', trans('English fields added successfully'));
     }
 
     public function addArabicField($pass)
@@ -140,8 +144,10 @@ class TranslateView extends Component
                 }
             }
         } catch (FileNotFoundException $exception) {
-            die(Lang::get($exception->getMessage()));
+            return redirect()->route('translate', app()->getLocale())->with('danger', trans('Arabic fields add failed') . ' : ' . Lang::get($exception->getMessage()));
         }
+        return redirect()->route('translate', app()->getLocale())->with('success', trans('Arabic fields added successfully'));
+
     }
 
     public function databaseToFile($pass)
@@ -161,9 +167,9 @@ class TranslateView extends Component
             File::put($pathFileFr, json_encode($this->tabfinFr, JSON_UNESCAPED_UNICODE));
             File::put($pathFileEn, json_encode($this->tabfinEn, JSON_UNESCAPED_UNICODE));
         } catch (FileNotFoundException $exception) {
-            die(Lang::get($exception->getMessage()));
+            return redirect()->route('translate', app()->getLocale())->with('danger', trans('Keys to database  failed') . ' : ' . Lang::get($exception->getMessage()));
         }
-        $this->dispatchBrowserEvent('closeModal');
+        return redirect()->route('translate', app()->getLocale())->with('success', trans('Keys to database added successfully'));
     }
 
     public function render()
@@ -193,8 +199,10 @@ class TranslateView extends Component
             File::put($pathFileFr, json_encode($this->tabfinFr, JSON_UNESCAPED_UNICODE));
             File::put($pathFileEn, json_encode($this->tabfinEn, JSON_UNESCAPED_UNICODE));
         } catch (FileNotFoundException $exception) {
-            die(Lang::get($exception->getMessage()));
+            return redirect()->route('translate', app()->getLocale())->with('danger', trans('Keys to files  failed') . ' : ' . Lang::get($exception->getMessage()));
         }
+        return redirect()->route('translate', app()->getLocale())->with('success', trans('Keys to files added successfully'));
+
     }
 
     public function PreAjout()
@@ -222,7 +230,6 @@ class TranslateView extends Component
             return redirect()->route('translate', app()->getLocale())->with('danger', trans('Edit translation failed') . " " . Lang::get($exception->getMessage()));
 
         }
-        $this->dispatchBrowserEvent('closeModal');
         return redirect()->route('translate', app()->getLocale())->with('success', trans('Edit translation succeeded'));
 
     }

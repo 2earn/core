@@ -4,6 +4,9 @@
             {{ __('Translate') }}
         @endslot
     @endcomponent
+    <div class="row">
+        @include('layouts.flash-messages')
+    </div>
     <div wire:ignore.self class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
@@ -71,7 +74,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                     <a class="btn btn-primary btnTrans" type="button"
                        wire:click="PreImport('enToData')">{{__('English field To base')}}</a>
                     <a class="btn btn-primary btnTrans" type="button"
-                       wire:click="PreImport('mergeToData')">{{__('merge field To base')}}</a>
+                       wire:click="PreImport('mergeToData')">{{__('Merge field To base')}}</a>
                     <a class="btn btn-primary btnTrans " type="button"
                        wire:click="PreImport('databaseToFile')">{{__('Database To file')}}</a>
                 </div>
@@ -165,6 +168,15 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                 inputAttributes: {autocapitalize: 'off'},
                 showCancelButton: true,
                 confirmButtonText: 'Confirm',
+                onBeforeOpen () {
+                    Swal.showLoading ()
+                },
+                onAfterClose () {
+                    Swal.hideLoading()
+                },
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false
             }).then((resultat) => {
                 if (resultat.value) {
                     if (event.detail.ev == 'arToData')
