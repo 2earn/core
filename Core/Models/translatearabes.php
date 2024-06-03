@@ -8,5 +8,5 @@ class translatearabes extends Model
 {
     protected $table = 'translatearabe';
     protected $fillable = [ 'name','value'];
-    public $timestamps = false;
+    public $timestamps = true;
 }

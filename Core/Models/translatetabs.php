@@ -8,5 +8,5 @@ class translatetabs extends Model
 {
     protected $table = 'translatetab';
     protected $fillable = [ 'name','value','valueFr','valueEn'];
-    public $timestamps = false;
+    public $timestamps = true;
 }
