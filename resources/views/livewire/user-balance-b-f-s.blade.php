@@ -16,8 +16,7 @@
                         <div class="col-sm">
                             <div class="justify-content-sm-end">
                                 <div class="search-box ms-2">
-                                    <p>{{ __('bfs description_1') }}</p>
-                                    <p>{{ __('bfs description_2') }}</p>
+                                    <p>{{ __('bfs description') }}</p>
                                 </div>
                             </div>
                         </div>
