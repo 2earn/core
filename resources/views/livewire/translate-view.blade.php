@@ -203,7 +203,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         })
         window.addEventListener('PreAjoutTrans', event => {
             Swal.fire({
-                title: 'Enter field name',
+                title: '{{__('Enter field name')}}',
                 input: 'text',
                 inputAttributes: {autocapitalize: 'off'},
                 showCancelButton: true,
