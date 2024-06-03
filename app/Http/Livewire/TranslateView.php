@@ -109,7 +109,7 @@ class TranslateView extends Component
     {
         if ($pass != self::TRANSLATION_PASSWORD) return;
         try {
-            $pathFile = resource_path() . '\lang\en.json';
+            $pathFile = resource_path() . '/lang/en.json';
             $contents = File::get($pathFile);
             $json = collect(json_decode($contents));
             foreach ($json as $key => $value) {
@@ -131,7 +131,7 @@ class TranslateView extends Component
     {
         if ($pass != self::TRANSLATION_PASSWORD) return;
         try {
-            $pathFile = resource_path() . '\lang\ar.json';
+            $pathFile = resource_path() . '/lang/ar.json';
             $contents = File::get($pathFile);
             $json = collect(json_decode($contents));
             foreach ($json as $key => $value) {
