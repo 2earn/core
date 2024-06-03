@@ -12,12 +12,17 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{__('Edit field')}}</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{__('Edit field')}} : </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <span
-                        class="text-warning">{{ __('Max char is 190! every translation item will be shrinked to 190 char.') }}</span>
+                    <p class="text-primary">
+                        {{$name}}
+                    </p>
+                    <span class="text-warning">
+                        {{ __('Max char is 190! every translation item will be shrinked to 190 char.') }}
+                    </span>
+
                     <form>
                         <div class="mb-3">
                             <label for="recipient-name" class="col-form-label">{{__('Arabe')}}</label>
@@ -44,7 +49,14 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
                     <button type="button" wire:click="saveTranslate"
-                            class="btn btn-success">{{__('Save translation')}}</button>
+                            class="btn btn-success">
+                        <div wire:loading wire:target="saveTranslate">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true">
+                                                </span>
+                            <span class="sr-only">{{__('Loading')}}...</span>
+                        </div>
+                        {{__('Save translation')}}</button>
                 </div>
             </div>
         </div>
@@ -64,15 +76,18 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
     <div class="row">
         <div class="col">
             <div class="btn-group material-shadow" role="group" aria-label="Basic example">
-                <a href="{{route('home',app()->getLocale())}}" class="btn btn-secondary btn-label waves-effect right waves-light">
+                <a href="{{route('home',app()->getLocale())}}"
+                   class="btn btn-secondary btn-label waves-effect right waves-light">
                     <i class="ri-home-2-fill label-icon align-middle fs-16 ms-2"></i>
                     {{__('Home')}}
                 </a>
-                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button" wire:click="PreImport('arToData')">
+                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
+                   wire:click="PreImport('arToData')">
                     <i class="ri-dashboard-2-fill label-icon align-middle fs-16 ms-2"></i>
                     {{__('Arabic field To base')}}
                 </a>
-                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button" wire:click="PreImport('enToData')">
+                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
+                   wire:click="PreImport('enToData')">
                     <i class="ri-dashboard-2-fill label-icon align-middle fs-16 ms-2"></i>
                     {{__('English field To base')}}
                 </a>
@@ -81,11 +96,13 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                     <i class="ri-database-2-fill label-icon align-middle fs-16 ms-2"></i>
                     {{__('Merge field To base')}}
                 </a>
-                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button" wire:click="PreImport('databaseToFile')">
+                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
+                   wire:click="PreImport('databaseToFile')">
                     <i class="ri-file-2-line label-icon align-middle fs-16 ms-2"></i>
                     {{__('Database To file')}}
                 </a>
-                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button" wire:click="PreAjout"  >
+                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
+                   wire:click="PreAjout">
                     <i class="ri-file-add-fill label-icon align-middle fs-16 ms-2"></i>
                     {{__('Add a new')}}
                 </a>
@@ -98,15 +115,16 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                             <div class="row ">
                                 <div class="col-md-6 form-row">
                                     <label for="nbrPagibation" class="col-4"> {{__('Show')}} </label>
-                                    <select wire:model="nbrPagibation" class="form-control col-6"  id="nbrPagibation">
+                                    <select wire:model="nbrPagibation" class="form-control col-6" id="nbrPagibation">
                                         @for($i=5;$i<=50;$i+=5)
                                             <option value="{{$i}}">{{$i}}</option>
                                         @endfor
                                     </select>
                                 </div>
                                 <div class="col-md-6 form-row">
-                                    <label for="search"  class="col-4">{{__('Search')}} </label>
-                                    <input type="text" class="form-control col-6" placeholder="{{__('Search')}}..." id="search"
+                                    <label for="search" class="col-4">{{__('Search')}} </label>
+                                    <input type="text" class="form-control col-6" placeholder="{{__('Search')}}..."
+                                           id="search"
                                            wire:model="search"/>
                                 </div>
                             </div>

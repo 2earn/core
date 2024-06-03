@@ -21,6 +21,7 @@ class TranslateView extends Component
     public $arabicValue = "";
     public $frenchValue = "";
     public $englishValue = "";
+    public $name;
     public $idTranslate;
     public $tab = [];
     public $tabfin = [];
@@ -239,6 +240,7 @@ class TranslateView extends Component
         $trans = translatetabs::find($idTranslate);
         if ($trans) {
             $this->idTranslate = $trans->id;
+            $this->name = $trans->name;
             $this->arabicValue = $trans->value;
             $this->frenchValue = $trans->valueFr;
             $this->englishValue = $trans->valueEn;
