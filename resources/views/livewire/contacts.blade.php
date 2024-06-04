@@ -57,8 +57,8 @@
             <table class="table table-striped">
                 <thead class="table-light">
                 <tr class="tabHeader2earn">
-                    <th>{{ __('Name') }}</th>
-                    <th>{{ __('Last Name') }}</th>
+                    <th>{{ __('FirstName') }}</th>
+                    <th>{{ __('LastName') }}</th>
                     <th>{{ __('Phone') }}</th>
                     <th>{{__('Country')}}</th>
                     <th>{{__('registred')}}</th>
