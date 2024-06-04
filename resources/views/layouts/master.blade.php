@@ -1574,7 +1574,7 @@
                 "placeholder='Mobile Number'><span id='valid-msgAddContact' class='invisible'>✓ Valid</span><span id='error-msgAddContact' class='hide'></span>" +
                 "<input type='hidden' name='fullnumber' id='outputAddContact' class='form-control'><input type='hidden' name='ccodeAddContact' id='ccodeAddContact'>";
 
-            var countryDataAddContact = window.intlTelInputGlobals.getCountryData(),
+            var countryDataAddContact =(typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
                 inputAddContact = document.querySelector("#phoneAddContact");
             try {
                 itiAddContact.destroy();
@@ -1702,7 +1702,7 @@
                 "placeholder='{{ __("Mobile Number") }}'><span id='valid-msgphoneContactNumber' class='invisible'>✓ Valid</span><span id='error-msgphoneContactNumber' class='hide'></span>" +
                 " <input type='hidden' name='fullnumber' id='outputphoneContactNumber' class='form-control'><input type='hidden' name='ccodephoneContactNumber' id='ccodephoneContactNumber'>" +
                 "<input type='hidden' name='isoContactNumber' id='isoContactNumber'>";
-            var countryDataNumberContact = window.intlTelInputGlobals.getCountryData(),
+            var countryDataNumberContact = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
                 inputAddContactNumber = document.querySelector("#phoneContactNumber");
             try {
                 itiAddContactNumber.destroy();
