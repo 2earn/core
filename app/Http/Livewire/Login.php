@@ -28,14 +28,13 @@ class Login extends Component
 
     public function login($number, $code, $pass, $iso, settingsManager $settingsManager, Request $request)
     {
-
         if ($number == "" || $code == "" || $pass == "" || $iso == "") {
             return redirect()->route('login', ['locale' => app()->getLocale()])->with('messageFailedInformation', Lang::get('your phone or your password is incorrect !'));
         }
         if (strlen($iso) > 2) {
             return redirect()->route('login', ['locale' => app()->getLocale()])->with('messageFailedIso', Lang::get('Code_pays_incorrect'));
         }
-        $user = $settingsManager->loginUser($number, $code, false, $pass, $iso);
+        $user = $settingsManager->loginUser(str_replace(' ', '', $number), $code, false, $pass, $iso);
         if (!$user) {
             $this->earnDebug('Failed login : number phone -  ' . $number . ' Code pays- : ' . $code . ' Password- : ' . $pass . ' Iso- :' . $iso);
             return redirect()->route('login', ['locale' => app()->getLocale()])->with('message', Lang::get('your phone or your password is incorrect !'));
