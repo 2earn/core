@@ -19,24 +19,19 @@
     <!-- End Google Tag Manager -->
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.ga4.measurementId') }}"></script>
     <script>
-
         window.dataLayer = window.dataLayer || [];
-
         function gtag() {
             dataLayer.push(arguments);
         }
-
         gtag('js', new Date());
         gtag('config', '{{ config('services.ga4.measurementId') }}');
     </script>
-
     <meta charset="utf-8"/>
     <title>@yield('title') | 2Earn.cash</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="2earn.cash" name="description"/>
     <meta content="Themesbrand" name="author"/>
     <img src="{{ URL::asset('assets/images/2Earn.png') }}" id="super-logo" alt="" height="60">
-    <!-- App favicon -->
     <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.ico')}}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="{{asset('assets/Styles/intlTelInput.css')}}">
@@ -89,10 +84,6 @@
             src: url("{{asset('assets/NotoKufiArabic-Regular.ttf')}}");
             font-weight: 400;
         }
-
-        /*.label_phone {*/
-        /*    text-align: end;*/
-        /*}*/
         label, h1, h2, h3, h4, h5, a, button, p, i, span, strong, .btn, div {
             font-family: ar400;
             font-weight: 500 !important;
@@ -100,15 +91,12 @@
     </style>
 @endif
 @yield('content')
-
 @include('layouts.vendor-scripts')
 @livewireScripts
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js"
         data-turbolinks-eval="false" data-turbo-eval="false"></script>
-{{--<script src="{{ mix('js/turbo.js') }}" defer></script>--}}
-{{--<script src="{{ URL::asset('/assets/js/app.min.js') }}" defer></script>--}}
 <script>
 
     $(document).on('ready turbolinks:load', function () {
@@ -167,7 +155,6 @@
         if (pathPage == 'registre') {
             var iti = window.intlTelInput(input, {
                 initialCountry: "auto",
-                //showSelectedDialCode: true,
                 useFullscreenPopup: false,
                 geoIpLookup: function (callback) {
                     $.get('https://ipinfo.io', function () {
@@ -176,7 +163,7 @@
                         callback(countryCode);
                     });
                 },
-                utilsScript: " {{asset('assets/js/utils.js')}}" // just for formatting/placeholders etc
+                utilsScript: " {{asset('assets/js/utils.js')}}"
             });
             input.addEventListener('keyup', reset);
             input.addEventListener('countrychange', reset);
@@ -184,15 +171,12 @@
                 var country = countryData[i];
                 var optionNode = document.createElement("option");
                 optionNode.value = country.iso2;
-                // var textNode = document.createTextNode(country.name);
-                // optionNode.appendChild(textNode);
             }
         }
         if (pathPage == 'forgetpassword') {
 
             var itiforget = window.intlTelInput(inputforget, {
                 initialCountry: "auto",
-                //showSelectedDialCode: true,
                 useFullscreenPopup: false,
                 geoIpLookup: function (callback) {
                     $.get('https://ipinfo.io', function () {
@@ -201,7 +185,7 @@
                         callback(countryCode);
                     });
                 },
-                utilsScript: " {{asset('assets/js/utils.js')}}" // just for formatting/placeholders etc
+                utilsScript: " {{asset('assets/js/utils.js')}}"
             });
             inputforget.addEventListener('keyup', resetforget);
             inputforget.addEventListener('countrychange', resetforget);
@@ -209,51 +193,30 @@
                 var country13 = countryDataforget[i];
                 var optionNode13 = document.createElement("option");
                 optionNode13.value = country13.iso2;
-                // var textNode = document.createTextNode(country.name);
-                // optionNode.appendChild(textNode);
             }
         }
 
         function resetforget() {
-
-            // input.classList.remove("error");
-            // errorMsg.innerHTML = "";
-            // errorMsg.classList.add("hide");
-            // validMsg.classList.add("hide");
             $("#submit_form").prop("disabled", false);
             var phone = itiforget.getNumber();
             var textNode = document.createTextNode(phone);
-
             phone = phone.replace('+', '00');
             mobile = $("#phoneforget").val();
             var countryData = itiforget.getSelectedCountryData();
             phone = '00' + countryData.dialCode + phone;
-            // $("#output").val(phone);
             $("#outputforget").val(phone);
-            // window.livewire.emit('changefullNumber', phone);
-            // window.livewire.emit('changefullNumber');
-            $("#ccodeforget").val(countryData.dialCode);
             $("#ccodeforget").val(countryData.dialCode);
             fullphone = $("#outputforget").val();
         };
 
         function reset() {
-            // input.classList.remove("error");
-            // errorMsg.innerHTML = "";
-            // errorMsg.classList.add("hide");
-            // validMsg.classList.add("hide");
-            // $("#submit_form").prop("disabled", false);
             var phone = iti.getNumber();
             var textNode = document.createTextNode(phone);
-            // console.log('phone333', phone);
             phone = phone.replace('+', '00');
             mobile = $("#phonereg").val();
             var countryData = iti.getSelectedCountryData();
             phone = '00' + countryData.dialCode + phone;
-            // $("#output").val(phone);
             $("#output").val(phone);
-            // window.livewire.emit('changefullNumber', phone);
-            // window.livewire.emit('changefullNumber');
             $("#ccode").val(countryData.dialCode);
             $("#ccodelog").val(countryData.dialCode);
             $("#iso2Country").val(countryData.iso2);
