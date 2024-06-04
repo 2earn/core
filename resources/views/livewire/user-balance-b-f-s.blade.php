@@ -34,10 +34,10 @@
                         <thead class="table-light">
                         <tr class=" tabHeader2earn">
                             <th>{{__('Num')}}</th>
-                            <th>{{ __('Ref') }}</th>
+                            <th>{{ __('ref') }}</th>
                             <th>{{ __('Date') }}</th>
                             <th>{{ __('Operation Designation') }}</th>
-                            <th>{{ __('Description') }}</th>
+                            <th>{{ __('description') }}</th>
                             <th>{{ __('Value') }}</th>
                             <th>{{ __('Balance') }}</th>
                         </tr>

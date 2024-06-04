@@ -18,10 +18,10 @@
                             <thead class="table-light">
                             <tr class="head2earn  tabHeader2earn">
                                 <th style="text-align: start; border: none;">N°</th>
-                                <th style="text-align: start; border: none ">{{ __('Ref') }}</th>
+                                <th style="text-align: start; border: none ">{{ __('ref') }}</th>
                                 <th style="text-align: start; border: none ">{{ __('Date') }}</th>
                                 <th style=" text-align: start;border: none ">{{ __('Operation Designation') }}</th>
-                                <th style="text-align: start; border: none ">{{ __('Description') }}</th>
+                                <th style="text-align: start; border: none ">{{ __('description') }}</th>
 
                                 <th style=" text-align: start;border: none ">{{__('Prix')}}</th>
                                 <th style=" text-align: start; border: none ">{{ __('Value') }}</th>
