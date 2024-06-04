@@ -92,16 +92,19 @@
                                          style="display: none">
                                         {{__('Please check form data')}}
                                         <a class="btn btn-outline-primary ml-2 mr-2"
-                                            href="{{route('account',app()->getLocale())}}"
-                                            class="badge badge-dark" role="button"
-                                            aria-pressed="true">
+                                           href="{{route('account',app()->getLocale())}}"
+                                           class="badge badge-dark" role="button"
+                                           aria-pressed="true">
                                             {{__('Go to form data')}}
                                         </a>
 
                                     </div>
                                     <div class="col-lg-6">
                                         <div>
-                                            <label for="firstName" class="form-label">{{__('First name identificatdion modal')}}</label>
+                                            <label for="firstName" class="form-label">
+                                                {{__('First name identificatdion modal')}}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input wire:model.defer="usermetta_info2.enFirstName" type="text"
                                                    class="form-control" id="firstName" readonly
                                                    placeholder="{{__('Enter your firstname')}}">
@@ -109,7 +112,10 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div>
-                                            <label for="lastName" class="form-label">{{__('Last name identificatdion modal')}}</label>
+                                            <label for="lastName" class="form-label">
+                                                {{__('Last name identificatdion modal')}}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input wire:model.defer="usermetta_info2.enLastName" type="text"
                                                    class="form-control" id="lastName" readonly
                                                    placeholder="{{__('Enter your lastname')}}">
@@ -119,6 +125,7 @@
                                         <div class="mb-3">
                                             <label for="JoiningdatInput" class="form-label">
                                                 {{__('Date of birth identificatdion modal')  }}
+                                                <span class="text-danger">*</span>
                                             </label>
                                             <input wire:model.defer="usermetta_info2.birthday" type="date"
                                                    class="form-control" id="dateofBirth" readonly
@@ -127,7 +134,10 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="nationalId" class="form-label">{{ __('National ID identificatdion modal') }}</label>
+                                            <label for="nationalId" class="form-label">
+                                                {{ __('National ID identificatdion modal') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input type="text" class="form-control" minlength="5" maxlength="50"
                                                    wire:model.defer="usermetta_info2.nationalID" readonly
                                                    id="nationalId" placeholder="{{__('National ID')}}">
@@ -135,7 +145,10 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="inputEmailUser" class="form-label">{{ __('Email identificatdion modal') }}</label>
+                                            <label for="inputEmailUser" class="form-label">
+                                                {{ __('Email identificatdion modal') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input id="inputEmailUser" wire:model.defer="userF.email" type="email"
                                                    class="form-control" readonly
                                                    name="email" placeholder="{{__('Enter your email')}}" required>
@@ -172,7 +185,10 @@
                                     </div>
                                     <div class="col-6">
                                         <div>
-                                            <label class="form-label">{{ __('Front ID') }}</label>
+                                            <label class="form-label">
+                                                {{ __('Front ID') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                         </div>
                                         <div>
                                             @if(file_exists(public_path('/uploads/profiles/front-id-image'.$userAuth->idUser.'.png')))
@@ -198,7 +214,10 @@
                                     </div>
                                     <div class="col-6">
                                         <div>
-                                            <label class="form-label">{{ __('Back ID') }}</label>
+                                            <label class="form-label">
+                                                {{ __('Back ID') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                         </div>
                                         <div>
                                             @if(file_exists(public_path('/uploads/profiles/back-id-image'.$userAuth->idUser.'.png')))

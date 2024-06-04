@@ -19,16 +19,7 @@
     @endcomponent
     <div class="container-fluid">
         <div class="row">
-            @if(Session::has('success'))
-                <div class="alert alert-success" role="alert">
-                    {{ Session::get('success') }}
-                </div>
-            @endif
-            @if(Session::has('danger'))
-                <div class="alert alert-danger" role="alert">
-                    {{ Session::get('danger') }}
-                </div>
-            @endif
+            @include('layouts.flash-messages')
         </div>
         <div class="row  mr-2 ml-2">
             <div class="d-inline-flex flex-row-reverse">
@@ -185,7 +176,9 @@
                         <div class="row g-3">
                             <div class="col-lg-12">
                                 <div>
-                                    <label for="nameField" class="form-label">{{ __('Name') }}</label>
+                                    <label for="nameField" class="form-label">{{ __('Name') }}
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input
                                         type="text"
                                         wire:model.defer="contactName"
@@ -198,7 +191,10 @@
                             </div>
                             <div class="col-lg-12">
                                 <div>
-                                    <label for="lastNameField" class="form-label">{{ __('Last Name') }}</label>
+                                    <label for="lastNameField" class="form-label">
+                                        {{ __('Last Name') }}
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input
                                         type="text"
                                         wire:model.defer="contactLastName"
@@ -210,7 +206,10 @@
                             </div>
                             <div class=" col-lg-12">
                                 <div class="mb-3">
-                                    <label for="username" class="form-label">{{ __('Mobile Number') }}</label><br>
+                                    <label for="username" class="form-label">
+                                        {{ __('Mobile Number') }}
+                                        <span class="text-danger">*</span>
+                                    </label><br>
                                     <input
                                         wire:model.defer="mobile"
                                         type="tel"
