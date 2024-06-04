@@ -1,10 +1,10 @@
 <div>
-    @section('title'){{ __('SMS BALANCE') }} @endsection
+    @section('title'){{ __('sms balance') }} @endsection
     @section('content')
 
         @component('components.breadcrumb')
             @slot('li_1')@endslot
-            @slot('title') {{ __('SMS BALANCE') }} @endslot
+            @slot('title') {{ __('sms balance') }} @endslot
         @endcomponent
         <div class="row">
             <div class="col-lg-12">

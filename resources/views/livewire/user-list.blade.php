@@ -82,7 +82,7 @@
                             <div class="col-sm-12 col-md-4 col-lg-3">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title"> {{__('SMS Balance')}}</h5>
+                                        <h5 class="card-title"> {{__('sms balance')}}</h5>
                                         <div class="d-flex align-items-center">
                                             <div class="flex-shrink-0">
                                                 <i class="ri-message-line display-6 text-muted"></i>
