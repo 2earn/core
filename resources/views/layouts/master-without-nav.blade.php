@@ -20,9 +20,11 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.ga4.measurementId') }}"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
+
         function gtag() {
             dataLayer.push(arguments);
         }
+
         gtag('js', new Date());
         gtag('config', '{{ config('services.ga4.measurementId') }}');
     </script>
@@ -84,6 +86,7 @@
             src: url("{{asset('assets/NotoKufiArabic-Regular.ttf')}}");
             font-weight: 400;
         }
+
         label, h1, h2, h3, h4, h5, a, button, p, i, span, strong, .btn, div {
             font-family: ar400;
             font-weight: 500 !important;
@@ -94,13 +97,11 @@
 @include('layouts.vendor-scripts')
 @livewireScripts
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
 <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js"
         data-turbolinks-eval="false" data-turbo-eval="false"></script>
 <script>
 
     $(document).on('ready turbolinks:load', function () {
-
         const myParams = window.location.pathname.split("/");
         const pathPage = myParams[2];
         const pathPage2 = myParams[1];
@@ -113,7 +114,6 @@
 
 
         if (pathPage == 'login' || pathPage2 == 'login') {
-
             var itiLog = window.intlTelInput(inputlog, {
                 initialCountry: "auto",
                 useFullscreenPopup: false,
@@ -159,8 +159,7 @@
                 geoIpLookup: function (callback) {
                     $.get('https://ipinfo.io', function () {
                     }, "jsonp").always(function (resp) {
-                        var countryCode = (resp && resp.country) ? resp.country : "TN";
-                        callback(countryCode);
+                        callback((resp && resp.country) ? resp.country : "TN");
                     });
                 },
                 utilsScript: " {{asset('assets/js/utils.js')}}"
@@ -174,7 +173,6 @@
             }
         }
         if (pathPage == 'forgetpassword') {
-
             var itiforget = window.intlTelInput(inputforget, {
                 initialCountry: "auto",
                 useFullscreenPopup: false,
@@ -203,7 +201,9 @@
             phone = phone.replace('+', '00');
             mobile = $("#phoneforget").val();
             var countryData = itiforget.getSelectedCountryData();
-            phone = '00' + countryData.dialCode + phone;
+            if (!phone.startsWith('00' + countryData.dialCode)) {
+                phone = '00' + countryData.dialCode + phone;
+            }
             $("#outputforget").val(phone);
             $("#ccodeforget").val(countryData.dialCode);
             fullphone = $("#outputforget").val();
@@ -215,7 +215,9 @@
             phone = phone.replace('+', '00');
             mobile = $("#phonereg").val();
             var countryData = iti.getSelectedCountryData();
-            phone = '00' + countryData.dialCode + phone;
+            if (!phone.startsWith('00' + countryData.dialCode)) {
+                phone = '00' + countryData.dialCode + phone;
+            }
             $("#output").val(phone);
             $("#ccode").val(countryData.dialCode);
             $("#ccodelog").val(countryData.dialCode);
