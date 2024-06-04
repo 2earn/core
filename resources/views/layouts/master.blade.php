@@ -951,10 +951,6 @@
                     "_token": "{{ csrf_token() }}"
                 },
                 success: function (data) {
-                    // console.log(data);
-                    if (ammount !== 0) {
-
-                    }
                     $('#realsoldmodif').modal('hide');
                     $('#shares-sold').DataTable().ajax.reload();
                     fetchAndUpdateCardContent();
@@ -1395,12 +1391,10 @@
                 table_bfs.columns(3).search("").draw();
             } else {
                 table_bfs
-
                     .columns(3)
                     .search(items.join('|'), true, false)
                     .draw();
             }
-            //console.log(items);
         })
     })
 
@@ -1426,7 +1420,7 @@
 </script>
 
 @stack('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/19.2.16/js/intlTelInput.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/intlTelInput.min.js"></script>
 <script data-turbolinks-eval="false">
 
     $(document).on('ready turbolinks:load', function () {
@@ -1436,9 +1430,9 @@
         const pathPage = myParams[2];
         const pathPageSeg3 = myParams[3];
 
-        var countryData = window.intlTelInputGlobals.getCountryData(),
+        var countryData = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
             input = document.querySelector("#phonereg");
-        var countryDataLog = window.intlTelInputGlobals.getCountryData(),
+        var countryDataLog = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
             inputlog = document.querySelector("#phone");
 
         var errorMap = ['{{trans('Invalid number')}}', '{{trans('Invalid country code')}}', '{{trans('Too shortsss')}}', '{{trans('Too long')}}', '{{trans('Invalid number')}}'];
@@ -1453,7 +1447,7 @@
                 "  <span id='valid-msg'   class='invisible'>✓ Valid</span><span id='error-msg' class='hide'></span>" +
                 " <input type='hidden' name='fullnumberUpPhone' id='outputUpPhone' value='hidden' class='form-control'> " +
                 " <input type='hidden' name='ccodeUpPhone' id='ccodeUpPhone'  ><input type='hidden' name='isoUpPhone' id='isoUpPhone'  >";
-            var countryDataUpPhone = window.intlTelInputGlobals.getCountryData(),
+            var countryDataUpPhone = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
                 inputUpPhone = document.querySelector("#phoneUpPhone");
             try {
                 itiUpPhone.destroy();
@@ -1461,7 +1455,6 @@
             }
             var itiUpPhone = window.intlTelInput(inputUpPhone, {
                 initialCountry: "auto",
-                // showSelectedDialCode: true,
                 useFullscreenPopup: false,
                 geoIpLookup: function (callback) {
                     $.get('https://ipinfo.io', function () {
@@ -1487,17 +1480,13 @@
             var validMsg = document.querySelector("#valid-msg");
             var errorMsg = document.querySelector("#error-msg")
             inputUpPhone.addEventListener('blur', function () {
-                // resetUpPhone();
                 if (inputUpPhone.value.trim()) {
-                    // console.log(itiUpPhone.isValidNumber());
                     if (itiUpPhone.isValidNumber()) {
-                        // validMsg.classList.add("invisible");
                         $("#submit_phone").prop("disabled", false);
                     } else {
                         $("#submit_phone").prop("disabled", true);
                         inputUpPhone.classList.add("error");
                         var errorCode = itiUpPhone.getValidationError();
-
                         errorMsg.innerHTML = errorMap[errorCode];
                         errorMsg.classList.remove("invisible");
                     }
@@ -1518,18 +1507,13 @@
             mobile = $("#phoneUpPhone").val();
             var countryData = itiUpPhone.getSelectedCountryData();
             phone = '00' + countryData.dialCode + phone;
-            // $("#output").val(phone);
             $("#outputUpPhone").val(phone);
-            // window.livewire.emit('changefullNumber', phone);
-            // window.livewire.emit('changefullNumber');
             $("#ccodeUpPhone").val(countryData.dialCode);
             $("#isoUpPhone").val(countryData.iso2);
 
             fullphone = $("#outputUpPhone").val();
             if (inputUpPhone.value.trim()) {
-                // console.log(itiAdd2Contact.isValidNumber());
                 if (itiUpPhone.isValidNumber()) {
-                    // validMsg.classList.add("invisible");
                     errorMsg.classList.add("invisible");
                     $("#submit_phone").prop("disabled", false);
 
@@ -1537,22 +1521,17 @@
                     $("#submit_phone").prop("disabled", true);
                     inputUpPhone.classList.add("error");
                     var errorCode = itiUpPhone.getValidationError();
-
+                    errorMsg.classList.remove("invisible");
                     if (errorCode == '-99') {
                         errorMsg.innerHTML = errorMap[2];
-                        errorMsg.classList.remove("invisible");
                     } else {
                         errorMsg.innerHTML = errorMap[errorCode];
-                        errorMsg.classList.remove("invisible");
                     }
-
-
                 }
             } else {
                 $("#submit_phone").prop("disabled", true);
                 inputUpPhone.classList.remove("error");
                 var errorCode = itiUpPhone.getValidationError();
-
                 errorMsg.innerHTML = errorMap[errorCode];
                 errorMsg.classList.add("invisible");
             }
@@ -1639,9 +1618,7 @@
             var errorMsg = document.querySelector("#error-msgAddContact");
             inputAddContact.addEventListener('blur', function () {
                 if (inputAddContact.value.trim()) {
-                    // console.log(itiAddContact.isValidNumber());
                     if (itiAddContact.isValidNumber()) {
-                        // validMsg.classList.add("invisible");
                         errorMsg.classList.add("invisible");
                         $("#SubmitAddContact").prop("disabled", false);
 
@@ -1684,14 +1661,8 @@
             // window.livewire.emit('changefullNumber', phone);
             // window.livewire.emit('changefullNumber');
             $("#ccodeAddContact").val(countryData.dialCode);
-            // $("#ccodelog").val(countryData.dialCode);
-            // fullphone = $("#output").val();
-
-            // console.log("dqsd" + inputAddContact.value);
             if (inputAddContact.value.trim()) {
-                // console.log(itiAddContact.isValidNumber());
                 if (itiAddContact.isValidNumber()) {
-                    // validMsg.classList.add("invisible");
                     errorMsg.classList.add("invisible");
                     $("#SubmitAddContact").prop("disabled", false);
 
@@ -1720,22 +1691,9 @@
             phone = phone.replace('+', '00');
             mobile = $("#ipAdd2Contact").val();
             var countryData = itiLog.getSelectedCountryData();
-            //console.log(countryData.iso2);
             phone = '00' + countryData.dialCode + phone;
             $("#ccodeAdd2Contact").val(countryData.dialCode);
             $("#outputAdd2Contact").val(phone);
-            //console.log(inputlog.value.trim());
-            // if (inputlog.value.trim()) {
-            //   if (itiLog.isValidNumber()) {
-            //        $("#ipAdd2Contact").prop("disabled", false);
-            // } else {
-            //          $("#ipAdd2Contact").prop("disabled", true);
-            //         inputlog.classList.add("error");
-            //      }
-            // } else {
-            //    $("#ipAdd2Contact").prop("disabled", true);
-            //      inputlog.classList.remove("error");
-            //  }
         };
         if (pathPage == 'ContactNumber') {
 
@@ -1797,16 +1755,11 @@
         let reciver = $(this).data('reciver');
         let phone = $(this).data('phone');
         let country = $(this).data('country');
-        console.log(reciver);
         $('#userlist-country').attr('src', country);
         $('#userlist-reciver').attr('value', reciver);
         $('#userlist-phone').attr('value', phone);
-        console.log(reciver);
     });
     $(document).on("click", "#userlist-submit", function () {
-
-        console.log($('#userlist-reciver').val());
-        console.log($('#ammount').val());
         let reciver = $('#userlist-reciver').val();
         let ammount = $('#ammount').val();
         let msg = "vous avez transferé " + ammount + " $ à " + reciver;
@@ -1821,7 +1774,6 @@
                 "_token": "{{ csrf_token() }}"
             },
             success: function (data) {
-                console.log(data);
                 $.ajax({
                     url: "{{ route('sendSMS') }}",
                     type: "POST",
@@ -1854,16 +1806,11 @@
         let reciver = $(this).data('reciver');
         let phone = $(this).data('phone');
         let country = $(this).data('country');
-        console.log(reciver);
         $('#vip-country').attr('src', country);
         $('#vip-reciver').attr('value', reciver);
         $('#vip-phone').attr('value', phone);
-        console.log(reciver);
     });
     $(document).on("click", "#vip-submit", function () {
-
-        console.log($('#vip-reciver').val());
-
         let reciver = $('#vip-reciver').val();
         let minshares = $('#minshares').val();
         let periode = $('#periode').val();
@@ -1887,7 +1834,6 @@
                 "_token": "{{ csrf_token() }}"
             },
             success: function (data) {
-                console.log(data);
                 $.ajax({
                     url: "{{ route('sendSMS') }}",
                     type: "POST",
@@ -1931,12 +1877,7 @@
             try {
                 document.getElementById("NotificationRequest").innerHTML = "";
                 var resultData = result.data;
-                // console.log(resultData['out']);
-                // NotificationRequest
-                // if(resultData['requestInOpen']==6)
-                // {
-                //     alert('jooooooooo');
-                // }
+
                 if (resultData['requestInOpen'] > 0) {
                     var tag = document.createElement("span");
                     tag.id = "sideNotIn"
@@ -1985,7 +1926,6 @@
                 document.getElementById('SReqIn').innerHTML = "";
             } catch (e) {
             }
-            // console.log(result)
         }
     });
 </script>

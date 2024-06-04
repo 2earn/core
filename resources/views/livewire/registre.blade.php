@@ -210,7 +210,7 @@
         </div>
         @include('layouts.footer', ['pageName' => 'register'])
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/19.2.16/js/intlTelInput.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/intlTelInput.min.js"></script>
     <script src="path/to/lib/libphonenumber/build/utils.js"></script>
     <script>
         function signupEvent() {
