@@ -176,7 +176,7 @@
                         <div class="row g-3">
                             <div class="col-lg-12">
                                 <div>
-                                    <label for="nameField" class="form-label">{{ __('Name') }}
+                                    <label for="nameField" class="form-label">{{ __('FirstName') }}
                                         <span class="text-danger">*</span>
                                     </label>
                                     <input
@@ -192,7 +192,7 @@
                             <div class="col-lg-12">
                                 <div>
                                     <label for="lastNameField" class="form-label">
-                                        {{ __('Last Name') }}
+                                        {{ __('LastName') }}
                                         <span class="text-danger">*</span>
                                     </label>
                                     <input
