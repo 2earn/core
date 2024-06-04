@@ -112,8 +112,9 @@
                             </div>
                             <div>
                                 @if(file_exists(public_path('/uploads/profiles/front-id-image'.$user['idUser'].'.png')))
-                                    <img class="img-thumbnail" width="150" height="100" id="front-id-image" title="{{__('Front id image')}}"
-                                         src="{{asset(('/uploads/profiles/front-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}" >
+                                    <img class="img-thumbnail" width="150" height="100" id="front-id-image"
+                                         title="{{__('Front id image')}}"
+                                         src="{{asset(('/uploads/profiles/front-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}">
                                     <button type="button" class="btn btn-outline-primary mt-1" data-toggle="modal"
                                             id="show-identity-front"
                                             data-target=".bd-example-modal-lg">{{__('Show Identity')}}</button>
@@ -130,8 +131,9 @@
                             </div>
                             <div>
                                 @if(file_exists(public_path('/uploads/profiles/back-id-image'.$user['idUser'].'.png')))
-                                    <img class="img-thumbnail" width="150" height="100" id="back-id-image" title="{{__('Back id image')}}"
-                                         src="{{asset(('/uploads/profiles/back-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}" >
+                                    <img class="img-thumbnail" width="150" height="100" id="back-id-image"
+                                         title="{{__('Back id image')}}"
+                                         src="{{asset(('/uploads/profiles/back-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}">
                                     <button type="button" class="btn btn-outline-primary mt-1" data-toggle="modal"
                                             id="show-identity-back"
                                             data-target=".bd-example-modal-lg">{{__('Show Identity')}}</button>
@@ -443,8 +445,10 @@
                             <form action="">
                                 <div class="row g-2">
                                     <div class="col-lg-4">
-                                        <label for="oldpasswordInput"
-                                               class="form-label">{{ __('Current Password') }}</label>
+                                        <label for="oldpasswordInput" class="form-label">
+                                            {{ __('Current Password') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <div class="position-relative auth-p
                                         ass-inputgroup mb-3">
                                             <input wire:model.defer="oldPassword" type="password"
@@ -457,8 +461,10 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
-                                        <label for="newpasswordInput"
-                                               class="form-label">{{ __('New Password') }}</label>
+                                        <label for="newpasswordInput" class="form-label">
+                                            {{ __('New Password') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <div class="position-relative auth-pass-inputgroup mb-3">
                                             <input wire:model.defer="newPassword" type="password"
                                                    class="form-control pe-5  "
@@ -473,8 +479,10 @@
                                     </div>
                                     <div class="col-lg-4">
                                         <div>
-                                            <label for="confirmpasswordInput"
-                                                   class="form-label">{{ __('New Confirm Password') }}</label>
+                                            <label for="confirmpasswordInput" class="form-label">
+                                                {{ __('New Confirm Password') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <div class="position-relative auth-pass-inputgroup mb-3">
                                                 <input wire:model.defer="confirmedPassword" type="password"
                                                        class="form-control" id="confirmpasswordInput"
@@ -620,10 +628,10 @@
                                 <div>
                                     @if(file_exists(public_path('/uploads/profiles/front-id-image'.$user['idUser'].'.png')))
                                         <img class="img-thumbnail" width="150" height="100"
-                                             src="{{asset(('/uploads/profiles/front-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}" >
+                                             src="{{asset(('/uploads/profiles/front-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}">
                                     @else
                                         <img class="img-thumbnail" width="150" height="100"
-                                             src="{{asset(('/uploads/profiles/default.png'))}}?={{Str::random(16)}}" >
+                                             src="{{asset(('/uploads/profiles/default.png'))}}?={{Str::random(16)}}">
                                     @endif
                                 </div>
                                 <div class="wrap-custom-file" style="margin-top: 10px">
@@ -648,10 +656,10 @@
                                 <div>
                                     @if(file_exists(public_path('/uploads/profiles/back-id-image'.$user['idUser'].'.png')))
                                         <img width="150" height="100"
-                                             src="{{asset(('/uploads/profiles/back-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}" >
+                                             src="{{asset(('/uploads/profiles/back-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}">
                                     @else
                                         <img width="150" height="100"
-                                             src="{{asset(('/uploads/profiles/default.png'))}}?={{Str::random(16)}}" >
+                                             src="{{asset(('/uploads/profiles/default.png'))}}?={{Str::random(16)}}">
                                     @endif
                                 </div>
                                 <div class="wrap-custom-file" style="margin-top: 10px">
