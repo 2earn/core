@@ -363,7 +363,7 @@
                 title: event.detail.title,
                 text: event.detail.text,
                 icon: 'error',
-                confirmButtonText: "{{__('OK')}}"
+                confirmButtonText: "{{__('ok')}}"
             })
         })
     </script>

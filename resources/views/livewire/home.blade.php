@@ -624,7 +624,12 @@
                             },
                             error: function (data) {
                                 var responseData = JSON.parse(data.responseText);
-                                Swal.fire({icon: 'error', title: "{{__('Error in action purchase transaction')}}", text: responseData.error[0]});
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: "{{__('Error in action purchase transaction')}}",
+                                    confirmButtonText: '{{__('ok')}}',
+                                    text: responseData.error[0]
+                                });
                                 $('.buy-action-submit-spinner').hide();
                             }
                         });

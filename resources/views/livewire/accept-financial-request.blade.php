@@ -25,12 +25,6 @@
                 <div><strong><span>{{__('Opération')}}:</span> </strong><span>{{__('BFS to BFS')}}</span></div>
                 <div><strong><span>{{__('vers')}}:</span> </strong><span>  {{$financialRequest->name}}  </span></div>
                 <div><strong><span>{{__('Mobile Number')}}:</span></strong> <span>  {{$financialRequest->mobile}}  </span></div>
-                {{--                <span>vers : {{$soldeUser->soldeBFS}}</span>--}}
-                {{--                <select id="RequstCompte" class="form-select" aria-label="Default select example">--}}
-                {{--                    <option value="0" selected>Choose</option>--}}
-                {{--                    <option value="1">From Cash Balance</option>--}}
-                {{--                    <option value="2">From Balance for shopping</option>--}}
-                {{--                </select>--}}
             </div>
             <p class="card-text"><strong>{{__('Montant_envoyer')}}</strong> {{$financialRequest->amount}} $</p>
             <button  onclick="ConfirmTransacction()" class=" btn btn-primary btn2earn  ">{{__('Confirmer')}}</button>

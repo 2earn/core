@@ -311,7 +311,7 @@
                 showCancelButton: true,
                 confirmButtonText: '{{__('ok')}}',
                 cancelButtonText: '{{__('cancel !')}}',
-                denyButtonText: '{{__('No')}}',
+                denyButtonText: '{{__('no')}}',
                 customClass: {
                     actions: 'my-actions',
                     cancelButton: 'order-1 right-gap',
