@@ -7,7 +7,10 @@
                 </div>
                 <div wire:ignore class="card-body">
                     <div class="mb-3" dir="ltr">
-                        <label>{{ __('Your new phone number') }}</label>
+                        <label>
+                            {{ __('Your new phone number') }}
+                            <span class="text-danger">*</span>
+                        </label>
                         <div id="inputPhoneUpdate" data-turbolinks-permanent class="input-group signup mb-3">
                         </div>
                     </div>
