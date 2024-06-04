@@ -662,20 +662,13 @@
                 "ordering": true,
                 retrieve: true,
                 "colReorder": false,
-                // dom: 'Bfstrip',
-                // buttons: [
-                //     'csv', 'excel'
-                // ],
                 "orderCellsTop": true,
                 "fixedHeader": true,
-
                 "order": [[0, 'desc']],
                 "processing": true,
                 "serverSide": false,
                 "aLengthMenu": [[100, 500, 1000], [100, 500, 1000]],
-                search: {
-                    return: true
-                },
+                search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
                 "ajax": "{{route('API_UsersList',['locale'=> app()->getLocale()])}}",
@@ -693,7 +686,6 @@
                     {data: 'pass'},
                     {data: 'register_upline'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
-
                     {data: 'minshares'},
                     {data: 'periode'},
                     {data: 'date'},
@@ -701,23 +693,12 @@
                     {data: 'note'},
                     {data: 'VIP', name: 'action', orderable: false, searchable: false},
                     {data: 'mobile'},
-
-
                 ],
-                "columnDefs": [
-                    {
-                        "targets": [19],
-                        searchable: true,
-                        visible: false
-                    },
-
-                ],
-
-                "language": {
-                    "url": urlLang
-                }
+                "columnDefs": [{"targets": [19], searchable: true, visible: false},],
+                "language": {"url": urlLang}
             }
         );
+
         $('#shares-solde').DataTable(
             {
                 "ordering": true,
