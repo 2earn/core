@@ -3,9 +3,11 @@
         .iti {
             width: 100% !important;
         }
+
         .hide {
             display: none;
         }
+
         #error-msg {
             color: red;
         }
@@ -199,10 +201,12 @@
                             </div>
                         </div>
                         <div class="mt-4 text-center">
-                            <p class="mb-0">{{__('have_account')}} <a
-                                    href="{{route('login',['locale'=>app()->getLocale()])}}"
-                                    class="fw-semibold text-primary text-decoration-underline ">
-                                    {{__('Sign in')}} </a></p>
+                            <p class="mb-0">
+                                {{__('have_account')}}
+                                <a href="{{route('login',['locale'=>app()->getLocale()])}}"
+                                   class="fw-semibold text-primary text-decoration-underline ">
+                                    {{__('Sign in')}}
+                                </a></p>
                         </div>
                     </div>
                 </div>
@@ -240,7 +244,7 @@
                 } else {
                     input.classList.add("error");
                     const errorCode = iti.getValidationError();
-                    errorMsg.innerHTML = errorMap[errorCode] || "Invalid number";
+                    errorMsg.innerHTML = errorMap[errorCode] || "{{__('Invalid number')}}";
                     errorMsg.classList.remove("hide");
                 }
             }

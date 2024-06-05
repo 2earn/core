@@ -73,7 +73,6 @@ Route::get('coming-soon-Move', [App\Http\Controllers\HomeController::class, 'ind
 Route::get('coming-soon-learn', [App\Http\Controllers\HomeController::class, 'index'])->name('ComingLearn');
 Route::get('coming-soon-shop', [App\Http\Controllers\HomeController::class, 'index'])->name('ComingShop');
 Route::get('widgets', [App\Http\Controllers\HomeController::class, 'index'])->name('widgets');
-Route::get('login', Login::class)->name('login')->middleware('setLocalLogin');
 Route::get('/offline', function () {
     return view('livewire.offline');
 });
@@ -130,7 +129,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('action-by-ammount', 'App\Http\Controllers\ApiController@actionByAmmount')->name('action-by-ammount');
         Route::post('gift-action-by-ammount', 'App\Http\Controllers\ApiController@giftActionByAmmount')->name('gift-action-by-ammount');
     });
-
+    Route::get('/login', Login::class)->name('login')->middleware('setLocalLogin');
     Route::get('registre', Registre::class)->name('registre');
     Route::get('forgetpassword', ForgotPassword::class)->name('forgetpassword');
     Route::get('/CheckOptCode/{iduser}/{ccode}/{numTel}', CheckOptCode::class)->name('CheckOptCode');
