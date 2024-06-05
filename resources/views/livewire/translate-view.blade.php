@@ -4,9 +4,6 @@
             {{ __('Translate') }}
         @endslot
     @endcomponent
-    <div class="row">
-        @include('layouts.flash-messages')
-    </div>
     <div wire:ignore.self class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
@@ -74,13 +71,8 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         </div>
     </div>
     <div class="row">
-        <div class="col">
+        <div class="col-sm-12 col-md-6 col-lg-5 mt-1">
             <div class="btn-group material-shadow" role="group" aria-label="Basic example">
-                <a href="{{route('home',app()->getLocale())}}"
-                   class="btn btn-secondary btn-label waves-effect right waves-light">
-                    <i class="ri-home-2-fill label-icon align-middle fs-16 ms-2"></i>
-                    {{__('Home')}}
-                </a>
                 <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
                    wire:click="PreImport('arToData')">
                     <i class="ri-dashboard-2-fill label-icon align-middle fs-16 ms-2"></i>
@@ -91,6 +83,10 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                     <i class="ri-dashboard-2-fill label-icon align-middle fs-16 ms-2"></i>
                     {{__('English field To base')}}
                 </a>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-5 mt-1">
+            <div class="btn-group material-shadow" role="group" aria-label="Basic example">
                 <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
                    wire:click="PreImport('mergeToData')">
                     <i class="ri-database-2-fill label-icon align-middle fs-16 ms-2"></i>
@@ -101,24 +97,35 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                     <i class="ri-file-2-line label-icon align-middle fs-16 ms-2"></i>
                     {{__('Database To file')}}
                 </a>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-2 mt-1">
+            <div class="btn-group material-shadow" role="group" aria-label="Basic example">
                 <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
                    wire:click="PreAjout">
                     <i class="ri-file-add-fill label-icon align-middle fs-16 ms-2"></i>
                     {{__('Add a new')}}
                 </a>
-
             </div>
-            <div style="margin-top: 10px" class="row">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 mt-2">
+            @include('layouts.flash-messages')
+        </div>
+        <div class="col-12">
+            <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header headerTranslate">
                             <div class="row ">
                                 <div class="col-md-6 form-row">
                                     <label for="nbrPagibation" class="col-4"> {{__('Show')}} </label>
-                                    <select wire:model="nbrPagibation" class="form-control col-6" id="nbrPagibation">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
+                                    <select wire:model="nbrPagibation" class="form-control col-6"
+                                            id="nbrPagibation">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6 form-row">
@@ -155,7 +162,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                class="btn btn-info">{{__('Edit')}}
                                             </a>
                                             <a type="btn" onclick="confirmDelete({{$value->id}})"
-                                               class="btn btn-danger">{{__('Delete')}}
+                                               class="btn btn-danger mt-1">{{__('Delete')}}
                                             </a>
                                         </td>
                                     </tr>

@@ -671,7 +671,7 @@
                 search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
-                "ajax": "{{route('API_UsersList',['locale'=> app()->getLocale()])}}",
+                "ajax": "{{route('API_UsersList',app()->getLocale())}}",
                 "columns": [
                     {data: 'formatted_created_at'},
                     {data: 'flag'},

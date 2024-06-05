@@ -131,6 +131,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('action-by-ammount', 'App\Http\Controllers\ApiController@actionByAmmount')->name('action-by-ammount');
         Route::post('gift-action-by-ammount', 'App\Http\Controllers\ApiController@giftActionByAmmount')->name('gift-action-by-ammount');
     });
+    Route::get('users_list', 'App\Http\Controllers\ApiController@getUsersList')->name('API_UsersList');
     Route::get('/login', Login::class)->name('login')->middleware('setLocalLogin');
     Route::get('registre', Registre::class)->name('registre');
     Route::get('forgetpassword', ForgotPassword::class)->name('forgetpassword');
@@ -161,7 +162,6 @@ Route::group(['prefix' => 'API'], function () {
     Route::get('user_purchaseBFS', 'App\Http\Controllers\ApiController@getPurchaseBFSUser')->name('API_userBFSPurchase');
     Route::post('paytabs_notification', 'App\Http\Controllers\ApiController@handlePaymentNotification')->name('paytabs_notification')->withoutMiddleware('web');
 
-    Route::get('users_list', 'App\Http\Controllers\ApiController@getUsersList')->name('API_UsersList');
     Route::get('sankey', 'App\Http\Controllers\ApiController@getSankey')->name('API_sankey');
 
     Route::get('shares_solde', 'App\Http\Controllers\ApiController@getSharesSolde')->name('API_sharessolde');
