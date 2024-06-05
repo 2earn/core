@@ -23,6 +23,7 @@ use Core\Services\UserBalancesHelper;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
@@ -80,15 +81,15 @@ class CheckOptCode extends Component
         $user = $settingsManager->getUsers()->where('idUser', Crypt::decryptString($this->idUser))->first();
 
         if (substr($user->OptActivation, 0, 4) != ($this->code)) {
-            return redirect()->route('CheckOptCode', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('ErrorOptCode', 'Invalid OPT code');
+            return redirect()->route('CheckOptCode', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('ErrorOptCode', Lang::get('Invalid OPT code'));
         }
         $date = date('Y-m-d H:i:s');
         if (abs(strtotime($date) - strtotime($user->OptActivation_at)) / 60 > 1500) {
-            return redirect()->route('CheckOptCode', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('ErrorExpirationCode', 'OPT code expired');
+            return redirect()->route('CheckOptCode', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('ErrorExpirationCode', Lang::get('OPT code expired'));
         }
         $user = $settingsManager->getUserById($user->id);
         if ($user->status != -2) {
-            return redirect()->route('CheckOptCode', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('ErrorExpirationCode', 'User already verified');
+            return redirect()->route('CheckOptCode', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('ErrorExpirationCode', Lang::get('User already verified'));
         }
         $userUpline = $settingsManager->checkUserInvited($user);
         $password = $this->randomNewPassword(8);
@@ -111,7 +112,7 @@ class CheckOptCode extends Component
             }
             $userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::Signup, $user->idUser);
         }
-        return redirect()->route('login', app()->getLocale())->with('FromLogOut', 'fds');
+        return redirect()->route('login', app()->getLocale())->with('FromLogOut', Lang::get('fds'));
     }
 
 }

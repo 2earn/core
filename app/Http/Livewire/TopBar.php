@@ -63,6 +63,6 @@ class TopBar extends Component
     public function logout(settingsManager $settingsManager)
     {
         $settingsManager->logoutUser();
-        return redirect()->route('login', ['locale' => app()->getLocale()])->with('FromLogOut', 'FromLogOut');
+        return redirect()->route('login', ['locale' => app()->getLocale()])->with('FromLogOut', Lang::get('FromLogOut'));
     }
 }

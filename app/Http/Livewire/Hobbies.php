@@ -36,6 +36,5 @@ class Hobbies extends Component
         DB::table('metta_users')
             ->where('idUser', $user->idUser)
             ->update(['interests' => json_encode($options)]);
-//        return redirect()->route('hobbies', app()->getLocale())->with('SuccesUpdateHobbies', 'Update hobies succes');
     }
 }

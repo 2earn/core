@@ -8,6 +8,7 @@ use Core\Services\settingsManager;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
 use function PHPUnit\Framework\isEmpty;
 use function Symfony\Component\String\b;
@@ -48,7 +49,7 @@ class ChangePassword extends Component
         $new_pass = Hash::make($this->newPassword);
         DB::table('users')->where('id', $user->id)->update(['password' => $new_pass]);
         $this->earnDebug('update password password updated  : iduser- ' .$this->idUser);
-        return redirect()->route('login', app()->getLocale())->with('SuccesUpdatePassword', 'Password updated');
+        return redirect()->route('login', app()->getLocale())->with('SuccesUpdatePassword', Lang::get('Password updated'));
 
 
     }

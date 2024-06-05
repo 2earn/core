@@ -536,7 +536,7 @@
                                     <thead class="table-light">
                                     <tr class="tabHeader2earn">
                                         <th>{{ __('Request') }}</th>
-                                        <th>{{ __('Date') }}</th>
+                                        <th>{{ __('date') }}</th>
                                         <th>{{ __('User') }}</th>
                                         <th>{{ __('UserPhone') }}</th>
                                         <th>{{ __('Amount') }}</th>

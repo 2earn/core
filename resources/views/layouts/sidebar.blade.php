@@ -128,7 +128,7 @@
                     </li>
                     @if(auth()->user()->getRoleNames()->first() =="Super admin")
                         <li class="menu-title">
-                            <span data-key="t-menu">{{ __('Super admin Menu') }}</span>
+                            <span data-key="t-menu">{{ __('SUPER ADMIN MENU') }}</span>
                         </li>
                         <li class="nav-item {{Route::currentRouteName()=='configuration'? 'active' : ''}}">
                             <a href="{{route('configuration', app()->getLocale())}}"
