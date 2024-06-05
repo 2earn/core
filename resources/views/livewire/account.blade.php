@@ -212,7 +212,7 @@
                                             <input type="text" class="form-control"
                                                    {{$disabled}}
                                                    wire:model.defer="usermetta_info.enLastName"
-                                                   placeholder="{{__('LastName')}}" value="">
+                                                   placeholder="{{__('Last Name')}}" value="">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
