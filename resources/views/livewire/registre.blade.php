@@ -73,7 +73,7 @@
         </div>
         <div class="auth-page-content">
             <div class="container">
-                <div class="row col-lg-6 d-none d-md-block">
+                <div class="row col-lg-12 d-none d-md-block">
                     <div class="col-lg-12 mb-2 ">
                         <div class="text-center mt-sm-5 mb-4 text-white-50">
                             <a href="{{route('login',app()->getLocale())}}" class="d-inline-block auth-logo">
