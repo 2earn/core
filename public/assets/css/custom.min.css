@@ -499,3 +499,11 @@ nav svg {
 .btn-outline-gold:hover {
     color: black;
 }
+
+.navbar-menu .navbar-nav .nav-link {
+    color: #464fed
+}
+
+.navbar-menu .navbar-nav .nav-link svg {
+    color: #999999;
+}
