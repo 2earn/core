@@ -314,3 +314,10 @@ input[type=range]::-ms-fill-upper {
     overflow: hidden;
     opacity: 0;
 }
+.navbar-menu .navbar-nav .nav-link {
+    color: #464fed
+}
+
+.navbar-menu .navbar-nav .nav-link svg {
+    color: #999999;
+}
