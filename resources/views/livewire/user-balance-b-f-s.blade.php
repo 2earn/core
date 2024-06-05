@@ -35,7 +35,7 @@
                         <tr class=" tabHeader2earn">
                             <th>{{__('Num')}}</th>
                             <th>{{ __('ref') }}</th>
-                            <th>{{ __('Date') }}</th>
+                            <th>{{ __('date') }}</th>
                             <th>{{ __('Operation Designation') }}</th>
                             <th>{{ __('description') }}</th>
                             <th>{{ __('Value') }}</th>

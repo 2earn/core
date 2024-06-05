@@ -15,7 +15,7 @@
                             <thead class="table-light">
                             <tr class="head2earn  tabHeader2earn" >
                                 <th>{{ __('ref') }}</th>
-                                <th>{{ __('Date') }}</th>
+                                <th>{{ __('date') }}</th>
                                 <th>{{ __('Operation Designation') }}</th>
                                 <th>{{ __('description') }}</th>
                                 <th>{{ __('Value') }}</th>

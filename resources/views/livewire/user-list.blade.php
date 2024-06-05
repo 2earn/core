@@ -188,7 +188,7 @@
                             <th>{{__('Action')}}</th>
                             <th>{{__('MinShare')}}</th>
                             <th>{{__('Periode')}}</th>
-                            <th>{{__('Date')}}</th>
+                            <th>{{__('date')}}</th>
                             <th>{{__('COeff')}}</th>
                             <th>{{__('Note')}}</th>
                             <th>{{__('VIP')}}</th>
@@ -324,7 +324,7 @@
                                     <thead class="table-light">
                                     <tr class="head2earn  tabHeader2earn">
                                         <th>{{ __('ref') }}</th>
-                                        <th>{{ __('Date') }}</th>
+                                        <th>{{ __('date') }}</th>
                                         <th>{{ __('Operation Designation') }}</th>
                                         <th>{{ __('description') }}</th>
                                         <th>{{ __('Value') }}</th>
