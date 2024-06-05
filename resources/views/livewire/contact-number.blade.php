@@ -16,6 +16,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         if (ErrorOptAddNumber) {
             Swal.fire({
                 title: '{{Session::get('ErrorOptAddNumber')}}',
+                confirmButtonText: '{{__('ok')}}',
                 showClass: {popup: 'animate__animated animate__fadeInDown'},
                 hideClass: {popup: 'animate__animated animate__fadeOutUp'}
             });
@@ -25,6 +26,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         if (numberPhoneexiste) {
             Swal.fire({
                 title: '{{Session::get('numberPhoneexiste')}}',
+                confirmButtonText: '{{__('ok')}}',
                 showClass: {popup: 'animate__animated animate__fadeInDown'},
                 hideClass: {popup: 'animate__animated animate__fadeOutUp'}
             });
@@ -39,6 +41,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         if (failedDeleteIDNumber) {
             Swal.fire({
                 title: '{{Session::get('failedDeleteIDNumber')}}',
+                confirmButtonText: '{{__('ok')}}',
                 showClass: {popup: 'animate__animated animate__fadeInDown'},
                 hideClass: {popup: 'animate__animated animate__fadeOutUp'}
             });
