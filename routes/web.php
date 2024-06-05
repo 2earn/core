@@ -76,8 +76,10 @@ Route::get('widgets', [App\Http\Controllers\HomeController::class, 'index'])->na
 Route::get('/offline', function () {
     return view('livewire.offline');
 });
-Route::get('/privacy', function () {
-    return view('livewire.privacy')->extends('layouts.master-without-nav')->section('content');
+Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'middleware' => 'setlocale'], function () {
+    Route::get('/privacy', function () {
+        return view('livewire.privacy')->extends('layouts.master-without-nav')->section('content');
+    })->name('privacy');
 });
 
 Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'middleware' => 'setlocale'], function () {
