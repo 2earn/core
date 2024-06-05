@@ -240,9 +240,9 @@ if (!function_exists('getGiftedActions')) {
     }
 }
 if (!function_exists('getFlashGiftedActions')) {
-    function getFlashGiftedActions($actions,$times)
+    function getFlashGiftedActions($actions, $times)
     {
-            $result = intval($actions * ($times-1));
+        $result = intval($actions * ($times - 1));
         return $result;
     }
 }
@@ -463,11 +463,14 @@ if (!function_exists('getDecimals')) {
         return substr(number_format($number - intval($number), $decimals, '.', ','), 2);
     }
 }
-if (!function_exists('getConnectedUserDisplayedName')) {
-    function getConnectedUserDisplayedName()
+if (!function_exists('getUserDisplayedName')) {
+    function getUserDisplayedName($idUser = null)
     {
-        $usermetta_info = collect(DB::table('metta_users')->where('idUser', auth()->user()->idUser)->first());
-        $user = DB::table('users')->where('idUser', auth()->user()->idUser)->first();
+        if (is_null($idUser)) {
+            $idUser = auth()->user()->idUser;
+        }
+        $usermetta_info = collect(DB::table('metta_users')->where('idUser', $idUser)->first());
+        $user = DB::table('users')->where('idUser', $idUser)->first();
         $displayedName = "";
         if (config('app.available_locales')[app()->getLocale()]['direction'] === 'rtl')
             if (isset($usermetta_info['arFirstName']) && isset($usermetta_info['arLastName']) && !empty($usermetta_info['arFirstName']) && !empty($usermetta_info['arLastName'])) {

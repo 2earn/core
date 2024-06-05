@@ -289,7 +289,7 @@
                                  src="@if (file_exists('uploads/profiles/profile-image-' . $user->idUser . '.png')) {{ URL::asset('uploads/profiles/profile-image-'.$user->idUser.'.png') }}@else{{ URL::asset('uploads/profiles/default.png') }} @endif">
                             <span class="text-center ms-xl-2">
                                 <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">
-                                    {{getConnectedUserDisplayedName()}} </span>
+                                    {{getUserDisplayedName()}} </span>
                                  <span
                                      class="d-none d-xl-block badge bg-light @if($user->status==1) text-success  @else text-muted @endif mb-0">
                                         <span class="mb-5">{{__($userRole)}}</span>
