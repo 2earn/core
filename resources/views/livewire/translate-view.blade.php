@@ -116,9 +116,9 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                 <div class="col-md-6 form-row">
                                     <label for="nbrPagibation" class="col-4"> {{__('Show')}} </label>
                                     <select wire:model="nbrPagibation" class="form-control col-6" id="nbrPagibation">
-                                        @for($i=5;$i<=50;$i+=5)
-                                            <option value="{{$i}}">{{$i}}</option>
-                                        @endfor
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6 form-row">
