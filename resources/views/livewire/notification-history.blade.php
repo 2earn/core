@@ -27,7 +27,7 @@
                                         <th>{{__('send')}}</th>
                                         <th>{{__('receiver')}}</th>
                                         <th>{{__('Actions')}}</th>
-                                        <th>{{__('Date')}}</th>
+                                        <th>{{__('date')}}</th>
                                         <th>{{__('Type')}}</th>
                                         <th>{{__('reponce')}}</th>
                                    </tr>

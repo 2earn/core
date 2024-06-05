@@ -193,9 +193,9 @@
                                 </select>
                             </div>
                             <div class="mb-3 col-xl-12">
-                                <label class="me-sm-2">{{ __('Description') }}</label>
+                                <label class="me-sm-2">{{ __('description') }}</label>
                                 <textarea maxlength="250" class="form-control" wire:model.defer="Description"
-                                          placeholder="{{ __('Description') }}" name="Description"></textarea>
+                                          placeholder="{{ __('description') }}" name="Description"></textarea>
                             </div>
                         </div>
                     </form>

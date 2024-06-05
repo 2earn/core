@@ -222,7 +222,7 @@ class FinancialTransaction extends Component
         $userAuth = $settingsManager->getAuthUser();
         $user = $settingsManager->getUserById($userAuth->id);
         if ($code != $user->activationCodeValue)
-            return redirect()->route("financial_transaction", app()->getLocale())->with('ErrorOptCodeForget', 'Invalid OPT code');
+            return redirect()->route("financial_transaction", app()->getLocale())->with('ErrorOptCodeForget', Lang::get('Invalid OPT code'));
         $settingsManager->exchange(
             ExchangeTypeEnum::CashToBFS,
             $settingsManager->getAuthUser()->idUser,
@@ -238,12 +238,12 @@ class FinancialTransaction extends Component
         $userAuth = $settingsManager->getAuthUser();
         $user = $settingsManager->getUserById($userAuth->id);
         if ($code != $user->activationCodeValue)
-            return redirect()->route("financial_transaction", app()->getLocale())->with('ErrorOptCodeForget', 'Invalid OPT code');
+            return redirect()->route("financial_transaction", app()->getLocale())->with('ErrorOptCodeForget', Lang::get('Invalid OPT code'));
         $settingsManager->exchange(
             ExchangeTypeEnum::BFSToSMS,
             $settingsManager->getAuthUser()->idUser,
             $numberSms);
-        return redirect()->route('financial_transaction', app()->getLocale())->with('succesOpttSms', ' OPT code');
+        return redirect()->route('financial_transaction', app()->getLocale())->with('succesOpttSms', Lang::get(' OPT code'));
     }
 
     public function getRequestIn($settingsManager)

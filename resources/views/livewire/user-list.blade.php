@@ -82,7 +82,7 @@
                             <div class="col-sm-12 col-md-4 col-lg-3">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title"> {{__('SMS Balance')}}</h5>
+                                        <h5 class="card-title"> {{__('sms balance')}}</h5>
                                         <div class="d-flex align-items-center">
                                             <div class="flex-shrink-0">
                                                 <i class="ri-message-line display-6 text-muted"></i>
@@ -188,7 +188,7 @@
                             <th>{{__('Action')}}</th>
                             <th>{{__('MinShare')}}</th>
                             <th>{{__('Periode')}}</th>
-                            <th>{{__('Date')}}</th>
+                            <th>{{__('date')}}</th>
                             <th>{{__('COeff')}}</th>
                             <th>{{__('Note')}}</th>
                             <th>{{__('VIP')}}</th>
@@ -323,10 +323,10 @@
                                        id="ub_table_list" style="width: 100%">
                                     <thead class="table-light">
                                     <tr class="head2earn  tabHeader2earn">
-                                        <th>{{ __('Ref') }}</th>
-                                        <th>{{ __('Date') }}</th>
+                                        <th>{{ __('ref') }}</th>
+                                        <th>{{ __('date') }}</th>
                                         <th>{{ __('Operation Designation') }}</th>
-                                        <th>{{ __('Description') }}</th>
+                                        <th>{{ __('description') }}</th>
                                         <th>{{ __('Value') }}</th>
                                         <th>{{ __('Balance') }}</th>
                                     </tr>

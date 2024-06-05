@@ -212,7 +212,7 @@
                                             <input type="text" class="form-control"
                                                    {{$disabled}}
                                                    wire:model.defer="usermetta_info.enLastName"
-                                                   placeholder="{{__('Last name')}}" value="">
+                                                   placeholder="{{__('Last Name')}}" value="">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -960,14 +960,13 @@
             });
             $("#show-identity-back").click(function () {
                 showIdentitiesModal('back')
-
             });
             window.addEventListener('profilePhotoError', event => {
                 Swal.fire({
                     title: event.detail.title,
                     text: event.detail.text,
                     icon: 'error',
-                    confirmButtonText: "{{__('OK')}}"
+                    confirmButtonText: "{{__('ok')}}"
                 })
             })
         </script>

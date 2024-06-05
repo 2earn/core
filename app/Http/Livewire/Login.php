@@ -39,6 +39,6 @@ class Login extends Component
             $this->earnDebug('Failed login : number phone -  ' . $number . ' Code pays- : ' . $code . ' Password- : ' . $pass . ' Iso- :' . $iso);
             return redirect()->route('login', ['locale' => app()->getLocale()])->with('message', Lang::get('your phone or your password is incorrect !'));
         }
-        return redirect()->intended(route('home', app()->getLocale()))->with('fromLogin', 'fromLogin');
+        return redirect()->intended(route('home', app()->getLocale()))->with('fromLogin', Lang::get('fromLogin'));
     }
 }

@@ -42,7 +42,7 @@ class Registre extends Component
     public function signup(settingsManager $settingsManager, TransactionManager $transactionManager)
     {
         if ($this->phoneNumber == "") {
-            return redirect()->route('registre', app()->getLocale())->with('errorPhoneValidation', 'your message,here');
+            return redirect()->route('registre', app()->getLocale())->with('errorPhoneValidation', Lang::get('your message,here'));
         }
         $newUser = null;
         $user = $settingsManager->getUserByFullNumber($this->fullNumber);

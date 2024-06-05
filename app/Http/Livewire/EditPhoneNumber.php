@@ -34,7 +34,7 @@ class EditPhoneNumber extends Component
         if (!$user) return;
 
         if ($code != $user->activationCodeValue)
-            return redirect()->route("account", app()->getLocale())->with('ErrorSamePhone', 'Invalid OPT code');
+            return redirect()->route("account", app()->getLocale())->with('ErrorSamePhone', Lang::get('Invalid OPT code'));
 
         $country = $settingsManager->getCountryByIso($iso);
         User::where('idUser', auth()->user()->idUser)->update(['mobile' => $phonenumber, 'fullphone_number' => $fullNumber, 'idCountry' => $country->id, 'activationCodeValue' => $code, 'id_phone' => $codeP]);
@@ -51,7 +51,7 @@ class EditPhoneNumber extends Component
             DB::update('update usercontactnumber set active = 0 , isID= 0 where idUser = ?', [$userAuth->idUser]);
             DB::update('update usercontactnumber set active = ? ,isID = 1  where id = ?', [1, $newC->id]);
         }
-        return redirect()->route("account", app()->getLocale())->with('SuccesUpdatePhone', 'Phone number changed');
+        return redirect()->route("account", app()->getLocale())->with('SuccesUpdatePhone', Lang::get('Phone number changed'));
     }
 
     public function PreChangePhone($phone, $fullNumber, $methodeVerification, settingsManager $settingsManager)

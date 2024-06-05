@@ -66,7 +66,6 @@ Route::get('/pdf', function () {
 });
 
 Route::get('test', \App\Http\Livewire\Test::class)->name('test');
-Route::get('changePassword/{idUser}', ChangePassword::class)->name('resetPassword');
 
 Route::get('tables-datatables', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
 Route::get('coming-soon-Move', [App\Http\Controllers\HomeController::class, 'index'])->name('ComingMove');
@@ -76,8 +75,10 @@ Route::get('widgets', [App\Http\Controllers\HomeController::class, 'index'])->na
 Route::get('/offline', function () {
     return view('livewire.offline');
 });
-Route::get('/privacy', function () {
-    return view('livewire.privacy')->extends('layouts.master-without-nav')->section('content');
+Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'middleware' => 'setlocale'], function () {
+    Route::get('/privacy', function () {
+        return view('livewire.privacy')->extends('layouts.master-without-nav')->section('content');
+    })->name('privacy');
 });
 
 Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'middleware' => 'setlocale'], function () {
@@ -123,8 +124,15 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/admin/identification_request', identificationRequest::class)->name('identificationRequest');
             Route::get('/translation', TranslateView::class)->name('translate');
         });
-    });
 
+        Route::post('validate-phone', 'App\Http\Controllers\ApiController@validatePhone')->name('validate_phone');
+        Route::post('buy-action', 'App\Http\Controllers\ApiController@buyAction')->name('buyAction');
+        Route::get('action-by-ammount', 'App\Http\Controllers\ApiController@actionByAmmount')->name('action-by-ammount');
+        Route::post('gift-action-by-ammount', 'App\Http\Controllers\ApiController@giftActionByAmmount')->name('gift-action-by-ammount');
+    });
+    Route::get('changePassword/{idUser}', ChangePassword::class)->name('resetPassword');
+    Route::get('users_list', 'App\Http\Controllers\ApiController@getUsersList')->name('API_UsersList');
+    Route::get('/login', Login::class)->name('login')->middleware('setLocalLogin');
     Route::get('registre', Registre::class)->name('registre');
     Route::get('forgetpassword', ForgotPassword::class)->name('forgetpassword');
     Route::get('/CheckOptCode/{iduser}/{ccode}/{numTel}', CheckOptCode::class)->name('CheckOptCode');
@@ -155,7 +163,6 @@ Route::group(['prefix' => 'API'], function () {
     Route::get('user_purchaseBFS', 'App\Http\Controllers\ApiController@getPurchaseBFSUser')->name('API_userBFSPurchase');
     Route::post('paytabs_notification', 'App\Http\Controllers\ApiController@handlePaymentNotification')->name('paytabs_notification')->withoutMiddleware('web');
 
-    Route::get('users_list', 'App\Http\Controllers\ApiController@getUsersList')->name('API_UsersList');
     Route::get('sankey', 'App\Http\Controllers\ApiController@getSankey')->name('API_sankey');
 
     Route::get('shares_solde', 'App\Http\Controllers\ApiController@getSharesSolde')->name('API_sharessolde');
@@ -178,11 +185,7 @@ Route::group(['prefix' => 'API'], function () {
     Route::post('update-balance-status', 'App\Http\Controllers\ApiController@updateBalanceStatus')->name('update-balance-status');
     Route::post('update-reserve-date', 'App\Http\Controllers\ApiController@updateReserveDate')->name('update-reserve-date');
     Route::post('update-balance-real', 'App\Http\Controllers\ApiController@updateBalanceReal')->name('update-balance-real');
-    Route::post('validate-phone', 'App\Http\Controllers\ApiController@validatePhone')->name('validate_phone');
 
-    Route::post('buy-action', 'App\Http\Controllers\ApiController@buyAction')->name('buyAction');
-    Route::get('action-by-ammount', 'App\Http\Controllers\ApiController@actionByAmmount')->name('action-by-ammount');
-    Route::post('gift-action-by-ammount', 'App\Http\Controllers\ApiController@giftActionByAmmount')->name('gift-action-by-ammount');
 });
 
 Route::get('/ResetNot', 'App\Http\Controllers\FinancialRequestController@resetInComingNotification')->name('resetInComingNotification');

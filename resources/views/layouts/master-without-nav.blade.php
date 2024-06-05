@@ -93,12 +93,16 @@
         }
     </style>
 @endif
-@yield('content')
+<div class="container-fluid">
+    @yield('content')
+</div>
 @include('layouts.vendor-scripts')
 @livewireScripts
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js"
         data-turbolinks-eval="false" data-turbo-eval="false"></script>
+{{--<script src="{{ mix('js/turbo.js') }}" defer></script>--}}
+{{--<script src="{{ URL::asset('/assets/js/app.min.js') }}" defer></script>--}}
 <script>
 
     $(document).on('ready turbolinks:load', function () {

@@ -671,7 +671,7 @@
                 search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
-                "ajax": "{{route('API_UsersList',['locale'=> app()->getLocale()])}}",
+                "ajax": "{{route('API_UsersList',app()->getLocale())}}",
                 "columns": [
                     {data: 'formatted_created_at'},
                     {data: 'flag'},
@@ -704,20 +704,13 @@
                 "ordering": true,
                 retrieve: true,
                 "colReorder": false,
-                // dom: 'Bfstrip',
-                // buttons: [
-                //     'csv', 'excel'
-                // ],
                 "orderCellsTop": true,
                 "fixedHeader": true,
-
                 "order": [[5, 'asc']],
                 "processing": true,
                 "serverSide": false,
                 "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                search: {
-                    return: true
-                },
+                search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
                 "ajax": "{{route('API_sharessolde',['locale'=> app()->getLocale()])}}",
@@ -729,35 +722,25 @@
                     {data: 'total_price'},
                     {data: 'present_value'},
                     {data: 'current_earnings'},
-
-
                 ],
-
-
                 "language": {
                     "url": urlLang
                 }
             }
         );
+
         $('#countie-tab').DataTable(
             {
                 "ordering": true,
                 retrieve: true,
                 "colReorder": false,
-                // dom: 'Bfstrip',
-                // buttons: [
-                //     'csv', 'excel'
-                // ],
                 "orderCellsTop": true,
                 "fixedHeader": true,
-
                 "order": [[5, 'asc']],
                 "processing": true,
                 "serverSide": false,
                 "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                search: {
-                    return: true
-                },
+                search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
                 "ajax": "{{ route('API_stat_countries', ['locale'=> app()->getLocale()]) }}",
@@ -775,55 +758,38 @@
                     {data: 'SHARES_REVENUE'},
                     {data: 'COUNT_REAL_TRAIDERS'},
                     {data: 'TRANSFERT_MADE'},
-
-
                 ],
-
-
                 "language": {
                     "url": urlLang
                 }
             }
         );
+
         $('#transfert').DataTable(
             {
                 "ordering": true,
                 retrieve: true,
                 "colReorder": false,
-                // dom: 'Bfstrip',
-                // buttons: [
-                //     'csv', 'excel'
-                // ],
                 "orderCellsTop": true,
                 "fixedHeader": true,
-
                 "order": [[2, 'desc']],
                 "processing": true,
                 "serverSide": false,
                 "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                search: {
-                    return: true
-                },
+                search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
                 "ajax": "{{route('API_transfert',['locale'=> app()->getLocale()])}}",
                 "columns": [
-
-
                     {data: 'value'},
                     {data: 'Description'},
                     {data: 'formatted_created_at'},
-
-
                 ],
-
-
                 "language": {
                     "url": urlLang
                 }
             }
         );
-
 
         $('#shares-sold').DataTable(
             {
@@ -832,38 +798,19 @@
                 "colReorder": false,
                 dom: 'Bfrtip',
                 buttons: [
-                    {
-                        extend: 'copyHtml5',
-                        text: '<i class="ri-file-copy-2-line"></i>',
-                        titleAttr: 'Copy'
-                    },
-                    {
-                        extend: 'excelHtml5',
-                        text: '<i class="ri-file-excel-2-line"></i>',
-                        titleAttr: 'Excel'
-                    },
-                    {
-                        extend: 'csvHtml5',
-                        text: '<i class="ri-file-text-line"></i>',
-                        titleAttr: 'CSV'
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        text: '<i class="ri-file-pdf-line"></i>',
-                        titleAttr: 'PDF'
-                    }
+                    {extend: 'copyHtml5', text: '<i class="ri-file-copy-2-line"></i>', titleAttr: 'Copy'},
+                    {extend: 'excelHtml5', text: '<i class="ri-file-excel-2-line"></i>', titleAttr: 'Excel'},
+                    {extend: 'csvHtml5', text: '<i class="ri-file-text-line"></i>', titleAttr: 'CSV'},
+                    {extend: 'pdfHtml5', text: '<i class="ri-file-pdf-line"></i>', titleAttr: 'PDF'}
                 ],
                 "orderCellsTop": true,
                 "fixedHeader": true,
-
                 "order": [[14, 'desc']],
                 "processing": true,
                 "serverSide": false,
                 "pageLength": 1000,
                 "aLengthMenu": [[10, 30, 50, 100, 1000], [10, 30, 50, 100, 1000]],
-                search: {
-                    return: true
-                },
+                search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
                 "ajax": "{{route('API_sharessoldes',['locale'=> app()->getLocale()])}}",
@@ -873,12 +820,9 @@
                     {data: 'mobile'},
                     {data: 'Name'},
                     {data: 'total_shares'},
-
                     {data: 'sell_price_now'},
                     {data: 'gain'},
-                    {
-                        data: 'WinPurchaseAmount'
-                    },
+                    {data: 'WinPurchaseAmount'},
                     {data: 'Balance', "className": 'editable'},
                     {data: 'total_price'},
                     {data: 'value'},
@@ -886,22 +830,15 @@
                     {data: 'PU'},
                     {data: 'share_price'},
                     {data: 'formatted_created_at'},
-
-
                 ],
-
                 "columnDefs":
                     [
                         {
                             "targets": [7],
                             render: function (data, type, row) {
-
-
                                 if (Number(row.WinPurchaseAmount) === 1)
                                     return '<span class="badge bg-success" data-id="' + row.id + '" data-phone="' + row.mobile +
                                         '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >Transfert Made</span>';
-
-
                                 if (Number(row.WinPurchaseAmount) === 0)
                                     return '<span class="badge bg-danger" data-id="' + row.id + '" data-phone="' + row.mobile +
                                         '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >Free</span>';
@@ -910,12 +847,8 @@
                                     return '<span class="badge bg-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
                                         '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >Mixed</span>';
                             },
-
                         },
-
-
                     ],
-
                 "language": {
                     "url": urlLang
                 }

@@ -52,7 +52,7 @@ class ContactNumber extends Component
         $countrie = $settingsManager->getCountryByIso($iso);
         if (!$countrie) return;
         if ($code != $user->OptActivation)
-            return redirect()->route("ContactNumber", app()->getLocale())->with('ErrorOptAddNumber', 'Invalid OPT code');
+            return redirect()->route("ContactNumber", app()->getLocale())->with('ErrorOptAddNumber', Lang::get('Invalid OPT code'));
         $newC = $settingsManager->createUserContactNumberByProp($userAuth->idUser, $mobile, $countrie->id, $iso, $fullNumber);
         return redirect()->route('ContactNumber', app()->getLocale())->with('AddNumberContactSucces', '');
     }

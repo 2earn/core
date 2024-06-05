@@ -3,9 +3,11 @@
         .iti {
             width: 100% !important;
         }
+
         .hide {
             display: none;
         }
+
         #error-msg {
             color: red;
         }
@@ -71,7 +73,7 @@
         </div>
         <div class="auth-page-content">
             <div class="container">
-                <div class="row col-lg-6 d-none d-md-block">
+                <div class="row col-lg-12 d-none d-md-block">
                     <div class="col-lg-12 mb-2 ">
                         <div class="text-center mt-sm-5 mb-4 text-white-50">
                             <a href="{{route('login',app()->getLocale())}}" class="d-inline-block auth-logo">
@@ -94,7 +96,7 @@
                                         @csrf
                                         <div class="mb-3">
                                             <label for="userPhone" class="form-label">{{ __('Mobile Number') }} <span
-                                                    class="text-danger">*</span></label>
+                                                        class="text-danger">*</span></label>
                                             <input wire:model.defer="phoneNumber" type="tel" name="mobile" id="phonereg"
                                                    class="form-control @error('mobile') is-invalid @enderror"
                                                    value=" "
@@ -116,8 +118,11 @@
                                             <input type="hidden" name="iso2Country" id="iso2Country">
                                         </div>
                                         <div class="mb-4">
-                                            <p class="mb-0 fs-12 text-muted fst-italic">{{__('agree_terms')}} <a href=""
-                                                                                                                 class="text-primary text-decoration-underline fst-normal fw-medium">{{__('Terms_of_Use')}}</a>
+                                            <p class="mb-0 fs-12 text-muted fst-italic">{{__('agree_terms')}}
+                                                <a href="{{route('privacy',app()->getLocale())}}"
+                                                   class="text-primary text-decoration-underline fst-normal fw-medium">
+                                                    {{__('Terms_of_Use')}}
+                                                </a>
                                             </p>
                                         </div>
 
@@ -148,10 +153,10 @@
                                                     <li>
                                                         <div>
                                                             <a href="{{env('LEARN_LIEN')}}"><img
-                                                                    @if(isset($plateforme)) @if($plateforme==1) style="box-shadow: 0 0 30px #004dcede;
+                                                                        @if(isset($plateforme)) @if($plateforme==1) style="box-shadow: 0 0 30px #004dcede;
                                                 border-radius: 39px;"
-                                                                    @endif @endif src="{{asset('assets/images/Move2earn Icon.png')}}"
-                                                                    width="70" height="70"></a>
+                                                                        @endif @endif src="{{asset('assets/images/Move2earn Icon.png')}}"
+                                                                        width="70" height="70"></a>
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -165,11 +170,11 @@
                                                             data-bs-toggle="dropdown" aria-haspopup="true"
                                                             aria-expanded="false">
                                                         <img
-                                                            src="{{ URL::asset('/assets/images/flags/'.config('app.available_locales')[app()->getLocale()]['flag'].'.svg') }}"
-                                                            class="rounded" alt="Header Language"
-                                                            height="20">
+                                                                src="{{ URL::asset('/assets/images/flags/'.config('app.available_locales')[app()->getLocale()]['flag'].'.svg') }}"
+                                                                class="rounded" alt="Header Language"
+                                                                height="20">
                                                         <span
-                                                            style="margin: 10px">{{ __('lang'.app()->getLocale())  }}</span>
+                                                                style="margin: 10px">{{ __('lang'.app()->getLocale())  }}</span>
                                                     </button>
                                                     @php
                                                         $var = \Illuminate\Support\Facades\Route::currentRouteName() ;
@@ -182,11 +187,11 @@
                                                                title="{{ __('lang'.$locale)  }}"
                                                                data-turbolinks="false">
                                                                 <img
-                                                                    src="{{ URL::asset('assets/images/flags/'.$value['flag'].'.svg') }}"
-                                                                    alt="user-image" class="me-2 rounded"
-                                                                    height="20">
+                                                                        src="{{ URL::asset('assets/images/flags/'.$value['flag'].'.svg') }}"
+                                                                        alt="user-image" class="me-2 rounded"
+                                                                        height="20">
                                                                 <span
-                                                                    class="align-middle">{{ __('lang'.$locale)  }}</span>
+                                                                        class="align-middle">{{ __('lang'.$locale)  }}</span>
                                                             </a>
                                                         @endforeach
                                                     </div>
@@ -199,10 +204,12 @@
                             </div>
                         </div>
                         <div class="mt-4 text-center">
-                            <p class="mb-0">{{__('have_account')}} <a
-                                    href="{{route('login',['locale'=>app()->getLocale()])}}"
-                                    class="fw-semibold text-primary text-decoration-underline ">
-                                    {{__('Sign in')}} </a></p>
+                            <p class="mb-0">
+                                {{__('have_account')}}
+                                <a href="{{route('login',['locale'=>app()->getLocale()])}}"
+                                   class="fw-semibold text-primary text-decoration-underline ">
+                                    {{__('Sign in')}}
+                                </a></p>
                         </div>
                     </div>
                 </div>
@@ -240,7 +247,7 @@
                 } else {
                     input.classList.add("error");
                     const errorCode = iti.getValidationError();
-                    errorMsg.innerHTML = errorMap[errorCode] || "Invalid number";
+                    errorMsg.innerHTML = errorMap[errorCode] || "{{__('Invalid number')}}";
                     errorMsg.classList.remove("hide");
                 }
             }
