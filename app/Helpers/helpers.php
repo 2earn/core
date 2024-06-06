@@ -239,6 +239,26 @@ if (!function_exists('getGiftedActions')) {
         return $result;
     }
 }
+if (!function_exists('find_actions')) {
+    function find_actions($result_final, $total_actions, $max_bonus, $k, $x) {
+        $a = ($total_actions * $max_bonus) / 100;
+        $epsilon = 0.0001; // tolérance pour la solution
+        $actions_guess = $result_final / (1 + $x); // initial guess
+
+        while (true) {
+            $b = 1 - exp(-$k * $actions_guess);
+            $result = intval($a * $b);
+            $calculated_result_final = $result + $x * $actions_guess;
+
+            if (abs($calculated_result_final - $result_final) < $epsilon) {
+                return $actions_guess;
+            }
+
+            // Ajuster la valeur de guess en fonction de la différence
+            $actions_guess -= ($calculated_result_final - $result_final) / (1 + $x);
+        }
+    }
+}
 if (!function_exists('getFlashGiftedActions')) {
     function getFlashGiftedActions($actions, $times)
     {

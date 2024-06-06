@@ -34,11 +34,28 @@
 }
 
 .btn-ghost-secondary, .logoTopCashLabel a, .logoTopCashLabel h5, .tab2earn > li > a, [data-layout-mode=dark] .logoTopCash span > i {
-    color: #464fed !important
+    color: #464fed !important;
 }
 
-.logoTopCash span, .page-title-box {
-    background-color: #464fed !important
+.logoTopCashDanger {
+    color: red !important
+}
+
+.logoTopCash span, .page-title-box ,#buy-action .logoTopCashLabel p{
+    background-color: #464fed !important;
+    color: #464fed !important;
+}
+
+.logoTopCashDanger {
+    color: red !important
+}
+
+.logoTopCash span, .page-title-box ,.logoTopCashLabel p{
+    background-color: #464fed !important;
+}
+
+.logoTopCashDanger span, .page-title-box {
+    background-color: red !important
 }
 
 .logoTopBFS span > i, .logoTopCash span > i, .logoTopDB span > i, .page-title-box > h4, [data-layout-mode=dark] .logoTopBFSLabel a, [data-layout-mode=dark] .logoTopBFSLabel h5, [data-layout-mode=dark] .logoTopCashLabel a, [data-layout-mode=dark] .logoTopCashLabel h5, [data-layout-mode=dark] .logoTopDBLabel a, [data-layout-mode=dark] .logoTopDBLabel h5, [data-layout-mode=dark] .tab2earn > li > a {
@@ -419,6 +436,7 @@ nav svg {
     backdrop-filter: blur(5px);
     padding: 8px;
     border-radius: 0.25rem;
+    height: 36px;
 }
 
 .btn-flash {
@@ -429,13 +447,14 @@ nav svg {
     background: linear-gradient(45deg, #AE8625, #f7ef8a, #d2ac47, #edc967, #AE8625, #f7ef8a, #d2ac47, #edc967, #AE8625, #f7ef8a, #d2ac47, #edc967);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    border: 1px solid #ffd700;
 }
 
-.btn-outline-flash:hover {
+.btn-outline-flash:hover, .btn-outline-flash:focus {
     background: linear-gradient(45deg, #AE8625, #f7ef8a, #d2ac47, #edc967);
     -webkit-background-clip: unset;
     -webkit-text-fill-color: unset;
-
+    border: 1px solid #ffd700;
 }
 
 .pink {
@@ -491,13 +510,24 @@ nav svg {
     margin-left: 10px;
     font-weight: 800;
 }
+.vip-background {
+    background: linear-gradient(45deg, #AE8625, #f7ef8a, #d2ac47, #edc967, #AE8625, #f7ef8a, #d2ac47, #edc967) !important;
+    font-weight: 600;
+}
 
 .btn-outline-gold {
     color: black;
 }
+.flash-red{
+    color: #c32a2a;
+}
 
 .btn-outline-gold:hover {
     color: black;
+}
+
+.bg-soft-info.custom {
+    width: 40px;
 }
 
 .navbar-menu .navbar-nav .nav-link {
