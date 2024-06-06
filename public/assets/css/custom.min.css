@@ -543,3 +543,6 @@ nav svg {
 .navbar-menu .navbar-nav .nav-link svg {
     color: #999999;
 }
+.navbar-menu .navbar-nav .nav-link.disabled {
+    color: #999999;
+}
