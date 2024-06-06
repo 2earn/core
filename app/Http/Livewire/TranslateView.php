@@ -50,7 +50,7 @@ class TranslateView extends Component
     public function AddFieldTranslate($val)
     {
         if (translatetabs::where(DB::raw('upper(name)'), strtoupper($val))->get()->count() == 0) {
-            translatetabs::create(['name' => $val, 'value' => '', 'valueFr' => '', 'valueEn' => '']);
+            translatetabs::create(['name' => $val, 'value' => $val. ' AR', 'valueFr' => $val. ' FR', 'valueEn' => $val. ' EN']);
             return redirect()->route('translate', app()->getLocale())->with('success', trans('key added successfully') . ' : ' . $val);
         } else {
             return redirect()->route('translate', app()->getLocale())->with('danger', trans('key exist!'));
