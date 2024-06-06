@@ -41,9 +41,12 @@
     color: red !important
 }
 
-.logoTopCash span, .page-title-box ,#buy-action .logoTopCashLabel p{
+.logoTopCash span, .page-title-box, #buy-action .logoTopCashLabel p {
     background-color: #464fed !important;
     color: #464fed !important;
+}
+
+#buy-share .logoTopCash span {
     width: inherit;
 }
 
@@ -51,7 +54,7 @@
     color: red !important
 }
 
-.logoTopCash span, .page-title-box ,.logoTopCashLabel p{
+.logoTopCash span, .page-title-box {
     background-color: #464fed !important;
 }
 
@@ -511,6 +514,7 @@ nav svg {
     margin-left: 10px;
     font-weight: 800;
 }
+
 .vip-background {
     background: linear-gradient(45deg, #AE8625, #f7ef8a, #d2ac47, #edc967, #AE8625, #f7ef8a, #d2ac47, #edc967) !important;
     font-weight: 600;
@@ -519,7 +523,8 @@ nav svg {
 .btn-outline-gold {
     color: black;
 }
-.flash-red{
+
+.flash-red {
     color: #c32a2a;
 }
 
