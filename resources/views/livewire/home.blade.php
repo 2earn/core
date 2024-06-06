@@ -574,7 +574,7 @@
                         let bfs_for = $("input[name='bfs-for']:checked").val();
                         let country_code = iti.getSelectedCountryData().iso2;
                         $.ajax({
-                            url: "{{ route('buyAction') }}",
+                            url: "{{ route('buyAction', app()->getLocale()) }}",
                             type: "POST",
                             data: {
                                 me_or_other: me_or_other,
@@ -594,7 +594,7 @@
                                     backgroundColor = "#ba0404";
                                     Swal.fire({
                                         icon: "error",
-                                        title: "Validation Failed",
+                                        title: "{{__('Validation failed')}}",
                                         html: response.error.join('<br>')
                                     });
                                 }
@@ -612,7 +612,12 @@
                             },
                             error: function (data) {
                                 var responseData = JSON.parse(data.responseText);
-                                Swal.fire({icon: 'error', title: 'Oops...', text: responseData.error[0]});
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: "{{__('Error in action purchase transaction')}}",
+                                    confirmButtonText: '{{__('ok')}}',
+                                    text: responseData.error[0]
+                                });
                                 $('.buy-action-submit-spinner').hide();
                             }
                         });

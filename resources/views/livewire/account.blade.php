@@ -16,17 +16,18 @@
                             <label>{{__('MaxTaillePhoto')}}</label>
                             @if ($imageProfil)
                                 <img class="rounded-circle" width="70" height="70"
-                                     src="{{ $imageProfil->temporaryUrl() }}">
+                                     src="{{ $imageProfil->temporaryUrl() }}?={{Str::random(16)}}">
                                 </br>
                                 @endif
                                 </br>
                                 <div wire:loading wire:target="imageProfil">{{__('Uploading')}}...</div>
                                 <img
-                                    src="@if (file_exists('uploads/profiles/profile-image-' . $user['idUser'] . '.png')) {{ URL::asset('uploads/profiles/profile-image-'.$user['idUser'].'.png') }}@else{{ URL::asset('uploads/profiles/default.png') }} @endif"
+                                    src="@if (file_exists('uploads/profiles/profile-image-' . $user['idUser'] . '.png')) {{ URL::asset('uploads/profiles/profile-image-'.$user['idUser'].'.png') }}?={{Str::random(16)}} @else{{ URL::asset('uploads/profiles/default.png') }} @endif"
                                     class="  rounded-circle avatar-xl img-thumbnail user-profile-image"
                                     alt="user-profile-image">
                                 <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
                                     <input id="profile-img-file-input" type="file" class="profile-img-file-input"
+                                           accept="image/png"
                                            wire:model="imageProfil">
                                     <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
                                     <span class="avatar-title rounded-circle bg-light text-body">
@@ -52,13 +53,14 @@
                 </div>
             </div>
             @if($user['status']!=1)
-                <div class="card">
+                <div class="card @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif">
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-5">
                             <div class="flex-grow-1">
                                 <h5 class="card-title mb-0">{{ __('Complete_Profile') }}</h5>
                             </div>
-                            <div class="flex-shrink-0 d-none">
+                            <div
+                                class="flex-shrink-0 @if(Route::getCurrentRoute()->getName()!="validateaccount") d-none   @endif">
                                 <a style="color: #009fe3!important" data-bs-toggle="modal"
                                    data-bs-target="#modalEditProf"
                                    href="javascript:void(0);"
@@ -67,7 +69,8 @@
                             </div>
                         </div>
                         <div class="progress animated-progress custom-progress progress-label">
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: {{$PercentComplete}}%"
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
+                                 role="progressbar" style="width: {{$PercentComplete}}%"
                                  aria-valuenow="1"
                                  aria-valuemin="0" aria-valuemax="100">
                                 <div style="background-color: #009fe3!important" class="label">{{$PercentComplete}}%
@@ -84,7 +87,7 @@
                                 @else
                                     <button style="background-color: #009fe3!important" onclick="sendRequest()"
                                             class="btn btn-primary"
-                                            type="button"> {{__('Send Request')}}
+                                            type="button"> {{__('Send identification request')}}
                                     </button>
                                 @endif
                             @endif
@@ -102,15 +105,16 @@
             @if($user['status']!=1)
                 <div class="card">
                     <div class="card-body row">
-                        <h5 class="card-title mb-0">{{ __('Identities cards') }}</h5>
+                        <h5 class="card-title mb-2 text-info">{{ __('Identities cards') }}</h5>
                         <div class="col-6">
                             <div>
                                 <label>{{ __('Front ID') }}</label>
                             </div>
                             <div>
                                 @if(file_exists(public_path('/uploads/profiles/front-id-image'.$user['idUser'].'.png')))
-                                    <img width="150" height="100" id="front-id-image" title="{{__('Front id image')}}"
-                                         src={{asset(('/uploads/profiles/front-id-image'.$user['idUser'].'.png'))}} >
+                                    <img class="img-thumbnail" width="150" height="100" id="front-id-image"
+                                         title="{{__('Front id image')}}"
+                                         src="{{asset(('/uploads/profiles/front-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}">
                                     <button type="button" class="btn btn-outline-primary mt-1" data-toggle="modal"
                                             id="show-identity-front"
                                             data-target=".bd-example-modal-lg">{{__('Show Identity')}}</button>
@@ -127,8 +131,9 @@
                             </div>
                             <div>
                                 @if(file_exists(public_path('/uploads/profiles/back-id-image'.$user['idUser'].'.png')))
-                                    <img width="150" height="100" id="back-id-image" title="{{__('Back id image')}}"
-                                         src={{asset(('/uploads/profiles/back-id-image'.$user['idUser'].'.png'))}} >
+                                    <img class="img-thumbnail" width="150" height="100" id="back-id-image"
+                                         title="{{__('Back id image')}}"
+                                         src="{{asset(('/uploads/profiles/back-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}">
                                     <button type="button" class="btn btn-outline-primary mt-1" data-toggle="modal"
                                             id="show-identity-back"
                                             data-target=".bd-example-modal-lg">{{__('Show Identity')}}</button>
@@ -155,20 +160,20 @@
                             </a>
                         </li>
                         @if($user['status']!=1)
-                            <li class="nav-item">
+                            <li class="nav-item @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif">
                                 <a class="nav-link" data-bs-toggle="tab" href="#experience" role="tab">
                                     <i class="far fa-envelope"></i>
                                     {{__('Identifications')}}
                                 </a>
                             </li>
                         @endif
-                        <li class="nav-item">
+                        <li class="nav-item @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif">
                             <a class="nav-link" data-bs-toggle="tab" href="#changePassword" role="tab" id="tabEditPass">
                                 <i class="far fa-user"></i>
                                 {{__('ChangePassword')}}
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif">
                             <a class="nav-link" data-bs-toggle="tab" href="#privacy" role="tab">
                                 <i class="far fa-envelope"></i>
                                 {{__('UpdatePhoneNumber')}}
@@ -183,8 +188,8 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="firstnameInput" class="form-label">اللقب
-                                                (الإسم العائلي) </label>
+                                            <label for="firstnameInput"
+                                                   class="form-label">{{__('Enter your ar firstname label')}}</label>
                                             <input wire:model.defer="usermetta_info.arLastName" type="text"
                                                    class="form-control" id="firstnameInput"
                                                    placeholder="{{__('Enter your ar firstname')}}" value="">
@@ -192,8 +197,8 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="lastnameInput" class="form-label">
-                                                الاسم</label>
+                                            <label for="lastnameInput"
+                                                   class="form-label">{{__('Enter your ar last label')}}</label>
                                             <input wire:model.defer="usermetta_info.arFirstName" type="text"
                                                    class="form-control" id="lastnameInput"
                                                    placeholder="{{__('Enter your ar last')}}" value="">
@@ -202,17 +207,18 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="firstnameInput" class="form-label">
-                                                {{__('Last Name')}}
+                                                {{__('Last name label')}}
                                             </label>
                                             <input type="text" class="form-control"
                                                    {{$disabled}}
                                                    wire:model.defer="usermetta_info.enLastName"
-                                                   placeholder="{{__('Last name')}}" value="">
+                                                   placeholder="{{__('Last Name')}}" value="">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="firstnameInput" class="form-label">{{__('First Name')}}</label>
+                                            <label for="firstnameInput"
+                                                   class="form-label">{{__('First name label')}}</label>
                                             <input
                                                 {{$disabled}}
                                                 wire:model.defer="usermetta_info.enFirstName"
@@ -224,7 +230,7 @@
                                             <label for="phonenumberInput"
                                                    class="form-label">{{ __('Your Contact number') }}</label>
                                             <div class="input-group form-icon">
-                                                <input readonly wire:model.defer="numberActif" type="text"
+                                                <input disabled wire:model.defer="numberActif" type="text"
                                                        class="form-control inputtest form-control-icon" aria-label=""
                                                        placeholder="">
                                                 <i style="font-size: 20px;" class="ri-phone-line"></i>
@@ -288,7 +294,7 @@
                                                    class="form-label">{{ __('Personal Title') }}</label>
                                             <select class="form-select mb-3" aria-label=" "
                                                     wire:model.defer="usermetta_info.personaltitle">
-                                                <option value="">-------</option>
+                                                <option value="">{{__('no selected value')}}</option>
                                                 <?php if (isset($personaltitles)){
                                                 foreach ($personaltitles as $personaltitle){
                                                     ?>
@@ -305,7 +311,7 @@
                                             <select class="form-select mb-3" aria-label=" "
                                                     wire:model.defer="usermetta_info.gender">
                                                 <
-                                                <option value="">-------</option>
+                                                <option value="">{{__('no selected value')}}</option>
                                                 <?php if (isset($genders)){
                                                 foreach ($genders as $gender){
                                                     ?>
@@ -321,7 +327,7 @@
                                                    class="form-label">{{ __('Your Preferred Language') }}</label>
                                             <select class="form-select mb-3" aria-label=" "
                                                     wire:model.defer="usermetta_info.idLanguage">
-                                                <option value="" selected>-------</option>
+                                                <option value="" selected>{{__('no selected value')}}</option>
                                                 <?php if (isset($languages)){ ?>
                                                     <?php
                                                 foreach ($languages as $language){
@@ -400,30 +406,32 @@
                                                         {{ __('Approve') }}
                                                     </button>
                                                 </div>
-                                                <div class="form-group mb-2">
-                                                    <label x-show="open">{{ __('Libele_Note') }}</label>
-                                                    <textarea class="form-control" wire:model.defer="noteReject"
-                                                              name="Text1" cols="80"
-                                                              rows="5"
-                                                              x-show="open">
+                                                <div class="row bg-light ">
+                                                    <div class="form-group mb-2 bg-light ">
+                                                        <label x-show="open">{{ __('Libele_Note') }}</label>
+                                                        <textarea class="form-control" wire:model.defer="noteReject"
+                                                                  name="Text1" cols="80"
+                                                                  rows="5"
+                                                                  x-show="open">
                                                         </textarea>
-                                                </div>
-                                                <div class="form-group mb-2">
-                                                    <button type="button" x-show="open"
-                                                            wire:click="reject({{$paramIdUser}})"
-                                                            class="btn btn-secondary ps-5 pe-5">
-                                                        <div wire:loading wire:target="reject({{$paramIdUser}})">
+                                                    </div>
+                                                    <div class="form-group mb-2">
+                                                        <button type="button" x-show="open"
+                                                                wire:click="reject({{$paramIdUser}})"
+                                                                class="btn btn-secondary ps-5 pe-5">
+                                                            <div wire:loading wire:target="reject({{$paramIdUser}})">
                                                 <span class="spinner-border spinner-border-sm" role="status"
                                                       aria-hidden="true"></span>
-                                                            <span class="sr-only">{{__('Loading')}}...</span>
-                                                        </div>
-                                                        {{ __('Reject') }}
-                                                    </button>
-                                                    <button type="button" x-show="open"
-                                                            class="btn btn-danger ps-5 pe-5"
-                                                            @click="open = false">
-                                                        {{ __('canceled !') }}
-                                                    </button>
+                                                                <span class="sr-only">{{__('Loading')}}...</span>
+                                                            </div>
+                                                            {{ __('Reject') }}
+                                                        </button>
+                                                        <button type="button" x-show="open"
+                                                                class="btn btn-danger ps-5 pe-5"
+                                                                @click="open = false">
+                                                            {{ __('canceled !') }}
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         @endif
@@ -431,12 +439,16 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="tab-pane" id="changePassword" role="tabpanel">
+                        <div
+                            class="tab-pane @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif"
+                            id="changePassword" role="tabpanel">
                             <form action="">
                                 <div class="row g-2">
                                     <div class="col-lg-4">
-                                        <label for="oldpasswordInput"
-                                               class="form-label">{{ __('Current Password') }}</label>
+                                        <label for="oldpasswordInput" class="form-label">
+                                            {{ __('Current Password') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <div class="position-relative auth-p
                                         ass-inputgroup mb-3">
                                             <input wire:model.defer="oldPassword" type="password"
@@ -449,8 +461,10 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
-                                        <label for="newpasswordInput"
-                                               class="form-label">{{ __('New Password') }}</label>
+                                        <label for="newpasswordInput" class="form-label">
+                                            {{ __('New Password') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <div class="position-relative auth-pass-inputgroup mb-3">
                                             <input wire:model.defer="newPassword" type="password"
                                                    class="form-control pe-5  "
@@ -465,8 +479,10 @@
                                     </div>
                                     <div class="col-lg-4">
                                         <div>
-                                            <label for="confirmpasswordInput"
-                                                   class="form-label">{{ __('New Confirm Password') }}</label>
+                                            <label for="confirmpasswordInput" class="form-label">
+                                                {{ __('New Confirm Password') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <div class="position-relative auth-pass-inputgroup mb-3">
                                                 <input wire:model.defer="confirmedPassword" type="password"
                                                        class="form-control" id="confirmpasswordInput"
@@ -500,11 +516,15 @@
                             </form>
                         </div>
                         @if($user['status']!=1)
-                            <div class="tab-pane" id="experience" role="tabpanel">
+                            <div
+                                class="tab-pane @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif"
+                                id="experience" role="tabpanel">
                                 <livewire:identification-check/>
                             </div>
                         @endif
-                        <div class="tab-pane" id="privacy" role="tabpanel">
+                        <div
+                            class="tab-pane @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif"
+                            id="privacy" role="tabpanel">
                             <livewire:edit-phone-number/>
                         </div>
                     </div>
@@ -534,7 +554,8 @@
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">
                                         {{ __('Close')}}
                                     </button>
-                                    <button type="button" id="validateMail" class="btn btn-primary">
+                                    <button type="button" wire:loading.attr="disabled" id="validateMail"
+                                            class="btn btn-primary">
                                         {{ __('Change Email')}}
                                     </button>
                                 </div>
@@ -606,11 +627,11 @@
                                 </div>
                                 <div>
                                     @if(file_exists(public_path('/uploads/profiles/front-id-image'.$user['idUser'].'.png')))
-                                        <img width="150" height="100"
-                                             src={{asset(('/uploads/profiles/front-id-image'.$user['idUser'].'.png'))}} >
+                                        <img class="img-thumbnail" width="150" height="100"
+                                             src="{{asset(('/uploads/profiles/front-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}">
                                     @else
-                                        <img width="150" height="100"
-                                             src={{asset(('/uploads/profiles/default.png'))}} >
+                                        <img class="img-thumbnail" width="150" height="100"
+                                             src="{{asset(('/uploads/profiles/default.png'))}}?={{Str::random(16)}}">
                                     @endif
                                 </div>
                                 <div class="wrap-custom-file" style="margin-top: 10px">
@@ -635,10 +656,10 @@
                                 <div>
                                     @if(file_exists(public_path('/uploads/profiles/back-id-image'.$user['idUser'].'.png')))
                                         <img width="150" height="100"
-                                             src={{asset(('/uploads/profiles/back-id-image'.$user['idUser'].'.png'))}} >
+                                             src="{{asset(('/uploads/profiles/back-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}">
                                     @else
                                         <img width="150" height="100"
-                                             src={{asset(('/uploads/profiles/default.png'))}} >
+                                             src="{{asset(('/uploads/profiles/default.png'))}}?={{Str::random(16)}}">
                                     @endif
                                 </div>
                                 <div class="wrap-custom-file" style="margin-top: 10px">
@@ -882,7 +903,7 @@
             window.addEventListener('confirmOPTVerifMail', event => {
                 Swal.fire({
                     title: '{{trans('Your verification code')}}',
-                    html: '{{ __('We_will_send') }}' + '<br>' + event.detail.mail + '<br>' + '{{__('Your OTP Code')}}',
+                    html: '{{ __('We_will_send') }}' + '<br>' + event.detail.numberActif + '<br>' + '{{__('Your OTP Code')}}',
                     allowOutsideClick: false,
                     timer: '{{ env('timeOPT') }}',
                     timerProgressBar: true,
@@ -915,14 +936,16 @@
                     if (resultat.value) {
                         window.livewire.emit('saveVerifiedMail', resultat.value);
                     } else if (resultat.isDismissed) {
-                        window.location.reload();
+                        $('.modal-backdrop').remove();
                     }
                 }).catch((error) => {
                     console.error('SweetAlert Error:', error);
                 });
             });
 
-            $("#validateMail").click(function () {
+            $("#validateMail").click(function (event) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
                 window.livewire.emit("sendVerificationMail", $('#inputEmail').val());
             });
 
@@ -937,9 +960,15 @@
             });
             $("#show-identity-back").click(function () {
                 showIdentitiesModal('back')
-
             });
-
+            window.addEventListener('profilePhotoError', event => {
+                Swal.fire({
+                    title: event.detail.title,
+                    text: event.detail.text,
+                    icon: 'error',
+                    confirmButtonText: "{{__('ok')}}"
+                })
+            })
         </script>
         <script data-turbolinks-eval="false">
             $("#btnPlus").click(function () {

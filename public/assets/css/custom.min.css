@@ -146,10 +146,6 @@ input[type=range]::-ms-fill-upper {
     background-color: #9a905d
 }
 
-.footerOpt {
-    align-self: flex-start
-}
-
 .footerOpt a {
     cursor: pointer;
     font-weight: 700
@@ -161,7 +157,7 @@ input[type=range]::-ms-fill-upper {
 }
 
 .navbar-brand-box {
-    border-bottom: 1px solid #464fed
+    box-shadow: 1px 1px 2px rgba(15, 34, 58, 0.2);
 }
 
 #logo-paytabs {
@@ -532,4 +528,12 @@ nav svg {
 
 .bg-soft-info.custom {
     width: 40px;
+}
+
+.navbar-menu .navbar-nav .nav-link {
+    color: #464fed
+}
+
+.navbar-menu .navbar-nav .nav-link svg {
+    color: #999999;
 }

@@ -295,7 +295,7 @@
                                                     class="btn btn-secondary ps-5 pe-5"
                                                     id="reject">{{ __('Reject') }}</button>
                                             <button x-show="!open" class="btn btn-success ps-5 pe-5"
-                                                    id="validate">{{ __('Validate') }}</button>
+                                                    id="validate">{{ __('validate') }}</button>
                                             </br>
                                             <label x-show="open">Note</label>
                                             </br>

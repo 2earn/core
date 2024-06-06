@@ -16,7 +16,8 @@
                         <div class="col-sm">
                             <div class="justify-content-sm-end">
                                 <div class="search-box ms-2">
-                                    <p>{{ __('bfs description') }}</p></div>
+                                    <p>{{ __('bfs description') }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -33,10 +34,10 @@
                         <thead class="table-light">
                         <tr class=" tabHeader2earn">
                             <th>{{__('Num')}}</th>
-                            <th>{{ __('Ref') }}</th>
-                            <th>{{ __('Date') }}</th>
+                            <th>{{ __('ref') }}</th>
+                            <th>{{ __('date') }}</th>
                             <th>{{ __('Operation Designation') }}</th>
-                            <th>{{ __('Description') }}</th>
+                            <th>{{ __('description') }}</th>
                             <th>{{ __('Value') }}</th>
                             <th>{{ __('Balance') }}</th>
                         </tr>

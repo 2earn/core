@@ -2,13 +2,13 @@
     @section('title')
         {{ __('history') }}
     @endsection
+    @component('components.breadcrumb')
+        @slot('li_1')@endslot
+        @slot('title')
+            {{ __('UsersList') }}
+        @endslot
+    @endcomponent
     @section('content')
-        @component('components.breadcrumb')
-            @slot('li_1')@endslot
-            @slot('title')
-                {{ __('UsersList') }}
-            @endslot
-        @endcomponent
         <div class="row">
             <div class="col-xl-12">
                 <div class="crm-widget">
@@ -23,8 +23,10 @@
                                                 <i class="ri-exchange-dollar-line display-6 text-muted"></i>
                                             </div>
                                             <div class="flex-grow-1 ms-3">
-                                                <h3 class="mb-0">{{ $currency }}<span class="counter-value"
-                                                                                      data-target="{{getUserListCards()[0]}}">{{getUserListCards()[0]}}</span>
+                                                <h3 class="mb-0">{{ $currency }}
+                                                    <span class="counter-value" data-target="{{getUserListCards()[0]}}">
+                                                        {{getUserListCards()[0]}}
+                                                    </span>
                                                 </h3>
                                             </div>
                                         </div>
@@ -46,8 +48,11 @@
                                                 <i class="ri-shopping-cart-2-line display-6 text-muted"></i>
                                             </div>
                                             <div class="card-footer bg-transparent">
-                                                <h4 class="mb-0">{{ $currency }}<span class="counter-value"
-                                                                                      data-target="{{getUserListCards()[1]}}">{{getUserListCards()[1]}}</span>
+                                                <h4 class="mb-0">
+                                                    {{ $currency }}
+                                                    <span class="counter-value" data-target="{{getUserListCards()[1]}}">
+                                                        {{getUserListCards()[1]}}
+                                                    </span>
                                                 </h4>
                                             </div>
                                         </div>
@@ -63,8 +68,11 @@
                                                 <i class=" ri-percent-line display-6 text-muted"></i>
                                             </div>
                                             <div class="flex-grow-1 ms-3">
-                                                <h4 class="mb-0">{{ $currency }}<span class="counter-value"
-                                                                                      data-target="{{getUserListCards()[2]}}">{{getUserListCards()[2]}}</span>
+                                                <h4 class="mb-0">
+                                                    {{ $currency }}
+                                                    <span class="counter-value" data-target="{{getUserListCards()[2]}}">
+                                                        {{getUserListCards()[2]}}
+                                                    </span>
                                                 </h4>
                                             </div>
                                         </div>
@@ -74,14 +82,16 @@
                             <div class="col-sm-12 col-md-4 col-lg-3">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title"> {{__('SMS Balance')}}</h5>
+                                        <h5 class="card-title"> {{__('sms balance')}}</h5>
                                         <div class="d-flex align-items-center">
                                             <div class="flex-shrink-0">
                                                 <i class="ri-message-line display-6 text-muted"></i>
                                             </div>
                                             <div class="flex-grow-1 ms-3">
-                                                <h4 class="mb-0"><span class="counter-value"
-                                                                       data-target="{{getUserListCards()[3]}}">{{getUserListCards()[3]}}</span>
+                                                <h4 class="mb-0">
+                                                    <span class="counter-value" data-target="{{getUserListCards()[3]}}">
+                                                        {{getUserListCards()[3]}}
+                                                    </span>
                                                 </h4>
                                             </div>
                                         </div>
@@ -98,8 +108,9 @@
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h4 class="mb-0">
-                                                    <span class="counter-value"
-                                                          data-target="{{getUserListCards()[4]}}">{{getUserListCards()[4]}}</span>
+                                                    <span class="counter-value" data-target="{{getUserListCards()[4]}}">
+                                                        {{getUserListCards()[4]}}
+                                                    </span>
                                                 </h4>
                                             </div>
                                         </div>
@@ -116,8 +127,10 @@
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h4 class="mb-0">
-                                                    {{ $currency }}<span class="counter-value"
-                                                                         data-target="{{getUserListCards()[5]}}">{{getUserListCards()[5]}}</span>
+                                                    {{ $currency }}
+                                                    <span class="counter-value" data-target="{{getUserListCards()[5]}}">
+                                                        {{getUserListCards()[5]}}
+                                                    </span>
                                                 </h4>
                                             </div>
                                         </div>
@@ -134,8 +147,11 @@
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h4 class="mb-0">
-                                                    {{ $currency }}<span class="counter-value"
-                                                                         data-target="{{getUserListCards()[5]+getUserListCards()[0]}}">{{getUserListCards()[5]+getUserListCards()[0]}}</span>
+                                                    {{ $currency }}
+                                                    <span class="counter-value"
+                                                          data-target="{{getUserListCards()[5]+getUserListCards()[0]}}">
+                                                        {{getUserListCards()[5]+getUserListCards()[0]}}
+                                                    </span>
                                                 </h4>
                                             </div>
                                         </div>
@@ -172,7 +188,7 @@
                             <th>{{__('Action')}}</th>
                             <th>{{__('MinShare')}}</th>
                             <th>{{__('Periode')}}</th>
-                            <th>{{__('Date')}}</th>
+                            <th>{{__('date')}}</th>
                             <th>{{__('COeff')}}</th>
                             <th>{{__('Note')}}</th>
                             <th>{{__('VIP')}}</th>
@@ -194,7 +210,10 @@
                     <div class="modal-body">
                         <form action="javascript:void(0);">
                             <div class="row g-3">
-                                <div class="col-xxl-6">
+                                <div class="col-lg-12">
+                                    <label class="form-label" for="userlist-phone">
+                                        {{__('Phone')}}
+                                    </label>
                                     <div class="input-group">
                                         <span class="input-group-text">
                                             <img id="userlist-country" class="avatar-xxs me-2"/></span>
@@ -202,19 +221,27 @@
                                                aria-describedby="basic-addon1">
                                     </div>
                                 </div>
-                                <div class="col-xxl-6">
-                                    <div class="input-group">
-                                        <input id="userlist-reciver" type="hidden">
-                                        <input type="number" class="form-control" id="ammount">
-                                        <span class="input-group-text">{{ $currency }}</span>
+                                <div class="col-lg-12">
+                                    <input id="userlist-reciver" type="hidden">
+                                    <div class="form-group">
+                                        <label class="form-label" for="ammount">
+                                            {{__('Amount')}}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="input-group">
+                                            <input type="number" class="form-control" id="ammount">
+                                            <span class="input-group-text">{{ $currency }}</span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="hstack gap-2 justify-content-end">
                                         <button type="button" class="btn btn-light"
-                                                data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                                                data-bs-dismiss="modal">{{ __('Cancel') }}
+                                        </button>
                                         <button type="button" id="userlist-submit"
-                                                class="btn btn-primary">{{ __('Submit') }}</button>
+                                                class="btn btn-primary">{{ __('Transfer du cash') }}
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -277,221 +304,220 @@
                 </div>
             </div>
         </div>
-</div>
-<div class="modal fade modal-xl" id="detail" tabindex="-1" aria-labelledby="exampleModalgridLabel"
-     aria-modal="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Transfert Cash') }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="card">
-                    <div class="card-header">
+        <div class="modal fade modal-xl" id="detail" tabindex="-1" aria-labelledby="exampleModalgridLabel"
+             aria-modal="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Transfert Cash') }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="card-body table-responsive">
-                        <input id="balances-reciver" type="hidden">
-                        <input id="balances-amount" type="hidden">
-                        <table class="table nowrap dt-responsive align-middle table-hover table-bordered"
-                               id="ub_table_list" style="width: 100%">
-                            <thead class="table-light">
-                            <tr class="head2earn  tabHeader2earn">
-                                <th>{{ __('Ref') }}</th>
-                                <th>{{ __('Date') }}</th>
-                                <th>{{ __('Operation Designation') }}</th>
-                                <th>{{ __('Description') }}</th>
-                                <th>{{ __('Value') }}</th>
-                                <th>{{ __('Balance') }}</th>
-                            </tr>
-                            </thead>
-                            <tbody class="body2earn">
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade modal-xl" id="detailsh" tabindex="-1" aria-labelledby="exampleModalgridLabel"
-     aria-modal="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalgridLabelsh">{{ __('Transfert Cash') }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="card">
-                    <div class="card-header">
-                    </div>
-                    <div class="card-body table-responsive">
-                        <input id="balances-reciversh" type="hidden">
-                        <input id="balances-amountsh" type="hidden">
-                        <table class="table nowrap dt-responsive align-middle table-hover table-bordered"
-                               id="ub_table_listsh" style="width: 100%">
-                            <thead class="table-light">
-                            <tr class="head2earn  tabHeader2earn">
-                                <th>{{__('date_purchase')}}</th>
-                                <th>{{__('number_of_shares')}}</th>
-                                <th>{{__('gifted_shares')}}</th>
-                                <th>{{__('total_shares')}}</th>
-                                <th>{{__('total_price')}}</th>
-                                <th>{{__('present_value')}}</th>
-                                <th>{{__('current_earnings')}}</th>
-                            </tr>
-                            </thead>
-                            <tbody class="body2earn">
-                            </tbody>
-                        </table>
+                    <div class="modal-body">
+                        <div class="card">
+                            <div class="card-header">
+                            </div>
+                            <div class="card-body table-responsive">
+                                <input id="balances-reciver" type="hidden">
+                                <input id="balances-amount" type="hidden">
+                                <table class="table nowrap dt-responsive align-middle table-hover table-bordered"
+                                       id="ub_table_list" style="width: 100%">
+                                    <thead class="table-light">
+                                    <tr class="head2earn  tabHeader2earn">
+                                        <th>{{ __('ref') }}</th>
+                                        <th>{{ __('date') }}</th>
+                                        <th>{{ __('Operation Designation') }}</th>
+                                        <th>{{ __('description') }}</th>
+                                        <th>{{ __('Value') }}</th>
+                                        <th>{{ __('Balance') }}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="body2earn">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<script>
-    function createOrUpdateDataTable(data) {
-        if ($.fn.DataTable.isDataTable('#ub_table_list')) {
-            $('#ub_table_list').DataTable().destroy();
-        }
-        $('#ub_table_list').DataTable({
-            ordering: true,
-            retrieve: true,
-            searching: false,
-            "orderCellsTop": true,
-            "fixedHeader": true,
-            "order": [[1, 'asc']],
-            "processing": true,
-            "data": data,
-            "columns": [
-                {data: 'ref'},
-                {data: 'Date'},
-                {data: 'Designation'},
-                {data: 'Description'},
-                {data: 'value', className: window.classAl},
-                {data: 'balance', className: window.classAl},
-            ],
-            "columnDefs": [
-                {
-                    "targets": [4],
-                    render: function (data, type, row) {
-                        if (row.value < 0) {
-                            return '<span class="badge bg-danger text-end">' + data + '</span>';
-                        } else {
-                            return '<span class="badge bg-success text-end">' + data + '</span>';
-                        }
-                    },
-                    className: window.classAl,
-                },
-                {"targets": [5], className: window.classAl}
-            ],
-        });
-    }
+        <div class="modal fade modal-xl" id="detailsh" tabindex="-1" aria-labelledby="exampleModalgridLabel"
+             aria-modal="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalgridLabelsh">{{ __('Transfert Cash') }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card">
+                            <div class="card-header">
+                            </div>
+                            <div class="card-body table-responsive">
+                                <input id="balances-reciversh" type="hidden">
+                                <input id="balances-amountsh" type="hidden">
+                                <table class="table nowrap dt-responsive align-middle table-hover table-bordered"
+                                       id="ub_table_listsh" style="width: 100%">
+                                    <thead class="table-light">
+                                    <tr class="head2earn  tabHeader2earn">
+                                        <th>{{__('date_purchase')}}</th>
+                                        <th>{{__('number_of_shares')}}</th>
+                                        <th>{{__('gifted_shares')}}</th>
+                                        <th>{{__('total_shares')}}</th>
+                                        <th>{{__('total_price')}}</th>
+                                        <th>{{__('present_value')}}</th>
+                                        <th>{{__('current_earnings')}}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="body2earn">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function createOrUpdateDataTable(data) {
+                if ($.fn.DataTable.isDataTable('#ub_table_list')) {
+                    $('#ub_table_list').DataTable().destroy();
+                }
+                $('#ub_table_list').DataTable({
+                    ordering: true,
+                    retrieve: true,
+                    searching: false,
+                    "orderCellsTop": true,
+                    "fixedHeader": true,
+                    "order": [[1, 'asc']],
+                    "processing": true,
+                    "data": data,
+                    "columns": [
+                        {data: 'ref'},
+                        {data: 'Date'},
+                        {data: 'Designation'},
+                        {data: 'Description'},
+                        {data: 'value', className: window.classAl},
+                        {data: 'balance', className: window.classAl},
+                    ],
+                    "columnDefs": [
+                        {
+                            "targets": [4],
+                            render: function (data, type, row) {
+                                if (row.value < 0) {
+                                    return '<span class="badge bg-danger text-end">' + data + '</span>';
+                                } else {
+                                    return '<span class="badge bg-success text-end">' + data + '</span>';
+                                }
+                            },
+                            className: window.classAl,
+                        },
+                        {"targets": [5], className: window.classAl}
+                    ],
+                });
+            }
 
-    $(document).on("click", ".cb", function () {
-        let reciver = $(this).data('reciver');
-        let amount = $(this).data('amount');
-        $('#balances-amount').attr('value', amount);
-        $('#balances-reciver').attr('value', reciver);
+            $(document).on("click", ".cb", function () {
+                let reciver = $(this).data('reciver');
+                let amount = $(this).data('amount');
+                $('#balances-amount').attr('value', amount);
+                $('#balances-reciver').attr('value', reciver);
 
-        window.url = "{{ route('API_UserBalances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
-        window.url = window.url.replace('idUser1', reciver);
-        window.url = window.url.replace('idamount1', amount);
+                window.url = "{{ route('API_UserBalances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
+                window.url = window.url.replace('idUser1', reciver);
+                window.url = window.url.replace('idamount1', amount);
 
-        $(document).ready(function () {
-            $.getJSON(window.url, function (data) {
-                createOrUpdateDataTable(data);
+                $(document).ready(function () {
+                    $.getJSON(window.url, function (data) {
+                        createOrUpdateDataTable(data);
+                    });
+                });
             });
-        });
-    });
 
-    $(document).on("click", ".bfs", function () {
-        let reciver = $(this).data('reciver');
-        let amount = $(this).data('amount');
-        $('#balances-amount').attr('value', amount);
-        $('#balances-reciver').attr('value', reciver);
-        window.url = "{{ route('API_UserBalances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
-        window.url = window.url.replace('idUser1', reciver);
-        window.url = window.url.replace('idamount1', amount);
+            $(document).on("click", ".bfs", function () {
+                let reciver = $(this).data('reciver');
+                let amount = $(this).data('amount');
+                $('#balances-amount').attr('value', amount);
+                $('#balances-reciver').attr('value', reciver);
+                window.url = "{{ route('API_UserBalances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
+                window.url = window.url.replace('idUser1', reciver);
+                window.url = window.url.replace('idamount1', amount);
 
-        $(document).ready(function () {
-            $.getJSON(window.url, function (data) {
-                createOrUpdateDataTable(data);
+                $(document).ready(function () {
+                    $.getJSON(window.url, function (data) {
+                        createOrUpdateDataTable(data);
+                    });
+                });
             });
-        });
-    });
-    $(document).on("click", ".db", function () {
-        let reciver = $(this).data('reciver');
-        let amount = $(this).data('amount');
-        $('#balances-amount').attr('value', amount);
-        $('#balances-reciver').attr('value', reciver);
-        window.url = "{{ route('API_UserBalances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
-        window.url = window.url.replace('idUser1', reciver);
-        window.url = window.url.replace('idamount1', amount);
-        $(document).ready(function () {
-            $.getJSON(window.url, function (data) {
-                createOrUpdateDataTable(data);
+            $(document).on("click", ".db", function () {
+                let reciver = $(this).data('reciver');
+                let amount = $(this).data('amount');
+                $('#balances-amount').attr('value', amount);
+                $('#balances-reciver').attr('value', reciver);
+                window.url = "{{ route('API_UserBalances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
+                window.url = window.url.replace('idUser1', reciver);
+                window.url = window.url.replace('idamount1', amount);
+                $(document).ready(function () {
+                    $.getJSON(window.url, function (data) {
+                        createOrUpdateDataTable(data);
+                    });
+                });
             });
-        });
-    });
-    $(document).on("click", ".smsb", function () {
-        let reciver = $(this).data('reciver');
-        let amount = $(this).data('amount');
-        $('#balances-amount').attr('value', amount);
-        $('#balances-reciver').attr('value', reciver);
+            $(document).on("click", ".smsb", function () {
+                let reciver = $(this).data('reciver');
+                let amount = $(this).data('amount');
+                $('#balances-amount').attr('value', amount);
+                $('#balances-reciver').attr('value', reciver);
 
-        window.url = "{{ route('API_UserBalances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
-        window.url = window.url.replace('idUser1', reciver);
-        window.url = window.url.replace('idamount1', amount);
+                window.url = "{{ route('API_UserBalances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
+                window.url = window.url.replace('idUser1', reciver);
+                window.url = window.url.replace('idamount1', amount);
 
-        $(document).ready(function () {
-            $.getJSON(window.url, function (data) {
-                createOrUpdateDataTable(data);
+                $(document).ready(function () {
+                    $.getJSON(window.url, function (data) {
+                        createOrUpdateDataTable(data);
+                    });
+                });
             });
-        });
-    });
 
-    function createOrUpdateDataTablesh(data) {
-        if ($.fn.DataTable.isDataTable('#ub_table_listsh')) {
-            $('#ub_table_listsh').DataTable().destroy();
-        }
+            function createOrUpdateDataTablesh(data) {
+                if ($.fn.DataTable.isDataTable('#ub_table_listsh')) {
+                    $('#ub_table_listsh').DataTable().destroy();
+                }
 
-        $('#ub_table_listsh').DataTable({
-            ordering: true,
-            retrieve: true,
-            searching: false,
-            "orderCellsTop": true,
-            "fixedHeader": true,
-            "order": [[1, 'asc']],
-            "processing": true,
-            "data": data,
-            "columns": [
-                {data: 'Date'},
-                {data: 'value'},
-                {data: 'gifted_shares'},
-                {data: 'total_shares'},
-                {data: 'total_price'},
-                {data: 'present_value'},
-                {data: 'current_earnings'},
-            ],
-            "columnDefs": [],
-        });
-    }
+                $('#ub_table_listsh').DataTable({
+                    ordering: true,
+                    retrieve: true,
+                    searching: false,
+                    "orderCellsTop": true,
+                    "fixedHeader": true,
+                    "order": [[1, 'asc']],
+                    "processing": true,
+                    "data": data,
+                    "columns": [
+                        {data: 'Date'},
+                        {data: 'value'},
+                        {data: 'gifted_shares'},
+                        {data: 'total_shares'},
+                        {data: 'total_price'},
+                        {data: 'present_value'},
+                        {data: 'current_earnings'},
+                    ],
+                    "columnDefs": [],
+                });
+            }
 
-    $(document).on("click", ".sh", function () {
-        let reciver = $(this).data('reciver');
-        let amount = $(this).data('amount');
-        $('#balances-amountsh').attr('value', amount);
-        $('#balances-reciversh').attr('value', reciver);
-        window.url = "{{ route('API_SharesSolde_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1']) }}";
-        window.url = window.url.replace('idUser1', reciver);
-        $(document).ready(function () {
-            $.getJSON(window.url, function (data) {
-                createOrUpdateDataTablesh(data);
+            $(document).on("click", ".sh", function () {
+                let reciver = $(this).data('reciver');
+                let amount = $(this).data('amount');
+                $('#balances-amountsh').attr('value', amount);
+                $('#balances-reciversh').attr('value', reciver);
+                window.url = "{{ route('API_SharesSolde_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1']) }}";
+                window.url = window.url.replace('idUser1', reciver);
+                $(document).ready(function () {
+                    $.getJSON(window.url, function (data) {
+                        createOrUpdateDataTablesh(data);
+                    });
+                });
             });
-        });
-    });
-</script>
+        </script>
 </div>

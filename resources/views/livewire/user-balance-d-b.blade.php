@@ -14,10 +14,10 @@
                         <table class="table nowrap dt-responsive align-middle table-hover table-bordered" id="userBalanceDB_table" style="width: 100%">
                             <thead class="table-light">
                             <tr class="head2earn  tabHeader2earn" >
-                                <th>{{ __('Ref') }}</th>
-                                <th>{{ __('Date') }}</th>
+                                <th>{{ __('ref') }}</th>
+                                <th>{{ __('date') }}</th>
                                 <th>{{ __('Operation Designation') }}</th>
-                                <th>{{ __('Description') }}</th>
+                                <th>{{ __('description') }}</th>
                                 <th>{{ __('Value') }}</th>
                                 <th>{{ __('Balance') }}</th>
                             </tr>

@@ -1,19 +1,31 @@
 <!doctype html>
-<html  dir="{{config('app.available_locales')[app()->getLocale()]['direction']}}"
-    data-turbolinks='false' lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-topbar="light">
+<html dir="{{config('app.available_locales')[app()->getLocale()]['direction']}}"
+      data-turbolinks='false' lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-topbar="light">
 <head>
     <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-PMK39HQQ');</script>
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-PMK39HQQ');</script>
     <!-- End Google Tag Manager -->
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.ga4.measurementId') }}"></script>
     <script>
 
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
         gtag('config', '{{ config('services.ga4.measurementId') }}');
     </script>
@@ -34,6 +46,7 @@
         @import url({{asset('/')."assets/icons/material-design-iconic-font/css/materialdesignicons.min.css"}});
         @import url({{asset('assets/icons/line-awesome/css/line-awesome.min.css')}});
         @import url({{asset('assets/icons/font-awesome/css/font-awesome.min.css')}});
+
         @font-face {
 
             font-family: 'iconearn';
@@ -64,8 +77,10 @@
 
 @yield('body')
 <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PMK39HQQ"
-                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PMK39HQQ"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
 <!-- End Google Tag Manager (noscript) -->
 @if(app()->getLocale() == 'ar')
     <style>
@@ -78,14 +93,15 @@
         /*.label_phone {*/
         /*    text-align: end;*/
         /*}*/
-        label, h1, h2, h3, h4,h5, a, button, p, i, span, strong, .btn,div {
+        label, h1, h2, h3, h4, h5, a, button, p, i, span, strong, .btn, div {
             font-family: ar400;
             font-weight: 500 !important;
         }
     </style>
 @endif
-@yield('content')
-
+<div class="container-fluid">
+    @yield('content')
+</div>
 @include('layouts.vendor-scripts')
 @livewireScripts
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -94,7 +110,7 @@
         data-turbolinks-eval="false" data-turbo-eval="false"></script>
 {{--<script src="{{ mix('js/turbo.js') }}" defer></script>--}}
 {{--<script src="{{ URL::asset('/assets/js/app.min.js') }}" defer></script>--}}
-<script >
+<script>
 
     $(document).on('ready turbolinks:load', function () {
 
@@ -109,12 +125,11 @@
             inputforget = document.querySelector("#phoneforget");
 
 
-
-        if (pathPage == 'login' ||pathPage2 == 'login' ) {
+        if (pathPage == 'login' || pathPage2 == 'login') {
 
             var itiLog = window.intlTelInput(inputlog, {
                 initialCountry: "auto",
-               // showSelectedDialCode: true,
+                // showSelectedDialCode: true,
                 useFullscreenPopup: false,
                 geoIpLookup: function (callback) {
                     $.get('https://ipinfo.io', function () {
@@ -235,6 +250,7 @@
             $("#ccodeforget").val(countryData.dialCode);
             fullphone = $("#outputforget").val();
         };
+
         function reset() {
             // input.classList.remove("error");
             // errorMsg.innerHTML = "";
@@ -257,6 +273,7 @@
             $("#iso2Country").val(countryData.iso2);
             fullphone = $("#output").val();
         };
+
         function resetLog() {
             // alert(document.getElementById("phone").value) ;
             $("#signin").prop("disabled", false);

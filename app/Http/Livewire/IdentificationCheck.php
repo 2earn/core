@@ -20,6 +20,8 @@ class IdentificationCheck extends Component
 
     use WithFileUploads;
 
+    const MAX_PHOTO_ALLAWED_SIZE = 2048000;
+
     public $photoFront = 0;
     public $backback;
     public $photoBack = 0;
@@ -57,21 +59,50 @@ class IdentificationCheck extends Component
         $photoFrontValidated = $userAuth->hasFrontImage();
         $photoBackValidated = $userAuth->hasBackImage();
         if (!is_null($this->photoFront) && gettype($this->photoFront) == "object") {
-            $this->photoFront->storeAs('profiles', 'front-id-image' . $userAuth->idUser . '.png', 'public2');
-            $photoFrontValidated = true;
+            if ($this->photoFront->extension() == 'png') {
+                if ($this->photoFront->getSize() < self::MAX_PHOTO_ALLAWED_SIZE) {
+                    $this->photoFront->storeAs('profiles', 'front-id-image' . $userAuth->idUser . '.png', 'public2');
+                    $photoFrontValidated = true;
+                } else {
+                    $photoFrontValidated = false;
+                    $this->messageVerif = Lang::get('Identification request missing information');;
+                    $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request wrong information'), 'text' => Lang::get('Photo front big size'),]);
+                    return;
+                }
+            } else {
+                $photoFrontValidated = false;
+                $this->messageVerif = Lang::get('Identification request missing information');;
+                $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request wrong information'), 'text' => Lang::get('Photo front wrong type'),]);
+                return;
+            }
+
         }
         if (!is_null($this->photoBack) && gettype($this->photoBack) == "object") {
-            $this->photoBack->storeAs('profiles', 'back-id-image' . $userAuth->idUser . '.png', 'public2');
-            $photoBackValidated = true;
+            if ($this->photoBack->extension() == 'png') {
+                if ($this->photoBack->getSize() < self::MAX_PHOTO_ALLAWED_SIZE) {
+                    $this->photoBack->storeAs('profiles', 'back-id-image' . $userAuth->idUser . '.png', 'public2');
+                    $photoBackValidated = true;
+                } else {
+                    $photoBackValidated = false;
+                    $this->messageVerif = Lang::get('Identification request missing information');;
+                    $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request wrong information'), 'text' => Lang::get('Photo back big size'),]);
+                    return;
+                }
+            } else {
+                $photoFrontValidated = false;
+                $this->messageVerif = Lang::get('Identification request missing information');;
+                $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request wrong information'), 'text' => Lang::get('Photo back wrong type'),]);
+                return;
+            }
         }
         if ($photoBackValidated && $photoFrontValidated) {
             $this->sendIdentificationRequest($settingsManager);
             User::where('idUser', $userAuth->idUser)->update(['status' => -1, 'asked_at' => date('Y-m-d H:i:s'), 'iden_notif' => $this->notify]);
             $this->messageVerif = Lang::get('demande_creer');
-            return redirect()->route('account', app()->getLocale())->with('SuccesUpdateIdentification', Lang::get('Identification_send_succes'));
+            return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Identification_send_succes'));
         } else {
-            $this->messageVerif = Lang::get('Identification request missing information');;
-            $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => "Opt", 'text' => '',]);
+            $this->messageVerif = Lang::get('Identification request missing information');
+            $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request missing information'), 'text' => Lang::get('Identification request missing information'),]);
         }
     }
 

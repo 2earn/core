@@ -313,16 +313,12 @@
                 "orderCellsTop": true,
                 "fixedHeader": true,
                 initComplete: function () {
-                    // Apply the search
                     this.api()
                         .columns()
                         .every(function () {
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
                             var that = $('#HistoryNotificationTable').DataTable();
                             $('input', this.footer()).on('keydown', function (ev) {
-                                if (ev.keyCode == 13) {//only on enter keypress (code 13)
+                                if (ev.keyCode == 13) {
                                     that
                                         .search(this.value)
                                         .draw();
@@ -343,13 +339,11 @@
                     {data: 'date'},
                     {data: 'type'},
                     {data: 'responce'},
-                    // {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
-                "language": {
-                    "url": urlLang
-                }
+                "language": {"url": urlLang}
             }
         );
+
         $('#userManager_table').DataTable(
             {
                 retrieve: true,
@@ -662,23 +656,16 @@
                 "ordering": true,
                 retrieve: true,
                 "colReorder": false,
-                // dom: 'Bfstrip',
-                // buttons: [
-                //     'csv', 'excel'
-                // ],
                 "orderCellsTop": true,
                 "fixedHeader": true,
-
                 "order": [[0, 'desc']],
                 "processing": true,
                 "serverSide": false,
                 "aLengthMenu": [[100, 500, 1000], [100, 500, 1000]],
-                search: {
-                    return: true
-                },
+                search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
-                "ajax": "{{route('API_UsersList',['locale'=> app()->getLocale()])}}",
+                "ajax": "{{route('API_UsersList',app()->getLocale())}}",
                 "columns": [
                     {data: 'formatted_created_at'},
                     {data: 'flag'},
@@ -693,7 +680,6 @@
                     {data: 'pass'},
                     {data: 'register_upline'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
-
                     {data: 'minshares'},
                     {data: 'periode'},
                     {data: 'date'},
@@ -701,42 +687,24 @@
                     {data: 'note'},
                     {data: 'VIP', name: 'action', orderable: false, searchable: false},
                     {data: 'mobile'},
-
-
                 ],
-                "columnDefs": [
-                    {
-                        "targets": [19],
-                        searchable: true,
-                        visible: false
-                    },
-
-                ],
-
-                "language": {
-                    "url": urlLang
-                }
+                "columnDefs": [{"targets": [19], searchable: true, visible: false},],
+                "language": {"url": urlLang}
             }
         );
+
         $('#shares-solde').DataTable(
             {
                 "ordering": true,
                 retrieve: true,
                 "colReorder": false,
-                // dom: 'Bfstrip',
-                // buttons: [
-                //     'csv', 'excel'
-                // ],
                 "orderCellsTop": true,
                 "fixedHeader": true,
-
                 "order": [[5, 'asc']],
                 "processing": true,
                 "serverSide": false,
                 "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                search: {
-                    return: true
-                },
+                search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
                 "ajax": "{{route('API_sharessolde',['locale'=> app()->getLocale()])}}",
@@ -748,35 +716,25 @@
                     {data: 'total_price'},
                     {data: 'present_value'},
                     {data: 'current_earnings'},
-
-
                 ],
-
-
                 "language": {
                     "url": urlLang
                 }
             }
         );
+
         $('#countie-tab').DataTable(
             {
                 "ordering": true,
                 retrieve: true,
                 "colReorder": false,
-                // dom: 'Bfstrip',
-                // buttons: [
-                //     'csv', 'excel'
-                // ],
                 "orderCellsTop": true,
                 "fixedHeader": true,
-
                 "order": [[5, 'asc']],
                 "processing": true,
                 "serverSide": false,
                 "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                search: {
-                    return: true
-                },
+                search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
                 "ajax": "{{ route('API_stat_countries', ['locale'=> app()->getLocale()]) }}",
@@ -794,55 +752,38 @@
                     {data: 'SHARES_REVENUE'},
                     {data: 'COUNT_REAL_TRAIDERS'},
                     {data: 'TRANSFERT_MADE'},
-
-
                 ],
-
-
                 "language": {
                     "url": urlLang
                 }
             }
         );
+
         $('#transfert').DataTable(
             {
                 "ordering": true,
                 retrieve: true,
                 "colReorder": false,
-                // dom: 'Bfstrip',
-                // buttons: [
-                //     'csv', 'excel'
-                // ],
                 "orderCellsTop": true,
                 "fixedHeader": true,
-
                 "order": [[2, 'desc']],
                 "processing": true,
                 "serverSide": false,
                 "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                search: {
-                    return: true
-                },
+                search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
                 "ajax": "{{route('API_transfert',['locale'=> app()->getLocale()])}}",
                 "columns": [
-
-
                     {data: 'value'},
                     {data: 'Description'},
                     {data: 'formatted_created_at'},
-
-
                 ],
-
-
                 "language": {
                     "url": urlLang
                 }
             }
         );
-
 
         $('#shares-sold').DataTable(
             {
@@ -851,38 +792,19 @@
                 "colReorder": false,
                 dom: 'Bfrtip',
                 buttons: [
-                    {
-                        extend: 'copyHtml5',
-                        text: '<i class="ri-file-copy-2-line"></i>',
-                        titleAttr: 'Copy'
-                    },
-                    {
-                        extend: 'excelHtml5',
-                        text: '<i class="ri-file-excel-2-line"></i>',
-                        titleAttr: 'Excel'
-                    },
-                    {
-                        extend: 'csvHtml5',
-                        text: '<i class="ri-file-text-line"></i>',
-                        titleAttr: 'CSV'
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        text: '<i class="ri-file-pdf-line"></i>',
-                        titleAttr: 'PDF'
-                    }
+                    {extend: 'copyHtml5', text: '<i class="ri-file-copy-2-line"></i>', titleAttr: 'Copy'},
+                    {extend: 'excelHtml5', text: '<i class="ri-file-excel-2-line"></i>', titleAttr: 'Excel'},
+                    {extend: 'csvHtml5', text: '<i class="ri-file-text-line"></i>', titleAttr: 'CSV'},
+                    {extend: 'pdfHtml5', text: '<i class="ri-file-pdf-line"></i>', titleAttr: 'PDF'}
                 ],
                 "orderCellsTop": true,
                 "fixedHeader": true,
-
                 "order": [[14, 'desc']],
                 "processing": true,
                 "serverSide": false,
                 "pageLength": 1000,
                 "aLengthMenu": [[10, 30, 50, 100, 1000], [10, 30, 50, 100, 1000]],
-                search: {
-                    return: true
-                },
+                search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
                 "ajax": "{{route('API_sharessoldes',['locale'=> app()->getLocale()])}}",
@@ -892,12 +814,9 @@
                     {data: 'mobile'},
                     {data: 'Name'},
                     {data: 'total_shares'},
-
                     {data: 'sell_price_now'},
                     {data: 'gain'},
-                    {
-                        data: 'WinPurchaseAmount'
-                    },
+                    {data: 'WinPurchaseAmount'},
                     {data: 'Balance', "className": 'editable'},
                     {data: 'total_price'},
                     {data: 'value'},
@@ -905,22 +824,15 @@
                     {data: 'PU'},
                     {data: 'share_price'},
                     {data: 'formatted_created_at'},
-
-
                 ],
-
                 "columnDefs":
                     [
                         {
                             "targets": [7],
                             render: function (data, type, row) {
-
-
                                 if (Number(row.WinPurchaseAmount) === 1)
                                     return '<span class="badge bg-success" data-id="' + row.id + '" data-phone="' + row.mobile +
                                         '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >Transfert Made</span>';
-
-
                                 if (Number(row.WinPurchaseAmount) === 0)
                                     return '<span class="badge bg-danger" data-id="' + row.id + '" data-phone="' + row.mobile +
                                         '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >Free</span>';
@@ -929,12 +841,8 @@
                                     return '<span class="badge bg-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
                                         '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >Mixed</span>';
                             },
-
                         },
-
-
                     ],
-
                 "language": {
                     "url": urlLang
                 }
@@ -1799,49 +1707,16 @@
 
         function resetAddNumberContact() {
             var phoneCN = itiAddContactNumber.getNumber();
-            // alert(phone);
-            // var textNode = document.createTextNode(phone2);
             phoneCN = phoneCN.replace('+', '00');
             mobileCN = $("#phoneContactNumber").val();
-
             var countryDataCN = itiAddContactNumber.getSelectedCountryData();
-            phoneCN = '00' + countryDataCN.dialCode + phoneCN;
-
-            // console.log(phone2);
-            $("#outputphoneContactNumber").val(phoneCN);
-
-            // $("#output").val(phone);
-            // window.livewire.emit('changefullNumber', phone);
-            // window.livewire.emit('changefullNumber');
-            $("#ccodephoneContactNumber").val(countryDataCN.dialCode);
-
-            $("#isoContactNumber").val(countryDataCN.iso2);
-            // $("#ccodelog").val(countryData.dialCode);
-            // fullphone = $("#output").val();
-            if (inputAddContactNumber.value.trim()) {
-                // console.log(itiAdd2Contact.isValidNumber());
-                if (itiAddContactNumber.isValidNumber()) {
-                    // validMsg.classList.add("invisible");
-                    // errorMsgUp.classList.add("invisible");
-                    // $("#saveAddContactNumber").prop("disabled", false);
-
-                } else {
-                    // $("#saveAddContactNumber").prop("disabled", true);
-                    // inputAddContactNumber.classList.add("error");
-                    // var errorCode = itiUpdatePhoneAd.getValidationError();
-                    // errorMsgUp.innerHTML = errorMap[errorCode];
-                    // errorMsgUp.classList.remove("invisible");
-                }
-            } else {
-                // $("#saveAddContactNumber").prop("disabled", true);
-                // inputUpdatePhoneAd.classList.remove("error");
-                // var errorCode = itiUpdatePhoneAd.getValidationError();
-                // errorMsgUp.innerHTML = errorMap[errorCode];
-                // errorMsgUp.classList.add("invisible");
+            if (!phoneCN.startsWith('00' + countryDataCN.dialCode)) {
+                phoneCN = '00' + countryDataCN.dialCode + phoneCN;
             }
+            $("#outputphoneContactNumber").val(phoneCN);
+            $("#ccodephoneContactNumber").val(countryDataCN.dialCode);
+            $("#isoContactNumber").val(countryDataCN.iso2);
         };
-
-
     });
 
 
