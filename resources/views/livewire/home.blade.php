@@ -9,7 +9,8 @@
     <div class="row">
         @include('layouts.flash-messages')
     </div>
-        @if($flash)<div class="row justify-content-center">
+    @if($flash)
+        <div class="row justify-content-center">
             <div class="col-12">
                 <div class="card vip-background">
                     <div class="card-body">
@@ -19,7 +20,8 @@
                                 <span
                                     class="col-auto flash-red">{{$flashPeriod}} {{__('hours')}}</span> {{__('with a minimum of')}}
                                 <span
-                                    class="col-auto flash-red">{{formatSolde($flashMinShares,0)}} {{__('Shares')}}</span>. {{__('il vous reste')}} <span
+                                    class="col-auto flash-red">{{formatSolde($flashMinShares,0)}} {{__('Shares')}}</span>. {{__('il vous reste')}}
+                                <span
                                     class="col-auto flash-red">{{formatSolde($vip->solde,0)}}{{__('Shares')}}</span>
                                 {{__('à conssommer. avec lachat de')}}
                                 <span
@@ -39,7 +41,8 @@
                     </div>
                 </div>
             </div>
-        </div> @endif
+        </div>
+    @endif
     <div class="row">
         <div class="col-xl-3 col-md-6 solde-cash">
             <div class="card card-animate">
@@ -410,8 +413,7 @@
                                     </div>
                                 @endif
                                 <div class="col-6  @if($flash) ribbon-box right overflow-hidden @endif ">
-                                    <label for="ammount" class="col-form-label">{{ __('Amount_pay') }}({{$currency}}
-                                        ) </label>
+                                    <label for="ammount" class="col-form-label">{{ __('Amount_pay') }}({{$currency}})</label>
                                     <div class="input-group mb-3">
 
                                         <input aria-describedby="simulateAmmount" type="number" max="{{$cashBalance}}"
@@ -432,8 +434,9 @@
 
                                 </div>
                                 <div class="col-6 @if($flash) ribbon-box right overflow-hidden @endif ">
-                                    <label for="action" class="col-form-label">{{ __('Actions') }}({{$currency}}
-                                        ) </label>
+                                    <label for="action" class="col-form-label">
+                                        {{ __('Number of shares') }}
+                                    </label>
                                     <div class="input-group mb-3">
                                         <input aria-describedby="simulateAction" type="number" max="{{$maxActions}}"
                                                wire:keyup.debounce="simulateAction()" wire:model="action" id="action"
@@ -585,7 +588,7 @@
                                 vip: {{$flashTimes}},
                                 flashMinShares: {{$flashMinShares}},
                                 flash: "{{$flash}}",
-                                actions:{{$actions}},
+                                actions: {{$actions}},
                                 "_token": "{{ csrf_token() }}"
                             },
                             success: function (data) {
