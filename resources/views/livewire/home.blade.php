@@ -408,7 +408,7 @@
                                 @if($flash)
                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                         <div class="discount-time text-center">
-                                            <h5 id="flash-timer" class="mb-0 text-black"></h5>
+                                            <h5 id="flash-timer1" class="mb-0 text-black"></h5>
                                         </div>
                                     </div>
                                 @endif
@@ -547,6 +547,10 @@
                 if (document.getElementById("flash-timer"))
                     setInterval(function () {
                         countDownTimer(flashTimer, "flash-timer");
+                    }, 1000);
+                if (document.getElementById("flash-timer1"))
+                    setInterval(function () {
+                        countDownTimer(flashTimer, "flash-timer1");
                     }, 1000);
             </script>
         @endif

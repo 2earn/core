@@ -231,12 +231,14 @@ input[type=range]::-ms-fill-upper {
     background: linear-gradient(45deg, #AE8625, #f7ef8a, #d2ac47, #edc967, #AE8625, #f7ef8a, #d2ac47, #edc967, #AE8625, #f7ef8a, #d2ac47, #edc967);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    border: 1px solid #ffd700;
 }
 
-.btn-outline-flash:hover {
+.btn-outline-flash:hover, .btn-outline-flash:focus {
     background: linear-gradient(45deg, #AE8625, #f7ef8a, #d2ac47, #edc967);
     -webkit-background-clip: unset;
     -webkit-text-fill-color: unset;
+    border: 1px solid #ffd700;
 }
 
 .pink {
@@ -292,15 +294,24 @@ input[type=range]::-ms-fill-upper {
     margin-left: 10px;
     font-weight: 800;
 }
+.vip-background {
+    background: linear-gradient(45deg, #AE8625, #f7ef8a, #d2ac47, #edc967, #AE8625, #f7ef8a, #d2ac47, #edc967) !important;
+    font-weight: 600;
+}
 
 .btn-outline-gold {
     color: black;
+}
+.flash-red {
+    color: #c32a2a;
 }
 
 .btn-outline-gold:hover {
     color: black;
 }
-
+.bg-soft-info.custom {
+    width: 40px;
+}
 .buy-action-submit-spinner {
     display: none;
 }
