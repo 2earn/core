@@ -172,7 +172,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         $user_balance->WinPurchaseAmount = "0.000";
         $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeBFS + intval($number_of_action / $palier) * $actual_price * $palier;
         $user_balance->save();
-        return response()->json(['type' => ['success'], 'message' => [trans('Stock purchase transaction completed successfully')]],);
+        return response()->json(['type' => ['success'], 'message' => [trans('Actions purchase transaction completed successfully')]],);
     }
 
     public function giftActionByAmmount(Req $request)
