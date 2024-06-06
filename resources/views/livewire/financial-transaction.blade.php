@@ -465,7 +465,7 @@
                                                            style="width: 100%">
                                                         <thead>
                                                         <tr>
-                                                            <th>{{__('User')}}</th>
+                                                            <th>{{__('user')}}</th>
                                                             <th>{{__('Mobile Number')}}</th>
                                                             <th>{{__('response')}}</th>
                                                             <th>{{__('dateResponse')}}</th>
@@ -537,7 +537,7 @@
                                     <tr class="tabHeader2earn">
                                         <th>{{ __('Request') }}</th>
                                         <th>{{ __('date') }}</th>
-                                        <th>{{ __('User') }}</th>
+                                        <th>{{ __('user') }}</th>
                                         <th>{{ __('UserPhone') }}</th>
                                         <th>{{ __('Amount') }}</th>
                                         <th>{{ __('Status') }}</th>

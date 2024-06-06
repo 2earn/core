@@ -179,13 +179,7 @@ input[type=range]::-ms-fill-upper {
 
 .footerOpt {
     align-self: flex-start
-
-
 }
-
-
-
-
 .footerOpt a {
     cursor: pointer;
     font-weight: 700
@@ -195,3 +189,4 @@ input[type=range]::-ms-fill-upper {
     display: block !important;
     flex-direction: row !important
 }
+

@@ -313,16 +313,12 @@
                 "orderCellsTop": true,
                 "fixedHeader": true,
                 initComplete: function () {
-                    // Apply the search
                     this.api()
                         .columns()
                         .every(function () {
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
                             var that = $('#HistoryNotificationTable').DataTable();
                             $('input', this.footer()).on('keydown', function (ev) {
-                                if (ev.keyCode == 13) {//only on enter keypress (code 13)
+                                if (ev.keyCode == 13) {
                                     that
                                         .search(this.value)
                                         .draw();
@@ -343,13 +339,11 @@
                     {data: 'date'},
                     {data: 'type'},
                     {data: 'responce'},
-                    // {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
-                "language": {
-                    "url": urlLang
-                }
+                "language": {"url": urlLang}
             }
         );
+
         $('#userManager_table').DataTable(
             {
                 retrieve: true,

@@ -63,13 +63,13 @@
                         <a href="{{route('RecuperationHistory',app()->getLocale())}}"
                            class="nav-link menu-link {{Route::currentRouteName()=='RecuperationHistory'? 'active' : ''}} disabled"
                            role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                            <i class="ri-history-line"></i>
+                            <i class="fas fa-history"></i>
                             <span>{{ __('Historique_recuperation') }}</span>
                         </a>
                     </li>
                     <li class="nav-item {{Route::currentRouteName()=='TreeEvolution'? 'active' : ''}}">
                         <a href="{{route('TreeEvolution',app()->getLocale())}}"
-                           class="nav-link menu-link {{Route::currentRouteName()=='TreeEvolution'? 'active' : ''}}"
+                           class="nav-link menu-link {{Route::currentRouteName()=='TreeEvolution'? 'active' : ''}} disabled"
                            role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                             <i class="fa-solid fa-tree"></i>
                             <span>{{ __('Evolution_arbre') }}</span>
@@ -120,7 +120,7 @@
                     </li>
                     <li class="nav-item {{Route::currentRouteName()=='description'? 'active' : ''}}">
                         <a href="{{route('description',app()->getLocale() )}}"
-                           class="nav-link menu-link {{Route::currentRouteName()=='description'? 'active' : ''}}"
+                           class="nav-link menu-link {{Route::currentRouteName()=='description'? 'active' : ''}} disabled"
                            role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                             <i class="fa-solid fa-pen-fancy"></i>
                             <span>{{__('description')}}</span>

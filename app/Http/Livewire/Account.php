@@ -110,6 +110,8 @@ class Account extends Component
             $this->noteReject = Lang::get('Note_rejected');
             $userAuth = $settingsManager->getAuthUserById($this->paramIdUser);
         }
+        $this->dispalyedUserCred = getUserDisplayedName($userAuth->idUser);
+
         if (!$userAuth)
             dd('not found page');
         $this->numberActif = $settingsManager->getidCountryForSms($userAuth->id)->fullNumber;
@@ -132,7 +134,6 @@ class Account extends Component
         }
         $this->CalculPercenteComplete();
         $hasRequest = $userAuth->hasIdetificationReques();
-        $this->dispalyedUserCred = getConnectedUserDisplayedName();
         $this->disabled = abs($user->status) == 1 ? "disabled" : '';
         return view('livewire.account', ['hasRequest' => $hasRequest, 'errors_array' => $this->errors_array])->extends('layouts.master')->section('content');
     }

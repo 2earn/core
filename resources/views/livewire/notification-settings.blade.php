@@ -314,7 +314,7 @@
 
                     <!-- Buttons Grid -->
                     <div class="d-grid gap-2" >
-                        <button class="btn btn-primary d-inline-block btn2earn" type="button" wire:click="save">{{__('Validate')}}</button>
+                        <button class="btn btn-primary d-inline-block btn2earn" type="button" wire:click="save">{{__('validate')}}</button>
                     </div>
 
 

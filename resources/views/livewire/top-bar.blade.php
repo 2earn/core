@@ -114,7 +114,7 @@
                         <div class="dropdown-menu dropdown-menu-end">
                             @foreach (config('app.available_locales') as  $locale => $value )
                                 <a href="{{ route($currentRoute, ['locale'=> $locale ]) }} "
-                                   class="dropdown-item notify-item language py-2" data-lang="en"
+                                   class="dropdown-item notify-item language py-2  @if($locale==app()->getLocale()) active @endif" data-lang="{{$locale}}"
                                    title="{{ __('lang'.$locale)  }}" data-turbolinks="false">
                                     <img src="{{ URL::asset('assets/images/flags/'.$value['flag'].'.svg') }}"
                                          alt="user-image" class="me-2 rounded" height="20">
@@ -289,7 +289,7 @@
                                  src="@if (file_exists('uploads/profiles/profile-image-' . $user->idUser . '.png')) {{ URL::asset('uploads/profiles/profile-image-'.$user->idUser.'.png') }}@else{{ URL::asset('uploads/profiles/default.png') }} @endif">
                             <span class="text-center ms-xl-2">
                                 <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">
-                                    {{getConnectedUserDisplayedName()}} </span>
+                                    {{getUserDisplayedName()}} </span>
                                  <span
                                      class="d-none d-xl-block badge bg-light @if($user->status==1) text-success  @else text-muted @endif mb-0">
                                         <span class="mb-5">{{__($userRole)}}</span>
