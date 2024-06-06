@@ -114,7 +114,7 @@
                         <div class="dropdown-menu dropdown-menu-end">
                             @foreach (config('app.available_locales') as  $locale => $value )
                                 <a href="{{ route($currentRoute, ['locale'=> $locale ]) }} "
-                                   class="dropdown-item notify-item language py-2" data-lang="en"
+                                   class="dropdown-item notify-item language py-2  @if($locale==app()->getLocale()) active @endif" data-lang="{{$locale}}"
                                    title="{{ __('lang'.$locale)  }}" data-turbolinks="false">
                                     <img src="{{ URL::asset('assets/images/flags/'.$value['flag'].'.svg') }}"
                                          alt="user-image" class="me-2 rounded" height="20">
