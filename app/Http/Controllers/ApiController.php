@@ -104,47 +104,31 @@ left join users user on user.idUser = recharge_requests.idUser";
                     $flashGift = getFlashGiftedActions($request->actions, $request->vip);
                     vip::where('idUser', $request->reciver)
                         ->where('closed', '=', 0)
-                        ->update([
-                            'closed' => 1,
-                            'closedDate' => now(),
-                        ]);
+                        ->update(['closed' => 1, 'closedDate' => now()]);
                 } else {
                     $flashGift = getFlashGiftedActions($number_of_action, $request->vip);
                 }
             } else {
                 if ($number_of_action >= $request->flashMinShares) {
-                if ($number_of_action >= $request->actions) {
-
-                    $flashGift = getFlashGiftedActions($request->actions, $request->vip);
-                    vip::where('idUser', $request->reciver)
-                        ->where('closed', '=', 0)
-                        ->update([
-                            'closed' => 1,
-                            'closedDate' => now(),
-                            'declenched' => 1,
-                            'declenchedDate' => now(),
-                        ]);
+                    if ($number_of_action >= $request->actions) {
+                        $flashGift = getFlashGiftedActions($request->actions, $request->vip);
+                        vip::where('idUser', $request->reciver)
+                            ->where('closed', '=', 0)
+                            ->update(['closed' => 1, 'closedDate' => now(), 'declenched' => 1, 'declenchedDate' => now()]);
+                    } else {
+                        $flashGift = getFlashGiftedActions($number_of_action, $request->vip);
+                        vip::where('idUser', $request->reciver)
+                            ->where('closed', '=', 0)
+                            ->update(['declenched' => 1, 'declenchedDate' => now()]);
+                    }
                 } else {
-                    $flashGift = getFlashGiftedActions($number_of_action, $request->vip);
-                    vip::where('idUser', $request->reciver)
-                        ->where('closed', '=', 0)
-                        ->update([
-                            'declenched' => 1,
-                            'declenchedDate' => now(),
-                        ]);
-                }
-            } else {
                     $flashGift = 0;
                 }
             }
         } else {
             $flashGift = 0;
         }
-
-
         $gift = $gift + $flashGift;
-
-
         $this->userRepository->increasePurchasesNumber($reciver);
 
         // share sold
@@ -188,7 +172,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         $user_balance->WinPurchaseAmount = "0.000";
         $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeBFS + intval($number_of_action / $palier) * $actual_price * $palier;
         $user_balance->save();
-        return response()->json(['type' => ['success'], 'message' => ['success']],);
+        return response()->json(['type' => ['success'], 'message' => [trans('Stock purchase transaction completed successfully')]],);
     }
 
     public function giftActionByAmmount(Req $request)
@@ -215,7 +199,7 @@ left join users user on user.idUser = recharge_requests.idUser";
             ]);
 
         $maxShares = Setting::find(34);
-         vip::create(
+        vip::create(
             [
                 'idUser' => $request->reciver,
                 'flashCoefficient' => $request->coefficient,
@@ -860,7 +844,8 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
 
 
     public function getUsersList()
-    {        $query = User::select('countries.apha2', 'users.idUser', 'idUplineRegister', DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'), 'users.mobile', 'users.created_at', 'OptActivation', 'pass', 'flashCoefficient as coeff', 'flashDeadline as periode', 'flashNote as note', 'flashMinAmount as minshares', 'dateFNS as date')
+    {
+        $query = User::select('countries.apha2', 'users.idUser', 'idUplineRegister', DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'), 'users.mobile', 'users.created_at', 'OptActivation', 'pass', 'flashCoefficient as coeff', 'flashDeadline as periode', 'flashNote as note', 'flashMinAmount as minshares', 'dateFNS as date')
             ->join('metta_users as meta', 'meta.idUser', '=', 'users.idUser')
             ->join('countries', 'countries.id', '=', 'users.idCountry');
         return datatables($query)
