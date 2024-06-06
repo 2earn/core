@@ -44,6 +44,7 @@
 .logoTopCash span, .page-title-box ,#buy-action .logoTopCashLabel p{
     background-color: #464fed !important;
     color: #464fed !important;
+    width: inherit;
 }
 
 .logoTopCashDanger {
