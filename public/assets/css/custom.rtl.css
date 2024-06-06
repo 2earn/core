@@ -325,6 +325,21 @@ input[type=range]::-ms-fill-upper {
     overflow: hidden;
     opacity: 0;
 }
+
+.simplebar-content .nav-item active, .simplebar-content .nav-item:hover {
+    background-color: #e6e4e4
+}
+
+.btn-ghost-danger:active, .btn-ghost-danger:focus, .btn-ghost-danger:hover {
+    color: #bc34b6 !important;
+    background-color: rgba(188, 52, 182, .1) !important
+}
+
+.btn-ghost-secondary:active, .btn-ghost-secondary:focus, .btn-ghost-secondary:hover {
+    color: #464fed !important;
+    background-color: rgba(70, 79, 237, .1) !important
+}
+
 .navbar-menu .navbar-nav .nav-link {
     color: #464fed
 }
