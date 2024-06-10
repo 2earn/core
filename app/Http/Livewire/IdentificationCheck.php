@@ -38,6 +38,14 @@ class IdentificationCheck extends Component
     ];
 
 
+    public function mount()
+    {
+        $user = DB::table('users')->where('idUser', auth()->user()->idUser)->first();
+        if (!$user) abort(404);
+        $this->userF = collect($user);
+        $this->internationalCard = !is_null($this->userF['internationalID']) && !$this->userF['expiryDate'] ? true : false;
+    }
+
     public function sendIndentificationRequest(settingsManager $settingsManager)
     {
         $this->messageVerif = Lang::get('Sending identification request in progress');
@@ -101,7 +109,6 @@ class IdentificationCheck extends Component
             }
         }
 
-
         if ($this->internationalCard && !is_null($this->photoInternational) && gettype($this->photoInternational) == "object") {
             if ($this->photoInternational->extension() == 'png') {
                 if ($this->photoInternational->getSize() < self::MAX_PHOTO_ALLAWED_SIZE) {
@@ -110,13 +117,13 @@ class IdentificationCheck extends Component
                 } else {
                     $photoInternationalValidated = false;
                     $this->messageVerif = Lang::get('Identification request missing information');;
-                    $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request wrong information'), 'text' => Lang::get('International Identity big size'),]);
+                    $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request wrong information'), 'text' => Lang::get('International Identity big size')]);
                     return;
                 }
             } else {
                 $photoInternationalValidated = false;
                 $this->messageVerif = Lang::get('Identification request missing information');;
-                $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request wrong information'), 'text' => Lang::get('International Identity wrong type'),]);
+                $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request wrong information'), 'text' => Lang::get('International Identity wrong type')]);
                 return;
             }
         }
@@ -175,7 +182,6 @@ class IdentificationCheck extends Component
             array_push($errors_array, $this->getMsgErreur('nationalID'));
         }
         $this->notify = $userAuth->iden_notif;
-        $this->internationalCard = !is_null($this->userF['internationalID']) && !$this->userF['expiryDate'] ? true : false;
         $hasRequest = $userAuth->hasIdetificationReques();
         $hasFrontImage = $userAuth->hasFrontImage();
         $hasBackImage = $userAuth->hasBackImage();

@@ -135,11 +135,6 @@
                             @else
                                 @if($user['status'] == 1)
                                     <h6>{{__('votre_compte_est_déja_validé')}}</h6>
-                                @else
-                                    <button style="background-color: #009fe3!important" onclick="sendRequest()"
-                                            class="btn btn-primary"
-                                            type="button"> {{__('Send identification request')}}
-                                    </button>
                                 @endif
                             @endif
                         @else
@@ -901,10 +896,6 @@
 
             function SaveChangeEdit() {
                 window.livewire.emit('SaveChangeEdit');
-            }
-
-            function sendRequest() {
-                window.livewire.emit('sendIdentificationRequest');
             }
 
             function ConfirmChangePass() {

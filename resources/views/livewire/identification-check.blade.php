@@ -259,7 +259,7 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-check form-switch form-switch-right form-switch-md">
-                                            <input class="form-check-input" wire:model.defer="internationalCard"
+                                            <input class="form-check-input" wire:model="internationalCard"
                                                    type="checkbox"
                                                    id="international-card">
                                             <label for="international-card"
