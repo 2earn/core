@@ -30,6 +30,12 @@ class  AuthenticatedUser  {
             return 1;
         else
             return 0;
+    }  public function hasInternationalIdentity(){
+
+        if (file_exists('uploads/profiles/international-id-image' .$this->idUser . '.png'))
+            return 1;
+        else
+            return 0;
     }
     public function hasBackImage(){
         if (file_exists('uploads/profiles/back-id-image' . $this->idUser . '.png'))

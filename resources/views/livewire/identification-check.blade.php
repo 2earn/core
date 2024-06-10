@@ -80,6 +80,14 @@
                                         {{__('Interface_Verification')}}
                                     </button>
                                 </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link p-3" id="pills-inter-identities-card-tab"
+                                            data-bs-toggle="pill"
+                                            data-bs-target="#pills-inter-identities-card" type="button" role="tab"
+                                            aria-controls="pills-inter-identities-card" aria-selected="false">
+                                        {{__('Internationnal identities card')}}
+                                    </button>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -99,68 +107,59 @@
                                         </a>
 
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div>
-                                            <label for="firstName" class="form-label">
-                                                {{__('First name identificatdion modal')}}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <input wire:model.defer="usermetta_info2.enFirstName" type="text"
-                                                   class="form-control" id="firstName" readonly
-                                                   placeholder="{{__('Enter your firstname')}}">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div>
-                                            <label for="lastName" class="form-label">
-                                                {{__('Last name identificatdion modal')}}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <input wire:model.defer="usermetta_info2.enLastName" type="text"
-                                                   class="form-control" id="lastName" readonly
-                                                   placeholder="{{__('Enter your lastname')}}">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label for="JoiningdatInput" class="form-label">
-                                                {{__('Date of birth identificatdion modal')  }}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <input wire:model.defer="usermetta_info2.birthday" type="date"
-                                                   class="form-control" id="dateofBirth" readonly
-                                                   placeholder=""/>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label for="nationalId" class="form-label">
-                                                {{ __('National ID identificatdion modal') }}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <input type="text" class="form-control" minlength="5" maxlength="50"
-                                                   wire:model.defer="usermetta_info2.nationalID" readonly
-                                                   id="nationalId" placeholder="{{__('National ID')}}">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label for="inputEmailUser" class="form-label">
-                                                {{ __('Email identificatdion modal') }}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <input id="inputEmailUser" wire:model.defer="userF.email" type="email"
-                                                   class="form-control" readonly
-                                                   name="email" placeholder="{{__('Enter your email')}}" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 mt-3">
-                                        <div class="form-check form-switch mb-3 mt-3" dir="ltr">
-                                            <input wire:model.defer="notify" type="checkbox"
-                                                   class="form-check-input" id="" checked="">
-                                            <label class="form-check-label"
-                                                   for="customSwitchsizesm">{{ __('I want to receive an SMS when my identification completed successfully') }}</label>
-                                        </div>
+                                    <div class="col-lg-12">
+                                        <table class="table table-striped">
+                                            <tr>
+                                                <th scope="row">
+                                                    {{__('First name identificatdion modal')}}
+                                                </th>
+                                                <td>
+                                                    {{$usermetta_info2['enFirstName']}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    {{__('Last name  identificatdion modal')}}
+                                                </th>
+                                                <td>
+                                                    {{$usermetta_info2['enLastName']}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    {{__('Date of birth identificatdion modal')}}
+                                                    /th>
+                                                <td>
+                                                    {{$usermetta_info2['birthday']}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    {{__('National ID identificatdion modal')}}
+                                                </th>
+                                                <td>
+                                                    {{$usermetta_info2['nationalID']}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    {{__('Email identificatdion modal')}}
+                                                </th>
+                                                <td>
+                                                    {{$userF['email']}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row" colspan="2">
+                                                    <div class="form-check form-switch mb-3 mt-3" dir="ltr">
+                                                        <input wire:model.defer="notify" type="checkbox"
+                                                               class="form-check-input" id="" checked="">
+                                                        <label class="form-check-label"
+                                                               for="customSwitchsizesm">{{ __('I want to receive an SMS when my identification completed successfully') }}</label>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </table>
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="d-flex align-items-start gap-3 mt-3">
@@ -247,6 +246,89 @@
                                         <i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
                                         {{__('back to personal info')}}
                                     </button>
+                                    <button id="btn-next-identities-card" type="button"
+                                            class="btn btn-primary btn-label right ms-auto nexttab"
+                                            data-nexttab="pills-inter-identities-card-tab">
+                                        <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
+                                        {{__('Next step : Check your International identities card')}}
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="pills-inter-identities-card" role="tabpanel"
+                                 aria-labelledby="pills-inter-identities-card-tab">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-check form-switch form-switch-right form-switch-md">
+                                            <input class="form-check-input" wire:model.defer="internationalCard"
+                                                   type="checkbox"
+                                                   id="international-card">
+                                            <label for="international-card"
+                                                   class="form-label text-muted">{{__('I want to submit my international identitie card')}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="international-card-block" class="row mt-3 d-none">
+                                    <div class="col-12">
+                                        <div class="alert border-0 alert-primary material-shadow" role="alert">
+                                            <strong>{{__('Note')}}
+                                                : </strong>{{__('The photo must be in PNG format, and must not exceed 2 Mb in size')}}
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div>
+                                            <label class="form-label">
+                                                {{ __('International ID') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            @if(file_exists(public_path('/uploads/profiles/international-id-image'.$userAuth->idUser.'.png')))
+                                                <img class="img-thumbnail" width="150" height="100"
+                                                     src={{asset(('/uploads/profiles/international-id-image'.$userAuth->idUser.'.png'))}} >
+                                            @else
+                                                <img class="img-thumbnail" width="150" height="100"
+                                                     src={{asset(('/uploads/profiles/default.png'))}} >
+                                            @endif
+                                        </div>
+                                        <div class="wrap-custom-file">
+                                            <input wire:model.defer="photoInternational" type="file"
+                                                   name="photoInternational"
+                                                   id="photoInternational"
+                                                   accept=".png"/>
+                                            <label for="photoInternational">
+                                                <lord-icon src="https://cdn.lordicon.com/vixtkkbk.json" trigger="loop"
+                                                           delay="1000" style="width:100px;height:100px">
+                                                </lord-icon>
+                                                <span> <i class="ri-camera-fill"></i> </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="mb-3">
+                                            <label for="internationalId" class="form-label">
+                                                {{ __('InternationalId ID identificatdion modal') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="text" class="form-control" minlength="5" maxlength="50"
+                                                   wire:model.defer="userF.internationalID"
+                                                   id="internationalId" placeholder="{{__('InternationalId ID')}}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="expiryDate" class="form-label">
+                                                {{__('Expiry date identificatdion modal')  }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input wire:model.defer="userF.expiryDate" type="date"
+                                                   class="form-control" id="expiryDate"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-start gap-3 mt-4">
+                                    <button type="button" class="btn btn-light btn-label previestab"
+                                            data-previous="pills-identities-card-tab">
+                                        <i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
+                                        {{__('back to identity card')}}
+                                    </button>
                                     <button onclick="sendIndentificationRequest()" type="button"
                                             class="btn btn-primary btn-label right ms-auto nexttab">
                                         <div wire:loading wire:target="sendIndentificationRequest">
@@ -280,6 +362,7 @@
         }
 
         function checkRequiredFieldInfo(idInput) {
+            console.log($("#" + idInput));
             if ($("#" + idInput).val().trim() === "") {
                 $("#" + idInput).css('border-color', 'red');
                 return false;
@@ -290,11 +373,14 @@
         }
 
         function checkRequiredFieldsInfo() {
-            return checkRequiredFieldInfo('firstName') &&
-                checkRequiredFieldInfo('lastName') &&
-                checkRequiredFieldInfo('nationalId') &&
-                checkRequiredFieldInfo('dateofBirth') &&
-                checkRequiredFieldInfo('inputEmailUser');
+
+            if ($('#international-card').is(":checked")) {
+                return checkRequiredFieldInfo('internationalId') &&
+                    checkRequiredFieldInfo('expiryDate');
+            } else {
+                return true;
+            }
+
         }
 
         function validateEmail(email) {
@@ -342,20 +428,21 @@
             });
         });
 
-        $('#btn-next-identities-card').click(function (e) {
-            $('#personalInformationMessage').css("display", "none");
-            e.preventDefault();
-            if (checkRequiredFieldsInfo()) {
-                $('#personalInformationMessage').css("display", "none");
-                $('#myTab   button[id="pills-identities-card-tab"] ').tab('show');
+        $('#international-card').change(function () {
+            if (this.checked) {
+                $('#international-card-block').removeClass("d-none")
             } else {
-                $('#personalInformationMessage').css("display", "block");
+                $('#international-card-block').addClass("d-none")
             }
         });
 
+
+        $('#btn-next-identities-card').click(function (e) {
+            $('#myTab button[id="pills-identities-card-tab"]').tab('show');
+        });
+
         document.getElementById('pills-identities-card-tab').addEventListener('shown.bs.tab', function (event) {
-            if (!checkRequiredFieldsInfo())
-                $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
+
         });
 
         window.addEventListener('IdentificationRequestMissingInformation', event => {
@@ -366,5 +453,7 @@
                 confirmButtonText: "{{__('ok')}}"
             })
         })
+
+
     </script>
 </div>
