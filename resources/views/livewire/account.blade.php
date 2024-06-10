@@ -68,15 +68,66 @@
                                         class="ri-edit-box-line align-bottom me-1"></i> {{__('Edit')}}</a>
                             </div>
                         </div>
-                        <div class="progress animated-progress custom-progress progress-label">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
-                                 role="progressbar" style="width: {{$PercentComplete}}%"
-                                 aria-valuenow="1"
-                                 aria-valuemin="0" aria-valuemax="100">
-                                <div style="background-color: #009fe3!important" class="label">{{$PercentComplete}}%
+
+                        <div class="progress progress-label" style="height: 20px;">
+                            @if($PercentComplete>=20)
+                                <div class="progress-bar progress-bar-striped progress-bar-animated   bg-danger"
+                                     role="progressbar"
+                                     style="width: 20%" aria-valuenow="10" aria-valuemin="0"
+                                     aria-valuemax="20">
+                                    @if($PercentComplete==20)
+                                        {{$PercentComplete}}%
+                                    @endif
                                 </div>
-                            </div>
+                            @endif
+
+                            @if($PercentComplete>=40)
+                                <div class="progress-bar progress-bar-striped progress-bar-animated  bg-danger"
+                                     role="progressbar"
+                                     style="width:20%" aria-valuenow="25" aria-valuemin="0"
+                                     aria-valuemax="40">
+                                    @if($PercentComplete==40)
+                                        {{$PercentComplete}}%
+                                    @endif
+                                </div>
+                            @endif
+
+                            @if($PercentComplete>=60)
+                                <div class="progress-bar progress-bar-striped progress-bar-animated  bg-warning"
+                                     role="progressbar"
+                                     style="width: 20%" aria-valuenow="60" aria-valuemin="0"
+                                     aria-valuemax="60">
+                                    @if($PercentComplete==60)
+                                        {{$PercentComplete}}%
+                                    @endif
+                                </div>
+                            @endif
+
+                            @if($PercentComplete>=80)
+                                <div class="progress-bar progress-bar-striped progress-bar-animated  bg-warning"
+                                     role="progressbar" style="width: 20%"
+                                     aria-valuenow="80" aria-valuemin="0" aria-valuemax="80">
+                                    @if($PercentComplete==80)
+                                        {{$PercentComplete}}%
+                                    @endif
+
+                                </div>
+                            @endif
+
+                            @if($PercentComplete==100)
+                                <div class="progress-bar progress-bar-striped progress-bar-animated  bg-success"
+                                     role="progressbar"
+                                     style="width: 20%" aria-valuenow="100" aria-valuemin="0"
+                                     aria-valuemax="100">
+                                    @if($PercentComplete==100)
+                                        {{$PercentComplete}}%
+                                    @endif
+                                </div>
+                            @endif
+
                         </div>
+
+
                         @if($PercentComplete==100)
                             <br>
                             @if($hasRequest)

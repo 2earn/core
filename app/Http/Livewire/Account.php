@@ -180,18 +180,16 @@ class Account extends Component
         } else {
             array_push($this->errors_array, $this->getMsgErreur('email'));
         }
+
     }
 
-    private
-    function getMsgErreur($typeErreur)
+    private function getMsgErreur($typeErreur)
     {
-        $typeErreur = 'Identify_' . $typeErreur;
-        return Lang::get($typeErreur);
+        return Lang::get('Identify_' . $typeErreur);
     }
 
 
-    public
-    function deleteContact($id, settingsManager $settingsManager)
+    public function deleteContact($id, settingsManager $settingsManager)
     {
         $userC = $settingsManager->getUserContactsById($id);
         if (!$userC) return;
@@ -199,8 +197,7 @@ class Account extends Component
         return redirect()->route('myAccount', app()->getLocale());
     }
 
-    public
-    function saveUser($nbrChild, settingsManager $settingsManager)
+    public function saveUser($nbrChild, settingsManager $settingsManager)
     {
         $canModify = true;
         $us = User::find($this->user['id']);
