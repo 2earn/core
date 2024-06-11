@@ -281,7 +281,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="international-card-block" class="row mt-3 d-none">
+                                <div id="international-card-block"
+                                     class="row mt-3 @if(!$internationalCard) d-none @endif">
                                     <div class="col-12">
                                         <div class="alert border-0 alert-primary material-shadow" role="alert">
                                             <strong>{{__('Note')}}

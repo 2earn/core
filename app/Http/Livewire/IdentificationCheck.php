@@ -40,10 +40,7 @@ class IdentificationCheck extends Component
 
     public function mount()
     {
-        $user = DB::table('users')->where('idUser', auth()->user()->idUser)->first();
-        if (!$user) abort(404);
-        $this->userF = collect($user);
-        $this->internationalCard = !is_null($this->userF['internationalID']) && !$this->userF['expiryDate'] ? true : false;
+        $this->internationalCard = !is_null(auth()->user()->internationalID) && !is_null(auth()->user()->expiryDate) ? true : false;
     }
 
     public function sendIndentificationRequest(settingsManager $settingsManager)
@@ -57,21 +54,21 @@ class IdentificationCheck extends Component
             return;
         }
 
-        User::where('idUser', $userAuth->idUser)->update([
-            'email' => $this->userF['email'],
-        ]);
+        $updatedUserParams = ['email' => $this->userF['email']];
         if ($this->internationalCard) {
-            User::where('idUser', $userAuth->idUser)->update([
+            $updatedUserParams = array_merge($updatedUserParams, [
                 'internationalID' => $this->userF['internationalID'],
                 'expiryDate' => date('Y-m-d', strtotime($this->userF['expiryDate'])),
             ]);
         }
-        metta_user::where('idUser', $userAuth->idUser)->update([
+        User::where('idUser', $userAuth->idUser)->update($updatedUserParams);
+        $updatedMetaUserParams = [
             'enFirstName' => $this->usermetta_info2['enFirstName'],
             'enLastName' => $this->usermetta_info2['enLastName'],
             'birthday' => $this->usermetta_info2['birthday'],
             'nationalID' => $this->usermetta_info2['nationalID'],
-        ]);
+        ];
+        metta_user::where('idUser', $userAuth->idUser)->update($updatedMetaUserParams);
         $photoFrontValidated = $userAuth->hasFrontImage();
         $photoBackValidated = $userAuth->hasBackImage();
         $photoInternationalValidated = $userAuth->hasInternationalIdentity();
