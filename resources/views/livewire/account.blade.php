@@ -250,11 +250,16 @@
                             @endif
                         @else
                             @if(!empty($errors_array))
-                                <ul class="list-group list-group-flush">
-                                    @foreach ($errors_array as $error)
-                                        <li class="list-group-item text-danger">{{ $error }}</li>
-                                    @endforeach
-                                </ul>
+                                <div class="alert alert-warning d-flex align-items-center mt-2" role="alert">
+                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                                    <div>
+                                        <ul class="list-group list-group-flush">
+                                            @foreach ($errors_array as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
                             @endif
                         @endif
                     </div>

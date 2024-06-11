@@ -154,8 +154,7 @@ class IdentificationCheck extends Component
 
     private function getMsgErreur($typeErreur)
     {
-        $typeErreur = 'Identify_' . $typeErreur;
-        return Lang::get($typeErreur);
+        return Lang::get('Identify_' . $typeErreur);
     }
 
     public function render(settingsManager $settingsManager)

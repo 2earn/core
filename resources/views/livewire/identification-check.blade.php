@@ -27,11 +27,16 @@
                                     </button>
                                 </div>
                                 @if(!empty($errors_array))
-                                    <ul class="list-group list-group-flush">
-                                        @foreach ($errors_array as $error)
-                                            <li class="list-group-item text-danger">{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
+                                    <div class="alert alert-warning d-flex align-items-center mt-2" role="alert">
+                                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                                        <div>
+                                            <ul class="list-group list-group-flush">
+                                                @foreach ($errors_array as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
                                 @endif
                             </div>
                         </div>
@@ -389,14 +394,12 @@
         }
 
         function checkRequiredFieldsInfo() {
-
             if ($('#international-card').is(":checked")) {
                 return checkRequiredFieldInfo('internationalId') &&
                     checkRequiredFieldInfo('expiryDate');
             } else {
                 return true;
             }
-
         }
 
         function validateEmail(email) {
@@ -446,22 +449,15 @@
 
         $('#international-card').change(function () {
             if (this.checked) {
-                $('#international-card-block').removeClass("d-none")
-                $('#internationalId').val('');
-                $('#expiryDate').val('');
-                $('#photoInternational').val('');
+                $('#international-card-block').removeClass("d-none");
+                $("#internationalId, #expiryDate, #photoInternational").val('');
             } else {
                 $('#international-card-block').addClass("d-none")
             }
         });
 
-
         $('#btn-next-identities-card').click(function (e) {
             $('#myTab button[id="pills-identities-card-tab"]').tab('show');
-        });
-
-        document.getElementById('pills-identities-card-tab').addEventListener('shown.bs.tab', function (event) {
-
         });
 
         window.addEventListener('IdentificationRequestMissingInformation', event => {
@@ -472,7 +468,5 @@
                 confirmButtonText: "{{__('ok')}}"
             })
         })
-
-
     </script>
 </div>
