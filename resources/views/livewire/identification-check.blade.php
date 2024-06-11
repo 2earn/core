@@ -2,11 +2,10 @@
     <div class="row">
         @include('layouts.flash-messages')
     </div>
-    <div class="row justify-content-center">
+    <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="text-center">
                         <div class="row justify-content-center">
                             <div class="col-lg-12">
                                 <h4 class="mt-4 fw-semibold">{{__('KYC_Verification')}}</h4>
@@ -26,27 +25,30 @@
                                     {{__('Click_here_for_Verification')}}
                                     </button>
                                 </div>
-                                @if(!empty($errors_array))
-                                    <div class="alert alert-warning d-flex align-items-center mt-2" role="alert">
-                                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-                                        <div>
+                            </div>
+                        </div>
+                        @if(!empty($errors_array))
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="alert alert-warning mt-2" role="alert">
+                                        <h4 class="alert-heading"> {{ __('Please fill in the missing fields') }}:</h4>
+                                        <div class="mx-4">
                                             <ul class="list-group list-group-flush">
                                                 @foreach ($errors_array as $error)
-                                                    <li>{{ $error }}</li>
+                                                    <li>{{ $error }}.</li>
                                                 @endforeach
                                             </ul>
                                         </div>
                                     </div>
-                                @endif
+                                </div>
                             </div>
-                        </div>
+                        @endif
                         <div class="row justify-content-center mt-5 mb-2">
                             <div class="col-sm-7 col-8">
                                 <img src="{{ URL::asset('assets/images/verification-img.png') }}" alt=""
                                      class="img-fluid"/>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
