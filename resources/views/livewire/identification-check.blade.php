@@ -6,49 +6,49 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-12">
-                                <h4 class="mt-4 fw-semibold">{{__('KYC_Verification')}}</h4>
-                                <p class="text-muted mt-3">
-                                    {{__('Txt_KYC_Verification')}}
-                                </p>
-                                <div class="mt-4">
-                                    <button onclick="hideIdentificationModal()" type="button"
-                                            class="btn btn-primary"
-                                            data-bs-toggle="modal"
-                                            @if(!$usermetta_info2['enFirstName'] || !$usermetta_info2['enLastName'] || !$usermetta_info2['birthday'] || !$usermetta_info2['nationalID'] || !$userF['email'])
-                                                disabled
-                                            @endif
-                                            data-bs-target=@if($hasRequest) "#modalRequestExiste" @else
-                                        "#exampleModal"
-                                    @endif>
-                                    {{__('Click_here_for_Verification')}}
-                                    </button>
-                                </div>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-12">
+                            <h4 class="mt-4 fw-semibold">{{__('KYC_Verification')}}</h4>
+                            <p class="text-muted mt-3">
+                                {{__('Txt_KYC_Verification')}}
+                            </p>
+                            <div class="mt-4">
+                                <button onclick="hideIdentificationModal()" type="button"
+                                        class="btn btn-primary"
+                                        data-bs-toggle="modal"
+                                        @if(!$usermetta_info2['enFirstName'] || !$usermetta_info2['enLastName'] || !$usermetta_info2['birthday'] || !$usermetta_info2['nationalID'] || !$userF['email'])
+                                            disabled
+                                        @endif
+                                        data-bs-target=@if($hasRequest) "#modalRequestExiste" @else
+                                    "#exampleModal"
+                                @endif>
+                                {{__('Click_here_for_Verification')}}
+                                </button>
                             </div>
                         </div>
-                        @if(!empty($errors_array))
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="alert alert-warning mt-2" role="alert">
-                                        <h4 class="alert-heading"> {{ __('Please fill in the missing fields') }}:</h4>
-                                        <div class="mx-4">
-                                            <ul class="list-group list-group-flush">
-                                                @foreach ($errors_array as $error)
-                                                    <li>{{ $error }}.</li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
+                    </div>
+                    @if(!empty($errors_array))
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="alert alert-warning mt-2" role="alert">
+                                    <h4 class="alert-heading"> {{ __('Please fill in the missing fields') }}:</h4>
+                                    <div class="mx-4">
+                                        <ul class="list-group list-group-flush">
+                                            @foreach ($errors_array as $error)
+                                                <li>{{ $error }}.</li>
+                                            @endforeach
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
-                        @endif
-                        <div class="row justify-content-center mt-5 mb-2">
-                            <div class="col-sm-7 col-8">
-                                <img src="{{ URL::asset('assets/images/verification-img.png') }}" alt=""
-                                     class="img-fluid"/>
-                            </div>
                         </div>
+                    @endif
+                    <div class="row justify-content-center mt-5 mb-2">
+                        <div class="col-sm-7 col-8">
+                            <img src="{{ URL::asset('assets/images/verification-img.png') }}" alt=""
+                                 class="img-fluid"/>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -149,7 +149,7 @@
                                             <tr>
                                                 <th scope="row">
                                                     {{__('Date of birth identificatdion modal')}}
-                                                    /th>
+                                                </th>
                                                 <td>
                                                     {{$usermetta_info2['birthday']}}
                                                 </td>
