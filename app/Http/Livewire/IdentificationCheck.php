@@ -60,6 +60,12 @@ class IdentificationCheck extends Component
         User::where('idUser', $userAuth->idUser)->update([
             'email' => $this->userF['email'],
         ]);
+        if ($this->internationalCard) {
+            User::where('idUser', $userAuth->idUser)->update([
+                'internationalID' => $this->userF['internationalID'],
+                'expiryDate' => date('Y-m-d', strtotime($this->userF['expiryDate'])),
+            ]);
+        }
         metta_user::where('idUser', $userAuth->idUser)->update([
             'enFirstName' => $this->usermetta_info2['enFirstName'],
             'enLastName' => $this->usermetta_info2['enLastName'],

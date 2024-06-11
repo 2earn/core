@@ -14,14 +14,25 @@
                                     {{__('Txt_KYC_Verification')}}
                                 </p>
                                 <div class="mt-4">
-                                    <button onclick="hideIdentificationModal()" type="button" class="btn btn-primary"
+                                    <button onclick="hideIdentificationModal()" type="button"
+                                            class="btn btn-primary"
                                             data-bs-toggle="modal"
+                                            @if(!$usermetta_info2['enFirstName'] || !$usermetta_info2['enLastName'] || !$usermetta_info2['birthday'] || !$usermetta_info2['nationalID'] || !$userF['email'])
+                                                disabled
+                                            @endif
                                             data-bs-target=@if($hasRequest) "#modalRequestExiste" @else
                                         "#exampleModal"
                                     @endif>
                                     {{__('Click_here_for_Verification')}}
                                     </button>
                                 </div>
+                                @if(!empty($errors_array))
+                                    <ul class="list-group list-group-flush">
+                                        @foreach ($errors_array as $error)
+                                            <li class="list-group-item text-danger">{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                @endif
                             </div>
                         </div>
                         <div class="row justify-content-center mt-5 mb-2">
@@ -77,7 +88,7 @@
                                     <button class="nav-link p-3" id="pills-identities-card-tab" data-bs-toggle="pill"
                                             data-bs-target="#pills-identities-card" type="button" role="tab"
                                             aria-controls="pills-identities-card" aria-selected="false">
-                                        {{__('Interface_Verification')}}
+                                        {{__('Import your National identity card')}}
                                     </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
@@ -85,7 +96,7 @@
                                             data-bs-toggle="pill"
                                             data-bs-target="#pills-inter-identities-card" type="button" role="tab"
                                             aria-controls="pills-inter-identities-card" aria-selected="false">
-                                        {{__('Internationnal identities card')}}
+                                        {{__('Import your international identity card')}}
                                     </button>
                                 </li>
                             </ul>
@@ -250,7 +261,7 @@
                                             class="btn btn-primary btn-label right ms-auto nexttab"
                                             data-nexttab="pills-inter-identities-card-tab">
                                         <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
-                                        {{__('Next step : Check your International identities card')}}
+                                        {{__('Next Step: Check your International Identiies card')}}
                                     </button>
                                 </div>
                             </div>
@@ -319,6 +330,7 @@
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <input wire:model.defer="userF.expiryDate" type="date"
+                                                   min="{{ now()->format('Y-m-d') }}"
                                                    class="form-control" id="expiryDate"/>
                                         </div>
                                     </div>
@@ -431,6 +443,9 @@
         $('#international-card').change(function () {
             if (this.checked) {
                 $('#international-card-block').removeClass("d-none")
+                $('#internationalId').val('');
+                $('#expiryDate').val('');
+                $('#photoInternational').val('');
             } else {
                 $('#international-card-block').addClass("d-none")
             }
