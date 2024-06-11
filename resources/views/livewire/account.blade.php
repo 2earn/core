@@ -551,7 +551,8 @@
                                         <div class="position-relative auth-p
                                         ass-inputgroup mb-3">
                                             <input wire:model.defer="oldPassword" type="password"
-                                                   class="form-control pe-5" name="password" placeholder="********"
+                                                   class="form-control pe-5" name="password"
+                                                   placeholder="{{__('Old password')}}"
                                                    id="oldpasswordInput">
                                             <button
                                                 class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
@@ -567,7 +568,7 @@
                                         <div class="position-relative auth-pass-inputgroup mb-3">
                                             <input wire:model.defer="newPassword" type="password"
                                                    class="form-control pe-5  "
-                                                   name="password" placeholder="********"
+                                                   name="password" placeholder="{{__('New password')}}"
                                                    id="newpasswordInput">
                                             <button
                                                 class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
@@ -585,7 +586,7 @@
                                             <div class="position-relative auth-pass-inputgroup mb-3">
                                                 <input wire:model.defer="confirmedPassword" type="password"
                                                        class="form-control" id="confirmpasswordInput"
-                                                       placeholder="********">
+                                                       placeholder="{{__('Confirm password')}}">
                                                 <button
                                                     class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
                                                     type="button" id="toggleConfirmPassword">
