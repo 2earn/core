@@ -1,14 +1,20 @@
 <div>
     @component('components.breadcrumb')
         @slot('title')
-            {{ __('Profile') }}
+            @if(Route::getCurrentRoute()->getName()!="validateaccount")
+                {{ __('Profile') }}
+            @else
+                {{ __('Validate account') }}
+            @endif
         @endslot
     @endcomponent
-    <div class="col-xxl-12">
-        @include('layouts.flash-messages')
-    </div>
+    @if(Route::getCurrentRoute()->getName()!="validateaccount")
+        <div class="row">
+            @include('layouts.flash-messages')
+        </div>
+    @endif
     <div class="row">
-        <div class="col-xxl-3">
+        <div class="col-xxl-4">
             <div class="card  ">
                 <div class="card-body p-4">
                     <div class="text-center">
@@ -22,9 +28,9 @@
                                 </br>
                                 <div wire:loading wire:target="imageProfil">{{__('Uploading')}}...</div>
                                 <img
-                                        src="@if (file_exists('uploads/profiles/profile-image-' . $user['idUser'] . '.png')) {{ URL::asset('uploads/profiles/profile-image-'.$user['idUser'].'.png') }}?={{Str::random(16)}} @else{{ URL::asset('uploads/profiles/default.png') }} @endif"
-                                        class="  rounded-circle avatar-xl img-thumbnail user-profile-image"
-                                        alt="user-profile-image">
+                                    src="@if (file_exists('uploads/profiles/profile-image-' . $user['idUser'] . '.png')) {{ URL::asset('uploads/profiles/profile-image-'.$user['idUser'].'.png') }}?={{Str::random(16)}} @else{{ URL::asset('uploads/profiles/default.png') }} @endif"
+                                    class="  rounded-circle avatar-xl img-thumbnail user-profile-image"
+                                    alt="user-profile-image">
                                 <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
                                     <input id="profile-img-file-input" type="file" class="profile-img-file-input"
                                            accept="image/png"
@@ -53,19 +59,117 @@
                 </div>
             </div>
             @if($user['status']!=1)
+                <div class="card">
+                    <div class="card-body row">
+                        <h5 class="card-title mb-2 text-info">{{ __('National identities cards') }}</h5>
+                        <div class="col-12">
+                            <table class="table table-bordered">
+                                <tbody>
+                                <tr>
+                                    <th scope="row">{{ __('Front ID') }}</th>
+                                    <td>   @if(file_exists(public_path('/uploads/profiles/front-id-image'.$user['idUser'].'.png')))
+                                            <img class="img-thumbnail" width="150" height="100" id="front-id-image"
+                                                 title="{{__('Front id image')}}"
+                                                 src="{{asset(('/uploads/profiles/front-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}">
+                                            <button type="button" class="btn btn-outline-primary mt-1"
+                                                    data-toggle="modal"
+                                                    id="show-identity-front"
+                                                    data-target=".bd-example-modal-lg">{{__('Show Identity')}}</button>
+                                        @else
+                                            <div class="alert alert-warning" role="alert">
+                                                {{__('No image uploaded')}}
+                                            </div>
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <span class="align-middle">{{ __('Back ID') }}
+                                        </span>
+                                    </th>
+                                    <td>
+                                        @if(file_exists(public_path('/uploads/profiles/back-id-image'.$user['idUser'].'.png')))
+                                            <img class="img-thumbnail" width="150" height="100" id="back-id-image"
+                                                 title="{{__('Back id image')}}"
+                                                 src="{{asset(('/uploads/profiles/back-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}">
+                                            <button type="button" class="btn btn-outline-primary mt-1"
+                                                    data-toggle="modal"
+                                                    id="show-identity-back"
+                                                    data-target=".bd-example-modal-lg">{{__('Show Identity')}}</button>
+                                        @else
+                                            <div class="alert alert-warning" role="alert">
+                                                {{__('No image uploaded')}}
+                                            </div>
+                                        @endif
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            @endif
+            @if($user['status']!=1)
+                <div class="card">
+                    <div class="card-body row">
+                        <h5 class="card-title mb-2 text-info">{{ __('International identity card') }}</h5>
+                        <div class="col-12">
+                            <table class="table table-bordered">
+                                <tbody>
+                                <tr>
+                                    <th scope="row">{{ __('Identity card') }}</th>
+                                    <td>
+                                        @if(file_exists(public_path('/uploads/profiles/international-id-image'.$user['idUser'].'.png')))
+                                            <img class="img-thumbnail" width="150" height="100"
+                                                 id="international-id-image"
+                                                 title="{{__('International identity card')}}"
+                                                 src="{{asset(('/uploads/profiles/international-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}">
+                                            <button type="button" class="btn btn-outline-primary mt-1"
+                                                    data-toggle="modal"
+                                                    id="show-identity-international"
+                                                    data-target=".bd-example-modal-lg">
+                                                {{__('Show Identity')}}
+                                            </button>
+                                        @else
+                                            <div class="alert alert-warning" role="alert">
+                                                {{__('No image uploaded')}}
+                                            </div>
+                                        @endif
+                                    </td>
+                                <tr>
+                                <tr>
+                                    <th scope="row">{{__('InternationalId ID identificatdion modal')}}</th>
+                                    <td>
+                                        {{$user['internationalID']}}
+                                    </td>
+                                <tr>
+                                <tr>
+                                    <th scope="row">{{__('Expiry date identificatdion modal')}}</th>
+                                    <td>
+                                        {{$user['expiryDate']}}
+                                    </td>
+                                <tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            @endif
+        </div>
+        <div class="col-xxl-8">
+            @if($user['status']!=1)
                 <div class="card @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif">
                     <div class="card-body">
-                        <div class="d-flex align-items-center mb-5">
+                        <div class="d-flex align-items-center mb-3">
                             <div class="flex-grow-1">
                                 <h5 class="card-title mb-0">{{ __('Complete_Profile') }}</h5>
                             </div>
                             <div
-                                    class="flex-shrink-0 @if(Route::getCurrentRoute()->getName()!="validateaccount") d-none   @endif">
+                                class="flex-shrink-0 @if(Route::getCurrentRoute()->getName()!="validateaccount") d-none   @endif">
                                 <a style="color: #009fe3!important" data-bs-toggle="modal"
                                    data-bs-target="#modalEditProf"
                                    href="javascript:void(0);"
                                    class="badge bg-light text-primary fs-12"><i
-                                            class="ri-edit-box-line align-bottom me-1"></i> {{__('Edit')}}</a>
+                                        class="ri-edit-box-line align-bottom me-1"></i> {{__('Edit')}}</a>
                             </div>
                         </div>
                         <div class="progress progress-label" style="height: 20px;">
@@ -123,7 +227,10 @@
                         @if($PercentComplete==100)
                             <br>
                             @if($hasRequest)
-                                <h6>{{__('voter_demande_déja_en_cours')}}</h6>
+                                <button class="btn btn-outline-warning" type="button" disabled>
+                                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                    {{__('voter_demande_déja_en_cours')}}...
+                                </button>
                             @else
                                 @if($user['status'] == 1)
                                     <h6>{{__('votre_compte_est_déja_validé')}}</h6>
@@ -141,96 +248,6 @@
                     </div>
                 </div>
             @endif
-            @if($user['status']!=1)
-                <div class="card">
-                    <div class="card-body row">
-                        <h5 class="card-title mb-2 text-info">{{ __('National identities cards') }}</h5>
-                        <div class="col-6">
-                            <div>
-                                <label>{{ __('Front ID') }}</label>
-                            </div>
-                            <div>
-                                @if(file_exists(public_path('/uploads/profiles/front-id-image'.$user['idUser'].'.png')))
-                                    <img class="img-thumbnail" width="150" height="100" id="front-id-image"
-                                         title="{{__('Front id image')}}"
-                                         src="{{asset(('/uploads/profiles/front-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}">
-                                    <button type="button" class="btn btn-outline-primary mt-1" data-toggle="modal"
-                                            id="show-identity-front"
-                                            data-target=".bd-example-modal-lg">{{__('Show Identity')}}</button>
-                                @else
-                                    <div class="alert alert-warning" role="alert">
-                                        {{__('No image uploaded')}}
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div>
-                                <label>{{ __('Back ID') }}</label>
-                            </div>
-                            <div>
-                                @if(file_exists(public_path('/uploads/profiles/back-id-image'.$user['idUser'].'.png')))
-                                    <img class="img-thumbnail" width="150" height="100" id="back-id-image"
-                                         title="{{__('Back id image')}}"
-                                         src="{{asset(('/uploads/profiles/back-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}">
-                                    <button type="button" class="btn btn-outline-primary mt-1" data-toggle="modal"
-                                            id="show-identity-back"
-                                            data-target=".bd-example-modal-lg">{{__('Show Identity')}}</button>
-                                @else
-                                    <div class="alert alert-warning" role="alert">
-                                        {{__('No image uploaded')}}
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endif
-            @if($user['status']!=1)
-                <div class="card">
-                    <div class="card-body row">
-                        <h5 class="card-title mb-2 text-info">{{ __('International identity card') }}</h5>
-                        <div class="col-12">
-                            <div>
-                                <label>{{ __('Identity card') }}</label>
-                            </div>
-                            <div>
-                                @if(file_exists(public_path('/uploads/profiles/international-id-image'.$user['idUser'].'.png')))
-                                    <img class="img-thumbnail" width="150" height="100" id="front-id-image"
-                                         title="{{__('International identity card')}}"
-                                         src="{{asset(('/uploads/profiles/international-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}">
-                                    <button type="button" class="btn btn-outline-primary mt-1" data-toggle="modal"
-                                            id="show-identity-front"
-                                            data-target=".bd-example-modal-lg">{{__('Show Identity')}}</button>
-                                @else
-                                    <div class="alert alert-warning" role="alert">
-                                        {{__('No image uploaded')}}
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <table class="table">
-                                <tbody>
-                                <tr>
-                                    <th scope="row">{{__('InternationalId ID identificatdion modal')}}</th>
-                                    <td>
-                                        {{$user['internationalID']}}
-                                    </td>
-                                <tr>
-                                <tr>
-                                    <th scope="row">{{__('Expiry date identificatdion modal')}}</th>
-                                    <td>
-                                        {{$user['expiryDate']}}
-                                    </td>
-                                <tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            @endif
-        </div>
-        <div class="col-xxl-9">
             <div class="card  ">
                 <div class="card-header">
                     <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0 tab2earn" role="tablist">
@@ -302,9 +319,9 @@
                                             <label for="firstnameInput"
                                                    class="form-label">{{__('First name label')}}</label>
                                             <input
-                                                    {{$disabled}}
-                                                    wire:model.defer="usermetta_info.enFirstName"
-                                                    placeholder="{{__('First name')}}" class="form-control">
+                                                {{$disabled}}
+                                                wire:model.defer="usermetta_info.enFirstName"
+                                                placeholder="{{__('First name')}}" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -351,9 +368,9 @@
                                                 {{__('Date of birth')  }}
                                             </label>
                                             <input
-                                                    {{$disabled}}
-                                                    wire:model.defer="usermetta_info.birthday" type="date"
-                                                    class="form-control" id="JoiningdatInput"/>
+                                                {{$disabled}}
+                                                wire:model.defer="usermetta_info.birthday" type="date"
+                                                class="form-control" id="JoiningdatInput"/>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -381,7 +398,7 @@
                                                 foreach ($personaltitles as $personaltitle){
                                                     ?>
                                                 <option
-                                                        value="{{$personaltitle->id}}">{{__($personaltitle->name)}}</option>
+                                                    value="{{$personaltitle->id}}">{{__($personaltitle->name)}}</option>
                                                 <?php }
                                                 } ?>
                                             </select>
@@ -415,7 +432,7 @@
                                                 foreach ($languages as $language){
                                                     ?>
                                                 <option
-                                                        value="{{$language->name}}"> {{ __('lang'.$language->PrefixLanguage)  }}</option>
+                                                    value="{{$language->name}}"> {{ __('lang'.$language->PrefixLanguage)  }}</option>
                                                 <?php }
                                                 } ?>
                                             </select>
@@ -522,8 +539,8 @@
                             </form>
                         </div>
                         <div
-                                class="tab-pane @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif"
-                                id="changePassword" role="tabpanel">
+                            class="tab-pane @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif"
+                            id="changePassword" role="tabpanel">
                             <form action="">
                                 <div class="row g-2">
                                     <div class="col-lg-4">
@@ -537,9 +554,9 @@
                                                    class="form-control pe-5" name="password" placeholder="********"
                                                    id="oldpasswordInput">
                                             <button
-                                                    class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
-                                                    type="button" id="toggleOldPassword"><i
-                                                        class="ri-eye-fill align-middle"></i></button>
+                                                class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
+                                                type="button" id="toggleOldPassword"><i
+                                                    class="ri-eye-fill align-middle"></i></button>
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
@@ -553,8 +570,8 @@
                                                    name="password" placeholder="********"
                                                    id="newpasswordInput">
                                             <button
-                                                    class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
-                                                    type="button" id="toggleNewPassword">
+                                                class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
+                                                type="button" id="toggleNewPassword">
                                                 <i class="ri-eye-fill align-middle"></i>
                                             </button>
                                         </div>
@@ -570,8 +587,8 @@
                                                        class="form-control" id="confirmpasswordInput"
                                                        placeholder="********">
                                                 <button
-                                                        class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
-                                                        type="button" id="toggleConfirmPassword">
+                                                    class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
+                                                    type="button" id="toggleConfirmPassword">
                                                     <i class="ri-eye-fill align-middle"></i>
                                                 </button>
                                             </div>
@@ -599,14 +616,14 @@
                         </div>
                         @if($user['status']!=1)
                             <div
-                                    class="tab-pane @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif"
-                                    id="experience" role="tabpanel">
+                                class="tab-pane @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif"
+                                id="experience" role="tabpanel">
                                 <livewire:identification-check/>
                             </div>
                         @endif
                         <div
-                                class="tab-pane @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif"
-                                id="privacy" role="tabpanel">
+                            class="tab-pane @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif"
+                            id="privacy" role="tabpanel">
                             <livewire:edit-phone-number/>
                         </div>
                     </div>
@@ -722,10 +739,10 @@
                                            accept=".png"/>
                                     <label for="image55">
                                         <lord-icon
-                                                src="https://cdn.lordicon.com/vixtkkbk.json"
-                                                trigger="loop" delay="1000"
-                                                colors="primary:#464fed,secondary:#bc34b6"
-                                                style="width:100px;height:100px">
+                                            src="https://cdn.lordicon.com/vixtkkbk.json"
+                                            trigger="loop" delay="1000"
+                                            colors="primary:#464fed,secondary:#bc34b6"
+                                            style="width:100px;height:100px">
                                         </lord-icon>
                                         <span> <i class="ri-camera-fill"></i> </span>
                                     </label>
@@ -749,10 +766,10 @@
                                            {{$disabled}}   accept=".png"/>
                                     <label for="image44">
                                         <lord-icon
-                                                src="https://cdn.lordicon.com/vixtkkbk.json"
-                                                trigger="loop" delay="1000"
-                                                colors="primary:#464fed,secondary:#bc34b6"
-                                                style="width:100px;height:100px">
+                                            src="https://cdn.lordicon.com/vixtkkbk.json"
+                                            trigger="loop" delay="1000"
+                                            colors="primary:#464fed,secondary:#bc34b6"
+                                            style="width:100px;height:100px">
                                         </lord-icon>
                                         <span> <i class="ri-camera-fill"></i> </span>
                                     </label>
@@ -788,7 +805,7 @@
                 <div class="modal-header mb-2">
                     <h3 class="modal-title" id="identies-viewer-title"></h3>
                 </div>
-                <div class="modal-content" id="identies-viewer-content">
+                <div class="modal-content p-3" id="identies-viewer-content">
 
                 </div>
             </div>
@@ -1038,6 +1055,9 @@
             });
             $("#show-identity-back").click(function () {
                 showIdentitiesModal('back')
+            });
+            $("#show-identity-international").click(function () {
+                showIdentitiesModal('international')
             });
             window.addEventListener('profilePhotoError', event => {
                 Swal.fire({
