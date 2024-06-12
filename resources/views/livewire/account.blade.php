@@ -60,8 +60,10 @@
             </div>
             @if($user['status']!=1)
                 <div class="card">
-                    <div class="card-body row">
+                    <div class="card-header">
                         <h5 class="card-title mb-2 text-info">{{ __('National identities cards') }}</h5>
+                    </div>
+                    <div class="card-body row">
                         <div class="col-12">
                             <table class="table table-bordered">
                                 <tbody>
@@ -111,8 +113,10 @@
             @endif
             @if($user['status']!=1)
                 <div class="card">
-                    <div class="card-body row">
+                    <div class="card-header">
                         <h5 class="card-title mb-2 text-info">{{ __('International identity card') }}</h5>
+                    </div>
+                    <div class="card-body row">
                         <div class="col-12">
                             <table class="table table-bordered">
                                 <tbody>
@@ -170,11 +174,11 @@
         <div class="col-xxl-8">
             @if($user['status']!=1)
                 <div class="card @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif">
+                    <div class="card-header">
+                        <h5 class="card-title mb-2 text-info">{{ __('Complete_Profile') }}</h5>
+                    </div>
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-3">
-                            <div class="flex-grow-1">
-                                <h5 class="card-title mb-0">{{ __('Complete_Profile') }}</h5>
-                            </div>
                             <div
                                 class="flex-shrink-0 @if(Route::getCurrentRoute()->getName()!="validateaccount") d-none   @endif">
                                 <a style="color: #009fe3!important" data-bs-toggle="modal"
@@ -267,7 +271,8 @@
             @endif
             <div class="card  ">
                 <div class="card-header">
-                    <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0 tab2earn" role="tablist">
+                    <ul class="nav  nav-pills nav-tabs-custom rounded card-header-tabs border-bottom-0 tab2earn"
+                        role="tablist">
                         <li class="nav-item">
                             <a style="color: #f02602" class="nav-link active" data-bs-toggle="tab"
                                href="#personalDetails" role="tab">
