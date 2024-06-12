@@ -222,7 +222,7 @@
 
         @font-face {
             font-family: ar400;
-            src: url("{{asset('assets/NotoKufiArabic-Regular.ttf')}}");
+            src: url("{{asset('assets/fonts/NotoKufiArabic-Regular.ttf')}}");
             font-weight: 400;
         }
 

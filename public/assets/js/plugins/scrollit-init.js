@@ -1,5 +1,0 @@
-
-
-(function ($) {
-    $.scrollIt();
-})(jQuery);
