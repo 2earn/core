@@ -595,7 +595,7 @@
                                         <div class="position-relative auth-pass-inputgroup mb-3">
                                             <input wire:model.defer="newPassword" type="password"
                                                    class="form-control pe-5  "
-                                                   name="password" placeholder="{{__('New password')}}"
+                                                   name="password" placeholder="{{__('New password please')}}"
                                                    id="newpasswordInput">
                                             <button
                                                 class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
