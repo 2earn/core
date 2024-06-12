@@ -149,43 +149,38 @@ class Account extends Component
         }
 
         if (!isset($this->usermetta_info['enFirstName']) || trim($this->usermetta_info['enFirstName']) == "") {
-            array_push($this->errors_array, $this->getMsgErreur('enFirstName'));
+            array_push($this->errors_array, getProfileMsgErreur('enFirstName'));
         }
         if (!isset($this->usermetta_info['enLastName']) || trim($this->usermetta_info['enLastName']) == "") {
-            array_push($this->errors_array, $this->getMsgErreur('enLastName'));
+            array_push($this->errors_array, getProfileMsgErreur('enLastName'));
         }
 
         if (isset($this->usermetta_info['birthday'])) {
             $this->PercentComplete += 20;
         } else {
-            array_push($this->errors_array, $this->getMsgErreur('birthday'));
+            array_push($this->errors_array, getProfileMsgErreur('birthday'));
         }
 
         if (isset($this->usermetta_info['nationalID']) && trim($this->usermetta_info['nationalID']) != "") {
 
             $this->PercentComplete += 20;
         } else {
-            array_push($this->errors_array, $this->getMsgErreur('nationalID'));
+            array_push($this->errors_array, getProfileMsgErreur('nationalID'));
         }
 
         if (file_exists(public_path('/uploads/profiles/back-id-image' . $this->usermetta_info['idUser'] . '.png')) && file_exists(public_path('/uploads/profiles/front-id-image' . $this->usermetta_info['idUser'] . '.png'))) {
 
             $this->PercentComplete += 20;
         } else {
-            array_push($this->errors_array, $this->getMsgErreur('photoIdentite'));
+            array_push($this->errors_array, getProfileMsgErreur('photoIdentite'));
         }
         if (isset($this->user['email']) && trim($this->user['email']) != "") {
 
             $this->PercentComplete += 20;
         } else {
-            array_push($this->errors_array, $this->getMsgErreur('email'));
+            array_push($this->errors_array, getProfileMsgErreur('email'));
         }
 
-    }
-
-    private function getMsgErreur($typeErreur)
-    {
-        return Lang::get('Identify_' . $typeErreur);
     }
 
 

@@ -90,7 +90,6 @@ class IdentificationCheck extends Component
                 $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request wrong information'), 'text' => Lang::get('Photo front wrong type'),]);
                 return;
             }
-
         }
 
         if (!is_null($this->photoBack) && gettype($this->photoBack) == "object") {
@@ -152,11 +151,6 @@ class IdentificationCheck extends Component
         return redirect()->route('account', app()->getLocale())->with('SuccesUpdateIdentification', Lang::get('Identification_send_succes'));
     }
 
-    private function getMsgErreur($typeErreur)
-    {
-        return Lang::get('Identify_' . $typeErreur);
-    }
-
     public function render(settingsManager $settingsManager)
     {
         $noteRequset = "";
@@ -173,21 +167,20 @@ class IdentificationCheck extends Component
         $this->usermetta_info2 = collect(DB::table('metta_users')->where('idUser', $userAuth->idUser)->first());
 
         if ($usermetta_info->enFirstName == null) {
-            array_push($errors_array, $this->getMsgErreur('enFirstName'));
+            array_push($errors_array, getProfileMsgErreur('enFirstName'));
         }
         if ($usermetta_info->enLastName == null) {
-            array_push($errors_array, $this->getMsgErreur('enLastName'));
+            array_push($errors_array,getProfileMsgErreur('enLastName'));
         }
         if ($usermetta_info->birthday == null) {
-            array_push($errors_array, $this->getMsgErreur('birthday'));
+            array_push($errors_array, getProfileMsgErreur('birthday'));
         }
         if ($usermetta_info->nationalID == null) {
-            array_push($errors_array, $this->getMsgErreur('nationalID'));
+            array_push($errors_array, getProfileMsgErreur('nationalID'));
         }
         if (!isset($user->email) && trim($user->email) == "") {
-            array_push($errors_array, $this->getMsgErreur('email'));
+            array_push($errors_array, getProfileMsgErreur('email'));
         }
-
 
         $this->notify = $userAuth->iden_notif;
         $hasRequest = $userAuth->hasIdetificationReques();
