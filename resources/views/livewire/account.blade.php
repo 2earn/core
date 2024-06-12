@@ -505,11 +505,15 @@
                                                     </textarea>
                                         </div>
                                     </div>
+                                </div>
+                                @if($paramIdUser =="")
                                     <div class="col-lg-12">
-                                        @if($paramIdUser =="")
-                                            <button type="button" id="btnsaveUser"
-                                                    class="btn btn-primary btn2earn">{{ __('Save') }}</button>
-                                        @else
+                                        <button type="button" id="btnsaveUser"
+                                                class="btn btn-primary btn2earn">{{ __('Save') }}</button>
+                                    </div>
+                                @else
+                                    <div class="row">
+                                        <div class="col-lg-12">
                                             <div class="form-inline" x-data="{ open: false }">
                                                 <div class="form-group mb-2">
                                                     <button x-show="!open" type="button" @click="open = true"
@@ -527,8 +531,8 @@
                                                         {{ __('Approve') }}
                                                     </button>
                                                 </div>
-                                                <div class="row bg-light ">
-                                                    <div class="form-group mb-2 bg-light ">
+                                                <div class="row">
+                                                    <div class="form-group mb-2">
                                                         <label x-show="open">{{ __('Libele_Note') }}</label>
                                                         <textarea class="form-control" wire:model.defer="noteReject"
                                                                   name="Text1" cols="80"
@@ -540,7 +544,8 @@
                                                         <button type="button" x-show="open"
                                                                 wire:click="reject({{$paramIdUser}})"
                                                                 class="btn btn-secondary ps-5 pe-5">
-                                                            <div wire:loading wire:target="reject({{$paramIdUser}})">
+                                                            <div wire:loading
+                                                                 wire:target="reject({{$paramIdUser}})">
                                                 <span class="spinner-border spinner-border-sm" role="status"
                                                       aria-hidden="true"></span>
                                                                 <span class="sr-only">{{__('Loading')}}...</span>
@@ -555,9 +560,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        @endif
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                             </form>
                         </div>
                         <div
