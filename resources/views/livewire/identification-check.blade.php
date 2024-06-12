@@ -28,7 +28,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="alert alert-warning mt-2" role="alert">
-                                    <h4 class="alert-heading"> {{ __('Please fill in the missing fields') }}:</h4>
+                                    <h4 class="alert-heading"> {{ __('Please fill in the missing fields identification') }}:</h4>
                                     <div class="mx-4">
                                         <ul class="list-group list-group-flush">
                                             @foreach ($errors_array as $error)
