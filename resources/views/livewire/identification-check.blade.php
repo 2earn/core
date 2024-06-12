@@ -137,7 +137,7 @@
                                             </tr>
                                             <tr>
                                                 <th scope="row">
-                                                    {{__('Last name  identificatdion modal')}}
+                                                    {{__('Last name identificatdion modal')}}
                                                 </th>
                                                 <td>
                                                     {{$usermetta_info2['enLastName']}}
