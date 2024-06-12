@@ -171,6 +171,7 @@ class IdentificationCheck extends Component
         $usermetta_info = DB::table('metta_users')->where('idUser', $userAuth->idUser)->first();
 
         $this->usermetta_info2 = collect(DB::table('metta_users')->where('idUser', $userAuth->idUser)->first());
+
         if ($usermetta_info->enFirstName == null) {
             array_push($errors_array, $this->getMsgErreur('enFirstName'));
         }
@@ -183,6 +184,13 @@ class IdentificationCheck extends Component
         if ($usermetta_info->nationalID == null) {
             array_push($errors_array, $this->getMsgErreur('nationalID'));
         }
+        if (!isset($user->email) && trim($user->email) == "") {
+            array_push($errors_array, $this->getMsgErreur('email'));
+        }
+        if (!file_exists(public_path('/uploads/profiles/back-id-image' . $user->idUser . '.png')) || !file_exists(public_path('/uploads/profiles/front-id-image' . $user->idUser . '.png'))) {
+            array_push($errors_array, $this->getMsgErreur('photoIdentite'));
+        }
+
         $this->notify = $userAuth->iden_notif;
         $hasRequest = $userAuth->hasIdetificationReques();
         $hasFrontImage = $userAuth->hasFrontImage();

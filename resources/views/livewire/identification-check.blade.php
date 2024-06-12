@@ -276,6 +276,12 @@
                                  aria-labelledby="pills-inter-identities-card-tab">
                                 <div class="row">
                                     <div class="col-12">
+                                        <div class="col-12">
+                                            <div class="alert border-0 alert-warning material-shadow" role="alert">
+                                                <strong>{{__('Note')}}
+                                                    : </strong>{{__('International identity is essential for non-Saudis who want to buy shares')}}
+                                            </div>
+                                        </div>
                                         <div class="form-check form-switch form-switch-right form-switch-md">
                                             <input class="form-check-input" wire:model="internationalCard"
                                                    type="checkbox"
