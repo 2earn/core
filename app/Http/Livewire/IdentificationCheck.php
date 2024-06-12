@@ -187,9 +187,7 @@ class IdentificationCheck extends Component
         if (!isset($user->email) && trim($user->email) == "") {
             array_push($errors_array, $this->getMsgErreur('email'));
         }
-        if (!file_exists(public_path('/uploads/profiles/back-id-image' . $user->idUser . '.png')) || !file_exists(public_path('/uploads/profiles/front-id-image' . $user->idUser . '.png'))) {
-            array_push($errors_array, $this->getMsgErreur('photoIdentite'));
-        }
+
 
         $this->notify = $userAuth->iden_notif;
         $hasRequest = $userAuth->hasIdetificationReques();
