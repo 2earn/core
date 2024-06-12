@@ -85,7 +85,8 @@ class ContactNumber extends Component
                         ->where('mobile', 'like', '%' . $this->search . '%')
                         ->orWhere('id', 'like', '%' . $this->search . '%');
                 })
-            ->paginate(5);
+            ->get();
+
         return view('livewire.contact-number', [
             'userContactNumber' => $userContactNumber
         ])->extends('layouts.master')->section('content');

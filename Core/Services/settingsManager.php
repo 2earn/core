@@ -243,6 +243,8 @@ class settingsManager
         $userAuth->flashNote = $user->flashNote;
         $userAuth->flashMinAmount = $user->flashMinAmount;
         $userAuth->dateFNS = $user->dateFNS;
+        $userAuth->internationalID = $user->internationalID;
+        $userAuth->expiryDate = $user->expiryDate;
 
         return $userAuth;
     }
