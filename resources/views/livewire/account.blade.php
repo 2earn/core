@@ -56,118 +56,114 @@
                     </div>
                 </div>
             </div>
-            @if($user['status']!=1)
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title mb-2 text-info">{{ __('National identities cards') }}</h5>
-                    </div>
-                    <div class="card-body row">
-                        <div class="col-12">
-                            <table class="table table-bordered">
-                                <tbody>
-                                <tr>
-                                    <th scope="row">{{ __('Front ID') }}</th>
-                                    <td>   @if(file_exists(public_path('/uploads/profiles/front-id-image'.$user['idUser'].'.png')))
-                                            <img class="img-thumbnail" width="150" height="100" id="front-id-image"
-                                                 title="{{__('Front id image')}}"
-                                                 src="{{asset(('/uploads/profiles/front-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}">
-                                            <button type="button" class="btn btn-outline-primary mt-1"
-                                                    data-toggle="modal"
-                                                    id="show-identity-front"
-                                                    data-target=".bd-example-modal-lg">{{__('Show Identity')}}</button>
-                                        @else
-                                            <div class="alert alert-warning" role="alert">
-                                                {{__('No image uploaded')}}
-                                            </div>
-                                        @endif
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-2 text-info">{{ __('National identities cards') }}</h5>
+                </div>
+                <div class="card-body row">
+                    <div class="col-12">
+                        <table class="table table-bordered">
+                            <tbody>
+                            <tr>
+                                <th scope="row">{{ __('Front ID') }}</th>
+                                <td>   @if(file_exists(public_path('/uploads/profiles/front-id-image'.$user['idUser'].'.png')))
+                                        <img class="img-thumbnail" width="150" height="100" id="front-id-image"
+                                             title="{{__('Front id image')}}"
+                                             src="{{asset(('/uploads/profiles/front-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}">
+                                        <button type="button" class="btn btn-outline-primary mt-1"
+                                                data-toggle="modal"
+                                                id="show-identity-front"
+                                                data-target=".bd-example-modal-lg">{{__('Show Identity')}}</button>
+                                    @else
+                                        <div class="alert alert-warning" role="alert">
+                                            {{__('No image uploaded')}}
+                                        </div>
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
                                         <span class="align-middle">{{ __('Back ID') }}
                                         </span>
-                                    </th>
-                                    <td>
-                                        @if(file_exists(public_path('/uploads/profiles/back-id-image'.$user['idUser'].'.png')))
-                                            <img class="img-thumbnail" width="150" height="100" id="back-id-image"
-                                                 title="{{__('Back id image')}}"
-                                                 src="{{asset(('/uploads/profiles/back-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}">
-                                            <button type="button" class="btn btn-outline-primary mt-1"
-                                                    data-toggle="modal"
-                                                    id="show-identity-back"
-                                                    data-target=".bd-example-modal-lg">{{__('Show Identity')}}</button>
-                                        @else
-                                            <div class="alert alert-warning" role="alert">
-                                                {{__('No image uploaded')}}
-                                            </div>
-                                        @endif
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                                </th>
+                                <td>
+                                    @if(file_exists(public_path('/uploads/profiles/back-id-image'.$user['idUser'].'.png')))
+                                        <img class="img-thumbnail" width="150" height="100" id="back-id-image"
+                                             title="{{__('Back id image')}}"
+                                             src="{{asset(('/uploads/profiles/back-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}">
+                                        <button type="button" class="btn btn-outline-primary mt-1"
+                                                data-toggle="modal"
+                                                id="show-identity-back"
+                                                data-target=".bd-example-modal-lg">{{__('Show Identity')}}</button>
+                                    @else
+                                        <div class="alert alert-warning" role="alert">
+                                            {{__('No image uploaded')}}
+                                        </div>
+                                    @endif
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            @endif
-            @if($user['status']!=1)
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title mb-2 text-info">{{ __('International identity card') }}</h5>
-                    </div>
-                    <div class="card-body row">
-                        <div class="col-12">
-                            <table class="table table-bordered">
-                                <tbody>
-                                <tr>
-                                    <th scope="row">{{ __('Identity card') }}</th>
-                                    <td>
-                                        @if(file_exists(public_path('/uploads/profiles/international-id-image'.$user['idUser'].'.png')))
-                                            <img class="img-thumbnail" width="150" height="100"
-                                                 id="international-id-image"
-                                                 title="{{__('International identity card')}}"
-                                                 src="{{asset(('/uploads/profiles/international-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}">
-                                            <button type="button" class="btn btn-outline-primary mt-1"
-                                                    data-toggle="modal"
-                                                    id="show-identity-international"
-                                                    data-target=".bd-example-modal-lg">
-                                                {{__('Show Identity')}}
-                                            </button>
-                                        @else
-                                            <div class="alert alert-warning" role="alert">
-                                                {{__('No image uploaded')}}
-                                            </div>
-                                        @endif
-                                    </td>
-                                <tr>
-                                <tr>
-                                    <th scope="row">{{__('InternationalId ID identificatdion modal')}}</th>
-                                    <td>
-                                        @if($user['internationalID'])
-                                            {{$user['internationalID']}}
-                                        @else
-                                            <div class="alert alert-warning" role="alert">
-                                                {{__('No international ID')}}
-                                            </div>
-                                        @endif
-                                    </td>
-                                <tr>
-                                <tr>
-                                    <th scope="row">{{__('Expiry date identificatdion modal')}}</th>
-                                    <td>
-                                        @if($user['internationalID'])
-                                            {{$user['expiryDate']}}
-                                        @else
-                                            <div class="alert alert-warning" role="alert">
-                                                {{__('No international ID')}}
-                                            </div>
-                                        @endif
-                                    </td>
-                                <tr>
-                            </table>
-                        </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-2 text-info">{{ __('International identity card') }}</h5>
+                </div>
+                <div class="card-body row">
+                    <div class="col-12">
+                        <table class="table table-bordered">
+                            <tbody>
+                            <tr>
+                                <th scope="row">{{ __('Identity card') }}</th>
+                                <td>
+                                    @if(file_exists(public_path('/uploads/profiles/international-id-image'.$user['idUser'].'.png')))
+                                        <img class="img-thumbnail" width="150" height="100"
+                                             id="international-id-image"
+                                             title="{{__('International identity card')}}"
+                                             src="{{asset(('/uploads/profiles/international-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}">
+                                        <button type="button" class="btn btn-outline-primary mt-1"
+                                                data-toggle="modal"
+                                                id="show-identity-international"
+                                                data-target=".bd-example-modal-lg">
+                                            {{__('Show Identity')}}
+                                        </button>
+                                    @else
+                                        <div class="alert alert-warning" role="alert">
+                                            {{__('No image uploaded')}}
+                                        </div>
+                                    @endif
+                                </td>
+                            <tr>
+                            <tr>
+                                <th scope="row">{{__('InternationalId ID identificatdion modal')}}</th>
+                                <td>
+                                    @if($user['internationalID'])
+                                        {{$user['internationalID']}}
+                                    @else
+                                        <div class="alert alert-warning" role="alert">
+                                            {{__('No international ID')}}
+                                        </div>
+                                    @endif
+                                </td>
+                            <tr>
+                            <tr>
+                                <th scope="row">{{__('Expiry date identificatdion modal')}}</th>
+                                <td>
+                                    @if($user['internationalID'])
+                                        {{$user['expiryDate']}}
+                                    @else
+                                        <div class="alert alert-warning" role="alert">
+                                            {{__('No international ID')}}
+                                        </div>
+                                    @endif
+                                </td>
+                            <tr>
+                        </table>
                     </div>
                 </div>
-            @endif
+            </div>
         </div>
         <div class="col-xxl-8">
             @if($user['status']!=1)
