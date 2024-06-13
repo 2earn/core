@@ -251,7 +251,6 @@ class Account extends Component
                 return;
             }
         }
-
         if ($this->paramIdUser == "")
             return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Edit_profil_succes'));
         else {
