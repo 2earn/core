@@ -8,11 +8,9 @@
             @endif
         @endslot
     @endcomponent
-    @if(Route::getCurrentRoute()->getName()!="validateaccount")
-        <div class="row">
-            @include('layouts.flash-messages')
-        </div>
-    @endif
+    <div class="row">
+        @include('layouts.flash-messages')
+    </div>
     <div class="row">
         <div class="col-xxl-4">
             <div class="card  ">
@@ -244,7 +242,8 @@
                             <br>
                             @if($hasRequest)
                                 <button class="btn btn-outline-warning" type="button" disabled>
-                                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                        <span class="spinner-grow spinner-grow-sm" role="status"
+                                              aria-hidden="true"></span>
                                     {{__('voter_demande_déja_en_cours')}}...
                                 </button>
                             @else
@@ -255,7 +254,8 @@
                         @else
                             @if(!empty($errors_array))
                                 <div class="alert alert-warning mt-2" role="alert">
-                                    <h4 class="alert-heading"> {{ __('Please fill in the missing fields profile') }}:</h4>
+                                    <h4 class="alert-heading"> {{ __('Please fill in the missing fields profile') }}
+                                        :</h4>
                                     <div class="mx-4">
                                         <ul class="list-group list-group-flush">
                                             @foreach ($errors_array as $error)
@@ -280,16 +280,15 @@
                                 {{__('Edit_Profile')}}
                             </a>
                         </li>
-                        @if($user['status']!=1)
-                            <li class="nav-item @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif">
-                                <a class="nav-link" data-bs-toggle="tab" href="#experience" role="tab">
-                                    <i class="far fa-envelope"></i>
-                                    {{__('Identifications')}}
-                                </a>
-                            </li>
-                        @endif
                         <li class="nav-item @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif">
-                            <a class="nav-link" data-bs-toggle="tab" href="#changePassword" role="tab" id="tabEditPass">
+                            <a class="nav-link" data-bs-toggle="tab" href="#experience" role="tab">
+                                <i class="far fa-envelope"></i>
+                                {{__('Identifications')}}
+                            </a>
+                        </li>
+                        <li class="nav-item @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif">
+                            <a class="nav-link" data-bs-toggle="tab" href="#changePassword" role="tab"
+                               id="tabEditPass">
                                 <i class="far fa-user"></i>
                                 {{__('ChangePassword')}}
                             </a>
@@ -352,10 +351,12 @@
                                                    class="form-label">{{ __('Your Contact number') }}</label>
                                             <div class="input-group form-icon">
                                                 <input disabled wire:model.defer="numberActif" type="text"
-                                                       class="form-control inputtest form-control-icon" aria-label=""
+                                                       class="form-control inputtest form-control-icon"
+                                                       aria-label=""
                                                        placeholder="">
                                                 <i style="font-size: 20px;" class="ri-phone-line"></i>
-                                                <a href="{{route('ContactNumber', app()->getLocale())}}" id="update_tel"
+                                                <a href="{{route('ContactNumber', app()->getLocale())}}"
+                                                   id="update_tel"
                                                    style="cursor: pointer;background-color: #009fe3!important"
                                                    class="btn btn-primary" type="button">
                                                     {{__('add')}}
@@ -375,7 +376,8 @@
                                                 <button style="background-color: #009fe3!important"
                                                         data-bs-toggle="modal" data-bs-target="#modalMail"
                                                         class="btn btn-primary"
-                                                        type="button">@if($user['email']=="")
+                                                        type="button">
+                                                    @if($user['email']=="")
                                                         {{__('add')}}
                                                     @else
                                                         {{__('Change')}}
@@ -416,7 +418,7 @@
                                             <select class="form-select mb-3" aria-label=" "
                                                     wire:model.defer="usermetta_info.personaltitle">
                                                 <option value="">{{__('no selected value')}}</option>
-                                                <?php if (isset($personaltitles)){
+                                                    <?php if (isset($personaltitles)){
                                                 foreach ($personaltitles as $personaltitle){
                                                     ?>
                                                 <option
@@ -433,7 +435,7 @@
                                                     wire:model.defer="usermetta_info.gender">
                                                 <
                                                 <option value="">{{__('no selected value')}}</option>
-                                                <?php if (isset($genders)){
+                                                    <?php if (isset($genders)){
                                                 foreach ($genders as $gender){
                                                     ?>
                                                 <option value="{{$gender->id}}">{{ __( $gender->name)  }}</option>
@@ -449,7 +451,7 @@
                                             <select class="form-select mb-3" aria-label=" "
                                                     wire:model.defer="usermetta_info.idLanguage">
                                                 <option value="" selected>{{__('no selected value')}}</option>
-                                                <?php if (isset($languages)){ ?>
+                                                    <?php if (isset($languages)){ ?>
                                                     <?php
                                                 foreach ($languages as $language){
                                                     ?>
@@ -642,13 +644,11 @@
                                 </div>
                             </form>
                         </div>
-                        @if($user['status']!=1)
                             <div
                                 class="tab-pane @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif"
                                 id="experience" role="tabpanel">
                                 <livewire:identification-check/>
                             </div>
-                        @endif
                         <div
                             class="tab-pane @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif"
                             id="privacy" role="tabpanel">
@@ -1038,7 +1038,6 @@
                         const b = Swal.getFooter().querySelector('i');
                         const p22 = Swal.getFooter().querySelector('div');
                         p22.innerHTML = '<br>' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>';
-
                         timerInterval = setInterval(() => {
                             let timerLeft = Swal.getTimerLeft();
                             if (timerLeft !== null) {
@@ -1052,12 +1051,10 @@
                         clearInterval(timerInterval);
                     },
                     input: 'text',
-                    inputAttributes: {
-                        autocapitalize: 'off'
-                    },
+                    inputAttributes: {autocapitalize: 'off'},
                 }).then((resultat) => {
-                    if (resultat.value) {
-                        window.livewire.emit('saveVerifiedMail', resultat.value);
+                    if (resultat.isConfirmed && resultat.value) {
+                        window.livewire.emit('checkUserEmail', resultat.value);
                     } else if (resultat.isDismissed) {
                         $('.modal-backdrop').remove();
                     }
@@ -1094,6 +1091,56 @@
                     icon: 'error',
                     confirmButtonText: "{{__('ok')}}"
                 })
+            })
+
+            window.addEventListener('EmailCheckUser', event => {
+                if (event.detail.emailValidation) {
+                    Swal.fire({
+                        title: event.detail.title,
+                        html: event.detail.html,
+                        allowOutsideClick: false,
+                        timer: '{{ env('timeOPT') }}',
+                        timerProgressBar: true,
+                        showCancelButton: true,
+                        cancelButtonText: '{{trans('canceled !')}}',
+                        confirmButtonText: '{{trans('ok')}}',
+                        footer: '<i></i><div class="footerOpt"></div>',
+                        didOpen: () => {
+                            const b = Swal.getFooter().querySelector('i');
+                            const p22 = Swal.getFooter().querySelector('div');
+                            p22.innerHTML = '<br>' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>';
+                            timerInterval = setInterval(() => {
+                                let timerLeft = Swal.getTimerLeft();
+                                if (timerLeft !== null) {
+                                    b.innerHTML = '{{trans('It will close in')}}' + (timerLeft / 1000).toFixed(0) + '{{trans('secondes')}}';
+                                } else {
+                                    clearInterval(timerInterval);
+                                }
+                            }, 100);
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval);
+                        },
+                        input: 'text',
+                        inputAttributes: {autocapitalize: 'off'},
+                    }).then((resultat) => {
+                        if (resultat.isConfirmed && resultat.value) {
+                            window.livewire.emit('saveVerifiedMail', resultat.value);
+                        } else if (resultat.isDismissed) {
+                            $('.modal-backdrop').remove();
+                        }
+                    }).catch((error) => {
+                        console.error('SweetAlert Error:', error);
+                    });
+                } else {
+                    $('.modal-backdrop').remove();
+                    Swal.fire({
+                        title: event.detail.title,
+                        text: event.detail.text,
+                        icon: 'error',
+                        confirmButtonText: "{{__('ok')}}"
+                    })
+                }
             })
         </script>
         <script data-turbolinks-eval="false">
