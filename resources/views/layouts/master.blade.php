@@ -106,7 +106,7 @@
 
     <script src="{{asset('assets/js/intlTelInput.js')}}"></script>
     @include('layouts.head-css')
-    <link href="{{ URL::asset('assets/libs/dropzone/dropzone.min.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('assets/libs/dropzone/dropzone.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ URL::asset('assets/libs/filepond/filepond.min.css') }}" type="text/css"/>
     <link rel="stylesheet"
           href="{{ URL::asset('assets/libs/filepond-plugin-image-preview/filepond-plugin-image-preview.min.css') }}">
