@@ -57,7 +57,7 @@ export default defineConfig({
                     // Copy images, json, fonts, and js
                     await Promise.all([
                         fs.copy(folder.src_assets + 'fonts', folder.dist_assets + 'fonts'),
-                        fs.copy(folder.src_assets + 'styles', folder.dist_assets + 'styles'),
+                        fs.copy(folder.src_assets + 'Styles', folder.dist_assets + 'Styles'),
                         fs.copy(folder.src_assets + 'images', folder.dist_assets + 'images'),
                         fs.copy(folder.src_assets + 'js', folder.dist_assets + 'js'),
                         fs.copy(folder.src_assets + 'json', folder.dist_assets + 'json'),
