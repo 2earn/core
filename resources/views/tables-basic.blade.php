@@ -352,7 +352,7 @@ Basic Tables
                 &lt;th scope=&quot;col&quot;&gt;Date&lt;/th&gt;
                 &lt;th scope=&quot;col&quot;&gt;Total&lt;/th&gt;
                 &lt;th scope=&quot;col&quot;&gt;Status&lt;/th&gt;
-                &lt;th scope=&quot;col&quot;&gt;Action&lt;/th&gt;   
+                &lt;th scope=&quot;col&quot;&gt;Action&lt;/th&gt;
             &lt;/tr&gt;
         &lt;/thead&gt;
         &lt;tbody&gt;
@@ -3163,7 +3163,7 @@ Basic Tables
 <!--end row-->
 @endsection
 @section('script')
-<script src="{{ URL::asset('assets/libs/prismjs/prismjs.min.js') }}"></script>
+<script src="{{ URL::asset('assets/libs/prismjs/prism.js') }}"></script>
 
 <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
 @endsection

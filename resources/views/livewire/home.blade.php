@@ -507,7 +507,7 @@
     </div>
     @push('scripts')
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-        <script src="{{ URL::asset('assets/libs/prismjs/prismjs.min.js') }}"></script>
+        <script src="{{ URL::asset('assets/libs/prismjs/prism.js') }}"></script>
         <script src="{{ URL::asset('assets/js/pages/form-validation.init.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         @if($flash)

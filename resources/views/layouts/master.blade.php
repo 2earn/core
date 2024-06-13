@@ -269,7 +269,7 @@
         data-turbolinks-eval="false" data-turbo-eval="false"></script>
 
 <script src="{{ mix('js/turbo.js') }}" defer></script>
-<script src="{{ URL::asset('/assets/libs/dropzone/dropzone.min.js') }}"></script>
+<script src="{{ URL::asset('/assets/libs/dropzone/dropzone-min.js') }}"></script>
 <script src="{{ URL::asset('/assets/js/pages/crypto-kyc.init.js') }}"></script>
 {{--<script src="{{ URL::asset('assets/js/pages/team.init.js') }}"></script>--}}
 <script src="{{ URL::asset('assets/libs/filepond/filepond.min.js') }}"></script>

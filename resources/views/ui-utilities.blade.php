@@ -1155,6 +1155,6 @@ This is an example of using &lt;code&gt;.overflow-scroll&lt;/code&gt; on an elem
 <!-- end row -->
 @endsection
 @section('script')
-<script src="{{ URL::asset('assets/libs/prismjs/prismjs.min.js') }}"></script>
+<script src="{{ URL::asset('assets/libs/prismjs/prism.js') }}"></script>
 <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
 @endsection
