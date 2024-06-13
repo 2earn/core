@@ -355,7 +355,7 @@ class Account extends Component
         $check_exchange = $this->randomNewCodeOpt();
         User::where('id', auth()->user()->id)->update(['OptActivation' => $check_exchange]);
         $settingsManager->NotifyUser(auth()->user()->id, TypeEventNotificationEnum::NewContactNumber, ['canSendMail' => 1, 'msg' => $check_exchange, 'toMail' => $this->newMail, 'emailTitle' => "2Earn.cash"]);
-        $this->dispatchBrowserEvent('EmailCheckUser', ['emailValidation' => true, 'title' => trans('Please fill the opt code from your email'), 'html' => trans('Please fill the opt code from your email') . ' : ' . $this->newMail]);
+        $this->dispatchBrowserEvent('EmailCheckUser', ['emailValidation' => true, 'title' => trans('Opt code from your email'), 'html' => trans('We sent an opt code to your email') . ' : ' . $this->newMail . ' <br> ' . trans('Please fill it')]);
     }
 
     public function saveVerifiedMail($codeOpt)

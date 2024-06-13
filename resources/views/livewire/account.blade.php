@@ -640,11 +640,11 @@
                                 </div>
                             </form>
                         </div>
-                            <div
-                                class="tab-pane @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif"
-                                id="experience" role="tabpanel">
-                                <livewire:identification-check/>
-                            </div>
+                        <div
+                            class="tab-pane @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif"
+                            id="experience" role="tabpanel">
+                            <livewire:identification-check/>
+                        </div>
                         <div
                             class="tab-pane @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif"
                             id="privacy" role="tabpanel">
@@ -1120,7 +1120,7 @@
                         input: 'text',
                         inputAttributes: {autocapitalize: 'off'},
                     }).then((resultat) => {
-                        if (resultat.isConfirmed && resultat.value) {
+                        if (resultat.isConfirmed) {
                             window.livewire.emit('saveVerifiedMail', resultat.value);
                         } else if (resultat.isDismissed) {
                             $('.modal-backdrop').remove();
