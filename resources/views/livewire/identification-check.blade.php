@@ -279,7 +279,7 @@
                                         <div class="col-12">
                                             <div class="alert border-0 alert-warning material-shadow" role="alert">
                                                 <strong>{{__('Note')}}
-                                                    : </strong>{{__('International identity is essential for non-Saudis who want to buy shares')}}
+                                                    : </strong>{{__('International identity is essential for non-Saudis who want to buy shares')}}
                                             </div>
                                         </div>
                                         <div class="form-check form-switch form-switch-right form-switch-md">
