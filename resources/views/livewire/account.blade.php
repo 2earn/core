@@ -1135,6 +1135,9 @@
                         inputAttributes: {autocapitalize: 'off'},
                     }).then((resultat) => {
                         console.log(resultat)
+                        console.log(resultat)
+                        console.log(resultat)
+                        console.log(resultat)
                         if (resultat.isConfirmed && resultat.value) {
                             window.livewire.emit('saveVerifiedMail', resultat.value);
                         } else if (resultat.isDismissed) {

@@ -347,6 +347,7 @@ class Account extends Component
 
     public function checkUserEmail($codeOpt, settingsManager $settingsManager)
     {
+        dd($codeOpt);
         $us = User::find($this->user['id']);
         if ($codeOpt != $us->OptActivation) {
             $this->dispatchBrowserEvent('EmailCheckUser', ['emailValidation' => false, 'title' => trans('invalidOPT')]);
@@ -356,7 +357,6 @@ class Account extends Component
         User::where('id', auth()->user()->id)->update(['OptActivation' => $check_exchange]);
         $settingsManager->NotifyUser(auth()->user()->id, TypeEventNotificationEnum::NewContactNumber, ['canSendMail' => 1, 'msg' => $check_exchange, 'toMail' => $this->newMail, 'emailTitle' => "2Earn.cash"]);
         $this->dispatchBrowserEvent('EmailCheckUser', ['emailValidation' => true, 'title' => trans('invalidOPT'), 'text' => trans('invalidOPT'), 'html' => trans('invalidOPT')]);
-        return;
     }
 
     public function saveVerifiedMail($codeOpt)
