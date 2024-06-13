@@ -424,16 +424,11 @@ left join users user on user.idUser = recharge_requests.idUser";
 
     public function handlePaymentNotification(Req $request, settingsManager $settingsManager)
     {
-        //$ipnRequest= new IpnRequest($request);
-        //$d= route('paytabs_notification1');
-        //dd($request->request);
-        $a = $request->request;
         $mnt = 0;
-        $responseData = $a->all();
+        $responseData = $request->request->all();
         $tranRef = $responseData['tranRef'];
         $data = Paypage::queryTransaction($tranRef);
-        //dd($data);
-        if ($data->payment_info->payment_method !== "ApplePay") {
+        if (isset($data->payment_info->payment_method) && $data->payment_info->payment_method !== "ApplePay") {
             DB::table('transactions')->insert([
                 'tran_ref' => $data->tran_ref,
                 'tran_type' => $data->tran_type,
@@ -458,10 +453,7 @@ left join users user on user.idUser = recharge_requests.idUser";
                 'failed' => $data->failed,
                 'created_at' => now(),
                 'updated_at' => now()
-
-
             ]);
-
         } else {
             DB::table('transactions')->insert([
                 'tran_ref' => $data->tran_ref,
@@ -481,40 +473,25 @@ left join users user on user.idUser = recharge_requests.idUser";
                 'payment_description' => $data->payment_info->payment_description,
                 'expiry_month' => $data->payment_info->expiryMonth,
                 'expiry_year' => $data->payment_info->expiryYear,
-
                 'success' => $data->success,
                 'failed' => $data->failed,
                 'created_at' => now(),
                 'updated_at' => now()
-
-
             ]);
         }
         $chaine = $data->cart_id;
         $user = explode('-', $chaine)[0];
-        $k = \Core\Models\Setting::Where('idSETTINGS', '30')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
+        $k = Setting::Where('idSETTINGS', '30')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
         $msg = $settingsManager->getUserByIdUser($user)->mobile . " " . $data->payment_result->response_message;
         if ($data->success) {
-
             $msg = $msg . " transfert de " . $data->tran_total . $data->cart_currency . "(" . number_format($data->tran_total / $k, 2) . "$)";
         }
         $idUser = $settingsManager->getUserByIdUser($user)->id;
-        $settingsManager->NotifyUser(2, TypeEventNotificationEnum::none, [
-            'msg' => $msg,
-            'type' => TypeNotificationEnum::SMS
-        ]);
-        $settingsManager->NotifyUser(126, TypeEventNotificationEnum::none, [
-            'msg' => $msg,
-            'type' => TypeNotificationEnum::SMS
-        ]);
-
-        //dd($data->tran_type);
+        $settingsManager->NotifyUser(2, TypeEventNotificationEnum::none, ['msg' => $msg, 'type' => TypeNotificationEnum::SMS]);
+        $settingsManager->NotifyUser(126, TypeEventNotificationEnum::none, ['msg' => $msg, 'type' => TypeNotificationEnum::SMS]);
         if ($data->success) {
-
             $chaine = $data->cart_id;
             $user = explode('-', $chaine)[0];
-
-
             $old_value = DB::table('usercurrentbalances')
                 ->where('idUser', $user)
                 ->where('idamounts', AmoutEnum::CASH_BALANCE)
@@ -526,7 +503,6 @@ left join users user on user.idUser = recharge_requests.idUser";
                 ->where('u.idamount', 1)
                 ->where('u.idUser', $user)
                 ->first();
-
 
             $Count = DB::table('user_balances')->count();
             $value = $value->value * 1;
@@ -544,20 +520,13 @@ left join users user on user.idUser = recharge_requests.idUser";
             $user_balance->Balance = $value + $data->tran_total / $k;
             $user_balance->save();
             $mnt = $data->tran_total / $k;
-
-
             $new_value = intval($old_value) + $data->tran_total / $k;
             DB::table('usercurrentbalances')
                 ->where('idUser', $user)
                 ->where('idamounts', AmoutEnum::CASH_BALANCE)
                 ->update(['value' => $new_value, 'dernier_value' => $old_value]);
-
-            // adjust new value for reciver
-
-
         }
 
-        /**/
         DB::table('user_transactions')->updateOrInsert(
             ['idUser' => $user],
             [
@@ -566,9 +535,7 @@ left join users user on user.idUser = recharge_requests.idUser";
                 'mnt' => $mnt
             ]
         );
-
         return redirect()->route('user_balance_cb', app()->getLocale());
-
     }
 
     public function updateReserveDate(Req $request)
@@ -1577,12 +1544,7 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUs
         $array['requestInOpen'] = $requestInOpen;
         $array['requestOutAccepted'] = $requestOutAccepted;
         $array['requestOutRefused'] = $requestOutRefused;
-
-//        $array['out'] = 60;
-//        return $array ;
         return json_encode(array('data' => $array));
-
-//        return response()->json($array);
     }
 
 }
