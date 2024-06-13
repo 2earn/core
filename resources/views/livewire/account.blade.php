@@ -280,14 +280,12 @@
                                 {{__('Edit_Profile')}}
                             </a>
                         </li>
-                        @if($user['status']!=1)
-                            <li class="nav-item @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif">
-                                <a class="nav-link" data-bs-toggle="tab" href="#experience" role="tab">
-                                    <i class="far fa-envelope"></i>
-                                    {{__('Identifications')}}
-                                </a>
-                            </li>
-                        @endif
+                        <li class="nav-item @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif">
+                            <a class="nav-link" data-bs-toggle="tab" href="#experience" role="tab">
+                                <i class="far fa-envelope"></i>
+                                {{__('Identifications')}}
+                            </a>
+                        </li>
                         <li class="nav-item @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif">
                             <a class="nav-link" data-bs-toggle="tab" href="#changePassword" role="tab"
                                id="tabEditPass">
@@ -420,7 +418,7 @@
                                             <select class="form-select mb-3" aria-label=" "
                                                     wire:model.defer="usermetta_info.personaltitle">
                                                 <option value="">{{__('no selected value')}}</option>
-                                                <?php if (isset($personaltitles)){
+                                                    <?php if (isset($personaltitles)){
                                                 foreach ($personaltitles as $personaltitle){
                                                     ?>
                                                 <option
@@ -437,7 +435,7 @@
                                                     wire:model.defer="usermetta_info.gender">
                                                 <
                                                 <option value="">{{__('no selected value')}}</option>
-                                                <?php if (isset($genders)){
+                                                    <?php if (isset($genders)){
                                                 foreach ($genders as $gender){
                                                     ?>
                                                 <option value="{{$gender->id}}">{{ __( $gender->name)  }}</option>
@@ -453,7 +451,7 @@
                                             <select class="form-select mb-3" aria-label=" "
                                                     wire:model.defer="usermetta_info.idLanguage">
                                                 <option value="" selected>{{__('no selected value')}}</option>
-                                                <?php if (isset($languages)){ ?>
+                                                    <?php if (isset($languages)){ ?>
                                                     <?php
                                                 foreach ($languages as $language){
                                                     ?>
@@ -646,13 +644,11 @@
                                 </div>
                             </form>
                         </div>
-                        @if($user['status']!=1)
                             <div
                                 class="tab-pane @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif"
                                 id="experience" role="tabpanel">
                                 <livewire:identification-check/>
                             </div>
-                        @endif
                         <div
                             class="tab-pane @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif"
                             id="privacy" role="tabpanel">
