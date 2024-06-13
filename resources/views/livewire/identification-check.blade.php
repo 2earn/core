@@ -28,7 +28,8 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="alert alert-warning mt-2" role="alert">
-                                    <h4 class="alert-heading"> {{ __('Please fill in the missing fields identification') }}:</h4>
+                                    <h4 class="alert-heading"> {{ __('Please fill in the missing fields identification') }}
+                                        :</h4>
                                     <div class="mx-4">
                                         <ul class="list-group list-group-flush">
                                             @foreach ($errors_array as $error)
@@ -279,7 +280,7 @@
                                         <div class="col-12">
                                             <div class="alert border-0 alert-warning material-shadow" role="alert">
                                                 <strong>{{__('Note')}}
-                                                    : </strong>{{__('International identity is essential for non-Saudis who want to buy shares')}}
+                                                    : </strong>{{__('International identity is essential for non-Saudis who want to buy shares')}}
                                             </div>
                                         </div>
                                         <div class="form-check form-switch form-switch-right form-switch-md">
@@ -344,6 +345,7 @@
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <input wire:model.defer="userF.expiryDate" type="date"
+                                                   onkeydown="return false"
                                                    min="{{ now()->format('Y-m-d') }}"
                                                    class="form-control" id="expiryDate"/>
                                         </div>
@@ -362,7 +364,7 @@
                                                       aria-hidden="true"></span>
                                             <span class="sr-only">{{__('Loading')}}...</span>
                                         </div>
-                                        {{__('Send Identification request')}}
+                                        {{__('Send identification request')}}
                                     </button>
                                 </div>
                             </div>
