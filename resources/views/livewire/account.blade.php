@@ -1057,6 +1057,10 @@
                     input: 'text',
                     inputAttributes: {autocapitalize: 'off'},
                 }).then((resultat) => {
+                    console.log(resultat)
+                    console.log(resultat)
+                    console.log(resultat)
+                    console.log(resultat)
                     if (resultat.isConfirmed && resultat.value) {
                         window.livewire.emit('checkUserEmail', resultat.value);
                     } else if (resultat.isDismissed) {
@@ -1098,6 +1102,7 @@
             })
 
             window.addEventListener('EmailCheckUser', event => {
+                console.log('EmailCheckUser')
                 console.log(event.detail.emailValidation)
                 if (event.detail.emailValidation) {
                     Swal.fire({

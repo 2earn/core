@@ -59,6 +59,7 @@ class Account extends Component
         'sendIdentificationRequest' => 'sendIdentificationRequest',
         'saveUser' => 'saveUser',
         'deleteContact' => 'deleteContact',
+        'EmailCheckUser' => 'EmailCheckUser',
         'checkUserEmail' => 'checkUserEmail',
     ];
 
@@ -339,11 +340,7 @@ class Account extends Component
         $us->OptActivation_at = Carbon::now();
         $us->save();
         $numberActif = $settingsManager->getNumberCOntactActif($userAuth->idUser)->fullNumber;
-
-
         $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::VerifMail, ['msg' => $opt, 'type' => TypeNotificationEnum::SMS]);
-
-
         $this->dispatchBrowserEvent('confirmOPTVerifMail', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'numberActif' => $numberActif]);
         $this->newMail = $mail;
     }
@@ -352,12 +349,13 @@ class Account extends Component
     {
         $us = User::find($this->user['id']);
         if ($codeOpt != $us->OptActivation) {
-            $this->dispatchBrowserEvent('EmailCheckUser', ['emailValidation' => false, 'title' => "Opt", 'text' => '', 'numberActif' => $numberActif]);
+            $this->dispatchBrowserEvent('EmailCheckUser', ['emailValidation' => false, 'title' => trans('invalidOPT')]);
             return;
         }
         $check_exchange = $this->randomNewCodeOpt();
+        User::where('id', auth()->user()->id)->update(['OptActivation' => $check_exchange]);
         $settingsManager->NotifyUser(auth()->user()->id, TypeEventNotificationEnum::NewContactNumber, ['canSendMail' => 1, 'msg' => $check_exchange, 'toMail' => $this->newMail, 'emailTitle' => "2Earn.cash"]);
-        $this->dispatchBrowserEvent('EmailCheckUser', ['emailValidation' => true, 'title' => "Opt", 'text' => '', 'numberActif' => $numberActif]);
+        $this->dispatchBrowserEvent('EmailCheckUser', ['emailValidation' => true, 'title' => trans('invalidOPT'), 'text' => trans('invalidOPT'), 'html' => trans('invalidOPT')]);
         return;
     }
 
