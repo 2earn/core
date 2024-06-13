@@ -59,6 +59,7 @@ class Account extends Component
         'sendIdentificationRequest' => 'sendIdentificationRequest',
         'saveUser' => 'saveUser',
         'deleteContact' => 'deleteContact',
+        'checkUserEmail' => 'checkUserEmail',
     ];
 
     protected $rules = [
@@ -345,6 +346,19 @@ class Account extends Component
 
         $this->dispatchBrowserEvent('confirmOPTVerifMail', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'numberActif' => $numberActif]);
         $this->newMail = $mail;
+    }
+
+    public function checkUserEmail($codeOpt, settingsManager $settingsManager)
+    {
+        $us = User::find($this->user['id']);
+        if ($codeOpt != $us->OptActivation) {
+            $this->dispatchBrowserEvent('EmailCheckUser', ['emailValidation' => false, 'title' => "Opt", 'text' => '', 'numberActif' => $numberActif]);
+            return;
+        }
+        $check_exchange = $this->randomNewCodeOpt();
+        $settingsManager->NotifyUser(auth()->user()->id, TypeEventNotificationEnum::NewContactNumber, ['canSendMail' => 1, 'msg' => $check_exchange, 'toMail' => $this->newMail, 'emailTitle' => "2Earn.cash"]);
+        $this->dispatchBrowserEvent('EmailCheckUser', ['emailValidation' => true, 'title' => "Opt", 'text' => '', 'numberActif' => $numberActif]);
+        return;
     }
 
     public function saveVerifiedMail($codeOpt)
