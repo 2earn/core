@@ -34,13 +34,13 @@ class ContactNumber extends Component
         }
         $number = UserContactNumber::find($id);
         if ($number->active) {
-            return redirect()->route('ContactNumber', app()->getLocale())->with('faileddeleteActiveNumber', '');
+            return redirect()->route('ContactNumber', app()->getLocale())->with('danger', trans('Failed to delete active number'));
         }
         if ($number->isID == 1) {
-            return redirect()->route('ContactNumber', app()->getLocale())->with('failedDeleteIDNumber', Lang::get('Failed_Delete_ID_Number'));
+            return redirect()->route('ContactNumber', app()->getLocale())->with('danger', Lang::get('Contact number deleting failed'));
         }
         $deleted = $number->delete();
-        return redirect()->route('ContactNumber', app()->getLocale())->with('deleteNumberContactSucces', '');
+        return redirect()->route('ContactNumber', app()->getLocale())->with('success', trans('Contact number deleted with success'));
     }
 
     public function saveContactNumber($code, $iso, $mobile, $fullNumber, settingsManager $settingsManager)
@@ -51,24 +51,23 @@ class ContactNumber extends Component
         if (!$user) return;
         $countrie = $settingsManager->getCountryByIso($iso);
         if (!$countrie) return;
-        if ($code != $user->OptActivation)
-            return redirect()->route("ContactNumber", app()->getLocale())->with('ErrorOptAddNumber', Lang::get('Invalid OPT code'));
+        if ($code != $user->OptActivation) {
+            return redirect()->route("ContactNumber", app()->getLocale())->with('danger', Lang::get('Invalid OPT code'));
+        }
         $newC = $settingsManager->createUserContactNumberByProp($userAuth->idUser, $mobile, $countrie->id, $iso, $fullNumber);
-        return redirect()->route('ContactNumber', app()->getLocale())->with('AddNumberContactSucces', '');
+        return redirect()->route('ContactNumber', app()->getLocale())->with('success', trans('Adding contact number completed successfully'));
     }
 
     public function setActiveNumber($checked, $id, settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
-
         if (!$userAuth || !$checked) {
             return;
         }
-
         $userContactNumber = UserContactNumber::where('idUser', $userAuth->idUser)->get();
         DB::update('update usercontactnumber set active = 0 where idUser = ?', [$userAuth->idUser]);
         DB::update('update usercontactnumber set active = ? where id = ?', [$checked, $id]);
-        return redirect()->route('ContactNumber', app()->getLocale())->with('succesUpdate', '');
+        return redirect()->route('ContactNumber', app()->getLocale())->with('success', trans('Updated successfully'));
     }
 
     public function render(settingsManager $settingsManager)
@@ -87,9 +86,7 @@ class ContactNumber extends Component
                 })
             ->get();
 
-        return view('livewire.contact-number', [
-            'userContactNumber' => $userContactNumber
-        ])->extends('layouts.master')->section('content');
+        return view('livewire.contact-number', ['userContactNumber' => $userContactNumber])->extends('layouts.master')->section('content');
     }
 
     public function preSaveContact($fullNumber, $isoP, $mobile, settingsManager $settingsManager)
