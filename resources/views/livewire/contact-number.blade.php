@@ -6,7 +6,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="">
+                    <div>
                         <button data-bs-toggle="modal"
                                 data-bs-target="#AddContactNumberModel" type="button"
                                 class="btn btn-secondary add-btn btn2earn">{{ __('Add_contact-number') }}
@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="card-body table-responsive">
-                    <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                    <table id="example" class="table table-bordered dt-responsive nowrap table-striped"
                            style="width:100%">
                         <thead class="table-light">
                         <tr class="tabHeader2earn">

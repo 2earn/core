@@ -355,7 +355,7 @@
                                                    id="update_tel"
                                                    style="cursor: pointer;background-color: #009fe3!important"
                                                    class="btn btn-primary" type="button">
-                                                    {{__('add')}}
+                                                    {{__('Change')}}
                                                 </a>
                                             </div>
                                         </div>
