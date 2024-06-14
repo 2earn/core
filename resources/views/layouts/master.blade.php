@@ -1501,7 +1501,7 @@
                 "placeholder='Mobile Number'><span id='valid-msgAddContact' class='invisible'>✓ Valid</span><span id='error-msgAddContact' class='hide'></span>" +
                 "<input type='hidden' name='fullnumber' id='outputAddContact' class='form-control'><input type='hidden' name='ccodeAddContact' id='ccodeAddContact'>";
 
-            var countryDataAddContact =(typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
+            var countryDataAddContact = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
                 inputAddContact = document.querySelector("#phoneAddContact");
             try {
                 itiAddContact.destroy();
@@ -1584,9 +1584,7 @@
                 phone = '00' + countryData.dialCode + phone;
             }
             $("#outputAddContact").val(phone);
-            // $("#output").val(phone);
-            // window.livewire.emit('changefullNumber', phone);
-            // window.livewire.emit('changefullNumber');
+
             $("#ccodeAddContact").val(countryData.dialCode);
             if (inputAddContact.value.trim()) {
                 if (itiAddContact.isValidNumber()) {
@@ -1610,9 +1608,6 @@
         };
 
         function resetContacts() {
-
-            // alert(document.getElementById("ipAdd2Contact").value) ;
-            //  $("#signin").prop("disabled", false);
             var phone = itiLog.getNumber();
             var textNode = document.createTextNode(phone);
             phone = phone.replace('+', '00');
@@ -1638,7 +1633,6 @@
             }
             var itiAddContactNumber = window.intlTelInput(inputAddContactNumber, {
                 initialCountry: "auto",
-                //showSelectedDialCode: true,
                 useFullscreenPopup: false,
                 geoIpLookup: function (callback) {
                     $.get('https://ipinfo.io', function () {
@@ -1647,7 +1641,7 @@
                         callback(countryCode13);
                     });
                 },
-                utilsScript: " {{asset('assets/js/utils.js')}}" // just for formatting/placeholders etc
+                utilsScript: " {{asset('assets/js/utils.js')}}"
             });
             inputAddContactNumber.addEventListener('keyup', resetAddNumberContact);
             inputAddContactNumber.addEventListener('countrychange', resetAddNumberContact);
@@ -1656,10 +1650,7 @@
                 var country = countryDataNumberContact[i];
                 var optionNode = document.createElement("option");
                 optionNode.value = country.iso2;
-                // var textNode = document.createTextNode(country.name);
-                // optionNode.appendChild(textNode);
             }
-            ;
             resetAddNumberContact();
         }
 
@@ -1674,7 +1665,12 @@
             $("#outputphoneContactNumber").val(phoneCN);
             $("#ccodephoneContactNumber").val(countryDataCN.dialCode);
             $("#isoContactNumber").val(countryDataCN.iso2);
-        };
+            if (itiAddContactNumber.isValidNumber()) {
+                $('#saveAddContactNumber').prop("disabled", false)
+            } else {
+                $('#saveAddContactNumber').prop("disabled", true)
+            }
+        }
     });
 
 
