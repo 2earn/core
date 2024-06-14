@@ -137,6 +137,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
     Route::get('forgetpassword', ForgotPassword::class)->name('forgetpassword');
     Route::get('/CheckOptCode/{iduser}/{ccode}/{numTel}', CheckOptCode::class)->name('CheckOptCode');
     Route::get('validate-account', ValidateAccount::class)->name('validateaccount');
+    Route::get('login', Login::class)->name('login')->middleware('setLocalLogin');
 
 });
 

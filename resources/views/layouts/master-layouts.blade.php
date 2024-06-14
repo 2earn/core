@@ -1,53 +1,36 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-layout="horizontal" data-layout-style="" data-layout-position="fixed"  data-topbar="light">
-
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-layout="horizontal" data-layout-style=""
+      data-layout-position="fixed" data-topbar="light">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <title> @yield('title')| Velzon - Admin & Dashboard Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="2earn.cash" name="description" />
-    <meta content="Themesbrand" name="author" />
-    <!-- App favicon -->
+    <meta content="2earn.cash" name="description"/>
+    <meta content="Themesbrand" name="author"/>
     <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.ico')}}">
     @include('layouts.head-css')
     @livewireStyles
 </head>
 <body>
-
-    <!-- Begin page -->
-    <div id="layout-wrapper">
-        @include('layouts.topbar')
-        @include('layouts.sidebar')
-        <!-- ============================================================== -->
-        <!-- Start right Content here -->
-        <!-- ============================================================== -->
-        <div class="main-content">
-            <div class="page-content">
-                <!-- Start content -->
-                <div class="container-fluid">
-                    @yield('content')
-                </div> <!-- content -->
+<div id="layout-wrapper">
+    @include('layouts.topbar')
+    @include('layouts.sidebar')
+    <div class="main-content">
+        <div class="page-content">
+            <div class="container-fluid">
+                @yield('content')
             </div>
-            @include('layouts.footer', ['pageName' => 'layouts-master'])
         </div>
-        <!-- ============================================================== -->
-        <!-- End Right content here -->
-        <!-- ============================================================== -->
+        @include('layouts.footer', ['pageName' => 'layouts-master'])
     </div>
-    <!-- END wrapper -->
-
-    <!-- Right Sidebar -->
-    @include('layouts.customizer')
-    <!-- END Right Sidebar -->
-
-    @include('layouts.vendor-scripts')
-    @livewireScripts
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js"
-            data-turbolinks-eval="false" data-turbo-eval="false"></script>
-    <script src="{{ mix('js/turbo.js') }}" defer></script>
-    <script  src="{{ URL::asset('/assets/js/app.min.js') }}" defer></script>
+</div>
+@include('layouts.customizer')
+@include('layouts.vendor-scripts')
+@livewireScripts
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js"
+        data-turbolinks-eval="false" data-turbo-eval="false"></script>
+<script src="{{ mix('js/turbo.js') }}" defer></script>
+<script src="{{ URL::asset('/assets/js/app.min.js') }}" defer></script>
 </body>
-
 </html>
