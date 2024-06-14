@@ -359,3 +359,7 @@ input[type=range]::-ms-fill-upper {
 .navbar-menu .navbar-nav .nav-link.disabled {
     color: #999999;
 }
+
+#login-form .iti, #forget-password-form .iti {
+    width: 100% !important;
+}
