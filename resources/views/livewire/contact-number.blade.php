@@ -59,12 +59,12 @@
                                 <td>
                                     @if($value->active!=1)
                                         <a onclick="deleteContactNUmber({{$value->id}})"><span
-                                                    class="btn btn-danger">{{__('Delete')}}</span></a>
+                                                class="btn btn-danger">{{__('Delete')}}</span></a>
                                         <a onclick="setActiveNumber({{$value->id}})"><span
-                                                    class="btn btn-primary">{{ __('Active') }}</span></a>
+                                                class="btn btn-primary">{{ __('Active') }}</span></a>
                                     @else
                                         <a><span
-                                                    class="btn btn-info">{{ __('Activated_number') }}</span></a>
+                                                class="btn btn-info">{{ __('Activated_number') }}</span></a>
                                     @endif
                                 </td>
                             </tr>
@@ -184,7 +184,7 @@
                 if (resultat.isConfirmed) {
                     window.livewire.emit('saveContactNumber', resultat.value, event.detail.isoP, event.detail.mobile, event.detail.FullNumberNew);
                 }
-                if (resultat.isDismissed) {
+                if (resultat.isDismissed && resultat.dismiss == 'cancel') {
                     window.location.reload();
                 }
             })
