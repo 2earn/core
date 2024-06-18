@@ -65,7 +65,7 @@ class Registre extends Component
 
     public function changefullNumbe($num, $ccode, $iso, settingsManager $settingsManager, TransactionManager $transactionManager)
     {
-        Log::debug('Inscription at :' . date("Y-m-d H:i:s") . ' - ' . $this->iso2Country . ' - ' . $this->fullNumber);
+        Log::debug('Inscription at :' . date("Y-m-d H:i:s") . ' - ' . $iso . ' - ' . $num);
         $this->validateGoogleRecaptcha();
         if (empty($this->captchaErrorCodes)) {
             $this->ccode = $ccode;
