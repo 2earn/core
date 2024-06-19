@@ -221,8 +221,6 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/intlTelInput.min.js"></script>
     <script>
-        var recaptchaError = document.getElementById('recaptcha-error');
-
         function signupEvent() {
             const input = document.querySelector("#phonereg");
             const button = document.querySelector("#btn1");
@@ -234,8 +232,7 @@
             const iti = window.intlTelInput(input, {
                 initialCountry: $("#iso2Country").val(),
                 useFullscreenPopup: false,
-                nationalMode: false,
-
+                nationalMode: false
             });
             const reset = () => {
                 input.classList.remove("error");
