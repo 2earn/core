@@ -103,69 +103,69 @@
                                         </div>
 
                                         <div class="mt-4">
-                                            
 
-                                            
-                                            
-                                            
-                                            
-                                            
 
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
 
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
 
-                                            
-                                            
-                                            
 
-                                            
-                                            
-                                            
-                                            
 
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
 
-                                            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                                             <form>
                                                 <?php echo csrf_field(); ?>
-                                                
-                                                
+
+
                                                 <div dir="ltr" class="mb-3">
                                                     <label for="username"
                                                            class="float-start form-label"><?php echo e(__('Mobile Number')); ?></label>
@@ -200,7 +200,7 @@ unset($__errorArgs, $__bag); ?>
                                                 <div class="mb-3">
                                                     <label
                                                         class="float-end">
-                                                        <a href="<?php echo e(route('forgetpassword',app()->getLocale())); ?>"
+                                                        <a href="<?php echo e(route('forget_password',app()->getLocale())); ?>"
                                                            class="text-muted"><?php echo e(__('Forgot Password?')); ?></a>
                                                     </label>
                                                     <label class="form-label"
@@ -287,33 +287,33 @@ unset($__errorArgs, $__bag); ?>
                                                 </div>
 
                                             </form>
-                                            
-                                            
-                                            
-                                            
-
-                                            
-
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
 
 
-                                            
-                                            
 
-                                            
-                                            
-                                            
-                                            
-                                            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                         </div>
 
                                         <div class="mt-5 text-center">
@@ -360,9 +360,9 @@ unset($__errorArgs, $__bag); ?>
     <!-- end auth-page-wrapper -->
 
 
-    
-    
-    
+
+
+
 
 
     <script>
@@ -400,6 +400,6 @@ unset($__errorArgs, $__bag); ?>
         //    alert('dd');
         // });
     </script>
-    
+
 </div>
 <?php /**PATH /var/www/vhosts/2earn.cash/dev.2earn.cash/resources/views/livewire/login.blade.php ENDPATH**/ ?>

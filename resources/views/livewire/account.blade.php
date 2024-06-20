@@ -1,7 +1,7 @@
 <div>
     @component('components.breadcrumb')
         @slot('title')
-            @if(Route::getCurrentRoute()->getName()!="validateaccount")
+            @if(Route::getCurrentRoute()->getName()!="validate_account")
                 {{ __('Profile') }}
             @else
                 {{ __('Validate account') }} :  {{$dispalyedUserCred}} [{{ $user['idUser']}}]
@@ -167,14 +167,14 @@
         </div>
         <div class="col-xxl-8">
             @if($user['status']!=1)
-                <div class="card @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif">
+                <div class="card @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif">
                     <div class="card-header">
                         <h5 class="card-title mb-2 text-info">{{ __('Complete_Profile') }}</h5>
                     </div>
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-3">
                             <div
-                                class="flex-shrink-0 @if(Route::getCurrentRoute()->getName()!="validateaccount") d-none   @endif">
+                                class="flex-shrink-0 @if(Route::getCurrentRoute()->getName()!="validate_account") d-none   @endif">
                                 <a style="color: #009fe3!important" data-bs-toggle="modal"
                                    data-bs-target="#modalEditProf"
                                    href="javascript:void(0);"
@@ -276,20 +276,20 @@
                                 {{__('Edit_Profile')}}
                             </a>
                         </li>
-                        <li class="nav-item @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif">
+                        <li class="nav-item @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif">
                             <a class="nav-link" data-bs-toggle="tab" href="#experience" role="tab">
                                 <i class="far fa-envelope"></i>
                                 {{__('Identifications')}}
                             </a>
                         </li>
-                        <li class="nav-item @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif">
+                        <li class="nav-item @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif">
                             <a class="nav-link" data-bs-toggle="tab" href="#changePassword" role="tab"
                                id="tabEditPass">
                                 <i class="far fa-user"></i>
                                 {{__('ChangePassword')}}
                             </a>
                         </li>
-                        <li class="nav-item @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif">
+                        <li class="nav-item @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif">
                             <a class="nav-link" data-bs-toggle="tab" href="#privacy" role="tab">
                                 <i class="far fa-envelope"></i>
                                 {{__('UpdatePhoneNumber')}}
@@ -351,7 +351,7 @@
                                                        aria-label=""
                                                        placeholder="">
                                                 <i style="font-size: 20px;" class="ri-phone-line"></i>
-                                                <a href="{{route('ContactNumber', app()->getLocale())}}"
+                                                <a href="{{route('contact_number', app()->getLocale())}}"
                                                    id="update_tel"
                                                    style="cursor: pointer;background-color: #009fe3!important"
                                                    class="btn btn-primary" type="button">
@@ -564,7 +564,7 @@
                             </form>
                         </div>
                         <div
-                            class="tab-pane @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif"
+                            class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"
                             id="changePassword" role="tabpanel">
                             <form action="">
                                 <div class="row g-2">
@@ -641,12 +641,12 @@
                             </form>
                         </div>
                         <div
-                            class="tab-pane @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif"
+                            class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"
                             id="experience" role="tabpanel">
                             <livewire:identification-check/>
                         </div>
                         <div
-                            class="tab-pane @if(Route::getCurrentRoute()->getName()=="validateaccount") d-none   @endif"
+                            class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"
                             id="privacy" role="tabpanel">
                             <livewire:edit-phone-number/>
                         </div>

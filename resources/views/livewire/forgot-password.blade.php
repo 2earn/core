@@ -116,7 +116,7 @@
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-end">
                                             @foreach ($locales as  $locale => $value )
-                                                <a href="{{ route('forgetpassword', ['locale'=>$locale]) }} "
+                                                <a href="{{ route('forget_password', ['locale'=>$locale]) }} "
                                                    class="dropdown-item notify-item language py-2"
                                                    data-lang="en"
                                                    title="{{ __('lang'.$locale)  }}"

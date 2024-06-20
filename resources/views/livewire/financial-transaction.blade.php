@@ -870,7 +870,7 @@
                 var x = triggerEl.id;
                 if (triggerEl.id === "pills-contact-tab") {
                     $.ajax({
-                        url: "{{ route('resetInComingNotification') }}",
+                        url: "{{ route('reset_incoming_notification') }}",
                         type: 'get',
                         success: function (result) {
                             try {
@@ -888,7 +888,7 @@
                 }
                 if (triggerEl.id === "pills-profile-tab") {
                     $.ajax({
-                        url: "{{ route('resetOutGoingNotification') }}",
+                        url: "{{ route('reset_out_going_notification') }}",
                         type: 'get',
                         success: function (result) {
                             try {

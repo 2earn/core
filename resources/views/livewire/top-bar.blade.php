@@ -143,20 +143,20 @@
                             <div class="p-2">
                                 <div class="row g-0">
                                     <div class="col">
-                                        <a class="dropdown-icon-item" href="{{route('ComingMove')}}">
+                                        <a class="dropdown-icon-item" href="{{route('coming_move')}}">
                                             <img src="{{asset('assets/images/Move2earn Icon.png')}}" alt="Move2earn">
                                             <span>Move2earn</span>
                                         </a>
                                     </div>
                                     <div class="col">
-                                        <a class="dropdown-icon-item" href="{{route('ComingShop')}}">
+                                        <a class="dropdown-icon-item" href="{{route('coming_shop')}}">
                                             <img src="{{asset('assets/images/icon-shop.png')}}"
                                                  alt="Shop2earn">
                                             <span>Shop2earn</span>
                                         </a>
                                     </div>
                                     <div class="col">
-                                        <a class="dropdown-icon-item" href="{{route('ComingLearn')}}">
+                                        <a class="dropdown-icon-item" href="{{route('coming_learn')}}">
                                             <img src="{{asset('assets/images/icon-learn.png')}}" alt="Learn2earn">
                                             <span>Learn2earn</span>
                                         </a>

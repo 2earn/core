@@ -330,7 +330,7 @@
                 search: {
                     return: true
                 },
-                "ajax": "{{route('API_HistoryNotification',app()->getLocale())}}",
+                "ajax": "{{route('api_history_notification',app()->getLocale())}}",
                 "columns": [
                     {data: 'reference'},
                     {data: 'send'},
@@ -372,7 +372,7 @@
                 search: {
                     return: true
                 },
-                "ajax": "{{route('API_usermanager',app()->getLocale())}}",
+                "ajax": "{{route('api_user_manager',app()->getLocale())}}",
                 "columns": [
                     {data: 'N'},
                     {data: 'idUser'},
@@ -400,7 +400,7 @@
                 paging: true,
                 "pageLength": 100,
                 "aLengthMenu": [[100, 500, 1000], [100, 500, 1000]],
-                "ajax": "{{route('API_UserContacts',app()->getLocale())}}",
+                "ajax": "{{route('api_user_contacts',app()->getLocale())}}",
                 "columns": [
                     {"data": "name"},
                     {"data": "lastName"},
@@ -506,7 +506,7 @@
                 },
                 autoWidth: false,
                 bAutoWidth: false,
-                "ajax": "{{route('API_userPurchase', app()->getLocale() )}}",
+                "ajax": "{{route('api_user_purchase', app()->getLocale() )}}",
                 "columns": [
                     {data: 'DateAchat'},
                     {data: 'ReferenceAchat'},
@@ -569,7 +569,7 @@
                 // search: {
                 //     return: true
                 // },
-                "ajax": "{{route('API_countries',app()->getLocale())}}",
+                "ajax": "{{route('api_countries',app()->getLocale())}}",
                 "columns": [
 
                     {"data": "name"},
@@ -626,7 +626,7 @@
                 },
                 autoWidth: false,
                 bAutoWidth: false,
-                "ajax": "{{route('API_userPurchase', app()->getLocale() )}}",
+                "ajax": "{{route('api_user_purchase', app()->getLocale() )}}",
                 "columns": [
                     {data: 'DateAchat'},
                     {data: 'ReferenceAchat'},
@@ -665,7 +665,7 @@
                 search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
-                "ajax": "{{route('API_UsersList',app()->getLocale())}}",
+                "ajax": "{{route('api_users_list',app()->getLocale())}}",
                 "columns": [
                     {data: 'formatted_created_at'},
                     {data: 'flag'},
@@ -707,7 +707,7 @@
                 search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
-                "ajax": "{{route('API_sharessolde',['locale'=> app()->getLocale()])}}",
+                "ajax": "{{route('api_shares_solde',['locale'=> app()->getLocale()])}}",
                 "columns": [
                     {data: 'formatted_created_at'},
                     {data: 'value_format'},
@@ -737,7 +737,7 @@
                 search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
-                "ajax": "{{ route('API_stat_countries', ['locale'=> app()->getLocale()]) }}",
+                "ajax": "{{ route('api_stat_countries', ['locale'=> app()->getLocale()]) }}",
                 "columns": [
                     {data: 'name'},
                     {data: 'COUNT_USERS'},
@@ -773,7 +773,7 @@
                 search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
-                "ajax": "{{route('API_transfert',['locale'=> app()->getLocale()])}}",
+                "ajax": "{{route('api_transfert',['locale'=> app()->getLocale()])}}",
                 "columns": [
                     {data: 'value'},
                     {data: 'Description'},
@@ -807,7 +807,7 @@
                 search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
-                "ajax": "{{route('API_sharessoldes',['locale'=> app()->getLocale()])}}",
+                "ajax": "{{route('api_shares_soldes',['locale'=> app()->getLocale()])}}",
                 "columns": [
                     {data: 'formatted_created_at_date'},
                     {data: 'flag'},
@@ -912,7 +912,7 @@
                 "serverSide": true,
                 "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
                 search: {return: false},
-                "ajax": "{{route('API_UserBalances',['locale'=> app()->getLocale(), 'idAmounts'=>'cash-Balance'])}}",
+                "ajax": "{{route('api_user_balances',['locale'=> app()->getLocale(), 'idAmounts'=>'cash-Balance'])}}",
                 "columns": [
                     {data: 'Ref'},
                     {data: 'Date'},
@@ -989,7 +989,7 @@
                 search: {
                     return: true
                 },
-                "ajax": "{{route('API_UserBalances',['locale'=> app()->getLocale(), 'idAmounts'=>'Discounts-Balance'])}}",
+                "ajax": "{{route('api_user_balances',['locale'=> app()->getLocale(), 'idAmounts'=>'Discounts-Balance'])}}",
                 "columns": [
                     {data: 'Ref'},
                     {data: 'Date'},
@@ -1075,7 +1075,7 @@
                 "processing": true,
                 "aLengthMenu": [[5, 30, 50], [5, 30, 50]],
 
-                "ajax": "{{route('API_settings',app()->getLocale())}}",
+                "ajax": "{{route('api_settings',app()->getLocale())}}",
                 "columns": [
                     {"data": "ParameterName"},
                     {"data": "IntegerValue"},
@@ -1125,7 +1125,7 @@
                 search: {
                     return: true
                 },
-                "ajax": "{{route('API_BalOperations' ,app()->getLocale())}}",
+                "ajax": "{{route('api_bal_operations' ,app()->getLocale())}}",
                 "columns": [
                     {"data": "Designation"},
                     {"data": "IO"},
@@ -1169,7 +1169,7 @@
                 search: {
                     return: true
                 },
-                "ajax": "{{route('API_Amounts',app()->getLocale())}}",
+                "ajax": "{{route('api_Amounts',app()->getLocale())}}",
                 "columns": [
                     {data: 'amountsname'},
                     {data: 'amountsshortname'},
@@ -1218,7 +1218,7 @@
                 search: {
                     return: true
                 },
-                "ajax": "{{route('API_ActionHistory',app()->getLocale())}}",
+                "ajax": "{{route('api_action_history',app()->getLocale())}}",
                 "columns": [
                     {data: 'title'},
                     {data: 'reponce'},
@@ -1259,7 +1259,7 @@
                 search: {
                     return: true
                 },
-                "ajax": "{{route('API_userBFSPurchase',app()->getLocale())}}",
+                "ajax": "{{route('api_user_bfs_purchase',app()->getLocale())}}",
                 "columns": [
                     {data: 'ranks'},
                     {data: 'Ref'},
@@ -1688,7 +1688,7 @@
         let msg = "vous avez transferé " + ammount + " $ à " + reciver;
         let user = 126;
         $.ajax({
-            url: "{{ route('addCash') }}",
+            url: "{{ route('add_cash') }}",
             type: "POST",
 
             data: {
@@ -1698,7 +1698,7 @@
             },
             success: function (data) {
                 $.ajax({
-                    url: "{{ route('sendSMS') }}",
+                    url: "{{ route('send_sms') }}",
                     type: "POST",
 
                     data: {
@@ -1758,7 +1758,7 @@
             },
             success: function (data) {
                 $.ajax({
-                    url: "{{ route('sendSMS') }}",
+                    url: "{{ route('send_sms') }}",
                     type: "POST",
 
                     data: {
@@ -1792,7 +1792,7 @@
 <script>
 
     $.ajax({
-        url: "{{ route('getRequestAjax') }}",
+        url: "{{ route('get_request_ajax') }}",
         // data: {"id":id},
         type: 'GET',
         dataType: "json",

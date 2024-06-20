@@ -266,7 +266,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 overflow-hidden">
-                            <a href="{{route('sharessolde' , app()->getLocale() )}} "
+                            <a href="{{route('shares_solde' , app()->getLocale() )}} "
                                class="text-decoration-underline"><p
                                     class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Actions (Shares)') }}</p>
                             </a>
@@ -640,7 +640,7 @@
             var series;
             anychart.onDocumentReady(function () {
                 anychart.data.loadJsonFile(
-                    "{{route('API_stat_countries',app()->getLocale())}}",
+                    "{{route('api_stat_countries',app()->getLocale())}}",
                     function (data) {
                         var map = anychart.map();
                         map.geoData('anychart.maps.world');

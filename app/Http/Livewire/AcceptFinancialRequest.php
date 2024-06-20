@@ -30,7 +30,7 @@ class AcceptFinancialRequest extends Component
         if ($financialRequest->status != 0) abort(404);
         if ($financialRequest->securityCode == "") abort(404);
         if ($financialRequest->securityCode != $secCode) {
-            return redirect()->route('AcceptFinancialRequest', ['locale' => app()->getLocale(), 'numeroReq' => $num])->with('ErrorSecurityCodeRequest', Lang::get('Failed_Security_Code'));
+            return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $num])->with('ErrorSecurityCodeRequest', Lang::get('Failed_Security_Code'));
         }
         $param = [
             'montant' => $financialRequest->amount,

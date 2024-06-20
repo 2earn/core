@@ -101,7 +101,7 @@ class EditUserContact extends Component
                 $phone->formatForCountry($country->apha2);
                 $validatedPhone = true;
             } catch (\Exception $exp) {
-                return redirect()->route('editContact', ['locale' => app()->getLocale(), "UserContact" => $this->idContact])->with('danger', Lang::get($exp->getMessage()));
+                return redirect()->route('user_contact_edit', ['locale' => app()->getLocale(), "UserContact" => $this->idContact])->with('danger', Lang::get($exp->getMessage()));
             }
             if ($validatedPhone) {
                 $user = $settingsManager->getUserByFullNumber($fullphone_number);
@@ -147,7 +147,7 @@ class EditUserContact extends Component
                 'idd' => "ee"
             ]
         )->with('idd', 'dfdf');
-        return redirect()->route('editContact', ['locale' => app()->getLocale(), 'idd' => $idd]);
+        return redirect()->route('user_contact_edit', ['locale' => app()->getLocale(), 'idd' => $idd]);
 
     }
 }

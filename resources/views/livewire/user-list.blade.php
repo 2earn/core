@@ -422,7 +422,7 @@
                 $('#balances-amount').attr('value', amount);
                 $('#balances-reciver').attr('value', reciver);
 
-                window.url = "{{ route('API_UserBalances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
+                window.url = "{{ route('api_user_balances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
                 window.url = window.url.replace('idUser1', reciver);
                 window.url = window.url.replace('idamount1', amount);
 
@@ -438,7 +438,7 @@
                 let amount = $(this).data('amount');
                 $('#balances-amount').attr('value', amount);
                 $('#balances-reciver').attr('value', reciver);
-                window.url = "{{ route('API_UserBalances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
+                window.url = "{{ route('api_user_balances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
                 window.url = window.url.replace('idUser1', reciver);
                 window.url = window.url.replace('idamount1', amount);
 
@@ -453,7 +453,7 @@
                 let amount = $(this).data('amount');
                 $('#balances-amount').attr('value', amount);
                 $('#balances-reciver').attr('value', reciver);
-                window.url = "{{ route('API_UserBalances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
+                window.url = "{{ route('api_user_balances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
                 window.url = window.url.replace('idUser1', reciver);
                 window.url = window.url.replace('idamount1', amount);
                 $(document).ready(function () {
@@ -468,7 +468,7 @@
                 $('#balances-amount').attr('value', amount);
                 $('#balances-reciver').attr('value', reciver);
 
-                window.url = "{{ route('API_UserBalances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
+                window.url = "{{ route('api_user_balances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
                 window.url = window.url.replace('idUser1', reciver);
                 window.url = window.url.replace('idamount1', amount);
 
@@ -511,7 +511,7 @@
                 let amount = $(this).data('amount');
                 $('#balances-amountsh').attr('value', amount);
                 $('#balances-reciversh').attr('value', reciver);
-                window.url = "{{ route('API_SharesSolde_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1']) }}";
+                window.url = "{{ route('api_shares_solde_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1']) }}";
                 window.url = window.url.replace('idUser1', reciver);
                 $(document).ready(function () {
                     $.getJSON(window.url, function (data) {

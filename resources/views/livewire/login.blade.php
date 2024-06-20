@@ -113,7 +113,7 @@
                                                 <div class="mb-3">
                                                     <label
                                                         class="float-end">
-                                                        <a href="{{route('forgetpassword',app()->getLocale())}}">
+                                                        <a href="{{route('forget_password',app()->getLocale())}}">
                                                             {{ __('Forgot Password?') }}
                                                         </a>
                                                     </label>

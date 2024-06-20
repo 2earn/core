@@ -99,7 +99,7 @@
         // The data used in this sample can be obtained from the CDN
         // https://cdn.anychart.com/samples/maps-in-dashboard/states-of-united-states-dashboard-with-multi-select/data.json
         anychart.data.loadJsonFile(
-            "{{route('API_stat_countries',app()->getLocale())}}",
+            "{{route('api_stat_countries',app()->getLocale())}}",
             function (data) {
                 //data=data.data    ;            // pre-processing of the data
                 for (var i = 0; i < data.length; i++) {
@@ -588,7 +588,7 @@
         // The data used in this sample can be obtained from the CDN
         // https://cdn.anychart.com/samples/tag-cloud/population-by-countries/data.json
         anychart.data.loadJsonFile(
-            "{{route('API_stat_countries',app()->getLocale())}}",
+            "{{route('api_stat_countries',app()->getLocale())}}",
             function (data) {
                 var dataSet = anychart.data.set(data);
                 console.log(dataSet);

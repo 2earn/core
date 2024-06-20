@@ -1045,7 +1045,7 @@ class="btn btn-xs btn-primary btn2earnTable"  >
     public function getUrlList($idUser, $idamount)
     {
         // Construire l'URL de la route avec les paramètres idUser et idamount
-        $url = route('API_UserBalances_list', ['locale' => app()->getLocale(), 'idUser' => $idUser, 'idAmounts' => $idamount]);
+        $url = route('api_user_balances_list', ['locale' => app()->getLocale(), 'idUser' => $idUser, 'idAmounts' => $idamount]);
 
         // Retourner l'URL de la route
         return $url;
@@ -1274,7 +1274,7 @@ where ir.status = ?
         return datatables($query)
             ->addColumn('action', function ($query) {
                 return '<a data-bs-toggle="" data-bs-target="#modal"
-                href="' . route('validateaccount', ['locale' => app()->getLocale(), 'paramIdUser' => $query->id]) . '"
+                href="' . route('validate_account', ['locale' => app()->getLocale(), 'paramIdUser' => $query->id]) . '"
 class="btn btn-primary btn2earnTable">' . __("Edit") . '</a> ';
             })
             ->rawColumns(['action'])

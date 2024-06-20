@@ -176,7 +176,7 @@
                 optionNode.value = country.iso2;
             }
         }
-        if (pathPage == 'forgetpassword') {
+        if (pathPage == 'forget_password') {
             var itiforget = window.intlTelInput(inputforget, {
                 initialCountry: "auto",
                 useFullscreenPopup: false,

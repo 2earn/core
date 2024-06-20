@@ -35,7 +35,7 @@
                                 </div>
                                 <h6 class="mb-1"><?php echo e($req->nationalID); ?></h6>
                                 <p class="card-text text-muted"><?php echo e($req->DateCreation); ?></p>
-                                <a href=" <?php echo e(route('validateaccount', ['locale' => app()->getLocale(), 'paramIdUser' => $req->id])); ?>"
+                                <a href=" <?php echo e(route('validate_account', ['locale' => app()->getLocale(), 'paramIdUser' => $req->id])); ?>"
                                    class="btn btn-primary btn-sm">See Details</a>
                             </div>
                         </div>
