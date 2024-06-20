@@ -33,7 +33,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="2earn.cash" name="description"/>
     <meta content="Themesbrand" name="author"/>
-    <img src="{{ URL::asset('assets/images/2Earn.png') }}" id="super-logo" alt="" height="60">
+    <img src="{{ URL::asset('assets/images/2earn.png') }}" id="super-logo" alt="" height="60">
     <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.ico')}}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="{{asset('assets/Styles/intlTelInput.css')}}">

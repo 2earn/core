@@ -78,8 +78,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="2earn.cash" name="description"/>
     <meta content="" name="author"/>
-    <meta property="og:image" content="{{ URL::asset('assets/images/2Earn.png') }}">
-    <meta property="twitter:image" content="{{ URL::asset('assets/images/2Earn.png') }}">
+    <meta property="og:image" content="{{ URL::asset('assets/images/2earn.png') }}">
+    <meta property="twitter:image" content="{{ URL::asset('assets/images/2earn.png') }}">
 
 
     <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
