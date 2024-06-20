@@ -27,6 +27,8 @@ class Account extends Component
     use earnTrait;
     use earnLog;
 
+    const MAX_PHOTO_ALLAWED_SIZE = 2048000;
+
     public $nbrChild = 9;
     public $photoFront;
     public $photoBack;
@@ -57,6 +59,8 @@ class Account extends Component
         'sendIdentificationRequest' => 'sendIdentificationRequest',
         'saveUser' => 'saveUser',
         'deleteContact' => 'deleteContact',
+        'EmailCheckUser' => 'EmailCheckUser',
+        'checkUserEmail' => 'checkUserEmail',
     ];
 
     protected $rules = [
@@ -108,6 +112,8 @@ class Account extends Component
             $this->noteReject = Lang::get('Note_rejected');
             $userAuth = $settingsManager->getAuthUserById($this->paramIdUser);
         }
+        $this->dispalyedUserCred = getUserDisplayedName($userAuth->idUser);
+
         if (!$userAuth)
             dd('not found page');
         $this->numberActif = $settingsManager->getidCountryForSms($userAuth->id)->fullNumber;
@@ -130,7 +136,6 @@ class Account extends Component
         }
         $this->CalculPercenteComplete();
         $hasRequest = $userAuth->hasIdetificationReques();
-        $this->dispalyedUserCred = getConnectedUserDisplayedName();
         $this->disabled = abs($user->status) == 1 ? "disabled" : '';
         return view('livewire.account', ['hasRequest' => $hasRequest, 'errors_array' => $this->errors_array])->extends('layouts.master')->section('content');
     }
@@ -146,49 +151,42 @@ class Account extends Component
         }
 
         if (!isset($this->usermetta_info['enFirstName']) || trim($this->usermetta_info['enFirstName']) == "") {
-            array_push($this->errors_array, $this->getMsgErreur('enFirstName'));
+            array_push($this->errors_array, getProfileMsgErreur('enFirstName'));
         }
         if (!isset($this->usermetta_info['enLastName']) || trim($this->usermetta_info['enLastName']) == "") {
-            array_push($this->errors_array, $this->getMsgErreur('enLastName'));
+            array_push($this->errors_array, getProfileMsgErreur('enLastName'));
         }
 
         if (isset($this->usermetta_info['birthday'])) {
             $this->PercentComplete += 20;
         } else {
-            array_push($this->errors_array, $this->getMsgErreur('birthday'));
+            array_push($this->errors_array, getProfileMsgErreur('birthday'));
         }
 
         if (isset($this->usermetta_info['nationalID']) && trim($this->usermetta_info['nationalID']) != "") {
 
             $this->PercentComplete += 20;
         } else {
-            array_push($this->errors_array, $this->getMsgErreur('nationalID'));
+            array_push($this->errors_array, getProfileMsgErreur('nationalID'));
         }
 
         if (file_exists(public_path('/uploads/profiles/back-id-image' . $this->usermetta_info['idUser'] . '.png')) && file_exists(public_path('/uploads/profiles/front-id-image' . $this->usermetta_info['idUser'] . '.png'))) {
 
             $this->PercentComplete += 20;
         } else {
-            array_push($this->errors_array, $this->getMsgErreur('photoIdentite'));
+            array_push($this->errors_array, getProfileMsgErreur('photoIdentite'));
         }
         if (isset($this->user['email']) && trim($this->user['email']) != "") {
 
             $this->PercentComplete += 20;
         } else {
-            array_push($this->errors_array, $this->getMsgErreur('email'));
+            array_push($this->errors_array, getProfileMsgErreur('email'));
         }
-    }
 
-    private
-    function getMsgErreur($typeErreur)
-    {
-        $typeErreur = 'Identify_' . $typeErreur;
-        return Lang::get($typeErreur);
     }
 
 
-    public
-    function deleteContact($id, settingsManager $settingsManager)
+    public function deleteContact($id, settingsManager $settingsManager)
     {
         $userC = $settingsManager->getUserContactsById($id);
         if (!$userC) return;
@@ -196,8 +194,7 @@ class Account extends Component
         return redirect()->route('myAccount', app()->getLocale());
     }
 
-    public
-    function saveUser($nbrChild, settingsManager $settingsManager)
+    public function saveUser($nbrChild, settingsManager $settingsManager)
     {
         $canModify = true;
         $us = User::find($this->user['id']);
@@ -242,8 +239,19 @@ class Account extends Component
         $us->is_public = $this->user['is_public'];
         $us->save();
         $us = User::find($this->user['id']);
-        if ($this->imageProfil != null) {
-            $p = $this->imageProfil->storeAs('profiles', 'profile-image-' . $us->idUser . '.png', 'public2');
+
+        if (!is_null($this->imageProfil) && gettype($this->imageProfil) == "object") {
+            if ($this->imageProfil->extension() == 'png') {
+                if ($this->imageProfil->getSize() < self::MAX_PHOTO_ALLAWED_SIZE) {
+                    $this->imageProfil->storeAs('profiles', 'profile-image-' . $us->idUser . '.png', 'public2');
+                } else {
+                    $this->dispatchBrowserEvent('profilePhotoError', ['type' => 'warning', 'title' => Lang::get('Profile photo Error'), 'text' => Lang::get('Profile photo big size'),]);
+                    return;
+                }
+            } else {
+                $this->dispatchBrowserEvent('profilePhotoError', ['type' => 'warning', 'title' => Lang::get('Profile photo Error'), 'text' => Lang::get('Profile photo wrong type'),]);
+                return;
+            }
         }
         if ($this->paramIdUser == "")
             return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Edit_profil_succes'));
@@ -332,11 +340,22 @@ class Account extends Component
         $us->OptActivation_at = Carbon::now();
         $us->save();
         $numberActif = $settingsManager->getNumberCOntactActif($userAuth->idUser)->fullNumber;
-
         $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::VerifMail, ['msg' => $opt, 'type' => TypeNotificationEnum::SMS]);
-
         $this->dispatchBrowserEvent('confirmOPTVerifMail', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'numberActif' => $numberActif]);
         $this->newMail = $mail;
+    }
+
+    public function checkUserEmail($codeOpt, settingsManager $settingsManager)
+    {
+        $us = User::find($this->user['id']);
+        if ($codeOpt != $us->OptActivation) {
+            $this->dispatchBrowserEvent('EmailCheckUser', ['emailValidation' => false, 'title' => trans('Invalid OPT code')]);
+            return;
+        }
+        $check_exchange = $this->randomNewCodeOpt();
+        User::where('id', auth()->user()->id)->update(['OptActivation' => $check_exchange]);
+        $settingsManager->NotifyUser(auth()->user()->id, TypeEventNotificationEnum::NewContactNumber, ['canSendMail' => 1, 'msg' => $check_exchange, 'toMail' => $this->newMail, 'emailTitle' => "2Earn.cash"]);
+        $this->dispatchBrowserEvent('EmailCheckUser', ['emailValidation' => true, 'title' => trans('Opt code from your email'), 'html' => trans('We sent an opt code to your email') . ' : ' . $this->newMail . ' <br> ' . trans('Please fill it')]);
     }
 
     public function saveVerifiedMail($codeOpt)
@@ -375,9 +394,10 @@ class Account extends Component
         $userAuth = $settingsManager->getAuthUser();
         $hasRequest = $userAuth->hasIdetificationReques();
         if ($hasRequest) {
-            $this->dispatchBrowserEvent('existIdentificationRequest', ['type' => 'warning', 'title' => "Opt", 'text' => '',]);
+            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Identificationu request exist'));
         } else {
-            $sensIdentification = identificationuserrequest::create(['idUser' => $userAuth->idUser, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(), 'response' => 0, 'note' => '', 'status' => 1]);
+            identificationuserrequest::create(['idUser' => $userAuth->idUser, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(), 'response' => 0, 'note' => '', 'status' => 1]);
+            return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Identification_send_succes'));
         }
     }
 }

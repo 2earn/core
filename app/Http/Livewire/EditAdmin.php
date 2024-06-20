@@ -7,6 +7,7 @@ use Core\Models\plateforme;
 use Core\Models\translatetabs;
 use Core\Models\UserPlatforms;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
@@ -50,7 +51,7 @@ class EditAdmin extends Component
         }
         $user = User::find($idUser);
         $user->syncRoles($this->userRole);
-        return redirect()->route('edit_admin', app()->getLocale())->with('SuccesUpdateRole', 'user role updated');
+        return redirect()->route('edit_admin', app()->getLocale())->with('SuccesUpdateRole', Lang::get('user role updated'));
     }
 
     public function render()

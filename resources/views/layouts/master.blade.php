@@ -313,16 +313,12 @@
                 "orderCellsTop": true,
                 "fixedHeader": true,
                 initComplete: function () {
-                    // Apply the search
                     this.api()
                         .columns()
                         .every(function () {
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
                             var that = $('#HistoryNotificationTable').DataTable();
                             $('input', this.footer()).on('keydown', function (ev) {
-                                if (ev.keyCode == 13) {//only on enter keypress (code 13)
+                                if (ev.keyCode == 13) {
                                     that
                                         .search(this.value)
                                         .draw();
@@ -343,13 +339,11 @@
                     {data: 'date'},
                     {data: 'type'},
                     {data: 'responce'},
-                    // {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
-                "language": {
-                    "url": urlLang
-                }
+                "language": {"url": urlLang}
             }
         );
+
         $('#userManager_table').DataTable(
             {
                 retrieve: true,
@@ -662,23 +656,16 @@
                 "ordering": true,
                 retrieve: true,
                 "colReorder": false,
-                // dom: 'Bfstrip',
-                // buttons: [
-                //     'csv', 'excel'
-                // ],
                 "orderCellsTop": true,
                 "fixedHeader": true,
-
                 "order": [[0, 'desc']],
                 "processing": true,
                 "serverSide": false,
                 "aLengthMenu": [[100, 500, 1000], [100, 500, 1000]],
-                search: {
-                    return: true
-                },
+                search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
-                "ajax": "{{route('API_UsersList',['locale'=> app()->getLocale()])}}",
+                "ajax": "{{route('API_UsersList',app()->getLocale())}}",
                 "columns": [
                     {data: 'formatted_created_at'},
                     {data: 'flag'},
@@ -693,7 +680,6 @@
                     {data: 'pass'},
                     {data: 'register_upline'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
-
                     {data: 'minshares'},
                     {data: 'periode'},
                     {data: 'date'},
@@ -701,42 +687,24 @@
                     {data: 'note'},
                     {data: 'VIP', name: 'action', orderable: false, searchable: false},
                     {data: 'mobile'},
-
-
                 ],
-                "columnDefs": [
-                    {
-                        "targets": [19],
-                        searchable: true,
-                        visible: false
-                    },
-
-                ],
-
-                "language": {
-                    "url": urlLang
-                }
+                "columnDefs": [{"targets": [19], searchable: true, visible: false},],
+                "language": {"url": urlLang}
             }
         );
+
         $('#shares-solde').DataTable(
             {
                 "ordering": true,
                 retrieve: true,
                 "colReorder": false,
-                // dom: 'Bfstrip',
-                // buttons: [
-                //     'csv', 'excel'
-                // ],
                 "orderCellsTop": true,
                 "fixedHeader": true,
-
                 "order": [[5, 'asc']],
                 "processing": true,
                 "serverSide": false,
                 "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                search: {
-                    return: true
-                },
+                search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
                 "ajax": "{{route('API_sharessolde',['locale'=> app()->getLocale()])}}",
@@ -748,35 +716,25 @@
                     {data: 'total_price'},
                     {data: 'present_value'},
                     {data: 'current_earnings'},
-
-
                 ],
-
-
                 "language": {
                     "url": urlLang
                 }
             }
         );
+
         $('#countie-tab').DataTable(
             {
                 "ordering": true,
                 retrieve: true,
                 "colReorder": false,
-                // dom: 'Bfstrip',
-                // buttons: [
-                //     'csv', 'excel'
-                // ],
                 "orderCellsTop": true,
                 "fixedHeader": true,
-
                 "order": [[5, 'asc']],
                 "processing": true,
                 "serverSide": false,
                 "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                search: {
-                    return: true
-                },
+                search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
                 "ajax": "{{ route('API_stat_countries', ['locale'=> app()->getLocale()]) }}",
@@ -794,55 +752,38 @@
                     {data: 'SHARES_REVENUE'},
                     {data: 'COUNT_REAL_TRAIDERS'},
                     {data: 'TRANSFERT_MADE'},
-
-
                 ],
-
-
                 "language": {
                     "url": urlLang
                 }
             }
         );
+
         $('#transfert').DataTable(
             {
                 "ordering": true,
                 retrieve: true,
                 "colReorder": false,
-                // dom: 'Bfstrip',
-                // buttons: [
-                //     'csv', 'excel'
-                // ],
                 "orderCellsTop": true,
                 "fixedHeader": true,
-
                 "order": [[2, 'desc']],
                 "processing": true,
                 "serverSide": false,
                 "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                search: {
-                    return: true
-                },
+                search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
                 "ajax": "{{route('API_transfert',['locale'=> app()->getLocale()])}}",
                 "columns": [
-
-
                     {data: 'value'},
                     {data: 'Description'},
                     {data: 'formatted_created_at'},
-
-
                 ],
-
-
                 "language": {
                     "url": urlLang
                 }
             }
         );
-
 
         $('#shares-sold').DataTable(
             {
@@ -851,38 +792,19 @@
                 "colReorder": false,
                 dom: 'Bfrtip',
                 buttons: [
-                    {
-                        extend: 'copyHtml5',
-                        text: '<i class="ri-file-copy-2-line"></i>',
-                        titleAttr: 'Copy'
-                    },
-                    {
-                        extend: 'excelHtml5',
-                        text: '<i class="ri-file-excel-2-line"></i>',
-                        titleAttr: 'Excel'
-                    },
-                    {
-                        extend: 'csvHtml5',
-                        text: '<i class="ri-file-text-line"></i>',
-                        titleAttr: 'CSV'
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        text: '<i class="ri-file-pdf-line"></i>',
-                        titleAttr: 'PDF'
-                    }
+                    {extend: 'copyHtml5', text: '<i class="ri-file-copy-2-line"></i>', titleAttr: 'Copy'},
+                    {extend: 'excelHtml5', text: '<i class="ri-file-excel-2-line"></i>', titleAttr: 'Excel'},
+                    {extend: 'csvHtml5', text: '<i class="ri-file-text-line"></i>', titleAttr: 'CSV'},
+                    {extend: 'pdfHtml5', text: '<i class="ri-file-pdf-line"></i>', titleAttr: 'PDF'}
                 ],
                 "orderCellsTop": true,
                 "fixedHeader": true,
-
                 "order": [[14, 'desc']],
                 "processing": true,
                 "serverSide": false,
                 "pageLength": 1000,
                 "aLengthMenu": [[10, 30, 50, 100, 1000], [10, 30, 50, 100, 1000]],
-                search: {
-                    return: true
-                },
+                search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
                 "ajax": "{{route('API_sharessoldes',['locale'=> app()->getLocale()])}}",
@@ -892,12 +814,9 @@
                     {data: 'mobile'},
                     {data: 'Name'},
                     {data: 'total_shares'},
-
                     {data: 'sell_price_now'},
                     {data: 'gain'},
-                    {
-                        data: 'WinPurchaseAmount'
-                    },
+                    {data: 'WinPurchaseAmount'},
                     {data: 'Balance', "className": 'editable'},
                     {data: 'total_price'},
                     {data: 'value'},
@@ -905,22 +824,15 @@
                     {data: 'PU'},
                     {data: 'share_price'},
                     {data: 'formatted_created_at'},
-
-
                 ],
-
                 "columnDefs":
                     [
                         {
                             "targets": [7],
                             render: function (data, type, row) {
-
-
                                 if (Number(row.WinPurchaseAmount) === 1)
                                     return '<span class="badge bg-success" data-id="' + row.id + '" data-phone="' + row.mobile +
                                         '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >Transfert Made</span>';
-
-
                                 if (Number(row.WinPurchaseAmount) === 0)
                                     return '<span class="badge bg-danger" data-id="' + row.id + '" data-phone="' + row.mobile +
                                         '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >Free</span>';
@@ -929,12 +841,8 @@
                                     return '<span class="badge bg-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
                                         '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >Mixed</span>';
                             },
-
                         },
-
-
                     ],
-
                 "language": {
                     "url": urlLang
                 }
@@ -970,10 +878,6 @@
                     "_token": "{{ csrf_token() }}"
                 },
                 success: function (data) {
-                    // console.log(data);
-                    if (ammount !== 0) {
-
-                    }
                     $('#realsoldmodif').modal('hide');
                     $('#shares-sold').DataTable().ajax.reload();
                     fetchAndUpdateCardContent();
@@ -1414,12 +1318,10 @@
                 table_bfs.columns(3).search("").draw();
             } else {
                 table_bfs
-
                     .columns(3)
                     .search(items.join('|'), true, false)
                     .draw();
             }
-            //console.log(items);
         })
     })
 
@@ -1445,7 +1347,7 @@
 </script>
 
 @stack('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/19.2.16/js/intlTelInput.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/intlTelInput.min.js"></script>
 <script data-turbolinks-eval="false">
 
     $(document).on('ready turbolinks:load', function () {
@@ -1455,9 +1357,9 @@
         const pathPage = myParams[2];
         const pathPageSeg3 = myParams[3];
 
-        var countryData = window.intlTelInputGlobals.getCountryData(),
+        var countryData = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
             input = document.querySelector("#phonereg");
-        var countryDataLog = window.intlTelInputGlobals.getCountryData(),
+        var countryDataLog = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
             inputlog = document.querySelector("#phone");
 
         var errorMap = ['{{trans('Invalid number')}}', '{{trans('Invalid country code')}}', '{{trans('Too shortsss')}}', '{{trans('Too long')}}', '{{trans('Invalid number')}}'];
@@ -1472,7 +1374,7 @@
                 "  <span id='valid-msg'   class='invisible'>✓ Valid</span><span id='error-msg' class='hide'></span>" +
                 " <input type='hidden' name='fullnumberUpPhone' id='outputUpPhone' value='hidden' class='form-control'> " +
                 " <input type='hidden' name='ccodeUpPhone' id='ccodeUpPhone'  ><input type='hidden' name='isoUpPhone' id='isoUpPhone'  >";
-            var countryDataUpPhone = window.intlTelInputGlobals.getCountryData(),
+            var countryDataUpPhone = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
                 inputUpPhone = document.querySelector("#phoneUpPhone");
             try {
                 itiUpPhone.destroy();
@@ -1480,7 +1382,6 @@
             }
             var itiUpPhone = window.intlTelInput(inputUpPhone, {
                 initialCountry: "auto",
-                // showSelectedDialCode: true,
                 useFullscreenPopup: false,
                 geoIpLookup: function (callback) {
                     $.get('https://ipinfo.io', function () {
@@ -1506,17 +1407,13 @@
             var validMsg = document.querySelector("#valid-msg");
             var errorMsg = document.querySelector("#error-msg")
             inputUpPhone.addEventListener('blur', function () {
-                // resetUpPhone();
                 if (inputUpPhone.value.trim()) {
-                    // console.log(itiUpPhone.isValidNumber());
                     if (itiUpPhone.isValidNumber()) {
-                        // validMsg.classList.add("invisible");
                         $("#submit_phone").prop("disabled", false);
                     } else {
                         $("#submit_phone").prop("disabled", true);
                         inputUpPhone.classList.add("error");
                         var errorCode = itiUpPhone.getValidationError();
-
                         errorMsg.innerHTML = errorMap[errorCode];
                         errorMsg.classList.remove("invisible");
                     }
@@ -1537,18 +1434,13 @@
             mobile = $("#phoneUpPhone").val();
             var countryData = itiUpPhone.getSelectedCountryData();
             phone = '00' + countryData.dialCode + phone;
-            // $("#output").val(phone);
             $("#outputUpPhone").val(phone);
-            // window.livewire.emit('changefullNumber', phone);
-            // window.livewire.emit('changefullNumber');
             $("#ccodeUpPhone").val(countryData.dialCode);
             $("#isoUpPhone").val(countryData.iso2);
 
             fullphone = $("#outputUpPhone").val();
             if (inputUpPhone.value.trim()) {
-                // console.log(itiAdd2Contact.isValidNumber());
                 if (itiUpPhone.isValidNumber()) {
-                    // validMsg.classList.add("invisible");
                     errorMsg.classList.add("invisible");
                     $("#submit_phone").prop("disabled", false);
 
@@ -1556,22 +1448,17 @@
                     $("#submit_phone").prop("disabled", true);
                     inputUpPhone.classList.add("error");
                     var errorCode = itiUpPhone.getValidationError();
-
+                    errorMsg.classList.remove("invisible");
                     if (errorCode == '-99') {
                         errorMsg.innerHTML = errorMap[2];
-                        errorMsg.classList.remove("invisible");
                     } else {
                         errorMsg.innerHTML = errorMap[errorCode];
-                        errorMsg.classList.remove("invisible");
                     }
-
-
                 }
             } else {
                 $("#submit_phone").prop("disabled", true);
                 inputUpPhone.classList.remove("error");
                 var errorCode = itiUpPhone.getValidationError();
-
                 errorMsg.innerHTML = errorMap[errorCode];
                 errorMsg.classList.add("invisible");
             }
@@ -1614,7 +1501,7 @@
                 "placeholder='Mobile Number'><span id='valid-msgAddContact' class='invisible'>✓ Valid</span><span id='error-msgAddContact' class='hide'></span>" +
                 "<input type='hidden' name='fullnumber' id='outputAddContact' class='form-control'><input type='hidden' name='ccodeAddContact' id='ccodeAddContact'>";
 
-            var countryDataAddContact = window.intlTelInputGlobals.getCountryData(),
+            var countryDataAddContact = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
                 inputAddContact = document.querySelector("#phoneAddContact");
             try {
                 itiAddContact.destroy();
@@ -1658,9 +1545,7 @@
             var errorMsg = document.querySelector("#error-msgAddContact");
             inputAddContact.addEventListener('blur', function () {
                 if (inputAddContact.value.trim()) {
-                    // console.log(itiAddContact.isValidNumber());
                     if (itiAddContact.isValidNumber()) {
-                        // validMsg.classList.add("invisible");
                         errorMsg.classList.add("invisible");
                         $("#SubmitAddContact").prop("disabled", false);
 
@@ -1699,18 +1584,10 @@
                 phone = '00' + countryData.dialCode + phone;
             }
             $("#outputAddContact").val(phone);
-            // $("#output").val(phone);
-            // window.livewire.emit('changefullNumber', phone);
-            // window.livewire.emit('changefullNumber');
-            $("#ccodeAddContact").val(countryData.dialCode);
-            // $("#ccodelog").val(countryData.dialCode);
-            // fullphone = $("#output").val();
 
-            // console.log("dqsd" + inputAddContact.value);
+            $("#ccodeAddContact").val(countryData.dialCode);
             if (inputAddContact.value.trim()) {
-                // console.log(itiAddContact.isValidNumber());
                 if (itiAddContact.isValidNumber()) {
-                    // validMsg.classList.add("invisible");
                     errorMsg.classList.add("invisible");
                     $("#SubmitAddContact").prop("disabled", false);
 
@@ -1731,30 +1608,14 @@
         };
 
         function resetContacts() {
-
-            // alert(document.getElementById("ipAdd2Contact").value) ;
-            //  $("#signin").prop("disabled", false);
             var phone = itiLog.getNumber();
             var textNode = document.createTextNode(phone);
             phone = phone.replace('+', '00');
             mobile = $("#ipAdd2Contact").val();
             var countryData = itiLog.getSelectedCountryData();
-            //console.log(countryData.iso2);
             phone = '00' + countryData.dialCode + phone;
             $("#ccodeAdd2Contact").val(countryData.dialCode);
             $("#outputAdd2Contact").val(phone);
-            //console.log(inputlog.value.trim());
-            // if (inputlog.value.trim()) {
-            //   if (itiLog.isValidNumber()) {
-            //        $("#ipAdd2Contact").prop("disabled", false);
-            // } else {
-            //          $("#ipAdd2Contact").prop("disabled", true);
-            //         inputlog.classList.add("error");
-            //      }
-            // } else {
-            //    $("#ipAdd2Contact").prop("disabled", true);
-            //      inputlog.classList.remove("error");
-            //  }
         };
         if (pathPage == 'ContactNumber') {
 
@@ -1763,7 +1624,7 @@
                 "placeholder='{{ __("Mobile Number") }}'><span id='valid-msgphoneContactNumber' class='invisible'>✓ Valid</span><span id='error-msgphoneContactNumber' class='hide'></span>" +
                 " <input type='hidden' name='fullnumber' id='outputphoneContactNumber' class='form-control'><input type='hidden' name='ccodephoneContactNumber' id='ccodephoneContactNumber'>" +
                 "<input type='hidden' name='isoContactNumber' id='isoContactNumber'>";
-            var countryDataNumberContact = window.intlTelInputGlobals.getCountryData(),
+            var countryDataNumberContact = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
                 inputAddContactNumber = document.querySelector("#phoneContactNumber");
             try {
                 itiAddContactNumber.destroy();
@@ -1772,7 +1633,6 @@
             }
             var itiAddContactNumber = window.intlTelInput(inputAddContactNumber, {
                 initialCountry: "auto",
-                //showSelectedDialCode: true,
                 useFullscreenPopup: false,
                 geoIpLookup: function (callback) {
                     $.get('https://ipinfo.io', function () {
@@ -1781,7 +1641,7 @@
                         callback(countryCode13);
                     });
                 },
-                utilsScript: " {{asset('assets/js/utils.js')}}" // just for formatting/placeholders etc
+                utilsScript: " {{asset('assets/js/utils.js')}}"
             });
             inputAddContactNumber.addEventListener('keyup', resetAddNumberContact);
             inputAddContactNumber.addEventListener('countrychange', resetAddNumberContact);
@@ -1790,58 +1650,27 @@
                 var country = countryDataNumberContact[i];
                 var optionNode = document.createElement("option");
                 optionNode.value = country.iso2;
-                // var textNode = document.createTextNode(country.name);
-                // optionNode.appendChild(textNode);
             }
-            ;
             resetAddNumberContact();
         }
 
         function resetAddNumberContact() {
             var phoneCN = itiAddContactNumber.getNumber();
-            // alert(phone);
-            // var textNode = document.createTextNode(phone2);
             phoneCN = phoneCN.replace('+', '00');
             mobileCN = $("#phoneContactNumber").val();
-
             var countryDataCN = itiAddContactNumber.getSelectedCountryData();
-            phoneCN = '00' + countryDataCN.dialCode + phoneCN;
-
-            // console.log(phone2);
-            $("#outputphoneContactNumber").val(phoneCN);
-
-            // $("#output").val(phone);
-            // window.livewire.emit('changefullNumber', phone);
-            // window.livewire.emit('changefullNumber');
-            $("#ccodephoneContactNumber").val(countryDataCN.dialCode);
-
-            $("#isoContactNumber").val(countryDataCN.iso2);
-            // $("#ccodelog").val(countryData.dialCode);
-            // fullphone = $("#output").val();
-            if (inputAddContactNumber.value.trim()) {
-                // console.log(itiAdd2Contact.isValidNumber());
-                if (itiAddContactNumber.isValidNumber()) {
-                    // validMsg.classList.add("invisible");
-                    // errorMsgUp.classList.add("invisible");
-                    // $("#saveAddContactNumber").prop("disabled", false);
-
-                } else {
-                    // $("#saveAddContactNumber").prop("disabled", true);
-                    // inputAddContactNumber.classList.add("error");
-                    // var errorCode = itiUpdatePhoneAd.getValidationError();
-                    // errorMsgUp.innerHTML = errorMap[errorCode];
-                    // errorMsgUp.classList.remove("invisible");
-                }
-            } else {
-                // $("#saveAddContactNumber").prop("disabled", true);
-                // inputUpdatePhoneAd.classList.remove("error");
-                // var errorCode = itiUpdatePhoneAd.getValidationError();
-                // errorMsgUp.innerHTML = errorMap[errorCode];
-                // errorMsgUp.classList.add("invisible");
+            if (!phoneCN.startsWith('00' + countryDataCN.dialCode)) {
+                phoneCN = '00' + countryDataCN.dialCode + phoneCN;
             }
-        };
-
-
+            $("#outputphoneContactNumber").val(phoneCN);
+            $("#ccodephoneContactNumber").val(countryDataCN.dialCode);
+            $("#isoContactNumber").val(countryDataCN.iso2);
+            if (itiAddContactNumber.isValidNumber()) {
+                $('#saveAddContactNumber').prop("disabled", false)
+            } else {
+                $('#saveAddContactNumber').prop("disabled", true)
+            }
+        }
     });
 
 
@@ -1849,16 +1678,11 @@
         let reciver = $(this).data('reciver');
         let phone = $(this).data('phone');
         let country = $(this).data('country');
-        console.log(reciver);
         $('#userlist-country').attr('src', country);
         $('#userlist-reciver').attr('value', reciver);
         $('#userlist-phone').attr('value', phone);
-        console.log(reciver);
     });
     $(document).on("click", "#userlist-submit", function () {
-
-        console.log($('#userlist-reciver').val());
-        console.log($('#ammount').val());
         let reciver = $('#userlist-reciver').val();
         let ammount = $('#ammount').val();
         let msg = "vous avez transferé " + ammount + " $ à " + reciver;
@@ -1873,7 +1697,6 @@
                 "_token": "{{ csrf_token() }}"
             },
             success: function (data) {
-                console.log(data);
                 $.ajax({
                     url: "{{ route('sendSMS') }}",
                     type: "POST",
@@ -1906,16 +1729,11 @@
         let reciver = $(this).data('reciver');
         let phone = $(this).data('phone');
         let country = $(this).data('country');
-        console.log(reciver);
         $('#vip-country').attr('src', country);
         $('#vip-reciver').attr('value', reciver);
         $('#vip-phone').attr('value', phone);
-        console.log(reciver);
     });
     $(document).on("click", "#vip-submit", function () {
-
-        console.log($('#vip-reciver').val());
-
         let reciver = $('#vip-reciver').val();
         let minshares = $('#minshares').val();
         let periode = $('#periode').val();
@@ -1939,7 +1757,6 @@
                 "_token": "{{ csrf_token() }}"
             },
             success: function (data) {
-                console.log(data);
                 $.ajax({
                     url: "{{ route('sendSMS') }}",
                     type: "POST",
@@ -1983,12 +1800,7 @@
             try {
                 document.getElementById("NotificationRequest").innerHTML = "";
                 var resultData = result.data;
-                // console.log(resultData['out']);
-                // NotificationRequest
-                // if(resultData['requestInOpen']==6)
-                // {
-                //     alert('jooooooooo');
-                // }
+
                 if (resultData['requestInOpen'] > 0) {
                     var tag = document.createElement("span");
                     tag.id = "sideNotIn"
@@ -2037,7 +1849,6 @@
                 document.getElementById('SReqIn').innerHTML = "";
             } catch (e) {
             }
-            // console.log(result)
         }
     });
 </script>

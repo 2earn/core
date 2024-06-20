@@ -63,7 +63,7 @@
                         <a href="{{route('RecuperationHistory',app()->getLocale())}}"
                            class="nav-link menu-link {{Route::currentRouteName()=='RecuperationHistory'? 'active' : ''}} disabled"
                            role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                            <i class="ri-history-line"></i>
+                            <i class="fas fa-history"></i>
                             <span>{{ __('Historique_recuperation') }}</span>
                         </a>
                     </li>
@@ -71,7 +71,7 @@
                         <a href="{{route('TreeEvolution',app()->getLocale())}}"
                            class="nav-link menu-link {{Route::currentRouteName()=='TreeEvolution'? 'active' : ''}}"
                            role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                            <i class="fa-solid fa-tree"></i>
+                            <i class="fa-solid fa-tree" style="color: #009fe3;"></i>
                             <span>{{ __('Evolution_arbre') }}</span>
                         </a>
                     </li>
@@ -120,7 +120,7 @@
                     </li>
                     <li class="nav-item {{Route::currentRouteName()=='description'? 'active' : ''}}">
                         <a href="{{route('description',app()->getLocale() )}}"
-                           class="nav-link menu-link {{Route::currentRouteName()=='description'? 'active' : ''}}"
+                           class="nav-link menu-link {{Route::currentRouteName()=='description'? 'active' : ''}} disabled"
                            role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                             <i class="fa-solid fa-pen-fancy"></i>
                             <span>{{__('description')}}</span>
@@ -128,7 +128,7 @@
                     </li>
                     @if(auth()->user()->getRoleNames()->first() =="Super admin")
                         <li class="menu-title">
-                            <span data-key="t-menu">{{ __('Super admin Menu') }}</span>
+                            <span data-key="t-menu">{{ __('SUPER ADMIN MENU') }}</span>
                         </li>
                         <li class="nav-item {{Route::currentRouteName()=='configuration'? 'active' : ''}}">
                             <a href="{{route('configuration', app()->getLocale())}}"

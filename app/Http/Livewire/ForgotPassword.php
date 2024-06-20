@@ -58,7 +58,7 @@ class ForgotPassword extends Component
         $user = $settingsManager->getUserByFullNumber($phoneNumber);
         if (!$user) {
             $this->earnDebug('Forget password input opt user not found  : fullNumber- ' . $phoneNumber);
-            return redirect()->route("forgetpassword", app()->getLocale())->with('ErrorUserFound', 'User not found');
+            return redirect()->route("forgetpassword", app()->getLocale())->with('ErrorUserFound', Lang::get('User not found'));
         }
         if ($codeOPT != $user->activationCodeValue) {
             $this->earnDebug('Forget password input opt code OPT invalide  : fullNumber- ' . $phoneNumber . ' codeOPT- ' . $codeOPT);

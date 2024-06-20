@@ -192,7 +192,7 @@ input[type=range]::-ms-fill-upper {
 }
 
 .navbar-brand-box {
-    border-bottom: 1px solid #cdcdcd
+    box-shadow: 1px 1px 2px rgba(15, 34, 58, 0.2);
 }
 
 .ribbon-info {
@@ -231,12 +231,14 @@ input[type=range]::-ms-fill-upper {
     background: linear-gradient(45deg, #AE8625, #f7ef8a, #d2ac47, #edc967, #AE8625, #f7ef8a, #d2ac47, #edc967, #AE8625, #f7ef8a, #d2ac47, #edc967);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    border: 1px solid #ffd700;
 }
 
-.btn-outline-flash:hover {
+.btn-outline-flash:hover, .btn-outline-flash:focus {
     background: linear-gradient(45deg, #AE8625, #f7ef8a, #d2ac47, #edc967);
     -webkit-background-clip: unset;
     -webkit-text-fill-color: unset;
+    border: 1px solid #ffd700;
 }
 
 .pink {
@@ -293,12 +295,25 @@ input[type=range]::-ms-fill-upper {
     font-weight: 800;
 }
 
+.vip-background {
+    background: linear-gradient(45deg, #AE8625, #f7ef8a, #d2ac47, #edc967, #AE8625, #f7ef8a, #d2ac47, #edc967) !important;
+    font-weight: 600;
+}
+
 .btn-outline-gold {
     color: black;
 }
 
+.flash-red {
+    color: #c32a2a;
+}
+
 .btn-outline-gold:hover {
     color: black;
+}
+
+.bg-soft-info.custom {
+    width: 40px;
 }
 
 .buy-action-submit-spinner {
@@ -313,4 +328,38 @@ input[type=range]::-ms-fill-upper {
     height: 2px;
     overflow: hidden;
     opacity: 0;
+}
+
+.simplebar-content .nav-item active, .simplebar-content .nav-item:hover {
+    background-color: #e6e4e4
+}
+
+.btn-ghost-danger:active, .btn-ghost-danger:focus, .btn-ghost-danger:hover {
+    color: #bc34b6 !important;
+    background-color: rgba(188, 52, 182, .1) !important
+}
+
+.btn-ghost-secondary:active, .btn-ghost-secondary:focus, .btn-ghost-secondary:hover {
+    color: #464fed !important;
+    background-color: rgba(70, 79, 237, .1) !important
+}
+
+.navbar-menu .navbar-nav .nav-link {
+    color: var(--vz-vertical-menu-item-active-color);
+}
+
+.navbar-menu .navbar-nav .nav-link.active {
+    color: var(--vz-vertical-menu-item-hover-color);
+}
+
+.navbar-menu .navbar-nav .nav-link svg {
+    color: #999999;
+}
+
+.navbar-menu .navbar-nav .nav-link.disabled {
+    color: #999999;
+}
+
+#login-form .iti, #forget-password-form .iti {
+    width: 100% !important;
 }

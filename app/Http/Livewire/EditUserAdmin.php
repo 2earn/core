@@ -116,7 +116,7 @@ class EditUserAdmin extends Component
         if ($user)
         {
             $this->earnDebug('update phone number user exist  :connected user id-' . $userAuth->idUser. ';Updated user id-'.$this->userId . ';phone Number-'.$phoneNumber .';code Pays-'.$codePays);
-            return redirect()->route("adminUserEdit", ['locale'=>app()->getLocale(),'userId'=>$this->userId])->with('ErrorUpdatePhone', 'User exist');
+            return redirect()->route("adminUserEdit", ['locale'=>app()->getLocale(),'userId'=>$this->userId])->with('ErrorUpdatePhone', Lang::get('User exist'));
         }
         $userold=User::where('idUser',$this->userId)->first();
         $this->updatePhoneUserByAdmin($this->userId,$codePays,$phoneNumber,$fullNumber);

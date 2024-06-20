@@ -9,30 +9,51 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit field</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{__('Edit field')}} : </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <p class="text-primary">
+                        {{$name}}
+                    </p>
+                    <span class="text-warning">
+                        {{ __('Max char is 190! every translation item will be shrinked to 190 char.') }}
+                    </span>
+
                     <form>
                         <div class="mb-3">
-                            <label for="recipient-name" class="col-form-label">Arabe:</label>
-                            <input type="text" class="form-control" wire:model.defer="arabicValue">
+                            <label for="recipient-name" class="col-form-label">{{__('Arabe')}}</label>
+                            <textarea rows="4" class="form-control" wire:model.defer="arabicValue" maxlength="190"
+                                      required>
+                            </textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="message-text" class="col-form-label">Francais:</label>
-                            <input type="text" class="form-control" wire:model.defer="frenchValue">
-                            {{--                                <textarea class="form-control" id="message-text"></textarea>--}}
+                            <label for="message-text" class="col-form-label">{{__('Francais')}}</label>
+                            <textarea rows="4" class="form-control" wire:model.defer="frenchValue" maxlength="190"
+                                      required>
+                            </textarea>
+
                         </div>
                         <div class="mb-3">
-                            <label for="message-text" class="col-form-label">English:</label>
-                            <input type="text" class="form-control" wire:model.defer="englishValue">
-                            {{--                                <textarea class="form-control" id="message-text"></textarea>--}}
+                            <label for="message-text" class="col-form-label">{{__('English')}}</label>
+                            <textarea rows="4" class="form-control" wire:model.defer="englishValue" maxlength="190"
+                                      required>
+                            </textarea>
+
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" wire:click="saveTranslate" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
+                    <button type="button" wire:click="saveTranslate"
+                            class="btn btn-success">
+                        <div wire:loading wire:target="saveTranslate">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true">
+                                                </span>
+                            <span class="sr-only">{{__('Loading')}}...</span>
+                        </div>
+                        {{__('Save translation')}}</button>
                 </div>
             </div>
         </div>
@@ -50,39 +71,67 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         </div>
     </div>
     <div class="row">
-        <div class="col">
-            <div class="row">
-                <div>
-                    <a href="{{route('home',app()->getLocale())}}" class="btn btn-primary btnTrans">{{__('home')}}</a>
-                    <a class="btn btn-primary btnTrans " type="button"
-                       wire:click="PreImport('arToData')">{{__('Arabic field To base')}}</a>
-                    <a class="btn btn-primary btnTrans" type="button"
-                       wire:click="PreImport('enToData')">{{__('English field To base')}}</a>
-                    <a class="btn btn-primary btnTrans" type="button"
-                       wire:click="PreImport('mergeToData')">{{__('merge field To base')}}</a>
-                    <a class="btn btn-primary btnTrans " type="button"
-                       wire:click="PreImport('databaseToFile')">{{__('Database To file')}}</a>
-                </div>
+        <div class="col-sm-12 col-md-6 col-lg-5 mt-1">
+            <div class="btn-group material-shadow" role="group" aria-label="Basic example">
+                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
+                   wire:click="PreImport('arToData')">
+                    <i class="ri-dashboard-2-fill label-icon align-middle fs-16 ms-2"></i>
+                    {{__('Arabic field To base')}}
+                </a>
+                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
+                   wire:click="PreImport('enToData')">
+                    <i class="ri-dashboard-2-fill label-icon align-middle fs-16 ms-2"></i>
+                    {{__('English field To base')}}
+                </a>
             </div>
-            <div style="margin-top: 10px" class="row">
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-5 mt-1">
+            <div class="btn-group material-shadow" role="group" aria-label="Basic example">
+                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
+                   wire:click="PreImport('mergeToData')">
+                    <i class="ri-database-2-fill label-icon align-middle fs-16 ms-2"></i>
+                    {{__('Merge field To base')}}
+                </a>
+                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
+                   wire:click="PreImport('databaseToFile')">
+                    <i class="ri-file-2-line label-icon align-middle fs-16 ms-2"></i>
+                    {{__('Database To file')}}
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-2 mt-1">
+            <div class="btn-group material-shadow" role="group" aria-label="Basic example">
+                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
+                   wire:click="PreAjout">
+                    <i class="ri-file-add-fill label-icon align-middle fs-16 ms-2"></i>
+                    {{__('Add a new')}}
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 mt-2">
+            @include('layouts.flash-messages')
+        </div>
+        <div class="col-12">
+            <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header headerTranslate">
-                            <div style="margin-bottom: 10px">
-                                <label>{{__('Show')}} </label>
-                                <select wire:model="nbrPagibation" id="cars">
-                                    @for($i=5;$i<=50;$i+=5)
-                                        <option value="{{$i}}">{{$i}}</option>
-                                    @endfor
-                                </select>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <a class="btnTrans btn btn-success" type=""
-                                       wire:click="PreAjout">{{__('Ajouter')}}</a>
+                            <div class="row ">
+                                <div class="col-md-6 form-row">
+                                    <label for="nbrPagibation" class="col-4"> {{__('Show')}} </label>
+                                    <select wire:model="nbrPagibation" class="form-control col-6"
+                                            id="nbrPagibation">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                    </select>
                                 </div>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control" placeholder="{{__('Search')}}..."
+                                <div class="col-md-6 form-row">
+                                    <label for="search" class="col-4">{{__('Search')}} </label>
+                                    <input type="text" class="form-control col-6" placeholder="{{__('Search')}}..."
+                                           id="search"
                                            wire:model="search"/>
                                 </div>
                             </div>
@@ -92,7 +141,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                 <thead>
                                 <tr>
                                     <th scope="Id">{{__('Id')}}</th>
-                                    <th scope="Name">{{__('Name')}}</th>
+                                    <th scope="key">{{__('key')}}</th>
                                     <th scope="English">{{__('English')}}</th>
                                     <th scope="Arabe">{{__('Arabe')}}</th>
                                     <th scope="Francais">{{__('Francais')}}</th>
@@ -108,9 +157,12 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                         <td><span> {{$value->value}}</span></td>
                                         <td><span>{{$value->valueFr}}</span></td>
                                         <td>
-                                            <a type=" " wire:click="initTranslate({{$value->id}})"
+                                            <a type="btn" wire:click="initTranslate({{$value->id}})"
                                                data-bs-toggle="modal" data-bs-target="#exampleModal"
                                                class="btn btn-info">{{__('Edit')}}
+                                            </a>
+                                            <a type="btn" onclick="confirmDelete({{$value->id}})"
+                                               class="btn btn-danger mt-1">{{__('Delete')}}
                                             </a>
                                         </td>
                                     </tr>
@@ -125,10 +177,27 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         </div>
     </div>
     <script>
+        function confirmDelete(idTranslate) {
+            Swal.fire({
+                title: '{{__('Confirm delete')}}',
+                showDenyButton: true,
+                confirmButtonText: '{{__('yes')}}',
+                denyButtonText: '{{__('no')}}'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.livewire.emit('deleteTranslate', idTranslate);
+                } else if (result.isDenied) {
+                    location.reload();
+                }
+            })
+        }
+
         window.addEventListener('closeModal', event => {
             $("#exampleModal").modal('hide');
-        })
+        });
+
         window.addEventListener('PassEnter', event => {
+
             Swal.fire({
                 title: '{{ __('Pass') }}',
                 input: 'text',
@@ -137,27 +206,31 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                 confirmButtonText: 'Confirm',
             }).then((resultat) => {
                 if (resultat.value) {
-                    if (event.detail.ev == 'arToData')
-                        window.livewire.emit('addArabicField', resultat.value);
-                    else if (event.detail.ev == 'enToData')
-                        window.livewire.emit('addEnglishField', resultat.value);
-                    else if (event.detail.ev == 'mergeToData')
-                        window.livewire.emit('mergeTransaction', resultat.value);
-                    else if (event.detail.ev == 'databaseToFile')
-                        window.livewire.emit('databaseToFile', resultat.value);
+                    switch (event.detail.ev) {
+                        case 'arToData':
+                            window.livewire.emit('addArabicField', resultat.value);
+                            break;
+                        case 'enToData':
+                            window.livewire.emit('addEnglishField', resultat.value);
+                            break;
+                        case 'mergeToData':
+                            window.livewire.emit('mergeTransaction', resultat.value);
+                            break;
+                        case 'databaseToFile':
+                            window.livewire.emit('databaseToFile', resultat.value);
+                            break;
+                    }
                 }
                 if (resultat.isDismissed) {
-                    location.reload();
+                    Swal.hideLoading()
                 }
             })
         })
         window.addEventListener('PreAjoutTrans', event => {
             Swal.fire({
-                title: 'Enter field name',
+                title: '{{__('Enter field name')}}',
                 input: 'text',
-                inputAttributes: {
-                    autocapitalize: 'off'
-                },
+                inputAttributes: {autocapitalize: 'off'},
                 showCancelButton: true,
                 confirmButtonText: 'Confirm',
             }).then((resultat) => {

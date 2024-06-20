@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DAL\UserRepository;
 use App\Models\User;
+use App\Models\vip;
 use App\Services\Sponsorship\Sponsorship;
 use App\Services\Sponsorship\SponsorshipFacade;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -15,6 +16,7 @@ use Core\Enum\TypeNotificationEnum;
 use Core\Models\countrie;
 use Core\Models\detail_financial_request;
 use Core\Models\FinancialRequest;
+use Core\Models\Setting;
 use Core\Models\user_balance;
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
@@ -53,14 +55,15 @@ left join users user on user.idUser = recharge_requests.idUser";
 
     public function buyAction(Req $request, BalancesManager $balancesManager)
     {
+        $actualActionValue = actualActionValue(getSelledActions());
         $validator = Val::make($request->all(), [
-            'ammount' => ['required', 'numeric', 'gt:0', 'lte:' . $balancesManager->getBalances(Auth()->user()->idUser, -1)->soldeCB],
+            'ammount' => ['required', 'numeric', 'gte:' . $actualActionValue, 'lte:' . $balancesManager->getBalances(Auth()->user()->idUser, -1)->soldeCB],
             'phone' => [Rule::requiredIf($request->me_or_other == "other")],
             'bfs_for' => [Rule::requiredIf($request->me_or_other == "other")],
         ], [
             'ammount.required' => Lang::get('ammonut is required !'),
             'ammount.numeric' => Lang::get('Ammount must be numeric !!'),
-            'ammount.gt' => Lang::get('The ammount must be greater than 0.'),
+            'ammount.gte' => Lang::get('The ammount must be greater than action value') . ' ( ' . $actualActionValue . ' )',
             'ammount.lte' => Lang::get('Ammount > Cash Balance !!'),
             'teinte.exists' => Lang::get('Le champ Teinte est obligatoire !'),
         ]);
@@ -68,13 +71,8 @@ left join users user on user.idUser = recharge_requests.idUser";
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()->all()], 400);
         }
-        $number_of_action = intval($request->ammount / actualActionValue(getSelledActions()));
+        $number_of_action = intval($request->ammount / $actualActionValue);
         $gift = getGiftedActions($number_of_action);
-        if($request->flash==1){
-            if ($number_of_action>=$request->flashMinShares){
-                $gift = getGiftedActions($number_of_action) + getFlashGiftedActions($number_of_action, $request->vip);
-            }
-        }
         $actual_price = actualActionValue(getSelledActions());
         $PU = $number_of_action * ($actual_price) / ($number_of_action + $gift);
         $Count = DB::table('user_balances')->count();
@@ -96,6 +94,41 @@ left join users user on user.idUser = recharge_requests.idUser";
         if ($userSponsored) {
             SponsorshipFacade::executeProactifSponsorship($userSponsored->idUser, $ref, $number_of_action, $gift, $PU, $fullphone_number);
         }
+
+
+        $vip = vip::Where('idUser', '=', $reciver)
+            ->where('closed', '=', false)->first();
+        if ($request->flash) {
+            if ($vip->declenched) {
+                if ($number_of_action >= $request->actions) {
+                    $flashGift = getFlashGiftedActions($request->actions, $request->vip);
+                    vip::where('idUser', $request->reciver)
+                        ->where('closed', '=', 0)
+                        ->update(['closed' => 1, 'closedDate' => now()]);
+                } else {
+                    $flashGift = getFlashGiftedActions($number_of_action, $request->vip);
+                }
+            } else {
+                if ($number_of_action >= $request->flashMinShares) {
+                    if ($number_of_action >= $request->actions) {
+                        $flashGift = getFlashGiftedActions($request->actions, $request->vip);
+                        vip::where('idUser', $request->reciver)
+                            ->where('closed', '=', 0)
+                            ->update(['closed' => 1, 'closedDate' => now(), 'declenched' => 1, 'declenchedDate' => now()]);
+                    } else {
+                        $flashGift = getFlashGiftedActions($number_of_action, $request->vip);
+                        vip::where('idUser', $request->reciver)
+                            ->where('closed', '=', 0)
+                            ->update(['declenched' => 1, 'declenchedDate' => now()]);
+                    }
+                } else {
+                    $flashGift = 0;
+                }
+            }
+        } else {
+            $flashGift = 0;
+        }
+        $gift = $gift + $flashGift;
         $this->userRepository->increasePurchasesNumber($reciver);
 
         // share sold
@@ -139,7 +172,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         $user_balance->WinPurchaseAmount = "0.000";
         $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeBFS + intval($number_of_action / $palier) * $actual_price * $palier;
         $user_balance->save();
-        return response()->json(['type' => ['success'], 'message' => ['success']],);
+        return response()->json(['type' => ['success'], 'message' => [trans('Actions purchase transaction completed successfully')]],);
     }
 
     public function giftActionByAmmount(Req $request)
@@ -158,14 +191,27 @@ left join users user on user.idUser = recharge_requests.idUser";
 
     public function vip(Req $request)
     {
+        vip::where('idUser', $request->reciver)
+            ->where('closed', '=', 0)
+            ->update([
+                'closed' => 1,
+                'closedDate' => now(),
+            ]);
 
-        User::where('idUser', $request->reciver)->update(
+        $maxShares = Setting::find(34);
+        vip::create(
             [
+                'idUser' => $request->reciver,
                 'flashCoefficient' => $request->coefficient,
                 'flashDeadline' => $request->periode,
                 'flashNote' => $request->note,
                 'flashMinAmount' => $request->minshares,
                 'dateFNS' => now(),
+                'maxShares' => $maxShares->IntegerValue,
+                'solde' => $maxShares->IntegerValue,
+                'declenched' => 0,
+                'closed' => 0,
+
             ]
         );
         return "success";
@@ -378,16 +424,11 @@ left join users user on user.idUser = recharge_requests.idUser";
 
     public function handlePaymentNotification(Req $request, settingsManager $settingsManager)
     {
-        //$ipnRequest= new IpnRequest($request);
-        //$d= route('paytabs_notification1');
-        //dd($request->request);
-        $a = $request->request;
         $mnt = 0;
-        $responseData = $a->all();
+        $responseData = $request->request->all();
         $tranRef = $responseData['tranRef'];
         $data = Paypage::queryTransaction($tranRef);
-        //dd($data);
-        if ($data->payment_info->payment_method !== "ApplePay") {
+        if (isset($data->payment_info->payment_method) && $data->payment_info->payment_method !== "ApplePay") {
             DB::table('transactions')->insert([
                 'tran_ref' => $data->tran_ref,
                 'tran_type' => $data->tran_type,
@@ -412,10 +453,7 @@ left join users user on user.idUser = recharge_requests.idUser";
                 'failed' => $data->failed,
                 'created_at' => now(),
                 'updated_at' => now()
-
-
             ]);
-
         } else {
             DB::table('transactions')->insert([
                 'tran_ref' => $data->tran_ref,
@@ -429,46 +467,31 @@ left join users user on user.idUser = recharge_requests.idUser";
                 'response_status' => $data->payment_result->response_status,
                 'response_code' => $data->payment_result->response_code,
                 'response_message' => $data->payment_result->response_message,
-                'payment_method' => $data->payment_info->payment_method,
-                'card_type' => $data->payment_info->card_type,
-                'card_scheme' => $data->payment_info->card_scheme,
-                'payment_description' => $data->payment_info->payment_description,
-                'expiry_month' => $data->payment_info->expiryMonth,
-                'expiry_year' => $data->payment_info->expiryYear,
-
+                'payment_method' => isset($data->payment_info->payment_method) ?? $data->payment_info->payment_method,
+                'card_type' => isset($data->payment_info->card_type) ?? $data->payment_info->card_type,
+                'card_scheme' => isset($data->payment_info->card_scheme) ?? $data->payment_info->card_scheme,
+                'payment_description' => isset($data->payment_info->payment_description) ?? $data->payment_info->payment_description,
+                'expiry_month' => isset($data->payment_info->expiryMonth) ?? $data->payment_info->expiryMonth,
+                'expiry_year' => isset($data->payment_info->expiryYear) ?? $data->payment_info->expiryYear,
                 'success' => $data->success,
                 'failed' => $data->failed,
                 'created_at' => now(),
                 'updated_at' => now()
-
-
             ]);
         }
         $chaine = $data->cart_id;
         $user = explode('-', $chaine)[0];
-        $k = \Core\Models\Setting::Where('idSETTINGS', '30')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
+        $k = Setting::Where('idSETTINGS', '30')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
         $msg = $settingsManager->getUserByIdUser($user)->mobile . " " . $data->payment_result->response_message;
         if ($data->success) {
-
             $msg = $msg . " transfert de " . $data->tran_total . $data->cart_currency . "(" . number_format($data->tran_total / $k, 2) . "$)";
         }
         $idUser = $settingsManager->getUserByIdUser($user)->id;
-        $settingsManager->NotifyUser(2, TypeEventNotificationEnum::none, [
-            'msg' => $msg,
-            'type' => TypeNotificationEnum::SMS
-        ]);
-        $settingsManager->NotifyUser(126, TypeEventNotificationEnum::none, [
-            'msg' => $msg,
-            'type' => TypeNotificationEnum::SMS
-        ]);
-
-        //dd($data->tran_type);
+        $settingsManager->NotifyUser(2, TypeEventNotificationEnum::none, ['msg' => $msg, 'type' => TypeNotificationEnum::SMS]);
+        $settingsManager->NotifyUser(126, TypeEventNotificationEnum::none, ['msg' => $msg, 'type' => TypeNotificationEnum::SMS]);
         if ($data->success) {
-
             $chaine = $data->cart_id;
             $user = explode('-', $chaine)[0];
-
-
             $old_value = DB::table('usercurrentbalances')
                 ->where('idUser', $user)
                 ->where('idamounts', AmoutEnum::CASH_BALANCE)
@@ -480,7 +503,6 @@ left join users user on user.idUser = recharge_requests.idUser";
                 ->where('u.idamount', 1)
                 ->where('u.idUser', $user)
                 ->first();
-
 
             $Count = DB::table('user_balances')->count();
             $value = $value->value * 1;
@@ -498,20 +520,13 @@ left join users user on user.idUser = recharge_requests.idUser";
             $user_balance->Balance = $value + $data->tran_total / $k;
             $user_balance->save();
             $mnt = $data->tran_total / $k;
-
-
             $new_value = intval($old_value) + $data->tran_total / $k;
             DB::table('usercurrentbalances')
                 ->where('idUser', $user)
                 ->where('idamounts', AmoutEnum::CASH_BALANCE)
                 ->update(['value' => $new_value, 'dernier_value' => $old_value]);
-
-            // adjust new value for reciver
-
-
         }
 
-        /**/
         DB::table('user_transactions')->updateOrInsert(
             ['idUser' => $user],
             [
@@ -520,9 +535,7 @@ left join users user on user.idUser = recharge_requests.idUser";
                 'mnt' => $mnt
             ]
         );
-
         return redirect()->route('user_balance_cb', app()->getLocale());
-
     }
 
     public function updateReserveDate(Req $request)
@@ -799,12 +812,9 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
 
     public function getUsersList()
     {
-
         $query = User::select('countries.apha2', 'users.idUser', 'idUplineRegister', DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'), 'users.mobile', 'users.created_at', 'OptActivation', 'pass', 'flashCoefficient as coeff', 'flashDeadline as periode', 'flashNote as note', 'flashMinAmount as minshares', 'dateFNS as date')
             ->join('metta_users as meta', 'meta.idUser', '=', 'users.idUser')
             ->join('countries', 'countries.id', '=', 'users.idCountry');
-
-
         return datatables($query)
             ->addColumn('formatted_mobile', function ($user) {
                 $phone = new PhoneNumber($user->mobile, $user->apha2);
@@ -820,8 +830,7 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
             ->addColumn('action', function ($settings) {
 
                 return '<a data-bs-toggle="modal" data-bs-target="#AddCash"   data-phone="' . $settings->mobile . '" data-country="' . Asset("assets/images/flags/" . strtolower($settings->apha2)) . '.svg" data-reciver="' . $settings->idUser . '"
-class="btn btn-xs btn-primary btn2earnTable addCash"  >
-<i class="glyphicon glyphicon-add"></i>' . Lang::get('AddCash') . '</a> ';
+class="btn btn-xs btn-primary btn2earnTable addCash" >' . Lang::get('Add cash') . '</a> ';
             })
             ->addColumn('VIP', function ($settings) {
 
@@ -834,10 +843,9 @@ class="btn btn-xs btn-flash btn2earnTable vip"  >
                 return '<img src="' . Asset("assets/images/flags/" . strtolower($settings->apha2)) . '.svg" alt="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
             })
             ->addColumn('SoldeCB', function ($user_balance) {
-                //dd($user_balance->idUser);
                 return '<a data-bs-toggle="modal" data-bs-target="#detail"   data-amount="1" data-reciver="' . $user_balance->idUser . '"
 class="btn btn-ghost-secondary waves-effect waves-light cb"  >
-<i class="glyphicon glyphicon-add"></i>$' . number_format(getUserBalanceSoldes($user_balance->idUser, 1), 2) . '</a> '; // number_format(getUserBalanceSoldes($user_balance->idUser,1),2);
+<i class="glyphicon glyphicon-add"></i>$' . number_format(getUserBalanceSoldes($user_balance->idUser, 1), 2) . '</a> ';
             })
             ->addColumn('SoldeBFS', function ($user_balance) {
                 return '<a data-bs-toggle="modal" data-bs-target="#detail"   data-amount="2" data-reciver="' . $user_balance->idUser . '"
@@ -857,7 +865,7 @@ class="btn btn-ghost-warning waves-effect waves-light smsb"  >
             ->addColumn('SoldeSH', function ($user_balance) {
                 return '<a data-bs-toggle="modal" data-bs-target="#detailsh"   data-amount="6" data-reciver="' . $user_balance->idUser . '"
 class="btn btn-ghost-success waves-effect waves-light sh"  >
-<i class="glyphicon glyphicon-add"></i>' . number_format(getUserSelledActions($user_balance->idUser), 0) . '</a> '; //number_format(getUserSelledActions($user_balance->idUser),0);
+<i class="glyphicon glyphicon-add"></i>' . number_format(getUserSelledActions($user_balance->idUser), 0) . '</a> ';
             })
             ->rawColumns(['action', 'flag', 'SoldeCB', 'SoldeBFS', 'SoldeDB', 'SoldeSMS', 'SoldeSH', 'VIP'])
             ->make(true);
@@ -1536,12 +1544,7 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUs
         $array['requestInOpen'] = $requestInOpen;
         $array['requestOutAccepted'] = $requestOutAccepted;
         $array['requestOutRefused'] = $requestOutRefused;
-
-//        $array['out'] = 60;
-//        return $array ;
         return json_encode(array('data' => $array));
-
-//        return response()->json($array);
     }
 
 }

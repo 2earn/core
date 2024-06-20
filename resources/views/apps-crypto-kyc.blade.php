@@ -14,12 +14,12 @@
         @endslot
     @endcomponent
     <div class="row justify-content-center">
-        <div class="col-lg-12">
-            <div class="card">
+        <div class="col-12">
+            <div class="card w-100">
                 <div class="card-body">
                     <div class="text-center">
                         <div class="row justify-content-center">
-                            <div class="col-lg-9">
+                            <div class="col-lg-12">
                                 <h4 class="mt-4 fw-semibold">{{__('KYC Verification')}}</h4>
                                 <p class="text-muted mt-3">
                                     {{__('When you get your KYC verification process
