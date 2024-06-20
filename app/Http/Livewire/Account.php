@@ -191,7 +191,7 @@ class Account extends Component
         $userC = $settingsManager->getUserContactsById($id);
         if (!$userC) return;
         $userC->delete();
-        return redirect()->route('myAccount', app()->getLocale());
+        return redirect()->route('account', app()->getLocale());
     }
 
     public function saveUser($nbrChild, settingsManager $settingsManager)

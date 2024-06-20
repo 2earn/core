@@ -1044,11 +1044,7 @@ class="btn btn-xs btn-primary btn2earnTable"  >
 
     public function getUrlList($idUser, $idamount)
     {
-        // Construire l'URL de la route avec les paramètres idUser et idamount
-        $url = route('api_user_balances_list', ['locale' => app()->getLocale(), 'idUser' => $idUser, 'idAmounts' => $idamount]);
-
-        // Retourner l'URL de la route
-        return $url;
+        return route('api_user_balances_list', ['locale' => app()->getLocale(), 'idUser' => $idUser, 'idAmounts' => $idamount]);
     }
 
     public function getUserBalancesList($idUser, $idamount)
@@ -1450,9 +1446,6 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUs
                 return '<a  href="' . route('adminUserEdit', ['userId' => $settings->idUser, 'locale' => app()->getLocale()]) . '"   onclick="EditUserByAdmin()" class="btn btn-xs btn-primary btn2earnTable" ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a>
 <a onclick="deleteUser(' . $settings->idUser . ')" class="btn btn-xs btn-danger btn2earnTable"   ><i></i>' . Lang::get('Delete') . '</a>';
             })
-//            ->addColumn('action', function ($amounts) {
-//                return '<a href="#edit-' . $amounts->idamounts . '" "><i class="fa fa-edit" aria-hidden="true" style="cursor: pointer;color: green; padding-left: 10px;"></i></a>';
-//            })
             ->editColumn('status', function ($userData) {
                 switch ($userData->status) {
                     case 0 :

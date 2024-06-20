@@ -90,7 +90,7 @@ class EditUserContact extends Component
     {
         $message = $this->validateContact();
         if ($message) {
-            return redirect()->route('editContact', ['locale' => app()->getLocale(), "UserContact" => $this->idContact])->with('danger', $message);
+            return redirect()->route('user_contact_edit', ['locale' => app()->getLocale(), "UserContact" => $this->idContact])->with('danger', $message);
         } else {
             $fullphone_number = str_replace(' ', '', $fullnumber);
             $mobile = str_replace(' ', '', $phone);

@@ -32,10 +32,7 @@ class AcceptFinancialRequest extends Component
         if ($financialRequest->securityCode != $secCode) {
             return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $num])->with('ErrorSecurityCodeRequest', Lang::get('Failed_Security_Code'));
         }
-        $param = [
-            'montant' => $financialRequest->amount,
-            'recipient' => $financialRequest->idSender
-        ];
+        $param = ['montant' => $financialRequest->amount, 'recipient' => $financialRequest->idSender];
         $soldeUser = $balancesManager->getBalances($userAuth->idUser, -1);
         if ($val == 2) {
             if ($soldeUser->soldeBFS < $financialRequest->amount) {

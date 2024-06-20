@@ -19,7 +19,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         redirect()->route('home', app()->getLocale());
-        $p = $request->file('image1')->storeAs('profiles', 'front-id-image' . '998877' . '.png', 'public2');
+        $request->file('image1')->storeAs('profiles', 'front-id-image' . '998877' . '.png', 'public2');
     }
 
     public function verifyMail(Request $request, settingsManager $settingsManager)

@@ -82,7 +82,7 @@ class EditUserAdmin extends Component
         $current_user->idLanguage=$this->userInfo['Language'];
         $current_user->nationalID=$this->userInfo['nationalID'];
         $current_user->save();
-        return redirect()->route('usermanager', app()->getLocale())->with('SuccesUpdateProfil', Lang::get('Succes_update'));
+        return redirect()->route('api_user_manager', app()->getLocale())->with('SuccesUpdateProfil', Lang::get('Succes_update'));
 
     }
     public function updatePassWord(){
@@ -91,7 +91,7 @@ class EditUserAdmin extends Component
             $current_user = User::where('idUser', $this->userId)->first();
             $current_user->password=Hash::make($this->newPassword);
             $current_user->save();
-            return redirect()->route('usermanager', app()->getLocale())->with('SuccesUpdatePasswordUserAdmin', Lang::get('Password_updated'));
+            return redirect()->route('api_user_manager', app()->getLocale())->with('SuccesUpdatePasswordUserAdmin', Lang::get('Password_updated'));
         }
         else
             dd('false');

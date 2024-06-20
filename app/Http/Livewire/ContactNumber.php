@@ -67,7 +67,7 @@ class ContactNumber extends Component
         $userContactNumber = UserContactNumber::where('idUser', $userAuth->idUser)->get();
         DB::update('update usercontactnumber set active = 0 where idUser = ?', [$userAuth->idUser]);
         DB::update('update usercontactnumber set active = ? where id = ?', [$checked, $id]);
-        return redirect()->route('ContactNumber', app()->getLocale())->with('success', trans('Updated successfully'));
+        return redirect()->route('contact_number', app()->getLocale())->with('success', trans('Updated successfully'));
     }
 
     public function render(settingsManager $settingsManager)
