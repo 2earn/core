@@ -12,8 +12,11 @@ use Core\Services\TransactionManager;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Livewire\Component;
+use Illuminate\Support\Facades\Http;
+use Symfony\Component\HttpFoundation\IpUtils;
 
 class Registre extends Component
 {
@@ -25,18 +28,51 @@ class Registre extends Component
     public $ccode;
     public $phoneNumber;
     public $iso2Country;
+    public $captcha;
+    public $captchaCalled = false;
+
     protected $listeners = ['changefullNumber' => 'changefullNumbe'];
 
     protected array $rules = [
         'phoneNumber' => 'required|numeric'
     ];
 
+    public function validateGoogleRecaptcha(): bool
+    {
+        $this->captchaErrorCodes = [];
+        if (is_null($this->captcha)) {
+            return false;
+        }
+        $url = "https://www.google.com/recaptcha/api/siteverify";
+        $body = [
+            'secret' => config('services.recaptcha.secret'),
+            'response' => $this->captcha,
+            'remoteip' => IpUtils::anonymize($_SERVER['SERVER_ADDR']) //anonymize the ip to be GDPR compliant. Otherwise just pass the default ip address
+        ];
+        $response = Http::asForm()->post($url, $body);
+        $result = json_decode($response);
+        if (!$result->success) {
+            $name = 'error-codes';
+            foreach ($result->{$name} as $errorCode) {
+                $this->captchaErrorCodes[] = trans($errorCode);
+            }
+            return false;
+
+        }
+        return true;
+
+    }
+
     public function changefullNumbe($num, $ccode, $iso, settingsManager $settingsManager, TransactionManager $transactionManager)
     {
-        $this->ccode = $ccode;
-        $this->fullNumber = $num;
-        $this->iso2Country = $iso;
-        $this->signup($settingsManager, $transactionManager);
+        Log::debug('Inscription at :' . date("Y-m-d H:i:s") . ' - ' . $iso . ' - ' . $num);
+        $this->validateGoogleRecaptcha();
+        if (empty($this->captchaErrorCodes)) {
+            $this->ccode = $ccode;
+            $this->fullNumber = $num;
+            $this->iso2Country = $iso;
+            $this->signup($settingsManager, $transactionManager);
+        }
     }
 
     public function signup(settingsManager $settingsManager, TransactionManager $transactionManager)

@@ -92,11 +92,11 @@
                                     <p class="text-muted">{{__('Get_free_account')}}</p>
                                 </div>
                                 <div class="p-2 mt-4">
-                                    <form action="javascript:void(0)">
+                                    <form>
                                         @csrf
                                         <div class="mb-3">
                                             <label for="userPhone" class="form-label">{{ __('Mobile Number') }} <span
-                                                        class="text-danger">*</span></label>
+                                                    class="text-danger">*</span></label>
                                             <input wire:model.defer="phoneNumber" type="tel" name="mobile" id="phonereg"
                                                    class="form-control @error('mobile') is-invalid @enderror"
                                                    value=" "
@@ -127,9 +127,11 @@
                                         </div>
 
                                         <div class="mt-4">
-                                            <button onclick="signupEvent()" class="btn btn-success w-100 btn2earn"
-                                                    type="button" id="btn1">
-                                                {{__('Sign up')}}</button>
+                                            <button class="g-recaptcha btn btn-success w-100 btn2earn"
+                                                    data-sitekey="{{config('services.recaptcha.key')}}"
+                                                    data-callback='signupEvent' id="btn1"
+                                                    data-action='submit'>  {{__('Sign up')}}
+                                            </button>
                                         </div>
                                         <div class=" text-center mt-4" style="background-color: #FFFFFF">
                                             <nav class="">
@@ -153,10 +155,10 @@
                                                     <li>
                                                         <div>
                                                             <a href="{{env('LEARN_LIEN')}}"><img
-                                                                        @if(isset($plateforme)) @if($plateforme==1) style="box-shadow: 0 0 30px #004dcede;
+                                                                    @if(isset($plateforme)) @if($plateforme==1) style="box-shadow: 0 0 30px #004dcede;
                                                 border-radius: 39px;"
-                                                                        @endif @endif src="{{asset('assets/images/Move2earn Icon.png')}}"
-                                                                        width="70" height="70"></a>
+                                                                    @endif @endif src="{{asset('assets/images/Move2earn Icon.png')}}"
+                                                                    width="70" height="70"></a>
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -170,28 +172,28 @@
                                                             data-bs-toggle="dropdown" aria-haspopup="true"
                                                             aria-expanded="false">
                                                         <img
-                                                                src="{{ URL::asset('/assets/images/flags/'.config('app.available_locales')[app()->getLocale()]['flag'].'.svg') }}"
-                                                                class="rounded" alt="Header Language"
-                                                                height="20">
+                                                            src="{{ URL::asset('/assets/images/flags/'.config('app.available_locales')[app()->getLocale()]['flag'].'.svg') }}"
+                                                            class="rounded" alt="Header Language"
+                                                            height="20">
                                                         <span
-                                                                style="margin: 10px">{{ __('lang'.app()->getLocale())  }}</span>
+                                                            style="margin: 10px">{{ __('lang'.app()->getLocale())  }}</span>
                                                     </button>
                                                     @php
                                                         $var = \Illuminate\Support\Facades\Route::currentRouteName() ;
                                                     @endphp
                                                     <div class="dropdown-menu dropdown-menu-end">
                                                         @foreach (config('app.available_locales') as  $locale => $value )
-                                                            <a href="{{ route($var, ['locale'=> $locale ]) }} "
+                                                            <a href="{{ route('registre', $locale ) }}"
                                                                class="dropdown-item notify-item language py-2"
                                                                data-lang="en"
                                                                title="{{ __('lang'.$locale)  }}"
                                                                data-turbolinks="false">
                                                                 <img
-                                                                        src="{{ URL::asset('assets/images/flags/'.$value['flag'].'.svg') }}"
-                                                                        alt="user-image" class="me-2 rounded"
-                                                                        height="20">
+                                                                    src="{{ URL::asset('assets/images/flags/'.$value['flag'].'.svg') }}"
+                                                                    alt="user-image" class="me-2 rounded"
+                                                                    height="20">
                                                                 <span
-                                                                        class="align-middle">{{ __('lang'.$locale)  }}</span>
+                                                                    class="align-middle">{{ __('lang'.$locale)  }}</span>
                                                             </a>
                                                         @endforeach
                                                     </div>
@@ -218,20 +220,19 @@
         @include('layouts.footer', ['pageName' => 'register'])
     </div>
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/intlTelInput.min.js"></script>
-    <script src="path/to/lib/libphonenumber/build/utils.js"></script>
     <script>
         function signupEvent() {
             const input = document.querySelector("#phonereg");
             const button = document.querySelector("#btn1");
             const errorMsg = document.querySelector("#error-msg");
             const validMsg = document.querySelector("#valid-msg");
-            const errorMap = ["{{__('Invalid number')}}", "{{__('Invalid country code')}}", "{{__('Too short')}}", "{{__('Too long')}}", "{{__('Invalid number')}}"];
+            const errorMap = ["{{__('Invalid number')}}", "{{__('Invalid country code')}}", "{{__('Too short')}}",
+                "{{__('Too long')}}", "{{__('Invalid number')}}"];
 
             const iti = window.intlTelInput(input, {
                 initialCountry: $("#iso2Country").val(),
                 useFullscreenPopup: false,
-                nationalMode: false,
-
+                nationalMode: false
             });
             const reset = () => {
                 input.classList.remove("error");
@@ -243,6 +244,8 @@
             reset();
             if (input.value.trim()) {
                 if (iti.isValidNumberPrecise()) {
+                    @this.
+                    set('captcha', grecaptcha.getResponse());
                     window.livewire.emit('changefullNumber', out.replace(/\D/g, ''), $("#ccode").val(), $("#iso2Country").val());
                 } else {
                     input.classList.add("error");
@@ -250,9 +253,14 @@
                     errorMsg.innerHTML = errorMap[errorCode] || "{{__('Invalid number')}}";
                     errorMsg.classList.remove("hide");
                 }
+            } else {
+                input.classList.add("error");
+                errorMsg.innerHTML = "{{__('Invalid number')}}";
+                errorMsg.classList.remove("hide");
             }
             input.addEventListener('change', reset);
             input.addEventListener('keyup', reset);
+            grecaptcha.reset();
         }
     </script>
 </div>
