@@ -1,6 +1,3 @@
-// Default Laravel bootstrapper, installs axios
-import './bootstrap';
-
 // Added: Actual Bootstrap JavaScript dependency
 import 'bootstrap';
 
@@ -10,6 +7,12 @@ import '@popperjs/core';
 import Swal from 'sweetalert2';
 window.Swal = Swal;
 
+import Alpine from 'alpinejs'
+import Turbolinks from 'turbolinks'
+
+window.Alpine = Alpine ;
+Alpine.start() ;
+Turbolinks.start()
 
 (function () {
 

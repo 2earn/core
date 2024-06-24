@@ -40,7 +40,6 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/js/plugins.js',
                 'resources/js/layout.js',
-                'resources/css/bootstrap.css',
                 'resources/css/bootstrap-rtl.css',
                 'resources/css/icons.css',
                 'resources/css/icons-rtl.css',
@@ -49,10 +48,12 @@ export default defineConfig({
                 'resources/css/intlTelInput.scss',
                 'resources/js/intlTelInput.js',
                 'resources/js/utils.js',
+                'resources/js/turbo.js',
                 'resources/js/sweetalert2@11.js',
                 'resources/css/select2.min.css',
                 'resources/css/custom.css',
-                'resources/css/custom-rtl.css'
+                'resources/css/custom-rtl.css',
+                'resources/js/jquery.js'
             ],
             refresh: true,
         }),

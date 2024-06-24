@@ -14,11 +14,6 @@
     "src": "resources/css/bootstrap-rtl.css",
     "isEntry": true
   },
-  "resources/css/bootstrap.css": {
-    "file": "css/bootstrap.min.css",
-    "src": "resources/css/bootstrap.css",
-    "isEntry": true
-  },
   "resources/css/custom-rtl.css": {
     "file": "css/custom-rtl.min.css",
     "src": "resources/css/custom-rtl.css",
@@ -258,7 +253,7 @@
     "src": "resources/images/sidebar/img-4.jpg"
   },
   "resources/js/app.js": {
-    "file": "js/app.min2.js",
+    "file": "js/app.min3.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true
@@ -267,6 +262,12 @@
     "file": "js/intlTelInput.min2.js",
     "name": "intlTelInput",
     "src": "resources/js/intlTelInput.js",
+    "isEntry": true
+  },
+  "resources/js/jquery.js": {
+    "file": "js/jquery.min.js",
+    "name": "jquery",
+    "src": "resources/js/jquery.js",
     "isEntry": true
   },
   "resources/js/layout.js": {
@@ -285,6 +286,12 @@
     "file": "js/sweetalert2@11.min.js",
     "name": "sweetalert2@11",
     "src": "resources/js/sweetalert2@11.js",
+    "isEntry": true
+  },
+  "resources/js/turbo.js": {
+    "file": "js/turbo.min.js",
+    "name": "turbo",
+    "src": "resources/js/turbo.js",
     "isEntry": true
   },
   "resources/js/utils.js": {

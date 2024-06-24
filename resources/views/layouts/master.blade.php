@@ -37,9 +37,6 @@
             f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', 'GTM-PMK39HQQ');</script>
     <!-- End Google Tag Manager -->
-    <script>
-
-    </script>
     <style>
         .partiel {
             color: #fa896b;
@@ -115,7 +112,6 @@
         rel="stylesheet"
     />
 
-    <script src="{{ mix('js/turbo.js') }}" defer></script>
     <link rel="stylesheet" href="{{asset('assets/fontawesome/all.min.css')}}">
     <script src="https://kit.fontawesome.com/0c5b3847de.js" crossorigin="anonymous"
             data-mutate-approach="sync"></script>
@@ -194,10 +190,11 @@
     <link rel="apple-touch-icon" href="{{ asset('logo.PNG') }}">
     <link rel="manifest" href="{{ asset('/manifest.json') }}">
     @laravelPWA
+    <!-- vite -->
+    @vite([ 'resources/css/app.css','resources/css/intlTelInput.scss','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/intlTelInput.js'])
+    <!-- vite -->
 </head>
 
-<link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" rel="stylesheet"
-      type="text/css"/>
 <link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" rel="stylesheet"
       type="text/css"/>
 <script>
@@ -268,7 +265,6 @@
 <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js"
         data-turbolinks-eval="false" data-turbo-eval="false"></script>
 
-<script src="{{ mix('js/turbo.js') }}" defer></script>
 <script src="{{ URL::asset('/assets/libs/dropzone/dropzone-min.js') }}"></script>
 <script src="{{ URL::asset('/assets/js/pages/crypto-kyc.init.js') }}"></script>
 {{--<script src="{{ URL::asset('assets/js/pages/team.init.js') }}"></script>--}}

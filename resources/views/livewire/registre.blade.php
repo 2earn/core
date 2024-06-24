@@ -13,53 +13,56 @@
         }
     </style>
     <script>
-        var existSucess = '{{Session::has('successRegistre')}}';
-        var msgsuccess = "success !";
-        if (existSucess && "{{Session::get('successRegistre')}}" != "") {
-            var local = '{{app()->getLocale()}}';
-            if (local == 'ar') {
-                msgsuccess = "هذا  !";
-            }
-            Swal.fire({
-                title: ' ',
-                text: msgsuccess,
-                icon: 'error',
-                confirmButtonText: '{{trans('ok')}}',
-            })
-        }
-        var exist = '{{Session::has('errorPhoneExiste')}}';
-        var msg = "this number is already registered!";
-        if (exist && "{{Session::get('errorPhoneExiste')}}" != "") {
-            msg = "{{Session::get('errorPhoneExiste')}}";
-            Swal.fire({
-                title: ' ',
-                text: msg,
-                icon: 'error',
-                confirmButtonText: '{{trans('ok')}}',
-            }).then(okay => {
-                if (okay) {
-                    window.location.reload();
+        window.addEventListener('load', () => {
+            var existSucess = '{{Session::has('successRegistre')}}';
+            var msgsuccess = "success !";
+            if (existSucess && "{{Session::get('successRegistre')}}" != "") {
+                var local = '{{app()->getLocale()}}';
+                if (local == 'ar') {
+                    msgsuccess = "هذا  !";
                 }
-            });
-        }
-        var existn = '{{Session::has('errorPhoneValidation')}}';
-        var msg = "This number is not valid!";
-        if (existn && "{{Session::get('errorPhoneValidation')}}" != "") {
-            var local = '{{app()->getLocale()}}';
-            if (local == 'ar') {
-                msg = "هذا الرقم غير صالح!";
+                Swal.fire({
+                    title: ' ',
+                    text: msgsuccess,
+                    icon: 'error',
+                    confirmButtonText: '{{trans('ok')}}',
+                })
             }
-            Swal.fire({
-                title: ' ',
-                text: msg,
-                icon: 'error',
-                confirmButtonText: '{{trans('ok')}}',
-            }).then(okay => {
-                if (okay) {
-                    window.location.reload();
+            var exist = '{{Session::has('errorPhoneExiste')}}';
+            var msg = "this number is already registered!";
+            if (exist && "{{Session::get('errorPhoneExiste')}}" != "") {
+                msg = "{{Session::get('errorPhoneExiste')}}";
+                Swal.fire({
+                    title: ' ',
+                    text: msg,
+                    icon: 'error',
+                    confirmButtonText: '{{trans('ok')}}',
+                }).then(okay => {
+                    if (okay) {
+                        window.location.reload();
+                    }
+                });
+            }
+            var existn = '{{Session::has('errorPhoneValidation')}}';
+            var msg = "This number is not valid!";
+            if (existn && "{{Session::get('errorPhoneValidation')}}" != "") {
+                var local = '{{app()->getLocale()}}';
+                if (local == 'ar') {
+                    msg = "هذا الرقم غير صالح!";
                 }
-            });
-        }
+                Swal.fire({
+                    title: ' ',
+                    text: msg,
+                    icon: 'error',
+                    confirmButtonText: '{{trans('ok')}}',
+                }).then(okay => {
+                    if (okay) {
+                        window.location.reload();
+                    }
+                });
+            }
+        });
+
     </script>
     <div class="auth-page-wrapper pt-5">
         <div class="auth-one-bg-position auth-one-bg col-lg-6 d-none d-md-block" id="auth-particles">

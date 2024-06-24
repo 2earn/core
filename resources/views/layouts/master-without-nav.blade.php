@@ -69,7 +69,7 @@
     @livewireStyles
     <script src="https://www.google.com/recaptcha/api.js?render={{config('services.recaptcha.key')}}"></script>
     <!-- vite -->
-    @vite(['resources/css/intlTelInput.scss','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/intlTelInput.js'])
+    @vite([ 'resources/css/app.css','resources/css/intlTelInput.scss','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/intlTelInput.js'])
     <!-- vite -->
 
 </head>
