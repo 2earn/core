@@ -72,6 +72,7 @@ export default defineConfig({
                         fs.copy(folder.src_assets + 'img', folder.dist_assets + 'img'),
                         fs.copy(folder.src_assets + 'icons', folder.dist_assets + 'icons'),
                         fs.copy(folder.src_assets + 'fontawesome', folder.dist_assets + 'fontawesome'),
+                        fs.copy(folder.src_assets + 'webfonts', folder.dist_assets + 'webfonts'),
                     ]);
                 } catch (error) {
                     console.error('Error copying assets:', error);
