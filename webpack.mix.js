@@ -397,7 +397,6 @@ lodash(app_pages_assets).forEach(function(assets, type) {
 
 mix.combine('resources/js/plugins.js', folder.dist_assets + "js/plugins.min.js");
 mix.combine('resources/js/layout.js', folder.dist_assets + "js/layout.js");
-mix.combine('resources/js/bootstrap.js', folder.dist_assets + "js/bootstrap.min.js");
 mix.combine('resources/js/app.js', folder.dist_assets + "js/app.min.js");
 mix.combine('resources/js/pages/leaflet-us-states.js', folder.dist_assets + "js/pages/leaflet-us-states.js");
 mix.combine('resources/js/pages/form-wizard.init.js', folder.dist_assets + "js/pages/form-wizard.init.js");
