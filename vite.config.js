@@ -51,6 +51,7 @@ export default defineConfig({
                 'resources/js/turbo.js',
                 'resources/js/sweetalert2@11.js',
                 'resources/css/select2.min.css',
+                'resources/fontawesome/all.min.css',
                 'resources/css/custom.css',
                 'resources/css/custom-rtl.css',
                 'resources/js/jquery.js',

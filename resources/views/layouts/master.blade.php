@@ -96,7 +96,6 @@
 
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.ico')}}">
-    {{--    <link rel="stylesheet" href="{{asset('assets/fontawesome/all.min.css'}}">--}}
     <link rel="stylesheet" href="{{asset('assets/Styles/intlTelInput.css')}}">
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -112,7 +111,6 @@
         rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="{{asset('assets/fontawesome/all.min.css')}}">
     <script src="https://kit.fontawesome.com/0c5b3847de.js" crossorigin="anonymous"
             data-mutate-approach="sync"></script>
     <script src="{{asset('assets/fontawesome/all.min.js')}}"></script>
@@ -191,7 +189,7 @@
     <link rel="manifest" href="{{ asset('/manifest.json') }}">
     @laravelPWA
     <!-- vite -->
-    @vite([ 'resources/css/app.css','resources/css/intlTelInput.scss','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
+    @vite([ 'resources/css/app.css','resources/css/intlTelInput.scss','resources/fontawesome/all.min.css','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
     <!-- vite -->
 </head>
 
