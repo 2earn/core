@@ -120,11 +120,10 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('configuration', Configuration::class)->name('configuration');
             Route::get('edit_admin', \App\Http\Livewire\EditAdmin::class)->name('edit_admin');
             Route::get('countries_management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
-            Route::get('stat_countries', 'App\Http\Controllers\ApiController@getCountriStat')->name('API_stat_countries');
             Route::get('/admin/identification_request', identificationRequest::class)->name('identificationRequest');
             Route::get('/translation', TranslateView::class)->name('translate');
         });
-
+        Route::get('stat_countries', 'App\Http\Controllers\ApiController@getCountriStat')->name('API_stat_countries');
         Route::post('validate-phone', 'App\Http\Controllers\ApiController@validatePhone')->name('validate_phone');
         Route::post('buy-action', 'App\Http\Controllers\ApiController@buyAction')->name('buyAction');
         Route::get('action-by-ammount', 'App\Http\Controllers\ApiController@actionByAmmount')->name('action-by-ammount');
@@ -137,6 +136,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
     Route::get('forgetpassword', ForgotPassword::class)->name('forgetpassword');
     Route::get('/CheckOptCode/{iduser}/{ccode}/{numTel}', CheckOptCode::class)->name('CheckOptCode');
     Route::get('validate-account', ValidateAccount::class)->name('validateaccount');
+    Route::get('login', Login::class)->name('login')->middleware('setLocalLogin');
 
 });
 

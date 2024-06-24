@@ -575,3 +575,10 @@ if (!function_exists('isValidEmailAdressFormat')) {
         return true;
     }
 }
+
+if (!function_exists('getProfileMsgErreur')) {
+    function getProfileMsgErreur($typeErreur)
+    {
+        return Lang::get('Identify_' . $typeErreur);
+    }
+}

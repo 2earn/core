@@ -59,6 +59,8 @@ class Account extends Component
         'sendIdentificationRequest' => 'sendIdentificationRequest',
         'saveUser' => 'saveUser',
         'deleteContact' => 'deleteContact',
+        'EmailCheckUser' => 'EmailCheckUser',
+        'checkUserEmail' => 'checkUserEmail',
     ];
 
     protected $rules = [
@@ -149,43 +151,38 @@ class Account extends Component
         }
 
         if (!isset($this->usermetta_info['enFirstName']) || trim($this->usermetta_info['enFirstName']) == "") {
-            array_push($this->errors_array, $this->getMsgErreur('enFirstName'));
+            array_push($this->errors_array, getProfileMsgErreur('enFirstName'));
         }
         if (!isset($this->usermetta_info['enLastName']) || trim($this->usermetta_info['enLastName']) == "") {
-            array_push($this->errors_array, $this->getMsgErreur('enLastName'));
+            array_push($this->errors_array, getProfileMsgErreur('enLastName'));
         }
 
         if (isset($this->usermetta_info['birthday'])) {
             $this->PercentComplete += 20;
         } else {
-            array_push($this->errors_array, $this->getMsgErreur('birthday'));
+            array_push($this->errors_array, getProfileMsgErreur('birthday'));
         }
 
         if (isset($this->usermetta_info['nationalID']) && trim($this->usermetta_info['nationalID']) != "") {
 
             $this->PercentComplete += 20;
         } else {
-            array_push($this->errors_array, $this->getMsgErreur('nationalID'));
+            array_push($this->errors_array, getProfileMsgErreur('nationalID'));
         }
 
         if (file_exists(public_path('/uploads/profiles/back-id-image' . $this->usermetta_info['idUser'] . '.png')) && file_exists(public_path('/uploads/profiles/front-id-image' . $this->usermetta_info['idUser'] . '.png'))) {
 
             $this->PercentComplete += 20;
         } else {
-            array_push($this->errors_array, $this->getMsgErreur('photoIdentite'));
+            array_push($this->errors_array, getProfileMsgErreur('photoIdentite'));
         }
         if (isset($this->user['email']) && trim($this->user['email']) != "") {
 
             $this->PercentComplete += 20;
         } else {
-            array_push($this->errors_array, $this->getMsgErreur('email'));
+            array_push($this->errors_array, getProfileMsgErreur('email'));
         }
 
-    }
-
-    private function getMsgErreur($typeErreur)
-    {
-        return Lang::get('Identify_' . $typeErreur);
     }
 
 
@@ -256,7 +253,6 @@ class Account extends Component
                 return;
             }
         }
-
         if ($this->paramIdUser == "")
             return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Edit_profil_succes'));
         else {
@@ -344,13 +340,22 @@ class Account extends Component
         $us->OptActivation_at = Carbon::now();
         $us->save();
         $numberActif = $settingsManager->getNumberCOntactActif($userAuth->idUser)->fullNumber;
-
-
         $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::VerifMail, ['msg' => $opt, 'type' => TypeNotificationEnum::SMS]);
-
-
         $this->dispatchBrowserEvent('confirmOPTVerifMail', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'numberActif' => $numberActif]);
         $this->newMail = $mail;
+    }
+
+    public function checkUserEmail($codeOpt, settingsManager $settingsManager)
+    {
+        $us = User::find($this->user['id']);
+        if ($codeOpt != $us->OptActivation) {
+            $this->dispatchBrowserEvent('EmailCheckUser', ['emailValidation' => false, 'title' => trans('Invalid OPT code')]);
+            return;
+        }
+        $check_exchange = $this->randomNewCodeOpt();
+        User::where('id', auth()->user()->id)->update(['OptActivation' => $check_exchange]);
+        $settingsManager->NotifyUser(auth()->user()->id, TypeEventNotificationEnum::NewContactNumber, ['canSendMail' => 1, 'msg' => $check_exchange, 'toMail' => $this->newMail, 'emailTitle' => "2Earn.cash"]);
+        $this->dispatchBrowserEvent('EmailCheckUser', ['emailValidation' => true, 'title' => trans('Opt code from your email'), 'html' => trans('We sent an opt code to your email') . ' : ' . $this->newMail . ' <br> ' . trans('Please fill it')]);
     }
 
     public function saveVerifiedMail($codeOpt)

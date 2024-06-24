@@ -1,34 +1,50 @@
 <div>
     <div class="row">
-        @include('layouts.flash-messages')
-    </div>
-    <div class="row justify-content-center">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="text-center">
-                        <div class="row justify-content-center">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-12">
+                            <h4 class="mt-4 fw-semibold">{{__('KYC_Verification')}}</h4>
+                            <p class="text-muted mt-3">
+                                {{__('Txt_KYC_Verification')}}
+                            </p>
+                            <div class="mt-4">
+                                <button onclick="hideIdentificationModal()" type="button"
+                                        class="btn btn-primary"
+                                        data-bs-toggle="modal"
+                                        @if(!$usermetta_info2['enFirstName'] || !$usermetta_info2['enLastName'] || !$usermetta_info2['birthday'] || !$usermetta_info2['nationalID'] || !$userF['email'])
+                                            disabled
+                                        @endif
+                                        data-bs-target=@if($hasRequest) "#modalRequestExiste" @else
+                                    "#exampleModal"
+                                @endif>
+                                {{__('Click_here_for_Verification')}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    @if(!empty($errors_array))
+                        <div class="row">
                             <div class="col-lg-12">
-                                <h4 class="mt-4 fw-semibold">{{__('KYC_Verification')}}</h4>
-                                <p class="text-muted mt-3">
-                                    {{__('Txt_KYC_Verification')}}
-                                </p>
-                                <div class="mt-4">
-                                    <button onclick="hideIdentificationModal()" type="button" class="btn btn-primary"
-                                            data-bs-toggle="modal"
-                                            data-bs-target=@if($hasRequest) "#modalRequestExiste" @else
-                                        "#exampleModal"
-                                    @endif>
-                                    {{__('Click_here_for_Verification')}}
-                                    </button>
+                                <div class="alert alert-warning mt-2" role="alert">
+                                    <h4 class="alert-heading"> {{ __('Please fill in the missing fields identification') }}
+                                        :</h4>
+                                    <div class="mx-4">
+                                        <ul class="list-group list-group-flush">
+                                            @foreach ($errors_array as $error)
+                                                <li>{{ $error }}.</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row justify-content-center mt-5 mb-2">
-                            <div class="col-sm-7 col-8">
-                                <img src="{{ URL::asset('assets/images/verification-img.png') }}" alt=""
-                                     class="img-fluid"/>
-                            </div>
+                    @endif
+                    <div class="row justify-content-center mt-5 mb-2">
+                        <div class="col-sm-7 col-8">
+                            <img src="{{ URL::asset('assets/images/verification-img.png') }}" alt=""
+                                 class="img-fluid"/>
                         </div>
                     </div>
                 </div>
@@ -44,7 +60,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    {{__('voter_demande_déja_en_cours')}}
+                    <button class="btn btn-outline-warning" type="button" disabled>
+                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                        {{__('voter_demande_déja_en_cours')}}...
+                    </button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
@@ -77,7 +96,15 @@
                                     <button class="nav-link p-3" id="pills-identities-card-tab" data-bs-toggle="pill"
                                             data-bs-target="#pills-identities-card" type="button" role="tab"
                                             aria-controls="pills-identities-card" aria-selected="false">
-                                        {{__('Interface_Verification')}}
+                                        {{__('Import your National identity card')}}
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link p-3" id="pills-inter-identities-card-tab"
+                                            data-bs-toggle="pill"
+                                            data-bs-target="#pills-inter-identities-card" type="button" role="tab"
+                                            aria-controls="pills-inter-identities-card" aria-selected="false">
+                                        {{__('Import your international identity card')}}
                                     </button>
                                 </li>
                             </ul>
@@ -99,68 +126,59 @@
                                         </a>
 
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div>
-                                            <label for="firstName" class="form-label">
-                                                {{__('First name identificatdion modal')}}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <input wire:model.defer="usermetta_info2.enFirstName" type="text"
-                                                   class="form-control" id="firstName" readonly
-                                                   placeholder="{{__('Enter your firstname')}}">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div>
-                                            <label for="lastName" class="form-label">
-                                                {{__('Last name identificatdion modal')}}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <input wire:model.defer="usermetta_info2.enLastName" type="text"
-                                                   class="form-control" id="lastName" readonly
-                                                   placeholder="{{__('Enter your lastname')}}">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label for="JoiningdatInput" class="form-label">
-                                                {{__('Date of birth identificatdion modal')  }}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <input wire:model.defer="usermetta_info2.birthday" type="date"
-                                                   class="form-control" id="dateofBirth" readonly
-                                                   placeholder=""/>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label for="nationalId" class="form-label">
-                                                {{ __('National ID identificatdion modal') }}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <input type="text" class="form-control" minlength="5" maxlength="50"
-                                                   wire:model.defer="usermetta_info2.nationalID" readonly
-                                                   id="nationalId" placeholder="{{__('National ID')}}">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label for="inputEmailUser" class="form-label">
-                                                {{ __('Email identificatdion modal') }}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <input id="inputEmailUser" wire:model.defer="userF.email" type="email"
-                                                   class="form-control" readonly
-                                                   name="email" placeholder="{{__('Enter your email')}}" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 mt-3">
-                                        <div class="form-check form-switch mb-3 mt-3" dir="ltr">
-                                            <input wire:model.defer="notify" type="checkbox"
-                                                   class="form-check-input" id="" checked="">
-                                            <label class="form-check-label"
-                                                   for="customSwitchsizesm">{{ __('I want to receive an SMS when my identification completed successfully') }}</label>
-                                        </div>
+                                    <div class="col-lg-12">
+                                        <table class="table table-striped">
+                                            <tr>
+                                                <th scope="row">
+                                                    {{__('First name identificatdion modal')}}
+                                                </th>
+                                                <td>
+                                                    {{$usermetta_info2['enFirstName']}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    {{__('Last name identificatdion modal')}}
+                                                </th>
+                                                <td>
+                                                    {{$usermetta_info2['enLastName']}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    {{__('Date of birth identificatdion modal')}}
+                                                </th>
+                                                <td>
+                                                    {{$usermetta_info2['birthday']}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    {{__('National ID identificatdion modal')}}
+                                                </th>
+                                                <td>
+                                                    {{$usermetta_info2['nationalID']}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    {{__('Email identificatdion modal')}}
+                                                </th>
+                                                <td>
+                                                    {{$userF['email']}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row" colspan="2">
+                                                    <div class="form-check form-switch mb-3 mt-3" dir="ltr">
+                                                        <input wire:model.defer="notify" type="checkbox"
+                                                               class="form-check-input" id="" checked="">
+                                                        <label class="form-check-label"
+                                                               for="customSwitchsizesm">{{ __('I want to receive an SMS when my identification completed successfully') }}</label>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </table>
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="d-flex align-items-start gap-3 mt-3">
@@ -247,6 +265,98 @@
                                         <i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
                                         {{__('back to personal info')}}
                                     </button>
+                                    <button id="btn-next-identities-card" type="button"
+                                            class="btn btn-primary btn-label right ms-auto nexttab"
+                                            data-nexttab="pills-inter-identities-card-tab">
+                                        <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
+                                        {{__('Next Step: Check your International Identiies card')}}
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="pills-inter-identities-card" role="tabpanel"
+                                 aria-labelledby="pills-inter-identities-card-tab">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="col-12">
+                                            <div class="alert border-0 alert-warning material-shadow" role="alert">
+                                                <strong>{{__('Note')}}
+                                                    : </strong>{{__('International identity is essential for non-Saudis who want to buy shares')}}
+                                            </div>
+                                        </div>
+                                        <div class="form-check form-switch form-switch-right form-switch-md">
+                                            <input class="form-check-input" wire:model="internationalCard"
+                                                   type="checkbox"
+                                                   id="international-card">
+                                            <label for="international-card"
+                                                   class="form-label text-muted">{{__('I want to submit my international identitie card')}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="international-card-block"
+                                     class="row mt-3 @if(!$internationalCard) d-none @endif">
+                                    <div class="col-12">
+                                        <div class="alert border-0 alert-primary material-shadow" role="alert">
+                                            <strong>{{__('Note')}}
+                                                : </strong>{{__('The photo must be in PNG format, and must not exceed 2 Mb in size')}}
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div>
+                                            <label class="form-label">
+                                                {{ __('International ID') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            @if(file_exists(public_path('/uploads/profiles/international-id-image'.$userAuth->idUser.'.png')))
+                                                <img class="img-thumbnail" width="150" height="100"
+                                                     src={{asset(('/uploads/profiles/international-id-image'.$userAuth->idUser.'.png'))}} >
+                                            @else
+                                                <img class="img-thumbnail" width="150" height="100"
+                                                     src={{asset(('/uploads/profiles/default.png'))}} >
+                                            @endif
+                                        </div>
+                                        <div class="wrap-custom-file">
+                                            <input wire:model.defer="photoInternational" type="file"
+                                                   name="photoInternational"
+                                                   id="photoInternational"
+                                                   accept=".png"/>
+                                            <label for="photoInternational">
+                                                <lord-icon src="https://cdn.lordicon.com/vixtkkbk.json" trigger="loop"
+                                                           delay="1000" style="width:100px;height:100px">
+                                                </lord-icon>
+                                                <span> <i class="ri-camera-fill"></i> </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="mb-3">
+                                            <label for="internationalId" class="form-label">
+                                                {{ __('InternationalId ID identificatdion modal') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="text" class="form-control" minlength="5" maxlength="50"
+                                                   wire:model.defer="userF.internationalID"
+                                                   id="internationalId" placeholder="{{__('InternationalId ID')}}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="expiryDate" class="form-label">
+                                                {{__('Expiry date identificatdion modal')  }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input wire:model.defer="userF.expiryDate" type="date"
+                                                   onkeydown="return false"
+                                                   min="{{ now()->format('Y-m-d') }}"
+                                                   class="form-control" id="expiryDate"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-start gap-3 mt-4">
+                                    <button type="button" class="btn btn-light btn-label previestab"
+                                            data-previous="pills-identities-card-tab">
+                                        <i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
+                                        {{__('back to identity card')}}
+                                    </button>
                                     <button onclick="sendIndentificationRequest()" type="button"
                                             class="btn btn-primary btn-label right ms-auto nexttab">
                                         <div wire:loading wire:target="sendIndentificationRequest">
@@ -254,7 +364,7 @@
                                                       aria-hidden="true"></span>
                                             <span class="sr-only">{{__('Loading')}}...</span>
                                         </div>
-                                        {{__('Send Identification request')}}
+                                        {{__('Send identification request')}}
                                     </button>
                                 </div>
                             </div>
@@ -280,6 +390,7 @@
         }
 
         function checkRequiredFieldInfo(idInput) {
+            console.log($("#" + idInput));
             if ($("#" + idInput).val().trim() === "") {
                 $("#" + idInput).css('border-color', 'red');
                 return false;
@@ -290,11 +401,12 @@
         }
 
         function checkRequiredFieldsInfo() {
-            return checkRequiredFieldInfo('firstName') &&
-                checkRequiredFieldInfo('lastName') &&
-                checkRequiredFieldInfo('nationalId') &&
-                checkRequiredFieldInfo('dateofBirth') &&
-                checkRequiredFieldInfo('inputEmailUser');
+            if ($('#international-card').is(":checked")) {
+                return checkRequiredFieldInfo('internationalId') &&
+                    checkRequiredFieldInfo('expiryDate');
+            } else {
+                return true;
+            }
         }
 
         function validateEmail(email) {
@@ -342,20 +454,17 @@
             });
         });
 
-        $('#btn-next-identities-card').click(function (e) {
-            $('#personalInformationMessage').css("display", "none");
-            e.preventDefault();
-            if (checkRequiredFieldsInfo()) {
-                $('#personalInformationMessage').css("display", "none");
-                $('#myTab   button[id="pills-identities-card-tab"] ').tab('show');
+        $('#international-card').change(function () {
+            if (this.checked) {
+                $('#international-card-block').removeClass("d-none");
+                $("#internationalId, #expiryDate, #photoInternational").val('');
             } else {
-                $('#personalInformationMessage').css("display", "block");
+                $('#international-card-block').addClass("d-none")
             }
         });
 
-        document.getElementById('pills-identities-card-tab').addEventListener('shown.bs.tab', function (event) {
-            if (!checkRequiredFieldsInfo())
-                $('#myTab   button[id="pills-bill-info-tab"] ').tab('show');
+        $('#btn-next-identities-card').click(function (e) {
+            $('#myTab button[id="pills-identities-card-tab"]').tab('show');
         });
 
         window.addEventListener('IdentificationRequestMissingInformation', event => {

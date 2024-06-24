@@ -1,58 +1,12 @@
 <div>
-    <div wire:loading>
-        <div style="display: flex;justify-content: center;
-align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z-index: 9999;width: 100%;height: 100%;opacity: 0.75">
-            <div class="la-ball-pulse-rise">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-        </div>
+    <div class="row">
+        @include('layouts.flash-messages')
     </div>
-    <script data-turbolinks-eval="false">
-        var ErrorOptAddNumber = '{{Session::has('ErrorOptAddNumber')}}';
-        if (ErrorOptAddNumber) {
-            Swal.fire({
-                title: '{{Session::get('ErrorOptAddNumber')}}',
-                confirmButtonText: '{{__('ok')}}',
-                showClass: {popup: 'animate__animated animate__fadeInDown'},
-                hideClass: {popup: 'animate__animated animate__fadeOutUp'}
-            });
-        }
-
-        var numberPhoneexiste = '{{Session::has('numberPhoneexiste')}}';
-        if (numberPhoneexiste) {
-            Swal.fire({
-                title: '{{Session::get('numberPhoneexiste')}}',
-                confirmButtonText: '{{__('ok')}}',
-                showClass: {popup: 'animate__animated animate__fadeInDown'},
-                hideClass: {popup: 'animate__animated animate__fadeOutUp'}
-            });
-        }
-
-        var succesUpdateNumber = '{{Session::has('succesUpdate')}}';
-        if (succesUpdateNumber) {
-            location.reload();
-        }
-
-        var failedDeleteIDNumber = '{{Session::has('failedDeleteIDNumber')}}';
-        if (failedDeleteIDNumber) {
-            Swal.fire({
-                title: '{{Session::get('failedDeleteIDNumber')}}',
-                confirmButtonText: '{{__('ok')}}',
-                showClass: {popup: 'animate__animated animate__fadeInDown'},
-                hideClass: {popup: 'animate__animated animate__fadeOutUp'}
-            });
-        }
-    </script>
-
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="">
+                    <div>
                         <button data-bs-toggle="modal"
                                 data-bs-target="#AddContactNumberModel" type="button"
                                 class="btn btn-secondary add-btn btn2earn">{{ __('Add_contact-number') }}
@@ -60,7 +14,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                     </div>
                 </div>
                 <div class="card-body table-responsive">
-                    <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                    <table id="example" class="table table-bordered dt-responsive nowrap table-striped"
                            style="width:100%">
                         <thead class="table-light">
                         <tr class="tabHeader2earn">
@@ -136,20 +90,23 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"
+                    <button type="button" class="btn btn-light"
                             data-bs-dismiss="modal">{{ __('Close') }}</button>
-                    <button onclick="saveContactNumber()" type="button" id="saveAddContactNumber"
-                            class="btn btn-primary">{{ __('Save_changes') }}
+                    <button type="button" id="saveAddContactNumber"
+                            class="btn btn-primary">{{ __('Save new contact number') }}
                     </button>
                 </div>
             </div>
         </div>
     </div>
     <script data-tubolinks-eval=false>
-        function saveContactNumber() {
+
+        $("#saveAddContactNumber").click(function (event) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
             $('#AddContactNumberModel').modal('hide');
             window.livewire.emit('preSaveContact', $("#outputphoneContactNumber").val(), $("#isoContactNumber").val(), $("#phoneContactNumber").val());
-        }
+        });
 
         function setActiveNumber($id) {
             try {
@@ -204,7 +161,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                 title: '{{ __('Your verification code') }}',
                 html: event.detail.msgSend + ' ' + '<br>' + event.detail.FullNumber + '<br>' + event.detail.userMail + '<br>' + '{{__('Your OTP Code')}}',
                 allowOutsideClick: false,
-                timer: '{{ env('timeOPT') }}',
+                timer: '{{ env('timeOPT',180000) }}',
                 timerProgressBar: true,
                 showCancelButton: true,
                 cancelButtonText: '{{trans('canceled !')}}',
@@ -224,10 +181,10 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                 input: 'text',
                 inputAttributes: {autocapitalize: 'off'},
             }).then((resultat) => {
-                if (resultat.value) {
+                if (resultat.isConfirmed) {
                     window.livewire.emit('saveContactNumber', resultat.value, event.detail.isoP, event.detail.mobile, event.detail.FullNumberNew);
                 }
-                if (resultat.isDismissed) {
+                if (resultat.isDismissed && resultat.dismiss == 'cancel') {
                     window.location.reload();
                 }
             })

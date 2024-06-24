@@ -71,7 +71,7 @@
                         <a href="{{route('TreeEvolution',app()->getLocale())}}"
                            class="nav-link menu-link {{Route::currentRouteName()=='TreeEvolution'? 'active' : ''}}"
                            role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                            <i class="fa-solid fa-tree" style="color: #464fed;"></i>
+                            <i class="fa-solid fa-tree" style="color: #009fe3;"></i>
                             <span>{{ __('Evolution_arbre') }}</span>
                         </a>
                     </li>
