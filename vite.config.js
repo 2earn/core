@@ -53,7 +53,8 @@ export default defineConfig({
                 'resources/css/select2.min.css',
                 'resources/css/custom.css',
                 'resources/css/custom-rtl.css',
-                'resources/js/jquery.js'
+                'resources/js/jquery.js',
+                'resources/js/livewire-turbolinks.js'
             ],
             refresh: true,
         }),

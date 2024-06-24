@@ -69,7 +69,7 @@
     @livewireStyles
     <script src="https://www.google.com/recaptcha/api.js?render={{config('services.recaptcha.key')}}"></script>
     <!-- vite -->
-    @vite([ 'resources/css/app.css','resources/css/intlTelInput.scss','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/intlTelInput.js'])
+    @vite([ 'resources/css/app.css','resources/css/intlTelInput.scss','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
     <!-- vite -->
 
 </head>
@@ -101,10 +101,6 @@
 @include('layouts.vendor-scripts')
 @livewireScripts
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js"
-        data-turbolinks-eval="false" data-turbo-eval="false"></script>
-{{--<script src="{{ mix('js/turbo.js') }}" defer></script>--}}
-{{--<script src="{{ URL::asset('/assets/js/app.min.js') }}" defer></script>--}}
 <script>
 
     $(document).on('ready turbolinks:load', function () {

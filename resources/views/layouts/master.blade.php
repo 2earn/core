@@ -191,7 +191,7 @@
     <link rel="manifest" href="{{ asset('/manifest.json') }}">
     @laravelPWA
     <!-- vite -->
-    @vite([ 'resources/css/app.css','resources/css/intlTelInput.scss','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/intlTelInput.js'])
+    @vite([ 'resources/css/app.css','resources/css/intlTelInput.scss','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
     <!-- vite -->
 </head>
 
@@ -262,9 +262,6 @@
 @livewireScripts
 
 
-<script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js"
-        data-turbolinks-eval="false" data-turbo-eval="false"></script>
-
 <script src="{{ URL::asset('/assets/libs/dropzone/dropzone-min.js') }}"></script>
 <script src="{{ URL::asset('/assets/js/pages/crypto-kyc.init.js') }}"></script>
 {{--<script src="{{ URL::asset('assets/js/pages/team.init.js') }}"></script>--}}
@@ -280,13 +277,8 @@
 <script src="{{ URL::asset('assets/libs/filepond-plugin-file-encode/filepond-plugin-file-encode.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-{{--<script src="{{ URL::asset('assets/js/pages/form-file-upload.init.js') }}"></script>--}}
-<script src="{{ URL::asset('/assets/js/app.min.js') }}" defer></script>
 <script src="{{ URL::asset('assets/js/pages/datatables.init.js') }}"></script>
 
-{{--<script src="{{ URL::asset('assets/libs/nouislider/nouislider.min.js') }}"></script>--}}
-{{--<script src="{{ URL::asset('assets/libs/wnumb/wnumb.min.js') }}"></script>--}}
-{{--<script src="{{ URL::asset('assets/js/pages/range-sliders.init.js') }}"></script>--}}
 <script>
     anychart.onDocumentReady(function () {
         anychart.licenseKey('2earn.cash-953c5a55-712f04c3');
