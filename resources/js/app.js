@@ -1,18 +1,12 @@
-/*
-Template Name: Velzon - Admin & Dashboard Template
-Author: Themesbrand
-Version: 2.0.0
-Website: https://Themesbrand.com/
-Contact: Themesbrand@gmail.com
-File: Main Js File
-*/
+import Swal from 'sweetalert2';
+window.Swal = Swal;
 
 (function () {
 
-    var btnHover = document.getElementById("MyHover") ;
+    var btnHover = document.getElementById("MyHover");
+    if (btnHover !== null) {
 
-    btnHover.addEventListener("click", function (event) {
-        alert(btnHover);
+        btnHover.addEventListener("click", function (event) {
             if (document.documentElement.getAttribute("data-sidebar-size") === "sm-hover") {
                 document.documentElement.setAttribute("data-sidebar-size", "sm-hover-active");
             } else if (document.documentElement.getAttribute("data-sidebar-size") === "sm-hover-active") {
@@ -20,37 +14,16 @@ File: Main Js File
             } else {
                 document.documentElement.setAttribute("data-sidebar-size", "sm-hover");
             }
-    });
-    // btnHover.addEventListener("click", function (event) {
-    //     alert('sdfdsf');
-    //     if (document.documentElement.getAttribute("data-sidebar-size") === "sm-hover") {
-    //         document.documentElement.setAttribute("data-sidebar-size", "sm-hover-active");
-    //     } else if (document.documentElement.getAttribute("data-sidebar-size") === "sm-hover-active") {
-    //         document.documentElement.setAttribute("data-sidebar-size", "sm-hover");
-    //     } else {
-    //         document.documentElement.setAttribute("data-sidebar-size", "sm-hover");
-    //     }
-    // });
-
-    var btnDark = document.getElementById("btndark");
-    btnDark.addEventListener("click", function (event) {
-        // getElementUsingTagname("data-topbar", "dark");
-        // sessionStorage.setItem("data-topbar", "dark");
-        // document.documentElement.setAttribute("data-topbar", "dark");
-        //
-        // var html = document.getElementById("HTMLMain");
-        //
-        // html.hasAttribute("data-layout-mode") && html.getAttribute("data-layout-mode") == "dark" ?
-        //     setLayoutMode("data-layout-mode", "light", "layout-mode-light", html) :
-        //     setLayoutMode("data-layout-mode", "dark", "layout-mode-dark", html);
-    });
-
+        });
+    }
     ("use strict");
 
     /**
      *  global variables
      */
-    var navbarMenuHTML = document.querySelector(".navbar-menu").innerHTML;
+    if (document.querySelector(".navbar-menu") !== null) {
+        var navbarMenuHTML = document.querySelector(".navbar-menu").innerHTML;
+    }
     var horizontalMenuSplit = 7; // after this number all horizontal menus will be moved in More menu options
     var default_lang = "en"; // set Default Language
     var language = localStorage.getItem("language");
@@ -111,216 +84,6 @@ File: Main Js File
         // Sending the request to the server
         request.send();
     }
-
-    // function pluginData() {
-    //     /**
-    //      * Common plugins
-    //      */
-    //     /**
-    //      * Toast UI Notification
-    //      */
-    //     var toastExamples = document.querySelectorAll("[data-toast]");
-    //     Array.from(toastExamples).forEach(function (element) {
-    //         element.addEventListener("click", function () {
-    //             var toastData = {};
-    //             var isToastVal = element.attributes;
-    //             if (isToastVal["data-toast-text"]) {
-    //                 toastData.text = isToastVal["data-toast-text"].value.toString();
-    //             }
-    //             if (isToastVal["data-toast-gravity"]) {
-    //                 toastData.gravity = isToastVal["data-toast-gravity"].value.toString();
-    //             }
-    //             if (isToastVal["data-toast-position"]) {
-    //                 toastData.position = isToastVal["data-toast-position"].value.toString();
-    //             }
-    //             if (isToastVal["data-toast-className"]) {
-    //                 toastData.className = isToastVal["data-toast-className"].value.toString();
-    //             }
-    //             if (isToastVal["data-toast-duration"]) {
-    //                 toastData.duration = isToastVal["data-toast-duration"].value.toString();
-    //             }
-    //             if (isToastVal["data-toast-close"]) {
-    //                 toastData.close = isToastVal["data-toast-close"].value.toString();
-    //             }
-    //             if (isToastVal["data-toast-style"]) {
-    //                 toastData.style = isToastVal["data-toast-style"].value.toString();
-    //             }
-    //             if (isToastVal["data-toast-offset"]) {
-    //                 toastData.offset = isToastVal["data-toast-offset"];
-    //             }
-    //             Toastify({
-    //                 newWindow: true,
-    //                 text: toastData.text,
-    //                 gravity: toastData.gravity,
-    //                 position: toastData.position,
-    //                 className: "bg-" + toastData.className,
-    //                 stopOnFocus: true,
-    //                 offset: {
-    //                     x: toastData.offset ? 50 : 0, // horizontal axis - can be a number or a string indicating unity. eg: '2em'
-    //                     y: toastData.offset ? 10 : 0, // vertical axis - can be a number or a string indicating unity. eg: '2em'
-    //                 },
-    //                 duration: toastData.duration,
-    //                 close: toastData.close == "close" ? true : false,
-    //                 style: toastData.style == "style" ? {
-    //                     background: "linear-gradient(to right, #0AB39C, #405189)"
-    //                 } : "",
-    //             }).showToast();
-    //         });
-    //     });
-    //
-    //     /**
-    //      * Choices Select plugin
-    //      */
-    //     var choicesExamples = document.querySelectorAll("[data-choices]");
-    //     Array.from(choicesExamples).forEach(function (item) {
-    //         var choiceData = {};
-    //         var isChoicesVal = item.attributes;
-    //         if (isChoicesVal["data-choices-groups"]) {
-    //             choiceData.placeholderValue = "This is a placeholder set in the config";
-    //         }
-    //         if (isChoicesVal["data-choices-search-false"]) {
-    //             choiceData.searchEnabled = false;
-    //         }
-    //         if (isChoicesVal["data-choices-search-true"]) {
-    //             choiceData.searchEnabled = true;
-    //         }
-    //         if (isChoicesVal["data-choices-removeItem"]) {
-    //             choiceData.removeItemButton = true;
-    //         }
-    //         if (isChoicesVal["data-choices-sorting-false"]) {
-    //             choiceData.shouldSort = false;
-    //         }
-    //         if (isChoicesVal["data-choices-sorting-true"]) {
-    //             choiceData.shouldSort = true;
-    //         }
-    //         if (isChoicesVal["data-choices-multiple-remove"]) {
-    //             choiceData.removeItemButton = true;
-    //         }
-    //         if (isChoicesVal["data-choices-limit"]) {
-    //             choiceData.maxItemCount = isChoicesVal["data-choices-limit"].value.toString();
-    //         }
-    //         if (isChoicesVal["data-choices-limit"]) {
-    //             choiceData.maxItemCount = isChoicesVal["data-choices-limit"].value.toString();
-    //         }
-    //         if (isChoicesVal["data-choices-editItem-true"]) {
-    //             choiceData.maxItemCount = true;
-    //         }
-    //         if (isChoicesVal["data-choices-editItem-false"]) {
-    //             choiceData.maxItemCount = false;
-    //         }
-    //         if (isChoicesVal["data-choices-text-unique-true"]) {
-    //             choiceData.duplicateItemsAllowed = false;
-    //         }
-    //         if (isChoicesVal["data-choices-text-disabled-true"]) {
-    //             choiceData.addItems = false;
-    //         }
-    //         isChoicesVal["data-choices-text-disabled-true"] ? new Choices(item, choiceData).disable() : new Choices(item, choiceData);
-    //     });
-    //
-    //     /**
-    //      * flatpickr
-    //      */
-    //     var flatpickrExamples = document.querySelectorAll("[data-provider]");
-    //     Array.from(flatpickrExamples).forEach(function (item) {
-    //         if (item.getAttribute("data-provider") == "flatpickr") {
-    //             var dateData = {};
-    //             var isFlatpickerVal = item.attributes;
-    //             if (isFlatpickerVal["data-date-format"])
-    //                 dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString();
-    //             if (isFlatpickerVal["data-enable-time"]) {
-    //                 (dateData.enableTime = true),
-    //                     (dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString() + " H:i");
-    //             }
-    //             if (isFlatpickerVal["data-altFormat"]) {
-    //                 (dateData.altInput = true),
-    //                     (dateData.altFormat = isFlatpickerVal["data-altFormat"].value.toString());
-    //             }
-    //             if (isFlatpickerVal["data-minDate"]) {
-    //                 dateData.minDate = isFlatpickerVal["data-minDate"].value.toString();
-    //                 dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString();
-    //             }
-    //             if (isFlatpickerVal["data-maxDate"]) {
-    //                 dateData.maxDate = isFlatpickerVal["data-maxDate"].value.toString();
-    //                 dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString();
-    //             }
-    //             if (isFlatpickerVal["data-deafult-date"]) {
-    //                 dateData.defaultDate = isFlatpickerVal["data-deafult-date"].value.toString();
-    //                 dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString();
-    //             }
-    //             if (isFlatpickerVal["data-multiple-date"]) {
-    //                 dateData.mode = "multiple";
-    //                 dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString();
-    //             }
-    //             if (isFlatpickerVal["data-range-date"]) {
-    //                 dateData.mode = "range";
-    //                 dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString();
-    //             }
-    //             if (isFlatpickerVal["data-inline-date"]) {
-    //                 (dateData.inline = true),
-    //                     (dateData.defaultDate = isFlatpickerVal["data-deafult-date"].value.toString());
-    //                 dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString();
-    //             }
-    //             if (isFlatpickerVal["data-disable-date"]) {
-    //                 var dates = [];
-    //                 dates.push(isFlatpickerVal["data-disable-date"].value);
-    //                 dateData.disable = dates.toString().split(",");
-    //             }
-    //             if (isFlatpickerVal["data-week-number"]) {
-    //                 var dates = [];
-    //                 dates.push(isFlatpickerVal["data-week-number"].value);
-    //                 dateData.weekNumbers = true
-    //             }
-    //             flatpickr(item, dateData);
-    //         } else if (item.getAttribute("data-provider") == "timepickr") {
-    //             var timeData = {};
-    //             var isTimepickerVal = item.attributes;
-    //             if (isTimepickerVal["data-time-basic"]) {
-    //                 (timeData.enableTime = true),
-    //                     (timeData.noCalendar = true),
-    //                     (timeData.dateFormat = "H:i");
-    //             }
-    //             if (isTimepickerVal["data-time-hrs"]) {
-    //                 (timeData.enableTime = true),
-    //                     (timeData.noCalendar = true),
-    //                     (timeData.dateFormat = "H:i"),
-    //                     (timeData.time_24hr = true);
-    //             }
-    //             if (isTimepickerVal["data-min-time"]) {
-    //                 (timeData.enableTime = true),
-    //                     (timeData.noCalendar = true),
-    //                     (timeData.dateFormat = "H:i"),
-    //                     (timeData.minTime = isTimepickerVal["data-min-time"].value.toString());
-    //             }
-    //             if (isTimepickerVal["data-max-time"]) {
-    //                 (timeData.enableTime = true),
-    //                     (timeData.noCalendar = true),
-    //                     (timeData.dateFormat = "H:i"),
-    //                     (timeData.minTime = isTimepickerVal["data-max-time"].value.toString());
-    //             }
-    //             if (isTimepickerVal["data-default-time"]) {
-    //                 (timeData.enableTime = true),
-    //                     (timeData.noCalendar = true),
-    //                     (timeData.dateFormat = "H:i"),
-    //                     (timeData.defaultDate = isTimepickerVal["data-default-time"].value.toString());
-    //             }
-    //             if (isTimepickerVal["data-time-inline"]) {
-    //                 (timeData.enableTime = true),
-    //                     (timeData.noCalendar = true),
-    //                     (timeData.defaultDate = isTimepickerVal["data-time-inline"].value.toString());
-    //                 timeData.inline = true;
-    //             }
-    //             flatpickr(item, timeData);
-    //         }
-    //     });
-    //
-    //     // Dropdown
-    //     Array.from(document.querySelectorAll('.dropdown-menu a[data-bs-toggle="tab"]')).forEach(function (element) {
-    //         element.addEventListener("click", function (e) {
-    //             e.stopPropagation();
-    //             bootstrap.Tab.getInstance(e.target).show();
-    //         });
-    //     });
-    // }
 
     // on click collapse menu
     function isCollapseMenu() {
@@ -925,7 +688,9 @@ File: Main Js File
         currentPath = currentPath.substring(currentPath.lastIndexOf("/") + 1);
         if (currentPath) {
             // navbar-nav
-            var a = document.getElementById("navbar-nav").querySelector('[href="' + currentPath + '"]');
+            if (document.getElementById("navbar-nav") !== null) {
+                var a = document.getElementById("navbar-nav").querySelector('[href="' + currentPath + '"]');
+            }
             if (a) {
                 a.classList.add("active");
                 var parentCollapseDiv = a.closest(".collapse.menu-dropdown");
@@ -1719,7 +1484,7 @@ File: Main Js File
 
             // open right sidebar on first time load
             var offCanvas = document.querySelector('.btn[data-bs-target="#theme-settings-offcanvas"]');
-           // offCanvas ? offCanvas.click() : "";
+            // offCanvas ? offCanvas.click() : "";
         } else {
             var isLayoutAttributes = {};
             isLayoutAttributes["data-layout"] = sessionStorage.getItem("data-layout");
@@ -1855,12 +1620,6 @@ File: Main Js File
         timeOutFunctionId = setTimeout(setResize, 2000);
     });
 })();
-
-
-//
-/********************* scroll top js ************************/
-//
-
 var mybutton = document.getElementById("back-to-top");
 if (mybutton) {
     // When the user scrolls down 20px from the top of the document, show the button

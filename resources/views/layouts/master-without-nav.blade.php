@@ -1,9 +1,10 @@
 <!doctype html>
-<html dir="{{config('app.available_locales')[app()->getLocale()]['direction']}}"
-      data-turbolinks='false' lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-topbar="light">
+<html dir="{{config('app.available_locales')[app()->getLocale()]['direction']}}" data-turbolinks='false'
+      lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-topbar="light">
 <head>
     <!-- Google Tag Manager -->
-    <script>(function (w, d, s, l, i) {
+    <script>
+        (function (w, d, s, l, i) {
             w[l] = w[l] || [];
             w[l].push({
                 'gtm.start':
@@ -35,9 +36,6 @@
     <meta content="Themesbrand" name="author"/>
     <img src="{{ URL::asset('assets/images/2earn.png') }}" id="super-logo" alt="" height="60">
     <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.ico')}}">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="{{asset('assets/Styles/intlTelInput.css')}}">
-    <script src="{{asset('assets/js/intlTelInput.js')}}"></script>
     @include('layouts.head-css')
     <style>
         @import url({{asset('/')."assets/icons/material-design-iconic-font/css/materialdesignicons.min.css"}});
@@ -45,7 +43,6 @@
         @import url({{asset('assets/icons/font-awesome/css/font-awesome.min.css')}});
 
         @font-face {
-
             font-family: 'iconearn';
             src: url({{ asset('assets/fonts/iconearn.eot?uerpdx')}});
             src: url({{ asset('assets/fonts/iconearn.eot?uerpdx#iefix')}}) format('embedded-opentype'),
@@ -71,6 +68,9 @@
     </style>
     @livewireStyles
     <script src="https://www.google.com/recaptcha/api.js?render={{config('services.recaptcha.key')}}"></script>
+    <!-- vite -->
+    @vite(['resources/css/intlTelInput.scss','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/intlTelInput.js'])
+    <!-- vite -->
 
 </head>
 

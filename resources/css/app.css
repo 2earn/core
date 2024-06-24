@@ -1,39 +1,40 @@
 @charset "UTF-8";
+@import 'sweetalert2/src/sweetalert2.scss';
 @import url(https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap);
 @import url(https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap);
 
 @font-face {
     font-family: hkgrotesk;
-    src: url(/assets/fonts/hkgrotesk-light.eot);
-    src: local("hkgrotesk light"), url(/assets/fonts/hkgrotesk-light.woff) format("woff");
+    src: url(../fonts/hkgrotesk-light.eot);
+    src: local("hkgrotesk light"), url(../fonts/hkgrotesk-light.woff) format("woff");
     font-weight: 300
 }
 
 @font-face {
     font-family: hkgrotesk;
-    src: url(/assets/fonts/hkgrotesk-regular.eot);
-    src: local("hkgrotesk regular"), url(/assets/fonts/hkgrotesk-regular.woff) format("woff");
+    src: url(../fonts/hkgrotesk-regular.eot);
+    src: local("hkgrotesk regular"), url(../fonts/hkgrotesk-regular.woff) format("woff");
     font-weight: 400
 }
 
 @font-face {
     font-family: hkgrotesk;
-    src: url(/assets/fonts/hkgrotesk-medium.eot);
-    src: local("hkgrotesk medium"), url(/assets/fonts/hkgrotesk-medium.woff) format("woff");
+    src: url(../fonts/hkgrotesk-medium.eot);
+    src: local("hkgrotesk medium"), url(../fonts/hkgrotesk-medium.woff) format("woff");
     font-weight: 500
 }
 
 @font-face {
     font-family: hkgrotesk;
-    src: url(/assets/fonts/hkgrotesk-semibold.eot);
-    src: local("hkgrotesk semibold"), url(/assets/fonts/hkgrotesk-semibold.woff) format("woff");
+    src: url(../fonts/hkgrotesk-semibold.eot);
+    src: local("hkgrotesk semibold"), url(../fonts/hkgrotesk-semibold.woff) format("woff");
     font-weight: 600
 }
 
 @font-face {
     font-family: hkgrotesk;
-    src: url(/assets/fonts/hkgrotesk-bold.eot);
-    src: local("hkgrotesk bold"), url(/assets/fonts/hkgrotesk-bold.woff) format("woff");
+    src: url(../fonts/hkgrotesk-bold.eot);
+    src: local("hkgrotesk bold"), url(../fonts/hkgrotesk-bold.woff) format("woff");
     font-weight: 700
 }
 
@@ -1806,19 +1807,19 @@
 }
 
 [data-sidebar-image=img-1] .sidebar-background {
-    background-image: url(/assets/images/sidebar/img-1.jpg)
+    background-image: url(../images/sidebar/img-1.jpg)
 }
 
 [data-sidebar-image=img-2] .sidebar-background {
-    background-image: url(/assets/images/sidebar/img-2.jpg)
+    background-image: url(../images/sidebar/img-2.jpg)
 }
 
 [data-sidebar-image=img-3] .sidebar-background {
-    background-image: url(/assets/images/sidebar/img-3.jpg)
+    background-image: url(../images/sidebar/img-3.jpg)
 }
 
 [data-sidebar-image=img-4] .sidebar-background {
-    background-image: url(/assets/images/sidebar/img-4.jpg)
+    background-image: url(../images/sidebar/img-4.jpg)
 }
 
 [data-layout=horizontal] .main-content {
@@ -3310,7 +3311,7 @@
 }
 
 .bg-pattern {
-    background: url(/assets/images/modal-bg.png) #fff
+    background: url(../images/modal-bg.png) #fff
 }
 
 .w-xs {
@@ -12428,7 +12429,7 @@ span.flatpickr-weekday {
 
 [data-option-flag-img-name] .flag-input {
     padding-left: 45px;
-    background-image: url(/assets/images/flags/us.svg);
+    background-image: url(../images/flags/us.svg);
     background-repeat: no-repeat;
     background-position: 14px 8px;
     background-size: 18px
@@ -12476,7 +12477,7 @@ span.flatpickr-weekday {
 }
 
 .auth-one-bg {
-    background-image: url(/assets/images/auth-one-bg.jpg);
+    background-image: url(../images/auth-one-bg.jpg);
     background-position: 50%;
     background-size: cover
 }
@@ -12533,7 +12534,7 @@ span.flatpickr-weekday {
 }
 
 .auth-bg-cover > .bg-overlay {
-    background-image: url(/assets/images/cover-pattern.png);
+    background-image: url(../images/cover-pattern.png);
     background-position: 50%;
     background-size: cover;
     opacity: 1;
@@ -12686,7 +12687,7 @@ span.flatpickr-weekday {
 }
 
 .bg-marketplace {
-    background-image: url(/assets/images/nft/marketplace.png);
+    background-image: url(../images/nft/marketplace.png);
     background-size: cover
 }
 
@@ -14591,7 +14592,7 @@ span.flatpickr-weekday {
 }
 
 .user-chat {
-    background: url(/assets/images/chat-bg-pattern.png);
+    background: url(../images/chat-bg-pattern.png);
     transition: all .4s;
     position: relative;
     background-color: var(--vz-body-bg)
@@ -15515,7 +15516,7 @@ span.flatpickr-weekday {
     height: 180px;
     width: 270px;
     margin: 0 auto;
-    background-image: url(/assets/images/file.png);
+    background-image: url(../images/file.png);
     background-size: cover;
     background-position: 50%
 }
@@ -15629,7 +15630,7 @@ span.flatpickr-weekday {
 }
 
 .bg-overlay-pattern {
-    background-image: url(/assets/images/landing/bg-pattern.png);
+    background-image: url(../images/landing/bg-pattern.png);
     background-color: transparent;
     background-position: 50%;
     background-size: cover;
@@ -15807,7 +15808,7 @@ span.flatpickr-weekday {
 }
 
 .nft-hero {
-    background-image: url(/assets/images/nft/bg-home.jpg);
+    background-image: url(../images/nft/bg-home.jpg);
     background-size: cover;
     background-position: bottom;
     padding: 222px 0 150px

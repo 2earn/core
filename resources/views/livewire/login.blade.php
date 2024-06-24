@@ -3,28 +3,30 @@
         <div class="bg-overlay"></div>
         <div class="auth-page-content">
             <script>
-                var existLogout = '{{Session::has('FromLogOut')}}';
-                if (existLogout) {
-                    location.reload();
-                }
-                var existmessageLogin = '{{Session::has('message')}}';
-                if (existmessageLogin) {
-                    var msgMsgLogin = '{{Session::get('message')}}';
-                    var local = '{{Session::has('locale')}}';
-                    if (local == 'ar') {
-                        msg = "هاتفك أو كلمة المرور الخاصة بك غير صحيحة !";
+                window.addEventListener('load', () => {
+                    var existLogout = '{{Session::has('FromLogOut')}}';
+                    if (existLogout) {
+                        location.reload();
                     }
-                    Swal.fire({
-                        title: ' ',
-                        text: msgMsgLogin,
-                        icon: 'error',
-                        confirmButtonText: '{{trans('ok')}}'
-                    }).then(okay => {
-                        if (okay) {
-                            window.location.reload();
+                    var existmessageLogin = '{{Session::has('message')}}';
+                    if (existmessageLogin) {
+                        var msgMsgLogin = '{{Session::get('message')}}';
+                        var local = '{{Session::has('locale')}}';
+                        if (local == 'ar') {
+                            msg = "هاتفك أو كلمة المرور الخاصة بك غير صحيحة !";
                         }
-                    });
-                }
+                        Swal.fire({
+                            title: ' ',
+                            text: msgMsgLogin,
+                            icon: 'error',
+                            confirmButtonText: '{{trans('ok')}}'
+                        }).then(okay => {
+                            if (okay) {
+                                window.location.reload();
+                            }
+                        });
+                    }
+                });
             </script>
             <div class="container mt-5">
                 <div class="row">

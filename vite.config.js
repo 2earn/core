@@ -35,7 +35,8 @@ export default defineConfig({
     },
     plugins: [
         laravel({
-            input: ['resources/js/app.js',
+            input: [
+                'resources/js/app.js',
                 'resources/js/plugins.js',
                 'resources/js/layout.js',
                 'resources/css/bootstrap.css',
@@ -44,9 +45,13 @@ export default defineConfig({
                 'resources/css/icons-rtl.css',
                 'resources/css/app.css',
                 'resources/css/app-rtl.css',
+                'resources/css/intlTelInput.css',
+                'resources/js/intlTelInput.js',
+                'resources/js/utils.js',
+                'resources/js/sweetalert2@11.js',
+                'resources/js/select2.min.css',
                 'resources/css/custom.css',
-                'resources/css/custom-rtl.css',
-
+                'resources/css/custom-rtl.css'
             ],
             refresh: true,
         }),

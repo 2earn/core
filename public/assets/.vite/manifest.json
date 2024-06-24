@@ -39,6 +39,11 @@
     "src": "resources/css/icons.css",
     "isEntry": true
   },
+  "resources/css/intlTelInput.scss": {
+    "file": "css/intlTelInput.min.css",
+    "src": "resources/css/intlTelInput.scss",
+    "isEntry": true
+  },
   "resources/js/app.js": {
     "file": "js/app.min.js",
     "name": "app",
