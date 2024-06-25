@@ -863,59 +863,61 @@
         }
     </script>
     <script data-turbolinks-eval="false">
-        var triggerTabList = [].slice.call(document.querySelectorAll('#pills-tab a'))
-        triggerTabList.forEach(function (triggerEl) {
-            var tabTrigger = new bootstrap.Tab(triggerEl)
-            triggerEl.addEventListener('click', function (event) {
-                var x = triggerEl.id;
-                if (triggerEl.id === "pills-contact-tab") {
-                    $.ajax({
-                        url: "{{ route('resetInComingNotification') }}",
-                        type: 'get',
-                        success: function (result) {
-                            try {
-                                document.getElementById('pIn').innerHTML = "";
-                                document.getElementById('btnNotRequestInOpen').remove();
-                            } catch (e) {
+        window.addEventListener('load', () => {
+            var triggerTabList = [].slice.call(document.querySelectorAll('#pills-tab a'))
+            triggerTabList.forEach(function (triggerEl) {
+                var tabTrigger = new bootstrap.Tab(triggerEl)
+                triggerEl.addEventListener('click', function (event) {
+                    var x = triggerEl.id;
+                    if (triggerEl.id === "pills-contact-tab") {
+                        $.ajax({
+                            url: "{{ route('resetInComingNotification') }}",
+                            type: 'get',
+                            success: function (result) {
+                                try {
+                                    document.getElementById('pIn').innerHTML = "";
+                                    document.getElementById('btnNotRequestInOpen').remove();
+                                } catch (e) {
+                                }
+                                try {
+                                    document.getElementById('sideNotIn').innerHTML = "";
+                                    document.getElementById('sideNotIn').remove();
+                                } catch (e) {
+                                }
                             }
-                            try {
-                                document.getElementById('sideNotIn').innerHTML = "";
-                                document.getElementById('sideNotIn').remove();
-                            } catch (e) {
+                        });
+                    }
+                    if (triggerEl.id === "pills-profile-tab") {
+                        $.ajax({
+                            url: "{{ route('resetOutGoingNotification') }}",
+                            type: 'get',
+                            success: function (result) {
+                                try {
+                                    document.getElementById('pOutAccepted').innerHTML = "";
+                                    document.getElementById('btnNotRequestOutAcccepted').remove();
+                                } catch (e) {
+                                }
+                                try {
+                                    document.getElementById('pOutRefused').innerHTML = "";
+                                    document.getElementById('btnNotRequestOutRefused').remove();
+                                } catch (e) {
+                                }
+                                try {
+                                    document.getElementById('sideNotOutRefused').innerHTML = "";
+                                    document.getElementById('sideNotOutRefused').remove();
+                                } catch (e) {
+                                }
+                                try {
+                                    document.getElementById('sideNotOutAccepted').innerHTML = "";
+                                    document.getElementById('sideNotOutAccepted').remove();
+                                } catch (e) {
+                                }
                             }
-                        }
-                    });
-                }
-                if (triggerEl.id === "pills-profile-tab") {
-                    $.ajax({
-                        url: "{{ route('resetOutGoingNotification') }}",
-                        type: 'get',
-                        success: function (result) {
-                            try {
-                                document.getElementById('pOutAccepted').innerHTML = "";
-                                document.getElementById('btnNotRequestOutAcccepted').remove();
-                            } catch (e) {
-                            }
-                            try {
-                                document.getElementById('pOutRefused').innerHTML = "";
-                                document.getElementById('btnNotRequestOutRefused').remove();
-                            } catch (e) {
-                            }
-                            try {
-                                document.getElementById('sideNotOutRefused').innerHTML = "";
-                                document.getElementById('sideNotOutRefused').remove();
-                            } catch (e) {
-                            }
-                            try {
-                                document.getElementById('sideNotOutAccepted').innerHTML = "";
-                                document.getElementById('sideNotOutAccepted').remove();
-                            } catch (e) {
-                            }
-                        }
-                    });
-                }
+                        });
+                    }
+                })
             })
-        })
+        });
         $("#pay").click(function () {
             var amount = $("#amount").val();
             if (!(amount) || (amount == 0)) {

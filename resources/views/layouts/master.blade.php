@@ -77,22 +77,23 @@
     <meta content="" name="author"/>
     <meta property="og:image" content="{{ URL::asset('assets/images/2earn.png') }}">
     <meta property="twitter:image" content="{{ URL::asset('assets/images/2earn.png') }}">
-
-
-    <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
-    <script src="https://cdn.anychart.com/releases/v8/js/anychart-ui.min.js"></script>
-    <script src="https://cdn.anychart.com/releases/v8/js/anychart-exports.min.js"></script>
-    <script src="https://cdn.anychart.com/releases/v8/js/anychart-data-adapter.min.js"></script>
-    <link href="https://cdn.anychart.com/releases/v8/css/anychart-ui.min.css" type="text/css" rel="stylesheet">
-    <link href="https://cdn.anychart.com/releases/v8/fonts/css/anychart-font.min.css" type="text/css" rel="stylesheet">
-    <script src="https://cdn.anychart.com/geodata/latest/custom/world/world.js"></script>
-    <script src="https://cdn.anychart.com/releases/v8/js/anychart-circular-gauge.min.js"></script>
-    <script src="https://cdn.anychart.com/releases/v8/js/anychart-map.min.js"></script>
-    <script src="https://cdn.anychart.com/releases/v8/js/anychart-table.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
-    <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
-    <script src="https://cdn.anychart.com/releases/v8/js/anychart-sankey.min.js"></script>
-
+    <!-- vite -->
+    @vite([
+                'resources/anychart/anychart-base.min.js',
+                'resources/anychart/anychart-circular-gauge.min.js',
+                'resources/anychart/anychart-data-adapter.min.js',
+                'resources/anychart/anychart-exports.min.js',
+                'resources/anychart/anychart-font.min.css',
+                'resources/anychart/anychart-map.min.js',
+                'resources/anychart/anychart-sankey.min.js',
+                'resources/anychart/anychart-tag-cloud.min.js',
+                'resources/anychart/anychart-ui.min.css',
+                'resources/anychart/anychart-ui.min.js',
+                'resources/anychart/proj4.js',
+                'resources/anychart/world.js',
+                'resources/anychart/anychart-table.min.js',
+    ])
+    <!-- vite -->
 
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.ico')}}">
@@ -197,7 +198,6 @@
       type="text/css"/>
 <script>
     var fromLogin = '{{Session::has('fromLogin')}}';
-
     if (fromLogin) {
         location.reload();
     }
@@ -211,52 +211,18 @@
     <script src="{{ asset('/sw.js') }}"></script>
 
 @show
-
-@if(app()->getLocale() == 'ar')
-    <style>
-
-        @font-face {
-            font-family: ar400;
-            src: url("{{asset('assets/fonts/NotoKufiArabic-Regular.ttf')}}");
-            font-weight: 400;
-        }
-
-        label, h1, h2, h3, h4, h5, h6, a, button, p, i, span, strong, .btn, div {
-            font-family: ar400;
-            font-weight: 500 !important;
-        }
-
-        .navbar-menu .navbar-nav .nav-link {
-            font-family: ar400 !important;
-
-        }
-    </style>
-@endif
 <div id="layout-wrapper">
     <livewire:top-bar :currentRoute="Route::currentRouteName()"/>
     @include('layouts.sidebar')
-    <!-- ============================================================== -->
-    <!-- Start right Content here -->
-    <!-- ============================================================== -->
     <div class="main-content">
         <div class="page-content">
             <div class="container-fluid">
                 @yield('content')
             </div>
-            <!-- container-fluid -->
         </div>
-        <!-- End Page-content -->
     </div>
-    <!-- end main content-->
 </div>
 @include('layouts.footer', ['pageName' => 'master'])
-<!-- END layout-wrapper -->
-
-{{--@include('layouts.customizer')--}}
-
-<!-- JAVASCRIPT -->
-
-
 @livewireScripts
 
 
@@ -278,8 +244,10 @@
 <script src="{{ URL::asset('assets/js/pages/datatables.init.js') }}"></script>
 
 <script>
-    anychart.onDocumentReady(function () {
-        anychart.licenseKey('2earn.cash-953c5a55-712f04c3');
+    window.addEventListener('load', () => {
+        anychart.onDocumentReady(function () {
+            anychart.licenseKey('2earn.cash-953c5a55-712f04c3');
+        });
     });
     $(document).on('ready turbolinks:load', function () {
         var classAl = "text-end";

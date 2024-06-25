@@ -363,3 +363,19 @@ input[type=range]::-ms-fill-upper {
 #login-form .iti, #forget-password-form .iti {
     width: 100% !important;
 }
+
+@font-face {
+    font-family: ar400;
+    src: url("{{asset('assets/fonts/NotoKufiArabic-Regular.ttf')}}");
+    font-weight: 400;
+}
+
+label, h1, h2, h3, h4, h5, h6, a, button, p, i, span, strong, .btn, div {
+    font-family: ar400;
+    font-weight: 500 !important;
+}
+
+.navbar-menu .navbar-nav .nav-link {
+    font-family: ar400 !important;
+
+}
