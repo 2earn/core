@@ -332,7 +332,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/list.pagination.js/0.1.1/list.pagination.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <script data-turbolinks-eval="false">
-        $(document).on('ready turbolinks:load', function () {
+        document.addEventListener("turbolinks:load", function() {
             var existeUserContact = '{{Session::has('existeUserContact')}}';
 
             if (existeUserContact) {
