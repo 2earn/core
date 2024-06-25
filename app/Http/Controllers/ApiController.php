@@ -1525,19 +1525,17 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUs
 
     public function getRequestAjax()
     {
-        $userAuth = $this->settingsManager->getAuthUser();
-        if (!$userAuth) abort(404);
         $array = [];
         $requestInOpen = detail_financial_request::join('financial_request', 'financial_request.numeroReq', '=', 'detail_financial_request.numeroRequest')
-            ->where('detail_financial_request.idUser', $userAuth->idUser)
+            ->where('detail_financial_request.idUser', auth()->user()->idUser)
             ->where('financial_request.Status', 0)
             ->where('detail_financial_request.vu', 0)
             ->count();
-        $requestOutAccepted = FinancialRequest::where('financial_request.idSender', $userAuth->idUser)
+        $requestOutAccepted = FinancialRequest::where('financial_request.idSender', auth()->user()->idUser)
             ->where('financial_request.Status', 1)
             ->where('financial_request.vu', 0)
             ->count();
-        $requestOutRefused = FinancialRequest::where('financial_request.idSender', $userAuth->idUser)
+        $requestOutRefused = FinancialRequest::where('financial_request.idSender',  auth()->user()->idUser)
             ->where('financial_request.Status', 5)
             ->where('financial_request.vu', 0)
             ->count();
