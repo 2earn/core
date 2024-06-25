@@ -423,48 +423,50 @@
             }
         }
 
-        function sendMailNotification() {
-            $("#inputEmailUser").css('border-color', 'green');
-            $.ajax({
-                method: "GET",
-                url: "/sendMailNotification",
-                async: false,
-                success: (result) => {
-                    $("#inputEmailUser").css('border-color', 'green');
-                    sendEmailNotification = true;
-                }
-            });
-        }
-
-        $('input[type="file"]').each(function () {
-            var $file = $(this),
-                $label = $file.next('label'),
-                $labelText = $label.find('span'),
-                labelDefault = $labelText.text();
-            $file.on('change', function (event) {
-                var fileName = $file.val().split('\\').pop(),
-                    tmppath = URL.createObjectURL(event.target.files[0]);
-                if (fileName) {
-                    $label.addClass('file-ok').css('background-image', 'url(' + tmppath + ')');
-                    $labelText.text(fileName);
-                } else {
-                    $label.removeClass('file-ok');
-                    $labelText.text(labelDefault);
-                }
-            });
-        });
-
-        $('#international-card').change(function () {
-            if (this.checked) {
-                $('#international-card-block').removeClass("d-none");
-                $("#internationalId, #expiryDate, #photoInternational").val('');
-            } else {
-                $('#international-card-block').addClass("d-none")
+        window.addEventListener('load', () => {
+            function sendMailNotification() {
+                $("#inputEmailUser").css('border-color', 'green');
+                $.ajax({
+                    method: "GET",
+                    url: "/sendMailNotification",
+                    async: false,
+                    success: (result) => {
+                        $("#inputEmailUser").css('border-color', 'green');
+                        sendEmailNotification = true;
+                    }
+                });
             }
-        });
 
-        $('#btn-next-identities-card').click(function (e) {
-            $('#myTab button[id="pills-identities-card-tab"]').tab('show');
+            $('input[type="file"]').each(function () {
+                var $file = $(this),
+                    $label = $file.next('label'),
+                    $labelText = $label.find('span'),
+                    labelDefault = $labelText.text();
+                $file.on('change', function (event) {
+                    var fileName = $file.val().split('\\').pop(),
+                        tmppath = URL.createObjectURL(event.target.files[0]);
+                    if (fileName) {
+                        $label.addClass('file-ok').css('background-image', 'url(' + tmppath + ')');
+                        $labelText.text(fileName);
+                    } else {
+                        $label.removeClass('file-ok');
+                        $labelText.text(labelDefault);
+                    }
+                });
+            });
+
+            $('#international-card').change(function () {
+                if (this.checked) {
+                    $('#international-card-block').removeClass("d-none");
+                    $("#internationalId, #expiryDate, #photoInternational").val('');
+                } else {
+                    $('#international-card-block').addClass("d-none")
+                }
+            });
+
+            $('#btn-next-identities-card').click(function (e) {
+                $('#myTab button[id="pills-identities-card-tab"]').tab('show');
+            });
         });
 
         window.addEventListener('IdentificationRequestMissingInformation', event => {

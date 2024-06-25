@@ -1084,7 +1084,6 @@ and u.idamount not in(4,6)  and u.idUser=? and u.idamount=? order by Date   ", [
 
     public function getUserBalances($typeAmounts)
     {
-
         $idAmounts = 0;
         switch ($typeAmounts) {
             case 'cash-Balance':
@@ -1103,7 +1102,6 @@ and u.idamount not in(4,6)  and u.idUser=? and u.idamount=? order by Date   ", [
                 $idAmounts = 0;
                 break;
         }
-        $user = $this->settingsManager->getAuthUser();
 
         $userData = DB::select("SELECT RANK() OVER (
         ORDER BY ub.Date desc
@@ -1123,7 +1121,7 @@ when bo.IO = 'IO' then 'IO'
 end)   OVER(ORDER BY date) ,3) , ' $') else concat( format( ub.balance ,3,'en_EN') ,' $') end  as balance,ub.PrixUnitaire,'d' as sensP
   FROM user_balances ub inner join balanceoperations bo on
 ub.idBalancesOperation = bo.idBalanceOperations
-where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [$idAmounts, $user->idUser]
+where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [$idAmounts, auth()->user()->idUser]
         );
 
         return Datatables::of($userData)
@@ -1535,7 +1533,7 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUs
             ->where('financial_request.Status', 1)
             ->where('financial_request.vu', 0)
             ->count();
-        $requestOutRefused = FinancialRequest::where('financial_request.idSender',  auth()->user()->idUser)
+        $requestOutRefused = FinancialRequest::where('financial_request.idSender', auth()->user()->idUser)
             ->where('financial_request.Status', 5)
             ->where('financial_request.vu', 0)
             ->count();

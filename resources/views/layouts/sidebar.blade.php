@@ -194,7 +194,7 @@
                             </a>
                         </li>
                     @endif
-                    @if(getExtraAdmin()=="0021653342666" || getExtraAdmin()=="0021629294046" ||getExtraAdmin()=="0021653615614" ||auth()->user()->getRoleNames()->first() =="Super admin")
+                    @if(auth()->user()->getRoleNames()->first() =="Super admin")
                         <li class="nav-item {{Route::currentRouteName()=='translate'? 'active' : ''}}">
                             <a data-turbolinks="false" href="{{route('translate', app()->getLocale())}}"
                                class="nav-link menu-link {{Route::currentRouteName()=='translate'? 'active' : ''}}"

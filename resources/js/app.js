@@ -1,8 +1,12 @@
-// Added: Actual Bootstrap JavaScript dependency
+import jQuery from 'jquery';
+Object.assign(window, {
+    $: jQuery,
+    jQuery
+})
+
 import * as bootstrap from 'bootstrap';
 window.bootstrap = bootstrap;
 
-// Added: Popper.js dependency for popover support in Bootstrap
 import '@popperjs/core';
 
 import Swal from 'sweetalert2';
@@ -17,9 +21,6 @@ import Turbolinks from "turbolinks";
 Turbolinks.start();
 
 
-import jQuery from "jquery";
-window.$ = jQuery;
-
 import select2 from 'select2';
 select2();
 
@@ -28,6 +29,7 @@ const swiper = new Swiper();
 
 
 import DataTable from "datatables.net-bs5";
+window.DataTable = DataTable;
 
 (function () {
 

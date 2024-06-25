@@ -366,7 +366,7 @@ input[type=range]::-ms-fill-upper {
 
 @font-face {
     font-family: ar400;
-    src: url("{{asset('assets/fonts/NotoKufiArabic-Regular.ttf')}}");
+    src: url("../fonts/NotoKufiArabic-Regular.ttf");
     font-weight: 400;
 }
 

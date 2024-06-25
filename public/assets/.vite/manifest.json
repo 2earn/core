@@ -125,6 +125,10 @@
     "src": "resources/fontawesome/all.min.css",
     "isEntry": true
   },
+  "resources/fonts/NotoKufiArabic-Regular.ttf": {
+    "file": "icons/NotoKufiArabic-Regular.ttf",
+    "src": "resources/fonts/NotoKufiArabic-Regular.ttf"
+  },
   "resources/fonts/anychart.eot": {
     "file": "icons/anychart.eot",
     "src": "resources/fonts/anychart.eot"
