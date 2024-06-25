@@ -289,7 +289,6 @@
                 </div><!-- end card header -->
                 <div class="card-body">
                     <p class="text-muted">Use <code>effect-creative-swiper</code> class to set a swiper with creative custom effect.</p>
-
                     <!-- Swiper -->
                     <div class="swiper effect-creative-swiper rounded">
                         <div class="swiper-wrapper">
@@ -305,9 +304,9 @@
                         </div>
                         <div class="swiper-pagination"></div>
                     </div>
-                </div><!-- end card-body -->
-            </div><!-- end card -->
-        </div><!--end col-->
+                </div>
+            </div>
+        </div>
         <div class="col-xl-4 col-lg-6">
             <div class="card">
                 <div class="card-header">
@@ -331,9 +330,9 @@
                         </div>
                         <div class="swiper-pagination"></div>
                     </div>
-                </div><!-- end card-body -->
-            </div><!-- end card -->
-        </div><!--end col-->
+                </div>
+            </div>
+        </div>
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
@@ -341,7 +340,6 @@
                 </div><!-- end card header -->
                 <div class="card-body">
                     <p class="text-muted">Use <code>effect-coverflow-swiper</code> class to set a swiper with coverflow effect.</p>
-
                     <!-- Swiper -->
                     <div class="swiper effect-coverflow-swiper rounded pb-5">
                         <div class="swiper-wrapper">
@@ -366,9 +364,9 @@
                         </div>
                         <div class="swiper-pagination swiper-pagination-dark"></div>
                     </div>
-                </div><!-- end card-body -->
-            </div><!-- end card -->
-        </div><!--end col-->
+                </div>
+            </div>
+        </div>
 
         <div class="col-lg-12">
             <div class="card">
@@ -519,16 +517,14 @@
                         </div>
                         <div class="swiper-pagination swiper-pagination-dark"></div>
                     </div>
-                </div><!-- end card-body -->
-            </div><!-- end card -->
-        </div><!--end col-->
-    </div><!--end row-->
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('script')
     <script src="{{ URL::asset('/assets/libs/prismjs/prism.js') }}"></script>
     <script src="{{ URL::asset('/assets/libs/swiper/swiper.min.js') }}"></script>
     <script src="{{ URL::asset('/assets/js/pages/swiper.init.js') }}"></script>
-
     <script src="{{ URL::asset('assets/js/app.min.js') }}"></script>
-
 @endsection

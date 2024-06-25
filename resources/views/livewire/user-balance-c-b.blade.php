@@ -59,7 +59,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <div class="card-body table-responsive">
                     <table class="table nowrap dt-responsive align-middle table-hover table-bordered" id="ub_table"
@@ -135,6 +134,7 @@
             usd.innerHTML = '<div class="fs-20 ff-secondary fw-semibold mb-0 mt-2 col-12">' + $("#ammount1").val() + ' USD</div><div class="fs-20 ff-secondary fw-semibold mb-0 mt-2">{{__('to')}}</div><div class="fs-20 ff-secondary fw-semibold mb-0 mt-2 col-12">' + $("#ammount1").val() * {{ usdToSar() }} + ' SQR</div>';
             $('#ammount2').val($("#ammount1").val() * {{ usdToSar() }});
         });
+
         $(document).on("click", "#tran_paytabs", function () {
             if ($("#ammount1").val() > 0 && $("#ammount2").val() > 0) {
                 this.disabled = true;

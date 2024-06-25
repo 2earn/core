@@ -23,6 +23,10 @@ window.$ = jQuery;
 import select2 from 'select2';
 select2();
 
+import Swiper from 'swiper';
+const swiper = new Swiper();
+
+
 import DataTable from "datatables.net-bs5";
 
 (function () {
