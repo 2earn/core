@@ -505,7 +505,6 @@
         </div>
     </div>
     @push('scripts')
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="{{ URL::asset('assets/libs/prismjs/prism.js') }}"></script>
         <script src="{{ URL::asset('assets/js/pages/form-validation.init.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -554,87 +553,88 @@
             </script>
         @endif
         <script>
-
-            $(document).on('ready ', function () {
-                    const input = document.querySelector("#phone");
-                    const iti = window.intlTelInput(input, {
-                        initialCountry: "auto",
-                        useFullscreenPopup: false,
-                        utilsScript: "{{asset('assets/js/utils.js')}}"
-                    });
-                    $('[name="inlineRadioOptions"]').on('change', function () {
-                        if ($('#inlineRadio2').is(':checked')) {
-                            $('#contact-select').removeClass('d-none');
-                            $('#bfs-select').removeClass('d-none');
-                        } else {
-                            $('#contact-select').addClass('d-none');
-                            $('#bfs-select').addClass('d-none');
-                        }
-                    });
-                    $(document).on("click", "#buy-action-submit", function () {
-                        this.disabled = true;
-                        $('.buy-action-submit-spinner').show();
-                        let ammount = parseFloat($('#ammount').val());
-                        let phone = $('#phone').val();
-                        let me_or_other = $("input[name='inlineRadioOptions']:checked").val();
-                        let bfs_for = $("input[name='bfs-for']:checked").val();
-                        let country_code = iti.getSelectedCountryData().iso2;
-                        $.ajax({
-                            url: "{{ route('buyAction', app()->getLocale()) }}",
-                            type: "POST",
-                            data: {
-                                me_or_other: me_or_other,
-                                bfs_for: bfs_for,
-                                phone: phone,
-                                country_code: country_code,
-                                ammount: ammount,
-                                vip: {{$flashTimes}},
-                                flashMinShares: {{$flashMinShares}},
-                                flash: "{{$flash}}",
-                                actions: {{$actions}},
-                                "_token": "{{ csrf_token() }}"
-                            },
-                            success: function (data) {
-                                let backgroundColor = "#27a706"
-                                if (data.error) {
-                                    backgroundColor = "#ba0404";
-                                    Swal.fire({
-                                        icon: "error",
-                                        title: "{{__('Validation failed')}}",
-                                        html: response.error.join('<br>')
-                                    });
-                                }
-                                $('#buy-action').modal('hide');
-                                Toastify({
-                                    text: data.message,
-                                    gravity: "top",
-                                    duration: 4000,
-                                    className: "info",
-                                    position: "center",
-                                    backgroundColor: backgroundColor
-                                }).showToast();
-                                $('.buy-action-submit-spinner').hide();
-                                location.reload();
-                            },
-                            error: function (data) {
-                                var responseData = JSON.parse(data.responseText);
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: "{{__('Error in action purchase transaction')}}",
-                                    confirmButtonText: '{{__('ok')}}',
-                                    text: responseData.error[0]
-                                });
-                                $('.buy-action-submit-spinner').hide();
+            window.addEventListener('load', () => {
+                $(document).on('ready ', function () {
+                        const input = document.querySelector("#phone");
+                        const iti = window.intlTelInput(input, {
+                            initialCountry: "auto",
+                            useFullscreenPopup: false,
+                            utilsScript: "{{asset('assets/js/utils.js')}}"
+                        });
+                        $('[name="inlineRadioOptions"]').on('change', function () {
+                            if ($('#inlineRadio2').is(':checked')) {
+                                $('#contact-select').removeClass('d-none');
+                                $('#bfs-select').removeClass('d-none');
+                            } else {
+                                $('#contact-select').addClass('d-none');
+                                $('#bfs-select').addClass('d-none');
                             }
                         });
-                        setTimeout(() => {
-                            this.disabled = false;
-                            $('.buy-action-submit-spinner').hide();
-                        }, 2000);
+                        $(document).on("click", "#buy-action-submit", function () {
+                            this.disabled = true;
+                            $('.buy-action-submit-spinner').show();
+                            let ammount = parseFloat($('#ammount').val());
+                            let phone = $('#phone').val();
+                            let me_or_other = $("input[name='inlineRadioOptions']:checked").val();
+                            let bfs_for = $("input[name='bfs-for']:checked").val();
+                            let country_code = iti.getSelectedCountryData().iso2;
+                            $.ajax({
+                                url: "{{ route('buyAction', app()->getLocale()) }}",
+                                type: "POST",
+                                data: {
+                                    me_or_other: me_or_other,
+                                    bfs_for: bfs_for,
+                                    phone: phone,
+                                    country_code: country_code,
+                                    ammount: ammount,
+                                    vip: {{$flashTimes}},
+                                    flashMinShares: {{$flashMinShares}},
+                                    flash: "{{$flash}}",
+                                    actions: {{$actions}},
+                                    "_token": "{{ csrf_token() }}"
+                                },
+                                success: function (data) {
+                                    let backgroundColor = "#27a706"
+                                    if (data.error) {
+                                        backgroundColor = "#ba0404";
+                                        Swal.fire({
+                                            icon: "error",
+                                            title: "{{__('Validation failed')}}",
+                                            html: response.error.join('<br>')
+                                        });
+                                    }
+                                    $('#buy-action').modal('hide');
+                                    Toastify({
+                                        text: data.message,
+                                        gravity: "top",
+                                        duration: 4000,
+                                        className: "info",
+                                        position: "center",
+                                        backgroundColor: backgroundColor
+                                    }).showToast();
+                                    $('.buy-action-submit-spinner').hide();
+                                    location.reload();
+                                },
+                                error: function (data) {
+                                    var responseData = JSON.parse(data.responseText);
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: "{{__('Error in action purchase transaction')}}",
+                                        confirmButtonText: '{{__('ok')}}',
+                                        text: responseData.error[0]
+                                    });
+                                    $('.buy-action-submit-spinner').hide();
+                                }
+                            });
+                            setTimeout(() => {
+                                this.disabled = false;
+                                $('.buy-action-submit-spinner').hide();
+                            }, 2000);
 
-                    })
-                }
-            );
+                        })
+                    }
+                );
+            });
 
             var series;
             window.addEventListener('load', () => {
