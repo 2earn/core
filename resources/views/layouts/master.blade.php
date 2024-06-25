@@ -148,15 +148,6 @@
     <style>
         @import url({{asset('/')."assets/icons/material-design-iconic-font/css/materialdesignicons.min.css"}});
         @import url({{asset('assets/icons/line-awesome/css/line-awesome.min.css')}});
-        @import url({{asset('assets/icons/font-awesome/css/font-awesome.min.css')}});
-
-        .page-title-box-db {
-            background-color: #009fe3 !important;;
-        }
-
-        .page-title-box-bfs {
-            background-color: #bc34b6 !important;
-        }
 
         @font-face {
 
@@ -228,7 +219,6 @@
 
 <script src="{{ URL::asset('/assets/libs/dropzone/dropzone-min.js') }}"></script>
 <script src="{{ URL::asset('/assets/js/pages/crypto-kyc.init.js') }}"></script>
-{{--<script src="{{ URL::asset('assets/js/pages/team.init.js') }}"></script>--}}
 <script src="{{ URL::asset('assets/libs/filepond/filepond.min.js') }}"></script>
 <script src="{{ URL::asset('assets/libs/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js') }}">
 </script>
@@ -258,8 +248,6 @@
         var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";
         var urlLang = "//cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
         var url = '';
-
-
         $('#HistoryNotificationTable').DataTable(
             {
                 retrieve: true,
@@ -281,9 +269,7 @@
                         });
                 },
                 "processing": true,
-                search: {
-                    return: true
-                },
+                search: {return: true},
                 "ajax": "{{route('API_HistoryNotification',app()->getLocale())}}",
                 "columns": [
                     {data: 'reference'},
@@ -305,16 +291,12 @@
                 "orderCellsTop": true,
                 "fixedHeader": true,
                 initComplete: function () {
-                    // Apply the search
                     this.api()
                         .columns()
                         .every(function () {
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
                             var that = $('#userManager_table').DataTable();
                             $('input', this.footer()).on('keydown', function (ev) {
-                                if (ev.keyCode == 13) {//only on enter keypress (code 13)
+                                if (ev.keyCode == 13) {
                                     that
                                         .search(this.value)
                                         .draw();
@@ -323,9 +305,7 @@
                         });
                 },
                 "processing": true,
-                search: {
-                    return: true
-                },
+                search: {return: true},
                 "ajax": "{{route('API_usermanager',app()->getLocale())}}",
                 "columns": [
                     {data: 'N'},
@@ -339,9 +319,7 @@
                     {data: 'country'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
-                "language": {
-                    "url": urlLang
-                }
+                "language": {"url": urlLang}
             }
         );
 
@@ -362,7 +340,6 @@
                     {"data": "flag"},
                     {"data": "status"},
                     {"data": "availablity"},
-
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
                 "columnDefs":
@@ -416,7 +393,6 @@
             }
         );
 
-
         $('#userPurchase_table').DataTable(
             {
                 "ordering": false,
@@ -424,29 +400,20 @@
                 "colReorder": false,
 
                 dom: 'Bfrtip',
-                buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
-                ],
+                buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
                 "orderCellsTop": true,
                 "fixedHeader": true,
                 initComplete: function () {
-                    // Apply the search
                     this.api()
                         .columns()
                         .every(function () {
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
                             if ($.fn.dataTable.isDataTable('#countries_table')) {
 
                                 var that = $('#userPurchase_table').DataTable();
                             }
                             $('input', this.footer()).on('keydown', function (ev) {
-                                if (ev.keyCode == 13) {//only on enter keypress (code 13)
-                                    that
-
-                                        .search(this.value)
-                                        .draw();
+                                if (ev.keyCode == 13) {
+                                    that.search(this.value).draw();
                                 }
                             });
                         });
@@ -455,9 +422,7 @@
                 "processing": true,
                 "serverSide": true,
                 "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                search: {
-                    return: true
-                },
+                search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
                 "ajax": "{{route('API_userPurchase', app()->getLocale() )}}",
@@ -474,41 +439,24 @@
                     {data: 'CashBack_BFS'},
                     {data: 'CashBack_CB'},
                     {data: 'Economy'}
-
-
-                    // {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
-
-                "language": {
-                    "url": urlLang
-                }
+                "language": {"url": urlLang}
 
             }
         );
         $('#countries_table').DataTable(
             {
                 retrieve: true,
-                // "colReorder": true,
-                // dom: 'Bfstrip',
-                // buttons: [
-                //     'csv', 'excel'
-                // ],
-                // "orderCellsTop": true,
-                // "fixedHeader": true,
                 initComplete: function () {
-                    // Apply the search
                     this.api()
                         .columns()
                         .every(function () {
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
                             if ($.fn.dataTable.isDataTable('#countries_table')) {
 
                                 var that = $('#countries_table').DataTable();
                             }
                             $('input', this.footer()).on('keydown', function (ev) {
-                                if (ev.keyCode == 13) {//only on enter keypress (code 13)
+                                if (ev.keyCode == 13) {
                                     that
 
                                         .search(this.value)
@@ -517,24 +465,14 @@
                             });
                         });
                 },
-                // "processing": true,
-                // "serverSide": true,
-                // "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                // search: {
-                //     return: true
-                // },
                 "ajax": "{{route('API_countries',app()->getLocale())}}",
                 "columns": [
-
                     {"data": "name"},
                     {"data": "phonecode"},
                     {"data": "langage"},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
-                "language": {
-                    "url": " //cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json"
-                }
-
+                "language": {"url": " //cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json"}
             }
         );
 
@@ -544,27 +482,19 @@
                 retrieve: true,
                 "colReorder": false,
                 dom: 'Bfrtip',
-                buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
-                ],
+                buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
                 "orderCellsTop": true,
                 "fixedHeader": true,
                 initComplete: function () {
-                    // Apply the search
                     this.api()
                         .columns()
                         .every(function () {
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
                             if ($.fn.dataTable.isDataTable('#countries_table')) {
-
                                 var that = $('#userPurchase_table').DataTable();
                             }
                             $('input', this.footer()).on('keydown', function (ev) {
-                                if (ev.keyCode == 13) {//only on enter keypress (code 13)
+                                if (ev.keyCode == 13) {
                                     that
-
                                         .search(this.value)
                                         .draw();
                                 }
@@ -575,9 +505,7 @@
                 "processing": true,
                 "serverSide": true,
                 "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                search: {
-                    return: true
-                },
+                search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
                 "ajax": "{{route('API_userPurchase', app()->getLocale() )}}",
@@ -594,15 +522,8 @@
                     {data: 'CashBack_BFS'},
                     {data: 'CashBack_CB'},
                     {data: 'Economy'}
-
-
-                    // {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
-
-                "language": {
-                    "url": urlLang
-                }
-
+                "language": {"url": urlLang}
             }
         );
         $('#users-list').DataTable(
@@ -671,9 +592,7 @@
                     {data: 'present_value'},
                     {data: 'current_earnings'},
                 ],
-                "language": {
-                    "url": urlLang
-                }
+                "language": {"url": urlLang}
             }
         );
 
@@ -707,9 +626,7 @@
                     {data: 'COUNT_REAL_TRAIDERS'},
                     {data: 'TRANSFERT_MADE'},
                 ],
-                "language": {
-                    "url": urlLang
-                }
+                "language": {"url": urlLang}
             }
         );
 
@@ -728,14 +645,8 @@
                 autoWidth: false,
                 bAutoWidth: false,
                 "ajax": "{{route('API_transfert',['locale'=> app()->getLocale()])}}",
-                "columns": [
-                    {data: 'value'},
-                    {data: 'Description'},
-                    {data: 'formatted_created_at'},
-                ],
-                "language": {
-                    "url": urlLang
-                }
+                "columns": [{data: 'value'}, {data: 'Description'}, {data: 'formatted_created_at'},],
+                "language": {"url": urlLang}
             }
         );
 
@@ -824,13 +735,7 @@
             $.ajax({
                 url: "{{ route('update-balance-real') }}",
                 type: "POST",
-
-                data: {
-                    total: total,
-                    amount: ammount,
-                    id: reciver,
-                    "_token": "{{ csrf_token() }}"
-                },
+                data: {total: total, amount: ammount, id: reciver, "_token": "{{ csrf_token() }}"},
                 success: function (data) {
                     $('#realsoldmodif').modal('hide');
                     $('#shares-sold').DataTable().ajax.reload();
@@ -841,7 +746,6 @@
         });
 
         function fetchAndUpdateCardContent() {
-            // Make an AJAX request to get the updated content
             $.ajax({
                 url: '{{ route('get-updated-card-content') }}', // Adjust the endpoint URL
                 method: 'GET',
@@ -886,14 +790,12 @@
                                     return '<span class="badge bg-danger text-end">' + data + '</span>';
                                 else
                                     return '<span class="badge bg-success text-end">' + data + '</span>';
-
                             },
                             className: classAl,
                         },
                         {
                             "targets": [5],
                             render: function (data, type, row) {
-
                                 if (row.ranks == 1)
                                     if (row.idamount == 1)
                                         return '<div class="logoTopCashLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
@@ -928,7 +830,7 @@
                                 var that = $('#userBalanceDB_table').DataTable();
                             }
                             $('input', this.footer()).on('keydown', function (ev) {
-                                if (ev.keyCode == 13) {//only on enter keypress (code 13)
+                                if (ev.keyCode == 13) {
                                     that
                                         .search(this.value)
                                         .draw();
@@ -940,9 +842,7 @@
                 "processing": true,
                 "serverSide": true,
                 "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                search: {
-                    return: true
-                },
+                search: {return: true},
                 "ajax": "{{route('API_UserBalances',['locale'=> app()->getLocale(), 'idAmounts'=>'Discounts-Balance'])}}",
                 "columns": [
                     {data: 'Ref'},
@@ -963,7 +863,6 @@
                                     return '<span class="badge bg-danger text-end">' + data + '</span>';
                                 else
                                     return '<span class="badge bg-success text-end">' + data + '</span>';
-
                             },
                             className: classAl,
                         },
@@ -996,9 +895,6 @@
             }
         );
 
-
-        // configuratiion page
-
         $('#SettingsTable').DataTable(
             {
                 retrieve: true,
@@ -1008,27 +904,8 @@
                 search: {
                     return: true
                 },
-                /*  initComplete: function () {
-                      // Apply the search
-                      this.api()
-                          .columns()
-                          .every(function () {
-                              // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                              //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                              // }
-                              var that = $('#SettingsTable').DataTable();
-                              $('#dataTables_filter input', this.footer()).on('keydown', function (ev) {
-                                  // if (ev.keyCode == 13) {//only on enter keypress (code 13)
-                                  that
-                                      .search(this.value)
-                                      .draw();
-                                  // }
-                              });
-                          });
-                  },*/
                 "processing": true,
                 "aLengthMenu": [[5, 30, 50], [5, 30, 50]],
-
                 "ajax": "{{route('API_settings',app()->getLocale())}}",
                 "columns": [
                     {"data": "ParameterName"},
@@ -1046,8 +923,6 @@
         );
 
         function saveHA() {
-            // alert($('#tags').tagsinput('input'));
-            // alert($('#tags').val());
             window.livewire.emit('saveHA', $("#tags").val());
         }
 
@@ -1058,16 +933,12 @@
                 "orderCellsTop": true,
                 "fixedHeader": true,
                 initComplete: function () {
-                    // Apply the search
                     this.api()
                         .columns()
                         .every(function () {
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
                             var that = $('#BalanceOperationsTable').DataTable();
                             $('input', this.footer()).on('keydown', function (ev) {
-                                if (ev.keyCode == 13) {//only on enter keypress (code 13)
+                                if (ev.keyCode == 13) {
                                     that
                                         .search(this.value)
                                         .draw();
@@ -1084,9 +955,7 @@
                     {"data": "Designation"},
                     {"data": "IO"},
                     {"data": "idSource"},
-                    // { "data": "Mode" },
                     {"data": "amountsshortname"},
-                    // { "data": "Note"   },
                     {data: 'MODIFY_AMOUNT'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
@@ -1102,16 +971,12 @@
                 "orderCellsTop": true,
                 "fixedHeader": true,
                 initComplete: function () {
-                    // Apply the search
                     this.api()
                         .columns()
                         .every(function () {
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
                             var that = $('#amountsTable').DataTable();
                             $('input', this.footer()).on('keydown', function (ev) {
-                                if (ev.keyCode == 13) {//only on enter keypress (code 13)
+                                if (ev.keyCode == 13) {
                                     that
                                         .search(this.value)
                                         .draw();
@@ -1120,9 +985,7 @@
                         });
                 },
                 "processing": true,
-                search: {
-                    return: true
-                },
+                search: {return: true},
                 "ajax": "{{route('API_Amounts',app()->getLocale())}}",
                 "columns": [
                     {data: 'amountsname'},
@@ -1134,12 +997,9 @@
                     {data: 'amountsactive'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
-                "language": {
-                    "url": urlLang
-                }
+                "language": {"url": urlLang}
             }
         );
-
 
         $('#ActionHistorysTable').DataTable(
             {
@@ -1148,39 +1008,29 @@
                 "orderCellsTop": true,
                 "fixedHeader": true,
                 initComplete: function () {
-                    // Apply the search
                     this.api()
                         .columns()
                         .every(function () {
-                            // if( !that.settings()[0].aoColumns[colIdx].bSearchable ){
-                            //     that.column( colIdx ).header().innerHTML=table.column( colIdx ).footer().innerHTML;
-                            // }
-                            if ($.fn.dataTable.isDataTable('#ActionHistorysTable')) {
 
+                            if ($.fn.dataTable.isDataTable('#ActionHistorysTable')) {
                                 var that = $('#ActionHistorysTable').DataTable();
                             }
                             $('input', this.footer()).on('keydown', function (ev) {
-                                if (ev.keyCode == 13) {//only on enter keypress (code 13)
-                                    that
-                                        .search(this.value)
-                                        .draw();
+                                if (ev.keyCode == 13) {
+                                    that.search(this.value).draw();
                                 }
                             });
                         });
                 },
                 "processing": true,
-                search: {
-                    return: true
-                },
+                search: {return: true},
                 "ajax": "{{route('API_ActionHistory',app()->getLocale())}}",
                 "columns": [
                     {data: 'title'},
                     {data: 'reponce'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
-                "language": {
-                    "url": urlLang
-                }
+                "language": {"url": urlLang}
             }
         );
 
@@ -1193,7 +1043,6 @@
                 "fixedHeader": true,
                 "order": [[2, 'desc']],
                 initComplete: function () {
-                    // Apply the search
                     this.api()
                         .columns()
                         .every(function () {
@@ -1201,18 +1050,14 @@
                                 var that = $('#ub_table_bfs').DataTable();
                             }
                             $('input', this.footer()).on('keydown', function (ev) {
-                                if (ev.keyCode == 13) {//only on enter keypress (code 13)
-                                    that
-                                        .search(this.value)
-                                        .draw();
+                                if (ev.keyCode == 13) {
+                                    that.search(this.value).draw();
                                 }
                             });
                         });
                 },
                 "processing": true,
-                search: {
-                    return: true
-                },
+                search: {return: true},
                 "ajax": "{{route('API_userBFSPurchase',app()->getLocale())}}",
                 "columns": [
                     {data: 'ranks'},
@@ -1238,12 +1083,10 @@
                         {
                             "targets": [6],
                             render: function (data, type, row) {
-
                                 if (row.ranks == 1)
                                     return '<div class="logoTopBFSLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
                                 else
                                     return data;
-
                             }
                         },
                         {
@@ -1256,19 +1099,15 @@
                                 return data;
                             }
                         }],
-                "language": {
-                    "url": urlLang
-                }
+                "language": {"url": urlLang}
             });
 
         $("#select2bfs").select2();
 
 
         $("#select2bfs").on("select2:select select2:unselect", function (e) {
-
-            //this returns all the selected item
             var items = $(this).val();
-            if ($(this).val() == null) { //$('#ub_table_bfs').DataTable().ajax.reload();
+            if ($(this).val() == null) {
                 table_bfs.columns(3).search("").draw();
             } else {
                 table_bfs
@@ -1283,21 +1122,17 @@
         var myModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('settingModal'));
         myModal.hide();
         $('#SettingsTable').DataTable().ajax.reload();
-        // $("#settingModal").modal.hide();
     })
     window.addEventListener('closeModalOp', event => {
         var myModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('BoModal'));
         myModal.hide();
         $('#BalanceOperationsTable').DataTable().ajax.reload();
-        // $("#settingModal").modal.hide();
     })
     window.addEventListener('closeModalAmounts', event => {
         var myModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('AmountsModal'));
         myModal.hide();
         $('#amountsTable').DataTable().ajax.reload();
-        // $("#settingModal").modal.hide();
     })
-
 </script>
 
 @stack('scripts')
@@ -1305,7 +1140,6 @@
 <script data-turbolinks-eval="false">
 
     $(document).on('ready turbolinks:load', function () {
-
         var ipPhone = document.getElementById("inputPhoneUpdate");
         const myParams = window.location.pathname.split("/");
         const pathPage = myParams[2];
@@ -1344,7 +1178,7 @@
                         callback(countryCode);
                     });
                 },
-                utilsScript: " {{asset('assets/js/utils.js')}}" // just for formatting/placeholders etc
+                utilsScript: " {{asset('assets/js/utils.js')}}"
             });
             inputUpPhone.addEventListener('keyup', resetUpPhone);
             inputUpPhone.addEventListener('countrychange', resetUpPhone);
@@ -1397,7 +1231,6 @@
                 if (itiUpPhone.isValidNumber()) {
                     errorMsg.classList.add("invisible");
                     $("#submit_phone").prop("disabled", false);
-
                 } else {
                     $("#submit_phone").prop("disabled", true);
                     inputUpPhone.classList.add("error");
@@ -1431,7 +1264,7 @@
                         callback(countryCodelog);
                     });
                 },
-                utilsScript: " {{asset('assets/js/utils.js')}}" // just for formatting/placeholders etc
+                utilsScript: " {{asset('assets/js/utils.js')}}"
             });
 
             inputlog.addEventListener('keyup', resetContacts);
@@ -1440,12 +1273,9 @@
                 var country12 = countryDataLog[i];
                 var optionNode12 = document.createElement("option");
                 optionNode12.value = country12.iso2;
-                // var textNode = document.createTextNode(country.name);
-                // optionNode.appendChild(textNode);
+
             }
             inputlog.focus();
-
-
         }
 
         if (pathPage == 'editContact') {
@@ -1482,7 +1312,7 @@
                         callback(countryCode);
                     });
                 },
-                utilsScript: " {{asset('assets/js/utils.js')}}" // just for formatting/placeholders etc
+                utilsScript: " {{asset('assets/js/utils.js')}}"
             });
             for (var i = 0; i < countryDataAddContact.length; i++) {
                 var country = countryDataAddContact[i];
@@ -1509,7 +1339,6 @@
                         var errorCode = itiAddContact.getValidationError();
                         errorMsg.innerHTML = errorMap[errorCode];
                         errorMsg.classList.remove("invisible");
-
                     }
                 } else {
                     $("#SubmitAddContact").prop("disabled", true);
@@ -1654,16 +1483,10 @@
                 $.ajax({
                     url: "{{ route('sendSMS') }}",
                     type: "POST",
-
-                    data: {
-                        user: user,
-                        msg: msg,
-                        "_token": "{{ csrf_token() }}"
-                    },
+                    data: {user: user, msg: msg, "_token": "{{ csrf_token() }}"},
                     success: function (data) {
                         console.log(data);
                     }
-
                 });
 
                 $('#AddCash').modal('hide');
@@ -1700,7 +1523,6 @@
         $.ajax({
             url: "{{ route('vip') }}",
             type: "POST",
-
             data: {
                 reciver: reciver,
                 minshares: minshares,
@@ -1714,16 +1536,10 @@
                 $.ajax({
                     url: "{{ route('sendSMS') }}",
                     type: "POST",
-
-                    data: {
-                        user: user,
-                        msg: msgvip,
-                        "_token": "{{ csrf_token() }}"
-                    },
+                    data: {user: user, msg: msgvip, "_token": "{{ csrf_token() }}"},
                     success: function (data) {
                         console.log(data);
                     }
-
                 });
 
                 $('#vip').modal('hide');
@@ -1739,15 +1555,12 @@
 
         });
     });
-
-
 </script>
 
 <script>
 
     $.ajax({
         url: "{{ route('getRequestAjax') }}",
-        // data: {"id":id},
         type: 'GET',
         dataType: "json",
         success: function (result) {
@@ -1758,10 +1571,8 @@
                 if (resultData['requestInOpen'] > 0) {
                     var tag = document.createElement("span");
                     tag.id = "sideNotIn"
-                    // badge badge-pill bg-danger
                     tag.classList.add("badge")
                     tag.classList.add("badge-pill")
-                    // tag.classList.add("bg-danger")
                     tag.style.backgroundColor = "#3fc3ee"
                     var text = document.createTextNode(resultData['requestInOpen']);
                     tag.appendChild(text);
@@ -1771,10 +1582,8 @@
                 if (resultData['requestOutAccepted'] > 0) {
                     var tag = document.createElement("span");
                     tag.id = "sideNotOutAccepted"
-                    // badge badge-pill bg-danger
                     tag.classList.add("badge")
                     tag.classList.add("badge-pill")
-                    // tag.classList.add("bg-danger")
                     tag.style.backgroundColor = "#198C48"
                     var text = document.createTextNode(resultData['requestOutAccepted']);
                     tag.appendChild(text);
@@ -1782,13 +1591,10 @@
                     element.appendChild(tag);
                 }
                 if (resultData['requestOutRefused'] > 0) {
-
                     var tag = document.createElement("span");
                     tag.id = "sideNotOutRefused"
-                    // badge badge-pill bg-danger
                     tag.classList.add("badge")
                     tag.classList.add("badge-pill")
-                    // tag.classList.add("bg-danger")
                     tag.style.backgroundColor = "#dc3741"
                     var text = document.createTextNode(resultData['requestOutRefused']);
                     tag.appendChild(text);
@@ -1810,9 +1616,7 @@
     $("#HTMLMain").attr("data-layout-mode", sessionStorage.getItem("data-layout-mode"));
     $("#HTMLMain").attr("data-sidebar", sessionStorage.getItem("data-sidebar"));
     $("#btndark").click(function () {
-        // alert($("#HTMLMain").attr("data-layout-mode"));
         mode = $("#HTMLMain").attr("data-layout-mode");
-        // alert(mode);
         if (mode == "dark") {
             $("#HTMLMain").attr("data-layout-mode", "light")
             $("#HTMLMain").attr("data-sidebar", "light")
@@ -1824,7 +1628,6 @@
             sessionStorage.setItem("data-sidebar", "dark");
             sessionStorage.setItem("data-layout-mode", "dark");
         }
-        // alert( "Handler for .click() called." );
     });
 </script>
 </html>

@@ -16032,3 +16032,11 @@ span.flatpickr-weekday {
 #task-error-msg {
     display: none
 }
+
+.page-title-box-db {
+    background-color: #009fe3 !important;;
+}
+
+.page-title-box-bfs {
+    background-color: #bc34b6 !important;
+}
