@@ -1,4 +1,80 @@
 {
+  "resources/anychart/anychart-base.min.js": {
+    "file": "js/anychart-base.min.min.js",
+    "name": "anychart-base.min",
+    "src": "resources/anychart/anychart-base.min.js",
+    "isEntry": true
+  },
+  "resources/anychart/anychart-circular-gauge.min.js": {
+    "file": "js/anychart-circular-gauge.min.min.js",
+    "name": "anychart-circular-gauge.min",
+    "src": "resources/anychart/anychart-circular-gauge.min.js",
+    "isEntry": true
+  },
+  "resources/anychart/anychart-data-adapter.min.js": {
+    "file": "js/anychart-data-adapter.min.min.js",
+    "name": "anychart-data-adapter.min",
+    "src": "resources/anychart/anychart-data-adapter.min.js",
+    "isEntry": true
+  },
+  "resources/anychart/anychart-exports.min.js": {
+    "file": "js/anychart-exports.min.min.js",
+    "name": "anychart-exports.min",
+    "src": "resources/anychart/anychart-exports.min.js",
+    "isEntry": true
+  },
+  "resources/anychart/anychart-font.min.css": {
+    "file": "css/anychart-font.min.css",
+    "src": "resources/anychart/anychart-font.min.css",
+    "isEntry": true
+  },
+  "resources/anychart/anychart-map.min.js": {
+    "file": "js/anychart-map.min.min.js",
+    "name": "anychart-map.min",
+    "src": "resources/anychart/anychart-map.min.js",
+    "isEntry": true
+  },
+  "resources/anychart/anychart-sankey.min.js": {
+    "file": "js/anychart-sankey.min.min.js",
+    "name": "anychart-sankey.min",
+    "src": "resources/anychart/anychart-sankey.min.js",
+    "isEntry": true
+  },
+  "resources/anychart/anychart-table.min.js": {
+    "file": "js/anychart-table.min.min.js",
+    "name": "anychart-table.min",
+    "src": "resources/anychart/anychart-table.min.js",
+    "isEntry": true
+  },
+  "resources/anychart/anychart-tag-cloud.min.js": {
+    "file": "js/anychart-tag-cloud.min.min.js",
+    "name": "anychart-tag-cloud.min",
+    "src": "resources/anychart/anychart-tag-cloud.min.js",
+    "isEntry": true
+  },
+  "resources/anychart/anychart-ui.min.css": {
+    "file": "css/anychart-ui.min.css",
+    "src": "resources/anychart/anychart-ui.min.css",
+    "isEntry": true
+  },
+  "resources/anychart/anychart-ui.min.js": {
+    "file": "js/anychart-ui.min.min2.js",
+    "name": "anychart-ui.min",
+    "src": "resources/anychart/anychart-ui.min.js",
+    "isEntry": true
+  },
+  "resources/anychart/proj4.js": {
+    "file": "js/proj4.min.js",
+    "name": "proj4",
+    "src": "resources/anychart/proj4.js",
+    "isEntry": true
+  },
+  "resources/anychart/world.js": {
+    "file": "js/world.min.js",
+    "name": "world",
+    "src": "resources/anychart/world.js",
+    "isEntry": true
+  },
   "resources/css/app-rtl.css": {
     "file": "css/app-rtl.min.css",
     "src": "resources/css/app-rtl.css",
@@ -43,6 +119,27 @@
     "file": "css/select2.min.css",
     "src": "resources/css/select2.min.css",
     "isEntry": true
+  },
+  "resources/fontawesome/all.min.css": {
+    "file": "css/all.min.css",
+    "src": "resources/fontawesome/all.min.css",
+    "isEntry": true
+  },
+  "resources/fonts/anychart.eot": {
+    "file": "icons/anychart.eot",
+    "src": "resources/fonts/anychart.eot"
+  },
+  "resources/fonts/anychart.ttf": {
+    "file": "icons/anychart.ttf",
+    "src": "resources/fonts/anychart.ttf"
+  },
+  "resources/fonts/anychart.woff": {
+    "file": "icons/anychart.woff",
+    "src": "resources/fonts/anychart.woff"
+  },
+  "resources/fonts/anychart.woff2": {
+    "file": "icons/anychart.woff2",
+    "src": "resources/fonts/anychart.woff2"
   },
   "resources/fonts/boxicons.eot": {
     "file": "icons/boxicons.eot",
@@ -264,16 +361,16 @@
     "src": "resources/js/intlTelInput.js",
     "isEntry": true
   },
-  "resources/js/jquery.js": {
-    "file": "js/jquery.min.js",
-    "name": "jquery",
-    "src": "resources/js/jquery.js",
-    "isEntry": true
-  },
   "resources/js/layout.js": {
     "file": "js/layout.min.js",
     "name": "layout",
     "src": "resources/js/layout.js",
+    "isEntry": true
+  },
+  "resources/js/livewire-turbolinks.js": {
+    "file": "js/livewire-turbolinks.min.js",
+    "name": "livewire-turbolinks",
+    "src": "resources/js/livewire-turbolinks.js",
     "isEntry": true
   },
   "resources/js/plugins.js": {
@@ -304,5 +401,37 @@
     "file": "css/app.min.css",
     "src": "resources/sass/app.scss",
     "isEntry": true
+  },
+  "resources/webfonts/fa-brands-400.ttf": {
+    "file": "icons/fa-brands-400.ttf",
+    "src": "resources/webfonts/fa-brands-400.ttf"
+  },
+  "resources/webfonts/fa-brands-400.woff2": {
+    "file": "icons/fa-brands-400.woff2",
+    "src": "resources/webfonts/fa-brands-400.woff2"
+  },
+  "resources/webfonts/fa-regular-400.ttf": {
+    "file": "icons/fa-regular-400.ttf",
+    "src": "resources/webfonts/fa-regular-400.ttf"
+  },
+  "resources/webfonts/fa-regular-400.woff2": {
+    "file": "icons/fa-regular-400.woff2",
+    "src": "resources/webfonts/fa-regular-400.woff2"
+  },
+  "resources/webfonts/fa-solid-900.ttf": {
+    "file": "icons/fa-solid-900.ttf",
+    "src": "resources/webfonts/fa-solid-900.ttf"
+  },
+  "resources/webfonts/fa-solid-900.woff2": {
+    "file": "icons/fa-solid-900.woff2",
+    "src": "resources/webfonts/fa-solid-900.woff2"
+  },
+  "resources/webfonts/fa-v4compatibility.ttf": {
+    "file": "icons/fa-v4compatibility.ttf",
+    "src": "resources/webfonts/fa-v4compatibility.ttf"
+  },
+  "resources/webfonts/fa-v4compatibility.woff2": {
+    "file": "icons/fa-v4compatibility.woff2",
+    "src": "resources/webfonts/fa-v4compatibility.woff2"
   }
 }

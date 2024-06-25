@@ -118,7 +118,7 @@
     @include('layouts.vendor-scripts')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.0.0/js/dataTables.responsive.min.js "></script>
@@ -239,14 +239,14 @@
             anychart.licenseKey('2earn.cash-953c5a55-712f04c3');
         });
     });
-    $(document).on('ready turbolinks:load', function () {
+    window.addEventListener('load', () => {
         var classAl = "text-end";
         var tts = '{{config('app.available_locales')[app()->getLocale()]['direction']}}';
         if (tts == 'rtl') {
             classAl = "text-start";
         }
         var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";
-        var urlLang = "//cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
+        var urlLang = "https://cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
         var url = '';
         $('#HistoryNotificationTable').DataTable(
             {
@@ -472,7 +472,7 @@
                     {"data": "langage"},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ],
-                "language": {"url": " //cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json"}
+                "language": {"url": "https://cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json"}
             }
         );
 
@@ -714,50 +714,6 @@
             }
         );
 
-        $(document).on('click', '.badge', function () {
-            var id = $(this).data('id');
-            var phone = $(this).data('phone');
-            var amount = String($(this).data('amount')).replace(',', '');
-            var asset = $(this).data('asset');
-            $('#realsold-country').attr('src', asset);
-            $('#realsold-reciver').attr('value', id);
-            $('#realsold-phone').attr('value', phone);
-            $('#realsold-ammount').attr('value', amount);
-            $('#realsold-ammount-total').attr('value', amount);
-            $('#realsoldmodif').modal('show');
-            fetchAndUpdateCardContent();
-            $('#shares-sold').DataTable().ajax.reload();
-        });
-        $(document).on("click", "#realsold-submit", function () {
-            let reciver = $('#realsold-reciver').val();
-            let ammount = $('#realsold-ammount').val();
-            let total = $('#realsold-ammount-total').val()
-            $.ajax({
-                url: "{{ route('update-balance-real') }}",
-                type: "POST",
-                data: {total: total, amount: ammount, id: reciver, "_token": "{{ csrf_token() }}"},
-                success: function (data) {
-                    $('#realsoldmodif').modal('hide');
-                    $('#shares-sold').DataTable().ajax.reload();
-                    fetchAndUpdateCardContent();
-                }
-
-            });
-        });
-
-        function fetchAndUpdateCardContent() {
-            $.ajax({
-                url: '{{ route('get-updated-card-content') }}', // Adjust the endpoint URL
-                method: 'GET',
-                success: function (data) {
-                    $('#realrev').html('$' + data.value);
-                },
-                error: function (xhr, status, error) {
-                    console.log(error)
-                }
-            });
-        }
-
         $('#ub_table').DataTable(
             {
                 ordering: true,
@@ -922,9 +878,6 @@
             }
         );
 
-        function saveHA() {
-            window.livewire.emit('saveHA', $("#tags").val());
-        }
 
         $('#BalanceOperationsTable').DataTable(
             {
@@ -1034,6 +987,7 @@
             }
         );
 
+
         select2_array = [];
         table_bfs = $('#ub_table_bfs').DataTable(
             {
@@ -1102,8 +1056,54 @@
                 "language": {"url": urlLang}
             });
 
-        $("#select2bfs").select2();
 
+        $(document).on('click', '.badge', function () {
+            var id = $(this).data('id');
+            var phone = $(this).data('phone');
+            var amount = String($(this).data('amount')).replace(',', '');
+            var asset = $(this).data('asset');
+            $('#realsold-country').attr('src', asset);
+            $('#realsold-reciver').attr('value', id);
+            $('#realsold-phone').attr('value', phone);
+            $('#realsold-ammount').attr('value', amount);
+            $('#realsold-ammount-total').attr('value', amount);
+            $('#realsoldmodif').modal('show');
+            fetchAndUpdateCardContent();
+            $('#shares-sold').DataTable().ajax.reload();
+        });
+        $(document).on("click", "#realsold-submit", function () {
+            let reciver = $('#realsold-reciver').val();
+            let ammount = $('#realsold-ammount').val();
+            let total = $('#realsold-ammount-total').val()
+            $.ajax({
+                url: "{{ route('update-balance-real') }}",
+                type: "POST",
+                data: {total: total, amount: ammount, id: reciver, "_token": "{{ csrf_token() }}"},
+                success: function (data) {
+                    $('#realsoldmodif').modal('hide');
+                    $('#shares-sold').DataTable().ajax.reload();
+                    fetchAndUpdateCardContent();
+                }
+
+            });
+        });
+        function saveHA() {
+            window.livewire.emit('saveHA', $("#tags").val());
+        }
+        function fetchAndUpdateCardContent() {
+            $.ajax({
+                url: '{{ route('get-updated-card-content') }}', // Adjust the endpoint URL
+                method: 'GET',
+                success: function (data) {
+                    $('#realrev').html('$' + data.value);
+                },
+                error: function (xhr, status, error) {
+                    console.log(error)
+                }
+            });
+        }
+
+        $("#select2bfs").select2();
 
         $("#select2bfs").on("select2:select select2:unselect", function (e) {
             var items = $(this).val();

@@ -1,5 +1,6 @@
 // Added: Actual Bootstrap JavaScript dependency
-import 'bootstrap';
+import * as bootstrap from 'bootstrap';
+window.bootstrap = bootstrap;
 
 // Added: Popper.js dependency for popover support in Bootstrap
 import '@popperjs/core';
@@ -8,11 +9,21 @@ import Swal from 'sweetalert2';
 window.Swal = Swal;
 
 import Alpine from 'alpinejs'
-import Turbolinks from 'turbolinks'
 
 window.Alpine = Alpine ;
 Alpine.start() ;
-Turbolinks.start()
+
+import Turbolinks from "turbolinks";
+Turbolinks.start();
+
+
+import jQuery from "jquery";
+window.$ = jQuery;
+
+import select2 from 'select2';
+select2();
+
+import DataTable from "datatables.net-bs5";
 
 (function () {
 
@@ -31,18 +42,14 @@ Turbolinks.start()
     }
     ("use strict");
 
-    /**
-     *  global variables
-     */
     if (document.querySelector(".navbar-menu") !== null) {
         var navbarMenuHTML = document.querySelector(".navbar-menu").innerHTML;
     }
-    var horizontalMenuSplit = 7; // after this number all horizontal menus will be moved in More menu options
-    var default_lang = "en"; // set Default Language
+    var horizontalMenuSplit = 7;
+    var default_lang = "en";
     var language = localStorage.getItem("language");
 
     function initLanguage() {
-        // Set new language
         (language === null) ? setLanguage(default_lang) : setLanguage(language);
         var languages = document.getElementsByClassName("language");
         languages && Array.from(languages).forEach(function (dropdown) {
@@ -75,15 +82,11 @@ Turbolinks.start()
         }
     }
 
-    // Multi language setting
     function getLanguage() {
         language == null ? setLanguage(default_lang) : false;
         var request = new XMLHttpRequest();
-        // Instantiating the request object
         request.open("GET", "assets/lang/" + language + ".json");
-        // Defining event listener for readystatechange event
         request.onreadystatechange = function () {
-            // Check if the request is compete and was successful
             if (this.readyState === 4 && this.status === 200) {
                 var data = JSON.parse(this.responseText);
                 Object.keys(data).forEach(function (key) {
@@ -94,23 +97,17 @@ Turbolinks.start()
                 });
             }
         };
-        // Sending the request to the server
         request.send();
     }
 
-    // on click collapse menu
     function isCollapseMenu() {
-        /**
-         * Sidebar menu collapse
-         */
+
         if (document.querySelectorAll(".navbar-nav .collapse")) {
             var collapses = document.querySelectorAll(".navbar-nav .collapse");
             Array.from(collapses).forEach(function (collapse) {
-                // Init collapses
                 var collapseInstance = new bootstrap.Collapse(collapse, {
                     toggle: false,
                 });
-                // Hide sibling collapses on `show.bs.collapse`
                 collapse.addEventListener("show.bs.collapse", function (e) {
                     e.stopPropagation();
                     var closestCollapse = collapse.parentElement.closest(".collapse");
@@ -125,10 +122,8 @@ Turbolinks.start()
                         });
                     } else {
                         var getSiblings = function (elem) {
-                            // Setup siblings array and get the first sibling
                             var siblings = [];
                             var sibling = elem.parentNode.firstChild;
-                            // Loop through each sibling and push to the array
                             while (sibling) {
                                 if (sibling.nodeType === 1 && sibling !== elem) {
                                     siblings.push(sibling);
@@ -156,7 +151,6 @@ Turbolinks.start()
                     }
                 });
 
-                // Hide nested collapses on `hide.bs.collapse`
                 collapse.addEventListener("hide.bs.collapse", function (e) {
                     e.stopPropagation();
                     var childCollapses = collapse.querySelectorAll(".collapse");
@@ -225,10 +219,7 @@ Turbolinks.start()
                     }
                 }
             }
-            // add all sidebar menu icons
             document.getElementById("two-column-menu").innerHTML = ul.outerHTML;
-
-            // show submenu on sidebar menu click
             Array.from(document.querySelector("#two-column-menu ul").querySelectorAll("li a")).forEach(function (element) {
                 var currentPath = location.pathname == "/" ? "index" : location.pathname.substring(1);
                 currentPath = currentPath.substring(currentPath.lastIndexOf("/") + 1);
@@ -253,7 +244,6 @@ Turbolinks.start()
                     }
                 });
 
-                // add active class to the sidebar menu icon who has direct link
                 if (currentPath == "/" + element.getAttribute("href") && !element.getAttribute("data-bs-toggle")) {
                     element.classList.add("active");
                     document.getElementById("navbar-nav").classList.add("twocolumn-nav-hide");
@@ -276,9 +266,7 @@ Turbolinks.start()
         }
     }
 
-    //  Search menu dropdown on Topbar
     function isCustomDropdown() {
-        //Search bar
         var searchOptions = document.getElementById("search-close-options");
         var dropdown = document.getElementById("search-dropdown");
         var searchInput = document.getElementById("search-options");
@@ -339,7 +327,6 @@ Turbolinks.start()
         }
     }
 
-    //  search menu dropdown on topbar
     function isCustomDropdownResponsive() {
         //Search bar
         var searchOptions = document.getElementById("search-close-options");
@@ -408,9 +395,6 @@ Turbolinks.start()
     }
 
     function initLeftMenuCollapse() {
-        /**
-         * Vertical layout menu scroll add
-         */
         if (document.documentElement.getAttribute("data-layout") == "vertical") {
             document.getElementById("two-column-menu").innerHTML = "";
             document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
@@ -420,17 +404,11 @@ Turbolinks.start()
             document.getElementById("scrollbar").classList.add("h-100");
         }
 
-        /**
-         * Two-column layout menu scroll add
-         */
         if (document.documentElement.getAttribute("data-layout") == "twocolumn") {
             document.getElementById("scrollbar").removeAttribute("data-simplebar");
             document.getElementById("scrollbar").classList.remove("h-100");
         }
 
-        /**
-         * Horizontal layout menu
-         */
         if (document.documentElement.getAttribute("data-layout") == "horizontal") {
             updateHorizontalMenus();
         }

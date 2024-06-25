@@ -17,6 +17,14 @@ import Turbolinks from "turbolinks";
 Turbolinks.start();
 
 
+import jQuery from "jquery";
+window.$ = jQuery;
+
+import select2 from 'select2';
+select2();
+
+import DataTable from "datatables.net-bs5";
+
 (function () {
 
     var btnHover = document.getElementById("MyHover");

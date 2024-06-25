@@ -939,7 +939,7 @@
             window.livewire.emit('redirectPay', theUrl, amount);
         });
         var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";
-        var urlLang = "//cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
+        var urlLang = "https://cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
         $('#customerTable2').DataTable({
             order: [[1, 'desc']],
             "language": {
