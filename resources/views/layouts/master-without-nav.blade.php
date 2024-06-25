@@ -103,7 +103,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
 
-    $(document).on('ready turbolinks:load', function () {
+    document.addEventListener("turbolinks:load", function () {
         const myParams = window.location.pathname.split("/");
         const pathPage = myParams[2];
         const pathPage2 = myParams[1];

@@ -224,8 +224,7 @@
             var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";
             var urlLang = "https://cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
             var url = '';
-            $('#HistoryNotificationTable').DataTable(
-                {
+            $('#HistoryNotificationTable').DataTable({
                     retrieve: true,
                     "colReorder": true,
                     "orderCellsTop": true,
@@ -237,9 +236,7 @@
                                 var that = $('#HistoryNotificationTable').DataTable();
                                 $('input', this.footer()).on('keydown', function (ev) {
                                     if (ev.keyCode == 13) {
-                                        that
-                                            .search(this.value)
-                                            .draw();
+                                        that.search(this.value).draw();
                                     }
                                 });
                             });
@@ -260,320 +257,305 @@
                 }
             );
 
-            $('#userManager_table').DataTable(
-                {
-                    retrieve: true,
-                    "colReorder": true,
-                    "orderCellsTop": true,
-                    "fixedHeader": true,
-                    initComplete: function () {
-                        this.api()
-                            .columns()
-                            .every(function () {
-                                var that = $('#userManager_table').DataTable();
-                                $('input', this.footer()).on('keydown', function (ev) {
-                                    if (ev.keyCode == 13) {
-                                        that
-                                            .search(this.value)
-                                            .draw();
-                                    }
-                                });
+            $('#userManager_table').DataTable({
+                retrieve: true,
+                "colReorder": true,
+                "orderCellsTop": true,
+                "fixedHeader": true,
+                initComplete: function () {
+                    this.api()
+                        .columns()
+                        .every(function () {
+                            var that = $('#userManager_table').DataTable();
+                            $('input', this.footer()).on('keydown', function (ev) {
+                                if (ev.keyCode == 13) {
+                                    that
+                                        .search(this.value)
+                                        .draw();
+                                }
                             });
-                    },
-                    "processing": true,
-                    search: {return: true},
-                    "ajax": "{{route('API_usermanager',app()->getLocale())}}",
-                    "columns": [
-                        {data: 'N'},
-                        {data: 'idUser'},
-                        {data: 'status'},
-                        {data: 'registred_from'},
-                        {data: 'fullphone_number'},
-                        {data: 'LatinName'},
-                        {data: 'ArabicName'},
-                        {data: 'lastOperation'},
-                        {data: 'country'},
-                        {data: 'action', name: 'action', orderable: false, searchable: false},
-                    ],
-                    "language": {"url": urlLang}
-                }
-            );
+                        });
+                },
+                "processing": true,
+                search: {return: true},
+                "ajax": "{{route('API_usermanager',app()->getLocale())}}",
+                "columns": [
+                    {data: 'N'},
+                    {data: 'idUser'},
+                    {data: 'status'},
+                    {data: 'registred_from'},
+                    {data: 'fullphone_number'},
+                    {data: 'LatinName'},
+                    {data: 'ArabicName'},
+                    {data: 'lastOperation'},
+                    {data: 'country'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false},
+                ],
+                "language": {"url": urlLang}
+            });
 
-            $('#contacts_table').DataTable(
-                {
-                    retrieve: true,
-                    searching: true,
-                    "bLengthChange": false,
-                    "processing": true,
-                    paging: true,
-                    "pageLength": 100,
-                    "aLengthMenu": [[100, 500, 1000], [100, 500, 1000]],
-                    "ajax": "{{route('API_UserContacts',app()->getLocale())}}",
-                    "columns": [
-                        {"data": "name"},
-                        {"data": "lastName"},
-                        {"data": "mobile"},
-                        {"data": "flag"},
-                        {"data": "status"},
-                        {"data": "availablity"},
-                        {data: 'action', name: 'action', orderable: false, searchable: false},
-                    ],
-                    "columnDefs":
-                        [
-                            {
-                                "targets": [5],
-                                render: function (data, type, row) {
-                                    var givenDate = new Date(row.reserved_at);
-                                    var delai = (Date.now() - givenDate) / (1000 * 60 * 60);
-                                    if (Number(row.idUpline) !== 0) {
-                                        if (row.idUpline == row.idUser)
-                                            return '<span class="badge bg-info-subtle text-info" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                                '">{{__('i am his sponsor')}}</span>';
-                                        else
-                                            return '<span class="badge bg-danger-subtle text-danger" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                                '">{{__('Already has a sponsor')}}</span>';
-                                    } else {
-                                        if (Number(row.availablity) === 0)
-                                            return '<span class="badge bg-success-subtle text-success" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                                '">{{__('Available')}}</span>';
-                                        else {
-                                            if (row.reserved_by == row.idUser) {
-                                                if (delai < 72) {
-                                                    var reste = 72 - delai;
-                                                    return '<span class="badge bg-warning-subtle text-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                                        '">{{__('reserved for')}} ' + reste.toFixed(0) + ' {{__('hours')}}</span>';
-                                                } else {
-                                                    var reste = 72 + 168 - delai;
-                                                    return '<span class="badge bg-primary-subtle text-primary" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                                        '">{{__('blocked for')}} ' + reste.toFixed(0) + ' {{__('hours')}}</span>';
-                                                }
-
+            $('#contacts_table').DataTable({
+                retrieve: true,
+                searching: true,
+                "bLengthChange": false,
+                "processing": true,
+                paging: true,
+                "pageLength": 100,
+                "aLengthMenu": [[100, 500, 1000], [100, 500, 1000]],
+                "ajax": "{{route('API_UserContacts',app()->getLocale())}}",
+                "columns": [
+                    {"data": "name"},
+                    {"data": "lastName"},
+                    {"data": "mobile"},
+                    {"data": "flag"},
+                    {"data": "status"},
+                    {"data": "availablity"},
+                    {data: 'action', name: 'action', orderable: false, searchable: false},
+                ],
+                "columnDefs":
+                    [
+                        {
+                            "targets": [5],
+                            render: function (data, type, row) {
+                                var givenDate = new Date(row.reserved_at);
+                                var delai = (Date.now() - givenDate) / (1000 * 60 * 60);
+                                if (Number(row.idUpline) !== 0) {
+                                    if (row.idUpline == row.idUser)
+                                        return '<span class="badge bg-info-subtle text-info" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                            '">{{__('i am his sponsor')}}</span>';
+                                    else
+                                        return '<span class="badge bg-danger-subtle text-danger" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                            '">{{__('Already has a sponsor')}}</span>';
+                                } else {
+                                    if (Number(row.availablity) === 0)
+                                        return '<span class="badge bg-success-subtle text-success" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                            '">{{__('Available')}}</span>';
+                                    else {
+                                        if (row.reserved_by == row.idUser) {
+                                            if (delai < 72) {
+                                                var reste = 72 - delai;
+                                                return '<span class="badge bg-warning-subtle text-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                                    '">{{__('reserved for')}} ' + reste.toFixed(0) + ' {{__('hours')}}</span>';
                                             } else {
-                                                if (delai < 72) {
-                                                    var reste = 72 - delai;
-                                                    return '<span class="badge bg-warning-subtle text-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                                        '">{{__('reserved by other user for')}} ' + reste.toFixed(0) + ' {{__('hours')}}</span>';
-                                                } else {
-                                                    return '<span class="badge bg-success-subtle text-success" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                                        '">{{__('Available')}}</span>';
-                                                }
+                                                var reste = 72 + 168 - delai;
+                                                return '<span class="badge bg-primary-subtle text-primary" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                                    '">{{__('blocked for')}} ' + reste.toFixed(0) + ' {{__('hours')}}</span>';
+                                            }
+
+                                        } else {
+                                            if (delai < 72) {
+                                                var reste = 72 - delai;
+                                                return '<span class="badge bg-warning-subtle text-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                                    '">{{__('reserved by other user for')}} ' + reste.toFixed(0) + ' {{__('hours')}}</span>';
+                                            } else {
+                                                return '<span class="badge bg-success-subtle text-success" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                                    '">{{__('Available')}}</span>';
                                             }
                                         }
                                     }
-                                },
+                                }
                             },
-                        ],
-                    "language": {
-                        "url": urlLang
-                    }
+                        },
+                    ],
+                "language": {
+                    "url": urlLang
                 }
-            );
+            });
 
-            $('#userPurchase_table').DataTable(
-                {
-                    "ordering": false,
-                    retrieve: true,
-                    "colReorder": false,
+            $('#userPurchase_table').DataTable({
+                "ordering": false,
+                retrieve: true,
+                "colReorder": false,
 
-                    dom: 'Bfrtip',
-                    buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
-                    "orderCellsTop": true,
-                    "fixedHeader": true,
-                    initComplete: function () {
-                        this.api()
-                            .columns()
-                            .every(function () {
-                                if ($.fn.dataTable.isDataTable('#countries_table')) {
+                dom: 'Bfrtip',
+                buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+                "orderCellsTop": true,
+                "fixedHeader": true,
+                initComplete: function () {
+                    this.api()
+                        .columns()
+                        .every(function () {
+                            if ($.fn.dataTable.isDataTable('#countries_table')) {
 
-                                    var that = $('#userPurchase_table').DataTable();
+                                var that = $('#userPurchase_table').DataTable();
+                            }
+                            $('input', this.footer()).on('keydown', function (ev) {
+                                if (ev.keyCode == 13) {
+                                    that.search(this.value).draw();
                                 }
-                                $('input', this.footer()).on('keydown', function (ev) {
-                                    if (ev.keyCode == 13) {
-                                        that.search(this.value).draw();
-                                    }
-                                });
                             });
-                    },
-                    "order": [[0, 'desc']],
-                    "processing": true,
-                    "serverSide": true,
-                    "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                    search: {return: true},
-                    autoWidth: false,
-                    bAutoWidth: false,
-                    "ajax": "{{route('API_userPurchase', app()->getLocale() )}}",
-                    "columns": [
-                        {data: 'DateAchat'},
-                        {data: 'ReferenceAchat'},
-                        {data: 'item_title'},
-                        {data: 'nbrAchat'},
-                        {data: 'Amout'},
-                        {data: 'invitationPurshase'},
-                        {data: 'visit'},
-                        {data: 'PRC_BFS'},
-                        {data: 'PRC_CB'},
-                        {data: 'CashBack_BFS'},
-                        {data: 'CashBack_CB'},
-                        {data: 'Economy'}
-                    ],
-                    "language": {"url": urlLang}
+                        });
+                },
+                "order": [[0, 'desc']],
+                "processing": true,
+                "serverSide": true,
+                "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
+                search: {return: true},
+                autoWidth: false,
+                bAutoWidth: false,
+                "ajax": "{{route('API_userPurchase', app()->getLocale() )}}",
+                "columns": [
+                    {data: 'DateAchat'},
+                    {data: 'ReferenceAchat'},
+                    {data: 'item_title'},
+                    {data: 'nbrAchat'},
+                    {data: 'Amout'},
+                    {data: 'invitationPurshase'},
+                    {data: 'visit'},
+                    {data: 'PRC_BFS'},
+                    {data: 'PRC_CB'},
+                    {data: 'CashBack_BFS'},
+                    {data: 'CashBack_CB'},
+                    {data: 'Economy'}
+                ],
+                "language": {"url": urlLang}
 
-                }
-            );
-            $('#countries_table').DataTable(
-                {
-                    retrieve: true,
-                    initComplete: function () {
-                        this.api()
-                            .columns()
-                            .every(function () {
-                                if ($.fn.dataTable.isDataTable('#countries_table')) {
+            });
+            $('#countries_table').DataTable({
+                retrieve: true,
+                initComplete: function () {
+                    this.api()
+                        .columns()
+                        .every(function () {
+                            if ($.fn.dataTable.isDataTable('#countries_table')) {
 
-                                    var that = $('#countries_table').DataTable();
+                                var that = $('#countries_table').DataTable();
+                            }
+                            $('input', this.footer()).on('keydown', function (ev) {
+                                if (ev.keyCode == 13) {
+                                    that
+
+                                        .search(this.value)
+                                        .draw();
                                 }
-                                $('input', this.footer()).on('keydown', function (ev) {
-                                    if (ev.keyCode == 13) {
-                                        that
-
-                                            .search(this.value)
-                                            .draw();
-                                    }
-                                });
                             });
-                    },
-                    "ajax": "{{route('API_countries',app()->getLocale())}}",
-                    "columns": [
-                        {"data": "name"},
-                        {"data": "phonecode"},
-                        {"data": "langage"},
-                        {data: 'action', name: 'action', orderable: false, searchable: false},
-                    ],
-                    "language": {"url": "https://cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json"}
-                }
-            );
+                        });
+                },
+                "ajax": "{{route('API_countries',app()->getLocale())}}",
+                "columns": [
+                    {"data": "name"},
+                    {"data": "phonecode"},
+                    {"data": "langage"},
+                    {data: 'action', name: 'action', orderable: false, searchable: false},
+                ],
+                "language": {"url": "https://cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json"}
+            });
 
-            $('#userPurchase_table').DataTable(
-                {
-                    "ordering": false,
-                    retrieve: true,
-                    "colReorder": false,
-                    dom: 'Bfrtip',
-                    buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
-                    "orderCellsTop": true,
-                    "fixedHeader": true,
-                    initComplete: function () {
-                        this.api()
-                            .columns()
-                            .every(function () {
-                                if ($.fn.dataTable.isDataTable('#countries_table')) {
-                                    var that = $('#userPurchase_table').DataTable();
+            $('#userPurchase_table').DataTable({
+                "ordering": false,
+                retrieve: true,
+                "colReorder": false,
+                dom: 'Bfrtip',
+                buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+                "orderCellsTop": true,
+                "fixedHeader": true,
+                initComplete: function () {
+                    this.api()
+                        .columns()
+                        .every(function () {
+                            if ($.fn.dataTable.isDataTable('#countries_table')) {
+                                var that = $('#userPurchase_table').DataTable();
+                            }
+                            $('input', this.footer()).on('keydown', function (ev) {
+                                if (ev.keyCode == 13) {
+                                    that
+                                        .search(this.value)
+                                        .draw();
                                 }
-                                $('input', this.footer()).on('keydown', function (ev) {
-                                    if (ev.keyCode == 13) {
-                                        that
-                                            .search(this.value)
-                                            .draw();
-                                    }
-                                });
                             });
-                    },
-                    "order": [[0, 'desc']],
-                    "processing": true,
-                    "serverSide": true,
-                    "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                    search: {return: true},
-                    autoWidth: false,
-                    bAutoWidth: false,
-                    "ajax": "{{route('API_userPurchase', app()->getLocale() )}}",
-                    "columns": [
-                        {data: 'DateAchat'},
-                        {data: 'ReferenceAchat'},
-                        {data: 'item_title'},
-                        {data: 'nbrAchat'},
-                        {data: 'Amout'},
-                        {data: 'invitationPurshase'},
-                        {data: 'visit'},
-                        {data: 'PRC_BFS'},
-                        {data: 'PRC_CB'},
-                        {data: 'CashBack_BFS'},
-                        {data: 'CashBack_CB'},
-                        {data: 'Economy'}
-                    ],
-                    "language": {"url": urlLang}
-                }
-            );
-            $('#users-list').DataTable(
-                {
-                    "ordering": true,
-                    retrieve: true,
-                    "colReorder": false,
-                    "orderCellsTop": true,
-                    "fixedHeader": true,
-                    "order": [[0, 'desc']],
-                    "processing": true,
-                    "serverSide": false,
-                    "aLengthMenu": [[100, 500, 1000], [100, 500, 1000]],
-                    search: {return: true},
-                    autoWidth: false,
-                    bAutoWidth: false,
-                    "ajax": "{{route('API_UsersList',app()->getLocale())}}",
-                    "columns": [
-                        {data: 'formatted_created_at'},
-                        {data: 'flag'},
-                        {data: 'formatted_mobile'},
-                        {data: 'name'},
-                        {data: 'SoldeCB'},
-                        {data: 'SoldeBFS'},
-                        {data: 'SoldeDB'},
-                        {data: 'SoldeSMS'},
-                        {data: 'SoldeSH'},
-                        {data: 'OptActivation'},
-                        {data: 'pass'},
-                        {data: 'register_upline'},
-                        {data: 'action', name: 'action', orderable: false, searchable: false},
-                        {data: 'minshares'},
-                        {data: 'periode'},
-                        {data: 'date'},
-                        {data: 'coeff'},
-                        {data: 'note'},
-                        {data: 'VIP', name: 'action', orderable: false, searchable: false},
-                        {data: 'mobile'},
-                    ],
-                    "columnDefs": [{"targets": [19], searchable: true, visible: false},],
-                    "language": {"url": urlLang}
-                }
-            );
+                        });
+                },
+                "order": [[0, 'desc']],
+                "processing": true,
+                "serverSide": true,
+                "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
+                search: {return: true},
+                autoWidth: false,
+                bAutoWidth: false,
+                "ajax": "{{route('API_userPurchase', app()->getLocale() )}}",
+                "columns": [
+                    {data: 'DateAchat'},
+                    {data: 'ReferenceAchat'},
+                    {data: 'item_title'},
+                    {data: 'nbrAchat'},
+                    {data: 'Amout'},
+                    {data: 'invitationPurshase'},
+                    {data: 'visit'},
+                    {data: 'PRC_BFS'},
+                    {data: 'PRC_CB'},
+                    {data: 'CashBack_BFS'},
+                    {data: 'CashBack_CB'},
+                    {data: 'Economy'}
+                ],
+                "language": {"url": urlLang}
+            });
+            $('#users-list').DataTable({
+                "ordering": true,
+                retrieve: true,
+                "colReorder": false,
+                "orderCellsTop": true,
+                "fixedHeader": true,
+                "order": [[0, 'desc']],
+                "processing": true,
+                "serverSide": false,
+                "aLengthMenu": [[100, 500, 1000], [100, 500, 1000]],
+                search: {return: true},
+                autoWidth: false,
+                bAutoWidth: false,
+                "ajax": "{{route('API_UsersList',app()->getLocale())}}",
+                "columns": [
+                    {data: 'formatted_created_at'},
+                    {data: 'flag'},
+                    {data: 'formatted_mobile'},
+                    {data: 'name'},
+                    {data: 'SoldeCB'},
+                    {data: 'SoldeBFS'},
+                    {data: 'SoldeDB'},
+                    {data: 'SoldeSMS'},
+                    {data: 'SoldeSH'},
+                    {data: 'OptActivation'},
+                    {data: 'pass'},
+                    {data: 'register_upline'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false},
+                    {data: 'minshares'},
+                    {data: 'periode'},
+                    {data: 'date'},
+                    {data: 'coeff'},
+                    {data: 'note'},
+                    {data: 'VIP', name: 'action', orderable: false, searchable: false},
+                    {data: 'mobile'},
+                ],
+                "columnDefs": [{"targets": [19], searchable: true, visible: false},],
+                "language": {"url": urlLang}
+            });
 
-            $('#shares-solde').DataTable(
-                {
-                    "ordering": true,
-                    retrieve: true,
-                    "colReorder": false,
-                    "orderCellsTop": true,
-                    "fixedHeader": true,
-                    "order": [[5, 'asc']],
-                    "processing": true,
-                    "serverSide": false,
-                    "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                    search: {return: true},
-                    autoWidth: false,
-                    bAutoWidth: false,
-                    "ajax": "{{route('API_sharessolde',['locale'=> app()->getLocale()])}}",
-                    "columns": [
-                        {data: 'formatted_created_at'},
-                        {data: 'value_format'},
-                        {data: 'gifted_shares'},
-                        {data: 'total_shares'},
-                        {data: 'total_price'},
-                        {data: 'present_value'},
-                        {data: 'current_earnings'},
-                    ],
-                    "language": {"url": urlLang}
-                }
-            );
+            $('#shares-solde').DataTable({
+                "ordering": true,
+                retrieve: true,
+                "colReorder": false,
+                "orderCellsTop": true,
+                "fixedHeader": true,
+                "order": [[5, 'asc']],
+                "processing": true,
+                "serverSide": false,
+                "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
+                search: {return: true},
+                autoWidth: false,
+                bAutoWidth: false,
+                "ajax": "{{route('API_sharessolde',['locale'=> app()->getLocale()])}}",
+                "columns": [
+                    {data: 'formatted_created_at'},
+                    {data: 'value_format'},
+                    {data: 'gifted_shares'},
+                    {data: 'total_shares'},
+                    {data: 'total_price'},
+                    {data: 'present_value'},
+                    {data: 'current_earnings'},
+                ],
+                "language": {"url": urlLang}
+            });
 
-            $('#countie-tab').DataTable(
-                {
+            $('#countie-tab').DataTable({
                     "ordering": true,
                     retrieve: true,
                     "colReorder": false,
@@ -1114,238 +1096,194 @@
 @stack('scripts')
 <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/intlTelInput.min.js"></script>
 <script data-turbolinks-eval="false">
-    window.addEventListener('load', () => {
+    document.addEventListener("load", function () {
+        var ipPhone = document.getElementById("inputPhoneUpdate");
+        const myParams = window.location.pathname.split("/");
+        const pathPage = myParams[2];
+        const pathPageSeg3 = myParams[3];
+        var countryData = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
+            input = document.querySelector("#phonereg");
+        var countryDataLog = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
+            inputlog = document.querySelector("#phone");
 
-        $(document).on('ready turbolinks:load', function () {
-            var ipPhone = document.getElementById("inputPhoneUpdate");
-            const myParams = window.location.pathname.split("/");
-            const pathPage = myParams[2];
-            const pathPageSeg3 = myParams[3];
+        var errorMap = ['{{trans('Invalid number')}}', '{{trans('Invalid country code')}}', '{{trans('Too shortsss')}}', '{{trans('Too long')}}', '{{trans('Invalid number')}}'];
+        var ipAddContact = document.querySelector("#ipAddContact");
+        var ipAdd2Contact = document.querySelector("#ipAdd2Contact");
+        var ipUpdatePhoneAd = document.querySelector("#inputPhoneUpdateAd");
+        var ipNumberContact = document.querySelector("#inputNumberContact");
+        if (pathPage == 'Account') {
 
-            var countryData = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
-                input = document.querySelector("#phonereg");
-            var countryDataLog = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
-                inputlog = document.querySelector("#phone");
-
-            var errorMap = ['{{trans('Invalid number')}}', '{{trans('Invalid country code')}}', '{{trans('Too shortsss')}}', '{{trans('Too long')}}', '{{trans('Invalid number')}}'];
-            var ipAddContact = document.querySelector("#ipAddContact");
-            var ipAdd2Contact = document.querySelector("#ipAdd2Contact");
-            var ipUpdatePhoneAd = document.querySelector("#inputPhoneUpdateAd");
-            var ipNumberContact = document.querySelector("#inputNumberContact");
-            if (pathPage == 'Account') {
-
-                ipPhone.innerHTML =
-                    "<input type='tel'  placeholder= '{{ __("PH_EditPhone") }}'    data-turbolinks-permanent name='mobileUpPhone' id='phoneUpPhone' class='form-control' onpaste='handlePaste(event)'>" +
-                    "  <span id='valid-msg'   class='invisible'>✓ Valid</span><span id='error-msg' class='hide'></span>" +
-                    " <input type='hidden' name='fullnumberUpPhone' id='outputUpPhone' value='hidden' class='form-control'> " +
-                    " <input type='hidden' name='ccodeUpPhone' id='ccodeUpPhone'  ><input type='hidden' name='isoUpPhone' id='isoUpPhone'  >";
-                var countryDataUpPhone = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
-                    inputUpPhone = document.querySelector("#phoneUpPhone");
-                try {
-                    itiUpPhone.destroy();
-                } catch (e) {
-                }
-                var itiUpPhone = window.intlTelInput(inputUpPhone, {
-                    initialCountry: "auto",
-                    useFullscreenPopup: false,
-                    geoIpLookup: function (callback) {
-                        $.get('https://ipinfo.io', function () {
-                        }, "jsonp").always(function (resp) {
-                            var countryCode = (resp && resp.country) ? resp.country : "TN";
-                            callback(countryCode);
-                        });
-                    },
-                    utilsScript: " {{asset('assets/js/utils.js')}}"
-                });
-                inputUpPhone.addEventListener('keyup', resetUpPhone);
-                inputUpPhone.addEventListener('countrychange', resetUpPhone);
-                for (var i = 0; i < countryDataUpPhone.length; i++) {
-                    var country = countryDataUpPhone[i];
-                    var optionNode = document.createElement("option");
-                    optionNode.value = country.iso2;
-                }
-                document.querySelector("#phoneUpPhone").addEventListener("keypress", function (evt) {
-                    if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57) {
-                        evt.preventDefault();
-                    }
-                });
-                var validMsg = document.querySelector("#valid-msg");
-                var errorMsg = document.querySelector("#error-msg")
-                inputUpPhone.addEventListener('blur', function () {
-                    if (inputUpPhone.value.trim()) {
-                        if (itiUpPhone.isValidNumber()) {
-                            $("#submit_phone").prop("disabled", false);
-                        } else {
-                            $("#submit_phone").prop("disabled", true);
-                            inputUpPhone.classList.add("error");
-                            var errorCode = itiUpPhone.getValidationError();
-                            errorMsg.innerHTML = errorMap[errorCode];
-                            errorMsg.classList.remove("invisible");
-                        }
-                    }
-                });
-                resetUpPhone();
+            ipPhone.innerHTML =
+                "<input type='tel'  placeholder= '{{ __("PH_EditPhone") }}'    data-turbolinks-permanent name='mobileUpPhone' id='phoneUpPhone' class='form-control' onpaste='handlePaste(event)'>" +
+                "  <span id='valid-msg'   class='invisible'>✓ Valid</span><span id='error-msg' class='hide'></span>" +
+                " <input type='hidden' name='fullnumberUpPhone' id='outputUpPhone' value='hidden' class='form-control'> " +
+                " <input type='hidden' name='ccodeUpPhone' id='ccodeUpPhone'  ><input type='hidden' name='isoUpPhone' id='isoUpPhone'  >";
+            var countryDataUpPhone = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
+                inputUpPhone = document.querySelector("#phoneUpPhone");
+            try {
+                itiUpPhone.destroy();
+            } catch (e) {
             }
-
-            function resetUpPhone() {
-                inputUpPhone.classList.remove("error");
-                errorMsg.innerHTML = "";
-                errorMsg.classList.add("invisible");
-                validMsg.classList.add("invisible");
-                $("#submit_phone").prop("disabled", true);
-                var phone = itiUpPhone.getNumber();
-                var textNode = document.createTextNode(phone);
-                phone = phone.replace('+', '00');
-                mobile = $("#phoneUpPhone").val();
-                var countryData = itiUpPhone.getSelectedCountryData();
-                phone = '00' + countryData.dialCode + phone;
-                $("#outputUpPhone").val(phone);
-                $("#ccodeUpPhone").val(countryData.dialCode);
-                $("#isoUpPhone").val(countryData.iso2);
-
-                fullphone = $("#outputUpPhone").val();
+            var itiUpPhone = window.intlTelInput(inputUpPhone, {
+                initialCountry: "auto",
+                useFullscreenPopup: false,
+                geoIpLookup: function (callback) {
+                    $.get('https://ipinfo.io', function () {
+                    }, "jsonp").always(function (resp) {
+                        var countryCode = (resp && resp.country) ? resp.country : "TN";
+                        callback(countryCode);
+                    });
+                },
+                utilsScript: " {{asset('assets/js/utils.js')}}"
+            });
+            inputUpPhone.addEventListener('keyup', resetUpPhone);
+            inputUpPhone.addEventListener('countrychange', resetUpPhone);
+            for (var i = 0; i < countryDataUpPhone.length; i++) {
+                var country = countryDataUpPhone[i];
+                var optionNode = document.createElement("option");
+                optionNode.value = country.iso2;
+            }
+            document.querySelector("#phoneUpPhone").addEventListener("keypress", function (evt) {
+                if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57) {
+                    evt.preventDefault();
+                }
+            });
+            var validMsg = document.querySelector("#valid-msg");
+            var errorMsg = document.querySelector("#error-msg")
+            inputUpPhone.addEventListener('blur', function () {
                 if (inputUpPhone.value.trim()) {
                     if (itiUpPhone.isValidNumber()) {
-                        errorMsg.classList.add("invisible");
                         $("#submit_phone").prop("disabled", false);
                     } else {
                         $("#submit_phone").prop("disabled", true);
                         inputUpPhone.classList.add("error");
                         var errorCode = itiUpPhone.getValidationError();
-                        errorMsg.classList.remove("invisible");
-                        if (errorCode == '-99') {
-                            errorMsg.innerHTML = errorMap[2];
-                        } else {
-                            errorMsg.innerHTML = errorMap[errorCode];
-                        }
-                    }
-                } else {
-                    $("#submit_phone").prop("disabled", true);
-                    inputUpPhone.classList.remove("error");
-                    var errorCode = itiUpPhone.getValidationError();
-                    errorMsg.innerHTML = errorMap[errorCode];
-                    errorMsg.classList.add("invisible");
-                }
-            };
-
-            if (pathPage == 'Contacts') {
-                inputlog = document.querySelector("#ipAdd2Contact");
-                var itiLog = window.intlTelInput(inputlog, {
-                    initialCountry: "auto",
-                    // showSelectedDialCode: true,
-                    useFullscreenPopup: false,
-                    geoIpLookup: function (callback) {
-                        $.get('https://ipinfo.io', function () {
-                        }, "jsonp").always(function (resp) {
-                            var countryCodelog = (resp && resp.country) ? resp.country : "TN";
-                            callback(countryCodelog);
-                        });
-                    },
-                    utilsScript: " {{asset('assets/js/utils.js')}}"
-                });
-
-                inputlog.addEventListener('keyup', resetContacts);
-                inputlog.addEventListener('countrychange', resetContacts);
-                for (var i = 0; i < countryDataLog.length; i++) {
-                    var country12 = countryDataLog[i];
-                    var optionNode12 = document.createElement("option");
-                    optionNode12.value = country12.iso2;
-
-                }
-                inputlog.focus();
-            }
-
-            if (pathPage == 'editContact') {
-
-                ipAddContact.innerHTML = "<div class='input-group-prepend'> " +
-                    "</div><input wire:model.defer='phoneNumber' type='tel' name='phoneAddContact' id='phoneAddContact' class='form-control' onpaste='handlePaste(event)'" +
-                    "placeholder='Mobile Number'><span id='valid-msgAddContact' class='invisible'>✓ Valid</span><span id='error-msgAddContact' class='hide'></span>" +
-                    "<input type='hidden' name='fullnumber' id='outputAddContact' class='form-control'><input type='hidden' name='ccodeAddContact' id='ccodeAddContact'>";
-
-                var countryDataAddContact = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
-                    inputAddContact = document.querySelector("#phoneAddContact");
-                try {
-                    itiAddContact.destroy();
-                } catch (e) {
-                }
-
-                var nameInput = document.querySelector('#inputNameContact');
-                var lastNameInput = document.querySelector('#inputlLastNameContact');
-                inputAddContact.addEventListener('keyup', resetAddContact);
-                inputAddContact.addEventListener('countrychange', resetAddContact);
-                nameInput.addEventListener('keyup', resetAddContact);
-                lastNameInput.addEventListener('keyup', resetAddContact);
-                var bbol = true;
-                var autoInit = "auto";
-                if (bbol) autoInit = codePays;
-                var itiAddContact = window.intlTelInput(inputAddContact, {
-                    initialCountry: autoInit,
-                    showSelectedDialCode: true,
-                    useFullscreenPopup: false,
-                    geoIpLookup: function (callback) {
-                        $.get('https://ipinfo.io', function () {
-                        }, "jsonp").always(function (resp) {
-                            var countryCode = (resp && resp.country) ? resp.country : "TN";
-                            callback(countryCode);
-                        });
-                    },
-                    utilsScript: " {{asset('assets/js/utils.js')}}"
-                });
-                for (var i = 0; i < countryDataAddContact.length; i++) {
-                    var country = countryDataAddContact[i];
-                    var optionNode = document.createElement("option");
-                    optionNode.value = country.iso2;
-                }
-                ;
-                document.querySelector("#phoneAddContact").addEventListener("keypress", function (evt) {
-                    if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57) {
-                        evt.preventDefault();
-                    }
-                });
-                var validMsg = document.querySelector("#valid-msgAddContact");
-                var errorMsg = document.querySelector("#error-msgAddContact");
-                inputAddContact.addEventListener('blur', function () {
-                    if (inputAddContact.value.trim()) {
-                        if (itiAddContact.isValidNumber()) {
-                            errorMsg.classList.add("invisible");
-                            $("#SubmitAddContact").prop("disabled", false);
-
-                        } else {
-                            $("#SubmitAddContact").prop("disabled", true);
-                            inputAddContact.classList.add("error");
-                            var errorCode = itiAddContact.getValidationError();
-                            errorMsg.innerHTML = errorMap[errorCode];
-                            errorMsg.classList.remove("invisible");
-                        }
-                    } else {
-                        $("#SubmitAddContact").prop("disabled", true);
-                        inputAddContact.classList.add("error");
-                        var errorCode = itiAddContact.getValidationError();
                         errorMsg.innerHTML = errorMap[errorCode];
                         errorMsg.classList.remove("invisible");
                     }
-                });
-                resetAddContact();
-                $("#phoneAddContact").val($("#pho").val());
+                }
+            });
+            resetUpPhone();
+        }
+
+        function resetUpPhone() {
+            inputUpPhone.classList.remove("error");
+            errorMsg.innerHTML = "";
+            errorMsg.classList.add("invisible");
+            validMsg.classList.add("invisible");
+            $("#submit_phone").prop("disabled", true);
+            var phone = itiUpPhone.getNumber();
+            var textNode = document.createTextNode(phone);
+            phone = phone.replace('+', '00');
+            mobile = $("#phoneUpPhone").val();
+            var countryData = itiUpPhone.getSelectedCountryData();
+            phone = '00' + countryData.dialCode + phone;
+            $("#outputUpPhone").val(phone);
+            $("#ccodeUpPhone").val(countryData.dialCode);
+            $("#isoUpPhone").val(countryData.iso2);
+
+            fullphone = $("#outputUpPhone").val();
+            if (inputUpPhone.value.trim()) {
+                if (itiUpPhone.isValidNumber()) {
+                    errorMsg.classList.add("invisible");
+                    $("#submit_phone").prop("disabled", false);
+                } else {
+                    $("#submit_phone").prop("disabled", true);
+                    inputUpPhone.classList.add("error");
+                    var errorCode = itiUpPhone.getValidationError();
+                    errorMsg.classList.remove("invisible");
+                    if (errorCode == '-99') {
+                        errorMsg.innerHTML = errorMap[2];
+                    } else {
+                        errorMsg.innerHTML = errorMap[errorCode];
+                    }
+                }
+            } else {
+                $("#submit_phone").prop("disabled", true);
+                inputUpPhone.classList.remove("error");
+                var errorCode = itiUpPhone.getValidationError();
+                errorMsg.innerHTML = errorMap[errorCode];
+                errorMsg.classList.add("invisible");
+            }
+        };
+
+        if (pathPage == 'Contacts') {
+            inputlog = document.querySelector("#ipAdd2Contact");
+            var itiLog = window.intlTelInput(inputlog, {
+                initialCountry: "auto",
+                // showSelectedDialCode: true,
+                useFullscreenPopup: false,
+                geoIpLookup: function (callback) {
+                    $.get('https://ipinfo.io', function () {
+                    }, "jsonp").always(function (resp) {
+                        var countryCodelog = (resp && resp.country) ? resp.country : "TN";
+                        callback(countryCodelog);
+                    });
+                },
+                utilsScript: " {{asset('assets/js/utils.js')}}"
+            });
+
+            inputlog.addEventListener('keyup', resetContacts);
+            inputlog.addEventListener('countrychange', resetContacts);
+            for (var i = 0; i < countryDataLog.length; i++) {
+                var country12 = countryDataLog[i];
+                var optionNode12 = document.createElement("option");
+                optionNode12.value = country12.iso2;
+
+            }
+            inputlog.focus();
+        }
+
+        if (pathPage == 'editContact') {
+
+            ipAddContact.innerHTML = "<div class='input-group-prepend'> " +
+                "</div><input wire:model.defer='phoneNumber' type='tel' name='phoneAddContact' id='phoneAddContact' class='form-control' onpaste='handlePaste(event)'" +
+                "placeholder='Mobile Number'><span id='valid-msgAddContact' class='invisible'>✓ Valid</span><span id='error-msgAddContact' class='hide'></span>" +
+                "<input type='hidden' name='fullnumber' id='outputAddContact' class='form-control'><input type='hidden' name='ccodeAddContact' id='ccodeAddContact'>";
+
+            var countryDataAddContact = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
+                inputAddContact = document.querySelector("#phoneAddContact");
+            try {
+                itiAddContact.destroy();
+            } catch (e) {
             }
 
-
-            function resetAddContact() {
-                var phone = itiAddContact.getNumber();
-                if (phone == "") {
-                    phone = $("#pho").val();
+            var nameInput = document.querySelector('#inputNameContact');
+            var lastNameInput = document.querySelector('#inputlLastNameContact');
+            inputAddContact.addEventListener('keyup', resetAddContact);
+            inputAddContact.addEventListener('countrychange', resetAddContact);
+            nameInput.addEventListener('keyup', resetAddContact);
+            lastNameInput.addEventListener('keyup', resetAddContact);
+            var bbol = true;
+            var autoInit = "auto";
+            if (bbol) autoInit = codePays;
+            var itiAddContact = window.intlTelInput(inputAddContact, {
+                initialCountry: autoInit,
+                showSelectedDialCode: true,
+                useFullscreenPopup: false,
+                geoIpLookup: function (callback) {
+                    $.get('https://ipinfo.io', function () {
+                    }, "jsonp").always(function (resp) {
+                        var countryCode = (resp && resp.country) ? resp.country : "TN";
+                        callback(countryCode);
+                    });
+                },
+                utilsScript: " {{asset('assets/js/utils.js')}}"
+            });
+            for (var i = 0; i < countryDataAddContact.length; i++) {
+                var country = countryDataAddContact[i];
+                var optionNode = document.createElement("option");
+                optionNode.value = country.iso2;
+            }
+            ;
+            document.querySelector("#phoneAddContact").addEventListener("keypress", function (evt) {
+                if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57) {
+                    evt.preventDefault();
                 }
-                var textNode = document.createTextNode(phone);
-                phone = phone.replace('+', '00');
-
-                mobile = $("#phoneAddContact").val();
-                var countryData = itiAddContact.getSelectedCountryData();
-                if (!phone.startsWith('00' + countryData.dialCode)) {
-                    phone = '00' + countryData.dialCode + phone;
-                }
-                $("#outputAddContact").val(phone);
-
-                $("#ccodeAddContact").val(countryData.dialCode);
+            });
+            var validMsg = document.querySelector("#valid-msgAddContact");
+            var errorMsg = document.querySelector("#error-msgAddContact");
+            inputAddContact.addEventListener('blur', function () {
                 if (inputAddContact.value.trim()) {
                     if (itiAddContact.isValidNumber()) {
                         errorMsg.classList.add("invisible");
@@ -1360,79 +1298,118 @@
                     }
                 } else {
                     $("#SubmitAddContact").prop("disabled", true);
-                    inputAddContact.classList.remove("error");
+                    inputAddContact.classList.add("error");
                     var errorCode = itiAddContact.getValidationError();
                     errorMsg.innerHTML = errorMap[errorCode];
-                    errorMsg.classList.add("invisible");
+                    errorMsg.classList.remove("invisible");
                 }
-            };
+            });
+            resetAddContact();
+            $("#phoneAddContact").val($("#pho").val());
+        }
 
-            function resetContacts() {
-                var phone = itiLog.getNumber();
-                var textNode = document.createTextNode(phone);
-                phone = phone.replace('+', '00');
-                mobile = $("#ipAdd2Contact").val();
-                var countryData = itiLog.getSelectedCountryData();
+
+        function resetAddContact() {
+            var phone = itiAddContact.getNumber();
+            if (phone == "") {
+                phone = $("#pho").val();
+            }
+            var textNode = document.createTextNode(phone);
+            phone = phone.replace('+', '00');
+
+            mobile = $("#phoneAddContact").val();
+            var countryData = itiAddContact.getSelectedCountryData();
+            if (!phone.startsWith('00' + countryData.dialCode)) {
                 phone = '00' + countryData.dialCode + phone;
-                $("#ccodeAdd2Contact").val(countryData.dialCode);
-                $("#outputAdd2Contact").val(phone);
-            };
-            if (pathPage == 'ContactNumber') {
-
-                ipNumberContact.innerHTML = "<div class='input-group-prepend'> " +
-                    "</div><input wire:model.defer='' type='tel' name='phoneContactNumber' id='phoneContactNumber' class='form-control' onpaste='handlePaste(event)'" +
-                    "placeholder='{{ __("Mobile Number") }}'><span id='valid-msgphoneContactNumber' class='invisible'>✓ Valid</span><span id='error-msgphoneContactNumber' class='hide'></span>" +
-                    " <input type='hidden' name='fullnumber' id='outputphoneContactNumber' class='form-control'><input type='hidden' name='ccodephoneContactNumber' id='ccodephoneContactNumber'>" +
-                    "<input type='hidden' name='isoContactNumber' id='isoContactNumber'>";
-                var countryDataNumberContact = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
-                    inputAddContactNumber = document.querySelector("#phoneContactNumber");
-                try {
-                    itiAddContactNumber.destroy();
-                } catch (e) {
-
-                }
-                var itiAddContactNumber = window.intlTelInput(inputAddContactNumber, {
-                    initialCountry: "auto",
-                    useFullscreenPopup: false,
-                    geoIpLookup: function (callback) {
-                        $.get('https://ipinfo.io', function () {
-                        }, "jsonp").always(function (resp) {
-                            var countryCode13 = (resp && resp.country) ? resp.country : "TN";
-                            callback(countryCode13);
-                        });
-                    },
-                    utilsScript: " {{asset('assets/js/utils.js')}}"
-                });
-                inputAddContactNumber.addEventListener('keyup', resetAddNumberContact);
-                inputAddContactNumber.addEventListener('countrychange', resetAddNumberContact);
-
-                for (var i = 0; i < countryDataNumberContact.length; i++) {
-                    var country = countryDataNumberContact[i];
-                    var optionNode = document.createElement("option");
-                    optionNode.value = country.iso2;
-                }
-                resetAddNumberContact();
             }
+            $("#outputAddContact").val(phone);
 
-            function resetAddNumberContact() {
-                var phoneCN = itiAddContactNumber.getNumber();
-                phoneCN = phoneCN.replace('+', '00');
-                mobileCN = $("#phoneContactNumber").val();
-                var countryDataCN = itiAddContactNumber.getSelectedCountryData();
-                if (!phoneCN.startsWith('00' + countryDataCN.dialCode)) {
-                    phoneCN = '00' + countryDataCN.dialCode + phoneCN;
-                }
-                $("#outputphoneContactNumber").val(phoneCN);
-                $("#ccodephoneContactNumber").val(countryDataCN.dialCode);
-                $("#isoContactNumber").val(countryDataCN.iso2);
-                if (itiAddContactNumber.isValidNumber()) {
-                    $('#saveAddContactNumber').prop("disabled", false)
+            $("#ccodeAddContact").val(countryData.dialCode);
+            if (inputAddContact.value.trim()) {
+                if (itiAddContact.isValidNumber()) {
+                    errorMsg.classList.add("invisible");
+                    $("#SubmitAddContact").prop("disabled", false);
+
                 } else {
-                    $('#saveAddContactNumber').prop("disabled", true)
+                    $("#SubmitAddContact").prop("disabled", true);
+                    inputAddContact.classList.add("error");
+                    var errorCode = itiAddContact.getValidationError();
+                    errorMsg.innerHTML = errorMap[errorCode];
+                    errorMsg.classList.remove("invisible");
                 }
+            } else {
+                $("#SubmitAddContact").prop("disabled", true);
+                inputAddContact.classList.remove("error");
+                var errorCode = itiAddContact.getValidationError();
+                errorMsg.innerHTML = errorMap[errorCode];
+                errorMsg.classList.add("invisible");
             }
-        });
+        };
 
+        function resetContacts() {
+            var phone = itiLog.getNumber();
+            var textNode = document.createTextNode(phone);
+            phone = phone.replace('+', '00');
+            mobile = $("#ipAdd2Contact").val();
+            var countryData = itiLog.getSelectedCountryData();
+            phone = '00' + countryData.dialCode + phone;
+            $("#ccodeAdd2Contact").val(countryData.dialCode);
+            $("#outputAdd2Contact").val(phone);
+        };
+        if (pathPage == 'ContactNumber') {
+
+            ipNumberContact.innerHTML = "<div class='input-group-prepend'> " +
+                "</div><input wire:model.defer='' type='tel' name='phoneContactNumber' id='phoneContactNumber' class='form-control' onpaste='handlePaste(event)'" +
+                "placeholder='{{ __("Mobile Number") }}'><span id='valid-msgphoneContactNumber' class='invisible'>✓ Valid</span><span id='error-msgphoneContactNumber' class='hide'></span>" +
+                " <input type='hidden' name='fullnumber' id='outputphoneContactNumber' class='form-control'><input type='hidden' name='ccodephoneContactNumber' id='ccodephoneContactNumber'>" +
+                "<input type='hidden' name='isoContactNumber' id='isoContactNumber'>";
+            var countryDataNumberContact = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
+                inputAddContactNumber = document.querySelector("#phoneContactNumber");
+            try {
+                itiAddContactNumber.destroy();
+            } catch (e) {
+
+            }
+            var itiAddContactNumber = window.intlTelInput(inputAddContactNumber, {
+                initialCountry: "auto",
+                useFullscreenPopup: false,
+                geoIpLookup: function (callback) {
+                    $.get('https://ipinfo.io', function () {
+                    }, "jsonp").always(function (resp) {
+                        var countryCode13 = (resp && resp.country) ? resp.country : "TN";
+                        callback(countryCode13);
+                    });
+                },
+                utilsScript: " {{asset('assets/js/utils.js')}}"
+            });
+            inputAddContactNumber.addEventListener('keyup', resetAddNumberContact);
+            inputAddContactNumber.addEventListener('countrychange', resetAddNumberContact);
+
+            for (var i = 0; i < countryDataNumberContact.length; i++) {
+                var country = countryDataNumberContact[i];
+                var optionNode = document.createElement("option");
+                optionNode.value = country.iso2;
+            }
+            resetAddNumberContact();
+        }
+
+        function resetAddNumberContact() {
+            var phoneCN = itiAddContactNumber.getNumber();
+            phoneCN = phoneCN.replace('+', '00');
+            mobileCN = $("#phoneContactNumber").val();
+            var countryDataCN = itiAddContactNumber.getSelectedCountryData();
+            if (!phoneCN.startsWith('00' + countryDataCN.dialCode)) {
+                phoneCN = '00' + countryDataCN.dialCode + phoneCN;
+            }
+            $("#outputphoneContactNumber").val(phoneCN);
+            $("#ccodephoneContactNumber").val(countryDataCN.dialCode);
+            $("#isoContactNumber").val(countryDataCN.iso2);
+            if (itiAddContactNumber.isValidNumber()) {
+                $('#saveAddContactNumber').prop("disabled", false)
+            } else {
+                $('#saveAddContactNumber').prop("disabled", true)
+            }
+        }
 
         $(document).on("click", ".addCash", function () {
             let reciver = $(this).data('reciver');
@@ -1604,6 +1581,5 @@
             }
         });
     });
-
 </script>
 </html>

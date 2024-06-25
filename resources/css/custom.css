@@ -538,12 +538,19 @@ nav svg {
 }
 
 .navbar-menu .navbar-nav .nav-link {
-    color: #464fed
+    color: #464fed;
+    color: var(--vz-vertical-menu-item-active-color);
+
+}
+
+.navbar-menu .navbar-nav .nav-link.active {
+    color: var(--vz-vertical-menu-item-hover-color);
 }
 
 .navbar-menu .navbar-nav .nav-link svg {
     color: #999999;
 }
+
 .navbar-menu .navbar-nav .nav-link.disabled {
     color: #999999;
 }
