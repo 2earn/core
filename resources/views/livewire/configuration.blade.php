@@ -378,6 +378,145 @@
             </div>
         </div>
     </div>
+    <script>
+        window.addEventListener('load', () => {
+            $(document).on('turbolinks:load', function () {
+                $('#SettingsTable').DataTable(
+                    {
+                        retrieve: true,
+                        "colReorder": false,
+                        "orderCellsTop": false,
+                        "fixedHeader": true,
+                        search: {
+                            return: true
+                        },
+                        "processing": true,
+                        "aLengthMenu": [[5, 30, 50], [5, 30, 50]],
+                        "ajax": "{{route('API_settings',app()->getLocale())}}",
+                        "columns": [
+                            {"data": "ParameterName"},
+                            {"data": "IntegerValue"},
+                            {"data": "StringValue"},
+                            {"data": "DecimalValue"},
+                            {"data": "Unit"},
+                            {"data": "Automatically_calculated"},
+                            {data: 'action', name: 'action', orderable: false, searchable: false},
+                        ],
+                        "language": {
+                            "url": urlLang
+                        }
+                    }
+                );
+                $('#BalanceOperationsTable').DataTable(
+                    {
+                        retrieve: true,
+                        "colReorder": true,
+                        "orderCellsTop": true,
+                        "fixedHeader": true,
+                        initComplete: function () {
+                            this.api()
+                                .columns()
+                                .every(function () {
+                                    var that = $('#BalanceOperationsTable').DataTable();
+                                    $('input', this.footer()).on('keydown', function (ev) {
+                                        if (ev.keyCode == 13) {
+                                            that
+                                                .search(this.value)
+                                                .draw();
+                                        }
+                                    });
+                                });
+                        },
+                        "processing": true,
+                        search: {
+                            return: true
+                        },
+                        "ajax": "{{route('API_BalOperations' ,app()->getLocale())}}",
+                        "columns": [
+                            {"data": "Designation"},
+                            {"data": "IO"},
+                            {"data": "idSource"},
+                            {"data": "amountsshortname"},
+                            {data: 'MODIFY_AMOUNT'},
+                            {data: 'action', name: 'action', orderable: false, searchable: false},
+                        ],
+                        "language": {
+                            "url": urlLang
+                        }
+                    }
+                );
+                $('#amountsTable').DataTable(
+                    {
+                        retrieve: true,
+                        "colReorder": true,
+                        "orderCellsTop": true,
+                        "fixedHeader": true,
+                        initComplete: function () {
+                            this.api()
+                                .columns()
+                                .every(function () {
+                                    var that = $('#amountsTable').DataTable();
+                                    $('input', this.footer()).on('keydown', function (ev) {
+                                        if (ev.keyCode == 13) {
+                                            that
+                                                .search(this.value)
+                                                .draw();
+                                        }
+                                    });
+                                });
+                        },
+                        "processing": true,
+                        search: {return: true},
+                        "ajax": "{{route('API_Amounts',app()->getLocale())}}",
+                        "columns": [
+                            {data: 'amountsname'},
+                            {data: 'amountsshortname'},
+                            {data: 'amountswithholding_tax'},
+                            {data: 'amountstransfer'},
+                            {data: 'amountspaymentrequest'},
+                            {data: 'amountscash'},
+                            {data: 'amountsactive'},
+                            {data: 'action', name: 'action', orderable: false, searchable: false},
+                        ],
+                        "language": {"url": urlLang}
+                    }
+                );
+
+                $('#ActionHistorysTable').DataTable(
+                    {
+                        retrieve: true,
+                        "colReorder": true,
+                        "orderCellsTop": true,
+                        "fixedHeader": true,
+                        initComplete: function () {
+                            this.api()
+                                .columns()
+                                .every(function () {
+
+                                    if ($.fn.dataTable.isDataTable('#ActionHistorysTable')) {
+                                        var that = $('#ActionHistorysTable').DataTable();
+                                    }
+                                    $('input', this.footer()).on('keydown', function (ev) {
+                                        if (ev.keyCode == 13) {
+                                            that.search(this.value).draw();
+                                        }
+                                    });
+                                });
+                        },
+                        "processing": true,
+                        search: {return: true},
+                        "ajax": "{{route('API_ActionHistory',app()->getLocale())}}",
+                        "columns": [
+                            {data: 'title'},
+                            {data: 'reponce'},
+                            {data: 'action', name: 'action', orderable: false, searchable: false},
+                        ],
+                        "language": {"url": urlLang}
+                    }
+                );
+            });
+        });
+    </script>
 </div>
 
 

@@ -54,5 +54,75 @@
                 $('#page-title-box').addClass('page-title-box-bfs');
             }
         );
+        window.addEventListener('load', () => {
+            $(document).on('turbolinks:load', function () {
+                table_bfs = $('#ub_table_bfs').DataTable(
+                    {
+                        retrieve: true,
+                        "colReorder": true,
+                        "orderCellsTop": true,
+                        "fixedHeader": true,
+                        "order": [[2, 'desc']],
+                        initComplete: function () {
+                            this.api()
+                                .columns()
+                                .every(function () {
+                                    if ($.fn.dataTable.isDataTable('#ub_table_bfs')) {
+                                        var that = $('#ub_table_bfs').DataTable();
+                                    }
+                                    $('input', this.footer()).on('keydown', function (ev) {
+                                        if (ev.keyCode == 13) {
+                                            that.search(this.value).draw();
+                                        }
+                                    });
+                                });
+                        },
+                        "processing": true,
+                        search: {return: true},
+                        "ajax": "{{route('API_userBFSPurchase',app()->getLocale())}}",
+                        "columns": [
+                            {data: 'ranks'},
+                            {data: 'Ref'},
+                            {data: 'Date'},
+                            {data: 'Designation'},
+                            {data: 'Description'},
+                            {data: 'value', className: classAl},
+                            {data: 'balance', className: classAl},
+                        ],
+                        "columnDefs":
+                            [
+                                {
+                                    "targets": [5],
+                                    render: function (data, type, row) {
+                                        if (data.indexOf('+') == -1)
+                                            return '<span class="badge bg-danger con">' + data + '</span>';
+                                        else
+                                            return '<span class="badge bg-success con">' + data + '</span>';
+
+                                    }
+                                },
+                                {
+                                    "targets": [6],
+                                    render: function (data, type, row) {
+                                        if (row.ranks == 1)
+                                            return '<div class="logoTopBFSLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
+                                        else
+                                            return data;
+                                    }
+                                },
+                                {
+                                    "targets": [3],
+                                    render: function (data, type, row) {
+                                        if (select2_array.indexOf(data) == -1) {
+                                            select2_array.push(data);
+                                            $('.bfs_operation_multiple').append(('<option value="' + data + '">' + data + '</option>'));
+                                        }
+                                        return data;
+                                    }
+                                }],
+                        "language": {"url": urlLang}
+                    });
+            });
+        });
     </script>
 </div>

@@ -30,6 +30,10 @@ export default defineConfig({
                 },
                 chunkFileNames: 'js/[name].min.js',
                 entryFileNames: 'js/[name].min.js',
+                globals: {
+                    jquery: 'jQuery',
+                    $: 'jQuery'
+                }
             },
         },
     },
@@ -75,7 +79,6 @@ export default defineConfig({
             name: 'copy-specific-packages',
             async writeBundle() {
                 try {
-                    // Copy images, json, fonts, and js
                     await Promise.all([
                         fs.copy(folder.src_assets + 'fonts', folder.dist_assets + 'fonts'),
                         fs.copy(folder.src_assets + 'Styles', folder.dist_assets + 'Styles'),
@@ -91,7 +94,7 @@ export default defineConfig({
                     console.error('Error copying assets:', error);
                 }
 
-                const outputPath = path.resolve(__dirname, folder.dist_assets); // Adjust the destination path
+                const outputPath = path.resolve(__dirname, folder.dist_assets);
                 const configPath = path.resolve(__dirname, 'package-copy-config.json');
 
                 try {
@@ -99,8 +102,7 @@ export default defineConfig({
                     const { packagesToCopy } = JSON.parse(configContent);
 
                     for (const packageName of packagesToCopy) {
-                        const destPackagePath = path.join(outputPath, 'libs', packageName);
-
+                        const destPackagePath = path.join(outputPath, 'libs', packageName)
                         const sourcePath = fs.existsSync(path.join(__dirname, 'node_modules', packageName + "/dist")) ?
                             path.join(__dirname, 'node_modules', packageName + "/dist")
                             : path.join(__dirname, 'node_modules', packageName);

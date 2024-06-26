@@ -313,7 +313,7 @@
                                     class=""> {{ __('Cash Balance') }} : <b>  {{__('DPC')}}  {{$solde->soldeCB}}</b>
                                 </span>
                             </a>
-                            <a class="dropdown-item " href="" wire:click="logout">
+                            <a class="dropdown-item" wire:click="logout">
                                 <i class="bx bx-power-off font-size-16 align-middle me-1"></i>
                                 <span key="t-logout">{{ __('Logout') }}</span>
                             </a>

@@ -40,4 +40,110 @@
             </div>
         </div>
     </div>
+    <script>
+        window.addEventListener('load', () => {
+            $(document).on('turbolinks:load', function () {
+                $('#userPurchase_table').DataTable({
+                    "ordering": false,
+                    retrieve: true,
+                    "colReorder": false,
+
+                    dom: 'Bfrtip',
+                    buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+                    "orderCellsTop": true,
+                    "fixedHeader": true,
+                    initComplete: function () {
+                        this.api()
+                            .columns()
+                            .every(function () {
+                                if ($.fn.dataTable.isDataTable('#countries_table')) {
+
+                                    var that = $('#userPurchase_table').DataTable();
+                                }
+                                $('input', this.footer()).on('keydown', function (ev) {
+                                    if (ev.keyCode == 13) {
+                                        that.search(this.value).draw();
+                                    }
+                                });
+                            });
+                    },
+                    "order": [[0, 'desc']],
+                    "processing": true,
+                    "serverSide": true,
+                    "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
+                    search: {return: true},
+                    autoWidth: false,
+                    bAutoWidth: false,
+                    "ajax": "{{route('API_userPurchase', app()->getLocale() )}}",
+                    "columns": [
+                        {data: 'DateAchat'},
+                        {data: 'ReferenceAchat'},
+                        {data: 'item_title'},
+                        {data: 'nbrAchat'},
+                        {data: 'Amout'},
+                        {data: 'invitationPurshase'},
+                        {data: 'visit'},
+                        {data: 'PRC_BFS'},
+                        {data: 'PRC_CB'},
+                        {data: 'CashBack_BFS'},
+                        {data: 'CashBack_CB'},
+                        {data: 'Economy'}
+                    ],
+                    "language": {"url": urlLang}
+
+                });
+                $('#userPurchase_table').DataTable({
+                    "ordering": false,
+                    retrieve: true,
+                    "colReorder": false,
+                    dom: 'Bfrtip',
+                    buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+                    "orderCellsTop": true,
+                    "fixedHeader": true,
+                    initComplete: function () {
+                        this.api()
+                            .columns()
+                            .every(function () {
+                                if ($.fn.dataTable.isDataTable('#countries_table')) {
+                                    var that = $('#userPurchase_table').DataTable();
+                                }
+                                $('input', this.footer()).on('keydown', function (ev) {
+                                    if (ev.keyCode == 13) {
+                                        that
+                                            .search(this.value)
+                                            .draw();
+                                    }
+                                });
+                            });
+                    },
+                    "order": [[0, 'desc']],
+                    "processing": true,
+                    "serverSide": true,
+                    "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
+                    search: {return: true},
+                    autoWidth: false,
+                    bAutoWidth: false,
+                    "ajax": "{{route('API_userPurchase', app()->getLocale() )}}",
+                    "columns": [
+                        {data: 'DateAchat'},
+                        {data: 'ReferenceAchat'},
+                        {data: 'item_title'},
+                        {data: 'nbrAchat'},
+                        {data: 'Amout'},
+                        {data: 'invitationPurshase'},
+                        {data: 'visit'},
+                        {data: 'PRC_BFS'},
+                        {data: 'PRC_CB'},
+                        {data: 'CashBack_BFS'},
+                        {data: 'CashBack_CB'},
+                        {data: 'Economy'}
+                    ],
+                    "language": {"url": urlLang}
+                });
+
+            }
+        });
+        });
+
+    </script>
 </div>

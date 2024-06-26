@@ -31,6 +31,11 @@ const swiper = new Swiper();
 import DataTable from "datatables.net-bs5";
 window.DataTable = DataTable;
 
+
+import intlTelInput from 'intl-tel-input';
+
+window.intlTelInput = intlTelInput;
+
 (function () {
 
     var btnHover = document.getElementById("MyHover");
