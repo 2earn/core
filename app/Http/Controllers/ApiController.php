@@ -1523,24 +1523,24 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUs
 
     public function getRequestAjax()
     {
-        $array = [];
-        $requestInOpen = detail_financial_request::join('financial_request', 'financial_request.numeroReq', '=', 'detail_financial_request.numeroRequest')
-            ->where('detail_financial_request.idUser', auth()->user()->idUser)
-            ->where('financial_request.Status', 0)
-            ->where('detail_financial_request.vu', 0)
-            ->count();
-        $requestOutAccepted = FinancialRequest::where('financial_request.idSender', auth()->user()->idUser)
-            ->where('financial_request.Status', 1)
-            ->where('financial_request.vu', 0)
-            ->count();
-        $requestOutRefused = FinancialRequest::where('financial_request.idSender', auth()->user()->idUser)
-            ->where('financial_request.Status', 5)
-            ->where('financial_request.vu', 0)
-            ->count();
-        $array['requestInOpen'] = $requestInOpen;
-        $array['requestOutAccepted'] = $requestOutAccepted;
-        $array['requestOutRefused'] = $requestOutRefused;
-        return json_encode(array('data' => $array));
+        $requestArray = ['requestInOpen' => null, 'requestOutAccepted' => null, 'requestOutRefused' => null];
+        if (auth()->user()) {
+            $requestInOpen = detail_financial_request::join('financial_request', 'financial_request.numeroReq', '=', 'detail_financial_request.numeroRequest')
+                ->where('detail_financial_request.idUser', auth()->user()->idUser)
+                ->where('financial_request.Status', 0)
+                ->where('detail_financial_request.vu', 0)
+                ->count();
+            $requestOutAccepted = FinancialRequest::where('financial_request.idSender', auth()->user()->idUser)
+                ->where('financial_request.Status', 1)
+                ->where('financial_request.vu', 0)
+                ->count();
+            $requestOutRefused = FinancialRequest::where('financial_request.idSender', auth()->user()->idUser)
+                ->where('financial_request.Status', 5)
+                ->where('financial_request.vu', 0)
+                ->count();
+            $requestArray = ['requestInOpen' => $requestInOpen, 'requestOutAccepted' => $requestOutAccepted, 'requestOutRefused' => $requestOutRefused];
+        }
+        return json_encode(array('data' => $requestArray));
     }
 
 }

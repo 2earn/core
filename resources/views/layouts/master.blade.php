@@ -305,8 +305,8 @@
 
 @stack('scripts')
 <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/intlTelInput.min.js"></script>
-<script data-turbolinks-eval="false">
-    document.addEventListener("load", function () {
+<script type="module">
+    $(document).on('turbolinks:load', function () {
         var ipPhone = document.getElementById("inputPhoneUpdate");
         const myParams = window.location.pathname.split("/");
         const pathPage = myParams[2];
@@ -606,7 +606,7 @@
         function resetAddNumberContact() {
             var phoneCN = itiAddContactNumber.getNumber();
             phoneCN = phoneCN.replace('+', '00');
-            mobileCN = $("#phoneContactNumber").val();
+           var  mobileCN = $("#phoneContactNumber").val();
             var countryDataCN = itiAddContactNumber.getSelectedCountryData();
             if (!phoneCN.startsWith('00' + countryDataCN.dialCode)) {
                 phoneCN = '00' + countryDataCN.dialCode + phoneCN;

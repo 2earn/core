@@ -99,104 +99,107 @@
             </div>
         </div>
     </div>
-    <script data-tubolinks-eval=false>
-
-        $("#saveAddContactNumber").click(function (event) {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-            const modal = bootstrap.Modal.getOrCreateInstance('#AddContactNumberModel');
-            modal.hide();
-            window.livewire.emit('preSaveContact', $("#outputphoneContactNumber").val(), $("#isoContactNumber").val(), $("#phoneContactNumber").val());
-        });
-
-        function setActiveNumber($id) {
-            try {
-                const modal = bootstrap.Modal.getOrCreateInstance('#modalCeckContactNumber');
-                modal.show();
+    <script type="module">
+        $(document).on('turbolinks:load', function () {
+           var timerInterval;
+            $("#saveAddContactNumber").click(function (event) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                const modal = bootstrap.Modal.getOrCreateInstance('#AddContactNumberModel');
                 modal.hide();
-            } catch (e) {
+                window.livewire.emit('preSaveContact', $("#outputphoneContactNumber").val(), $("#isoContactNumber").val(), $("#phoneContactNumber").val());
+            });
+
+            function setActiveNumber($id) {
+                try {
+                    const modal = bootstrap.Modal.getOrCreateInstance('#modalCeckContactNumber');
+                    modal.show();
+                    modal.hide();
+                } catch (e) {
+                }
+
+                Swal.fire({
+                    title: '{{ __('activate_number') }}',
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: '{{trans('ok')}}',
+                    cancelButtonText: '{{trans('canceled !')}}',
+                    denyButtonText: '{{trans('No')}}',
+                    customClass: {
+                        actions: 'my-actions',
+                        cancelButton: 'order-1 right-gap',
+                        confirmButton: 'order-2',
+                        denyButton: 'order-3',
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.livewire.emit('setActiveNumber', 1, $id);
+                    }
+                });
             }
 
-            Swal.fire({
-                title: '{{ __('activate_number') }}',
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: '{{trans('ok')}}',
-                cancelButtonText: '{{trans('canceled !')}}',
-                denyButtonText: '{{trans('No')}}',
-                customClass: {
-                    actions: 'my-actions',
-                    cancelButton: 'order-1 right-gap',
-                    confirmButton: 'order-2',
-                    denyButton: 'order-3',
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.livewire.emit('setActiveNumber', 1, $id);
-                }
-            });
-        }
+            function deleteContactNUmber($id) {
+                Swal.fire({
+                    title: '{{ __('delete_contact') }}',
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: '{{trans('ok')}}',
+                    cancelButtonText: '{{trans('canceled !')}}',
+                    denyButtonText: '{{trans('No')}}',
+                    customClass: {
+                        actions: 'my-actions',
+                        cancelButton: 'order-1 right-gap',
+                        confirmButton: 'order-2',
+                        denyButton: 'order-3',
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.livewire.emit('deleteContact', $id);
+                    }
+                });
+            }
 
-        function deleteContactNUmber($id) {
-            Swal.fire({
-                title: '{{ __('delete_contact') }}',
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: '{{trans('ok')}}',
-                cancelButtonText: '{{trans('canceled !')}}',
-                denyButtonText: '{{trans('No')}}',
-                customClass: {
-                    actions: 'my-actions',
-                    cancelButton: 'order-1 right-gap',
-                    confirmButton: 'order-2',
-                    denyButton: 'order-3',
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.livewire.emit('deleteContact', $id);
-                }
-            });
-        }
-
-        window.addEventListener('PreAddNumber', event => {
-            Swal.fire({
-                title: '{{ __('Your verification code') }}',
-                html: event.detail.msgSend + ' ' + '<br>' + event.detail.FullNumber + '<br>' + event.detail.userMail + '<br>' + '{{__('Your OTP Code')}}',
-                allowOutsideClick: false,
-                timer: '{{ env('timeOPT',180000) }}',
-                timerProgressBar: true,
-                showCancelButton: true,
-                cancelButtonText: '{{trans('canceled !')}}',
-                confirmButtonText: '{{trans('ok')}}',
-                footer: ' <i></i><div class="footerOpt"></div>',
-                didOpen: () => {
-                    const b = Swal.getFooter().querySelector('i')
-                    const p22 = Swal.getFooter().querySelector('div')
-                    p22.innerHTML = '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>';
-                    timerInterval = setInterval(() => {
-                        b.textContent = '{{trans('It will close in')}}' + (Swal.getTimerLeft() / 1000).toFixed(0) + '{{trans('secondes')}}'
-                    }, 100)
-                },
-                willClose: () => {
-                    clearInterval(timerInterval)
-                },
-                input: 'text',
-                inputAttributes: {autocapitalize: 'off'},
-            }).then((resultat) => {
-                if (resultat.isConfirmed) {
-                    window.livewire.emit('saveContactNumber', resultat.value, event.detail.isoP, event.detail.mobile, event.detail.FullNumberNew);
-                }
-                if (resultat.isDismissed && resultat.dismiss == 'cancel') {
-                    window.location.reload();
-                }
+            window.addEventListener('PreAddNumber', event => {
+                Swal.fire({
+                    title: '{{ __('Your verification code') }}',
+                    html: event.detail.msgSend + ' ' + '<br>' + event.detail.FullNumber + '<br>' + event.detail.userMail + '<br>' + '{{__('Your OTP Code')}}',
+                    allowOutsideClick: false,
+                    timer: '{{ env('timeOPT',180000) }}',
+                    timerProgressBar: true,
+                    showCancelButton: true,
+                    cancelButtonText: '{{trans('canceled !')}}',
+                    confirmButtonText: '{{trans('ok')}}',
+                    footer: ' <i></i><div class="footerOpt"></div>',
+                    didOpen: () => {
+                        const b = Swal.getFooter().querySelector('i')
+                        const p22 = Swal.getFooter().querySelector('div')
+                        p22.innerHTML = '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>';
+                        timerInterval = setInterval(() => {
+                            b.textContent = '{{trans('It will close in')}}' + (Swal.getTimerLeft() / 1000).toFixed(0) + '{{trans('secondes')}}'
+                        }, 100)
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    },
+                    input: 'text',
+                    inputAttributes: {autocapitalize: 'off'},
+                }).then((resultat) => {
+                    if (resultat.isConfirmed) {
+                        window.livewire.emit('saveContactNumber', resultat.value, event.detail.isoP, event.detail.mobile, event.detail.FullNumberNew);
+                    }
+                    if (resultat.isDismissed && resultat.dismiss == 'cancel') {
+                        window.location.reload();
+                    }
+                })
             })
-        })
+        });
+
     </script>
-    <script data-turbolinks-eval="false">
-        var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";
-        var urlLang = "https://cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
-        $('#example').DataTable(
-            {
+    <script type="module">
+        $(document).on('turbolinks:load', function () {
+            var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";
+            var urlLang = "https://cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
+            $('#example').DataTable({
                 retrieve: true,
                 "colReorder": true,
                 "orderCellsTop": true,
@@ -204,7 +207,7 @@
                 "language": {
                     "url": urlLang
                 }
-            }
-        );
+            });
+        });
     </script>
 </div>
