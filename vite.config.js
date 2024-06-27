@@ -1,5 +1,7 @@
-import { defineConfig } from 'vite';
+import {defineConfig} from 'vite';
 import laravel from 'laravel-vite-plugin';
+import inject from '@rollup/plugin-inject';
+
 import fs from 'fs-extra';
 import path from 'path';
 
@@ -38,7 +40,11 @@ export default defineConfig({
         },
     },
     plugins: [
+        inject({
+            $: 'jquery',
+        }),
         laravel({
+
             input: [
                 'resources/sass/app.scss',
                 'resources/js/app.js',
@@ -99,7 +105,7 @@ export default defineConfig({
 
                 try {
                     const configContent = await fs.readFile(configPath, 'utf-8');
-                    const { packagesToCopy } = JSON.parse(configContent);
+                    const {packagesToCopy} = JSON.parse(configContent);
 
                     for (const packageName of packagesToCopy) {
                         const destPackagePath = path.join(outputPath, 'libs', packageName)

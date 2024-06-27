@@ -1,8 +1,5 @@
-import jQuery from 'jquery';
-Object.assign(window, {
-    $: jQuery,
-    jQuery
-})
+import $ from 'jquery';
+window.$ = $; // this worked for me
 
 import * as bootstrap from 'bootstrap';
 window.bootstrap = bootstrap;

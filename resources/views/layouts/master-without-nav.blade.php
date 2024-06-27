@@ -100,10 +100,8 @@
 </div>
 @include('layouts.vendor-scripts')
 @livewireScripts
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>
-
-    document.addEventListener("turbolinks:load", function () {
+<script type="module"> //type="module" is the important part
+    $(function () {
         const myParams = window.location.pathname.split("/");
         const pathPage = myParams[2];
         const pathPage2 = myParams[1];
@@ -201,7 +199,7 @@
             var phone = itiforget.getNumber();
             var textNode = document.createTextNode(phone);
             phone = phone.replace('+', '00');
-            mobile = $("#phoneforget").val();
+            var mobile = $("#phoneforget").val();
             var countryData = itiforget.getSelectedCountryData();
             if (!phone.startsWith('00' + countryData.dialCode)) {
                 phone = '00' + countryData.dialCode + phone;
@@ -215,7 +213,7 @@
             var phone = iti.getNumber();
             var textNode = document.createTextNode(phone);
             phone = phone.replace('+', '00');
-            mobile = $("#phonereg").val();
+            var mobile = $("#phonereg").val();
             var countryData = iti.getSelectedCountryData();
             if (!phone.startsWith('00' + countryData.dialCode)) {
                 phone = '00' + countryData.dialCode + phone;
@@ -232,7 +230,7 @@
             var phone = itiLog.getNumber();
             var textNode = document.createTextNode(phone);
             phone = phone.replace('+', '00');
-            mobile = $("#phoneLog").val();
+            var mobile = $("#phoneLog").val();
             var countryData = itiLog.getSelectedCountryData();
             phone = '00' + countryData.dialCode + phone;
             $("#ccodelog").val(countryData.dialCode);
@@ -249,7 +247,7 @@
                 inputlog.classList.remove("error");
             }
         };
-    });
+    })
 </script>
 </body>
 </html>

@@ -164,12 +164,6 @@
     @vite([ 'resources/css/app.css','resources/css/intlTelInput.scss','resources/fontawesome/all.min.css','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
     <!-- vite -->
 </head>
-<script>
-    var fromLogin = '{{Session::has('fromLogin')}}';
-    if (fromLogin) {
-        location.reload();
-    }
-</script>
 @section('body')
     <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PMK39HQQ"
@@ -192,8 +186,6 @@
 </div>
 @include('layouts.footer', ['pageName' => 'master'])
 @livewireScripts
-
-
 <script src="{{ URL::asset('/assets/libs/dropzone/dropzone-min.js') }}"></script>
 <script src="{{ URL::asset('/assets/js/pages/crypto-kyc.init.js') }}"></script>
 <script src="{{ URL::asset('assets/libs/filepond/filepond.min.js') }}"></script>
