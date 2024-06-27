@@ -248,7 +248,7 @@
     <div class="row">
         {{ $contactUsers->links() }}
     </div>
-    <script>
+    <script type="module">
         function initNewUserContact() {
             window.livewire.emit('initNewUserContact');
         }
@@ -327,75 +327,73 @@
 
         }
 
-        window.addEventListener('load', () => {
-            $(document).on('turbolinks:load', function () {
-                $('#contacts_table').DataTable({
-                    retrieve: true,
-                    searching: true,
-                    "bLengthChange": false,
-                    "processing": true,
-                    paging: true,
-                    "pageLength": 100,
-                    "aLengthMenu": [[100, 500, 1000], [100, 500, 1000]],
-                    "ajax": "{{route('API_UserContacts',app()->getLocale())}}",
-                    "columns": [
-                        {"data": "name"},
-                        {"data": "lastName"},
-                        {"data": "mobile"},
-                        {"data": "flag"},
-                        {"data": "status"},
-                        {"data": "availablity"},
-                        {data: 'action', name: 'action', orderable: false, searchable: false},
-                    ],
-                    "columnDefs":
-                        [
-                            {
-                                "targets": [5],
-                                render: function (data, type, row) {
-                                    var givenDate = new Date(row.reserved_at);
-                                    var delai = (Date.now() - givenDate) / (1000 * 60 * 60);
-                                    if (Number(row.idUpline) !== 0) {
-                                        if (row.idUpline == row.idUser)
-                                            return '<span class="badge bg-info-subtle text-info" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                                '">{{__('i am his sponsor')}}</span>';
-                                        else
-                                            return '<span class="badge bg-danger-subtle text-danger" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                                '">{{__('Already has a sponsor')}}</span>';
-                                    } else {
-                                        if (Number(row.availablity) === 0)
-                                            return '<span class="badge bg-success-subtle text-success" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                                '">{{__('Available')}}</span>';
-                                        else {
-                                            if (row.reserved_by == row.idUser) {
-                                                if (delai < 72) {
-                                                    var reste = 72 - delai;
-                                                    return '<span class="badge bg-warning-subtle text-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                                        '">{{__('reserved for')}} ' + reste.toFixed(0) + ' {{__('hours')}}</span>';
-                                                } else {
-                                                    var reste = 72 + 168 - delai;
-                                                    return '<span class="badge bg-primary-subtle text-primary" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                                        '">{{__('blocked for')}} ' + reste.toFixed(0) + ' {{__('hours')}}</span>';
-                                                }
-
+        $(document).on('turbolinks:load', function () {
+            $('#contacts_table').DataTable({
+                retrieve: true,
+                searching: true,
+                "bLengthChange": false,
+                "processing": true,
+                paging: true,
+                "pageLength": 100,
+                "aLengthMenu": [[100, 500, 1000], [100, 500, 1000]],
+                "ajax": "{{route('API_UserContacts',app()->getLocale())}}",
+                "columns": [
+                    {"data": "name"},
+                    {"data": "lastName"},
+                    {"data": "mobile"},
+                    {"data": "flag"},
+                    {"data": "status"},
+                    {"data": "availablity"},
+                    {data: 'action', name: 'action', orderable: false, searchable: false},
+                ],
+                "columnDefs":
+                    [
+                        {
+                            "targets": [5],
+                            render: function (data, type, row) {
+                                var givenDate = new Date(row.reserved_at);
+                                var delai = (Date.now() - givenDate) / (1000 * 60 * 60);
+                                if (Number(row.idUpline) !== 0) {
+                                    if (row.idUpline == row.idUser)
+                                        return '<span class="badge bg-info-subtle text-info" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                            '">{{__('i am his sponsor')}}</span>';
+                                    else
+                                        return '<span class="badge bg-danger-subtle text-danger" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                            '">{{__('Already has a sponsor')}}</span>';
+                                } else {
+                                    if (Number(row.availablity) === 0)
+                                        return '<span class="badge bg-success-subtle text-success" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                            '">{{__('Available')}}</span>';
+                                    else {
+                                        if (row.reserved_by == row.idUser) {
+                                            if (delai < 72) {
+                                                var reste = 72 - delai;
+                                                return '<span class="badge bg-warning-subtle text-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                                    '">{{__('reserved for')}} ' + reste.toFixed(0) + ' {{__('hours')}}</span>';
                                             } else {
-                                                if (delai < 72) {
-                                                    var reste = 72 - delai;
-                                                    return '<span class="badge bg-warning-subtle text-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                                        '">{{__('reserved by other user for')}} ' + reste.toFixed(0) + ' {{__('hours')}}</span>';
-                                                } else {
-                                                    return '<span class="badge bg-success-subtle text-success" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                                        '">{{__('Available')}}</span>';
-                                                }
+                                                var reste = 72 + 168 - delai;
+                                                return '<span class="badge bg-primary-subtle text-primary" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                                    '">{{__('blocked for')}} ' + reste.toFixed(0) + ' {{__('hours')}}</span>';
+                                            }
+
+                                        } else {
+                                            if (delai < 72) {
+                                                var reste = 72 - delai;
+                                                return '<span class="badge bg-warning-subtle text-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                                    '">{{__('reserved by other user for')}} ' + reste.toFixed(0) + ' {{__('hours')}}</span>';
+                                            } else {
+                                                return '<span class="badge bg-success-subtle text-success" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                                    '">{{__('Available')}}</span>';
                                             }
                                         }
                                     }
-                                },
+                                }
                             },
-                        ],
-                    "language": {
-                        "url": urlLang
-                    }
-                });
+                        },
+                    ],
+                "language": {
+                    "url": urlLang
+                }
             });
         });
 

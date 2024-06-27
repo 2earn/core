@@ -69,7 +69,6 @@
                 title: '{{ __('delete_user') }}',
                 text: '{{ __('operation_irreversible') }}',
                 icon: "warning",
-                // showDenyButton: true,
                 showCancelButton: true,
                 confirmButtonText: '{{trans('ok')}}',
                 cancelButtonText: '{{trans('canceled !')}}',

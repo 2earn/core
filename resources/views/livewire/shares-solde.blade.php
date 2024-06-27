@@ -104,34 +104,32 @@
             </div>
         </div>
     </div>
-    <script>
-        window.addEventListener('load', () => {
-            $(document).on('turbolinks:load', function () {
-                $('#shares-solde').DataTable({
-                    "ordering": true,
-                    retrieve: true,
-                    "colReorder": false,
-                    "orderCellsTop": true,
-                    "fixedHeader": true,
-                    "order": [[5, 'asc']],
-                    "processing": true,
-                    "serverSide": false,
-                    "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                    search: {return: true},
-                    autoWidth: false,
-                    bAutoWidth: false,
-                    "ajax": "{{route('API_sharessolde',['locale'=> app()->getLocale()])}}",
-                    "columns": [
-                        {data: 'formatted_created_at'},
-                        {data: 'value_format'},
-                        {data: 'gifted_shares'},
-                        {data: 'total_shares'},
-                        {data: 'total_price'},
-                        {data: 'present_value'},
-                        {data: 'current_earnings'},
-                    ],
-                    "language": {"url": urlLang}
-                });
+    <script type="module">
+        $(document).on('turbolinks:load', function () {
+            $('#shares-solde').DataTable({
+                "ordering": true,
+                retrieve: true,
+                "colReorder": false,
+                "orderCellsTop": true,
+                "fixedHeader": true,
+                "order": [[5, 'asc']],
+                "processing": true,
+                "serverSide": false,
+                "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
+                search: {return: true},
+                autoWidth: false,
+                bAutoWidth: false,
+                "ajax": "{{route('API_sharessolde',['locale'=> app()->getLocale()])}}",
+                "columns": [
+                    {data: 'formatted_created_at'},
+                    {data: 'value_format'},
+                    {data: 'gifted_shares'},
+                    {data: 'total_shares'},
+                    {data: 'total_price'},
+                    {data: 'present_value'},
+                    {data: 'current_earnings'},
+                ],
+                "language": {"url": urlLang}
             });
         });
     </script>
