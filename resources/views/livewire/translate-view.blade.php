@@ -193,7 +193,8 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         }
 
         window.addEventListener('closeModal', event => {
-            $("#exampleModal").modal('hide');
+            const modal = bootstrap.Modal.getOrCreateInstance('#exampleModal');
+            modal.hide();
         });
 
         window.addEventListener('PassEnter', event => {

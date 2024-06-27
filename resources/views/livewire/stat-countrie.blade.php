@@ -52,7 +52,7 @@
             </div>
         </div>
 </div>
-<script>
+<script type="module">
     var series;
     var mapChart;
     var tableCharts;
@@ -61,7 +61,7 @@
     var populationChart;
     var areaChart;
     var houseSeatsChart;
-    window.addEventListener('load', () => {
+        $(function () {
         anychart.onDocumentReady(function () {
             anychart.data.loadJsonFile(
                 "{{route('API_stat_countries',app()->getLocale())}}",
@@ -407,8 +407,8 @@
         });
     });
 </script>
-<script>
-    window.addEventListener('load', () => {
+<script type="module">
+    $(function () {
         anychart.onDocumentReady(function () {
             anychart.data.loadJsonFile(
                 "{{route('API_stat_countries',app()->getLocale())}}",
@@ -443,8 +443,8 @@
     });
 
 </script>
-<script>
-    window.addEventListener('load', () => {
+<script type="module">
+    $(function () {
         anychart.onDocumentReady(function () {
             anychart.data.loadJsonFile(
                 "{{route('API_sankey',app()->getLocale())}}",

@@ -30,8 +30,9 @@ window.DataTable = DataTable;
 
 
 import intlTelInput from 'intl-tel-input';
-
 window.intlTelInput = intlTelInput;
+
+import { Dropzone } from "dropzone";
 
 (function () {
 

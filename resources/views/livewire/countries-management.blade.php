@@ -89,47 +89,43 @@
         }
     </style>
 
-    <script>
+    <script type="module">
         function getEditCountrie(id) {
             window.livewire.emit('initCountrie', id);
-            // $('#countries_table').DataTable().ajax.reload( );
         }
 
         $("#editCountriesModal").on('hidden.bs.modal', function () {
             window.location.href = "{{ route('countries_management', app()->getLocale())}}";
-            // location.reload();
         });
-        window.addEventListener('load', () => {
-            $(document).on('turbolinks:load', function () {
-                $('#countries_table').DataTable({
-                    retrieve: true,
-                    initComplete: function () {
-                        this.api()
-                            .columns()
-                            .every(function () {
-                                if ($.fn.dataTable.isDataTable('#countries_table')) {
+        $(document).on('turbolinks:load', function () {
+            $('#countries_table').DataTable({
+                retrieve: true,
+                initComplete: function () {
+                    this.api()
+                        .columns()
+                        .every(function () {
+                            if ($.fn.dataTable.isDataTable('#countries_table')) {
 
-                                    var that = $('#countries_table').DataTable();
+                                var that = $('#countries_table').DataTable();
+                            }
+                            $('input', this.footer()).on('keydown', function (ev) {
+                                if (ev.keyCode == 13) {
+                                    that
+
+                                        .search(this.value)
+                                        .draw();
                                 }
-                                $('input', this.footer()).on('keydown', function (ev) {
-                                    if (ev.keyCode == 13) {
-                                        that
-
-                                            .search(this.value)
-                                            .draw();
-                                    }
-                                });
                             });
-                    },
-                    "ajax": "{{route('API_countries',app()->getLocale())}}",
-                    "columns": [
-                        {"data": "name"},
-                        {"data": "phonecode"},
-                        {"data": "langage"},
-                        {data: 'action', name: 'action', orderable: false, searchable: false},
-                    ],
-                    "language": {"url": "https://cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json"}
-                });
+                        });
+                },
+                "ajax": "{{route('API_countries',app()->getLocale())}}",
+                "columns": [
+                    {"data": "name"},
+                    {"data": "phonecode"},
+                    {"data": "langage"},
+                    {data: 'action', name: 'action', orderable: false, searchable: false},
+                ],
+                "language": {"url": "https://cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json"}
             });
         });
 

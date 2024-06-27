@@ -104,14 +104,16 @@
         $("#saveAddContactNumber").click(function (event) {
             event.preventDefault();
             event.stopImmediatePropagation();
-            $('#AddContactNumberModel').modal('hide');
+            const modal = bootstrap.Modal.getOrCreateInstance('#AddContactNumberModel');
+            modal.hide();
             window.livewire.emit('preSaveContact', $("#outputphoneContactNumber").val(), $("#isoContactNumber").val(), $("#phoneContactNumber").val());
         });
 
         function setActiveNumber($id) {
             try {
-                $('#modalCeckContactNumber').modal('show');
-                $('#modalCeckContactNumber').modal('hide');
+                const modal = bootstrap.Modal.getOrCreateInstance('#modalCeckContactNumber');
+                modal.show();
+                modal.hide();
             } catch (e) {
             }
 

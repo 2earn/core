@@ -603,7 +603,8 @@
                                             html: response.error.join('<br>')
                                         });
                                     }
-                                    $('#buy-action').modal('hide');
+                                    const modal = bootstrap.Modal.getOrCreateInstance('#buy-action');
+                                    modal.show();
                                     Toastify({
                                         text: data.message,
                                         gravity: "top",

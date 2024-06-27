@@ -100,7 +100,7 @@
 </div>
 @include('layouts.vendor-scripts')
 @livewireScripts
-<script type="module"> //type="module" is the important part
+<script type="module">
     $(function () {
         const myParams = window.location.pathname.split("/");
         const pathPage = myParams[2];

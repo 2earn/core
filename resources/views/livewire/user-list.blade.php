@@ -376,7 +376,7 @@
             </div>
         </div>
     </div>
-    <script>
+    <script type="module">
         function createOrUpdateDataTable(data) {
             if ($.fn.DataTable.isDataTable('#ub_table_list')) {
                 $('#ub_table_list').DataTable().destroy();

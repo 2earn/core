@@ -386,7 +386,8 @@
         }
 
         function hideIdentificationModal() {
-            $("#exampleModal").modal("hide");
+            const modal = bootstrap.Modal.getOrCreateInstance('#exampleModal');
+            modal.hide();
         }
 
         function checkRequiredFieldInfo(idInput) {

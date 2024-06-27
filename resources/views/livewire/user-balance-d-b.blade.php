@@ -1,9 +1,13 @@
 <div>
-    @section('title'){{ __('Discounts Balance') }} @endsection
+    @section('title')
+        {{ __('Discounts Balance') }}
+    @endsection
     @section('content')
         @component('components.breadcrumb')
             @slot('li_1')@endslot
-            @slot('title') {{ __('Discounts Balance') }} @endslot
+            @slot('title')
+                {{ __('Discounts Balance') }}
+            @endslot
         @endcomponent
         <div class="row">
             <div class="col-lg-12">
@@ -11,9 +15,10 @@
                     <div class="card-header">
                     </div>
                     <div class="card-body table-responsive">
-                        <table class="table nowrap dt-responsive align-middle table-hover table-bordered" id="userBalanceDB_table" style="width: 100%">
+                        <table class="table nowrap dt-responsive align-middle table-hover table-bordered"
+                               id="userBalanceDB_table" style="width: 100%">
                             <thead class="table-light">
-                            <tr class="head2earn  tabHeader2earn" >
+                            <tr class="head2earn  tabHeader2earn">
                                 <th>{{ __('ref') }}</th>
                                 <th>{{ __('date') }}</th>
                                 <th>{{ __('Operation Designation') }}</th>
@@ -31,33 +36,47 @@
         </div>
 </div>
 @push('scripts')
-    <script data-turbolinks-eval="false">
-        $(document).on('ready ', function () {
+    <script type="module">
+        $( document ).on('turbolinks:load', function() {
                 $('#page-title-box').addClass('page-title-box-db');
-            }
-        );
-        window.addEventListener('load', () => {
-            $(document).on('turbolinks:load', function () {
-                $('#ub_table').DataTable(
+                $('#userBalanceDB_table').DataTable(
                     {
-                        ordering: true,
+                        "ordering": true,
                         retrieve: true,
-                        searching: false,
+                        "colReorder": false,
                         "orderCellsTop": true,
                         "fixedHeader": true,
+                        initComplete: function () {
+                            this.api()
+                                .columns()
+                                .every(function () {
+                                    if ($.fn.dataTable.isDataTable('#countries_table')) {
+                                        var that = $('#userBalanceDB_table').DataTable();
+                                    }
+                                    $('input', this.footer()).on('keydown', function (ev) {
+                                        if (ev.keyCode == 13) {//only on enter keypress (code 13)
+                                            that
+                                                .search(this.value)
+                                                .draw();
+                                        }
+                                    });
+                                });
+                        },
                         "order": [[1, 'desc']],
                         "processing": true,
                         "serverSide": true,
                         "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                        search: {return: false},
-                        "ajax": "{{route('API_UserBalances',['locale'=> app()->getLocale(), 'idAmounts'=>'cash-Balance'])}}",
+                        search: {
+                            return: true
+                        },
+                        "ajax": "{{route('API_UserBalances',['locale'=> app()->getLocale(), 'idAmounts'=>'Discounts-Balance'])}}",
                         "columns": [
                             {data: 'Ref'},
                             {data: 'Date'},
                             {data: 'Designation'},
                             {data: 'Description'},
-                            {data: 'value'},
-                            {data: 'balance'},
+                            {data: 'value', className: classAl},
+                            {data: 'balance', className: classAl},
                             {data: 'ranks'},
                             {data: 'idamount'},
                         ],
@@ -70,6 +89,7 @@
                                             return '<span class="badge bg-danger text-end">' + data + '</span>';
                                         else
                                             return '<span class="badge bg-success text-end">' + data + '</span>';
+
                                     },
                                     className: classAl,
                                 },
@@ -83,19 +103,26 @@
                                                 return '<div class="logoTopDBLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
                                         else
                                             return data;
-
                                     }
                                 },
-                                {"targets": [6, 7], searchable: false, visible: false},
-                                {"targets": [5], className: classAl},
+                                {
+                                    "targets": [6, 7],
+                                    searchable: false,
+                                    visible: false
+                                },
+                                {
+                                    "targets": [5],
+                                    className: classAl,
+                                },
+
                             ],
                         "language": {
                             "url": urlLang
                         }
                     }
                 );
-            });
-        });
+            }
+        );
 
 
     </script>

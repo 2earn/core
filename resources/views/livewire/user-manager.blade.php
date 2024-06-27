@@ -63,7 +63,7 @@
             </div>
         </div>
     </div>
-    <script>
+    <script type="module">
         function deleteUser(idUser) {
             Swal.fire({
                 title: '{{ __('delete_user') }}',
@@ -87,7 +87,6 @@
             });
         }
 
-        window.addEventListener('load', () => {
             $(document).on('turbolinks:load', function () {
                 $('#userManager_table').DataTable({
                     retrieve: true,
@@ -126,7 +125,6 @@
                     "language": {"url": urlLang}
                 });
             });
-        });
 
     </script>
     <script data-turbolinks-eval="false">

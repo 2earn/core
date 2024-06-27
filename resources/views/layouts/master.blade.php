@@ -7,6 +7,12 @@
 <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.ga4.measurementId') }}"></script>
     <script>
+        var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";
+        var urlLang = "https://cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
+        var classAl = "text-end";
+
+    </script>
+    <script>
 
         window.dataLayer = window.dataLayer || [];
 
@@ -198,22 +204,21 @@
     src="{{ URL::asset('assets/libs/filepond-plugin-image-exif-orientation/filepond-plugin-image-exif-orientation.min.js') }}">
 </script>
 <script src="{{ URL::asset('assets/libs/filepond-plugin-file-encode/filepond-plugin-file-encode.min.js') }}"></script>
-
-<script>
+<script type="module">
     window.addEventListener('load', () => {
         anychart.onDocumentReady(function () {
             anychart.licenseKey('2earn.cash-953c5a55-712f04c3');
         });
     });
-    window.addEventListener('load', () => {
+</script>
+<script type="module">
+    $(document).on('ready ', function () {
         var select2_array = [];
         var classAl = "text-end";
         var tts = '{{config('app.available_locales')[app()->getLocale()]['direction']}}';
         if (tts == 'rtl') {
             classAl = "text-start";
         }
-        var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";
-        var urlLang = "https://cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
         var url = '';
         $(document).on('click', '.badge', function () {
             var id = $(this).data('id');
@@ -225,7 +230,8 @@
             $('#realsold-phone').attr('value', phone);
             $('#realsold-ammount').attr('value', amount);
             $('#realsold-ammount-total').attr('value', amount);
-            $('#realsoldmodif').modal('show');
+            const modal = bootstrap.Modal.getOrCreateInstance('#realsoldmodif');
+            modal.show();
             fetchAndUpdateCardContent();
             $('#shares-sold').DataTable().ajax.reload();
         });
@@ -238,7 +244,8 @@
                 type: "POST",
                 data: {total: total, amount: ammount, id: reciver, "_token": "{{ csrf_token() }}"},
                 success: function (data) {
-                    $('#realsoldmodif').modal('hide');
+                    const modal = bootstrap.Modal.getOrCreateInstance('#realsoldmodif');
+                    modal.hide();
                     $('#shares-sold').DataTable().ajax.reload();
                     fetchAndUpdateCardContent();
                 }
@@ -645,8 +652,8 @@
                             console.log(data);
                         }
                     });
-
-                    $('#AddCash').modal('hide');
+                    const modal = bootstrap.Modal.getOrCreateInstance('#AddCash');
+                    modal.hide();
                     Toastify({
                         text: data,
                         gravity: "top",
@@ -699,7 +706,8 @@
                         }
                     });
 
-                    $('#vip').modal('hide');
+                    const modal = bootstrap.Modal.getOrCreateInstance('#vip');
+                    modal.hide();
                     Toastify({
                         text: data,
                         gravity: "top",
