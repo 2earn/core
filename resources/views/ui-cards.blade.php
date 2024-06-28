@@ -16,7 +16,7 @@
         <div class="col-sm-6 col-xl-3">
             <!-- Simple card -->
             <div class="card">
-                <img class="card-img-top img-fluid" src="{{ URL::asset('assets/images/small/img-1.jpg') }}" alt="Card image cap">
+                <img class="card-img-top img-fluid" src="{{ Vite::asset('resources/images/small/img-1.jpg') }}" alt="Card image cap">
                 <div class="card-body">
                     <h4 class="card-title mb-2">Web Developer</h4>
                     <p class="card-text">At missed advice my it no sister. Miss told ham dull knew see she spot near
@@ -29,7 +29,7 @@
         </div><!-- end col -->
         <div class="col-sm-6 col-xl-3">
             <div class="card">
-                <img class="card-img-top img-fluid" src="{{ URL::asset('assets/images/small/img-2.jpg') }}" alt="Card image cap">
+                <img class="card-img-top img-fluid" src="{{ Vite::asset('resources/images/small/img-2.jpg') }}" alt="Card image cap">
                 <div class="card-body">
                     <h4 class="card-title mb-2">How apps is changing the IT world</h4>
                     <p class="card-text mb-0">Whether article spirits new her covered hastily sitting her. Money witty books
@@ -45,7 +45,7 @@
         </div><!-- end col -->
         <div class="col-sm-6 col-xl-3">
             <div class="card">
-                <img class="card-img-top img-fluid" src="{{ URL::asset('assets/images/small/img-3.jpg') }}" alt="Card image cap">
+                <img class="card-img-top img-fluid" src="{{ Vite::asset('resources/images/small/img-3.jpg') }}" alt="Card image cap">
                 <div class="card-body">
                     <p class="card-text">We quickly learn to fear and thus automatically avoid potentially stressful
                         situations of all kinds, including the most common of all making mistakes.</p>
@@ -63,7 +63,7 @@
                     <h4 class="card-title mb-2">What planning process needs ?</h4>
                     <h6 class="card-subtitle font-14 text-muted">Development</h6>
                 </div>
-                <img class="img-fluid" src="{{ URL::asset('assets/images/small/img-4.jpg') }}" alt="Card image cap">
+                <img class="img-fluid" src="{{ Vite::asset('resources/images/small/img-4.jpg') }}" alt="Card image cap">
                 <div class="card-body">
                     <p class="card-text">Objectively pursue diverse catalysts for change for interoperable
                         meta-services. Distinctively re-engineer revolutionary meta-services.</p>
@@ -88,7 +88,7 @@
                     <div class="card card-body">
                         <div class="d-flex mb-4 align-items-center">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt="" class="avatar-sm rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt="" class="avatar-sm rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-2">
                                 <h5 class="card-title mb-1">Oliver Phillips</h5>
@@ -104,7 +104,7 @@
                     <div class="card card-body">
                         <div class="d-flex mb-4 align-items-center">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="avatar-sm rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="avatar-sm rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-2">
                                 <h5 class="card-title mb-1">Natasha Carey</h5>
@@ -120,7 +120,7 @@
                     <div class="card card-body">
                         <div class="d-flex mb-4 align-items-center">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="avatar-sm rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="avatar-sm rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-2">
                                 <h5 class="card-title mb-1">Bethany Johnson</h5>
@@ -136,7 +136,7 @@
                     <div class="card card-body">
                         <div class="d-flex mb-4 align-items-center">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt="" class="avatar-sm rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt="" class="avatar-sm rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-2">
                                 <h5 class="card-title mb-1">Erica Kernan</h5>
@@ -152,7 +152,7 @@
                     <div class="card card-body">
                         <div class="d-flex mb-4 align-items-center">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt="" class="avatar-sm rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt="" class="avatar-sm rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-2">
                                 <h5 class="card-title mb-1">Lewis Pratt</h5>
@@ -355,7 +355,7 @@
                 </div>
                 <div class="card-body p-4 text-center">
                     <div class="mx-auto avatar-md mb-3">
-                        <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}" alt="" class="img-fluid rounded-circle">
+                        <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}" alt="" class="img-fluid rounded-circle">
                     </div>
                     <h5 class="card-title mb-1">Gabriel Palmer</h5>
                     <p class="text-muted mb-0">Graphic Designer</p>
@@ -390,7 +390,7 @@
                 </div>
                 <div class="card-body p-4 text-center">
                     <div class="mx-auto avatar-md mb-3">
-                        <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt="" class="img-fluid rounded-circle">
+                        <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt="" class="img-fluid rounded-circle">
                     </div>
                     <h5 class="card-title mb-1">Amelie Townsend</h5>
                     <p class="text-muted mb-0">Project Manager</p>
@@ -425,7 +425,7 @@
                 </div>
                 <div class="card-body p-4 text-center">
                     <div class="mx-auto avatar-md mb-3">
-                        <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="img-fluid rounded-circle">
+                        <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="img-fluid rounded-circle">
                     </div>
                     <h5 class="card-title mb-1">Jeffrey Montgomery</h5>
                     <p class="text-muted mb-0">UI/UX Designer</p>
@@ -658,7 +658,7 @@
             <div class="row">
                 <div class="col-xxl-4 col-lg-6">
                     <div class="card card-overlay">
-                        <img class="card-img img-fluid" src="{{ URL::asset('assets/images/small/img-12.jpg') }}" alt="Card image">
+                        <img class="card-img img-fluid" src="{{ Vite::asset('resources/images/small/img-12.jpg') }}" alt="Card image">
                         <div class="card-img-overlay p-0 d-flex flex-column">
                             <div class="card-header bg-transparent">
                                 <h4 class="card-title text-white mb-0">Design your apps in your own way</h4>
@@ -680,7 +680,7 @@
                 </div><!-- end col -->
                 <div class="col-xxl-4 col-lg-6">
                     <div class="card card-overlay">
-                        <img class="card-img img-fluid" src="{{ URL::asset('assets/images/small/img-1.jpg') }}" alt="Card image">
+                        <img class="card-img img-fluid" src="{{ Vite::asset('resources/images/small/img-1.jpg') }}" alt="Card image">
                         <div class="card-img-overlay p-0">
                             <div class="card-header bg-transparent">
                                 <h4 class="card-title text-white mb-0">Design your apps in your own way</h4>
@@ -698,7 +698,7 @@
                 </div><!-- end col -->
                 <div class="col-xxl-4 col-lg-6">
                     <div class="card card-overlay">
-                        <img class="card-img img-fluid" src="{{ URL::asset('assets/images/small/img-5.jpg') }}" alt="Card image">
+                        <img class="card-img img-fluid" src="{{ Vite::asset('resources/images/small/img-5.jpg') }}" alt="Card image">
                         <div class="card-img-overlay p-0" style="top:auto;">
                             <div class="card-body">
                                 <p class="card-text text-white mb-2">Each design is a new, unique piece of art birthed into
@@ -719,7 +719,7 @@
             <div class="row">
                 <div class="col-xxl-4 col-lg-6">
                     <div class="card">
-                        <img class="card-img-top img-fluid" src="{{ URL::asset('assets/images/small/img-6.jpg') }}" alt="Card image cap">
+                        <img class="card-img-top img-fluid" src="{{ Vite::asset('resources/images/small/img-6.jpg') }}" alt="Card image cap">
                         <div class="card-body">
                             <h4 class="card-title mb-2">A day in the of a professional fashion designer</h4>
                             <p class="card-text text-muted"> Exercitation +1 labore velit, blog sartorial PBR leggings next
@@ -742,7 +742,7 @@
                                 Last updated 3 mins ago
                             </p>
                         </div>
-                        <img class="card-img-bottom img-fluid" src="{{ URL::asset('assets/images/small/img-7.jpg') }}" alt="Card image cap">
+                        <img class="card-img-bottom img-fluid" src="{{ Vite::asset('resources/images/small/img-7.jpg') }}" alt="Card image cap">
                     </div>
                 </div><!-- end col -->
 
@@ -753,7 +753,7 @@
                             <p class="card-text text-muted"> Exercitation +1 labore velit, blog sartorial PBR leggings next
                                 level wes anderson artisan four loko farm-to-table craft beer twee.</p>
                         </div>
-                        <img class="card-img rounded-0 img-fluid" src="{{ URL::asset('assets/images/small/img-8.jpg') }}" alt="Card image cap">
+                        <img class="card-img rounded-0 img-fluid" src="{{ Vite::asset('resources/images/small/img-8.jpg') }}" alt="Card image cap">
                         <div class="card-footer">
                             <p class="card-text mb-0">
                                 Last updated 3 mins ago
@@ -771,7 +771,7 @@
                             <p class="card-text text-muted"> Exercitation +1 labore velit, blog sartorial PBR leggings next
                                 level wes anderson artisan four loko farm-to-table craft beer twee.</p>
                         </div>
-                        <img class="card-img rounded-0 img-fluid" src="{{ URL::asset('assets/images/small/img-10.jpg') }}"
+                        <img class="card-img rounded-0 img-fluid" src="{{ Vite::asset('resources/images/small/img-10.jpg') }}"
                             alt="Card image cap">
                         <div class="card-footer">
                             <p class="card-text mb-0">
@@ -783,7 +783,7 @@
 
                 <div class="col-xxl-4 col-lg-6">
                     <div class="card">
-                        <img class="card-img-top img-fluid" src="{{ URL::asset('assets/images/small/img-11.jpg') }}" alt="Card image cap">
+                        <img class="card-img-top img-fluid" src="{{ Vite::asset('resources/images/small/img-11.jpg') }}" alt="Card image cap">
                         <div class="card-header">
                             <h4 class="card-title mb-0">A day in the of a professional fashion designer</h4>
                         </div>
@@ -812,7 +812,7 @@
                                 Last updated 3 mins ago
                             </p>
                         </div>
-                        <img class="card-img-bottom img-fluid" src="{{ URL::asset('assets/images/small/img-11.jpg') }}" alt="Card image cap">
+                        <img class="card-img-bottom img-fluid" src="{{ Vite::asset('resources/images/small/img-11.jpg') }}" alt="Card image cap">
                     </div>
                 </div><!-- end col -->
             </div>
@@ -831,7 +831,7 @@
                         <div class="row g-0">
                             <div class="col-md-4">
                                 <img class="rounded-start img-fluid h-100 object-cover"
-                                    src="{{ URL::asset('assets/images/small/img-12.jpg') }}" alt="Card image">
+                                    src="{{ Vite::asset('resources/images/small/img-12.jpg') }}" alt="Card image">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-header">
@@ -864,7 +864,7 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <img class="rounded-end img-fluid h-100 object-cover" src="{{ URL::asset('assets/images/small/img-4.jpg') }}"
+                                <img class="rounded-end img-fluid h-100 object-cover" src="{{ Vite::asset('resources/images/small/img-4.jpg') }}"
                                     alt="Card image">
                             </div>
                         </div>
@@ -875,7 +875,7 @@
                     <div class="card">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img class="rounded-start img-fluid h-100 object-cover" src="{{ URL::asset('assets/images/small/img-9.jpg') }}"
+                                <img class="rounded-start img-fluid h-100 object-cover" src="{{ Vite::asset('resources/images/small/img-9.jpg') }}"
                                     alt="Card image">
                             </div>
                             <div class="col-md-8">
@@ -910,7 +910,7 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <img class="rounded-end img-fluid h-100 object-cover" src="{{ URL::asset('assets/images/small/img-2.jpg') }}"
+                                <img class="rounded-end img-fluid h-100 object-cover" src="{{ Vite::asset('resources/images/small/img-2.jpg') }}"
                                     alt="Card image">
                             </div>
                         </div>
@@ -931,7 +931,7 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div class="flex-shrink-0">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt="" class="avatar-sm rounded-circle">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt="" class="avatar-sm rounded-circle">
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <p class="card-text"><span class="fw-medium">Jeffrey Montgomery</span>
@@ -952,7 +952,7 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div class="flex-shrink-0">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="" class="avatar-sm rounded-circle">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="" class="avatar-sm rounded-circle">
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <p class="card-text"><span class="fw-medium">Charles Dickens</span>
@@ -973,7 +973,7 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div class="flex-shrink-0">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="avatar-sm rounded-circle">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="avatar-sm rounded-circle">
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <p class="card-text"><span class="fw-medium">Oliver Phillips</span> (UI/UX
@@ -999,7 +999,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-shrink-0">
-                            <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="avatar-sm rounded-circle">
+                            <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="avatar-sm rounded-circle">
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <p class="card-text"><span class="fw-medium">Rebecca Swartz</span> (Graphic
@@ -1020,7 +1020,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-shrink-0">
-                            <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt="" class="avatar-sm rounded-circle">
+                            <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt="" class="avatar-sm rounded-circle">
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <p class="card-text"><span class="fw-medium">Betty Richards</span> (Back End
@@ -1041,7 +1041,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-shrink-0">
-                            <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt="" class="avatar-sm rounded-circle">
+                            <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt="" class="avatar-sm rounded-circle">
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <p class="card-text"><span class="fw-medium">Brooke Hayes</span> (Founder & CEO)
@@ -1065,7 +1065,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-shrink-0">
-                            <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt="" class="avatar-sm rounded-circle">
+                            <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt="" class="avatar-sm rounded-circle">
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <p class="card-text"><span class="fw-medium">Bethany Johnson</span> (Team Leader)
@@ -1086,7 +1086,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-shrink-0">
-                            <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}" alt="" class="avatar-sm rounded-circle">
+                            <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}" alt="" class="avatar-sm rounded-circle">
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <p class="card-text"><span class="fw-medium">Amelie Townsend</span> (UI/UX Designer)
@@ -1263,7 +1263,7 @@
             </div>
             <div class="card-group">
                 <div class="card mb-4">
-                    <img class="card-img-top img-fluid" src="{{ URL::asset('assets/images/small/img-4.jpg') }}" alt="Card image cap" />
+                    <img class="card-img-top img-fluid" src="{{ Vite::asset('resources/images/small/img-4.jpg') }}" alt="Card image cap" />
                     <div class="card-body">
                         <h4 class="card-title">A day in the of a professional fashion designer</h4>
                         <p class="card-text">This is a longer card with supporting text below as
@@ -1277,7 +1277,7 @@
                     </div>
                 </div><!-- end card -->
                 <div class="card mb-4">
-                    <img class="card-img-top img-fluid" src="{{ URL::asset('assets/images/small/img-5.jpg') }}" alt="Card image cap" />
+                    <img class="card-img-top img-fluid" src="{{ Vite::asset('resources/images/small/img-5.jpg') }}" alt="Card image cap" />
                     <div class="card-body">
                         <h4 class="card-title">Manage white space in responsive layouts ?</h4>
                         <p class="card-text">This card has supporting text below as a natural
@@ -1290,7 +1290,7 @@
                     </div>
                 </div><!-- end card -->
                 <div class="card mb-4">
-                    <img class="card-img-top img-fluid" src="{{ URL::asset('assets/images/small/img-6.jpg') }}" alt="Card image cap" />
+                    <img class="card-img-top img-fluid" src="{{ Vite::asset('resources/images/small/img-6.jpg') }}" alt="Card image cap" />
                     <div class="card-body">
                         <h4 class="card-title">Give your text a good structure?</h4>
                         <p class="card-text">This is a wider card with supporting text below as
@@ -1316,7 +1316,7 @@
                 <div class="card-header">
                     <h4 class="card-title mb-0">A day in the of a professional fashion designer</h4>
                 </div>
-                <img class="img-fluid" src="{{ URL::asset('assets/images/small/img-11.jpg') }}" alt="Card image cap" />
+                <img class="img-fluid" src="{{ Vite::asset('resources/images/small/img-11.jpg') }}" alt="Card image cap" />
                 <div class="card-body">
                     <p class="card-text">This may be the most commonly encountered tip I received from the designers I
                         spoke with. They highly encourage that you use different fonts in one design, but do not
@@ -1332,7 +1332,7 @@
         <!--end col-->
         <div class="col-xxl col-6">
             <div class="card h-100">
-                <img class="card-img-top img-fluid" src="{{ URL::asset('assets/images/small/img-10.jpg') }}" alt="Card image cap" />
+                <img class="card-img-top img-fluid" src="{{ Vite::asset('resources/images/small/img-10.jpg') }}" alt="Card image cap" />
                 <div class="card-body">
                     <h4 class="card-title">Give your text a good structure?</h4>
                     <p class="card-text">This is a wider card with supporting text below as
@@ -1349,7 +1349,7 @@
         <!--end col-->
         <div class="col-xxl col-6">
             <div class="card h-100">
-                <img class="card-img-top img-fluid" src="{{ URL::asset('assets/images/small/img-5.jpg') }}" alt="Card image cap" />
+                <img class="card-img-top img-fluid" src="{{ Vite::asset('resources/images/small/img-5.jpg') }}" alt="Card image cap" />
                 <div class="card-body">
                     <h4 class="card-title">Manage white space in responsive layouts ?</h4>
                     <p class="card-text">Exercitation +1 labore velit, blog sartorial PBR leggings next level wes
@@ -1375,7 +1375,7 @@
             <div class="row" data-masonry='{"percentPosition": true }'>
                 <div class="col-sm-6 col-lg-4">
                     <div class="card">
-                        <img src="{{ URL::asset('assets/images/small/img-3.jpg') }}" class="card-img-top" alt="..." />
+                        <img src="{{ Vite::asset('resources/images/small/img-3.jpg') }}" class="card-img-top" alt="..." />
                         <div class="card-body">
                             <h5 class="card-title mb-1">Card title that wraps to a new line</h5>
                             <p class="card-text">This is a longer card with supporting text below as a natural lead-in
@@ -1390,7 +1390,7 @@
                             <p class="card-text text-muted"> Exercitation +1 labore velit, blog sartorial PBR leggings next
                                 level wes anderson artisan four loko farm-to-table craft beer twee.</p>
                         </div>
-                        <img class="card-img rounded-0 img-fluid" src="{{ URL::asset('assets/images/small/img-8.jpg') }}"
+                        <img class="card-img rounded-0 img-fluid" src="{{ Vite::asset('resources/images/small/img-8.jpg') }}"
                             alt="Card image cap" />
                         <div class="card-footer">
                             <p class="card-text mb-0">
@@ -1401,7 +1401,7 @@
                 </div><!-- end col -->
                 <div class="col-sm-6 col-lg-4">
                     <div class="card">
-                        <img src="{{ URL::asset('assets/images/small/img-7.jpg') }}" class="card-img" alt="..." />
+                        <img src="{{ Vite::asset('resources/images/small/img-7.jpg') }}" class="card-img" alt="..." />
                     </div>
                 </div><!-- end col -->
                 <div class="col-sm-6 col-lg-4">
@@ -1452,7 +1452,7 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div class="flex-shrink-0">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="" class="avatar-sm rounded-circle" />
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="" class="avatar-sm rounded-circle" />
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <p class="card-text"><span class="fw-medium">Charles Dickens</span>
@@ -1500,7 +1500,7 @@
             <div class="row">
                 <div class="col-xl-4">
                     <div class="card">
-                        <img src="{{ URL::asset('assets/images/small/img-3.jpg') }}" class="card-img-top" alt="..." />
+                        <img src="{{ Vite::asset('resources/images/small/img-3.jpg') }}" class="card-img-top" alt="..." />
                         <div class="card-body">
                             <h5 class="card-title">Card with stretched link</h5>
                             <p class="card-text">Some quick example text to build on the card title and make up the
@@ -1513,7 +1513,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex position-relative">
-                                <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" class="flex-shrink-0 me-3 avatar-xl rounded"
+                                <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" class="flex-shrink-0 me-3 avatar-xl rounded"
                                     alt="..." />
                                 <div>
                                     <h5 class="mt-0">Custom component with stretched link</h5>
@@ -1529,7 +1529,7 @@
                         <div class="card-body">
                             <div class="row g-0 bg-light position-relative">
                                 <div class="col-md-5">
-                                    <img src="{{ URL::asset('assets/images/small/img-4.jpg') }}" class="rounded-start img-fluid" alt="..." />
+                                    <img src="{{ Vite::asset('resources/images/small/img-4.jpg') }}" class="rounded-start img-fluid" alt="..." />
                                 </div>
                                 <div class="col-md-7 p-4">
                                     <h5 class="mt-0">Columns with stretched link</h5>

@@ -154,7 +154,7 @@
                     <div class="d-flex mb-3">
                         <div class="flex-shrink-0 avatar-sm">
                             <div class="avatar-title bg-light rounded">
-                                <img src="{{ URL::asset('assets/images/svg/crypto-icons/btc.svg') }}" alt="" class="avatar-xxs" />
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/btc.svg') }}" alt="" class="avatar-xxs" />
                             </div>
                         </div>
                         <div class="flex-grow-1 ms-3">
@@ -184,7 +184,7 @@
                     <div class="d-flex mb-3">
                         <div class="flex-shrink-0 avatar-sm">
                             <div class="avatar-title bg-light rounded">
-                                <img src="{{ URL::asset('assets/images/companies/img-6.png') }}" alt="" class="avatar-xxs" />
+                                <img src="{{ Vite::asset('resources/images/companies/img-6.png') }}" alt="" class="avatar-xxs" />
                             </div>
                         </div>
                         <div class="flex-grow-1 ms-3">
@@ -214,7 +214,7 @@
                     <div class="d-flex mb-3">
                         <div class="flex-shrink-0 avatar-sm">
                             <div class="avatar-title bg-light rounded">
-                                <img src="{{ URL::asset('assets/images/svg/crypto-icons/vtc.svg') }}" alt="" class="avatar-xxs" />
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/vtc.svg') }}" alt="" class="avatar-xxs" />
                             </div>
                         </div>
                         <div class="flex-grow-1 ms-3">
@@ -245,7 +245,7 @@
                     <div class="d-flex mb-3">
                         <div class="flex-shrink-0 avatar-sm">
                             <div class="avatar-title bg-light rounded">
-                                <img src="{{ URL::asset('assets/images/svg/crypto-icons/xsg.svg') }}" alt="" class="avatar-xxs" />
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/xsg.svg') }}" alt="" class="avatar-xxs" />
                             </div>
                         </div>
                         <div class="flex-grow-1 ms-3">
@@ -276,7 +276,7 @@
                     <div class="d-flex mb-3">
                         <div class="flex-shrink-0 avatar-sm">
                             <div class="avatar-title bg-light rounded">
-                                <img src="{{ URL::asset('assets/images/companies/img-8.png') }}" alt="" class="avatar-xxs" />
+                                <img src="{{ Vite::asset('resources/images/companies/img-8.png') }}" alt="" class="avatar-xxs" />
                             </div>
                         </div>
                         <div class="flex-grow-1 ms-3">
@@ -316,7 +316,7 @@
                     <div class="d-flex mb-3">
                         <div class="flex-shrink-0 avatar-sm">
                             <div class="avatar-title bg-light rounded">
-                                <img src="{{ URL::asset('assets/images/svg/crypto-icons/bela.svg') }}" alt="" class="avatar-xxs" />
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/bela.svg') }}" alt="" class="avatar-xxs" />
                             </div>
                         </div>
                         <div class="flex-grow-1 ms-3">
@@ -347,7 +347,7 @@
                     <div class="d-flex mb-3">
                         <div class="flex-shrink-0 avatar-sm">
                             <div class="avatar-title bg-light rounded">
-                                <img src="{{ URL::asset('assets/images/svg/crypto-icons/arn.svg') }}" alt="" class="avatar-xxs" />
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/arn.svg') }}" alt="" class="avatar-xxs" />
                             </div>
                         </div>
                         <div class="flex-grow-1 ms-3">
@@ -378,7 +378,7 @@
                     <div class="d-flex mb-3">
                         <div class="flex-shrink-0 avatar-sm">
                             <div class="avatar-title bg-light rounded">
-                                <img src="{{ URL::asset('assets/images/svg/crypto-icons/cs.svg') }}" alt="" class="avatar-xxs" />
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/cs.svg') }}" alt="" class="avatar-xxs" />
                             </div>
                         </div>
                         <div class="flex-grow-1 ms-3">
@@ -418,7 +418,7 @@
                     <div class="d-flex mb-3">
                         <div class="flex-shrink-0 avatar-sm">
                             <div class="avatar-title bg-light rounded">
-                                <img src="{{ URL::asset('assets/images/svg/crypto-icons/add.svg') }}" alt="" class="avatar-xxs" />
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/add.svg') }}" alt="" class="avatar-xxs" />
                             </div>
                         </div>
                         <div class="flex-grow-1 ms-3">
@@ -448,7 +448,7 @@
                     <div class="d-flex mb-3">
                         <div class="flex-shrink-0 avatar-sm">
                             <div class="avatar-title bg-light rounded">
-                                <img src="{{ URL::asset('assets/images/svg/crypto-icons/atm.svg') }}" alt="" class="avatar-xxs" />
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/atm.svg') }}" alt="" class="avatar-xxs" />
                             </div>
                         </div>
                         <div class="flex-grow-1 ms-3">
@@ -488,7 +488,7 @@
                     <div class="d-flex mb-3">
                         <div class="flex-shrink-0 avatar-sm">
                             <div class="avatar-title bg-light rounded">
-                                <img src="{{ URL::asset('assets/images/svg/crypto-icons/bcbc.svg') }}" alt="" class="avatar-xxs" />
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/bcbc.svg') }}" alt="" class="avatar-xxs" />
                             </div>
                         </div>
                         <div class="flex-grow-1 ms-3">
@@ -520,7 +520,7 @@
                     <div class="d-flex mb-3">
                         <div class="flex-shrink-0 avatar-sm">
                             <div class="avatar-title bg-light rounded">
-                                <img src="{{ URL::asset('assets/images/svg/crypto-icons/bix.svg') }}" alt="" class="avatar-xxs" />
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/bix.svg') }}" alt="" class="avatar-xxs" />
                             </div>
                         </div>
                         <div class="flex-grow-1 ms-3">
@@ -552,7 +552,7 @@
                     <div class="d-flex mb-3">
                         <div class="flex-shrink-0 avatar-sm">
                             <div class="avatar-title bg-light rounded">
-                                <img src="{{ URL::asset('assets/images/svg/crypto-icons/rise.svg') }}" alt="" class="avatar-xxs" />
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/rise.svg') }}" alt="" class="avatar-xxs" />
                             </div>
                         </div>
                         <div class="flex-grow-1 ms-3">
@@ -584,7 +584,7 @@
                     <div class="d-flex mb-3">
                         <div class="flex-shrink-0 avatar-sm">
                             <div class="avatar-title bg-light rounded">
-                                <img src="{{ URL::asset('assets/images/svg/crypto-icons/ark.svg') }}" alt="" class="avatar-xxs" />
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/ark.svg') }}" alt="" class="avatar-xxs" />
                             </div>
                         </div>
                         <div class="flex-grow-1 ms-3">

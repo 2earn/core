@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="2earn.cash" name="description"/>
     <meta content="Themesbrand" name="author"/>
-    <img src="{{ URL::asset('assets/images/2earn.png') }}" id="super-logo" alt="" height="60">
-    <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.ico')}}">
+    <img src="{{ Vite::asset('resources/images/2earn.png') }}" id="super-logo" alt="" height="60">
+    <link rel="shortcut icon" href="{{ Vite::asset('resources/images/favicon.ico')}}">
     @include('layouts.head-css')
     @livewireStyles
     <script src="https://www.google.com/recaptcha/api.js?render={{config('services.recaptcha.key')}}"></script>

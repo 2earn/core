@@ -36,7 +36,7 @@
                                 <div class="toast fade show" role="alert" aria-live="assertive" data-bs-autohide="false"
                                     aria-atomic="true">
                                     <div class="toast-header">
-                                        <img src="{{ URL::asset('assets/images/logo-sm.png') }}" class="rounded me-2" alt="..." height="20">
+                                        <img src="{{ Vite::asset('resources/images/logo-sm.png') }}" class="rounded me-2" alt="..." height="20">
                                         <span class="fw-semibold me-auto">Velzon</span>
                                         <small>06 mins ago</small>
                                         <button type="button" class="btn-close" data-bs-dismiss="toast"
@@ -57,7 +57,7 @@
                                         <div class="toast fade show" role="alert" aria-live="assertive"
                                             data-bs-autohide="false" aria-atomic="true">
                                             <div class="toast-header">
-                                                <img src="{{ URL::asset('assets/images/logo-sm.png') }}" class="rounded me-2" alt="..."
+                                                <img src="{{ Vite::asset('resources/images/logo-sm.png') }}" class="rounded me-2" alt="..."
                                                     height="20">
                                                 <span class="fw-semibold me-auto">Velzon</span>
                                                 <small>11 mins ago</small>
@@ -85,7 +85,7 @@
                                         <div class="toast fade show" role="alert" aria-live="assertive"
                                             data-bs-autohide="false" aria-atomic="true">
                                             <div class="toast-header">
-                                                <img src="{{ URL::asset('assets/images/logo-sm.png') }}" class="rounded me-2" alt="..."
+                                                <img src="{{ Vite::asset('resources/images/logo-sm.png') }}" class="rounded me-2" alt="..."
                                                     height="20">
                                                 <span class="fw-semibold me-auto">Velzon</span>
                                                 <small>Just now</small>
@@ -100,7 +100,7 @@
                                         <div class="toast fade show" role="alert" aria-live="assertive"
                                             data-bs-autohide="false" aria-atomic="true">
                                             <div class="toast-header">
-                                                <img src="{{ URL::asset('assets/images/logo-sm.png') }}" class="rounded me-2" alt="..."
+                                                <img src="{{ Vite::asset('resources/images/logo-sm.png') }}" class="rounded me-2" alt="..."
                                                     height="20">
                                                 <span class="fw-semibold me-auto">Velzon</span>
                                                 <small>2 seconds ago</small>
@@ -138,7 +138,7 @@
                                                 aria-atomic="true" data-bs-toggle="toast"
                                                 style="position: absolute; top: 16px; right: 16px;">
                                                 <div class="toast-header">
-                                                    <img src="{{ URL::asset('assets/images/logo-sm.png') }}" class="rounded me-2" alt="..."
+                                                    <img src="{{ Vite::asset('resources/images/logo-sm.png') }}" class="rounded me-2" alt="..."
                                                         height="20">
                                                     <span class="fw-semibold me-auto">Velzon</span>
                                                     <small>06 mins ago</small>
@@ -168,7 +168,7 @@
                                             <div class="toast fade show" role="alert" aria-live="assertive"
                                                 data-bs-autohide="false" aria-atomic="true">
                                                 <div class="toast-header">
-                                                    <img src="{{ URL::asset('assets/images/logo-sm.png') }}" class="rounded me-2" alt="..."
+                                                    <img src="{{ Vite::asset('resources/images/logo-sm.png') }}" class="rounded me-2" alt="..."
                                                         height="20">
                                                     <span class="fw-semibold me-auto">Velzon</span>
                                                     <small>11 mins ago</small>
@@ -326,7 +326,7 @@ Hello, world! This is a toast message.
                             <div class="toast-container position-absolute p-3" id="toastPlacement">
                                 <div class="toast">
                                     <div class="toast-header">
-                                        <img src="{{ URL::asset('assets/images/logo-sm.png') }}" class="rounded me-2" alt="..." height="20">
+                                        <img src="{{ Vite::asset('resources/images/logo-sm.png') }}" class="rounded me-2" alt="..." height="20">
                                         <strong class="me-auto">Velzon</strong>
                                         <small>11 mins ago</small>
                                         <button type="button" class="btn-close" data-bs-dismiss="toast"

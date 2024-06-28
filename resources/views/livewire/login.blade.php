@@ -39,7 +39,7 @@
                                         <div class="position-relative h-100 d-flex flex-column">
                                             <div class="mb-4">
                                                 <a href="index" class="d-block">
-                                                    <img src="{{ URL::asset('assets/images/2earn.png') }}"
+                                                    <img src="{{ Vite::asset('resources/images/2earn.png') }}"
                                                          alt="2earn.cash">
                                                 </a>
                                             </div>
@@ -179,7 +179,7 @@
                                                                    title="{{ __('lang'.$locale)  }}"
                                                                    data-turbolinks="false">
                                                                     <img
-                                                                        src="{{ URL::asset('assets/images/flags/'.$value['flag'].'.svg') }}"
+                                                                        src="{{ Vite::asset('resources/images/flags/'.$value['flag'].'.svg') }}"
                                                                         alt="user-image" class="me-2 rounded"
                                                                         height="20">
                                                                     <span

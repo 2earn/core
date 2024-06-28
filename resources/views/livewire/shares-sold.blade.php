@@ -338,7 +338,7 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
-                                <img src="{{ URL::asset('assets/images/svg/crypto-icons/ltc.svg') }}"
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/ltc.svg') }}"
                                      class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
                                 <h6 class="ms-2 mb-0 fs-14">Sold Shares</h6>
                             </div>
@@ -374,7 +374,7 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
-                                <img src="{{ URL::asset('assets/images/svg/crypto-icons/eth.svg') }}"
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/eth.svg') }}"
                                      class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
                                 <h6 class="ms-2 mb-0 fs-14">Gifted Shares</h6>
                             </div>
@@ -410,7 +410,7 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
-                                <img src="{{ URL::asset('assets/images/svg/crypto-icons/xmr.svg') }}"
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/xmr.svg') }}"
                                      class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
                                 <h6 class="ms-2 mb-0 fs-14">Gifted/Sold Shares</h6>
                             </div>
@@ -447,7 +447,7 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
-                                <img src="{{ URL::asset('assets/images/svg/crypto-icons/btc.svg') }}"
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/btc.svg') }}"
                                      class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
                                 <h6 class="ms-2 mb-0 fs-14">Shares actual price</h6>
                             </div>
@@ -486,7 +486,7 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
-                                <img src="{{ URL::asset('assets/images/svg/crypto-icons/xmr.svg') }}"
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/xmr.svg') }}"
                                      class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
                                 <h6 class="ms-2 mb-0 fs-14">Revenue</h6>
                             </div>
@@ -522,7 +522,7 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
-                                <img src="{{ URL::asset('assets/images/svg/crypto-icons/xmr.svg') }}"
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/xmr.svg') }}"
                                      class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
                                 <h6 class="ms-2 mb-0 fs-14">Transfer Made</h6>
                             </div>

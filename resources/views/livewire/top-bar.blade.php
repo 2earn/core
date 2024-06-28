@@ -6,18 +6,18 @@
                     <div class="navbar-brand-box horizontal-logo">
                         <a href="index" class="logo logo-dark">
                         <span class="logo-sm">
-                            <img src="{{ URL::asset('assets/images/logo-sm.png') }}" height="22">
+                            <img src="{{ Vite::asset('resources/images/logo-sm.png') }}" height="22">
                         </span>
                             <span class="logo-lg">
-                            <img src="{{ URL::asset('assets/images/logo-dark.png') }}" height="17">
+                            <img src="{{ Vite::asset('resources/images/logo-dark.png') }}" height="17">
                         </span>
                         </a>
                         <a href="index" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="{{ URL::asset('assets/images/logo-sm.png') }}" height="22">
+                            <img src="{{ Vite::asset('resources/images/logo-sm.png') }}" height="22">
                         </span>
                             <span class="logo-lg">
-                            <img src="{{ URL::asset('assets/images/logo-light.png') }}" height="17">
+                            <img src="{{ Vite::asset('resources/images/logo-light.png') }}" height="17">
                         </span>
                         </a>
                     </div>
@@ -116,7 +116,7 @@
                                 <a href="{{ route($currentRoute, ['locale'=> $locale ]) }} "
                                    class="dropdown-item notify-item language py-2  @if($locale==app()->getLocale()) active @endif" data-lang="{{$locale}}"
                                    title="{{ __('lang'.$locale)  }}" data-turbolinks="false">
-                                    <img src="{{ URL::asset('assets/images/flags/'.$value['flag'].'.svg') }}"
+                                    <img src="{{ Vite::asset('resources/images/flags/'.$value['flag'].'.svg') }}"
                                          alt="user-image" class="me-2 rounded" height="20">
                                     <span class="align-middle">{{ __('lang'.$locale)  }}</span>
                                 </a>

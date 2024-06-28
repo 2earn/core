@@ -244,7 +244,7 @@
                                         <h6 style="font-family: 'Roboto', sans-serif;margin: 0; font-size: 15px;color: #fff;text-transform: uppercase;">FREE 1-2 day shipping on orders over $32</h6>
                                     </div>
                                     <div style="padding: 20px;box-sizing: border-box; text-align: center; border-bottom: 1px solid #e9ebec;">
-                                        <img src="{{URL::asset('assets/images/logo-dark.png')}}" alt="" height="23">
+                                        <img src="{{Vite::asset('resources/images/logo-dark.png')}}" alt="" height="23">
                                     </div>
                                     <div style="padding: 20px;box-sizing: border-box; text-align: center;">
                                         <h5 style="font-family: 'Roboto', sans-serif;margin-bottom: 10px;font-weight: 500;">What did you think of your recent purchase?</h5>
@@ -261,7 +261,7 @@
                                             <tbody>
                                                 <tr style="text-align: left;">
                                                     <th style="padding: 5px;width: 110px;">
-                                                        <img src="{{URL::asset('assets/images/products/img-3.png')}}" alt="" height="80">
+                                                        <img src="{{Vite::asset('resources/images/products/img-3.png')}}" alt="" height="80">
                                                     </th>
                                                     <th style="padding: 5px;">
                                                         <h6 style="font-family: 'Roboto', sans-serif; font-size: 14px; margin-bottom: 2px; font-weight: 500;">350 ml Glass Grocery Container</h6>
@@ -271,7 +271,7 @@
                                                 </tr>
                                                 <tr style="text-align: left;">
                                                     <th style="padding: 5px;width: 110px;">
-                                                        <img src="{{URL::asset('assets/images/products/img-2.png')}}" alt="" height="80">
+                                                        <img src="{{Vite::asset('resources/images/products/img-2.png')}}" alt="" height="80">
                                                     </th>
                                                     <th style="padding: 5px;">
                                                         <h6 style="font-family: 'Roboto', sans-serif; font-size: 14px; margin-bottom: 2px; font-weight: 500;">Urban Ladder Pashe Chair</h6>
@@ -281,7 +281,7 @@
                                                 </tr>
                                                 <tr style="text-align: left;">
                                                     <th style="padding: 5px;width: 110px;">
-                                                        <img src="{{URL::asset('assets/images/products/img-1.png')}}" alt="" height="80">
+                                                        <img src="{{Vite::asset('resources/images/products/img-1.png')}}" alt="" height="80">
                                                     </th>
                                                     <th style="padding: 5px;">
                                                         <h6 style="font-family: 'Roboto', sans-serif; font-size: 14px; margin-bottom: 2px; font-weight: 500;">Half Sleeve Round Neck T-Shirts</h6>

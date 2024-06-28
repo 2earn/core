@@ -1741,7 +1741,7 @@ Forms
                                                 <div
                                                     class="text-reset notification-item d-block dropdown-item">
                                                     <div class="d-flex">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}"
                                                             class="me-3 rounded-circle avatar-xs"
                                                             alt="user-pic">
                                                         <div class="flex-1">
@@ -1799,7 +1799,7 @@ Forms
                                                 <div
                                                     class="text-reset notification-item d-block dropdown-item">
                                                     <div class="d-flex">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}"
                                                             class="me-3 rounded-circle avatar-xs"
                                                             alt="user-pic">
                                                         <div class="flex-1">
@@ -1841,7 +1841,7 @@ Forms
                                                 <div
                                                     class="text-reset notification-item d-block dropdown-item">
                                                     <div class="d-flex">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}"
                                                             class="me-3 rounded-circle avatar-xs"
                                                             alt="user-pic">
                                                         <div class="flex-1">
@@ -1870,7 +1870,7 @@ Forms
                                                 <div
                                                     class="text-reset notification-item d-block dropdown-item">
                                                     <div class="d-flex">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}"
                                                             class="me-3 rounded-circle avatar-xs"
                                                             alt="user-pic">
                                                         <div class="flex-1">
@@ -1900,7 +1900,7 @@ Forms
                                                 <div
                                                     class="text-reset notification-item d-block dropdown-item">
                                                     <div class="d-flex">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}"
                                                             class="me-3 rounded-circle avatar-xs"
                                                             alt="user-pic">
                                                         <div class="flex-1">
@@ -1929,7 +1929,7 @@ Forms
                                                 <div
                                                     class="text-reset notification-item d-block dropdown-item">
                                                     <div class="d-flex">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}"
                                                             class="me-3 rounded-circle avatar-xs"
                                                             alt="user-pic">
                                                         <div class="flex-1">
@@ -1966,7 +1966,7 @@ Forms
                                         <div class="tab-pane fade p-4" id="alerts-tab1" role="tabpanel"
                                             aria-labelledby="alerts-tab">
                                             <div class="w-25 pt-3 mx-auto">
-                                                <img src="{{ URL::asset('assets/images/svg/bell.svg') }}" class="img-fluid"
+                                                <img src="{{ Vite::asset('resources/images/svg/bell.svg') }}" class="img-fluid"
                                                     alt="user-pic">
                                             </div>
                                             <div class="text-center pb-5 mt-2">
@@ -2062,7 +2062,7 @@ Forms
                                                 <div
                                                     class="text-reset notification-item d-block dropdown-item">
                                                     <div class="d-flex">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}"
                                                             class="me-3 rounded-circle avatar-xs"
                                                             alt="user-pic">
                                                         <div class="flex-1">
@@ -2120,7 +2120,7 @@ Forms
                                                 <div
                                                     class="text-reset notification-item d-block dropdown-item">
                                                     <div class="d-flex">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}"
                                                             class="me-3 rounded-circle avatar-xs"
                                                             alt="user-pic">
                                                         <div class="flex-1">
@@ -2162,7 +2162,7 @@ Forms
                                                 <div
                                                     class="text-reset notification-item d-block dropdown-item">
                                                     <div class="d-flex">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}"
                                                             class="me-3 rounded-circle avatar-xs"
                                                             alt="user-pic">
                                                         <div class="flex-1">
@@ -2191,7 +2191,7 @@ Forms
                                                 <div
                                                     class="text-reset notification-item d-block dropdown-item">
                                                     <div class="d-flex">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}"
                                                             class="me-3 rounded-circle avatar-xs"
                                                             alt="user-pic">
                                                         <div class="flex-1">
@@ -2221,7 +2221,7 @@ Forms
                                                 <div
                                                     class="text-reset notification-item d-block dropdown-item">
                                                     <div class="d-flex">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}"
                                                             class="me-3 rounded-circle avatar-xs"
                                                             alt="user-pic">
                                                         <div class="flex-1">
@@ -2250,7 +2250,7 @@ Forms
                                                 <div
                                                     class="text-reset notification-item d-block dropdown-item">
                                                     <div class="d-flex">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}"
                                                             class="me-3 rounded-circle avatar-xs"
                                                             alt="user-pic">
                                                         <div class="flex-1">
@@ -2287,7 +2287,7 @@ Forms
                                         <div class="tab-pane fade p-4" id="alerts-tab2" role="tabpanel"
                                             aria-labelledby="alerts-tab">
                                             <div class="w-25 pt-3 mx-auto">
-                                                <img src="{{ URL::asset('assets/images/svg/bell.svg') }}" class="img-fluid"
+                                                <img src="{{ Vite::asset('resources/images/svg/bell.svg') }}" class="img-fluid"
                                                     alt="user-pic">
                                             </div>
                                             <div class="text-center pb-5 mt-2">
@@ -2383,7 +2383,7 @@ Forms
                                                 <div
                                                     class="text-reset notification-item d-block dropdown-item">
                                                     <div class="d-flex">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}"
                                                             class="me-3 rounded-circle avatar-xs"
                                                             alt="user-pic">
                                                         <div class="flex-1">
@@ -2441,7 +2441,7 @@ Forms
                                                 <div
                                                     class="text-reset notification-item d-block dropdown-item">
                                                     <div class="d-flex">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}"
                                                             class="me-3 rounded-circle avatar-xs"
                                                             alt="user-pic">
                                                         <div class="flex-1">
@@ -2483,7 +2483,7 @@ Forms
                                                 <div
                                                     class="text-reset notification-item d-block dropdown-item">
                                                     <div class="d-flex">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}"
                                                             class="me-3 rounded-circle avatar-xs"
                                                             alt="user-pic">
                                                         <div class="flex-1">
@@ -2512,7 +2512,7 @@ Forms
                                                 <div
                                                     class="text-reset notification-item d-block dropdown-item">
                                                     <div class="d-flex">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}"
                                                             class="me-3 rounded-circle avatar-xs"
                                                             alt="user-pic">
                                                         <div class="flex-1">
@@ -2542,7 +2542,7 @@ Forms
                                                 <div
                                                     class="text-reset notification-item d-block dropdown-item">
                                                     <div class="d-flex">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}"
                                                             class="me-3 rounded-circle avatar-xs"
                                                             alt="user-pic">
                                                         <div class="flex-1">
@@ -2571,7 +2571,7 @@ Forms
                                                 <div
                                                     class="text-reset notification-item d-block dropdown-item">
                                                     <div class="d-flex">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}"
                                                             class="me-3 rounded-circle avatar-xs"
                                                             alt="user-pic">
                                                         <div class="flex-1">
@@ -2608,7 +2608,7 @@ Forms
                                         <div class="tab-pane fade p-4" id="alerts-tab3" role="tabpanel"
                                             aria-labelledby="alerts-tab">
                                             <div class="w-25 pt-3 mx-auto">
-                                                <img src="{{ URL::asset('assets/images/svg/bell.svg') }}" class="img-fluid"
+                                                <img src="{{ Vite::asset('resources/images/svg/bell.svg') }}" class="img-fluid"
                                                     alt="user-pic">
                                             </div>
                                             <div class="text-center pb-5 mt-2">

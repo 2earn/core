@@ -66,7 +66,7 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
-                                <img src="{{ URL::asset('assets/images/svg/crypto-icons/btc.svg') }}" class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/btc.svg') }}" class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
                                 <h6 class="ms-2 mb-0 fs-14">Bitcoin</h6>
                             </div>
                             <div class="row align-items-end g-0">
@@ -97,7 +97,7 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
-                                <img src="{{ URL::asset('assets/images/svg/crypto-icons/ltc.svg') }}" class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/ltc.svg') }}" class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
                                 <h6 class="ms-2 mb-0 fs-14">Litecoin</h6>
                             </div>
                             <div class="row align-items-end g-0">
@@ -128,7 +128,7 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
-                                <img src="{{ URL::asset('assets/images/svg/crypto-icons/eth.svg') }}" class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/eth.svg') }}" class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
                                 <h6 class="ms-2 mb-0 fs-14">Ethereum</h6>
                             </div>
                             <div class="row align-items-end g-0">
@@ -159,7 +159,7 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
-                                <img src="{{ URL::asset('assets/images/svg/crypto-icons/xmr.svg') }}" class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/xmr.svg') }}" class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
                                 <h6 class="ms-2 mb-0 fs-14">Monero</h6>
                             </div>
                             <div class="row align-items-end g-0">
@@ -190,7 +190,7 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
-                                <img src="{{ URL::asset('assets/images/svg/crypto-icons/dash.svg') }}" class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/dash.svg') }}" class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
                                 <h6 class="ms-2 mb-0 fs-14">Dash</h6>
                             </div>
                             <div class="row align-items-end g-0">
@@ -221,7 +221,7 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
-                                <img src="{{ URL::asset('assets/images/svg/crypto-icons/mkr.svg') }}" class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/mkr.svg') }}" class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
                                 <h6 class="ms-2 mb-0 fs-14">Maker</h6>
                             </div>
                             <div class="row align-items-end g-0">
@@ -252,7 +252,7 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
-                                <img src="{{ URL::asset('assets/images/svg/crypto-icons/neo.svg') }}" class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/neo.svg') }}" class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
                                 <h6 class="ms-2 mb-0 fs-14">Neo</h6>
                             </div>
                             <div class="row align-items-end g-0">
@@ -298,7 +298,7 @@
                                 <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#VZ001</a></td>
                                 <td>
                                     <div class="d-flex align-items-center fw-medium">
-                                        <img src="{{ URL::asset('assets/images/svg/crypto-icons/btc.svg') }}" alt="" class="avatar-xxs me-2" />
+                                        <img src="{{ Vite::asset('resources/images/svg/crypto-icons/btc.svg') }}" alt="" class="avatar-xxs me-2" />
                                         <a href="javascript:void(0)"  class="currency_name">Bitcoin (BTC)</a>
                                     </div>
                                 </td>
@@ -312,7 +312,7 @@
                                 <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#VZ002</a></td>
                                 <td>
                                     <div class="d-flex align-items-center fw-medium">
-                                        <img src="{{ URL::asset('assets/images/svg/crypto-icons/eth.svg') }}" alt="" class="avatar-xxs me-2" />
+                                        <img src="{{ Vite::asset('resources/images/svg/crypto-icons/eth.svg') }}" alt="" class="avatar-xxs me-2" />
                                         <a href="javascript:void(0)"  class="currency_name">Ethereum (ETH)</a>
                                     </div>
                                 </td>
@@ -326,7 +326,7 @@
                                 <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#VZ003</a></td>
                                 <td>
                                     <div class="d-flex align-items-center fw-medium">
-                                        <img src="{{ URL::asset('assets/images/svg/crypto-icons/xrp.svg') }}" alt="" class="avatar-xxs me-2" />
+                                        <img src="{{ Vite::asset('resources/images/svg/crypto-icons/xrp.svg') }}" alt="" class="avatar-xxs me-2" />
                                         <a href="javascript:void(0)"  class="currency_name">Ripple (XRP)</a>
                                     </div>
                                 </td>
@@ -340,7 +340,7 @@
                                 <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#VZ004</a></td>
                                 <td>
                                     <div class="d-flex align-items-center fw-medium">
-                                        <img src="{{ URL::asset('assets/images/svg/crypto-icons/xmr.svg') }}" alt="" class="avatar-xxs me-2" />
+                                        <img src="{{ Vite::asset('resources/images/svg/crypto-icons/xmr.svg') }}" alt="" class="avatar-xxs me-2" />
                                         <a href="javascript:void(0)"  class="currency_name">Monero (XMR)</a>
                                     </div>
                                 </td>
@@ -354,7 +354,7 @@
                                 <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#VZ005</a></td>
                                 <td>
                                     <div class="d-flex align-items-center fw-medium">
-                                        <img src="{{ URL::asset('assets/images/svg/crypto-icons/ltc.svg') }}" alt="" class="avatar-xxs me-2" />
+                                        <img src="{{ Vite::asset('resources/images/svg/crypto-icons/ltc.svg') }}" alt="" class="avatar-xxs me-2" />
                                         <a href="javascript:void(0)"  class="currency_name">Litecoin (LTC)</a>
                                     </div>
                                 </td>
@@ -368,7 +368,7 @@
                                 <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#VZ008</a></td>
                                 <td>
                                     <div class="d-flex align-items-center fw-medium">
-                                        <img src="{{ URL::asset('assets/images/svg/crypto-icons/aave.svg') }}" alt="" class="avatar-xxs me-2" />
+                                        <img src="{{ Vite::asset('resources/images/svg/crypto-icons/aave.svg') }}" alt="" class="avatar-xxs me-2" />
                                         <a href="javascript:void(0)"  class="currency_name">Aave (AAVE)</a>
                                     </div>
                                 </td>
@@ -382,7 +382,7 @@
                                 <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#VZ006</a></td>
                                 <td>
                                     <div class="d-flex align-items-center fw-medium">
-                                        <img src="{{ URL::asset('assets/images/svg/crypto-icons/mkr.svg') }}" alt="" class="avatar-xxs me-2" />
+                                        <img src="{{ Vite::asset('resources/images/svg/crypto-icons/mkr.svg') }}" alt="" class="avatar-xxs me-2" />
                                         <a href="javascript:void(0)"  class="currency_name">Maker (MKR)</a>
                                     </div>
                                 </td>
@@ -396,7 +396,7 @@
                                 <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#VZ007</a></td>
                                 <td>
                                     <div class="d-flex align-items-center fw-medium">
-                                        <img src="{{ URL::asset('assets/images/svg/crypto-icons/yfi.svg') }}" alt="" class="avatar-xxs me-2" />
+                                        <img src="{{ Vite::asset('resources/images/svg/crypto-icons/yfi.svg') }}" alt="" class="avatar-xxs me-2" />
                                         <a href="javascript:void(0)"  class="currency_name">Yearn.finance (YFI)</a>
                                     </div>
                                 </td>
@@ -484,7 +484,7 @@
             <div class="card-body">
                 <div class="d-flex mb-3">
                     <div class="flex-shrink-0">
-                        <img src="{{ URL::asset('assets/images/svg/crypto-icons/btc.svg') }}" alt="" class="avatar-xxs" />
+                        <img src="{{ Vite::asset('resources/images/svg/crypto-icons/btc.svg') }}" alt="" class="avatar-xxs" />
                     </div>
                     <div class="flex-grow-1 ms-3">
                         <h6 class="mb-1">Bitcoin (BTC)</h6>
@@ -496,7 +496,7 @@
                 </div>
                 <div class="d-flex mb-3">
                     <div class="flex-shrink-0">
-                        <img src="{{ URL::asset('assets/images/svg/crypto-icons/ltc.svg') }}" alt="" class="avatar-xxs" />
+                        <img src="{{ Vite::asset('resources/images/svg/crypto-icons/ltc.svg') }}" alt="" class="avatar-xxs" />
                     </div>
                     <div class="flex-grow-1 ms-3">
                         <h6 class="mb-1">Litecoin (LTC)</h6>
@@ -508,7 +508,7 @@
                 </div>
                 <div class="d-flex mb-3">
                     <div class="flex-shrink-0">
-                        <img src="{{ URL::asset('assets/images/svg/crypto-icons/xmr.svg') }}" alt="" class="avatar-xxs" />
+                        <img src="{{ Vite::asset('resources/images/svg/crypto-icons/xmr.svg') }}" alt="" class="avatar-xxs" />
                     </div>
                     <div class="flex-grow-1 ms-3">
                         <h6 class="mb-1">Monero (XMR)</h6>
@@ -520,7 +520,7 @@
                 </div>
                 <div class="d-flex mb-3">
                     <div class="flex-shrink-0">
-                        <img src="{{ URL::asset('assets/images/svg/crypto-icons/fil.svg') }}" alt="" class="avatar-xxs" />
+                        <img src="{{ Vite::asset('resources/images/svg/crypto-icons/fil.svg') }}" alt="" class="avatar-xxs" />
                     </div>
                     <div class="flex-grow-1 ms-3">
                         <h6 class="mb-1">Filecoin (FIL)</h6>
@@ -532,7 +532,7 @@
                 </div>
                 <div class="d-flex mb-3">
                     <div class="flex-shrink-0">
-                        <img src="{{ URL::asset('assets/images/svg/crypto-icons/dot.svg') }}" alt="" class="avatar-xxs" />
+                        <img src="{{ Vite::asset('resources/images/svg/crypto-icons/dot.svg') }}" alt="" class="avatar-xxs" />
                     </div>
                     <div class="flex-grow-1 ms-3">
                         <h6 class="mb-1">Polkadot (DOT)</h6>

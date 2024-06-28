@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="2earn.cash" name="description"/>
     <meta content="Themesbrand" name="author"/>
-    <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.ico')}}">
+    <link rel="shortcut icon" href="{{ Vite::asset('resources/images/favicon.ico')}}">
     @include('layouts.head-css')
     @livewireStyles
 </head>

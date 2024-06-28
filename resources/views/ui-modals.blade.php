@@ -1842,7 +1842,7 @@ hover.&lt;/p&gt;
                             <div class="row justify-content-center mt-2">
                                 <div class="col-lg-10">
                                     <div>
-                                        <img src="{{ URL::asset('assets/images/modals/success-payment.png') }}" alt="Mac Image"
+                                        <img src="{{ Vite::asset('resources/images/modals/success-payment.png') }}" alt="Mac Image"
                                         class="img-fluid">
                                     </div>
                                 </div>
@@ -1888,7 +1888,7 @@ hover.&lt;/p&gt;
                             <div class="row justify-content-center mt-2">
                                 <div class="col-lg-10">
                                     <div>
-                                        <img src="{{ URL::asset('assets/images/modals/login.png') }}" alt="Mac Image"
+                                        <img src="{{ Vite::asset('resources/images/modals/login.png') }}" alt="Mac Image"
                                         class="img-fluid">
                                     </div>
                                 </div>
@@ -1938,7 +1938,7 @@ hover.&lt;/p&gt;
                             <div class="row justify-content-center mt-2">
                                 <div class="col-lg-10">
                                     <div>
-                                        <img src="{{ URL::asset('assets/images/modals/subscribe.png') }}" alt="Mac Image"
+                                        <img src="{{ Vite::asset('resources/images/modals/subscribe.png') }}" alt="Mac Image"
                                         class="img-fluid">
                                     </div>
                                 </div>
@@ -1969,7 +1969,7 @@ hover.&lt;/p&gt;
                                     </div>
                                     <div class="col-lg-5">
                                         <div class="subscribe-modals-cover h-100">
-                                            <img src="{{ URL::asset('assets/images/modals/auth-one-bg.jpg') }}" alt="" class="h-100 w-100 object-cover" style="clip-path: polygon(100% 0%, 100% 100%, 100% 100%, 0% 100%, 25% 50%, 0% 0%);">
+                                            <img src="{{ Vite::asset('resources/images/modals/auth-one-bg.jpg') }}" alt="" class="h-100 w-100 object-cover" style="clip-path: polygon(100% 0%, 100% 100%, 100% 100%, 0% 100%, 25% 50%, 0% 0%);">
                                         </div>
                                     </div>
                                 </div>
@@ -1991,7 +1991,7 @@ hover.&lt;/p&gt;
                             <div class="row justify-content-center mt-2">
                                 <div class="col-lg-10">
                                     <div>
-                                        <img src="{{ URL::asset('assets/images/modals/signup.png') }}" alt="Mac Image"
+                                        <img src="{{ Vite::asset('resources/images/modals/signup.png') }}" alt="Mac Image"
                                         class="img-fluid">
                                     </div>
                                 </div>

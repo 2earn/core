@@ -35,7 +35,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-sm-10 col-lg-8">
                                                 <div data-aos="fade-up">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -51,7 +51,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-sm-10 col-lg-8">
                                                 <div data-aos="fade-down">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -71,7 +71,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="fade-right">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -87,7 +87,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="fade-left">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -107,7 +107,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="fade-up-right">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -123,7 +123,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="fade-up-left">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -143,7 +143,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="fade-down-right">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -159,7 +159,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="fade-down-left">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -199,7 +199,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="flip-left">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -215,7 +215,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="flip-right">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -235,7 +235,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="flip-up">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -251,7 +251,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="flip-down">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -292,7 +292,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="zoom-in">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -306,7 +306,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="zoom-in-up">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -320,7 +320,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="zoom-in-down">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -334,7 +334,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="zoom-in-right">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -348,7 +348,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="zoom-in-left">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -364,7 +364,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="zoom-out">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -378,7 +378,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="zoom-out-up">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -392,7 +392,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="zoom-out-down">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -406,7 +406,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="zoom-out-right">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -420,7 +420,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="zoom-out-left">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -460,7 +460,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="fade-up" data-aos-duration="3000">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -476,7 +476,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="fade-down" data-aos-easing="linear" data-aos-duration="1500">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -497,7 +497,7 @@
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="fade-right" data-aos-offset="300"
                                                     data-aos-easing="ease-in-sine">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -513,7 +513,7 @@
                                         <div class="row justify-content-center">
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="fade-left" data-aos-offset="500" data-aos-duration="500">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -534,7 +534,7 @@
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="fade-zoom-in" data-aos-easing="ease-in-back"
                                                     data-aos-delay="300" data-aos-offset="0">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>
@@ -551,7 +551,7 @@
                                             <div class="col-sm-10 col-md-8">
                                                 <div data-aos="flip-left" data-aos-easing="ease-out-cubic"
                                                     data-aos-duration="2000">
-                                                    <img src="{{ URL::asset('assets/images/mac-img.png') }}" alt="Mac Image"
+                                                    <img src="{{ Vite::asset('resources/images/mac-img.png') }}" alt="Mac Image"
                                                         class="img-fluid">
                                                 </div>
                                             </div>

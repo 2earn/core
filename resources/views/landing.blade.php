@@ -15,8 +15,8 @@
             <nav class="navbar navbar-expand-lg navbar-landing fixed-top" id="navbar">
                 <div class="container">
                     <a class="navbar-brand" href="{{URL::asset('/index')}}">
-                        <img src="{{ URL::asset('assets/images/logo-dark.png') }}" class="card-logo card-logo-dark" alt="logo dark" height="17">
-                        <img src="{{ URL::asset('assets/images/logo-light.png') }}" class="card-logo card-logo-light" alt="logo light"
+                        <img src="{{ Vite::asset('resources/images/logo-dark.png') }}" class="card-logo card-logo-dark" alt="logo dark" height="17">
+                        <img src="{{ Vite::asset('resources/images/logo-light.png') }}" class="card-logo card-logo-light" alt="logo light"
                             height="17">
                     </a>
                     <button class="navbar-toggler py-0 fs-20 text-body" type="button" data-bs-toggle="collapse"
@@ -84,33 +84,33 @@
 
                             <div class="mt-4 mt-sm-5 pt-sm-5 mb-sm-n5 demo-carousel">
                                 <div class="demo-img-patten-top d-none d-sm-block">
-                                    <img src="{{ URL::asset('assets/images/landing/img-pattern.png') }}" class="d-block img-fluid" alt="...">
+                                    <img src="{{ Vite::asset('resources/images/landing/img-pattern.png') }}" class="d-block img-fluid" alt="...">
                                 </div>
                                 <div class="demo-img-patten-bottom d-none d-sm-block">
-                                    <img src="{{ URL::asset('assets/images/landing/img-pattern.png') }}" class="d-block img-fluid" alt="...">
+                                    <img src="{{ Vite::asset('resources/images/landing/img-pattern.png') }}" class="d-block img-fluid" alt="...">
                                 </div>
                                 <div class="carousel slide carousel-fade" data-bs-ride="carousel">
                                     <div class="carousel-inner shadow-lg p-2 bg-white rounded">
                                         <div class="carousel-item active" data-bs-interval="2000">
-                                            <img src="{{ URL::asset('assets/images/demos/default.png') }}" class="d-block w-100" alt="...">
+                                            <img src="{{ Vite::asset('resources/images/demos/default.png') }}" class="d-block w-100" alt="...">
                                         </div>
                                         <div class="carousel-item" data-bs-interval="2000">
-                                            <img src="{{ URL::asset('assets/images/demos/saas.png') }}" class="d-block w-100" alt="...">
+                                            <img src="{{ Vite::asset('resources/images/demos/saas.png') }}" class="d-block w-100" alt="...">
                                         </div>
                                         <div class="carousel-item" data-bs-interval="2000">
-                                            <img src="{{ URL::asset('assets/images/demos/material.png') }}" class="d-block w-100" alt="...">
+                                            <img src="{{ Vite::asset('resources/images/demos/material.png') }}" class="d-block w-100" alt="...">
                                         </div>
                                         <div class="carousel-item" data-bs-interval="2000">
-                                            <img src="{{ URL::asset('assets/images/demos/minimal.png') }}" class="d-block w-100" alt="...">
+                                            <img src="{{ Vite::asset('resources/images/demos/minimal.png') }}" class="d-block w-100" alt="...">
                                         </div>
                                         <div class="carousel-item" data-bs-interval="2000">
-                                            <img src="{{ URL::asset('assets/images/demos/creative.png') }}" class="d-block w-100" alt="...">
+                                            <img src="{{ Vite::asset('resources/images/demos/creative.png') }}" class="d-block w-100" alt="...">
                                         </div>
                                         <div class="carousel-item" data-bs-interval="2000">
-                                            <img src="{{ URL::asset('assets/images/demos/modern.png') }}" class="d-block w-100" alt="...">
+                                            <img src="{{ Vite::asset('resources/images/demos/modern.png') }}" class="d-block w-100" alt="...">
                                         </div>
                                         <div class="carousel-item" data-bs-interval="2000">
-                                            <img src="{{ URL::asset('assets/images/demos/interactive.png') }}" class="d-block w-100" alt="...">
+                                            <img src="{{ Vite::asset('resources/images/demos/interactive.png') }}" class="d-block w-100" alt="...">
                                         </div>
                                     </div>
                                 </div>
@@ -148,37 +148,37 @@
                                     <div class="swiper-wrapper">
                                         <div class="swiper-slide">
                                             <div class="client-images">
-                                                <img src="{{ URL::asset('assets/images/clients/amazon.svg') }}" alt="client-img"
+                                                <img src="{{ Vite::asset('resources/images/clients/amazon.svg') }}" alt="client-img"
                                                     class="mx-auto img-fluid d-block">
                                             </div>
                                         </div>
                                         <div class="swiper-slide">
                                             <div class="client-images">
-                                                <img src="{{ URL::asset('assets/images/clients/walmart.svg') }}" alt="client-img"
+                                                <img src="{{ Vite::asset('resources/images/clients/walmart.svg') }}" alt="client-img"
                                                     class="mx-auto img-fluid d-block">
                                             </div>
                                         </div>
                                         <div class="swiper-slide">
                                             <div class="client-images">
-                                                <img src="{{ URL::asset('assets/images/clients/lenovo.svg') }}" alt="client-img"
+                                                <img src="{{ Vite::asset('resources/images/clients/lenovo.svg') }}" alt="client-img"
                                                     class="mx-auto img-fluid d-block">
                                             </div>
                                         </div>
                                         <div class="swiper-slide">
                                             <div class="client-images">
-                                                <img src="{{ URL::asset('assets/images/clients/paypal.svg') }}" alt="client-img"
+                                                <img src="{{ Vite::asset('resources/images/clients/paypal.svg') }}" alt="client-img"
                                                     class="mx-auto img-fluid d-block">
                                             </div>
                                         </div>
                                         <div class="swiper-slide">
                                             <div class="client-images">
-                                                <img src="{{ URL::asset('assets/images/clients/shopify.svg') }}" alt="client-img"
+                                                <img src="{{ Vite::asset('resources/images/clients/shopify.svg') }}" alt="client-img"
                                                     class="mx-auto img-fluid d-block">
                                             </div>
                                         </div>
                                         <div class="swiper-slide">
                                             <div class="client-images">
-                                                <img src="{{ URL::asset('assets/images/clients/verizon.svg') }}" alt="client-img"
+                                                <img src="{{ Vite::asset('resources/images/clients/verizon.svg') }}" alt="client-img"
                                                     class="mx-auto img-fluid d-block">
                                             </div>
                                         </div>
@@ -414,7 +414,7 @@
                     <div class="row align-items-center gy-4">
                         <div class="col-lg-6 col-sm-7 mx-auto">
                             <div>
-                                <img src="{{ URL::asset('assets/images/landing/features/img-1.png') }}" alt="" class="img-fluid mx-auto">
+                                <img src="{{ Vite::asset('resources/images/landing/features/img-1.png') }}" alt="" class="img-fluid mx-auto">
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -582,7 +582,7 @@
                         <!-- end col -->
                         <div class="col-lg-6 col-sm-7 col-10 ms-auto order-1 order-lg-2">
                             <div>
-                                <img src="{{ URL::asset('assets/images/landing/features/img-2.png') }}" alt="" class="img-fluid">
+                                <img src="{{ Vite::asset('resources/images/landing/features/img-2.png') }}" alt="" class="img-fluid">
                             </div>
                         </div>
                     </div>
@@ -591,7 +591,7 @@
                     <div class="row align-items-center mt-5 pt-lg-5 gy-4">
                         <div class="col-lg-6 col-sm-7 col-10 mx-auto">
                             <div>
-                                <img src="{{ URL::asset('assets/images/landing/features/img-3.png') }}" alt="" class="img-fluid">
+                                <img src="{{ Vite::asset('resources/images/landing/features/img-3.png') }}" alt="" class="img-fluid">
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -1365,7 +1365,7 @@
                         <div class="col-lg-4">
                             <div class="process-card mt-4">
                                 <div class="process-arrow-img d-none d-lg-block">
-                                    <img src="{{ URL::asset('assets/images/landing/process-arrow-img.png') }}" alt="" class="img-fluid">
+                                    <img src="{{ Vite::asset('resources/images/landing/process-arrow-img.png') }}" alt="" class="img-fluid">
                                 </div>
                                 <div class="avatar-sm icon-effect mx-auto mb-4">
                                     <div class="avatar-title bg-transparent text-success rounded-circle h1">
@@ -1382,7 +1382,7 @@
                         <div class="col-lg-4">
                             <div class="process-card mt-4">
                                 <div class="process-arrow-img d-none d-lg-block">
-                                    <img src="{{ URL::asset('assets/images/landing/process-arrow-img.png') }}" alt="" class="img-fluid">
+                                    <img src="{{ Vite::asset('resources/images/landing/process-arrow-img.png') }}" alt="" class="img-fluid">
                                 </div>
                                 <div class="avatar-sm icon-effect mx-auto mb-4">
                                     <div class="avatar-title bg-transparent text-success rounded-circle h1">
@@ -1436,7 +1436,7 @@
                             <div class="card">
                                 <div class="card-body text-center p-4">
                                     <div class="avatar-xl mx-auto mb-4 position-relative">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt=""
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt=""
                                             class="img-fluid rounded-circle">
                                         <a href="{{URL::asset('/apps-mailbox')}}"
                                             class="btn btn-success btn-sm position-absolute bottom-0 end-0 rounded-circle avatar-xs">
@@ -1458,7 +1458,7 @@
                             <div class="card">
                                 <div class="card-body text-center p-4">
                                     <div class="avatar-xl mx-auto mb-4 position-relative">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-10.jpg') }}" alt=""
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-10.jpg') }}" alt=""
                                             class="img-fluid rounded-circle">
                                         <a href="{{URL::asset('/apps-mailbox')}}"
                                             class="btn btn-success btn-sm position-absolute bottom-0 end-0 rounded-circle avatar-xs">
@@ -1480,7 +1480,7 @@
                             <div class="card">
                                 <div class="card-body text-center p-4">
                                     <div class="avatar-xl mx-auto mb-4 position-relative">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt=""
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt=""
                                             class="img-fluid rounded-circle">
                                         <a href="{{URL::asset('/apps-mailbox')}}"
                                             class="btn btn-success btn-sm position-absolute bottom-0 end-0 rounded-circle avatar-xs">
@@ -1502,7 +1502,7 @@
                             <div class="card">
                                 <div class="card-body text-center p-4">
                                     <div class="avatar-xl mx-auto mb-4 position-relative">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}" alt=""
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}" alt=""
                                             class="img-fluid rounded-circle">
                                         <a href="{{URL::asset('/apps-mailbox')}}"
                                             class="btn btn-success btn-sm position-absolute bottom-0 end-0 rounded-circle avatar-xs">
@@ -1527,7 +1527,7 @@
                             <div class="card">
                                 <div class="card-body text-center p-4">
                                     <div class="avatar-xl mx-auto mb-4 position-relative">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt=""
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt=""
                                             class="img-fluid rounded-circle">
                                         <a href="{{URL::asset('/apps-mailbox')}}"
                                             class="btn btn-success btn-sm position-absolute bottom-0 end-0 rounded-circle avatar-xs">
@@ -1549,7 +1549,7 @@
                             <div class="card">
                                 <div class="card-body text-center p-4">
                                     <div class="avatar-xl mx-auto mb-4 position-relative">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt=""
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt=""
                                             class="img-fluid rounded-circle">
                                         <a href="{{URL::asset('/apps-mailbox')}}"
                                             class="btn btn-success btn-sm position-absolute bottom-0 end-0 rounded-circle avatar-xs">
@@ -1571,7 +1571,7 @@
                             <div class="card">
                                 <div class="card-body text-center p-4">
                                     <div class="avatar-xl mx-auto mb-4 position-relative">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt=""
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt=""
                                             class="img-fluid rounded-circle">
                                         <a href="{{URL::asset('/apps-mailbox')}}"
                                             class="btn btn-success btn-sm position-absolute bottom-0 end-0 rounded-circle avatar-xs">
@@ -1594,7 +1594,7 @@
                             <div class="card">
                                 <div class="card-body text-center p-4">
                                     <div class="avatar-xl mx-auto mb-4 position-relative">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt=""
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt=""
                                             class="img-fluid rounded-circle">
                                         <a href="{{URL::asset('/apps-mailbox')}}"
                                             class="btn btn-success btn-sm position-absolute bottom-0 end-0 rounded-circle avatar-xs">
@@ -1749,7 +1749,7 @@
                         <div class="col-lg-4 mt-4">
                             <div>
                                 <div>
-                                    <img src="{{ URL::asset('assets/images/logo-light.png') }}" alt="logo light" height="17">
+                                    <img src="{{ Vite::asset('resources/images/logo-light.png') }}" alt="logo light" height="17">
                                 </div>
                                 <div class=mt-4 fs-13">
                                     <p>2earn.cash</p>

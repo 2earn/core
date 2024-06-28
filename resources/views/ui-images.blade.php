@@ -29,11 +29,11 @@
 
                         <div class="row align-items-center">
                             <div class="col-6">
-                                <img class="rounded" alt="200x200" width="200" src="{{ URL::asset('assets/images/small/img-4.jpg') }}" data-holder-rendered="true">
+                                <img class="rounded" alt="200x200" width="200" src="{{ Vite::asset('resources/images/small/img-4.jpg') }}" data-holder-rendered="true">
                             </div><!-- end col -->
                             <div class="col-6">
                                 <div class="mt-4 mt-md-0">
-                                    <img class="rounded-circle avatar-xl" alt="200x200" src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" data-holder-rendered="true">
+                                    <img class="rounded-circle avatar-xl" alt="200x200" src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" data-holder-rendered="true">
                                 </div>
                             </div><!-- end col -->
                         </div>
@@ -75,11 +75,11 @@
 
                         <div class="row">
                             <div class="col-6">
-                                <img class="img-thumbnail" alt="200x200" width="200" src="{{ URL::asset('assets/images/small/img-3.jpg') }}" data-holder-rendered="true">
+                                <img class="img-thumbnail" alt="200x200" width="200" src="{{ Vite::asset('resources/images/small/img-3.jpg') }}" data-holder-rendered="true">
                             </div><!-- end col -->
                             <div class="col-6">
                                 <div class="mt-4 mt-md-0">
-                                    <img class="img-thumbnail rounded-circle avatar-xl" alt="200x200" src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" data-holder-rendered="true">
+                                    <img class="img-thumbnail rounded-circle avatar-xl" alt="200x200" src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" data-holder-rendered="true">
                                 </div>
                             </div><!-- end col -->
                         </div>
@@ -124,37 +124,37 @@
                                 <div class="row g-3">
                                     <div class="col-xxl-2 col-md-4 col-6">
                                         <div>
-                                            <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="" class="rounded avatar-xxs">
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="" class="rounded avatar-xxs">
                                             <p class="mt-2 mb-lg-0"><code>avatar-xxs</code></p>
                                         </div>
                                     </div><!-- end col -->
                                     <div class="col-xxl-2 col-md-4 col-6">
                                         <div>
-                                            <img src="{{ URL::asset('assets/images/users/avatar-10.jpg') }}" alt="" class="rounded avatar-xs">
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-10.jpg') }}" alt="" class="rounded avatar-xs">
                                             <p class="mt-2 mb-lg-0"><code>avatar-xs</code></p>
                                         </div>
                                     </div><!-- end col -->
                                     <div class="col-xxl-2 col-md-4 col-6">
                                         <div>
-                                            <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="rounded avatar-sm">
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="rounded avatar-sm">
                                             <p class="mt-2 mb-lg-0"><code>avatar-sm</code></p>
                                         </div>
                                     </div><!-- end col -->
                                     <div class="col-xxl-2 col-md-4 col-6">
                                         <div>
-                                            <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="rounded avatar-md">
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="rounded avatar-md">
                                             <p class="mt-2  mb-lg-0"><code>avatar-md</code></p>
                                         </div>
                                     </div><!-- end col -->
                                     <div class="col-xxl-2 col-md-4 col-6">
                                         <div>
-                                            <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt="" class="rounded avatar-lg">
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt="" class="rounded avatar-lg">
                                             <p class="mt-2 mb-lg-0"><code>avatar-lg</code></p>
                                         </div>
                                     </div><!-- end col -->
                                     <div class="col-xxl-2 col-md-4 col-6">
                                         <div>
-                                            <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}" alt="" class="rounded avatar-xl">
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}" alt="" class="rounded avatar-xl">
                                             <p class="mt-2 mb-lg-0"><code>avatar-xl</code></p>
                                         </div>
                                     </div><!-- end col -->
@@ -165,37 +165,37 @@
                                 <div class="row g-3 mt-5">
                                     <div class="col-xxl-2 col-md-4 col-6">
                                         <div>
-                                            <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="" class="rounded-circle avatar-xxs">
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="" class="rounded-circle avatar-xxs">
                                             <p class="mt-2 mb-lg-0"><code>avatar-xxs</code></p>
                                         </div>
                                     </div><!-- end col -->
                                     <div class="col-xxl-2 col-md-4 col-6">
                                         <div>
-                                            <img src="{{ URL::asset('assets/images/users/avatar-10.jpg') }}" alt="" class="rounded-circle avatar-xs">
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-10.jpg') }}" alt="" class="rounded-circle avatar-xs">
                                             <p class="mt-2 mb-lg-0"><code>avatar-xs</code></p>
                                         </div>
                                     </div><!-- end col -->
                                     <div class="col-xxl-2 col-md-4 col-6">
                                         <div>
-                                            <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle avatar-sm">
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle avatar-sm">
                                             <p class="mt-2 mb-lg-0"><code>avatar-sm</code></p>
                                         </div>
                                     </div><!-- end col -->
                                     <div class="col-xxl-2 col-md-4 col-6">
                                         <div>
-                                            <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-md">
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-md">
                                             <p class="mt-2  mb-lg-0"><code>avatar-md</code></p>
                                         </div>
                                     </div><!-- end col -->
                                     <div class="col-xxl-2 col-md-4 col-6">
                                         <div>
-                                            <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt="" class="rounded-circle avatar-lg">
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt="" class="rounded-circle avatar-lg">
                                             <p class="mt-2 mb-lg-0"><code>avatar-lg</code></p>
                                         </div>
                                     </div><!-- end col -->
                                     <div class="col-xxl-2 col-md-4 col-6">
                                         <div>
-                                            <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}" alt="" class="rounded-circle avatar-xl">
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}" alt="" class="rounded-circle avatar-xl">
                                             <p class="mt-2 mb-lg-0"><code>avatar-xl</code></p>
                                         </div>
                                     </div><!-- end col -->
@@ -366,10 +366,10 @@ Xl
                                     <p class="text-muted">Use <code>avatar-group</code> class to show avatar images with the group.</p>
                                     <div class="avatar-group">
                                         <div class="avatar-group-item">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-sm">
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-sm">
                                         </div>
                                         <div class="avatar-group-item">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt="" class="rounded-circle avatar-sm">
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt="" class="rounded-circle avatar-sm">
                                         </div>
                                         <div class="avatar-group-item">
                                             <div class="avatar-sm">
@@ -379,7 +379,7 @@ Xl
                                             </div>
                                         </div>
                                         <div class="avatar-group-item">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="" class="rounded-circle avatar-sm">
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="" class="rounded-circle avatar-sm">
                                         </div>
                                     </div>
                                 </div>
@@ -390,10 +390,10 @@ Xl
                                     <p class="text-muted">Use <code>avatar-group</code> class with <code>data-bs-toggle="tooltip"</code> to show avatar group images with tooltip.</p>
                                     <div class="avatar-group">
                                         <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" title="Christi">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-sm">
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-sm">
                                         </a>
                                         <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" title="Frank Hook">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle avatar-sm">
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle avatar-sm">
                                         </a>
                                         <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" title="Christi">
                                             <div class="avatar-sm">
@@ -488,13 +488,13 @@ C
                         <div class="row g-3">
                             <div class="col-sm-6">
                                 <figure class="figure mb-0">
-                                    <img src="{{ URL::asset('assets/images/small/img-4.jpg') }}" class="figure-img img-fluid rounded" alt="...">
+                                    <img src="{{ Vite::asset('resources/images/small/img-4.jpg') }}" class="figure-img img-fluid rounded" alt="...">
                                     <figcaption class="figure-caption">A caption for the above image.</figcaption>
                                 </figure>
                             </div>
                             <div class="col-sm-6">
                                 <figure class="figure mb-0">
-                                    <img src="{{ URL::asset('assets/images/small/img-5.jpg') }}" class="figure-img img-fluid rounded" alt="...">
+                                    <img src="{{ Vite::asset('resources/images/small/img-5.jpg') }}" class="figure-img img-fluid rounded" alt="...">
                                     <figcaption class="figure-caption text-end">A caption for the above image.</figcaption>
                                 </figure>
                             </div>
@@ -538,7 +538,7 @@ C
                     <div class="live-preview">
 
                         <div>
-                            <img src="{{ URL::asset('assets/images/small/img-2.jpg') }}" class="img-fluid" alt="Responsive image">
+                            <img src="{{ Vite::asset('resources/images/small/img-2.jpg') }}" class="img-fluid" alt="Responsive image">
                         </div>
 
                     </div>

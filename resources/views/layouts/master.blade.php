@@ -47,8 +47,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="2earn.cash" name="description"/>
     <meta content="" name="author"/>
-    <meta property="og:image" content="{{ URL::asset('assets/images/2earn.png') }}">
-    <meta property="twitter:image" content="{{ URL::asset('assets/images/2earn.png') }}">
+    <meta property="og:image" content="{{ Vite::asset('resources/images/2earn.png') }}">
+    <meta property="twitter:image" content="{{ Vite::asset('resources/images/2earn.png') }}">
     <!-- vite -->
     @vite([
                 'resources/anychart/anychart-base.min.js',
@@ -68,7 +68,7 @@
     <!-- vite -->
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.ico')}}">
+    <link rel="shortcut icon" href="{{ Vite::asset('resources/images/favicon.ico')}}">
     <link rel="stylesheet" href="{{asset('assets/Styles/intlTelInput.css')}}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{asset('assets/js/intlTelInput.js')}}"></script>

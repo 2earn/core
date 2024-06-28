@@ -50,7 +50,7 @@
                                 </td>
                                 <td>
                                     <div class="d-flex align-items-center fw-medium">
-                                        <img src="{{ URL::asset('assets/images/flags/'.$value->isoP.'.svg') }}" alt=""
+                                        <img src="{{ Vite::asset('resources/images/flags/'.$value->isoP.'.svg') }}" alt=""
                                              class="avatar-xxs me-2">
                                         <a href="javascript:void(0);"
                                            class="currency_name"> {{getCountryByIso($value->isoP)}}</a>

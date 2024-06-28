@@ -30,11 +30,11 @@
                     <div class="card border card-border-info">
                         <div class="card-body row">
                             <div class="col-sm-12 col-md-6 col-lg-3">
-                                <img id="logo-paytabs" src="{{ URL::asset('assets/images/paytabs.jpeg') }}"
+                                <img id="logo-paytabs" src="{{ Vite::asset('resources/images/paytabs.jpeg') }}"
                                      class="rounded mx-auto d-block"/>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-3">
-                                <img id="logo-pay" src="{{ URL::asset('assets/images/pay.jpeg') }}"
+                                <img id="logo-pay" src="{{ Vite::asset('resources/images/pay.jpeg') }}"
                                      class="rounded mx-auto d-block"/>
                             </div>
                             <div class="col-sm-12 col-md-12 col-lg-4">

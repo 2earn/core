@@ -47,7 +47,7 @@
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="px-3">
-                                            <img src="{{ URL::asset('assets/images/user-illustarator-2.png') }}" class="img-fluid" alt="">
+                                            <img src="{{ Vite::asset('resources/images/user-illustarator-2.png') }}" class="img-fluid" alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -449,7 +449,7 @@
                         </div><!-- end col -->
                         <div class="col-6">
                             <div class="text-center">
-                                <img src="{{ URL::asset('assets/images/illustrator-1.png') }}" class="img-fluid" alt="">
+                                <img src="{{ Vite::asset('resources/images/illustrator-1.png') }}" class="img-fluid" alt="">
                             </div>
                         </div><!-- end col -->
                     </div><!-- end row -->

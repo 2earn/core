@@ -37,7 +37,7 @@
             <div class="col-xxl-3 col-lg-4 col-md-6 product-item upto-15">
                 <div class="card explore-box card-animate">
                     <div class="position-relative rounded overflow-hidden">
-                        <img src="{{URL::asset('assets/images/nft/img-01.jpg')}}" alt="" class="card-img-top explore-img">
+                        <img src="{{Vite::asset('resources/images/nft/img-01.jpg')}}" alt="" class="card-img-top explore-img">
                         <div class="discount-time">
                             <h5 id="auction-time-1" class="mb-0 text-white"></h5>
                         </div>
@@ -60,7 +60,7 @@
             <div class="col-xxl-3 col-lg-4 col-md-6 product-item upto-30">
                 <div class="card explore-box card-animate">
                     <div class="position-relative rounded overflow-hidden">
-                        <img src="{{URL::asset('assets/images/nft/gif/img-1.gif')}}" alt="" class="card-img-top explore-img">
+                        <img src="{{Vite::asset('resources/images/nft/gif/img-1.gif')}}" alt="" class="card-img-top explore-img">
                         <div class="discount-time">
                             <h5 id="auction-time-2" class="mb-0 text-white"></h5>
                         </div>
@@ -83,7 +83,7 @@
             <div class="col-xxl-3 col-lg-4 col-md-6 product-item upto-40">
                 <div class="card explore-box card-animate">
                     <div class="position-relative rounded overflow-hidden">
-                        <img src="{{URL::asset('assets/images/nft/img-03.jpg')}}" alt="" class="card-img-top explore-img">
+                        <img src="{{Vite::asset('resources/images/nft/img-03.jpg')}}" alt="" class="card-img-top explore-img">
                         <div class="discount-time">
                             <h5 id="auction-time-3" class="mb-0 text-white"></h5>
                         </div>
@@ -106,7 +106,7 @@
             <div class="col-xxl-3 col-lg-4 col-md-6 product-item upto-15">
                 <div class="card explore-box card-animate">
                     <div class="position-relative rounded overflow-hidden">
-                        <img src="{{URL::asset('assets/images/nft/img-04.jpg')}}" alt="" class="card-img-top explore-img">
+                        <img src="{{Vite::asset('resources/images/nft/img-04.jpg')}}" alt="" class="card-img-top explore-img">
                         <div class="discount-time">
                             <h5 id="auction-time-4" class="mb-0 text-white"></h5>
                         </div>
@@ -129,7 +129,7 @@
             <div class="col-xxl-3 col-lg-4 col-md-6 product-item upto-40">
                 <div class="card explore-box card-animate">
                     <div class="position-relative rounded overflow-hidden">
-                        <img src="{{URL::asset('assets/images/nft/gif/img-5.gif')}}" alt="" class="card-img-top explore-img">
+                        <img src="{{Vite::asset('resources/images/nft/gif/img-5.gif')}}" alt="" class="card-img-top explore-img">
                         <div class="discount-time">
                             <h5 id="auction-time-5" class="mb-0 text-white"></h5>
                         </div>
@@ -152,7 +152,7 @@
             <div class="col-xxl-3 col-lg-4 col-md-6 product-item upto-15">
                 <div class="card explore-box card-animate">
                     <div class="position-relative rounded overflow-hidden">
-                        <img src="{{URL::asset('assets/images/nft/img-02.jpg')}}" alt="" class="card-img-top explore-img">
+                        <img src="{{Vite::asset('resources/images/nft/img-02.jpg')}}" alt="" class="card-img-top explore-img">
                         <div class="discount-time">
                             <h5 id="auction-time-6" class="mb-0 text-white"></h5>
                         </div>
@@ -175,7 +175,7 @@
             <div class="col-xxl-3 col-lg-4 col-md-6 product-item upto-30">
                 <div class="card explore-box card-animate">
                     <div class="position-relative rounded overflow-hidden">
-                        <img src="{{URL::asset('assets/images/nft/img-06.jpg')}}" alt="" class="card-img-top explore-img">
+                        <img src="{{Vite::asset('resources/images/nft/img-06.jpg')}}" alt="" class="card-img-top explore-img">
                         <div class="discount-time">
                             <h5 id="auction-time-7" class="mb-0 text-white"></h5>
                         </div>
@@ -198,7 +198,7 @@
             <div class="col-xxl-3 col-lg-4 col-md-6 product-item upto-15">
                 <div class="card explore-box card-animate">
                     <div class="position-relative rounded overflow-hidden">
-                        <img src="{{URL::asset('assets/images/nft/gif/img-4.gif')}}" alt="" class="card-img-top explore-img">
+                        <img src="{{Vite::asset('resources/images/nft/gif/img-4.gif')}}" alt="" class="card-img-top explore-img">
                         <div class="discount-time">
                             <h5 id="auction-time-8" class="mb-0 text-white"></h5>
                         </div>
@@ -244,7 +244,7 @@
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img src="{{URL::asset('assets/images/nft/img-03.jpg')}}" alt="" class="avatar-sm object-cover rounded-circle">
+                                        <img src="{{Vite::asset('resources/images/nft/img-03.jpg')}}" alt="" class="avatar-sm object-cover rounded-circle">
                                         <div class="ms-2">
                                             <a href="apps-nft-item-details">
                                                 <h6 class="fs-15 mb-1">Creative filtered portrait</h6>
@@ -258,7 +258,7 @@
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img src="{{URL::asset('assets/images/nft/gif/img-4.gif')}}" alt="" class="avatar-sm object-cover rounded-circle">
+                                        <img src="{{Vite::asset('resources/images/nft/gif/img-4.gif')}}" alt="" class="avatar-sm object-cover rounded-circle">
                                         <div class="ms-2">
                                             <a href="apps-nft-item-details">
                                                 <h6 class="fs-15 mb-1">Patterns arts & culture</h6>
@@ -272,7 +272,7 @@
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img src="{{URL::asset('assets/images/nft/gif/img-3.gif')}}" alt="" class="avatar-sm object-cover rounded-circle">
+                                        <img src="{{Vite::asset('resources/images/nft/gif/img-3.gif')}}" alt="" class="avatar-sm object-cover rounded-circle">
                                         <div class="ms-2">
                                             <a href="apps-nft-item-details">
                                                 <h6 class="fs-15 mb-1">Evolved Reality</h6>
@@ -286,7 +286,7 @@
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img src="{{URL::asset('assets/images/nft/img-04.jpg')}}" alt="" class="avatar-sm object-cover rounded-circle">
+                                        <img src="{{Vite::asset('resources/images/nft/img-04.jpg')}}" alt="" class="avatar-sm object-cover rounded-circle">
                                         <div class="ms-2">
                                             <a href="apps-nft-item-details">
                                                 <h6 class="fs-15 mb-1">Smillevers Crypto</h6>
@@ -300,7 +300,7 @@
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img src="{{URL::asset('assets/images/nft/img-05.jpg')}}" alt="" class="avatar-sm object-cover rounded-circle">
+                                        <img src="{{Vite::asset('resources/images/nft/img-05.jpg')}}" alt="" class="avatar-sm object-cover rounded-circle">
                                         <div class="ms-2">
                                             <a href="apps-nft-item-details">
                                                 <h6 class="fs-15 mb-1">Robotic Body Art</h6>
@@ -314,7 +314,7 @@
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img src="{{URL::asset('assets/images/nft/img-02.jpg')}}" alt="" class="avatar-sm object-cover rounded-circle">
+                                        <img src="{{Vite::asset('resources/images/nft/img-02.jpg')}}" alt="" class="avatar-sm object-cover rounded-circle">
                                         <div class="ms-2">
                                             <a href="apps-nft-item-details">
                                                 <h6 class="fs-15 mb-1">Trendy fashion portraits</h6>
@@ -344,7 +344,7 @@
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img src="{{URL::asset('assets/images/users/avatar-1.jpg')}}" alt="" class="avatar-sm object-cover rounded-circle">
+                                        <img src="{{Vite::asset('resources/images/users/avatar-1.jpg')}}" alt="" class="avatar-sm object-cover rounded-circle">
                                         <div class="ms-2">
                                             <a href="#!">
                                                 <h6 class="fs-15 mb-1">Herbert Stokes</h6>
@@ -358,7 +358,7 @@
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img src="{{URL::asset('assets/images/users/avatar-3.jpg')}}" alt="" class="avatar-sm object-cover rounded-circle">
+                                        <img src="{{Vite::asset('resources/images/users/avatar-3.jpg')}}" alt="" class="avatar-sm object-cover rounded-circle">
                                         <div class="ms-2">
                                             <a href="#!">
                                                 <h6 class="fs-15 mb-1">Thomas Taylor</h6>
@@ -372,7 +372,7 @@
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img src="{{URL::asset('assets/images/users/avatar-5.jpg')}}" alt="" class="avatar-sm object-cover rounded-circle">
+                                        <img src="{{Vite::asset('resources/images/users/avatar-5.jpg')}}" alt="" class="avatar-sm object-cover rounded-circle">
                                         <div class="ms-2">
                                             <a href="#!">
                                                 <h6 class="fs-15 mb-1">Henry Baird</h6>
@@ -386,7 +386,7 @@
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img src="{{URL::asset('assets/images/users/avatar-10.jpg')}}" alt="" class="avatar-sm object-cover rounded-circle">
+                                        <img src="{{Vite::asset('resources/images/users/avatar-10.jpg')}}" alt="" class="avatar-sm object-cover rounded-circle">
                                         <div class="ms-2">
                                             <a href="#!">
                                                 <h6 class="fs-15 mb-1">Nancy Martino</h6>
@@ -400,7 +400,7 @@
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img src="{{URL::asset('assets/images/users/avatar-8.jpg')}}" alt="" class="avatar-sm object-cover rounded-circle">
+                                        <img src="{{Vite::asset('resources/images/users/avatar-8.jpg')}}" alt="" class="avatar-sm object-cover rounded-circle">
                                         <div class="ms-2">
                                             <a href="#!">
                                                 <h6 class="fs-15 mb-1">James Price</h6>

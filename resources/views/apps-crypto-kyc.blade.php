@@ -35,7 +35,7 @@
                         </div>
                         <div class="row justify-content-center mt-5 mb-2">
                             <div class="col-sm-7 col-8">
-                                <img src="{{ URL::asset('assets/images/verification-img.png') }}" alt=""
+                                <img src="{{ Vite::asset('resources/images/verification-img.png') }}" alt=""
                                      class="img-fluid"/>
                             </div>
                         </div>

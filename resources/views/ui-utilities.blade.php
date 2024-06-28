@@ -286,35 +286,35 @@
                         <div>
                             <div class="d-flex align-items-start flex-wrap gap-4">
                                 <div class="text-center">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" class="avatar-md rounded" alt="rounded">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" class="avatar-md rounded" alt="rounded">
                                     <p><code>.rounded</code></p>
                                 </div>
                                 <div class="text-center">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" class="avatar-md rounded-top" alt="rounded-top">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" class="avatar-md rounded-top" alt="rounded-top">
                                     <p><code>.rounded-top</code></p>
                                 </div>
                                 <div class="text-center">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" class="avatar-md rounded-end" alt="rounded-end">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" class="avatar-md rounded-end" alt="rounded-end">
                                     <p><code>.rounded-end</code></p>
                                 </div>
                                 <div class="text-center">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" class="avatar-md rounded-bottom" alt="rounded-bottom">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" class="avatar-md rounded-bottom" alt="rounded-bottom">
                                     <p><code>.rounded-bottom</code></p>
                                 </div>
                                 <div class="text-center">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" class="avatar-md rounded-start" alt="rounded-start">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" class="avatar-md rounded-start" alt="rounded-start">
                                     <p><code>.rounded-start</code></p>
                                 </div>
                                 <div class="text-center">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" class="avatar-md rounded-circle" alt="rounded-circle">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" class="avatar-md rounded-circle" alt="rounded-circle">
                                     <p><code>.rounded-circle</code></p>
                                 </div>
                                 <div class="text-center">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" class="avatar-md rounded-top" alt="rounded-top">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" class="avatar-md rounded-top" alt="rounded-top">
                                     <p><code>.rounded-top</code></p>
                                 </div>
                                 <div class="text-center">
-                                    <img src="{{ URL::asset('assets/images/small/img-2.jpg') }}" class="avatar-md w-auto rounded-pill" alt="rounded-pill">
+                                    <img src="{{ Vite::asset('resources/images/small/img-2.jpg') }}" class="avatar-md w-auto rounded-pill" alt="rounded-pill">
                                     <p><code>.rounded-pill</code></p>
                                 </div>
                             </div>
@@ -323,27 +323,27 @@
                             <h5 class="fs-13 mb-3">Sizes</h5>
                             <div class="d-flex align-items-start flex-wrap gap-4">
                                 <div class="text-center">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" class="avatar-md rounded-0" alt="rounded-0">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" class="avatar-md rounded-0" alt="rounded-0">
                                     <p><code>.rounded-0</code></p>
                                 </div>
                                 <div class="text-center">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" class="avatar-md rounded-1" alt="rounded-1">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" class="avatar-md rounded-1" alt="rounded-1">
                                     <p><code>.rounded-1</code></p>
                                 </div>
                                 <div class="text-center">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" class="avatar-md rounded-2" alt="rounded-2">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" class="avatar-md rounded-2" alt="rounded-2">
                                     <p><code>.rounded-2</code></p>
                                 </div>
                                 <div class="text-center">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" class="avatar-md rounded-3" alt="rounded-3">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" class="avatar-md rounded-3" alt="rounded-3">
                                     <p><code>.rounded-3</code></p>
                                 </div>
                                 <div class="text-center">
-                                    <img src="{{URL::asset('assets/images/users/avatar-1.jpg')}}" class="avatar-md rounded-4" alt="rounded-4">
+                                    <img src="{{Vite::asset('resources/images/users/avatar-1.jpg')}}" class="avatar-md rounded-4" alt="rounded-4">
                                     <p><code>.rounded-4</code></p>
                                 </div>
                                 <div class="text-center">
-                                    <img src="{{URL::asset('assets/images/users/avatar-1.jpg')}}" class="avatar-md rounded-5" alt="rounded-5">
+                                    <img src="{{Vite::asset('resources/images/users/avatar-1.jpg')}}" class="avatar-md rounded-5" alt="rounded-5">
                                     <p><code>.rounded-5</code></p>
                                 </div>
                             </div>

@@ -75,7 +75,7 @@
                         <td>
                             <div class="d-flex align-items-center fw-medium">
                                 <img
-                                    src="{{ URL::asset('assets/images/flags/'. Illuminate\Support\Str::lower($value->apha2) .'.svg') }}"
+                                    src="{{ Vite::asset('resources/images/flags/'. Illuminate\Support\Str::lower($value->apha2) .'.svg') }}"
                                     alt=""
                                     class="avatar-xs me-2 rounded-circle">
                                 <a href="javascript:void(0);"

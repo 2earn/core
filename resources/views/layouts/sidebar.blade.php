@@ -3,18 +3,18 @@
         <div class="navbar-brand-box">
             <a href="{{route('home',app()->getLocale())}}" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="{{ URL::asset('assets/images/logo-sm.png') }}" alt="" height="22">
+                <img src="{{ Vite::asset('resources/images/logo-sm.png') }}" alt="" height="22">
             </span>
                 <span class="logo-lg">
-                <img src="{{ URL::asset('assets/images/logo-dark.png') }}" alt="" height="35px">
+                <img src="{{ Vite::asset('resources/images/logo-dark.png') }}" alt="" height="35px">
             </span>
             </a>
             <a id="MyHover" href="{{route('home',app()->getLocale())}}" class="logo logo-light">
             <span class="logo-sm">
-                <img src="{{ URL::asset('assets/images/logo-sm.png') }}" alt="" height="40">
+                <img src="{{ Vite::asset('resources/images/logo-sm.png') }}" alt="" height="40">
             </span>
                 <span class="logo-lg">
-                <img src="{{ URL::asset('assets/images/logo-light.png') }}" alt="" height="30">
+                <img src="{{ Vite::asset('resources/images/logo-light.png') }}" alt="" height="30">
             </span>
             </a>
             <button onclick="testClick()" style="cursor: text" type="button"
