@@ -10,7 +10,6 @@
         var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";
         var urlLang = "https://cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
         var classAl = "text-end";
-
     </script>
     <script>
 
@@ -43,39 +42,6 @@
             f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', 'GTM-PMK39HQQ');</script>
     <!-- End Google Tag Manager -->
-    <style>
-        .partiel {
-            color: #fa896b;
-        }
-
-        .anychart-credits {
-            display: none;
-        }
-
-        #any1, #any2, #any3 {
-            width: 100%;
-            height: 600px;;
-            margin: 0;
-            padding: 0;
-        }
-
-        #any4, #any5 {
-            width: 100%;
-            height: 100%;
-            min-height: 80%;
-            max-height: 95%;;
-            margin: 0;
-            padding: 0;
-        }
-
-        .install-app-btn-container {
-            display: none;
-        }
-
-        .hide {
-            display: none;
-        }
-    </style>
     <meta charset="utf-8"/>
     <title>@yield('title')| 2Earn.cash</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -104,9 +70,7 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.ico')}}">
     <link rel="stylesheet" href="{{asset('assets/Styles/intlTelInput.css')}}">
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <script src="{{asset('assets/js/intlTelInput.js')}}"></script>
     @include('layouts.head-css')
     <link href="{{ URL::asset('assets/libs/dropzone/dropzone.css') }}" rel="stylesheet">
@@ -117,12 +81,10 @@
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
         rel="stylesheet"
     />
-
     <script src="https://kit.fontawesome.com/0c5b3847de.js" crossorigin="anonymous"
             data-mutate-approach="sync"></script>
     <script src="{{asset('assets/fontawesome/all.min.js')}}"></script>
     @include('layouts.vendor-scripts')
-
     <script src="{{ URL::asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
@@ -132,11 +94,7 @@
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <style>
-        @import url({{asset('/')."assets/icons/material-design-iconic-font/css/materialdesignicons.min.css"}});
-        @import url({{asset('assets/icons/line-awesome/css/line-awesome.min.css')}});
-
         @font-face {
-
             font-family: 'iconearn';
             src: url({{ asset('assets/fonts/iconearn.eot?uerpdx')}});
             src: url({{ asset('assets/fonts/iconearn.eot?uerpdx#iefix')}}) format('embedded-opentype'),
@@ -177,7 +135,6 @@
     </noscript>
     @include('layouts.body')
     <script src="{{ asset('/sw.js') }}"></script>
-
 @show
 <div id="layout-wrapper">
     <livewire:top-bar :currentRoute="Route::currentRouteName()"/>

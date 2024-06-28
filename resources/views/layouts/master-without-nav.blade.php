@@ -2,33 +2,6 @@
 <html dir="{{config('app.available_locales')[app()->getLocale()]['direction']}}" data-turbolinks='false'
       lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-topbar="light">
 <head>
-    <!-- Google Tag Manager -->
-    <script>
-        (function (w, d, s, l, i) {
-            w[l] = w[l] || [];
-            w[l].push({
-                'gtm.start':
-                    new Date().getTime(), event: 'gtm.js'
-            });
-            var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
-            j.async = true;
-            j.src =
-                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-            f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-PMK39HQQ');</script>
-    <!-- End Google Tag Manager -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.ga4.measurementId') }}"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-
-        gtag('js', new Date());
-        gtag('config', '{{ config('services.ga4.measurementId') }}');
-    </script>
     <meta charset="utf-8"/>
     <title>@yield('title') | 2Earn.cash</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,64 +10,13 @@
     <img src="{{ URL::asset('assets/images/2earn.png') }}" id="super-logo" alt="" height="60">
     <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.ico')}}">
     @include('layouts.head-css')
-    <style>
-        @import url({{asset('/')."assets/icons/material-design-iconic-font/css/materialdesignicons.min.css"}});
-        @import url({{asset('assets/icons/line-awesome/css/line-awesome.min.css')}});
-        @import url({{asset('assets/icons/font-awesome/css/font-awesome.min.css')}});
-
-        @font-face {
-            font-family: 'iconearn';
-            src: url({{ asset('assets/fonts/iconearn.eot?uerpdx')}});
-            src: url({{ asset('assets/fonts/iconearn.eot?uerpdx#iefix')}}) format('embedded-opentype'),
-            url({{ asset('assets/fonts/iconearn.ttf?uerpdx')}}) format('truetype'),
-            url({{ asset('assets/fonts/iconearn.woff?uerpdx')}}) format('woff'),
-            url({{ asset('assets/fonts/iconearn.svg?uerpdx#iconearn')}}) format('svg');
-            font-weight: normal ;
-            font-style: normal ;
-            font-display: block ;
-        }
-
-        @font-face {
-            font-family: 'shopearn' ;
-            src: url({{ asset('assets/fonts/shopearn.eot?jeosj9')}});
-            src: url({{ asset('assets/fonts/shopearn.eot?jeosj9#iefix')}}) format('embedded-opentype'),
-            url({{ asset('assets/fonts/shopearn.ttf?jeosj9')}}) format('truetype'),
-            url({{ asset('assets/fonts/shopearn.woff?jeosj9')}}) format('woff'),
-            url({{ asset('assets/fonts/shopearn.svg?jeosj9#shopearn')}}) format('svg');
-            font-weight: normal;
-            font-style: normal;
-            font-display: block;
-        }
-    </style>
     @livewireStyles
     <script src="https://www.google.com/recaptcha/api.js?render={{config('services.recaptcha.key')}}"></script>
     <!-- vite -->
     @vite([ 'resources/css/app.css','resources/css/intlTelInput.scss','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
     <!-- vite -->
-
 </head>
-
-@yield('body')
-<!-- Google Tag Manager (noscript) -->
-<noscript>
-    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PMK39HQQ"
-            height="0" width="0" style="display:none;visibility:hidden"></iframe>
-</noscript>
-<!-- End Google Tag Manager (noscript) -->
-@if(app()->getLocale() == 'ar')
-    <style>
-        @font-face {
-            font-family: ar400;
-            src: url("{{asset('assets/NotoKufiArabic-Regular.ttf')}}");
-            font-weight: 400;
-        }
-
-        label, h1, h2, h3, h4, h5, a, button, p, i, span, strong, .btn, div {
-            font-family: ar400;
-            font-weight: 500 !important;
-        }
-    </style>
-@endif
+<body>
 <div class="container-fluid">
     @yield('content')
 </div>
