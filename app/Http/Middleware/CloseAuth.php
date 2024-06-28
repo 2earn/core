@@ -17,25 +17,27 @@ class CloseAuth
 
         $userAuth = Auth::user();
         $ses = 'Expired' . $userAuth->idUser;
+
         if (!Session::has($ses)) {
             Auth::logout();
             Cache::flush();
-            return redirect()->route('login', getLangNavigation())->with('FromLogOut', Lang::get('FromLogOut '));
+            return redirect()->route('login', getLangNavigation());
         }
 
         $value = Session::get($ses);
-
         try {
             $dt = Carbon::now()->diff($value);
+            dd($dt,$dt->invert);
+
             if ($dt->invert == 1) {
                 Auth::logout();
                 Cache::flush();
-                return redirect()->route('login', getLangNavigation())->with('FromLogOut', Lang::get('FromLogOut '));
+                return redirect()->route('login', getLangNavigation());
             }
         } catch (\Exception $ex) {
             Auth::logout();
             Cache::flush();
-            return redirect()->route('login', getLangNavigation())->with('FromLogOut', Lang::get('FromLogOut '));
+            return redirect()->route('login', getLangNavigation());
         }
         return $next($request);
     }

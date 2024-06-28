@@ -349,7 +349,7 @@
             $("#ccodeUpPhone").val(countryData.dialCode);
             $("#isoUpPhone").val(countryData.iso2);
 
-            fullphone = $("#outputUpPhone").val();
+            var fullphone = $("#outputUpPhone").val();
             if (inputUpPhone.value.trim()) {
                 if (itiUpPhone.isValidNumber()) {
                     errorMsg.classList.add("invisible");
@@ -517,7 +517,7 @@
             var phone = itiLog.getNumber();
             var textNode = document.createTextNode(phone);
             phone = phone.replace('+', '00');
-            mobile = $("#ipAdd2Contact").val();
+            var mobile = $("#ipAdd2Contact").val();
             var countryData = itiLog.getSelectedCountryData();
             phone = '00' + countryData.dialCode + phone;
             $("#ccodeAdd2Contact").val(countryData.dialCode);
@@ -563,7 +563,7 @@
         function resetAddNumberContact() {
             var phoneCN = itiAddContactNumber.getNumber();
             phoneCN = phoneCN.replace('+', '00');
-           var  mobileCN = $("#phoneContactNumber").val();
+            var mobileCN = $("#phoneContactNumber").val();
             var countryDataCN = itiAddContactNumber.getSelectedCountryData();
             if (!phoneCN.startsWith('00' + countryDataCN.dialCode)) {
                 phoneCN = '00' + countryDataCN.dialCode + phoneCN;
@@ -735,7 +735,7 @@
         $("#HTMLMain").attr("data-layout-mode", sessionStorage.getItem("data-layout-mode"));
         $("#HTMLMain").attr("data-sidebar", sessionStorage.getItem("data-sidebar"));
         $("#btndark").click(function () {
-            mode = $("#HTMLMain").attr("data-layout-mode");
+            var mode = $("#HTMLMain").attr("data-layout-mode");
             if (mode == "dark") {
                 $("#HTMLMain").attr("data-layout-mode", "light")
                 $("#HTMLMain").attr("data-sidebar", "light")

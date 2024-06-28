@@ -4,10 +4,6 @@
         <div class="auth-page-content">
             <script>
                 window.addEventListener('load', () => {
-                    var existLogout = '{{Session::has('FromLogOut')}}';
-                    if (existLogout) {
-                        location.reload();
-                    }
                     var existmessageLogin = '{{Session::has('message')}}';
                     if (existmessageLogin) {
                         var msgMsgLogin = '{{Session::get('message')}}';

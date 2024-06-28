@@ -8,11 +8,6 @@
             {{ __('Shares Sold') }}
         @endslot
     @endcomponent
-    @section('css')
-
-        <link href="{{ URL::asset('assets/libs/swiper/swiper.min.css') }}" rel="stylesheet" type="text/css"/>
-
-    @endsection
     <div class="row">
         <div class="col-xxl-9">
             <div class="card">
@@ -703,7 +698,6 @@
             </div>
         </div><!--end card-->
     </div>
-    @endsection
     @section('script')
         <script src="{{ URL::asset('/assets/libs/list.js/list.js.min.js') }}"></script>
         <script src="{{ URL::asset('/assets/libs/list.pagination.js/list.pagination.js.min.js') }}"></script>

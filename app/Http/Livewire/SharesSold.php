@@ -92,22 +92,14 @@ class SharesSold extends Component
             ->where('idUser', $user->idUser)
             ->selectRaw('SUM(value) as total_sum')->first()->total_sum;
 
-
-// ...
-
-
-        return view('livewire.shares-sold'
-            ,
-            [
-                "solde" => $s,
-                "vente_jour" => $vente_jour,
-                "vente_total" => $vente_total,
-                'arraySoldeD' => $arraySoldeD,
-                'usermetta_info' => $usermetta_info
-//                'userearn' => $userearn
-            ]
-        )->extends('layouts.master')->section('content');
-//        return view('livewire.home')->extends('layouts.master')->section('content');
+        $params = [
+            "solde" => $s,
+            "vente_jour" => $vente_jour,
+            "vente_total" => $vente_total,
+            'arraySoldeD' => $arraySoldeD,
+            'usermetta_info' => $usermetta_info
+        ];
+        return view('livewire.shares-sold', $params)->extends('layouts.master')->section('content');
     }
 }
 

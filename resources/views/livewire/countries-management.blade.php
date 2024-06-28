@@ -1,22 +1,28 @@
 <div>
+    @section('title')
+        {{ __('Countries management') }}
+    @endsection
+    @component('components.breadcrumb')
+        @slot('li_1')@endslot
+        @slot('title')
+                {{ __('Countries management') }}
+            @endslot
+    @endcomponent
     <div class="row">
         <div class="card">
-
             <div class="card-body pt-0">
                 <div class="transaction-table">
-
                     <div class="table-responsive ">
                         <table class=" mb-0 table-responsive-sm stripe table2earn flex-table" id="countries_table"
                                style="width: 100%">
                             <thead>
                             <tr class="head2earn">
-                                <th style="display: none ; border: none ">{{ __('idCountry') }}</th>
-                                <th style=" border: none ">{{ __('CountryName') }}</th>
-                                <th style=" border: none ">{{ __('PhoneCode') }}</th>
-                                <th style=" border: none ">{{ __('Language') }}</th>
-                                <th style=" border: none ">{{ __('Actions') }}</th>
+                                <th>{{ __('idCountry') }}</th>
+                                <th>{{ __('CountryName') }}</th>
+                                <th>{{ __('PhoneCode') }}</th>
+                                <th>{{ __('Language') }}</th>
+                                <th>{{ __('Actions') }}</th>
                             </tr>
-
                             </thead>
                             <tbody class="body2earn">
                             </tbody>
@@ -25,7 +31,6 @@
                 </div>
             </div>
         </div>
-
         <div wire:ignore.self class="modal fade" id="editCountriesModal" tabindex="" role="dialog"
              aria-labelledby="editCountriesModal">
             <div class=" modal-dialog modal-dialog-centered " role="document">
@@ -56,7 +61,6 @@
                                     <label class="me-sm-2">{{ __('Language') }}</label>
                                     <select class="form-control" id="langueCountrie" name=" "
                                             wire:model.defer="langue">
-                                        {{--                                        <option value="">Choose</option>--}}
                                         @foreach($allLanguage as $language)
                                             <option value="{{$language->name}}">{{$language->name}}</option>
                                         @endforeach
@@ -71,16 +75,15 @@
                 </div>
             </div>
         </div>
-
     </div>
     <style>
         .card-header:first-child {
             border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
         }
 
-        ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        ::placeholder {
             color: #cbd5e0;
-            opacity: 1; /* Firefox */
+            opacity: 1;
             font-size: 12px;
         }
 
@@ -88,50 +91,27 @@
             border: 1px solid #cbd5e0;
         }
     </style>
-
     <script type="module">
         function getEditCountrie(id) {
             window.livewire.emit('initCountrie', id);
         }
-
         $("#editCountriesModal").on('hidden.bs.modal', function () {
             window.location.href = "{{ route('countries_management', app()->getLocale())}}";
         });
         $(document).on('turbolinks:load', function () {
-            $('#countries_table').DataTable({
-                retrieve: true,
-                initComplete: function () {
-                    this.api()
-                        .columns()
-                        .every(function () {
-                            if ($.fn.dataTable.isDataTable('#countries_table')) {
-
-                                var that = $('#countries_table').DataTable();
-                            }
-                            $('input', this.footer()).on('keydown', function (ev) {
-                                if (ev.keyCode == 13) {
-                                    that
-
-                                        .search(this.value)
-                                        .draw();
-                                }
-                            });
-                        });
-                },
-                "ajax": "{{route('API_countries',app()->getLocale())}}",
-                "columns": [
-                    {"data": "name"},
-                    {"data": "phonecode"},
-                    {"data": "langage"},
-                    {data: 'action', name: 'action', orderable: false, searchable: false},
-                ],
-                "language": {"url": "https://cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json"}
-            });
+            $('#countries_table').DataTable(
+                {
+                    "ajax": "{{route('API_countries',app()->getLocale())}}",
+                    "columns": [
+                        {"data": "id"},
+                        {"data": "name"},
+                        {"data": "phonecode"},
+                        {"data": "langage"},
+                        {"data": "action"},
+                    ],
+                    "language": {"url": urlLang}
+                }
+            );
         });
-
-
     </script>
-
 </div>
-
-

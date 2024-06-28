@@ -82,7 +82,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 });
 
 Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'middleware' => 'setlocale'], function () {
-    Route::middleware(['auth', 'CloseAuth'])->group(function () {
+    Route::middleware(['auth'])->group(function () {
         Route::get('/', Home::class)->name('main');
         Route::get('Home', Home::class)->name('home');
         Route::get('Account', Account::class)->name('account');
@@ -113,7 +113,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('Tree/evolution', EvolutionArbre::class)->name('TreeEvolution');
         Route::get('Tree/maintenance', EntretienArbre::class)->name('TreeMaintenance');
         Route::get('description', Description::class)->name('description');
-        Route::get('/AcceptRequest', AcceptFinancialRequest::class)->name('AcceptFinancialRequest')->middleware('CloseAuth');
+        Route::get('/AcceptRequest', AcceptFinancialRequest::class)->name('AcceptFinancialRequest');
 
         Route::middleware(['IsSuperAdmin'])->group(function () {
             Route::get('user_list', \App\Http\Livewire\UsersList::class)->name('user_list');

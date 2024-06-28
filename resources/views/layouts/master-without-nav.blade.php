@@ -20,7 +20,6 @@
 <div class="container-fluid">
     @yield('content')
 </div>
-@include('layouts.vendor-scripts')
 @livewireScripts
 <script type="module">
     $(function () {
@@ -33,7 +32,6 @@
             inputlog = document.querySelector("#phone");
         var countryDataforget = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
             inputforget = document.querySelector("#phoneforget");
-
 
         if (pathPage == 'login' || pathPage2 == 'login') {
             var itiLog = window.intlTelInput(inputlog, {
