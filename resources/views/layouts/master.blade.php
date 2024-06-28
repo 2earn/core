@@ -342,7 +342,7 @@
             var phone = itiUpPhone.getNumber();
             var textNode = document.createTextNode(phone);
             phone = phone.replace('+', '00');
-            mobile = $("#phoneUpPhone").val();
+            var mobile = $("#phoneUpPhone").val();
             var countryData = itiUpPhone.getSelectedCountryData();
             phone = '00' + countryData.dialCode + phone;
             $("#outputUpPhone").val(phone);
