@@ -15,6 +15,8 @@ const folder = {
 export default defineConfig({
     build: {
         chunkSizeWarningLimit: 5120,
+        manifest: "../manifest.json",
+        assetsInlineLimit: 0,
         rtl: true,
         outDir: folder.dist_assets,
         cssCodeSplit: true,
@@ -56,7 +58,6 @@ export default defineConfig({
                 'resources/css/icons-rtl.css',
                 'resources/css/app.css',
                 'resources/css/app-rtl.css',
-                'resources/css/intlTelInput.scss',
                 'resources/js/intlTelInput.js',
                 'resources/js/utils.js',
                 'resources/js/turbo.js',
