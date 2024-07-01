@@ -14,6 +14,7 @@ const folder = {
 
 export default defineConfig({
     build: {
+        chunkSizeWarningLimit: 5120,
         manifest: true,
         rtl: true,
         outDir: folder.dist_assets,
@@ -127,4 +128,9 @@ export default defineConfig({
             },
         },
     ],
+    server: {
+        hmr: {
+            host: "localhost",
+        },
+    },
 });
