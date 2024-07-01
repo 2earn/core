@@ -33,7 +33,6 @@
 
 @font-face {
     font-family: hkgrotesk;
-    src: url(../fonts/hkgrotesk-bold.eot);
     src: local("hkgrotesk bold"), url(../fonts/hkgrotesk-bold.woff) format("woff");
     font-weight: 700
 }
