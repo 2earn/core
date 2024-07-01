@@ -144,20 +144,20 @@
                                 <div class="row g-0">
                                     <div class="col">
                                         <a class="dropdown-icon-item" href="{{route('ComingMove')}}">
-                                            <img src="{{asset('assets/images/Move2earn Icon.png')}}" alt="Move2earn">
+                                            <img src="{{Vite::asset('resources/images/Move2earn Icon.png')}}" alt="Move2earn">
                                             <span>Move2earn</span>
                                         </a>
                                     </div>
                                     <div class="col">
                                         <a class="dropdown-icon-item" href="{{route('ComingShop')}}">
-                                            <img src="{{asset('assets/images/icon-shop.png')}}"
+                                            <img src="{{Vite::asset('resources/images/icon-shop.png')}}"
                                                  alt="Shop2earn">
                                             <span>Shop2earn</span>
                                         </a>
                                     </div>
                                     <div class="col">
                                         <a class="dropdown-icon-item" href="{{route('ComingLearn')}}">
-                                            <img src="{{asset('assets/images/icon-learn.png')}}" alt="Learn2earn">
+                                            <img src="{{Vite::asset('resources/images/icon-learn.png')}}" alt="Learn2earn">
                                             <span>Learn2earn</span>
                                         </a>
                                     </div>

@@ -13,7 +13,7 @@
                 <div class="card-header">
                     <div class="row g-4">
                         <div class="col-sm-12 col-md-4 col-lg-2 col-xl-2">
-                            <img src=" {{ asset('assets/images/qr_code.jpg') }}"
+                            <img src=" {{ Vite::asset('resources/images/qr_code.jpg') }}"
                                  class="img-fluid img-thumbnail rounded avatar-lg">
                         </div>
                         <div class="col-sm-6 col-md-8 col-lg-10 col-xl-10">

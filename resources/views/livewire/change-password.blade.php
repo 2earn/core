@@ -25,7 +25,7 @@
     </style>
     <div class="row text-center  " style="  height: 80px">
         <div class=" ">
-            <a href=" "><img class="imgminilogo" src="{{asset('assets/images/2earn.png')}}" alt=""></a>
+            <a href=" "><img class="imgminilogo" src="{{Vite::asset('resources/images/2earn.png')}}" alt=""></a>
         </div>
     </div>
     <div class="row justify-content-center">

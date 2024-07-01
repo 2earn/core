@@ -56,7 +56,7 @@
                                                     </div>
                                                     <div class="carousel-inner text-center text-white-50 pb-5">
                                                         <div class="carousel-item active">
-                                                            <img src="{{asset('assets/images/icon-shop.png')}}"
+                                                            <img src="{{Vite::asset('resources/images/icon-shop.png')}}"
                                                                  alt="Shop2earn" height="100"
                                                                  class="responsive-image mb-3">
                                                             <p class="fs-15 fst-italic text-white">
@@ -64,13 +64,13 @@
                                                             </p>
                                                         </div>
                                                         <div class="carousel-item">
-                                                            <img src="{{asset('assets/images/Move2earn Icon.png')}}"
+                                                            <img src="{{Vite::asset('resources/images/Move2earn Icon.png')}}"
                                                                  alt="Move2earn" height="100"
                                                                  class="responsive-image mb-3">
                                                             <p class="fs-15 fst-italic text-white">{{__('Exceptional Transportation Services')}}</p>
                                                         </div>
                                                         <div class="carousel-item">
-                                                            <img src="{{asset('assets/images/icon-learn.png')}}"
+                                                            <img src="{{Vite::asset('resources/images/icon-learn.png')}}"
                                                                  alt="Learn2earn" height="100"
                                                                  class="responsive-image mb-3">
                                                             <p class="fs-15 fst-italic text-white">{{__('Empowering knowledge, anywhere, anytime')}}</p>
