@@ -30,6 +30,7 @@ storage/framework/views/*
 public/uploads/*
 
 !/public/build
+!/public/assets/.vite/manifest.json
 
 
 .idea/*

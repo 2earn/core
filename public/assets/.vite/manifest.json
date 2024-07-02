@@ -1,0 +1,468 @@
+{
+  "_module.esm.min.js": {
+    "file": "js/module.esm.min.js",
+    "name": "module.esm"
+  },
+  "node_modules/intl-tel-input/build/img/flags.png": {
+    "file": "icons/flags.png",
+    "src": "node_modules/intl-tel-input/build/img/flags.png"
+  },
+  "node_modules/intl-tel-input/build/img/flags@2x.png": {
+    "file": "icons/flags@2x.png",
+    "src": "node_modules/intl-tel-input/build/img/flags@2x.png"
+  },
+  "node_modules/intl-tel-input/build/img/globe.png": {
+    "file": "icons/globe.png",
+    "src": "node_modules/intl-tel-input/build/img/globe.png"
+  },
+  "node_modules/intl-tel-input/build/img/globe@2x.png": {
+    "file": "icons/globe@2x.png",
+    "src": "node_modules/intl-tel-input/build/img/globe@2x.png"
+  },
+  "resources/anychart/anychart-base.min.js": {
+    "file": "js/anychart-base.min.min.js",
+    "name": "anychart-base.min",
+    "src": "resources/anychart/anychart-base.min.js",
+    "isEntry": true
+  },
+  "resources/anychart/anychart-circular-gauge.min.js": {
+    "file": "js/anychart-circular-gauge.min.min.js",
+    "name": "anychart-circular-gauge.min",
+    "src": "resources/anychart/anychart-circular-gauge.min.js",
+    "isEntry": true
+  },
+  "resources/anychart/anychart-data-adapter.min.js": {
+    "file": "js/anychart-data-adapter.min.min.js",
+    "name": "anychart-data-adapter.min",
+    "src": "resources/anychart/anychart-data-adapter.min.js",
+    "isEntry": true
+  },
+  "resources/anychart/anychart-exports.min.js": {
+    "file": "js/anychart-exports.min.min.js",
+    "name": "anychart-exports.min",
+    "src": "resources/anychart/anychart-exports.min.js",
+    "isEntry": true
+  },
+  "resources/anychart/anychart-font.min.css": {
+    "file": "css/anychart-font.min.css",
+    "src": "resources/anychart/anychart-font.min.css",
+    "isEntry": true
+  },
+  "resources/anychart/anychart-map.min.js": {
+    "file": "js/anychart-map.min.min.js",
+    "name": "anychart-map.min",
+    "src": "resources/anychart/anychart-map.min.js",
+    "isEntry": true
+  },
+  "resources/anychart/anychart-sankey.min.js": {
+    "file": "js/anychart-sankey.min.min.js",
+    "name": "anychart-sankey.min",
+    "src": "resources/anychart/anychart-sankey.min.js",
+    "isEntry": true
+  },
+  "resources/anychart/anychart-table.min.js": {
+    "file": "js/anychart-table.min.min.js",
+    "name": "anychart-table.min",
+    "src": "resources/anychart/anychart-table.min.js",
+    "isEntry": true
+  },
+  "resources/anychart/anychart-tag-cloud.min.js": {
+    "file": "js/anychart-tag-cloud.min.min.js",
+    "name": "anychart-tag-cloud.min",
+    "src": "resources/anychart/anychart-tag-cloud.min.js",
+    "isEntry": true
+  },
+  "resources/anychart/anychart-ui.min.css": {
+    "file": "css/anychart-ui.min.css",
+    "src": "resources/anychart/anychart-ui.min.css",
+    "isEntry": true
+  },
+  "resources/anychart/anychart-ui.min.js": {
+    "file": "js/anychart-ui.min.min2.js",
+    "name": "anychart-ui.min",
+    "src": "resources/anychart/anychart-ui.min.js",
+    "isEntry": true
+  },
+  "resources/anychart/proj4.js": {
+    "file": "js/proj4.min.js",
+    "name": "proj4",
+    "src": "resources/anychart/proj4.js",
+    "isEntry": true
+  },
+  "resources/anychart/world.js": {
+    "file": "js/world.min.js",
+    "name": "world",
+    "src": "resources/anychart/world.js",
+    "isEntry": true
+  },
+  "resources/css/app-rtl.css": {
+    "file": "css/app-rtl.min.css",
+    "src": "resources/css/app-rtl.css",
+    "isEntry": true
+  },
+  "resources/css/app.css": {
+    "file": "css/app.min2.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/css/bootstrap-rtl.css": {
+    "file": "css/bootstrap-rtl.min.css",
+    "src": "resources/css/bootstrap-rtl.css",
+    "isEntry": true
+  },
+  "resources/css/custom-rtl.css": {
+    "file": "css/custom-rtl.min.css",
+    "src": "resources/css/custom-rtl.css",
+    "isEntry": true
+  },
+  "resources/css/custom.css": {
+    "file": "css/custom.min.css",
+    "src": "resources/css/custom.css",
+    "isEntry": true
+  },
+  "resources/css/icons-rtl.css": {
+    "file": "css/icons-rtl.min.css",
+    "src": "resources/css/icons-rtl.css",
+    "isEntry": true
+  },
+  "resources/css/icons.css": {
+    "file": "css/icons.min.css",
+    "src": "resources/css/icons.css",
+    "isEntry": true
+  },
+  "resources/css/select2.min.css": {
+    "file": "css/select2.min.css",
+    "src": "resources/css/select2.min.css",
+    "isEntry": true
+  },
+  "resources/fontawesome/all.min.css": {
+    "file": "css/all.min.css",
+    "src": "resources/fontawesome/all.min.css",
+    "isEntry": true
+  },
+  "resources/fonts/NotoKufiArabic-Regular.ttf": {
+    "file": "icons/NotoKufiArabic-Regular.ttf",
+    "src": "resources/fonts/NotoKufiArabic-Regular.ttf"
+  },
+  "resources/fonts/anychart.eot": {
+    "file": "icons/anychart.eot",
+    "src": "resources/fonts/anychart.eot"
+  },
+  "resources/fonts/anychart.svg": {
+    "file": "icons/anychart.svg",
+    "src": "resources/fonts/anychart.svg"
+  },
+  "resources/fonts/anychart.ttf": {
+    "file": "icons/anychart.ttf",
+    "src": "resources/fonts/anychart.ttf"
+  },
+  "resources/fonts/anychart.woff": {
+    "file": "icons/anychart.woff",
+    "src": "resources/fonts/anychart.woff"
+  },
+  "resources/fonts/anychart.woff2": {
+    "file": "icons/anychart.woff2",
+    "src": "resources/fonts/anychart.woff2"
+  },
+  "resources/fonts/boxicons.eot": {
+    "file": "icons/boxicons.eot",
+    "src": "resources/fonts/boxicons.eot"
+  },
+  "resources/fonts/boxicons.svg": {
+    "file": "icons/boxicons.svg",
+    "src": "resources/fonts/boxicons.svg"
+  },
+  "resources/fonts/boxicons.ttf": {
+    "file": "icons/boxicons.ttf",
+    "src": "resources/fonts/boxicons.ttf"
+  },
+  "resources/fonts/boxicons.woff": {
+    "file": "icons/boxicons.woff",
+    "src": "resources/fonts/boxicons.woff"
+  },
+  "resources/fonts/boxicons.woff2": {
+    "file": "icons/boxicons.woff2",
+    "src": "resources/fonts/boxicons.woff2"
+  },
+  "resources/fonts/hkgrotesk-bold.woff": {
+    "file": "icons/hkgrotesk-bold.woff",
+    "src": "resources/fonts/hkgrotesk-bold.woff"
+  },
+  "resources/fonts/hkgrotesk-light.eot": {
+    "file": "icons/hkgrotesk-light.eot",
+    "src": "resources/fonts/hkgrotesk-light.eot"
+  },
+  "resources/fonts/hkgrotesk-light.woff": {
+    "file": "icons/hkgrotesk-light.woff",
+    "src": "resources/fonts/hkgrotesk-light.woff"
+  },
+  "resources/fonts/hkgrotesk-medium.eot": {
+    "file": "icons/hkgrotesk-medium.eot",
+    "src": "resources/fonts/hkgrotesk-medium.eot"
+  },
+  "resources/fonts/hkgrotesk-medium.woff": {
+    "file": "icons/hkgrotesk-medium.woff",
+    "src": "resources/fonts/hkgrotesk-medium.woff"
+  },
+  "resources/fonts/hkgrotesk-regular.eot": {
+    "file": "icons/hkgrotesk-regular.eot",
+    "src": "resources/fonts/hkgrotesk-regular.eot"
+  },
+  "resources/fonts/hkgrotesk-regular.woff": {
+    "file": "icons/hkgrotesk-regular.woff",
+    "src": "resources/fonts/hkgrotesk-regular.woff"
+  },
+  "resources/fonts/hkgrotesk-semibold.eot": {
+    "file": "icons/hkgrotesk-semibold.eot",
+    "src": "resources/fonts/hkgrotesk-semibold.eot"
+  },
+  "resources/fonts/hkgrotesk-semibold.woff": {
+    "file": "icons/hkgrotesk-semibold.woff",
+    "src": "resources/fonts/hkgrotesk-semibold.woff"
+  },
+  "resources/fonts/la-brands-400.eot": {
+    "file": "icons/la-brands-400.eot",
+    "src": "resources/fonts/la-brands-400.eot"
+  },
+  "resources/fonts/la-brands-400.svg": {
+    "file": "icons/la-brands-400.svg",
+    "src": "resources/fonts/la-brands-400.svg"
+  },
+  "resources/fonts/la-brands-400.ttf": {
+    "file": "icons/la-brands-400.ttf",
+    "src": "resources/fonts/la-brands-400.ttf"
+  },
+  "resources/fonts/la-brands-400.woff": {
+    "file": "icons/la-brands-400.woff",
+    "src": "resources/fonts/la-brands-400.woff"
+  },
+  "resources/fonts/la-brands-400.woff2": {
+    "file": "icons/la-brands-400.woff2",
+    "src": "resources/fonts/la-brands-400.woff2"
+  },
+  "resources/fonts/la-regular-400.eot": {
+    "file": "icons/la-regular-400.eot",
+    "src": "resources/fonts/la-regular-400.eot"
+  },
+  "resources/fonts/la-regular-400.svg": {
+    "file": "icons/la-regular-400.svg",
+    "src": "resources/fonts/la-regular-400.svg"
+  },
+  "resources/fonts/la-regular-400.ttf": {
+    "file": "icons/la-regular-400.ttf",
+    "src": "resources/fonts/la-regular-400.ttf"
+  },
+  "resources/fonts/la-regular-400.woff": {
+    "file": "icons/la-regular-400.woff",
+    "src": "resources/fonts/la-regular-400.woff"
+  },
+  "resources/fonts/la-regular-400.woff2": {
+    "file": "icons/la-regular-400.woff2",
+    "src": "resources/fonts/la-regular-400.woff2"
+  },
+  "resources/fonts/la-solid-900.eot": {
+    "file": "icons/la-solid-900.eot",
+    "src": "resources/fonts/la-solid-900.eot"
+  },
+  "resources/fonts/la-solid-900.svg": {
+    "file": "icons/la-solid-900.svg",
+    "src": "resources/fonts/la-solid-900.svg"
+  },
+  "resources/fonts/la-solid-900.ttf": {
+    "file": "icons/la-solid-900.ttf",
+    "src": "resources/fonts/la-solid-900.ttf"
+  },
+  "resources/fonts/la-solid-900.woff": {
+    "file": "icons/la-solid-900.woff",
+    "src": "resources/fonts/la-solid-900.woff"
+  },
+  "resources/fonts/la-solid-900.woff2": {
+    "file": "icons/la-solid-900.woff2",
+    "src": "resources/fonts/la-solid-900.woff2"
+  },
+  "resources/fonts/materialdesignicons-webfont.eot": {
+    "file": "icons/materialdesignicons-webfont.eot",
+    "src": "resources/fonts/materialdesignicons-webfont.eot"
+  },
+  "resources/fonts/materialdesignicons-webfont.ttf": {
+    "file": "icons/materialdesignicons-webfont.ttf",
+    "src": "resources/fonts/materialdesignicons-webfont.ttf"
+  },
+  "resources/fonts/materialdesignicons-webfont.woff": {
+    "file": "icons/materialdesignicons-webfont.woff",
+    "src": "resources/fonts/materialdesignicons-webfont.woff"
+  },
+  "resources/fonts/materialdesignicons-webfont.woff2": {
+    "file": "icons/materialdesignicons-webfont.woff2",
+    "src": "resources/fonts/materialdesignicons-webfont.woff2"
+  },
+  "resources/fonts/remixicon.eot": {
+    "file": "icons/remixicon.eot",
+    "src": "resources/fonts/remixicon.eot"
+  },
+  "resources/fonts/remixicon.svg": {
+    "file": "icons/remixicon.svg",
+    "src": "resources/fonts/remixicon.svg"
+  },
+  "resources/fonts/remixicon.ttf": {
+    "file": "icons/remixicon.ttf",
+    "src": "resources/fonts/remixicon.ttf"
+  },
+  "resources/fonts/remixicon.woff": {
+    "file": "icons/remixicon.woff",
+    "src": "resources/fonts/remixicon.woff"
+  },
+  "resources/fonts/remixicon.woff2": {
+    "file": "icons/remixicon.woff2",
+    "src": "resources/fonts/remixicon.woff2"
+  },
+  "resources/images/auth-one-bg.jpg": {
+    "file": "icons/auth-one-bg.jpg",
+    "src": "resources/images/auth-one-bg.jpg"
+  },
+  "resources/images/chat-bg-pattern.png": {
+    "file": "icons/chat-bg-pattern.png",
+    "src": "resources/images/chat-bg-pattern.png"
+  },
+  "resources/images/cover-pattern.png": {
+    "file": "icons/cover-pattern.png",
+    "src": "resources/images/cover-pattern.png"
+  },
+  "resources/images/file.png": {
+    "file": "icons/file.png",
+    "src": "resources/images/file.png"
+  },
+  "resources/images/flags/us.svg": {
+    "file": "icons/us.svg",
+    "src": "resources/images/flags/us.svg"
+  },
+  "resources/images/landing/bg-pattern.png": {
+    "file": "icons/bg-pattern.png",
+    "src": "resources/images/landing/bg-pattern.png"
+  },
+  "resources/images/modal-bg.png": {
+    "file": "icons/modal-bg.png",
+    "src": "resources/images/modal-bg.png"
+  },
+  "resources/images/nft/bg-home.jpg": {
+    "file": "icons/bg-home.jpg",
+    "src": "resources/images/nft/bg-home.jpg"
+  },
+  "resources/images/nft/marketplace.png": {
+    "file": "icons/marketplace.png",
+    "src": "resources/images/nft/marketplace.png"
+  },
+  "resources/images/sidebar/img-1.jpg": {
+    "file": "icons/img-1.jpg",
+    "src": "resources/images/sidebar/img-1.jpg"
+  },
+  "resources/images/sidebar/img-2.jpg": {
+    "file": "icons/img-2.jpg",
+    "src": "resources/images/sidebar/img-2.jpg"
+  },
+  "resources/images/sidebar/img-3.jpg": {
+    "file": "icons/img-3.jpg",
+    "src": "resources/images/sidebar/img-3.jpg"
+  },
+  "resources/images/sidebar/img-4.jpg": {
+    "file": "icons/img-4.jpg",
+    "src": "resources/images/sidebar/img-4.jpg"
+  },
+  "resources/js/app.js": {
+    "file": "js/app.min3.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "imports": [
+      "_module.esm.min.js"
+    ]
+  },
+  "resources/js/appWithoutNav.js": {
+    "file": "js/appWithoutNav.min.js",
+    "name": "appWithoutNav",
+    "src": "resources/js/appWithoutNav.js",
+    "isEntry": true,
+    "imports": [
+      "_module.esm.min.js"
+    ]
+  },
+  "resources/js/intlTelInput.js": {
+    "file": "js/intlTelInput.min.js",
+    "name": "intlTelInput",
+    "src": "resources/js/intlTelInput.js",
+    "isEntry": true
+  },
+  "resources/js/layout.js": {
+    "file": "js/layout.min.js",
+    "name": "layout",
+    "src": "resources/js/layout.js",
+    "isEntry": true
+  },
+  "resources/js/livewire-turbolinks.js": {
+    "file": "js/livewire-turbolinks.min.js",
+    "name": "livewire-turbolinks",
+    "src": "resources/js/livewire-turbolinks.js",
+    "isEntry": true
+  },
+  "resources/js/plugins.js": {
+    "file": "js/plugins.min.js",
+    "name": "plugins",
+    "src": "resources/js/plugins.js",
+    "isEntry": true
+  },
+  "resources/js/sweetalert2@11.js": {
+    "file": "js/sweetalert2@11.min.js",
+    "name": "sweetalert2@11",
+    "src": "resources/js/sweetalert2@11.js",
+    "isEntry": true
+  },
+  "resources/js/turbo.js": {
+    "file": "js/turbo.min.js",
+    "name": "turbo",
+    "src": "resources/js/turbo.js",
+    "isEntry": true
+  },
+  "resources/js/utils.js": {
+    "file": "js/utils.min.js",
+    "name": "utils",
+    "src": "resources/js/utils.js",
+    "isEntry": true
+  },
+  "resources/sass/app.scss": {
+    "file": "css/app.min.css",
+    "src": "resources/sass/app.scss",
+    "isEntry": true
+  },
+  "resources/webfonts/fa-brands-400.ttf": {
+    "file": "icons/fa-brands-400.ttf",
+    "src": "resources/webfonts/fa-brands-400.ttf"
+  },
+  "resources/webfonts/fa-brands-400.woff2": {
+    "file": "icons/fa-brands-400.woff2",
+    "src": "resources/webfonts/fa-brands-400.woff2"
+  },
+  "resources/webfonts/fa-regular-400.ttf": {
+    "file": "icons/fa-regular-400.ttf",
+    "src": "resources/webfonts/fa-regular-400.ttf"
+  },
+  "resources/webfonts/fa-regular-400.woff2": {
+    "file": "icons/fa-regular-400.woff2",
+    "src": "resources/webfonts/fa-regular-400.woff2"
+  },
+  "resources/webfonts/fa-solid-900.ttf": {
+    "file": "icons/fa-solid-900.ttf",
+    "src": "resources/webfonts/fa-solid-900.ttf"
+  },
+  "resources/webfonts/fa-solid-900.woff2": {
+    "file": "icons/fa-solid-900.woff2",
+    "src": "resources/webfonts/fa-solid-900.woff2"
+  },
+  "resources/webfonts/fa-v4compatibility.ttf": {
+    "file": "icons/fa-v4compatibility.ttf",
+    "src": "resources/webfonts/fa-v4compatibility.ttf"
+  },
+  "resources/webfonts/fa-v4compatibility.woff2": {
+    "file": "icons/fa-v4compatibility.woff2",
+    "src": "resources/webfonts/fa-v4compatibility.woff2"
+  }
+}
