@@ -31,6 +31,7 @@ public/uploads/*
 
 !/public/build
 !/public/assets/manifest.json
+!/public/hot
 
 
 .idea/*

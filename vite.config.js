@@ -20,6 +20,7 @@ export default defineConfig({
         rtl: true,
         outDir: folder.dist_assets,
         cssCodeSplit: true,
+        hotFile: 'storage/local.hot',
         rollupOptions: {
             output: {
                 assetFileNames: (assetInfo) => {
@@ -82,10 +83,11 @@ export default defineConfig({
             ],
             refresh: true,
             server: {
+                host: '0.0.0.0',
                 hmr: {
-                    host: 'localhost',
-                },
-            }
+                    host: 'localhost'
+                }
+            },
         }),
         {
             name: 'copy-specific-packages',
