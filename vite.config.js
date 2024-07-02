@@ -46,7 +46,6 @@ export default defineConfig({
             $: 'jquery',
         }),
         laravel({
-
             input: [
                 'resources/sass/app.scss',
                 'resources/js/app.js',
@@ -82,6 +81,11 @@ export default defineConfig({
                 'resources/js/livewire-turbolinks.js'
             ],
             refresh: true,
+            server: {
+                hmr: {
+                    host: 'localhost',
+                },
+            }
         }),
         {
             name: 'copy-specific-packages',
@@ -128,7 +132,5 @@ export default defineConfig({
             },
         },
     ],
-    server: {
-        host: '127.0.0.1',
-    },
+
 });
