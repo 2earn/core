@@ -15,7 +15,7 @@ const folder = {
 export default defineConfig({
     build: {
         chunkSizeWarningLimit: 5120,
-        manifest: "../manifest.json",
+        manifest: "manifest.json",
         assetsInlineLimit: 0,
         rtl: true,
         outDir: folder.dist_assets,
