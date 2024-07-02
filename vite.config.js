@@ -20,27 +20,7 @@ export default defineConfig({
         rtl: true,
         outDir: folder.dist_assets,
         cssCodeSplit: true,
-        hotFile: 'storage/local.hot',
-        rollupOptions: {
-            output: {
-                assetFileNames: (assetInfo) => {
-                    const extType = assetInfo.name.split('.').pop();
-                    if (extType === 'css') {
-                        return 'css/[name].min.[ext]';
-                    } else if (extType === 'js') {
-                        return 'js/[name].min.[ext]';
-                    } else {
-                        return 'icons/[name].[ext]';
-                    }
-                },
-                chunkFileNames: 'js/[name].min.js',
-                entryFileNames: 'js/[name].min.js',
-                globals: {
-                    jquery: 'jQuery',
-                    $: 'jQuery'
-                }
-            },
-        },
+        hotFile: 'storage/local.hot'
     },
     plugins: [
         inject({
