@@ -110,11 +110,13 @@
     <link rel="apple-touch-icon" href="{{ asset('logo.PNG') }}">
     <link rel="manifest" href="{{ asset('/manifest.json') }}">
     @laravelPWA
+
+</head>
+<body>
+@section('body')
     <!-- vite -->
     @vite([ 'resources/css/app.css','resources/css/intlTelInput.min.css','resources/fontawesome/all.min.css','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
     <!-- vite -->
-</head>
-@section('body')
     <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PMK39HQQ"
                 height="0" width="0" style="display:none;visibility:hidden"></iframe>
