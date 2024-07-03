@@ -636,7 +636,8 @@
             var series;
             $(document).on('turbolinks:load', function () {
                 anychart.onDocumentReady(function () {
-                    anychart.data.loadJsonFile(
+                    if ($('#any4').length > 0) {
+                        anychart.data.loadJsonFile(
                         "{{route('API_stat_countries',app()->getLocale())}}",
                         function (data) {
                             var map = anychart.map();
@@ -692,7 +693,7 @@
                             chart.container('any5');
                             chart.draw();
                         }
-                    );
+                    );}
                 });
             });
         </script>

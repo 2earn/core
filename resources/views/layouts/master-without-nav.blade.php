@@ -126,7 +126,7 @@
             }
             $("#outputforget").val(phone);
             $("#ccodeforget").val(countryData.dialCode);
-            fullphone = $("#outputforget").val();
+            var fullphone = $("#outputforget").val();
         };
 
         function reset() {
@@ -142,7 +142,7 @@
             $("#ccode").val(countryData.dialCode);
             $("#ccodelog").val(countryData.dialCode);
             $("#iso2Country").val(countryData.iso2);
-            fullphone = $("#output").val();
+            var fullphone = $("#output").val();
         };
 
         function resetLog() {
