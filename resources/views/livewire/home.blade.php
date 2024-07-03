@@ -551,7 +551,7 @@
             </script>
         @endif
         <script type="module">
-            $(document).on('turbolinks:load', function () {
+            $( document ).ready(function() {
                     const input = document.querySelector("#phone");
                     const iti = window.intlTelInput(input, {
                         initialCountry: "auto",

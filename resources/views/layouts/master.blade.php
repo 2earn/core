@@ -135,17 +135,7 @@
 </div>
 @include('layouts.footer', ['pageName' => 'master'])
 @livewireScripts
-<script src="{{ URL::asset('/assets/libs/dropzone/dropzone-min.js') }}"></script>
 @vite('resources/js/pages/crypto-kyc.init.js')
-<script src="{{ URL::asset('assets/libs/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js') }}">
-</script>
-<script
-    src="{{ URL::asset('assets/libs/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js') }}">
-</script>
-<script
-    src="{{ URL::asset('assets/libs/filepond-plugin-image-exif-orientation/filepond-plugin-image-exif-orientation.min.js') }}">
-</script>
-<script src="{{ URL::asset('assets/libs/filepond-plugin-file-encode/filepond-plugin-file-encode.min.js') }}"></script>
 <script type="module">
     window.addEventListener('load', () => {
         anychart.onDocumentReady(function () {
