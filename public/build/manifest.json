@@ -4083,12 +4083,15 @@
     "src": "node_modules/intl-tel-input/build/img/globe@2x.png"
   },
   "resources/js/app.js": {
-    "file": "assets/app-BycIEQtq.js",
+    "file": "assets/app-DKg1GkaC.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "imports": [
       "_intlTelInput-rztKayHV.js"
+    ],
+    "css": [
+      "assets/app-BMix-EyW.css"
     ]
   },
   "resources/js/appWithoutNav.js": {
@@ -4116,6 +4119,12 @@
     "file": "assets/livewire-turbolinks-CM9ffErP.js",
     "name": "livewire-turbolinks",
     "src": "resources/js/livewire-turbolinks.js",
+    "isEntry": true
+  },
+  "resources/js/pages/form-validation.init.js": {
+    "file": "assets/form-validation.init-RLEwjNAP.js",
+    "name": "form-validation.init",
+    "src": "resources/js/pages/form-validation.init.js",
     "isEntry": true
   },
   "resources/js/plugins.js": {

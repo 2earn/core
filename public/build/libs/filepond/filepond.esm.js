@@ -1,5 +1,5 @@
 /*!
- * FilePond 4.30.3
+ * FilePond 4.31.1
  * Licensed under MIT, https://opensource.org/licenses/MIT/
  * Please visit https://pqina.nl/filepond/ for details.
  */
@@ -1600,7 +1600,7 @@ const InteractionMethod = {
 const getUniqueId = () =>
     Math.random()
         .toString(36)
-        .substr(2, 9);
+        .substring(2, 11);
 
 const arrayRemove = (arr, index) => arr.splice(index, 1);
 
@@ -2181,7 +2181,7 @@ const isBase64DataURI = str =>
     );
 
 const getFilenameFromURL = url =>
-    url
+    `${url}`
         .split('/')
         .pop()
         .split('?')
@@ -3453,7 +3453,7 @@ const createFileProcessor = (processFn, options) => {
     return api;
 };
 
-const getFilenameWithoutExtension = name => name.substr(0, name.lastIndexOf('.')) || name;
+const getFilenameWithoutExtension = name => name.substring(0, name.lastIndexOf('.')) || name;
 
 const createFileStub = source => {
     let data = [source.name, source.size, source.type];
@@ -3921,6 +3921,9 @@ const createItem = (origin = null, serverFileReference = null, file = null) => {
 
         archive: () => (state.archived = true),
         archived: { get: () => state.archived },
+
+        // replace source and file object
+        setFile: file => (state.file = file),
     };
 
     // create it here instead of returning it instantly so we can extend it later
@@ -4431,6 +4434,11 @@ const actions = (dispatch, query, state) => ({
         });
 
         item.on('load-skip', () => {
+            item.on('metadata-update', change => {
+                if (!isFile(item.file)) return;
+                dispatch('DID_UPDATE_ITEM_METADATA', { id, change });
+            });
+
             dispatch('COMPLETE_LOAD_ITEM', {
                 query: id,
                 item,
@@ -6071,13 +6079,22 @@ const create$7 = ({ root, props }) => {
         const drop = e => {
             if (!e.isPrimary) return;
 
-            document.removeEventListener('pointermove', drag);
-            document.removeEventListener('pointerup', drop);
-
             props.dragOffset = {
                 x: e.pageX - origin.x,
                 y: e.pageY - origin.y,
             };
+
+            reset();
+        };
+
+        const cancel = () => {
+            reset();
+        };
+
+        const reset = () => {
+            document.removeEventListener('pointercancel', cancel);
+            document.removeEventListener('pointermove', drag);
+            document.removeEventListener('pointerup', drop);
 
             root.dispatch('DID_DROP_ITEM', { id: props.id, dragState });
 
@@ -6087,6 +6104,7 @@ const create$7 = ({ root, props }) => {
             }
         };
 
+        document.addEventListener('pointercancel', cancel);
         document.addEventListener('pointermove', drag);
         document.addEventListener('pointerup', drop);
     };
@@ -7174,7 +7192,8 @@ const didRemoveItem = ({ root, action }) => {
     delete root.ref.fields[action.id];
 };
 
-// only runs for server files (so doesn't deal with file input)
+// only runs for server files. will refuse to update the value if the field
+// is a file field
 const didDefineValue = ({ root, action }) => {
     const field = getField(root, action.id);
     if (!field) return;
@@ -7183,7 +7202,9 @@ const didDefineValue = ({ root, action }) => {
         field.removeAttribute('value');
     } else {
         // set field value
-        field.value = action.value;
+        if (field.type != 'file') {
+            field.value = action.value;
+        }
     }
     syncFieldPositionsWithItems(root);
 };
@@ -8063,7 +8084,7 @@ const write$9 = ({ root, props, actions }) => {
         .filter(action => /^DID_SET_STYLE_/.test(action.type))
         .filter(action => !isEmpty(action.data.value))
         .map(({ type, data }) => {
-            const name = toCamels(type.substr(8).toLowerCase(), '_');
+            const name = toCamels(type.substring(8).toLowerCase(), '_');
             root.element.dataset[name] = data.value;
             root.invalidateLayout();
         });
@@ -8361,11 +8382,20 @@ const exceedsMaxFiles = (root, items) => {
 
     // if does not allow multiple items and dragging more than one item
     if (!allowMultiple && totalBrowseItems > 1) {
+        root.dispatch('DID_THROW_MAX_FILES', {
+            source: items,
+            error: createResponse('warning', 0, 'Max files'),
+        });
         return true;
     }
 
     // limit max items to one if not allowed to drop multiple items
-    maxItems = allowMultiple ? maxItems : allowReplace ? maxItems : 1;
+    maxItems = allowMultiple ? maxItems : 1;
+
+    if (!allowMultiple && allowReplace) {
+        // There is only one item, so there is room to replace or add an item
+        return false;
+    }
 
     // no more room?
     const hasMaxItems = isInt(maxItems);

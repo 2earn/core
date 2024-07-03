@@ -157,6 +157,6 @@
         <!-- end auth-page-wrapper -->
         @endsection
         @section('script')
-            <script src="{{ URL::asset('assets/js/pages/form-validation.init.js') }}"></script>
+            @vite('resources/js/pages/form-validation.init.js');
             <script src="{{ URL::asset('assets/js/pages/passowrd-create.init.js') }}"></script>
         @endsection

@@ -32,9 +32,40 @@ import intlTelInput from 'intl-tel-input';
 window.intlTelInput = intlTelInput;
 
 import { Dropzone } from "dropzone";
+window.Dropzone = Dropzone;
 
+import feather from 'feather-icons';
+window.feather = feather;
+
+import waves  from 'node-waves';
+window.Waves  = waves ;
 
 import.meta.glob([ '../images/**', ]);
+
+import Prism from 'prismjs';
+window.Prism  = Prism ;
+import 'prismjs/themes/prism-okaidia.css'
+import 'prismjs/components/prism-handlebars.min.js'
+import 'prismjs/components/prism-lua.min.js'
+Prism.highlightAll();
+
+import ApexCharts from 'apexcharts'
+window.ApexCharts  = ApexCharts ;
+
+import SimpleBar from 'simplebar';
+window.SimpleBar  = SimpleBar ;
+
+import 'simplebar/dist/simplebar.css';
+
+
+
+import * as FilePond from 'filepond';
+import 'filepond/dist/filepond.min.css';
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+window.FilePond  = FilePond ;
+window.FilePondPluginImagePreview  = FilePondPluginImagePreview ;
+
 
 (function () {
 

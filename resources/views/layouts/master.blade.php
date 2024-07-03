@@ -12,7 +12,6 @@
         var classAl = "text-end";
     </script>
     <script>
-
         window.dataLayer = window.dataLayer || [];
 
         function gtag() {
@@ -65,27 +64,14 @@
                 'resources/anychart/world.js',
                 'resources/anychart/anychart-table.min.js',
     ])
+
     <!-- vite -->
 
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ Vite::asset('resources/images/favicon.ico')}}">
-    <link rel="stylesheet" href="{{asset('assets/Styles/intlTelInput.css')}}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{{asset('assets/js/intlTelInput.js')}}"></script>
     @include('layouts.head-css')
-    <link href="{{ URL::asset('assets/libs/dropzone/dropzone.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ URL::asset('assets/libs/filepond/filepond.min.css') }}" type="text/css"/>
-    <link rel="stylesheet"
-          href="{{ URL::asset('assets/libs/filepond-plugin-image-preview/filepond-plugin-image-preview.min.css') }}">
-    <link
-        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-        rel="stylesheet"
-    />
-    <script src="https://kit.fontawesome.com/0c5b3847de.js" crossorigin="anonymous"
-            data-mutate-approach="sync"></script>
-    <script src="{{asset('assets/fontawesome/all.min.js')}}"></script>
     @include('layouts.vendor-scripts')
-    <script src="{{ URL::asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
@@ -151,7 +137,6 @@
 @livewireScripts
 <script src="{{ URL::asset('/assets/libs/dropzone/dropzone-min.js') }}"></script>
 <script src="{{ URL::asset('/assets/js/pages/crypto-kyc.init.js') }}"></script>
-<script src="{{ URL::asset('assets/libs/filepond/filepond.min.js') }}"></script>
 <script src="{{ URL::asset('assets/libs/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js') }}">
 </script>
 <script
@@ -261,7 +246,6 @@
 </script>
 
 @stack('scripts')
-<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/intlTelInput.min.js"></script>
 <script type="module">
     $(document).on('turbolinks:load', function () {
         var ipPhone = document.getElementById("inputPhoneUpdate");
@@ -301,7 +285,7 @@
                         callback(countryCode);
                     });
                 },
-                utilsScript: " {{asset('build/assets/js/utils.js')}}"
+                utilsScript: " {{asset('/build/utils.js/utils.js')}}"
             });
             inputUpPhone.addEventListener('keyup', resetUpPhone);
             inputUpPhone.addEventListener('countrychange', resetUpPhone);
@@ -387,7 +371,7 @@
                         callback(countryCodelog);
                     });
                 },
-                utilsScript: " {{asset('build/assets/js/utils.js')}}"
+                utilsScript: " {{asset('/build/utils.js/utils.js')}}"
             });
 
             inputlog.addEventListener('keyup', resetContacts);
@@ -435,7 +419,7 @@
                         callback(countryCode);
                     });
                 },
-                utilsScript: " {{asset('build/assets/js/utils.js')}}"
+                utilsScript: " {{asset('/build/utils.js/utils.js')}}"
             });
             for (var i = 0; i < countryDataAddContact.length; i++) {
                 var country = countryDataAddContact[i];
@@ -547,7 +531,7 @@
                         callback(countryCode13);
                     });
                 },
-                utilsScript: " {{asset('build/assets/js/utils.js')}}"
+                utilsScript: " {{asset('/build/utils.js/utils.js')}}"
             });
             inputAddContactNumber.addEventListener('keyup', resetAddNumberContact);
             inputAddContactNumber.addEventListener('countrychange', resetAddNumberContact);

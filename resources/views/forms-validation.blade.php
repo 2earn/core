@@ -557,6 +557,6 @@ Please provide a valid zip.
     @endsection
     @section('script')
         <script src="{{ URL::asset('assets/libs/prismjs/prism.js') }}"></script>
-        <script src="{{ URL::asset('assets/js/pages/form-validation.init.js') }}"></script>
+            @vite('resources/js/pages/form-validation.init.js');
         <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
     @endsection

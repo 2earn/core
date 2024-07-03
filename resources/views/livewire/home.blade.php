@@ -14,21 +14,21 @@
                     <div class="card-body">
                         <div class="row col-12" role="alert">
                             <p>{{__('A mode for a')}} <span
-                                    class="col-auto flash-red">{{$flashTimes}}</span> {{__('times bonus over')}}
+                                        class="col-auto flash-red">{{$flashTimes}}</span> {{__('times bonus over')}}
                                 <span
-                                    class="col-auto flash-red">{{$flashPeriod}} {{__('hours')}}</span> {{__('with a minimum of')}}
+                                        class="col-auto flash-red">{{$flashPeriod}} {{__('hours')}}</span> {{__('with a minimum of')}}
                                 <span
-                                    class="col-auto flash-red">{{formatSolde($flashMinShares,0)}} {{__('Shares')}}</span>. {{__('il vous reste')}}
+                                        class="col-auto flash-red">{{formatSolde($flashMinShares,0)}} {{__('Shares')}}</span>. {{__('il vous reste')}}
                                 <span
-                                    class="col-auto flash-red">{{formatSolde($vip->solde,0)}}{{__('Shares')}}</span>
+                                        class="col-auto flash-red">{{formatSolde($vip->solde,0)}}{{__('Shares')}}</span>
                                 {{__('à conssommer. avec lachat de')}}
                                 <span
-                                    class="col-auto flash-red">{{formatSolde($actions,0)}}</span>
+                                        class="col-auto flash-red">{{formatSolde($actions,0)}}</span>
                                 {{__('actions, le prix de laction atteindra')}}
                                 <span
-                                    class="col-auto flash-red">{{formatSolde($cout,2)}}{{$currency}}</span> {{__('et les benefices instentannés seront')}}
+                                        class="col-auto flash-red">{{formatSolde($cout,2)}}{{$currency}}</span> {{__('et les benefices instentannés seront')}}
                                 <span
-                                    class="col-auto flash-red">{{formatSolde($benefices,2)}}{{$currency}}</span></p>
+                                        class="col-auto flash-red">{{formatSolde($benefices,2)}}{{$currency}}</span></p>
                         </div>
                         <div class="row col-12">
                             <div class="discount-time text-center">
@@ -94,8 +94,8 @@
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <lord-icon
-                                src="{{ URL::asset('assets/icons/298-coins-gradient-edited.json') }}" trigger="loop"
-                                colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
+                                    src="{{ URL::asset('assets/icons/298-coins-gradient-edited.json') }}" trigger="loop"
+                                    colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
                             </lord-icon>
                         </div>
 
@@ -156,9 +156,9 @@
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <lord-icon
-                                src="{{ URL::asset('assets/icons/146-basket-trolley-shopping-card-gradient-edited.json') }}"
-                                trigger="loop"
-                                colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
+                                    src="{{ URL::asset('assets/icons/146-basket-trolley-shopping-card-gradient-edited.json') }}"
+                                    trigger="loop"
+                                    colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
                             </lord-icon>
                         </div>
                     </div>
@@ -218,10 +218,10 @@
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <lord-icon
-                                src="https://cdn.lordicon.com/qrbokoyz.json"
-                                trigger="loop"
-                                colors="primary:#464fed,secondary:#bc34b6"
-                                style="width:55px;height:55px">
+                                    src="https://cdn.lordicon.com/qrbokoyz.json"
+                                    trigger="loop"
+                                    colors="primary:#464fed,secondary:#bc34b6"
+                                    style="width:55px;height:55px">
                             </lord-icon>
                         </div>
                     </div>
@@ -266,13 +266,13 @@
                         <div class="flex-grow-1 overflow-hidden">
                             <a href="{{route('sharessolde' , app()->getLocale() )}} "
                                class="text-decoration-underline"><p
-                                    class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Actions (Shares)') }}</p>
+                                        class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Actions (Shares)') }}</p>
                             </a>
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
                                 {{$actualActionValue['int']}}.{{$actualActionValue['2Fraction']}}<small
-                                    class="action_fraction">{{$actualActionValue['3_2Fraction']}}</small>
+                                        class="action_fraction">{{$actualActionValue['3_2Fraction']}}</small>
                                 <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
                             </h5>
                         </div>
@@ -288,14 +288,14 @@
                             <button data-bs-target="#buy-action" data-bs-toggle="modal"
                                     class="btn btn-sm @if($flash) btn-flash @else btn-secondary  @endif">{{ __('Buy Shares') }}</button>
                             <span class="badge bg-light text-success  ms-2 mb-0"><i
-                                    class="ri-arrow-up-line align-middle"></i>
+                                        class="ri-arrow-up-line align-middle"></i>
                                 {{$userActualActionsProfit }} {{$currency}}
                             </span>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <lord-icon
-                                src="{{ URL::asset('assets/icons/wired-gradient-751-share.json') }}" trigger="loop"
-                                colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
+                                    src="{{ URL::asset('assets/icons/wired-gradient-751-share.json') }}" trigger="loop"
+                                    colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
                             </lord-icon>
                         </div>
                     </div>
@@ -333,11 +333,11 @@
                     @if($flash)
                         <div class="row pink col-12" role="alert">
                             <p>{{__('A mode for a')}} <span
-                                    class="pinkbold col-auto">{{$flashTimes}}</span> {{__('times bonus over')}}
+                                        class="pinkbold col-auto">{{$flashTimes}}</span> {{__('times bonus over')}}
                                 <span
-                                    class="pinkbold col-auto">{{$flashPeriod}} {{__('hours')}}</span> {{__('with a minimum of')}}
+                                        class="pinkbold col-auto">{{$flashPeriod}} {{__('hours')}}</span> {{__('with a minimum of')}}
                                 <span
-                                    class="pinkbold col-auto">{{$flashMinShares}} {{__('Shares')}}</span></p>
+                                        class="pinkbold col-auto">{{$flashMinShares}} {{__('Shares')}}</span></p>
                         </div>
                     @endif
                     <div class="row @if($flash) alert-flash @else alert  @endif alert-info" role="alert">
@@ -492,8 +492,8 @@
                                                 class="btn @if($flash) btn-flash @else btn-primary  @endif swal2-styled d-inline-flex">
                                             {{ __('Submit') }}
                                             <div
-                                                class="spinner-border spinner-border-sm mx-2 mt-1 buy-action-submit-spinner"
-                                                role="status"></div>
+                                                    class="spinner-border spinner-border-sm mx-2 mt-1 buy-action-submit-spinner"
+                                                    role="status"></div>
                                         </button>
                                     </div>
                                 </div>
@@ -505,9 +505,7 @@
         </div>
     </div>
     @push('scripts')
-        <script src="{{ URL::asset('assets/libs/prismjs/prism.js') }}"></script>
-        <script src="{{ URL::asset('assets/js/pages/form-validation.init.js') }}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        @vite('resources/js/pages/form-validation.init.js');
         @if($flash)
             <script>
                 var setEndDate6 = "{{$flashDate}}";
@@ -559,7 +557,7 @@
                         const iti = window.intlTelInput(input, {
                             initialCountry: "auto",
                             useFullscreenPopup: false,
-                            utilsScript: "{{asset('assets/js/utils.js')}}"
+                            utilsScript: " {{asset('/build/utils.js/utils.js')}}"
                         });
                         $('[name="inlineRadioOptions"]').on('change', function () {
                             if ($('#inlineRadio2').is(':checked')) {
@@ -642,63 +640,63 @@
                 anychart.onDocumentReady(function () {
                     anychart.data.loadJsonFile(
                         "{{route('API_stat_countries',app()->getLocale())}}",
-                        function (data) {
-                            var map = anychart.map();
-                            map.geoData('anychart.maps.world');
-                            map.padding(0);
-                            var dataSet = anychart.data.set(data);
-                            var densityData = dataSet.mapAs({id: 'apha2', value: 'COUNT_USERS'});
-                            series = map.choropleth(densityData);
-                            series.labels(false);
-                            series.hovered().fill('#f48fb1').stroke(anychart.color.darken('#f48fb1'));
-                            series.tooltip(false);
-                            var scale = anychart.scales.ordinalColor([
-                                {less: 2},
-                                {from: 2, to: 5},
-                                {from: 5, to: 10},
-                                {from: 10, to: 15},
-                                {from: 15, to: 30},
-                                {from: 30, to: 50},
-                                {from: 50, to: 100},
-                                {from: 100, to: 500},
-                                {greater: 500}
-                            ]);
-                            scale.colors(['#81d4fa', '#4fc3f7', '#29b6f6', '#039be5', '#0288d1', '#0277bd', '#01579b', '#014377', '#000000']);
-                            series.colorScale(scale);
-                            var zoomController = anychart.ui.zoom();
-                            zoomController.render(map);
-                            map.container('any4');
-                            map.draw();
-                            var mapping = dataSet.mapAs({x: "name", value: "COUNT_USERS", category: "continant"});
-                            var colors = anychart.scales.ordinalColor().colors(['#26959f', '#f18126', '#3b8ad8', '#60727b', '#e24b26']);
-                            var chart = anychart.tagCloud();
-                            chart.data(mapping).colorScale(colors).angles([-90, 0, 90,]);
-                            chart.tooltip(false);
-                            var colorRange = chart.colorRange();
-                            colorRange.enabled(true).colorLineSize(15);
-                            var normalFillFunction = chart.normal().fill();
-                            var hoveredFillFunction = chart.hovered().fill();
-                            chart.listen('pointsHover', function (e) {
-                                if (e.actualTarget === colorRange) {
-                                    if (e.points.length) {
-                                        chart.normal({
-                                            fill: 'black 0.1'
-                                        });
-                                        chart.hovered({
-                                            fill: chart.colorScale().valueToColor(e.point.get('category'))
-                                        });
-                                    } else {
-                                        chart.normal({fill: normalFillFunction});
-                                        chart.hovered({fill: hoveredFillFunction});
-                                    }
-                                }
-                            });
-                            chart.container('any5');
-                            chart.draw();
+                function (data) {
+                    var map = anychart.map();
+                    map.geoData('anychart.maps.world');
+                    map.padding(0);
+                    var dataSet = anychart.data.set(data);
+                    var densityData = dataSet.mapAs({id: 'apha2', value: 'COUNT_USERS'});
+                    series = map.choropleth(densityData);
+                    series.labels(false);
+                    series.hovered().fill('#f48fb1').stroke(anychart.color.darken('#f48fb1'));
+                    series.tooltip(false);
+                    var scale = anychart.scales.ordinalColor([
+                        {less: 2},
+                        {from: 2, to: 5},
+                        {from: 5, to: 10},
+                        {from: 10, to: 15},
+                        {from: 15, to: 30},
+                        {from: 30, to: 50},
+                        {from: 50, to: 100},
+                        {from: 100, to: 500},
+                        {greater: 500}
+                    ]);
+                    scale.colors(['#81d4fa', '#4fc3f7', '#29b6f6', '#039be5', '#0288d1', '#0277bd', '#01579b', '#014377', '#000000']);
+                    series.colorScale(scale);
+                    var zoomController = anychart.ui.zoom();
+                    zoomController.render(map);
+                    map.container('any4');
+                    map.draw();
+                    var mapping = dataSet.mapAs({x: "name", value: "COUNT_USERS", category: "continant"});
+                    var colors = anychart.scales.ordinalColor().colors(['#26959f', '#f18126', '#3b8ad8', '#60727b', '#e24b26']);
+                    var chart = anychart.tagCloud();
+                    chart.data(mapping).colorScale(colors).angles([-90, 0, 90,]);
+                    chart.tooltip(false);
+                    var colorRange = chart.colorRange();
+                    colorRange.enabled(true).colorLineSize(15);
+                    var normalFillFunction = chart.normal().fill();
+                    var hoveredFillFunction = chart.hovered().fill();
+                    chart.listen('pointsHover', function (e) {
+                        if (e.actualTarget === colorRange) {
+                            if (e.points.length) {
+                                chart.normal({
+                                    fill: 'black 0.1'
+                                });
+                                chart.hovered({
+                                    fill: chart.colorScale().valueToColor(e.point.get('category'))
+                                });
+                            } else {
+                                chart.normal({fill: normalFillFunction});
+                                chart.hovered({fill: hoveredFillFunction});
+                            }
                         }
-                    );
-                });
-            });
-        </script>
-    @endpush
+                    });
+                    chart.container('any5');
+                    chart.draw();
+                }
+            );
+        });
+    });
+</script>
+@endpush
 </div>

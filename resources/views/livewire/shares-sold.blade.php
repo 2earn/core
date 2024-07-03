@@ -88,8 +88,7 @@
                     </div>
                 </div>
             </div>
-            <script src="{{ URL::asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
-            <script id="rendered-js">
+            <script id="rendered-js" type="module">
                 var options = {
                     chart: {
                         height: 350,
