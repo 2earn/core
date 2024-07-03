@@ -379,6 +379,7 @@
 @endsection
 @section('script')
     <script src="{{ URL::asset('/assets/libs/dropzone/dropzone.min.js') }}"></script>
-    <script src="{{ URL::asset('/assets/js/pages/crypto-kyc.init.js') }}"></script>
+    @vite('resources/js/app.js')
+    @vite('resources/js/pages/crypto-kyc.init.js')
     <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
 @endsection

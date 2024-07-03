@@ -175,7 +175,7 @@
                                                             data-bs-toggle="dropdown" aria-haspopup="true"
                                                             aria-expanded="false">
                                                         <img
-                                                            src="{{ URL::asset('/assets/images/flags/'.config('app.available_locales')[app()->getLocale()]['flag'].'.svg') }}"
+                                                            src="{{ Vite::asset('resources/images/flags/'.config('app.available_locales')[app()->getLocale()]['flag'].'.svg') }}"
                                                             class="rounded" alt="Header Language"
                                                             height="20">
                                                         <span

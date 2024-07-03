@@ -107,7 +107,7 @@
                         <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
                                 data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="true">
                             <img
-                                src="{{ URL::asset('/assets/images/flags/'.config('app.available_locales')[app()->getLocale()]['flag'].'.svg') }}"
+                                src="{{ Vite::asset('resources/images/flags/'.config('app.available_locales')[app()->getLocale()]['flag'].'.svg') }}"
                                 class="rounded" alt="Header Language"
                                 height="20">
                         </button>

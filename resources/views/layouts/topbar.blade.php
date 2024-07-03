@@ -154,32 +154,32 @@
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         @switch(Session::get('lang'))
                             @case('ru')
-                                <img src="{{ URL::asset('/assets/images/flags/russia.svg') }}" class="rounded"
+                                <img src="{{ Vite::asset('resources/images/flags/russia.svg') }}" class="rounded"
                                     alt="Header Language" height="18">
                             @break
 
                             @case('it')
-                                <img src="{{ URL::asset('/assets/images/flags/italy.svg') }}" class="rounded"
+                                <img src="{{ Vite::asset('resources/images/flags/italy.svg') }}" class="rounded"
                                     alt="Header Language" height="18">
                             @break
 
                             @case('sp')
-                                <img src="{{ URL::asset('/assets/images/flags/spain.svg') }}" class="rounded"
+                                <img src="{{ Vite::asset('resources/images/flags/spain.svg') }}" class="rounded"
                                     alt="Header Language" height="18">
                             @break
 
                             @case('ch')
-                                <img src="{{ URL::asset('/assets/images/flags/china.svg') }}" class="rounded"
+                                <img src="{{ Vite::asset('resources/images/flags/china.svg') }}" class="rounded"
                                     alt="Header Language" height="18">
                             @break
 
                             @case('fr')
-                                <img src="{{ URL::asset('/assets/images/flags/french.svg') }}" class="rounded"
+                                <img src="{{ Vite::asset('resources/images/flags/french.svg') }}" class="rounded"
                                     alt="Header Language" height="18">
                             @break
 
                             @case('gr')
-                                <img src="{{ URL::asset('/assets/images/flags/germany.svg') }}" class="rounded"
+                                <img src="{{ Vite::asset('resources/images/flags/germany.svg') }}" class="rounded"
                                     alt="Header Language" height="18">
                             @break
 

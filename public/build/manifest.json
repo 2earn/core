@@ -4121,6 +4121,12 @@
     "src": "resources/js/livewire-turbolinks.js",
     "isEntry": true
   },
+  "resources/js/pages/crypto-kyc.init.js": {
+    "file": "assets/crypto-kyc.init-DYWl9C8q.js",
+    "name": "crypto-kyc.init",
+    "src": "resources/js/pages/crypto-kyc.init.js",
+    "isEntry": true
+  },
   "resources/js/pages/form-validation.init.js": {
     "file": "assets/form-validation.init-RLEwjNAP.js",
     "name": "form-validation.init",
