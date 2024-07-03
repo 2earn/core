@@ -33,6 +33,9 @@ window.intlTelInput = intlTelInput;
 
 import { Dropzone } from "dropzone";
 
+
+import.meta.glob([ '../images/**', ]);
+
 (function () {
 
     var btnHover = document.getElementById("MyHover");

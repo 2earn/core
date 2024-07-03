@@ -1,15 +1,16 @@
 import {defineConfig} from 'vite';
 import laravel from 'laravel-vite-plugin';
 import inject from '@rollup/plugin-inject';
+import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 import fs from 'fs-extra';
 import path from 'path';
 
 const folder = {
-    src: "resources/", // source files
-    src_assets: "resources/", // source assets files
-    dist: "public/", // build files
-    dist_assets: "public/assets/" // build assets files
+    src: "resources/",
+    src_assets: "resources/",
+    dist: "public/",
+    dist_assets: "public/build/"
 };
 
 export default defineConfig({
@@ -18,9 +19,7 @@ export default defineConfig({
         manifest: "manifest.json",
         assetsInlineLimit: 0,
         rtl: true,
-        outDir: folder.dist_assets,
         cssCodeSplit: true,
-        hotFile: 'storage/local.hot'
     },
     plugins: [
         inject({
@@ -36,14 +35,15 @@ export default defineConfig({
                 'resources/css/bootstrap-rtl.css',
                 'resources/css/icons.css',
                 'resources/css/icons-rtl.css',
+                'resources/css/bootstrap.min.css',
                 'resources/css/app.css',
                 'resources/css/app-rtl.css',
                 'resources/js/intlTelInput.js',
-                'resources/js/utils.js',
                 'resources/js/turbo.js',
                 'resources/js/sweetalert2@11.js',
                 'resources/css/select2.min.css',
                 'resources/fontawesome/all.min.css',
+                'resources/css/intlTelInput.min.css',
                 'resources/css/custom.css',
                 'resources/css/custom-rtl.css',
                 'resources/anychart/anychart-base.min.js',
@@ -58,6 +58,7 @@ export default defineConfig({
                 'resources/anychart/anychart-ui.min.js',
                 'resources/anychart/proj4.js',
                 'resources/anychart/world.js',
+                'resources/css/bootstrap-rtl.css',
                 'resources/anychart/anychart-table.min.js',
                 'resources/js/livewire-turbolinks.js'
             ],
@@ -69,15 +70,21 @@ export default defineConfig({
                 }
             },
         }),
+        viteStaticCopy({
+            targets: [
+                {
+                    src: 'resources/js/utils.js',
+                    dest: 'utils.js'
+                }
+            ]
+        }),
         {
             name: 'copy-specific-packages',
             async writeBundle() {
                 try {
                     await Promise.all([
                         fs.copy(folder.src_assets + 'fonts', folder.dist_assets + 'fonts'),
-                        fs.copy(folder.src_assets + 'Styles', folder.dist_assets + 'Styles'),
                         fs.copy(folder.src_assets + 'images', folder.dist_assets + 'images'),
-                        fs.copy(folder.src_assets + 'js', folder.dist_assets + 'js'),
                         fs.copy(folder.src_assets + 'json', folder.dist_assets + 'json'),
                         fs.copy(folder.src_assets + 'img', folder.dist_assets + 'img'),
                         fs.copy(folder.src_assets + 'icons', folder.dist_assets + 'icons'),

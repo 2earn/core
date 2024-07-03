@@ -13,7 +13,7 @@
     @livewireStyles
     <script src="https://www.google.com/recaptcha/api.js?render={{config('services.recaptcha.key')}}"></script>
     <!-- vite -->
-    @vite([ 'resources/css/app.css','resources/css/intlTelInput.scss','resources/js/sweetalert2@11.js','resources/js/appWithoutNav.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
+    @vite([ 'resources/css/app.css','resources/css/intlTelInput.min.css','resources/js/sweetalert2@11.js','resources/js/appWithoutNav.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
     <!-- vite -->
 </head>
 <body>
@@ -43,7 +43,7 @@
                         callback((resp && resp.country) ? resp.country : "TN");
                     });
                 },
-                utilsScript: " {{asset('assets/js/utils.js')}}"
+                utilsScript: " {{asset('/build/utils.js/utils.js')}}"
             });
 
             inputlog.addEventListener('keyup', resetLog);
@@ -82,7 +82,7 @@
                         callback((resp && resp.country) ? resp.country : "TN");
                     });
                 },
-                utilsScript: " {{asset('assets/js/utils.js')}}"
+                utilsScript: " {{asset('/build/utils.js/utils.js')}}"
             });
             input.addEventListener('keyup', reset);
             input.addEventListener('countrychange', reset);
@@ -103,7 +103,7 @@
                         callback(countryCode);
                     });
                 },
-                utilsScript: " {{asset('assets/js/utils.js')}}"
+                utilsScript: " {{asset('/build/utils.js/utils.js')}}"
             });
             inputforget.addEventListener('keyup', resetforget);
             inputforget.addEventListener('countrychange', resetforget);

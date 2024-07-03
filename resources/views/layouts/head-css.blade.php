@@ -4,7 +4,7 @@
 <!-- vite -->
 @if(config('app.available_locales')[app()->getLocale()]['direction'] === 'rtl')
     <!-- vite -->
-    @vite(['resources/css/bootstrap-rtl.min.css','resources/css/icons-rtl.css','resources/css/app-rtl.css','resources/css/custom-rtl.css'])
+    @vite(['resources/css/bootstrap-rtl.css','resources/css/icons-rtl.css','resources/css/app-rtl.css','resources/css/custom-rtl.css'])
     <!-- vite -->
 @else
     <!-- vite -->

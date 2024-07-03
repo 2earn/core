@@ -125,7 +125,7 @@
     <link rel="manifest" href="{{ asset('/manifest.json') }}">
     @laravelPWA
     <!-- vite -->
-    @vite([ 'resources/css/app.css','resources/css/intlTelInput.scss','resources/fontawesome/all.min.css','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
+    @vite([ 'resources/css/app.css','resources/css/intlTelInput.min.css','resources/fontawesome/all.min.css','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
     <!-- vite -->
 </head>
 @section('body')
@@ -301,7 +301,7 @@
                         callback(countryCode);
                     });
                 },
-                utilsScript: " {{asset('assets/js/utils.js')}}"
+                utilsScript: " {{asset('build/assets/js/utils.js')}}"
             });
             inputUpPhone.addEventListener('keyup', resetUpPhone);
             inputUpPhone.addEventListener('countrychange', resetUpPhone);
@@ -387,7 +387,7 @@
                         callback(countryCodelog);
                     });
                 },
-                utilsScript: " {{asset('assets/js/utils.js')}}"
+                utilsScript: " {{asset('build/assets/js/utils.js')}}"
             });
 
             inputlog.addEventListener('keyup', resetContacts);
@@ -435,7 +435,7 @@
                         callback(countryCode);
                     });
                 },
-                utilsScript: " {{asset('assets/js/utils.js')}}"
+                utilsScript: " {{asset('build/assets/js/utils.js')}}"
             });
             for (var i = 0; i < countryDataAddContact.length; i++) {
                 var country = countryDataAddContact[i];
@@ -547,7 +547,7 @@
                         callback(countryCode13);
                     });
                 },
-                utilsScript: " {{asset('assets/js/utils.js')}}"
+                utilsScript: " {{asset('build/assets/js/utils.js')}}"
             });
             inputAddContactNumber.addEventListener('keyup', resetAddNumberContact);
             inputAddContactNumber.addEventListener('countrychange', resetAddNumberContact);

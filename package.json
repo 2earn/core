@@ -80,6 +80,7 @@
         "swiper": "^6.8.4",
         "toastify-js": "^1.11.2",
         "turbolinks": "^5.2.0",
+        "vite-plugin-static-copy": "^1.0.6",
         "wnumb": "^1.2.0"
     }
 }
