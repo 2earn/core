@@ -1,7 +1,7 @@
 import {defineConfig} from 'vite';
 import laravel from 'laravel-vite-plugin';
 import inject from '@rollup/plugin-inject';
-import { viteStaticCopy } from 'vite-plugin-static-copy'
+import {viteStaticCopy} from 'vite-plugin-static-copy'
 
 import fs from 'fs-extra';
 import path from 'path';
@@ -20,6 +20,26 @@ export default defineConfig({
         assetsInlineLimit: 0,
         rtl: true,
         cssCodeSplit: true,
+        rollupOptions: {
+            output: {
+                assetFileNames: (assetInfo) => {
+                    const extType = assetInfo.name.split('.').pop();
+                    if (extType === 'css') {
+                        return 'css/[name]-[hash].min.[ext]';
+                    } else if (extType === 'js') {
+                        return 'js/[name]-[hash].min.[ext]';
+                    } else {
+                        return '[ext]/[name]-[hash].[ext]';
+                    }
+                },
+                chunkFileNames: 'js/[name].min.js',
+                entryFileNames: 'js/[name].min.js',
+                globals: {
+                    jquery: 'jQuery',
+                    $: 'jQuery'
+                }
+            },
+        },
     },
     plugins: [
         inject({
