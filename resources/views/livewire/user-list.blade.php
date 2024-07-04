@@ -184,12 +184,12 @@
                         <th>{{__('otp')}}</th>
                         <th>{{__('Password')}}</th>
                         <th>{{__('register_upline')}}</th>
+                        <th>{{__('Action')}}</th>
                         <th>{{__('MinShare')}}</th>
                         <th>{{__('Periode')}}</th>
                         <th>{{__('date')}}</th>
                         <th>{{__('COeff')}}</th>
                         <th>{{__('Note')}}</th>
-                        <th>{{__('Action')}}</th>
                         <th>{{__('VIP')}}</th>
                     </tr>
                     </thead>
@@ -518,48 +518,90 @@
                 });
             });
         });
-        $(document).on('turbolinks:load', function () {
-            $('#users-list').DataTable({
-                "ordering": true,
-                retrieve: true,
-                "colReorder": false,
-                "orderCellsTop": true,
-                "fixedHeader": true,
-                "order": [[0, 'desc']],
-                "processing": true,
-                "serverSide": false,
-                "aLengthMenu": [[100, 500, 1000], [100, 500, 1000]],
-                search: {return: true},
-                autoWidth: false,
-                bAutoWidth: false,
-                "ajax": "{{route('API_UsersList',app()->getLocale())}}",
-                "columns": [
-                    {data: 'formatted_created_at'},
-                    {data: 'flag'},
-                    {data: 'formatted_mobile'},
-                    {data: 'name'},
-                    {data: 'SoldeCB'},
-                    {data: 'SoldeBFS'},
-                    {data: 'SoldeDB'},
-                    {data: 'SoldeSMS'},
-                    {data: 'SoldeSH'},
-                    {data: 'OptActivation'},
-                    {data: 'pass'},
-                    {data: 'register_upline'},
-                    {data: 'minshares'},
-                    {data: 'periode'},
-                    {data: 'date'},
-                    {data: 'coeff'},
-                    {data: 'mobile'},
-                    {data: 'note'},
-                    {data: 'action', name: 'action', orderable: false, searchable: false},
-                    {data: 'VIP', name: 'action', orderable: false, searchable: false},
-                ],
-                "columnDefs": [{"targets": [19], searchable: true, visible: false},],
-                "language": {"url": urlLang}
-            });
-        });
+        window.addEventListener('load', () => {
+            $(document).on('turbolinks:load', function () {
+                $('#users-list').DataTable({
+                    "ordering": true,
+                    retrieve: true,
+                    "colReorder": false,
+                    "orderCellsTop": true,
+                    "fixedHeader": true,
+                    "order": [[0, 'desc']],
+                    "processing": true,
+                    "serverSide": false,
+                    "aLengthMenu": [[100, 500, 1000], [100, 500, 1000]],
+                    search: {return: true},
+                    autoWidth: false,
+                    bAutoWidth: false,
+                    "ajax": "{{route('API_UsersList',app()->getLocale())}}",
+                    "columns": [
+                        {data: 'formatted_created_at'},
+                        {data: 'flag'},
+                        {data: 'formatted_mobile'},
+                        {data: 'name'},
+                        {data: 'SoldeCB'},
+                        {data: 'SoldeBFS'},
+                        {data: 'SoldeDB'},
+                        {data: 'SoldeSMS'},
+                        {data: 'SoldeSH'},
+                        {data: 'OptActivation'},
+                        {data: 'pass'},
+                        {data: 'register_upline'},
+                        {data: 'action', name: 'action', orderable: false, searchable: false},
+                        {data: 'minshares'},
+                        {data: 'periode'},
+                        {data: 'date'},
+                        {data: 'coeff'},
+                        {data: 'note'},
+                        {data: 'VIP', name: 'action', orderable: false, searchable: false},
+                        {data: 'mobile'},
+                    ],
+                    "columnDefs": [{"targets": [19], searchable: true, visible: false},],
+                    "language": {"url": urlLang}
+                });
+                $(document).on('turbolinks:load', function () {
+                    $('#users-list').DataTable({
+                        "ordering": true,
+                        retrieve: true,
+                        "colReorder": false,
+                        "orderCellsTop": true,
+                        "fixedHeader": true,
+                        "order": [[0, 'desc']],
+                        "processing": true,
+                        "serverSide": false,
+                        "aLengthMenu": [[100, 500, 1000], [100, 500, 1000]],
+                        search: {return: true},
+                        autoWidth: false,
+                        bAutoWidth: false,
+                        "ajax": "{{route('API_UsersList',app()->getLocale())}}",
+                        "columns": [
+                            {data: 'formatted_created_at'},
+                            {data: 'flag'},
+                            {data: 'formatted_mobile'},
+                            {data: 'name'},
+                            {data: 'SoldeCB'},
+                            {data: 'SoldeBFS'},
+                            {data: 'SoldeDB'},
+                            {data: 'SoldeSMS'},
+                            {data: 'SoldeSH'},
+                            {data: 'OptActivation'},
+                            {data: 'pass'},
+                            {data: 'register_upline'},
+                            {data: 'action', name: 'action', orderable: false, searchable: false},
+                            {data: 'minshares'},
+                            {data: 'periode'},
+                            {data: 'date'},
+                            {data: 'coeff'},
+                            {data: 'note'},
+                            {data: 'VIP', name: 'action', orderable: false, searchable: false},
+                            {data: 'mobile'},
+                        ],
+                        "columnDefs": [{"targets": [19], searchable: true, visible: false},],
+                        "language": {"url": urlLang}
+                    });
+                });
 
 
     </script>
 </div>
+
