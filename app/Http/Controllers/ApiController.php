@@ -867,7 +867,6 @@ class="btn btn-ghost-success waves-effect waves-light sh"  >
 <i class="glyphicon glyphicon-add"></i>' . number_format(getUserSelledActions($user_balance->idUser), 0) . '</a> ';
             })
             ->addColumn('action', function ($settings) {
-
                 return '<a data-bs-toggle="modal" data-bs-target="#AddCash"   data-phone="' . $settings->mobile . '" data-country="' . $this->getFormatedFlagResourceName($settings->apha2) . '" data-reciver="' . $settings->idUser . '"
 class="btn btn-xs btn-primary btn2earnTable addCash" >' . Lang::get('Add cash') . '</a> ';
             })

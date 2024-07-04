@@ -184,12 +184,12 @@
                         <th>{{__('otp')}}</th>
                         <th>{{__('Password')}}</th>
                         <th>{{__('register_upline')}}</th>
-                        <th>{{__('Action')}}</th>
                         <th>{{__('MinShare')}}</th>
                         <th>{{__('Periode')}}</th>
                         <th>{{__('date')}}</th>
                         <th>{{__('COeff')}}</th>
                         <th>{{__('Note')}}</th>
+                        <th>{{__('Action')}}</th>
                         <th>{{__('VIP')}}</th>
                     </tr>
                     </thead>
