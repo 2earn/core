@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\PostController;
 use App\Http\Livewire\AcceptFinancialRequest;
 use App\Http\Livewire\Account;
 use App\Http\Livewire\ChangePassword;
@@ -8,15 +7,12 @@ use App\Http\Livewire\CheckOptCode;
 use App\Http\Livewire\Configuration;
 use App\Http\Livewire\ContactNumber;
 use App\Http\Livewire\Contacts;
-
 use App\Http\Livewire\Description;
 use App\Http\Livewire\EditUserContact;
 use App\Http\Livewire\EntretienArbre;
 use App\Http\Livewire\EvolutionArbre;
 use App\Http\Livewire\FinancialTransaction;
-
 use App\Http\Livewire\ForgotPassword;
-
 use App\Http\Livewire\HistoriqueRecuperation;
 use App\Http\Livewire\Hobbies;
 use App\Http\Livewire\Home;
@@ -24,9 +20,6 @@ use App\Http\Livewire\IdentificationRequest;
 use App\Http\Livewire\Login;
 use App\Http\Livewire\NotificationHistory;
 use App\Http\Livewire\NotificationSettings;
-
-use App\Http\Livewire\pay;
-use App\Http\Livewire\PaymentController;
 use App\Http\Livewire\Registre;
 use App\Http\Livewire\RequestPublicUser;
 use App\Http\Livewire\StripView;
@@ -188,9 +181,7 @@ Route::group(['prefix' => 'API'], function () {
 
 Route::get('/ResetNot', 'App\Http\Controllers\FinancialRequestController@resetInComingNotification')->name('resetInComingNotification');
 Route::get('/ResetNotOut', 'App\Http\Controllers\FinancialRequestController@resetOutGoingNotification')->name('resetOutGoingNotification');
-Route::get('/', function () {
-    return redirect(app()->getLocale());
-});
+
 
 Route::get('store-form', 'App\Http\Controllers\PostController@store')->name('saveph');
 Route::get('mailVerif', 'App\Http\Controllers\PostController@verifyMail')->name('mailVerif');
@@ -203,4 +194,13 @@ Route::get('members', 'App\Http\Controllers\PostController@getMember')->name('me
 Route::get('getRequestAjax', 'App\Http\Controllers\ApiController@getRequestAjax')->name('getRequestAjax');
 Route::get('logoutSSo', 'App\Http\Controllers\ApiController@logoutSSo')->name('logoutSSo')->middleware('auth:api');
 Route::view('/tests', 'tests');
+
+Route::get('/', function () {
+    return redirect(app()->getLocale());
+});
+
+Route::get('/{slug}', function () {
+    return redirect(app()->getLocale());
+});
+
 
