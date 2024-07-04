@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\DAL\UserRepository;
 use App\Models\User;
 use App\Models\vip;
-use App\Services\Sponsorship\Sponsorship;
 use App\Services\Sponsorship\SponsorshipFacade;
-use Barryvdh\DomPDF\Facade\Pdf;
 use carbon;
 use Core\Enum\AmoutEnum;
 use Core\Enum\StatusRequst;
@@ -403,7 +401,7 @@ left join users user on user.idUser = recharge_requests.idUser";
             })
             ->addColumn('flag', function ($settings) {
 
-                return '<img src="' . Vite::asset("resources/images/flags/" . strtolower($settings->apha2)) . '.svg" alt="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
+                return '<img src="' . Vite::asset("resources/images/flags/" . strtolower($settings->apha2) . ".svg") . '" alt="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
             })
             ->addColumn('sell_price_now', function ($user_balance) {
                 return number_format(actualActionValue(getSelledActions()) * ($user_balance->value + $user_balance->gifted_shares), 2);
@@ -415,7 +413,7 @@ left join users user on user.idUser = recharge_requests.idUser";
                 return number_format($user_balance->value + $user_balance->gifted_shares, 0);
             })
             ->addColumn('asset', function ($settings) {
-                return Vite::asset("resources/images/flags/" . strtolower($settings->apha2)) . '.svg';
+                return Vite::asset("resources/images/flags/" . strtolower($settings->apha2) . '.svg');
             })
             ->rawColumns(['flag', 'share_price', 'status'])
             ->make(true);
@@ -830,18 +828,18 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
             })
             ->addColumn('action', function ($settings) {
 
-                return '<a data-bs-toggle="modal" data-bs-target="#AddCash"   data-phone="' . $settings->mobile . '" data-country="' . Vite::asset("resources/images/flags/" . strtolower($settings->apha2)) . '.svg" data-reciver="' . $settings->idUser . '"
+                return '<a data-bs-toggle="modal" data-bs-target="#AddCash"   data-phone="' . $settings->mobile . '" data-country="' . Vite::asset("resources/images/flags/" . strtolower($settings->apha2)  . '.svg') .  '" data-reciver="' . $settings->idUser . '"
 class="btn btn-xs btn-primary btn2earnTable addCash" >' . Lang::get('Add cash') . '</a> ';
             })
             ->addColumn('VIP', function ($settings) {
 
-                return '<a data-bs-toggle="modal" data-bs-target="#vip"   data-phone="' . $settings->mobile . '" data-country="' . Vite::asset("resources/images/flags/" . strtolower($settings->apha2)) . '.svg" data-reciver="' . $settings->idUser . '"
+                return '<a data-bs-toggle="modal" data-bs-target="#vip"   data-phone="' . $settings->mobile . '" data-country="' . Vite::asset("resources/images/flags/" . strtolower($settings->apha2)  . '.svg') .  '"  data-reciver="' . $settings->idUser . '"
 class="btn btn-xs btn-flash btn2earnTable vip"  >
 <i class="glyphicon glyphicon-add"></i>' . Lang::get('VIP') . '</a> ';
             })
             ->addColumn('flag', function ($settings) {
 
-                return '<img src="' . Vite::asset("resources/images/flags/" . strtolower($settings->apha2)) . '.svg" alt="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
+                return '<img src="' . Vite::asset("resources/images/flags/" . strtolower($settings->apha2) . '.svg') . '" alt="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
             })
             ->addColumn('SoldeCB', function ($user_balance) {
                 return '<a data-bs-toggle="modal" data-bs-target="#detail"   data-amount="1" data-reciver="' . $user_balance->idUser . '"
