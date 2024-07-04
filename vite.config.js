@@ -1,7 +1,7 @@
 import {defineConfig} from 'vite';
 import laravel from 'laravel-vite-plugin';
 import inject from '@rollup/plugin-inject';
-import {viteStaticCopy} from 'vite-plugin-static-copy'
+import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 import fs from 'fs-extra';
 import path from 'path';
@@ -24,20 +24,15 @@ export default defineConfig({
             output: {
                 assetFileNames: (assetInfo) => {
                     const extType = assetInfo.name.split('.').pop();
+                    const rands = Math.random().toString(36).slice(2, 7);
                     if (extType === 'css') {
-                        return 'css/[name]-[hash].min.[ext]';
+                        return 'assets/css/[name]-[hash]-' + rands + '.min.[ext]';
                     } else if (extType === 'js') {
-                        return 'js/[name]-[hash].min.[ext]';
+                        return 'assets/js/[name]-[hash]-' + rands + '.min.[ext]';
                     } else {
-                        return '[ext]/[name]-[hash].[ext]';
+                        return 'assets/[ext]/[name]-[hash]-' + rands + '.[ext]';
                     }
                 },
-                chunkFileNames: 'js/[name].min.js',
-                entryFileNames: 'js/[name].min.js',
-                globals: {
-                    jquery: 'jQuery',
-                    $: 'jQuery'
-                }
             },
         },
     },
