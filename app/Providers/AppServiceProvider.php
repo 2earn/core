@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Services\Sponsorship\Sponsorship;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -13,11 +14,12 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-        public function register(): void
+    public function register(): void
     {
         $this->app->bind('Sponsorship', function ($app) {
-            return new Sponsorship($app->make('App\DAL\UserRepository'),$app->make('Core\Services\BalancesManager'));
+            return new Sponsorship($app->make('App\DAL\UserRepository'), $app->make('Core\Services\BalancesManager'));
         });
+
     }
 
 
@@ -28,9 +30,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
-       // user_balance::observe(UserBalanceObserver::class);
         Schema::defaultStringLength(191);
-
+        Request::macro('hasValidSignature', function ($absolute = true) {
+            if (strpos(\URL::current(), env('APP_URL') . 'livewire/upload-file') || strpos(\URL::current(), env('APP_URL') . 'livewire/preview-file')) {
+                return true;
+            }
+        });
     }
 }

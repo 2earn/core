@@ -10,7 +10,7 @@
                                 {{__('Txt_KYC_Verification')}}
                             </p>
                             <div class="mt-4">
-                                <button onclick="hideIdentificationModal()" type="button"
+                                <button type="button"
                                         class="btn btn-primary"
                                         data-bs-toggle="modal"
                                         @if(!$usermetta_info2['enFirstName'] || !$usermetta_info2['enLastName'] || !$usermetta_info2['birthday'] || !$usermetta_info2['nationalID'] || !$userF['email'])
@@ -374,109 +374,111 @@
             </div>
         </div>
     </div>
-    <script>
-        var errorMail = document.querySelector("#error-mail");
-        var checkOpt = false;
-        var canUseEmail = false;
-        var sendEmailNotification = false;
+    <script type="module">
+        $(document).on('turbolinks:load', function () {
+
+            var errorMail = document.querySelector("#error-mail");
+            var checkOpt = false;
+            var canUseEmail = false;
+            var sendEmailNotification = false;
 
 
-        function doneVerify() {
-            window.location.reload();
-        }
-
-        function hideIdentificationModal() {
-            const modal = bootstrap.Modal.getOrCreateInstance('#exampleModal');
-            modal.hide();
-        }
-
-        function checkRequiredFieldInfo(idInput) {
-            console.log($("#" + idInput));
-            if ($("#" + idInput).val().trim() === "") {
-                $("#" + idInput).css('border-color', 'red');
-                return false;
-            } else {
-                $("#" + idInput).css('border-color', 'green');
+            function doneVerify() {
+                window.location.reload();
             }
-            return true;
-        }
 
-        function checkRequiredFieldsInfo() {
-            if ($('#international-card').is(":checked")) {
-                return checkRequiredFieldInfo('internationalId') &&
-                    checkRequiredFieldInfo('expiryDate');
-            } else {
+            function hideIdentificationModal() {
+                const modal = bootstrap.Modal.getOrCreateInstance('#exampleModal');
+                modal.hide();
+            }
+
+            function checkRequiredFieldInfo(idInput) {
+                if ($("#" + idInput).val().trim() === "") {
+                    $("#" + idInput).css('border-color', 'red');
+                    return false;
+                } else {
+                    $("#" + idInput).css('border-color', 'green');
+                }
                 return true;
             }
-        }
 
-        function validateEmail(email) {
-            return String(email)
-                .toLowerCase()
-                .match(
-                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-                );
-        }
-
-        function sendIndentificationRequest(event) {
-            if (checkRequiredFieldsInfo()) {
-                window.livewire.emit('sendIndentificationRequest');
-            }
-        }
-
-        window.addEventListener('load', () => {
-            function sendMailNotification() {
-                $("#inputEmailUser").css('border-color', 'green');
-                $.ajax({
-                    method: "GET",
-                    url: "/sendMailNotification",
-                    async: false,
-                    success: (result) => {
-                        $("#inputEmailUser").css('border-color', 'green');
-                        sendEmailNotification = true;
-                    }
-                });
-            }
-
-            $('input[type="file"]').each(function () {
-                var $file = $(this),
-                    $label = $file.next('label'),
-                    $labelText = $label.find('span'),
-                    labelDefault = $labelText.text();
-                $file.on('change', function (event) {
-                    var fileName = $file.val().split('\\').pop(),
-                        tmppath = URL.createObjectURL(event.target.files[0]);
-                    if (fileName) {
-                        $label.addClass('file-ok').css('background-image', 'url(' + tmppath + ')');
-                        $labelText.text(fileName);
-                    } else {
-                        $label.removeClass('file-ok');
-                        $labelText.text(labelDefault);
-                    }
-                });
-            });
-
-            $('#international-card').change(function () {
-                if (this.checked) {
-                    $('#international-card-block').removeClass("d-none");
-                    $("#internationalId, #expiryDate, #photoInternational").val('');
+            function checkRequiredFieldsInfo() {
+                if ($('#international-card').is(":checked")) {
+                    return checkRequiredFieldInfo('internationalId') && checkRequiredFieldInfo('expiryDate');
                 } else {
-                    $('#international-card-block').addClass("d-none")
+                    return true;
                 }
+            }
+
+            function validateEmail(email) {
+                return String(email)
+                    .toLowerCase()
+                    .match(
+                        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                    );
+            }
+
+            function sendIndentificationRequest(event) {
+                if (checkRequiredFieldsInfo()) {
+                    window.livewire.emit('sendIndentificationRequest');
+                }
+            }
+
+            window.addEventListener('load', () => {
+                function sendMailNotification() {
+                    $("#inputEmailUser").css('border-color', 'green');
+                    $.ajax({
+                        method: "GET",
+                        url: "/sendMailNotification",
+                        async: false,
+                        success: (result) => {
+                            $("#inputEmailUser").css('border-color', 'green');
+                            sendEmailNotification = true;
+                        }
+                    });
+                }
+
+                $('input[type="file"]').each(function () {
+                    var $file = $(this),
+                        $label = $file.next('label'),
+                        $labelText = $label.find('span'),
+                        labelDefault = $labelText.text();
+                    $file.on('change', function (event) {
+                        var fileName = $file.val().split('\\').pop(),
+                            tmppath = URL.createObjectURL(event.target.files[0]);
+                        if (fileName) {
+                            $label.addClass('file-ok').css('background-image', 'url(' + tmppath + ')');
+                            $labelText.text(fileName);
+                        } else {
+                            $label.removeClass('file-ok');
+                            $labelText.text(labelDefault);
+                        }
+                    });
+                });
+
+                $('#international-card').change(function () {
+                    if (this.checked) {
+                        $('#international-card-block').removeClass("d-none");
+                        $("#internationalId, #expiryDate, #photoInternational").val('');
+                    } else {
+                        $('#international-card-block').addClass("d-none")
+                    }
+                });
+
+                $('#btn-next-identities-card').click(function (e) {
+                    $('#myTab button[id="pills-identities-card-tab"]').tab('show');
+                });
             });
 
-            $('#btn-next-identities-card').click(function (e) {
-                $('#myTab button[id="pills-identities-card-tab"]').tab('show');
+            window.addEventListener('IdentificationRequestMissingInformation', event => {
+                Swal.fire({
+                    title: event.detail.title,
+                    text: event.detail.text,
+                    icon: 'error',
+                    confirmButtonText: "{{__('ok')}}"
+                })
             });
         });
 
-        window.addEventListener('IdentificationRequestMissingInformation', event => {
-            Swal.fire({
-                title: event.detail.title,
-                text: event.detail.text,
-                icon: 'error',
-                confirmButtonText: "{{__('ok')}}"
-            })
-        })
     </script>
 </div>
