@@ -51,7 +51,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modalRequestExiste" tabindex="-1" aria-labelledby="accountValidationModalLabel"
+    <div class="modal fade" id="accountValidationModal" tabindex="-1" aria-labelledby="accountValidationModal"
          aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

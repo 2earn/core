@@ -1072,7 +1072,8 @@
                     function showIdentitiesModal(typeIdentitie) {
                         $('#identies-viewer-title').empty().append($('#' + typeIdentitie + '-id-image').attr('title'));
                         $('#identies-viewer-content').empty().append($('#' + typeIdentitie + '-id-image').clone().width('100%').height('200%'));
-                        $('#identies-viewer').show();
+                        var myModal = new bootstrap.Modal(document.getElementById('identies-viewer'))
+                        myModal.show();
                     }
 
                     $("#show-identity-front").click(function () {
