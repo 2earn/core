@@ -265,7 +265,7 @@
                                         <i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
                                         {{__('back to personal info')}}
                                     </button>
-                                    <button id="btn-next-identities-card" type="button"
+                                    <button id="btn-next-inter-identities-card" type="button"
                                             class="btn btn-primary btn-label right ms-auto nexttab"
                                             data-nexttab="pills-inter-identities-card-tab">
                                         <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
@@ -457,22 +457,23 @@
                 });
 
             });
-            $("#sendIndentificationRequest").on("click", function () {
-                sendIndentificationRequest()
-            });
 
-            $('#international-card').change(function () {
-                if (this.checked) {
-                    $('#international-card-block').removeClass("d-none");
-                    $("#internationalId, #expiryDate, #photoInternational").val('');
-                } else {
-                    $('#international-card-block').addClass("d-none")
-                }
-            });
 
-            $('#btn-next-identities-card').click(function (e) {
-                $('#myTab button[id="pills-identities-card-tab"]').tab('show');
-            });
+        });
+        $("#sendIndentificationRequest").on("click", function () {
+            sendIndentificationRequest()
+        });
+        $('#btn-next-identities-card').click(function (e) {
+            const tab = bootstrap.Tab.getOrCreateInstance('#myTab button[id="pills-identities-card-tab"]');
+            tab.show();
+        });
+        $('#international-card').change(function () {
+            if (this.checked) {
+                $('#international-card-block').removeClass("d-none");
+                $("#internationalId, #expiryDate, #photoInternational").val('');
+            } else {
+                $('#international-card-block').addClass("d-none")
+            }
         });
 
         window.addEventListener('IdentificationRequestMissingInformation', event => {
