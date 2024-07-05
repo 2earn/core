@@ -815,12 +815,17 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
 
     public function getUsersList()
     {
-        $query = User::select('countries.apha2', 'users.idUser', 'idUplineRegister', DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'), 'users.mobile', 'users.created_at', 'OptActivation', 'pass', 'flashCoefficient as coeff', 'flashDeadline as periode', 'flashNote as note', 'flashMinAmount as minshares', 'dateFNS as date')
+        $query = User::select('countries.apha2', 'users.idUser', 'idUplineRegister', DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'), 'users.mobile', 'users.created_at', 'OptActivation', 'pass', DB::raw('IFNULL(`flashCoefficient`,"##") as coeff'), DB::raw('IFNULL(`flashDeadline`,"##") as periode'), DB::raw('IFNULL(`flashNote`,"##") as note'), DB::raw('IFNULL(`flashMinAmount`,"##") as minshares'), DB::raw('IFNULL(`dateFNS`,"##") as date'))
             ->join('metta_users as meta', 'meta.idUser', '=', 'users.idUser')
             ->join('countries', 'countries.id', '=', 'users.idCountry');
         return datatables($query)
             ->addColumn('formatted_mobile', function ($user) {
                 $phone = new PhoneNumber($user->mobile, $user->apha2);
+                try {
+                    return $phone->formatForCountry($user->apha2);
+                } catch (\Exception $e) {
+                    return $phone;
+                }
                 return $phone->formatForCountry($user->apha2);
             })
             ->addColumn('register_upline', function ($user) {
@@ -871,7 +876,6 @@ class="btn btn-ghost-success waves-effect waves-light sh"  >
 <i class="glyphicon glyphicon-add"></i>' . number_format(getUserSelledActions($user_balance->idUser), 0) . '</a> ';
             })
             ->addColumn('action', function ($settings) {
-
                 return '<a data-bs-toggle="modal" data-bs-target="#AddCash"   data-phone="' . $settings->mobile . '" data-country="' . $this->getFormatedFlagResourceName($settings->apha2) . '" data-reciver="' . $settings->idUser . '"
 class="btn btn-xs btn-primary btn2earnTable addCash" >' . Lang::get('Add cash') . '</a> ';
             })
