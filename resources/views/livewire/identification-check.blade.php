@@ -357,7 +357,7 @@
                                         <i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
                                         {{__('back to identity card')}}
                                     </button>
-                                    <button onclick="sendIndentificationRequest()" type="button"
+                                    <button id="sendIndentificationRequest" type="button"
                                             class="btn btn-primary btn-label right ms-auto nexttab">
                                         <div wire:loading wire:target="sendIndentificationRequest">
                                                 <span class="spinner-border spinner-border-sm" role="status"
@@ -454,6 +454,10 @@
                             $labelText.text(labelDefault);
                         }
                     });
+                });
+
+                $("#sendIndentificationRequest").on("click", function () {
+                    sendIndentificationRequest()
                 });
 
                 $('#international-card').change(function () {
