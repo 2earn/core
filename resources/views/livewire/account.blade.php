@@ -947,8 +947,8 @@
             }
 
         </script>
-        <script>
-            window.addEventListener('load', () => {
+        <script type="module">
+            $(document).on('turbolinks:load', function () {
                 $("#btnsaveUser").click(function () {
                     window.livewire.emit('saveUser', parseInt($("#inputChild").val()));
                 });
@@ -1145,8 +1145,8 @@
                 }
             })
         </script>
-        <script data-turbolinks-eval="false">
-            window.addEventListener('load', () => {
+        <script type="module">
+            $(document).on('turbolinks:load', function () {
                 $("#btnPlus").click(function () {
                     var child = parseInt($("#inputChild").val());
                     child = child + 1;

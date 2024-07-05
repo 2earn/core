@@ -32,9 +32,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         Request::macro('hasValidSignature', function ($absolute = true) {
-            if (strpos(\URL::current(), env('APP_URL') . 'livewire/upload-file') || strpos(\URL::current(), env('APP_URL') . 'livewire/preview-file')) {
                 return true;
-            }
         });
     }
 }

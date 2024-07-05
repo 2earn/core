@@ -456,33 +456,32 @@
                     });
                 });
 
-                $("#sendIndentificationRequest").on("click", function () {
-                    sendIndentificationRequest()
-                });
-
-                $('#international-card').change(function () {
-                    if (this.checked) {
-                        $('#international-card-block').removeClass("d-none");
-                        $("#internationalId, #expiryDate, #photoInternational").val('');
-                    } else {
-                        $('#international-card-block').addClass("d-none")
-                    }
-                });
-
-                $('#btn-next-identities-card').click(function (e) {
-                    $('#myTab button[id="pills-identities-card-tab"]').tab('show');
-                });
+            });
+            $("#sendIndentificationRequest").on("click", function () {
+                sendIndentificationRequest()
             });
 
-            window.addEventListener('IdentificationRequestMissingInformation', event => {
-                Swal.fire({
-                    title: event.detail.title,
-                    text: event.detail.text,
-                    icon: 'error',
-                    confirmButtonText: "{{__('ok')}}"
-                })
+            $('#international-card').change(function () {
+                if (this.checked) {
+                    $('#international-card-block').removeClass("d-none");
+                    $("#internationalId, #expiryDate, #photoInternational").val('');
+                } else {
+                    $('#international-card-block').addClass("d-none")
+                }
+            });
+
+            $('#btn-next-identities-card').click(function (e) {
+                $('#myTab button[id="pills-identities-card-tab"]').tab('show');
             });
         });
 
+        window.addEventListener('IdentificationRequestMissingInformation', event => {
+            Swal.fire({
+                title: event.detail.title,
+                text: event.detail.text,
+                icon: 'error',
+                confirmButtonText: "{{__('ok')}}"
+            })
+        });
     </script>
 </div>

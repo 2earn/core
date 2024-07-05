@@ -121,7 +121,6 @@
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PMK39HQQ"
                 height="0" width="0" style="display:none;visibility:hidden"></iframe>
     </noscript>
-    @include('layouts.body')
     <script src="{{ asset('/sw.js') }}"></script>
 @show
 <div id="layout-wrapper">
@@ -236,7 +235,6 @@
     });
 
 </script>
-
 @stack('scripts')
 <script type="module">
     $(document).on('turbolinks:load', function () {
