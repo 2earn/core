@@ -85,7 +85,7 @@
             fullNumber = document.getElementById("outputAddContact");
             phone = document.getElementById("phoneAddContact");
             if (ccode.value.trim() && fullNumber.value.trim() && phone.value.trim())
-                window.livewire.emit('save', ccode.value.trim(), fullNumber.value.trim(), phone.value.trim());
+                window.Livewire.emit('save', ccode.value.trim(), fullNumber.value.trim(), phone.value.trim());
             else
                 console.log("erreur number");
         }

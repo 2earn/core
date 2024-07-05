@@ -4,12 +4,12 @@
             {{ __('Translate') }}
         @endslot
     @endcomponent
-    <div wire:ignore.self class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    <div wire:ignore.self class="modal fade" id="editTranslationModal" tabindex="-1" aria-labelledby="editTranslationModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{__('Edit field')}} : </h5>
+                    <h5 class="modal-title" id="editTranslationModalLabel">{{__('Edit field')}} : </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -158,7 +158,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                         <td><span>{{$value->valueFr}}</span></td>
                                         <td>
                                             <a type="btn" wire:click="initTranslate({{$value->id}})"
-                                               data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                               data-bs-toggle="modal" data-bs-target="#editTranslationModal"
                                                class="btn btn-info">{{__('Edit')}}
                                             </a>
                                             <a type="btn" onclick="confirmDelete({{$value->id}})"
@@ -185,7 +185,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                 denyButtonText: '{{__('no')}}'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.livewire.emit('deleteTranslate', idTranslate);
+                    window.Livewire.emit('deleteTranslate', idTranslate);
                 } else if (result.isDenied) {
                     location.reload();
                 }
@@ -193,8 +193,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         }
 
         window.addEventListener('closeModal', event => {
-            const modal = bootstrap.Modal.getOrCreateInstance('#exampleModal');
-            modal.hide();
+            $('#editTranslationModal').modal('hide');
         });
 
         window.addEventListener('PassEnter', event => {
@@ -209,16 +208,16 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                 if (resultat.value) {
                     switch (event.detail.ev) {
                         case 'arToData':
-                            window.livewire.emit('addArabicField', resultat.value);
+                            window.Livewire.emit('addArabicField', resultat.value);
                             break;
                         case 'enToData':
-                            window.livewire.emit('addEnglishField', resultat.value);
+                            window.Livewire.emit('addEnglishField', resultat.value);
                             break;
                         case 'mergeToData':
-                            window.livewire.emit('mergeTransaction', resultat.value);
+                            window.Livewire.emit('mergeTransaction', resultat.value);
                             break;
                         case 'databaseToFile':
-                            window.livewire.emit('databaseToFile', resultat.value);
+                            window.Livewire.emit('databaseToFile', resultat.value);
                             break;
                     }
                 }
@@ -236,7 +235,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                 confirmButtonText: 'Confirm',
             }).then((resultat) => {
                 if (resultat.value) {
-                    window.livewire.emit('AddFieldTranslate', resultat.value);
+                    window.Livewire.emit('AddFieldTranslate', resultat.value);
                 }
                 if (resultat.isDismissed) {
                     location.reload();

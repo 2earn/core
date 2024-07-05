@@ -250,7 +250,7 @@
     </div>
     <script type="module">
         function initNewUserContact() {
-            window.livewire.emit('initNewUserContact');
+            window.Livewire.emit('initNewUserContact');
         }
 
         function validateAdd() {
@@ -287,7 +287,7 @@
                     data: {phoneNumber: phoneNumber, inputName: inputName, "_token": "{{ csrf_token() }}"},
                     success: function (response) {
                         if (response.message == "") {
-                            window.livewire.emit('save', phoneNumber, inputname.value.trim(), out);
+                            window.Livewire.emit('save', phoneNumber, inputname.value.trim(), out);
                             errorMsg.innerHTML = "";
                             errorMsg.classList.add("hide");
                         } else {
@@ -300,7 +300,7 @@
         }
 
         function editContact(id) {
-            window.livewire.emit('initUserContact', id);
+            window.Livewire.emit('initUserContact', id);
         }
 
         function confirmDeleteContact(contactId, ContactFullName) {
@@ -320,7 +320,7 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.livewire.emit('deleteContact', contactId);
+                    window.Livewire.emit('deleteContact', contactId);
                 }
             });
 

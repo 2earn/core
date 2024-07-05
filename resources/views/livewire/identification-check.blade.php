@@ -17,7 +17,7 @@
                                             disabled
                                         @endif
                                         data-bs-target=@if($hasRequest) "#modalRequestExiste" @else
-                                    "#exampleModal"
+                                    "#accountValidationModal"
                                 @endif>
                                 {{__('Click_here_for_Verification')}}
                                 </button>
@@ -51,12 +51,12 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modalRequestExiste" tabindex="-1" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="modalRequestExiste" tabindex="-1" aria-labelledby="accountValidationModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{__('Validation Compte')}}</h5>
+                    <h5 class="modal-title" id="modalRequestExisteLabel">{{__('Validation Compte')}}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -71,12 +71,12 @@
             </div>
         </div>
     </div>
-    <div wire:ignore class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    <div wire:ignore class="modal fade" id="identificationModal" tabindex="-1" aria-labelledby="identificationModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header p-3">
-                    <h5 class="modal-title text-uppercase" id="exampleModalLabel">
+                    <h5 class="modal-title text-uppercase" id="identificationModalLabel">
                         {{__('Verify_your_Account')}}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -388,10 +388,8 @@
             }
 
             function hideIdentificationModal() {
-                const modal = bootstrap.Modal.getOrCreateInstance('#exampleModal');
-                modal.hide();
+                $('#identificationModal').modal('hide');
             }
-
 
 
             window.addEventListener('load', () => {
@@ -459,7 +457,7 @@
 
         function sendIndentificationRequest(event) {
             if (checkRequiredFieldsInfo()) {
-                window.livewire.emit('sendIndentificationRequest');
+                window.Livewire.emit('sendIndentificationRequest');
             }
         }
 
@@ -467,12 +465,12 @@
             sendIndentificationRequest();
         });
         $('#btn-next-identities-card').click(function (e) {
-            const tab = bootstrap.Tab.getOrCreateInstance('#myTab button[id="pills-identities-card-tab"]');
-            tab.show();
+            var tabi = new bootstrap.Tab('#myTab button[id="pills-identities-card-tab"]');
+            tabi.show();
         });
         $('#btn-next-inter-identities-card').click(function (e) {
-            const tab = bootstrap.Tab.getOrCreateInstance('#myTab button[id="pills-inter-identities-card"]');
-            tab.show();
+            var tabii = new bootstrap.Tab('#myTab button[id="pills-inter-identities-card"]');
+            tabii.show();
         });
         $('#international-card').change(function () {
             if (this.checked) {

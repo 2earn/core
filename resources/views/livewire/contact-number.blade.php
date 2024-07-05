@@ -50,7 +50,8 @@
                                 </td>
                                 <td>
                                     <div class="d-flex align-items-center fw-medium">
-                                        <img src="{{ Vite::asset('resources/images/flags/'.$value->isoP.'.svg') }}" alt=""
+                                        <img src="{{ Vite::asset('resources/images/flags/'.$value->isoP.'.svg') }}"
+                                             alt=""
                                              class="avatar-xxs me-2">
                                         <a href="javascript:void(0);"
                                            class="currency_name"> {{getCountryByIso($value->isoP)}}</a>
@@ -101,20 +102,17 @@
     </div>
     <script type="module">
         $(document).on('turbolinks:load', function () {
-           var timerInterval;
+            var timerInterval;
             $("#saveAddContactNumber").click(function (event) {
                 event.preventDefault();
                 event.stopImmediatePropagation();
-                const modal = bootstrap.Modal.getOrCreateInstance('#AddContactNumberModel');
-                modal.hide();
-                window.livewire.emit('preSaveContact', $("#outputphoneContactNumber").val(), $("#isoContactNumber").val(), $("#phoneContactNumber").val());
+                $('#AddContactNumberModel').modal('hide');
+                window.Livewire.emit('preSaveContact', $("#outputphoneContactNumber").val(), $("#isoContactNumber").val(), $("#phoneContactNumber").val());
             });
 
             function setActiveNumber($id) {
                 try {
-                    const modal = bootstrap.Modal.getOrCreateInstance('#modalCeckContactNumber');
-                    modal.show();
-                    modal.hide();
+                    $('#modalCeckContactNumber').modal('hide');
                 } catch (e) {
                 }
 
@@ -133,7 +131,7 @@
                     }
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.livewire.emit('setActiveNumber', 1, $id);
+                        window.Livewire.emit('setActiveNumber', 1, $id);
                     }
                 });
             }
@@ -154,7 +152,7 @@
                     }
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.livewire.emit('deleteContact', $id);
+                        window.Livewire.emit('deleteContact', $id);
                     }
                 });
             }
@@ -185,7 +183,7 @@
                     inputAttributes: {autocapitalize: 'off'},
                 }).then((resultat) => {
                     if (resultat.isConfirmed) {
-                        window.livewire.emit('saveContactNumber', resultat.value, event.detail.isoP, event.detail.mobile, event.detail.FullNumberNew);
+                        window.Livewire.emit('saveContactNumber', resultat.value, event.detail.isoP, event.detail.mobile, event.detail.FullNumberNew);
                     }
                     if (resultat.isDismissed && resultat.dismiss == 'cancel') {
                         window.location.reload();

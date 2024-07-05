@@ -69,7 +69,7 @@
         </div>
         <script>
             function sendReq() {
-                window.livewire.emit('sendReques');
+                window.Livewire.emit('sendReques');
             }
         </script>
     </div>

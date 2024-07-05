@@ -93,7 +93,7 @@
     </style>
     <script type="module">
         function getEditCountrie(id) {
-            window.livewire.emit('initCountrie', id);
+            window.Livewire.emit('initCountrie', id);
         }
         $("#editCountriesModal").on('hidden.bs.modal', function () {
             window.location.href = "{{ route('countries_management', app()->getLocale())}}";

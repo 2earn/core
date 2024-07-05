@@ -249,7 +249,7 @@
                 if (iti.isValidNumberPrecise()) {
                     @this.
                     set('captcha', grecaptcha.getResponse());
-                    window.livewire.emit('changefullNumber', out.replace(/\D/g, ''), $("#ccode").val(), $("#iso2Country").val());
+                    window.Livewire.emit('changefullNumber', out.replace(/\D/g, ''), $("#ccode").val(), $("#iso2Country").val());
                 } else {
                     input.classList.add("error");
                     const errorCode = iti.getValidationError();
