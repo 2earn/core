@@ -392,37 +392,7 @@
                 modal.hide();
             }
 
-            function checkRequiredFieldInfo(idInput) {
-                if ($("#" + idInput).val().trim() === "") {
-                    $("#" + idInput).css('border-color', 'red');
-                    return false;
-                } else {
-                    $("#" + idInput).css('border-color', 'green');
-                }
-                return true;
-            }
 
-            function checkRequiredFieldsInfo() {
-                if ($('#international-card').is(":checked")) {
-                    return checkRequiredFieldInfo('internationalId') && checkRequiredFieldInfo('expiryDate');
-                } else {
-                    return true;
-                }
-            }
-
-            function validateEmail(email) {
-                return String(email)
-                    .toLowerCase()
-                    .match(
-                        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-                    );
-            }
-
-            function sendIndentificationRequest(event) {
-                if (checkRequiredFieldsInfo()) {
-                    window.livewire.emit('sendIndentificationRequest');
-                }
-            }
 
             window.addEventListener('load', () => {
                 function sendMailNotification() {
@@ -460,11 +430,48 @@
 
 
         });
+
+        function checkRequiredFieldInfo(idInput) {
+            if ($("#" + idInput).val().trim() === "") {
+                $("#" + idInput).css('border-color', 'red');
+                return false;
+            } else {
+                $("#" + idInput).css('border-color', 'green');
+            }
+            return true;
+        }
+
+        function checkRequiredFieldsInfo() {
+            if ($('#international-card').is(":checked")) {
+                return checkRequiredFieldInfo('internationalId') && checkRequiredFieldInfo('expiryDate');
+            } else {
+                return true;
+            }
+        }
+
+        function validateEmail(email) {
+            return String(email)
+                .toLowerCase()
+                .match(
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                );
+        }
+
+        function sendIndentificationRequest(event) {
+            if (checkRequiredFieldsInfo()) {
+                window.livewire.emit('sendIndentificationRequest');
+            }
+        }
+
         $("#sendIndentificationRequest").on("click", function () {
-            sendIndentificationRequest()
+            sendIndentificationRequest();
         });
         $('#btn-next-identities-card').click(function (e) {
             const tab = bootstrap.Tab.getOrCreateInstance('#myTab button[id="pills-identities-card-tab"]');
+            tab.show();
+        });
+        $('#btn-next-inter-identities-card').click(function (e) {
+            const tab = bootstrap.Tab.getOrCreateInstance('#myTab button[id="pills-inter-identities-card"]');
             tab.show();
         });
         $('#international-card').change(function () {
