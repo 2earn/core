@@ -145,7 +145,7 @@
     });
 </script>
 <script type="module">
-    $(document).on('ready ', function () {
+    $(document).on('turbolinks:load', function () {
         var select2_array = [];
         var classAl = "text-end";
         var tts = '{{config('app.available_locales')[app()->getLocale()]['direction']}}';
@@ -216,10 +216,7 @@
         });
     });
 
-    window.addEventListener('closeModal', event => {
-        $('#settingModal').modal('hide');
-        $('#SettingsTable').DataTable().ajax.reload();
-    });
+
     window.addEventListener('closeModalOp', event => {
         $('#BoModal').modal('hide');
         $('#BalanceOperationsTable').DataTable().ajax.reload();

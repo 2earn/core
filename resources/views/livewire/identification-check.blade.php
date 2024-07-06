@@ -16,8 +16,8 @@
                                         @if(!$usermetta_info2['enFirstName'] || !$usermetta_info2['enLastName'] || !$usermetta_info2['birthday'] || !$usermetta_info2['nationalID'] || !$userF['email'])
                                             disabled
                                         @endif
-                                        data-bs-target=@if($hasRequest) "#modalRequestExiste" @else
-                                    "#accountValidationModal"
+                                        data-bs-target=@if($hasRequest) "#accountValidationModal" @else
+                                    "#identificationModal"
                                 @endif>
                                 {{__('Click_here_for_Verification')}}
                                 </button>
@@ -71,7 +71,8 @@
             </div>
         </div>
     </div>
-    <div wire:ignore class="modal fade" id="identificationModal" tabindex="-1" aria-labelledby="identificationModalLabel"
+    <div wire:ignore class="modal fade" id="identificationModal" tabindex="-1"
+         aria-labelledby="identificationModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
@@ -464,14 +465,15 @@
         $("#sendIndentificationRequest").on("click", function () {
             sendIndentificationRequest();
         });
+
         $('#btn-next-identities-card').click(function (e) {
-            var tabi = new bootstrap.Tab('#myTab button[id="pills-identities-card-tab"]');
-            tabi.show();
+            $('#myTab li:nth-child(2) button').trigger("click");
         });
+
         $('#btn-next-inter-identities-card').click(function (e) {
-            var tabii = new bootstrap.Tab('#myTab button[id="pills-inter-identities-card"]');
-            tabii.show();
+            $('#myTab li:nth-child(3) button').trigger("click");
         });
+
         $('#international-card').change(function () {
             if (this.checked) {
                 $('#international-card-block').removeClass("d-none");

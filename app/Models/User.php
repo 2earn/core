@@ -50,7 +50,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function hasIdetificationReques()
+    public function hasIdentificationRequest()
     {
         $idUser= $this->idUser;
         $identificationRequest = DB::table('identificationuserrequest')

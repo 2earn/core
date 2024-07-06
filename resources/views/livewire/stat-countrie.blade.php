@@ -68,18 +68,20 @@
                 anychart.data.loadJsonFile(
                     "{{route('API_stat_countries',app()->getLocale())}}",
                     function (data) {
-                        for (var i = 0; i < data.length; i++) {
-                            data[i].value = data[i].COUNT_USERS;
-                            data[i].short = data[i].apha2;
+                        if (data.length) {
+                            for (var i = 0; i < data.length; i++) {
+                                data[i].value = data[i].COUNT_USERS;
+                                data[i].short = data[i].apha2;
+                            }
+                            dataSet = anychart.data.set(data);
+                            tableChart = getTableChart();
+                            mapChart = drawMap();
+                            tableCharts = getTableCharts();
+                            var layoutTable = anychart.standalones.table();
+                            layoutTable.cellBorder(null);
+                            layoutTable.container('any2');
+                            layoutTable.draw();
                         }
-                        dataSet = anychart.data.set(data);
-                        tableChart = getTableChart();
-                        mapChart = drawMap();
-                        tableCharts = getTableCharts();
-                        var layoutTable = anychart.standalones.table();
-                        layoutTable.cellBorder(null);
-                        layoutTable.container('any2');
-                        layoutTable.draw();
 
                         function getTableChart() {
                             var table = anychart.standalones.table();
@@ -418,9 +420,7 @@
                     "{{route('API_stat_countries',app()->getLocale())}}",
                     function (data) {
                         var dataSet = anychart.data.set(data);
-                        console.log(dataSet);
                         var mapping = dataSet.mapAs({x: "name", value: "COUNT_USERS", category: "continant"});
-                        console.log(mapping);
                         var colors = anychart.scales.ordinalColor().colors(['#26959f', '#f18126', '#3b8ad8', '#60727b', '#e24b26']);
                         var chart = anychart.tagCloud();
                         chart.title('Distribution of users by country').data(mapping).colorScale(colors).angles([-90, 0, 90]);
