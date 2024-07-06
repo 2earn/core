@@ -513,6 +513,11 @@
                     "language": {"url": urlLang}
                 }
             );
+
+            window.addEventListener('closeModal', event => {
+                $('#settingModal').modal('hide');
+                $('#SettingsTable').DataTable().ajax.reload();
+            });
         });
     </script>
 </div>

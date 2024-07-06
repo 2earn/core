@@ -115,7 +115,7 @@
     <script type="module">
         $(document).on('turbolinks:load', function () {
             $('#listeHobbies :checkbox').change(function () {
-                window.livewire.emit('save');
+                window.Livewire.emit('save');
             });
         });
     </script>

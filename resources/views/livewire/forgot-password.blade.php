@@ -186,7 +186,7 @@
         });
 
         function sendSmsEvent() {
-            window.livewire.emit('Presend', $("#ccodeforget").val(), $("#outputforget").val());
+            window.Livewire.emit('Presend', $("#ccodeforget").val(), $("#outputforget").val());
         }
 
         window.addEventListener('OptForgetPass', event => {
@@ -219,7 +219,7 @@
 
             }).then((resultat) => {
                 if (resultat.value) {
-                    window.livewire.emit('sendSms', resultat.value, $("#outputforget").val());
+                    window.Livewire.emit('sendSms', resultat.value, $("#outputforget").val());
                 }
                 if (resultat.isDismissed) {
                     location.reload();

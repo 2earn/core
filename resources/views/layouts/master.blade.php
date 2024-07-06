@@ -145,7 +145,7 @@
     });
 </script>
 <script type="module">
-    $(document).on('ready ', function () {
+    $(document).on('turbolinks:load', function () {
         var select2_array = [];
         var classAl = "text-end";
         var tts = '{{config('app.available_locales')[app()->getLocale()]['direction']}}';
@@ -163,8 +163,7 @@
             $('#realsold-phone').attr('value', phone);
             $('#realsold-ammount').attr('value', amount);
             $('#realsold-ammount-total').attr('value', amount);
-            const modal = bootstrap.Modal.getOrCreateInstance('#realsoldmodif');
-            modal.show();
+            $('#realsoldmodif').modal('show');
             fetchAndUpdateCardContent();
             $('#shares-sold').DataTable().ajax.reload();
         });
@@ -177,8 +176,7 @@
                 type: "POST",
                 data: {total: total, amount: ammount, id: reciver, "_token": "{{ csrf_token() }}"},
                 success: function (data) {
-                    const modal = bootstrap.Modal.getOrCreateInstance('#realsoldmodif');
-                    modal.hide();
+                    $('#realsoldmodif').modal('hide');
                     $('#shares-sold').DataTable().ajax.reload();
                     fetchAndUpdateCardContent();
                 }
@@ -218,19 +216,13 @@
         });
     });
 
-    window.addEventListener('closeModal', event => {
-        var myModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('settingModal'));
-        myModal.hide();
-        $('#SettingsTable').DataTable().ajax.reload();
-    });
+
     window.addEventListener('closeModalOp', event => {
-        var myModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('BoModal'));
-        myModal.hide();
+        $('#BoModal').modal('hide');
         $('#BalanceOperationsTable').DataTable().ajax.reload();
     });
     window.addEventListener('closeModalAmounts', event => {
-        var myModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('AmountsModal'));
-        myModal.hide();
+        $('#AmountsModal').modal('hide');
         $('#amountsTable').DataTable().ajax.reload();
     });
 
@@ -580,8 +572,7 @@
                             console.log(data);
                         }
                     });
-                    const modal = bootstrap.Modal.getOrCreateInstance('#AddCash');
-                    modal.hide();
+                    $('#AddCash').modal('hide');
                     Toastify({
                         text: data,
                         gravity: "top",
@@ -634,8 +625,8 @@
                         }
                     });
 
-                    const modal = bootstrap.Modal.getOrCreateInstance('#vip');
-                    modal.hide();
+                    $('#vip').modal('hide');
+
                     Toastify({
                         text: data,
                         gravity: "top",

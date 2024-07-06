@@ -440,7 +440,7 @@
             </div>
             <script data-turbolinks-eval="false">
                 function ConfirmChangePhoneAdmin(){
-                    window.livewire.emit('updatePhone514',$('#phoneUpdateAdmin').val(),$('#ccodephoneUpdateAdmin').val(),$('#outputphoneUpdateAdmin').val())
+                    window.Livewire.emit('updatePhone514',$('#phoneUpdateAdmin').val(),$('#ccodephoneUpdateAdmin').val(),$('#outputphoneUpdateAdmin').val())
                 }
                 window.addEventListener('updatePhone', event => {
                     toastr.success(event.detail.text);

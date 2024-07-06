@@ -950,7 +950,7 @@
         <script type="module">
             $(document).on('turbolinks:load', function () {
                 $("#btnsaveUser").click(function () {
-                    window.livewire.emit('saveUser', parseInt($("#inputChild").val()));
+                    window.Livewire.emit('saveUser', parseInt($("#inputChild").val()));
                 });
                 $('input[type="file"]').each(function () {
                     var $file = $(this),
@@ -974,11 +974,11 @@
             });
 
             function SaveChangeEdit() {
-                window.livewire.emit('SaveChangeEdit');
+                window.Livewire.emit('SaveChangeEdit');
             }
 
             function ConfirmChangePass() {
-                window.livewire.emit('PreChangePass');
+                window.Livewire.emit('PreChangePass');
             }
 
             window.addEventListener('OptChangePass', event => {
@@ -1015,7 +1015,7 @@
                     },
                 }).then((resultat) => {
                     if (resultat.value) {
-                        window.livewire.emit('changePassword', resultat.value);
+                        window.Livewire.emit('changePassword', resultat.value);
                     }
                 }).catch((error) => {
                     console.error('SweetAlert Error:', error);
@@ -1052,7 +1052,7 @@
                     inputAttributes: {autocapitalize: 'off'},
                 }).then((resultat) => {
                     if (resultat.isConfirmed && resultat.value) {
-                        window.livewire.emit('checkUserEmail', resultat.value);
+                        window.Livewire.emit('checkUserEmail', resultat.value);
                     } else if (resultat.isDismissed) {
                         $('.modal-backdrop').remove();
                     }
@@ -1063,16 +1063,16 @@
 
 
             document.addEventListener("turbolinks:load", function() {
-                    let myModal = new window.bootstrap.Modal(document.getElementById('identies-viewer'), {});
-                    $("#validateMail").click(function (event) {
-                        event.preventDefault();
-                        event.stopImmediatePropagation();
-                        window.livewire.emit("sendVerificationMail", $('#inputEmail').val());
+                    $("#validateMail").click(function (validateMailEvent) {
+                        validateMailEvent.preventDefault();
+                        validateMailEvent.stopImmediatePropagation();
+                        window.Livewire.emit("sendVerificationMail", $('#inputEmail').val());
                     });
 
                     function showIdentitiesModal(typeIdentitie) {
                         $('#identies-viewer-title').empty().append($('#' + typeIdentitie + '-id-image').attr('title'));
                         $('#identies-viewer-content').empty().append($('#' + typeIdentitie + '-id-image').clone().width('100%').height('200%'));
+                        var myModal = new bootstrap.Modal(document.getElementById('identies-viewer'))
                         myModal.show();
                     }
 
@@ -1127,7 +1127,7 @@
                         inputAttributes: {autocapitalize: 'off'},
                     }).then((resultat) => {
                         if (resultat.isConfirmed) {
-                            window.livewire.emit('saveVerifiedMail', resultat.value);
+                            window.Livewire.emit('saveVerifiedMail', resultat.value);
                         } else if (resultat.isDismissed) {
                             $('.modal-backdrop').remove();
                         }
@@ -1179,7 +1179,7 @@
                         denyButtonText: '{{trans('No')}}'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            window.livewire.emit('ParamSendChanged');
+                            window.Livewire.emit('ParamSendChanged');
                         } else if (result.isDenied) {
                         }
                     })

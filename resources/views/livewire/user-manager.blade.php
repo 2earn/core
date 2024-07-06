@@ -81,7 +81,7 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.livewire.emit('deleteUser', idUser);
+                    window.Livewire.emit('deleteUser', idUser);
                 }
             });
         }
