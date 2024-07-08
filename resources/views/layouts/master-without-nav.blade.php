@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="{{ Vite::asset('resources/images/favicon.ico')}}">
     @livewireStyles
     <script src="https://www.google.com/recaptcha/api.js?render={{config('services.recaptcha.key')}}"></script>
-    @include('components.styles');
+    @include('components.styles')
     @vite([ 'resources/css/intlTelInput.min.css','resources/js/sweetalert2@11.js','resources/js/appWithoutNav.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
 </head>
 <body>

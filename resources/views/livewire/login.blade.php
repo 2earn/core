@@ -1,5 +1,5 @@
 <div data-turbolinks='false'>
-    <div class="auth-page-wrapper auth-bg-cover py-2 justify-content-center align-items-center min-vh-75">
+    <div class="auth-page-wrapper auth-bg-cover mt-5 py-2 justify-content-center align-items-center min-vh-75">
         <div class="bg-overlay"></div>
         <div class="auth-page-content">
             <script>
