@@ -12,6 +12,7 @@ const folder = {
     dist: "public/",
     dist_assets: "public/build/"
 };
+const rands = Math.random().toString(36).slice(2, 7);
 
 export default defineConfig({
     build: {
@@ -24,7 +25,6 @@ export default defineConfig({
             output: {
                 assetFileNames: (assetInfo) => {
                     const extType = assetInfo.name.split('.').pop();
-                    const rands = Math.random().toString(36).slice(2, 7);
                     if (extType === 'css') {
                         return 'assets/css/[name]-[hash]-' + rands + '.min.[ext]';
                     } else if (extType === 'js') {
@@ -33,6 +33,8 @@ export default defineConfig({
                         return 'assets/[ext]/[name]-[hash]-' + rands + '.[ext]';
                     }
                 },
+                chunkFileNames: 'assets/js/[name]-[hash]-' + rands + '.min.js',
+                entryFileNames: 'assets/js/[name]-[hash]-' + rands + '.min.js',
             },
         },
     },
