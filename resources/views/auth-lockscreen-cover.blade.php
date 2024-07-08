@@ -19,7 +19,7 @@
                                         <div class="position-relative h-100 d-flex flex-column">
                                             <div class="mb-4">
                                                 <a href="index" class="d-block">
-                                                    <img src="{{ URL::asset('assets/images/logo-light.png') }}" alt="" height="18">
+                                                    <img src="{{ Vite::asset('resources/images/logo-light.png') }}" alt="" height="18">
                                                 </a>
                                             </div>
                                             <div class="mt-auto">
@@ -62,7 +62,7 @@
                                             <p class="text-muted">Enter your password to unlock the screen!</p>
                                         </div>
                                         <div class="user-thumb text-center">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" class="rounded-circle img-thumbnail avatar-lg" alt="thumbnail">
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" class="rounded-circle img-thumbnail avatar-lg" alt="thumbnail">
                                             <h5 class="font-size-15 mt-3">Anna Adame</h5>
                                         </div>
 

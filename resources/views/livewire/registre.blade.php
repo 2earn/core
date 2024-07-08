@@ -13,56 +13,59 @@
         }
     </style>
     <script>
-        var existSucess = '{{Session::has('successRegistre')}}';
-        var msgsuccess = "success !";
-        if (existSucess && "{{Session::get('successRegistre')}}" != "") {
-            var local = '{{app()->getLocale()}}';
-            if (local == 'ar') {
-                msgsuccess = "هذا  !";
-            }
-            Swal.fire({
-                title: ' ',
-                text: msgsuccess,
-                icon: 'error',
-                confirmButtonText: '{{trans('ok')}}',
-            })
-        }
-        var exist = '{{Session::has('errorPhoneExiste')}}';
-        var msg = "this number is already registered!";
-        if (exist && "{{Session::get('errorPhoneExiste')}}" != "") {
-            msg = "{{Session::get('errorPhoneExiste')}}";
-            Swal.fire({
-                title: ' ',
-                text: msg,
-                icon: 'error',
-                confirmButtonText: '{{trans('ok')}}',
-            }).then(okay => {
-                if (okay) {
-                    window.location.reload();
+        window.addEventListener('load', () => {
+            var existSucess = '{{Session::has('successRegistre')}}';
+            var msgsuccess = "success !";
+            if (existSucess && "{{Session::get('successRegistre')}}" != "") {
+                var local = '{{app()->getLocale()}}';
+                if (local == 'ar') {
+                    msgsuccess = "هذا  !";
                 }
-            });
-        }
-        var existn = '{{Session::has('errorPhoneValidation')}}';
-        var msg = "This number is not valid!";
-        if (existn && "{{Session::get('errorPhoneValidation')}}" != "") {
-            var local = '{{app()->getLocale()}}';
-            if (local == 'ar') {
-                msg = "هذا الرقم غير صالح!";
+                Swal.fire({
+                    title: ' ',
+                    text: msgsuccess,
+                    icon: 'error',
+                    confirmButtonText: '{{trans('ok')}}',
+                })
             }
-            Swal.fire({
-                title: ' ',
-                text: msg,
-                icon: 'error',
-                confirmButtonText: '{{trans('ok')}}',
-            }).then(okay => {
-                if (okay) {
-                    window.location.reload();
+            var exist = '{{Session::has('errorPhoneExiste')}}';
+            var msg = "this number is already registered!";
+            if (exist && "{{Session::get('errorPhoneExiste')}}" != "") {
+                msg = "{{Session::get('errorPhoneExiste')}}";
+                Swal.fire({
+                    title: ' ',
+                    text: msg,
+                    icon: 'error',
+                    confirmButtonText: '{{trans('ok')}}',
+                }).then(okay => {
+                    if (okay) {
+                        window.location.reload();
+                    }
+                });
+            }
+            var existn = '{{Session::has('errorPhoneValidation')}}';
+            var msg = "This number is not valid!";
+            if (existn && "{{Session::get('errorPhoneValidation')}}" != "") {
+                var local = '{{app()->getLocale()}}';
+                if (local == 'ar') {
+                    msg = "هذا الرقم غير صالح!";
                 }
-            });
-        }
+                Swal.fire({
+                    title: ' ',
+                    text: msg,
+                    icon: 'error',
+                    confirmButtonText: '{{trans('ok')}}',
+                }).then(okay => {
+                    if (okay) {
+                        window.location.reload();
+                    }
+                });
+            }
+        });
+
     </script>
     <div class="auth-page-wrapper pt-5">
-        <div class="auth-one-bg-position auth-one-bg col-lg-6 d-none d-md-block" id="auth-particles">
+        <div class="auth-one-bg-position auth-one-bg col-lg-12 d-none d-md-block" id="auth-particles">
             <div class="bg-overlay"></div>
             <div class="shape">
                 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -77,7 +80,7 @@
                     <div class="col-lg-12 mb-2 ">
                         <div class="text-center mt-sm-5 mb-4 text-white-50">
                             <a href="{{route('login',app()->getLocale())}}" class="d-inline-block auth-logo">
-                                <img src="{{ URL::asset('assets/images/2earn.png') }}" id="super-logo" height="60">
+                                <img src="{{ Vite::asset('resources/images/2earn.png') }}" id="super-logo" height="60">
                             </a>
                             <p class="mt-3 fs-15 fw-medium"></p>
                         </div>
@@ -139,7 +142,7 @@
                                                     <li class="active active-underline">
                                                         <div>
                                                             <a href="{{env('SHOP_LIEN')}}">
-                                                                <img src="{{asset('assets/images/icon-shop.png')}}"
+                                                                <img src="{{Vite::asset('resources/images/icon-shop.png')}}"
                                                                      width="70" height="70">
                                                             </a>
                                                         </div>
@@ -147,7 +150,7 @@
                                                     <li>
                                                         <div>
                                                             <a href="{{env('LEARN_LIEN')}}">
-                                                                <img src="{{asset('assets/images/icon-learn.png')}}"
+                                                                <img src="{{Vite::asset('resources/images/icon-learn.png')}}"
                                                                      width="70" height="70">
                                                             </a>
                                                         </div>
@@ -157,7 +160,7 @@
                                                             <a href="{{env('LEARN_LIEN')}}"><img
                                                                     @if(isset($plateforme)) @if($plateforme==1) style="box-shadow: 0 0 30px #004dcede;
                                                 border-radius: 39px;"
-                                                                    @endif @endif src="{{asset('assets/images/Move2earn Icon.png')}}"
+                                                                    @endif @endif src="{{Vite::asset('resources/images/Move2earn Icon.png')}}"
                                                                     width="70" height="70"></a>
                                                         </div>
                                                     </li>
@@ -168,11 +171,11 @@
                                             <div class="center" style=" display: flex;  justify-content: center;">
                                                 <div class="dropdown ms-1 topbar-head-dropdown header-item  ">
                                                     <button type="button"
-                                                            class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                                                            class="btn btn-topbar btn-ghost-secondary "
                                                             data-bs-toggle="dropdown" aria-haspopup="true"
                                                             aria-expanded="false">
                                                         <img
-                                                            src="{{ URL::asset('/assets/images/flags/'.config('app.available_locales')[app()->getLocale()]['flag'].'.svg') }}"
+                                                            src="{{ Vite::asset('resources/images/flags/'.config('app.available_locales')[app()->getLocale()]['flag'].'.svg') }}"
                                                             class="rounded" alt="Header Language"
                                                             height="20">
                                                         <span
@@ -189,7 +192,7 @@
                                                                title="{{ __('lang'.$locale)  }}"
                                                                data-turbolinks="false">
                                                                 <img
-                                                                    src="{{ URL::asset('assets/images/flags/'.$value['flag'].'.svg') }}"
+                                                                    src="{{ Vite::asset('resources/images/flags/'.$value['flag'].'.svg') }}"
                                                                     alt="user-image" class="me-2 rounded"
                                                                     height="20">
                                                                 <span
@@ -246,7 +249,7 @@
                 if (iti.isValidNumberPrecise()) {
                     @this.
                     set('captcha', grecaptcha.getResponse());
-                    window.livewire.emit('changefullNumber', out.replace(/\D/g, ''), $("#ccode").val(), $("#iso2Country").val());
+                    window.Livewire.emit('changefullNumber', out.replace(/\D/g, ''), $("#ccode").val(), $("#iso2Country").val());
                 } else {
                     input.classList.add("error");
                     const errorCode = iti.getValidationError();

@@ -13,18 +13,13 @@ class  AuthenticatedUser
         'iden_notif' => 'boolean',
     ];
 
-    public function hasIdetificationReques()
+    public function hasIdentificationRequest()
     {
-        $idUser = $this->idUser;
         $identificationRequest = DB::table('identificationuserrequest')
-            ->where('idUser', $idUser)
+            ->where('idUser', $this->idUser)
             ->where('status', StatusRequst::EnCours)
             ->first();
-        if ($identificationRequest) {
-            return 1;
-        } else {
-            return 0;
-        }
+        return is_null($identificationRequest) ? false : true;
     }
 
 

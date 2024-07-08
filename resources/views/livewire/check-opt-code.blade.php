@@ -39,7 +39,7 @@
                     <div class="col-xl-5 col-md-6">
                         <div class="mini-logo text-center my-5">
                             <a href="{{route('registre',app()->getLocale())}}"><img
-                                    src="{{asset('assets/images/2earn.png')}}"
+                                    src="{{Vite::asset('resources/images/2earn.png')}}"
                                     alt=""></a>
                         </div>
                         <div class="auth-form card">
@@ -76,7 +76,7 @@
                                         <li class="active active-underline">
                                             <div>
                                                 <a href="{{env('SHOP_LIEN')}}">
-                                                    <img src="{{asset('assets/images/icon-shop.png')}}" width="70"
+                                                    <img src="{{Vite::asset('resources/images/icon-shop.png')}}" width="70"
                                                          height="70">
                                                 </a>
                                             </div>
@@ -84,7 +84,7 @@
                                         <li>
                                             <div>
                                                 <a href="{{env('LEARN_LIEN')}}">
-                                                    <img src="{{asset('assets/images/icon-learn.png')}}" width="70"
+                                                    <img src="{{Vite::asset('resources/images/icon-learn.png')}}" width="70"
                                                          height="70">
                                                 </a>
                                             </div>
@@ -94,7 +94,7 @@
                                                 <a href="{{env('LEARN_LIEN')}}"><img
                                                         @if(isset($plateforme)) @if($plateforme==1) style="box-shadow: 0 0 30px #004dcede;
                                                 border-radius: 39px;"
-                                                        @endif @endif src="{{asset('assets/images/Move2earn Icon.png')}}"
+                                                        @endif @endif src="{{Vite::asset('resources/images/Move2earn Icon.png')}}"
                                                         width="70" height="70"></a>
                                             </div>
                                         </li>

@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\PostController;
 use App\Http\Livewire\AcceptFinancialRequest;
 use App\Http\Livewire\Account;
 use App\Http\Livewire\ChangePassword;
@@ -8,15 +7,12 @@ use App\Http\Livewire\CheckOptCode;
 use App\Http\Livewire\Configuration;
 use App\Http\Livewire\ContactNumber;
 use App\Http\Livewire\Contacts;
-
 use App\Http\Livewire\Description;
 use App\Http\Livewire\EditUserContact;
 use App\Http\Livewire\EntretienArbre;
 use App\Http\Livewire\EvolutionArbre;
 use App\Http\Livewire\FinancialTransaction;
-
 use App\Http\Livewire\ForgotPassword;
-
 use App\Http\Livewire\HistoriqueRecuperation;
 use App\Http\Livewire\Hobbies;
 use App\Http\Livewire\Home;
@@ -24,9 +20,6 @@ use App\Http\Livewire\IdentificationRequest;
 use App\Http\Livewire\Login;
 use App\Http\Livewire\NotificationHistory;
 use App\Http\Livewire\NotificationSettings;
-
-use App\Http\Livewire\pay;
-use App\Http\Livewire\PaymentController;
 use App\Http\Livewire\Registre;
 use App\Http\Livewire\RequestPublicUser;
 use App\Http\Livewire\StripView;
@@ -82,7 +75,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 });
 
 Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'middleware' => 'setlocale'], function () {
-    Route::middleware(['auth', 'CloseAuth'])->group(function () {
+    Route::middleware(['auth'])->group(function () {
         Route::get('/', Home::class)->name('main');
         Route::get('Home', Home::class)->name('home');
         Route::get('Account', Account::class)->name('account');
@@ -98,7 +91,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('user_balance_sms', UserBalanceSMS::class)->name('user_balance_sms');
         Route::get('user_balance_cb', UserBalanceCB::class)->name('user_balance_cb');
 
-        Route::get('/paytabs/notification', PaymentController::class)->name('paytabs_notification');
         Route::get('user_balance_db', UserBalanceDB::class)->name('user_balance_db');
         Route::get('user_balance_bfs', UserBalanceBFS::class)->name('user_balance_bfs');
         Route::get('financial_transaction', FinancialTransaction::class)->name('financial_transaction');
@@ -113,7 +105,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('Tree/evolution', EvolutionArbre::class)->name('TreeEvolution');
         Route::get('Tree/maintenance', EntretienArbre::class)->name('TreeMaintenance');
         Route::get('description', Description::class)->name('description');
-        Route::get('/AcceptRequest', AcceptFinancialRequest::class)->name('AcceptFinancialRequest')->middleware('CloseAuth');
+        Route::get('/AcceptRequest', AcceptFinancialRequest::class)->name('AcceptFinancialRequest');
 
         Route::middleware(['IsSuperAdmin'])->group(function () {
             Route::get('user_list', \App\Http\Livewire\UsersList::class)->name('user_list');
@@ -189,9 +181,7 @@ Route::group(['prefix' => 'API'], function () {
 
 Route::get('/ResetNot', 'App\Http\Controllers\FinancialRequestController@resetInComingNotification')->name('resetInComingNotification');
 Route::get('/ResetNotOut', 'App\Http\Controllers\FinancialRequestController@resetOutGoingNotification')->name('resetOutGoingNotification');
-Route::get('/', function () {
-    return redirect(app()->getLocale());
-});
+
 
 Route::get('store-form', 'App\Http\Controllers\PostController@store')->name('saveph');
 Route::get('mailVerif', 'App\Http\Controllers\PostController@verifyMail')->name('mailVerif');
@@ -204,4 +194,13 @@ Route::get('members', 'App\Http\Controllers\PostController@getMember')->name('me
 Route::get('getRequestAjax', 'App\Http\Controllers\ApiController@getRequestAjax')->name('getRequestAjax');
 Route::get('logoutSSo', 'App\Http\Controllers\ApiController@logoutSSo')->name('logoutSSo')->middleware('auth:api');
 Route::view('/tests', 'tests');
+
+Route::get('/', function () {
+    return redirect(app()->getLocale());
+});
+
+Route::get('/{slug}', function () {
+    return redirect(app()->getLocale());
+});
+
 

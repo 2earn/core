@@ -1752,7 +1752,7 @@ A simple &lt;b&gt;Dark alert&lt;/b&gt; with &lt;a href=&quot;#&quot; class=&quot
     </div>
 @endsection
 @section('script')
-    <script src="{{ URL::asset('assets/libs/prismjs/prismjs.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/libs/prismjs/prism.js') }}"></script>
 
     <script>
         var alertPlaceholder = document.getElementById('liveAlertPlaceholder')

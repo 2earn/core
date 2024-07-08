@@ -4,7 +4,6 @@ namespace App\Http\Livewire;
 
 use App\Models\User;
 use Core\Models\plateforme;
-use Core\Models\translatetabs;
 use Core\Models\UserPlatforms;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -38,13 +37,12 @@ class EditAdmin extends Component
         $userPlatforms = DB::table('user_plateforme')
             ->where('user_id', $idUser)
             ->delete();
-        foreach ($this->platformes->where('selected',1) as $platformUser){
+        foreach ($this->platformes->where('selected', 1) as $platformUser) {
             UserPlatforms::create([
-                'user_id'=>$idUser,
+                'user_id' => $idUser,
                 'plateforme_id' => $platformUser->id
             ]);
         }
-//        dd($this->platformes);
         if ($this->userRole == "") {
             dd("pas de role ");
             return;
@@ -67,16 +65,6 @@ class EditAdmin extends Component
             ->orWhere('users.mobile', 'like', '%' . $this->search . '%')
             ->orWhere('countries.name', 'like', '%' . $this->search . '%')
             ->paginate(5);
-//dd($translate);
-
-//        $translate = collect(translatetabs::all()->paginate(5)) ;
-//        dd($translate) ;
-//        $translate = translatetabs::where('name', 'like', '%' . 'a' . '%')
-////            ->orWhere('valueFr', 'like', '%' . $this->search . '%')
-////            ->orWhere('valueEn', 'like', '%' . $this->search . '%')
-////            ->orWhere('value', 'like', '%' . $this->search . '%')
-//            ->paginate(5);
-//        dd($translate) ;
         return view('livewire.edit-admin', [
             'translates' => $translate
         ])->extends('layouts.master')->section('content');
@@ -100,6 +88,5 @@ class EditAdmin extends Component
                 $p->selected = 1;
             }
         }
-//        dd($this->platformes);
     }
 }

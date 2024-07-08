@@ -31,7 +31,7 @@
                     <div class="row gy-3">
                         <div class="col-sm-auto">
                             <div class="avatar-lg bg-light rounded p-1">
-                                <img src="{{ URL::asset('assets/images/products/img-8.png') }}" alt="" class="img-fluid d-block">
+                                <img src="{{ Vite::asset('resources/images/products/img-8.png') }}" alt="" class="img-fluid d-block">
                             </div>
                         </div>
                         <div class="col-sm">
@@ -95,7 +95,7 @@
                     <div class="row gy-3">
                         <div class="col-sm-auto">
                             <div class="avatar-lg bg-light rounded p-1">
-                                <img src="{{ URL::asset('assets/images/products/img-7.png') }}" alt="" class="img-fluid d-block">
+                                <img src="{{ Vite::asset('resources/images/products/img-7.png') }}" alt="" class="img-fluid d-block">
                             </div>
                         </div>
                         <div class="col-sm">
@@ -157,7 +157,7 @@
                     <div class="row gy-3">
                         <div class="col-sm-auto">
                             <div class="avatar-lg bg-light rounded p-1">
-                                <img src="{{ URL::asset('assets/images/products/img-3.png') }}" alt="" class="img-fluid d-block">
+                                <img src="{{ Vite::asset('resources/images/products/img-3.png') }}" alt="" class="img-fluid d-block">
                             </div>
                         </div>
                         <div class="col-sm">

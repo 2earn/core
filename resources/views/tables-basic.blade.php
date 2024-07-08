@@ -352,7 +352,7 @@ Basic Tables
                 &lt;th scope=&quot;col&quot;&gt;Date&lt;/th&gt;
                 &lt;th scope=&quot;col&quot;&gt;Total&lt;/th&gt;
                 &lt;th scope=&quot;col&quot;&gt;Status&lt;/th&gt;
-                &lt;th scope=&quot;col&quot;&gt;Action&lt;/th&gt;   
+                &lt;th scope=&quot;col&quot;&gt;Action&lt;/th&gt;
             &lt;/tr&gt;
         &lt;/thead&gt;
         &lt;tbody&gt;
@@ -2893,7 +2893,7 @@ Basic Tables
                                     <td>
                                         <div class="d-flex gap-2 align-items-center">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                                             </div>
                                             <div class="flex-grow-1">
                                                 Jordan Kennedy
@@ -2916,7 +2916,7 @@ Basic Tables
                                     <td>
                                         <div class="d-flex gap-2 align-items-center">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                                             </div>
                                             <div class="flex-grow-1">
                                                 Jackson Graham
@@ -2940,7 +2940,7 @@ Basic Tables
                                     <td>
                                         <div class="d-flex gap-2 align-items-center">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                                             </div>
                                             <div class="flex-grow-1">
                                                 Lauren Trujillo
@@ -2964,7 +2964,7 @@ Basic Tables
                                     <td>
                                         <div class="d-flex gap-2 align-items-center">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                                             </div>
                                             <div class="flex-grow-1">
                                                 Curtis Weaver
@@ -2987,7 +2987,7 @@ Basic Tables
                                     <td>
                                         <div class="d-flex gap-2 align-items-center">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                                             </div>
                                             <div class="flex-grow-1">
                                                 Jason schuller
@@ -3163,7 +3163,7 @@ Basic Tables
 <!--end row-->
 @endsection
 @section('script')
-<script src="{{ URL::asset('assets/libs/prismjs/prismjs.min.js') }}"></script>
+<script src="{{ URL::asset('assets/libs/prismjs/prism.js') }}"></script>
 
 <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
 @endsection

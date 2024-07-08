@@ -13,21 +13,21 @@
                 <div class="sticky-side-div">
                     <div class="card ribbon-box border shadow-none right">
                         <div class="ribbon-two ribbon-two-danger"><span><i class="ri-fire-fill align-bottom"></i> Hot</span></div>
-                        <img src="{{URL::asset('assets/images/nft/img-05.jpg')}}" alt="" class="img-fluid rounded">
+                        <img src="{{Vite::asset('resources/images/nft/img-05.jpg')}}" alt="" class="img-fluid rounded">
                         <div class="position-absolute bottom-0 p-3">
                             <div class="position-absolute top-0 end-0 start-0 bottom-0 bg-white opacity-25"></div>
                             <div class="row justify-content-center">
                                 <div class="col-3">
-                                    <img src="{{URL::asset('assets/images/nft/img-02.jpg')}}" alt="" class="img-fluid rounded">
+                                    <img src="{{Vite::asset('resources/images/nft/img-02.jpg')}}" alt="" class="img-fluid rounded">
                                 </div>
                                 <div class="col-3">
-                                    <img src="{{URL::asset('assets/images/nft/img-03.jpg')}}" alt="" class="img-fluid rounded">
+                                    <img src="{{Vite::asset('resources/images/nft/img-03.jpg')}}" alt="" class="img-fluid rounded">
                                 </div>
                                 <div class="col-3">
-                                    <img src="{{URL::asset('assets/images/nft/gif/img-3.gif')}}" alt="" class="img-fluid rounded h-100 object-cover">
+                                    <img src="{{Vite::asset('resources/images/nft/gif/img-3.gif')}}" alt="" class="img-fluid rounded h-100 object-cover">
                                 </div>
                                 <div class="col-3">
-                                    <img src="{{URL::asset('assets/images/nft/img-06.jpg')}}" alt="" class="img-fluid rounded">
+                                    <img src="{{Vite::asset('resources/images/nft/img-06.jpg')}}" alt="" class="img-fluid rounded">
                                 </div>
                             </div>
                         </div>
@@ -134,14 +134,14 @@
                                             <tr>
                                                 <th scope="row">
                                                     <div class="d-flex align-items-center">
-                                                        <img src="{{URL::asset('assets/images/nft/img-01.jpg')}}" alt="" class="avatar-xs rounded object-cover" />
+                                                        <img src="{{Vite::asset('resources/images/nft/img-01.jpg')}}" alt="" class="avatar-xs rounded object-cover" />
                                                         <a href="apps-nft-item-details" class="link-dark"><span class="mb-0 ms-2">Brave Tigers NFT</span></a>
                                                     </div>
                                                 </th>
                                                 <td>0.235 ETH</td>
                                                 <td>
                                                     <div class="d-flex align-items-center">
-                                                        <img src="{{URL::asset('assets/images/users/avatar-1.jpg')}}" alt="" class="avatar-xs rounded object-cover" />
+                                                        <img src="{{Vite::asset('resources/images/users/avatar-1.jpg')}}" alt="" class="avatar-xs rounded object-cover" />
                                                         <div class="ms-2">
                                                             <a href="#!">
                                                                 <h6 class="mb-1">Alexis Clarke</h6>
@@ -155,14 +155,14 @@
                                             <tr>
                                                 <th scope="row">
                                                     <div class="d-flex align-items-center">
-                                                        <img src="{{URL::asset('assets/images/nft/img-03.jpg')}}" alt="" class="avatar-xs rounded object-cover" />
+                                                        <img src="{{Vite::asset('resources/images/nft/img-03.jpg')}}" alt="" class="avatar-xs rounded object-cover" />
                                                         <a href="apps-nft-item-details" class="link-dark"><span class="mb-0 ms-2">Creative filtered portrait</span></a>
                                                     </div>
                                                 </th>
                                                 <td>571.24 ETH</td>
                                                 <td>
                                                     <div class="d-flex align-items-center">
-                                                        <img src="{{URL::asset('assets/images/users/avatar-3.jpg')}}" alt="" class="avatar-xs rounded object-cover" />
+                                                        <img src="{{Vite::asset('resources/images/users/avatar-3.jpg')}}" alt="" class="avatar-xs rounded object-cover" />
                                                         <div class="ms-2">
                                                             <a href="#!">
                                                                 <h6 class="mb-1">Glen Matney</h6>
@@ -176,14 +176,14 @@
                                             <tr>
                                                 <th scope="row">
                                                     <div class="d-flex align-items-center">
-                                                        <img src="{{URL::asset('assets/images/nft/gif/img-4.gif')}}" alt="" class="avatar-xs rounded object-cover" />
+                                                        <img src="{{Vite::asset('resources/images/nft/gif/img-4.gif')}}" alt="" class="avatar-xs rounded object-cover" />
                                                         <a href="apps-nft-item-details" class="link-dark"><span class="mb-0 ms-2">Evolved Reality</span></a>
                                                     </div>
                                                 </th>
                                                 <td>130.39 ETH</td>
                                                 <td>
                                                     <div class="d-flex align-items-center">
-                                                        <img src="{{URL::asset('assets/images/users/avatar-5.jpg')}}" alt="" class="avatar-xs rounded object-cover" />
+                                                        <img src="{{Vite::asset('resources/images/users/avatar-5.jpg')}}" alt="" class="avatar-xs rounded object-cover" />
                                                         <div class="ms-2">
                                                             <a href="#!">
                                                                 <h6 class="mb-1">Herbert Stokes</h6>
@@ -197,14 +197,14 @@
                                             <tr>
                                                 <th scope="row">
                                                     <div class="d-flex align-items-center">
-                                                        <img src="{{URL::asset('assets/images/nft/img-06.jpg')}}" alt="" class="avatar-xs rounded object-cover" />
+                                                        <img src="{{Vite::asset('resources/images/nft/img-06.jpg')}}" alt="" class="avatar-xs rounded object-cover" />
                                                         <a href="apps-nft-item-details" class="link-dark"><span class="mb-0 ms-2">Robotic Body Art</span></a>
                                                     </div>
                                                 </th>
                                                 <td>81.72 ETH</td>
                                                 <td>
                                                     <div class="d-flex align-items-center">
-                                                        <img src="{{URL::asset('assets/images/users/avatar-8.jpg')}}" alt="" class="avatar-xs rounded object-cover" />
+                                                        <img src="{{Vite::asset('resources/images/users/avatar-8.jpg')}}" alt="" class="avatar-xs rounded object-cover" />
                                                         <div class="ms-2">
                                                             <a href="#!">
                                                                 <h6 class="mb-1">Michael Morris</h6>
@@ -430,13 +430,13 @@
 
                                                     <div class="d-flex flex-grow-1 gap-2 mb-3">
                                                         <a href="#" class="d-block">
-                                                            <img src="{{URL::asset('assets/images/small/img-12.jpg')}}" alt="" class="avatar-sm rounded object-cover" />
+                                                            <img src="{{Vite::asset('resources/images/small/img-12.jpg')}}" alt="" class="avatar-sm rounded object-cover" />
                                                         </a>
                                                         <a href="#" class="d-block">
-                                                            <img src="{{URL::asset('assets/images/small/img-11.jpg')}}" alt="" class="avatar-sm rounded object-cover" />
+                                                            <img src="{{Vite::asset('resources/images/small/img-11.jpg')}}" alt="" class="avatar-sm rounded object-cover" />
                                                         </a>
                                                         <a href="#" class="d-block">
-                                                            <img src="{{URL::asset('assets/images/small/img-10.jpg')}}" alt="" class="avatar-sm rounded object-cover" />
+                                                            <img src="{{Vite::asset('resources/images/small/img-10.jpg')}}" alt="" class="avatar-sm rounded object-cover" />
                                                         </a>
                                                     </div>
 

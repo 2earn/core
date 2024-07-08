@@ -143,8 +143,8 @@
                                         <div class="row g-2">
                                             <div class="col-md-3 col-sm-6">
                                                 <div>
-                                                    <a href="{{ URL::asset('assets/images/small/img-1.jpg') }}" class="image-popup d-block">
-                                                        <img src="{{ URL::asset('assets/images/small/img-1.jpg') }}" alt=""
+                                                    <a href="{{ Vite::asset('resources/images/small/img-1.jpg') }}" class="image-popup d-block">
+                                                        <img src="{{ Vite::asset('resources/images/small/img-1.jpg') }}" alt=""
                                                             class="img-fluid d-block rounded" />
                                                     </a>
                                                 </div>
@@ -152,8 +152,8 @@
                                             <!--end col-->
                                             <div class="col-md-3 col-sm-6">
                                                 <div>
-                                                    <a href="{{ URL::asset('assets/images/small/img-3.jpg') }}" class="image-popup d-block">
-                                                        <img src="{{ URL::asset('assets/images/small/img-3.jpg') }}" alt=""
+                                                    <a href="{{ Vite::asset('resources/images/small/img-3.jpg') }}" class="image-popup d-block">
+                                                        <img src="{{ Vite::asset('resources/images/small/img-3.jpg') }}" alt=""
                                                             class="img-fluid d-block rounded" />
                                                     </a>
                                                 </div>
@@ -161,8 +161,8 @@
                                             <!--end col-->
                                             <div class="col-md-3 col-sm-6">
                                                 <div>
-                                                    <a href="{{ URL::asset('assets/images/small/img-4.jpg') }}" class="image-popup d-block">
-                                                        <img src="{{ URL::asset('assets/images/small/img-4.jpg') }}" alt=""
+                                                    <a href="{{ Vite::asset('resources/images/small/img-4.jpg') }}" class="image-popup d-block">
+                                                        <img src="{{ Vite::asset('resources/images/small/img-4.jpg') }}" alt=""
                                                             class="img-fluid d-block rounded" />
                                                     </a>
                                                 </div>
@@ -172,7 +172,7 @@
                                                 <div class="search-more-results rounded">
                                                     <a href="javascript:void(0);" onclick="myFunction()"
                                                         class="d-block">
-                                                        <img src="{{ URL::asset('assets/images/small/img-5.jpg') }}" alt=""
+                                                        <img src="{{ Vite::asset('resources/images/small/img-5.jpg') }}" alt=""
                                                             class="img-fluid d-block rounded" />
 
                                                         <div class="bg-overlay"></div>
@@ -311,7 +311,7 @@
                                             <div class="swiper-slide">
                                                 <div class="d-flex align-items-center border border-dashed rounded p-2">
                                                     <div class="flex-shrink-0">
-                                                        <img src="{{ URL::asset('assets/images/small/img-12.jpg') }}" alt="" width="65"
+                                                        <img src="{{ Vite::asset('resources/images/small/img-12.jpg') }}" alt="" width="65"
                                                             class="rounded" />
                                                     </div>
                                                     <div class="flex-grow-1 ms-2">
@@ -323,7 +323,7 @@
                                             <div class="swiper-slide">
                                                 <div class="d-flex align-items-center border border-dashed rounded p-2">
                                                     <div class="flex-shrink-0">
-                                                        <img src="{{ URL::asset('assets/images/small/img-11.jpg') }}" alt="" width="65"
+                                                        <img src="{{ Vite::asset('resources/images/small/img-11.jpg') }}" alt="" width="65"
                                                             class="rounded" />
                                                     </div>
                                                     <div class="flex-grow-1 ms-2">
@@ -335,7 +335,7 @@
                                             <div class="swiper-slide">
                                                 <div class="d-flex align-items-center border border-dashed rounded p-2">
                                                     <div class="flex-shrink-0">
-                                                        <img src="{{ URL::asset('assets/images/small/img-10.jpg') }}" alt="" width="65"
+                                                        <img src="{{ Vite::asset('resources/images/small/img-10.jpg') }}" alt="" width="65"
                                                             class="rounded" />
                                                     </div>
                                                     <div class="flex-grow-1 ms-2">
@@ -347,7 +347,7 @@
                                             <div class="swiper-slide">
                                                 <div class="d-flex align-items-center border border-dashed rounded p-2">
                                                     <div class="flex-shrink-0">
-                                                        <img src="{{ URL::asset('assets/images/small/img-9.jpg') }}" alt="" width="65"
+                                                        <img src="{{ Vite::asset('resources/images/small/img-9.jpg') }}" alt="" width="65"
                                                             class="rounded" />
                                                     </div>
                                                     <div class="flex-grow-1 ms-2">
@@ -359,7 +359,7 @@
                                             <div class="swiper-slide">
                                                 <div class="d-flex align-items-center border border-dashed rounded p-2">
                                                     <div class="flex-shrink-0">
-                                                        <img src="{{ URL::asset('assets/images/small/img-8.jpg') }}" alt="" width="65"
+                                                        <img src="{{ Vite::asset('resources/images/small/img-8.jpg') }}" alt="" width="65"
                                                             class="rounded" />
                                                     </div>
                                                     <div class="flex-grow-1 ms-2">
@@ -371,7 +371,7 @@
                                             <div class="swiper-slide">
                                                 <div class="d-flex align-items-center border border-dashed rounded p-2">
                                                     <div class="flex-shrink-0">
-                                                        <img src="{{ URL::asset('assets/images/small/img-7.jpg') }}" alt="" width="65"
+                                                        <img src="{{ Vite::asset('resources/images/small/img-7.jpg') }}" alt="" width="65"
                                                             class="rounded" />
                                                     </div>
                                                     <div class="flex-grow-1 ms-2">
@@ -383,7 +383,7 @@
                                             <div class="swiper-slide">
                                                 <div class="d-flex align-items-center border border-dashed rounded p-2">
                                                     <div class="flex-shrink-0">
-                                                        <img src="{{ URL::asset('assets/images/small/img-6.jpg') }}" alt="" width="65"
+                                                        <img src="{{ Vite::asset('resources/images/small/img-6.jpg') }}" alt="" width="65"
                                                             class="rounded" />
                                                     </div>
                                                     <div class="flex-grow-1 ms-2">
@@ -395,7 +395,7 @@
                                             <div class="swiper-slide">
                                                 <div class="d-flex align-items-center border border-dashed rounded p-2">
                                                     <div class="flex-shrink-0">
-                                                        <img src="{{ URL::asset('assets/images/small/img-5.jpg') }}" alt="" width="65"
+                                                        <img src="{{ Vite::asset('resources/images/small/img-5.jpg') }}" alt="" width="65"
                                                             class="rounded" />
                                                     </div>
                                                     <div class="flex-grow-1 ms-2">
@@ -407,7 +407,7 @@
                                             <div class="swiper-slide">
                                                 <div class="d-flex align-items-center border border-dashed rounded p-2">
                                                     <div class="flex-shrink-0">
-                                                        <img src="{{ URL::asset('assets/images/small/img-3.jpg') }}" alt="" width="65"
+                                                        <img src="{{ Vite::asset('resources/images/small/img-3.jpg') }}" alt="" width="65"
                                                             class="rounded" />
                                                     </div>
                                                     <div class="flex-grow-1 ms-2">
@@ -425,9 +425,9 @@
                                     <div class="col-xl-3 col-lg-4 col-sm-6">
                                         <div class="gallery-box card">
                                             <div class="gallery-container">
-                                                <a class="image-popup" href="{{ URL::asset('assets/images/small/img-1.jpg') }}" title="">
+                                                <a class="image-popup" href="{{ Vite::asset('resources/images/small/img-1.jpg') }}" title="">
                                                     <img class="gallery-img img-fluid mx-auto"
-                                                        src="{{ URL::asset('assets/images/small/img-1.jpg') }}" alt="" />
+                                                        src="{{ Vite::asset('resources/images/small/img-1.jpg') }}" alt="" />
                                                     <div class="gallery-overlay">
                                                         <h5 class="overlay-caption">Glasses and laptop from above</h5>
                                                     </div>
@@ -461,9 +461,9 @@
                                     <div class="col-xl-3 col-lg-4 col-sm-6">
                                         <div class="gallery-box card">
                                             <div class="gallery-container">
-                                                <a class="image-popup" href="{{ URL::asset('assets/images/small/img-2.jpg') }}" title="">
+                                                <a class="image-popup" href="{{ Vite::asset('resources/images/small/img-2.jpg') }}" title="">
                                                     <img class="gallery-img img-fluid mx-auto"
-                                                        src="{{ URL::asset('assets/images/small/img-2.jpg') }}" alt="" />
+                                                        src="{{ Vite::asset('resources/images/small/img-2.jpg') }}" alt="" />
                                                     <div class="gallery-overlay">
                                                         <h5 class="overlay-caption">Working at a coffee shop</h5>
                                                     </div>
@@ -497,9 +497,9 @@
                                     <div class="col-xl-3 col-lg-4 col-sm-6">
                                         <div class="gallery-box card">
                                             <div class="gallery-container">
-                                                <a class="image-popup" href="{{ URL::asset('assets/images/small/img-3.jpg') }}" title="">
+                                                <a class="image-popup" href="{{ Vite::asset('resources/images/small/img-3.jpg') }}" title="">
                                                     <img class="gallery-img img-fluid mx-auto"
-                                                        src="{{ URL::asset('assets/images/small/img-3.jpg') }}" alt="" />
+                                                        src="{{ Vite::asset('resources/images/small/img-3.jpg') }}" alt="" />
                                                     <div class="gallery-overlay">
                                                         <h5 class="overlay-caption">Photo was taken in Beach</h5>
                                                     </div>
@@ -533,9 +533,9 @@
                                     <div class="col-xl-3 col-lg-4 col-sm-6">
                                         <div class="gallery-box card">
                                             <div class="gallery-container">
-                                                <a class="image-popup" href="{{ URL::asset('assets/images/small/img-4.jpg') }}" title="">
+                                                <a class="image-popup" href="{{ Vite::asset('resources/images/small/img-4.jpg') }}" title="">
                                                     <img class="gallery-img img-fluid mx-auto"
-                                                        src="{{ URL::asset('assets/images/small/img-4.jpg') }}" alt="" />
+                                                        src="{{ Vite::asset('resources/images/small/img-4.jpg') }}" alt="" />
                                                     <div class="gallery-overlay">
                                                         <h5 class="overlay-caption">Drawing a sketch</h5>
                                                     </div>
@@ -569,9 +569,9 @@
                                     <div class="col-xl-3 col-lg-4 col-sm-6">
                                         <div class="gallery-box card">
                                             <div class="gallery-container">
-                                                <a class="image-popup" href="{{ URL::asset('assets/images/small/img-5.jpg') }}" title="">
+                                                <a class="image-popup" href="{{ Vite::asset('resources/images/small/img-5.jpg') }}" title="">
                                                     <img class="gallery-img img-fluid mx-auto"
-                                                        src="{{ URL::asset('assets/images/small/img-5.jpg') }}" alt="" />
+                                                        src="{{ Vite::asset('resources/images/small/img-5.jpg') }}" alt="" />
                                                     <div class="gallery-overlay">
                                                         <h5 class="overlay-caption">Working from home little spot</h5>
                                                     </div>
@@ -605,9 +605,9 @@
                                     <div class="col-xl-3 col-lg-4 col-sm-6">
                                         <div class="gallery-box card">
                                             <div class="gallery-container">
-                                                <a class="image-popup" href="{{ URL::asset('assets/images/small/img-6.jpg') }}" title="">
+                                                <a class="image-popup" href="{{ Vite::asset('resources/images/small/img-6.jpg') }}" title="">
                                                     <img class="gallery-img img-fluid mx-auto"
-                                                        src="{{ URL::asset('assets/images/small/img-6.jpg') }}" alt="" />
+                                                        src="{{ Vite::asset('resources/images/small/img-6.jpg') }}" alt="" />
                                                     <div class="gallery-overlay">
                                                         <h5 class="overlay-caption">Project discussion with team</h5>
                                                     </div>
@@ -641,9 +641,9 @@
                                     <div class="col-xl-3 col-lg-4 col-sm-6">
                                         <div class="gallery-box card">
                                             <div class="gallery-container">
-                                                <a class="image-popup" href="{{ URL::asset('assets/images/small/img-7.jpg') }}" title="">
+                                                <a class="image-popup" href="{{ Vite::asset('resources/images/small/img-7.jpg') }}" title="">
                                                     <img class="gallery-img img-fluid mx-auto"
-                                                        src="{{ URL::asset('assets/images/small/img-7.jpg') }}" alt="" />
+                                                        src="{{ Vite::asset('resources/images/small/img-7.jpg') }}" alt="" />
                                                     <div class="gallery-overlay">
                                                         <h5 class="overlay-caption">Sunrise above a beach</h5>
                                                     </div>
@@ -677,9 +677,9 @@
                                     <div class="col-xl-3 col-lg-4 col-sm-6">
                                         <div class="gallery-box card">
                                             <div class="gallery-container">
-                                                <a class="image-popup" href="{{ URL::asset('assets/images/small/img-8.jpg') }}" title="">
+                                                <a class="image-popup" href="{{ Vite::asset('resources/images/small/img-8.jpg') }}" title="">
                                                     <img class="gallery-img img-fluid mx-auto"
-                                                        src="{{ URL::asset('assets/images/small/img-8.jpg') }}" alt="" />
+                                                        src="{{ Vite::asset('resources/images/small/img-8.jpg') }}" alt="" />
                                                     <div class="gallery-overlay">
                                                         <h5 class="overlay-caption">Glasses and laptop from above</h5>
                                                     </div>
@@ -713,9 +713,9 @@
                                     <div class="col-xl-3 col-lg-4 col-sm-6">
                                         <div class="gallery-box card">
                                             <div class="gallery-container">
-                                                <a class="image-popup" href="{{ URL::asset('assets/images/small/img-9.jpg') }}" title="">
+                                                <a class="image-popup" href="{{ Vite::asset('resources/images/small/img-9.jpg') }}" title="">
                                                     <img class="gallery-img img-fluid mx-auto"
-                                                        src="{{ URL::asset('assets/images/small/img-9.jpg') }}" alt="" />
+                                                        src="{{ Vite::asset('resources/images/small/img-9.jpg') }}" alt="" />
                                                     <div class="gallery-overlay">
                                                         <h5 class="overlay-caption">Dramatic clouds at the Golden Gate
                                                             Bridge</h5>
@@ -750,9 +750,9 @@
                                     <div class="col-xl-3 col-lg-4 col-sm-6">
                                         <div class="gallery-box card">
                                             <div class="gallery-container">
-                                                <a class="image-popup" href="{{ URL::asset('assets/images/small/img-10.jpg') }}" title="">
+                                                <a class="image-popup" href="{{ Vite::asset('resources/images/small/img-10.jpg') }}" title="">
                                                     <img class="gallery-img img-fluid mx-auto"
-                                                        src="{{ URL::asset('assets/images/small/img-10.jpg') }}" alt="" />
+                                                        src="{{ Vite::asset('resources/images/small/img-10.jpg') }}" alt="" />
                                                     <div class="gallery-overlay">
                                                         <h5 class="overlay-caption">Fun day at the Hill Station</h5>
                                                     </div>
@@ -786,9 +786,9 @@
                                     <div class="col-xl-3 col-lg-4 col-sm-6">
                                         <div class="gallery-box card">
                                             <div class="gallery-container">
-                                                <a class="image-popup" href="{{ URL::asset('assets/images/small/img-11.jpg') }}" title="">
+                                                <a class="image-popup" href="{{ Vite::asset('resources/images/small/img-11.jpg') }}" title="">
                                                     <img class="gallery-img img-fluid mx-auto"
-                                                        src="{{ URL::asset('assets/images/small/img-11.jpg') }}" alt="" />
+                                                        src="{{ Vite::asset('resources/images/small/img-11.jpg') }}" alt="" />
                                                     <div class="gallery-overlay">
                                                         <h5 class="overlay-caption">Cycling in the countryside</h5>
                                                     </div>
@@ -822,9 +822,9 @@
                                     <div class="col-xl-3 col-lg-4 col-sm-6">
                                         <div class="gallery-box card">
                                             <div class="gallery-container">
-                                                <a class="image-popup" href="{{ URL::asset('assets/images/small/img-12.jpg') }}" title="">
+                                                <a class="image-popup" href="{{ Vite::asset('resources/images/small/img-12.jpg') }}" title="">
                                                     <img class="gallery-img img-fluid mx-auto"
-                                                        src="{{ URL::asset('assets/images/small/img-12.jpg') }}" alt="" />
+                                                        src="{{ Vite::asset('resources/images/small/img-12.jpg') }}" alt="" />
                                                     <div class="gallery-overlay">
                                                         <h5 class="overlay-caption">A mix of friends and strangers heading
                                                             off to find an adventure.</h5>
@@ -895,7 +895,7 @@
                                         <div class="card-body">
                                             <div class="d-sm-flex">
                                                 <div class="flex-shrink-0">
-                                                    <img src="{{ URL::asset('assets/images/small/img-1.jpg') }}" alt="" width="115"
+                                                    <img src="{{ Vite::asset('resources/images/small/img-1.jpg') }}" alt="" width="115"
                                                         class="rounded-1" />
                                                 </div>
                                                 <div class="flex-grow-1 ms-sm-4 mt-3 mt-sm-0">
@@ -927,7 +927,7 @@
                                         <div class="card-body">
                                             <div class="d-sm-flex">
                                                 <div class="flex-shrink-0">
-                                                    <img src="{{ URL::asset('assets/images/small/img-2.jpg') }}" alt="" width="115"
+                                                    <img src="{{ Vite::asset('resources/images/small/img-2.jpg') }}" alt="" width="115"
                                                         class="rounded-1" />
                                                 </div>
                                                 <div class="flex-grow-1 ms-sm-4 mt-3 mt-sm-0">
@@ -959,7 +959,7 @@
                                         <div class="card-body">
                                             <div class="d-sm-flex">
                                                 <div class="flex-shrink-0">
-                                                    <img src="{{ URL::asset('assets/images/small/img-3.jpg') }}" alt="" width="115"
+                                                    <img src="{{ Vite::asset('resources/images/small/img-3.jpg') }}" alt="" width="115"
                                                         class="rounded-1" />
                                                 </div>
                                                 <div class="flex-grow-1 ms-sm-4 mt-3 mt-sm-0">
@@ -990,7 +990,7 @@
                                         <div class="card-body">
                                             <div class="d-sm-flex">
                                                 <div class="flex-shrink-0">
-                                                    <img src="{{ URL::asset('assets/images/small/img-4.jpg') }}" alt="" width="115"
+                                                    <img src="{{ Vite::asset('resources/images/small/img-4.jpg') }}" alt="" width="115"
                                                         class="rounded-1" />
                                                 </div>
                                                 <div class="flex-grow-1 ms-sm-4 mt-3 mt-sm-0">
@@ -1021,7 +1021,7 @@
                                         <div class="card-body">
                                             <div class="d-sm-flex">
                                                 <div class="flex-shrink-0">
-                                                    <img src="{{ URL::asset('assets/images/small/img-5.jpg') }}" alt="" width="115"
+                                                    <img src="{{ Vite::asset('resources/images/small/img-5.jpg') }}" alt="" width="115"
                                                         class="rounded-1" />
                                                 </div>
                                                 <div class="flex-grow-1 ms-sm-4 mt-3 mt-sm-0">
@@ -1053,7 +1053,7 @@
                                         <div class="card-body">
                                             <div class="d-sm-flex">
                                                 <div class="flex-shrink-0">
-                                                    <img src="{{ URL::asset('assets/images/small/img-6.jpg') }}" alt="" width="115"
+                                                    <img src="{{ Vite::asset('resources/images/small/img-6.jpg') }}" alt="" width="115"
                                                         class="rounded-1" />
                                                 </div>
                                                 <div class="flex-grow-1 ms-sm-4 mt-3 mt-sm-0">
@@ -1084,7 +1084,7 @@
                                         <div class="card-body">
                                             <div class="d-sm-flex">
                                                 <div class="flex-shrink-0">
-                                                    <img src="{{ URL::asset('assets/images/small/img-7.jpg') }}" alt="" width="115"
+                                                    <img src="{{ Vite::asset('resources/images/small/img-7.jpg') }}" alt="" width="115"
                                                         class="rounded-1" />
                                                 </div>
                                                 <div class="flex-grow-1 ms-sm-4 mt-3 mt-sm-0">
@@ -1115,7 +1115,7 @@
                                         <div class="card-body">
                                             <div class="d-sm-flex">
                                                 <div class="flex-shrink-0">
-                                                    <img src="{{ URL::asset('assets/images/small/img-8.jpg') }}" alt="" width="115"
+                                                    <img src="{{ Vite::asset('resources/images/small/img-8.jpg') }}" alt="" width="115"
                                                         class="rounded-1" />
                                                 </div>
                                                 <div class="flex-grow-1 ms-sm-4 mt-3 mt-sm-0">

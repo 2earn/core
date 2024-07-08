@@ -1,18 +1,78 @@
-/*
-Template Name: Velzon - Admin & Dashboard Template
-Author: Themesbrand
-Version: 2.0.0
-Website: https://Themesbrand.com/
-Contact: Themesbrand@gmail.com
-File: Main Js File
-*/
+import $ from 'jquery';
+window.$ = $; // this worked for me
+
+import * as bootstrap from 'bootstrap';
+window.bootstrap = bootstrap;
+
+import '@popperjs/core';
+
+import Swal from 'sweetalert2';
+window.Swal = Swal;
+
+import Alpine from 'alpinejs'
+
+window.Alpine = Alpine ;
+Alpine.start() ;
+
+import Turbolinks from "turbolinks";
+Turbolinks.start();
+
+
+import select2 from 'select2';
+
+import Swiper from 'swiper';
+const swiper = new Swiper();
+
+
+import DataTable from "datatables.net-bs5";
+window.DataTable = DataTable;
+
+
+import intlTelInput from 'intl-tel-input';
+window.intlTelInput = intlTelInput;
+
+import { Dropzone } from "dropzone";
+window.Dropzone = Dropzone;
+
+import feather from 'feather-icons';
+window.feather = feather;
+
+import waves  from 'node-waves';
+window.Waves  = waves ;
+
+import.meta.glob([ '../images/**', ]);
+
+import Prism from 'prismjs';
+window.Prism  = Prism ;
+import 'prismjs/themes/prism-okaidia.css'
+import 'prismjs/components/prism-handlebars.min.js'
+import 'prismjs/components/prism-lua.min.js'
+Prism.highlightAll();
+
+import ApexCharts from 'apexcharts'
+window.ApexCharts  = ApexCharts ;
+
+import SimpleBar from 'simplebar';
+window.SimpleBar  = SimpleBar ;
+
+import 'simplebar/dist/simplebar.css';
+
+
+
+import * as FilePond from 'filepond';
+import 'filepond/dist/filepond.min.css';
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+window.FilePond  = FilePond ;
+window.FilePondPluginImagePreview  = FilePondPluginImagePreview ;
+
 
 (function () {
 
-    var btnHover = document.getElementById("MyHover") ;
+    var btnHover = document.getElementById("MyHover");
+    if (btnHover !== null) {
 
-    btnHover.addEventListener("click", function (event) {
-        alert(btnHover);
+        btnHover.addEventListener("click", function (event) {
             if (document.documentElement.getAttribute("data-sidebar-size") === "sm-hover") {
                 document.documentElement.setAttribute("data-sidebar-size", "sm-hover-active");
             } else if (document.documentElement.getAttribute("data-sidebar-size") === "sm-hover-active") {
@@ -20,43 +80,18 @@ File: Main Js File
             } else {
                 document.documentElement.setAttribute("data-sidebar-size", "sm-hover");
             }
-    });
-    // btnHover.addEventListener("click", function (event) {
-    //     alert('sdfdsf');
-    //     if (document.documentElement.getAttribute("data-sidebar-size") === "sm-hover") {
-    //         document.documentElement.setAttribute("data-sidebar-size", "sm-hover-active");
-    //     } else if (document.documentElement.getAttribute("data-sidebar-size") === "sm-hover-active") {
-    //         document.documentElement.setAttribute("data-sidebar-size", "sm-hover");
-    //     } else {
-    //         document.documentElement.setAttribute("data-sidebar-size", "sm-hover");
-    //     }
-    // });
-
-    var btnDark = document.getElementById("btndark");
-    btnDark.addEventListener("click", function (event) {
-        // getElementUsingTagname("data-topbar", "dark");
-        // sessionStorage.setItem("data-topbar", "dark");
-        // document.documentElement.setAttribute("data-topbar", "dark");
-        //
-        // var html = document.getElementById("HTMLMain");
-        //
-        // html.hasAttribute("data-layout-mode") && html.getAttribute("data-layout-mode") == "dark" ?
-        //     setLayoutMode("data-layout-mode", "light", "layout-mode-light", html) :
-        //     setLayoutMode("data-layout-mode", "dark", "layout-mode-dark", html);
-    });
-
+        });
+    }
     ("use strict");
 
-    /**
-     *  global variables
-     */
-    var navbarMenuHTML = document.querySelector(".navbar-menu").innerHTML;
-    var horizontalMenuSplit = 7; // after this number all horizontal menus will be moved in More menu options
-    var default_lang = "en"; // set Default Language
+    if (document.querySelector(".navbar-menu") !== null) {
+        var navbarMenuHTML = document.querySelector(".navbar-menu").innerHTML;
+    }
+    var horizontalMenuSplit = 7;
+    var default_lang = "en";
     var language = localStorage.getItem("language");
 
     function initLanguage() {
-        // Set new language
         (language === null) ? setLanguage(default_lang) : setLanguage(language);
         var languages = document.getElementsByClassName("language");
         languages && Array.from(languages).forEach(function (dropdown) {
@@ -89,15 +124,11 @@ File: Main Js File
         }
     }
 
-    // Multi language setting
     function getLanguage() {
         language == null ? setLanguage(default_lang) : false;
         var request = new XMLHttpRequest();
-        // Instantiating the request object
         request.open("GET", "assets/lang/" + language + ".json");
-        // Defining event listener for readystatechange event
         request.onreadystatechange = function () {
-            // Check if the request is compete and was successful
             if (this.readyState === 4 && this.status === 200) {
                 var data = JSON.parse(this.responseText);
                 Object.keys(data).forEach(function (key) {
@@ -108,233 +139,17 @@ File: Main Js File
                 });
             }
         };
-        // Sending the request to the server
         request.send();
     }
 
-    // function pluginData() {
-    //     /**
-    //      * Common plugins
-    //      */
-    //     /**
-    //      * Toast UI Notification
-    //      */
-    //     var toastExamples = document.querySelectorAll("[data-toast]");
-    //     Array.from(toastExamples).forEach(function (element) {
-    //         element.addEventListener("click", function () {
-    //             var toastData = {};
-    //             var isToastVal = element.attributes;
-    //             if (isToastVal["data-toast-text"]) {
-    //                 toastData.text = isToastVal["data-toast-text"].value.toString();
-    //             }
-    //             if (isToastVal["data-toast-gravity"]) {
-    //                 toastData.gravity = isToastVal["data-toast-gravity"].value.toString();
-    //             }
-    //             if (isToastVal["data-toast-position"]) {
-    //                 toastData.position = isToastVal["data-toast-position"].value.toString();
-    //             }
-    //             if (isToastVal["data-toast-className"]) {
-    //                 toastData.className = isToastVal["data-toast-className"].value.toString();
-    //             }
-    //             if (isToastVal["data-toast-duration"]) {
-    //                 toastData.duration = isToastVal["data-toast-duration"].value.toString();
-    //             }
-    //             if (isToastVal["data-toast-close"]) {
-    //                 toastData.close = isToastVal["data-toast-close"].value.toString();
-    //             }
-    //             if (isToastVal["data-toast-style"]) {
-    //                 toastData.style = isToastVal["data-toast-style"].value.toString();
-    //             }
-    //             if (isToastVal["data-toast-offset"]) {
-    //                 toastData.offset = isToastVal["data-toast-offset"];
-    //             }
-    //             Toastify({
-    //                 newWindow: true,
-    //                 text: toastData.text,
-    //                 gravity: toastData.gravity,
-    //                 position: toastData.position,
-    //                 className: "bg-" + toastData.className,
-    //                 stopOnFocus: true,
-    //                 offset: {
-    //                     x: toastData.offset ? 50 : 0, // horizontal axis - can be a number or a string indicating unity. eg: '2em'
-    //                     y: toastData.offset ? 10 : 0, // vertical axis - can be a number or a string indicating unity. eg: '2em'
-    //                 },
-    //                 duration: toastData.duration,
-    //                 close: toastData.close == "close" ? true : false,
-    //                 style: toastData.style == "style" ? {
-    //                     background: "linear-gradient(to right, #0AB39C, #405189)"
-    //                 } : "",
-    //             }).showToast();
-    //         });
-    //     });
-    //
-    //     /**
-    //      * Choices Select plugin
-    //      */
-    //     var choicesExamples = document.querySelectorAll("[data-choices]");
-    //     Array.from(choicesExamples).forEach(function (item) {
-    //         var choiceData = {};
-    //         var isChoicesVal = item.attributes;
-    //         if (isChoicesVal["data-choices-groups"]) {
-    //             choiceData.placeholderValue = "This is a placeholder set in the config";
-    //         }
-    //         if (isChoicesVal["data-choices-search-false"]) {
-    //             choiceData.searchEnabled = false;
-    //         }
-    //         if (isChoicesVal["data-choices-search-true"]) {
-    //             choiceData.searchEnabled = true;
-    //         }
-    //         if (isChoicesVal["data-choices-removeItem"]) {
-    //             choiceData.removeItemButton = true;
-    //         }
-    //         if (isChoicesVal["data-choices-sorting-false"]) {
-    //             choiceData.shouldSort = false;
-    //         }
-    //         if (isChoicesVal["data-choices-sorting-true"]) {
-    //             choiceData.shouldSort = true;
-    //         }
-    //         if (isChoicesVal["data-choices-multiple-remove"]) {
-    //             choiceData.removeItemButton = true;
-    //         }
-    //         if (isChoicesVal["data-choices-limit"]) {
-    //             choiceData.maxItemCount = isChoicesVal["data-choices-limit"].value.toString();
-    //         }
-    //         if (isChoicesVal["data-choices-limit"]) {
-    //             choiceData.maxItemCount = isChoicesVal["data-choices-limit"].value.toString();
-    //         }
-    //         if (isChoicesVal["data-choices-editItem-true"]) {
-    //             choiceData.maxItemCount = true;
-    //         }
-    //         if (isChoicesVal["data-choices-editItem-false"]) {
-    //             choiceData.maxItemCount = false;
-    //         }
-    //         if (isChoicesVal["data-choices-text-unique-true"]) {
-    //             choiceData.duplicateItemsAllowed = false;
-    //         }
-    //         if (isChoicesVal["data-choices-text-disabled-true"]) {
-    //             choiceData.addItems = false;
-    //         }
-    //         isChoicesVal["data-choices-text-disabled-true"] ? new Choices(item, choiceData).disable() : new Choices(item, choiceData);
-    //     });
-    //
-    //     /**
-    //      * flatpickr
-    //      */
-    //     var flatpickrExamples = document.querySelectorAll("[data-provider]");
-    //     Array.from(flatpickrExamples).forEach(function (item) {
-    //         if (item.getAttribute("data-provider") == "flatpickr") {
-    //             var dateData = {};
-    //             var isFlatpickerVal = item.attributes;
-    //             if (isFlatpickerVal["data-date-format"])
-    //                 dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString();
-    //             if (isFlatpickerVal["data-enable-time"]) {
-    //                 (dateData.enableTime = true),
-    //                     (dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString() + " H:i");
-    //             }
-    //             if (isFlatpickerVal["data-altFormat"]) {
-    //                 (dateData.altInput = true),
-    //                     (dateData.altFormat = isFlatpickerVal["data-altFormat"].value.toString());
-    //             }
-    //             if (isFlatpickerVal["data-minDate"]) {
-    //                 dateData.minDate = isFlatpickerVal["data-minDate"].value.toString();
-    //                 dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString();
-    //             }
-    //             if (isFlatpickerVal["data-maxDate"]) {
-    //                 dateData.maxDate = isFlatpickerVal["data-maxDate"].value.toString();
-    //                 dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString();
-    //             }
-    //             if (isFlatpickerVal["data-deafult-date"]) {
-    //                 dateData.defaultDate = isFlatpickerVal["data-deafult-date"].value.toString();
-    //                 dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString();
-    //             }
-    //             if (isFlatpickerVal["data-multiple-date"]) {
-    //                 dateData.mode = "multiple";
-    //                 dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString();
-    //             }
-    //             if (isFlatpickerVal["data-range-date"]) {
-    //                 dateData.mode = "range";
-    //                 dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString();
-    //             }
-    //             if (isFlatpickerVal["data-inline-date"]) {
-    //                 (dateData.inline = true),
-    //                     (dateData.defaultDate = isFlatpickerVal["data-deafult-date"].value.toString());
-    //                 dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString();
-    //             }
-    //             if (isFlatpickerVal["data-disable-date"]) {
-    //                 var dates = [];
-    //                 dates.push(isFlatpickerVal["data-disable-date"].value);
-    //                 dateData.disable = dates.toString().split(",");
-    //             }
-    //             if (isFlatpickerVal["data-week-number"]) {
-    //                 var dates = [];
-    //                 dates.push(isFlatpickerVal["data-week-number"].value);
-    //                 dateData.weekNumbers = true
-    //             }
-    //             flatpickr(item, dateData);
-    //         } else if (item.getAttribute("data-provider") == "timepickr") {
-    //             var timeData = {};
-    //             var isTimepickerVal = item.attributes;
-    //             if (isTimepickerVal["data-time-basic"]) {
-    //                 (timeData.enableTime = true),
-    //                     (timeData.noCalendar = true),
-    //                     (timeData.dateFormat = "H:i");
-    //             }
-    //             if (isTimepickerVal["data-time-hrs"]) {
-    //                 (timeData.enableTime = true),
-    //                     (timeData.noCalendar = true),
-    //                     (timeData.dateFormat = "H:i"),
-    //                     (timeData.time_24hr = true);
-    //             }
-    //             if (isTimepickerVal["data-min-time"]) {
-    //                 (timeData.enableTime = true),
-    //                     (timeData.noCalendar = true),
-    //                     (timeData.dateFormat = "H:i"),
-    //                     (timeData.minTime = isTimepickerVal["data-min-time"].value.toString());
-    //             }
-    //             if (isTimepickerVal["data-max-time"]) {
-    //                 (timeData.enableTime = true),
-    //                     (timeData.noCalendar = true),
-    //                     (timeData.dateFormat = "H:i"),
-    //                     (timeData.minTime = isTimepickerVal["data-max-time"].value.toString());
-    //             }
-    //             if (isTimepickerVal["data-default-time"]) {
-    //                 (timeData.enableTime = true),
-    //                     (timeData.noCalendar = true),
-    //                     (timeData.dateFormat = "H:i"),
-    //                     (timeData.defaultDate = isTimepickerVal["data-default-time"].value.toString());
-    //             }
-    //             if (isTimepickerVal["data-time-inline"]) {
-    //                 (timeData.enableTime = true),
-    //                     (timeData.noCalendar = true),
-    //                     (timeData.defaultDate = isTimepickerVal["data-time-inline"].value.toString());
-    //                 timeData.inline = true;
-    //             }
-    //             flatpickr(item, timeData);
-    //         }
-    //     });
-    //
-    //     // Dropdown
-    //     Array.from(document.querySelectorAll('.dropdown-menu a[data-bs-toggle="tab"]')).forEach(function (element) {
-    //         element.addEventListener("click", function (e) {
-    //             e.stopPropagation();
-    //             bootstrap.Tab.getInstance(e.target).show();
-    //         });
-    //     });
-    // }
-
-    // on click collapse menu
     function isCollapseMenu() {
-        /**
-         * Sidebar menu collapse
-         */
+
         if (document.querySelectorAll(".navbar-nav .collapse")) {
             var collapses = document.querySelectorAll(".navbar-nav .collapse");
             Array.from(collapses).forEach(function (collapse) {
-                // Init collapses
                 var collapseInstance = new bootstrap.Collapse(collapse, {
                     toggle: false,
                 });
-                // Hide sibling collapses on `show.bs.collapse`
                 collapse.addEventListener("show.bs.collapse", function (e) {
                     e.stopPropagation();
                     var closestCollapse = collapse.parentElement.closest(".collapse");
@@ -349,10 +164,8 @@ File: Main Js File
                         });
                     } else {
                         var getSiblings = function (elem) {
-                            // Setup siblings array and get the first sibling
                             var siblings = [];
                             var sibling = elem.parentNode.firstChild;
-                            // Loop through each sibling and push to the array
                             while (sibling) {
                                 if (sibling.nodeType === 1 && sibling !== elem) {
                                     siblings.push(sibling);
@@ -380,7 +193,6 @@ File: Main Js File
                     }
                 });
 
-                // Hide nested collapses on `hide.bs.collapse`
                 collapse.addEventListener("hide.bs.collapse", function (e) {
                     e.stopPropagation();
                     var childCollapses = collapse.querySelectorAll(".collapse");
@@ -449,10 +261,7 @@ File: Main Js File
                     }
                 }
             }
-            // add all sidebar menu icons
             document.getElementById("two-column-menu").innerHTML = ul.outerHTML;
-
-            // show submenu on sidebar menu click
             Array.from(document.querySelector("#two-column-menu ul").querySelectorAll("li a")).forEach(function (element) {
                 var currentPath = location.pathname == "/" ? "index" : location.pathname.substring(1);
                 currentPath = currentPath.substring(currentPath.lastIndexOf("/") + 1);
@@ -477,7 +286,6 @@ File: Main Js File
                     }
                 });
 
-                // add active class to the sidebar menu icon who has direct link
                 if (currentPath == "/" + element.getAttribute("href") && !element.getAttribute("data-bs-toggle")) {
                     element.classList.add("active");
                     document.getElementById("navbar-nav").classList.add("twocolumn-nav-hide");
@@ -500,9 +308,7 @@ File: Main Js File
         }
     }
 
-    //  Search menu dropdown on Topbar
     function isCustomDropdown() {
-        //Search bar
         var searchOptions = document.getElementById("search-close-options");
         var dropdown = document.getElementById("search-dropdown");
         var searchInput = document.getElementById("search-options");
@@ -563,7 +369,6 @@ File: Main Js File
         }
     }
 
-    //  search menu dropdown on topbar
     function isCustomDropdownResponsive() {
         //Search bar
         var searchOptions = document.getElementById("search-close-options");
@@ -632,9 +437,6 @@ File: Main Js File
     }
 
     function initLeftMenuCollapse() {
-        /**
-         * Vertical layout menu scroll add
-         */
         if (document.documentElement.getAttribute("data-layout") == "vertical") {
             document.getElementById("two-column-menu").innerHTML = "";
             document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
@@ -644,17 +446,11 @@ File: Main Js File
             document.getElementById("scrollbar").classList.add("h-100");
         }
 
-        /**
-         * Two-column layout menu scroll add
-         */
         if (document.documentElement.getAttribute("data-layout") == "twocolumn") {
             document.getElementById("scrollbar").removeAttribute("data-simplebar");
             document.getElementById("scrollbar").classList.remove("h-100");
         }
 
-        /**
-         * Horizontal layout menu
-         */
         if (document.documentElement.getAttribute("data-layout") == "horizontal") {
             updateHorizontalMenus();
         }
@@ -925,7 +721,9 @@ File: Main Js File
         currentPath = currentPath.substring(currentPath.lastIndexOf("/") + 1);
         if (currentPath) {
             // navbar-nav
-            var a = document.getElementById("navbar-nav").querySelector('[href="' + currentPath + '"]');
+            if (document.getElementById("navbar-nav") !== null) {
+                var a = document.getElementById("navbar-nav").querySelector('[href="' + currentPath + '"]');
+            }
             if (a) {
                 a.classList.add("active");
                 var parentCollapseDiv = a.closest(".collapse.menu-dropdown");
@@ -1719,7 +1517,7 @@ File: Main Js File
 
             // open right sidebar on first time load
             var offCanvas = document.querySelector('.btn[data-bs-target="#theme-settings-offcanvas"]');
-           // offCanvas ? offCanvas.click() : "";
+            // offCanvas ? offCanvas.click() : "";
         } else {
             var isLayoutAttributes = {};
             isLayoutAttributes["data-layout"] = sessionStorage.getItem("data-layout");
@@ -1855,12 +1653,6 @@ File: Main Js File
         timeOutFunctionId = setTimeout(setResize, 2000);
     });
 })();
-
-
-//
-/********************* scroll top js ************************/
-//
-
 var mybutton = document.getElementById("back-to-top");
 if (mybutton) {
     // When the user scrolls down 20px from the top of the document, show the button

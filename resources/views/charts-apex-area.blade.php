@@ -103,7 +103,7 @@
 
                         <div class="github-style d-flex align-items-center my-2">
                             <div class="flex-shrink-0 me-2">
-                                <img class="avatar-sm rounded" src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}"
+                                <img class="avatar-sm rounded" src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}"
                                     data-hovercard-user-id="634573" alt="" />
                             </div>
                             <div class="flex-grow-1">

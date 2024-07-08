@@ -35,7 +35,7 @@
                                 <div class="row justify-content-between">
                                     <div class="col-lg-5 col-sm-6">
                                         <div class="card">
-                                            <img src="{{ URL::asset('assets/images/small/img-1.jpg') }}" class="card-img-top" alt="card img">
+                                            <img src="{{ Vite::asset('resources/images/small/img-1.jpg') }}" class="card-img-top" alt="card img">
 
                                             <div class="card-body">
                                                 <h5 class="card-title">Card title</h5>
@@ -47,7 +47,7 @@
                                     </div>
                                     <div class="col-lg-5 col-sm-6">
                                         <div class="card" aria-hidden="true">
-                                            <img src="{{ URL::asset('assets/images/small/img-2.jpg') }}" class="card-img-top"
+                                            <img src="{{ Vite::asset('resources/images/small/img-2.jpg') }}" class="card-img-top"
                                                 alt="card dummy img">
                                             <div class="card-body">
                                                 <h5 class="card-title placeholder-glow">
@@ -271,6 +271,6 @@
     <!--end row-->
 @endsection
 @section('script')
-    <script src="{{ URL::asset('assets/libs/prismjs/prismjs.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/libs/prismjs/prism.js') }}"></script>
     <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
 @endsection

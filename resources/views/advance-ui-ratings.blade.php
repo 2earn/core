@@ -124,7 +124,7 @@
     <!-- end row -->
 @endsection
 @section('script')
-    <script src="{{ URL::asset('/assets/libs/prismjs/prismjs.min.js') }}"></script>
+    <script src="{{ URL::asset('/assets/libs/prismjs/prism.js') }}"></script>
     <script src="{{ URL::asset('/assets/libs/rater-js/rater-js.min.js') }}"></script>
     <script src="{{ URL::asset('/assets/js/pages/rating.init.js') }}"></script>
     <script src="{{ URL::asset('assets/js/app.min.js') }}"></script>

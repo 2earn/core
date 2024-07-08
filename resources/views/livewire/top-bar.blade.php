@@ -6,18 +6,18 @@
                     <div class="navbar-brand-box horizontal-logo">
                         <a href="index" class="logo logo-dark">
                         <span class="logo-sm">
-                            <img src="{{ URL::asset('assets/images/logo-sm.png') }}" height="22">
+                            <img src="{{ Vite::asset('resources/images/logo-sm.png') }}" height="22">
                         </span>
                             <span class="logo-lg">
-                            <img src="{{ URL::asset('assets/images/logo-dark.png') }}" height="17">
+                            <img src="{{ Vite::asset('resources/images/logo-dark.png') }}" height="17">
                         </span>
                         </a>
                         <a href="index" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="{{ URL::asset('assets/images/logo-sm.png') }}" height="22">
+                            <img src="{{ Vite::asset('resources/images/logo-sm.png') }}" height="22">
                         </span>
                             <span class="logo-lg">
-                            <img src="{{ URL::asset('assets/images/logo-light.png') }}" height="17">
+                            <img src="{{ Vite::asset('resources/images/logo-light.png') }}" height="17">
                         </span>
                         </a>
                     </div>
@@ -107,7 +107,7 @@
                         <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
                                 data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="true">
                             <img
-                                src="{{ URL::asset('/assets/images/flags/'.config('app.available_locales')[app()->getLocale()]['flag'].'.svg') }}"
+                                src="{{ Vite::asset('resources/images/flags/'.config('app.available_locales')[app()->getLocale()]['flag'].'.svg') }}"
                                 class="rounded" alt="Header Language"
                                 height="20">
                         </button>
@@ -116,7 +116,7 @@
                                 <a href="{{ route($currentRoute, ['locale'=> $locale ]) }} "
                                    class="dropdown-item notify-item language py-2  @if($locale==app()->getLocale()) active @endif" data-lang="{{$locale}}"
                                    title="{{ __('lang'.$locale)  }}" data-turbolinks="false">
-                                    <img src="{{ URL::asset('assets/images/flags/'.$value['flag'].'.svg') }}"
+                                    <img src="{{ Vite::asset('resources/images/flags/'.$value['flag'].'.svg') }}"
                                          alt="user-image" class="me-2 rounded" height="20">
                                     <span class="align-middle">{{ __('lang'.$locale)  }}</span>
                                 </a>
@@ -144,20 +144,20 @@
                                 <div class="row g-0">
                                     <div class="col">
                                         <a class="dropdown-icon-item" href="{{route('ComingMove')}}">
-                                            <img src="{{asset('assets/images/Move2earn Icon.png')}}" alt="Move2earn">
+                                            <img src="{{Vite::asset('resources/images/Move2earn Icon.png')}}" alt="Move2earn">
                                             <span>Move2earn</span>
                                         </a>
                                     </div>
                                     <div class="col">
                                         <a class="dropdown-icon-item" href="{{route('ComingShop')}}">
-                                            <img src="{{asset('assets/images/icon-shop.png')}}"
+                                            <img src="{{Vite::asset('resources/images/icon-shop.png')}}"
                                                  alt="Shop2earn">
                                             <span>Shop2earn</span>
                                         </a>
                                     </div>
                                     <div class="col">
                                         <a class="dropdown-icon-item" href="{{route('ComingLearn')}}">
-                                            <img src="{{asset('assets/images/icon-learn.png')}}" alt="Learn2earn">
+                                            <img src="{{Vite::asset('resources/images/icon-learn.png')}}" alt="Learn2earn">
                                             <span>Learn2earn</span>
                                         </a>
                                     </div>
@@ -183,7 +183,7 @@
                                 data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                             <i class='bx bx-bell fs-22'></i>
                             <span
-                                class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">{{$count}}
+                                class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger" id="notif-counter">{{$count}}
                                 <span class="visually-hidden">{{__('unread messages')}}</span>
                             </span>
                         </button>
@@ -313,7 +313,7 @@
                                     class=""> {{ __('Cash Balance') }} : <b>  {{__('DPC')}}  {{$solde->soldeCB}}</b>
                                 </span>
                             </a>
-                            <a class="dropdown-item " href="" wire:click="logout">
+                            <a class="dropdown-item" wire:click="logout">
                                 <i class="bx bx-power-off font-size-16 align-middle me-1"></i>
                                 <span key="t-logout">{{ __('Logout') }}</span>
                             </a>

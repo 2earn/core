@@ -238,7 +238,7 @@
                                 <tr>
                                     <td class="fw-medium">Brand Logo Design</td>
                                     <td>
-                                        <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" class="avatar-xxs rounded-circle me-1" alt="">
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" class="avatar-xxs rounded-circle me-1" alt="">
                                         <a href="javascript: void(0);" class="text-reset">Donald Risher</a>
                                     </td>
                                     <td>
@@ -253,17 +253,17 @@
                                         <div class="avatar-group flex-nowrap">
                                             <div class="avatar-group-item">
                                                 <a href="javascript: void(0);" class="d-inline-block">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt="" class="rounded-circle avatar-xxs">
+                                                    <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt="" class="rounded-circle avatar-xxs">
                                                 </a>
                                             </div>
                                             <div class="avatar-group-item">
                                                 <a href="javascript: void(0);" class="d-inline-block">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="" class="rounded-circle avatar-xxs">
+                                                    <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="" class="rounded-circle avatar-xxs">
                                                 </a>
                                             </div>
                                             <div class="avatar-group-item">
                                                 <a href="javascript: void(0);" class="d-inline-block">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle avatar-xxs">
+                                                    <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle avatar-xxs">
                                                 </a>
                                             </div>
                                         </div>
@@ -274,7 +274,7 @@
                                 <tr>
                                     <td class="fw-medium">Redesign - Landing Page</td>
                                     <td>
-                                        <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" class="avatar-xxs rounded-circle me-1" alt="">
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" class="avatar-xxs rounded-circle me-1" alt="">
                                         <a href="javascript: void(0);" class="text-reset">Prezy William</a>
                                     </td>
                                     <td>
@@ -289,12 +289,12 @@
                                         <div class="avatar-group">
                                             <div class="avatar-group-item">
                                                 <a href="javascript: void(0);" class="d-inline-block">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt="" class="rounded-circle avatar-xxs">
+                                                    <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt="" class="rounded-circle avatar-xxs">
                                                 </a>
                                             </div>
                                             <div class="avatar-group-item">
                                                 <a href="javascript: void(0);" class="d-inline-block">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt="" class="rounded-circle avatar-xxs">
+                                                    <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt="" class="rounded-circle avatar-xxs">
                                                 </a>
                                             </div>
                                         </div>
@@ -305,7 +305,7 @@
                                 <tr>
                                     <td class="fw-medium">Multipurpose Landing Template</td>
                                     <td>
-                                        <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" class="avatar-xxs rounded-circle me-1" alt="">
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" class="avatar-xxs rounded-circle me-1" alt="">
                                         <a href="javascript: void(0);" class="text-reset">Boonie Hoynas</a>
                                     </td>
                                     <td>
@@ -320,12 +320,12 @@
                                         <div class="avatar-group">
                                             <div class="avatar-group-item">
                                                 <a href="javascript: void(0);" class="d-inline-block">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt="" class="rounded-circle avatar-xxs">
+                                                    <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt="" class="rounded-circle avatar-xxs">
                                                 </a>
                                             </div>
                                             <div class="avatar-group-item">
                                                 <a href="javascript: void(0);" class="d-inline-block">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}" alt="" class="rounded-circle avatar-xxs">
+                                                    <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}" alt="" class="rounded-circle avatar-xxs">
                                                 </a>
                                             </div>
                                         </div>
@@ -336,7 +336,7 @@
                                 <tr>
                                     <td class="fw-medium">Chat Application</td>
                                     <td>
-                                        <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" class="avatar-xxs rounded-circle me-1" alt="">
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" class="avatar-xxs rounded-circle me-1" alt="">
                                         <a href="javascript: void(0);" class="text-reset">Pauline Moll</a>
                                     </td>
                                     <td>
@@ -351,7 +351,7 @@
                                         <div class="avatar-group">
                                             <div class="avatar-group-item">
                                                 <a href="javascript: void(0);" class="d-inline-block">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="" class="rounded-circle avatar-xxs">
+                                                    <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="" class="rounded-circle avatar-xxs">
                                                 </a>
                                             </div>
                                         </div>
@@ -362,7 +362,7 @@
                                 <tr>
                                     <td class="fw-medium">Create Wireframe</td>
                                     <td>
-                                        <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" class="avatar-xxs rounded-circle me-1" alt="">
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" class="avatar-xxs rounded-circle me-1" alt="">
                                         <a href="javascript: void(0);" class="text-reset">James Bangs</a>
                                     </td>
                                     <td>
@@ -377,17 +377,17 @@
                                         <div class="avatar-group">
                                             <div class="avatar-group-item">
                                                 <a href="javascript: void(0);" class="d-inline-block">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt="" class="rounded-circle avatar-xxs">
+                                                    <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt="" class="rounded-circle avatar-xxs">
                                                 </a>
                                             </div>
                                             <div class="avatar-group-item">
                                                 <a href="javascript: void(0);" class="d-inline-block">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt="" class="rounded-circle avatar-xxs">
+                                                    <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt="" class="rounded-circle avatar-xxs">
                                                 </a>
                                             </div>
                                             <div class="avatar-group-item">
                                                 <a href="javascript: void(0);" class="d-inline-block">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-xxs">
+                                                    <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-xxs">
                                                 </a>
                                             </div>
                                         </div>
@@ -470,7 +470,7 @@
                                     <td><span class="badge badge-soft-success">Completed</span></td>
                                     <td>
                                         <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Mary Stoner">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="" class="rounded-circle avatar-xxs">
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="" class="rounded-circle avatar-xxs">
                                         </a>
                                     </td>
                                 </tr><!-- end -->
@@ -487,7 +487,7 @@
                                     <td><span class="badge badge-soft-warning">Progress</span></td>
                                     <td>
                                         <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Den Davis">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt="" class="rounded-circle avatar-xxs">
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt="" class="rounded-circle avatar-xxs">
                                         </a>
                                     </td>
                                 </tr><!-- end -->
@@ -504,7 +504,7 @@
                                     <td><span class="badge badge-soft-success">Completed</span></td>
                                     <td>
                                         <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Alex Brown">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt="" class="rounded-circle avatar-xxs">
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt="" class="rounded-circle avatar-xxs">
                                         </a>
                                     </td>
                                 </tr><!-- end -->
@@ -521,7 +521,7 @@
                                     <td><span class="badge badge-soft-danger">Pending</span></td>
                                     <td>
                                         <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Prezy Morin">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt="" class="rounded-circle avatar-xxs">
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt="" class="rounded-circle avatar-xxs">
                                         </a>
                                     </td>
                                 </tr><!-- end -->
@@ -538,7 +538,7 @@
                                     <td><span class="badge badge-soft-warning">Progress</span></td>
                                     <td>
                                         <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Stine Nielsen">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt="" class="rounded-circle avatar-xxs">
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt="" class="rounded-circle avatar-xxs">
                                         </a>
                                     </td>
                                 </tr><!-- end -->
@@ -555,7 +555,7 @@
                                     <td><span class="badge badge-soft-danger">Pending</span></td>
                                     <td>
                                         <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Jansh William">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-xxs">
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-xxs">
                                         </a>
                                     </td>
                                 </tr><!-- end -->
@@ -607,7 +607,7 @@
                             <tbody>
                                 <tr>
                                     <td class="d-flex">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt="" class="avatar-xs rounded-3 me-2">
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt="" class="avatar-xs rounded-3 me-2">
                                         <div>
                                             <h5 class="fs-14 mb-0">Donald Risher</h5>
                                             <p class="fs-13 mb-0 text-muted">Product Manager</p>
@@ -625,7 +625,7 @@
                                 </tr><!-- end tr -->
                                 <tr>
                                     <td class="d-flex">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded-3 me-2">
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded-3 me-2">
                                         <div>
                                             <h5 class="fs-14 mb-0">Jansh Brown</h5>
                                             <p class="fs-13 mb-0 text-muted">Lead Developer</p>
@@ -643,7 +643,7 @@
                                 </tr><!-- end tr -->
                                 <tr>
                                     <td class="d-flex">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt="" class="avatar-xs rounded-3 me-2">
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt="" class="avatar-xs rounded-3 me-2">
                                         <div>
                                             <h5 class="fs-14 mb-0">Carroll Adams</h5>
                                             <p class="fs-13 mb-0 text-muted">Lead Designer</p>
@@ -661,7 +661,7 @@
                                 </tr><!-- end tr -->
                                 <tr>
                                     <td class="d-flex">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="avatar-xs rounded-3 me-2">
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="avatar-xs rounded-3 me-2">
                                         <div>
                                             <h5 class="fs-14 mb-0">William Pinto</h5>
                                             <p class="fs-13 mb-0 text-muted">UI/UX Designer</p>
@@ -679,7 +679,7 @@
                                 </tr><!-- end tr -->
                                 <tr>
                                     <td class="d-flex">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt="" class="avatar-xs rounded-3 me-2">
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt="" class="avatar-xs rounded-3 me-2">
                                         <div>
                                             <h5 class="fs-14 mb-0">Garry Fournier</h5>
                                             <p class="fs-13 mb-0 text-muted">Web Designer</p>
@@ -697,7 +697,7 @@
                                 </tr><!-- end tr -->
                                 <tr>
                                     <td class="d-flex">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt="" class="avatar-xs rounded-3 me-2">
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt="" class="avatar-xs rounded-3 me-2">
                                         <div>
                                             <h5 class="fs-14 mb-0">Susan Denton</h5>
                                             <p class="fs-13 mb-0 text-muted">Lead Designer</p>
@@ -716,7 +716,7 @@
                                 </tr><!-- end tr -->
                                 <tr>
                                     <td class="d-flex">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="avatar-xs rounded-3 me-2">
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="avatar-xs rounded-3 me-2">
                                         <div>
                                             <h5 class="fs-14 mb-0">Joseph Jackson</h5>
                                             <p class="fs-13 mb-0 text-muted">React Developer</p>
@@ -764,7 +764,7 @@
                             <li class="chat-list left">
                                 <div class="conversation-list">
                                     <div class="chat-avatar">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="">
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="">
                                     </div>
                                     <div class="user-chat-content">
                                         <div class="ctext-wrap">
@@ -819,7 +819,7 @@
                             <li class="chat-list left">
                                 <div class="conversation-list">
                                     <div class="chat-avatar">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="">
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="">
                                     </div>
                                     <div class="user-chat-content">
                                         <div class="ctext-wrap">
@@ -891,15 +891,15 @@
                             <li class="chat-list left">
                                 <div class="conversation-list">
                                     <div class="chat-avatar">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="">
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="">
                                     </div>
                                     <div class="user-chat-content">
                                         <div class="ctext-wrap">
                                             <div class="message-img mb-0">
                                                 <div class="message-img-list">
                                                     <div>
-                                                        <a class="popup-img d-inline-block" href="{{ URL::asset('assets/images/small/img-1.jpg') }}">
-                                                            <img src="{{ URL::asset('assets/images/small/img-1.jpg') }}" alt="" class="rounded border">
+                                                        <a class="popup-img d-inline-block" href="{{ Vite::asset('resources/images/small/img-1.jpg') }}">
+                                                            <img src="{{ Vite::asset('resources/images/small/img-1.jpg') }}" alt="" class="rounded border">
                                                         </a>
                                                     </div>
                                                     <div class="message-img-link">
@@ -909,7 +909,7 @@
                                                                     <i class="ri-more-fill"></i>
                                                                 </a>
                                                                 <div class="dropdown-menu">
-                                                                    <a class="dropdown-item" href="{{ URL::asset('assets/images/small/img-1.jpg') }}" download=""><i class="ri-download-2-line me-2 text-muted align-bottom"></i>Download</a>
+                                                                    <a class="dropdown-item" href="{{ Vite::asset('resources/images/small/img-1.jpg') }}" download=""><i class="ri-download-2-line me-2 text-muted align-bottom"></i>Download</a>
                                                                     <a class="dropdown-item" href="#"><i class="ri-reply-line me-2 text-muted align-bottom"></i>Reply</a>
                                                                     <a class="dropdown-item" href="#"><i class="ri-share-line me-2 text-muted align-bottom"></i>Forward</a>
                                                                     <a class="dropdown-item" href="#"><i class="ri-bookmark-line me-2 text-muted align-bottom"></i>Bookmark</a>
@@ -922,8 +922,8 @@
 
                                                 <div class="message-img-list">
                                                     <div>
-                                                        <a class="popup-img d-inline-block" href="{{ URL::asset('assets/images/small/img-2.jpg') }}">
-                                                            <img src="{{ URL::asset('assets/images/small/img-2.jpg') }}" alt="" class="rounded border">
+                                                        <a class="popup-img d-inline-block" href="{{ Vite::asset('resources/images/small/img-2.jpg') }}">
+                                                            <img src="{{ Vite::asset('resources/images/small/img-2.jpg') }}" alt="" class="rounded border">
                                                         </a>
                                                     </div>
                                                     <div class="message-img-link">
@@ -933,7 +933,7 @@
                                                                     <i class="ri-more-fill"></i>
                                                                 </a>
                                                                 <div class="dropdown-menu">
-                                                                    <a class="dropdown-item" href="{{ URL::asset('assets/images/small/img-2.jpg') }}" download=""><i class="ri-download-2-line me-2 text-muted align-bottom"></i>Download</a>
+                                                                    <a class="dropdown-item" href="{{ Vite::asset('resources/images/small/img-2.jpg') }}" download=""><i class="ri-download-2-line me-2 text-muted align-bottom"></i>Download</a>
                                                                     <a class="dropdown-item" href="#"><i class="ri-reply-line me-2 text-muted align-bottom"></i>Reply</a>
                                                                     <a class="dropdown-item" href="#"><i class="ri-share-line me-2 text-muted align-bottom"></i>Forward</a>
                                                                     <a class="dropdown-item" href="#"><i class="ri-bookmark-line me-2 text-muted align-bottom"></i>Bookmark</a>

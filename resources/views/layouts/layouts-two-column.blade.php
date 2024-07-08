@@ -8,7 +8,7 @@
     <meta content="2earn.cash" name="description" />
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.ico')}}">
+    <link rel="shortcut icon" href="{{ Vite::asset('resources/images/favicon.ico')}}">
     @include('layouts.head-css')
     @livewireStyles
 </head>
@@ -48,7 +48,6 @@
 
     <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js"
             data-turbolinks-eval="false" data-turbo-eval="false"></script>
-    <script src="{{ mix('js/turbo.js') }}" defer></script>
     <script  src="{{ URL::asset('/assets/js/app.min.js') }}" defer></script>
 </body>
 

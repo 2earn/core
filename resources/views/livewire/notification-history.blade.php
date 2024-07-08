@@ -8,7 +8,6 @@
             {{ __('Notification history') }}
         @endslot
     @endcomponent
-    @section('content')
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -36,4 +35,39 @@
                 </div>
             </div>
         </div>
+        <script type="module">
+            $(document).on('turbolinks:load', function () {
+                $('#HistoryNotificationTable').DataTable({
+                    retrieve: true,
+                    "colReorder": true,
+                    "orderCellsTop": true,
+                    "fixedHeader": true,
+                    initComplete: function () {
+                        this.api()
+                            .columns()
+                            .every(function () {
+                                var that = $('#HistoryNotificationTable').DataTable();
+                                $('input', this.footer()).on('keydown', function (ev) {
+                                    if (ev.keyCode == 13) {
+                                        that.search(this.value).draw();
+                                    }
+                                });
+                            });
+                    },
+                    "processing": true,
+                    search: {return: true},
+                    "ajax": "{{route('API_HistoryNotification',app()->getLocale())}}",
+                    "columns": [
+                        {data: 'reference'},
+                        {data: 'send'},
+                        {data: 'receiver'},
+                        {data: 'action'},
+                        {data: 'date'},
+                        {data: 'type'},
+                        {data: 'responce'},
+                    ],
+                    "language": {"url": urlLang}
+                });
+            });
+        </script>
 </div>

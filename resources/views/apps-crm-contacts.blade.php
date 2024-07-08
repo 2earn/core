@@ -109,7 +109,7 @@
                                         <td class="name">
                                             <div class="d-flex align-items-center">
                                                 <div class="flex-shrink-0">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-10.jpg') }}"
+                                                    <img src="{{ Vite::asset('resources/images/users/avatar-10.jpg') }}"
                                                         alt="" class="avatar-xs rounded-circle" >
                                                 </div>
                                                 <div class="flex-grow-1 ms-2 name">Tonya Noble</div>
@@ -233,7 +233,7 @@
                                                         </div>
                                                         <div class="avatar-lg p-1">
                                                             <div class="avatar-title bg-light rounded-circle">
-                                                                <img src="{{ URL::asset('assets/images/users/user-dummy-img.jpg') }}"
+                                                                <img src="{{ Vite::asset('resources/images/users/user-dummy-img.jpg') }}"
                                                         alt="" id="customer-img" class="avatar-md rounded-circle object-cover" >
                                                             </div>
                                                         </div>
@@ -342,7 +342,7 @@
             <div class="card" id="contact-view-detail">
                 <div class="card-body text-center">
                     <div class="position-relative d-inline-block">
-                        <img src="{{ URL::asset('assets/images/users/avatar-10.jpg') }}" alt=""
+                        <img src="{{ Vite::asset('resources/images/users/avatar-10.jpg') }}" alt=""
                             class="avatar-lg rounded-circle img-thumbnail">
                         <span class="contact-active position-absolute rounded-circle bg-success"><span
                                 class="visually-hidden"></span>

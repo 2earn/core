@@ -48,7 +48,7 @@ class IdentificationCheck extends Component
         $this->messageVerif = Lang::get('Sending identification request in progress');
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) abort(404);
-        $hasRequest = $userAuth->hasIdetificationReques();
+        $hasRequest = $userAuth->hasIdentificationRequest();
         if ($hasRequest) {
             $this->messageVerif = Lang::get('identification_exist');;
             return;
@@ -183,7 +183,7 @@ class IdentificationCheck extends Component
         }
 
         $this->notify = $userAuth->iden_notif;
-        $hasRequest = $userAuth->hasIdetificationReques();
+        $hasRequest = $userAuth->hasIdentificationRequest();
         $hasFrontImage = $userAuth->hasFrontImage();
         $hasBackImage = $userAuth->hasBackImage();
 
@@ -202,7 +202,7 @@ class IdentificationCheck extends Component
     public function sendIdentificationRequest(settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
-        $hasRequest = $userAuth->hasIdetificationReques();
+        $hasRequest = $userAuth->hasIdentificationRequest();
         if (!$hasRequest) {
             $sensIdentification = identificationuserrequest::create(
                 ['idUser' => $userAuth->idUser, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(), 'response' => 0, 'note' => '', 'status' => 1]

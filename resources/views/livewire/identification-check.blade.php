@@ -10,14 +10,14 @@
                                 {{__('Txt_KYC_Verification')}}
                             </p>
                             <div class="mt-4">
-                                <button onclick="hideIdentificationModal()" type="button"
+                                <button type="button"
                                         class="btn btn-primary"
                                         data-bs-toggle="modal"
                                         @if(!$usermetta_info2['enFirstName'] || !$usermetta_info2['enLastName'] || !$usermetta_info2['birthday'] || !$usermetta_info2['nationalID'] || !$userF['email'])
                                             disabled
                                         @endif
-                                        data-bs-target=@if($hasRequest) "#modalRequestExiste" @else
-                                    "#exampleModal"
+                                        data-bs-target=@if($hasRequest) "#accountValidationModal" @else
+                                    "#identificationModal"
                                 @endif>
                                 {{__('Click_here_for_Verification')}}
                                 </button>
@@ -43,7 +43,7 @@
                     @endif
                     <div class="row justify-content-center mt-5 mb-2">
                         <div class="col-sm-7 col-8">
-                            <img src="{{ URL::asset('assets/images/verification-img.png') }}" alt=""
+                            <img src="{{ Vite::asset('resources/images/verification-img.png') }}" alt=""
                                  class="img-fluid"/>
                         </div>
                     </div>
@@ -51,12 +51,12 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modalRequestExiste" tabindex="-1" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="accountValidationModal" tabindex="-1" aria-labelledby="accountValidationModal"
          aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{__('Validation Compte')}}</h5>
+                    <h5 class="modal-title" id="modalRequestExisteLabel">{{__('Validation Compte')}}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -71,12 +71,13 @@
             </div>
         </div>
     </div>
-    <div wire:ignore class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    <div wire:ignore class="modal fade" id="identificationModal" tabindex="-1"
+         aria-labelledby="identificationModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header p-3">
-                    <h5 class="modal-title text-uppercase" id="exampleModalLabel">
+                    <h5 class="modal-title text-uppercase" id="identificationModalLabel">
                         {{__('Verify_your_Account')}}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -265,7 +266,7 @@
                                         <i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
                                         {{__('back to personal info')}}
                                     </button>
-                                    <button id="btn-next-identities-card" type="button"
+                                    <button id="btn-next-inter-identities-card" type="button"
                                             class="btn btn-primary btn-label right ms-auto nexttab"
                                             data-nexttab="pills-inter-identities-card-tab">
                                         <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
@@ -357,7 +358,7 @@
                                         <i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>
                                         {{__('back to identity card')}}
                                     </button>
-                                    <button onclick="sendIndentificationRequest()" type="button"
+                                    <button id="sendIndentificationRequest" type="button"
                                             class="btn btn-primary btn-label right ms-auto nexttab">
                                         <div wire:loading wire:target="sendIndentificationRequest">
                                                 <span class="spinner-border spinner-border-sm" role="status"
@@ -374,23 +375,62 @@
             </div>
         </div>
     </div>
-    <script>
-        var errorMail = document.querySelector("#error-mail");
-        var checkOpt = false;
-        var canUseEmail = false;
-        var sendEmailNotification = false;
+    <script type="module">
+        $(document).on('turbolinks:load', function () {
+
+            var errorMail = document.querySelector("#error-mail");
+            var checkOpt = false;
+            var canUseEmail = false;
+            var sendEmailNotification = false;
 
 
-        function doneVerify() {
-            window.location.reload();
-        }
+            function doneVerify() {
+                window.location.reload();
+            }
 
-        function hideIdentificationModal() {
-            $("#exampleModal").modal("hide");
-        }
+            function hideIdentificationModal() {
+                $('#identificationModal').modal('hide');
+            }
+
+
+            window.addEventListener('load', () => {
+                function sendMailNotification() {
+                    $("#inputEmailUser").css('border-color', 'green');
+                    $.ajax({
+                        method: "GET",
+                        url: "/sendMailNotification",
+                        async: false,
+                        success: (result) => {
+                            $("#inputEmailUser").css('border-color', 'green');
+                            sendEmailNotification = true;
+                        }
+                    });
+                }
+
+                $('input[type="file"]').each(function () {
+                    var $file = $(this),
+                        $label = $file.next('label'),
+                        $labelText = $label.find('span'),
+                        labelDefault = $labelText.text();
+                    $file.on('change', function (event) {
+                        var fileName = $file.val().split('\\').pop(),
+                            tmppath = URL.createObjectURL(event.target.files[0]);
+                        if (fileName) {
+                            $label.addClass('file-ok').css('background-image', 'url(' + tmppath + ')');
+                            $labelText.text(fileName);
+                        } else {
+                            $label.removeClass('file-ok');
+                            $labelText.text(labelDefault);
+                        }
+                    });
+                });
+
+            });
+
+
+        });
 
         function checkRequiredFieldInfo(idInput) {
-            console.log($("#" + idInput));
             if ($("#" + idInput).val().trim() === "") {
                 $("#" + idInput).css('border-color', 'red');
                 return false;
@@ -402,8 +442,7 @@
 
         function checkRequiredFieldsInfo() {
             if ($('#international-card').is(":checked")) {
-                return checkRequiredFieldInfo('internationalId') &&
-                    checkRequiredFieldInfo('expiryDate');
+                return checkRequiredFieldInfo('internationalId') && checkRequiredFieldInfo('expiryDate');
             } else {
                 return true;
             }
@@ -419,39 +458,20 @@
 
         function sendIndentificationRequest(event) {
             if (checkRequiredFieldsInfo()) {
-                window.livewire.emit('sendIndentificationRequest');
+                window.Livewire.emit('sendIndentificationRequest');
             }
         }
 
-        function sendMailNotification() {
-            $("#inputEmailUser").css('border-color', 'green');
-            $.ajax({
-                method: "GET",
-                url: "/sendMailNotification",
-                async: false,
-                success: (result) => {
-                    $("#inputEmailUser").css('border-color', 'green');
-                    sendEmailNotification = true;
-                }
-            });
-        }
+        $("#sendIndentificationRequest").on("click", function () {
+            sendIndentificationRequest();
+        });
 
-        $('input[type="file"]').each(function () {
-            var $file = $(this),
-                $label = $file.next('label'),
-                $labelText = $label.find('span'),
-                labelDefault = $labelText.text();
-            $file.on('change', function (event) {
-                var fileName = $file.val().split('\\').pop(),
-                    tmppath = URL.createObjectURL(event.target.files[0]);
-                if (fileName) {
-                    $label.addClass('file-ok').css('background-image', 'url(' + tmppath + ')');
-                    $labelText.text(fileName);
-                } else {
-                    $label.removeClass('file-ok');
-                    $labelText.text(labelDefault);
-                }
-            });
+        $('#btn-next-identities-card').click(function (e) {
+            $('#myTab li:nth-child(2) button').trigger("click");
+        });
+
+        $('#btn-next-inter-identities-card').click(function (e) {
+            $('#myTab li:nth-child(3) button').trigger("click");
         });
 
         $('#international-card').change(function () {
@@ -463,10 +483,6 @@
             }
         });
 
-        $('#btn-next-identities-card').click(function (e) {
-            $('#myTab button[id="pills-identities-card-tab"]').tab('show');
-        });
-
         window.addEventListener('IdentificationRequestMissingInformation', event => {
             Swal.fire({
                 title: event.detail.title,
@@ -474,6 +490,6 @@
                 icon: 'error',
                 confirmButtonText: "{{__('ok')}}"
             })
-        })
+        });
     </script>
 </div>

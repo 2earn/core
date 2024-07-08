@@ -4,8 +4,6 @@
             {{ __('Home') }}
         @endslot
     @endcomponent
-    <link type="text/css" rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"/>
     <div class="row">
         @include('layouts.flash-messages')
     </div>
@@ -413,7 +411,8 @@
                                     </div>
                                 @endif
                                 <div class="col-6  @if($flash) ribbon-box right overflow-hidden @endif ">
-                                    <label for="ammount" class="col-form-label">{{ __('Amount_pay') }}({{$currency}})</label>
+                                    <label for="ammount" class="col-form-label">{{ __('Amount_pay') }}({{$currency}}
+                                        )</label>
                                     <div class="input-group mb-3">
 
                                         <input aria-describedby="simulateAmmount" type="number" max="{{$cashBalance}}"
@@ -506,10 +505,7 @@
         </div>
     </div>
     @push('scripts')
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-        <script src="{{ URL::asset('assets/libs/prismjs/prismjs.min.js') }}"></script>
-        <script src="{{ URL::asset('assets/js/pages/form-validation.init.js') }}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        @vite('resources/js/pages/form-validation.init.js');
         @if($flash)
             <script>
                 var setEndDate6 = "{{$flashDate}}";
@@ -554,14 +550,13 @@
                     }, 1000);
             </script>
         @endif
-        <script>
-
-            $(document).on('ready ', function () {
+        <script type="module">
+            $( document ).ready(function() {
                     const input = document.querySelector("#phone");
                     const iti = window.intlTelInput(input, {
                         initialCountry: "auto",
                         useFullscreenPopup: false,
-                        utilsScript: "{{asset('assets/js/utils.js')}}"
+                        utilsScript: " {{asset('/build/utils.js/utils.js')}}"
                     });
                     $('[name="inlineRadioOptions"]').on('change', function () {
                         if ($('#inlineRadio2').is(':checked')) {
@@ -605,7 +600,9 @@
                                         html: response.error.join('<br>')
                                     });
                                 }
-                                $('#buy-action').modal('hide');
+
+                                $('#buy-action').modal('show');
+
                                 Toastify({
                                     text: data.message,
                                     gravity: "top",
@@ -638,64 +635,67 @@
             );
 
             var series;
-            anychart.onDocumentReady(function () {
-                anychart.data.loadJsonFile(
-                    "{{route('API_stat_countries',app()->getLocale())}}",
-                    function (data) {
-                        var map = anychart.map();
-                        map.geoData('anychart.maps.world');
-                        map.padding(0);
-                        var dataSet = anychart.data.set(data);
-                        var densityData = dataSet.mapAs({id: 'apha2', value: 'COUNT_USERS'});
-                        series = map.choropleth(densityData);
-                        series.labels(false);
-                        series.hovered().fill('#f48fb1').stroke(anychart.color.darken('#f48fb1'));
-                        series.tooltip(false);
-                        var scale = anychart.scales.ordinalColor([
-                            {less: 2},
-                            {from: 2, to: 5},
-                            {from: 5, to: 10},
-                            {from: 10, to: 15},
-                            {from: 15, to: 30},
-                            {from: 30, to: 50},
-                            {from: 50, to: 100},
-                            {from: 100, to: 500},
-                            {greater: 500}
-                        ]);
-                        scale.colors(['#81d4fa', '#4fc3f7', '#29b6f6', '#039be5', '#0288d1', '#0277bd', '#01579b', '#014377', '#000000']);
-                        series.colorScale(scale);
-                        var zoomController = anychart.ui.zoom();
-                        zoomController.render(map);
-                        map.container('any4');
-                        map.draw();
-                        var mapping = dataSet.mapAs({x: "name", value: "COUNT_USERS", category: "continant"});
-                        var colors = anychart.scales.ordinalColor().colors(['#26959f', '#f18126', '#3b8ad8', '#60727b', '#e24b26']);
-                        var chart = anychart.tagCloud();
-                        chart.data(mapping).colorScale(colors).angles([-90, 0, 90,]);
-                        chart.tooltip(false);
-                        var colorRange = chart.colorRange();
-                        colorRange.enabled(true).colorLineSize(15);
-                        var normalFillFunction = chart.normal().fill();
-                        var hoveredFillFunction = chart.hovered().fill();
-                        chart.listen('pointsHover', function (e) {
-                            if (e.actualTarget === colorRange) {
-                                if (e.points.length) {
-                                    chart.normal({
-                                        fill: 'black 0.1'
-                                    });
-                                    chart.hovered({
-                                        fill: chart.colorScale().valueToColor(e.point.get('category'))
-                                    });
-                                } else {
-                                    chart.normal({fill: normalFillFunction});
-                                    chart.hovered({fill: hoveredFillFunction});
+            $(document).on('turbolinks:load', function () {
+                anychart.onDocumentReady(function () {
+                    if ($('#any4').length > 0) {
+                        anychart.data.loadJsonFile(
+                        "{{route('API_stat_countries',app()->getLocale())}}",
+                        function (data) {
+                            var map = anychart.map();
+                            map.geoData('anychart.maps.world');
+                            map.padding(0);
+                            var dataSet = anychart.data.set(data);
+                            var densityData = dataSet.mapAs({id: 'apha2', value: 'COUNT_USERS'});
+                            series = map.choropleth(densityData);
+                            series.labels(false);
+                            series.hovered().fill('#f48fb1').stroke(anychart.color.darken('#f48fb1'));
+                            series.tooltip(false);
+                            var scale = anychart.scales.ordinalColor([
+                                {less: 2},
+                                {from: 2, to: 5},
+                                {from: 5, to: 10},
+                                {from: 10, to: 15},
+                                {from: 15, to: 30},
+                                {from: 30, to: 50},
+                                {from: 50, to: 100},
+                                {from: 100, to: 500},
+                                {greater: 500}
+                            ]);
+                            scale.colors(['#81d4fa', '#4fc3f7', '#29b6f6', '#039be5', '#0288d1', '#0277bd', '#01579b', '#014377', '#000000']);
+                            series.colorScale(scale);
+                            var zoomController = anychart.ui.zoom();
+                            zoomController.render(map);
+                            map.container('any4');
+                            map.draw();
+                            var mapping = dataSet.mapAs({x: "name", value: "COUNT_USERS", category: "continant"});
+                            var colors = anychart.scales.ordinalColor().colors(['#26959f', '#f18126', '#3b8ad8', '#60727b', '#e24b26']);
+                            var chart = anychart.tagCloud();
+                            chart.data(mapping).colorScale(colors).angles([-90, 0, 90,]);
+                            chart.tooltip(false);
+                            var colorRange = chart.colorRange();
+                            colorRange.enabled(true).colorLineSize(15);
+                            var normalFillFunction = chart.normal().fill();
+                            var hoveredFillFunction = chart.hovered().fill();
+                            chart.listen('pointsHover', function (e) {
+                                if (e.actualTarget === colorRange) {
+                                    if (e.points.length) {
+                                        chart.normal({
+                                            fill: 'black 0.1'
+                                        });
+                                        chart.hovered({
+                                            fill: chart.colorScale().valueToColor(e.point.get('category'))
+                                        });
+                                    } else {
+                                        chart.normal({fill: normalFillFunction});
+                                        chart.hovered({fill: hoveredFillFunction});
+                                    }
                                 }
-                            }
-                        });
-                        chart.container('any5');
-                        chart.draw();
-                    }
-                );
+                            });
+                            chart.container('any5');
+                            chart.draw();
+                        }
+                    );}
+                });
             });
         </script>
     @endpush

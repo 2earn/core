@@ -29,8 +29,8 @@
                                 <div class="element-item col-xxl-3 col-xl-4 col-sm-6 project designing development"  data-category="designing development">
                                     <div class="gallery-box card">
                                         <div class="gallery-container">
-                                            <a class="image-popup" href="{{ URL::asset('assets/images/small/img-1.jpg') }}" title="">
-                                                <img class="gallery-img img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-1.jpg') }}" alt="" />
+                                            <a class="image-popup" href="{{ Vite::asset('resources/images/small/img-1.jpg') }}" title="">
+                                                <img class="gallery-img img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-1.jpg') }}" alt="" />
                                                 <div class="gallery-overlay">
                                                     <h5 class="overlay-caption">Glasses and laptop from above</h5>
                                                 </div>
@@ -58,8 +58,8 @@
                                 <div class="element-item col-xxl-3 col-xl-4 col-sm-6 photography" data-category="photography">
                                     <div class="gallery-box card">
                                         <div class="gallery-container">
-                                            <a class="image-popup" href="{{ URL::asset('assets/images/small/img-2.jpg') }}" title="">
-                                                <img class="gallery-img img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-2.jpg') }}" alt="" />
+                                            <a class="image-popup" href="{{ Vite::asset('resources/images/small/img-2.jpg') }}" title="">
+                                                <img class="gallery-img img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-2.jpg') }}" alt="" />
                                                 <div class="gallery-overlay">
                                                     <h5 class="overlay-caption">Working at a coffee shop</h5>
                                                 </div>
@@ -88,8 +88,8 @@
                                 <div class="element-item col-xxl-3 col-xl-4 col-sm-6 project development" data-category="development">
                                     <div class="gallery-box card">
                                         <div class="gallery-container">
-                                            <a class="image-popup" href="{{ URL::asset('assets/images/small/img-3.jpg') }}" title="">
-                                                <img class="gallery-img img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-3.jpg') }}" alt="" />
+                                            <a class="image-popup" href="{{ Vite::asset('resources/images/small/img-3.jpg') }}" title="">
+                                                <img class="gallery-img img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-3.jpg') }}" alt="" />
                                                 <div class="gallery-overlay">
                                                     <h5 class="overlay-caption">Photo was taken in Beach</h5>
                                                 </div>
@@ -117,8 +117,8 @@
                                 <div class="element-item col-xxl-3 col-xl-4 col-sm-6 project designing" data-category="project designing">
                                     <div class="gallery-box card">
                                         <div class="gallery-container">
-                                            <a class="image-popup" href="{{ URL::asset('assets/images/small/img-4.jpg') }}" title="">
-                                                <img class="gallery-img img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-4.jpg') }}" alt="" />
+                                            <a class="image-popup" href="{{ Vite::asset('resources/images/small/img-4.jpg') }}" title="">
+                                                <img class="gallery-img img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-4.jpg') }}" alt="" />
                                                 <div class="gallery-overlay">
                                                     <h5 class="overlay-caption">Drawing a sketch</h5>
                                                 </div>
@@ -147,8 +147,8 @@
                                 <div class="element-item col-xxl-3 col-xl-4 col-sm-6 project designing" data-category="project designing">
                                     <div class="gallery-box card">
                                         <div class="gallery-container">
-                                            <a class="image-popup" href="{{ URL::asset('assets/images/small/img-5.jpg') }}" title="">
-                                                <img class="gallery-img img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-5.jpg') }}" alt="" />
+                                            <a class="image-popup" href="{{ Vite::asset('resources/images/small/img-5.jpg') }}" title="">
+                                                <img class="gallery-img img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-5.jpg') }}" alt="" />
                                                 <div class="gallery-overlay">
                                                     <h5 class="overlay-caption">Working from home little spot</h5>
                                                 </div>
@@ -175,8 +175,8 @@
                                 <div class="element-item col-xxl-3 col-xl-4 col-sm-6 photography" data-category="photography">
                                     <div class="gallery-box card">
                                         <div class="gallery-container">
-                                            <a class="image-popup" href="{{ URL::asset('assets/images/small/img-6.jpg') }}" title="">
-                                                <img class="gallery-img img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-6.jpg') }}" alt="" />
+                                            <a class="image-popup" href="{{ Vite::asset('resources/images/small/img-6.jpg') }}" title="">
+                                                <img class="gallery-img img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-6.jpg') }}" alt="" />
                                                 <div class="gallery-overlay">
                                                     <h5 class="overlay-caption">Project discussion with team</h5>
                                                 </div>
@@ -204,8 +204,8 @@
                                 <div class="element-item col-xxl-3 col-xl-4 col-sm-6 project designing development"  data-category="designing development">
                                     <div class="gallery-box card">
                                         <div class="gallery-container">
-                                            <a class="image-popup" href="{{ URL::asset('assets/images/small/img-7.jpg') }}" title="">
-                                                <img class="gallery-img img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-7.jpg') }}" alt="" />
+                                            <a class="image-popup" href="{{ Vite::asset('resources/images/small/img-7.jpg') }}" title="">
+                                                <img class="gallery-img img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-7.jpg') }}" alt="" />
                                                 <div class="gallery-overlay">
                                                     <h5 class="overlay-caption">Sunrise above a beach</h5>
                                                 </div>
@@ -233,8 +233,8 @@
                                 <div class="element-item col-xxl-3 col-xl-4 col-sm-6 photography" data-category="photography">
                                     <div class="gallery-box card">
                                         <div class="gallery-container">
-                                            <a class="image-popup" href="{{ URL::asset('assets/images/small/img-8.jpg') }}" title="">
-                                                <img class="gallery-img img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-8.jpg') }}" alt="" />
+                                            <a class="image-popup" href="{{ Vite::asset('resources/images/small/img-8.jpg') }}" title="">
+                                                <img class="gallery-img img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-8.jpg') }}" alt="" />
                                                 <div class="gallery-overlay">
                                                     <h5 class="overlay-caption">Glasses and laptop from above</h5>
                                                 </div>
@@ -263,8 +263,8 @@
                                 <div class="element-item col-xxl-3 col-xl-4 col-sm-6 project designing development"  data-category="designing development">
                                     <div class="gallery-box card">
                                         <div class="gallery-container">
-                                            <a class="image-popup" href="{{ URL::asset('assets/images/small/img-9.jpg') }}" title="">
-                                                <img class="gallery-img img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-9.jpg') }}" alt="" />
+                                            <a class="image-popup" href="{{ Vite::asset('resources/images/small/img-9.jpg') }}" title="">
+                                                <img class="gallery-img img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-9.jpg') }}" alt="" />
                                                 <div class="gallery-overlay">
                                                     <h5 class="overlay-caption">Dramatic clouds at the Golden Gate Bridge</h5>
                                                 </div>
@@ -293,8 +293,8 @@
                                 <div class="element-item col-xxl-3 col-xl-4 col-sm-6 project designing" data-category="project designing">
                                     <div class="gallery-box card">
                                         <div class="gallery-container">
-                                            <a class="image-popup" href="{{ URL::asset('assets/images/small/img-10.jpg') }}" title="">
-                                                <img class="gallery-img img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-10.jpg') }}" alt="" />
+                                            <a class="image-popup" href="{{ Vite::asset('resources/images/small/img-10.jpg') }}" title="">
+                                                <img class="gallery-img img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-10.jpg') }}" alt="" />
                                                 <div class="gallery-overlay">
                                                     <h5 class="overlay-caption">Fun day at the Hill Station</h5>
                                                 </div>
@@ -322,8 +322,8 @@
                                 <div class="element-item col-xxl-3 col-xl-4 col-sm-6 photography" data-category="photography">
                                     <div class="gallery-box card">
                                         <div class="gallery-container">
-                                            <a class="image-popup" href="{{ URL::asset('assets/images/small/img-11.jpg') }}" title="">
-                                                <img class="gallery-img img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-11.jpg') }}" alt="" />
+                                            <a class="image-popup" href="{{ Vite::asset('resources/images/small/img-11.jpg') }}" title="">
+                                                <img class="gallery-img img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-11.jpg') }}" alt="" />
                                                 <div class="gallery-overlay">
                                                     <h5 class="overlay-caption">Cycling in the countryside</h5>
                                                 </div>
@@ -353,8 +353,8 @@
                                 <div class="element-item col-xxl-3 col-xl-4 col-sm-6 photography" data-category="photography">
                                     <div class="gallery-box card">
                                         <div class="gallery-container">
-                                            <a class="image-popup" href="{{ URL::asset('assets/images/small/img-12.jpg') }}" title="">
-                                                <img class="gallery-img img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-12.jpg') }}" alt="" />
+                                            <a class="image-popup" href="{{ Vite::asset('resources/images/small/img-12.jpg') }}" title="">
+                                                <img class="gallery-img img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-12.jpg') }}" alt="" />
                                                 <div class="gallery-overlay">
                                                     <h5 class="overlay-caption">A mix of friends and strangers heading off to find an adventure.</h5>
                                                 </div>

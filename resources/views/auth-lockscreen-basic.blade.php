@@ -24,7 +24,7 @@
                     <div class="text-center mt-sm-5 mb-4 text-white-50">
                         <div>
                             <a href="index" class="d-inline-block auth-logo">
-                                <img src="{{ URL::asset('assets/images/logo-light.png') }}" alt="" height="20">
+                                <img src="{{ Vite::asset('resources/images/logo-light.png') }}" alt="" height="20">
                             </a>
                         </div>
                         <p class="mt-3 fs-15 fw-medium">Premium Admin & Dashboard Template</p>
@@ -43,7 +43,7 @@
                                 <p class="text-muted">Enter your password to unlock the screen!</p>
                             </div>
                             <div class="user-thumb text-center">
-                                <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" class="rounded-circle img-thumbnail avatar-lg" alt="thumbnail">
+                                <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" class="rounded-circle img-thumbnail avatar-lg" alt="thumbnail">
                                 <h5 class="font-size-15 mt-3">Anna Adame</h5>
                             </div>
                             <div class="p-2 mt-4">

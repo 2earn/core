@@ -14,8 +14,8 @@
         <nav class="navbar navbar-expand-lg navbar-landing navbar-light fixed-top" id="navbar">
             <div class="container">
                 <a class="navbar-brand" href="index">
-                    <img src="{{URL::asset('assets/images/logo-dark.png')}}" class="card-logo card-logo-dark" alt="logo dark" height="17">
-                    <img src="{{URL::asset('assets/images/logo-light.png')}}" class="card-logo card-logo-light" alt="logo light" height="17">
+                    <img src="{{Vite::asset('resources/images/logo-dark.png')}}" class="card-logo card-logo-dark" alt="logo dark" height="17">
+                    <img src="{{Vite::asset('resources/images/logo-light.png')}}" class="card-logo card-logo-light" alt="logo light" height="17">
                 </a>
                 <button class="navbar-toggler py-0 fs-20 text-body" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="mdi mdi-menu"></i>
@@ -87,7 +87,7 @@
                     <div class="col-lg-4">
                         <div class="card text-center border shadow-none">
                             <div class="card-body py-5 px-4">
-                                <img src="{{URL::asset('assets/images/nft/wallet/metamask.png')}}" alt="" height="55" class="mb-3 pb-2">
+                                <img src="{{Vite::asset('resources/images/nft/wallet/metamask.png')}}" alt="" height="55" class="mb-3 pb-2">
                                 <h5>Metamask</h5>
                                 <p class="text-muted pb-1">MetaMask is a popular cryptocurrency wallet known for its ease of use, availability on both desktops.</p>
                                 <a href="#!" class="btn btn-soft-info">Connect Wallet</a>
@@ -97,7 +97,7 @@
                     <div class="col-lg-4">
                         <div class="card text-center border shadow-none">
                             <div class="card-body py-5 px-4">
-                                <img src="{{URL::asset('assets/images/nft/wallet/coinbase.png')}}" alt="" height="55" class="mb-3 pb-2">
+                                <img src="{{Vite::asset('resources/images/nft/wallet/coinbase.png')}}" alt="" height="55" class="mb-3 pb-2">
                                 <h5>Coinbase Wallet</h5>
                                 <p class="text-muted pb-1">Binance is considered a safe exchange that allows user account protection via the use of Two Authentication.</p>
                                 <a href="#!" class="btn btn-info">Change Wallet</a>
@@ -108,7 +108,7 @@
                     <div class="col-lg-4">
                         <div class="card text-center border shadow-none">
                             <div class="card-body py-5 px-4">
-                                <img src="{{URL::asset('assets/images/nft/wallet/binance.png')}}" alt="" height="55" class="mb-3 pb-2">
+                                <img src="{{Vite::asset('resources/images/nft/wallet/binance.png')}}" alt="" height="55" class="mb-3 pb-2">
                                 <h5>Binance</h5>
                                 <p class="text-muted pb-1">Binance offers a relatively secure, versatile way to invest in and trade cryptocurrencies.</p>
                                 <a href="#!" class="btn btn-soft-info">Connect Wallet</a>
@@ -157,7 +157,7 @@
                                 <button type="button" class="btn btn-icon active" data-bs-toggle="button" aria-pressed="true"><i class="mdi mdi-cards-heart fs-16"></i></button>
                             </div>
                             <div class="explore-place-bid-img">
-                                <img src="{{URL::asset('assets/images/nft/img-03.jpg')}}" alt="" class="card-img-top explore-img" />
+                                <img src="{{Vite::asset('resources/images/nft/img-03.jpg')}}" alt="" class="card-img-top explore-img" />
                                 <div class="bg-overlay"></div>
                                 <div class="place-bid-btn">
                                     <a href="#!" class="btn btn-success"><i class="ri-auction-fill align-bottom me-1"></i> Place Bid</a>
@@ -184,7 +184,7 @@
                                 <button type="button" class="btn btn-icon active" data-bs-toggle="button" aria-pressed="true"><i class="mdi mdi-cards-heart fs-16"></i></button>
                             </div>
                             <div class="explore-place-bid-img">
-                                <img src="{{URL::asset('assets/images/nft/img-02.jpg')}}" alt="" class="card-img-top explore-img" />
+                                <img src="{{Vite::asset('resources/images/nft/img-02.jpg')}}" alt="" class="card-img-top explore-img" />
                                 <div class="bg-overlay"></div>
                                 <div class="place-bid-btn">
                                     <a href="#!" class="btn btn-success"><i class="ri-auction-fill align-bottom me-1"></i> Place Bid</a>
@@ -211,7 +211,7 @@
                                 <button type="button" class="btn btn-icon active" data-bs-toggle="button" aria-pressed="true"><i class="mdi mdi-cards-heart fs-16"></i></button>
                             </div>
                             <div class="explore-place-bid-img">
-                                <img src="{{URL::asset('assets/images/nft/gif/img-4.gif')}}" alt="" class="card-img-top explore-img" />
+                                <img src="{{Vite::asset('resources/images/nft/gif/img-4.gif')}}" alt="" class="card-img-top explore-img" />
                                 <div class="bg-overlay"></div>
                                 <div class="place-bid-btn">
                                     <a href="#!" class="btn btn-success"><i class="ri-auction-fill align-bottom me-1"></i> Place Bid</a>
@@ -238,7 +238,7 @@
                                 <button type="button" class="btn btn-icon active" data-bs-toggle="button" aria-pressed="true"><i class="mdi mdi-cards-heart fs-16"></i></button>
                             </div>
                             <div class="explore-place-bid-img">
-                                <img src="{{URL::asset('assets/images/nft/img-01.jpg')}}" alt="" class="card-img-top explore-img" />
+                                <img src="{{Vite::asset('resources/images/nft/img-01.jpg')}}" alt="" class="card-img-top explore-img" />
                                 <div class="bg-overlay"></div>
                                 <div class="place-bid-btn">
                                     <a href="#!" class="btn btn-success"><i class="ri-auction-fill align-bottom me-1"></i> Place Bid</a>
@@ -265,7 +265,7 @@
                                 <button type="button" class="btn btn-icon active" data-bs-toggle="button" aria-pressed="true"><i class="mdi mdi-cards-heart fs-16"></i></button>
                             </div>
                             <div class="explore-place-bid-img">
-                                <img src="{{URL::asset('assets/images/nft/img-05.jpg')}}" alt="" class="card-img-top explore-img" />
+                                <img src="{{Vite::asset('resources/images/nft/img-05.jpg')}}" alt="" class="card-img-top explore-img" />
                                 <div class="bg-overlay"></div>
                                 <div class="place-bid-btn">
                                     <a href="#!" class="btn btn-success"><i class="ri-auction-fill align-bottom me-1"></i> Place Bid</a>
@@ -292,7 +292,7 @@
                                 <button type="button" class="btn btn-icon active" data-bs-toggle="button" aria-pressed="true"><i class="mdi mdi-cards-heart fs-16"></i></button>
                             </div>
                             <div class="explore-place-bid-img">
-                                <img src="{{URL::asset('assets/images/nft/img-06.jpg')}}" alt="" class="card-img-top explore-img" />
+                                <img src="{{Vite::asset('resources/images/nft/img-06.jpg')}}" alt="" class="card-img-top explore-img" />
                                 <div class="bg-overlay"></div>
                                 <div class="place-bid-btn">
                                     <a href="#!" class="btn btn-success"><i class="ri-auction-fill align-bottom me-1"></i> Place Bid</a>
@@ -334,7 +334,7 @@
                     <div class="col-lg-3">
                         <div class="card shadow-none">
                             <div class="card-body">
-                                <img src="{{URL::asset('assets/images/nft/wallet.png')}}" alt="" class="avatar-sm">
+                                <img src="{{Vite::asset('resources/images/nft/wallet.png')}}" alt="" class="avatar-sm">
                                 <h5 class="mt-4">Set up your wallet</h5>
                                 <p class="text-muted fs-14">You have to choose whether to use a hot wallet a cold wallet.</p>
                                 <a href="#!" class="link-success fs-14">Read More <i class="ri-arrow-right-line align-bottom"></i></a>
@@ -345,7 +345,7 @@
                     <div class="col-lg-3">
                         <div class="card shadow-none">
                             <div class="card-body">
-                                <img src="{{URL::asset('assets/images/nft/money.png')}}" alt="" class="avatar-sm">
+                                <img src="{{Vite::asset('resources/images/nft/money.png')}}" alt="" class="avatar-sm">
                                 <h5 class="mt-4">Create your collection</h5>
                                 <p class="text-muted fs-14">Create a collection in Opensea and give it a proper art.</p>
                                 <a href="#!" class="link-success fs-14">Read More <i class="ri-arrow-right-line align-bottom"></i></a>
@@ -356,7 +356,7 @@
                     <div class="col-lg-3">
                         <div class="card shadow-none">
                             <div class="card-body">
-                                <img src="{{URL::asset('assets/images/nft/add.png')}}" alt="" class="avatar-sm">
+                                <img src="{{Vite::asset('resources/images/nft/add.png')}}" alt="" class="avatar-sm">
                                 <h5 class="mt-4">Add your NFT's</h5>
                                 <p class="text-muted fs-14">Go to your profile icon and top right corner creation page.</p>
                                 <a href="#!" class="link-success fs-14">Read More <i class="ri-arrow-right-line align-bottom"></i></a>
@@ -367,7 +367,7 @@
                     <div class="col-lg-3">
                         <div class="card shadow-none">
                             <div class="card-body">
-                                <img src="{{URL::asset('assets/images/nft/sell.png')}}" alt="" class="avatar-sm">
+                                <img src="{{Vite::asset('resources/images/nft/sell.png')}}" alt="" class="avatar-sm">
                                 <h5 class="mt-4">Sell Your NFT's</h5>
                                 <p class="text-muted fs-14">Create a collection in Opensea and give Add items and art.</p>
                                 <a href="#!" class="link-success fs-14">Read More <i class="ri-arrow-right-line align-bottom"></i></a>
@@ -401,13 +401,13 @@
                                         <div class="card-body">
                                             <div class="row g-1 mb-3">
                                                 <div class="col-lg-6">
-                                                    <img src="{{URL::asset('assets/images/nft/img-06.jpg')}}" alt="" class="img-fluid rounded">
-                                                    <img src="{{URL::asset('assets/images/nft/gif/img-2.gif')}}" alt="" class="img-fluid rounded mt-1">
+                                                    <img src="{{Vite::asset('resources/images/nft/img-06.jpg')}}" alt="" class="img-fluid rounded">
+                                                    <img src="{{Vite::asset('resources/images/nft/gif/img-2.gif')}}" alt="" class="img-fluid rounded mt-1">
                                                 </div>
                                                 <!--end col-->
                                                 <div class="col-lg-6">
-                                                    <img src="{{URL::asset('assets/images/nft/gif/img-5.gif')}}" alt="" class="img-fluid rounded mb-1">
-                                                    <img src="{{URL::asset('assets/images/nft/img-03.jpg')}}" alt="" class="img-fluid rounded">
+                                                    <img src="{{Vite::asset('resources/images/nft/gif/img-5.gif')}}" alt="" class="img-fluid rounded mb-1">
+                                                    <img src="{{Vite::asset('resources/images/nft/img-03.jpg')}}" alt="" class="img-fluid rounded">
                                                 </div>
                                                 <!--end col-->
                                             </div>
@@ -422,13 +422,13 @@
                                         <div class="card-body">
                                             <div class="row g-1 mb-3">
                                                 <div class="col-lg-6">
-                                                    <img src="{{URL::asset('assets/images/nft/img-05.jpg')}}" alt="" class="img-fluid rounded">
-                                                    <img src="{{URL::asset('assets/images/nft/gif/img-1.gif')}}" alt="" class="img-fluid rounded mt-1">
+                                                    <img src="{{Vite::asset('resources/images/nft/img-05.jpg')}}" alt="" class="img-fluid rounded">
+                                                    <img src="{{Vite::asset('resources/images/nft/gif/img-1.gif')}}" alt="" class="img-fluid rounded mt-1">
                                                 </div>
                                                 <!--end col-->
                                                 <div class="col-lg-6">
-                                                    <img src="{{URL::asset('assets/images/nft/gif/img-4.gif')}}" alt="" class="img-fluid rounded mb-1">
-                                                    <img src="{{URL::asset('assets/images/nft/img-04.jpg')}}" alt="" class="img-fluid rounded">
+                                                    <img src="{{Vite::asset('resources/images/nft/gif/img-4.gif')}}" alt="" class="img-fluid rounded mb-1">
+                                                    <img src="{{Vite::asset('resources/images/nft/img-04.jpg')}}" alt="" class="img-fluid rounded">
                                                 </div>
                                                 <!--end col-->
                                             </div>
@@ -443,13 +443,13 @@
                                         <div class="card-body">
                                             <div class="row g-1 mb-3">
                                                 <div class="col-lg-6">
-                                                    <img src="{{URL::asset('assets/images/nft/img-02.jpg')}}" alt="" class="img-fluid rounded">
-                                                    <img src="{{URL::asset('assets/images/nft/gif/img-3.gif')}}" alt="" class="img-fluid rounded mt-1">
+                                                    <img src="{{Vite::asset('resources/images/nft/img-02.jpg')}}" alt="" class="img-fluid rounded">
+                                                    <img src="{{Vite::asset('resources/images/nft/gif/img-3.gif')}}" alt="" class="img-fluid rounded mt-1">
                                                 </div>
                                                 <!--end col-->
                                                 <div class="col-lg-6">
-                                                    <img src="{{URL::asset('assets/images/nft/gif/img-1.gif')}}" alt="" class="img-fluid rounded mb-1">
-                                                    <img src="{{URL::asset('assets/images/nft/img-01.jpg')}}" alt="" class="img-fluid rounded">
+                                                    <img src="{{Vite::asset('resources/images/nft/gif/img-1.gif')}}" alt="" class="img-fluid rounded mb-1">
+                                                    <img src="{{Vite::asset('resources/images/nft/img-01.jpg')}}" alt="" class="img-fluid rounded">
                                                 </div>
                                                 <!--end col-->
                                             </div>
@@ -464,13 +464,13 @@
                                         <div class="card-body">
                                             <div class="row g-1 mb-3">
                                                 <div class="col-lg-6">
-                                                    <img src="{{URL::asset('assets/images/nft/img-03.jpg')}}" alt="" class="img-fluid rounded">
-                                                    <img src="{{URL::asset('assets/images/nft/gif/img-5.gif')}}" alt="" class="img-fluid rounded mt-1">
+                                                    <img src="{{Vite::asset('resources/images/nft/img-03.jpg')}}" alt="" class="img-fluid rounded">
+                                                    <img src="{{Vite::asset('resources/images/nft/gif/img-5.gif')}}" alt="" class="img-fluid rounded mt-1">
                                                 </div>
                                                 <!--end col-->
                                                 <div class="col-lg-6">
-                                                    <img src="{{URL::asset('assets/images/nft/gif/img-2.gif')}}" alt="" class="img-fluid rounded mb-1">
-                                                    <img src="{{URL::asset('assets/images/nft/img-05.jpg')}}" alt="" class="img-fluid rounded">
+                                                    <img src="{{Vite::asset('resources/images/nft/gif/img-2.gif')}}" alt="" class="img-fluid rounded mb-1">
+                                                    <img src="{{Vite::asset('resources/images/nft/img-05.jpg')}}" alt="" class="img-fluid rounded">
                                                 </div>
                                                 <!--end col-->
                                             </div>
@@ -485,13 +485,13 @@
                                         <div class="card-body">
                                             <div class="row g-1 mb-3">
                                                 <div class="col-lg-6">
-                                                    <img src="{{URL::asset('assets/images/nft/img-02.jpg')}}" alt="" class="img-fluid rounded">
-                                                    <img src="{{URL::asset('assets/images/nft/gif/img-3.gif')}}" alt="" class="img-fluid rounded mt-1">
+                                                    <img src="{{Vite::asset('resources/images/nft/img-02.jpg')}}" alt="" class="img-fluid rounded">
+                                                    <img src="{{Vite::asset('resources/images/nft/gif/img-3.gif')}}" alt="" class="img-fluid rounded mt-1">
                                                 </div>
                                                 <!--end col-->
                                                 <div class="col-lg-6">
-                                                    <img src="{{URL::asset('assets/images/nft/gif/img-1.gif')}}" alt="" class="img-fluid rounded mb-1">
-                                                    <img src="{{URL::asset('assets/images/nft/img-01.jpg')}}" alt="" class="img-fluid rounded">
+                                                    <img src="{{Vite::asset('resources/images/nft/gif/img-1.gif')}}" alt="" class="img-fluid rounded mb-1">
+                                                    <img src="{{Vite::asset('resources/images/nft/img-01.jpg')}}" alt="" class="img-fluid rounded">
                                                 </div>
                                                 <!--end col-->
                                             </div>
@@ -526,7 +526,7 @@
                         <div class="card explore-box card-animate border">
                             <div class="card-body">
                                 <div class="d-flex align-items-center mb-3">
-                                    <img src="{{URL::asset('assets/images/users/avatar-2.jpg')}}" alt="" class="avatar-xs rounded-circle">
+                                    <img src="{{Vite::asset('resources/images/users/avatar-2.jpg')}}" alt="" class="avatar-xs rounded-circle">
                                     <div class="ms-2 flex-grow-1">
                                         <a href="#!">
                                             <h6 class="mb-0 fs-15">Nancy Martino</h6>
@@ -538,7 +538,7 @@
                                     </div>
                                 </div>
                                 <div class="explore-place-bid-img overflow-hidden rounded">
-                                    <img src="{{URL::asset('assets/images/nft/img-05.jpg')}}" alt="" class="explore-img w-100">
+                                    <img src="{{Vite::asset('resources/images/nft/img-05.jpg')}}" alt="" class="explore-img w-100">
                                     <div class="bg-overlay"></div>
                                     <div class="place-bid-btn">
                                         <a href="#!" class="btn btn-success"><i class="ri-auction-fill align-bottom me-1"></i> Place Bid</a>
@@ -556,7 +556,7 @@
                         <div class="card explore-box card-animate border">
                             <div class="card-body">
                                 <div class="d-flex align-items-center mb-3">
-                                    <img src="{{URL::asset('assets/images/users/avatar-9.jpg')}}" alt="" class="avatar-xs rounded-circle">
+                                    <img src="{{Vite::asset('resources/images/users/avatar-9.jpg')}}" alt="" class="avatar-xs rounded-circle">
                                     <div class="ms-2 flex-grow-1">
                                         <a href="#!">
                                             <h6 class="mb-0 fs-15">Henry Baird</h6>
@@ -568,7 +568,7 @@
                                     </div>
                                 </div>
                                 <div class="explore-place-bid-img overflow-hidden rounded">
-                                    <img src="{{URL::asset('assets/images/nft/img-03.jpg')}}" alt="" class="explore-img w-100">
+                                    <img src="{{Vite::asset('resources/images/nft/img-03.jpg')}}" alt="" class="explore-img w-100">
                                     <div class="bg-overlay"></div>
                                     <div class="place-bid-btn">
                                         <a href="#!" class="btn btn-success"><i class="ri-auction-fill align-bottom me-1"></i> Place Bid</a>
@@ -586,7 +586,7 @@
                         <div class="card explore-box card-animate border">
                             <div class="card-body">
                                 <div class="d-flex align-items-center mb-3">
-                                    <img src="{{URL::asset('assets/images/users/avatar-10.jpg')}}" alt="" class="avatar-xs rounded-circle">
+                                    <img src="{{Vite::asset('resources/images/users/avatar-10.jpg')}}" alt="" class="avatar-xs rounded-circle">
                                     <div class="ms-2 flex-grow-1">
                                         <a href="#!">
                                             <h6 class="mb-0 fs-15">Diana Kohler</h6>
@@ -598,7 +598,7 @@
                                     </div>
                                 </div>
                                 <div class="explore-place-bid-img overflow-hidden rounded">
-                                    <img src="{{URL::asset('assets/images/nft/gif/img-1.gif')}}" alt="" class="img-fluid explore-img">
+                                    <img src="{{Vite::asset('resources/images/nft/gif/img-1.gif')}}" alt="" class="img-fluid explore-img">
                                     <div class="bg-overlay"></div>
                                     <div class="place-bid-btn">
                                         <a href="#!" class="btn btn-success"><i class="ri-auction-fill align-bottom me-1"></i> Place Bid</a>
@@ -637,7 +637,7 @@
                             <div class="card-body">
                                 <div class="d-flex">
                                     <div class="flex-shink-0">
-                                        <img src="{{URL::asset('assets/images/nft/img-01.jpg')}}" alt="" class="avatar-sm object-cover rounded" />
+                                        <img src="{{Vite::asset('resources/images/nft/img-01.jpg')}}" alt="" class="avatar-sm object-cover rounded" />
                                     </div>
                                     <div class="ms-3 flex-grow-1">
                                         <a href="pages-profile">
@@ -666,7 +666,7 @@
                             <div class="card-body">
                                 <div class="d-flex">
                                     <div class="flex-shink-0">
-                                        <img src="{{URL::asset('assets/images/users/avatar-5.jpg')}}" alt="" class="avatar-sm object-cover rounded">
+                                        <img src="{{Vite::asset('resources/images/users/avatar-5.jpg')}}" alt="" class="avatar-sm object-cover rounded">
                                     </div>
                                     <div class="ms-3 flex-grow-1">
                                         <a href="pages-profile">
@@ -695,7 +695,7 @@
                             <div class="card-body">
                                 <div class="d-flex">
                                     <div class="flex-shink-0">
-                                        <img src="{{URL::asset('assets/images/nft/img-06.jpg')}}" alt="" class="avatar-sm object-cover rounded">
+                                        <img src="{{Vite::asset('resources/images/nft/img-06.jpg')}}" alt="" class="avatar-sm object-cover rounded">
                                     </div>
                                     <div class="ms-3 flex-grow-1">
                                         <a href="pages-profile">
@@ -724,7 +724,7 @@
                             <div class="card-body">
                                 <div class="d-flex">
                                     <div class="flex-shink-0">
-                                        <img src="{{URL::asset('assets/images/nft/gif/img-5.gif')}}" alt="" class="avatar-sm object-cover rounded">
+                                        <img src="{{Vite::asset('resources/images/nft/gif/img-5.gif')}}" alt="" class="avatar-sm object-cover rounded">
                                     </div>
                                     <div class="ms-3 flex-grow-1">
                                         <a href="pages-profile">
@@ -753,7 +753,7 @@
                             <div class="card-body">
                                 <div class="d-flex">
                                     <div class="flex-shink-0">
-                                        <img src="{{URL::asset('assets/images/users/avatar-8.jpg')}}" alt="" class="avatar-sm object-cover rounded">
+                                        <img src="{{Vite::asset('resources/images/users/avatar-8.jpg')}}" alt="" class="avatar-sm object-cover rounded">
                                     </div>
                                     <div class="ms-3 flex-grow-1">
                                         <a href="pages-profile">
@@ -782,7 +782,7 @@
                             <div class="card-body">
                                 <div class="d-flex">
                                     <div class="flex-shink-0">
-                                        <img src="{{URL::asset('assets/images/nft/img-02.jpg')}}" alt="" class="avatar-sm object-cover rounded">
+                                        <img src="{{Vite::asset('resources/images/nft/img-02.jpg')}}" alt="" class="avatar-sm object-cover rounded">
                                     </div>
                                     <div class="ms-3 flex-grow-1">
                                         <a href="pages-profile">
@@ -842,7 +842,7 @@
                     <div class="col-lg-4 mt-4">
                         <div>
                             <div>
-                                <img src="{{URL::asset('assets/images/logo-light.png')}}" alt="logo light" height="17">
+                                <img src="{{Vite::asset('resources/images/logo-light.png')}}" alt="logo light" height="17">
                             </div>
                             <div class="mt-4 fs-14">
                                 <p>2earn.cash</p>

@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\DAL\UserRepository;
 use App\Models\User;
 use App\Models\vip;
-use App\Services\Sponsorship\Sponsorship;
 use App\Services\Sponsorship\SponsorshipFacade;
-use Barryvdh\DomPDF\Facade\Pdf;
 use carbon;
 use Core\Enum\AmoutEnum;
 use Core\Enum\StatusRequst;
@@ -26,6 +24,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator as Val;
+use Illuminate\Support\Facades\Vite;
 use Illuminate\Validation\Rule;
 use Paytabscom\Laravel_paytabs\Facades\paypage;
 use phpDocumentor\Reflection\Types\Collection;
@@ -389,7 +388,6 @@ left join users user on user.idUser = recharge_requests.idUser";
                 return number_format($user_balance->PU * ($user_balance->value + $user_balance->gifted_shares), 2);
             })
             ->addColumn('share_price', function ($user_balance) {
-                //return number_format($user_balance->PU * ($user_balance->value + $user_balance->gifted_shares) / $user_balance->value, 2);
                 if ($user_balance->value != 0)
                     return $user_balance->PU * ($user_balance->value + $user_balance->gifted_shares) / $user_balance->value;
                 else return 0;
@@ -402,7 +400,7 @@ left join users user on user.idUser = recharge_requests.idUser";
             })
             ->addColumn('flag', function ($settings) {
 
-                return '<img src="' . Asset("assets/images/flags/" . strtolower($settings->apha2)) . '.svg" alt="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
+                return '<img src="' . $this->getFormatedFlagResourceName($settings->apha2) . '" alt="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
             })
             ->addColumn('sell_price_now', function ($user_balance) {
                 return number_format(actualActionValue(getSelledActions()) * ($user_balance->value + $user_balance->gifted_shares), 2);
@@ -414,12 +412,17 @@ left join users user on user.idUser = recharge_requests.idUser";
                 return number_format($user_balance->value + $user_balance->gifted_shares, 0);
             })
             ->addColumn('asset', function ($settings) {
-                return Asset("assets/images/flags/" . strtolower($settings->apha2)) . '.svg';
+                return $this->getFormatedFlagResourceName($settings->apha2);
             })
             ->rawColumns(['flag', 'share_price', 'status'])
             ->make(true);
 
 
+    }
+
+    public function getFormatedFlagResourceName($flagName)
+    {
+        return Vite::asset("resources/images/flags/" . strtolower($flagName) . ".svg");
     }
 
     public function handlePaymentNotification(Req $request, settingsManager $settingsManager)
@@ -812,12 +815,17 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
 
     public function getUsersList()
     {
-        $query = User::select('countries.apha2', 'users.idUser', 'idUplineRegister', DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'), 'users.mobile', 'users.created_at', 'OptActivation', 'pass', 'flashCoefficient as coeff', 'flashDeadline as periode', 'flashNote as note', 'flashMinAmount as minshares', 'dateFNS as date')
+        $query = User::select('countries.apha2', 'users.idUser', 'idUplineRegister', DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'), 'users.mobile', 'users.created_at', 'OptActivation', 'pass', DB::raw('IFNULL(`flashCoefficient`,"##") as coeff'), DB::raw('IFNULL(`flashDeadline`,"##") as periode'), DB::raw('IFNULL(`flashNote`,"##") as note'), DB::raw('IFNULL(`flashMinAmount`,"##") as minshares'), DB::raw('IFNULL(`dateFNS`,"##") as date'))
             ->join('metta_users as meta', 'meta.idUser', '=', 'users.idUser')
             ->join('countries', 'countries.id', '=', 'users.idCountry');
         return datatables($query)
             ->addColumn('formatted_mobile', function ($user) {
                 $phone = new PhoneNumber($user->mobile, $user->apha2);
+                try {
+                    return $phone->formatForCountry($user->apha2);
+                } catch (\Exception $e) {
+                    return $phone;
+                }
                 return $phone->formatForCountry($user->apha2);
             })
             ->addColumn('register_upline', function ($user) {
@@ -829,18 +837,18 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
             })
             ->addColumn('action', function ($settings) {
 
-                return '<a data-bs-toggle="modal" data-bs-target="#AddCash"   data-phone="' . $settings->mobile . '" data-country="' . Asset("assets/images/flags/" . strtolower($settings->apha2)) . '.svg" data-reciver="' . $settings->idUser . '"
+                return '<a data-bs-toggle="modal" data-bs-target="#AddCash"   data-phone="' . $settings->mobile . '" data-country="' . $this->getFormatedFlagResourceName($settings->apha2) . '" data-reciver="' . $settings->idUser . '"
 class="btn btn-xs btn-primary btn2earnTable addCash" >' . Lang::get('Add cash') . '</a> ';
             })
             ->addColumn('VIP', function ($settings) {
 
-                return '<a data-bs-toggle="modal" data-bs-target="#vip"   data-phone="' . $settings->mobile . '" data-country="' . Asset("assets/images/flags/" . strtolower($settings->apha2)) . '.svg" data-reciver="' . $settings->idUser . '"
+                return '<a data-bs-toggle="modal" data-bs-target="#vip"   data-phone="' . $settings->mobile . '" data-country="' . $this->getFormatedFlagResourceName($settings->apha2) . '"  data-reciver="' . $settings->idUser . '"
 class="btn btn-xs btn-flash btn2earnTable vip"  >
 <i class="glyphicon glyphicon-add"></i>' . Lang::get('VIP') . '</a> ';
             })
             ->addColumn('flag', function ($settings) {
 
-                return '<img src="' . Asset("assets/images/flags/" . strtolower($settings->apha2)) . '.svg" alt="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
+                return '<img src="' . $this->getFormatedFlagResourceName($settings->apha2) . '" alt="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
             })
             ->addColumn('SoldeCB', function ($user_balance) {
                 return '<a data-bs-toggle="modal" data-bs-target="#detail"   data-amount="1" data-reciver="' . $user_balance->idUser . '"
@@ -866,6 +874,10 @@ class="btn btn-ghost-warning waves-effect waves-light smsb"  >
                 return '<a data-bs-toggle="modal" data-bs-target="#detailsh"   data-amount="6" data-reciver="' . $user_balance->idUser . '"
 class="btn btn-ghost-success waves-effect waves-light sh"  >
 <i class="glyphicon glyphicon-add"></i>' . number_format(getUserSelledActions($user_balance->idUser), 0) . '</a> ';
+            })
+            ->addColumn('action', function ($settings) {
+                return '<a data-bs-toggle="modal" data-bs-target="#AddCash"   data-phone="' . $settings->mobile . '" data-country="' . $this->getFormatedFlagResourceName($settings->apha2) . '" data-reciver="' . $settings->idUser . '"
+class="btn btn-xs btn-primary btn2earnTable addCash" >' . Lang::get('Add cash') . '</a> ';
             })
             ->rawColumns(['action', 'flag', 'SoldeCB', 'SoldeBFS', 'SoldeDB', 'SoldeSMS', 'SoldeSH', 'VIP'])
             ->make(true);
@@ -1084,7 +1096,6 @@ and u.idamount not in(4,6)  and u.idUser=? and u.idamount=? order by Date   ", [
 
     public function getUserBalances($typeAmounts)
     {
-
         $idAmounts = 0;
         switch ($typeAmounts) {
             case 'cash-Balance':
@@ -1103,7 +1114,6 @@ and u.idamount not in(4,6)  and u.idUser=? and u.idamount=? order by Date   ", [
                 $idAmounts = 0;
                 break;
         }
-        $user = $this->settingsManager->getAuthUser();
 
         $userData = DB::select("SELECT RANK() OVER (
         ORDER BY ub.Date desc
@@ -1123,7 +1133,7 @@ when bo.IO = 'IO' then 'IO'
 end)   OVER(ORDER BY date) ,3) , ' $') else concat( format( ub.balance ,3,'en_EN') ,' $') end  as balance,ub.PrixUnitaire,'d' as sensP
   FROM user_balances ub inner join balanceoperations bo on
 ub.idBalancesOperation = bo.idBalanceOperations
-where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [$idAmounts, $user->idUser]
+where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [$idAmounts, auth()->user()->idUser]
         );
 
         return Datatables::of($userData)
@@ -1525,26 +1535,25 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUs
 
     public function getRequestAjax()
     {
-        $userAuth = $this->settingsManager->getAuthUser();
-        if (!$userAuth) abort(404);
-        $array = [];
-        $requestInOpen = detail_financial_request::join('financial_request', 'financial_request.numeroReq', '=', 'detail_financial_request.numeroRequest')
-            ->where('detail_financial_request.idUser', $userAuth->idUser)
-            ->where('financial_request.Status', 0)
-            ->where('detail_financial_request.vu', 0)
-            ->count();
-        $requestOutAccepted = FinancialRequest::where('financial_request.idSender', $userAuth->idUser)
-            ->where('financial_request.Status', 1)
-            ->where('financial_request.vu', 0)
-            ->count();
-        $requestOutRefused = FinancialRequest::where('financial_request.idSender', $userAuth->idUser)
-            ->where('financial_request.Status', 5)
-            ->where('financial_request.vu', 0)
-            ->count();
-        $array['requestInOpen'] = $requestInOpen;
-        $array['requestOutAccepted'] = $requestOutAccepted;
-        $array['requestOutRefused'] = $requestOutRefused;
-        return json_encode(array('data' => $array));
+        $requestArray = ['requestInOpen' => null, 'requestOutAccepted' => null, 'requestOutRefused' => null];
+        if (auth()->user()) {
+            $requestInOpen = detail_financial_request::join('financial_request', 'financial_request.numeroReq', '=', 'detail_financial_request.numeroRequest')
+                ->where('detail_financial_request.idUser', auth()->user()->idUser)
+                ->where('financial_request.Status', 0)
+                ->where('detail_financial_request.vu', 0)
+                ->count();
+            $requestOutAccepted = FinancialRequest::where('financial_request.idSender', auth()->user()->idUser)
+                ->where('financial_request.Status', 1)
+                ->where('financial_request.vu', 0)
+                ->count();
+            $requestOutRefused = FinancialRequest::where('financial_request.idSender', auth()->user()->idUser)
+                ->where('financial_request.Status', 5)
+                ->where('financial_request.vu', 0)
+                ->count();
+            $requestArray = ['requestInOpen' => $requestInOpen, 'requestOutAccepted' => $requestOutAccepted, 'requestOutRefused' => $requestOutRefused];
+        }
+        return json_encode(array('data' => $requestArray));
     }
 
 }
+

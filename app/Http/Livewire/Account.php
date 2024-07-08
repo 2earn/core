@@ -135,7 +135,7 @@ class Account extends Component
             }
         }
         $this->CalculPercenteComplete();
-        $hasRequest = $userAuth->hasIdetificationReques();
+        $hasRequest = $userAuth->hasIdentificationRequest();
         $this->disabled = abs($user->status) == 1 ? "disabled" : '';
         return view('livewire.account', ['hasRequest' => $hasRequest, 'errors_array' => $this->errors_array])->extends('layouts.master')->section('content');
     }
@@ -200,7 +200,7 @@ class Account extends Component
         $us = User::find($this->user['id']);
         $um = metta_user::find($this->usermetta_info['id']);
 
-        if ($this->paramIdUser == "" && $us->hasIdetificationReques()) {
+        if ($this->paramIdUser == "" && $us->hasIdentificationRequest()) {
             $canModify = false;
         }
         if ($canModify) {
@@ -392,7 +392,7 @@ class Account extends Component
     public function sendIdentificationRequest(settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
-        $hasRequest = $userAuth->hasIdetificationReques();
+        $hasRequest = $userAuth->hasIdentificationRequest();
         if ($hasRequest) {
             return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Identificationu request exist'));
         } else {

@@ -92,7 +92,7 @@
 
 
             <div class="mt-auto text-center">
-                <img src="{{URL::asset('assets/images/task.png')}}" alt="Task" class="img-fluid" />
+                <img src="{{Vite::asset('resources/images/task.png')}}" alt="Task" class="img-fluid" />
             </div>
         </div>
     </div>
@@ -229,7 +229,7 @@
                                         <li>
                                             <a class="dropdown-item d-flex align-items-center" href="#">
                                                 <div class="avatar-xxs flex-shrink-0 me-2">
-                                                    <img src="{{URL::asset('assets/images/users/avatar-2.jpg')}}" alt="" class="img-fluid rounded-circle" />
+                                                    <img src="{{Vite::asset('resources/images/users/avatar-2.jpg')}}" alt="" class="img-fluid rounded-circle" />
                                                 </div>
                                                 <div class="flex-grow-1">James Forbes</div>
                                             </a>
@@ -237,7 +237,7 @@
                                         <li>
                                             <a class="dropdown-item d-flex align-items-center" href="#">
                                                 <div class="avatar-xxs flex-shrink-0 me-2">
-                                                    <img src="{{URL::asset('assets/images/users/avatar-3.jpg')}}" alt="" class="img-fluid rounded-circle" />
+                                                    <img src="{{Vite::asset('resources/images/users/avatar-3.jpg')}}" alt="" class="img-fluid rounded-circle" />
                                                 </div>
                                                 <div class="flex-grow-1">John Robles</div>
                                             </a>
@@ -245,7 +245,7 @@
                                         <li>
                                             <a class="dropdown-item d-flex align-items-center" href="#">
                                                 <div class="avatar-xxs flex-shrink-0 me-2">
-                                                    <img src="{{URL::asset('assets/images/users/avatar-4.jpg')}}" alt="" class="img-fluid rounded-circle" />
+                                                    <img src="{{Vite::asset('resources/images/users/avatar-4.jpg')}}" alt="" class="img-fluid rounded-circle" />
                                                 </div>
                                                 <div class="flex-grow-1">Mary Gant</div>
                                             </a>
@@ -253,7 +253,7 @@
                                         <li>
                                             <a class="dropdown-item d-flex align-items-center" href="#">
                                                 <div class="avatar-xxs flex-shrink-0 me-2">
-                                                    <img src="{{URL::asset('assets/images/users/avatar-1.jpg')}}" alt="" class="img-fluid rounded-circle" />
+                                                    <img src="{{Vite::asset('resources/images/users/avatar-1.jpg')}}" alt="" class="img-fluid rounded-circle" />
                                                 </div>
                                                 <div class="flex-grow-1">Curtis Saenz</div>
                                             </a>
@@ -261,7 +261,7 @@
                                         <li>
                                             <a class="dropdown-item d-flex align-items-center" href="#">
                                                 <div class="avatar-xxs flex-shrink-0 me-2">
-                                                    <img src="{{URL::asset('assets/images/users/avatar-5.jpg')}}" alt="" class="img-fluid rounded-circle" />
+                                                    <img src="{{Vite::asset('resources/images/users/avatar-5.jpg')}}" alt="" class="img-fluid rounded-circle" />
                                                 </div>
                                                 <div class="flex-grow-1">Virgie Price</div>
                                             </a>
@@ -270,7 +270,7 @@
                                         <li>
                                             <a class="dropdown-item d-flex align-items-center" href="#">
                                                 <div class="avatar-xxs flex-shrink-0 me-2">
-                                                    <img src="{{URL::asset('assets/images/users/avatar-10.jpg')}}" alt="" class="img-fluid rounded-circle" />
+                                                    <img src="{{Vite::asset('resources/images/users/avatar-10.jpg')}}" alt="" class="img-fluid rounded-circle" />
                                                 </div>
                                                 <div class="flex-grow-1">Anthony Mills</div>
                                             </a>
@@ -278,7 +278,7 @@
                                         <li>
                                             <a class="dropdown-item d-flex align-items-center" href="#">
                                                 <div class="avatar-xxs flex-shrink-0 me-2">
-                                                    <img src="{{URL::asset('assets/images/users/avatar-6.jpg')}}" alt="" class="img-fluid rounded-circle" />
+                                                    <img src="{{Vite::asset('resources/images/users/avatar-6.jpg')}}" alt="" class="img-fluid rounded-circle" />
                                                 </div>
                                                 <div class="flex-grow-1">Marian Angel</div>
                                             </a>
@@ -286,7 +286,7 @@
                                         <li>
                                             <a class="dropdown-item d-flex align-items-center" href="#">
                                                 <div class="avatar-xxs flex-shrink-0 me-2">
-                                                    <img src="{{URL::asset('assets/images/users/avatar-7.jpg')}}" alt="" class="img-fluid rounded-circle" />
+                                                    <img src="{{Vite::asset('resources/images/users/avatar-7.jpg')}}" alt="" class="img-fluid rounded-circle" />
                                                 </div>
                                                 <div class="flex-grow-1">Johnnie Walton</div>
                                             </a>
@@ -294,7 +294,7 @@
                                         <li>
                                             <a class="dropdown-item d-flex align-items-center" href="#">
                                                 <div class="avatar-xxs flex-shrink-0 me-2">
-                                                    <img src="{{URL::asset('assets/images/users/avatar-8.jpg')}}" alt="" class="img-fluid rounded-circle" />
+                                                    <img src="{{Vite::asset('resources/images/users/avatar-8.jpg')}}" alt="" class="img-fluid rounded-circle" />
                                                 </div>
                                                 <div class="flex-grow-1">Donna Weston</div>
                                             </a>
@@ -302,7 +302,7 @@
                                         <li>
                                             <a class="dropdown-item d-flex align-items-center" href="#">
                                                 <div class="avatar-xxs flex-shrink-0 me-2">
-                                                    <img src="{{URL::asset('assets/images/users/avatar-9.jpg')}}" alt="" class="img-fluid rounded-circle" />
+                                                    <img src="{{Vite::asset('resources/images/users/avatar-9.jpg')}}" alt="" class="img-fluid rounded-circle" />
                                                 </div>
                                                 <div class="flex-grow-1">Diego Norris</div>
                                             </a>

@@ -323,7 +323,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="avatar-sm bg-light rounded p-1 me-2">
-                                                        <img src="{{URL::asset('assets/images/products/img-1.png')}}" alt="" class="img-fluid d-block" />
+                                                        <img src="{{Vite::asset('resources/images/products/img-1.png')}}" alt="" class="img-fluid d-block" />
                                                     </div>
                                                     <div>
                                                         <h5 class="fs-14 my-1"><a href="apps-ecommerce-product-details" class="text-reset">Branded
@@ -353,7 +353,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="avatar-sm bg-light rounded p-1 me-2">
-                                                        <img src="{{URL::asset('assets/images/products/img-2.png')}}" alt="" class="img-fluid d-block" />
+                                                        <img src="{{Vite::asset('resources/images/products/img-2.png')}}" alt="" class="img-fluid d-block" />
                                                     </div>
                                                     <div>
                                                         <h5 class="fs-14 my-1"><a href="apps-ecommerce-product-details" class="text-reset">Bentwood
@@ -384,7 +384,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="avatar-sm bg-light rounded p-1 me-2">
-                                                        <img src="{{URL::asset('assets/images/products/img-3.png')}}" alt="" class="img-fluid d-block" />
+                                                        <img src="{{Vite::asset('resources/images/products/img-3.png')}}" alt="" class="img-fluid d-block" />
                                                     </div>
                                                     <div>
                                                         <h5 class="fs-14 my-1"><a href="apps-ecommerce-product-details" class="text-reset">Borosil Paper
@@ -414,7 +414,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="avatar-sm bg-light rounded p-1 me-2">
-                                                        <img src="{{URL::asset('assets/images/products/img-4.png')}}" alt="" class="img-fluid d-block" />
+                                                        <img src="{{Vite::asset('resources/images/products/img-4.png')}}" alt="" class="img-fluid d-block" />
                                                     </div>
                                                     <div>
                                                         <h5 class="fs-14 my-1"><a href="apps-ecommerce-product-details" class="text-reset">One Seater
@@ -445,7 +445,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="avatar-sm bg-light rounded p-1 me-2">
-                                                        <img src="{{URL::asset('assets/images/products/img-5.png')}}" alt="" class="img-fluid d-block" />
+                                                        <img src="{{Vite::asset('resources/images/products/img-5.png')}}" alt="" class="img-fluid d-block" />
                                                     </div>
                                                     <div>
                                                         <h5 class="fs-14 my-1"><a href="apps-ecommerce-product-details" class="text-reset">Stillbird
@@ -529,7 +529,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 me-2">
-                                                        <img src="{{URL::asset('assets/images/companies/img-1.png')}}" alt="" class="avatar-sm p-2" />
+                                                        <img src="{{Vite::asset('resources/images/companies/img-1.png')}}" alt="" class="avatar-sm p-2" />
                                                     </div>
                                                     <div>
                                                         <h5 class="fs-14 my-1 fw-medium"><a href="apps-ecommerce-seller-details" class="text-reset">iTest Factory</a>
@@ -557,7 +557,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 me-2">
-                                                        <img src="{{URL::asset('assets/images/companies/img-2.png')}}" alt="" class="avatar-sm p-2" />
+                                                        <img src="{{Vite::asset('resources/images/companies/img-2.png')}}" alt="" class="avatar-sm p-2" />
                                                     </div>
                                                     <div class="flex-grow-1">
                                                         <h5 class="fs-14 my-1 fw-medium"><a href="apps-ecommerce-seller-details" class="text-reset">Digitech
@@ -585,7 +585,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 me-2">
-                                                        <img src="{{URL::asset('assets/images/companies/img-3.png')}}" alt="" class="avatar-sm p-2" />
+                                                        <img src="{{Vite::asset('resources/images/companies/img-3.png')}}" alt="" class="avatar-sm p-2" />
                                                     </div>
                                                     <div class="flex-gow-1">
                                                         <h5 class="fs-14 my-1 fw-medium"><a href="apps-ecommerce-seller-details" class="text-reset">Nesta
@@ -614,7 +614,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 me-2">
-                                                        <img src="{{URL::asset('assets/images/companies/img-8.png')}}" alt="" class="avatar-sm p-2" />
+                                                        <img src="{{Vite::asset('resources/images/companies/img-8.png')}}" alt="" class="avatar-sm p-2" />
                                                     </div>
                                                     <div class="flex-grow-1">
                                                         <h5 class="fs-14 my-1 fw-medium"><a href="apps-ecommerce-seller-details" class="text-reset">Zoetic
@@ -642,7 +642,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 me-2">
-                                                        <img src="{{URL::asset('assets/images/companies/img-5.png')}}" alt="" class="avatar-sm p-2" />
+                                                        <img src="{{Vite::asset('resources/images/companies/img-5.png')}}" alt="" class="avatar-sm p-2" />
                                                     </div>
                                                     <div class="flex-grow-1">
                                                         <h5 class="fs-14 my-1 fw-medium"><a href="apps-ecommerce-seller-details" class="text-reset">Meta4Systems</a>
@@ -757,7 +757,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 me-2">
-                                                        <img src="{{URL::asset('assets/images/users/avatar-1.jpg')}}" alt="" class="avatar-xs rounded-circle" />
+                                                        <img src="{{Vite::asset('resources/images/users/avatar-1.jpg')}}" alt="" class="avatar-xs rounded-circle" />
                                                     </div>
                                                     <div class="flex-grow-1">Alex Smith</div>
                                                 </div>
@@ -782,7 +782,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 me-2">
-                                                        <img src="{{URL::asset('assets/images/users/avatar-2.jpg')}}" alt="" class="avatar-xs rounded-circle" />
+                                                        <img src="{{Vite::asset('resources/images/users/avatar-2.jpg')}}" alt="" class="avatar-xs rounded-circle" />
                                                     </div>
                                                     <div class="flex-grow-1">Jansh Brown</div>
                                                 </div>
@@ -807,7 +807,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 me-2">
-                                                        <img src="{{URL::asset('assets/images/users/avatar-3.jpg')}}" alt="" class="avatar-xs rounded-circle" />
+                                                        <img src="{{Vite::asset('resources/images/users/avatar-3.jpg')}}" alt="" class="avatar-xs rounded-circle" />
                                                     </div>
                                                     <div class="flex-grow-1">Ayaan Bowen</div>
                                                 </div>
@@ -832,7 +832,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 me-2">
-                                                        <img src="{{URL::asset('assets/images/users/avatar-4.jpg')}}" alt="" class="avatar-xs rounded-circle" />
+                                                        <img src="{{Vite::asset('resources/images/users/avatar-4.jpg')}}" alt="" class="avatar-xs rounded-circle" />
                                                     </div>
                                                     <div class="flex-grow-1">Prezy Mark</div>
                                                 </div>
@@ -857,7 +857,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 me-2">
-                                                        <img src="{{URL::asset('assets/images/users/avatar-6.jpg')}}" alt="" class="avatar-xs rounded-circle" />
+                                                        <img src="{{Vite::asset('resources/images/users/avatar-6.jpg')}}" alt="" class="avatar-xs rounded-circle" />
                                                     </div>
                                                     <div class="flex-grow-1">Vihan Hudda</div>
                                                 </div>
@@ -921,13 +921,13 @@
                                     <p class="text-muted mb-1">By Nesta Technologies</p>
                                     <div class="d-inline-flex gap-2 border border-dashed p-2 mb-2">
                                         <a href="apps-ecommerce-product-details" class="bg-light rounded p-1">
-                                            <img src="{{URL::asset('assets/images/products/img-8.png')}}" alt="" class="img-fluid d-block" />
+                                            <img src="{{Vite::asset('resources/images/products/img-8.png')}}" alt="" class="img-fluid d-block" />
                                         </a>
                                         <a href="apps-ecommerce-product-details" class="bg-light rounded p-1">
-                                            <img src="{{URL::asset('assets/images/products/img-2.png')}}" alt="" class="img-fluid d-block" />
+                                            <img src="{{Vite::asset('resources/images/products/img-2.png')}}" alt="" class="img-fluid d-block" />
                                         </a>
                                         <a href="apps-ecommerce-product-details" class="bg-light rounded p-1">
-                                            <img src="{{URL::asset('assets/images/products/img-10.png')}}" alt="" class="img-fluid d-block" />
+                                            <img src="{{Vite::asset('resources/images/products/img-10.png')}}" alt="" class="img-fluid d-block" />
                                         </a>
                                     </div>
                                     <p class="mb-0 text-muted"><small>9:47 PM Yesterday</small></p>
@@ -935,7 +935,7 @@
                             </div>
                             <div class="acitivity-item py-3 d-flex">
                                 <div class="flex-shrink-0">
-                                    <img src="{{URL::asset('assets/images/users/avatar-2.jpg')}}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                    <img src="{{Vite::asset('resources/images/users/avatar-2.jpg')}}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <h6 class="mb-1 lh-base">Natasha Carey have liked the products
@@ -1008,7 +1008,7 @@
                             </div>
                             <div class="acitivity-item d-flex">
                                 <div class="flex-shrink-0">
-                                    <img src="{{URL::asset('assets/images/users/avatar-3.jpg')}}" alt="" class="avatar-xs rounded-circle acitivity-avatar" />
+                                    <img src="{{Vite::asset('resources/images/users/avatar-3.jpg')}}" alt="" class="avatar-xs rounded-circle acitivity-avatar" />
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <h6 class="mb-1 lh-base">Frank Hook Commented</h6>
@@ -1072,7 +1072,7 @@
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 avatar-sm">
                                                     <div class="avatar-title bg-light rounded">
-                                                        <img src="{{URL::asset('assets/images/companies/img-1.png')}}" alt="" height="30">
+                                                        <img src="{{Vite::asset('resources/images/companies/img-1.png')}}" alt="" height="30">
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1 ms-3">
@@ -1102,7 +1102,7 @@
                                         <div class="card-body">
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0">
-                                                    <img src="{{URL::asset('assets/images/users/avatar-3.jpg')}}" alt="" class="avatar-sm rounded">
+                                                    <img src="{{Vite::asset('resources/images/users/avatar-3.jpg')}}" alt="" class="avatar-sm rounded">
                                                 </div>
                                                 <div class="flex-grow-1 ms-3">
                                                     <div>
@@ -1132,7 +1132,7 @@
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 avatar-sm">
                                                     <div class="avatar-title bg-light rounded">
-                                                        <img src="{{URL::asset('assets/images/companies/img-8.png')}}" alt="" height="30">
+                                                        <img src="{{Vite::asset('resources/images/companies/img-8.png')}}" alt="" height="30">
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1 ms-3">
@@ -1162,7 +1162,7 @@
                                         <div class="card-body">
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0">
-                                                    <img src="{{URL::asset('assets/images/users/avatar-2.jpg')}}" alt="" class="avatar-sm rounded">
+                                                    <img src="{{Vite::asset('resources/images/users/avatar-2.jpg')}}" alt="" class="avatar-sm rounded">
                                                 </div>
                                                 <div class="flex-grow-1 ms-3">
                                                     <div>
@@ -1324,7 +1324,7 @@
 
                     <div class="card sidebar-alert bg-light border-0 text-center mx-4 mb-0 mt-3">
                         <div class="card-body">
-                            <img src="{{URL::asset('assets/images/giftbox.png')}}" alt="">
+                            <img src="{{Vite::asset('resources/images/giftbox.png')}}" alt="">
                             <div class="mt-4">
                                 <h5>Invite New Seller</h5>
                                 <p class="text-muted lh-base">Refer a new seller to us and earn $100

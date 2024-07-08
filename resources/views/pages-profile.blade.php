@@ -8,14 +8,14 @@
 @section('content')
     <div class="profile-foreground position-relative mx-n4 mt-n4">
         <div class="profile-wid-bg">
-            <img src="{{ URL::asset('assets/images/profile-bg.jpg') }}" alt="" class="profile-wid-img" />
+            <img src="{{ Vite::asset('resources/images/profile-bg.jpg') }}" alt="" class="profile-wid-img" />
         </div>
     </div>
     <div class="pt-4 mb-4 mb-lg-3 pb-lg-4">
         <div class="row g-4">
             <div class="col-auto">
                 <div class="avatar-lg">
-                    <img src="@if (Auth::user()->avatar != '') {{ URL::asset('images/' . Auth::user()->avatar) }}@else{{ URL::asset('assets/images/users/avatar-1.jpg') }} @endif"
+                    <img src="@if (Auth::user()->avatar != '') {{ URL::asset('images/' . Auth::user()->avatar) }}@else{{ Vite::asset('resources/images/users/avatar-1.jpg') }} @endif"
                         alt="user-img" class="img-thumbnail rounded-circle" />
                 </div>
             </div>
@@ -221,7 +221,7 @@
                                         <div>
                                             <div class="d-flex align-items-center py-3">
                                                 <div class="avatar-xs flex-shrink-0 me-3">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt=""
+                                                    <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt=""
                                                         class="img-fluid rounded-circle" />
                                                 </div>
                                                 <div class="flex-grow-1">
@@ -238,7 +238,7 @@
                                             </div>
                                             <div class="d-flex align-items-center py-3">
                                                 <div class="avatar-xs flex-shrink-0 me-3">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt=""
+                                                    <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt=""
                                                         class="img-fluid rounded-circle" />
                                                 </div>
                                                 <div class="flex-grow-1">
@@ -255,7 +255,7 @@
                                             </div>
                                             <div class="d-flex align-items-center py-3">
                                                 <div class="avatar-xs flex-shrink-0 me-3">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt=""
+                                                    <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt=""
                                                         class="img-fluid rounded-circle" />
                                                 </div>
                                                 <div class="flex-grow-1">
@@ -302,7 +302,7 @@
                                         </div>
                                         <div class="d-flex mb-4">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/small/img-4.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/small/img-4.jpg') }}" alt=""
                                                     height="50" class="rounded" />
                                             </div>
                                             <div class="flex-grow-1 ms-3 overflow-hidden">
@@ -315,7 +315,7 @@
                                         </div>
                                         <div class="d-flex mb-4">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/small/img-5.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/small/img-5.jpg') }}" alt=""
                                                     height="50" class="rounded" />
                                             </div>
                                             <div class="flex-grow-1 ms-3 overflow-hidden">
@@ -328,7 +328,7 @@
                                         </div>
                                         <div class="d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/small/img-6.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/small/img-6.jpg') }}" alt=""
                                                     height="50" class="rounded" />
                                             </div>
                                             <div class="flex-grow-1 ms-3 overflow-hidden">
@@ -441,7 +441,7 @@
                                                                             aria-expanded="true">
                                                                             <div class="d-flex">
                                                                                 <div class="flex-shrink-0">
-                                                                                    <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}"
+                                                                                    <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}"
                                                                                         alt=""
                                                                                         class="avatar-xs rounded-circle" />
                                                                                 </div>
@@ -562,7 +562,7 @@
                                                                             aria-expanded="false">
                                                                             <div class="d-flex">
                                                                                 <div class="flex-shrink-0">
-                                                                                    <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}"
+                                                                                    <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}"
                                                                                         alt=""
                                                                                         class="avatar-xs rounded-circle" />
                                                                                 </div>
@@ -630,7 +630,7 @@
                                                                             aria-expanded="true">
                                                                             <div class="d-flex">
                                                                                 <div class="flex-shrink-0">
-                                                                                    <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}"
+                                                                                    <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}"
                                                                                         alt=""
                                                                                         class="avatar-xs rounded-circle" />
                                                                                 </div>
@@ -667,7 +667,7 @@
                                                                                     data-bs-trigger="hover"
                                                                                     data-bs-placement="top" title=""
                                                                                     data-bs-original-title="Christi">
-                                                                                    <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}"
+                                                                                    <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}"
                                                                                         alt=""
                                                                                         class="rounded-circle avatar-xs">
                                                                                 </a>
@@ -677,7 +677,7 @@
                                                                                     data-bs-trigger="hover"
                                                                                     data-bs-placement="top" title=""
                                                                                     data-bs-original-title="Frank Hook">
-                                                                                    <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}"
+                                                                                    <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}"
                                                                                         alt=""
                                                                                         class="rounded-circle avatar-xs">
                                                                                 </a>
@@ -725,7 +725,7 @@
                                                                             aria-expanded="true">
                                                                             <div class="d-flex">
                                                                                 <div class="flex-shrink-0">
-                                                                                    <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}"
+                                                                                    <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}"
                                                                                         alt=""
                                                                                         class="avatar-xs rounded-circle" />
                                                                                 </div>
@@ -830,25 +830,25 @@
                                                                                     <div
                                                                                         class="row border border-dashed gx-2 p-2">
                                                                                         <div class="col-3">
-                                                                                            <img src="{{ URL::asset('assets/images/small/img-3.jpg') }}"
+                                                                                            <img src="{{ Vite::asset('resources/images/small/img-3.jpg') }}"
                                                                                                 alt=""
                                                                                                 class="img-fluid rounded" />
                                                                                         </div>
                                                                                         <!--end col-->
                                                                                         <div class="col-3">
-                                                                                            <img src="{{ URL::asset('assets/images/small/img-5.jpg') }}"
+                                                                                            <img src="{{ Vite::asset('resources/images/small/img-5.jpg') }}"
                                                                                                 alt=""
                                                                                                 class="img-fluid rounded" />
                                                                                         </div>
                                                                                         <!--end col-->
                                                                                         <div class="col-3">
-                                                                                            <img src="{{ URL::asset('assets/images/small/img-7.jpg') }}"
+                                                                                            <img src="{{ Vite::asset('resources/images/small/img-7.jpg') }}"
                                                                                                 alt=""
                                                                                                 class="img-fluid rounded" />
                                                                                         </div>
                                                                                         <!--end col-->
                                                                                         <div class="col-3">
-                                                                                            <img src="{{ URL::asset('assets/images/small/img-9.jpg') }}"
+                                                                                            <img src="{{ Vite::asset('resources/images/small/img-9.jpg') }}"
                                                                                                 alt=""
                                                                                                 class="img-fluid rounded" />
                                                                                         </div>
@@ -867,7 +867,7 @@
                                                                             aria-expanded="false">
                                                                             <div class="d-flex">
                                                                                 <div class="flex-shrink-0">
-                                                                                    <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}"
+                                                                                    <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}"
                                                                                         alt=""
                                                                                         class="avatar-xs rounded-circle" />
                                                                                 </div>
@@ -895,7 +895,7 @@
                                                                             aria-expanded="true">
                                                                             <div class="d-flex">
                                                                                 <div class="flex-shrink-0">
-                                                                                    <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}"
+                                                                                    <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}"
                                                                                         alt=""
                                                                                         class="avatar-xs rounded-circle" />
                                                                                 </div>
@@ -1043,7 +1043,7 @@
                                                                             aria-expanded="true">
                                                                             <div class="d-flex">
                                                                                 <div class="flex-shrink-0">
-                                                                                    <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}"
+                                                                                    <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}"
                                                                                         alt=""
                                                                                         class="avatar-xs rounded-circle" />
                                                                                 </div>
@@ -1091,7 +1091,7 @@
                                                                             aria-expanded="false">
                                                                             <div class="d-flex">
                                                                                 <div class="flex-shrink-0">
-                                                                                    <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}"
+                                                                                    <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}"
                                                                                         alt=""
                                                                                         class="avatar-xs rounded-circle" />
                                                                                 </div>
@@ -1159,7 +1159,7 @@
                                                                             aria-expanded="true">
                                                                             <div class="d-flex">
                                                                                 <div class="flex-shrink-0">
-                                                                                    <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}"
+                                                                                    <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}"
                                                                                         alt=""
                                                                                         class="avatar-xs rounded-circle" />
                                                                                 </div>
@@ -1196,7 +1196,7 @@
                                                                                     data-bs-trigger="hover"
                                                                                     data-bs-placement="top" title=""
                                                                                     data-bs-original-title="Christi">
-                                                                                    <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}"
+                                                                                    <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}"
                                                                                         alt=""
                                                                                         class="rounded-circle avatar-xs">
                                                                                 </a>
@@ -1206,7 +1206,7 @@
                                                                                     data-bs-trigger="hover"
                                                                                     data-bs-placement="top" title=""
                                                                                     data-bs-original-title="Frank Hook">
-                                                                                    <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}"
+                                                                                    <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}"
                                                                                         alt=""
                                                                                         class="rounded-circle avatar-xs">
                                                                                 </a>
@@ -1297,14 +1297,14 @@
                                                                         <div class="avatar-group">
                                                                             <div class="avatar-group-item">
                                                                                 <div class="avatar-xs">
-                                                                                    <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}"
+                                                                                    <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}"
                                                                                         alt=""
                                                                                         class="rounded-circle img-fluid" />
                                                                                 </div>
                                                                             </div>
                                                                             <div class="avatar-group-item">
                                                                                 <div class="avatar-xs">
-                                                                                    <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}"
+                                                                                    <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}"
                                                                                         alt=""
                                                                                         class="rounded-circle img-fluid" />
                                                                                 </div>
@@ -1319,7 +1319,7 @@
                                                                             </div>
                                                                             <div class="avatar-group-item">
                                                                                 <div class="avatar-xs">
-                                                                                    <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}"
+                                                                                    <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}"
                                                                                         alt=""
                                                                                         class="rounded-circle img-fluid" />
                                                                                 </div>
@@ -1363,7 +1363,7 @@
                                                                         <div class="avatar-group">
                                                                             <div class="avatar-group-item">
                                                                                 <div class="avatar-xs">
-                                                                                    <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}"
+                                                                                    <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}"
                                                                                         alt=""
                                                                                         class="rounded-circle img-fluid" />
                                                                                 </div>
@@ -1412,7 +1412,7 @@
                                                                         <div class="avatar-group">
                                                                             <div class="avatar-group-item">
                                                                                 <div class="avatar-xs">
-                                                                                    <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}"
+                                                                                    <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}"
                                                                                         alt=""
                                                                                         class="rounded-circle img-fluid" />
                                                                                 </div>
@@ -1454,14 +1454,14 @@
                                                                         <div class="avatar-group">
                                                                             <div class="avatar-group-item">
                                                                                 <div class="avatar-xs">
-                                                                                    <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}"
+                                                                                    <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}"
                                                                                         alt=""
                                                                                         class="rounded-circle img-fluid" />
                                                                                 </div>
                                                                             </div>
                                                                             <div class="avatar-group-item">
                                                                                 <div class="avatar-xs">
-                                                                                    <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}"
+                                                                                    <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}"
                                                                                         alt=""
                                                                                         class="rounded-circle img-fluid" />
                                                                                 </div>
@@ -1506,14 +1506,14 @@
                                                                         <div class="avatar-group">
                                                                             <div class="avatar-group-item">
                                                                                 <div class="avatar-xs">
-                                                                                    <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}"
+                                                                                    <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}"
                                                                                         alt=""
                                                                                         class="rounded-circle img-fluid" />
                                                                                 </div>
                                                                             </div>
                                                                             <div class="avatar-group-item">
                                                                                 <div class="avatar-xs">
-                                                                                    <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}"
+                                                                                    <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}"
                                                                                         alt=""
                                                                                         class="rounded-circle img-fluid" />
                                                                                 </div>
@@ -1556,7 +1556,7 @@
                                 <div class="acitivity-timeline">
                                     <div class="acitivity-item d-flex">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt=""
                                                 class="avatar-xs rounded-circle acitivity-avatar" />
                                         </div>
                                         <div class="flex-grow-1 ms-3">
@@ -1584,13 +1584,13 @@
                                                 <a href="javascript: void(0);" class="avatar-group-item"
                                                     data-bs-toggle="tooltip" data-bs-placement="top" title=""
                                                     data-bs-original-title="Christi">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}"
+                                                    <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}"
                                                         alt="" class="rounded-circle avatar-xs" />
                                                 </a>
                                                 <a href="javascript: void(0);" class="avatar-group-item"
                                                     data-bs-toggle="tooltip" data-bs-placement="top" title=""
                                                     data-bs-original-title="Frank Hook">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}"
+                                                    <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}"
                                                         alt="" class="rounded-circle avatar-xs" />
                                                 </a>
                                                 <a href="javascript: void(0);" class="avatar-group-item"
@@ -1617,7 +1617,7 @@
                                     </div>
                                     <div class="acitivity-item py-3 d-flex">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt=""
                                                 class="avatar-xs rounded-circle acitivity-avatar" />
                                         </div>
                                         <div class="flex-grow-1 ms-3">
@@ -1630,17 +1630,17 @@
                                                 <div class="col-xxl-4">
                                                     <div class="row border border-dashed gx-2 p-2 mb-2">
                                                         <div class="col-4">
-                                                            <img src="{{ URL::asset('assets/images/small/img-2.jpg') }}"
+                                                            <img src="{{ Vite::asset('resources/images/small/img-2.jpg') }}"
                                                                 alt="" class="img-fluid rounded" />
                                                         </div>
                                                         <!--end col-->
                                                         <div class="col-4">
-                                                            <img src="{{ URL::asset('assets/images/small/img-3.jpg') }}"
+                                                            <img src="{{ Vite::asset('resources/images/small/img-3.jpg') }}"
                                                                 alt="" class="img-fluid rounded" />
                                                         </div>
                                                         <!--end col-->
                                                         <div class="col-4">
-                                                            <img src="{{ URL::asset('assets/images/small/img-4.jpg') }}"
+                                                            <img src="{{ Vite::asset('resources/images/small/img-4.jpg') }}"
                                                                 alt="" class="img-fluid rounded" />
                                                         </div>
                                                         <!--end col-->
@@ -1653,7 +1653,7 @@
                                     </div>
                                     <div class="acitivity-item py-3 d-flex">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt=""
                                                 class="avatar-xs rounded-circle acitivity-avatar" />
                                         </div>
                                         <div class="flex-grow-1 ms-3">
@@ -1682,7 +1682,7 @@
                                     </div>
                                     <div class="acitivity-item py-3 d-flex">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt=""
                                                 class="avatar-xs rounded-circle acitivity-avatar" />
                                         </div>
                                         <div class="flex-grow-1 ms-3">
@@ -1713,7 +1713,7 @@
                                     </div>
                                     <div class="acitivity-item d-flex">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}" alt=""
                                                 class="avatar-xs rounded-circle acitivity-avatar" />
                                         </div>
                                         <div class="flex-grow-1 ms-3">
@@ -1765,13 +1765,13 @@
                                                             <div class="avatar-group">
                                                                 <div class="avatar-group-item">
                                                                     <div class="avatar-xs">
-                                                                        <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}"
+                                                                        <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}"
                                                                             alt="" class="rounded-circle img-fluid" />
                                                                     </div>
                                                                 </div>
                                                                 <div class="avatar-group-item">
                                                                     <div class="avatar-xs">
-                                                                        <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}"
+                                                                        <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}"
                                                                             alt="" class="rounded-circle img-fluid" />
                                                                     </div>
                                                                 </div>
@@ -1821,19 +1821,19 @@
                                                             <div class="avatar-group">
                                                                 <div class="avatar-group-item">
                                                                     <div class="avatar-xs">
-                                                                        <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}"
+                                                                        <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}"
                                                                             alt="" class="rounded-circle img-fluid" />
                                                                     </div>
                                                                 </div>
                                                                 <div class="avatar-group-item">
                                                                     <div class="avatar-xs">
-                                                                        <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}"
+                                                                        <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}"
                                                                             alt="" class="rounded-circle img-fluid" />
                                                                     </div>
                                                                 </div>
                                                                 <div class="avatar-group-item">
                                                                     <div class="avatar-xs">
-                                                                        <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}"
+                                                                        <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}"
                                                                             alt="" class="rounded-circle img-fluid" />
                                                                     </div>
                                                                 </div>
@@ -1883,7 +1883,7 @@
                                                             <div class="avatar-group">
                                                                 <div class="avatar-group-item">
                                                                     <div class="avatar-xs">
-                                                                        <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}"
+                                                                        <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}"
                                                                             alt="" class="rounded-circle img-fluid" />
                                                                     </div>
                                                                 </div>
@@ -1897,7 +1897,7 @@
                                                                 </div>
                                                                 <div class="avatar-group-item">
                                                                     <div class="avatar-xs">
-                                                                        <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}"
+                                                                        <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}"
                                                                             alt="" class="rounded-circle img-fluid" />
                                                                     </div>
                                                                 </div>
@@ -1939,13 +1939,13 @@
                                                             <div class="avatar-group">
                                                                 <div class="avatar-group-item">
                                                                     <div class="avatar-xs">
-                                                                        <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}"
+                                                                        <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}"
                                                                             alt="" class="rounded-circle img-fluid" />
                                                                     </div>
                                                                 </div>
                                                                 <div class="avatar-group-item">
                                                                     <div class="avatar-xs">
-                                                                        <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}"
+                                                                        <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}"
                                                                             alt="" class="rounded-circle img-fluid" />
                                                                     </div>
                                                                 </div>
@@ -1987,13 +1987,13 @@
                                                             <div class="avatar-group">
                                                                 <div class="avatar-group-item">
                                                                     <div class="avatar-xs">
-                                                                        <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}"
+                                                                        <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}"
                                                                             alt="" class="rounded-circle img-fluid" />
                                                                     </div>
                                                                 </div>
                                                                 <div class="avatar-group-item">
                                                                     <div class="avatar-xs">
-                                                                        <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}"
+                                                                        <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}"
                                                                             alt="" class="rounded-circle img-fluid" />
                                                                     </div>
                                                                 </div>
@@ -2050,13 +2050,13 @@
                                                                 </div>
                                                                 <div class="avatar-group-item">
                                                                     <div class="avatar-xs">
-                                                                        <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}"
+                                                                        <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}"
                                                                             alt="" class="rounded-circle img-fluid" />
                                                                     </div>
                                                                 </div>
                                                                 <div class="avatar-group-item">
                                                                     <div class="avatar-xs">
-                                                                        <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}"
+                                                                        <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}"
                                                                             alt="" class="rounded-circle img-fluid" />
                                                                     </div>
                                                                 </div>
@@ -2098,19 +2098,19 @@
                                                             <div class="avatar-group">
                                                                 <div class="avatar-group-item">
                                                                     <div class="avatar-xs">
-                                                                        <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}"
+                                                                        <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}"
                                                                             alt="" class="rounded-circle img-fluid" />
                                                                     </div>
                                                                 </div>
                                                                 <div class="avatar-group-item">
                                                                     <div class="avatar-xs">
-                                                                        <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}"
+                                                                        <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}"
                                                                             alt="" class="rounded-circle img-fluid" />
                                                                     </div>
                                                                 </div>
                                                                 <div class="avatar-group-item">
                                                                     <div class="avatar-xs">
-                                                                        <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}"
+                                                                        <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}"
                                                                             alt="" class="rounded-circle img-fluid" />
                                                                     </div>
                                                                 </div>
@@ -2152,7 +2152,7 @@
                                                             <div class="avatar-group">
                                                                 <div class="avatar-group-item">
                                                                     <div class="avatar-xs">
-                                                                        <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}"
+                                                                        <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}"
                                                                             alt="" class="rounded-circle img-fluid" />
                                                                     </div>
                                                                 </div>
@@ -2193,19 +2193,19 @@
                                                             <div class="avatar-group">
                                                                 <div class="avatar-group-item">
                                                                     <div class="avatar-xs">
-                                                                        <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}"
+                                                                        <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}"
                                                                             alt="" class="rounded-circle img-fluid" />
                                                                     </div>
                                                                 </div>
                                                                 <div class="avatar-group-item">
                                                                     <div class="avatar-xs">
-                                                                        <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}"
+                                                                        <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}"
                                                                             alt="" class="rounded-circle img-fluid" />
                                                                     </div>
                                                                 </div>
                                                                 <div class="avatar-group-item">
                                                                     <div class="avatar-xs">
-                                                                        <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}"
+                                                                        <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}"
                                                                             alt="" class="rounded-circle img-fluid" />
                                                                     </div>
                                                                 </div>
@@ -2255,7 +2255,7 @@
                                                             <div class="avatar-group">
                                                                 <div class="avatar-group-item">
                                                                     <div class="avatar-xs">
-                                                                        <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}"
+                                                                        <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}"
                                                                             alt="" class="rounded-circle img-fluid">
                                                                     </div>
                                                                 </div>
@@ -2302,19 +2302,19 @@
                                                             <div class="avatar-group">
                                                                 <div class="avatar-group-item">
                                                                     <div class="avatar-xs">
-                                                                        <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}"
+                                                                        <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}"
                                                                             alt="" class="rounded-circle img-fluid" />
                                                                     </div>
                                                                 </div>
                                                                 <div class="avatar-group-item">
                                                                     <div class="avatar-xs">
-                                                                        <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}"
+                                                                        <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}"
                                                                             alt="" class="rounded-circle img-fluid" />
                                                                     </div>
                                                                 </div>
                                                                 <div class="avatar-group-item">
                                                                     <div class="avatar-xs">
-                                                                        <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}"
+                                                                        <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}"
                                                                             alt="" class="rounded-circle img-fluid" />
                                                                     </div>
                                                                 </div>
@@ -2361,7 +2361,7 @@
                                                             <div class="avatar-group">
                                                                 <div class="avatar-group-item">
                                                                     <div class="avatar-xs">
-                                                                        <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}"
+                                                                        <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}"
                                                                             alt="" class="rounded-circle img-fluid" />
                                                                     </div>
                                                                 </div>

@@ -41,13 +41,13 @@
             <div class="card-body">
                 <div class="row g-1 mb-3">
                     <div class="col-lg-6">
-                        <img src="{{URL::asset('assets/images/nft/img-06.jpg')}}" alt="" class="img-fluid rounded">
-                        <img src="{{URL::asset('assets/images/nft/gif/img-2.gif')}}" alt="" class="img-fluid rounded mt-1">
+                        <img src="{{Vite::asset('resources/images/nft/img-06.jpg')}}" alt="" class="img-fluid rounded">
+                        <img src="{{Vite::asset('resources/images/nft/gif/img-2.gif')}}" alt="" class="img-fluid rounded mt-1">
                     </div>
                     <!--end col-->
                     <div class="col-lg-6">
-                        <img src="{{URL::asset('assets/images/nft/gif/img-5.gif')}}" alt="" class="img-fluid rounded mb-1">
-                        <img src="{{URL::asset('assets/images/nft/img-03.jpg')}}" alt="" class="img-fluid rounded">
+                        <img src="{{Vite::asset('resources/images/nft/gif/img-5.gif')}}" alt="" class="img-fluid rounded mb-1">
+                        <img src="{{Vite::asset('resources/images/nft/img-03.jpg')}}" alt="" class="img-fluid rounded">
                     </div>
                     <!--end col-->
                 </div>
@@ -63,13 +63,13 @@
             <div class="card-body">
                 <div class="row g-1 mb-3">
                     <div class="col-lg-6">
-                        <img src="{{URL::asset('assets/images/nft/img-05.jpg')}}" alt="" class="img-fluid rounded">
-                        <img src="{{URL::asset('assets/images/nft/gif/img-1.gif')}}" alt="" class="img-fluid rounded mt-1">
+                        <img src="{{Vite::asset('resources/images/nft/img-05.jpg')}}" alt="" class="img-fluid rounded">
+                        <img src="{{Vite::asset('resources/images/nft/gif/img-1.gif')}}" alt="" class="img-fluid rounded mt-1">
                     </div>
                     <!--end col-->
                     <div class="col-lg-6">
-                        <img src="{{URL::asset('assets/images/nft/gif/img-4.gif')}}" alt="" class="img-fluid rounded mb-1">
-                        <img src="{{URL::asset('assets/images/nft/img-04.jpg')}}" alt="" class="img-fluid rounded">
+                        <img src="{{Vite::asset('resources/images/nft/gif/img-4.gif')}}" alt="" class="img-fluid rounded mb-1">
+                        <img src="{{Vite::asset('resources/images/nft/img-04.jpg')}}" alt="" class="img-fluid rounded">
                     </div>
                     <!--end col-->
                 </div>
@@ -85,13 +85,13 @@
             <div class="card-body">
                 <div class="row g-1 mb-3">
                     <div class="col-lg-6">
-                        <img src="{{URL::asset('assets/images/nft/img-02.jpg')}}" alt="" class="img-fluid rounded">
-                        <img src="{{URL::asset('assets/images/nft/gif/img-3.gif')}}" alt="" class="img-fluid rounded mt-1">
+                        <img src="{{Vite::asset('resources/images/nft/img-02.jpg')}}" alt="" class="img-fluid rounded">
+                        <img src="{{Vite::asset('resources/images/nft/gif/img-3.gif')}}" alt="" class="img-fluid rounded mt-1">
                     </div>
                     <!--end col-->
                     <div class="col-lg-6">
-                        <img src="{{URL::asset('assets/images/nft/gif/img-1.gif')}}" alt="" class="img-fluid rounded mb-1">
-                        <img src="{{URL::asset('assets/images/nft/img-01.jpg')}}" alt="" class="img-fluid rounded">
+                        <img src="{{Vite::asset('resources/images/nft/gif/img-1.gif')}}" alt="" class="img-fluid rounded mb-1">
+                        <img src="{{Vite::asset('resources/images/nft/img-01.jpg')}}" alt="" class="img-fluid rounded">
                     </div>
                     <!--end col-->
                 </div>
@@ -107,13 +107,13 @@
             <div class="card-body">
                 <div class="row g-1 mb-3">
                     <div class="col-lg-6">
-                        <img src="{{URL::asset('assets/images/nft/img-03.jpg')}}" alt="" class="img-fluid rounded">
-                        <img src="{{URL::asset('assets/images/nft/gif/img-5.gif')}}" alt="" class="img-fluid rounded mt-1">
+                        <img src="{{Vite::asset('resources/images/nft/img-03.jpg')}}" alt="" class="img-fluid rounded">
+                        <img src="{{Vite::asset('resources/images/nft/gif/img-5.gif')}}" alt="" class="img-fluid rounded mt-1">
                     </div>
                     <!--end col-->
                     <div class="col-lg-6">
-                        <img src="{{URL::asset('assets/images/nft/gif/img-2.gif')}}" alt="" class="img-fluid rounded mb-1">
-                        <img src="{{URL::asset('assets/images/nft/img-05.jpg')}}" alt="" class="img-fluid rounded">
+                        <img src="{{Vite::asset('resources/images/nft/gif/img-2.gif')}}" alt="" class="img-fluid rounded mb-1">
+                        <img src="{{Vite::asset('resources/images/nft/img-05.jpg')}}" alt="" class="img-fluid rounded">
                     </div>
                     <!--end col-->
                 </div>
@@ -129,13 +129,13 @@
             <div class="card-body">
                 <div class="row g-1 mb-3">
                     <div class="col-lg-6">
-                        <img src="{{URL::asset('assets/images/nft/img-02.jpg')}}" alt="" class="img-fluid rounded">
-                        <img src="{{URL::asset('assets/images/nft/gif/img-3.gif')}}" alt="" class="img-fluid rounded mt-1">
+                        <img src="{{Vite::asset('resources/images/nft/img-02.jpg')}}" alt="" class="img-fluid rounded">
+                        <img src="{{Vite::asset('resources/images/nft/gif/img-3.gif')}}" alt="" class="img-fluid rounded mt-1">
                     </div>
                     <!--end col-->
                     <div class="col-lg-6">
-                        <img src="{{URL::asset('assets/images/nft/gif/img-1.gif')}}" alt="" class="img-fluid rounded mb-1">
-                        <img src="{{URL::asset('assets/images/nft/img-01.jpg')}}" alt="" class="img-fluid rounded">
+                        <img src="{{Vite::asset('resources/images/nft/gif/img-1.gif')}}" alt="" class="img-fluid rounded mb-1">
+                        <img src="{{Vite::asset('resources/images/nft/img-01.jpg')}}" alt="" class="img-fluid rounded">
                     </div>
                     <!--end col-->
                 </div>
@@ -151,13 +151,13 @@
             <div class="card-body">
                 <div class="row g-1 mb-3">
                     <div class="col-lg-6">
-                        <img src="{{URL::asset('assets/images/nft/img-05.jpg')}}" alt="" class="img-fluid rounded">
-                        <img src="{{URL::asset('assets/images/nft/gif/img-1.gif')}}" alt="" class="img-fluid rounded mt-1">
+                        <img src="{{Vite::asset('resources/images/nft/img-05.jpg')}}" alt="" class="img-fluid rounded">
+                        <img src="{{Vite::asset('resources/images/nft/gif/img-1.gif')}}" alt="" class="img-fluid rounded mt-1">
                     </div>
                     <!--end col-->
                     <div class="col-lg-6">
-                        <img src="{{URL::asset('assets/images/nft/gif/img-4.gif')}}" alt="" class="img-fluid rounded mb-1">
-                        <img src="{{URL::asset('assets/images/nft/img-04.jpg')}}" alt="" class="img-fluid rounded">
+                        <img src="{{Vite::asset('resources/images/nft/gif/img-4.gif')}}" alt="" class="img-fluid rounded mb-1">
+                        <img src="{{Vite::asset('resources/images/nft/img-04.jpg')}}" alt="" class="img-fluid rounded">
                     </div>
                     <!--end col-->
                 </div>
@@ -173,13 +173,13 @@
             <div class="card-body">
                 <div class="row g-1 mb-3">
                     <div class="col-lg-6">
-                        <img src="{{URL::asset('assets/images/nft/img-06.jpg')}}" alt="" class="img-fluid rounded">
-                        <img src="{{URL::asset('assets/images/nft/gif/img-2.gif')}}" alt="" class="img-fluid rounded mt-1">
+                        <img src="{{Vite::asset('resources/images/nft/img-06.jpg')}}" alt="" class="img-fluid rounded">
+                        <img src="{{Vite::asset('resources/images/nft/gif/img-2.gif')}}" alt="" class="img-fluid rounded mt-1">
                     </div>
                     <!--end col-->
                     <div class="col-lg-6">
-                        <img src="{{URL::asset('assets/images/nft/gif/img-5.gif')}}" alt="" class="img-fluid rounded mb-1">
-                        <img src="{{URL::asset('assets/images/nft/img-03.jpg')}}" alt="" class="img-fluid rounded">
+                        <img src="{{Vite::asset('resources/images/nft/gif/img-5.gif')}}" alt="" class="img-fluid rounded mb-1">
+                        <img src="{{Vite::asset('resources/images/nft/img-03.jpg')}}" alt="" class="img-fluid rounded">
                     </div>
                     <!--end col-->
                 </div>
@@ -195,13 +195,13 @@
             <div class="card-body">
                 <div class="row g-1 mb-3">
                     <div class="col-lg-6">
-                        <img src="{{URL::asset('assets/images/nft/img-03.jpg')}}" alt="" class="img-fluid rounded">
-                        <img src="{{URL::asset('assets/images/nft/gif/img-5.gif')}}" alt="" class="img-fluid rounded mt-1">
+                        <img src="{{Vite::asset('resources/images/nft/img-03.jpg')}}" alt="" class="img-fluid rounded">
+                        <img src="{{Vite::asset('resources/images/nft/gif/img-5.gif')}}" alt="" class="img-fluid rounded mt-1">
                     </div>
                     <!--end col-->
                     <div class="col-lg-6">
-                        <img src="{{URL::asset('assets/images/nft/gif/img-2.gif')}}" alt="" class="img-fluid rounded mb-1">
-                        <img src="{{URL::asset('assets/images/nft/img-05.jpg')}}" alt="" class="img-fluid rounded">
+                        <img src="{{Vite::asset('resources/images/nft/gif/img-2.gif')}}" alt="" class="img-fluid rounded mb-1">
+                        <img src="{{Vite::asset('resources/images/nft/img-05.jpg')}}" alt="" class="img-fluid rounded">
                     </div>
                     <!--end col-->
                 </div>

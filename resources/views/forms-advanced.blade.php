@@ -61,7 +61,7 @@
                         <div>
                             <label class="form-label">Select input with buttons & Flag with number</label>
                             <div class="input-group" data-input-flag>
-                                <button class="btn btn-light border" type="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="{{URL::asset('assets/images/flags/us.svg')}}" alt="flag img" height="20" class="country-flagimg rounded"><span class="ms-2 country-codeno">+ 1</span></button>
+                                <button class="btn btn-light border" type="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="{{Vite::asset('resources/images/flags/us.svg')}}" alt="flag img" height="20" class="country-flagimg rounded"><span class="ms-2 country-codeno">+ 1</span></button>
                                 <input type="text" class="form-control rounded-end flag-input" value="" placeholder="Enter number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
                                 <div class="dropdown-menu w-100">
                                     <div class="p-2 px-3 pt-1 searchlist-input">
@@ -74,7 +74,7 @@
                         <div class="mt-3">
                             <label class="form-label">Select input with buttons & Flag</label>
                             <div class="input-group" data-input-flag data-option-countrycode="false">
-                                <button class="btn btn-light border" type="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="{{URL::asset('assets/images/flags/us.svg')}}" alt="flag img" height="20" class="country-flagimg rounded"><span class="ms-2 country-codeno">+ 1</span></button>
+                                <button class="btn btn-light border" type="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="{{Vite::asset('resources/images/flags/us.svg')}}" alt="flag img" height="20" class="country-flagimg rounded"><span class="ms-2 country-codeno">+ 1</span></button>
                                 <input type="text" class="form-control rounded-end flag-input" value="" placeholder="Enter number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
                                 <div class="dropdown-menu w-100">
                                     <div class="p-2 px-3 pt-1 searchlist-input">

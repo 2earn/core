@@ -570,6 +570,6 @@ mattis dui. Aliquam mattis dictum aliquet. Nulla sapien mauris, eleifend et sem 
     </div><!-- end row -->
 @endsection
 @section('script')
-    <script src="{{ URL::asset('assets/libs/prismjs/prismjs.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/libs/prismjs/prism.js') }}"></script>
     <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
 @endsection

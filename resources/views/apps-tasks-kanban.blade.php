@@ -36,31 +36,31 @@
                         <a href="javascript: void(0);" class="avatar-group-item"
                             data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top"
                             title="Nancy">
-                            <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt=""
+                            <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt=""
                                 class="rounded-circle avatar-xs">
                         </a>
                         <a href="javascript: void(0);" class="avatar-group-item"
                             data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top"
                             title="Frank">
-                            <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt=""
+                            <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt=""
                                 class="rounded-circle avatar-xs">
                         </a>
                         <a href="javascript: void(0);" class="avatar-group-item"
                             data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top"
                             title="Tonya">
-                            <img src="{{ URL::asset('assets/images/users/avatar-10.jpg') }}" alt=""
+                            <img src="{{ Vite::asset('resources/images/users/avatar-10.jpg') }}" alt=""
                                 class="rounded-circle avatar-xs">
                         </a>
                         <a href="javascript: void(0);" class="avatar-group-item"
                             data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top"
                             title="Thomas">
-                            <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}" alt=""
+                            <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}" alt=""
                                 class="rounded-circle avatar-xs">
                         </a>
                         <a href="javascript: void(0);" class="avatar-group-item"
                             data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top"
                             title="Herbert">
-                            <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt=""
+                            <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt=""
                                 class="rounded-circle avatar-xs">
                         </a>
                         <a href="#addmemberModal" data-bs-toggle="modal" class="avatar-group-item">
@@ -152,13 +152,13 @@
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Alexis">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Nancy">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                     </div>
@@ -230,19 +230,19 @@
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Michael">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Alexis">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Anna">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                     </div>
@@ -346,19 +346,19 @@
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Tonya">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-10.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-10.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Frank">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Herbert">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                     </div>
@@ -430,13 +430,13 @@
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Donald">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-9.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-9.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Thomas">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                     </div>
@@ -539,19 +539,19 @@
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Nancy">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Michael">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Alexis">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                     </div>
@@ -627,19 +627,19 @@
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Tonya">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-10.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-10.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Donald">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-9.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-9.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Nancy">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                     </div>
@@ -744,7 +744,7 @@
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Anna">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                     </div>
@@ -820,13 +820,13 @@
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Nancy">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Alexis">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                     </div>
@@ -904,25 +904,25 @@
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Alexis">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Thomas">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Herbert">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Anna">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                     </div>
@@ -1043,19 +1043,19 @@
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Nancy">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Frank">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Tonya">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                     </div>
@@ -1156,13 +1156,13 @@
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Frank">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                         <a href="javascript: void(0);" class="avatar-group-item"
                                             data-bs-toggle="tooltip" data-bs-trigger="hover"
                                             data-bs-placement="top" title="Herbert">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt=""
                                                 class="rounded-circle avatar-xxs">
                                         </a>
                                     </div>
@@ -1372,7 +1372,7 @@
                                                     class="form-check-label d-flex align-items-center"
                                                     for="anna-adame">
                                                     <span class="flex-shrink-0">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}"
                                                             alt="" class="avatar-xxs rounded-circle" />
                                                     </span>
                                                     <span class="flex-grow-1 ms-2">
@@ -1389,7 +1389,7 @@
                                                     class="form-check-label d-flex align-items-center"
                                                     for="frank-hook">
                                                     <span class="flex-shrink-0">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}"
                                                             alt="" class="avatar-xxs rounded-circle" />
                                                     </span>
                                                     <span class="flex-grow-1 ms-2">
@@ -1406,7 +1406,7 @@
                                                     class="form-check-label d-flex align-items-center"
                                                     for="alexis-clarke">
                                                     <span class="flex-shrink-0">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}"
                                                             alt="" class="avatar-xxs rounded-circle" />
                                                     </span>
                                                     <span class="flex-grow-1 ms-2">
@@ -1423,7 +1423,7 @@
                                                     class="form-check-label d-flex align-items-center"
                                                     for="herbert-stokes">
                                                     <span class="flex-shrink-0">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}"
                                                             alt="" class="avatar-xxs rounded-circle" />
                                                     </span>
                                                     <span class="flex-grow-1 ms-2">
@@ -1440,7 +1440,7 @@
                                                     class="form-check-label d-flex align-items-center"
                                                     for="michael-morris">
                                                     <span class="flex-shrink-0">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}"
                                                             alt="" class="avatar-xxs rounded-circle" />
                                                     </span>
                                                     <span class="flex-grow-1 ms-2">
@@ -1457,7 +1457,7 @@
                                                     class="form-check-label d-flex align-items-center"
                                                     for="nancy-martino">
                                                     <span class="flex-shrink-0">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}"
                                                             alt="" class="avatar-xxs rounded-circle" />
                                                     </span>
                                                     <span class="flex-grow-1 ms-2">
@@ -1474,7 +1474,7 @@
                                                     class="form-check-label d-flex align-items-center"
                                                     for="thomas-taylor">
                                                     <span class="flex-shrink-0">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}"
                                                             alt="" class="avatar-xxs rounded-circle" />
                                                     </span>
                                                     <span class="flex-grow-1 ms-2">
@@ -1491,7 +1491,7 @@
                                                     class="form-check-label d-flex align-items-center"
                                                     for="tonya-noble">
                                                     <span class="flex-shrink-0">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-10.jpg') }}"
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-10.jpg') }}"
                                                             alt="" class="avatar-xxs rounded-circle" />
                                                     </span>
                                                     <span class="flex-grow-1 ms-2">

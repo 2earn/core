@@ -40,7 +40,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="flex-shink-0">
-                        <img src="{{URL::asset('assets/images/nft/img-01.jpg')}}" alt="" class="avatar-sm object-cover rounded">
+                        <img src="{{Vite::asset('resources/images/nft/img-01.jpg')}}" alt="" class="avatar-sm object-cover rounded">
                     </div>
                     <div class="ms-3 flex-grow-1">
                         <a href="pages-profile">
@@ -69,7 +69,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="flex-shink-0">
-                        <img src="{{URL::asset('assets/images/users/avatar-5.jpg')}}" alt="" class="avatar-sm object-cover rounded">
+                        <img src="{{Vite::asset('resources/images/users/avatar-5.jpg')}}" alt="" class="avatar-sm object-cover rounded">
                     </div>
                     <div class="ms-3 flex-grow-1">
                         <a href="pages-profile">
@@ -98,7 +98,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="flex-shink-0">
-                        <img src="{{URL::asset('assets/images/nft/img-06.jpg')}}" alt="" class="avatar-sm object-cover rounded">
+                        <img src="{{Vite::asset('resources/images/nft/img-06.jpg')}}" alt="" class="avatar-sm object-cover rounded">
                     </div>
                     <div class="ms-3 flex-grow-1">
                         <a href="pages-profile">
@@ -127,7 +127,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="flex-shink-0">
-                        <img src="{{URL::asset('assets/images/nft/gif/img-5.gif')}}" alt="" class="avatar-sm object-cover rounded">
+                        <img src="{{Vite::asset('resources/images/nft/gif/img-5.gif')}}" alt="" class="avatar-sm object-cover rounded">
                     </div>
                     <div class="ms-3 flex-grow-1">
                         <a href="pages-profile">
@@ -156,7 +156,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="flex-shink-0">
-                        <img src="{{URL::asset('assets/images/users/avatar-8.jpg')}}" alt="" class="avatar-sm object-cover rounded">
+                        <img src="{{Vite::asset('resources/images/users/avatar-8.jpg')}}" alt="" class="avatar-sm object-cover rounded">
                     </div>
                     <div class="ms-3 flex-grow-1">
                         <a href="pages-profile">
@@ -185,7 +185,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="flex-shink-0">
-                        <img src="{{URL::asset('assets/images/nft/img-04.jpg')}}" alt="" class="avatar-sm object-cover rounded">
+                        <img src="{{Vite::asset('resources/images/nft/img-04.jpg')}}" alt="" class="avatar-sm object-cover rounded">
                     </div>
                     <div class="ms-3 flex-grow-1">
                         <a href="pages-profile">
@@ -214,7 +214,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="flex-shink-0">
-                        <img src="{{URL::asset('assets/images/nft/img-05.jpg')}}" alt="" class="avatar-sm object-cover rounded">
+                        <img src="{{Vite::asset('resources/images/nft/img-05.jpg')}}" alt="" class="avatar-sm object-cover rounded">
                     </div>
                     <div class="ms-3 flex-grow-1">
                         <a href="pages-profile">
@@ -243,7 +243,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="flex-shink-0">
-                        <img src="{{URL::asset('assets/images/nft/img-02.jpg')}}" alt="" class="avatar-sm object-cover rounded">
+                        <img src="{{Vite::asset('resources/images/nft/img-02.jpg')}}" alt="" class="avatar-sm object-cover rounded">
                     </div>
                     <div class="ms-3 flex-grow-1">
                         <a href="pages-profile">
@@ -279,9 +279,9 @@
 <div class="row row-cols-xl-5 row-cols-lg-3 row-cols-md-2 row-cols-1">
     <div class="col">
         <div class="card">
-            <img src="{{URL::asset('assets/images/nft/img-03.jpg')}}" alt="" class="object-cover card-img-top" height="120">
+            <img src="{{Vite::asset('resources/images/nft/img-03.jpg')}}" alt="" class="object-cover card-img-top" height="120">
             <div class="card-body text-center">
-                <img src="{{URL::asset('assets/images/users/avatar-2.jpg')}}" alt="" class="avatar-md rounded-circle object-cover mt-n5 border border-5 border-white mx-auto d-block">
+                <img src="{{Vite::asset('resources/images/users/avatar-2.jpg')}}" alt="" class="avatar-md rounded-circle object-cover mt-n5 border border-5 border-white mx-auto d-block">
                 <a href="pages-profile">
                     <h5 class="mt-2 mb-1">Michael Morris</h5>
                 </a>
@@ -294,9 +294,9 @@
     <!--end col-->
     <div class="col">
         <div class="card">
-            <img src="{{URL::asset('assets/images/nft/gif/img-2.gif')}}" alt="" class="object-cover card-img-top" height="120">
+            <img src="{{Vite::asset('resources/images/nft/gif/img-2.gif')}}" alt="" class="object-cover card-img-top" height="120">
             <div class="card-body text-center">
-                <img src="{{URL::asset('assets/images/users/avatar-6.jpg')}}" alt="" class="avatar-md rounded-circle object-cover mt-n5 border border-5 border-white mx-auto d-block">
+                <img src="{{Vite::asset('resources/images/users/avatar-6.jpg')}}" alt="" class="avatar-md rounded-circle object-cover mt-n5 border border-5 border-white mx-auto d-block">
                 <a href="pages-profile">
                     <h5 class="mt-2 mb-1">Charles Kubik</h5>
                 </a>
@@ -309,9 +309,9 @@
     <!--end col-->
     <div class="col">
         <div class="card">
-            <img src="{{URL::asset('assets/images/nft/img-05.jpg')}}" alt="" class="object-cover card-img-top" height="120">
+            <img src="{{Vite::asset('resources/images/nft/img-05.jpg')}}" alt="" class="object-cover card-img-top" height="120">
             <div class="card-body text-center">
-                <img src="{{URL::asset('assets/images/nft/img-06.jpg')}}" alt="" class="avatar-md rounded-circle object-cover mt-n5 border border-5 border-white mx-auto d-block">
+                <img src="{{Vite::asset('resources/images/nft/img-06.jpg')}}" alt="" class="avatar-md rounded-circle object-cover mt-n5 border border-5 border-white mx-auto d-block">
                 <a href="pages-profile">
                     <h5 class="mt-2 mb-1">Alexis Clarke</h5>
                 </a>
@@ -324,9 +324,9 @@
     <!--end col-->
     <div class="col">
         <div class="card">
-            <img src="{{URL::asset('assets/images/nft/img-06.jpg')}}" alt="" class="object-cover card-img-top" height="120">
+            <img src="{{Vite::asset('resources/images/nft/img-06.jpg')}}" alt="" class="object-cover card-img-top" height="120">
             <div class="card-body text-center">
-                <img src="{{URL::asset('assets/images/nft/gif/img-1.gif')}}" alt="" class="avatar-md rounded-circle object-cover mt-n5 border border-5 border-white mx-auto d-block">
+                <img src="{{Vite::asset('resources/images/nft/gif/img-1.gif')}}" alt="" class="avatar-md rounded-circle object-cover mt-n5 border border-5 border-white mx-auto d-block">
                 <a href="pages-profile">
                     <h5 class="mt-2 mb-1">James Morris</h5>
                 </a>
@@ -339,9 +339,9 @@
     <!--end col-->
     <div class="col">
         <div class="card">
-            <img src="{{URL::asset('assets/images/nft/gif/img-3.gif')}}" alt="" class="object-cover card-img-top" height="120">
+            <img src="{{Vite::asset('resources/images/nft/gif/img-3.gif')}}" alt="" class="object-cover card-img-top" height="120">
             <div class="card-body text-center">
-                <img src="{{URL::asset('assets/images/users/avatar-8.jpg')}}" alt="" class="avatar-md rounded-circle object-cover mt-n5 border border-5 border-white mx-auto d-block">
+                <img src="{{Vite::asset('resources/images/users/avatar-8.jpg')}}" alt="" class="avatar-md rounded-circle object-cover mt-n5 border border-5 border-white mx-auto d-block">
                 <a href="pages-profile">
                     <h5 class="mt-2 mb-1">Herbert Stokes</h5>
                 </a>
@@ -354,9 +354,9 @@
     <!--end col-->
     <div class="col">
         <div class="card">
-            <img src="{{URL::asset('assets/images/nft/img-03.jpg')}}" alt="" class="object-cover card-img-top" height="120">
+            <img src="{{Vite::asset('resources/images/nft/img-03.jpg')}}" alt="" class="object-cover card-img-top" height="120">
             <div class="card-body text-center">
-                <img src="{{URL::asset('assets/images/users/avatar-2.jpg')}}" alt="" class="avatar-md rounded-circle object-cover mt-n5 border border-5 border-white mx-auto d-block">
+                <img src="{{Vite::asset('resources/images/users/avatar-2.jpg')}}" alt="" class="avatar-md rounded-circle object-cover mt-n5 border border-5 border-white mx-auto d-block">
                 <a href="pages-profile">
                     <h5 class="mt-2 mb-1">Michael Morris</h5>
                 </a>
@@ -369,9 +369,9 @@
     <!--end col-->
     <div class="col">
         <div class="card">
-            <img src="{{URL::asset('assets/images/nft/gif/img-2.gif')}}" alt="" class="object-cover card-img-top" height="120">
+            <img src="{{Vite::asset('resources/images/nft/gif/img-2.gif')}}" alt="" class="object-cover card-img-top" height="120">
             <div class="card-body text-center">
-                <img src="{{URL::asset('assets/images/users/avatar-6.jpg')}}" alt="" class="avatar-md rounded-circle object-cover mt-n5 border border-5 border-white mx-auto d-block">
+                <img src="{{Vite::asset('resources/images/users/avatar-6.jpg')}}" alt="" class="avatar-md rounded-circle object-cover mt-n5 border border-5 border-white mx-auto d-block">
                 <a href="pages-profile">
                     <h5 class="mt-2 mb-1">Tonya Noble</h5>
                 </a>
@@ -384,9 +384,9 @@
     <!--end col-->
     <div class="col">
         <div class="card">
-            <img src="{{URL::asset('assets/images/nft/img-05.jpg')}}" alt="" class="object-cover card-img-top" height="120">
+            <img src="{{Vite::asset('resources/images/nft/img-05.jpg')}}" alt="" class="object-cover card-img-top" height="120">
             <div class="card-body text-center">
-                <img src="{{URL::asset('assets/images/nft/img-06.jpg')}}" alt="" class="avatar-md rounded-circle object-cover mt-n5 border border-5 border-white mx-auto d-block">
+                <img src="{{Vite::asset('resources/images/nft/img-06.jpg')}}" alt="" class="avatar-md rounded-circle object-cover mt-n5 border border-5 border-white mx-auto d-block">
                 <a href="pages-profile">
                     <h5 class="mt-2 mb-1">Nancy Martino</h5>
                 </a>
@@ -399,9 +399,9 @@
     <!--end col-->
     <div class="col">
         <div class="card">
-            <img src="{{URL::asset('assets/images/nft/img-01.jpg')}}" alt="" class="object-cover card-img-top" height="120">
+            <img src="{{Vite::asset('resources/images/nft/img-01.jpg')}}" alt="" class="object-cover card-img-top" height="120">
             <div class="card-body text-center">
-                <img src="{{URL::asset('assets/images/nft/gif/img-1.gif')}}" alt="" class="avatar-md rounded-circle object-cover mt-n5 border border-5 border-white mx-auto d-block">
+                <img src="{{Vite::asset('resources/images/nft/gif/img-1.gif')}}" alt="" class="avatar-md rounded-circle object-cover mt-n5 border border-5 border-white mx-auto d-block">
                 <a href="pages-profile">
                     <h5 class="mt-2 mb-1">Kevin Dawson</h5>
                 </a>
@@ -414,9 +414,9 @@
     <!--end col-->
     <div class="col">
         <div class="card">
-            <img src="{{URL::asset('assets/images/nft/gif/img-4.gif')}}" alt="" class="object-cover card-img-top" height="120">
+            <img src="{{Vite::asset('resources/images/nft/gif/img-4.gif')}}" alt="" class="object-cover card-img-top" height="120">
             <div class="card-body text-center">
-                <img src="{{URL::asset('assets/images/users/avatar-10.jpg')}}" alt="" class="avatar-md rounded-circle object-cover mt-n5 border border-5 border-white mx-auto d-block">
+                <img src="{{Vite::asset('resources/images/users/avatar-10.jpg')}}" alt="" class="avatar-md rounded-circle object-cover mt-n5 border border-5 border-white mx-auto d-block">
                 <a href="pages-profile">
                     <h5 class="mt-2 mb-1">Glen Matney</h5>
                 </a>

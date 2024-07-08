@@ -234,13 +234,13 @@
                                             <a href="javascript: void(0);" class="avatar-group-item"
                                                 data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top"
                                                 title="Frank">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs" />
                                             </a>
                                             <a href="javascript: void(0);" class="avatar-group-item"
                                                 data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top"
                                                 title="Anna">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs" />
                                             </a>
                                         </div>
@@ -348,7 +348,7 @@
                                                     value="avatar-1.jpg" id="anna-adame">
                                                 <label class="form-check-label d-flex align-items-center" for="anna-adame">
                                                     <span class="flex-shrink-0">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt=""
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt=""
                                                             class="avatar-xxs rounded-circle">
                                                     </span>
                                                     <span class="flex-grow-1 ms-2">
@@ -363,7 +363,7 @@
                                                     value="avatar-3.jpg" id="frank-hook">
                                                 <label class="form-check-label d-flex align-items-center" for="frank-hook">
                                                     <span class="flex-shrink-0">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt=""
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt=""
                                                             class="avatar-xxs rounded-circle">
                                                     </span>
                                                     <span class="flex-grow-1 ms-2">
@@ -379,7 +379,7 @@
                                                 <label class="form-check-label d-flex align-items-center"
                                                     for="alexis-clarke">
                                                     <span class="flex-shrink-0">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt=""
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt=""
                                                             class="avatar-xxs rounded-circle">
                                                     </span>
                                                     <span class="flex-grow-1 ms-2">
@@ -395,7 +395,7 @@
                                                 <label class="form-check-label d-flex align-items-center"
                                                     for="herbert-stokes">
                                                     <span class="flex-shrink-0">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt=""
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt=""
                                                             class="avatar-xxs rounded-circle">
                                                     </span>
                                                     <span class="flex-grow-1 ms-2">
@@ -411,7 +411,7 @@
                                                 <label class="form-check-label d-flex align-items-center"
                                                     for="michael-morris">
                                                     <span class="flex-shrink-0">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt=""
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt=""
                                                             class="avatar-xxs rounded-circle">
                                                     </span>
                                                     <span class="flex-grow-1 ms-2">
@@ -427,7 +427,7 @@
                                                 <label class="form-check-label d-flex align-items-center"
                                                     for="nancy-martino">
                                                     <span class="flex-shrink-0">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt=""
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt=""
                                                             class="avatar-xxs rounded-circle">
                                                     </span>
                                                     <span class="flex-grow-1 ms-2">
@@ -443,7 +443,7 @@
                                                 <label class="form-check-label d-flex align-items-center"
                                                     for="thomas-taylor">
                                                     <span class="flex-shrink-0">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}" alt=""
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}" alt=""
                                                             class="avatar-xxs rounded-circle">
                                                     </span>
                                                     <span class="flex-grow-1 ms-2">
@@ -459,7 +459,7 @@
                                                 <label class="form-check-label d-flex align-items-center"
                                                     for="tonya-noble">
                                                     <span class="flex-shrink-0">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-10.jpg') }}" alt=""
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-10.jpg') }}" alt=""
                                                             class="avatar-xxs rounded-circle">
                                                     </span>
                                                     <span class="flex-grow-1 ms-2">

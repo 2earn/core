@@ -134,7 +134,7 @@
                     var url = new URL(url_string);
                     var paramValue = url.searchParams.get("FinRequestN");
 
-                    window.livewire.emit('redirectToTransfertCash', '{{Session::get('ErreurSoldeReqBFS2')}}', paramValue);
+                    window.Livewire.emit('redirectToTransfertCash', '{{Session::get('ErreurSoldeReqBFS2')}}', paramValue);
                 }
             })
         }
@@ -507,12 +507,12 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            <div class="modal fade" id="financialTransactionModal" tabindex="-1" aria-labelledby="financialTransactionModalLabel"
                                  aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                            <h5 class="modal-title" id="financialTransactionModalLabel">Modal title</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
                                         </div>
@@ -664,7 +664,7 @@
                 inputAttributes: {autocapitalize: 'off'},
             }).then((resultat) => {
                 if (resultat.value) {
-                    window.livewire.emit('ExchangeCashToBFS', resultat.value);
+                    window.Livewire.emit('ExchangeCashToBFS', resultat.value);
                 }
             })
         })
@@ -709,7 +709,7 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.livewire.emit('PreExchange');
+                    window.Livewire.emit('PreExchange');
                 } else if (result.isDenied) {
                     Swal.fire('Changes are not saved', '', 'info')
                 }
@@ -758,7 +758,7 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.livewire.emit('PreExchangeSMS');
+                    window.Livewire.emit('PreExchangeSMS');
                 } else if (result.isDenied) {
                     Swal.fire('Changes are not saved', '', 'info')
                 }
@@ -793,7 +793,7 @@
                 },
             }).then((resultat) => {
                 if (resultat.value) {
-                    window.livewire.emit('exchangeSms', resultat.value, $("#NSMS").val());
+                    window.Livewire.emit('exchangeSms', resultat.value, $("#NSMS").val());
                 }
                 if (resultat.isDismissed) {
                     location.reload();
@@ -816,7 +816,7 @@
         }
 
         function acceptRequst(numeroRequest) {
-            window.livewire.emit('AcceptRequest', numeroRequest);
+            window.Livewire.emit('AcceptRequest', numeroRequest);
         }
 
         function rejectRequst(numeroRequest) {
@@ -828,7 +828,7 @@
                 customClass: {actions: 'my-actions', confirmButton: 'order-2', denyButton: 'order-3',}
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.livewire.emit('RejectRequest', numeroRequest);
+                    window.Livewire.emit('RejectRequest', numeroRequest);
                 }
             })
         }
@@ -847,7 +847,7 @@
                 customClass: {actions: 'my-actions', confirmButton: 'order-2', denyButton: 'order-3',}
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.livewire.emit('DeleteRequest', numReq);
+                    window.Livewire.emit('DeleteRequest', numReq);
                 }
             })
 
@@ -855,67 +855,69 @@
 
         function ShowCanceledRequest() {
             if (document.getElementById('ShowCanceled').checked) {
-                window.livewire.emit('ShowCanceled', 1)
+                window.Livewire.emit('ShowCanceled', 1)
             } else {
-                window.livewire.emit('ShowCanceled', 0)
+                window.Livewire.emit('ShowCanceled', 0)
             }
 
         }
     </script>
     <script data-turbolinks-eval="false">
-        var triggerTabList = [].slice.call(document.querySelectorAll('#pills-tab a'))
-        triggerTabList.forEach(function (triggerEl) {
-            var tabTrigger = new bootstrap.Tab(triggerEl)
-            triggerEl.addEventListener('click', function (event) {
-                var x = triggerEl.id;
-                if (triggerEl.id === "pills-contact-tab") {
-                    $.ajax({
-                        url: "{{ route('resetInComingNotification') }}",
-                        type: 'get',
-                        success: function (result) {
-                            try {
-                                document.getElementById('pIn').innerHTML = "";
-                                document.getElementById('btnNotRequestInOpen').remove();
-                            } catch (e) {
+        window.addEventListener('load', () => {
+            var triggerTabList = [].slice.call(document.querySelectorAll('#pills-tab a'))
+            triggerTabList.forEach(function (triggerEl) {
+                var tabTrigger = new bootstrap.Tab(triggerEl)
+                triggerEl.addEventListener('click', function (event) {
+                    var x = triggerEl.id;
+                    if (triggerEl.id === "pills-contact-tab") {
+                        $.ajax({
+                            url: "{{ route('resetInComingNotification') }}",
+                            type: 'get',
+                            success: function (result) {
+                                try {
+                                    document.getElementById('pIn').innerHTML = "";
+                                    document.getElementById('btnNotRequestInOpen').remove();
+                                } catch (e) {
+                                }
+                                try {
+                                    document.getElementById('sideNotIn').innerHTML = "";
+                                    document.getElementById('sideNotIn').remove();
+                                } catch (e) {
+                                }
                             }
-                            try {
-                                document.getElementById('sideNotIn').innerHTML = "";
-                                document.getElementById('sideNotIn').remove();
-                            } catch (e) {
+                        });
+                    }
+                    if (triggerEl.id === "pills-profile-tab") {
+                        $.ajax({
+                            url: "{{ route('resetOutGoingNotification') }}",
+                            type: 'get',
+                            success: function (result) {
+                                try {
+                                    document.getElementById('pOutAccepted').innerHTML = "";
+                                    document.getElementById('btnNotRequestOutAcccepted').remove();
+                                } catch (e) {
+                                }
+                                try {
+                                    document.getElementById('pOutRefused').innerHTML = "";
+                                    document.getElementById('btnNotRequestOutRefused').remove();
+                                } catch (e) {
+                                }
+                                try {
+                                    document.getElementById('sideNotOutRefused').innerHTML = "";
+                                    document.getElementById('sideNotOutRefused').remove();
+                                } catch (e) {
+                                }
+                                try {
+                                    document.getElementById('sideNotOutAccepted').innerHTML = "";
+                                    document.getElementById('sideNotOutAccepted').remove();
+                                } catch (e) {
+                                }
                             }
-                        }
-                    });
-                }
-                if (triggerEl.id === "pills-profile-tab") {
-                    $.ajax({
-                        url: "{{ route('resetOutGoingNotification') }}",
-                        type: 'get',
-                        success: function (result) {
-                            try {
-                                document.getElementById('pOutAccepted').innerHTML = "";
-                                document.getElementById('btnNotRequestOutAcccepted').remove();
-                            } catch (e) {
-                            }
-                            try {
-                                document.getElementById('pOutRefused').innerHTML = "";
-                                document.getElementById('btnNotRequestOutRefused').remove();
-                            } catch (e) {
-                            }
-                            try {
-                                document.getElementById('sideNotOutRefused').innerHTML = "";
-                                document.getElementById('sideNotOutRefused').remove();
-                            } catch (e) {
-                            }
-                            try {
-                                document.getElementById('sideNotOutAccepted').innerHTML = "";
-                                document.getElementById('sideNotOutAccepted').remove();
-                            } catch (e) {
-                            }
-                        }
-                    });
-                }
+                        });
+                    }
+                })
             })
-        })
+        });
         $("#pay").click(function () {
             var amount = $("#amount").val();
             if (!(amount) || (amount == 0)) {
@@ -934,10 +936,10 @@
                 });
                 return;
             }
-            window.livewire.emit('redirectPay', theUrl, amount);
+            window.Livewire.emit('redirectPay', theUrl, amount);
         });
         var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";
-        var urlLang = "//cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
+        var urlLang = "https://cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
         $('#customerTable2').DataTable({
             order: [[1, 'desc']],
             "language": {
