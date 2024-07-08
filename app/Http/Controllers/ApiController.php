@@ -920,8 +920,8 @@ class="btn btn-xs btn-primary btn2earnTable"  >
             ->addColumn('action', function ($settings) {
                 return '<div class="d-flex gap-2">
                              <div class="edit">
-                                    <button  onclick="editSettingFunction(' . $settings->idSETTINGS . ')"   data-bs-toggle="modal" data-bs-target="#settingModal"
- class="btn btn-sm btn-primary edit-item-btn"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</button> </div> </div>';
+                                    <button  data-id="' . $settings->idSETTINGS . '"   data-bs-toggle="modal" data-bs-target="#settingModal"
+ class="btn btn-primary edit-item-btn edit-setting-btn"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</button> </div> </div>';
             })
             ->setRowId('idSETTINGS')
             ->editColumn('Automatically_calculated', function ($settings) {
@@ -930,12 +930,8 @@ class="btn btn-xs btn-primary btn2earnTable"  >
                 else
                     return '<span class="badge badge-info">No</span>';
             })
-            ->editColumn('StringValue', function ($settings) {
-                return '***';
-            })
-            ->setRowClass(function ($settings) {
-                return 'testaddclass';
-            })
+            ->editColumn('StringValue', function ($settings) {                return '***';            })
+            ->setRowClass(function ($settings) {                return 'testaddclass';            })
             ->escapeColumns([])
             ->toJson();
     }

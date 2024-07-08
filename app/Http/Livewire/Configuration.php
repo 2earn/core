@@ -54,7 +54,7 @@ class Configuration extends Component
     public $search = '';
 
     protected $listeners = [
-        'editSettingFunction' => 'editSettingFunction',
+        'initSettingFunction' => 'initSettingFunction',
         'editBOFunction' => 'editBOFunction',
         'editAmountsFunction' => 'editAmountsFunction',
         'editHAFunction' => 'editHAFunction',
@@ -109,9 +109,8 @@ class Configuration extends Component
         $this->MODIFY_AMOUNT = $balanceOP->MODIFY_AMOUNT;
     }
 
-    public function editSettingFunction($id)
+    public function initSettingFunction($id)
     {
-
         $setting = Setting::find($id);
         if (!$setting) return;
         $this->idSetting = $id;
@@ -124,7 +123,7 @@ class Configuration extends Component
         $this->Description = $setting->Description ? $setting->Description : "";
     }
 
-    public function save()
+    public function saveSetting()
     {
         $setting = Setting::find($this->idSetting);
         if (!$setting) return;
