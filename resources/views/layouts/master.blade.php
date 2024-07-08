@@ -216,16 +216,6 @@
         });
     });
 
-
-    window.addEventListener('closeModalOp', event => {
-        $('#BoModal').modal('hide');
-        $('#BalanceOperationsTable').DataTable().ajax.reload();
-    });
-    window.addEventListener('closeModalAmounts', event => {
-        $('#AmountsModal').modal('hide');
-        $('#amountsTable').DataTable().ajax.reload();
-    });
-
 </script>
 @stack('scripts')
 <script type="module">

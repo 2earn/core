@@ -130,14 +130,36 @@
                         <li class="menu-title">
                             <span data-key="t-menu">{{ __('SUPER ADMIN MENU') }}</span>
                         </li>
-                        <li class="nav-item {{Route::currentRouteName()=='configuration'? 'active' : ''}}">
-                            <a href="{{route('configuration', app()->getLocale())}}"
-                               class="nav-link menu-link {{Route::currentRouteName()=='configuration'? 'active' : ''}}"
+                        <li class="nav-item">
+                            <a class="nav-link menu-link collapsed" href="#sidebarDashboards" data-bs-toggle="collapse"
                                role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-settings-5-line"></i>
-                                <span>{{ __('Settings') }}</span>
+                                <i class="ri-dashboard-2-line"></i> <span
+                                        data-key="t-dashboards">{{ __('Settings') }}</span>
                             </a>
+                            <div class="menu-dropdown collapse" id="sidebarDashboards">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item {{Route::currentRouteName()=='configuration-setting'? 'active' : ''}}">
+                                        <a href="{{route('configuration-setting', app()->getLocale())}}"
+                                           class="nav-link" data-key="t-analytics">{{ __('Settings') }}</a>
+                                    </li>
+                                    <li class="nav-item {{Route::currentRouteName()=='configuration-bo'? 'active' : ''}}">
+                                        <a href="{{route('configuration-bo', app()->getLocale())}}" class="nav-link"
+                                           data-key="t-analytics">{{ __('Settings bo') }}</a>
+                                    </li>
+                                    <li class="nav-item {{Route::currentRouteName()=='configuration-amounts'? 'active' : ''}}">
+                                        <a href="{{route('configuration-amounts', app()->getLocale())}}"
+                                           class="nav-link" data-key="t-analytics">{{ __('Settings Amount') }}</a>
+                                    </li>
+                                    <li class="nav-item {{Route::currentRouteName()=='configuration-ha'? 'active' : ''}}">
+                                        <a href="{{route('configuration-ha', app()->getLocale())}}"
+                                           class="nav-link" data-key="t-analytics">{{ __('Settings ha') }}</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
+
+
+
                         <li class="nav-item {{Route::currentRouteName()=='edit_admin'? 'active' : ''}}">
                             <a href="{{route('edit_admin', app()->getLocale())}}"
                                class="nav-link menu-link {{Route::currentRouteName()=='edit_admin'? 'active' : ''}}"
