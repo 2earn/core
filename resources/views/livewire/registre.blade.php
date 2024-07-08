@@ -65,7 +65,7 @@
 
     </script>
     <div class="auth-page-wrapper pt-5">
-        <div class="auth-one-bg-position auth-one-bg col-lg-6 d-none d-md-block" id="auth-particles">
+        <div class="auth-one-bg-position auth-one-bg col-lg-12 d-none d-md-block" id="auth-particles">
             <div class="bg-overlay"></div>
             <div class="shape">
                 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
