@@ -154,7 +154,7 @@
                                                 <div class="center" style=" display: flex;  justify-content: center;">
                                                     <div class="dropdown ms-1 topbar-head-dropdown header-item  ">
                                                         <button type="button"
-                                                                class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                                                                class="btn btn-topbar btn-ghost-secondary"
                                                                 data-bs-toggle="dropdown" aria-haspopup="true"
                                                                 aria-expanded="false">
                                                             <img
