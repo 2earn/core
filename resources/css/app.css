@@ -347,7 +347,9 @@
 
 .navbar-header .btn-topbar {
     height: 42px;
-    width: 42px
+    width: 42px;
+    padding: .5rem;
+
 }
 
 @media (max-width: 360px) {
