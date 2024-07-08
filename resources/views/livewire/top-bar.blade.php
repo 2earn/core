@@ -183,7 +183,7 @@
                                 data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                             <i class='bx bx-bell fs-22'></i>
                             <span
-                                class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">{{$count}}
+                                class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger" id="notif-counter">{{$count}}
                                 <span class="visually-hidden">{{__('unread messages')}}</span>
                             </span>
                         </button>

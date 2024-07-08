@@ -70,7 +70,6 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ Vite::asset('resources/images/favicon.ico')}}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @include('layouts.head-css')
     @include('layouts.vendor-scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
@@ -114,9 +113,8 @@
 </head>
 <body>
 @section('body')
-    <!-- vite -->
-    @vite([ 'resources/css/app.css','resources/css/intlTelInput.min.css','resources/fontawesome/all.min.css','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
-    <!-- vite -->
+    @include('components.styles');
+    @vite(['resources/css/intlTelInput.min.css','resources/fontawesome/all.min.css','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
     <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PMK39HQQ"
                 height="0" width="0" style="display:none;visibility:hidden"></iframe>
