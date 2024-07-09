@@ -631,7 +631,7 @@
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="text-end">
-                                            <button onclick="ConfirmChangePass()" type="button"
+                                            <button wire:click="PreChangePass" type="button"
                                                     class="btn btn-success btn2earn">
                                                 {{ __('Save') }}
                                             </button>
@@ -804,7 +804,7 @@
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">
                                         {{ __('Close')}}
                                     </button>
-                                    <button onclick="SaveChangeEdit()" type="button" id="SaveCahngeEdit"
+                                    <button wire:click="SaveChangeEdit" type="button" id="SaveCahngeEdit"
                                             class="btn btn-primary">
                                         <div wire:loading wire:target="SaveChangeEdit">
                                                 <span class="spinner-border spinner-border-sm" role="status"
@@ -974,13 +974,6 @@
                 });
             });
 
-            function SaveChangeEdit() {
-                window.Livewire.emit('SaveChangeEdit');
-            }
-
-            function ConfirmChangePass() {
-                window.Livewire.emit('PreChangePass');
-            }
 
             window.addEventListener('OptChangePass', event => {
                 Swal.fire({
