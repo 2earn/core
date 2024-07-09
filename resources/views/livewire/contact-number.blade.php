@@ -149,9 +149,9 @@
         }
     </script>
     <script type="module">
+        var timerInterval;
 
         $(document).on('turbolinks:load', function () {
-            var timerInterval;
             $("#saveAddContactNumber").click(function (event) {
                 event.preventDefault();
                 event.stopImmediatePropagation();
@@ -174,7 +174,7 @@
                         const b = Swal.getFooter().querySelector('i')
                         const p22 = Swal.getFooter().querySelector('div')
                         p22.innerHTML = '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>';
-                        var timerInterval = setInterval(() => {
+                        timerInterval = setInterval(() => {
                             b.textContent = '{{trans('It will close in')}}' + (Swal.getTimerLeft() / 1000).toFixed(0) + '{{trans('secondes')}}'
                         }, 100)
                     },

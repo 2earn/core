@@ -179,6 +179,7 @@
             });
         }</script>
     <script>
+        var timerInterval;
         document.querySelector("#phoneforget").addEventListener("keypress", function (evt) {
             if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57) {
                 evt.preventDefault();
@@ -209,7 +210,7 @@
                     const p22 = Swal.getFooter().querySelector('div')
                     p22.innerHTML = '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>';
 
-                   var timerInterval = setInterval(() => {
+                    timerInterval = setInterval(() => {
                         b.textContent = '{{trans('It will close in')}}' + (Swal.getTimerLeft() / 1000).toFixed(0) + '{{trans('secondes')}}'
                     }, 100)
                 },

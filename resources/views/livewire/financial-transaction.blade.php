@@ -611,8 +611,8 @@
         }
     </script>
     <script type="module">
-        var mnt = {{$testprop}};
         var timerInterval;
+        var mnt = {{$testprop}};
         var prixSms = {{$prix_sms}};
         var soldeBFS = {{$soldeBFS}};
         var inputMontantSms = $("#soldeSMS");
@@ -681,7 +681,7 @@
                     const b = Swal.getFooter().querySelector('i');
                     Swal.getFooter().querySelector('div').classList.add("row");
                     const p22 = Swal.getFooter().querySelector('div');
-                    var timerInterval = setInterval(() => {
+                    timerInterval = setInterval(() => {
                         p22.innerHTML = '<div class="col-12">{{trans('It will close in')}}' + ' ' + (Swal.getTimerLeft() / 1000).toFixed(0) + ' ' + '{{trans('secondes')}}' + '</br> ' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a> </div>'
                     }, 100)
                 },
@@ -813,7 +813,7 @@
                 didOpen: () => {
                     const b = Swal.getFooter().querySelector('i')
                     const p22 = Swal.getFooter().querySelector('div')
-                    var timerInterval = setInterval(() => {
+                    timerInterval = setInterval(() => {
                         p22.innerHTML = '{{trans('It will close in')}}' + (Swal.getTimerLeft() / 1000).toFixed(0) + '{{trans('secondes')}}' + '</br>' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>'
                     }, 100)
                 },

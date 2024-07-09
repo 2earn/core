@@ -948,6 +948,7 @@
 
         </script>
         <script type="module">
+            var timerInterval;
             $(document).on('turbolinks:load', function () {
                 $("#btnsaveUser").click(function () {
                     window.Livewire.emit('saveUser', parseInt($("#inputChild").val()));
@@ -997,7 +998,7 @@
                         const p22 = Swal.getFooter().querySelector('div');
                         p22.innerHTML = '<br>' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>';
 
-                        var timerInterval = setInterval(() => {
+                        timerInterval = setInterval(() => {
                             let timerLeft = Swal.getTimerLeft();
                             if (timerLeft !== null) {
                                 b.innerHTML = '{{trans('It will close in')}}' + (timerLeft / 1000).toFixed(0) + '{{trans('secondes')}}';
@@ -1036,7 +1037,7 @@
                         const b = Swal.getFooter().querySelector('i');
                         const p22 = Swal.getFooter().querySelector('div');
                         p22.innerHTML = '<br>' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>';
-                        var timerInterval = setInterval(() => {
+                         timerInterval = setInterval(() => {
                             let timerLeft = Swal.getTimerLeft();
                             if (timerLeft !== null) {
                                 b.innerHTML = '{{trans('It will close in')}}' + (timerLeft / 1000).toFixed(0) + '{{trans('secondes')}}';
