@@ -104,7 +104,7 @@
                 </div>
                 <div class="d-flex align-items-center">
                     <div class="dropdown ms-1 topbar-head-dropdown header-item">
-                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary"
                                 data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="true">
                             <img
                                 src="{{ Vite::asset('resources/images/flags/'.config('app.available_locales')[app()->getLocale()]['flag'].'.svg') }}"
@@ -124,7 +124,7 @@
                         </div>
                     </div>
                     <div class="dropdown topbar-head-dropdown ms-1 header-item">
-                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class='bx bx-category-alt fs-22'></i>
                         </button>
@@ -166,24 +166,24 @@
                         </div>
                     </div>
                     <div class="ms-1 header-item d-none d-sm-flex">
-                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary"
                                 data-toggle="fullscreen">
                             <i class='bx bx-fullscreen fs-22'></i>
                         </button>
                     </div>
                     <div class="ms-1 header-item d-sm-flex">
                         <button id="btndark" type="button"
-                                class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle light-dark-mode">
+                                class="btn btn-icon btn-topbar btn-ghost-secondary light-dark-mode">
                             <i class='bx bx-moon fs-22'></i>
                         </button>
                     </div>
                     <div class="dropdown topbar-head-dropdown ms-1 header-item">
-                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary"
                                 id="page-header-notifications-dropdown"
                                 data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                             <i class='bx bx-bell fs-22'></i>
                             <span
-                                class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">{{$count}}
+                                class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger" id="notif-counter">{{$count}}
                                 <span class="visually-hidden">{{__('unread messages')}}</span>
                             </span>
                         </button>

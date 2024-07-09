@@ -3,22 +3,14 @@
 namespace App\Http\Livewire;
 
 
-use App\Http\Traits\contactNumberCheker;
-use Core\Services\BalancesManager;
-
-use Core\Services\settingsManager;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Request;
-use Livewire\Component;
 use Carbon\Carbon;
+use Core\Services\BalancesManager;
+use Core\Services\settingsManager;
+use Illuminate\Support\Facades\DB;
+use Livewire\Component;
 
 class SharesSold extends Component
 {
-
 
     public $cashBalance;
     public $balanceForSopping;
@@ -27,6 +19,7 @@ class SharesSold extends Component
     public $cash = 25.033;
     private settingsManager $settingsManager;
     private BalancesManager $balancesManager;
+
     protected $listeners = [
         'checkContactNumbre' => 'checkContactNumbre'
     ];
@@ -36,14 +29,10 @@ class SharesSold extends Component
         dd('ddd');
     }
 
-    public function mount(
-        settingsManager $settingsManager,
-        BalancesManager $balancesManager
-    )
+    public function mount(settingsManager $settingsManager, BalancesManager $balancesManager)
     {
         $this->settingsManager = $settingsManager;
         $this->balancesManager = $balancesManager;
-
     }
 
     public function getIp()

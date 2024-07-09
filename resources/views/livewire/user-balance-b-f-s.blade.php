@@ -55,6 +55,8 @@
             }
         );
         $(document).on('turbolinks:load', function () {
+            var select2_array = [];
+
             $('#ub_table_bfs').DataTable(
                 {
                     retrieve: true,

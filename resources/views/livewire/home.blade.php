@@ -93,9 +93,9 @@
                                class="text-decoration-underline">{{ __('see_details') }}</a>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
-                            <lord-icon
-                                src="{{ URL::asset('assets/icons/298-coins-gradient-edited.json') }}" trigger="loop"
-                                colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
+                            <lord-icon src="{{ URL::asset('build/icons/coin.json') }}"
+                                       trigger="hover"
+                                       style="width:55px;height:55px">
                             </lord-icon>
                         </div>
 
@@ -156,7 +156,7 @@
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <lord-icon
-                                src="{{ URL::asset('assets/icons/146-basket-trolley-shopping-card-gradient-edited.json') }}"
+                                src="{{ URL::asset('build/icons/146-basket-trolley-shopping-card-gradient-edited.json') }}"
                                 trigger="loop"
                                 colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
                             </lord-icon>
@@ -250,7 +250,7 @@
                                class="text-decoration-underline">{{ __('see_details') }}</a>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
-                            <lord-icon src="{{ URL::asset('assets/icons/981-consultation-gradient-edited.json') }}"
+                            <lord-icon src="{{ URL::asset('build/icons/981-consultation-gradient-edited.json') }}"
                                        trigger="loop"
                                        colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
                             </lord-icon>
@@ -294,7 +294,7 @@
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <lord-icon
-                                src="{{ URL::asset('assets/icons/wired-gradient-751-share.json') }}" trigger="loop"
+                                src="{{ URL::asset('build/icons/wired-gradient-751-share.json') }}" trigger="loop"
                                 colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
                             </lord-icon>
                         </div>
@@ -505,6 +505,7 @@
         </div>
     </div>
     @push('scripts')
+        <script src="https://cdn.lordicon.com/lordicon.js"></script>
         @vite('resources/js/pages/form-validation.init.js');
         @if($flash)
             <script>
@@ -551,7 +552,7 @@
             </script>
         @endif
         <script type="module">
-            $( document ).ready(function() {
+            $(document).ready(function () {
                     const input = document.querySelector("#phone");
                     const iti = window.intlTelInput(input, {
                         initialCountry: "auto",
@@ -635,66 +636,67 @@
             );
 
             var series;
-            $(document).on('turbolinks:load', function () {
+            $(document).ready(function () {
                 anychart.onDocumentReady(function () {
-                    if ($('#any4').length > 0) {
+                    if ($('#any4').length > 0 && $('#any4').is(':empty')) {
                         anychart.data.loadJsonFile(
-                        "{{route('API_stat_countries',app()->getLocale())}}",
-                        function (data) {
-                            var map = anychart.map();
-                            map.geoData('anychart.maps.world');
-                            map.padding(0);
-                            var dataSet = anychart.data.set(data);
-                            var densityData = dataSet.mapAs({id: 'apha2', value: 'COUNT_USERS'});
-                            series = map.choropleth(densityData);
-                            series.labels(false);
-                            series.hovered().fill('#f48fb1').stroke(anychart.color.darken('#f48fb1'));
-                            series.tooltip(false);
-                            var scale = anychart.scales.ordinalColor([
-                                {less: 2},
-                                {from: 2, to: 5},
-                                {from: 5, to: 10},
-                                {from: 10, to: 15},
-                                {from: 15, to: 30},
-                                {from: 30, to: 50},
-                                {from: 50, to: 100},
-                                {from: 100, to: 500},
-                                {greater: 500}
-                            ]);
-                            scale.colors(['#81d4fa', '#4fc3f7', '#29b6f6', '#039be5', '#0288d1', '#0277bd', '#01579b', '#014377', '#000000']);
-                            series.colorScale(scale);
-                            var zoomController = anychart.ui.zoom();
-                            zoomController.render(map);
-                            map.container('any4');
-                            map.draw();
-                            var mapping = dataSet.mapAs({x: "name", value: "COUNT_USERS", category: "continant"});
-                            var colors = anychart.scales.ordinalColor().colors(['#26959f', '#f18126', '#3b8ad8', '#60727b', '#e24b26']);
-                            var chart = anychart.tagCloud();
-                            chart.data(mapping).colorScale(colors).angles([-90, 0, 90,]);
-                            chart.tooltip(false);
-                            var colorRange = chart.colorRange();
-                            colorRange.enabled(true).colorLineSize(15);
-                            var normalFillFunction = chart.normal().fill();
-                            var hoveredFillFunction = chart.hovered().fill();
-                            chart.listen('pointsHover', function (e) {
-                                if (e.actualTarget === colorRange) {
-                                    if (e.points.length) {
-                                        chart.normal({
-                                            fill: 'black 0.1'
-                                        });
-                                        chart.hovered({
-                                            fill: chart.colorScale().valueToColor(e.point.get('category'))
-                                        });
-                                    } else {
-                                        chart.normal({fill: normalFillFunction});
-                                        chart.hovered({fill: hoveredFillFunction});
+                            "{{route('API_stat_countries',app()->getLocale())}}",
+                            function (data) {
+                                var map = anychart.map();
+                                map.geoData('anychart.maps.world');
+                                map.padding(0);
+                                var dataSet = anychart.data.set(data);
+                                var densityData = dataSet.mapAs({id: 'apha2', value: 'COUNT_USERS'});
+                                series = map.choropleth(densityData);
+                                series.labels(false);
+                                series.hovered().fill('#f48fb1').stroke(anychart.color.darken('#f48fb1'));
+                                series.tooltip(false);
+                                var scale = anychart.scales.ordinalColor([
+                                    {less: 2},
+                                    {from: 2, to: 5},
+                                    {from: 5, to: 10},
+                                    {from: 10, to: 15},
+                                    {from: 15, to: 30},
+                                    {from: 30, to: 50},
+                                    {from: 50, to: 100},
+                                    {from: 100, to: 500},
+                                    {greater: 500}
+                                ]);
+                                scale.colors(['#81d4fa', '#4fc3f7', '#29b6f6', '#039be5', '#0288d1', '#0277bd', '#01579b', '#014377', '#000000']);
+                                series.colorScale(scale);
+                                var zoomController = anychart.ui.zoom();
+                                zoomController.render(map);
+                                map.container('any4');
+                                map.draw();
+                                var mapping = dataSet.mapAs({x: "name", value: "COUNT_USERS", category: "continant"});
+                                var colors = anychart.scales.ordinalColor().colors(['#26959f', '#f18126', '#3b8ad8', '#60727b', '#e24b26']);
+                                var chart = anychart.tagCloud();
+                                chart.data(mapping).colorScale(colors).angles([-90, 0, 90,]);
+                                chart.tooltip(false);
+                                var colorRange = chart.colorRange();
+                                colorRange.enabled(true).colorLineSize(15);
+                                var normalFillFunction = chart.normal().fill();
+                                var hoveredFillFunction = chart.hovered().fill();
+                                chart.listen('pointsHover', function (e) {
+                                    if (e.actualTarget === colorRange) {
+                                        if (e.points.length) {
+                                            chart.normal({
+                                                fill: 'black 0.1'
+                                            });
+                                            chart.hovered({
+                                                fill: chart.colorScale().valueToColor(e.point.get('category'))
+                                            });
+                                        } else {
+                                            chart.normal({fill: normalFillFunction});
+                                            chart.hovered({fill: hoveredFillFunction});
+                                        }
                                     }
-                                }
-                            });
-                            chart.container('any5');
-                            chart.draw();
-                        }
-                    );}
+                                });
+                                chart.container('any5');
+                                chart.draw();
+                            }
+                        );
+                    }
                 });
             });
         </script>

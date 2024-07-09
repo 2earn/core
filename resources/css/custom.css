@@ -533,6 +533,10 @@ nav svg {
     color: black;
 }
 
+.table, .table>:not(caption)>*>* {
+    border-width: 0px;
+}
+
 .bg-soft-info.custom {
     width: 40px;
 }
@@ -553,4 +557,8 @@ nav svg {
 
 .navbar-menu .navbar-nav .nav-link.disabled {
     color: #999999;
+}
+.table, .table > :not(caption) > * > *, .table-bordered, .table-bordered td, .table-bordered th, .table-bordered > :not(caption) > * > * {
+    border-width: 0px;
+    border-color: transparent;
 }

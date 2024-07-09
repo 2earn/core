@@ -14,7 +14,7 @@
                 <div class="card-header">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h5 class="card-title mb-0">My Portfolio Statistics</h5>
+                            <h5 class="card-title mb-0">{{__('My Portfolio Statistics')}}</h5>
                         </div>
 
                     </div>
@@ -26,14 +26,13 @@
                                 <button class="accordion-button collapsed" type="button"
                                         data-bs-toggle="collapse" data-bs-target="#collapseOne"
                                         aria-expanded="true" aria-controls="collapseOne">
-                                    My Cash Balance
+                                    {{__('My Cash Balance')}}
                                 </button>
                             </h2>
                             <div id="collapseOne" class="accordion-collapse collapse"
                                  aria-labelledby="headingOne" data-bs-parent="#default-accordion-example">
                                 <div class="accordion-body">
                                     <div id="chart">
-
                                     </div>
                                 </div>
                             </div>
@@ -43,14 +42,13 @@
                                 <button class="accordion-button collapsed" type="button"
                                         data-bs-toggle="collapse" data-bs-target="#collapseTwo"
                                         aria-expanded="false" aria-controls="collapseTwo">
-                                    Share Price Evolution
+                                    {{__('Share Price Evolution')}}
                                 </button>
                             </h2>
                             <div id="collapseTwo" class="accordion-collapse collapse"
                                  aria-labelledby="headingTwo" data-bs-parent="#default-accordion-example">
                                 <div class="accordion-body">
                                     <div id="chart1">
-
                                     </div>
                                 </div>
                             </div>
@@ -60,7 +58,7 @@
                                 <button class="accordion-button collapsed" type="button"
                                         data-bs-toggle="collapse" data-bs-target="#collapseThree"
                                         aria-expanded="false" aria-controls="collapseThree">
-                                    Share Price
+                                    {{__(' Share Price')}}
                                 </button>
 
                             </h2>
@@ -69,16 +67,16 @@
                                 <div class="accordion-body">
                                     <div>
                                         <button id="date" type="button" class="btn btn-soft-secondary btn-sm">
-                                            By date
+                                            {{__('By date')}}
                                         </button>
                                         <button id="week" type="button" class="btn btn-soft-secondary btn-sm">
-                                            By week
+                                            {{__('By week')}}
                                         </button>
                                         <button id="month" type="button" class="btn btn-soft-secondary btn-sm">
-                                            By month
+                                            {{__('By month')}}
                                         </button>
                                         <button id="day" type="button" class="btn btn-soft-primary btn-sm">
-                                            By day
+                                            {{__('By day')}}
                                         </button>
                                     </div>
                                     <div id="chart2"></div>
@@ -90,49 +88,24 @@
             </div>
             <script id="rendered-js" type="module">
                 var options = {
-                    chart: {
-                        height: 350,
-                        type: 'area',
-                    },
-                    dataLabels: {
-                        enabled: false
-                    },
+                    chart: {height: 350, type: 'area',},
+                    dataLabels: {enabled: false},
                     series: [],
-                    title: {
-                        text: 'Cash Balance',
-                    },
-                    noData: {
-                        text: 'Loading...'
-                    },
-                    xaxis: {
-                        type: 'datetime',
-                    }
+                    title: {text: 'Cash Balance',},
+                    noData: {text: 'Loading...'},
+                    xaxis: {type: 'datetime',}
                 }
                 var options1 = {
-                    chart: {
-                        height: 350,
-                        type: 'area',
-                    },
-                    dataLabels: {
-                        enabled: false
-                    },
+                    chart: {height: 350, type: 'area',},
+                    dataLabels: {enabled: false},
                     series: [],
-                    title: {
-                        text: 'Share Price Evolution',
-                    },
-                    noData: {
-                        text: 'Loading...'
-                    },
-                    xaxis: {
-                        type: 'numeric',
-                    }
+                    title: {text: 'Share Price Evolution',},
+                    noData: {text: 'Loading...'},
+                    xaxis: {type: 'numeric',}
 
                 }
                 var options2 = {
-                    chart: {
-                        height: 350,
-                        type: 'line',
-                    },
+                    chart: {height: 350, type: 'line',},
                     plotOptions: {
                         bar: {
                             borderRadius: 10,
@@ -141,83 +114,41 @@
                                 enabled: true,
                                 formatter: function (val) {
                                     return val;
-                                },// top, center, bottom
+                                },
                             },
-
                         }
                     },
-                    stroke: {
-                        width: 2,
-                        curve: 'smooth'
-                    },
-
+                    stroke: {width: 2, curve: 'smooth'},
                     series: [],
-                    title: {
-                        text: 'Share Price Evolution',
-                    },
-                    noData: {
-                        text: 'Loading...'
-                    },
-                    xaxis: {
-                        type: 'date',
-                    }
-
+                    title: {text: 'Share Price Evolution',},
+                    noData: {text: 'Loading...'},
+                    xaxis: {type: 'date',}
                 }
 
-                var chart = new ApexCharts(
-                    document.querySelector("#chart"),
-                    options
-                );
-                var chart1 = new ApexCharts(
-                    document.querySelector("#chart1"),
-                    options1
-                );
-                var chart2 = new ApexCharts(
-                    document.querySelector("#chart2"),
-                    options2
-                );
+                var chart = new ApexCharts(document.querySelector("#chart"), options);
+                var chart1 = new ApexCharts(document.querySelector("#chart1"), options1);
+                var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
                 chart.render();
                 chart1.render();
 
                 window.addEventListener('load', () => {
                     var url = '{{route('API_usercash',['locale'=> app()->getLocale()])}}';
                     $.getJSON(url, function (response) {
-                        chart.updateSeries([{
-                            name: 'Balance',
-                            data: response
-                        }])
+                        chart.updateSeries([{name: 'Balance', data: response}])
                     });
 
                     var url3 = '{{route('API_shareevolutiondate',['locale'=> app()->getLocale()])}}';
                     $.getJSON(url3, function (response) {
-
-                        var series1 = {
-                            name: 'Sales-bar',
-                            type: 'bar',
-                            data: response
-                        };
-
-                        var series2 = {
-                            name: 'sales-line',
-                            type: 'line',
-                            data: response
-                        };
+                        var series1 = {name: 'Sales-bar', type: 'bar', data: response};
+                        var series2 = {name: 'sales-line', type: 'line', data: response};
                         chart2.updateSeries([series1, series2]);
                     });
 
                     $(document).on("click", "#date", function () {
                         var url3 = '{{route('API_shareevolutiondate',['locale'=> app()->getLocale()])}}';
                         $.getJSON(url3, function (response) {
-                            var series1 = {
-                                name: 'Sales-bar',
-                                type: 'bar',
-                                data: response
-                            };
-                            var series2 = {
-                                name: 'sales-line',
-                                type: 'line',
-                                data: response
-                            };
+                            var series1 = {name: 'Sales-bar', type: 'bar', data: response};
+                            var series2 = {name: 'sales-line', type: 'line', data: response};
 
                             chart2.updateSeries([series1, series2]);
                         });
@@ -225,56 +156,27 @@
                     $(document).on("click", "#week", function () {
                         var url3 = '{{route('API_shareevolutionweek',['locale'=> app()->getLocale()])}}';
                         $.getJSON(url3, function (response) {
-                            var series1 = {
-                                name: 'Sales-bar',
-                                type: 'bar',
-                                data: response
-                            };
+                            var series1 = {name: 'Sales-bar', type: 'bar', data: response};
 
-                            var series2 = {
-                                name: 'sales-line',
-                                type: 'line',
-                                data: response
-                            };
+                            var series2 = {name: 'sales-line', type: 'line', data: response};
                             chart2.updateSeries([series1, series2]);
                         });
                     });
                     $(document).on("click", "#month", function () {
                         var url3 = '{{route('API_shareevolutionmonth',['locale'=> app()->getLocale()])}}';
                         $.getJSON(url3, function (response) {
-                            var series1 = {
-                                name: 'Sales-bar',
-                                type: 'bar',
-                                data: response
-                            };
+                            var series1 = {name: 'Sales-bar', type: 'bar', data: response};
 
-                            var series2 = {
-                                name: 'sales-line',
-                                type: 'line',
-                                data: response
-                            };
+                            var series2 = {name: 'sales-line', type: 'line', data: response};
                             chart2.updateSeries([series1, series2]);
                         });
                     });
                     $(document).on("click", "#day", function () {
                         var url3 = '{{route('API_shareevolutionday',['locale'=> app()->getLocale()])}}';
                         $.getJSON(url3, function (response) {
-
-                            var series1 = {
-                                name: 'Sales-bar',
-                                type: 'bar',
-                                data: response
-
-                            };
-                            var series2 = {
-                                name: 'sales-line',
-                                type: 'line',
-                                data: response
-                            };
-
+                            var series1 = {name: 'Sales-bar', type: 'bar', data: response};
+                            var series2 = {name: 'sales-line', type: 'line', data: response};
                             chart2.updateSeries([series1, series2]);
-
-
                         });
                     });
                     chart2.render();
@@ -285,17 +187,9 @@
                         $.getJSON(url1),
                         $.getJSON(url2)
                     ).then(function (response1, response2) {
-                        var series1 = {
-                            name: 'Sales',
-                            type: 'area',
-                            data: response1[0]
-                        };
+                        var series1 = {name: 'Sales', type: 'area', data: response1[0]};
 
-                        var series2 = {
-                            name: 'Function',
-                            type: 'line',
-                            data: response2[0]
-                        };
+                        var series2 = {name: 'Function', type: 'line', data: response2[0]};
                         chart1.updateSeries([series1, series2]);
                     });
                 });
@@ -303,18 +197,15 @@
 
             <div class="d-flex align-items-center mb-3">
                 <div class="flex-grow-1">
-                    <h5 class="mb-0">Watchlist</h5>
+                    <h5 class="mb-0">{{__('Watchlist')}}</h5>
                 </div>
                 <div class="flexshrink-0">
-                    <button class="btn btn-success btn-sm"><i class="ri-star-line align-bottom"></i> Add
-                        Watchlist
+                    <button class="btn btn-success btn-sm"><i class="ri-star-line align-bottom"></i>
+                        {{__('Add Watchlist')}}
                     </button>
                 </div>
             </div>
-
             <div class="row">
-
-
                 <div class="col-xl-4 col-md-6">
                     <div class="card card-animate">
                         <div class="card-body">
@@ -326,31 +217,31 @@
                                                         class="mdi mdi-dots-horizontal"></i></span>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="#">View Details</a>
-                                        <a class="dropdown-item" href="#">Remove Watchlist</a>
+                                        <a class="dropdown-item" href="#">{{__('View Details')}}</a>
+                                        <a class="dropdown-item" href="#">{{__('Remove Watchlist')}}</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
                                 <img src="{{ Vite::asset('resources/images/svg/crypto-icons/ltc.svg') }}"
                                      class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
-                                <h6 class="ms-2 mb-0 fs-14">Sold Shares</h6>
+                                <h6 class="ms-2 mb-0 fs-14">{{__('Sold Shares')}}</h6>
                             </div>
                             <div class="row align-items-end g-0">
                                 <div class="col-6">
                                     <h5 class="mb-1 mt-4">{{number_format(getSelledActions(),0)}}</h5>
                                     <p class="text-danger fw-medium mb-0"><span
                                             class="text-muted ms-2 fs-12"></span></p>
-                                </div><!-- end col -->
+                                </div>
                                 <div class="col-6">
                                     <div class="apex-charts crypto-widget"
                                          data-colors='["--vz-danger", "--vz-transparent"]'
                                          id="litecoin_sparkline_charts" dir="ltr"></div>
-                                </div><!-- end col -->
-                            </div><!-- end row -->
-                        </div><!-- end card body -->
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div><!-- end card -->
+                </div>
                 <div class="col-xl-4 col-md-6">
                     <div class="card card-animate">
                         <div class="card-body">
@@ -362,31 +253,31 @@
                                                         class="mdi mdi-dots-horizontal"></i></span>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="#">View Details</a>
-                                        <a class="dropdown-item" href="#">Remove Watchlist</a>
+                                        <a class="dropdown-item" href="#">{{__('View Details')}}</a>
+                                        <a class="dropdown-item" href="#">{{__('Remove Watchlist')}}</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
                                 <img src="{{ Vite::asset('resources/images/svg/crypto-icons/eth.svg') }}"
                                      class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
-                                <h6 class="ms-2 mb-0 fs-14">Gifted Shares</h6>
+                                <h6 class="ms-2 mb-0 fs-14">{{__('Gifted Shares')}}</h6>
                             </div>
                             <div class="row align-items-end g-0">
                                 <div class="col-6">
                                     <h5 class="mb-1 mt-4">{{number_format(getGiftedShares(),0)}}</h5>
                                     <p class="text-danger fw-medium mb-0"><span
                                             class="text-muted ms-2 fs-12"></span></p>
-                                </div><!-- end col -->
+                                </div>
                                 <div class="col-6">
                                     <div class="apex-charts crypto-widget"
                                          data-colors='["--vz-danger", "--vz-transparent"]'
                                          id="eathereum_sparkline_charts" dir="ltr"></div>
-                                </div><!-- end col -->
-                            </div><!-- end row -->
-                        </div><!-- end card body -->
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div><!-- end card -->
+                </div>
                 <div class="col-xl-4 col-md-6">
                     <div class="card card-animate">
                         <div class="card-body">
@@ -398,15 +289,15 @@
                                                         class="mdi mdi-dots-horizontal"></i></span>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="#">View Details</a>
-                                        <a class="dropdown-item" href="#">Remove Watchlist</a>
+                                        <a class="dropdown-item" href="#">{{__('View Details')}}</a>
+                                        <a class="dropdown-item" href="#">{{__('Remove Watchlist')}}</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
                                 <img src="{{ Vite::asset('resources/images/svg/crypto-icons/xmr.svg') }}"
                                      class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
-                                <h6 class="ms-2 mb-0 fs-14">Gifted/Sold Shares</h6>
+                                <h6 class="ms-2 mb-0 fs-14">{{__('Gifted/Sold Shares')}}</h6>
                             </div>
                             <div class="row align-items-end g-0">
                                 <div class="col-6">
@@ -414,16 +305,16 @@
                                         %</h5>
                                     <p class="text-danger fw-medium mb-0"><span
                                             class="text-muted ms-2 fs-12"></span></p>
-                                </div><!-- end col -->
+                                </div>
                                 <div class="col-6">
                                     <div class="apex-charts crypto-widget"
                                          data-colors='["--vz-danger", "--vz-transparent"]'
                                          id="binance_sparkline_charts" dir="ltr"></div>
-                                </div><!-- end col -->
-                            </div><!-- end row -->
-                        </div><!-- end card body -->
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div><!-- end card -->
+                </div>
                 <div class="col-xl-4 col-md-6">
                     <div class="card card-animate">
                         <div class="card-body">
@@ -435,15 +326,15 @@
                                                         class="mdi mdi-dots-horizontal"></i></span>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="#">View Details</a>
-                                        <a class="dropdown-item" href="#">Remove Watchlist</a>
+                                        <a class="dropdown-item" href="#">{{__('View Details')}}</a>
+                                        <a class="dropdown-item" href="#">{{__('Remove Watchlist')}}</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
                                 <img src="{{ Vite::asset('resources/images/svg/crypto-icons/btc.svg') }}"
                                      class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
-                                <h6 class="ms-2 mb-0 fs-14">Shares actual price</h6>
+                                <h6 class="ms-2 mb-0 fs-14">{{__('Shares actual price')}}</h6>
                             </div>
                             <div class="row align-items-end g-0">
                                 <div class="col-6">
@@ -453,16 +344,16 @@
                                         @endif</h5>
                                     <p class="text-success fw-medium mb-0"><span
                                             class="text-muted ms-2 fs-12"></span></p>
-                                </div><!-- end col -->
+                                </div>
                                 <div class="col-6">
                                     <div class="apex-charts crypto-widget"
                                          data-colors='["--vz-success" , "--vz-transparent"]'
                                          id="bitcoin_sparkline_charts" dir="ltr"></div>
-                                </div><!-- end col -->
-                            </div><!-- end row -->
-                        </div><!-- end card body -->
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div><!-- end card -->
+                </div>
                 <div class="col-xl-4 col-md-6">
                     <div class="card card-animate">
                         <div class="card-body">
@@ -474,31 +365,31 @@
                                                         class="mdi mdi-dots-horizontal"></i></span>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="#">View Details</a>
-                                        <a class="dropdown-item" href="#">Remove Watchlist</a>
+                                        <a class="dropdown-item" href="#">{{__('View Details')}}</a>
+                                        <a class="dropdown-item" href="#">{{__('Remove Watchlist')}}</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
                                 <img src="{{ Vite::asset('resources/images/svg/crypto-icons/xmr.svg') }}"
                                      class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
-                                <h6 class="ms-2 mb-0 fs-14">Revenue</h6>
+                                <h6 class="ms-2 mb-0 fs-14">{{__('Revenue')}}</h6>
                             </div>
                             <div class="row align-items-end g-0">
                                 <div class="col-6">
                                     <h5 class="mb-1 mt-4">${{number_format(getRevenuShares(),2)}}</h5>
                                     <p class="text-danger fw-medium mb-0"><span
                                             class="text-muted ms-2 fs-12"></span></p>
-                                </div><!-- end col -->
+                                </div>
                                 <div class="col-6">
                                     <div class="apex-charts crypto-widget"
                                          data-colors='["--vz-danger", "--vz-transparent"]'
                                          id="binance_sparkline_charts" dir="ltr"></div>
-                                </div><!-- end col -->
-                            </div><!-- end row -->
-                        </div><!-- end card body -->
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div><!-- end card -->
+                </div>
                 <div class="col-xl-4 col-md-6">
                     <div class="card card-animate">
                         <div class="card-body">
@@ -510,15 +401,15 @@
                                                         class="mdi mdi-dots-horizontal"></i></span>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="#">View Details</a>
-                                        <a class="dropdown-item" href="#">Remove Watchlist</a>
+                                        <a class="dropdown-item" href="#">{{__('View Details')}}</a>
+                                        <a class="dropdown-item" href="#">{{__('Remove Watchlist')}}</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
                                 <img src="{{ Vite::asset('resources/images/svg/crypto-icons/xmr.svg') }}"
                                      class="bg-light rounded-circle p-1 avatar-xs img-fluid" alt="">
-                                <h6 class="ms-2 mb-0 fs-14">Transfer Made</h6>
+                                <h6 class="ms-2 mb-0 fs-14">{{__('Transfer Made')}}</h6>
                             </div>
                             <div class="row align-items-end g-0">
                                 <div class="col-6">
@@ -526,27 +417,25 @@
                                         ${{number_format(getRevenuSharesReal(),2)}}</h5>
                                     <p class="text-danger fw-medium mb-0"><span
                                             class="text-muted ms-2 fs-12"></span></p>
-                                </div><!-- end col -->
+                                </div>
                                 <div class="col-6">
                                     <div class="apex-charts crypto-widget"
                                          data-colors='["--vz-danger", "--vz-transparent"]'
                                          id="binance_sparkline_charts" dir="ltr"></div>
-                                </div><!-- end col -->
-                            </div><!-- end row -->
-                        </div><!-- end card body -->
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div><!-- end card -->
-
-
+                </div>
             </div>
 
             <div class="card" id="marketList">
                 <div class="card-header border-bottom-dashed d-flex align-items-center">
-                    <h4 class="card-title mb-0 flex-grow-1">Market Status</h4>
+                    <h4 class="card-title mb-0 flex-grow-1">{{__('Market Status')}}</h4>
                     <div class="flex-shrink-0">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-primary btn-sm">Today</button>
-                            <button type="button" class="btn btn-outline-primary btn-sm">Overall</button>
+                            <button type="button" class="btn btn-primary btn-sm">{{__('Today')}}</button>
+                            <button type="button" class="btn btn-outline-primary btn-sm">{{__('Overall')}}</button>
                         </div>
                     </div>
                 </div>
@@ -561,7 +450,6 @@
                             <th style=" border: none;">{{__('mobile')}}</th>
                             <th style=" border: none;">{{__('Name')}}</th>
                             <th style=" border: none;">{{__('total_shares')}}</th>
-
                             <th style=" border: none;">{{__('sell_price_now')}}</th>
                             <th style=" border: none;">{{__('gains')}}</th>
                             <th style=" border: none;">{{__('Real_Sold')}}</th>
@@ -572,18 +460,15 @@
                             <th style=" border: none ;text-align: center; ">{{__('average_price')}}</th>
                             <th style=" border: none;text-align: center; ">{{__('share_price')}}</th>
                             <th style=" border: none ;text-align: center;">{{__('heure_purchase')}}</th>
-
-
                         </tr>
                         </thead>
                         <tfoot>
                         </tfoot>
                         <tbody class="body2earn">
                         </tbody>
-
                     </table>
                 </div>
-            </div><!--end card-->
+            </div>
             <div class="modal fade" id="realsoldmodif" tabindex="-1" aria-labelledby="exampleModalgridLabel"
                  aria-modal="true">
                 <div class="modal-dialog">
@@ -597,18 +482,14 @@
                             <form action="javascript:void(0);">
                                 <div class="row g-3">
                                     <div class="col-xxl-6">
-
-                                        <!-- Basic example -->
                                         <div class="input-group">
-                                                    <span class="input-group-text"><img id="realsold-country" alt=""
-                                                                                        class="avatar-xxs me-2"></span>
+                                                    <span class="input-group-text">
+                                                        <img id="realsold-country" alt=""
+                                                             class="avatar-xxs me-2"></span>
                                             <input type="text" class="form-control" disabled id="realsold-phone"
                                                    aria-describedby="basic-addon1">
                                         </div>
-
-                                    </div><!--end col-->
-
-
+                                    </div>
                                     <div class="col-xxl-6">
                                         <div class="input-group">
                                             <input id="realsold-reciver" type="hidden">
@@ -618,7 +499,7 @@
                                             <span class="input-group-text">$</span>
 
                                         </div>
-                                    </div><!--end col-->
+                                    </div>
                                     <div class="col-lg-12">
                                         <div class="hstack gap-2 justify-content-end">
                                             <button type="button" class="btn btn-light"
@@ -626,21 +507,20 @@
                                             <button type="button" id="realsold-submit"
                                                     class="btn btn-primary">{{ __('Submit') }}</button>
                                         </div>
-                                    </div><!--end col-->
-                                </div><!--end row-->
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-        </div><!--end col-->
-
+        </div>
         <div class="col-xxl-3">
             <div class="card">
                 <div class="card-body bg-soft-warning">
                     <div class="d-flex">
                         <div class="flex-grow-1">
-                            <h5 class="fs-14 mb-3">My Portfolio</h5>
+                            <h5 class="fs-14 mb-3">{{__('My Portfolio')}}</h5>
                             <h2>$<?php echo $solde->soldeCB / 1 ?><small class="text-muted fs-14"></small></h2>
                             <p class="text-muted mb-0"><small class="badge badge-soft-success"><i
                                         class="ri-arrow-right-up-line fs-13 align-bottom"></i></small></p>
@@ -650,12 +530,12 @@
                         </div>
                     </div>
                 </div>
-            </div><!--end card-->
+            </div>
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="flex-grow-1">
-                            <h5 class="fs-14 mb-3">Today's Cash Transfert</h5>
+                            <h5 class="fs-14 mb-3">{{__('Today\'s Cash Transfert')}}</h5>
                             <h2>$<?php echo $vente_jour / 1 ?><small class="text-muted fs-14"></small></h2>
                             <p class="text-muted mb-0"><small class="badge badge-soft-success"><i
                                         class="ri-arrow-right-up-line fs-13 align-bottom"></i></small></p>
@@ -665,12 +545,12 @@
                         </div>
                     </div>
                 </div>
-            </div><!--end card-->
+            </div>
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="flex-grow-1">
-                            <h5 class="fs-14 mb-3">Overall Cash Transfert</h5>
+                            <h5 class="fs-14 mb-3">{{__('Overall Cash Transfert')}}</h5>
                             <h2>$<?php echo $vente_total / 1 ?><small class="text-muted fs-14"></small></h2>
                             <p class="text-muted mb-0"><small class="badge badge-soft-success"><i
                                         class="ri-arrow-right-up-line fs-13 align-bottom"></i></small></p>
@@ -680,10 +560,10 @@
                         </div>
                     </div>
                 </div>
-            </div><!--end card-->
+            </div>
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">Recent Transaction</h5>
+                    <h5 class="card-title mb-0">{{__('Recent Transaction')}}</h5>
                 </div>
                 <div class="card-body table-responsive">
                     <table id="transfert"
@@ -691,18 +571,11 @@
                            style="width:100%">
                         <tbody class="body2earn">
                         </tbody>
-
                     </table>
                 </div>
             </div>
-        </div><!--end card-->
+        </div>
     </div>
-    @section('script')
-        <script src="{{ URL::asset('/assets/libs/list.js/list.js.min.js') }}"></script>
-        <script src="{{ URL::asset('/assets/libs/list.pagination.js/list.pagination.js.min.js') }}"></script>
-        <script src="{{ URL::asset('assets/libs/swiper/swiper.min.js') }}"></script>
-        <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
-    @endsection
     <script>
         window.addEventListener('load', () => {
             $(document).on('turbolinks:load', function () {
@@ -773,20 +646,18 @@
                                     render: function (data, type, row) {
                                         if (Number(row.WinPurchaseAmount) === 1)
                                             return '<span class="badge bg-success" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                                '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >Transfert Made</span>';
+                                                '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >{{__('Transfert Made')}}</span>';
                                         if (Number(row.WinPurchaseAmount) === 0)
                                             return '<span class="badge bg-danger" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                                '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >Free</span>';
+                                                '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >{{__('Free')}}</span>';
 
                                         if (Number(row.WinPurchaseAmount) === 2)
                                             return '<span class="badge bg-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                                '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >Mixed</span>';
+                                                '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >{{__('Mixed')}}</span>';
                                     },
                                 },
                             ],
-                        "language": {
-                            "url": urlLang
-                        }
+                        "language": {"url": urlLang}
                     }
                 );
             });

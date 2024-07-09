@@ -1036,7 +1036,7 @@
                         const b = Swal.getFooter().querySelector('i');
                         const p22 = Swal.getFooter().querySelector('div');
                         p22.innerHTML = '<br>' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>';
-                        timerInterval = setInterval(() => {
+                        var timerInterval = setInterval(() => {
                             let timerLeft = Swal.getTimerLeft();
                             if (timerLeft !== null) {
                                 b.innerHTML = '{{trans('It will close in')}}' + (timerLeft / 1000).toFixed(0) + '{{trans('secondes')}}';
@@ -1062,29 +1062,29 @@
             });
 
 
-            document.addEventListener("turbolinks:load", function() {
-                    $("#validateMail").click(function (validateMailEvent) {
-                        validateMailEvent.preventDefault();
-                        validateMailEvent.stopImmediatePropagation();
-                        window.Livewire.emit("sendVerificationMail", $('#inputEmail').val());
-                    });
+            document.addEventListener("turbolinks:load", function () {
+                $("#validateMail").click(function (validateMailEvent) {
+                    validateMailEvent.preventDefault();
+                    validateMailEvent.stopImmediatePropagation();
+                    window.Livewire.emit("sendVerificationMail", $('#inputEmail').val());
+                });
 
-                    function showIdentitiesModal(typeIdentitie) {
-                        $('#identies-viewer-title').empty().append($('#' + typeIdentitie + '-id-image').attr('title'));
-                        $('#identies-viewer-content').empty().append($('#' + typeIdentitie + '-id-image').clone().width('100%').height('200%'));
-                        var myModal = new bootstrap.Modal(document.getElementById('identies-viewer'))
-                        myModal.show();
-                    }
+                function showIdentitiesModal(typeIdentitie) {
+                    $('#identies-viewer-title').empty().append($('#' + typeIdentitie + '-id-image').attr('title'));
+                    $('#identies-viewer-content').empty().append($('#' + typeIdentitie + '-id-image').clone().width('100%').height('200%'));
+                    var myModal = new bootstrap.Modal(document.getElementById('identies-viewer'))
+                    myModal.show();
+                }
 
-                    $("#show-identity-front").click(function () {
-                        showIdentitiesModal('front')
-                    });
-                    $("#show-identity-back").click(function () {
-                        showIdentitiesModal('back')
-                    });
-                    $("#show-identity-international").click(function () {
-                        showIdentitiesModal('international')
-                    });
+                $("#show-identity-front").click(function () {
+                    showIdentitiesModal('front')
+                });
+                $("#show-identity-back").click(function () {
+                    showIdentitiesModal('back')
+                });
+                $("#show-identity-international").click(function () {
+                    showIdentitiesModal('international')
+                });
             });
             window.addEventListener('profilePhotoError', event => {
                 Swal.fire({
@@ -1111,7 +1111,7 @@
                             const b = Swal.getFooter().querySelector('i');
                             const p22 = Swal.getFooter().querySelector('div');
                             p22.innerHTML = '<br>' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>';
-                            timerInterval = setInterval(() => {
+                            var timerInterval = setInterval(() => {
                                 let timerLeft = Swal.getTimerLeft();
                                 if (timerLeft !== null) {
                                     b.innerHTML = '{{trans('It will close in')}}' + (timerLeft / 1000).toFixed(0) + '{{trans('secondes')}}';

@@ -1,7 +1,7 @@
 import {defineConfig} from 'vite';
 import laravel from 'laravel-vite-plugin';
 import inject from '@rollup/plugin-inject';
-import { viteStaticCopy } from 'vite-plugin-static-copy'
+import {viteStaticCopy} from 'vite-plugin-static-copy'
 
 import fs from 'fs-extra';
 import path from 'path';
@@ -79,7 +79,7 @@ export default defineConfig({
                 'resources/anychart/anychart-table.min.js',
                 'resources/js/livewire-turbolinks.js',
                 'resources/js/pages/form-validation.init.js',
-                'resources/js/pages/crypto-kyc.init.js'
+                'resources/js/pages/crypto-kyc.init.js',
             ],
             refresh: true,
             server: {
@@ -94,6 +94,24 @@ export default defineConfig({
                 {
                     src: 'resources/js/utils.js',
                     dest: 'utils.js'
+                }, {
+                    src: 'resources/icons/wired-gradient-751-share.json',
+                    dest: 'icons'
+                }, {
+                    src: 'resources/icons/146-basket-trolley-shopping-card-gradient-edited.json',
+                    dest: 'icons'
+                }, {
+                    src: 'resources/icons/981-consultation-gradient-edited.json',
+                    dest: 'icons'
+                }, {
+                    src: 'resources/icons/501-free-0-morph-gradient-edited.json',
+                    dest: 'icons'
+                }, {
+                    src: 'resources/icons/298-coins-gradient-edited.json',
+                    dest: 'icons'
+                }, {
+                    src: 'resources/icons/coin.json',
+                    dest: 'icons'
                 }
             ]
         }),

@@ -347,7 +347,9 @@
 
 .navbar-header .btn-topbar {
     height: 42px;
-    width: 42px
+    width: 42px;
+    padding: .5rem;
+
 }
 
 @media (max-width: 360px) {
@@ -772,7 +774,7 @@
 }
 
 .page-content {
-    padding: calc(70px + 1.5rem) .75rem 60px
+    padding: calc(50px + 1.5rem) .75rem 60px
 }
 
 .navbar-menu {
@@ -16070,3 +16072,4 @@ span.flatpickr-weekday {
 .hide {
     display: none;
 }
+

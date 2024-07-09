@@ -65,7 +65,7 @@
 
     </script>
     <div class="auth-page-wrapper pt-5">
-        <div class="auth-one-bg-position auth-one-bg col-lg-6 d-none d-md-block" id="auth-particles">
+        <div class="auth-one-bg-position auth-one-bg col-lg-12 d-none d-md-block" id="auth-particles">
             <div class="bg-overlay"></div>
             <div class="shape">
                 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -171,7 +171,7 @@
                                             <div class="center" style=" display: flex;  justify-content: center;">
                                                 <div class="dropdown ms-1 topbar-head-dropdown header-item  ">
                                                     <button type="button"
-                                                            class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                                                            class="btn btn-topbar btn-ghost-secondary "
                                                             data-bs-toggle="dropdown" aria-haspopup="true"
                                                             aria-expanded="false">
                                                         <img

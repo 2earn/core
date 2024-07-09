@@ -7,14 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="2earn.cash" name="description"/>
     <meta content="Themesbrand" name="author"/>
-    <img src="{{ Vite::asset('resources/images/2earn.png') }}" id="super-logo" alt="" height="60">
     <link rel="shortcut icon" href="{{ Vite::asset('resources/images/favicon.ico')}}">
-    @include('layouts.head-css')
     @livewireStyles
     <script src="https://www.google.com/recaptcha/api.js?render={{config('services.recaptcha.key')}}"></script>
-    <!-- vite -->
-    @vite([ 'resources/css/app.css','resources/css/intlTelInput.min.css','resources/js/sweetalert2@11.js','resources/js/appWithoutNav.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
-    <!-- vite -->
+    @include('components.styles')
+    @vite([ 'resources/css/intlTelInput.min.css','resources/js/sweetalert2@11.js','resources/js/appWithoutNav.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
 </head>
 <body>
 <div class="container-fluid">

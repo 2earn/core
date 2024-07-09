@@ -397,3 +397,8 @@ label, h1, h2, h3, h4, h5, h6, a, button, p, i, span, strong, .btn, div {
 .navbar-menu .navbar-nav .nav-link.disabled {
     color: #999999;
 }
+
+.table, .table > :not(caption) > * > *, .table-bordered, .table-bordered > :not(caption) > * > * {
+    border-width: 0px;
+    border-color: transparent;
+}

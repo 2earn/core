@@ -248,29 +248,7 @@
     <div class="row">
         {{ $contactUsers->links() }}
     </div>
-    <script type="module">
-        function initNewUserContact() {
-            window.Livewire.emit('initNewUserContact');
-        }
-
-        function validateAdd() {
-            var valid = true;
-            inputcontactName = document.getElementById("contactName");
-            inputcontactLastName = document.getElementById("contactLastName");
-            if (inputcontactName.value.trim() === "") {
-                inputcontactName.style.borderColor = '#FF0000';
-                valid = false;
-            } else {
-                inputcontactName.style.borderColor = '#008000';
-            }
-            if (inputcontactLastName.value.trim() === "") {
-                inputcontactLastName.style.borderColor = '#FF0000';
-                valid = false;
-            } else {
-                inputcontactLastName.style.borderColor = '#008000';
-            }
-            return valid;
-        }
+    <script>
 
         function saveContactEvent() {
             inputphone = document.getElementById("ipAdd2Contact");
@@ -299,6 +277,30 @@
             }
         }
 
+        function validateAdd() {
+            var valid = true;
+            inputcontactName = document.getElementById("contactName");
+            inputcontactLastName = document.getElementById("contactLastName");
+            if (inputcontactName.value.trim() === "") {
+                inputcontactName.style.borderColor = '#FF0000';
+                valid = false;
+            } else {
+                inputcontactName.style.borderColor = '#008000';
+            }
+            if (inputcontactLastName.value.trim() === "") {
+                inputcontactLastName.style.borderColor = '#FF0000';
+                valid = false;
+            } else {
+                inputcontactLastName.style.borderColor = '#008000';
+            }
+            return valid;
+        }
+
+        function initNewUserContact() {
+            window.Livewire.emit('initNewUserContact');
+        }
+
+
         function editContact(id) {
             window.Livewire.emit('initUserContact', id);
         }
@@ -326,6 +328,9 @@
 
 
         }
+    </script>
+    <script type="module">
+
 
         $(document).on('turbolinks:load', function () {
             $('#contacts_table').DataTable({

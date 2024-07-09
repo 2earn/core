@@ -1,5 +1,5 @@
 <div data-turbolinks='false'>
-    <div class="auth-page-wrapper auth-bg-cover py-2 justify-content-center align-items-center min-vh-75">
+    <div class="auth-page-wrapper auth-bg-cover mt-5 py-2 justify-content-center align-items-center min-vh-75">
         <div class="bg-overlay"></div>
         <div class="auth-page-content">
             <script>
@@ -154,7 +154,7 @@
                                                 <div class="center" style=" display: flex;  justify-content: center;">
                                                     <div class="dropdown ms-1 topbar-head-dropdown header-item  ">
                                                         <button type="button"
-                                                                class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                                                                class="btn btn-topbar btn-ghost-secondary"
                                                                 data-bs-toggle="dropdown" aria-haspopup="true"
                                                                 aria-expanded="false">
                                                             <img
