@@ -11,8 +11,6 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
-                    <div class="card-header ">
-                    </div>
                     <div class="card-body table-responsive">
                         <table id="HistoryNotificationTable"
                                class="table nowrap dt-responsive align-middle table-hover table-bordered"

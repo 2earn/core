@@ -86,114 +86,6 @@
                     </div>
                 </div>
             </div>
-            <script id="rendered-js" type="module">
-                var options = {
-                    chart: {height: 350, type: 'area',},
-                    dataLabels: {enabled: false},
-                    series: [],
-                    title: {text: 'Cash Balance',},
-                    noData: {text: 'Loading...'},
-                    xaxis: {type: 'datetime',}
-                }
-                var options1 = {
-                    chart: {height: 350, type: 'area',},
-                    dataLabels: {enabled: false},
-                    series: [],
-                    title: {text: 'Share Price Evolution',},
-                    noData: {text: 'Loading...'},
-                    xaxis: {type: 'numeric',}
-
-                }
-                var options2 = {
-                    chart: {height: 350, type: 'line',},
-                    plotOptions: {
-                        bar: {
-                            borderRadius: 10,
-                            dataLabels: {
-                                position: 'top',
-                                enabled: true,
-                                formatter: function (val) {
-                                    return val;
-                                },
-                            },
-                        }
-                    },
-                    stroke: {width: 2, curve: 'smooth'},
-                    series: [],
-                    title: {text: 'Share Price Evolution',},
-                    noData: {text: 'Loading...'},
-                    xaxis: {type: 'date',}
-                }
-
-                var chart = new ApexCharts(document.querySelector("#chart"), options);
-                var chart1 = new ApexCharts(document.querySelector("#chart1"), options1);
-                var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
-                chart.render();
-                chart1.render();
-
-                window.addEventListener('load', () => {
-                    var url = '{{route('API_usercash',['locale'=> app()->getLocale()])}}';
-                    $.getJSON(url, function (response) {
-                        chart.updateSeries([{name: 'Balance', data: response}])
-                    });
-
-                    var url3 = '{{route('API_shareevolutiondate',['locale'=> app()->getLocale()])}}';
-                    $.getJSON(url3, function (response) {
-                        var series1 = {name: 'Sales-bar', type: 'bar', data: response};
-                        var series2 = {name: 'sales-line', type: 'line', data: response};
-                        chart2.updateSeries([series1, series2]);
-                    });
-
-                    $(document).on("click", "#date", function () {
-                        var url3 = '{{route('API_shareevolutiondate',['locale'=> app()->getLocale()])}}';
-                        $.getJSON(url3, function (response) {
-                            var series1 = {name: 'Sales-bar', type: 'bar', data: response};
-                            var series2 = {name: 'sales-line', type: 'line', data: response};
-
-                            chart2.updateSeries([series1, series2]);
-                        });
-                    });
-                    $(document).on("click", "#week", function () {
-                        var url3 = '{{route('API_shareevolutionweek',['locale'=> app()->getLocale()])}}';
-                        $.getJSON(url3, function (response) {
-                            var series1 = {name: 'Sales-bar', type: 'bar', data: response};
-
-                            var series2 = {name: 'sales-line', type: 'line', data: response};
-                            chart2.updateSeries([series1, series2]);
-                        });
-                    });
-                    $(document).on("click", "#month", function () {
-                        var url3 = '{{route('API_shareevolutionmonth',['locale'=> app()->getLocale()])}}';
-                        $.getJSON(url3, function (response) {
-                            var series1 = {name: 'Sales-bar', type: 'bar', data: response};
-
-                            var series2 = {name: 'sales-line', type: 'line', data: response};
-                            chart2.updateSeries([series1, series2]);
-                        });
-                    });
-                    $(document).on("click", "#day", function () {
-                        var url3 = '{{route('API_shareevolutionday',['locale'=> app()->getLocale()])}}';
-                        $.getJSON(url3, function (response) {
-                            var series1 = {name: 'Sales-bar', type: 'bar', data: response};
-                            var series2 = {name: 'sales-line', type: 'line', data: response};
-                            chart2.updateSeries([series1, series2]);
-                        });
-                    });
-                    chart2.render();
-                    var url1 = '{{route('API_shareevolution',['locale'=> app()->getLocale()])}}';
-                    var url2 = '{{route('API_actionvalues',['locale'=> app()->getLocale()])}}';
-
-                    $.when(
-                        $.getJSON(url1),
-                        $.getJSON(url2)
-                    ).then(function (response1, response2) {
-                        var series1 = {name: 'Sales', type: 'area', data: response1[0]};
-
-                        var series2 = {name: 'Function', type: 'line', data: response2[0]};
-                        chart1.updateSeries([series1, series2]);
-                    });
-                });
-            </script>
 
             <div class="d-flex align-items-center mb-3">
                 <div class="flex-grow-1">
@@ -576,90 +468,193 @@
             </div>
         </div>
     </div>
-    <script>
-        window.addEventListener('load', () => {
-            $(document).on('turbolinks:load', function () {
-                $('#transfert').DataTable(
-                    {
-                        "ordering": true,
-                        retrieve: true,
-                        "colReorder": false,
-                        "orderCellsTop": true,
-                        "fixedHeader": true,
-                        "order": [[2, 'desc']],
-                        "processing": true,
-                        "serverSide": false,
-                        "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                        search: {return: true},
-                        autoWidth: false,
-                        bAutoWidth: false,
-                        "ajax": "{{route('API_transfert',['locale'=> app()->getLocale()])}}",
-                        "columns": [{data: 'value'}, {data: 'Description'}, {data: 'formatted_created_at'},],
-                        "language": {"url": urlLang}
-                    }
-                );
+    <script type="module">
+        $(document).on('turbolinks:load', function () {
+            $('#transfert').DataTable(
+                {
+                    "ordering": true,
+                    retrieve: true,
+                    "colReorder": false,
+                    "orderCellsTop": true,
+                    "fixedHeader": true,
+                    "order": [[2, 'desc']],
+                    "processing": true,
+                    "serverSide": false,
+                    "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
+                    search: {return: true},
+                    autoWidth: false,
+                    bAutoWidth: false,
+                    "ajax": "{{route('API_transfert',['locale'=> app()->getLocale()])}}",
+                    "columns": [{data: 'value'}, {data: 'Description'}, {data: 'formatted_created_at'},],
+                    "language": {"url": urlLang}
+                }
+            );
 
-                $('#shares-sold').DataTable(
-                    {
-                        "ordering": true,
-                        retrieve: true,
-                        "colReorder": false,
-                        dom: 'Bfrtip',
-                        buttons: [
-                            {extend: 'copyHtml5', text: '<i class="ri-file-copy-2-line"></i>', titleAttr: 'Copy'},
-                            {extend: 'excelHtml5', text: '<i class="ri-file-excel-2-line"></i>', titleAttr: 'Excel'},
-                            {extend: 'csvHtml5', text: '<i class="ri-file-text-line"></i>', titleAttr: 'CSV'},
-                            {extend: 'pdfHtml5', text: '<i class="ri-file-pdf-line"></i>', titleAttr: 'PDF'}
-                        ],
-                        "orderCellsTop": true,
-                        "fixedHeader": true,
-                        "order": [[14, 'desc']],
-                        "processing": true,
-                        "serverSide": false,
-                        "pageLength": 1000,
-                        "aLengthMenu": [[10, 30, 50, 100, 1000], [10, 30, 50, 100, 1000]],
-                        search: {return: true},
-                        autoWidth: false,
-                        bAutoWidth: false,
-                        "ajax": "{{route('API_sharessoldes',['locale'=> app()->getLocale()])}}",
-                        "columns": [
-                            {data: 'formatted_created_at_date'},
-                            {data: 'flag'},
-                            {data: 'mobile'},
-                            {data: 'Name'},
-                            {data: 'total_shares'},
-                            {data: 'sell_price_now'},
-                            {data: 'gain'},
-                            {data: 'WinPurchaseAmount'},
-                            {data: 'Balance', "className": 'editable'},
-                            {data: 'total_price'},
-                            {data: 'value'},
-                            {data: 'gifted_shares'},
-                            {data: 'PU'},
-                            {data: 'share_price'},
-                            {data: 'formatted_created_at'},
-                        ],
-                        "columnDefs":
-                            [
-                                {
-                                    "targets": [7],
-                                    render: function (data, type, row) {
-                                        if (Number(row.WinPurchaseAmount) === 1)
-                                            return '<span class="badge bg-success" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                                '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >{{__('Transfert Made')}}</span>';
-                                        if (Number(row.WinPurchaseAmount) === 0)
-                                            return '<span class="badge bg-danger" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                                '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >{{__('Free')}}</span>';
+            $('#shares-sold').DataTable(
+                {
+                    "ordering": true,
+                    retrieve: true,
+                    "colReorder": false,
+                    dom: 'Bfrtip',
+                    buttons: [
+                        {extend: 'copyHtml5', text: '<i class="ri-file-copy-2-line"></i>', titleAttr: 'Copy'},
+                        {extend: 'excelHtml5', text: '<i class="ri-file-excel-2-line"></i>', titleAttr: 'Excel'},
+                        {extend: 'csvHtml5', text: '<i class="ri-file-text-line"></i>', titleAttr: 'CSV'},
+                        {extend: 'pdfHtml5', text: '<i class="ri-file-pdf-line"></i>', titleAttr: 'PDF'}
+                    ],
+                    "orderCellsTop": true,
+                    "fixedHeader": true,
+                    "order": [[14, 'desc']],
+                    "processing": true,
+                    "serverSide": false,
+                    "pageLength": 1000,
+                    "aLengthMenu": [[10, 30, 50, 100, 1000], [10, 30, 50, 100, 1000]],
+                    search: {return: true},
+                    autoWidth: false,
+                    bAutoWidth: false,
+                    "ajax": "{{route('API_sharessoldes',['locale'=> app()->getLocale()])}}",
+                    "columns": [
+                        {data: 'formatted_created_at_date'},
+                        {data: 'flag'},
+                        {data: 'mobile'},
+                        {data: 'Name'},
+                        {data: 'total_shares'},
+                        {data: 'sell_price_now'},
+                        {data: 'gain'},
+                        {data: 'WinPurchaseAmount'},
+                        {data: 'Balance', "className": 'editable'},
+                        {data: 'total_price'},
+                        {data: 'value'},
+                        {data: 'gifted_shares'},
+                        {data: 'PU'},
+                        {data: 'share_price'},
+                        {data: 'formatted_created_at'},
+                    ],
+                    "columnDefs":
+                        [
+                            {
+                                "targets": [7],
+                                render: function (data, type, row) {
+                                    if (Number(row.WinPurchaseAmount) === 1)
+                                        return '<span class="badge bg-success" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                            '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >{{__('Transfert Made')}}</span>';
+                                    if (Number(row.WinPurchaseAmount) === 0)
+                                        return '<span class="badge bg-danger" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                            '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >{{__('Free')}}</span>';
 
-                                        if (Number(row.WinPurchaseAmount) === 2)
-                                            return '<span class="badge bg-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                                '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >{{__('Mixed')}}</span>';
-                                    },
+                                    if (Number(row.WinPurchaseAmount) === 2)
+                                        return '<span class="badge bg-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                            '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >{{__('Mixed')}}</span>';
                                 },
-                            ],
-                        "language": {"url": urlLang}
-                    }
-                );
+                            },
+                        ],
+                    "language": {"url": urlLang}
+                }
+            );
+        });
+    </script>
+
+    <script id="rendered-js" type="module">
+        var options = {
+            chart: {height: 350, type: 'area',},
+            dataLabels: {enabled: false},
+            series: [],
+            title: {text: 'Cash Balance',},
+            noData: {text: 'Loading...'},
+            xaxis: {type: 'datetime',}
+        }
+        var options1 = {
+            chart: {height: 350, type: 'area',},
+            dataLabels: {enabled: false},
+            series: [],
+            title: {text: 'Share Price Evolution',},
+            noData: {text: 'Loading...'},
+            xaxis: {type: 'numeric',}
+
+        }
+        var options2 = {
+            chart: {height: 350, type: 'line',},
+            plotOptions: {
+                bar: {
+                    borderRadius: 10,
+                    dataLabels: {
+                        position: 'top', enabled: true, formatter: function (val) {
+                            return val;
+                        }
+                    },
+                }
+            },
+            stroke: {width: 2, curve: 'smooth'},
+            series: [],
+            title: {text: 'Share Price Evolution',},
+            noData: {text: 'Loading...'},
+            xaxis: {type: 'date',}
+        }
+
+        $(document).on('turbolinks:load', function () {
+            var chart = new ApexCharts(document.querySelector("#chart"), options);
+            var chart1 = new ApexCharts(document.querySelector("#chart1"), options1);
+            var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
+            chart.render();
+            chart1.render();
+
+            var url = '{{route('API_usercash',['locale'=> app()->getLocale()])}}';
+            $.getJSON(url, function (response) {
+                chart.updateSeries([{name: 'Balance', data: response}])
+            });
+
+            var url3 = '{{route('API_shareevolutiondate',['locale'=> app()->getLocale()])}}';
+            $.getJSON(url3, function (response) {
+                var series1 = {name: 'Sales-bar', type: 'bar', data: response};
+                var series2 = {name: 'sales-line', type: 'line', data: response};
+                chart2.updateSeries([series1, series2]);
+            });
+
+            $(document).on("click", "#date", function () {
+                var url3 = '{{route('API_shareevolutiondate',['locale'=> app()->getLocale()])}}';
+                $.getJSON(url3, function (response) {
+                    var series1 = {name: 'Sales-bar', type: 'bar', data: response};
+                    var series2 = {name: 'sales-line', type: 'line', data: response};
+
+                    chart2.updateSeries([series1, series2]);
+                });
+            });
+            $(document).on("click", "#week", function () {
+                var url3 = '{{route('API_shareevolutionweek',['locale'=> app()->getLocale()])}}';
+                $.getJSON(url3, function (response) {
+                    var series1 = {name: 'Sales-bar', type: 'bar', data: response};
+                    var series2 = {name: 'sales-line', type: 'line', data: response};
+                    chart2.updateSeries([series1, series2]);
+                });
+            });
+            $(document).on("click", "#month", function () {
+                var url3 = '{{route('API_shareevolutionmonth',['locale'=> app()->getLocale()])}}';
+                $.getJSON(url3, function (response) {
+                    var series1 = {name: 'Sales-bar', type: 'bar', data: response};
+                    var series2 = {name: 'sales-line', type: 'line', data: response};
+                    chart2.updateSeries([series1, series2]);
+                });
+            });
+            $(document).on("click", "#day", function () {
+                var url3 = '{{route('API_shareevolutionday',['locale'=> app()->getLocale()])}}';
+                $.getJSON(url3, function (response) {
+                    var series1 = {name: 'Sales-bar', type: 'bar', data: response};
+                    var series2 = {name: 'sales-line', type: 'line', data: response};
+                    chart2.updateSeries([series1, series2]);
+                });
+            });
+            chart2.render();
+            var url1 = '{{route('API_shareevolution',['locale'=> app()->getLocale()])}}';
+            var url2 = '{{route('API_actionvalues',['locale'=> app()->getLocale()])}}';
+
+            $.when(
+                $.getJSON(url1),
+                $.getJSON(url2)
+            ).then(function (response1, response2) {
+                var series1 = {name: 'Sales', type: 'area', data: response1[0]};
+
+                var series2 = {name: 'Function', type: 'line', data: response2[0]};
+                chart1.updateSeries([series1, series2]);
             });
         });
     </script>
