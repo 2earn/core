@@ -83,7 +83,7 @@
                 didOpen: () => {
                     const b = Swal.getFooter().querySelector('i')
                     const p22 = Swal.getFooter().querySelector('div')
-                    timerInterval = setInterval(() => {
+                    var timerInterval = setInterval(() => {
                         p22.innerHTML = '{{trans('It will close in')}}' + ' ' + (Swal.getTimerLeft() / 1000).toFixed(0) + ' ' + '{{trans('secondes')}}' + '</br>' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a> '
                     }, 100)
                 },

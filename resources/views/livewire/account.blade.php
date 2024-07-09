@@ -997,7 +997,7 @@
                         const p22 = Swal.getFooter().querySelector('div');
                         p22.innerHTML = '<br>' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>';
 
-                        timerInterval = setInterval(() => {
+                        var timerInterval = setInterval(() => {
                             let timerLeft = Swal.getTimerLeft();
                             if (timerLeft !== null) {
                                 b.innerHTML = '{{trans('It will close in')}}' + (timerLeft / 1000).toFixed(0) + '{{trans('secondes')}}';
