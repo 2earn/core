@@ -7,7 +7,7 @@
     <div class="row">
         @include('layouts.flash-messages')
     </div>
-    @if($flash)
+        @if($flash)
         <div class="row justify-content-center">
             <div class="col-12">
                 <div class="card vip-background">
@@ -93,9 +93,9 @@
                                class="text-decoration-underline">{{ __('see_details') }}</a>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
-                            <lord-icon
-                                src="{{ URL::asset('assets/icons/298-coins-gradient-edited.json') }}" trigger="loop"
-                                colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
+                            <lord-icon src="{{ URL::asset('build/icons/nlmjynuq.json') }}"
+                                trigger="hover"
+                                style="width:55px;height:55px">
                             </lord-icon>
                         </div>
 
@@ -156,7 +156,7 @@
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <lord-icon
-                                src="{{ URL::asset('assets/icons/146-basket-trolley-shopping-card-gradient-edited.json') }}"
+                                src="{{ URL::asset('build/icons/146-basket-trolley-shopping-card-gradient-edited.json') }}"
                                 trigger="loop"
                                 colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
                             </lord-icon>
@@ -250,7 +250,7 @@
                                class="text-decoration-underline">{{ __('see_details') }}</a>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
-                            <lord-icon src="{{ URL::asset('assets/icons/981-consultation-gradient-edited.json') }}"
+                            <lord-icon src="{{ URL::asset('build/icons/981-consultation-gradient-edited.json') }}"
                                        trigger="loop"
                                        colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
                             </lord-icon>
@@ -294,7 +294,7 @@
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <lord-icon
-                                src="{{ URL::asset('assets/icons/wired-gradient-751-share.json') }}" trigger="loop"
+                                src="{{ URL::asset('build/icons/wired-gradient-751-share.json') }}" trigger="loop"
                                 colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
                             </lord-icon>
                         </div>

@@ -17,9 +17,6 @@ Alpine.start() ;
 import Turbolinks from "turbolinks";
 Turbolinks.start();
 
-import { defineElement } from 'lord-icon-element';
-window.defineElement = defineElement;
-
 import select2 from 'select2';
 
 import Swiper from 'swiper';
@@ -59,7 +56,8 @@ window.SimpleBar  = SimpleBar ;
 
 import 'simplebar/dist/simplebar.css';
 
-
+import lottie from "lottie-web";
+import { defineElement } from "@lordicon/element";
 
 import * as FilePond from 'filepond';
 import 'filepond/dist/filepond.min.css';

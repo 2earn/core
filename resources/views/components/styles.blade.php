@@ -1,4 +1,4 @@
-@vite(['resources/css/select2.min.css','resources/js/layout.js'])
+@vite(['resources/css/select2.min.css','resources/js/layout.js','resources/js/lordicon.js'])
 @if(config('app.available_locales')[app()->getLocale()]['direction'] === 'rtl')
     @vite(['resources/css/bootstrap-rtl.css','resources/css/icons-rtl.css','resources/css/app-rtl.css','resources/css/custom-rtl.css'])
 @else
