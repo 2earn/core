@@ -80,7 +80,6 @@ export default defineConfig({
                 'resources/js/livewire-turbolinks.js',
                 'resources/js/pages/form-validation.init.js',
                 'resources/js/pages/crypto-kyc.init.js',
-                'resources/js/lordicon.js'
             ],
             refresh: true,
             server: {

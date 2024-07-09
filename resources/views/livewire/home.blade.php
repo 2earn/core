@@ -7,7 +7,7 @@
     <div class="row">
         @include('layouts.flash-messages')
     </div>
-        @if($flash)
+    @if($flash)
         <div class="row justify-content-center">
             <div class="col-12">
                 <div class="card vip-background">
@@ -94,8 +94,8 @@
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <lord-icon src="{{ URL::asset('build/icons/nlmjynuq.json') }}"
-                                trigger="hover"
-                                style="width:55px;height:55px">
+                                       trigger="hover"
+                                       style="width:55px;height:55px">
                             </lord-icon>
                         </div>
 
@@ -505,7 +505,7 @@
         </div>
     </div>
     @push('scripts')
-        @vite('resources/js/lordicon.js');
+        <script src="https://cdn.lordicon.com/lordicon.js"></script>
         @vite('resources/js/pages/form-validation.init.js');
         @if($flash)
             <script>
@@ -636,9 +636,9 @@
             );
 
             var series;
-            $( document ).ready(function() {
+            $(document).ready(function () {
                 anychart.onDocumentReady(function () {
-                    if ($('#any4').length > 0 && $('#any4').is(':empty')){
+                    if ($('#any4').length > 0 && $('#any4').is(':empty')) {
                         anychart.data.loadJsonFile(
                             "{{route('API_stat_countries',app()->getLocale())}}",
                             function (data) {
