@@ -93,9 +93,10 @@
                                class="text-decoration-underline">{{ __('see_details') }}</a>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
-                            <lord-icon src="{{ URL::asset('build/icons/coin.json') }}"
-                                       trigger="hover"
-                                       style="width:55px;height:55px">
+                            <lord-icon
+                                src="https://cdn.lordicon.com/nlmjynuq.json"
+                                trigger="hover"
+                                style="width:55px;height:55px">
                             </lord-icon>
                         </div>
 
