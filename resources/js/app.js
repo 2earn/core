@@ -17,6 +17,8 @@ Alpine.start() ;
 import Turbolinks from "turbolinks";
 Turbolinks.start();
 
+import { defineElement } from 'lord-icon-element';
+window.defineElement = defineElement;
 
 import select2 from 'select2';
 

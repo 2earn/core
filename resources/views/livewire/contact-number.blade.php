@@ -100,7 +100,56 @@
             </div>
         </div>
     </div>
+    <script>
+        function setActiveNumber($id) {
+            try {
+                $('#modalCeckContactNumber').modal('hide');
+            } catch (e) {
+            }
+
+            Swal.fire({
+                title: '{{ __('activate_number') }}',
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: '{{trans('ok')}}',
+                cancelButtonText: '{{trans('canceled !')}}',
+                denyButtonText: '{{trans('No')}}',
+                customClass: {
+                    actions: 'my-actions',
+                    cancelButton: 'order-1 right-gap',
+                    confirmButton: 'order-2',
+                    denyButton: 'order-3',
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.Livewire.emit('setActiveNumber', 1, $id);
+                }
+            });
+        }
+
+        function deleteContactNUmber($id) {
+            Swal.fire({
+                title: '{{ __('delete_contact') }}',
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: '{{trans('ok')}}',
+                cancelButtonText: '{{trans('canceled !')}}',
+                denyButtonText: '{{trans('No')}}',
+                customClass: {
+                    actions: 'my-actions',
+                    cancelButton: 'order-1 right-gap',
+                    confirmButton: 'order-2',
+                    denyButton: 'order-3',
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.Livewire.emit('deleteContact', $id);
+                }
+            });
+        }
+    </script>
     <script type="module">
+
         $(document).on('turbolinks:load', function () {
             var timerInterval;
             $("#saveAddContactNumber").click(function (event) {
@@ -109,53 +158,6 @@
                 $('#AddContactNumberModel').modal('hide');
                 window.Livewire.emit('preSaveContact', $("#outputphoneContactNumber").val(), $("#isoContactNumber").val(), $("#phoneContactNumber").val());
             });
-
-            function setActiveNumber($id) {
-                try {
-                    $('#modalCeckContactNumber').modal('hide');
-                } catch (e) {
-                }
-
-                Swal.fire({
-                    title: '{{ __('activate_number') }}',
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: '{{trans('ok')}}',
-                    cancelButtonText: '{{trans('canceled !')}}',
-                    denyButtonText: '{{trans('No')}}',
-                    customClass: {
-                        actions: 'my-actions',
-                        cancelButton: 'order-1 right-gap',
-                        confirmButton: 'order-2',
-                        denyButton: 'order-3',
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.Livewire.emit('setActiveNumber', 1, $id);
-                    }
-                });
-            }
-
-            function deleteContactNUmber($id) {
-                Swal.fire({
-                    title: '{{ __('delete_contact') }}',
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: '{{trans('ok')}}',
-                    cancelButtonText: '{{trans('canceled !')}}',
-                    denyButtonText: '{{trans('No')}}',
-                    customClass: {
-                        actions: 'my-actions',
-                        cancelButton: 'order-1 right-gap',
-                        confirmButton: 'order-2',
-                        denyButton: 'order-3',
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.Livewire.emit('deleteContact', $id);
-                    }
-                });
-            }
 
             window.addEventListener('PreAddNumber', event => {
                 Swal.fire({

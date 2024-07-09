@@ -440,7 +440,7 @@
             var textNode = document.createTextNode(phone);
             phone = phone.replace('+', '00');
 
-            mobile = $("#phoneAddContact").val();
+            var mobile = $("#phoneAddContact").val();
             var countryData = itiAddContact.getSelectedCountryData();
             if (!phone.startsWith('00' + countryData.dialCode)) {
                 phone = '00' + countryData.dialCode + phone;
