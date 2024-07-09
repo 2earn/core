@@ -507,7 +507,8 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="modal fade" id="financialTransactionModal" tabindex="-1" aria-labelledby="financialTransactionModalLabel"
+                            <div class="modal fade" id="financialTransactionModal" tabindex="-1"
+                                 aria-labelledby="financialTransactionModalLabel"
                                  aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -582,6 +583,33 @@
         </div>
     </div>
     <script>
+        function cancelRequestF(numReq) {
+            Swal.fire({
+                title: `{{trans('cancel_request')}}`,
+                confirmButtonText: '{{trans('Yes')}}',
+                showCancelButton: true,
+                cancelButtonText: '{{trans('No')}}',
+                denyButtonText: 'No',
+                customClass: {actions: 'my-actions', confirmButton: 'order-2', denyButton: 'order-3',}
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.Livewire.emit('DeleteRequest', numReq);
+                }
+            })
+        }
+        function hiddenTr(num) {
+            $("#" + num).prop("hidden", !$("#" + num).prop("hidden"));
+        }
+
+        function ShowCanceledRequest() {
+            if (document.getElementById('ShowCanceled').checked) {
+                window.Livewire.emit('ShowCanceled', 1)
+            } else {
+                window.Livewire.emit('ShowCanceled', 0)
+            }
+        }
+    </script>
+    <script type="module">
         var mnt = {{$testprop}};
         var timerInterval;
         var prixSms = {{$prix_sms}};
@@ -833,37 +861,9 @@
             })
         }
 
-        function hiddenTr(num) {
-            $("#" + num).prop("hidden", !$("#" + num).prop("hidden"));
-        }
-
-        function cancelRequestF(numReq) {
-            Swal.fire({
-                title: `{{trans('cancel_request')}}`,
-                confirmButtonText: '{{trans('Yes')}}',
-                showCancelButton: true,
-                cancelButtonText: '{{trans('No')}}',
-                denyButtonText: 'No',
-                customClass: {actions: 'my-actions', confirmButton: 'order-2', denyButton: 'order-3',}
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.Livewire.emit('DeleteRequest', numReq);
-                }
-            })
-
-        }
-
-        function ShowCanceledRequest() {
-            if (document.getElementById('ShowCanceled').checked) {
-                window.Livewire.emit('ShowCanceled', 1)
-            } else {
-                window.Livewire.emit('ShowCanceled', 0)
-            }
-
-        }
     </script>
-    <script data-turbolinks-eval="false">
-        window.addEventListener('load', () => {
+    <script data-turbolinks-eval="false" type="module">
+        $(document).on('turbolinks:load', function () {
             var triggerTabList = [].slice.call(document.querySelectorAll('#pills-tab a'))
             triggerTabList.forEach(function (triggerEl) {
                 var tabTrigger = new bootstrap.Tab(triggerEl)

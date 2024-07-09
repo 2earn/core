@@ -91,7 +91,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light"
+                    <button type="button" class="btn btn-light btn-close-add"
                             data-bs-dismiss="modal">{{ __('Close') }}</button>
                     <button type="button" id="saveAddContactNumber"
                             class="btn btn-primary">{{ __('Save new contact number') }}
@@ -155,7 +155,7 @@
             $("#saveAddContactNumber").click(function (event) {
                 event.preventDefault();
                 event.stopImmediatePropagation();
-                $('#AddContactNumberModel').modal('hide');
+                $('.btn-close-add').trigger('click')
                 window.Livewire.emit('preSaveContact', $("#outputphoneContactNumber").val(), $("#isoContactNumber").val(), $("#phoneContactNumber").val());
             });
 
