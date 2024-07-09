@@ -505,6 +505,7 @@
         </div>
     </div>
     @push('scripts')
+        @vite('resources/js/lordicon.js');
         @vite('resources/js/pages/form-validation.init.js');
         @if($flash)
             <script>
