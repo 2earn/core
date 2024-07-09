@@ -2,16 +2,12 @@
 
 namespace App\Http\Livewire;
 
-use Core\Models\action_historys;
 use Core\Models\Amount;
-use Core\Models\balanceoperation;
 use Core\Models\Setting;
-use Core\Services\settingsManager;
 use Livewire\Component;
 
 class ConfigurationSetting extends Component
 {
-
 
     public $allAmounts;
     public int $idSetting;
@@ -22,10 +18,6 @@ class ConfigurationSetting extends Component
     public $Unit;
     public bool $Automatically_calculated;
     public string $Description;
-
-
-
-
 
     public $search = '';
 
