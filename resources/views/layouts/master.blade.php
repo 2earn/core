@@ -203,7 +203,7 @@
                 if ($(this).val() == null) {
                     table_bfs.columns(3).search("").draw();
                 } else {
-                    table_bfs                        .columns(3)                        .search(items.join('|'), true, false)                        .draw();
+                    table_bfs.columns(3).search(items.join('|'), true, false).draw();
                 }
             })
         });
@@ -550,16 +550,19 @@
             $.ajax({
                 url: "{{ route('addCash') }}",
                 type: "POST",
-                data: {                    amount: ammount,                    reciver: reciver,                    "_token": "{{ csrf_token() }}"                },
+                data: {amount: ammount, reciver: reciver, "_token": "{{ csrf_token() }}"},
                 success: function (data) {
                     $.ajax({
                         url: "{{ route('sendSMS') }}",
                         type: "POST",
                         data: {user: user, msg: msg, "_token": "{{ csrf_token() }}"},
-                        success: function (data) {                            console.log(data);                        }
+                        success: function (data) {
+                            console.log(data);
+                        }
                     });
-                    $('#AddCash').modal('hide');
-                       Swal.fire({
+
+                    $('.btn-vip-close').trigger('click');
+                    Swal.fire({
                         position: 'center',
                         icon: 'success',
                         title: data,
@@ -607,7 +610,9 @@
                         url: "{{ route('sendSMS') }}",
                         type: "POST",
                         data: {user: user, msg: msgvip, "_token": "{{ csrf_token() }}"},
-                        success: function (data) {                            console.log(data);                        }
+                        success: function (data) {
+                            console.log(data);
+                        }
                     });
 
                     $('.btn-vip-close').trigger('click');
