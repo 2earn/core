@@ -2,7 +2,6 @@
     @section('title')
         {{ __('history') }}
     @endsection
-    @section('content')
         @component('components.breadcrumb')
             @slot('li_1')@endslot
             @slot('title')
@@ -16,7 +15,7 @@
                         <div class="col-12">
                             <div class="card card-height-100">
                                 <div class="card-header align-items-center d-flex">
-                                    <h4 class="card-title mb-0 flex-grow-1"></h4>
+                                    <h4 class="card-title mb-0 flex-grow-1">{{ __('Countries Statistics') }}</h4>
                                 </div>
                                 <div class="card-body">
                                     <div id="any1"></div>

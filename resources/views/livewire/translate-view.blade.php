@@ -177,7 +177,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
             </div>
         </div>
     </div>
-    <script type="module">
+    <script>
             function confirmDelete(idTranslate) {
                 Swal.fire({
                     title: '{{__('Confirm delete')}}',

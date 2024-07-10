@@ -10,8 +10,7 @@
     @endcomponent
     <div class="row">
         <div class="card">
-            <div class="card-body pt-0">
-                <div class="transaction-table">
+            <div class="card-body">
                     <div class="table-responsive ">
                         <table class=" mb-0 table-responsive-sm stripe table2earn flex-table" id="countries_table"
                                style="width: 100%">
@@ -28,7 +27,6 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
             </div>
         </div>
         <div wire:ignore.self class="modal fade" id="editCountriesModal" tabindex="" role="dialog"
