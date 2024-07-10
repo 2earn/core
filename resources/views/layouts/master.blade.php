@@ -48,7 +48,6 @@
     <meta content="" name="author"/>
     <meta property="og:image" content="{{ Vite::asset('resources/images/2earn.png') }}">
     <meta property="twitter:image" content="{{ Vite::asset('resources/images/2earn.png') }}">
-    <!-- vite -->
     @vite([
                 'resources/anychart/anychart-base.min.js',
                 'resources/anychart/anychart-circular-gauge.min.js',
@@ -64,10 +63,6 @@
                 'resources/anychart/world.js',
                 'resources/anychart/anychart-table.min.js',
     ])
-
-    <!-- vite -->
-
-    <!-- App favicon -->
     <link rel="shortcut icon" href="{{ Vite::asset('resources/images/favicon.ico')}}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @include('layouts.vendor-scripts')
@@ -77,7 +72,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
     <style>
         @font-face {
             font-family: 'iconearn';
@@ -209,10 +203,7 @@
                 if ($(this).val() == null) {
                     table_bfs.columns(3).search("").draw();
                 } else {
-                    table_bfs
-                        .columns(3)
-                        .search(items.join('|'), true, false)
-                        .draw();
+                    table_bfs                        .columns(3)                        .search(items.join('|'), true, false)                        .draw();
                 }
             })
         });
@@ -559,20 +550,13 @@
             $.ajax({
                 url: "{{ route('addCash') }}",
                 type: "POST",
-
-                data: {
-                    amount: ammount,
-                    reciver: reciver,
-                    "_token": "{{ csrf_token() }}"
-                },
+                data: {                    amount: ammount,                    reciver: reciver,                    "_token": "{{ csrf_token() }}"                },
                 success: function (data) {
                     $.ajax({
                         url: "{{ route('sendSMS') }}",
                         type: "POST",
                         data: {user: user, msg: msg, "_token": "{{ csrf_token() }}"},
-                        success: function (data) {
-                            console.log(data);
-                        }
+                        success: function (data) {                            console.log(data);                        }
                     });
                     $('#AddCash').modal('hide');
                        Swal.fire({
@@ -585,9 +569,9 @@
                         showCloseButton: true
                     });
                 }
-
             });
         });
+
         $(document).on("click", ".vip", function () {
             let reciver = $(this).data('reciver');
             let phone = $(this).data('phone');
@@ -623,9 +607,7 @@
                         url: "{{ route('sendSMS') }}",
                         type: "POST",
                         data: {user: user, msg: msgvip, "_token": "{{ csrf_token() }}"},
-                        success: function (data) {
-                            console.log(data);
-                        }
+                        success: function (data) {                            console.log(data);                        }
                     });
 
                     $('.btn-vip-close').trigger('click');
@@ -639,12 +621,9 @@
                         timer: 2000,
                         showCloseButton: true
                     });
-
                 }
-
             });
         });
-
 
         $.ajax({
             url: "{{ route('getRequestAjax') }}",

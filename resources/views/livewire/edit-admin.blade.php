@@ -18,7 +18,7 @@
             <div  class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div>
+                        <div class="col-12">
                             <input type="text" class="form-control" placeholder="{{ __('PH_search') }}"
                                    wire:model="search"/>
                         </div>

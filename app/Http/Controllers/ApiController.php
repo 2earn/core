@@ -299,18 +299,14 @@ left join users user on user.idUser = recharge_requests.idUser";
     COUNT_USERS,
     COUNT_TRAIDERS,
     COUNT_REAL_TRAIDERS from tableau_croise");
-        //dd($data);
-        //dd(response()->json($data));
-        //return datatables($data) ->make(true);
+
         return response()->json($data);
     }
 
     public function getSankey()
     {
         $data = DB::select("select s.`from`,s.`to`,cast(s.weight as decimal (10,2)) as weight from sankey s");
-        //dd($data);
-        //dd(response()->json($data));
-        //return datatables($data) ->make(true);
+
         return response()->json($data);
     }
 
@@ -363,7 +359,6 @@ left join users user on user.idUser = recharge_requests.idUser";
             ->where('idBalancesOperation', 44)
             ->where('idUser', $idUser)
             ->get();
-        //dd($userBalances);
         return $userBalances;
     }
 
@@ -951,10 +946,7 @@ class="btn btn-xs btn-primary btn2earnTable"  >
                 return '<a  onclick="editBOFunction(' . $settings->idBalanceOperations . ')"   data-bs-toggle="modal" data-bs-target="#BoModal"
 class="btn btn-xs btn-primary btn2earnTable"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a> ';
             })
-//            ->addColumn('action', function ($balanceOperations) {
-//                return '<a href="#edit-' . $balanceOperations->idBalanceOperations . '" "><i class="fa fa-edit" aria-hidden="true" style="cursor: pointer;color: green; padding-left: 10px;"></i></a>';
-//            })
-//            <span><i class="fa fa-cogs" aria-hidden="true"></i></span>
+
             ->editColumn('MODIFY_AMOUNT', function ($balanceOperations) {
                 if ($balanceOperations->MODIFY_AMOUNT == 1)
                     return '<span class="badge badge-success">Yes</span>';
@@ -965,20 +957,12 @@ class="btn btn-xs btn-primary btn2earnTable"  ><i class="glyphicon glyphicon-edi
 
                 if ($balanceOperations->amountsshortname == "BFS") {
                     return ' <img width="20" height="20" id="imm" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAAEX0lEQVR4nO2az48URRTHP5jZsGA2svw4ADsJFwPyB3jxBwkcMNwMHoCLurp69AQhcOGf8ICEP0CCLAfABNhVXIRsiFd2RUABEw+gsIvKCcfDe0X39lR1Vc9U9ww7/U0qma73qt73va569aMHagw2VnjkrS7b932fr3RgrEaNZYQ6B3RgrEaNAULLUzrBjzn9zVTNc+CTYC/geivdjKqOMfCrgC8AZczXMtAxz17mgGxbV32RPl1w9tkINOAi228ozLPOARXYmKLY3iGte7lEXkA1AVhtqbMlpquBbStFjDV7BDiv+s+AfTm67wP/qO4lYE2FPEvtuAF8qW3+A45ZdL4AnqvOSWCoBzzb5quv46Lz9RCJk18hTg7p75bKDvWS5zVLgx8sejMWvWsBxAH2Av9qm4taWlr3QWAf18viOQKco9z5CvAm8EeK1EPg7QLtS80r2SF50KJzkGQon6DYfDXYAsxq2dJB+yG1XRpPW1IKSWZVo1SeMeZrFSiVZ7fztSqUyrPb+VoVXhaeNfoSebcqy628OIylLxAK7ZmXAdpuibL76QOE7/H7FdOID+mdovOAlBZsAH7T509LJFg2PkN8+BVYr3XeAOwncX6G8HvDEKwFxoGzwDzwt5Z5YBL4GBiNaK+BXLSYIOwnIADpRLExEpFVwFFgwWInW54AR7RNDGzCfipsgxFMIcM+1psfA34i2ZdfQkbBdmAYOZ1tBSZYes6/AWyOxKGB+JTuvw1OQRcYA37Xfm8C7wa0eQe4o20eEC8IBpUFYBXJm/8e+zncZXMUueAwI2E4Iq/KAnBU+7sFvFaUDJIwb6n8cERelQRgLUnCe8si34MMb19i2qn1jyl245SHQgFoAqeBRS2TSMLyYVz7uuiQ25x3Bd8krg8D7IbwDQ5AE/jTQvIvleXhrOp+4pAXGW1mM/ONRy+Ub3AATuvzeSQTN4ELWnfKQ+Zn1XvdIS8SgG2qO+fRC+UbHIBFfU5Hr6l1Cx4ypu2IQ56dAg+A9xy6I6qzGGjTx3eJnyHfBm3RCn17zx31E4jTBmPAcYdu0f8LdMw3OwIm9fkCEskm8K3Wfe3py0yBbSGGLbbTeENl854+QvkGT4GtSALJJpVHyBsLITPu0fOSAj4nLAmG8i28DJ5C5tACEkmf8yCnurxl0LYE3nPomjN96DLo41vZRuiJ9rcjx1ba+d0WvV30eCPUDY6QzF3XGT/P5jrgtspDvhiHorIADCMHmRZwBXsQXDbXkZzhZ3lJD0MgGxKz5v+CfTpksYvkzd9HLjRiwhuAaWT7GetCZDPJSGghl6wTyBL5KrLR2Y5k++mU3izxnG9Y+m9DNjFdjUhgGDnSmsSYVx4jc35lJNubsH/zaIMR7EMuEFvEvxQdBT5C9glzwFMtc8AZZKmLle1BuBvn7yK+BeWA9SRBmIhIqGqYTdRdJLFCgSRorpCnSiRYNr4jGdUGS/wc+E9j6dOg7Z+ayxX99Ff/Gj3F/1ZQl/ObCiogAAAAAElFTkSuQmCC">';
-//                    return '<img src="data:image/png;base64,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
-//8Ho/1NSwAAAABJRU5ErkJggg==">';
-//                    return  ' <img  src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" alt="" width="20" height="20" />'
-                    ;
-//class="fa-solid fa-user-large" aria-hidden="true">'
+
 
                 } else {
                     return '<span><i class="fa fa-cogs" aria-hidden="true"></i></span>';
                 }
 
-//                if ($balanceOperations->MODIFY_AMOUNT == 1)
-//                    return '<span class="badge badge-success">Yes</span>';
-//                else
-//                    return '<span class="badge badge-info">No</span>';
             })
             ->escapeColumns([])
             ->toJson();
@@ -995,9 +979,7 @@ class="btn btn-xs btn-primary btn2earnTable"  ><i class="glyphicon glyphicon-edi
 class="btn btn-xs btn-primary btn2earnTable"  >
 <i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a>';
             })
-//            ->addColumn('action', function ($amounts) {
-//                return '<a href="#edit-' . $amounts->idamounts . '" "><i class="fa fa-edit" aria-hidden="true" style="cursor: pointer;color: green; padding-left: 10px;"></i></a>';
-//            })
+
             ->editColumn('amountswithholding_tax', function ($amounts) {
                 if ($amounts->amountswithholding_tax == 1)
                     return '<span class="badge badge-success">Yes</span>';
@@ -1037,9 +1019,7 @@ class="btn btn-xs btn-primary btn2earnTable"  >
         $actionHistorys = DB::table('action_history')
             ->select('id', 'title', 'reponce');
         return datatables($actionHistorys)
-//            ->addColumn('action', function ($actionHistorys) {
-//                return '<a href="#edit-' . $actionHistorys->id . '" "><i class="fa fa-edit" aria-hidden="true" style="cursor: pointer;color: green; padding-left: 10px;"></i></a>';
-//            })
+
             ->addColumn('action', function ($settings) {
                 return '<a onclick="editHAFunction(' . $settings->id . ')"   data-bs-toggle="modal" data-bs-target="#HistoryActionModal"  class="btn btn-xs btn-primary btn2earnTable"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a>
 <a  class="btn btn-xs btn-danger btn2earnTable"  ><i></i>' . Lang::get('Delete') . '</a>';
@@ -1073,25 +1053,6 @@ where u.idBalancesOperation=b.idBalanceOperations
 and u.idamount not in(4,6)  and u.idUser=? and u.idamount=? order by Date   ", [$idUser, $idamount]
         );
         return response()->json($userData);
-        /*return Datatables::of($userData)
-            ->addColumn('formatted_date', function ($user) {
-                return Carbon\Carbon::parse($user->Date)->format('Y-m-d');
-            })
-            ->editColumn('Description', function ($row) {
-
-                if ($row->idamount == 3)
-                    // return '<span style="text-align:right;">'.htmlspecialchars($row->Description).'</span>';
-                    return '<div style="text-align:right;">' . htmlspecialchars($row->Description) . '</div>';
-                else return $row->Description;
-            })
-            ->rawColumns(['Description', 'formatted_date'])
-//           ->orderColumn('name', 'email $1')
-            ->make(true);*/
-
-//        return datatables($userData)
-//
-//            ->make(true);
-
     }
 
     public function getUserBalances($typeAmounts)
@@ -1241,8 +1202,6 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
             $idUser = $this->settingsManager->getAuthUser()->idUser;
         }
         $type = request()->type;
-//        if ($type == null || $idUser == null)
-//            $condition =   " where recharge_requests.idPayee = ";
         switch ($type) {
             case('out'):
                 $condition = " where recharge_requests.idPayee = ";
@@ -1254,10 +1213,7 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
         if ($condition == "") {
             $condition = " where recharge_requests.idUser = ";
         }
-//if($idUser == null)
-//{
-//    $idUser = "";
-//}
+
         $request = DB::select($this->reqRequest . $condition . "  ? ", [$idUser]);
         return datatables($request)
             ->make(true);
@@ -1272,9 +1228,6 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
 
     public function getIdentificationRequest()
     {
-//        $query = User::select('id', 'name', 'mobile', 'idCountry', 'asked_at')
-//            ->where('status', '=', -1);
-
         $query = DB::select('SELECT  u1.id id, u1.name User ,u1.fullphone_number, ir.created_at DateCreation, u2.name Validator, ir.response, ir.responseDate DateReponce , ir.note from identificationuserrequest ir
 inner join users u1 on ir.IdUser = u1.idUser
 left join users u2 on ir.idUserResponse = u2.idUser
@@ -1313,7 +1266,6 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUs
     public function getPurchaseUser()
     {
         $user = $this->settingsManager->getAuthUser();
-//        if (!$user) $user->idUser ='' ;
         $userData = DB::select("
 
     SELECT
@@ -1460,9 +1412,7 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUs
                 return '<a  href="' . route('adminUserEdit', ['userId' => $settings->idUser, 'locale' => app()->getLocale()]) . '"   onclick="EditUserByAdmin()" class="btn btn-xs btn-primary btn2earnTable" ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a>
 <a onclick="deleteUser(' . $settings->idUser . ')" class="btn btn-xs btn-danger btn2earnTable"   ><i></i>' . Lang::get('Delete') . '</a>';
             })
-//            ->addColumn('action', function ($amounts) {
-//                return '<a href="#edit-' . $amounts->idamounts . '" "><i class="fa fa-edit" aria-hidden="true" style="cursor: pointer;color: green; padding-left: 10px;"></i></a>';
-//            })
+
             ->editColumn('status', function ($userData) {
                 switch ($userData->status) {
                     case 0 :
@@ -1506,7 +1456,6 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUs
     {
         $user = $this->settingsManager->getAuthUser();
 
-//        if (!$user) $user->idUser ='' ;
         $userData = DB::select(" select id, name,lastName,fullphone_number,
        case when
            fullphone_number in (select users.fullphone_number from users where idUpline != ? and idUpline <> 0)
@@ -1556,4 +1505,3 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUs
     }
 
 }
-
