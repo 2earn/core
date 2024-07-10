@@ -259,7 +259,6 @@ left join users user on user.idUser = recharge_requests.idUser";
 
             $user_balance->save();
 
-            // adjust new value for admin
 
             $new_value = intval($old_value) - intval($request->amount);
             DB::table('usercurrentbalances')
@@ -267,7 +266,6 @@ left join users user on user.idUser = recharge_requests.idUser";
                 ->where('idamounts', AmoutEnum::CASH_BALANCE)
                 ->update(['value' => $new_value, 'dernier_value' => $old_value]);
 
-            // adjust new value for reciver
             $old_value = DB::table('usercurrentbalances')
                 ->where('idUser', $request->reciver)
                 ->where('idamounts', AmoutEnum::CASH_BALANCE)
@@ -829,11 +827,6 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
             })
             ->addColumn('formatted_created_at', function ($user) {
                 return Carbon\Carbon::parse($user->created_at)->format('Y-m-d H:i:s');
-            })
-            ->addColumn('action', function ($settings) {
-
-                return '<a data-bs-toggle="modal" data-bs-target="#AddCash"   data-phone="' . $settings->mobile . '" data-country="' . $this->getFormatedFlagResourceName($settings->apha2) . '" data-reciver="' . $settings->idUser . '"
-class="btn btn-xs btn-primary btn2earnTable addCash" >' . Lang::get('Add cash') . '</a> ';
             })
             ->addColumn('VIP', function ($settings) {
 

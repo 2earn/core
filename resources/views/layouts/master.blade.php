@@ -542,10 +542,11 @@
             $('#userlist-reciver').attr('value', reciver);
             $('#userlist-phone').attr('value', phone);
         });
+
         $(document).on("click", "#userlist-submit", function () {
             let reciver = $('#userlist-reciver').val();
             let ammount = $('#ammount').val();
-            let msg = "vous avez transferé " + ammount + " $ à " + reciver;
+            let msg = "{{__('You transferred')}} " + ammount + " $ {{__('For')}} " + reciver;
             let user = 126;
             $.ajax({
                 url: "{{ route('addCash') }}",
@@ -564,7 +565,7 @@
                     $('.btn-vip-close').trigger('click');
                     Swal.fire({
                         position: 'center',
-                        icon: 'success',
+                        icon: data,
                         title: data,
                         text: data,
                         showConfirmButton: false,
