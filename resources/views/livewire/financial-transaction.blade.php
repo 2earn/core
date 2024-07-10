@@ -583,6 +583,103 @@
         </div>
     </div>
     <script>
+
+        function ConfirmExchange() {
+            var soldecashB = {{ $soldecashB}};
+            var soldeExchange = document.getElementById('montantExchange').value
+            if (Number.isNaN(soldecashB) || Number.isNaN(soldeExchange)) return;
+            if (soldeExchange < 0) return;
+            if (soldeExchange == 0) {
+                Swal.fire({
+                    title: '{{trans('Please enter the transfer amount!')}}',
+                    icon: "warning",
+                    showCancelButton: false,
+                    confirmButtonText: '{{trans('ok')}}',
+                })
+                return;
+            }
+            var newSolde = soldecashB - soldeExchange;
+            if (newSolde < 0) {
+                Swal.fire({
+                    title: '{{trans('Your_cash_balance')}}',
+                    icon: "warning",
+                    showCancelButton: false,
+                    confirmButtonText: '{{trans('ok')}}',
+                })
+                return;
+            }
+            Swal.fire({
+                title: '{{trans('Are you sure to exchange ?')}}' + " " + '<br>' + soldeExchange + "$ " + '{{trans('?')}}',
+                text: '{{trans('operation_irreversible')}}',
+                icon: "warning",
+                showCancelButton: true,
+                cancelButtonText: '{{trans('canceled !')}}',
+                confirmButtonText: '{{trans('ok')}}',
+                denyButtonText: 'No',
+                customClass: {
+                    actions: 'my-actions',
+                    cancelButton: 'order-1 right-gap',
+                    confirmButton: 'order-2',
+                    denyButton: 'order-3',
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.Livewire.emit('PreExchange');
+                } else if (result.isDenied) {
+                    Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+        }
+
+        function ConfirmExchangeSms() {
+            var soldeBFS = {{ $soldeBFS}};
+            var nbSMS = $("#NSMS").val();
+            var soldeExchange = $("#soldeSMS").val();
+            if (Number.isNaN(nbSMS) || Number.isNaN(soldeExchange)) return;
+            if (soldeExchange < 0) return;
+            if (soldeExchange == 0) {
+                Swal.fire({
+                    title: '{{trans('Please enter the transfer amount!')}}',
+                    icon: "warning",
+                    showCancelButton: false,
+                    confirmButtonText: '{{trans('ok')}}',
+                })
+                return;
+            }
+            var newSolde = soldeBFS - soldeExchange;
+            if (newSolde < 0) {
+                Swal.fire({
+                    title: '{{trans('BFS_not_allow')}}',
+                    icon: "warning",
+                    showCancelButton: false,
+                    confirmButtonText: '{{trans('ok')}}',
+                })
+                return;
+
+            }
+            Swal.fire({
+                title: '{{trans('Are you sure to exchange ?')}}' + '<br>' + " " + soldeExchange + "$ " + '{{trans('?')}}',
+                text: '{{trans('operation_irreversible')}}',
+                icon: "warning",
+                showCancelButton: true,
+                cancelButtonText: '{{trans('canceled !')}}',
+                confirmButtonText: '{{trans('ok')}}',
+                denyButtonText: 'No',
+                customClass: {
+                    actions: 'my-actions',
+                    cancelButton: 'order-1 right-gap',
+                    confirmButton: 'order-2',
+                    denyButton: 'order-3',
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.Livewire.emit('PreExchangeSMS');
+                } else if (result.isDenied) {
+                    Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+        }
+
         function cancelRequestF(numReq) {
             Swal.fire({
                 title: `{{trans('cancel_request')}}`,
@@ -698,101 +795,6 @@
             })
         })
 
-        function ConfirmExchange() {
-            var soldecashB = {{ $soldecashB}};
-            var soldeExchange = $("#montantExchange").val();
-            if (Number.isNaN(soldecashB) || Number.isNaN(soldeExchange)) return;
-            if (soldeExchange < 0) return;
-            if (soldeExchange == 0) {
-                Swal.fire({
-                    title: '{{trans('Please enter the transfer amount!')}}',
-                    icon: "warning",
-                    showCancelButton: false,
-                    confirmButtonText: '{{trans('ok')}}',
-                })
-                return;
-            }
-            var newSolde = soldecashB - soldeExchange;
-            if (newSolde < 0) {
-                Swal.fire({
-                    title: '{{trans('Your_cash_balance')}}',
-                    icon: "warning",
-                    showCancelButton: false,
-                    confirmButtonText: '{{trans('ok')}}',
-                })
-                return;
-            }
-            Swal.fire({
-                title: '{{trans('Are you sure to exchange ?')}}' + " " + '<br>' + soldeExchange + "$ " + '{{trans('?')}}',
-                text: '{{trans('operation_irreversible')}}',
-                icon: "warning",
-                showCancelButton: true,
-                cancelButtonText: '{{trans('canceled !')}}',
-                confirmButtonText: '{{trans('ok')}}',
-                denyButtonText: 'No',
-                customClass: {
-                    actions: 'my-actions',
-                    cancelButton: 'order-1 right-gap',
-                    confirmButton: 'order-2',
-                    denyButton: 'order-3',
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.Livewire.emit('PreExchange');
-                } else if (result.isDenied) {
-                    Swal.fire('Changes are not saved', '', 'info')
-                }
-            })
-        }
-
-        function ConfirmExchangeSms() {
-            var soldeBFS = {{ $soldeBFS}};
-            var nbSMS = $("#NSMS").val();
-            var soldeExchange = $("#soldeSMS").val();
-            if (Number.isNaN(nbSMS) || Number.isNaN(soldeExchange)) return;
-            if (soldeExchange < 0) return;
-            if (soldeExchange == 0) {
-                Swal.fire({
-                    title: '{{trans('Please enter the transfer amount!')}}',
-                    icon: "warning",
-                    showCancelButton: false,
-                    confirmButtonText: '{{trans('ok')}}',
-                })
-                return;
-            }
-            var newSolde = soldeBFS - soldeExchange;
-            if (newSolde < 0) {
-                Swal.fire({
-                    title: '{{trans('BFS_not_allow')}}',
-                    icon: "warning",
-                    showCancelButton: false,
-                    confirmButtonText: '{{trans('ok')}}',
-                })
-                return;
-
-            }
-            Swal.fire({
-                title: '{{trans('Are you sure to exchange ?')}}' + '<br>' + " " + soldeExchange + "$ " + '{{trans('?')}}',
-                text: '{{trans('operation_irreversible')}}',
-                icon: "warning",
-                showCancelButton: true,
-                cancelButtonText: '{{trans('canceled !')}}',
-                confirmButtonText: '{{trans('ok')}}',
-                denyButtonText: 'No',
-                customClass: {
-                    actions: 'my-actions',
-                    cancelButton: 'order-1 right-gap',
-                    confirmButton: 'order-2',
-                    denyButton: 'order-3',
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.Livewire.emit('PreExchangeSMS');
-                } else if (result.isDenied) {
-                    Swal.fire('Changes are not saved', '', 'info')
-                }
-            })
-        }
 
         window.addEventListener('confirmSms', event => {
             Swal.fire({

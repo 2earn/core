@@ -95,7 +95,7 @@
                         <div class="avatar-sm flex-shrink-0">
                             <lord-icon
                                 src="https://cdn.lordicon.com/nlmjynuq.json"
-                                trigger="hover"
+                                trigger="loop"
                                 style="width:55px;height:55px">
                             </lord-icon>
                         </div>
@@ -604,15 +604,16 @@
                                 }
 
                                 $('#buy-action').modal('show');
-
-                                Toastify({
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: data.message,
                                     text: data.message,
-                                    gravity: "top",
-                                    duration: 4000,
-                                    className: "info",
-                                    position: "center",
-                                    backgroundColor: backgroundColor
-                                }).showToast();
+                                    showConfirmButton: false,
+                                    timer: 2000,
+                                    showCloseButton: true
+                                });
+
                                 $('.buy-action-submit-spinner').hide();
                                 location.reload();
                             },

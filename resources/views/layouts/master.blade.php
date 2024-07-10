@@ -109,11 +109,15 @@
     <link rel="apple-touch-icon" href="{{ asset('logo.PNG') }}">
     <link rel="manifest" href="{{ asset('/manifest.json') }}">
     @laravelPWA
-
+    @if(config('app.available_locales')[app()->getLocale()]['direction'] === 'rtl')
+        @vite(['resources/css/bootstrap-rtl.css','resources/css/icons-rtl.css','resources/css/app-rtl.css','resources/css/custom-rtl.css'])
+    @else
+        @vite(['resources/css/bootstrap.min.css','resources/css/icons.css','resources/css/app.css','resources/css/custom.css'])
+    @endif
 </head>
 <body>
 @section('body')
-    @include('components.styles');
+    @vite(['resources/css/select2.min.css','resources/js/layout.js'])
     @vite(['resources/css/intlTelInput.min.css','resources/fontawesome/all.min.css','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
     <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PMK39HQQ"
@@ -571,14 +575,15 @@
                         }
                     });
                     $('#AddCash').modal('hide');
-                    Toastify({
+                       Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: data,
                         text: data,
-                        gravity: "top",
-                        duration: 3000,
-                        className: "info",
-                        position: "center",
-                        backgroundColor: "#27a706"
-                    }).showToast();
+                        showConfirmButton: false,
+                        timer: 2000,
+                        showCloseButton: true
+                    });
                 }
 
             });
@@ -623,16 +628,18 @@
                         }
                     });
 
-                    $('#vip').modal('hide');
+                    $('.btn-vip-close').trigger('click');
 
-                    Toastify({
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: data,
                         text: data,
-                        gravity: "top",
-                        duration: 3000,
-                        className: "info",
-                        position: "center",
-                        backgroundColor: "#27a706"
-                    }).showToast();
+                        showConfirmButton: false,
+                        timer: 2000,
+                        showCloseButton: true
+                    });
+
                 }
 
             });

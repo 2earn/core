@@ -39,6 +39,11 @@ window.feather = feather;
 import waves  from 'node-waves';
 window.Waves  = waves ;
 
+import Toastify from "toastify";
+window.Toastify  = Toastify ;
+
+
+
 import.meta.glob([ '../images/**', ]);
 
 import Prism from 'prismjs';
