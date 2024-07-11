@@ -265,9 +265,9 @@
                     </div>
                 </div>
             @endif
-            <div class="card  ">
+            <div class="card">
                 <div class="card-header">
-                    <ul class="nav  nav-pills nav-tabs-custom rounded card-header-tabs border-bottom-0 tab2earn"
+                    <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0 tab2earn"
                         role="tablist">
                         <li class="nav-item">
                             <a style="color: #f02602" class="nav-link active" data-bs-toggle="tab"
@@ -1030,7 +1030,7 @@
                         const b = Swal.getFooter().querySelector('i');
                         const p22 = Swal.getFooter().querySelector('div');
                         p22.innerHTML = '<br>' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>';
-                         timerInterval = setInterval(() => {
+                        timerInterval = setInterval(() => {
                             let timerLeft = Swal.getTimerLeft();
                             if (timerLeft !== null) {
                                 b.innerHTML = '{{trans('It will close in')}}' + (timerLeft / 1000).toFixed(0) + '{{trans('secondes')}}';

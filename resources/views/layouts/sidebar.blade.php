@@ -214,10 +214,10 @@
     </div>
     <script type="module">
         $(document).on('ready turbolinks:load', function () {
-            $('li.nav-item').removeClass('active');
-            $('li.nav-item a').removeClass('active');
-            $('a[href="' + location.pathname + '"]').addClass('active');
-            $('a[href="' + location.pathname + '"]').parent().addClass('active');
+            $('#navbar-nav li').removeClass('active');
+            $('#navbar-nav li a').removeClass('active');
+            $('#navbar-nav a[href="' + location.pathname + '"]').addClass('active');
+            $('#navbar-nav a[href="' + location.pathname + '"]').parent().addClass('active');
         });
     </script>
 </div>
