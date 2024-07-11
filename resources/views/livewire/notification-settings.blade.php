@@ -161,21 +161,20 @@
     @component('components.breadcrumb')
         @slot('title') {{ __('Manage my notifications') }} @endslot
     @endcomponent
-
     <div class="row">
-
         <div class="col-xl-6">
             <div class="card">
                 <div class="card-header align-items-center d-flex">
                     <h4 class="card-title mb-0 flex-grow-1">{{__('email_notification')}}</h4>
                     <div class="flex-shrink-0">
-                        <img class="me-3 rounded-circle me-0 me-sm-3" src="{{asset('assets\icons/eMail Icon'.'.png')}}" width="30" height="30" alt="">
+                        <img class="me-3 rounded-circle me-0 me-sm-3"
+                             src="{{ Vite::asset('resources/icons/eMail Icon.png') }}"
+                             width="30" height="30" alt="">
                     </div>
-                </div><!-- end card header -->
+                </div>
                 <div class="card-body">
                     <div class="row">
                         <h4 class="mb-3 m-0 fs-15">{{ __( 'Je souhaite recevoir un E-mail :' ) }}</h4>
-
                         @foreach($setting_notif->where('type','b')  as $key => $setting)
                             @if($setting->typeNotification=='m')
                                 <div class="form-check form-switch @if($setting->payer==0) toggle-checkboxFree @else toggle-checkboxPay @endif m-2 col-12   mb-3" dir="ltr" >
@@ -191,17 +190,16 @@
                 </div>
             </div>
             <div class="card">
-
                 <div class="card-header align-items-center d-flex">
                     <h4 class="card-title mb-0 flex-grow-1">{{__('Discount_plan')}}</h4>
                     <div class="flex-shrink-0">
-                        <img class="me-3 rounded-circle me-0 me-sm-3" src="{{asset('assets\icons/discount'.'.png')}}" width="30" height="30" alt="">
+                        <img class="me-3 rounded-circle me-0 me-sm-3"
+                             src="{{ Vite::asset('resources/icons/discount.png') }}"
+                             width="30" height="30" alt="">
                     </div>
 
                 </div>
                 <div class="card-body">
-
-
                     <div style="margin: 0;padding: 0" class="row">
 
                         @php
@@ -222,19 +220,6 @@
                                         <input type="range" value="0" id='{{$idSlider}}'  wire:model.defer="setting_notif.{{$key}}.value"
                                                name="discount_email_p">
                                     </div>
-
-
-
-{{--                                    <div class="">--}}
-{{--                                        <label for="{{$idSlider}}" class='sr-only'>range slider</label>--}}
-
-
-
-{{--                                        <input   type="range" orient="" class="custom-range form-range"--}}
-{{--                                               id='{{$idSlider}}'--}}
-{{--                                               wire:model.defer="setting_notif.{{$key}}.value"--}}
-{{--                                               name="discount_email_p">--}}
-{{--                                    </div>--}}
                                 </div>
                                 @php
                                     $i= $i + 1 ;
@@ -258,25 +243,20 @@
 
                 </div>
             </div>
-
-            <!-- end card -->
         </div>
-
-
-
         <div class="col-xl-6">
             <div class="card">
                 <div class="card-header align-items-center d-flex">
                     <h4 class="card-title mb-0 flex-grow-1">{{__('sms_notification')}}</h4>
                     <div class="flex-shrink-0">
-                        <img class="me-3 rounded-circle me-0 me-sm-3" src="{{asset('assets\icons/SMS Icon'.'.png')}}" width="30" height="30" alt="">
+                        <img class="me-3 rounded-circle me-0 me-sm-3"
+                             src="{{ Vite::asset('resources/icons/SMS Icon.png') }}"
+                             width="30" height="30" alt="">
                     </div>
-                </div><!-- end card header -->
-                <div class="card-body">
+                </div>
+                 <div class="card-body">
                     <div class="row">
                         <h4 class="mb-3 fs-15">{{ __( 'Je souhaite recevoir un SMS :' ) }}</h4>
-
-
                             @foreach($setting_notif->where('type','b')  as $key => $setting)
 
                                 @if($setting->typeNotification=='s')
@@ -288,8 +268,6 @@
                                     </div>
                                 @endif
                             @endforeach
-
-
                     </div>
                     <div class="d-flex flex-row" style="margin-top: 30px;gap: 10px;">
                         <div><label for="">{{__('accepte_recevoir')}}</label></div>
@@ -303,35 +281,21 @@
                         <div><label for="">{{__('SMS_by_week')}}</label></div>
                     </div>
                 </div>
-                <!-- end card body -->
             </div>
-            <!-- end card -->
-
             <div class="card">
-
                 <div class="card-body">
-
-
-                    <!-- Buttons Grid -->
                     <div class="d-grid gap-2" >
                         <button class="btn btn-primary d-inline-block btn2earn" type="button" wire:click="save">{{__('validate')}}</button>
                     </div>
-
-
                 </div>
             </div>
         </div>
-        <!-- end col -->
     </div>
-
-
     <script>
         var slider1 = document.querySelector('#slider1');
         var pct1 = document.querySelector('.pct1');
         slider1.oninput = () => {
             pct1.textContent = `${slider1.value}%`
-            // alert(pct1.textContent);
-            // percent for dashoffset
             const p = (1 - slider1.value / 100) * (2 * (22 / 7) * 40);
         }
         var slider2 = document.querySelector('#slider2');

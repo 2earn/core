@@ -51,59 +51,61 @@
     <script src="{{ URL::asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
     <script id="rendered-js" type="module">
         $(document).on('turbolinks:load', function () {
-            var options1 = {
-                colors: ['#008ffb', '#00e396', '#d4526e'],
-                chart: {height: 350, type: 'area',},
-                dataLabels: {enabled: false},
-                series: [],
-                title: {text: '{{__('Share Price Evolution')}}',},
-                noData: {text: '{{__('Loading')}}...'},
-                xaxis: {type: 'numeric',},
-                stroke: {curve: 'straight',},
-                annotations: {
-                    points: [{
-                        x: {{getSelledActions() * 1.05/2}},
-                        y: {{getHalfActionValue()*1.01}},
-                        marker: {
-                            size: 0,
-                            fillColor: '#fff',
-                            strokeColor: 'transparent',
-                            radius: 0,
-                            cssClass: 'apexcharts-custom-class'
-                        },
-                        label: {
-                            borderColor: '#ffffff',
-                            offsetY: 0,
-                            style: {
-                                color: '#fff',
-                                background: '#00e396',
-                                fontSize: '15px',
+            var chart1Origin = document.querySelector('#chart1');
+            if (chart1Origin) {
+                var options1 = {
+                    colors: ['#008ffb', '#00e396', '#d4526e'],
+                    chart: {height: 350, type: 'area',},
+                    dataLabels: {enabled: false},
+                    series: [],
+                    title: {text: '{{__('Share Price Evolution')}}',},
+                    noData: {text: '{{__('Loading')}}...'},
+                    xaxis: {type: 'numeric',},
+                    stroke: {curve: 'straight',},
+                    annotations: {
+                        points: [{
+                            x: {{getSelledActions() * 1.05/2}},
+                            y: {{getHalfActionValue()*1.01}},
+                            marker: {
+                                size: 0,
+                                fillColor: '#fff',
+                                strokeColor: 'transparent',
+                                radius: 0,
+                                cssClass: 'apexcharts-custom-class'
                             },
-                            text: "{{__('x_times')}}",
-                        }
-                    }]
+                            label: {
+                                borderColor: '#ffffff',
+                                offsetY: 0,
+                                style: {
+                                    color: '#fff',
+                                    background: '#00e396',
+                                    fontSize: '15px',
+                                },
+                                text: "{{__('x_times')}}",
+                            }
+                        }]
+                    }
                 }
+                var chart1 = new ApexCharts(document.querySelector("#chart1"), options1);
+                chart1.render();
+                var url1 = '{{route('API_shareevolution',['locale'=> app()->getLocale()])}}';
+                var url2 = '{{route('API_actionvalues',['locale'=> app()->getLocale()])}}';
+                var url3 = '{{route('API_shareevolutionuser',['locale'=> app()->getLocale()])}}';
+                $.when(
+                    $.getJSON(url1),
+                    $.getJSON(url2),
+                    $.getJSON(url3)
+                ).then(function (response1, response2, response3) {
+                    var series1 = {
+                        name: 'Sales',
+                        type: 'area',
+                        data: response1[0],
+                    };
+                    var series2 = {name: 'Function', type: 'line', data: response2[0]};
+                    var series3 = {name: 'My Shares', type: 'area', data: response3[0]};
+                    chart1.updateSeries([series1, series2, series3]);
+                });
             }
-            var chart1 = new ApexCharts(document.querySelector("#chart1"), options1);
-            chart1.render();
-            var url1 = '{{route('API_shareevolution',['locale'=> app()->getLocale()])}}';
-            var url2 = '{{route('API_actionvalues',['locale'=> app()->getLocale()])}}';
-            var url3 = '{{route('API_shareevolutionuser',['locale'=> app()->getLocale()])}}';
-            $.when(
-                $.getJSON(url1),
-                $.getJSON(url2),
-                $.getJSON(url3)
-            ).then(function (response1, response2, response3) {
-                var series1 = {
-                    name: 'Sales',
-                    type: 'area',
-                    data: response1[0],
-                };
-                var series2 = {name: 'Function', type: 'line', data: response2[0]};
-                var series3 = {name: 'My Shares', type: 'area', data: response3[0]};
-                chart1.updateSeries([series1, series2, series3]);
-            });
-
             $('#shares-solde').DataTable({
                 "ordering": true,
                 retrieve: true,

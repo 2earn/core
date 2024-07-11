@@ -171,7 +171,7 @@
                         </li>
                         <li class="nav-item {{Route::currentRouteName()=='countries_management'? 'active' : ''}}">
                             <a href="{{route('API_settings', app()->getLocale(),false)}}"
-                               class="nav-link menu-link {{Route::currentRouteName()=='countries_management'? 'active' : ''}}"
+                               class="nav-link menu-link disabled {{Route::currentRouteName()=='countries_management'? 'active' : ''}}"
                                role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-settings-line"></i>
                                 <span>{{ __('representatives Management') }}</span>
@@ -196,7 +196,7 @@
                     @endif
                     @if(auth()->user()->getRoleNames()->first() =="Super admin")
                         <li class="nav-item {{Route::currentRouteName()=='translate'? 'active' : ''}}">
-                            <a data-turbolinks="false" href="{{route('translate', app()->getLocale(),false)}}"
+                            <a href="{{route('translate', app()->getLocale(),false)}}"
                                class="nav-link menu-link {{Route::currentRouteName()=='translate'? 'active' : ''}}"
                                role="button"
                                aria-expanded="false" aria-controls="sidebarDashboards">
@@ -212,4 +212,12 @@
     </div>
     <div class="vertical-overlay">
     </div>
+    <script type="module">
+        $(document).on('ready turbolinks:load', function () {
+            $('li.nav-item').removeClass('active');
+            $('li.nav-item a').removeClass('active');
+            $('a[href="' + location.pathname + '"]').addClass('active');
+            $('a[href="' + location.pathname + '"]').parent().addClass('active');
+        });
+    </script>
 </div>

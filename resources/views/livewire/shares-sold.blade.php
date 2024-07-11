@@ -592,70 +592,92 @@
         }
 
         $(document).on('turbolinks:load', function () {
-            var chart = new ApexCharts(document.querySelector("#chart"), options);
-            var chart1 = new ApexCharts(document.querySelector("#chart1"), options1);
-            var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
-            chart.render();
-            chart1.render();
+            var chartOrigin = document.querySelector('#chart');
+            var chart1Origin = document.querySelector('#chart1');
+            var chart2Origin = document.querySelector('#chart2');
+            if (chartOrigin) {
+                var chart = new ApexCharts(document.querySelector("#chart"), options);
+                chart.render();
+            }
+            if (chart1Origin) {
+                var chart1 = new ApexCharts(document.querySelector("#chart1"), options1);
+                chart1.render();
+            }
+            if (chart2Origin) {
+                var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
+                chart2.render();
+            }
 
-            var url = '{{route('API_usercash',['locale'=> app()->getLocale()])}}';
-            $.getJSON(url, function (response) {
-                chart.updateSeries([{name: 'Balance', data: response}])
-            });
-
-            var url3 = '{{route('API_shareevolutiondate',['locale'=> app()->getLocale()])}}';
-            $.getJSON(url3, function (response) {
-                var series1 = {name: 'Sales-bar', type: 'bar', data: response};
-                var series2 = {name: 'sales-line', type: 'line', data: response};
-                chart2.updateSeries([series1, series2]);
-            });
-
-            $(document).on("click", "#date", function () {
+            if (chartOrigin) {
+                var url = '{{route('API_usercash',['locale'=> app()->getLocale()])}}';
+                $.getJSON(url, function (response) {
+                    chart.updateSeries([{name: 'Balance', data: response}])
+                });
+            }
+            if (chart2Origin && chart1Origin) {
                 var url3 = '{{route('API_shareevolutiondate',['locale'=> app()->getLocale()])}}';
                 $.getJSON(url3, function (response) {
                     var series1 = {name: 'Sales-bar', type: 'bar', data: response};
                     var series2 = {name: 'sales-line', type: 'line', data: response};
-
                     chart2.updateSeries([series1, series2]);
                 });
+            }
+            $(document).on("click", "#date", function () {
+                if (chart2Origin) {
+                    var url3 = '{{route('API_shareevolutiondate',['locale'=> app()->getLocale()])}}';
+                    $.getJSON(url3, function (response) {
+                        var series1 = {name: 'Sales-bar', type: 'bar', data: response};
+                        var series2 = {name: 'sales-line', type: 'line', data: response};
+
+                        chart2.updateSeries([series1, series2]);
+                    });
+                }
             });
             $(document).on("click", "#week", function () {
-                var url3 = '{{route('API_shareevolutionweek',['locale'=> app()->getLocale()])}}';
-                $.getJSON(url3, function (response) {
-                    var series1 = {name: 'Sales-bar', type: 'bar', data: response};
-                    var series2 = {name: 'sales-line', type: 'line', data: response};
-                    chart2.updateSeries([series1, series2]);
-                });
+                if (chart2Origin && chart1Origin) {
+                    var url3 = '{{route('API_shareevolutionweek',['locale'=> app()->getLocale()])}}';
+                    $.getJSON(url3, function (response) {
+                        var series1 = {name: 'Sales-bar', type: 'bar', data: response};
+                        var series2 = {name: 'sales-line', type: 'line', data: response};
+                        chart2.updateSeries([series1, series2]);
+                    });
+                }
             });
             $(document).on("click", "#month", function () {
-                var url3 = '{{route('API_shareevolutionmonth',['locale'=> app()->getLocale()])}}';
-                $.getJSON(url3, function (response) {
-                    var series1 = {name: 'Sales-bar', type: 'bar', data: response};
-                    var series2 = {name: 'sales-line', type: 'line', data: response};
-                    chart2.updateSeries([series1, series2]);
-                });
+                if (chart2Origin && chart1Origin) {
+                    var url3 = '{{route('API_shareevolutionmonth',['locale'=> app()->getLocale()])}}';
+                    $.getJSON(url3, function (response) {
+                        var series1 = {name: 'Sales-bar', type: 'bar', data: response};
+                        var series2 = {name: 'sales-line', type: 'line', data: response};
+                        chart2.updateSeries([series1, series2]);
+                    });
+                }
             });
             $(document).on("click", "#day", function () {
-                var url3 = '{{route('API_shareevolutionday',['locale'=> app()->getLocale()])}}';
-                $.getJSON(url3, function (response) {
-                    var series1 = {name: 'Sales-bar', type: 'bar', data: response};
-                    var series2 = {name: 'sales-line', type: 'line', data: response};
-                    chart2.updateSeries([series1, series2]);
+                if (chart2Origin && chart1Origin) {
+                    var url3 = '{{route('API_shareevolutionday',['locale'=> app()->getLocale()])}}';
+                    $.getJSON(url3, function (response) {
+                        var series1 = {name: 'Sales-bar', type: 'bar', data: response};
+                        var series2 = {name: 'sales-line', type: 'line', data: response};
+                        chart2.updateSeries([series1, series2]);
+                    });
+                }
+            });
+            if (chart2Origin && chart1Origin) {
+                chart2.render();
+                var url1 = '{{route('API_shareevolution',['locale'=> app()->getLocale()])}}';
+                var url2 = '{{route('API_actionvalues',['locale'=> app()->getLocale()])}}';
+
+                $.when(
+                    $.getJSON(url1),
+                    $.getJSON(url2)
+                ).then(function (response1, response2) {
+                    var series1 = {name: 'Sales', type: 'area', data: response1[0]};
+
+                    var series2 = {name: 'Function', type: 'line', data: response2[0]};
+                    chart1.updateSeries([series1, series2]);
                 });
-            });
-            chart2.render();
-            var url1 = '{{route('API_shareevolution',['locale'=> app()->getLocale()])}}';
-            var url2 = '{{route('API_actionvalues',['locale'=> app()->getLocale()])}}';
-
-            $.when(
-                $.getJSON(url1),
-                $.getJSON(url2)
-            ).then(function (response1, response2) {
-                var series1 = {name: 'Sales', type: 'area', data: response1[0]};
-
-                var series2 = {name: 'Function', type: 'line', data: response2[0]};
-                chart1.updateSeries([series1, series2]);
-            });
+            }
         });
     </script>
 </div>
