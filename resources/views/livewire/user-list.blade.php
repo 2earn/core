@@ -237,12 +237,12 @@
                         <th>{{__('Password')}}</th>
                         <th>{{__('register_upline')}}</th>
                         <th>{{__('Action')}}</th>
+                        <th>{{__('VIP')}}</th>
                         <th>{{__('MinShare')}}</th>
                         <th>{{__('Periode')}}</th>
                         <th>{{__('date')}}</th>
                         <th>{{__('COeff')}}</th>
                         <th>{{__('Note')}}</th>
-                        <th>{{__('VIP')}}</th>
                     </tr>
                     </thead>
                     <tbody class="body2earn">
@@ -256,7 +256,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Transfert Cash') }}</h5>
-                    <button type="button" class="btn-close btn-vip-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-vip-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form action="javascript:void(0);">
@@ -326,15 +327,15 @@
                                 <div class="input-group mt-2">
                                     <input id="vip-reciver" type="hidden">
                                     <input type="hidden" id="created_at">
-                                    <label class="form-label">{{__('Minshares')}}</label>
+                                    <label class="form-label">{{__('Minshares')}}<span class="text-danger">*</span></label>
                                     <input type="number" class="form-control-flash" id="minshares">
                                 </div>
                                 <div class="input-group mt-2">
-                                    <label class="form-label">{{__('Periode')}}</label>
+                                    <label class="form-label">{{__('Periode')}}<span class="text-danger">*</span></label>
                                     <input type="number" class="form-control-flash" id="periode">
                                 </div>
                                 <div class="input-group mt-2">
-                                    <label class="form-label">{{__('Coefficient')}}</label>
+                                    <label class="form-label">{{__('Coefficient')}}<span class="text-danger">*</span></label>
                                     <input type="number" class="form-control-flash" id="coefficient">
                                 </div>
                                 <div class="input-group mt-2">
@@ -430,6 +431,52 @@
         </div>
     </div>
     <script type="module">
+        var ammount = 0;
+
+        function fireSwalInformMessage(iconSwal, titleSwal, textSwal) {
+            Swal.fire({
+                position: 'center',
+                icon: iconSwal,
+                title: titleSwal,
+                text: textSwal,
+                showConfirmButton: true,
+                showCloseButton: true
+            });
+        }
+
+        function transferCash(ammount) {
+            let reciver = $('#userlist-reciver').val();
+            let msg = "{{__('You transferred')}} " + ammount + " $ {{__('For')}} " + reciver;
+            let user = 126;
+            if (ammount > 0) {
+                $.ajax({
+                    url: "{{ route('addCash') }}",
+                    type: "POST",
+                    data: {amount: ammount, reciver: reciver, "_token": "{{ csrf_token() }}"},
+                    success: function (data) {
+                        $.ajax({
+                            url: "{{ route('sendSMS') }}",
+                            type: "POST",
+                            data: {user: user, msg: msg, "_token": "{{ csrf_token() }}"},
+                            success: function (data) {
+                                fireSwalInformMessage('success', '{{__('Transfer success')}}', msg);
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                fireSwalInformMessage('error', xhr.status, thrownError);
+                            }
+                        });
+                        $.getJSON(window.url, function (data) {
+                            createOrUpdateDataTable(data);
+                        });
+                        $('.btn-vip-close').trigger('click');
+                    }
+                });
+            } else {
+                fireSwalInformMessage('error', '{{__('wrong amount value')}}', '{{__('wrong amount value')}}')
+            }
+            $(this).prop("disabled", false);
+        }
+
         function createOrUpdateDataTable(data) {
             if ($.fn.DataTable.isDataTable('#ub_table_list')) {
                 $('#ub_table_list').DataTable().destroy();
@@ -600,17 +647,73 @@
                     {data: 'pass'},
                     {data: 'register_upline'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
+                    {data: 'VIP', name: 'action', orderable: false, searchable: false},
                     {data: 'minshares'},
                     {data: 'periode'},
                     {data: 'date'},
                     {data: 'coeff'},
                     {data: 'note'},
-                    {data: 'VIP', name: 'action', orderable: false, searchable: false},
                     {data: 'mobile'},
                 ],
                 "columnDefs": [{"targets": [19], searchable: true, visible: false},],
                 "language": {"url": urlLang}
             });
+        });
+
+        $("#userlist-submit").on('click', function (eventUserListTransfert) {
+            $(this).prop("disabled", true);
+            eventUserListTransfert.preventDefault();
+            eventUserListTransfert.stopImmediatePropagation();
+            transferCash(parseInt($('#ammount').val()));
+            $('#ammount').val(0);
+            $(this).prop("disabled", false);
+        });
+
+        $(document).on("click", ".vip", function () {
+            let reciver = $(this).data('reciver');
+            let phone = $(this).data('phone');
+            let country = $(this).data('country');
+            $('#vip-country').attr('src', country);
+            $('#vip-reciver').attr('value', reciver);
+            $('#vip-phone').attr('value', phone);
+        });
+        $(document).on("click", "#vip-submit", function () {
+            let reciver = $('#vip-reciver').val();
+            let minshares = $('#minshares').val();
+            let periode = $('#periode').val();
+            let coefficient = $('#coefficient').val();
+            let note = $('#note').val();
+            let date = Date.now();
+            let msgvip = "l'utilisateur " + reciver + " est VIP(x" + coefficient + ") pour une periode de " + periode + " à partir de " + date + " avec un minimum de " + minshares + " actions acheté";
+            let user = 126;
+            if (minshares && periode && coefficient) {
+                $.ajax({
+                    url: "{{ route('vip') }}",
+                    type: "POST",
+                    data: {
+                        reciver: reciver,
+                        minshares: minshares,
+                        periode: periode,
+                        coefficient: coefficient,
+                        note: note,
+                        date: date,
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    success: function (data) {
+                        $.ajax({
+                            url: "{{ route('sendSMS') }}",
+                            type: "POST",
+                            data: {user: user, msg: msgvip, "_token": "{{ csrf_token() }}"},
+                            success: function (data) {
+                                fireSwalInformMessage('success', data, msgvip)
+                            }
+                        });
+                        $('.btn-vip-close').trigger('click');
+                    }
+                });
+            } else {
+                fireSwalInformMessage('error', '{{__('Error Vip')}}', '{{__('Please check form data')}}')
+            }
         });
     </script>
 </div>
