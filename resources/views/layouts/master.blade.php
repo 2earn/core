@@ -140,6 +140,7 @@
         });
     });
 </script>
+@stack('scripts')
 <script type="module">
     $(document).on('turbolinks:load', function () {
         var select2_array = [];
@@ -209,7 +210,6 @@
         });
     });
 
-
     window.addEventListener('closeModalOp', event => {
         $('#BoModal').modal('hide');
         $('#BalanceOperationsTable').DataTable().ajax.reload();
@@ -219,9 +219,6 @@
         $('#amountsTable').DataTable().ajax.reload();
     });
 
-</script>
-@stack('scripts')
-<script type="module">
     $(document).on('turbolinks:load', function () {
         var ipPhone = document.getElementById("inputPhoneUpdate");
         const myParams = window.location.pathname.split("/");
@@ -533,15 +530,6 @@
                 errorMsg.classList.add("invisible");
             }
         };
-
-        $(document).on("click", ".addCash", function () {
-            let reciver = $(this).data('reciver');
-            let phone = $(this).data('phone');
-            let country = $(this).data('country');
-            $('#userlist-country').attr('src', country);
-            $('#userlist-reciver').attr('value', reciver);
-            $('#userlist-phone').attr('value', phone);
-        });
 
 
         $.ajax({
