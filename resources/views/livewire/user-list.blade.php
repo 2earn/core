@@ -689,7 +689,7 @@
             $('#vip-reciver').attr('value', reciver);
             $('#vip-phone').attr('value', phone);
         });
-        $(document).on("click", "#vip-submit", function () {
+        $("#vip-submit").one("click", function () {
             let reciver = $('#vip-reciver').val();
             let minshares = $('#minshares').val();
             let periode = $('#periode').val();
