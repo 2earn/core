@@ -260,7 +260,9 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
                     }
                 }
             }
-            document.getElementById("two-column-menu").innerHTML = ul.outerHTML;
+            if (document.getElementById('two-column-menu') instanceof Object) {
+                document.getElementById("two-column-menu").innerHTML = ul.outerHTML;
+            }
             Array.from(document.querySelector("#two-column-menu ul").querySelectorAll("li a")).forEach(function (element) {
                 var currentPath = location.pathname == "/" ? "index" : location.pathname.substring(1);
                 currentPath = currentPath.substring(currentPath.lastIndexOf("/") + 1);
@@ -437,12 +439,17 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
 
     function initLeftMenuCollapse() {
         if (document.documentElement.getAttribute("data-layout") == "vertical") {
-            document.getElementById("two-column-menu").innerHTML = "";
-            document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
-
-            document.getElementById("scrollbar").setAttribute("data-simplebar", "");
-            document.getElementById("navbar-nav").setAttribute("data-simplebar", "");
-            document.getElementById("scrollbar").classList.add("h-100");
+            if (document.getElementById('two-column-menu') instanceof Object) {
+                document.getElementById("two-column-menu").innerHTML = "";
+            }
+            if (document.querySelector('.navbar-menu') instanceof Object) {
+                document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
+            }
+            if (document.getElementById('two-column-menu') instanceof Object) {
+                document.getElementById("scrollbar").setAttribute("data-simplebar", "");
+                document.getElementById("navbar-nav").setAttribute("data-simplebar", "");
+                document.getElementById("scrollbar").classList.add("h-100");
+            }
         }
 
         if (document.documentElement.getAttribute("data-layout") == "twocolumn") {
@@ -918,8 +925,12 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
 
     function hideShowLayoutOptions(dataLayout) {
         if (dataLayout == "vertical") {
-            document.getElementById("two-column-menu").innerHTML = "";
-            document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
+            if (document.getElementById('two-column-menu') instanceof Object) {
+                document.getElementById("two-column-menu").innerHTML = "";
+            }
+            if (document.querySelector('.navbar-menu') instanceof Object) {
+                document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
+            }
             if (document.getElementById("theme-settings-offcanvas")) {
                 document.getElementById("sidebar-size").style.display = "block";
                 document.getElementById("sidebar-view").style.display = "block";
@@ -1630,10 +1641,10 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
         initModeSetting();
     }
 
-    document.addEventListener("turbolinks:load", initTurboChange);
-
-    init();
-
+    if (document.getElementById('layout-wrapper') instanceof Object) {
+        document.addEventListener("turbolinks:load", initTurboChange);
+        init();
+    }
     var timeOutFunctionId;
 
     function setResize() {

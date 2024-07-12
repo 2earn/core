@@ -510,8 +510,10 @@
         <script src="https://cdn.lordicon.com/lordicon.js"></script>
         @vite('resources/js/pages/form-validation.init.js');
         @if($flash)
-            <script>
+            <script type="module">
                 var setEndDate6 = "{{$flashDate}}";
+                var vipInterval;
+                var vipInterval1;
 
                 function startCountDownDate(dateVal) {
                     var countDownDate = new Date(dateVal).getTime();
@@ -533,24 +535,33 @@
                     hours = hours < 10 ? "0" + hours : hours;
                     minutes = minutes < 10 ? "0" + minutes : minutes;
                     seconds = seconds < 10 ? "0" + seconds : seconds;
+                    if ($("#" + targetDOM).length) {
 
                     document.querySelector("#" + targetDOM).textContent =
                         "- " + days + " {{__('days')}} : " + hours + " {{__('hours')}} : " + minutes + " {{__('minutes')}} : " + seconds + "  {{__('seconds')}}";
 
                     if (distance < 0) {
                         document.querySelector("#" + targetDOM).textContent = "00 : 00 : 00 : 00";
-                    }
+                    }}
                 }
 
                 var flashTimer = startCountDownDate(setEndDate6);
-                if (document.getElementById("flash-timer"))
-                    setInterval(function () {
+                if ($('#flash-timer').length) {
+                    vipInterval = setInterval(function () {
                         countDownTimer(flashTimer, "flash-timer");
                     }, 1000);
-                if (document.getElementById("flash-timer1"))
-                    setInterval(function () {
+                } else {
+                    clearInterval(vipInterval);
+                }
+
+                if ($('#flash-timer1').length) {
+                    vipInterval1 = setInterval(function () {
                         countDownTimer(flashTimer, "flash-timer1");
                     }, 1000);
+                } else {
+                    clearInterval(vipInterval1);
+                }
+
             </script>
         @endif
         <script type="module">
