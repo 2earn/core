@@ -328,7 +328,8 @@
                     <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Buy Shares') }}@if($flash)
                             <div class="flash-background">{{__('V I P')}}</div>
                         @endif</h5>
-                    <button type="button" class="btn-close btn-close-buy-share" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-buy-share" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     @if($flash)
@@ -569,7 +570,7 @@
                             $('#bfs-select').addClass('d-none');
                         }
                     });
-                    $(document).on("click", "#buy-action-submit", function () {
+                    $("#buy-action-submit").one("click", function () {
                         this.disabled = true;
                         $('.buy-action-submit-spinner').show();
                         let ammount = parseFloat($('#ammount').val());
