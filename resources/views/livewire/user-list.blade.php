@@ -220,7 +220,7 @@
         <div class="card">
             <div class="card-body table-responsive">
                 <table id="users-list"
-                       class="table nowrap dt-responsive align-middle table-hover table-bordered"
+                       class="table table-striped table-bordered"
                        style="width:100%">
                     <thead class="table-light">
                     <tr class="head2earn  tabHeader2earn">
@@ -375,7 +375,7 @@
                         <div class="card-body table-responsive">
                             <input id="balances-reciver" type="hidden">
                             <input id="balances-amount" type="hidden">
-                            <table class="table nowrap dt-responsive align-middle table-hover table-bordered"
+                            <table class="table table-striped table-bordered"
                                    id="ub_table_list" style="width: 100%">
                                 <thead class="table-light">
                                 <tr class="head2earn  tabHeader2earn">
@@ -411,7 +411,7 @@
                         <div class="card-body table-responsive">
                             <input id="balances-reciversh" type="hidden">
                             <input id="balances-amountsh" type="hidden">
-                            <table class="table nowrap dt-responsive align-middle table-hover table-bordered"
+                            <table class="table table-striped table-bordered"
                                    id="ub_table_listsh" style="width: 100%">
                                 <thead class="table-light">
                                 <tr class="head2earn  tabHeader2earn">

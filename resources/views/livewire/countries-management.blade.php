@@ -12,7 +12,7 @@
         <div class="card">
             <div class="card-body">
                     <div class="table-responsive ">
-                        <table class=" mb-0 table-responsive-sm stripe table2earn flex-table" id="countries_table"
+                        <table class="table table-striped table-bordered"  id="countries_table"
                                style="width: 100%">
                             <thead>
                             <tr class="head2earn">

@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div class="card-body table-responsive">
-                    <table class="table nowrap dt-responsive align-middle table-hover table-bordered"
+                    <table class="table table-striped table-bordered"
                            id="ub_table_bfs" style="width: 100%">
                         <thead class="table-light">
                         <tr class=" tabHeader2earn">

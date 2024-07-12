@@ -42,7 +42,7 @@
                                     </div>
                                     <div class="table-responsive table-card mt-3 mb-1">
                                         <table
-                                            class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                                            class="table table-striped table-bordered"
                                             id="SettingsTable" style="width: 100%">
                                             <thead class="table-light">
                                             <tr>
@@ -70,7 +70,7 @@
                                     <div class="col-sm-auto">
                                     </div>
                                     <div class="table-responsive table-card mt-3 mb-1">
-                                        <table class="table align-middle table-nowrap flex-table"
+                                        <table class="table table-striped table-bordered"
                                                id="BalanceOperationsTable" style="width: 100%">
                                             <thead class="table-light">
                                             <tr>
@@ -97,7 +97,7 @@
                                     <div class="col-sm-auto">
                                     </div>
                                     <div class="table-responsive table-card mt-3 mb-1">
-                                        <table class="table align-middle table-nowrap flex-table" id="amountsTable"
+                                        <table class="table table-striped table-bordered"  id="amountsTable"
                                                style="width: 100%">
                                             <thead class="table-light">
                                             <tr>
@@ -126,7 +126,7 @@
                                     <div class="col-sm-auto">
                                     </div>
                                     <div class="table-responsive table-card mt-3 mb-1">
-                                        <table class="table align-middle table-nowrap flex-table"
+                                        <table class="table table-striped table-bordered"
                                                id="ActionHistorysTable" style="width: 100%">
                                             <thead class="table-light">
                                             <tr>

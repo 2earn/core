@@ -419,7 +419,7 @@
                             </div>
                             <div class="card-body pt-0">
                                 <div class="table-responsive ">
-                                    <table class=" table table-responsive tableEditAdmin"
+                                    <table class="table table-striped table-bordered tableEditAdmin"
                                            id="ReqFromMe_table2"
                                            style="width: 100%">
                                         <thead class="table-light">
@@ -461,7 +461,7 @@
                                             </tr>
                                             <tr hidden="true" id={{$value->numeroReq}}>
                                                 <td colspan="12">
-                                                    <table class=" table table-responsive table2earn "
+                                                    <table class="table table-striped table-bordered table2earn "
                                                            style="width: 100%">
                                                         <thead>
                                                         <tr>

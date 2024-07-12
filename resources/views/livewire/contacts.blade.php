@@ -54,7 +54,7 @@
     </div>
     <div class="card">
         <div class="card-body table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped table-bordered"  >
                 <thead class="table-light">
                 <tr class="tabHeader2earn">
                     <th>{{ __('FirstName') }}</th>

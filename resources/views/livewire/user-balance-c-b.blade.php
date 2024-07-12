@@ -16,7 +16,7 @@
                             <img src=" {{ Vite::asset('resources/images/qr_code.jpg') }}"
                                  class="img-fluid img-thumbnail rounded avatar-lg">
                         </div>
-                        <div class="col-sm-6 col-md-8 col-lg-10 col-xl-10">
+                        <div class="col-sm-12 col-md-8 col-lg-10 col-xl-10">
                             <div class="search-box ms-2">
                                 <p>{!! __('You can replenish your Cash Balance through various payment methods') !!}</p>
                                 <ol>
@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 <div class="card-body table-responsive">
-                    <table class="table nowrap dt-responsive align-middle table-hover table-bordered" id="ub_table"
+                    <table class="table table-striped table-bordered"  id="ub_table"
                            style="width: 100%">
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">
@@ -203,9 +203,7 @@
                             {"targets": [6, 7], searchable: false, visible: false},
                             {"targets": [5], className: classAl},
                         ],
-                    "language": {
-                        "url": urlLang
-                    }
+                    "language": {"url": urlLang}
                 }
             );
         });

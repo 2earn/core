@@ -1064,7 +1064,7 @@ and u.idamount not in(4,6)  and u.idUser=? and u.idamount=? order by Date   ", [
         }
 
         $userData = DB::select("SELECT RANK() OVER (
-        ORDER BY ub.Ref desc
+        ORDER BY ub.Date desc
     ) as ranks  , ub.idUser, ub.id ,ub.idSource ,ub.Ref , ub.Date, bo.Designation,ub.Description,ub.Description,ub.idamount,
 case when ub.idSource = '11111111' then 'system' else
 (select concat( IFNULL(enfirstname,''),' ',  IFNULL( enlastname,''))  from metta_users mu  where mu.idUser = ub.idSource)
@@ -1081,7 +1081,7 @@ when bo.IO = 'IO' then 'IO'
 end)   OVER(ORDER BY date) ,3) , ' $') else concat( format( ub.balance ,3,'en_EN') ,' $') end  as balance,ub.PrixUnitaire,'d' as sensP
   FROM user_balances ub inner join balanceoperations bo on
 ub.idBalancesOperation = bo.idBalanceOperations
-where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [$idAmounts, auth()->user()->idUser]
+where  (bo.idamounts = ? and ub.idUser =  ?)  order by ref desc", [$idAmounts, auth()->user()->idUser]
         );
 
         return Datatables::of($userData)

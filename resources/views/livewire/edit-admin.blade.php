@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div class="card-body table-responsive">
-                    <table  class="table table-responsive tableEditAdmin">
+                    <table class="table table-striped table-bordered tableEditAdmin">
                         <thead>
                         <tr>
                             <th scope="Id">Id</th>
