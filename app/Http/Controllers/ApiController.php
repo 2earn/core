@@ -76,7 +76,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         $PU = $number_of_action * ($actual_price) / ($number_of_action + $gift);
         $Count = DB::table('user_balances')->count();
         $ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-        $palier = \Core\Models\Setting::Where('idSETTINGS', '19')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
+        $palier = Setting::Where('idSETTINGS', '19')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
         $reciver = Auth()->user()->idUser;
         $reciver_bfs = Auth()->user()->idUser;
         $a = "me";
@@ -784,15 +784,12 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
 
     public function getActionValues()
     {
-        // Call getSelledActions to determine the limit
         $limit = getSelledActions() * 1.05;
-
         $data = [];
-        $setting = \Core\Models\Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
+        $setting = Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
         $initial_value = $setting[0];
         $final_value = $initial_value * 5;
         $total_actions = $setting[2];
-
 
         for ($x = 0; $x <= $limit; $x += intval($limit / 20)) {
             $val = ($final_value - $initial_value) / ($total_actions - 1) * ($x + 1) + ($initial_value - ($final_value - $initial_value) / ($total_actions - 1));
@@ -939,7 +936,6 @@ class="btn btn-xs btn-primary btn2earnTable"  >
                 return '<a  onclick="editBOFunction(' . $settings->idBalanceOperations . ')"   data-bs-toggle="modal" data-bs-target="#BoModal"
 class="btn btn-xs btn-primary btn2earnTable"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a> ';
             })
-
             ->editColumn('MODIFY_AMOUNT', function ($balanceOperations) {
                 if ($balanceOperations->MODIFY_AMOUNT == 1)
                     return '<span class="badge badge-success">Yes</span>';
@@ -972,7 +968,6 @@ class="btn btn-xs btn-primary btn2earnTable"  ><i class="glyphicon glyphicon-edi
 class="btn btn-xs btn-primary btn2earnTable"  >
 <i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a>';
             })
-
             ->editColumn('amountswithholding_tax', function ($amounts) {
                 if ($amounts->amountswithholding_tax == 1)
                     return '<span class="badge badge-success">Yes</span>';
@@ -1012,7 +1007,6 @@ class="btn btn-xs btn-primary btn2earnTable"  >
         $actionHistorys = DB::table('action_history')
             ->select('id', 'title', 'reponce');
         return datatables($actionHistorys)
-
             ->addColumn('action', function ($settings) {
                 return '<a onclick="editHAFunction(' . $settings->id . ')"   data-bs-toggle="modal" data-bs-target="#HistoryActionModal"  class="btn btn-xs btn-primary btn2earnTable"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a>
 <a  class="btn btn-xs btn-danger btn2earnTable"  ><i></i>' . Lang::get('Delete') . '</a>';
@@ -1070,7 +1064,7 @@ and u.idamount not in(4,6)  and u.idUser=? and u.idamount=? order by Date   ", [
         }
 
         $userData = DB::select("SELECT RANK() OVER (
-        ORDER BY ub.Date desc
+        ORDER BY ub.Ref desc
     ) as ranks  , ub.idUser, ub.id ,ub.idSource ,ub.Ref , ub.Date, bo.Designation,ub.Description,ub.Description,ub.idamount,
 case when ub.idSource = '11111111' then 'system' else
 (select concat( IFNULL(enfirstname,''),' ',  IFNULL( enlastname,''))  from metta_users mu  where mu.idUser = ub.idSource)
@@ -1405,7 +1399,6 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUs
                 return '<a  href="' . route('adminUserEdit', ['userId' => $settings->idUser, 'locale' => app()->getLocale()]) . '"   onclick="EditUserByAdmin()" class="btn btn-xs btn-primary btn2earnTable" ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a>
 <a onclick="deleteUser(' . $settings->idUser . ')" class="btn btn-xs btn-danger btn2earnTable"   ><i></i>' . Lang::get('Delete') . '</a>';
             })
-
             ->editColumn('status', function ($userData) {
                 switch ($userData->status) {
                     case 0 :

@@ -328,7 +328,7 @@
                     <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Buy Shares') }}@if($flash)
                             <div class="flash-background">{{__('V I P')}}</div>
                         @endif</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-buy-share" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     @if($flash)
@@ -603,7 +603,8 @@
                                     });
                                 }
 
-                                $('#buy-action').modal('show');
+                                $('.btn-close-buy-share').trigger('click')
+
                                 Swal.fire({
                                     position: 'center',
                                     icon: 'success',

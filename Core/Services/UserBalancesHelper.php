@@ -9,7 +9,6 @@ use Core\Enum\EventBalanceOperationEnum;
 use Core\Enum\SettingsEnum;
 use Core\Interfaces\IUserBalancesRepository;
 use Core\Models\Amount;
-use Core\Models\history;
 use Core\Models\user_balance;
 use Illuminate\Support\Facades\DB;
 
@@ -18,12 +17,7 @@ class  UserBalancesHelper
     private IUserBalancesRepository $userBalancesRepository;
     private BalancesManager $balanceOperationmanager;
 
-    public function __construct(
-        IUserBalancesRepository $userBalancesRepository,
-        BalancesManager         $balanceOperationmanager,
-
-
-    )
+    public function __construct(IUserBalancesRepository $userBalancesRepository, BalancesManager $balanceOperationmanager,)
     {
         $this->userBalancesRepository = $userBalancesRepository;
         $this->balanceOperationmanager = $balanceOperationmanager;
@@ -100,98 +94,67 @@ class  UserBalancesHelper
                         ]);
 
                         $user_balance->save();
-//                        DB::table('user_balances')->insert(
-//                            ['ref' => $ref, 'idBalancesOperation' => $SI->idBalanceOperations,
-//                                'Date' => $date, 'idSource' => '11111111', 'idUser' => $idUser, 'idamount' => $SI->idamounts,
-//                                'value' => 0000.000, 'WinPurchaseAmount' => "0.000", 'Balance' => 0000.000]
-//                        );
                     } else {
 
                         $user_balance = new user_balance(['ref' => $ref, 'idBalancesOperation' => $SI->idBalanceOperations, 'Date' => $date,
                             'idSource' => '11111111', 'idUser' => $idUser, 'idamount' => $SI->idamounts, 'value' => 0.000, 'WinPurchaseAmount' => "0.000", 'Balance' => 0.000]);
 
-
                         $user_balance->save();
-//                        DB::table('user_balances')
-//                            ->insert(['ref' => $ref, 'idBalancesOperation' => $SI->idBalanceOperations, 'Date' => $date,
-//                                'idSource' => '11111111', 'idUser' => $idUser, 'idamount' => $SI->idamounts, 'value' => 0.000, 'WinPurchaseAmount' => "0.000", 'Balance' => 0.000]);
-//                    }
                     }
                 }
-                    $BalancesOperation = DB::table('balanceoperations')->where("idBalanceOperations", "=", BalanceOperationsEnum::By_registering_TREE)->first();
-                    $seting = DB::table('settings')->where("idSETTINGS", "=", SettingsEnum::discount_By_registering->value)->first();
-                    $Count = DB::table('user_balances')->count();
-                    $ref = $BalancesOperation->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
+                $BalancesOperation = DB::table('balanceoperations')->where("idBalanceOperations", "=", BalanceOperationsEnum::By_registering_TREE)->first();
+                $seting = DB::table('settings')->where("idSETTINGS", "=", SettingsEnum::discount_By_registering->value)->first();
+                $Count = DB::table('user_balances')->count();
+                $ref = $BalancesOperation->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
 
-                    $user_balance=new user_balance(
-                        [
-                            'ref' => $ref,
-                            'idBalancesOperation' => BalanceOperationsEnum::By_registering_TREE,
-                            'Date' => $date,
-                            'idSource' => '11111111',
+                $user_balance = new user_balance(
+                    [
+                        'ref' => $ref,
+                        'idBalancesOperation' => BalanceOperationsEnum::By_registering_TREE,
+                        'Date' => $date,
+                        'idSource' => '11111111',
+                        'idUser' => $idUser,
+                        'idamount' => $BalancesOperation->idamounts,
+                        'value' => $seting->IntegerValue,
+                        'WinPurchaseAmount' => "0.000"
+                    ]
+                );
+                $user_balance->save();
+                $BalancesOperation = DB::table('balanceoperations')->where("idBalanceOperations", "=", BalanceOperationsEnum::By_registering_DB)->first();
+                $seting = DB::table('settings')->where("idSETTINGS", "=", SettingsEnum::token_By_registering->value)->first();
+                $Count = DB::table('user_balances')->count();
+                $ref = $BalancesOperation->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
+                $user_balance = new user_balance(
+                    [
+                        'ref' => $ref,
+                        'idBalancesOperation' => BalanceOperationsEnum::By_registering_DB,
+                        'Date' => $date, 'idSource' => '11111111',
+                        'idUser' => $idUser,
+                        'idamount' => $BalancesOperation->idamounts,
+                        'value' => $seting->IntegerValue,
+                        'WinPurchaseAmount' => "0.000"
+                    ]
+                );
+                $user_balance->save();
+                //insert in table "usercurrentbalances"
+                $amounts = Amount::all();
+                foreach ($amounts as $amount) {
+                    if ($amount->idamounts == AmoutEnum::CASH_BALANCE->value) {
+                        DB::table('usercurrentbalances')->insert([
                             'idUser' => $idUser,
-                            'idamount' => $BalancesOperation->idamounts,
-                            'value' => $seting->IntegerValue,
-                            'WinPurchaseAmount' => "0.000"
-                        ]
-                    ) ;
-                    $user_balance->save() ;
-//                    DB::table('user_balances')->insert([
-//                        'ref' => $ref,
-//                        'idBalancesOperation' => BalanceOperationsEnum::By_registering_TREE,
-//                        'Date' => $date,
-//                        'idSource' => '11111111',
-//                        'idUser' => $idUser,
-//                        'idamount' => $BalancesOperation->idamounts,
-//                        'value' => $seting->IntegerValue,
-//                        'WinPurchaseAmount' => "0.000"
-//                    ]);
-                    $BalancesOperation = DB::table('balanceoperations')->where("idBalanceOperations", "=", BalanceOperationsEnum::By_registering_DB)->first();
-                    $seting = DB::table('settings')->where("idSETTINGS", "=", SettingsEnum::token_By_registering->value)->first();
-                    $Count = DB::table('user_balances')->count();
-                    $ref = $BalancesOperation->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-                    $user_balance = new user_balance(
-                        [
-                            'ref' => $ref,
-                            'idBalancesOperation' => BalanceOperationsEnum::By_registering_DB,
-                            'Date' => $date, 'idSource' => '11111111',
+                            'idamounts' => $amount->idamounts,
+                            'value' => 0.000,
+                        ]);
+                    } else {
+                        DB::table('usercurrentbalances')->insert([
                             'idUser' => $idUser,
-                            'idamount' => $BalancesOperation->idamounts,
-                            'value' => $seting->IntegerValue,
-                            'WinPurchaseAmount' => "0.000"
-                        ]
-                    );
-                    $user_balance->save();
-//                DB::table('user_balances')
-//                    ->insert([
-//                        'ref' => $ref,
-//                        'idBalancesOperation' => BalanceOperationsEnum::By_registering_DB,
-//                        'Date' => $date, 'idSource' => '11111111',
-//                        'idUser' => $idUser,
-//                        'idamount' => $BalancesOperation->idamounts,
-//                        'value' => $seting->IntegerValue,
-//                        'WinPurchaseAmount' => "0.000"
-//                    ]);
-                    //insert in table "usercurrentbalances"
-                    $amounts = Amount::all();
-                    foreach ($amounts as $amount) {
-                        if ($amount->idamounts == AmoutEnum::CASH_BALANCE->value) {
-                            DB::table('usercurrentbalances')->insert([
-                                'idUser' => $idUser,
-                                'idamounts' => $amount->idamounts,
-                                'value' => 0.000,
-                            ]);
-                        }
-                        else {
-                            DB::table('usercurrentbalances')->insert([
-                                'idUser' => $idUser,
-                                'idamounts' => $amount->idamounts,
-                                'value' => 0.000,
-                            ]);
-                        }
+                            'idamounts' => $amount->idamounts,
+                            'value' => 0.000,
+                        ]);
                     }
-                    break;
-                case EventBalanceOperationEnum::ExchangeCashToBFS :
+                }
+                break;
+            case EventBalanceOperationEnum::ExchangeCashToBFS :
                 if (($params) == null) dd('throw exception');
                 $BalancesOperation = DB::table('balanceoperations')->where("idBalanceOperations",
                     BalanceOperationsEnum::CASH_TO_BFS_CB)->first();
@@ -199,7 +162,7 @@ class  UserBalancesHelper
                 $date = date('Y-m-d H:i:s');
                 $Count = DB::table('user_balances')->count();
                 $ref = $BalancesOperation->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-                $user_balance=new user_balance(
+                $user_balance = new user_balance(
                     ['ref' => $ref,
                         'idBalancesOperation' => BalanceOperationsEnum::CASH_TO_BFS_CB,
                         'Date' => $date,
@@ -208,31 +171,18 @@ class  UserBalancesHelper
                         'idamount' => $BalancesOperation->idamounts,
                         'value' => $params["montant"],
                         'WinPurchaseAmount' => "0.000", 'Balance' => $params["newSoldeCashBalance"]]
-                ) ;
-                $user_balance->save() ;
-//                $id_balance = DB::table('user_balances')->insertGetId(
-//                    ['ref' => $ref,
-//                        'idBalancesOperation' => BalanceOperationsEnum::CASH_TO_BFS_CB,
-//                        'Date' => $date,
-//                        'idSource' => $idUser,
-//                        'idUser' => $idUser,
-//                        'idamount' => $BalancesOperation->idamounts,
-//                        'value' => $params["montant"],
-//                        'WinPurchaseAmount' => "0.000", 'Balance' => $params["newSoldeCashBalance"]]);
-
+                );
+                $user_balance->save();
                 $BalancesOperation = DB::table('balanceoperations')->where("idBalanceOperations", BalanceOperationsEnum::From_CASH_Balance_BFS)->first();
                 $Count = DB::table('user_balances')->count();
                 $ref = $BalancesOperation->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-               $user_balance= new user_balance(
-                   ['ref' => $ref, 'idBalancesOperation' => BalanceOperationsEnum::From_CASH_Balance_BFS,
-                       'Date' => $date, 'idSource' => $idUser, 'idUser' => $idUser, 'idamount' => $BalancesOperation->idamounts, 'value' => $params["montant"], 'WinPurchaseAmount' => "0.000"
-                       , 'Balance' => $params["newSoldeBFS"], 'PrixUnitaire' => 1]
-               ) ;
-               $user_balance->save() ;
+                $user_balance = new user_balance(
+                    ['ref' => $ref, 'idBalancesOperation' => BalanceOperationsEnum::From_CASH_Balance_BFS,
+                        'Date' => $date, 'idSource' => $idUser, 'idUser' => $idUser, 'idamount' => $BalancesOperation->idamounts, 'value' => $params["montant"], 'WinPurchaseAmount' => "0.000"
+                        , 'Balance' => $params["newSoldeBFS"], 'PrixUnitaire' => 1]
+                );
+                $user_balance->save();
 
-//                $id_balance = DB::table('user_balances')->insertGetId(['ref' => $ref, 'idBalancesOperation' => BalanceOperationsEnum::From_CASH_Balance_BFS,
-//                    'Date' => $date, 'idSource' => $idUser, 'idUser' => $idUser, 'idamount' => $BalancesOperation->idamounts, 'value' => $params["montant"], 'WinPurchaseAmount' => "0.000"
-//                    , 'Balance' => $params["newSoldeBFS"], 'PrixUnitaire' => 1]);
                 break;
             case EventBalanceOperationEnum::ExchangeBFSToSMS :
 
@@ -243,21 +193,17 @@ class  UserBalancesHelper
                 $date = date('Y-m-d H:i:s');
                 $Count = DB::table('user_balances')->count();
                 $ref = $BalancesOperation->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-                $user_balance= new user_balance(['ref' => $ref, 'idBalancesOperation' => BalanceOperationsEnum::BFS_TO_SMSn_BFS, 'Date' => $date, 'idSource' => $idUser, 'idUser' => $idUser,
-                    'idamount' => $BalancesOperation->idamounts, 'value' => $params["montant"], 'WinPurchaseAmount' => "0.000", 'Balance' => $params["newSoldeCashBalance"]]) ; $user_balance->save() ;
-//                $id_balance = DB::table('user_balances')->insertGetId(
-//                    ['ref' => $ref, 'idBalancesOperation' => BalanceOperationsEnum::BFS_TO_SMSn_BFS, 'Date' => $date, 'idSource' => $idUser, 'idUser' => $idUser,
-//                        'idamount' => $BalancesOperation->idamounts, 'value' => $params["montant"], 'WinPurchaseAmount' => "0.000", 'Balance' => $params["newSoldeCashBalance"]]);
+                $user_balance = new user_balance(['ref' => $ref, 'idBalancesOperation' => BalanceOperationsEnum::BFS_TO_SMSn_BFS, 'Date' => $date, 'idSource' => $idUser, 'idUser' => $idUser,
+                    'idamount' => $BalancesOperation->idamounts, 'value' => $params["montant"], 'WinPurchaseAmount' => "0.000", 'Balance' => $params["newSoldeCashBalance"]]);
+                $user_balance->save();
 
                 $BalancesOperation = DB::table('balanceoperations')->where("idBalanceOperations", BalanceOperationsEnum::From_BFS_Balance_SMS)->first();
                 $Count = DB::table('user_balances')->count();
                 $ref = $BalancesOperation->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-                $user_balance=new user_balance() ; $user_balance->save(['ref' => $ref, 'idBalancesOperation' => BalanceOperationsEnum::From_BFS_Balance_SMS,
-                'Date' => $date, 'idSource' => $idUser, 'idUser' => $idUser, 'idamount' => $BalancesOperation->idamounts, 'value' => $params["montant"], 'WinPurchaseAmount' => "0.000"
-                , 'Balance' => $params["newSoldeBFS"], 'PrixUnitaire' => $params["PrixSms"]]) ;
-//                $id_balance = DB::table('user_balances')->insertGetId(['ref' => $ref, 'idBalancesOperation' => BalanceOperationsEnum::From_BFS_Balance_SMS,
-//                    'Date' => $date, 'idSource' => $idUser, 'idUser' => $idUser, 'idamount' => $BalancesOperation->idamounts, 'value' => $params["montant"], 'WinPurchaseAmount' => "0.000"
-//                    , 'Balance' => $params["newSoldeBFS"], 'PrixUnitaire' => $params["PrixSms"]]);
+                $user_balance = new user_balance();
+                $user_balance->save(['ref' => $ref, 'idBalancesOperation' => BalanceOperationsEnum::From_BFS_Balance_SMS,
+                    'Date' => $date, 'idSource' => $idUser, 'idUser' => $idUser, 'idamount' => $BalancesOperation->idamounts, 'value' => $params["montant"], 'WinPurchaseAmount' => "0.000"
+                    , 'Balance' => $params["newSoldeBFS"], 'PrixUnitaire' => $params["PrixSms"]]);
                 break;
             case EventBalanceOperationEnum::SendSMS:
                 $BalancesOperation = DB::table('balanceoperations')->where("idBalanceOperations",
@@ -267,28 +213,19 @@ class  UserBalancesHelper
                 $date = date('Y-m-d H:i:s');
                 $Count = DB::table('user_balances')->count();
                 $ref = $BalancesOperation->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-               $user_balance=new user_balance([
-                   'ref' => $ref,
-                   'idBalancesOperation' => $BalancesOperation->idBalanceOperations,
-                   'Date' => $date,
-                   'idSource' => $idUser,
-                   'idUser' => $idUser,
-                   'idamount' => $BalancesOperation->idamounts,
-                   'value' => $prix_sms,
-                   'WinPurchaseAmount' => "0.000",
-                   'PrixUnitaire' => $prix_sms
-               ]); $user_balance->save() ;
-//                $id_balance = DB::table('user_balances')->insertGetId([
-//                    'ref' => $ref,
-//                    'idBalancesOperation' => $BalancesOperation->idBalanceOperations,
-//                    'Date' => $date,
-//                    'idSource' => $idUser,
-//                    'idUser' => $idUser,
-//                    'idamount' => $BalancesOperation->idamounts,
-//                    'value' => $prix_sms,
-//                    'WinPurchaseAmount' => "0.000",
-//                    'PrixUnitaire' => $prix_sms
-//                ]);
+                $user_balance = new user_balance([
+                    'ref' => $ref,
+                    'idBalancesOperation' => $BalancesOperation->idBalanceOperations,
+                    'Date' => $date,
+                    'idSource' => $idUser,
+                    'idUser' => $idUser,
+                    'idamount' => $BalancesOperation->idamounts,
+                    'value' => $prix_sms,
+                    'WinPurchaseAmount' => "0.000",
+                    'PrixUnitaire' => $prix_sms
+                ]);
+                $user_balance->save();
+
                 break;
             case EventBalanceOperationEnum::SendToPublicFromCash:
                 ///idSource is the sender
@@ -303,56 +240,37 @@ class  UserBalancesHelper
                 $date = date('Y-m-d H:i:s');
                 $Count = DB::table('user_balances')->count();
                 $ref = $BalancesOperation->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-               $user_balance= new  user_balance([
-                   'ref' => $ref,
-                   'idBalancesOperation' => $BalancesOperation->idBalanceOperations,
-                   'Date' => $date,
-                   'idSource' => $idUser,
-                   'idUser' => $params['recipient'],
-                   'idamount' => $BalancesOperation->idamounts,
-                   'value' => $params["montant"],
-                   'WinPurchaseAmount' => "0.000",
-                   'Balance' => $newSoldeBFSRecipient
-               ]) ;$user_balance->save() ;
-//                $id_balance = DB::table('user_balances')->insertGetId([
-//                    'ref' => $ref,
-//                    'idBalancesOperation' => $BalancesOperation->idBalanceOperations,
-//                    'Date' => $date,
-//                    'idSource' => $idUser,
-//                    'idUser' => $params['recipient'],
-//                    'idamount' => $BalancesOperation->idamounts,
-//                    'value' => $params["montant"],
-//                    'WinPurchaseAmount' => "0.000",
-//                    'Balance' => $newSoldeBFSRecipient
-//                ]);
+                $user_balance = new  user_balance([
+                    'ref' => $ref,
+                    'idBalancesOperation' => $BalancesOperation->idBalanceOperations,
+                    'Date' => $date,
+                    'idSource' => $idUser,
+                    'idUser' => $params['recipient'],
+                    'idamount' => $BalancesOperation->idamounts,
+                    'value' => $params["montant"],
+                    'WinPurchaseAmount' => "0.000",
+                    'Balance' => $newSoldeBFSRecipient
+                ]);
+                $user_balance->save();
+
                 $BalancesOperation = DB::table('balanceoperations')->where("idBalanceOperations", BalanceOperationsEnum::to_Other_Users_public_CB)->first();
                 $Count = DB::table('user_balances')->count();
                 $ref = $BalancesOperation->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-               $user_balance=new  user_balance(
-                   [
-                       'ref' => $ref,
-                       'idBalancesOperation' => $BalancesOperation->idBalanceOperations,
-                       'Date' => $date,
-                       'idSource' => $idUser,
-                       'idUser' => $idUser,
-                       'idamount' => $BalancesOperation->idamounts,
-                       'value' => $params["montant"],
-                       'WinPurchaseAmount' => "0.000",
-                       'Balance' => $newSoldeCashSender
-                   ]
-               ) ;
-               $user_balance->save() ;
-//                $id_balance = DB::table('user_balances')->insertGetId([
-//                    'ref' => $ref,
-//                    'idBalancesOperation' => $BalancesOperation->idBalanceOperations,
-//                    'Date' => $date,
-//                    'idSource' => $idUser,
-//                    'idUser' => $idUser,
-//                    'idamount' => $BalancesOperation->idamounts,
-//                    'value' => $params["montant"],
-//                    'WinPurchaseAmount' => "0.000",
-//                    'Balance' => $newSoldeCashSender
-//                ]);
+                $user_balance = new  user_balance(
+                    [
+                        'ref' => $ref,
+                        'idBalancesOperation' => $BalancesOperation->idBalanceOperations,
+                        'Date' => $date,
+                        'idSource' => $idUser,
+                        'idUser' => $idUser,
+                        'idamount' => $BalancesOperation->idamounts,
+                        'value' => $params["montant"],
+                        'WinPurchaseAmount' => "0.000",
+                        'Balance' => $newSoldeCashSender
+                    ]
+                );
+                $user_balance->save();
+
                 break;
             case EventBalanceOperationEnum::SendToPublicFromBFS:
                 ///idSource is the sender
@@ -367,35 +285,25 @@ class  UserBalancesHelper
                 $date = date('Y-m-d H:i:s');
                 $Count = DB::table('user_balances')->count();
                 $ref = $BalancesOperation->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-               $user_balance= new user_balance(
-                   [
-                       'ref' => $ref,
-                       'idBalancesOperation' => $BalancesOperation->idBalanceOperations,
-                       'Date' => $date,
-                       'idSource' => $idUser,
-                       'idUser' => $params['recipient'],
-                       'idamount' => $BalancesOperation->idamounts,
-                       'value' => $params["montant"],
-                       'WinPurchaseAmount' => "0.000",
-                       'Balance' => $newSoldeBFSRecipient
-                   ]
-               );
-               $user_balance->save() ;
-//                $id_balance = DB::table('user_balances')->insertGetId([
-//                    'ref' => $ref,
-//                    'idBalancesOperation' => $BalancesOperation->idBalanceOperations,
-//                    'Date' => $date,
-//                    'idSource' => $idUser,
-//                    'idUser' => $params['recipient'],
-//                    'idamount' => $BalancesOperation->idamounts,
-//                    'value' => $params["montant"],
-//                    'WinPurchaseAmount' => "0.000",
-//                    'Balance' => $newSoldeBFSRecipient
-//                ]);
+                $user_balance = new user_balance(
+                    [
+                        'ref' => $ref,
+                        'idBalancesOperation' => $BalancesOperation->idBalanceOperations,
+                        'Date' => $date,
+                        'idSource' => $idUser,
+                        'idUser' => $params['recipient'],
+                        'idamount' => $BalancesOperation->idamounts,
+                        'value' => $params["montant"],
+                        'WinPurchaseAmount' => "0.000",
+                        'Balance' => $newSoldeBFSRecipient
+                    ]
+                );
+                $user_balance->save();
+
                 $BalancesOperation = DB::table('balanceoperations')->where("idBalanceOperations", BalanceOperationsEnum::to_Other_Users_public_BFS)->first();
                 $Count = DB::table('user_balances')->count();
                 $ref = $BalancesOperation->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-                $user_balance= new user_balance(
+                $user_balance = new user_balance(
                     [
                         'ref' => $ref,
                         'idBalancesOperation' => $BalancesOperation->idBalanceOperations,
@@ -407,20 +315,9 @@ class  UserBalancesHelper
                         'WinPurchaseAmount' => "0.000",
                         'Balance' => $newSoldeCashSender
                     ]
-                ) ;
-                $user_balance->save() ;
-//                $id_balance = DB::table('user_balances')->insertGetId([
-//                    'ref' => $ref,
-//                    'idBalancesOperation' => $BalancesOperation->idBalanceOperations,
-//                    'Date' => $date,
-//                    'idSource' => $idUser,
-//                    'idUser' => $idUser,
-//                    'idamount' => $BalancesOperation->idamounts,
-//                    'value' => $params["montant"],
-//                    'WinPurchaseAmount' => "0.000",
-//                    'Balance' => $newSoldeCashSender
-//                ]);
+                );
+                $user_balance->save();
                 break;
         }
-        }
     }
+}
