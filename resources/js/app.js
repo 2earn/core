@@ -1537,6 +1537,7 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
         var fullscreenBtn = document.querySelector('[data-toggle="fullscreen"]');
         fullscreenBtn &&
         fullscreenBtn.addEventListener("click", function (e) {
+            console.log('fullscreen')
             e.preventDefault();
             document.body.classList.toggle("fullscreen-enable");
             if (!document.fullscreenElement &&
@@ -1623,7 +1624,12 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
         initMenuItemScroll();
     }
 
-    document.addEventListener("turbolinks:load", init);
+    function initTurboChange() {
+        initFullScreen();
+        initModeSetting();
+    }
+
+    document.addEventListener("turbolinks:load", initTurboChange);
 
     init();
 
