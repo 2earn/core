@@ -1625,6 +1625,7 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
     }
 
     function initTurboChange() {
+        init();
         initFullScreen();
         initModeSetting();
     }
