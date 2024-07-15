@@ -128,6 +128,9 @@ left join users user on user.idUser = recharge_requests.idUser";
             $flashGift = 0;
         }
         $gift = $gift + $flashGift;
+
+        $PU = $number_of_action * ($actual_price) / ($number_of_action + $gift);
+
         $this->userRepository->increasePurchasesNumber($reciver);
 
         // share sold
