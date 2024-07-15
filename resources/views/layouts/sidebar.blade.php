@@ -175,7 +175,7 @@
                             <a href="{{route('user_list', app()->getLocale(),false)}}"
                                class="nav-link menu-link {{Route::currentRouteName()=='user_list'? 'active' : ''}}"
                                role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-user-settings-line"></i>
+                                <i class="ri-user-fill"></i>
                                 <span>{{ __('Users') }}</span>
                             </a>
                         </li>
@@ -186,6 +186,37 @@
                                 <i class="ri-user-settings-line"></i> <span>{{ __('Shares Sold') }}</span>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link {{!in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'collapsed' : 'active'}}"
+                               href="#sidebarShareSold" data-bs-toggle="collapse"
+                               role="button"
+                               aria-expanded="{{in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'true' : 'false'}}"
+                               aria-controls="sidebarShareSold">
+                                <i class="ri-dashboard-fill"></i> <span
+                                    data-key="t-dashboards">{{ __('shares sold') }}</span>
+                            </a>
+                            <div
+                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'show' : ''}}"
+                                id="sidebarShareSold">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item {{Route::currentRouteName()=='shares_sold'? 'active' : ''}}">
+                                        <a href="{{route('shares_sold', app()->getLocale(),false)}}"
+                                           class="nav-link" data-key="t-analytics">{{ __('Shares sold') }}</a>
+                                    </li>
+                                    <li class="nav-item {{Route::currentRouteName()=='shares_sold_market_status'? 'active' : ''}}">
+                                        <a href="{{route('shares_sold_market_status', app()->getLocale(),false)}}"
+                                           class="nav-link"
+                                           data-key="t-analytics">{{ __('shares sold market_status') }}</a>
+                                    </li>
+                                    <li class="nav-item {{Route::currentRouteName()=='shares_sold_recent_transaction'? 'active' : ''}}">
+                                        <a href="{{route('shares_sold_recent_transaction', app()->getLocale(),false)}}"
+                                           class="nav-link" data-key="t-analytics">{{ __('shares sold recent_transaction') }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+
                         <li class="nav-item {{Route::currentRouteName()=='stat_countrie'? 'active' : ''}}">
                             <a href="{{route('stat_countrie', app()->getLocale(),false)}}"
                                class="nav-link menu-link {{Route::currentRouteName()=='stat_countrie'? 'active' : ''}}"
@@ -244,11 +275,19 @@
             $('#navbar-nav a[href="' + location.pathname + '"]').addClass('active');
             $('#navbar-nav a[href="' + location.pathname + '"]').parent().addClass('active');
             const settingArray = ['configuration-setting', 'configuration-bo', 'configuration-ha', 'configuration-amounts'];
+            const shareSoldArray = ['shares_sold', 'shares_sold_market_status', 'shares_sold_market_status'];
             var currentRoutePath = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
+
             if (settingArray.includes(currentRoutePath)) {
                 $('#sidebarDashboards').addClass('show');
             } else {
                 $('#sidebarDashboards').removeClass('show');
+            }
+
+            if (shareSoldArray.includes(currentRoutePath)) {
+                $('#sidebarShareSold').addClass('show');
+            } else {
+                $('#sidebarShareSold').removeClass('show');
             }
         });
     </script>

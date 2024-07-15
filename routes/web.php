@@ -86,6 +86,8 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('stat_countrie', \App\Http\Livewire\StatCountrie::class)->name('stat_countrie');
         Route::get('sharessolde', \App\Http\Livewire\SharesSolde::class)->name('sharessolde');
         Route::get('shares_sold', \App\Http\Livewire\SharesSold::class)->name('shares_sold');
+        Route::get('shares_sold_market_status', \App\Http\Livewire\SharesSoldMarketStatus::class)->name('shares_sold_market_status');
+        Route::get('shares_sold_recent_transaction', \App\Http\Livewire\SharesSoldRecentTransaction::class)->name('shares_sold_recent_transaction');
         Route::get('treeview', \App\Http\Livewire\treeview::class)->name('treeview');
 
         Route::get('user_balance_sms', UserBalanceSMS::class)->name('user_balance_sms');
