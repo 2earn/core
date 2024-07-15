@@ -905,8 +905,8 @@ class="btn btn-xs btn-primary btn2earnTable"  >
             ->addColumn('action', function ($settings) {
                 return '<div class="d-flex gap-2">
                              <div class="edit">
-                                    <button  onclick="editSettingFunction(' . $settings->idSETTINGS . ')"   data-bs-toggle="modal" data-bs-target="#settingModal"
- class="btn btn-sm btn-primary edit-item-btn"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</button> </div> </div>';
+                                    <button  data-id="' . $settings->idSETTINGS . '"   data-bs-toggle="modal" data-bs-target="#settingModal"
+ class="btn btn-primary edit-item-btn edit-setting-btn"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</button> </div> </div>';
             })
             ->setRowId('idSETTINGS')
             ->editColumn('Automatically_calculated', function ($settings) {
@@ -933,8 +933,8 @@ class="btn btn-xs btn-primary btn2earnTable"  >
                 'balanceoperations.idamounts', 'balanceoperations.Note', 'balanceoperations.MODIFY_AMOUNT', 'amounts.amountsshortname');
         return datatables($balanceOperations)
             ->addColumn('action', function ($settings) {
-                return '<a  onclick="editBOFunction(' . $settings->idBalanceOperations . ')"   data-bs-toggle="modal" data-bs-target="#BoModal"
-class="btn btn-xs btn-primary btn2earnTable"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a> ';
+                return '<a  data-id="' . $settings->idBalanceOperations . '"   data-bs-toggle="modal" data-bs-target="#BoModal"
+class="btn btn-xs btn-primary btn2earnTable edit-bo-btn"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a> ';
             })
             ->editColumn('MODIFY_AMOUNT', function ($balanceOperations) {
                 if ($balanceOperations->MODIFY_AMOUNT == 1)
@@ -947,11 +947,9 @@ class="btn btn-xs btn-primary btn2earnTable"  ><i class="glyphicon glyphicon-edi
                 if ($balanceOperations->amountsshortname == "BFS") {
                     return ' <img width="20" height="20" id="imm" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAAEX0lEQVR4nO2az48URRTHP5jZsGA2svw4ADsJFwPyB3jxBwkcMNwMHoCLurp69AQhcOGf8ICEP0CCLAfABNhVXIRsiFd2RUABEw+gsIvKCcfDe0X39lR1Vc9U9ww7/U0qma73qt73va569aMHagw2VnjkrS7b932fr3RgrEaNZYQ6B3RgrEaNAULLUzrBjzn9zVTNc+CTYC/geivdjKqOMfCrgC8AZczXMtAxz17mgGxbV32RPl1w9tkINOAi228ozLPOARXYmKLY3iGte7lEXkA1AVhtqbMlpquBbStFjDV7BDiv+s+AfTm67wP/qO4lYE2FPEvtuAF8qW3+A45ZdL4AnqvOSWCoBzzb5quv46Lz9RCJk18hTg7p75bKDvWS5zVLgx8sejMWvWsBxAH2Av9qm4taWlr3QWAf18viOQKco9z5CvAm8EeK1EPg7QLtS80r2SF50KJzkGQon6DYfDXYAsxq2dJB+yG1XRpPW1IKSWZVo1SeMeZrFSiVZ7fztSqUyrPb+VoVXhaeNfoSebcqy628OIylLxAK7ZmXAdpuibL76QOE7/H7FdOID+mdovOAlBZsAH7T509LJFg2PkN8+BVYr3XeAOwncX6G8HvDEKwFxoGzwDzwt5Z5YBL4GBiNaK+BXLSYIOwnIADpRLExEpFVwFFgwWInW54AR7RNDGzCfipsgxFMIcM+1psfA34i2ZdfQkbBdmAYOZ1tBSZYes6/AWyOxKGB+JTuvw1OQRcYA37Xfm8C7wa0eQe4o20eEC8IBpUFYBXJm/8e+zncZXMUueAwI2E4Iq/KAnBU+7sFvFaUDJIwb6n8cERelQRgLUnCe8si34MMb19i2qn1jyl245SHQgFoAqeBRS2TSMLyYVz7uuiQ25x3Bd8krg8D7IbwDQ5AE/jTQvIvleXhrOp+4pAXGW1mM/ONRy+Ub3AATuvzeSQTN4ELWnfKQ+Zn1XvdIS8SgG2qO+fRC+UbHIBFfU5Hr6l1Cx4ypu2IQ56dAg+A9xy6I6qzGGjTx3eJnyHfBm3RCn17zx31E4jTBmPAcYdu0f8LdMw3OwIm9fkCEskm8K3Wfe3py0yBbSGGLbbTeENl854+QvkGT4GtSALJJpVHyBsLITPu0fOSAj4nLAmG8i28DJ5C5tACEkmf8yCnurxl0LYE3nPomjN96DLo41vZRuiJ9rcjx1ba+d0WvV30eCPUDY6QzF3XGT/P5jrgtspDvhiHorIADCMHmRZwBXsQXDbXkZzhZ3lJD0MgGxKz5v+CfTpksYvkzd9HLjRiwhuAaWT7GetCZDPJSGghl6wTyBL5KrLR2Y5k++mU3izxnG9Y+m9DNjFdjUhgGDnSmsSYVx4jc35lJNubsH/zaIMR7EMuEFvEvxQdBT5C9glzwFMtc8AZZKmLle1BuBvn7yK+BeWA9SRBmIhIqGqYTdRdJLFCgSRorpCnSiRYNr4jGdUGS/wc+E9j6dOg7Z+ayxX99Ff/Gj3F/1ZQl/ObCiogAAAAAElFTkSuQmCC">';
 
-
                 } else {
                     return '<span><i class="fa fa-cogs" aria-hidden="true"></i></span>';
                 }
-
             })
             ->escapeColumns([])
             ->toJson();
@@ -964,8 +962,8 @@ class="btn btn-xs btn-primary btn2earnTable"  ><i class="glyphicon glyphicon-edi
 
         return datatables($amounts)
             ->addColumn('action', function ($settings) {
-                return '<a onclick="editAmountsFunction(' . $settings->idamounts . ')"   data-bs-toggle="modal" data-bs-target="#AmountsModal"
-class="btn btn-xs btn-primary btn2earnTable"  >
+                return '<a data-id="' . $settings->idamounts . '"   data-bs-toggle="modal" data-bs-target="#AmountsModal"
+class="btn btn-xs btn-primary edit-amounts-btn btn2earnTable"  >
 <i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a>';
             })
             ->editColumn('amountswithholding_tax', function ($amounts) {
@@ -1008,8 +1006,7 @@ class="btn btn-xs btn-primary btn2earnTable"  >
             ->select('id', 'title', 'reponce');
         return datatables($actionHistorys)
             ->addColumn('action', function ($settings) {
-                return '<a onclick="editHAFunction(' . $settings->id . ')"   data-bs-toggle="modal" data-bs-target="#HistoryActionModal"  class="btn btn-xs btn-primary btn2earnTable"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a>
-<a  class="btn btn-xs btn-danger btn2earnTable"  ><i></i>' . Lang::get('Delete') . '</a>';
+                return '<a data-id="' . $settings->id . '"   data-bs-toggle="modal" data-bs-target="#HistoryActionModal"  class="btn btn-xs btn-primary edit-ha-btn btn2earnTable"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a>';
             })
             ->editColumn('reponce', function ($actionHistorys) {
                 if ($actionHistorys->reponce == 1)
@@ -1023,11 +1020,7 @@ class="btn btn-xs btn-primary btn2earnTable"  >
 
     public function getUrlList($idUser, $idamount)
     {
-        // Construire l'URL de la route avec les paramètres idUser et idamount
-        $url = route('API_UserBalances_list', ['locale' => app()->getLocale(), 'idUser' => $idUser, 'idAmounts' => $idamount]);
-
-        // Retourner l'URL de la route
-        return $url;
+        return route('API_UserBalances_list', ['locale' => app()->getLocale(), 'idUser' => $idUser, 'idAmounts' => $idamount]);
     }
 
     public function getUserBalancesList($idUser, $idamount)
