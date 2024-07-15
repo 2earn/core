@@ -168,7 +168,7 @@
                     <h4 class="card-title mb-0 flex-grow-1">{{__('email_notification')}}</h4>
                     <div class="flex-shrink-0">
                         <img class="me-3 rounded-circle me-0 me-sm-3"
-                             src="{{ Vite::asset('resources/icons/eMail Icon.png') }}"
+                             src="{{ Vite::asset('resources/images/eMailIcon.png') }}"
                              width="30" height="30" alt="">
                     </div>
                 </div>
@@ -194,7 +194,7 @@
                     <h4 class="card-title mb-0 flex-grow-1">{{__('Discount_plan')}}</h4>
                     <div class="flex-shrink-0">
                         <img class="me-3 rounded-circle me-0 me-sm-3"
-                             src="{{ Vite::asset('resources/icons/discount.png') }}"
+                             src="{{ Vite::asset('resources/images/discount.png') }}"
                              width="30" height="30" alt="">
                     </div>
 
@@ -250,7 +250,7 @@
                     <h4 class="card-title mb-0 flex-grow-1">{{__('sms_notification')}}</h4>
                     <div class="flex-shrink-0">
                         <img class="me-3 rounded-circle me-0 me-sm-3"
-                             src="{{ Vite::asset('resources/icons/SMS Icon.png') }}"
+                             src="{{ Vite::asset('resources/images/SMSIcon.png') }}"
                              width="30" height="30" alt="">
                     </div>
                 </div>
