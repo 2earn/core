@@ -131,28 +131,34 @@
                             <span data-key="t-menu">{{ __('SUPER ADMIN MENU') }}</span>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link menu-link collapsed" href="#sidebarDashboards" data-bs-toggle="collapse"
-                               role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                            <a class="nav-link menu-link {{!in_array(Route::currentRouteName(), ['configuration-setting','configuration-bo','configuration-ha','configuration-amounts'])? 'collapsed' : 'active'}}"
+                               href="#sidebarDashboards" data-bs-toggle="collapse"
+                               role="button"
+                               aria-expanded="{{in_array(Route::currentRouteName(), ['configuration-setting','configuration-bo','configuration-ha','configuration-amounts'])? 'true' : 'false'}}"
+                               aria-controls="sidebarDashboards">
                                 <i class="ri-dashboard-2-line"></i> <span
                                     data-key="t-dashboards">{{ __('Settings') }}</span>
                             </a>
-                            <div class="menu-dropdown collapse" id="sidebarDashboards">
+                            <div
+                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['configuration-setting','configuration-bo','configuration-ha','configuration-amounts'])? 'show' : ''}}"
+                                id="sidebarDashboards">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item {{Route::currentRouteName()=='configuration-setting'? 'active' : ''}}">
-                                        <a href="{{route('configuration-setting', app()->getLocale())}}"
-                                           class="nav-link" data-key="t-analytics">{{ __('Settings') }}</a>
+                                        <a href="{{route('configuration-setting', app()->getLocale(),false)}}"
+                                           class="nav-link" data-key="t-analytics">{{ __('General Settings') }}</a>
                                     </li>
                                     <li class="nav-item {{Route::currentRouteName()=='configuration-bo'? 'active' : ''}}">
-                                        <a href="{{route('configuration-bo', app()->getLocale())}}" class="nav-link"
-                                           data-key="t-analytics">{{ __('Settings bo') }}</a>
+                                        <a href="{{route('configuration-bo', app()->getLocale(),false)}}"
+                                           class="nav-link"
+                                           data-key="t-analytics">{{ __('BO Settings') }}</a>
                                     </li>
                                     <li class="nav-item {{Route::currentRouteName()=='configuration-amounts'? 'active' : ''}}">
-                                        <a href="{{route('configuration-amounts', app()->getLocale())}}"
-                                           class="nav-link" data-key="t-analytics">{{ __('Settings Amount') }}</a>
+                                        <a href="{{route('configuration-amounts', app()->getLocale(),false)}}"
+                                           class="nav-link" data-key="t-analytics">{{ __('Amounts Settings') }}</a>
                                     </li>
                                     <li class="nav-item {{Route::currentRouteName()=='configuration-ha'? 'active' : ''}}">
-                                        <a href="{{route('configuration-ha', app()->getLocale())}}"
-                                           class="nav-link" data-key="t-analytics">{{ __('Settings ha') }}</a>
+                                        <a href="{{route('configuration-ha', app()->getLocale(),false)}}"
+                                           class="nav-link" data-key="t-analytics">{{ __('HA Settings') }}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -237,6 +243,13 @@
             $('#navbar-nav li a').removeClass('active');
             $('#navbar-nav a[href="' + location.pathname + '"]').addClass('active');
             $('#navbar-nav a[href="' + location.pathname + '"]').parent().addClass('active');
+            const settingArray = ['configuration-ha', 'configuration-bo', 'configuration-ha', 'configuration-amounts'];
+            var currentRoutePath = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
+            if (settingArray.includes(currentRoutePath)) {
+                $('#sidebarDashboards').addClass('show');
+            } else {
+                $('#sidebarDashboards').removeClass('show');
+            }
         });
     </script>
 </div>

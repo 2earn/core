@@ -872,7 +872,7 @@
 
 .navbar-menu .navbar-nav .nav-sm .nav-link {
     padding: .55rem 1.5rem !important;
-    color: var(--vz-vertical-menu-sub-item-color);
+    color: var(--vz-vertical-menu-item-active-color);
     white-space: none;
     position: relative;
     font-size: .875rem;
@@ -892,7 +892,7 @@
 }
 
 .navbar-menu .navbar-nav .nav-sm .nav-link:hover {
-    color: var(--vz-vertical-menu-sub-item-hover-color)
+    color:var(--vz-vertical-menu-item-hover-color);
 }
 
 .navbar-menu .navbar-nav .nav-sm .nav-link:hover:before {
@@ -901,7 +901,7 @@
 }
 
 .navbar-menu .navbar-nav .nav-sm .nav-link.active {
-    color: var(--vz-vertical-menu-item-active-color)
+    color: var(--vz-vertical-menu-item-hover-color);
 }
 
 .navbar-menu .navbar-nav .nav-sm .nav-link.active:before {
