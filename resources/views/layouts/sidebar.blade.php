@@ -243,7 +243,7 @@
             $('#navbar-nav li a').removeClass('active');
             $('#navbar-nav a[href="' + location.pathname + '"]').addClass('active');
             $('#navbar-nav a[href="' + location.pathname + '"]').parent().addClass('active');
-            const settingArray = ['configuration-ha', 'configuration-bo', 'configuration-ha', 'configuration-amounts'];
+            const settingArray = ['configuration-setting', 'configuration-bo', 'configuration-ha', 'configuration-amounts'];
             var currentRoutePath = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
             if (settingArray.includes(currentRoutePath)) {
                 $('#sidebarDashboards').addClass('show');
