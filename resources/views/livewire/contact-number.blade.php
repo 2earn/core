@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="card-body table-responsive">
-                    <table id="example" class="table table-bordered dt-responsive nowrap table-striped"
+                    <table id="example" class="table table-striped table-bordered"
                            style="width:100%">
                         <thead class="table-light">
                         <tr class="tabHeader2earn">
@@ -149,9 +149,9 @@
         }
     </script>
     <script type="module">
+        var timerInterval;
 
         $(document).on('turbolinks:load', function () {
-            var timerInterval;
             $("#saveAddContactNumber").click(function (event) {
                 event.preventDefault();
                 event.stopImmediatePropagation();

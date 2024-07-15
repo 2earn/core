@@ -11,11 +11,9 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header">
-                </div>
                 <div class="card-body table-responsive">
                     <table id="userPurchase_table"
-                           class="table nowrap dt-responsive align-middle table-hover table-bordered"
+                           class="table table-striped table-bordered"
                            style="width:100%">
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">

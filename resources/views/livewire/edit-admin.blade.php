@@ -18,14 +18,14 @@
             <div  class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div>
+                        <div class="col-12">
                             <input type="text" class="form-control" placeholder="{{ __('PH_search') }}"
                                    wire:model="search"/>
                         </div>
                     </div>
                 </div>
                 <div class="card-body table-responsive">
-                    <table  class="table table-responsive tableEditAdmin">
+                    <table class="table table-striped table-bordered tableEditAdmin">
                         <thead>
                         <tr>
                             <th scope="Id">Id</th>

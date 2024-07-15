@@ -76,7 +76,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         $PU = $number_of_action * ($actual_price) / ($number_of_action + $gift);
         $Count = DB::table('user_balances')->count();
         $ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-        $palier = \Core\Models\Setting::Where('idSETTINGS', '19')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
+        $palier = Setting::Where('idSETTINGS', '19')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
         $reciver = Auth()->user()->idUser;
         $reciver_bfs = Auth()->user()->idUser;
         $a = "me";
@@ -259,7 +259,6 @@ left join users user on user.idUser = recharge_requests.idUser";
 
             $user_balance->save();
 
-            // adjust new value for admin
 
             $new_value = intval($old_value) - intval($request->amount);
             DB::table('usercurrentbalances')
@@ -267,7 +266,6 @@ left join users user on user.idUser = recharge_requests.idUser";
                 ->where('idamounts', AmoutEnum::CASH_BALANCE)
                 ->update(['value' => $new_value, 'dernier_value' => $old_value]);
 
-            // adjust new value for reciver
             $old_value = DB::table('usercurrentbalances')
                 ->where('idUser', $request->reciver)
                 ->where('idamounts', AmoutEnum::CASH_BALANCE)
@@ -299,18 +297,14 @@ left join users user on user.idUser = recharge_requests.idUser";
     COUNT_USERS,
     COUNT_TRAIDERS,
     COUNT_REAL_TRAIDERS from tableau_croise");
-        //dd($data);
-        //dd(response()->json($data));
-        //return datatables($data) ->make(true);
+
         return response()->json($data);
     }
 
     public function getSankey()
     {
         $data = DB::select("select s.`from`,s.`to`,cast(s.weight as decimal (10,2)) as weight from sankey s");
-        //dd($data);
-        //dd(response()->json($data));
-        //return datatables($data) ->make(true);
+
         return response()->json($data);
     }
 
@@ -363,7 +357,6 @@ left join users user on user.idUser = recharge_requests.idUser";
             ->where('idBalancesOperation', 44)
             ->where('idUser', $idUser)
             ->get();
-        //dd($userBalances);
         return $userBalances;
     }
 
@@ -791,15 +784,12 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
 
     public function getActionValues()
     {
-        // Call getSelledActions to determine the limit
         $limit = getSelledActions() * 1.05;
-
         $data = [];
-        $setting = \Core\Models\Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
+        $setting = Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
         $initial_value = $setting[0];
         $final_value = $initial_value * 5;
         $total_actions = $setting[2];
-
 
         for ($x = 0; $x <= $limit; $x += intval($limit / 20)) {
             $val = ($final_value - $initial_value) / ($total_actions - 1) * ($x + 1) + ($initial_value - ($final_value - $initial_value) / ($total_actions - 1));
@@ -834,11 +824,6 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
             })
             ->addColumn('formatted_created_at', function ($user) {
                 return Carbon\Carbon::parse($user->created_at)->format('Y-m-d H:i:s');
-            })
-            ->addColumn('action', function ($settings) {
-
-                return '<a data-bs-toggle="modal" data-bs-target="#AddCash"   data-phone="' . $settings->mobile . '" data-country="' . $this->getFormatedFlagResourceName($settings->apha2) . '" data-reciver="' . $settings->idUser . '"
-class="btn btn-xs btn-primary btn2earnTable addCash" >' . Lang::get('Add cash') . '</a> ';
             })
             ->addColumn('VIP', function ($settings) {
 
@@ -1048,25 +1033,6 @@ where u.idBalancesOperation=b.idBalanceOperations
 and u.idamount not in(4,6)  and u.idUser=? and u.idamount=? order by Date   ", [$idUser, $idamount]
         );
         return response()->json($userData);
-        /*return Datatables::of($userData)
-            ->addColumn('formatted_date', function ($user) {
-                return Carbon\Carbon::parse($user->Date)->format('Y-m-d');
-            })
-            ->editColumn('Description', function ($row) {
-
-                if ($row->idamount == 3)
-                    // return '<span style="text-align:right;">'.htmlspecialchars($row->Description).'</span>';
-                    return '<div style="text-align:right;">' . htmlspecialchars($row->Description) . '</div>';
-                else return $row->Description;
-            })
-            ->rawColumns(['Description', 'formatted_date'])
-//           ->orderColumn('name', 'email $1')
-            ->make(true);*/
-
-//        return datatables($userData)
-//
-//            ->make(true);
-
     }
 
     public function getUserBalances($typeAmounts)
@@ -1108,7 +1074,7 @@ when bo.IO = 'IO' then 'IO'
 end)   OVER(ORDER BY date) ,3) , ' $') else concat( format( ub.balance ,3,'en_EN') ,' $') end  as balance,ub.PrixUnitaire,'d' as sensP
   FROM user_balances ub inner join balanceoperations bo on
 ub.idBalancesOperation = bo.idBalanceOperations
-where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [$idAmounts, auth()->user()->idUser]
+where  (bo.idamounts = ? and ub.idUser =  ?)  order by ref desc", [$idAmounts, auth()->user()->idUser]
         );
 
         return Datatables::of($userData)
@@ -1216,8 +1182,6 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
             $idUser = $this->settingsManager->getAuthUser()->idUser;
         }
         $type = request()->type;
-//        if ($type == null || $idUser == null)
-//            $condition =   " where recharge_requests.idPayee = ";
         switch ($type) {
             case('out'):
                 $condition = " where recharge_requests.idPayee = ";
@@ -1229,10 +1193,7 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
         if ($condition == "") {
             $condition = " where recharge_requests.idUser = ";
         }
-//if($idUser == null)
-//{
-//    $idUser = "";
-//}
+
         $request = DB::select($this->reqRequest . $condition . "  ? ", [$idUser]);
         return datatables($request)
             ->make(true);
@@ -1247,9 +1208,6 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
 
     public function getIdentificationRequest()
     {
-//        $query = User::select('id', 'name', 'mobile', 'idCountry', 'asked_at')
-//            ->where('status', '=', -1);
-
         $query = DB::select('SELECT  u1.id id, u1.name User ,u1.fullphone_number, ir.created_at DateCreation, u2.name Validator, ir.response, ir.responseDate DateReponce , ir.note from identificationuserrequest ir
 inner join users u1 on ir.IdUser = u1.idUser
 left join users u2 on ir.idUserResponse = u2.idUser
@@ -1288,7 +1246,6 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUs
     public function getPurchaseUser()
     {
         $user = $this->settingsManager->getAuthUser();
-//        if (!$user) $user->idUser ='' ;
         $userData = DB::select("
 
     SELECT
@@ -1435,9 +1392,6 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUs
                 return '<a  href="' . route('adminUserEdit', ['userId' => $settings->idUser, 'locale' => app()->getLocale()]) . '"   onclick="EditUserByAdmin()" class="btn btn-xs btn-primary btn2earnTable" ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a>
 <a onclick="deleteUser(' . $settings->idUser . ')" class="btn btn-xs btn-danger btn2earnTable"   ><i></i>' . Lang::get('Delete') . '</a>';
             })
-//            ->addColumn('action', function ($amounts) {
-//                return '<a href="#edit-' . $amounts->idamounts . '" "><i class="fa fa-edit" aria-hidden="true" style="cursor: pointer;color: green; padding-left: 10px;"></i></a>';
-//            })
             ->editColumn('status', function ($userData) {
                 switch ($userData->status) {
                     case 0 :
@@ -1481,7 +1435,6 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUs
     {
         $user = $this->settingsManager->getAuthUser();
 
-//        if (!$user) $user->idUser ='' ;
         $userData = DB::select(" select id, name,lastName,fullphone_number,
        case when
            fullphone_number in (select users.fullphone_number from users where idUpline != ? and idUpline <> 0)
@@ -1531,4 +1484,3 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUs
     }
 
 }
-

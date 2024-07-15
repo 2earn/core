@@ -353,7 +353,7 @@ nav svg {
     float: left
 }
 
-.simplebar-content .nav-item active, .simplebar-content .nav-item:hover {
+.navbar-nav .nav-item .active, .navbar-nav .nav-item:hover {
     background-color: #e6e4e4
 }
 
@@ -549,6 +549,7 @@ nav svg {
 
 .navbar-menu .navbar-nav .nav-link.active {
     color: var(--vz-vertical-menu-item-hover-color);
+    font-weight: 500;
 }
 
 .navbar-menu .navbar-nav .nav-link svg {

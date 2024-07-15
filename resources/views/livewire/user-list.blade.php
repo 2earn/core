@@ -13,145 +13,199 @@
             <div class="crm-widget">
                 <div class="card-body p-0">
                     <div class="row">
-                        <div class="col-sm-12 col-md-4 col-lg-3">
-                            <div class="card">
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card card-animate">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{__('Cash Balance')}}</h5>
                                     <div class="d-flex align-items-center">
-                                        <div class="flex-shrink-0">
-                                            <i class="ri-exchange-dollar-line display-6 text-muted"></i>
+                                        <div class="flex-grow-1 overflow-hidden">
+                                            <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
+                                                {{__('Cash Balance')}}
+                                            </p>
                                         </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h3 class="mb-0">{{ $currency }}
-                                                <span class="counter-value" data-target="{{getUserListCards()[0]}}">
-                                                        {{getUserListCards()[0]}}
-                                                    </span>
-                                            </h3>
-                                        </div>
-                                    </div>
-                                    <p class="text-muted mb-0"><i class="ri-building-line align-bottom"></i>
-                                        {{number_format(getAdminCash()[0],2)}}
-                                        <span class="ms-2"><i class="ri-map-pin-2-line align-bottom"></i>
+                                        <p class=" text-info mb-0">  <span class="ms-2"><i
+                                                    class="ri-building-line align-bottom"></i>
+                                                    {{number_format(getAdminCash()[0],2)}}</span>
+                                            <span class="ms-2"><i class="ri-map-pin-2-line align-bottom"></i>
                                                 {{number_format(getUserListCards()[0]-getAdminCash()[0],2)}}
                                             </span>
-                                    </p>
+                                        </p>
+                                    </div>
+                                    <div class="d-flex align-items-end justify-content-between mt-4">
+                                        <div>
+                                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                                {{ $currency }}
+                                                <span>
+                                                    {{formatSolde(getUserListCards()[0])}}</span>
+                                            </h4>
+
+                                        </div>
+                                        <div class="avatar-sm flex-shrink-0">
+                                                        <span class=" bg-info-subtle rounded fs-3">
+                                                          <i class="ri-exchange-dollar-line display-6 bx-dollar-circle   text-info"></i>
+                                                        </span>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-4 col-lg-3">
-                            <div class="card">
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card card-animate">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{__('BFS')}}</h5>
                                     <div class="d-flex align-items-center">
-                                        <div class="flex-shrink-0">
-                                            <i class="ri-shopping-cart-2-line display-6 text-muted"></i>
+                                        <div class="flex-grow-1 overflow-hidden">
+                                            <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
+                                                {{__('BFS')}}
+                                            </p>
                                         </div>
-                                        <div class="card-footer bg-transparent">
-                                            <h4 class="mb-0">
+                                    </div>
+                                    <div class="d-flex align-items-end justify-content-between mt-4">
+                                        <div>
+                                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">
                                                 {{ $currency }}
                                                 <span class="counter-value" data-target="{{getUserListCards()[1]}}">
-                                                        {{getUserListCards()[1]}}
-                                                    </span>
+                                                      {{getUserListCards()[1]}}</span>
                                             </h4>
+                                        </div>
+                                        <div class="avatar-sm flex-shrink-0">
+                                                        <span class=" bg-info-subtle rounded fs-3">
+                                                           <i class="ri-shopping-cart-2-line display-6  text-info"></i>
+                                                        </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-4 col-lg-3">
-                            <div class="card">
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card card-animate">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{__('Discount Balance')}}</h5>
                                     <div class="d-flex align-items-center">
-                                        <div class="flex-shrink-0">
-                                            <i class=" ri-percent-line display-6 text-muted"></i>
+                                        <div class="flex-grow-1 overflow-hidden">
+                                            <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
+                                                {{__('Discount Balance')}}
+                                            </p>
                                         </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h4 class="mb-0">
+                                    </div>
+                                    <div class="d-flex align-items-end justify-content-between mt-4">
+                                        <div>
+                                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">
                                                 {{ $currency }}
                                                 <span class="counter-value" data-target="{{getUserListCards()[2]}}">
-                                                        {{getUserListCards()[2]}}
-                                                    </span>
+                                                 {{getUserListCards()[2]}}</span>
                                             </h4>
+                                        </div>
+                                        <div class="avatar-sm flex-shrink-0">
+                                                        <span class=" bg-info-subtle rounded fs-3">
+                                                          <i class=" ri-percent-line display-6  text-info"></i>
+                                                        </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-4 col-lg-3">
-                            <div class="card">
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card card-animate">
                                 <div class="card-body">
-                                    <h5 class="card-title"> {{__('sms balance')}}</h5>
                                     <div class="d-flex align-items-center">
-                                        <div class="flex-shrink-0">
-                                            <i class="ri-message-line display-6 text-muted"></i>
+                                        <div class="flex-grow-1 overflow-hidden">
+                                            <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
+                                                {{__('sms balance')}}
+                                            </p>
                                         </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h4 class="mb-0">
-                                                    <span class="counter-value" data-target="{{getUserListCards()[3]}}">
-                                                        {{getUserListCards()[3]}}
-                                                    </span>
+                                    </div>
+                                    <div class="d-flex align-items-end justify-content-between mt-4">
+                                        <div>
+                                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                                <span class="counter-value" data-target="{{getUserListCards()[3]}}">
+                                                   {{getUserListCards()[3]}}</span>
                                             </h4>
+                                        </div>
+                                        <div class="avatar-sm flex-shrink-0">
+                                                        <span class=" bg-info-subtle rounded fs-3">
+                                                           <i class="ri-message-line display-6  text-info"></i>
+                                                        </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-4 col-lg-3">
-                            <div class="card">
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card card-animate">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{__('Shares Sold')}}</h5>
                                     <div class="d-flex align-items-center">
-                                        <div class="flex-shrink-0">
-                                            <i class="ri-stackshare-line display-6 text-muted"></i>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h4 class="mb-0">
-                                                    <span class="counter-value" data-target="{{getUserListCards()[4]}}">
-                                                        {{getUserListCards()[4]}}
-                                                    </span>
-                                            </h4>
+                                        <div class="flex-grow-1 overflow-hidden">
+                                            <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
+                                                {{__('Shares Sold')}}
+                                            </p>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-4 col-lg-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title"> {{__('Shares Revenue')}}</h5>
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex-shrink-0">
-                                            <i class="ri-swap-line display-5 text-muted"></i>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h4 class="mb-0">
+                                    <div class="d-flex align-items-end justify-content-between mt-4">
+                                        <div>
+                                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">
                                                 {{ $currency }}
-                                                <span class="counter-value" data-target="{{getUserListCards()[5]}}">
-                                                        {{getUserListCards()[5]}}
-                                                    </span>
+                                                <span class="counter-value" data-target="   {{getUserListCards()[4]}}">
+                                                       {{getUserListCards()[4]}}</span>
                                             </h4>
+                                        </div>
+                                        <div class="avatar-sm flex-shrink-0">
+                                                        <span class=" bg-info-subtle rounded fs-3">
+                                                            <i class="ri-stackshare-line display-6  text-info"></i>
+                                                        </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-4 col-lg-3">
-                            <div class="card">
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card card-animate">
                                 <div class="card-body">
-                                    <h5 class="card-title"> {{__('Cash Flow')}}</h5>
                                     <div class="d-flex align-items-center">
-                                        <div class="flex-shrink-0">
-                                            <i class="ri-exchange-funds-line display-6 text-muted"></i>
+                                        <div class="flex-grow-1 overflow-hidden">
+                                            <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
+                                                {{__('Shares Revenue')}}
+                                            </p>
                                         </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h4 class="mb-0">
+                                    </div>
+                                    <div class="d-flex align-items-end justify-content-between mt-4">
+                                        <div>
+                                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                                {{ $currency }}
+                                                <span class="counter-value" data-target=" {{getUserListCards()[5]}}">
+                                                    {{getUserListCards()[5]}}</span>
+                                            </h4>
+                                        </div>
+                                        <div class="avatar-sm flex-shrink-0">
+                                                        <span class=" bg-info-subtle rounded fs-3">
+                                                        <i class="ri-swap-line display-6  text-info"></i>
+                                                        </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card card-animate">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1 overflow-hidden">
+                                            <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
+                                                {{__('Cash Flow')}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-end justify-content-between mt-4">
+                                        <div>
+                                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">
                                                 {{ $currency }}
                                                 <span class="counter-value"
                                                       data-target="{{getUserListCards()[5]+getUserListCards()[0]}}">
-                                                        {{getUserListCards()[5]+getUserListCards()[0]}}
-                                                    </span>
+                                                    {{getUserListCards()[5]+getUserListCards()[0]}}</span>
                                             </h4>
+                                        </div>
+                                        <div class="avatar-sm flex-shrink-0">
+                                                        <span class=" rounded fs-3">
+<i class="ri-exchange-funds-line display-6  text-info"></i>
+                                                        </span>
                                         </div>
                                     </div>
                                 </div>
@@ -164,11 +218,9 @@
     </div>
     <div class="row">
         <div class="card">
-            <div class="card-header">
-            </div>
             <div class="card-body table-responsive">
                 <table id="users-list"
-                       class="table nowrap dt-responsive align-middle table-hover table-bordered"
+                       class="table table-striped table-bordered"
                        style="width:100%">
                     <thead class="table-light">
                     <tr class="head2earn  tabHeader2earn">
@@ -185,12 +237,12 @@
                         <th>{{__('Password')}}</th>
                         <th>{{__('register_upline')}}</th>
                         <th>{{__('Action')}}</th>
+                        <th>{{__('VIP')}}</th>
                         <th>{{__('MinShare')}}</th>
                         <th>{{__('Periode')}}</th>
                         <th>{{__('date')}}</th>
                         <th>{{__('COeff')}}</th>
                         <th>{{__('Note')}}</th>
-                        <th>{{__('VIP')}}</th>
                     </tr>
                     </thead>
                     <tbody class="body2earn">
@@ -204,7 +256,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Transfert Cash') }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-vip-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form action="javascript:void(0);">
@@ -254,7 +307,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalgridLabel">{{ __('VIP') }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-vip-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form action="javascript:void(0);">
@@ -273,15 +327,18 @@
                                 <div class="input-group mt-2">
                                     <input id="vip-reciver" type="hidden">
                                     <input type="hidden" id="created_at">
-                                    <label class="form-label">{{__('Minshares')}}</label>
+                                    <label class="form-label">{{__('Minshares')}}<span
+                                            class="text-danger">*</span></label>
                                     <input type="number" class="form-control-flash" id="minshares">
                                 </div>
                                 <div class="input-group mt-2">
-                                    <label class="form-label">{{__('Periode')}}</label>
+                                    <label class="form-label">{{__('Periode')}}<span
+                                            class="text-danger">*</span></label>
                                     <input type="number" class="form-control-flash" id="periode">
                                 </div>
                                 <div class="input-group mt-2">
-                                    <label class="form-label">{{__('Coefficient')}}</label>
+                                    <label class="form-label">{{__('Coefficient')}}<span
+                                            class="text-danger">*</span></label>
                                     <input type="number" class="form-control-flash" id="coefficient">
                                 </div>
                                 <div class="input-group mt-2">
@@ -318,7 +375,7 @@
                         <div class="card-body table-responsive">
                             <input id="balances-reciver" type="hidden">
                             <input id="balances-amount" type="hidden">
-                            <table class="table nowrap dt-responsive align-middle table-hover table-bordered"
+                            <table class="table table-striped table-bordered"
                                    id="ub_table_list" style="width: 100%">
                                 <thead class="table-light">
                                 <tr class="head2earn  tabHeader2earn">
@@ -354,7 +411,7 @@
                         <div class="card-body table-responsive">
                             <input id="balances-reciversh" type="hidden">
                             <input id="balances-amountsh" type="hidden">
-                            <table class="table nowrap dt-responsive align-middle table-hover table-bordered"
+                            <table class="table table-striped table-bordered"
                                    id="ub_table_listsh" style="width: 100%">
                                 <thead class="table-light">
                                 <tr class="head2earn  tabHeader2earn">
@@ -377,6 +434,52 @@
         </div>
     </div>
     <script type="module">
+        var ammount = 0;
+
+        function fireSwalInformMessage(iconSwal, titleSwal, textSwal) {
+            Swal.fire({
+                position: 'center',
+                icon: iconSwal,
+                title: titleSwal,
+                text: textSwal,
+                showConfirmButton: true,
+                showCloseButton: true
+            });
+        }
+
+        function transferCash(ammount) {
+            let reciver = $('#userlist-reciver').val();
+            let msg = "{{__('You transferred')}} " + ammount + " $ {{__('For')}} " + reciver;
+            let user = 126;
+            if (ammount > 0) {
+                $.ajax({
+                    url: "{{ route('addCash') }}",
+                    type: "POST",
+                    data: {amount: ammount, reciver: reciver, "_token": "{{ csrf_token() }}"},
+                    success: function (data) {
+                        $.ajax({
+                            url: "{{ route('sendSMS') }}",
+                            type: "POST",
+                            data: {user: user, msg: msg, "_token": "{{ csrf_token() }}"},
+                            success: function (data) {
+                                fireSwalInformMessage('success', '{{__('Transfer success')}}', msg);
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                fireSwalInformMessage('error', xhr.status, thrownError);
+                            }
+                        });
+                        $.getJSON(window.url, function (data) {
+                            createOrUpdateDataTable(data);
+                        });
+                        $('.btn-vip-close').trigger('click');
+                    }
+                });
+            } else {
+                fireSwalInformMessage('error', '{{__('wrong amount value')}}', '{{__('wrong amount value')}}')
+            }
+            $(this).prop("disabled", false);
+        }
+
         function createOrUpdateDataTable(data) {
             if ($.fn.DataTable.isDataTable('#ub_table_list')) {
                 $('#ub_table_list').DataTable().destroy();
@@ -547,17 +650,82 @@
                     {data: 'pass'},
                     {data: 'register_upline'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
+                    {data: 'VIP', name: 'action', orderable: false, searchable: false},
                     {data: 'minshares'},
                     {data: 'periode'},
                     {data: 'date'},
                     {data: 'coeff'},
                     {data: 'note'},
-                    {data: 'VIP', name: 'action', orderable: false, searchable: false},
                     {data: 'mobile'},
                 ],
                 "columnDefs": [{"targets": [19], searchable: true, visible: false},],
                 "language": {"url": urlLang}
             });
+        });
+
+        $(document).on("click", ".addCash", function () {
+            let reciver = $(this).data('reciver');
+            let phone = $(this).data('phone');
+            let country = $(this).data('country');
+            $('#userlist-country').attr('src', country);
+            $('#userlist-reciver').attr('value', reciver);
+            $('#userlist-phone').attr('value', phone);
+        });
+
+        $("#userlist-submit").on('click', function (eventUserListTransfert) {
+            $(this).prop("disabled", true);
+            eventUserListTransfert.preventDefault();
+            eventUserListTransfert.stopImmediatePropagation();
+            transferCash(parseInt($('#ammount').val()));
+            $('#ammount').val(0);
+            $(this).prop("disabled", false);
+        });
+
+        $(document).on("click", ".vip", function () {
+            let reciver = $(this).data('reciver');
+            let phone = $(this).data('phone');
+            let country = $(this).data('country');
+            $('#vip-country').attr('src', country);
+            $('#vip-reciver').attr('value', reciver);
+            $('#vip-phone').attr('value', phone);
+        });
+        $("#vip-submit").one("click", function () {
+            let reciver = $('#vip-reciver').val();
+            let minshares = $('#minshares').val();
+            let periode = $('#periode').val();
+            let coefficient = $('#coefficient').val();
+            let note = $('#note').val();
+            let date = Date.now();
+            let msgvip = "l'utilisateur " + reciver + " est VIP(x" + coefficient + ") pour une periode de " + periode + " à partir de " + date + " avec un minimum de " + minshares + " actions acheté";
+            let user = 126;
+            if (minshares && periode && coefficient) {
+                $.ajax({
+                    url: "{{ route('vip') }}",
+                    type: "POST",
+                    data: {
+                        reciver: reciver,
+                        minshares: minshares,
+                        periode: periode,
+                        coefficient: coefficient,
+                        note: note,
+                        date: date,
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    success: function (data) {
+                        $.ajax({
+                            url: "{{ route('sendSMS') }}",
+                            type: "POST",
+                            data: {user: user, msg: msgvip, "_token": "{{ csrf_token() }}"},
+                            success: function (data) {
+                                fireSwalInformMessage('success', data, msgvip)
+                            }
+                        });
+                        $('.btn-vip-close').trigger('click');
+                    }
+                });
+            } else {
+                fireSwalInformMessage('error', '{{__('Error Vip')}}', '{{__('Please check form data')}}')
+            }
         });
     </script>
 </div>

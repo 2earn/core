@@ -4,17 +4,13 @@ namespace Core\Services;
 
 use App\Http\Traits\earnLog;
 use App\Http\Traits\earnTrait;
-
 use App\Models\ContactUser;
 use App\Models\User;
-
 use Carbon\Carbon;
 use Core\Enum\AmoutEnum;
-use Core\Enum\BalanceOperationsEnum;
 use Core\Enum\EventBalanceOperationEnum;
 use Core\Enum\ExchangeTypeEnum;
 use Core\Enum\LanguageEnum;
-use Core\Enum\NotificationSettingEnum;
 use Core\Enum\OperateurSmsEnum;
 use Core\Enum\SettingsEnum;
 use Core\Enum\StatusRequst;
@@ -22,11 +18,9 @@ use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
 use Core\Interfaces\ICountriesRepository;
 use Core\Interfaces\IHistoryNotificationRepository;
-
 use Core\Interfaces\IHobbiesRepository;
 use Core\Interfaces\ILanguageRepository;
 use Core\Interfaces\INotificationRepository;
-
 use Core\Interfaces\ISettingsRepository;
 use Core\Interfaces\IUserBalancesRepository;
 use Core\Interfaces\IUserContactNumberRepository;
@@ -41,13 +35,10 @@ use Core\Models\Setting;
 use Core\Models\user_balance;
 use Core\Models\user_earn;
 use Core\Models\UserContact;
-
 use Core\Models\UserContactNumber;
 use Core\Models\UserNotificationSettings;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
-use function PHPUnit\Framework\throwException;
 
 
 class settingsManager
@@ -594,7 +585,6 @@ class settingsManager
 
     public function exchange(ExchangeTypeEnum $typeEchange, $idUser, $montant)
     {
-
         switch ($typeEchange) {
             case ExchangeTypeEnum::CashToBFS :
                 if (floatval($montant) <= 0) {
@@ -609,13 +599,8 @@ class settingsManager
                 DB::table('usercurrentbalances')->where('idUser', $idUser)->where('idamounts', AmoutEnum::CASH_BALANCE)
                     ->update(['value' => $newSoldeCashBalance]);
                 //update usercurrentbalances where amout BFS (new BFS)
-                DB::table('usercurrentbalances')->where('idUser', $idUser)->where('idamounts',
-                    AmoutEnum::BFS)->update(['value' => $newSoldeBFS]);
-                $param = [
-                    'montant' => $montant,
-                    'newSoldeCashBalance' => $newSoldeCashBalance,
-                    'newSoldeBFS' => $newSoldeBFS
-                ];
+                DB::table('usercurrentbalances')->where('idUser', $idUser)->where('idamounts', AmoutEnum::BFS)->update(['value' => $newSoldeBFS]);
+                $param = ['montant' => $montant, 'newSoldeCashBalance' => $newSoldeCashBalance, 'newSoldeBFS' => $newSoldeBFS];
                 $this->userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::ExchangeCashToBFS, $idUser, $param);
                 break;
             case ExchangeTypeEnum::BFSToSMS :
@@ -623,33 +608,25 @@ class settingsManager
                 $soldeBfs = $solde->soldeBFS;
                 $seting = DB::table('settings')->where("idSETTINGS", "=", "13")->first();
                 $prix_sms = $seting->IntegerValue;
-
                 $newSoldeBFS = $soldeBfs - ($prix_sms * $montant);
 
                 if ($newSoldeBFS < 0)
                     dd("exception solde insuffisant");
-                $lates = user_balance::latest('id')->where([
-                        ['idSource', '=', $idUser],
-                        ['idUser', '=', $idUser],
-                        ['idAmount', '=', AmoutEnum::Sms_Balance]
-                    ]
+                $lates = user_balance::latest('id')->where([['idSource', '=', $idUser], ['idUser', '=', $idUser], ['idAmount', '=', AmoutEnum::Sms_Balance]]
                 )->first();
                 $balanceEnterieru = 0;
-                if ($lates != null)
+                if ($lates != null) {
                     $balanceEnterieru = $lates->Balance;
-//                $balanceEnterieru = $lates->Balance;
+                }
                 $newBalanceBFS = $balanceEnterieru + ($prix_sms * $montant);
-                if ($lates == null) $balanceEnterieru = 0;
+                if ($lates == null) {
+                    $balanceEnterieru = 0;
+                }
                 DB::table('usercurrentbalances')->where('idUser', $idUser)->where('idamounts', 2)->update(['value' => $newSoldeBFS]);
                 $currentBFS = DB::table('usercurrentbalances')->where('idUser', $idUser)->where('idamounts', 5)->first();
                 $newSMS = floatval($currentBFS->value) + floatval($prix_sms * $montant);
                 DB::table('usercurrentbalances')->where('idUser', $idUser)->where('idamounts', 5)->update(['value' => $newSMS]);
-                $param = [
-                    'montant' => $prix_sms * $montant,
-                    'newSoldeCashBalance' => $newSoldeBFS,
-                    'newSoldeBFS' => $newBalanceBFS,
-                    'PrixSms' => $prix_sms
-                ];
+                $param = ['montant' => $prix_sms * $montant, 'newSoldeCashBalance' => $newSoldeBFS, 'newSoldeBFS' => $newBalanceBFS, 'PrixSms' => $prix_sms];
                 $this->userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::ExchangeBFSToSMS, $idUser, $param);
                 break;
         }
@@ -703,12 +680,7 @@ class settingsManager
                 $language = language::where('name', $uMetta->idLanguage)->first();
                 $lang = $language?->PrefixLanguage;
             }
-            $this->NotifyUser($user->id, TypeEventNotificationEnum::RequestAccepted, [
-                'msg' => " ",
-                'type' => TypeNotificationEnum::SMS,
-                'canSendSMS' => 1,
-                'lang' => $lang
-            ]);
+            $this->NotifyUser($user->id, TypeEventNotificationEnum::RequestAccepted, ['msg' => " ", 'type' => TypeNotificationEnum::SMS, 'canSendSMS' => 1, 'lang' => $lang]);
         }
     }
 

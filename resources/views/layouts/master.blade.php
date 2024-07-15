@@ -48,7 +48,6 @@
     <meta content="" name="author"/>
     <meta property="og:image" content="{{ Vite::asset('resources/images/2earn.png') }}">
     <meta property="twitter:image" content="{{ Vite::asset('resources/images/2earn.png') }}">
-    <!-- vite -->
     @vite([
                 'resources/anychart/anychart-base.min.js',
                 'resources/anychart/anychart-circular-gauge.min.js',
@@ -64,10 +63,6 @@
                 'resources/anychart/world.js',
                 'resources/anychart/anychart-table.min.js',
     ])
-
-    <!-- vite -->
-
-    <!-- App favicon -->
     <link rel="shortcut icon" href="{{ Vite::asset('resources/images/favicon.ico')}}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @include('layouts.vendor-scripts')
@@ -77,7 +72,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
     <style>
         @font-face {
             font-family: 'iconearn';
@@ -109,11 +103,15 @@
     <link rel="apple-touch-icon" href="{{ asset('logo.PNG') }}">
     <link rel="manifest" href="{{ asset('/manifest.json') }}">
     @laravelPWA
-
+    @if(config('app.available_locales')[app()->getLocale()]['direction'] === 'rtl')
+        @vite(['resources/css/bootstrap-rtl.css','resources/css/icons-rtl.css','resources/css/app-rtl.css','resources/css/custom-rtl.css'])
+    @else
+        @vite(['resources/css/bootstrap.min.css','resources/css/icons.css','resources/css/app.css','resources/css/custom.css'])
+    @endif
 </head>
 <body>
 @section('body')
-    @include('components.styles');
+    @vite(['resources/css/select2.min.css','resources/css/dataTables.bootstrap.css','resources/css/rowReorder.bootstrap.css','resources/js/layout.js'])
     @vite(['resources/css/intlTelInput.min.css','resources/fontawesome/all.min.css','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
     <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PMK39HQQ"
@@ -142,6 +140,7 @@
         });
     });
 </script>
+@stack('scripts')
 <script type="module">
     $(document).on('turbolinks:load', function () {
         var select2_array = [];
@@ -205,18 +204,21 @@
                 if ($(this).val() == null) {
                     table_bfs.columns(3).search("").draw();
                 } else {
-                    table_bfs
-                        .columns(3)
-                        .search(items.join('|'), true, false)
-                        .draw();
+                    table_bfs.columns(3).search(items.join('|'), true, false).draw();
                 }
             })
         });
     });
 
-</script>
-@stack('scripts')
-<script type="module">
+    window.addEventListener('closeModalOp', event => {
+        $('#BoModal').modal('hide');
+        $('#BalanceOperationsTable').DataTable().ajax.reload();
+    });
+    window.addEventListener('closeModalAmounts', event => {
+        $('#AmountsModal').modal('hide');
+        $('#amountsTable').DataTable().ajax.reload();
+    });
+
     $(document).on('turbolinks:load', function () {
         var ipPhone = document.getElementById("inputPhoneUpdate");
         const myParams = window.location.pathname.split("/");
@@ -528,105 +530,6 @@
                 errorMsg.classList.add("invisible");
             }
         };
-
-        $(document).on("click", ".addCash", function () {
-            let reciver = $(this).data('reciver');
-            let phone = $(this).data('phone');
-            let country = $(this).data('country');
-            $('#userlist-country').attr('src', country);
-            $('#userlist-reciver').attr('value', reciver);
-            $('#userlist-phone').attr('value', phone);
-        });
-        $(document).on("click", "#userlist-submit", function () {
-            let reciver = $('#userlist-reciver').val();
-            let ammount = $('#ammount').val();
-            let msg = "vous avez transferé " + ammount + " $ à " + reciver;
-            let user = 126;
-            $.ajax({
-                url: "{{ route('addCash') }}",
-                type: "POST",
-
-                data: {
-                    amount: ammount,
-                    reciver: reciver,
-                    "_token": "{{ csrf_token() }}"
-                },
-                success: function (data) {
-                    $.ajax({
-                        url: "{{ route('sendSMS') }}",
-                        type: "POST",
-                        data: {user: user, msg: msg, "_token": "{{ csrf_token() }}"},
-                        success: function (data) {
-                            console.log(data);
-                        }
-                    });
-                    $('#AddCash').modal('hide');
-                    Toastify({
-                        text: data,
-                        gravity: "top",
-                        duration: 3000,
-                        className: "info",
-                        position: "center",
-                        backgroundColor: "#27a706"
-                    }).showToast();
-                }
-
-            });
-        });
-        $(document).on("click", ".vip", function () {
-            let reciver = $(this).data('reciver');
-            let phone = $(this).data('phone');
-            let country = $(this).data('country');
-            $('#vip-country').attr('src', country);
-            $('#vip-reciver').attr('value', reciver);
-            $('#vip-phone').attr('value', phone);
-        });
-        $(document).on("click", "#vip-submit", function () {
-            let reciver = $('#vip-reciver').val();
-            let minshares = $('#minshares').val();
-            let periode = $('#periode').val();
-            let coefficient = $('#coefficient').val();
-            let note = $('#note').val();
-            let date = Date.now();
-            let msg = "vous avez transferé " + ammount + " $ à " + reciver;
-            let msgvip = "l'utilisateur " + reciver + " est VIP(x" + coefficient + ") pour une periode de " + periode + " à partir de " + date + " avec un minimum de " + minshares + " actions acheté";
-            let user = 126;
-            $.ajax({
-                url: "{{ route('vip') }}",
-                type: "POST",
-                data: {
-                    reciver: reciver,
-                    minshares: minshares,
-                    periode: periode,
-                    coefficient: coefficient,
-                    note: note,
-                    date: date,
-                    "_token": "{{ csrf_token() }}"
-                },
-                success: function (data) {
-                    $.ajax({
-                        url: "{{ route('sendSMS') }}",
-                        type: "POST",
-                        data: {user: user, msg: msgvip, "_token": "{{ csrf_token() }}"},
-                        success: function (data) {
-                            console.log(data);
-                        }
-                    });
-
-                    $('#vip').modal('hide');
-
-                    Toastify({
-                        text: data,
-                        gravity: "top",
-                        duration: 3000,
-                        className: "info",
-                        position: "center",
-                        backgroundColor: "#27a706"
-                    }).showToast();
-                }
-
-            });
-        });
 
 
         $.ajax({

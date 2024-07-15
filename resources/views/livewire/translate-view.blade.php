@@ -138,8 +138,8 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                             </div>
                         </div>
                         <div class="card-body">
-                            <table class=" table table-responsive tableEditAdmin">
-                                <thead>
+                            <table class="table table-striped table-bordered">
+                            <thead>
                                 <tr>
                                     <th scope="Id">{{__('Id')}}</th>
                                     <th scope="key">{{__('key')}}</th>
@@ -177,7 +177,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
             </div>
         </div>
     </div>
-    <script type="module">
+    <script>
             function confirmDelete(idTranslate) {
                 Swal.fire({
                     title: '{{__('Confirm delete')}}',

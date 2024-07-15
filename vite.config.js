@@ -45,6 +45,8 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/sass/app.scss',
+                'resources/css/dataTables.bootstrap.css',
+                'resources/css/rowReorder.bootstrap.css',
                 'resources/js/app.js',
                 'resources/js/appWithoutNav.js',
                 'resources/js/plugins.js',

@@ -1,29 +1,8 @@
 <div data-turbolinks='false'>
     <div class="auth-page-wrapper auth-bg-cover mt-5 py-2 justify-content-center align-items-center min-vh-75">
+        <img src="{{ Vite::asset('resources/images/2earn.png') }}" class="mx-auto d-block d-lg-none">
         <div class="bg-overlay"></div>
         <div class="auth-page-content">
-            <script>
-                window.addEventListener('load', () => {
-                    var existmessageLogin = '{{Session::has('message')}}';
-                    if (existmessageLogin) {
-                        var msgMsgLogin = '{{Session::get('message')}}';
-                        var local = '{{Session::has('locale')}}';
-                        if (local == 'ar') {
-                            msg = "هاتفك أو كلمة المرور الخاصة بك غير صحيحة !";
-                        }
-                        Swal.fire({
-                            title: ' ',
-                            text: msgMsgLogin,
-                            icon: 'error',
-                            confirmButtonText: '{{trans('ok')}}'
-                        }).then(okay => {
-                            if (okay) {
-                                window.location.reload();
-                            }
-                        });
-                    }
-                });
-            </script>
             <div class="container mt-5">
                 <div class="row">
                     <div class="col-lg-12">
@@ -64,15 +43,17 @@
                                                             </p>
                                                         </div>
                                                         <div class="carousel-item">
-                                                            <img src="{{Vite::asset('resources/images/Move2earn Icon.png')}}"
-                                                                 alt="Move2earn" height="100"
-                                                                 class="responsive-image mb-3">
+                                                            <img
+                                                                src="{{Vite::asset('resources/images/Move2earn Icon.png')}}"
+                                                                alt="Move2earn" height="100"
+                                                                class="responsive-image mb-3">
                                                             <p class="fs-15 fst-italic text-white">{{__('Exceptional Transportation Services')}}</p>
                                                         </div>
                                                         <div class="carousel-item">
-                                                            <img src="{{Vite::asset('resources/images/icon-learn.png')}}"
-                                                                 alt="Learn2earn" height="100"
-                                                                 class="responsive-image mb-3">
+                                                            <img
+                                                                src="{{Vite::asset('resources/images/icon-learn.png')}}"
+                                                                alt="Learn2earn" height="100"
+                                                                class="responsive-image mb-3">
                                                             <p class="fs-15 fst-italic text-white">{{__('Empowering knowledge, anywhere, anytime')}}</p>
                                                         </div>
                                                     </div>
@@ -204,6 +185,28 @@
         </div>
         @include('layouts.footer', ['pageName' => 'login'])
     </div>
+    <script>
+        window.addEventListener('load', () => {
+            var existmessageLogin = '{{Session::has('message')}}';
+            if (existmessageLogin) {
+                var msgMsgLogin = '{{Session::get('message')}}';
+                var local = '{{Session::has('locale')}}';
+                if (local == 'ar') {
+                    msg = "هاتفك أو كلمة المرور الخاصة بك غير صحيحة !";
+                }
+                Swal.fire({
+                    title: ' ',
+                    text: msgMsgLogin,
+                    icon: 'error',
+                    confirmButtonText: '{{trans('ok')}}'
+                }).then(okay => {
+                    if (okay) {
+                        window.location.reload();
+                    }
+                });
+            }
+        });
+    </script>
     <script>
         document.querySelector("#phone").addEventListener("keypress", function (evt) {
             if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57) {

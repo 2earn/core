@@ -93,9 +93,10 @@
                                class="text-decoration-underline">{{ __('see_details') }}</a>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
-                            <lord-icon src="{{ URL::asset('build/icons/coin.json') }}"
-                                       trigger="hover"
-                                       style="width:55px;height:55px">
+                            <lord-icon
+                                src="https://cdn.lordicon.com/nlmjynuq.json"
+                                trigger="loop"
+                                style="width:55px;height:55px">
                             </lord-icon>
                         </div>
 
@@ -327,7 +328,8 @@
                     <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Buy Shares') }}@if($flash)
                             <div class="flash-background">{{__('V I P')}}</div>
                         @endif</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-buy-share" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     @if($flash)
@@ -508,8 +510,10 @@
         <script src="https://cdn.lordicon.com/lordicon.js"></script>
         @vite('resources/js/pages/form-validation.init.js');
         @if($flash)
-            <script>
+            <script type="module">
                 var setEndDate6 = "{{$flashDate}}";
+                var vipInterval;
+                var vipInterval1;
 
                 function startCountDownDate(dateVal) {
                     var countDownDate = new Date(dateVal).getTime();
@@ -531,24 +535,33 @@
                     hours = hours < 10 ? "0" + hours : hours;
                     minutes = minutes < 10 ? "0" + minutes : minutes;
                     seconds = seconds < 10 ? "0" + seconds : seconds;
+                    if ($("#" + targetDOM).length) {
 
                     document.querySelector("#" + targetDOM).textContent =
                         "- " + days + " {{__('days')}} : " + hours + " {{__('hours')}} : " + minutes + " {{__('minutes')}} : " + seconds + "  {{__('seconds')}}";
 
                     if (distance < 0) {
                         document.querySelector("#" + targetDOM).textContent = "00 : 00 : 00 : 00";
-                    }
+                    }}
                 }
 
                 var flashTimer = startCountDownDate(setEndDate6);
-                if (document.getElementById("flash-timer"))
-                    setInterval(function () {
+                if ($('#flash-timer').length) {
+                    vipInterval = setInterval(function () {
                         countDownTimer(flashTimer, "flash-timer");
                     }, 1000);
-                if (document.getElementById("flash-timer1"))
-                    setInterval(function () {
+                } else {
+                    clearInterval(vipInterval);
+                }
+
+                if ($('#flash-timer1').length) {
+                    vipInterval1 = setInterval(function () {
                         countDownTimer(flashTimer, "flash-timer1");
                     }, 1000);
+                } else {
+                    clearInterval(vipInterval1);
+                }
+
             </script>
         @endif
         <script type="module">
@@ -568,7 +581,7 @@
                             $('#bfs-select').addClass('d-none');
                         }
                     });
-                    $(document).on("click", "#buy-action-submit", function () {
+                    $("#buy-action-submit").one("click", function () {
                         this.disabled = true;
                         $('.buy-action-submit-spinner').show();
                         let ammount = parseFloat($('#ammount').val());
@@ -602,16 +615,18 @@
                                     });
                                 }
 
-                                $('#buy-action').modal('show');
+                                $('.btn-close-buy-share').trigger('click')
 
-                                Toastify({
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: data.message,
                                     text: data.message,
-                                    gravity: "top",
-                                    duration: 4000,
-                                    className: "info",
-                                    position: "center",
-                                    backgroundColor: backgroundColor
-                                }).showToast();
+                                    showConfirmButton: false,
+                                    timer: 2000,
+                                    showCloseButton: true
+                                });
+
                                 $('.buy-action-submit-spinner').hide();
                                 location.reload();
                             },

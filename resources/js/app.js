@@ -1,70 +1,69 @@
 import $ from 'jquery';
-window.$ = $; // this worked for me
-
 import * as bootstrap from 'bootstrap';
-window.bootstrap = bootstrap;
-
 import '@popperjs/core';
 
 import Swal from 'sweetalert2';
-window.Swal = Swal;
-
 import Alpine from 'alpinejs'
-
-window.Alpine = Alpine ;
-Alpine.start() ;
-
 import Turbolinks from "turbolinks";
-Turbolinks.start();
-
-import select2 from 'select2';
 
 import Swiper from 'swiper';
-const swiper = new Swiper();
-
-
 import DataTable from "datatables.net-bs5";
-window.DataTable = DataTable;
-
-
 import intlTelInput from 'intl-tel-input';
-window.intlTelInput = intlTelInput;
-
-import { Dropzone } from "dropzone";
-window.Dropzone = Dropzone;
-
+import {Dropzone} from "dropzone";
 import feather from 'feather-icons';
-window.feather = feather;
-
-import waves  from 'node-waves';
-window.Waves  = waves ;
-
-import.meta.glob([ '../images/**', ]);
-
+import waves from 'node-waves';
+import Toastify from "toastify";
 import Prism from 'prismjs';
-window.Prism  = Prism ;
 import 'prismjs/themes/prism-okaidia.css'
 import 'prismjs/components/prism-handlebars.min.js'
 import 'prismjs/components/prism-lua.min.js'
-Prism.highlightAll();
-
 import ApexCharts from 'apexcharts'
-window.ApexCharts  = ApexCharts ;
-
 import SimpleBar from 'simplebar';
-window.SimpleBar  = SimpleBar ;
-
 import 'simplebar/dist/simplebar.css';
-
-import lottie from "lottie-web";
-import { defineElement } from "@lordicon/element";
 
 import * as FilePond from 'filepond';
 import 'filepond/dist/filepond.min.css';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
-window.FilePond  = FilePond ;
-window.FilePondPluginImagePreview  = FilePondPluginImagePreview ;
+
+window.$ = $; // this worked for me
+
+window.bootstrap = bootstrap;
+
+window.Swal = Swal;
+
+window.Alpine = Alpine;
+Alpine.start();
+
+Turbolinks.start();
+
+const swiper = new Swiper();
+
+window.DataTable = DataTable;
+
+window.intlTelInput = intlTelInput;
+
+window.Dropzone = Dropzone;
+
+window.feather = feather;
+
+window.Waves = waves;
+
+window.Toastify = Toastify;
+
+
+import.meta.glob(['../images/**',]);
+
+window.Prism = Prism;
+
+Prism.highlightAll();
+
+window.ApexCharts = ApexCharts;
+
+window.SimpleBar = SimpleBar;
+
+window.FilePond = FilePond;
+window.FilePondPluginImagePreview = FilePondPluginImagePreview;
 
 
 (function () {
@@ -261,7 +260,9 @@ window.FilePondPluginImagePreview  = FilePondPluginImagePreview ;
                     }
                 }
             }
-            document.getElementById("two-column-menu").innerHTML = ul.outerHTML;
+            if (document.getElementById('two-column-menu') instanceof Object) {
+                document.getElementById("two-column-menu").innerHTML = ul.outerHTML;
+            }
             Array.from(document.querySelector("#two-column-menu ul").querySelectorAll("li a")).forEach(function (element) {
                 var currentPath = location.pathname == "/" ? "index" : location.pathname.substring(1);
                 currentPath = currentPath.substring(currentPath.lastIndexOf("/") + 1);
@@ -438,12 +439,17 @@ window.FilePondPluginImagePreview  = FilePondPluginImagePreview ;
 
     function initLeftMenuCollapse() {
         if (document.documentElement.getAttribute("data-layout") == "vertical") {
-            document.getElementById("two-column-menu").innerHTML = "";
-            document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
-
-            document.getElementById("scrollbar").setAttribute("data-simplebar", "");
-            document.getElementById("navbar-nav").setAttribute("data-simplebar", "");
-            document.getElementById("scrollbar").classList.add("h-100");
+            if (document.getElementById('two-column-menu') instanceof Object) {
+                document.getElementById("two-column-menu").innerHTML = "";
+            }
+            if (document.querySelector('.navbar-menu') instanceof Object) {
+                document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
+            }
+            if (document.getElementById('two-column-menu') instanceof Object) {
+                document.getElementById("scrollbar").setAttribute("data-simplebar", "");
+                document.getElementById("navbar-nav").setAttribute("data-simplebar", "");
+                document.getElementById("scrollbar").classList.add("h-100");
+            }
         }
 
         if (document.documentElement.getAttribute("data-layout") == "twocolumn") {
@@ -919,8 +925,12 @@ window.FilePondPluginImagePreview  = FilePondPluginImagePreview ;
 
     function hideShowLayoutOptions(dataLayout) {
         if (dataLayout == "vertical") {
-            document.getElementById("two-column-menu").innerHTML = "";
-            document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
+            if (document.getElementById('two-column-menu') instanceof Object) {
+                document.getElementById("two-column-menu").innerHTML = "";
+            }
+            if (document.querySelector('.navbar-menu') instanceof Object) {
+                document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
+            }
             if (document.getElementById("theme-settings-offcanvas")) {
                 document.getElementById("sidebar-size").style.display = "block";
                 document.getElementById("sidebar-view").style.display = "block";
@@ -1517,7 +1527,6 @@ window.FilePondPluginImagePreview  = FilePondPluginImagePreview ;
 
             // open right sidebar on first time load
             var offCanvas = document.querySelector('.btn[data-bs-target="#theme-settings-offcanvas"]');
-            // offCanvas ? offCanvas.click() : "";
         } else {
             var isLayoutAttributes = {};
             isLayoutAttributes["data-layout"] = sessionStorage.getItem("data-layout");
@@ -1539,6 +1548,7 @@ window.FilePondPluginImagePreview  = FilePondPluginImagePreview ;
         var fullscreenBtn = document.querySelector('[data-toggle="fullscreen"]');
         fullscreenBtn &&
         fullscreenBtn.addEventListener("click", function (e) {
+            console.log('fullscreen')
             e.preventDefault();
             document.body.classList.toggle("fullscreen-enable");
             if (!document.fullscreenElement &&
@@ -1589,13 +1599,13 @@ window.FilePondPluginImagePreview  = FilePondPluginImagePreview ;
     function initModeSetting() {
         var html = document.getElementsByTagName("HTML")[0];
         var lightDarkBtn = document.querySelectorAll(".light-dark-mode");
-        // if (lightDarkBtn && lightDarkBtn.length) {
-        //     lightDarkBtn[0].addEventListener("click", function (event) {
-        //         html.hasAttribute("data-layout-mode") && html.getAttribute("data-layout-mode") == "dark" ?
-        //             setLayoutMode("data-layout-mode", "light", "layout-mode-light", html) :
-        //             setLayoutMode("data-layout-mode", "dark", "layout-mode-dark", html);
-        //     });
-        // }
+        if (lightDarkBtn && lightDarkBtn.length) {
+            lightDarkBtn[0].addEventListener("click", function (event) {
+                html.hasAttribute("data-layout-mode") && html.getAttribute("data-layout-mode") == "dark" ?
+                    setLayoutMode("data-layout-mode", "light", "layout-mode-light", html) :
+                    setLayoutMode("data-layout-mode", "dark", "layout-mode-dark", html);
+            });
+        }
     }
 
     function resetLayout() {
@@ -1620,14 +1630,21 @@ window.FilePondPluginImagePreview  = FilePondPluginImagePreview ;
         initTopbarComponents();
         initComponents();
         resetLayout();
-        // pluginData();
         initLanguage();
         isCollapseMenu();
         initMenuItemScroll();
     }
 
-    init();
+    function initTurboChange() {
+        init();
+        initFullScreen();
+        initModeSetting();
+    }
 
+    if (document.getElementById('layout-wrapper') instanceof Object) {
+        document.addEventListener("turbolinks:load", initTurboChange);
+        init();
+    }
     var timeOutFunctionId;
 
     function setResize() {

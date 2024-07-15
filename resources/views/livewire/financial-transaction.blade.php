@@ -419,7 +419,7 @@
                             </div>
                             <div class="card-body pt-0">
                                 <div class="table-responsive ">
-                                    <table class=" table table-responsive tableEditAdmin"
+                                    <table class="table table-striped table-bordered tableEditAdmin"
                                            id="ReqFromMe_table2"
                                            style="width: 100%">
                                         <thead class="table-light">
@@ -461,7 +461,7 @@
                                             </tr>
                                             <tr hidden="true" id={{$value->numeroReq}}>
                                                 <td colspan="12">
-                                                    <table class=" table table-responsive table2earn "
+                                                    <table class="table table-striped table-bordered table2earn "
                                                            style="width: 100%">
                                                         <thead>
                                                         <tr>
@@ -583,123 +583,10 @@
         </div>
     </div>
     <script>
-        function cancelRequestF(numReq) {
-            Swal.fire({
-                title: `{{trans('cancel_request')}}`,
-                confirmButtonText: '{{trans('Yes')}}',
-                showCancelButton: true,
-                cancelButtonText: '{{trans('No')}}',
-                denyButtonText: 'No',
-                customClass: {actions: 'my-actions', confirmButton: 'order-2', denyButton: 'order-3',}
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.Livewire.emit('DeleteRequest', numReq);
-                }
-            })
-        }
-        function hiddenTr(num) {
-            $("#" + num).prop("hidden", !$("#" + num).prop("hidden"));
-        }
-
-        function ShowCanceledRequest() {
-            if (document.getElementById('ShowCanceled').checked) {
-                window.Livewire.emit('ShowCanceled', 1)
-            } else {
-                window.Livewire.emit('ShowCanceled', 0)
-            }
-        }
-    </script>
-    <script type="module">
-        var mnt = {{$testprop}};
-        var timerInterval;
-        var prixSms = {{$prix_sms}};
-        var soldeBFS = {{$soldeBFS}};
-        var inputMontantSms = $("#soldeSMS");
-        var inputSms = $("#NSMS");
-        var inputsoldeBFSSMS = $("#soldeBFSSMS");
-        var inputsoldeBFS = $("#soldeBFS");
-        var Mymnt = {{$soldeExchange}};
-        var newmntBFS = soldeBFS + Mymnt;
-        inputsoldeBFS.val(newmntBFS.toFixed(2));
-        $("#montantExchange").keyup(function () {
-            var tt = parseFloat(soldeBFS) + parseFloat($(this).val());
-            inputsoldeBFS.val(tt);
-        })
-        inputSms.val(mnt);
-        var mntSms = mnt * prixSms;
-        var newsoldeBFS = soldeBFS - mntSms
-        inputMontantSms.val(mntSms.toFixed(2));
-        inputsoldeBFSSMS.val(newsoldeBFS.toFixed(2));
-        $("#NSMS").keyup(function () {
-            var montantSms = $(this).val() * prixSms;
-            inputMontantSms.val(montantSms.toFixed(2));
-            var newsolde = soldeBFS - montantSms;
-            newsoldeBFS = soldeBFS - montantSms;
-            inputsoldeBFSSMS.val(newsolde.toFixed(2));
-            if (montantSms == 0) {
-                $("#submitExchangeSms").prop('disabled', true);
-            } else {
-                $("#submitExchangeSms").prop('disabled', false);
-            }
-        });
-
-        $("#NSMS").keyup(function () {
-            var montantSms = $(this).val() * prixSms;
-            inputMontantSms.val(montantSms.toFixed(2));
-            var newsolde = soldeBFS - montantSms;
-            newsoldeBFS = soldeBFS - montantSms;
-            inputsoldeBFSSMS.val(newsolde.toFixed(2));
-            if (montantSms == 0) {
-                $("#submitExchangeSms").prop('disabled', true);
-            } else {
-                $("#submitExchangeSms").prop('disabled', false);
-            }
-        });
-        $("#soldeSMS").focusout(function () {
-            var sms = $("#NSMS").val();
-            var mnt = sms * prixSms;
-            inputMontantSms.val(mnt.toFixed(2));
-            var newsolde = soldeBFS - mnt;
-            newsoldeBFS = soldeBFS - mnt;
-            inputsoldeBFSSMS.val(newsolde.toFixed(2));
-        });
-        $("#submitExchangeSms").prop('disabled', true);
-        window.addEventListener('OptExBFSCash', event => {
-            Swal.fire({
-                title: '{{ __('Your verification code') }}',
-                html: '{{ __('We_will_send') }}<br>' + event.detail.FullNumber + '<br>' + '{{ __('Your OTP Code') }}',
-                input: 'text',
-                allowOutsideClick: false,
-                timer: '{{ env('timeOPT') }}',
-                timerProgressBar: true,
-                confirmButtonText: '{{trans('ok')}}',
-                showCancelButton: true,
-                cancelButtonText: '{{trans('canceled !')}}',
-                footer: ' <i></i><div class="footerOpt"></div>',
-                didOpen: () => {
-                    const b = Swal.getFooter().querySelector('i');
-                    Swal.getFooter().querySelector('div').classList.add("row");
-                    const p22 = Swal.getFooter().querySelector('div');
-                    timerInterval = setInterval(() => {
-                        p22.innerHTML = '<div class="col-12">{{trans('It will close in')}}' + ' ' + (Swal.getTimerLeft() / 1000).toFixed(0) + ' ' + '{{trans('secondes')}}' + '</br> ' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a> </div>'
-                    }, 100)
-                },
-                willClose: () => {
-                    clearInterval(timerInterval)
-                },
-                input: 'text',
-                inputAttributes: {autocapitalize: 'off'},
-                inputAttributes: {autocapitalize: 'off'},
-            }).then((resultat) => {
-                if (resultat.value) {
-                    window.Livewire.emit('ExchangeCashToBFS', resultat.value);
-                }
-            })
-        })
 
         function ConfirmExchange() {
             var soldecashB = {{ $soldecashB}};
-            var soldeExchange = $("#montantExchange").val();
+            var soldeExchange = document.getElementById('montantExchange').value
             if (Number.isNaN(soldecashB) || Number.isNaN(soldeExchange)) return;
             if (soldeExchange < 0) return;
             if (soldeExchange == 0) {
@@ -792,6 +679,122 @@
                 }
             })
         }
+
+        function cancelRequestF(numReq) {
+            Swal.fire({
+                title: `{{trans('cancel_request')}}`,
+                confirmButtonText: '{{trans('Yes')}}',
+                showCancelButton: true,
+                cancelButtonText: '{{trans('No')}}',
+                denyButtonText: 'No',
+                customClass: {actions: 'my-actions', confirmButton: 'order-2', denyButton: 'order-3',}
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.Livewire.emit('DeleteRequest', numReq);
+                }
+            })
+        }
+
+        function hiddenTr(num) {
+            $("#" + num).prop("hidden", !$("#" + num).prop("hidden"));
+        }
+
+        function ShowCanceledRequest() {
+            if (document.getElementById('ShowCanceled').checked) {
+                window.Livewire.emit('ShowCanceled', 1)
+            } else {
+                window.Livewire.emit('ShowCanceled', 0)
+            }
+        }
+    </script>
+    <script type="module">
+        var timerInterval;
+        var mnt = {{$testprop}};
+        var prixSms = {{$prix_sms}};
+        var soldeBFS = {{$soldeBFS}};
+        var inputMontantSms = $("#soldeSMS");
+        var inputSms = $("#NSMS");
+        var inputsoldeBFSSMS = $("#soldeBFSSMS");
+        var inputsoldeBFS = $("#soldeBFS");
+        var Mymnt = {{$soldeExchange}};
+        var newmntBFS = soldeBFS + Mymnt;
+        inputsoldeBFS.val(newmntBFS.toFixed(2));
+        $("#montantExchange").keyup(function () {
+            var tt = parseFloat(soldeBFS) + parseFloat($(this).val());
+            inputsoldeBFS.val(tt);
+        })
+        inputSms.val(mnt);
+        var mntSms = mnt * prixSms;
+        var newsoldeBFS = soldeBFS - mntSms
+        inputMontantSms.val(mntSms.toFixed(2));
+        inputsoldeBFSSMS.val(newsoldeBFS.toFixed(2));
+        $("#NSMS").keyup(function () {
+            var montantSms = $(this).val() * prixSms;
+            inputMontantSms.val(montantSms.toFixed(2));
+            var newsolde = soldeBFS - montantSms;
+            newsoldeBFS = soldeBFS - montantSms;
+            inputsoldeBFSSMS.val(newsolde.toFixed(2));
+            if (montantSms == 0) {
+                $("#submitExchangeSms").prop('disabled', true);
+            } else {
+                $("#submitExchangeSms").prop('disabled', false);
+            }
+        });
+
+        $("#NSMS").keyup(function () {
+            var montantSms = $(this).val() * prixSms;
+            inputMontantSms.val(montantSms.toFixed(2));
+            var newsolde = soldeBFS - montantSms;
+            newsoldeBFS = soldeBFS - montantSms;
+            inputsoldeBFSSMS.val(newsolde.toFixed(2));
+            if (montantSms == 0) {
+                $("#submitExchangeSms").prop('disabled', true);
+            } else {
+                $("#submitExchangeSms").prop('disabled', false);
+            }
+        });
+        $("#soldeSMS").focusout(function () {
+            var sms = $("#NSMS").val();
+            var mnt = sms * prixSms;
+            inputMontantSms.val(mnt.toFixed(2));
+            var newsolde = soldeBFS - mnt;
+            newsoldeBFS = soldeBFS - mnt;
+            inputsoldeBFSSMS.val(newsolde.toFixed(2));
+        });
+        $("#submitExchangeSms").prop('disabled', true);
+        window.addEventListener('OptExBFSCash', event => {
+            Swal.fire({
+                title: '{{ __('Your verification code') }}',
+                html: '{{ __('We_will_send') }}<br>' + event.detail.FullNumber + '<br>' + '{{ __('Your OTP Code') }}',
+                input: 'text',
+                allowOutsideClick: false,
+                timer: '{{ env('timeOPT') }}',
+                timerProgressBar: true,
+                confirmButtonText: '{{trans('ok')}}',
+                showCancelButton: true,
+                cancelButtonText: '{{trans('canceled !')}}',
+                footer: ' <i></i><div class="footerOpt"></div>',
+                didOpen: () => {
+                    const b = Swal.getFooter().querySelector('i');
+                    Swal.getFooter().querySelector('div').classList.add("row");
+                    const p22 = Swal.getFooter().querySelector('div');
+                    timerInterval = setInterval(() => {
+                        p22.innerHTML = '<div class="col-12">{{trans('It will close in')}}' + ' ' + (Swal.getTimerLeft() / 1000).toFixed(0) + ' ' + '{{trans('secondes')}}' + '</br> ' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a> </div>'
+                    }, 100)
+                },
+                willClose: () => {
+                    clearInterval(timerInterval)
+                },
+                input: 'text',
+                inputAttributes: {autocapitalize: 'off'},
+                inputAttributes: {autocapitalize: 'off'},
+            }).then((resultat) => {
+                if (resultat.value) {
+                    window.Livewire.emit('ExchangeCashToBFS', resultat.value);
+                }
+            })
+        })
+
 
         window.addEventListener('confirmSms', event => {
             Swal.fire({

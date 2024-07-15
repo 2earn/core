@@ -23,7 +23,9 @@
             </div>
         </div>
     </div>
-    <script>
+    <script type="module">
+        var timerInterval
+
         function ConfirmChangePhone() {
             if ($('#phoneUpPhone').val() == "") {
                 Swal.fire({

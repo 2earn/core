@@ -20,7 +20,7 @@
                 <div class="transaction-table">
 
                     <div class="table-responsive ">
-                        <table class=" mb-0 table-responsive-sm stripe table2earn" id="userManager_table"
+                        <table class="table table-striped table-bordered"   id="userManager_table"
                                style="width: 100%">
                             <thead>
                             <tr class="head2earn">

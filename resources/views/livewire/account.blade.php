@@ -265,9 +265,9 @@
                     </div>
                 </div>
             @endif
-            <div class="card  ">
+            <div class="card">
                 <div class="card-header">
-                    <ul class="nav  nav-pills nav-tabs-custom rounded card-header-tabs border-bottom-0 tab2earn"
+                    <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0 tab2earn"
                         role="tablist">
                         <li class="nav-item">
                             <a style="color: #f02602" class="nav-link active" data-bs-toggle="tab"
@@ -631,7 +631,7 @@
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="text-end">
-                                            <button onclick="ConfirmChangePass()" type="button"
+                                            <button wire:click="PreChangePass" type="button"
                                                     class="btn btn-success btn2earn">
                                                 {{ __('Save') }}
                                             </button>
@@ -804,7 +804,7 @@
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">
                                         {{ __('Close')}}
                                     </button>
-                                    <button onclick="SaveChangeEdit()" type="button" id="SaveCahngeEdit"
+                                    <button wire:click="SaveChangeEdit" type="button" id="SaveCahngeEdit"
                                             class="btn btn-primary">
                                         <div wire:loading wire:target="SaveChangeEdit">
                                                 <span class="spinner-border spinner-border-sm" role="status"
@@ -948,6 +948,7 @@
 
         </script>
         <script type="module">
+            var timerInterval;
             $(document).on('turbolinks:load', function () {
                 $("#btnsaveUser").click(function () {
                     window.Livewire.emit('saveUser', parseInt($("#inputChild").val()));
@@ -973,13 +974,6 @@
                 });
             });
 
-            function SaveChangeEdit() {
-                window.Livewire.emit('SaveChangeEdit');
-            }
-
-            function ConfirmChangePass() {
-                window.Livewire.emit('PreChangePass');
-            }
 
             window.addEventListener('OptChangePass', event => {
                 Swal.fire({
@@ -1036,7 +1030,7 @@
                         const b = Swal.getFooter().querySelector('i');
                         const p22 = Swal.getFooter().querySelector('div');
                         p22.innerHTML = '<br>' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>';
-                        var timerInterval = setInterval(() => {
+                        timerInterval = setInterval(() => {
                             let timerLeft = Swal.getTimerLeft();
                             if (timerLeft !== null) {
                                 b.innerHTML = '{{trans('It will close in')}}' + (timerLeft / 1000).toFixed(0) + '{{trans('secondes')}}';
