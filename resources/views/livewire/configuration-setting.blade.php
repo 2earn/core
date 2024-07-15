@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="tab-content text-muted">
-                    <div class="tab-pane active show" id="setting" role="tabpanel">
+                    <div class="table table-striped table-bordered" id="setting" role="tabpanel">
                         <div wire:ignore class="card-body">
                             <div id="customerList">
                                 <div class="row ">
@@ -21,7 +21,7 @@
                                             id="SettingsTable" style="width: 100%">
                                             <thead class="table-light">
                                             <tr>
-                                                <th>{{ __('Name') }}</th>
+                                                <th>{{ __('Name of setting') }}</th>
                                                 <th>{{ __('IntegerValue') }}</th>
                                                 <th>{{ __('StringValue') }}</th>
                                                 <th>{{ __('DecimalValue') }}</th>

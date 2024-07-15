@@ -7,11 +7,11 @@
     <div class="row">
         <div class="card">
             <div class="card-body">
-                <table class="table align-middle table-nowrap flex-table" id="amountsTable"
+                <table class="table table-striped table-bordered" id="amountsTable"
                        style="width: 100%">
                     <thead class="table-light">
                     <tr>
-                        <th>{{ __('Name') }}</th>
+                        <th>{{ __('Name of setting') }}</th>
                         <th>{{ __('ShortName') }}</th>
                         <th>{{ __('WithHoldinTax') }}</th>
                         <th>{{ __('transfer') }}</th>
