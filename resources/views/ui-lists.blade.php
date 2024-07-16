@@ -95,7 +95,7 @@
                             <li class="list-group-item disabled" aria-disabled="true">
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-0">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt="" class="avatar-xs rounded-circle">
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt="" class="avatar-xs rounded-circle">
                                     </div>
                                     <div class="flex-grow-1 ms-2">
                                         James Ballard
@@ -105,7 +105,7 @@
                             <li class="list-group-item">
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-0">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded-circle">
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded-circle">
                                     </div>
                                     <div class="flex-grow-1 ms-2">
                                         Nancy Martino
@@ -115,7 +115,7 @@
                             <li class="list-group-item">
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-0">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="avatar-xs rounded-circle">
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="avatar-xs rounded-circle">
                                     </div>
                                     <div class="flex-grow-1 ms-2">
                                         Henry Baird
@@ -125,7 +125,7 @@
                             <li class="list-group-item">
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-0">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="avatar-xs rounded-circle">
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="avatar-xs rounded-circle">
                                     </div>
                                     <div class="flex-grow-1 ms-2">
                                         Erica Kernan
@@ -512,7 +512,7 @@ Erica Kernan
                                 </div>
                                 <div class="d-flex mb-2 align-items-center">
                                     <div class="flex-shrink-0">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt="" class="avatar-sm rounded-circle" />
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt="" class="avatar-sm rounded-circle" />
                                     </div>
                                     <div class="flex-grow-1 ms-3">
                                         <h5 class="list-title fs-15 mb-1">Charlie Pritchard</h5>
@@ -527,7 +527,7 @@ Erica Kernan
                                 </div>
                                 <div class="d-flex mb-2 align-items-center">
                                     <div class="flex-shrink-0">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="" class="avatar-sm rounded-circle" />
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="" class="avatar-sm rounded-circle" />
                                     </div>
                                     <div class="flex-grow-1 ms-3">
                                         <h5 class="list-title fs-15 mb-1">Dominic Charlton</h5>
@@ -542,7 +542,7 @@ Erica Kernan
                                 </div>
                                 <div class="d-flex mb-2 align-items-center">
                                     <div class="flex-shrink-0">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="avatar-sm rounded-circle" />
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="avatar-sm rounded-circle" />
                                     </div>
                                     <div class="flex-grow-1 ms-3">
                                         <h5 class="list-title fs-15 mb-1">Declan Long</h5>
@@ -557,7 +557,7 @@ Erica Kernan
                                 </div>
                                 <div class="d-flex mb-2 align-items-center">
                                     <div class="flex-shrink-0">
-                                        <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="avatar-sm rounded-circle" />
+                                        <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="avatar-sm rounded-circle" />
                                     </div>
                                     <div class="flex-grow-1 ms-3">
                                         <h5 class="list-title fs-15 mb-1">Angela Bernier</h5>
@@ -964,7 +964,7 @@ Wrong UX/UI Solution
                                         <div class="flex-grow-1">
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded" />
+                                                    <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded" />
                                                 </div>
                                                 <div class="flex-shrink-0 ms-2">
                                                     <h6 class="fs-14 mb-0">Emily Slater</h6>
@@ -1002,7 +1002,7 @@ Wrong UX/UI Solution
                                         <div class="flex-grow-1">
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="avatar-xs rounded" />
+                                                    <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="avatar-xs rounded" />
                                                 </div>
                                                 <div class="flex-shrink-0 ms-2">
                                                     <h6 class="fs-14 mb-0">Harvey Wells</h6>
@@ -1130,7 +1130,7 @@ Wrong UX/UI Solution
     <!-- end row -->
     @endsection
     @section('script')
-        <script src="{{ URL::asset('assets/libs/prismjs/prismjs.min.js') }}"></script>
+        <script src="{{ URL::asset('assets/libs/prismjs/prism.js') }}"></script>
 
         <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
     @endsection

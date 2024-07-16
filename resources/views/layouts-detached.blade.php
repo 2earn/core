@@ -234,7 +234,7 @@
                                 <tr>
                                     <td>Absternet LLC</td>
                                     <td>Sep 20, 2021</td>
-                                    <td><img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt=""
+                                    <td><img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt=""
                                             class="avatar-xs rounded-circle me-2">
                                         <a href="#javascript: void(0);" class="text-body fw-medium">Donald Risher</a>
                                     </td>
@@ -246,7 +246,7 @@
                                 <tr>
                                     <td>Raitech Soft</td>
                                     <td>Sep 23, 2021</td>
-                                    <td><img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt=""
+                                    <td><img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt=""
                                             class="avatar-xs rounded-circle me-2">
                                         <a href="#javascript: void(0);" class="text-body fw-medium">Sofia Cunha</a>
                                     </td>
@@ -258,7 +258,7 @@
                                 <tr>
                                     <td>William PVT</td>
                                     <td>Sep 27, 2021</td>
-                                    <td><img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt=""
+                                    <td><img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt=""
                                             class="avatar-xs rounded-circle me-2">
                                         <a href="#javascript: void(0);" class="text-body fw-medium">Luis Rocha</a>
                                     </td>
@@ -270,7 +270,7 @@
                                 <tr>
                                     <td>Loiusee LLP</td>
                                     <td>Sep 30, 2021</td>
-                                    <td><img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt=""
+                                    <td><img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt=""
                                             class="avatar-xs rounded-circle me-2">
                                         <a href="#javascript: void(0);" class="text-body fw-medium">Vitoria Rodrigues</a>
                                     </td>
@@ -282,7 +282,7 @@
                                 <tr>
                                     <td>Apple Inc.</td>
                                     <td>Sep 30, 2021</td>
-                                    <td><img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt=""
+                                    <td><img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt=""
                                             class="avatar-xs rounded-circle me-2">
                                         <a href="#javascript: void(0);" class="text-body fw-medium">Vitoria Rodrigues</a>
                                     </td>
@@ -463,21 +463,21 @@
                                         <div class="avatar-group-item">
                                             <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" title="" data-bs-original-title="Stine Nielsen">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
                                         <div class="avatar-group-item">
                                             <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" title="" data-bs-original-title="Jansh Brown">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
                                         <div class="avatar-group-item">
                                             <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" title="" data-bs-original-title="Dan Gibson">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
@@ -514,28 +514,28 @@
                                         <div class="avatar-group-item">
                                             <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" title="" data-bs-original-title="Frida Bang">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
                                         <div class="avatar-group-item">
                                             <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" title="" data-bs-original-title="Malou Silva">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
                                         <div class="avatar-group-item">
                                             <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" title="" data-bs-original-title="Simon Schmidt">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
                                         <div class="avatar-group-item">
                                             <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" title="" data-bs-original-title="Tosh Jessen">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
@@ -572,21 +572,21 @@
                                         <div class="avatar-group-item">
                                             <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" title="" data-bs-original-title="Nina Schmidt">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
                                         <div class="avatar-group-item">
                                             <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" title="" data-bs-original-title="Stine Nielsen">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
                                         <div class="avatar-group-item">
                                             <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" title="" data-bs-original-title="Jansh Brown">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
@@ -624,21 +624,21 @@
                                         <div class="avatar-group-item">
                                             <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" title="" data-bs-original-title="Stine Nielsen">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
                                         <div class="avatar-group-item">
                                             <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" title="" data-bs-original-title="Jansh Brown">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
                                         <div class="avatar-group-item">
                                             <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" title="" data-bs-original-title="Dan Gibson">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
@@ -714,7 +714,7 @@
                             <tbody>
                                 <tr>
                                     <td>Acme Inc Install</td>
-                                    <td><img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt=""
+                                    <td><img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt=""
                                             class="avatar-xs rounded-circle me-2">
                                         <a href="#javascript: void(0);" class="text-body fw-medium">Donald Risher</a>
                                     </td>
@@ -723,7 +723,7 @@
                                 </tr>
                                 <tr>
                                     <td>Save lots Stores</td>
-                                    <td><img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt=""
+                                    <td><img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt=""
                                             class="avatar-xs rounded-circle me-2">
                                         <a href="#javascript: void(0);" class="text-body fw-medium">Jansh Brown</a>
                                     </td>
@@ -732,7 +732,7 @@
                                 </tr>
                                 <tr>
                                     <td>William PVT</td>
-                                    <td><img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt=""
+                                    <td><img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt=""
                                             class="avatar-xs rounded-circle me-2">
                                         <a href="#javascript: void(0);" class="text-body fw-medium">Ayaan Hudda</a>
                                     </td>
@@ -741,7 +741,7 @@
                                 </tr>
                                 <tr>
                                     <td>Raitech Soft</td>
-                                    <td><img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt=""
+                                    <td><img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt=""
                                             class="avatar-xs rounded-circle me-2">
                                         <a href="#javascript: void(0);" class="text-body fw-medium">Julia William</a>
                                     </td>
@@ -750,7 +750,7 @@
                                 </tr>
                                 <tr>
                                     <td>Absternet LLC</td>
-                                    <td><img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt=""
+                                    <td><img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt=""
                                             class="avatar-xs rounded-circle me-2">
                                         <a href="#javascript: void(0);" class="text-body fw-medium">Vitoria Rodrigues</a>
                                     </td>

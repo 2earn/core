@@ -32,15 +32,15 @@
                             data-bs-interval="3000">
                             <div class="carousel-inner" role="listbox">
                                 <div class="carousel-item carousel-item-next carousel-item-start">
-                                    <img class="d-block img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-1.jpg') }}"
+                                    <img class="d-block img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-1.jpg') }}"
                                         alt="First slide">
                                 </div>
                                 <div class="carousel-item">
-                                    <img class="d-block img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-2.jpg') }}"
+                                    <img class="d-block img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-2.jpg') }}"
                                         alt="Second slide">
                                 </div>
                                 <div class="carousel-item active carousel-item-start">
-                                    <img class="d-block img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-3.jpg') }}"
+                                    <img class="d-block img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-3.jpg') }}"
                                         alt="Third slide">
                                 </div>
                             </div>
@@ -85,15 +85,15 @@
                         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner" role="listbox">
                                 <div class="carousel-item active">
-                                    <img class="d-block img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-4.jpg') }}"
+                                    <img class="d-block img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-4.jpg') }}"
                                         alt="First slide">
                                 </div>
                                 <div class="carousel-item">
-                                    <img class="d-block img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-5.jpg') }}"
+                                    <img class="d-block img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-5.jpg') }}"
                                         alt="Second slide">
                                 </div>
                                 <div class="carousel-item">
-                                    <img class="d-block img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-6.jpg') }}"
+                                    <img class="d-block img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-6.jpg') }}"
                                         alt="Third slide">
                                 </div>
                             </div>
@@ -167,15 +167,15 @@
                             </ol>
                             <div class="carousel-inner" role="listbox">
                                 <div class="carousel-item">
-                                    <img class="d-block img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-3.jpg') }}"
+                                    <img class="d-block img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-3.jpg') }}"
                                         alt="First slide">
                                 </div>
                                 <div class="carousel-item">
-                                    <img class="d-block img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-2.jpg') }}"
+                                    <img class="d-block img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-2.jpg') }}"
                                         alt="Second slide">
                                 </div>
                                 <div class="carousel-item active">
-                                    <img class="d-block img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-1.jpg') }}"
+                                    <img class="d-block img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-1.jpg') }}"
                                         alt="Third slide">
                                 </div>
                             </div>
@@ -244,7 +244,7 @@
                         <div id="carouselExampleCaption" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner" role="listbox">
                                 <div class="carousel-item">
-                                    <img src="{{ URL::asset('assets/images/small/img-7.jpg') }}" alt="" class="d-block img-fluid mx-auto">
+                                    <img src="{{ Vite::asset('resources/images/small/img-7.jpg') }}" alt="" class="d-block img-fluid mx-auto">
                                     <div class="carousel-caption text-white-50">
                                         <h5 class="text-white">Sunrise above a beach</h5>
                                         <p>You've probably heard that opposites attract. The same is true for fonts. Don't
@@ -252,7 +252,7 @@
                                     </div>
                                 </div>
                                 <div class="carousel-item active">
-                                    <img src="{{ URL::asset('assets/images/small/img-2.jpg') }}" alt="" class="d-block img-fluid mx-auto">
+                                    <img src="{{ Vite::asset('resources/images/small/img-2.jpg') }}" alt="" class="d-block img-fluid mx-auto">
                                     <div class="carousel-caption text-white-50">
                                         <h5 class="text-white">Working from home little spot</h5>
                                         <p>Consistency piques people’s interest is that it has become more and more popular
@@ -260,7 +260,7 @@
                                     </div>
                                 </div>
                                 <div class="carousel-item">
-                                    <img src="{{ URL::asset('assets/images/small/img-9.jpg') }}" alt="" class="d-block img-fluid mx-auto">
+                                    <img src="{{ Vite::asset('resources/images/small/img-9.jpg') }}" alt="" class="d-block img-fluid mx-auto">
                                     <div class="carousel-caption text-white-50">
                                         <h5 class="text-white">Dramatic clouds at the Golden Gate Bridge</h5>
                                         <p>Increase or decrease the letter spacing depending on the situation and try, try
@@ -350,15 +350,15 @@
                             </ol>
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
-                                    <img class="d-block img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-1.jpg') }}"
+                                    <img class="d-block img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-1.jpg') }}"
                                         alt="First slide">
                                 </div>
                                 <div class="carousel-item">
-                                    <img class="d-block img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-2.jpg') }}"
+                                    <img class="d-block img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-2.jpg') }}"
                                         alt="Second slide">
                                 </div>
                                 <div class="carousel-item">
-                                    <img class="d-block img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-3.jpg') }}"
+                                    <img class="d-block img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-3.jpg') }}"
                                         alt="Third slide">
                                 </div>
                             </div>
@@ -432,10 +432,10 @@
                                     <img src="{{URL::asset('assets//images/small/img-12.jpg')}}" class="d-block w-100" alt="First slide" />
                                 </div>
                                 <div class="carousel-item" data-bs-interval="2000">
-                                    <img src="{{ URL::asset('assets/images/small/img-11.jpg') }}" class="d-block w-100" alt="two slide" />
+                                    <img src="{{ Vite::asset('resources/images/small/img-11.jpg') }}" class="d-block w-100" alt="two slide" />
                                 </div>
                                 <div class="carousel-item">
-                                    <img src="{{ URL::asset('assets/images/small/img-10.jpg') }}" class="d-block w-100" alt="There slide" />
+                                    <img src="{{ Vite::asset('resources/images/small/img-10.jpg') }}" class="d-block w-100" alt="There slide" />
                                 </div>
                             </div>
                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
@@ -508,13 +508,13 @@
                             data-bs-interval="false">
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
-                                    <img src="{{ URL::asset('assets/images/small/img-9.jpg') }}" class="d-block w-100" alt="One Slide" />
+                                    <img src="{{ Vite::asset('resources/images/small/img-9.jpg') }}" class="d-block w-100" alt="One Slide" />
                                 </div>
                                 <div class="carousel-item">
-                                    <img src="{{ URL::asset('assets/images/small/img-8.jpg') }}" class="d-block w-100" alt="Two Slide" />
+                                    <img src="{{ Vite::asset('resources/images/small/img-8.jpg') }}" class="d-block w-100" alt="Two Slide" />
                                 </div>
                                 <div class="carousel-item">
-                                    <img src="{{ URL::asset('assets/images/small/img-7.jpg') }}" class="d-block w-100" alt="Three Slide" />
+                                    <img src="{{ Vite::asset('resources/images/small/img-7.jpg') }}" class="d-block w-100" alt="Three Slide" />
                                 </div>
                             </div>
                             <button class="carousel-control-prev" type="button"
@@ -586,7 +586,7 @@
                             </div>
                             <div class="carousel-inner">
                                 <div class="carousel-item active" data-bs-interval="10000">
-                                    <img src="{{ URL::asset('assets/images/small/img-4.jpg') }}" class="d-block w-100" alt="One Slide">
+                                    <img src="{{ Vite::asset('resources/images/small/img-4.jpg') }}" class="d-block w-100" alt="One Slide">
                                     <div class="carousel-caption d-none d-md-block">
                                         <h5>Drawing a sketch</h5>
                                         <p>Too much or too little spacing, as in the example below, can make things
@@ -594,7 +594,7 @@
                                     </div>
                                 </div>
                                 <div class="carousel-item" data-bs-interval="2000">
-                                    <img src="{{ URL::asset('assets/images/small/img-5.jpg') }}" class="d-block w-100" alt="Two Slide">
+                                    <img src="{{ Vite::asset('resources/images/small/img-5.jpg') }}" class="d-block w-100" alt="Two Slide">
                                     <div class="carousel-caption d-none d-md-block">
                                         <h5>Blue clock on a pastel background</h5>
                                         <p>In some designs, you might adjust your tracking to create a certain artistic
@@ -602,7 +602,7 @@
                                     </div>
                                 </div>
                                 <div class="carousel-item">
-                                    <img src="{{ URL::asset('assets/images/small/img-6.jpg') }}" class="d-block w-100" alt="Three Slide">
+                                    <img src="{{ Vite::asset('resources/images/small/img-6.jpg') }}" class="d-block w-100" alt="Three Slide">
                                     <div class="carousel-caption d-none d-md-block">
                                         <h5>Working at a coffee shop</h5>
                                         <p>A wonderful serenity has taken possession of my entire soul, like these sweet
@@ -673,5 +673,5 @@
 @endsection
 @section('script')
     <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/libs/prismjs/prismjs.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/libs/prismjs/prism.js') }}"></script>
 @endsection

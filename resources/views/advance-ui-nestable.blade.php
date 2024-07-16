@@ -197,7 +197,7 @@
                         <div class="list-group-item nested-1">
                             <div class="d-flex align-items-center">
                                 <div class="avatar-xs flex-shrink-0 me-3">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt="" class="img-fluid rounded-circle">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt="" class="img-fluid rounded-circle">
                                 </div>
                                 <div class="flex-grow-1">
                                     <h5 class="fs-14 mb-0">Daryl Wolcott</h5>
@@ -208,7 +208,7 @@
                                 <div class="list-group-item nested-2">
                                     <div class="d-flex align-items-center">
                                         <div class="avatar-xs flex-shrink-0 me-3">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt=""
                                                 class="img-fluid rounded-circle">
                                         </div>
                                         <div class="flex-grow-1">
@@ -221,7 +221,7 @@
                                         <div class="list-group-item nested-3">
                                             <div class="d-flex align-items-center">
                                                 <div class="avatar-xs flex-shrink-0 me-3">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt=""
+                                                    <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt=""
                                                         class="img-fluid rounded-circle">
                                                 </div>
                                                 <div class="flex-grow-1">
@@ -251,7 +251,7 @@
                                         <div class="list-group-item nested-3">
                                             <div class="d-flex align-items-center">
                                                 <div class="avatar-xs flex-shrink-0 me-3">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt=""
+                                                    <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt=""
                                                         class="img-fluid rounded-circle">
                                                 </div>
                                                 <div class="flex-grow-1">
@@ -277,7 +277,7 @@
                                                     <div class="d-flex align-items-center">
                                                         <div class="avatar-xs flex-shrink-0 me-3">
                                                             <div class="avatar-title rounded-circle">
-                                                                <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt=""
+                                                                <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt=""
                                                                     class="img-fluid rounded-circle">
                                                             </div>
                                                         </div>
@@ -294,7 +294,7 @@
                                         <div class="list-group-item nested-3">
                                             <div class="d-flex align-items-center">
                                                 <div class="avatar-xs flex-shrink-0 me-3">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt=""
+                                                    <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt=""
                                                         class="img-fluid rounded-circle">
                                                 </div>
                                                 <div class="flex-grow-1">
@@ -306,7 +306,7 @@
                                                 <div class="list-group-item nested-4">
                                                     <div class="d-flex align-items-center">
                                                         <div class="avatar-xs flex-shrink-0 me-3">
-                                                            <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt=""
+                                                            <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt=""
                                                                 class="img-fluid rounded-circle">
                                                         </div>
                                                         <div class="flex-grow-1">

@@ -30,7 +30,7 @@
                                         <tr style="font-family: 'Roboto', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                             <td class="content-block" style="font-family: 'Roboto', sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
                                                 <div style="margin-bottom: 15px;">
-                                                    <img src="{{URL::asset('assets/images/logo-dark.png')}}" alt="" height="23">
+                                                    <img src="{{Vite::asset('resources/images/logo-dark.png')}}" alt="" height="23">
                                                 </div>
                                             </td>
                                         </tr>
@@ -58,7 +58,7 @@
                                         <tr style="font-family: 'Roboto', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; border-top: 1px solid #e9ebec;">
                                             <td class="content-block" style="font-family: 'Roboto', sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0; padding-top: 15px" valign="top">
                                                 <div style="display: flex; align-items: center;">
-                                                    <img src="{{URL::asset('assets/images/users/avatar-3.jpg')}}" alt="" height="35" width="35" style="border-radius: 50px;">
+                                                    <img src="{{Vite::asset('resources/images/users/avatar-3.jpg')}}" alt="" height="35" width="35" style="border-radius: 50px;">
                                                     <div style="margin-left: 8px;">
                                                         <span style="font-weight: 600;">Luis Rocha</span>
                                                         <p style="font-size: 13px; margin-bottom: 0px; margin-top: 3px; color: #878a99;">Creative Director</p>
@@ -114,7 +114,7 @@
                                         <tr style="font-family: 'Roboto', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                             <td class="content-block" style="font-family: 'Roboto', sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
                                                 <div style="text-align: center;margin-bottom: 15px;">
-                                                    <img src="{{URL::asset('assets/images/logo-dark.png')}}" alt="" height="23">
+                                                    <img src="{{Vite::asset('resources/images/logo-dark.png')}}" alt="" height="23">
                                                 </div>
                                             </td>
                                         </tr>
@@ -187,7 +187,7 @@
                                         <tr style="font-family: 'Roboto', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                             <td class="content-block" style="font-family: 'Roboto', sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
                                                 <div style="text-align: center;margin-bottom: 15px;">
-                                                    <img src="{{URL::asset('assets/images/logo-dark.png')}}" alt="" height="23">
+                                                    <img src="{{Vite::asset('resources/images/logo-dark.png')}}" alt="" height="23">
                                                 </div>
                                             </td>
                                         </tr>

@@ -23,7 +23,9 @@
             </div>
         </div>
     </div>
-    <script>
+    <script type="module">
+        var timerInterval
+
         function ConfirmChangePhone() {
             if ($('#phoneUpPhone').val() == "") {
                 Swal.fire({
@@ -58,7 +60,7 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.livewire.emit('PreChangePhone', $('#phoneUpPhone').val(), $('#outputUpPhone').val(), 'mail');
+                    window.Livewire.emit('PreChangePhone', $('#phoneUpPhone').val(), $('#outputUpPhone').val(), 'mail');
                 } else if (result.isDenied) {
                     Swal.fire('Changes are not saved', '', 'info')
                 }
@@ -97,9 +99,9 @@
             }).then((resultat) => {
                 if (resultat.value) {
                     if (event.detail.methodeVerification === 'mail') {
-                        window.livewire.emit('PreChangePhone', $('#phoneUpPhone').val(), $('#outputUpPhone').val(), 'phone');
+                        window.Livewire.emit('PreChangePhone', $('#phoneUpPhone').val(), $('#outputUpPhone').val(), 'phone');
                     } else {
-                        window.livewire.emit('UpdatePhoneNumber', resultat.value, $('#phoneUpPhone').val(), $('#outputUpPhone').val(), $('#ccodeUpPhone').val(), $('#isoUpPhone').val());
+                        window.Livewire.emit('UpdatePhoneNumber', resultat.value, $('#phoneUpPhone').val(), $('#outputUpPhone').val(), $('#ccodeUpPhone').val(), $('#isoUpPhone').val());
                     }
                 }
                 if (resultat.isDismissed) {

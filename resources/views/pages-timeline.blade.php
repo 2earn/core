@@ -25,7 +25,7 @@
                         <div class="content">
                             <div class="d-flex">
                                 <div class="flex-shrink-0">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt="" class="avatar-sm rounded">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt="" class="avatar-sm rounded">
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <h5>@Erica245 <small class="text-muted fs-13 fw-normal">- 10 min Ago</small></h5>
@@ -97,12 +97,12 @@
                                 <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip"
                                     data-bs-trigger="hover" data-bs-placement="top" title=""
                                     data-bs-original-title="Christi">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-xs">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-xs">
                                 </a>
                                 <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip"
                                     data-bs-trigger="hover" data-bs-placement="top" title=""
                                     data-bs-original-title="Frank Hook">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle avatar-xs">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle avatar-xs">
                                 </a>
                                 <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip"
                                     data-bs-trigger="hover" data-bs-placement="top" title="" data-bs-original-title=" Ruby">
@@ -149,19 +149,19 @@
                                 maximum file size for uploads in this demo :</p>
                             <div class="row border border-dashed rounded gx-2 p-2">
                                 <div class="col-3">
-                                    <img src="{{ URL::asset('assets/images/small/img-2.jpg') }}" alt="" class="img-fluid rounded">
+                                    <img src="{{ Vite::asset('resources/images/small/img-2.jpg') }}" alt="" class="img-fluid rounded">
                                 </div>
                                 <!--end col-->
                                 <div class="col-3">
-                                    <img src="{{ URL::asset('assets/images/small/img-3.jpg') }}" alt="" class="img-fluid rounded">
+                                    <img src="{{ Vite::asset('resources/images/small/img-3.jpg') }}" alt="" class="img-fluid rounded">
                                 </div>
                                 <!--end col-->
                                 <div class="col-3">
-                                    <img src="{{ URL::asset('assets/images/small/img-4.jpg') }}" alt="" class="img-fluid rounded">
+                                    <img src="{{ Vite::asset('resources/images/small/img-4.jpg') }}" alt="" class="img-fluid rounded">
                                 </div>
                                 <!--end col-->
                                 <div class="col-3">
-                                    <img src="{{ URL::asset('assets/images/small/img-6.jpg') }}" alt="" class="img-fluid rounded">
+                                    <img src="{{ Vite::asset('resources/images/small/img-6.jpg') }}" alt="" class="img-fluid rounded">
                                 </div>
                                 <!--end col-->
                             </div>
@@ -208,7 +208,7 @@
                                 <div class="timeline-box">
                                     <div class="timeline-text">
                                         <div class="d-flex">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt="" class="avatar-sm rounded" />
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt="" class="avatar-sm rounded" />
                                             <div class="flex-grow-1 ms-3">
                                                 <h5 class="mb-1">Frank hook joined with our company</h5>
                                                 <p class="text-muted mb-0">It makes a statement, it’s impressive graphic
@@ -237,22 +237,22 @@
                                             :</p>
                                         <div class="row border border-dashed rounded gx-2 p-2">
                                             <div class="col-3">
-                                                <a href="javascript:void(0);"><img src="{{ URL::asset('assets/images/small/img-7.jpg') }}"
+                                                <a href="javascript:void(0);"><img src="{{ Vite::asset('resources/images/small/img-7.jpg') }}"
                                                         alt="" class="img-fluid rounded"></a>
                                             </div>
                                             <!--end col-->
                                             <div class="col-3">
-                                                <a href="javascript:void(0);"><img src="{{ URL::asset('assets/images/small/img-3.jpg') }}"
+                                                <a href="javascript:void(0);"><img src="{{ Vite::asset('resources/images/small/img-3.jpg') }}"
                                                         alt="" class="img-fluid rounded"></a>
                                             </div>
                                             <!--end col-->
                                             <div class="col-3">
-                                                <a href="javascript:void(0);"><img src="{{ URL::asset('assets/images/small/img-10.jpg') }}"
+                                                <a href="javascript:void(0);"><img src="{{ Vite::asset('resources/images/small/img-10.jpg') }}"
                                                         alt="" class="img-fluid rounded"></a>
                                             </div>
                                             <!--end col-->
                                             <div class="col-3">
-                                                <a href="javascript:void(0);"><img src="{{ URL::asset('assets/images/small/img-9.jpg') }}"
+                                                <a href="javascript:void(0);"><img src="{{ Vite::asset('resources/images/small/img-9.jpg') }}"
                                                         alt="" class="img-fluid rounded"></a>
                                             </div>
                                             <!--end col-->

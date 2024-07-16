@@ -57,7 +57,7 @@
                     <div class="ribbon ribbon-info ribbon-shape trending-ribbon"><i
                             class="ri-flashlight-fill text-white align-bottom"></i> <span
                             class="trending-ribbon-text">Trending</span></div>
-                    <img src="{{ URL::asset('assets/images/companies/img-1.png') }}" alt="" height="45">
+                    <img src="{{ Vite::asset('resources/images/companies/img-1.png') }}" alt="" height="45">
                     <h5 class="mb-1 mt-4"><a href="{{URL::asset('/apps-ecommerce-seller-details')}}" class="link-primary">Force
                             Medicines</a></h5>
                     <p class="text-muted mb-4">David Marshall</p>
@@ -86,7 +86,7 @@
         <div class="col-xl-3 col-lg-6">
             <div class="card">
                 <div class="card-body text-center p-4">
-                    <img src="{{ URL::asset('assets/images/companies/img-2.png') }}" alt="" height="45">
+                    <img src="{{ Vite::asset('resources/images/companies/img-2.png') }}" alt="" height="45">
                     <h5 class="mb-1 mt-4"><a href="{{URL::asset('/apps-ecommerce-seller-details')}}" class="link-primary">Micro
                             Design</a></h5>
                     <p class="text-muted mb-4">Katia Stapleton</p>
@@ -115,7 +115,7 @@
         <div class="col-xl-3 col-lg-6">
             <div class="card">
                 <div class="card-body text-center p-4">
-                    <img src="{{ URL::asset('assets/images/companies/img-3.png') }}" alt="" height="45">
+                    <img src="{{ Vite::asset('resources/images/companies/img-3.png') }}" alt="" height="45">
                     <h5 class="mb-1 mt-4"><a href="{{URL::asset('/apps-ecommerce-seller-details')}}" class="link-primary">Nesta
                             Technologies</a></h5>
                     <p class="text-muted mb-4">Harley Fuller</p>
@@ -147,7 +147,7 @@
                     <div class="ribbon ribbon-info ribbon-shape trending-ribbon"><i
                             class="ri-flashlight-fill text-white align-bottom"></i> <span
                             class="trending-ribbon-text">Trending</span></div>
-                    <img src="{{ URL::asset('assets/images/companies/img-4.png') }}" alt="" height="45">
+                    <img src="{{ Vite::asset('resources/images/companies/img-4.png') }}" alt="" height="45">
                     <h5 class="mb-1 mt-4"><a href="{{URL::asset('/apps-ecommerce-seller-details')}}" class="link-primary">iTest
                             Factory</a></h5>
                     <p class="text-muted mb-4">Oliver Tyler</p>
@@ -176,7 +176,7 @@
         <div class="col-xl-3 col-lg-6">
             <div class="card">
                 <div class="card-body text-center p-4">
-                    <img src="{{ URL::asset('assets/images/companies/img-5.png') }}" alt="" height="45">
+                    <img src="{{ Vite::asset('resources/images/companies/img-5.png') }}" alt="" height="45">
                     <h5 class="mb-1 mt-4"><a href="{{URL::asset('/apps-ecommerce-seller-details')}}"
                             class="link-primary">Meta4Systems</a></h5>
                     <p class="text-muted mb-4">Zoe Dennis</p>
@@ -208,7 +208,7 @@
                     <div class="ribbon ribbon-info ribbon-shape trending-ribbon"><i
                             class="ri-flashlight-fill text-white align-bottom"></i> <span
                             class="trending-ribbon-text">Trending</span></div>
-                    <img src="{{ URL::asset('assets/images/companies/img-6.png') }}" alt="" height="45">
+                    <img src="{{ Vite::asset('resources/images/companies/img-6.png') }}" alt="" height="45">
                     <h5 class="mb-1 mt-4"><a href="{{URL::asset('/apps-ecommerce-seller-details')}}"
                             class="link-primary">Digitech Galaxy</a></h5>
                     <p class="text-muted mb-4">John Roberts</p>
@@ -240,7 +240,7 @@
                     <div class="ribbon ribbon-info ribbon-shape trending-ribbon"><i
                             class="ri-flashlight-fill text-white align-bottom"></i> <span
                             class="trending-ribbon-text">Trending</span></div>
-                    <img src="{{ URL::asset('assets/images/companies/img-7.png') }}" alt="" height="45">
+                    <img src="{{ Vite::asset('resources/images/companies/img-7.png') }}" alt="" height="45">
                     <h5 class="mb-1 mt-4"><a href="{{URL::asset('/apps-ecommerce-seller-details')}}" class="link-primary">Syntyce
                             Solutions</a></h5>
                     <p class="text-muted mb-4">Demi Allen</p>
@@ -269,7 +269,7 @@
         <div class="col-xl-3 col-lg-6">
             <div class="card">
                 <div class="card-body text-center p-4">
-                    <img src="{{ URL::asset('assets/images/companies/img-8.png') }}" alt="" height="45">
+                    <img src="{{ Vite::asset('resources/images/companies/img-8.png') }}" alt="" height="45">
                     <h5 class="mb-1 mt-4"><a href="{{URL::asset('/apps-ecommerce-seller-details')}}" class="link-primary">Zoetic
                             Fashion</a></h5>
                     <p class="text-muted mb-4">James Bowen</p>

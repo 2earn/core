@@ -205,7 +205,7 @@
                             <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip"
                                 data-bs-trigger="hover" data-bs-placement="top" title="Brent Gonzalez">
                                 <div class="avatar-xs">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle img-fluid">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle img-fluid">
                                 </div>
                             </a>
                             <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip"
@@ -219,7 +219,7 @@
                             <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip"
                                 data-bs-trigger="hover" data-bs-placement="top" title="Ellen Smith">
                                 <div class="avatar-xs">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle img-fluid">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle img-fluid">
                                 </div>
                             </a>
                             <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip"
@@ -266,7 +266,7 @@
                             <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip"
                                 data-bs-trigger="hover" data-bs-placement="top" title="Brent Gonzalez">
                                 <div class="avatar-xs">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle img-fluid">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle img-fluid">
                                 </div>
                             </a>
                             <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip"
@@ -280,7 +280,7 @@
                             <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip"
                                 data-bs-trigger="hover" data-bs-placement="top" title="Ellen Smith">
                                 <div class="avatar-xs">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle img-fluid">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle img-fluid">
                                 </div>
                             </a>
                         </div>
@@ -289,7 +289,7 @@
                         <div class="vstack gap-3">
                             <div class="d-flex align-items-center">
                                 <div class="avatar-xs flex-shrink-0 me-3">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="" class="img-fluid rounded-circle">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="" class="img-fluid rounded-circle">
                                 </div>
                                 <div class="flex-grow-1">
                                     <h5 class="fs-13 mb-0"><a href="#" class="text-body d-block">Nancy Martino</a>
@@ -316,7 +316,7 @@
                             <!-- end member item -->
                             <div class="d-flex align-items-center">
                                 <div class="avatar-xs flex-shrink-0 me-3">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="img-fluid rounded-circle">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="img-fluid rounded-circle">
                                 </div>
                                 <div class="flex-grow-1">
                                     <h5 class="fs-13 mb-0"><a href="#" class="text-body d-block">Frank Hook</a></h5>
@@ -328,7 +328,7 @@
                             <!-- end member item -->
                             <div class="d-flex align-items-center">
                                 <div class="avatar-xs flex-shrink-0 me-3">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="img-fluid rounded-circle">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="img-fluid rounded-circle">
                                 </div>
                                 <div class="flex-grow-1">
                                     <h5 class="fs-13 mb-0"><a href="#" class="text-body d-block">Jennifer Carter</a>
@@ -356,7 +356,7 @@
                             <!-- end member item -->
                             <div class="d-flex align-items-center">
                                 <div class="avatar-xs flex-shrink-0 me-3">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt="" class="img-fluid rounded-circle">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt="" class="img-fluid rounded-circle">
                                 </div>
                                 <div class="flex-grow-1">
                                     <h5 class="fs-13 mb-0"><a href="#" class="text-body d-block">Joseph Parker</a>

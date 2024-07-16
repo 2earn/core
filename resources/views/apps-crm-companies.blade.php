@@ -104,7 +104,7 @@
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 <div class="flex-shrink-0">
-                                                    <img src="{{ URL::asset('assets/images/brands/dribbble.png') }}"
+                                                    <img src="{{ Vite::asset('resources/images/brands/dribbble.png') }}"
                                                         alt="" class="avatar-xxs rounded-circle image_src object-cover">
                                                 </div>
                                                 <div class="flex-grow-1 ms-2 name">Nesta Technologies
@@ -206,7 +206,7 @@
                                                         </div>
                                                         <div class="avatar-lg p-1">
                                                             <div class="avatar-title bg-light rounded-circle">
-                                                                <img src="{{ URL::asset('assets/images/users/multi-user.jpg') }}"
+                                                                <img src="{{ Vite::asset('resources/images/users/multi-user.jpg') }}"
                                                         alt="" id="companylogo-img" class="avatar-md rounded-circle object-cover">
                                                             </div>
                                                         </div>
@@ -348,7 +348,7 @@
                     <div class="position-relative d-inline-block">
                         <div class="avatar-md">
                             <div class="avatar-title bg-light rounded-circle">
-                                <img src="{{ URL::asset('assets/images/brands/mail_chimp.png') }}" alt=""
+                                <img src="{{ Vite::asset('resources/images/brands/mail_chimp.png') }}" alt=""
                                     class="avatar-sm rounded-circle object-cover">
                             </div>
                         </div>

@@ -8,7 +8,7 @@
                             <h4 class="card-title"></h4>
                         </div>
                         <div class="card-body">
-                            <table class=" table table-responsive tableEditAdmin">
+                            <table class="table table-striped table-bordered  tableEditAdmin">
                                 <div>
                                     <div style="color: black" class="col-sm"><label
                                             class="me-sm-2">{{ __('Demande_alimentation_BFS') }}</label>
@@ -69,7 +69,7 @@
         </div>
         <script>
             function sendReq() {
-                window.livewire.emit('sendReques');
+                window.Livewire.emit('sendReques');
             }
         </script>
     </div>

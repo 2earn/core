@@ -455,7 +455,7 @@
                                 <tr>
                                     <td>
                                         <div class="avatar-md bg-light rounded p-1">
-                                            <img src="{{ URL::asset('assets/images/products/img-8.png') }}" alt="" class="img-fluid d-block">
+                                            <img src="{{ Vite::asset('resources/images/products/img-8.png') }}" alt="" class="img-fluid d-block">
                                         </div>
                                     </td>
                                     <td>
@@ -469,7 +469,7 @@
                                 <tr>
                                     <td>
                                         <div class="avatar-md bg-light rounded p-1">
-                                            <img src="{{ URL::asset('assets/images/products/img-7.png') }}" alt="" class="img-fluid d-block">
+                                            <img src="{{ Vite::asset('resources/images/products/img-7.png') }}" alt="" class="img-fluid d-block">
                                         </div>
                                     </td>
                                     <td>
@@ -482,7 +482,7 @@
                                 <tr>
                                     <td>
                                         <div class="avatar-md bg-light rounded p-1">
-                                            <img src="{{ URL::asset('assets/images/products/img-3.png') }}" alt="" class="img-fluid d-block">
+                                            <img src="{{ Vite::asset('resources/images/products/img-3.png') }}" alt="" class="img-fluid d-block">
                                         </div>
                                     </td>
                                     <td>

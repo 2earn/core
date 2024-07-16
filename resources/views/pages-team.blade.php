@@ -69,7 +69,7 @@ Team
                                         <input type="hidden" id="memberid-input" class="form-control" value="">
                                         <div class="px-1 pt-1">
                                             <div class="modal-team-cover position-relative mb-0 mt-n4 mx-n4 rounded-top overflow-hidden">
-                                                <img src="{{URL::asset('assets/images/small/img-9.jpg')}}" alt="" id="cover-img" class="img-fluid">
+                                                <img src="{{Vite::asset('resources/images/small/img-9.jpg')}}" alt="" id="cover-img" class="img-fluid">
 
                                                 <div class="d-flex position-absolute start-0 end-0 top-0 p-3">
                                                     <div class="flex-grow-1">
@@ -107,7 +107,7 @@ Team
                                                 </div>
                                                 <div class="avatar-lg">
                                                     <div class="avatar-title bg-light rounded-circle">
-                                                        <img src="{{URL::asset('assets/images/users/user-dummy-img.jpg')}}" id="member-img" class="avatar-md rounded-circle h-auto" />
+                                                        <img src="{{Vite::asset('resources/images/users/user-dummy-img.jpg')}}" id="member-img" class="avatar-md rounded-circle h-auto" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -145,7 +145,7 @@ Team
                 <!--end offcanvas-header-->
                 <div class="offcanvas-body profile-offcanvas p-0">
                     <div class="team-cover">
-                        <img src="{{URL::asset('assets/images/small/img-9.jpg')}}" alt="" class="img-fluid" />
+                        <img src="{{Vite::asset('resources/images/small/img-9.jpg')}}" alt="" class="img-fluid" />
                     </div>
                     <div class="p-3">
                         <div class="team-settings">
@@ -175,7 +175,7 @@ Team
                         <!--end col-->
                     </div>
                     <div class="p-3 text-center">
-                        <img src="{{URL::asset('assets/images/users/avatar-2.jpg')}}" alt="" class="avatar-lg img-thumbnail rounded-circle mx-auto profile-img">
+                        <img src="{{Vite::asset('resources/images/users/avatar-2.jpg')}}" alt="" class="avatar-lg img-thumbnail rounded-circle mx-auto profile-img">
                         <div class="mt-3">
                             <h5 class="fs-15 profile-name">Nancy Martino</h5>
                             <p class="text-muted profile-designation">Team Leader & HR</p>

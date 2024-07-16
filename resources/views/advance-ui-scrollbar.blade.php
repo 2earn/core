@@ -163,7 +163,7 @@
                                     <a href="#!" class="text-reset notification-item d-block dropdown-item active">
                                         <div class="d-flex">
                                             <div class="flex-shrink-0 avatar-xs me-3">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" class="rounded-circle img-fluid"
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" class="rounded-circle img-fluid"
                                                     alt="user-pic">
                                             </div>
                                             <div class="flex-grow-1 text-muted">
@@ -203,7 +203,7 @@
                                     <a href="#!" class="text-reset notification-item d-block dropdown-item">
                                         <div class="d-flex">
                                             <div class="flex-shrink-0 avatar-xs me-3">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}" class="rounded-circle img-fluid"
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}" class="rounded-circle img-fluid"
                                                     alt="user-pic">
                                             </div>
                                             <div class="flex-grow-1 text-muted">
@@ -525,7 +525,7 @@
                                     style="max-height: 220px;" class="px-3">
                                     <div class="d-flex align-items-center py-3">
                                         <div class="avatar-xs flex-shrink-0 me-3">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt=""
                                                 class="img-fluid rounded-circle">
                                         </div>
                                         <div class="flex-grow-1">
@@ -542,7 +542,7 @@
 
                                     <div class="d-flex align-items-center py-3">
                                         <div class="avatar-xs flex-shrink-0 me-3">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt=""
                                                 class="img-fluid rounded-circle">
                                         </div>
                                         <div class="flex-grow-1">
@@ -559,7 +559,7 @@
 
                                     <div class="d-flex align-items-center py-3">
                                         <div class="avatar-xs flex-shrink-0 me-3">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt=""
                                                 class="img-fluid rounded-circle">
                                         </div>
                                         <div class="flex-grow-1">
@@ -575,7 +575,7 @@
                                     </div>
                                     <div class="d-flex align-items-center py-3">
                                         <div class="avatar-xs flex-shrink-0 me-3">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt=""
                                                 class="img-fluid rounded-circle">
                                         </div>
                                         <div class="flex-grow-1">

@@ -65,7 +65,7 @@
                                 </td>
                                 <td class="collection">
                                     <div class="d-flex align-items-center">
-                                        <img src="{{URL::asset('assets/images/nft/img-01.jpg')}}" alt="" class="avatar-xs rounded-circle object-cover me-2"> <a href="apps-nft-item-details" class="link-dark">Abstract Face Painting</a>
+                                        <img src="{{Vite::asset('resources/images/nft/img-01.jpg')}}" alt="" class="avatar-xs rounded-circle object-cover me-2"> <a href="apps-nft-item-details" class="link-dark">Abstract Face Painting</a>
                                     </div>
                                 </td>
                                 <td class="volume_price">7,50,000</td>
@@ -85,7 +85,7 @@
                                 </td>
                                 <td class="collection">
                                     <div class="d-flex align-items-center">
-                                        <img src="{{URL::asset('assets/images/nft/gif/img-1.gif')}}" alt="" class="avatar-xs rounded-circle object-cover me-2"> <a href="apps-nft-item-details" class="link-dark">Patterns Arts & Culture</a>
+                                        <img src="{{Vite::asset('resources/images/nft/gif/img-1.gif')}}" alt="" class="avatar-xs rounded-circle object-cover me-2"> <a href="apps-nft-item-details" class="link-dark">Patterns Arts & Culture</a>
                                     </div>
                                 </td>
                                 <td class="volume_price">32,850</td>
@@ -105,7 +105,7 @@
                                 </td>
                                 <td class="collection">
                                     <div class="d-flex align-items-center">
-                                        <img src="{{URL::asset('assets/images/nft/img-02.jpg')}}" alt="" class="avatar-xs rounded-circle object-cover me-2"> <a href="apps-nft-item-details" class="link-dark">Creative Filtered Portrait</a>
+                                        <img src="{{Vite::asset('resources/images/nft/img-02.jpg')}}" alt="" class="avatar-xs rounded-circle object-cover me-2"> <a href="apps-nft-item-details" class="link-dark">Creative Filtered Portrait</a>
                                     </div>
                                 </td>
                                 <td class="volume_price">1,36,000</td>
@@ -125,7 +125,7 @@
                                 </td>
                                 <td class="collection">
                                     <div class="d-flex align-items-center">
-                                        <img src="{{URL::asset('assets/images/nft/gif/img-2.gif')}}" alt="" class="avatar-xs rounded-circle object-cover me-2"> <a href="apps-nft-item-details" class="link-dark">Long-tailed Macaque</a>
+                                        <img src="{{Vite::asset('resources/images/nft/gif/img-2.gif')}}" alt="" class="avatar-xs rounded-circle object-cover me-2"> <a href="apps-nft-item-details" class="link-dark">Long-tailed Macaque</a>
                                     </div>
                                 </td>
                                 <td class="volume_price">3,63,000</td>
@@ -145,7 +145,7 @@
                                 </td>
                                 <td class="collection">
                                     <div class="d-flex align-items-center">
-                                        <img src="{{URL::asset('assets/images/nft/img-04.jpg')}}" alt="" class="avatar-xs rounded-circle object-cover me-2"> <a href="apps-nft-item-details" class="link-dark">Robotic Body Art</a>
+                                        <img src="{{Vite::asset('resources/images/nft/img-04.jpg')}}" alt="" class="avatar-xs rounded-circle object-cover me-2"> <a href="apps-nft-item-details" class="link-dark">Robotic Body Art</a>
                                     </div>
                                 </td>
                                 <td class="volume_price">25,800</td>
@@ -165,7 +165,7 @@
                                 </td>
                                 <td class="collection">
                                     <div class="d-flex align-items-center">
-                                        <img src="{{URL::asset('assets/images/nft/img-06.jpg')}}" alt="" class="avatar-xs rounded-circle object-cover me-2"> <a href="apps-nft-item-details" class="link-dark">Smillevers Crypto</a>
+                                        <img src="{{Vite::asset('resources/images/nft/img-06.jpg')}}" alt="" class="avatar-xs rounded-circle object-cover me-2"> <a href="apps-nft-item-details" class="link-dark">Smillevers Crypto</a>
                                     </div>
                                 </td>
                                 <td class="volume_price">37,100</td>
@@ -185,7 +185,7 @@
                                 </td>
                                 <td class="collection">
                                     <div class="d-flex align-items-center">
-                                        <img src="{{URL::asset('assets/images/nft/gif/img-5.gif')}}" alt="" class="avatar-xs rounded-circle object-cover me-2"> <a href="apps-nft-item-details" class="link-dark">The Chirstoper</a>
+                                        <img src="{{Vite::asset('resources/images/nft/gif/img-5.gif')}}" alt="" class="avatar-xs rounded-circle object-cover me-2"> <a href="apps-nft-item-details" class="link-dark">The Chirstoper</a>
                                     </div>
                                 </td>
                                 <td class="volume_price">1,87,600</td>
@@ -205,7 +205,7 @@
                                 </td>
                                 <td class="collection">
                                     <div class="d-flex align-items-center">
-                                        <img src="{{URL::asset('assets/images/nft/gif/img-3.gif')}}" alt="" class="avatar-xs rounded-circle object-cover me-2"> <a href="apps-nft-item-details" class="link-dark">Walking On Air</a>
+                                        <img src="{{Vite::asset('resources/images/nft/gif/img-3.gif')}}" alt="" class="avatar-xs rounded-circle object-cover me-2"> <a href="apps-nft-item-details" class="link-dark">Walking On Air</a>
                                     </div>
                                 </td>
                                 <td class="volume_price">4,62,000</td>
@@ -225,7 +225,7 @@
                                 </td>
                                 <td class="collection">
                                     <div class="d-flex align-items-center">
-                                        <img src="{{URL::asset('assets/images/nft/img-05.jpg')}}" alt="" class="avatar-xs rounded-circle object-cover me-2"> <a href="apps-nft-item-details" class="link-dark">The Chirstoper</a>
+                                        <img src="{{Vite::asset('resources/images/nft/img-05.jpg')}}" alt="" class="avatar-xs rounded-circle object-cover me-2"> <a href="apps-nft-item-details" class="link-dark">The Chirstoper</a>
                                     </div>
                                 </td>
                                 <td class="volume_price">74,950</td>
@@ -245,7 +245,7 @@
                                 </td>
                                 <td class="collection">
                                     <div class="d-flex align-items-center">
-                                        <img src="{{URL::asset('assets/images/nft/img-03.jpg')}}" alt="" class="avatar-xs rounded-circle object-cover me-2"> <a href="apps-nft-item-details" class="link-dark">Walking On Air</a>
+                                        <img src="{{Vite::asset('resources/images/nft/img-03.jpg')}}" alt="" class="avatar-xs rounded-circle object-cover me-2"> <a href="apps-nft-item-details" class="link-dark">Walking On Air</a>
                                     </div>
                                 </td>
                                 <td class="volume_price">3,35,750</td>
@@ -265,7 +265,7 @@
                                 </td>
                                 <td class="collection">
                                     <div class="d-flex align-items-center">
-                                        <img src="{{URL::asset('assets/images/nft/img-04.jpg')}}" alt="" class="avatar-xs rounded-circle object-cover me-2"> <a href="apps-nft-item-details" class="link-dark">Highstreet IHO Part</a>
+                                        <img src="{{Vite::asset('resources/images/nft/img-04.jpg')}}" alt="" class="avatar-xs rounded-circle object-cover me-2"> <a href="apps-nft-item-details" class="link-dark">Highstreet IHO Part</a>
                                     </div>
                                 </td>
                                 <td class="volume_price">35,750</td>

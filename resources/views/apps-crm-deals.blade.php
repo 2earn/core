@@ -78,7 +78,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#leadDiscovered1" role="button"
                             aria-expanded="false" aria-controls="leadDiscovered1">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">Managing sales team meeting</h6>
@@ -143,7 +143,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#leadDiscovered2" role="button"
                             aria-expanded="false" aria-controls="leadDiscovered2">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">Airbnb React Development</h6>
@@ -209,7 +209,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#leadDiscovered3"
                             role="button" aria-expanded="false" aria-controls="leadDiscovered3">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">Discovery Capital</h6>
@@ -274,7 +274,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#leadDiscovered4"
                             role="button" aria-expanded="false" aria-controls="leadDiscovered4">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">Airbnb React Development</h6>
@@ -354,7 +354,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#contactInitiated1"
                             role="button" aria-expanded="false" aria-controls="contactInitiated1">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">Custom Mobile Apps</h6>
@@ -419,7 +419,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#contactInitiated2"
                             role="button" aria-expanded="false" aria-controls="contactInitiated2">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/brands/github.png') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/brands/github.png') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">Investment Deal for Zoetic Fashion</h6>
@@ -473,7 +473,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#contactInitiated3"
                             role="button" aria-expanded="false" aria-controls="contactInitiated3">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">Modern Design</h6>
@@ -527,7 +527,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#contactInitiated4"
                             role="button" aria-expanded="false" aria-controls="contactInitiated4">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">Hotel Logo Design</h6>
@@ -592,7 +592,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#contactInitiated5"
                             role="button" aria-expanded="false" aria-controls="contactInitiated5">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/brands/mail_chimp.png') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/brands/mail_chimp.png') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">Managing Sales</h6>
@@ -671,7 +671,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#needsIdentified1"
                             role="button" aria-expanded="false" aria-controls="needsIdentified1">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/users/avatar-9.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/users/avatar-9.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">Art Studio Design</h6>
@@ -725,7 +725,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#needsIdentified2"
                             role="button" aria-expanded="false" aria-controls="needsIdentified2">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">Billing Page Bug</h6>
@@ -790,7 +790,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#needsIdentified3"
                             role="button" aria-expanded="false" aria-controls="needsIdentified3">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/brands/dribbble.png') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/brands/dribbble.png') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">Food Selection Platform</h6>
@@ -856,7 +856,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#needsIdentified4"
                             role="button" aria-expanded="false" aria-controls="needsIdentified4">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">Skote React Development</h6>
@@ -922,7 +922,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#needsIdentified5"
                             role="button" aria-expanded="false" aria-controls="needsIdentified5">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">Velzon - Admin Dashboard</h6>
@@ -987,7 +987,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#needsIdentified6"
                             role="button" aria-expanded="false" aria-controls="needsIdentified6">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/companies/img-6.png') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/companies/img-6.png') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">Wood Elements Design</h6>
@@ -1052,7 +1052,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#needsIdentified7"
                             role="button" aria-expanded="false" aria-controls="needsIdentified7">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/users/avatar-10.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/users/avatar-10.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">PayPal SEO audit</h6>
@@ -1131,7 +1131,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#meetingArranged1"
                             role="button" aria-expanded="false" aria-controls="meetingArranged1">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/companies/img-5.png') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/companies/img-5.png') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">SASS app workflow diagram</h6>
@@ -1196,7 +1196,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#meetingArranged2"
                             role="button" aria-expanded="false" aria-controls="meetingArranged2">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">Uber new brand system</h6>
@@ -1261,7 +1261,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#meetingArranged3"
                             role="button" aria-expanded="false" aria-controls="meetingArranged3">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/companies/img-8.png') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/companies/img-8.png') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">TripAdvisor</h6>
@@ -1340,7 +1340,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#offerAccepted1" role="button"
                             aria-expanded="false" aria-controls="offerAccepted1">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/users/avatar-10.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/users/avatar-10.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">Coupon Website</h6>
@@ -1406,7 +1406,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#offerAccepted2" role="button"
                             aria-expanded="false" aria-controls="offerAccepted2">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/brands/slack.png') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/brands/slack.png') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">Marketing Automation Demo</h6>
@@ -1471,7 +1471,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#offerAccepted3" role="button"
                             aria-expanded="false" aria-controls="offerAccepted3">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">New Email Design Templates</h6>
@@ -1529,7 +1529,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#offerAccepted4" role="button"
                             aria-expanded="false" aria-controls="offerAccepted4">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">Create New Components</h6>
@@ -1595,7 +1595,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#offerAccepted5" role="button"
                             aria-expanded="false" aria-controls="offerAccepted5">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/companies/img-3.png') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/companies/img-3.png') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">New Test Tickets</h6>
@@ -1661,7 +1661,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#offerAccepted6" role="button"
                             aria-expanded="false" aria-controls="offerAccepted6">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">Recover Deleted Folder</h6>
@@ -1726,7 +1726,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#offerAccepted7" role="button"
                             aria-expanded="false" aria-controls="offerAccepted7">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/brands/github.png') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/brands/github.png') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">Github SEO audit</h6>
@@ -1791,7 +1791,7 @@
                         <a class="d-flex align-items-center" data-bs-toggle="collapse" href="#offerAccepted8"
                             role="button" aria-expanded="false" aria-controls="offerAccepted8">
                             <div class="flex-shrink-0">
-                                <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                                <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="fs-15 mb-1">Urban Modern Design</h6>

@@ -27,7 +27,7 @@
                                 </p>
                                 <div class="mt-4">
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal">
+                                            data-bs-target="#verifAccountModal">
                                         {{__('Click here for Verification')}}
                                     </button>
                                 </div>
@@ -35,7 +35,7 @@
                         </div>
                         <div class="row justify-content-center mt-5 mb-2">
                             <div class="col-sm-7 col-8">
-                                <img src="{{ URL::asset('assets/images/verification-img.png') }}" alt=""
+                                <img src="{{ Vite::asset('resources/images/verification-img.png') }}" alt=""
                                      class="img-fluid"/>
                             </div>
                         </div>
@@ -44,11 +44,11 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="verifAccountModal" tabindex="-1" aria-labelledby="verifAccountModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header p-3">
-                    <h5 class="modal-title text-uppercase" id="exampleModalLabel">
+                    <h5 class="modal-title text-uppercase" id="verifAccountModalLabel">
                         {{__('Verify your Account')}}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -379,6 +379,7 @@
 @endsection
 @section('script')
     <script src="{{ URL::asset('/assets/libs/dropzone/dropzone.min.js') }}"></script>
-    <script src="{{ URL::asset('/assets/js/pages/crypto-kyc.init.js') }}"></script>
+    @vite('resources/js/app.js')
+    @vite('resources/js/pages/crypto-kyc.init.js')
     <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
 @endsection

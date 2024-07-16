@@ -25,16 +25,16 @@
                                 <div class="swiper product-thumbnail-slider p-2 rounded bg-light">
                                     <div class="swiper-wrapper">
                                         <div class="swiper-slide">
-                                            <img src="{{ URL::asset('assets/images/products/img-8.png') }}" alt="" class="img-fluid d-block" />
+                                            <img src="{{ Vite::asset('resources/images/products/img-8.png') }}" alt="" class="img-fluid d-block" />
                                         </div>
                                         <div class="swiper-slide">
-                                            <img src="{{ URL::asset('assets/images/products/img-6.png') }}" alt="" class="img-fluid d-block" />
+                                            <img src="{{ Vite::asset('resources/images/products/img-6.png') }}" alt="" class="img-fluid d-block" />
                                         </div>
                                         <div class="swiper-slide">
-                                            <img src="{{ URL::asset('assets/images/products/img-1.png') }}" alt="" class="img-fluid d-block" />
+                                            <img src="{{ Vite::asset('resources/images/products/img-1.png') }}" alt="" class="img-fluid d-block" />
                                         </div>
                                         <div class="swiper-slide">
-                                            <img src="{{ URL::asset('assets/images/products/img-8.png') }}" alt="" class="img-fluid d-block" />
+                                            <img src="{{ Vite::asset('resources/images/products/img-8.png') }}" alt="" class="img-fluid d-block" />
                                         </div>
                                     </div>
                                     <div class="swiper-button-next"></div>
@@ -45,25 +45,25 @@
                                     <div class="swiper-wrapper">
                                         <div class="swiper-slide">
                                             <div class="nav-slide-item ">
-                                                <img src="{{ URL::asset('assets/images/products/img-8.png') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/products/img-8.png') }}" alt=""
                                                     class="img-fluid d-block" />
                                             </div>
                                         </div>
                                         <div class="swiper-slide">
                                             <div class="nav-slide-item">
-                                                <img src="{{ URL::asset('assets/images/products/img-6.png') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/products/img-6.png') }}" alt=""
                                                     class="img-fluid d-block" />
                                             </div>
                                         </div>
                                         <div class="swiper-slide">
                                             <div class="nav-slide-item">
-                                                <img src="{{ URL::asset('assets/images/products/img-1.png') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/products/img-1.png') }}" alt=""
                                                     class="img-fluid d-block" />
                                             </div>
                                         </div>
                                         <div class="swiper-slide">
                                             <div class="nav-slide-item">
-                                                <img src="{{ URL::asset('assets/images/products/img-8.png') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/products/img-8.png') }}" alt=""
                                                     class="img-fluid d-block" />
                                             </div>
                                         </div>
@@ -590,15 +590,15 @@
 
                                                                 <div class="d-flex flex-grow-1 gap-2 mb-3">
                                                                     <a href="#" class="d-block">
-                                                                        <img src="{{ URL::asset('assets/images/small/img-12.jpg') }}" alt=""
+                                                                        <img src="{{ Vite::asset('resources/images/small/img-12.jpg') }}" alt=""
                                                                             class="avatar-sm rounded object-cover">
                                                                     </a>
                                                                     <a href="#" class="d-block">
-                                                                        <img src="{{ URL::asset('assets/images/small/img-11.jpg') }}" alt=""
+                                                                        <img src="{{ Vite::asset('resources/images/small/img-11.jpg') }}" alt=""
                                                                             class="avatar-sm rounded object-cover">
                                                                     </a>
                                                                     <a href="#" class="d-block">
-                                                                        <img src="{{ URL::asset('assets/images/small/img-10.jpg') }}" alt=""
+                                                                        <img src="{{ Vite::asset('resources/images/small/img-10.jpg') }}" alt=""
                                                                             class="avatar-sm rounded object-cover">
                                                                     </a>
                                                                 </div>

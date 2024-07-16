@@ -1,8 +1,11 @@
-// Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 
-// Variables
 @import 'variables';
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import 'bootstrap/scss/bootstrap';
+
+@import "/node_modules/select2/dist/css/select2.css";
+
+@import 'swiper/swiper.scss';
+
+@import 'intl-tel-input/build/css/intlTelInput.css';

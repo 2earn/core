@@ -17,7 +17,7 @@
                 <div>
                     <div class="flex-shrink-0 avatar-md mx-auto">
                         <div class="avatar-title bg-light rounded">
-                            <img src="{{ URL::asset('assets/images/companies/img-2.png') }}" alt="" height="50" />
+                            <img src="{{ Vite::asset('resources/images/companies/img-2.png') }}" alt="" height="50" />
                         </div>
                     </div>
                     <div class="mt-4 text-center">
@@ -220,7 +220,7 @@
                                     <div class="d-flex">
                                         <div class="flex-shrink-0 avatar-sm">
                                             <div class="avatar-title bg-light rounded">
-                                                <img src="{{ URL::asset('assets/images/companies/img-1.png') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/companies/img-1.png') }}" alt=""
                                                     height="30">
                                             </div>
                                         </div>
@@ -250,7 +250,7 @@
                                 <div class="card-body">
                                     <div class="d-flex">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt=""
                                                 class="avatar-sm rounded">
                                         </div>
                                         <div class="flex-grow-1 ms-3">
@@ -280,7 +280,7 @@
                                     <div class="d-flex">
                                         <div class="flex-shrink-0 avatar-sm">
                                             <div class="avatar-title bg-light rounded">
-                                                <img src="{{ URL::asset('assets/images/companies/img-8.png') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/companies/img-8.png') }}" alt=""
                                                     height="30">
                                             </div>
                                         </div>
@@ -311,7 +311,7 @@
                                 <div class="card-body">
                                     <div class="d-flex">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt=""
                                                 class="avatar-sm rounded">
                                         </div>
                                         <div class="flex-grow-1 ms-3">

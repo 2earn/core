@@ -8,15 +8,12 @@
             {{ __('Notification history') }}
         @endslot
     @endcomponent
-    @section('content')
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
-                    <div class="card-header ">
-                    </div>
                     <div class="card-body table-responsive">
                         <table id="HistoryNotificationTable"
-                               class="table nowrap dt-responsive align-middle table-hover table-bordered"
+                               class="table table-striped table-bordered"
                                style="width:100%">
                             <thead class="table-light">
                             <tr class="head2earn  tabHeader2earn">
@@ -36,4 +33,39 @@
                 </div>
             </div>
         </div>
+        <script type="module">
+            $(document).on('turbolinks:load', function () {
+                $('#HistoryNotificationTable').DataTable({
+                    retrieve: true,
+                    "colReorder": true,
+                    "orderCellsTop": true,
+                    "fixedHeader": true,
+                    initComplete: function () {
+                        this.api()
+                            .columns()
+                            .every(function () {
+                                var that = $('#HistoryNotificationTable').DataTable();
+                                $('input', this.footer()).on('keydown', function (ev) {
+                                    if (ev.keyCode == 13) {
+                                        that.search(this.value).draw();
+                                    }
+                                });
+                            });
+                    },
+                    "processing": true,
+                    search: {return: true},
+                    "ajax": "{{route('API_HistoryNotification',app()->getLocale())}}",
+                    "columns": [
+                        {data: 'reference'},
+                        {data: 'send'},
+                        {data: 'receiver'},
+                        {data: 'action'},
+                        {data: 'date'},
+                        {data: 'type'},
+                        {data: 'responce'},
+                    ],
+                    "language": {"url": urlLang}
+                });
+            });
+        </script>
 </div>

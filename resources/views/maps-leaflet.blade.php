@@ -102,7 +102,7 @@
     <!-- end row -->
 @endsection
 @section('script')
-    <script src="{{ URL::asset('assets/libs/prismjs/prismjs.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/libs/prismjs/prism.js') }}"></script>
 
     <script src="{{ URL::asset('/assets/libs/leaflet/leaflet.min.js') }}"></script>
     <script src="{{ URL::asset('/assets/js/pages/leaflet-us-states.js') }}"></script>

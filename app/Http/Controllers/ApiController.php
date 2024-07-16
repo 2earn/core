@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\DAL\UserRepository;
 use App\Models\User;
 use App\Models\vip;
-use App\Services\Sponsorship\Sponsorship;
 use App\Services\Sponsorship\SponsorshipFacade;
-use Barryvdh\DomPDF\Facade\Pdf;
 use carbon;
 use Core\Enum\AmoutEnum;
 use Core\Enum\StatusRequst;
@@ -26,6 +24,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator as Val;
+use Illuminate\Support\Facades\Vite;
 use Illuminate\Validation\Rule;
 use Paytabscom\Laravel_paytabs\Facades\paypage;
 use phpDocumentor\Reflection\Types\Collection;
@@ -77,7 +76,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         $PU = $number_of_action * ($actual_price) / ($number_of_action + $gift);
         $Count = DB::table('user_balances')->count();
         $ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-        $palier = \Core\Models\Setting::Where('idSETTINGS', '19')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
+        $palier = Setting::Where('idSETTINGS', '19')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
         $reciver = Auth()->user()->idUser;
         $reciver_bfs = Auth()->user()->idUser;
         $a = "me";
@@ -129,6 +128,9 @@ left join users user on user.idUser = recharge_requests.idUser";
             $flashGift = 0;
         }
         $gift = $gift + $flashGift;
+
+        $PU = $number_of_action * ($actual_price) / ($number_of_action + $gift);
+
         $this->userRepository->increasePurchasesNumber($reciver);
 
         // share sold
@@ -260,7 +262,6 @@ left join users user on user.idUser = recharge_requests.idUser";
 
             $user_balance->save();
 
-            // adjust new value for admin
 
             $new_value = intval($old_value) - intval($request->amount);
             DB::table('usercurrentbalances')
@@ -268,7 +269,6 @@ left join users user on user.idUser = recharge_requests.idUser";
                 ->where('idamounts', AmoutEnum::CASH_BALANCE)
                 ->update(['value' => $new_value, 'dernier_value' => $old_value]);
 
-            // adjust new value for reciver
             $old_value = DB::table('usercurrentbalances')
                 ->where('idUser', $request->reciver)
                 ->where('idamounts', AmoutEnum::CASH_BALANCE)
@@ -300,18 +300,14 @@ left join users user on user.idUser = recharge_requests.idUser";
     COUNT_USERS,
     COUNT_TRAIDERS,
     COUNT_REAL_TRAIDERS from tableau_croise");
-        //dd($data);
-        //dd(response()->json($data));
-        //return datatables($data) ->make(true);
+
         return response()->json($data);
     }
 
     public function getSankey()
     {
         $data = DB::select("select s.`from`,s.`to`,cast(s.weight as decimal (10,2)) as weight from sankey s");
-        //dd($data);
-        //dd(response()->json($data));
-        //return datatables($data) ->make(true);
+
         return response()->json($data);
     }
 
@@ -364,7 +360,6 @@ left join users user on user.idUser = recharge_requests.idUser";
             ->where('idBalancesOperation', 44)
             ->where('idUser', $idUser)
             ->get();
-        //dd($userBalances);
         return $userBalances;
     }
 
@@ -389,7 +384,6 @@ left join users user on user.idUser = recharge_requests.idUser";
                 return number_format($user_balance->PU * ($user_balance->value + $user_balance->gifted_shares), 2);
             })
             ->addColumn('share_price', function ($user_balance) {
-                //return number_format($user_balance->PU * ($user_balance->value + $user_balance->gifted_shares) / $user_balance->value, 2);
                 if ($user_balance->value != 0)
                     return $user_balance->PU * ($user_balance->value + $user_balance->gifted_shares) / $user_balance->value;
                 else return 0;
@@ -402,7 +396,7 @@ left join users user on user.idUser = recharge_requests.idUser";
             })
             ->addColumn('flag', function ($settings) {
 
-                return '<img src="' . Asset("assets/images/flags/" . strtolower($settings->apha2)) . '.svg" alt="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
+                return '<img src="' . $this->getFormatedFlagResourceName($settings->apha2) . '" alt="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
             })
             ->addColumn('sell_price_now', function ($user_balance) {
                 return number_format(actualActionValue(getSelledActions()) * ($user_balance->value + $user_balance->gifted_shares), 2);
@@ -414,12 +408,17 @@ left join users user on user.idUser = recharge_requests.idUser";
                 return number_format($user_balance->value + $user_balance->gifted_shares, 0);
             })
             ->addColumn('asset', function ($settings) {
-                return Asset("assets/images/flags/" . strtolower($settings->apha2)) . '.svg';
+                return $this->getFormatedFlagResourceName($settings->apha2);
             })
             ->rawColumns(['flag', 'share_price', 'status'])
             ->make(true);
 
 
+    }
+
+    public function getFormatedFlagResourceName($flagName)
+    {
+        return Vite::asset("resources/images/flags/" . strtolower($flagName) . ".svg");
     }
 
     public function handlePaymentNotification(Req $request, settingsManager $settingsManager)
@@ -788,15 +787,12 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
 
     public function getActionValues()
     {
-        // Call getSelledActions to determine the limit
         $limit = getSelledActions() * 1.05;
-
         $data = [];
-        $setting = \Core\Models\Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
+        $setting = Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
         $initial_value = $setting[0];
         $final_value = $initial_value * 5;
         $total_actions = $setting[2];
-
 
         for ($x = 0; $x <= $limit; $x += intval($limit / 20)) {
             $val = ($final_value - $initial_value) / ($total_actions - 1) * ($x + 1) + ($initial_value - ($final_value - $initial_value) / ($total_actions - 1));
@@ -812,12 +808,17 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
 
     public function getUsersList()
     {
-        $query = User::select('countries.apha2', 'users.idUser', 'idUplineRegister', DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'), 'users.mobile', 'users.created_at', 'OptActivation', 'pass', 'flashCoefficient as coeff', 'flashDeadline as periode', 'flashNote as note', 'flashMinAmount as minshares', 'dateFNS as date')
+        $query = User::select('countries.apha2', 'users.idUser', 'idUplineRegister', DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'), 'users.mobile', 'users.created_at', 'OptActivation', 'pass', DB::raw('IFNULL(`flashCoefficient`,"##") as coeff'), DB::raw('IFNULL(`flashDeadline`,"##") as periode'), DB::raw('IFNULL(`flashNote`,"##") as note'), DB::raw('IFNULL(`flashMinAmount`,"##") as minshares'), DB::raw('IFNULL(`dateFNS`,"##") as date'))
             ->join('metta_users as meta', 'meta.idUser', '=', 'users.idUser')
             ->join('countries', 'countries.id', '=', 'users.idCountry');
         return datatables($query)
             ->addColumn('formatted_mobile', function ($user) {
                 $phone = new PhoneNumber($user->mobile, $user->apha2);
+                try {
+                    return $phone->formatForCountry($user->apha2);
+                } catch (\Exception $e) {
+                    return $phone;
+                }
                 return $phone->formatForCountry($user->apha2);
             })
             ->addColumn('register_upline', function ($user) {
@@ -827,20 +828,15 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
             ->addColumn('formatted_created_at', function ($user) {
                 return Carbon\Carbon::parse($user->created_at)->format('Y-m-d H:i:s');
             })
-            ->addColumn('action', function ($settings) {
-
-                return '<a data-bs-toggle="modal" data-bs-target="#AddCash"   data-phone="' . $settings->mobile . '" data-country="' . Asset("assets/images/flags/" . strtolower($settings->apha2)) . '.svg" data-reciver="' . $settings->idUser . '"
-class="btn btn-xs btn-primary btn2earnTable addCash" >' . Lang::get('Add cash') . '</a> ';
-            })
             ->addColumn('VIP', function ($settings) {
 
-                return '<a data-bs-toggle="modal" data-bs-target="#vip"   data-phone="' . $settings->mobile . '" data-country="' . Asset("assets/images/flags/" . strtolower($settings->apha2)) . '.svg" data-reciver="' . $settings->idUser . '"
+                return '<a data-bs-toggle="modal" data-bs-target="#vip"   data-phone="' . $settings->mobile . '" data-country="' . $this->getFormatedFlagResourceName($settings->apha2) . '"  data-reciver="' . $settings->idUser . '"
 class="btn btn-xs btn-flash btn2earnTable vip"  >
 <i class="glyphicon glyphicon-add"></i>' . Lang::get('VIP') . '</a> ';
             })
             ->addColumn('flag', function ($settings) {
 
-                return '<img src="' . Asset("assets/images/flags/" . strtolower($settings->apha2)) . '.svg" alt="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
+                return '<img src="' . $this->getFormatedFlagResourceName($settings->apha2) . '" alt="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
             })
             ->addColumn('SoldeCB', function ($user_balance) {
                 return '<a data-bs-toggle="modal" data-bs-target="#detail"   data-amount="1" data-reciver="' . $user_balance->idUser . '"
@@ -866,6 +862,10 @@ class="btn btn-ghost-warning waves-effect waves-light smsb"  >
                 return '<a data-bs-toggle="modal" data-bs-target="#detailsh"   data-amount="6" data-reciver="' . $user_balance->idUser . '"
 class="btn btn-ghost-success waves-effect waves-light sh"  >
 <i class="glyphicon glyphicon-add"></i>' . number_format(getUserSelledActions($user_balance->idUser), 0) . '</a> ';
+            })
+            ->addColumn('action', function ($settings) {
+                return '<a data-bs-toggle="modal" data-bs-target="#AddCash"   data-phone="' . $settings->mobile . '" data-country="' . $this->getFormatedFlagResourceName($settings->apha2) . '" data-reciver="' . $settings->idUser . '"
+class="btn btn-xs btn-primary btn2earnTable addCash" >' . Lang::get('Add cash') . '</a> ';
             })
             ->rawColumns(['action', 'flag', 'SoldeCB', 'SoldeBFS', 'SoldeDB', 'SoldeSMS', 'SoldeSH', 'VIP'])
             ->make(true);
@@ -908,15 +908,15 @@ class="btn btn-xs btn-primary btn2earnTable"  >
             ->addColumn('action', function ($settings) {
                 return '<div class="d-flex gap-2">
                              <div class="edit">
-                                    <button  onclick="editSettingFunction(' . $settings->idSETTINGS . ')"   data-bs-toggle="modal" data-bs-target="#settingModal"
- class="btn btn-sm btn-primary edit-item-btn"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</button> </div> </div>';
+                                    <button  data-id="' . $settings->idSETTINGS . '"   data-bs-toggle="modal" data-bs-target="#settingModal"
+ class="btn btn-primary edit-item-btn edit-setting-btn"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</button> </div> </div>';
             })
             ->setRowId('idSETTINGS')
             ->editColumn('Automatically_calculated', function ($settings) {
                 if ($settings->Automatically_calculated == 1)
-                    return '<span class="badge badge-success">Yes</span>';
+                    return '<span class="badge badge-success">'.trans('Yes').'</span>';
                 else
-                    return '<span class="badge badge-info">No</span>';
+                    return '<span class="badge badge-info">'.trans('No').'</span>';
             })
             ->editColumn('StringValue', function ($settings) {
                 return '***';
@@ -936,13 +936,9 @@ class="btn btn-xs btn-primary btn2earnTable"  >
                 'balanceoperations.idamounts', 'balanceoperations.Note', 'balanceoperations.MODIFY_AMOUNT', 'amounts.amountsshortname');
         return datatables($balanceOperations)
             ->addColumn('action', function ($settings) {
-                return '<a  onclick="editBOFunction(' . $settings->idBalanceOperations . ')"   data-bs-toggle="modal" data-bs-target="#BoModal"
-class="btn btn-xs btn-primary btn2earnTable"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a> ';
+                return '<a  data-id="' . $settings->idBalanceOperations . '"   data-bs-toggle="modal" data-bs-target="#BoModal"
+class="btn btn-xs btn-primary btn2earnTable edit-bo-btn"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a> ';
             })
-//            ->addColumn('action', function ($balanceOperations) {
-//                return '<a href="#edit-' . $balanceOperations->idBalanceOperations . '" "><i class="fa fa-edit" aria-hidden="true" style="cursor: pointer;color: green; padding-left: 10px;"></i></a>';
-//            })
-//            <span><i class="fa fa-cogs" aria-hidden="true"></i></span>
             ->editColumn('MODIFY_AMOUNT', function ($balanceOperations) {
                 if ($balanceOperations->MODIFY_AMOUNT == 1)
                     return '<span class="badge badge-success">Yes</span>';
@@ -953,20 +949,10 @@ class="btn btn-xs btn-primary btn2earnTable"  ><i class="glyphicon glyphicon-edi
 
                 if ($balanceOperations->amountsshortname == "BFS") {
                     return ' <img width="20" height="20" id="imm" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAAEX0lEQVR4nO2az48URRTHP5jZsGA2svw4ADsJFwPyB3jxBwkcMNwMHoCLurp69AQhcOGf8ICEP0CCLAfABNhVXIRsiFd2RUABEw+gsIvKCcfDe0X39lR1Vc9U9ww7/U0qma73qt73va569aMHagw2VnjkrS7b932fr3RgrEaNZYQ6B3RgrEaNAULLUzrBjzn9zVTNc+CTYC/geivdjKqOMfCrgC8AZczXMtAxz17mgGxbV32RPl1w9tkINOAi228ozLPOARXYmKLY3iGte7lEXkA1AVhtqbMlpquBbStFjDV7BDiv+s+AfTm67wP/qO4lYE2FPEvtuAF8qW3+A45ZdL4AnqvOSWCoBzzb5quv46Lz9RCJk18hTg7p75bKDvWS5zVLgx8sejMWvWsBxAH2Av9qm4taWlr3QWAf18viOQKco9z5CvAm8EeK1EPg7QLtS80r2SF50KJzkGQon6DYfDXYAsxq2dJB+yG1XRpPW1IKSWZVo1SeMeZrFSiVZ7fztSqUyrPb+VoVXhaeNfoSebcqy628OIylLxAK7ZmXAdpuibL76QOE7/H7FdOID+mdovOAlBZsAH7T509LJFg2PkN8+BVYr3XeAOwncX6G8HvDEKwFxoGzwDzwt5Z5YBL4GBiNaK+BXLSYIOwnIADpRLExEpFVwFFgwWInW54AR7RNDGzCfipsgxFMIcM+1psfA34i2ZdfQkbBdmAYOZ1tBSZYes6/AWyOxKGB+JTuvw1OQRcYA37Xfm8C7wa0eQe4o20eEC8IBpUFYBXJm/8e+zncZXMUueAwI2E4Iq/KAnBU+7sFvFaUDJIwb6n8cERelQRgLUnCe8si34MMb19i2qn1jyl245SHQgFoAqeBRS2TSMLyYVz7uuiQ25x3Bd8krg8D7IbwDQ5AE/jTQvIvleXhrOp+4pAXGW1mM/ONRy+Ub3AATuvzeSQTN4ELWnfKQ+Zn1XvdIS8SgG2qO+fRC+UbHIBFfU5Hr6l1Cx4ypu2IQ56dAg+A9xy6I6qzGGjTx3eJnyHfBm3RCn17zx31E4jTBmPAcYdu0f8LdMw3OwIm9fkCEskm8K3Wfe3py0yBbSGGLbbTeENl854+QvkGT4GtSALJJpVHyBsLITPu0fOSAj4nLAmG8i28DJ5C5tACEkmf8yCnurxl0LYE3nPomjN96DLo41vZRuiJ9rcjx1ba+d0WvV30eCPUDY6QzF3XGT/P5jrgtspDvhiHorIADCMHmRZwBXsQXDbXkZzhZ3lJD0MgGxKz5v+CfTpksYvkzd9HLjRiwhuAaWT7GetCZDPJSGghl6wTyBL5KrLR2Y5k++mU3izxnG9Y+m9DNjFdjUhgGDnSmsSYVx4jc35lJNubsH/zaIMR7EMuEFvEvxQdBT5C9glzwFMtc8AZZKmLle1BuBvn7yK+BeWA9SRBmIhIqGqYTdRdJLFCgSRorpCnSiRYNr4jGdUGS/wc+E9j6dOg7Z+ayxX99Ff/Gj3F/1ZQl/ObCiogAAAAAElFTkSuQmCC">';
-//                    return '<img src="data:image/png;base64,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
-//8Ho/1NSwAAAABJRU5ErkJggg==">';
-//                    return  ' <img  src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" alt="" width="20" height="20" />'
-                    ;
-//class="fa-solid fa-user-large" aria-hidden="true">'
 
                 } else {
                     return '<span><i class="fa fa-cogs" aria-hidden="true"></i></span>';
                 }
-
-//                if ($balanceOperations->MODIFY_AMOUNT == 1)
-//                    return '<span class="badge badge-success">Yes</span>';
-//                else
-//                    return '<span class="badge badge-info">No</span>';
             })
             ->escapeColumns([])
             ->toJson();
@@ -979,13 +965,10 @@ class="btn btn-xs btn-primary btn2earnTable"  ><i class="glyphicon glyphicon-edi
 
         return datatables($amounts)
             ->addColumn('action', function ($settings) {
-                return '<a onclick="editAmountsFunction(' . $settings->idamounts . ')"   data-bs-toggle="modal" data-bs-target="#AmountsModal"
-class="btn btn-xs btn-primary btn2earnTable"  >
+                return '<a data-id="' . $settings->idamounts . '"   data-bs-toggle="modal" data-bs-target="#AmountsModal"
+class="btn btn-xs btn-primary edit-amounts-btn btn2earnTable"  >
 <i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a>';
             })
-//            ->addColumn('action', function ($amounts) {
-//                return '<a href="#edit-' . $amounts->idamounts . '" "><i class="fa fa-edit" aria-hidden="true" style="cursor: pointer;color: green; padding-left: 10px;"></i></a>';
-//            })
             ->editColumn('amountswithholding_tax', function ($amounts) {
                 if ($amounts->amountswithholding_tax == 1)
                     return '<span class="badge badge-success">Yes</span>';
@@ -1025,18 +1008,14 @@ class="btn btn-xs btn-primary btn2earnTable"  >
         $actionHistorys = DB::table('action_history')
             ->select('id', 'title', 'reponce');
         return datatables($actionHistorys)
-//            ->addColumn('action', function ($actionHistorys) {
-//                return '<a href="#edit-' . $actionHistorys->id . '" "><i class="fa fa-edit" aria-hidden="true" style="cursor: pointer;color: green; padding-left: 10px;"></i></a>';
-//            })
             ->addColumn('action', function ($settings) {
-                return '<a onclick="editHAFunction(' . $settings->id . ')"   data-bs-toggle="modal" data-bs-target="#HistoryActionModal"  class="btn btn-xs btn-primary btn2earnTable"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a>
-<a  class="btn btn-xs btn-danger btn2earnTable"  ><i></i>' . Lang::get('Delete') . '</a>';
+                return '<a data-id="' . $settings->id . '"   data-bs-toggle="modal" data-bs-target="#HistoryActionModal"  class="btn btn-xs btn-primary edit-ha-btn btn2earnTable"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a>';
             })
             ->editColumn('reponce', function ($actionHistorys) {
                 if ($actionHistorys->reponce == 1)
-                    return '<span class="badge badge-success">create reponce</span>';
+                    return '<span class="badge bg-success-subtle text-success ">'.trans('create reponce').'</span>';
                 else
-                    return '<span class="badge badge-info">sans reponce</span>';
+                    return '<span class="badge bg-info-subtle text-info ">'.trans('sans reponce').'</span>';
             })
             ->escapeColumns([])
             ->make(true);
@@ -1057,30 +1036,10 @@ where u.idBalancesOperation=b.idBalanceOperations
 and u.idamount not in(4,6)  and u.idUser=? and u.idamount=? order by Date   ", [$idUser, $idamount]
         );
         return response()->json($userData);
-        /*return Datatables::of($userData)
-            ->addColumn('formatted_date', function ($user) {
-                return Carbon\Carbon::parse($user->Date)->format('Y-m-d');
-            })
-            ->editColumn('Description', function ($row) {
-
-                if ($row->idamount == 3)
-                    // return '<span style="text-align:right;">'.htmlspecialchars($row->Description).'</span>';
-                    return '<div style="text-align:right;">' . htmlspecialchars($row->Description) . '</div>';
-                else return $row->Description;
-            })
-            ->rawColumns(['Description', 'formatted_date'])
-//           ->orderColumn('name', 'email $1')
-            ->make(true);*/
-
-//        return datatables($userData)
-//
-//            ->make(true);
-
     }
 
     public function getUserBalances($typeAmounts)
     {
-
         $idAmounts = 0;
         switch ($typeAmounts) {
             case 'cash-Balance':
@@ -1099,7 +1058,6 @@ and u.idamount not in(4,6)  and u.idUser=? and u.idamount=? order by Date   ", [
                 $idAmounts = 0;
                 break;
         }
-        $user = $this->settingsManager->getAuthUser();
 
         $userData = DB::select("SELECT RANK() OVER (
         ORDER BY ub.Date desc
@@ -1119,7 +1077,7 @@ when bo.IO = 'IO' then 'IO'
 end)   OVER(ORDER BY date) ,3) , ' $') else concat( format( ub.balance ,3,'en_EN') ,' $') end  as balance,ub.PrixUnitaire,'d' as sensP
   FROM user_balances ub inner join balanceoperations bo on
 ub.idBalancesOperation = bo.idBalanceOperations
-where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [$idAmounts, $user->idUser]
+where  (bo.idamounts = ? and ub.idUser =  ?)  order by ref desc", [$idAmounts, auth()->user()->idUser]
         );
 
         return Datatables::of($userData)
@@ -1227,8 +1185,6 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
             $idUser = $this->settingsManager->getAuthUser()->idUser;
         }
         $type = request()->type;
-//        if ($type == null || $idUser == null)
-//            $condition =   " where recharge_requests.idPayee = ";
         switch ($type) {
             case('out'):
                 $condition = " where recharge_requests.idPayee = ";
@@ -1240,10 +1196,7 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
         if ($condition == "") {
             $condition = " where recharge_requests.idUser = ";
         }
-//if($idUser == null)
-//{
-//    $idUser = "";
-//}
+
         $request = DB::select($this->reqRequest . $condition . "  ? ", [$idUser]);
         return datatables($request)
             ->make(true);
@@ -1258,9 +1211,6 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
 
     public function getIdentificationRequest()
     {
-//        $query = User::select('id', 'name', 'mobile', 'idCountry', 'asked_at')
-//            ->where('status', '=', -1);
-
         $query = DB::select('SELECT  u1.id id, u1.name User ,u1.fullphone_number, ir.created_at DateCreation, u2.name Validator, ir.response, ir.responseDate DateReponce , ir.note from identificationuserrequest ir
 inner join users u1 on ir.IdUser = u1.idUser
 left join users u2 on ir.idUserResponse = u2.idUser
@@ -1299,7 +1249,6 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUs
     public function getPurchaseUser()
     {
         $user = $this->settingsManager->getAuthUser();
-//        if (!$user) $user->idUser ='' ;
         $userData = DB::select("
 
     SELECT
@@ -1489,7 +1438,6 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUs
     {
         $user = $this->settingsManager->getAuthUser();
 
-//        if (!$user) $user->idUser ='' ;
         $userData = DB::select(" select id, name,lastName,fullphone_number,
        case when
            fullphone_number in (select users.fullphone_number from users where idUpline != ? and idUpline <> 0)
@@ -1518,26 +1466,24 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUs
 
     public function getRequestAjax()
     {
-        $userAuth = $this->settingsManager->getAuthUser();
-        if (!$userAuth) abort(404);
-        $array = [];
-        $requestInOpen = detail_financial_request::join('financial_request', 'financial_request.numeroReq', '=', 'detail_financial_request.numeroRequest')
-            ->where('detail_financial_request.idUser', $userAuth->idUser)
-            ->where('financial_request.Status', 0)
-            ->where('detail_financial_request.vu', 0)
-            ->count();
-        $requestOutAccepted = FinancialRequest::where('financial_request.idSender', $userAuth->idUser)
-            ->where('financial_request.Status', 1)
-            ->where('financial_request.vu', 0)
-            ->count();
-        $requestOutRefused = FinancialRequest::where('financial_request.idSender', $userAuth->idUser)
-            ->where('financial_request.Status', 5)
-            ->where('financial_request.vu', 0)
-            ->count();
-        $array['requestInOpen'] = $requestInOpen;
-        $array['requestOutAccepted'] = $requestOutAccepted;
-        $array['requestOutRefused'] = $requestOutRefused;
-        return json_encode(array('data' => $array));
+        $requestArray = ['requestInOpen' => null, 'requestOutAccepted' => null, 'requestOutRefused' => null];
+        if (auth()->user()) {
+            $requestInOpen = detail_financial_request::join('financial_request', 'financial_request.numeroReq', '=', 'detail_financial_request.numeroRequest')
+                ->where('detail_financial_request.idUser', auth()->user()->idUser)
+                ->where('financial_request.Status', 0)
+                ->where('detail_financial_request.vu', 0)
+                ->count();
+            $requestOutAccepted = FinancialRequest::where('financial_request.idSender', auth()->user()->idUser)
+                ->where('financial_request.Status', 1)
+                ->where('financial_request.vu', 0)
+                ->count();
+            $requestOutRefused = FinancialRequest::where('financial_request.idSender', auth()->user()->idUser)
+                ->where('financial_request.Status', 5)
+                ->where('financial_request.vu', 0)
+                ->count();
+            $requestArray = ['requestInOpen' => $requestInOpen, 'requestOutAccepted' => $requestOutAccepted, 'requestOutRefused' => $requestOutRefused];
+        }
+        return json_encode(array('data' => $requestArray));
     }
 
 }

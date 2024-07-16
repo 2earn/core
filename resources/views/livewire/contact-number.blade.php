@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="card-body table-responsive">
-                    <table id="example" class="table table-bordered dt-responsive nowrap table-striped"
+                    <table id="example" class="table table-striped table-bordered"
                            style="width:100%">
                         <thead class="table-light">
                         <tr class="tabHeader2earn">
@@ -50,7 +50,8 @@
                                 </td>
                                 <td>
                                     <div class="d-flex align-items-center fw-medium">
-                                        <img src="{{ URL::asset('assets/images/flags/'.$value->isoP.'.svg') }}" alt=""
+                                        <img src="{{ Vite::asset('resources/images/flags/'.$value->isoP.'.svg') }}"
+                                             alt=""
                                              class="avatar-xxs me-2">
                                         <a href="javascript:void(0);"
                                            class="currency_name"> {{getCountryByIso($value->isoP)}}</a>
@@ -90,7 +91,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light"
+                    <button type="button" class="btn btn-light btn-close-add"
                             data-bs-dismiss="modal">{{ __('Close') }}</button>
                     <button type="button" id="saveAddContactNumber"
                             class="btn btn-primary">{{ __('Save new contact number') }}
@@ -99,18 +100,9 @@
             </div>
         </div>
     </div>
-    <script data-tubolinks-eval=false>
-
-        $("#saveAddContactNumber").click(function (event) {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-            $('#AddContactNumberModel').modal('hide');
-            window.livewire.emit('preSaveContact', $("#outputphoneContactNumber").val(), $("#isoContactNumber").val(), $("#phoneContactNumber").val());
-        });
-
+    <script>
         function setActiveNumber($id) {
             try {
-                $('#modalCeckContactNumber').modal('show');
                 $('#modalCeckContactNumber').modal('hide');
             } catch (e) {
             }
@@ -130,7 +122,7 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.livewire.emit('setActiveNumber', 1, $id);
+                    window.Livewire.emit('setActiveNumber', 1, $id);
                 }
             });
         }
@@ -151,50 +143,63 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.livewire.emit('deleteContact', $id);
+                    window.Livewire.emit('deleteContact', $id);
                 }
             });
         }
-
-        window.addEventListener('PreAddNumber', event => {
-            Swal.fire({
-                title: '{{ __('Your verification code') }}',
-                html: event.detail.msgSend + ' ' + '<br>' + event.detail.FullNumber + '<br>' + event.detail.userMail + '<br>' + '{{__('Your OTP Code')}}',
-                allowOutsideClick: false,
-                timer: '{{ env('timeOPT',180000) }}',
-                timerProgressBar: true,
-                showCancelButton: true,
-                cancelButtonText: '{{trans('canceled !')}}',
-                confirmButtonText: '{{trans('ok')}}',
-                footer: ' <i></i><div class="footerOpt"></div>',
-                didOpen: () => {
-                    const b = Swal.getFooter().querySelector('i')
-                    const p22 = Swal.getFooter().querySelector('div')
-                    p22.innerHTML = '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>';
-                    timerInterval = setInterval(() => {
-                        b.textContent = '{{trans('It will close in')}}' + (Swal.getTimerLeft() / 1000).toFixed(0) + '{{trans('secondes')}}'
-                    }, 100)
-                },
-                willClose: () => {
-                    clearInterval(timerInterval)
-                },
-                input: 'text',
-                inputAttributes: {autocapitalize: 'off'},
-            }).then((resultat) => {
-                if (resultat.isConfirmed) {
-                    window.livewire.emit('saveContactNumber', resultat.value, event.detail.isoP, event.detail.mobile, event.detail.FullNumberNew);
-                }
-                if (resultat.isDismissed && resultat.dismiss == 'cancel') {
-                    window.location.reload();
-                }
-            })
-        })
     </script>
-    <script data-turbolinks-eval="false">
-        var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";
-        var urlLang = "//cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
-        $('#example').DataTable(
-            {
+    <script type="module">
+        var timerInterval;
+
+        $(document).on('turbolinks:load', function () {
+            $("#saveAddContactNumber").click(function (event) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                $('.btn-close-add').trigger('click')
+                window.Livewire.emit('preSaveContact', $("#outputphoneContactNumber").val(), $("#isoContactNumber").val(), $("#phoneContactNumber").val());
+            });
+
+            window.addEventListener('PreAddNumber', event => {
+                Swal.fire({
+                    title: '{{ __('Your verification code') }}',
+                    html: event.detail.msgSend + ' ' + '<br>' + event.detail.FullNumber + '<br>' + event.detail.userMail + '<br>' + '{{__('Your OTP Code')}}',
+                    allowOutsideClick: false,
+                    timer: '{{ env('timeOPT',180000) }}',
+                    timerProgressBar: true,
+                    showCancelButton: true,
+                    cancelButtonText: '{{trans('canceled !')}}',
+                    confirmButtonText: '{{trans('ok')}}',
+                    footer: ' <i></i><div class="footerOpt"></div>',
+                    didOpen: () => {
+                        const b = Swal.getFooter().querySelector('i')
+                        const p22 = Swal.getFooter().querySelector('div')
+                        p22.innerHTML = '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>';
+                        timerInterval = setInterval(() => {
+                            b.textContent = '{{trans('It will close in')}}' + (Swal.getTimerLeft() / 1000).toFixed(0) + '{{trans('secondes')}}'
+                        }, 100)
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    },
+                    input: 'text',
+                    inputAttributes: {autocapitalize: 'off'},
+                }).then((resultat) => {
+                    if (resultat.isConfirmed) {
+                        window.Livewire.emit('saveContactNumber', resultat.value, event.detail.isoP, event.detail.mobile, event.detail.FullNumberNew);
+                    }
+                    if (resultat.isDismissed && resultat.dismiss == 'cancel') {
+                        window.location.reload();
+                    }
+                })
+            })
+        });
+
+    </script>
+    <script type="module">
+        $(document).on('turbolinks:load', function () {
+            var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";
+            var urlLang = "https://cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
+            $('#example').DataTable({
                 retrieve: true,
                 "colReorder": true,
                 "orderCellsTop": true,
@@ -202,7 +207,7 @@
                 "language": {
                     "url": urlLang
                 }
-            }
-        );
+            });
+        });
     </script>
 </div>

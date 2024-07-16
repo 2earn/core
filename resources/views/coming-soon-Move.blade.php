@@ -22,7 +22,7 @@
                     <div class="col-lg-12">
                         <div class="text-center mt-sm-5 pt-4 mb-4">
                             <div class="mb-sm-5 pb-sm-4 pb-5">
-                                <img src="{{asset('assets/images/Move2earn Icon.png')}}" alt="" height="120" class="move-animation">
+                                <img src="{{Vite::asset('resources/images/Move2earn Icon.png')}}" alt="" height="120" class="move-animation">
                             </div>
                             <div class="mb-5">
                                 <h1 class="display-2 coming-soon-text">Coming Soon</h1>

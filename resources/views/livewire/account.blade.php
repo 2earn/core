@@ -265,9 +265,9 @@
                     </div>
                 </div>
             @endif
-            <div class="card  ">
+            <div class="card">
                 <div class="card-header">
-                    <ul class="nav  nav-pills nav-tabs-custom rounded card-header-tabs border-bottom-0 tab2earn"
+                    <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0 tab2earn"
                         role="tablist">
                         <li class="nav-item">
                             <a style="color: #f02602" class="nav-link active" data-bs-toggle="tab"
@@ -414,7 +414,7 @@
                                             <select class="form-select mb-3" aria-label=" "
                                                     wire:model.defer="usermetta_info.personaltitle">
                                                 <option value="">{{__('no selected value')}}</option>
-                                                    <?php if (isset($personaltitles)){
+                                                <?php if (isset($personaltitles)){
                                                 foreach ($personaltitles as $personaltitle){
                                                     ?>
                                                 <option
@@ -431,7 +431,7 @@
                                                     wire:model.defer="usermetta_info.gender">
                                                 <
                                                 <option value="">{{__('no selected value')}}</option>
-                                                    <?php if (isset($genders)){
+                                                <?php if (isset($genders)){
                                                 foreach ($genders as $gender){
                                                     ?>
                                                 <option value="{{$gender->id}}">{{ __( $gender->name)  }}</option>
@@ -447,7 +447,7 @@
                                             <select class="form-select mb-3" aria-label=" "
                                                     wire:model.defer="usermetta_info.idLanguage">
                                                 <option value="" selected>{{__('no selected value')}}</option>
-                                                    <?php if (isset($languages)){ ?>
+                                                <?php if (isset($languages)){ ?>
                                                     <?php
                                                 foreach ($languages as $language){
                                                     ?>
@@ -631,7 +631,7 @@
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="text-end">
-                                            <button onclick="ConfirmChangePass()" type="button"
+                                            <button wire:click="PreChangePass" type="button"
                                                     class="btn btn-success btn2earn">
                                                 {{ __('Save') }}
                                             </button>
@@ -804,7 +804,7 @@
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">
                                         {{ __('Close')}}
                                     </button>
-                                    <button onclick="SaveChangeEdit()" type="button" id="SaveCahngeEdit"
+                                    <button wire:click="SaveChangeEdit" type="button" id="SaveCahngeEdit"
                                             class="btn btn-primary">
                                         <div wire:loading wire:target="SaveChangeEdit">
                                                 <span class="spinner-border spinner-border-sm" role="status"
@@ -947,37 +947,33 @@
             }
 
         </script>
-        <script>
-            $("#btnsaveUser").click(function () {
-                window.livewire.emit('saveUser', parseInt($("#inputChild").val()));
-            });
-            $('input[type="file"]').each(function () {
-                var $file = $(this),
-                    $label = $file.next('label'),
-                    $labelText = $label.find('span'),
-                    labelDefault = $labelText.text();
-                $file.on('change', function (event) {
-                    var fileName = $file.val().split('\\').pop(),
-                        tmppath = URL.createObjectURL(event.target.files[0]);
-                    if (fileName) {
-                        $label.addClass('file-ok')
-                            .css('background-image', 'url(' + tmppath + ')');
-                        $labelText.text(fileName);
+        <script type="module">
+            var timerInterval;
+            $(document).on('turbolinks:load', function () {
+                $("#btnsaveUser").click(function () {
+                    window.Livewire.emit('saveUser', parseInt($("#inputChild").val()));
+                });
+                $('input[type="file"]').each(function () {
+                    var $file = $(this),
+                        $label = $file.next('label'),
+                        $labelText = $label.find('span'),
+                        labelDefault = $labelText.text();
+                    $file.on('change', function (event) {
+                        var fileName = $file.val().split('\\').pop(),
+                            tmppath = URL.createObjectURL(event.target.files[0]);
+                        if (fileName) {
+                            $label.addClass('file-ok')
+                                .css('background-image', 'url(' + tmppath + ')');
+                            $labelText.text(fileName);
 
-                    } else {
-                        $label.removeClass('file-ok');
-                        $labelText.text(labelDefault);
-                    }
+                        } else {
+                            $label.removeClass('file-ok');
+                            $labelText.text(labelDefault);
+                        }
+                    });
                 });
             });
 
-            function SaveChangeEdit() {
-                window.livewire.emit('SaveChangeEdit');
-            }
-
-            function ConfirmChangePass() {
-                window.livewire.emit('PreChangePass');
-            }
 
             window.addEventListener('OptChangePass', event => {
                 Swal.fire({
@@ -1013,7 +1009,7 @@
                     },
                 }).then((resultat) => {
                     if (resultat.value) {
-                        window.livewire.emit('changePassword', resultat.value);
+                        window.Livewire.emit('changePassword', resultat.value);
                     }
                 }).catch((error) => {
                     console.error('SweetAlert Error:', error);
@@ -1050,7 +1046,7 @@
                     inputAttributes: {autocapitalize: 'off'},
                 }).then((resultat) => {
                     if (resultat.isConfirmed && resultat.value) {
-                        window.livewire.emit('checkUserEmail', resultat.value);
+                        window.Livewire.emit('checkUserEmail', resultat.value);
                     } else if (resultat.isDismissed) {
                         $('.modal-backdrop').remove();
                     }
@@ -1059,16 +1055,18 @@
                 });
             });
 
-            $("#validateMail").click(function (event) {
-                event.preventDefault();
-                event.stopImmediatePropagation();
-                window.livewire.emit("sendVerificationMail", $('#inputEmail').val());
+
+            $("#validateMail").click(function (validateMailEvent) {
+                validateMailEvent.preventDefault();
+                validateMailEvent.stopImmediatePropagation();
+                window.Livewire.emit("sendVerificationMail", $('#inputEmail').val());
             });
 
             function showIdentitiesModal(typeIdentitie) {
                 $('#identies-viewer-title').empty().append($('#' + typeIdentitie + '-id-image').attr('title'));
                 $('#identies-viewer-content').empty().append($('#' + typeIdentitie + '-id-image').clone().width('100%').height('200%'));
-                $('#identies-viewer').modal('show');
+                var myModal = new bootstrap.Modal(document.getElementById('identies-viewer'))
+                myModal.show();
             }
 
             $("#show-identity-front").click(function () {
@@ -1105,7 +1103,7 @@
                             const b = Swal.getFooter().querySelector('i');
                             const p22 = Swal.getFooter().querySelector('div');
                             p22.innerHTML = '<br>' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>';
-                            timerInterval = setInterval(() => {
+                            var timerInterval = setInterval(() => {
                                 let timerLeft = Swal.getTimerLeft();
                                 if (timerLeft !== null) {
                                     b.innerHTML = '{{trans('It will close in')}}' + (timerLeft / 1000).toFixed(0) + '{{trans('secondes')}}';
@@ -1121,7 +1119,7 @@
                         inputAttributes: {autocapitalize: 'off'},
                     }).then((resultat) => {
                         if (resultat.isConfirmed) {
-                            window.livewire.emit('saveVerifiedMail', resultat.value);
+                            window.Livewire.emit('saveVerifiedMail', resultat.value);
                         } else if (resultat.isDismissed) {
                             $('.modal-backdrop').remove();
                         }
@@ -1139,43 +1137,45 @@
                 }
             })
         </script>
-        <script data-turbolinks-eval="false">
-            $("#btnPlus").click(function () {
-                var child = parseInt($("#inputChild").val());
-                child = child + 1;
-                if (child <= 20)
-                    $("#inputChild").val(child);
-                else
-                    $("#inputChild").val(20);
-            });
-            $("#btnMinus").click(function () {
-                var child = parseInt($("#inputChild").val());
-                child = child - 1;
-                if (child >= 0)
-                    $("#inputChild").val(child);
-                else
-                    $("#inputChild").val(0);
-            });
+        <script type="module">
+            $(document).on('turbolinks:load', function () {
+                $("#btnPlus").click(function () {
+                    var child = parseInt($("#inputChild").val());
+                    child = child + 1;
+                    if (child <= 20)
+                        $("#inputChild").val(child);
+                    else
+                        $("#inputChild").val(20);
+                });
+                $("#btnMinus").click(function () {
+                    var child = parseInt($("#inputChild").val());
+                    child = child - 1;
+                    if (child >= 0)
+                        $("#inputChild").val(child);
+                    else
+                        $("#inputChild").val(0);
+                });
 
-            $('#send').change(function () {
-                if (this.checked && !{{$soldeSms}} > 0) {
-                    Swal.fire({
-                        title: '{{ __('solde_sms_ins') }}',
-                        confirmButtonText: '{{trans('ok')}}',
-                    });
-                    return;
-                }
-                Swal.fire({
-                    title: '{{ __('upate_notification_setting') }}',
-                    showDenyButton: true,
-                    confirmButtonText: '{{trans('Yes')}}',
-                    denyButtonText: '{{trans('No')}}'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.livewire.emit('ParamSendChanged');
-                    } else if (result.isDenied) {
+                $('#send').change(function () {
+                    if (this.checked && !{{$soldeSms}} > 0) {
+                        Swal.fire({
+                            title: '{{ __('solde_sms_ins') }}',
+                            confirmButtonText: '{{trans('ok')}}',
+                        });
+                        return;
                     }
-                })
+                    Swal.fire({
+                        title: '{{ __('upate_notification_setting') }}',
+                        showDenyButton: true,
+                        confirmButtonText: '{{trans('Yes')}}',
+                        denyButtonText: '{{trans('No')}}'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.Livewire.emit('ParamSendChanged');
+                        } else if (result.isDenied) {
+                        }
+                    })
+                });
             });
 
             var toggleOldPassword = document.querySelector("#toggleOldPassword");

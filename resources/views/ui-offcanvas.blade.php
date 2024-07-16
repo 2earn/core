@@ -39,7 +39,7 @@
                                     <div class="acitivity-timeline p-4">
                                         <div class="acitivity-item d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">Oliver Phillips <span class="badge bg-soft-primary text-primary align-middle">New</span></h6>
@@ -58,10 +58,10 @@
                                                 <p class="text-muted mb-2"><i class="ri-file-text-line align-middle ms-2"></i> Create new project Buildng product</p>
                                                 <div class="avatar-group mb-2">
                                                     <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Christi">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-xs">
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-xs">
                                                     </a>
                                                     <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Frank Hook">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle avatar-xs">
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle avatar-xs">
                                                     </a>
                                                     <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title=" Ruby">
                                                         <div class="avatar-xs">
@@ -83,20 +83,20 @@
                                         </div>
                                         <div class="acitivity-item py-3 d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">Natasha Carey <span class="badge bg-soft-success text-success align-middle">Completed</span></h6>
                                                 <p class="text-muted mb-2">Adding a new event with attachments</p>
                                                 <div class="row border border-dashed gx-2 p-2 mb-2">
                                                     <div class="col-4">
-                                                        <img src="{{ URL::asset('assets/images/small/img-2.jpg') }}" alt="" class="img-fluid rounded" />
+                                                        <img src="{{ Vite::asset('resources/images/small/img-2.jpg') }}" alt="" class="img-fluid rounded" />
                                                     </div>
                                                     <div class="col-4">
-                                                        <img src="{{ URL::asset('assets/images/small/img-3.jpg') }}" alt="" class="img-fluid rounded" />
+                                                        <img src="{{ Vite::asset('resources/images/small/img-3.jpg') }}" alt="" class="img-fluid rounded" />
                                                     </div>
                                                     <div class="col-4">
-                                                        <img src="{{ URL::asset('assets/images/small/img-4.jpg') }}" alt="" class="img-fluid rounded" />
+                                                        <img src="{{ Vite::asset('resources/images/small/img-4.jpg') }}" alt="" class="img-fluid rounded" />
                                                     </div>
                                                 </div>
                                                 <small class="mb-0 text-muted">25 Nov</small>
@@ -104,7 +104,7 @@
                                         </div>
                                         <div class="acitivity-item py-3 d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">Bethany Johnson</h6>
@@ -128,7 +128,7 @@
                                         </div>
                                         <div class="acitivity-item py-3 d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">Lewis Pratt</h6>
@@ -152,7 +152,7 @@
                                         </div>
                                         <div class="acitivity-item d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar" />
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar" />
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">New ticket received <span class="badge bg-soft-success text-success align-middle">Completed</span></h6>
@@ -230,7 +230,7 @@ Button with data-bs-target
                                         <div class="gallery-box card light mb-0">
                                             <div class="gallery-container">
                                                 <a href="#" title="">
-                                                    <img class="gallery-img img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-12.jpg') }}" alt="" />
+                                                    <img class="gallery-img img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-12.jpg') }}" alt="" />
                                                     <div class="gallery-overlay">
                                                         <h5 class="overlay-caption">A mix of friends and strangers heading off to find an adventure.</h5>
                                                     </div>
@@ -257,7 +257,7 @@ Button with data-bs-target
                                         <div class="gallery-box card light mb-0">
                                             <div class="gallery-container">
                                                 <a href="#" title="">
-                                                    <img class="gallery-img img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-9.jpg') }}" alt="" />
+                                                    <img class="gallery-img img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-9.jpg') }}" alt="" />
                                                     <div class="gallery-overlay">
                                                         <h5 class="overlay-caption">Dramatic clouds at the Golden Gate Bridge</h5>
                                                     </div>
@@ -284,7 +284,7 @@ Button with data-bs-target
                                         <div class="gallery-box card mb-0">
                                             <div class="gallery-container">
                                                 <a href="#" title="">
-                                                    <img class="gallery-img img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-11.jpg') }}" alt="" />
+                                                    <img class="gallery-img img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-11.jpg') }}" alt="" />
                                                     <div class="gallery-overlay">
                                                         <h5 class="overlay-caption">Cycling in the countryside</h5>
                                                     </div>
@@ -313,7 +313,7 @@ Button with data-bs-target
                                         <div class="gallery-box card mb-0">
                                             <div class="gallery-container">
                                                 <a href="#" title="">
-                                                    <img class="gallery-img img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-10.jpg') }}" alt="" />
+                                                    <img class="gallery-img img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-10.jpg') }}" alt="" />
                                                     <div class="gallery-overlay">
                                                         <h5 class="overlay-caption">Fun day at the Hill Station</h5>
                                                     </div>
@@ -351,7 +351,7 @@ Button with data-bs-target
                                     <div class="acitivity-timeline p-4">
                                         <div class="acitivity-item d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">Oliver Phillips <span class="badge bg-soft-primary text-primary align-middle">New</span></h6>
@@ -370,10 +370,10 @@ Button with data-bs-target
                                                 <p class="text-muted mb-2"><i class="ri-file-text-line align-middle ms-2"></i> Create new project Buildng product</p>
                                                 <div class="avatar-group mb-2">
                                                     <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Christi">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-xs">
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-xs">
                                                     </a>
                                                     <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Frank Hook">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle avatar-xs">
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle avatar-xs">
                                                     </a>
                                                     <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title=" Ruby">
                                                         <div class="avatar-xs">
@@ -395,20 +395,20 @@ Button with data-bs-target
                                         </div>
                                         <div class="acitivity-item py-3 d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">Natasha Carey <span class="badge bg-soft-success text-success align-middle">Completed</span></h6>
                                                 <p class="text-muted mb-2">Adding a new event with attachments</p>
                                                 <div class="row border border-dashed gx-2 p-2 mb-2">
                                                     <div class="col-4">
-                                                        <img src="{{ URL::asset('assets/images/small/img-2.jpg') }}" alt="" class="img-fluid rounded" />
+                                                        <img src="{{ Vite::asset('resources/images/small/img-2.jpg') }}" alt="" class="img-fluid rounded" />
                                                     </div>
                                                     <div class="col-4">
-                                                        <img src="{{ URL::asset('assets/images/small/img-3.jpg') }}" alt="" class="img-fluid rounded" />
+                                                        <img src="{{ Vite::asset('resources/images/small/img-3.jpg') }}" alt="" class="img-fluid rounded" />
                                                     </div>
                                                     <div class="col-4">
-                                                        <img src="{{ URL::asset('assets/images/small/img-4.jpg') }}" alt="" class="img-fluid rounded" />
+                                                        <img src="{{ Vite::asset('resources/images/small/img-4.jpg') }}" alt="" class="img-fluid rounded" />
                                                     </div>
                                                 </div>
                                                 <small class="mb-0 text-muted">25 Nov</small>
@@ -416,7 +416,7 @@ Button with data-bs-target
                                         </div>
                                         <div class="acitivity-item py-3 d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">Bethany Johnson</h6>
@@ -440,7 +440,7 @@ Button with data-bs-target
                                         </div>
                                         <div class="acitivity-item py-3 d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">Lewis Pratt</h6>
@@ -464,7 +464,7 @@ Button with data-bs-target
                                         </div>
                                         <div class="acitivity-item d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar" />
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar" />
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">New ticket received <span class="badge bg-soft-success text-success align-middle">Completed</span></h6>
@@ -492,7 +492,7 @@ Button with data-bs-target
                                         <div class="gallery-box card light mb-0">
                                             <div class="gallery-container">
                                                 <a href="#" title="">
-                                                    <img class="gallery-img img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-12.jpg') }}" alt="" />
+                                                    <img class="gallery-img img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-12.jpg') }}" alt="" />
                                                     <div class="gallery-overlay">
                                                         <h5 class="overlay-caption">A mix of friends and strangers heading off to find an adventure.</h5>
                                                     </div>
@@ -519,7 +519,7 @@ Button with data-bs-target
                                         <div class="gallery-box card light mb-0">
                                             <div class="gallery-container">
                                                 <a href="#" title="">
-                                                    <img class="gallery-img img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-9.jpg') }}" alt="" />
+                                                    <img class="gallery-img img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-9.jpg') }}" alt="" />
                                                     <div class="gallery-overlay">
                                                         <h5 class="overlay-caption">Dramatic clouds at the Golden Gate Bridge</h5>
                                                     </div>
@@ -546,7 +546,7 @@ Button with data-bs-target
                                         <div class="gallery-box card mb-0">
                                             <div class="gallery-container">
                                                 <a href="#" title="">
-                                                    <img class="gallery-img img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-11.jpg') }}" alt="" />
+                                                    <img class="gallery-img img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-11.jpg') }}" alt="" />
                                                     <div class="gallery-overlay">
                                                         <h5 class="overlay-caption">Cycling in the countryside</h5>
                                                     </div>
@@ -575,7 +575,7 @@ Button with data-bs-target
                                         <div class="gallery-box card mb-0">
                                             <div class="gallery-container">
                                                 <a href="#" title="">
-                                                    <img class="gallery-img img-fluid mx-auto" src="{{ URL::asset('assets/images/small/img-10.jpg') }}" alt="" />
+                                                    <img class="gallery-img img-fluid mx-auto" src="{{ Vite::asset('resources/images/small/img-10.jpg') }}" alt="" />
                                                     <div class="gallery-overlay">
                                                         <h5 class="overlay-caption">Fun day at the Hill Station</h5>
                                                     </div>
@@ -613,7 +613,7 @@ Button with data-bs-target
                                     <div class="acitivity-timeline p-4">
                                         <div class="acitivity-item d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">Oliver Phillips <span class="badge bg-soft-primary text-primary align-middle">New</span></h6>
@@ -632,10 +632,10 @@ Button with data-bs-target
                                                 <p class="text-muted mb-2"><i class="ri-file-text-line align-middle ms-2"></i> Create new project Buildng product</p>
                                                 <div class="avatar-group mb-2">
                                                     <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Christi">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-xs">
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-xs">
                                                     </a>
                                                     <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Frank Hook">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle avatar-xs">
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle avatar-xs">
                                                     </a>
                                                     <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title=" Ruby">
                                                         <div class="avatar-xs">
@@ -657,20 +657,20 @@ Button with data-bs-target
                                         </div>
                                         <div class="acitivity-item py-3 d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">Natasha Carey <span class="badge bg-soft-success text-success align-middle">Completed</span></h6>
                                                 <p class="text-muted mb-2">Adding a new event with attachments</p>
                                                 <div class="row border border-dashed gx-2 p-2 mb-2">
                                                     <div class="col-4">
-                                                        <img src="{{ URL::asset('assets/images/small/img-2.jpg') }}" alt="" class="img-fluid rounded" />
+                                                        <img src="{{ Vite::asset('resources/images/small/img-2.jpg') }}" alt="" class="img-fluid rounded" />
                                                     </div>
                                                     <div class="col-4">
-                                                        <img src="{{ URL::asset('assets/images/small/img-3.jpg') }}" alt="" class="img-fluid rounded" />
+                                                        <img src="{{ Vite::asset('resources/images/small/img-3.jpg') }}" alt="" class="img-fluid rounded" />
                                                     </div>
                                                     <div class="col-4">
-                                                        <img src="{{ URL::asset('assets/images/small/img-4.jpg') }}" alt="" class="img-fluid rounded" />
+                                                        <img src="{{ Vite::asset('resources/images/small/img-4.jpg') }}" alt="" class="img-fluid rounded" />
                                                     </div>
                                                 </div>
                                                 <small class="mb-0 text-muted">25 Nov</small>
@@ -678,7 +678,7 @@ Button with data-bs-target
                                         </div>
                                         <div class="acitivity-item py-3 d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">Bethany Johnson</h6>
@@ -702,7 +702,7 @@ Button with data-bs-target
                                         </div>
                                         <div class="acitivity-item py-3 d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">Lewis Pratt</h6>
@@ -726,7 +726,7 @@ Button with data-bs-target
                                         </div>
                                         <div class="acitivity-item d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar" />
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar" />
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">New ticket received <span class="badge bg-soft-success text-success align-middle">Completed</span></h6>
@@ -832,7 +832,7 @@ Button with data-bs-target
                                     <div class="acitivity-timeline p-4">
                                         <div class="acitivity-item d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">Oliver Phillips <span class="badge bg-soft-primary text-primary align-middle">New</span></h6>
@@ -851,10 +851,10 @@ Button with data-bs-target
                                                 <p class="text-muted mb-2"><i class="ri-file-text-line align-middle ms-2"></i> Create new project Buildng product</p>
                                                 <div class="avatar-group mb-2">
                                                     <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Christi">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-xs">
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-xs">
                                                     </a>
                                                     <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Frank Hook">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle avatar-xs">
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle avatar-xs">
                                                     </a>
                                                     <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title=" Ruby">
                                                         <div class="avatar-xs">
@@ -876,20 +876,20 @@ Button with data-bs-target
                                         </div>
                                         <div class="acitivity-item py-3 d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">Natasha Carey <span class="badge bg-soft-success text-success align-middle">Completed</span></h6>
                                                 <p class="text-muted mb-2">Adding a new event with attachments</p>
                                                 <div class="row border border-dashed gx-2 p-2 mb-2">
                                                     <div class="col-4">
-                                                        <img src="{{ URL::asset('assets/images/small/img-2.jpg') }}" alt="" class="img-fluid rounded" />
+                                                        <img src="{{ Vite::asset('resources/images/small/img-2.jpg') }}" alt="" class="img-fluid rounded" />
                                                     </div>
                                                     <div class="col-4">
-                                                        <img src="{{ URL::asset('assets/images/small/img-3.jpg') }}" alt="" class="img-fluid rounded" />
+                                                        <img src="{{ Vite::asset('resources/images/small/img-3.jpg') }}" alt="" class="img-fluid rounded" />
                                                     </div>
                                                     <div class="col-4">
-                                                        <img src="{{ URL::asset('assets/images/small/img-4.jpg') }}" alt="" class="img-fluid rounded" />
+                                                        <img src="{{ Vite::asset('resources/images/small/img-4.jpg') }}" alt="" class="img-fluid rounded" />
                                                     </div>
                                                 </div>
                                                 <small class="mb-0 text-muted">25 Nov</small>
@@ -897,7 +897,7 @@ Button with data-bs-target
                                         </div>
                                         <div class="acitivity-item py-3 d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">Bethany Johnson</h6>
@@ -921,7 +921,7 @@ Button with data-bs-target
                                         </div>
                                         <div class="acitivity-item py-3 d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">Lewis Pratt</h6>
@@ -945,7 +945,7 @@ Button with data-bs-target
                                         </div>
                                         <div class="acitivity-item d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar" />
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar" />
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">New ticket received <span class="badge bg-soft-success text-success align-middle">Completed</span></h6>
@@ -971,7 +971,7 @@ Button with data-bs-target
                                     <div class="acitivity-timeline p-4">
                                         <div class="acitivity-item d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">Oliver Phillips <span class="badge bg-soft-primary text-primary align-middle">New</span></h6>
@@ -990,10 +990,10 @@ Button with data-bs-target
                                                 <p class="text-muted mb-2"><i class="ri-file-text-line align-middle ms-2"></i> Create new project Buildng product</p>
                                                 <div class="avatar-group mb-2">
                                                     <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Christi">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-xs">
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-xs">
                                                     </a>
                                                     <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Frank Hook">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle avatar-xs">
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle avatar-xs">
                                                     </a>
                                                     <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title=" Ruby">
                                                         <div class="avatar-xs">
@@ -1015,20 +1015,20 @@ Button with data-bs-target
                                         </div>
                                         <div class="acitivity-item py-3 d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">Natasha Carey <span class="badge bg-soft-success text-success align-middle">Completed</span></h6>
                                                 <p class="text-muted mb-2">Adding a new event with attachments</p>
                                                 <div class="row border border-dashed gx-2 p-2 mb-2">
                                                     <div class="col-4">
-                                                        <img src="{{ URL::asset('assets/images/small/img-2.jpg') }}" alt="" class="img-fluid rounded" />
+                                                        <img src="{{ Vite::asset('resources/images/small/img-2.jpg') }}" alt="" class="img-fluid rounded" />
                                                     </div>
                                                     <div class="col-4">
-                                                        <img src="{{ URL::asset('assets/images/small/img-3.jpg') }}" alt="" class="img-fluid rounded" />
+                                                        <img src="{{ Vite::asset('resources/images/small/img-3.jpg') }}" alt="" class="img-fluid rounded" />
                                                     </div>
                                                     <div class="col-4">
-                                                        <img src="{{ URL::asset('assets/images/small/img-4.jpg') }}" alt="" class="img-fluid rounded" />
+                                                        <img src="{{ Vite::asset('resources/images/small/img-4.jpg') }}" alt="" class="img-fluid rounded" />
                                                     </div>
                                                 </div>
                                                 <small class="mb-0 text-muted">25 Nov</small>
@@ -1036,7 +1036,7 @@ Button with data-bs-target
                                         </div>
                                         <div class="acitivity-item py-3 d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">Bethany Johnson</h6>
@@ -1060,7 +1060,7 @@ Button with data-bs-target
                                         </div>
                                         <div class="acitivity-item py-3 d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">Lewis Pratt</h6>
@@ -1084,7 +1084,7 @@ Button with data-bs-target
                                         </div>
                                         <div class="acitivity-item d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar" />
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar" />
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">New ticket received <span class="badge bg-soft-success text-success align-middle">Completed</span></h6>
@@ -1110,7 +1110,7 @@ Button with data-bs-target
                                     <div class="acitivity-timeline p-4">
                                         <div class="acitivity-item d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">Oliver Phillips <span class="badge bg-soft-primary text-primary align-middle">New</span></h6>
@@ -1129,10 +1129,10 @@ Button with data-bs-target
                                                 <p class="text-muted mb-2"><i class="ri-file-text-line align-middle ms-2"></i> Create new project Buildng product</p>
                                                 <div class="avatar-group mb-2">
                                                     <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Christi">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-xs">
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-xs">
                                                     </a>
                                                     <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Frank Hook">
-                                                        <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle avatar-xs">
+                                                        <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle avatar-xs">
                                                     </a>
                                                     <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title=" Ruby">
                                                         <div class="avatar-xs">
@@ -1154,20 +1154,20 @@ Button with data-bs-target
                                         </div>
                                         <div class="acitivity-item py-3 d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">Natasha Carey <span class="badge bg-soft-success text-success align-middle">Completed</span></h6>
                                                 <p class="text-muted mb-2">Adding a new event with attachments</p>
                                                 <div class="row border border-dashed gx-2 p-2 mb-2">
                                                     <div class="col-4">
-                                                        <img src="{{ URL::asset('assets/images/small/img-2.jpg') }}" alt="" class="img-fluid rounded" />
+                                                        <img src="{{ Vite::asset('resources/images/small/img-2.jpg') }}" alt="" class="img-fluid rounded" />
                                                     </div>
                                                     <div class="col-4">
-                                                        <img src="{{ URL::asset('assets/images/small/img-3.jpg') }}" alt="" class="img-fluid rounded" />
+                                                        <img src="{{ Vite::asset('resources/images/small/img-3.jpg') }}" alt="" class="img-fluid rounded" />
                                                     </div>
                                                     <div class="col-4">
-                                                        <img src="{{ URL::asset('assets/images/small/img-4.jpg') }}" alt="" class="img-fluid rounded" />
+                                                        <img src="{{ Vite::asset('resources/images/small/img-4.jpg') }}" alt="" class="img-fluid rounded" />
                                                     </div>
                                                 </div>
                                                 <small class="mb-0 text-muted">25 Nov</small>
@@ -1175,7 +1175,7 @@ Button with data-bs-target
                                         </div>
                                         <div class="acitivity-item py-3 d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">Bethany Johnson</h6>
@@ -1199,7 +1199,7 @@ Button with data-bs-target
                                         </div>
                                         <div class="acitivity-item py-3 d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">Lewis Pratt</h6>
@@ -1223,7 +1223,7 @@ Button with data-bs-target
                                         </div>
                                         <div class="acitivity-item d-flex">
                                             <div class="flex-shrink-0">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar" />
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar" />
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">New ticket received <span class="badge bg-soft-success text-success align-middle">Completed</span></h6>
@@ -1286,6 +1286,6 @@ Button with data-bs-target
     <!-- end row -->
 @endsection
 @section('script')
-    <script src="{{ URL::asset('assets/libs/prismjs/prismjs.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/libs/prismjs/prism.js') }}"></script>
     <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
 @endsection

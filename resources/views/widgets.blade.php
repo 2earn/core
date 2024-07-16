@@ -473,7 +473,7 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="px-3">
-                                <img src="{{ URL::asset('assets/images/user-illustarator-2.png') }}" class="img-fluid"
+                                <img src="{{ Vite::asset('resources/images/user-illustarator-2.png') }}" class="img-fluid"
                                     alt="">
                             </div>
                         </div>
@@ -511,7 +511,7 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="px-3">
-                                <img src="{{ URL::asset('assets/images/user-illustarator-1.png') }}" class="img-fluid"
+                                <img src="{{ Vite::asset('resources/images/user-illustarator-1.png') }}" class="img-fluid"
                                     alt="">
                             </div>
                         </div>
@@ -681,7 +681,7 @@
                                             <a href="javascript: void(0);" class="d-inline-block"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 title="" data-bs-original-title="Stine Nielsen">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
@@ -689,7 +689,7 @@
                                             <a href="javascript: void(0);" class="d-inline-block"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 title="" data-bs-original-title="Jansh Brown">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
@@ -697,7 +697,7 @@
                                             <a href="javascript: void(0);" class="d-inline-block"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 title="" data-bs-original-title="Dan Gibson">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
@@ -737,7 +737,7 @@
                                             <a href="javascript: void(0);" class="d-inline-block"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 title="" data-bs-original-title="Frida Bang">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
@@ -745,7 +745,7 @@
                                             <a href="javascript: void(0);" class="d-inline-block"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 title="" data-bs-original-title="Malou Silva">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
@@ -753,7 +753,7 @@
                                             <a href="javascript: void(0);" class="d-inline-block"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 title="" data-bs-original-title="Simon Schmidt">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
@@ -761,7 +761,7 @@
                                             <a href="javascript: void(0);" class="d-inline-block"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 title="" data-bs-original-title="Tosh Jessen">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
@@ -801,7 +801,7 @@
                                             <a href="javascript: void(0);" class="d-inline-block"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 title="" data-bs-original-title="Nina Schmidt">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
@@ -809,7 +809,7 @@
                                             <a href="javascript: void(0);" class="d-inline-block"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 title="" data-bs-original-title="Stine Nielsen">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
@@ -817,7 +817,7 @@
                                             <a href="javascript: void(0);" class="d-inline-block"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 title="" data-bs-original-title="Jansh Brown">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
@@ -857,7 +857,7 @@
                                             <a href="javascript: void(0);" class="d-inline-block"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 title="" data-bs-original-title="Stine Nielsen">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
@@ -865,7 +865,7 @@
                                             <a href="javascript: void(0);" class="d-inline-block"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 title="" data-bs-original-title="Jansh Brown">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
@@ -873,7 +873,7 @@
                                             <a href="javascript: void(0);" class="d-inline-block"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 title="" data-bs-original-title="Dan Gibson">
-                                                <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt=""
+                                                <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt=""
                                                     class="rounded-circle avatar-xxs">
                                             </a>
                                         </div>
@@ -1104,17 +1104,17 @@
                                                 class="d-inline-flex gap-2 border border-dashed p-2 mb-2 w-75">
                                                 <a href="{{URL::asset('/apps-ecommerce-product-details')}}"
                                                     class="bg-light rounded p-1">
-                                                    <img src="{{ URL::asset('assets/images/products/img-8.png') }}" alt=""
+                                                    <img src="{{ Vite::asset('resources/images/products/img-8.png') }}" alt=""
                                                         class="img-fluid d-block" />
                                                 </a>
                                                 <a href="{{URL::asset('/apps-ecommerce-product-details')}}"
                                                     class="bg-light rounded p-1">
-                                                    <img src="{{ URL::asset('assets/images/products/img-2.png') }}" alt=""
+                                                    <img src="{{ Vite::asset('resources/images/products/img-2.png') }}" alt=""
                                                         class="img-fluid d-block" />
                                                 </a>
                                                 <a href="{{URL::asset('/apps-ecommerce-product-details')}}"
                                                     class="bg-light rounded p-1">
-                                                    <img src="{{ URL::asset('assets/images/products/img-10.png') }}" alt=""
+                                                    <img src="{{ Vite::asset('resources/images/products/img-10.png') }}" alt=""
                                                         class="img-fluid d-block" />
                                                 </a>
                                             </div>
@@ -1124,7 +1124,7 @@
                                     </div>
                                     <div class="acitivity-item py-3 d-flex">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt=""
                                                 class="avatar-xs rounded-circle acitivity-avatar">
                                         </div>
                                         <div class="flex-grow-1 ms-3">
@@ -1206,7 +1206,7 @@
                                     </div>
                                     <div class="acitivity-item d-flex">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt=""
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt=""
                                                 class="avatar-xs rounded-circle acitivity-avatar" />
                                         </div>
                                         <div class="flex-grow-1 ms-3">
@@ -1473,7 +1473,7 @@
                             <div class="d-flex">
                                 <div class="flex-shrink-0 avatar-xs">
                                     <span class="avatar-title bg-light p-1 rounded-circle">
-                                        <img src="{{ URL::asset('assets/images/svg/crypto-icons/btc.svg') }}"
+                                        <img src="{{ Vite::asset('resources/images/svg/crypto-icons/btc.svg') }}"
                                             class="img-fluid" alt="">
                                     </span>
                                 </div>
@@ -1493,7 +1493,7 @@
                             <div class="d-flex">
                                 <div class="flex-shrink-0 avatar-xs">
                                     <span class="avatar-title bg-light p-1 rounded-circle">
-                                        <img src="{{ URL::asset('assets/images/svg/crypto-icons/eth.svg') }}"
+                                        <img src="{{ Vite::asset('resources/images/svg/crypto-icons/eth.svg') }}"
                                             class="img-fluid" alt="">
                                     </span>
                                 </div>
@@ -1513,7 +1513,7 @@
                             <div class="d-flex">
                                 <div class="flex-shrink-0 avatar-xs">
                                     <span class="avatar-title bg-light p-1 rounded-circle">
-                                        <img src="{{ URL::asset('assets/images/svg/crypto-icons/ltc.svg') }}"
+                                        <img src="{{ Vite::asset('resources/images/svg/crypto-icons/ltc.svg') }}"
                                             class="img-fluid" alt="">
                                     </span>
                                 </div>
@@ -1533,7 +1533,7 @@
                             <div class="d-flex">
                                 <div class="flex-shrink-0 avatar-xs">
                                     <span class="avatar-title bg-light p-1 rounded-circle">
-                                        <img src="{{ URL::asset('assets/images/svg/crypto-icons/dash.svg') }}"
+                                        <img src="{{ Vite::asset('resources/images/svg/crypto-icons/dash.svg') }}"
                                             class="img-fluid" alt="">
                                     </span>
                                 </div>

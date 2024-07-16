@@ -7,10 +7,12 @@
             <ul class="nav nav-pills" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
                     <a href="" class="nav-link active"
-                       id="pills-RepresentativesManagement-tab" data-bs-toggle="pill" data-bs-target="#tabRepresentativesManagement"
+                       id="pills-RepresentativesManagement-tab" data-bs-toggle="pill"
+                       data-bs-target="#tabRepresentativesManagement"
                        type="button"
                        role="tab"
-                       aria-controls="pills-RepresentativesManagement" aria-selected="true">{{ __('Balance For Shopping') }}</a>
+                       aria-controls="pills-RepresentativesManagement"
+                       aria-selected="true">{{ __('Balance For Shopping') }}</a>
                 </li>
             </ul>
             <div class="card-body pt-0">
@@ -18,7 +20,8 @@
                 <div class="transaction-table">
 
                     <div class="table-responsive ">
-                        <table class=" mb-0 table-responsive-sm stripe table2earn" id="userManager_table" style="width: 100%">
+                        <table class="table table-striped table-bordered"   id="userManager_table"
+                               style="width: 100%">
                             <thead>
                             <tr class="head2earn">
                                 <th style=" border: none;">N</th>
@@ -42,7 +45,8 @@
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="userManagerModal"  style="z-index: 200000" tabindex="-99999999" aria-labelledby="userManagerModalLabel" aria-hidden="true">
+    <div class="modal fade" id="userManagerModal" style="z-index: 200000" tabindex="-99999999"
+         aria-labelledby="userManagerModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -59,16 +63,14 @@
             </div>
         </div>
     </div>
-    <script>
-        function  deleteUser(idUser)
-        {
+    <script type="module">
+        function deleteUser(idUser) {
             Swal.fire({
                 title: '{{ __('delete_user') }}',
                 text: '{{ __('operation_irreversible') }}',
                 icon: "warning",
-                // showDenyButton: true,
                 showCancelButton: true,
-                confirmButtonText:'{{trans('ok')}}',
+                confirmButtonText: '{{trans('ok')}}',
                 cancelButtonText: '{{trans('canceled !')}}',
                 denyButtonText: '{{trans('No')}}',
                 customClass: {
@@ -79,14 +81,50 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.livewire.emit('deleteUser',idUser);
+                    window.Livewire.emit('deleteUser', idUser);
                 }
-            }) ;
-
-
-
-
+            });
         }
+
+            $(document).on('turbolinks:load', function () {
+                $('#userManager_table').DataTable({
+                    retrieve: true,
+                    "colReorder": true,
+                    "orderCellsTop": true,
+                    "fixedHeader": true,
+                    initComplete: function () {
+                        this.api()
+                            .columns()
+                            .every(function () {
+                                var that = $('#userManager_table').DataTable();
+                                $('input', this.footer()).on('keydown', function (ev) {
+                                    if (ev.keyCode == 13) {
+                                        that
+                                            .search(this.value)
+                                            .draw();
+                                    }
+                                });
+                            });
+                    },
+                    "processing": true,
+                    search: {return: true},
+                    "ajax": "{{route('API_usermanager',app()->getLocale())}}",
+                    "columns": [
+                        {data: 'N'},
+                        {data: 'idUser'},
+                        {data: 'status'},
+                        {data: 'registred_from'},
+                        {data: 'fullphone_number'},
+                        {data: 'LatinName'},
+                        {data: 'ArabicName'},
+                        {data: 'lastOperation'},
+                        {data: 'country'},
+                        {data: 'action', name: 'action', orderable: false, searchable: false},
+                    ],
+                    "language": {"url": urlLang}
+                });
+            });
+
     </script>
     <script data-turbolinks-eval="false">
         var SuccesUpdatePasswordUserAdmin = '{{ Session::has('SuccesUpdatePasswordUserAdmin')}}'
@@ -97,7 +135,6 @@
         if (SuccesUpdateProfil) {
             toastr.success('{{Session::get('SuccesUpdateProfil')}}');
         }
-
 
 
     </script>

@@ -14,7 +14,7 @@ var date_range = null;
 var T_check = null;
 document.addEventListener("DOMContentLoaded", function () {
     flatPickrInit();
-    var addEvent = new bootstrap.Modal(document.getElementById('event-modal'), {
+    var addEvent = bootstrap.Modal.getOrCreateInstance('#event-modal'), {
         keyboard: false
     });
     document.getElementById('event-modal');

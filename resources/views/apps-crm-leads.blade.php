@@ -97,7 +97,7 @@
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 <div class="flex-shrink-0">
-                                                    <img src="{{ URL::asset('assets/images/users/avatar-10.jpg') }}"
+                                                    <img src="{{ Vite::asset('resources/images/users/avatar-10.jpg') }}"
                                                         alt="" class="avatar-xxs rounded-circle image_src object-cover" >
                                                 </div>
                                                 <div class="flex-grow-1 ms-2 name">Tonya Noble</div>
@@ -211,7 +211,7 @@
                                                         </div>
                                                         <div class="avatar-lg p-1">
                                                             <div class="avatar-title bg-light rounded-circle">
-                                                                <img src="{{ URL::asset('assets/images/users/user-dummy-img.jpg') }}"
+                                                                <img src="{{ Vite::asset('resources/images/users/user-dummy-img.jpg') }}"
                                                         alt="" id="lead-img" class="avatar-md rounded-circle object-cover" >
                                                             </div>
                                                         </div>

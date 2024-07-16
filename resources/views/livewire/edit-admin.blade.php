@@ -1,9 +1,7 @@
 <div >
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
-
     <div wire:loading>
-
     </div>
     <script data-turbolinks-eval="false">
         var exisUpdateRole = '{{Session::has('SuccesUpdateRole')}}';
@@ -11,7 +9,6 @@
             toastr.success('{{Session::get('SuccesUpdateRole')}}');
         }
     </script>
-
     @component('components.breadcrumb')
         @slot('li_1')  @endslot
         @slot('title')  {{ __('Gestion des Administrateurs') }}@endslot
@@ -21,14 +18,14 @@
             <div  class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div>
+                        <div class="col-12">
                             <input type="text" class="form-control" placeholder="{{ __('PH_search') }}"
                                    wire:model="search"/>
                         </div>
                     </div>
                 </div>
                 <div class="card-body table-responsive">
-                    <table  class="table table-responsive tableEditAdmin">
+                    <table class="table table-striped table-bordered tableEditAdmin">
                         <thead>
                         <tr>
                             <th scope="Id">Id</th>
@@ -42,14 +39,6 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {{--                            @foreach ($translate as $s)--}}
-                        {{--                                <tr>--}}
-                        {{--                                    <td><span> {{$s->id}}</span></td>--}}
-                        {{--                                    <td><span>{{$s->name}}</span></td>--}}
-                        {{--                                    <td><input wire:model.defer="translate.{{ $key }}.value"/></td>--}}
-                        {{--                                    <td><input wire:model.defer="translate.{{ $key }}.valueFr"/></td>--}}
-                        {{--                                </tr>--}}
-                        {{--                            @endforeach--}}
                         @foreach ($translates as $value)
                             <tr>
                                 <td><span> {{$value->id}}</span></td>
@@ -60,7 +49,7 @@
                                 <td><span>{{$value->role}}</span></td>
                                 <td><span>{{$value->countrie}}</span></td>
                                 <td>
-                                    <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"   wire:click="edit({{$value->id }})"  class="btn rounded-pill btn-secondary waves-effect">{{ __('Edit') }}</button>
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#editAdminModal"   wire:click="edit({{$value->id }})"  class="btn rounded-pill btn-secondary waves-effect">{{ __('Edit') }}</button>
                                 </td>
                             </tr>
                         @endforeach
@@ -70,58 +59,50 @@
                 </div>
             </div>
         </div>
-        <!-- Modal -->
-        <div  wire:ignore.self class="modal fade" id="exampleModal"   tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel"  aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">{{ __('User_managment') }}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        @php $role=\Illuminate\Support\Facades\Lang::get("userRole") @endphp
+    </div>
+    <div  wire:ignore.self class="modal fade" id="editAdminModal"   tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel"  aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editAdminModalLabel">{{ __('User_managment') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @php $role=\Illuminate\Support\Facades\Lang::get("userRole") @endphp
 
-                        <div> <label><span>{{$role}}:</span> <span>{{$name}}</span> </label></div>
-                        <p>{{ __('Mobile_Number') }}: {{$mobile}}</p>
-                        <label>{{ __('Role') }}</label>
-                        <select class="form-control" id="Country" name="country" wire:model.defer="userRole">
-                            <option value="">{{ __('Choose') }}</option>
-                            @foreach($allRoles as $role)
-                                @php
+                    <div> <label><span>{{$role}}:</span> <span>{{$name}}</span> </label></div>
+                    <p>{{ __('Mobile_Number') }}: {{$mobile}}</p>
+                    <label>{{ __('Role') }}</label>
+                    <select class="form-control" id="Country" name="country" wire:model.defer="userRole">
+                        <option value="">{{ __('Choose') }}</option>
+                        @foreach($allRoles as $role)
+                            @php
                                 $cn = \Illuminate\Support\Facades\Lang::get($role->name) ;
-                                @endphp
-                                <option value="{{$role->name}}">{{$cn}}</option>
+                            @endphp
+                            <option value="{{$role->name}}">{{$cn}}</option>
+                        @endforeach
+                    </select>
+                    <div style="margin: 10px"  class="scheduler-border">
+                        <div  class="boxplatforms  d-flex">
+                            @foreach($platformes   as $key => $setting)
+                                <div class="">
+                                    <label style="margin: 20px">
+                                        <input  class="toggle-checkbox" type="checkbox" role="switch"
+                                                id="flexSwitchCheckDefault"
+                                                wire:model.defer="platformes.{{$key}}.selected">
+                                        <div class="toggle-switch"></div>
+                                        <span class="toggle-label"> {{ __( $setting->name ) }}  </span>
+                                    </label>
+                                </div>
                             @endforeach
-                        </select>
-                        <div style="margin: 10px"  class="scheduler-border">
-                            <div  class="boxplatforms  d-flex">
-                                @foreach($platformes   as $key => $setting)
-                                    <div class="">
-                                        <label style="margin: 20px">
-                                            <input  class="toggle-checkbox" type="checkbox" role="switch"
-                                                    id="flexSwitchCheckDefault"
-                                                    wire:model.defer="platformes.{{$key}}.selected">
-                                            <div class="toggle-switch"></div>
-                                            <span class="toggle-label"> {{ __( $setting->name ) }}  </span>
-                                        </label>
-                                    </div>
-                                @endforeach
-                            </div>
-
-
-
                         </div>
-
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
-                        <button wire:click = "changeRole({{$currentId}})" type="button" class="btn btn-primary">{{ __('Save_changes') }}</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                    <button wire:click = "changeRole({{$currentId}})" type="button" class="btn btn-primary">{{ __('Save_changes') }}</button>
                 </div>
             </div>
         </div>
-
-
-
     </div>
 </div>

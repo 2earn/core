@@ -26,7 +26,7 @@
                 <button type="button" class="btn btn-secondary add-btn btn2earn"
                         data-bs-toggle="modal"
                         id="create-btn" data-bs-target="#addModal"><i
-                            class="ri-add-line align-bottom me-1 "></i> {{ __('Add a contact') }}
+                        class="ri-add-line align-bottom me-1 "></i> {{ __('Add a contact') }}
                 </button>
             </div>
         </div>
@@ -54,7 +54,7 @@
     </div>
     <div class="card">
         <div class="card-body table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped table-bordered"  >
                 <thead class="table-light">
                 <tr class="tabHeader2earn">
                     <th>{{ __('FirstName') }}</th>
@@ -75,9 +75,9 @@
                         <td>
                             <div class="d-flex align-items-center fw-medium">
                                 <img
-                                        src="{{ URL::asset('assets/images/flags/'. Illuminate\Support\Str::lower($value->apha2) .'.svg') }}"
-                                        alt=""
-                                        class="avatar-xs me-2 rounded-circle">
+                                    src="{{ Vite::asset('resources/images/flags/'. Illuminate\Support\Str::lower($value->apha2) .'.svg') }}"
+                                    alt=""
+                                    class="avatar-xs me-2 rounded-circle">
                                 <a href="javascript:void(0);"
                                    class="currency_name"> {{getCountryByIso($value->apha2)}}</a>
                             </div>
@@ -159,19 +159,19 @@
                             id="close-modal"></button>
                 </div>
                 @error('name') <span
-                        class="error alert-danger">{{ $message }}</span>
+                    class="error alert-danger">{{ $message }}</span>
                 @enderror
                 @error('lastName') <span
-                        class="error alert-danger">{{ $message }}</span>
+                    class="error alert-danger">{{ $message }}</span>
                 @enderror
                 <form action="">
                     @csrf
                     <div class="modal-body">
                         <input
-                                id="id-field"
-                                type="hidden"
-                                class="form-control" name="id-field"
-                                wire:model.defer="selectedContect"
+                            id="id-field"
+                            type="hidden"
+                            class="form-control" name="id-field"
+                            wire:model.defer="selectedContect"
                         >
                         <div class="row g-3">
                             <div class="col-lg-12">
@@ -180,12 +180,12 @@
                                         <span class="text-danger">*</span>
                                     </label>
                                     <input
-                                            type="text"
-                                            wire:model.defer="contactName"
-                                            id="contactName"
-                                            class="form-control"
-                                            name="contactName"
-                                            required
+                                        type="text"
+                                        wire:model.defer="contactName"
+                                        id="contactName"
+                                        class="form-control"
+                                        name="contactName"
+                                        required
                                     >
                                 </div>
                             </div>
@@ -196,12 +196,12 @@
                                         <span class="text-danger">*</span>
                                     </label>
                                     <input
-                                            type="text"
-                                            wire:model.defer="contactLastName"
-                                            id="contactLastName"
-                                            class="form-control"
-                                            name="contactLastName"
-                                            required>
+                                        type="text"
+                                        wire:model.defer="contactLastName"
+                                        id="contactLastName"
+                                        class="form-control"
+                                        name="contactLastName"
+                                        required>
                                 </div>
                             </div>
                             <div class=" col-lg-12">
@@ -211,13 +211,13 @@
                                         <span class="text-danger">*</span>
                                     </label><br>
                                     <input
-                                            wire:model.defer="mobile"
-                                            type="tel"
-                                            name="mobile"
-                                            id="ipAdd2Contact"
-                                            class="form-control"
-                                            value=""
-                                            placeholder="{{ __('PH_MobileNumber') }}"
+                                        wire:model.defer="mobile"
+                                        type="tel"
+                                        name="mobile"
+                                        id="ipAdd2Contact"
+                                        class="form-control"
+                                        value=""
+                                        placeholder="{{ __('PH_MobileNumber') }}"
                                     >
                                     <input type='hidden' name='fullnumber' id='outputAdd2Contact'
                                            class='form-control'>
@@ -249,8 +249,32 @@
         {{ $contactUsers->links() }}
     </div>
     <script>
-        function initNewUserContact() {
-            window.livewire.emit('initNewUserContact');
+
+        function saveContactEvent() {
+            inputphone = document.getElementById("ipAdd2Contact");
+            inputname = document.getElementById("ccodeAdd2Contact");
+            inputlast = document.getElementById("outputAdd2Contact");
+            const errorMsg = document.querySelector("#error-msg");
+            var out = "00" + inputname.value.trim() + parseInt(inputphone.value.trim().replace(/\D/g, ''), 10);
+            var phoneNumber = parseInt(inputphone.value.trim().replace(/\D/g, ''), 10);
+            var inputName = inputname.value.trim();
+            if (validateAdd()) {
+                $.ajax({
+                    url: '{{ route('validate_phone',app()->getLocale()) }}',
+                    method: 'POST',
+                    data: {phoneNumber: phoneNumber, inputName: inputName, "_token": "{{ csrf_token() }}"},
+                    success: function (response) {
+                        if (response.message == "") {
+                            window.Livewire.emit('save', phoneNumber, inputname.value.trim(), out);
+                            errorMsg.innerHTML = "";
+                            errorMsg.classList.add("hide");
+                        } else {
+                            errorMsg.innerHTML = response.message;
+                            errorMsg.classList.remove("hide");
+                        }
+                    }
+                });
+            }
         }
 
         function validateAdd() {
@@ -272,35 +296,13 @@
             return valid;
         }
 
-        function saveContactEvent() {
-            inputphone = document.getElementById("ipAdd2Contact");
-            inputname = document.getElementById("ccodeAdd2Contact");
-            inputlast = document.getElementById("outputAdd2Contact");
-            const errorMsg = document.querySelector("#error-msg");
-            var out = "00" + inputname.value.trim() + parseInt(inputphone.value.trim().replace(/\D/g, ''), 10);
-            var phoneNumber = parseInt(inputphone.value.trim().replace(/\D/g, ''), 10);
-            var inputName = inputname.value.trim();
-            if (validateAdd()) {
-                $.ajax({
-                    url: '{{ route('validate_phone',app()->getLocale()) }}',
-                    method: 'POST',
-                    data: {phoneNumber: phoneNumber, inputName: inputName, "_token": "{{ csrf_token() }}"},
-                    success: function (response) {
-                        if (response.message == "") {
-                            window.livewire.emit('save', phoneNumber, inputname.value.trim(), out);
-                            errorMsg.innerHTML = "";
-                            errorMsg.classList.add("hide");
-                        } else {
-                            errorMsg.innerHTML = response.message;
-                            errorMsg.classList.remove("hide");
-                        }
-                    }
-                });
-            }
+        function initNewUserContact() {
+            window.Livewire.emit('initNewUserContact');
         }
 
+
         function editContact(id) {
-            window.livewire.emit('initUserContact', id);
+            window.Livewire.emit('initUserContact', id);
         }
 
         function confirmDeleteContact(contactId, ContactFullName) {
@@ -320,19 +322,92 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.livewire.emit('deleteContact', contactId);
+                    window.Livewire.emit('deleteContact', contactId);
                 }
             });
 
 
         }
+    </script>
+    <script type="module">
+
+
+        $(document).on('turbolinks:load', function () {
+            $('#contacts_table').DataTable({
+                retrieve: true,
+                searching: true,
+                "bLengthChange": false,
+                "processing": true,
+                paging: true,
+                "pageLength": 100,
+                "aLengthMenu": [[100, 500, 1000], [100, 500, 1000]],
+                "ajax": "{{route('api_user_contacts',app()->getLocale())}}",
+                "columns": [
+                    {"data": "name"},
+                    {"data": "lastName"},
+                    {"data": "mobile"},
+                    {"data": "flag"},
+                    {"data": "status"},
+                    {"data": "availablity"},
+                    {data: 'action', name: 'action', orderable: false, searchable: false},
+                ],
+                "columnDefs":
+                    [
+                        {
+                            "targets": [5],
+                            render: function (data, type, row) {
+                                var givenDate = new Date(row.reserved_at);
+                                var delai = (Date.now() - givenDate) / (1000 * 60 * 60);
+                                if (Number(row.idUpline) !== 0) {
+                                    if (row.idUpline == row.idUser)
+                                        return '<span class="badge bg-info-subtle text-info" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                            '">{{__('i am his sponsor')}}</span>';
+                                    else
+                                        return '<span class="badge bg-danger-subtle text-danger" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                            '">{{__('Already has a sponsor')}}</span>';
+                                } else {
+                                    if (Number(row.availablity) === 0)
+                                        return '<span class="badge bg-success-subtle text-success" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                            '">{{__('Available')}}</span>';
+                                    else {
+                                        if (row.reserved_by == row.idUser) {
+                                            if (delai < 72) {
+                                                var reste = 72 - delai;
+                                                return '<span class="badge bg-warning-subtle text-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                                    '">{{__('reserved for')}} ' + reste.toFixed(0) + ' {{__('hours')}}</span>';
+                                            } else {
+                                                var reste = 72 + 168 - delai;
+                                                return '<span class="badge bg-primary-subtle text-primary" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                                    '">{{__('blocked for')}} ' + reste.toFixed(0) + ' {{__('hours')}}</span>';
+                                            }
+
+                                        } else {
+                                            if (delai < 72) {
+                                                var reste = 72 - delai;
+                                                return '<span class="badge bg-warning-subtle text-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                                    '">{{__('reserved by other user for')}} ' + reste.toFixed(0) + ' {{__('hours')}}</span>';
+                                            } else {
+                                                return '<span class="badge bg-success-subtle text-success" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                                    '">{{__('Available')}}</span>';
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                        },
+                    ],
+                "language": {
+                    "url": urlLang
+                }
+            });
+        });
 
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.0.2/list.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/list.pagination.js/0.1.1/list.pagination.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <script data-turbolinks-eval="false">
-        $(document).on('ready turbolinks:load', function () {
+        document.addEventListener("turbolinks:load", function () {
             var existeUserContact = '{{Session::has('existeUserContact')}}';
 
             if (existeUserContact) {

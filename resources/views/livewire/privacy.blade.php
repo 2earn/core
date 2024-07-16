@@ -3,10 +3,10 @@
         {{ __('Privacy') }}
     @endslot
 @endcomponent
-<link href="{{ URL::asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
-<link href="{{ URL::asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css"/>
-<link href="{{ URL::asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css"/>
-<link href="{{ URL::asset('assets/css/custom.min.css') }}" rel="stylesheet" type="text/css"/>
+<!-- vite -->
+@vite([ 'resources/css/app.css','resources/css/intlTelInput.min.css','resources/fontawesome/all.min.css','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
+<!-- vite -->
+
 <div class="row">
     <div class="card">
         <div class="bg-warning-subtle position-relative">

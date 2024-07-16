@@ -1,22 +1,18 @@
 <?php
 
-use App\Http\Controllers\PostController;
 use App\Http\Livewire\AcceptFinancialRequest;
 use App\Http\Livewire\Account;
 use App\Http\Livewire\ChangePassword;
 use App\Http\Livewire\CheckOptCode;
-use App\Http\Livewire\Configuration;
+use App\Http\Livewire\ConfigurationHA;
 use App\Http\Livewire\ContactNumber;
 use App\Http\Livewire\Contacts;
-
 use App\Http\Livewire\Description;
 use App\Http\Livewire\EditUserContact;
 use App\Http\Livewire\EntretienArbre;
 use App\Http\Livewire\EvolutionArbre;
 use App\Http\Livewire\FinancialTransaction;
-
 use App\Http\Livewire\ForgotPassword;
-
 use App\Http\Livewire\HistoriqueRecuperation;
 use App\Http\Livewire\Hobbies;
 use App\Http\Livewire\Home;
@@ -79,7 +75,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 });
 
 Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'middleware' => 'setlocale'], function () {
-    Route::middleware(['auth', 'CloseAuth'])->group(function () {
+    Route::middleware(['auth'])->group(function () {
         Route::get('/', Home::class)->name('main');
         Route::get('/home', Home::class)->name('home');
         Route::get('/account', Account::class)->name('account');
@@ -112,11 +108,14 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/accept/request', AcceptFinancialRequest::class)->name('accept_financial_request')->middleware('CloseAuth');
 
         Route::middleware(['IsSuperAdmin'])->group(function () {
-            Route::get('/user/list', \App\Http\Livewire\UsersList::class)->name('user_list');
-            Route::get('/configuration', Configuration::class)->name('configuration');
-            Route::get('/admin/edit', \App\Http\Livewire\EditAdmin::class)->name('edit_admin');
-            Route::get('/countries/management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
-            Route::get('/admin/identification-request', identificationRequest::class)->name('identification_request');
+            Route::get('user_list', \App\Http\Livewire\UsersList::class)->name('user_list');
+            Route::get('configuration-ha', ConfigurationHA::class)->name('configuration-ha');
+            Route::get('configuration-setting', \App\Http\Livewire\ConfigurationSetting::class)->name('configuration-setting');
+            Route::get('configuration-bo', \App\Http\Livewire\ConfigurationBO::class)->name('configuration-bo');
+            Route::get('configuration-amounts', \App\Http\Livewire\ConfigurationAmounts::class)->name('configuration-amounts');
+            Route::get('edit_admin', \App\Http\Livewire\EditAdmin::class)->name('edit_admin');
+            Route::get('countries_management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
+            Route::get('/admin/identification_request', identificationRequest::class)->name('identificationRequest');
             Route::get('/translation', TranslateView::class)->name('translate');
         });
         Route::get('/stat-countries', 'App\Http\Controllers\ApiController@getCountriStat')->name('api_stat_countries');
@@ -200,4 +199,13 @@ Route::get('/members', 'App\Http\Controllers\PostController@getMember')->name('m
 Route::get('/get-request-ajax', 'App\Http\Controllers\ApiController@getRequestAjax')->name('get_request_ajax');
 Route::get('/logout-sso', 'App\Http\Controllers\ApiController@logoutSSo')->name('logout_sso')->middleware('auth:api');
 Route::view('/tests', 'tests');
+
+Route::get('/', function () {
+    return redirect(app()->getLocale());
+});
+
+Route::get('/{slug}', function () {
+    return redirect(app()->getLocale());
+});
+
 

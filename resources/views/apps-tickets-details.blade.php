@@ -14,7 +14,7 @@
                                 <div class="col-md-auto">
                                     <div class="avatar-md mb-md-0 mb-4">
                                         <div class="avatar-title bg-white rounded-circle">
-                                            <img src="{{ URL::asset('assets/images/companies/img-4.png') }}" alt="" class="avatar-sm" />
+                                            <img src="{{ Vite::asset('resources/images/companies/img-4.png') }}" alt="" class="avatar-sm" />
                                         </div>
                                     </div>
                                 </div><!--end col-->
@@ -98,7 +98,7 @@ userIdx: {}
                 <div data-simplebar style="height: 300px;" class="px-3 mx-n3">
                     <div class="d-flex mb-4">
                         <div class="flex-shrink-0">
-                            <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                            <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <h5 class="fs-15">Joseph Parker <small class="text-muted">20 Dec 2021 - 05:47AM</small></h5>
@@ -106,7 +106,7 @@ userIdx: {}
                             <a href="javascript: void(0);" class="badge text-muted bg-light"><i class="mdi mdi-reply"></i> Reply</a>
                             <div class="d-flex mt-4">
                                 <div class="flex-shrink-0">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-10.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-10.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <h5 class="fs-15">Alexis Clarke <small class="text-muted">22 Dec 2021 - 02:32PM</small></h5>
@@ -118,7 +118,7 @@ userIdx: {}
                     </div>
                     <div class="d-flex mb-4">
                         <div class="flex-shrink-0">
-                            <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                            <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <h5 class="fs-15">Donald Palmer <small class="text-muted">24 Dec 2021 - 05:20PM</small></h5>
@@ -128,23 +128,23 @@ userIdx: {}
                     </div>
                     <div class="d-flex">
                         <div class="flex-shrink-0">
-                            <img src="{{ URL::asset('assets/images/users/avatar-10.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                            <img src="{{ Vite::asset('resources/images/users/avatar-10.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <h5 class="fs-15">Alexis Clarke <small class="text-muted">26 min ago</small></h5>
                             <p class="text-muted">Your <a href="javascript:void(0)" class="text-decoration-underline">Online Order Support</a> provides you with the most current status of your order. To help manage your order refer to the “Action Menu” to initiate return, contact Customer Support and more.</p>
                             <div class="row g-2 mb-3">
                                 <div class="col-lg-1 col-sm-2 col-6">
-                                    <img src="{{ URL::asset('assets/images/small/img-4.jpg') }}" alt="" class="img-fluid rounded">
+                                    <img src="{{ Vite::asset('resources/images/small/img-4.jpg') }}" alt="" class="img-fluid rounded">
                                 </div>
                                 <div class="col-lg-1 col-sm-2 col-6">
-                                    <img src="{{ URL::asset('assets/images/small/img-5.jpg') }}" alt="" class="img-fluid rounded">
+                                    <img src="{{ Vite::asset('resources/images/small/img-5.jpg') }}" alt="" class="img-fluid rounded">
                                 </div>
                             </div>
                             <a href="javascript: void(0);" class="badge text-muted bg-light"><i class="mdi mdi-reply"></i> Reply</a>
                             <div class="d-flex mt-4">
                                 <div class="flex-shrink-0">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt="" class="avatar-xs rounded-circle" />
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt="" class="avatar-xs rounded-circle" />
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <h5 class="fs-15">Donald Palmer <small class="text-muted">8 sec ago</small></h5>
@@ -196,13 +196,13 @@ userIdx: {}
                                 <td>
                                     <div class="avatar-group">
                                         <a href="javascript:void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" data-bs-original-title="Erica Kernan">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-xs" />
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="rounded-circle avatar-xs" />
                                         </a>
                                         <a href="javascript:void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" data-bs-original-title="Alexis Clarke">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-10.jpg') }}" alt="" class="rounded-circle avatar-xs" />
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-10.jpg') }}" alt="" class="rounded-circle avatar-xs" />
                                         </a>
                                         <a href="javascript:void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" data-bs-original-title="James Price">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle avatar-xs" />
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="rounded-circle avatar-xs" />
                                         </a>
                                         <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" data-bs-original-title="Add Members">
                                             <div class="avatar-xs">

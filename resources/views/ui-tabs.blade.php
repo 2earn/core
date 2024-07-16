@@ -429,7 +429,7 @@
                                     aria-labelledby="v-pills-home-tab">
                                     <div class="d-flex mb-2">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/small/img-4.jpg') }}" alt="" width="150"
+                                            <img src="{{ Vite::asset('resources/images/small/img-4.jpg') }}" alt="" width="150"
                                                 class="rounded">
                                         </div>
                                         <div class="flex-grow-1 ms-3">
@@ -449,7 +449,7 @@
                                     aria-labelledby="v-pills-profile-tab">
                                     <div class="d-flex mb-2">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/small/img-5.jpg') }}" alt="" width="150"
+                                            <img src="{{ Vite::asset('resources/images/small/img-5.jpg') }}" alt="" width="150"
                                                 class="rounded">
                                         </div>
                                         <div class="flex-grow-1 ms-3">
@@ -469,7 +469,7 @@
                                     aria-labelledby="v-pills-messages-tab">
                                     <div class="d-flex mb-2">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/small/img-6.jpg') }}" alt="" width="150"
+                                            <img src="{{ Vite::asset('resources/images/small/img-6.jpg') }}" alt="" width="150"
                                                 class="rounded">
                                         </div>
                                         <div class="flex-grow-1 ms-3">
@@ -489,7 +489,7 @@
                                     aria-labelledby="v-pills-settings-tab">
                                     <div class="d-flex mb-2">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/small/img-7.jpg') }}" alt="" width="150"
+                                            <img src="{{ Vite::asset('resources/images/small/img-7.jpg') }}" alt="" width="150"
                                                 class="rounded">
                                         </div>
                                         <div class="flex-grow-1 ms-3">
@@ -546,7 +546,7 @@
                     <!-- Tab panes -->
                     <div class="tab-content text-muted">
                         <div class="tab-pane active" id="home2" role="tabpanel">
-                            <p class="flex-grow-1 mb-0"><img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt=""
+                            <p class="flex-grow-1 mb-0"><img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt=""
                                     class="avatar-lg rounded float-start me-3">
                                 Food truck fixie locavore, accusamus mcsweeney's marfa nulla
                                 single-origin coffee squid. Exercitation +1 labore velit, blog
@@ -561,7 +561,7 @@
                         </div>
                         <div class="tab-pane" id="profile2" role="tabpanel">
                             <p class="me-3 mb-0">
-                                <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt=""
+                                <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt=""
                                     class="avatar-lg rounded float-end ms-3"> Experiment and play around with the fonts
                                 that you already have in the software you’re working with reputable font websites. commodo
                                 enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud
@@ -574,7 +574,7 @@
                         </div>
                         <div class="tab-pane" id="messages2" role="tabpanel">
                             <p class="ms-3 mb-0">
-                                <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt=""
+                                <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt=""
                                     class="avatar-lg rounded float-start me-3">Trust fund seitan letterpress, keytar raw
                                 denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid
                                 scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf
@@ -803,7 +803,7 @@
                                 <div class="col-sm-6">
                                     <div class="d-flex">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}" alt="" class="avatar-sm rounded" />
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}" alt="" class="avatar-sm rounded" />
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <h6 class="mb-1 fs-14">Dominic Charlton</h6>
@@ -812,7 +812,7 @@
                                     </div>
                                     <div class="d-flex mt-3">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt="" class="avatar-sm rounded" />
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt="" class="avatar-sm rounded" />
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <h6 class="mb-1 fs-14">Charlie Pritchard</h6>
@@ -821,7 +821,7 @@
                                     </div>
                                     <div class="d-flex mt-3">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt="" class="avatar-sm rounded" />
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt="" class="avatar-sm rounded" />
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <h6 class="mb-1 fs-14">Harvey Wells</h6>
@@ -833,7 +833,7 @@
                                 <div class="col-sm-6">
                                     <div class="d-flex mt-3 mt-sm-0">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt="" class="avatar-sm rounded" />
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt="" class="avatar-sm rounded" />
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <h6 class="mb-1 fs-14">Amelie Townsend</h6>
@@ -842,7 +842,7 @@
                                     </div>
                                     <div class="d-flex mt-3">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="avatar-sm rounded" />
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="avatar-sm rounded" />
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <h6 class="mb-1 fs-14">Emily Slater</h6>
@@ -851,7 +851,7 @@
                                     </div>
                                     <div class="d-flex mt-3">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="avatar-sm rounded" />
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="avatar-sm rounded" />
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <h6 class="mb-1 fs-14">Declan Long</h6>
@@ -868,7 +868,7 @@
                                 <div class="col-sm-6">
                                     <div class="d-flex">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt="" class="avatar-sm rounded" />
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt="" class="avatar-sm rounded" />
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <h6 class="mb-1 fs-14">Luke Brown</h6>
@@ -877,7 +877,7 @@
                                     </div>
                                     <div class="d-flex mt-3">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="" class="avatar-sm rounded" />
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="" class="avatar-sm rounded" />
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <h6 class="mb-1 fs-14">Matilda Walker</h6>
@@ -886,7 +886,7 @@
                                     </div>
                                     <div class="d-flex mt-3">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="avatar-sm rounded" />
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="avatar-sm rounded" />
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <h6 class="mb-1 fs-14">Leo Stokes</h6>
@@ -898,7 +898,7 @@
                                 <div class="col-sm-6">
                                     <div class="d-flex mt-3 mt-sm-0">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="avatar-sm rounded" />
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="avatar-sm rounded" />
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <h6 class="mb-1 fs-14">Chelsea Preston</h6>
@@ -907,7 +907,7 @@
                                     </div>
                                     <div class="d-flex mt-3">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt="" class="avatar-sm rounded" />
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt="" class="avatar-sm rounded" />
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <h6 class="mb-1 fs-14">Jennifer Barker</h6>
@@ -916,7 +916,7 @@
                                     </div>
                                     <div class="d-flex mt-3">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-6.jpg') }}" alt="" class="avatar-sm rounded" />
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-6.jpg') }}" alt="" class="avatar-sm rounded" />
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <h6 class="mb-1 fs-14">Callum Murray</h6>
@@ -933,7 +933,7 @@
                                 <div class="col-sm-6">
                                     <div class="d-flex">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-7.jpg') }}" alt="" class="avatar-sm rounded" />
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-7.jpg') }}" alt="" class="avatar-sm rounded" />
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <h6 class="mb-1 fs-14">Dominic Charlton</h6>
@@ -942,7 +942,7 @@
                                     </div>
                                     <div class="d-flex mt-3">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-8.jpg') }}" alt="" class="avatar-sm rounded" />
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-8.jpg') }}" alt="" class="avatar-sm rounded" />
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <h6 class="mb-1 fs-14">Matilda Walker</h6>
@@ -951,7 +951,7 @@
                                     </div>
                                     <div class="d-flex mt-3">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="avatar-sm rounded" />
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="avatar-sm rounded" />
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <h6 class="mb-1 fs-14">Jennifer Barker</h6>
@@ -963,7 +963,7 @@
                                 <div class="col-sm-6">
                                     <div class="d-flex mt-3 mt-sm-0">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-5.jpg') }}" alt="" class="avatar-sm rounded" />
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-5.jpg') }}" alt="" class="avatar-sm rounded" />
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <h6 class="mb-1 fs-14">Amelie Townsend</h6>
@@ -972,7 +972,7 @@
                                     </div>
                                     <div class="d-flex mt-3">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt="" class="avatar-sm rounded" />
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt="" class="avatar-sm rounded" />
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <h6 class="mb-1 fs-14">Emily Slater</h6>
@@ -981,7 +981,7 @@
                                     </div>
                                     <div class="d-flex mt-3">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="" class="avatar-sm rounded" />
+                                            <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="" class="avatar-sm rounded" />
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <h6 class="mb-1 fs-14">Declan Long</h6>
@@ -1236,7 +1236,7 @@
                                     aria-labelledby="custom-v-pills-home-tab">
                                     <div class="d-flex mb-4">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/small/img-4.jpg') }}" alt="" width="150"
+                                            <img src="{{ Vite::asset('resources/images/small/img-4.jpg') }}" alt="" width="150"
                                                 class="rounded">
                                         </div>
                                         <div class="flex-grow-1 ms-3">
@@ -1254,7 +1254,7 @@
                                                 software you’re working with reputable font websites.</p>
                                         </div>
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/small/img-5.jpg') }}" alt="" width="150"
+                                            <img src="{{ Vite::asset('resources/images/small/img-5.jpg') }}" alt="" width="150"
                                                 class="rounded">
                                         </div>
                                     </div>
@@ -1264,7 +1264,7 @@
                                     aria-labelledby="custom-v-pills-profile-tab">
                                     <div class="d-flex mb-4">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/small/img-3.jpg') }}" alt="" width="150"
+                                            <img src="{{ Vite::asset('resources/images/small/img-3.jpg') }}" alt="" width="150"
                                                 class="rounded">
                                         </div>
                                         <div class="flex-grow-1 ms-3">
@@ -1283,7 +1283,7 @@
                                                 many different professional graphic designers.</p>
                                         </div>
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/small/img-6.jpg') }}" alt="" width="150"
+                                            <img src="{{ Vite::asset('resources/images/small/img-6.jpg') }}" alt="" width="150"
                                                 class="rounded">
                                         </div>
                                     </div>
@@ -1293,7 +1293,7 @@
                                     aria-labelledby="custom-v-pills-messages-tab">
                                     <div class="d-flex mb-4">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/small/img-7.jpg') }}" alt="" width="150"
+                                            <img src="{{ Vite::asset('resources/images/small/img-7.jpg') }}" alt="" width="150"
                                                 class="rounded">
                                         </div>
                                         <div class="flex-grow-1 ms-3">
@@ -1313,7 +1313,7 @@
                                             </p>
                                         </div>
                                         <div class="flex-shrink-0">
-                                            <img src="{{ URL::asset('assets/images/small/img-8.jpg') }}" alt="" width="150"
+                                            <img src="{{ Vite::asset('resources/images/small/img-8.jpg') }}" alt="" width="150"
                                                 class="rounded">
                                         </div>
                                     </div>
@@ -1995,7 +1995,7 @@
                         <div class="tab-pane active" id="nav-colored-home" role="tabpanel">
                             <div class="d-flex mb-3">
                                 <div class="flex-shrink-0">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-2.jpg') }}" alt="" class="avatar-md rounded">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-2.jpg') }}" alt="" class="avatar-md rounded">
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     Food truck fixie locavore, accusamus mcsweeney's marfa nulla
@@ -2012,14 +2012,14 @@
                                     nostrud organic, assumenda labore aesthetic magna delectus.
                                 </div>
                                 <div class="flex-shrink-0">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-3.jpg') }}" alt="" class="avatar-md rounded">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-3.jpg') }}" alt="" class="avatar-md rounded">
                                 </div>
                             </div>
                         </div>
                         <div class="tab-pane" id="nav-colored-profile" role="tabpanel">
                             <div class="d-flex mb-3">
                                 <div class="flex-shrink-0">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="avatar-md rounded">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="avatar-md rounded">
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     Increase or decrease the letter spacing depending on the situation and try, try again
@@ -2034,14 +2034,14 @@
                                     ullamco ad vinyl cillum PBR. Homo nostrud organic.
                                 </div>
                                 <div class="flex-shrink-0">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt="" class="avatar-md rounded">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt="" class="avatar-md rounded">
                                 </div>
                             </div>
                         </div>
                         <div class="tab-pane" id="nav-colored-messages" role="tabpanel">
                             <div class="d-flex mb-3">
                                 <div class="flex-shrink-0">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-4.jpg') }}" alt="" class="avatar-md rounded">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-4.jpg') }}" alt="" class="avatar-md rounded">
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold
@@ -2056,7 +2056,7 @@
                                     labore aesthetic magna elements, buttons, everything..
                                 </div>
                                 <div class="flex-shrink-0">
-                                    <img src="{{ URL::asset('assets/images/users/avatar-1.jpg') }}" alt="" class="avatar-md rounded">
+                                    <img src="{{ Vite::asset('resources/images/users/avatar-1.jpg') }}" alt="" class="avatar-md rounded">
                                 </div>
                             </div>
                         </div>
@@ -2100,7 +2100,7 @@
                                     the unusual, and that’s why using contrasting.
                                 </div>
                                 <div class="flex-shrink-0">
-                                    <img src="{{ URL::asset('assets/images/small/img-4.jpg') }}" alt="" width="150" class="rounded">
+                                    <img src="{{ Vite::asset('resources/images/small/img-4.jpg') }}" alt="" width="150" class="rounded">
                                 </div>
                             </div>
                             <p class="mb-0"> Food truck fixie locavore, accusamus mcsweeney's marfa nulla
@@ -2119,7 +2119,7 @@
                                     your design has nothing to do with them.
                                 </div>
                                 <div class="flex-shrink-0">
-                                    <img src="{{ URL::asset('assets/images/small/img-5.jpg') }}" alt="" width="150" class="rounded">
+                                    <img src="{{ Vite::asset('resources/images/small/img-5.jpg') }}" alt="" width="150" class="rounded">
                                 </div>
                             </div>
                             <p class="mb-0">It makes a statement, it’s impressive graphic design. Increase or
@@ -2137,7 +2137,7 @@
                                     contrast in your design.
                                 </div>
                                 <div class="flex-shrink-0">
-                                    <img src="{{ URL::asset('assets/images/small/img-5.jpg') }}" alt="" width="150" class="rounded">
+                                    <img src="{{ Vite::asset('resources/images/small/img-5.jpg') }}" alt="" width="150" class="rounded">
                                 </div>
                             </div>
                             <p class="mb-0">Big July earthquakes confound zany experimental vow. My girl wove six
@@ -2154,6 +2154,6 @@
     <!--end row-->
 @endsection
 @section('script')
-    <script src="{{ URL::asset('assets/libs/prismjs/prismjs.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/libs/prismjs/prism.js') }}"></script>
     <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
 @endsection

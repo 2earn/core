@@ -7,7 +7,7 @@
 </head>
 <body class="antialiased">
 <div>
-    <img src="{{asset('assets/images/2earn.png')}}" sizes="60x40" alt="">
+    <img src="{{Vite::asset('resources/images/2earn.png')}}" sizes="60x40" alt="">
 </div>
 
 <span style="margin:2px;font-size: 16px;color: blue;">{{$data}}</span>

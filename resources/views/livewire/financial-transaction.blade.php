@@ -134,7 +134,7 @@
                     var url = new URL(url_string);
                     var paramValue = url.searchParams.get("FinRequestN");
 
-                    window.livewire.emit('redirectToTransfertCash', '{{Session::get('ErreurSoldeReqBFS2')}}', paramValue);
+                    window.Livewire.emit('redirectToTransfertCash', '{{Session::get('ErreurSoldeReqBFS2')}}', paramValue);
                 }
             })
         }
@@ -419,7 +419,7 @@
                             </div>
                             <div class="card-body pt-0">
                                 <div class="table-responsive ">
-                                    <table class=" table table-responsive tableEditAdmin"
+                                    <table class="table table-striped table-bordered tableEditAdmin"
                                            id="ReqFromMe_table2"
                                            style="width: 100%">
                                         <thead class="table-light">
@@ -461,7 +461,7 @@
                                             </tr>
                                             <tr hidden="true" id={{$value->numeroReq}}>
                                                 <td colspan="12">
-                                                    <table class=" table table-responsive table2earn "
+                                                    <table class="table table-striped table-bordered table2earn "
                                                            style="width: 100%">
                                                         <thead>
                                                         <tr>
@@ -507,12 +507,13 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            <div class="modal fade" id="financialTransactionModal" tabindex="-1"
+                                 aria-labelledby="financialTransactionModalLabel"
                                  aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                            <h5 class="modal-title" id="financialTransactionModalLabel">Modal title</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
                                         </div>
@@ -582,8 +583,133 @@
         </div>
     </div>
     <script>
-        var mnt = {{$testprop}};
+
+        function ConfirmExchange() {
+            var soldecashB = {{ $soldecashB}};
+            var soldeExchange = document.getElementById('montantExchange').value
+            if (Number.isNaN(soldecashB) || Number.isNaN(soldeExchange)) return;
+            if (soldeExchange < 0) return;
+            if (soldeExchange == 0) {
+                Swal.fire({
+                    title: '{{trans('Please enter the transfer amount!')}}',
+                    icon: "warning",
+                    showCancelButton: false,
+                    confirmButtonText: '{{trans('ok')}}',
+                })
+                return;
+            }
+            var newSolde = soldecashB - soldeExchange;
+            if (newSolde < 0) {
+                Swal.fire({
+                    title: '{{trans('Your_cash_balance')}}',
+                    icon: "warning",
+                    showCancelButton: false,
+                    confirmButtonText: '{{trans('ok')}}',
+                })
+                return;
+            }
+            Swal.fire({
+                title: '{{trans('Are you sure to exchange ?')}}' + " " + '<br>' + soldeExchange + "$ " + '{{trans('?')}}',
+                text: '{{trans('operation_irreversible')}}',
+                icon: "warning",
+                showCancelButton: true,
+                cancelButtonText: '{{trans('canceled !')}}',
+                confirmButtonText: '{{trans('ok')}}',
+                denyButtonText: 'No',
+                customClass: {
+                    actions: 'my-actions',
+                    cancelButton: 'order-1 right-gap',
+                    confirmButton: 'order-2',
+                    denyButton: 'order-3',
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.Livewire.emit('PreExchange');
+                } else if (result.isDenied) {
+                    Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+        }
+
+        function ConfirmExchangeSms() {
+            var soldeBFS = {{ $soldeBFS}};
+            var nbSMS = $("#NSMS").val();
+            var soldeExchange = $("#soldeSMS").val();
+            if (Number.isNaN(nbSMS) || Number.isNaN(soldeExchange)) return;
+            if (soldeExchange < 0) return;
+            if (soldeExchange == 0) {
+                Swal.fire({
+                    title: '{{trans('Please enter the transfer amount!')}}',
+                    icon: "warning",
+                    showCancelButton: false,
+                    confirmButtonText: '{{trans('ok')}}',
+                })
+                return;
+            }
+            var newSolde = soldeBFS - soldeExchange;
+            if (newSolde < 0) {
+                Swal.fire({
+                    title: '{{trans('BFS_not_allow')}}',
+                    icon: "warning",
+                    showCancelButton: false,
+                    confirmButtonText: '{{trans('ok')}}',
+                })
+                return;
+
+            }
+            Swal.fire({
+                title: '{{trans('Are you sure to exchange ?')}}' + '<br>' + " " + soldeExchange + "$ " + '{{trans('?')}}',
+                text: '{{trans('operation_irreversible')}}',
+                icon: "warning",
+                showCancelButton: true,
+                cancelButtonText: '{{trans('canceled !')}}',
+                confirmButtonText: '{{trans('ok')}}',
+                denyButtonText: 'No',
+                customClass: {
+                    actions: 'my-actions',
+                    cancelButton: 'order-1 right-gap',
+                    confirmButton: 'order-2',
+                    denyButton: 'order-3',
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.Livewire.emit('PreExchangeSMS');
+                } else if (result.isDenied) {
+                    Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+        }
+
+        function cancelRequestF(numReq) {
+            Swal.fire({
+                title: `{{trans('cancel_request')}}`,
+                confirmButtonText: '{{trans('Yes')}}',
+                showCancelButton: true,
+                cancelButtonText: '{{trans('No')}}',
+                denyButtonText: 'No',
+                customClass: {actions: 'my-actions', confirmButton: 'order-2', denyButton: 'order-3',}
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.Livewire.emit('DeleteRequest', numReq);
+                }
+            })
+        }
+
+        function hiddenTr(num) {
+            $("#" + num).prop("hidden", !$("#" + num).prop("hidden"));
+        }
+
+        function ShowCanceledRequest() {
+            if (document.getElementById('ShowCanceled').checked) {
+                window.Livewire.emit('ShowCanceled', 1)
+            } else {
+                window.Livewire.emit('ShowCanceled', 0)
+            }
+        }
+    </script>
+    <script type="module">
         var timerInterval;
+        var mnt = {{$testprop}};
         var prixSms = {{$prix_sms}};
         var soldeBFS = {{$soldeBFS}};
         var inputMontantSms = $("#soldeSMS");
@@ -664,106 +790,11 @@
                 inputAttributes: {autocapitalize: 'off'},
             }).then((resultat) => {
                 if (resultat.value) {
-                    window.livewire.emit('ExchangeCashToBFS', resultat.value);
+                    window.Livewire.emit('ExchangeCashToBFS', resultat.value);
                 }
             })
         })
 
-        function ConfirmExchange() {
-            var soldecashB = {{ $soldecashB}};
-            var soldeExchange = $("#montantExchange").val();
-            if (Number.isNaN(soldecashB) || Number.isNaN(soldeExchange)) return;
-            if (soldeExchange < 0) return;
-            if (soldeExchange == 0) {
-                Swal.fire({
-                    title: '{{trans('Please enter the transfer amount!')}}',
-                    icon: "warning",
-                    showCancelButton: false,
-                    confirmButtonText: '{{trans('ok')}}',
-                })
-                return;
-            }
-            var newSolde = soldecashB - soldeExchange;
-            if (newSolde < 0) {
-                Swal.fire({
-                    title: '{{trans('Your_cash_balance')}}',
-                    icon: "warning",
-                    showCancelButton: false,
-                    confirmButtonText: '{{trans('ok')}}',
-                })
-                return;
-            }
-            Swal.fire({
-                title: '{{trans('Are you sure to exchange ?')}}' + " " + '<br>' + soldeExchange + "$ " + '{{trans('?')}}',
-                text: '{{trans('operation_irreversible')}}',
-                icon: "warning",
-                showCancelButton: true,
-                cancelButtonText: '{{trans('canceled !')}}',
-                confirmButtonText: '{{trans('ok')}}',
-                denyButtonText: 'No',
-                customClass: {
-                    actions: 'my-actions',
-                    cancelButton: 'order-1 right-gap',
-                    confirmButton: 'order-2',
-                    denyButton: 'order-3',
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.livewire.emit('PreExchange');
-                } else if (result.isDenied) {
-                    Swal.fire('Changes are not saved', '', 'info')
-                }
-            })
-        }
-
-        function ConfirmExchangeSms() {
-            var soldeBFS = {{ $soldeBFS}};
-            var nbSMS = $("#NSMS").val();
-            var soldeExchange = $("#soldeSMS").val();
-            if (Number.isNaN(nbSMS) || Number.isNaN(soldeExchange)) return;
-            if (soldeExchange < 0) return;
-            if (soldeExchange == 0) {
-                Swal.fire({
-                    title: '{{trans('Please enter the transfer amount!')}}',
-                    icon: "warning",
-                    showCancelButton: false,
-                    confirmButtonText: '{{trans('ok')}}',
-                })
-                return;
-            }
-            var newSolde = soldeBFS - soldeExchange;
-            if (newSolde < 0) {
-                Swal.fire({
-                    title: '{{trans('BFS_not_allow')}}',
-                    icon: "warning",
-                    showCancelButton: false,
-                    confirmButtonText: '{{trans('ok')}}',
-                })
-                return;
-
-            }
-            Swal.fire({
-                title: '{{trans('Are you sure to exchange ?')}}' + '<br>' + " " + soldeExchange + "$ " + '{{trans('?')}}',
-                text: '{{trans('operation_irreversible')}}',
-                icon: "warning",
-                showCancelButton: true,
-                cancelButtonText: '{{trans('canceled !')}}',
-                confirmButtonText: '{{trans('ok')}}',
-                denyButtonText: 'No',
-                customClass: {
-                    actions: 'my-actions',
-                    cancelButton: 'order-1 right-gap',
-                    confirmButton: 'order-2',
-                    denyButton: 'order-3',
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.livewire.emit('PreExchangeSMS');
-                } else if (result.isDenied) {
-                    Swal.fire('Changes are not saved', '', 'info')
-                }
-            })
-        }
 
         window.addEventListener('confirmSms', event => {
             Swal.fire({
@@ -793,7 +824,7 @@
                 },
             }).then((resultat) => {
                 if (resultat.value) {
-                    window.livewire.emit('exchangeSms', resultat.value, $("#NSMS").val());
+                    window.Livewire.emit('exchangeSms', resultat.value, $("#NSMS").val());
                 }
                 if (resultat.isDismissed) {
                     location.reload();
@@ -816,7 +847,7 @@
         }
 
         function acceptRequst(numeroRequest) {
-            window.livewire.emit('AcceptRequest', numeroRequest);
+            window.Livewire.emit('AcceptRequest', numeroRequest);
         }
 
         function rejectRequst(numeroRequest) {
@@ -828,94 +859,68 @@
                 customClass: {actions: 'my-actions', confirmButton: 'order-2', denyButton: 'order-3',}
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.livewire.emit('RejectRequest', numeroRequest);
+                    window.Livewire.emit('RejectRequest', numeroRequest);
                 }
             })
         }
 
-        function hiddenTr(num) {
-            $("#" + num).prop("hidden", !$("#" + num).prop("hidden"));
-        }
-
-        function cancelRequestF(numReq) {
-            Swal.fire({
-                title: `{{trans('cancel_request')}}`,
-                confirmButtonText: '{{trans('Yes')}}',
-                showCancelButton: true,
-                cancelButtonText: '{{trans('No')}}',
-                denyButtonText: 'No',
-                customClass: {actions: 'my-actions', confirmButton: 'order-2', denyButton: 'order-3',}
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.livewire.emit('DeleteRequest', numReq);
-                }
-            })
-
-        }
-
-        function ShowCanceledRequest() {
-            if (document.getElementById('ShowCanceled').checked) {
-                window.livewire.emit('ShowCanceled', 1)
-            } else {
-                window.livewire.emit('ShowCanceled', 0)
-            }
-
-        }
     </script>
-    <script data-turbolinks-eval="false">
-        var triggerTabList = [].slice.call(document.querySelectorAll('#pills-tab a'))
-        triggerTabList.forEach(function (triggerEl) {
-            var tabTrigger = new bootstrap.Tab(triggerEl)
-            triggerEl.addEventListener('click', function (event) {
-                var x = triggerEl.id;
-                if (triggerEl.id === "pills-contact-tab") {
-                    $.ajax({
-                        url: "{{ route('reset_incoming_notification') }}",
-                        type: 'get',
-                        success: function (result) {
-                            try {
-                                document.getElementById('pIn').innerHTML = "";
-                                document.getElementById('btnNotRequestInOpen').remove();
-                            } catch (e) {
+    <script data-turbolinks-eval="false" type="module">
+        $(document).on('turbolinks:load', function () {
+            var triggerTabList = [].slice.call(document.querySelectorAll('#pills-tab a'))
+            triggerTabList.forEach(function (triggerEl) {
+                var tabTrigger = new bootstrap.Tab(triggerEl)
+                triggerEl.addEventListener('click', function (event) {
+                    var x = triggerEl.id;
+                    if (triggerEl.id === "pills-contact-tab") {
+                        $.ajax({
+                            url: "{{ route('resetInComingNotification') }}",
+                            type: 'get',
+                            success: function (result) {
+                                try {
+                                    document.getElementById('pIn').innerHTML = "";
+                                    document.getElementById('btnNotRequestInOpen').remove();
+                                } catch (e) {
+                                }
+                                try {
+                                    document.getElementById('sideNotIn').innerHTML = "";
+                                    document.getElementById('sideNotIn').remove();
+                                } catch (e) {
+                                }
                             }
-                            try {
-                                document.getElementById('sideNotIn').innerHTML = "";
-                                document.getElementById('sideNotIn').remove();
-                            } catch (e) {
+                        });
+                    }
+                    if (triggerEl.id === "pills-profile-tab") {
+                        $.ajax({
+                            url: "{{ route('resetOutGoingNotification') }}",
+                            type: 'get',
+                            success: function (result) {
+                                try {
+                                    document.getElementById('pOutAccepted').innerHTML = "";
+                                    document.getElementById('btnNotRequestOutAcccepted').remove();
+                                } catch (e) {
+                                }
+                                try {
+                                    document.getElementById('pOutRefused').innerHTML = "";
+                                    document.getElementById('btnNotRequestOutRefused').remove();
+                                } catch (e) {
+                                }
+                                try {
+                                    document.getElementById('sideNotOutRefused').innerHTML = "";
+                                    document.getElementById('sideNotOutRefused').remove();
+                                } catch (e) {
+                                }
+                                try {
+                                    document.getElementById('sideNotOutAccepted').innerHTML = "";
+                                    document.getElementById('sideNotOutAccepted').remove();
+                                } catch (e) {
+                                }
                             }
-                        }
-                    });
-                }
-                if (triggerEl.id === "pills-profile-tab") {
-                    $.ajax({
-                        url: "{{ route('reset_out_going_notification') }}",
-                        type: 'get',
-                        success: function (result) {
-                            try {
-                                document.getElementById('pOutAccepted').innerHTML = "";
-                                document.getElementById('btnNotRequestOutAcccepted').remove();
-                            } catch (e) {
-                            }
-                            try {
-                                document.getElementById('pOutRefused').innerHTML = "";
-                                document.getElementById('btnNotRequestOutRefused').remove();
-                            } catch (e) {
-                            }
-                            try {
-                                document.getElementById('sideNotOutRefused').innerHTML = "";
-                                document.getElementById('sideNotOutRefused').remove();
-                            } catch (e) {
-                            }
-                            try {
-                                document.getElementById('sideNotOutAccepted').innerHTML = "";
-                                document.getElementById('sideNotOutAccepted').remove();
-                            } catch (e) {
-                            }
-                        }
-                    });
-                }
+                        });
+                    }
+                })
             })
-        })
+        });
         $("#pay").click(function () {
             var amount = $("#amount").val();
             if (!(amount) || (amount == 0)) {
@@ -934,10 +939,10 @@
                 });
                 return;
             }
-            window.livewire.emit('redirectPay', theUrl, amount);
+            window.Livewire.emit('redirectPay', theUrl, amount);
         });
         var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";
-        var urlLang = "//cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
+        var urlLang = "https://cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
         $('#customerTable2').DataTable({
             order: [[1, 'desc']],
             "language": {

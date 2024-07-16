@@ -38,7 +38,7 @@
                                 <div class="row justify-content-center mb-5">
                                     <div class="col-xl-4 col-lg-8">
                                         <div>
-                                            <img src="{{ URL::asset('assets/images/maintenance.png') }}" alt="" class="img-fluid">
+                                            <img src="{{ Vite::asset('resources/images/maintenance.png') }}" alt="" class="img-fluid">
                                         </div>
                                     </div>
                                 </div>

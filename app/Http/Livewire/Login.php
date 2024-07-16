@@ -22,7 +22,6 @@ class Login extends Component
 
     public function render(settingsManager $settingsManager)
     {
-        $settingsManager->logoutUser();
         return view('livewire.login')->extends('layouts.master-without-nav')->section('content');
     }
 

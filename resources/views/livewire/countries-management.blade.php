@@ -1,67 +1,64 @@
 <div>
+    @section('title')
+        {{ __('Countries management') }}
+    @endsection
+    @component('components.breadcrumb')
+        @slot('li_1')@endslot
+        @slot('title')
+                {{ __('Countries management') }}
+            @endslot
+    @endcomponent
     <div class="row">
-            <div class="card">
-
-                <div class="card-body pt-0">
-                    <div class="transaction-table">
-
-                        <div class="table-responsive ">
-                            <table class=" mb-0 table-responsive-sm stripe table2earn flex-table" id="countries_table" style="width: 100%">
-                                <thead>
-                                <tr class="head2earn">
-                                    <th style="display: none ; border: none ">{{ __('idCountry') }}</th>
-                                    <th style=" border: none ">{{ __('CountryName') }}</th>
-                                    <th style=" border: none ">{{ __('PhoneCode') }}</th>
-                                    <th style=" border: none ">{{ __('Language') }}</th>
-                                    <th style=" border: none ">{{ __('Actions') }}</th>
-                                </tr>
-
-                                </thead>
-                                <tbody class="body2earn">
-                                </tbody>
-                            </table>
-                        </div>
+        <div class="card">
+            <div class="card-body">
+                    <div class="table-responsive ">
+                        <table class="table table-striped table-bordered"  id="countries_table"
+                               style="width: 100%">
+                            <thead>
+                            <tr class="head2earn">
+                                <th>{{ __('idCountry') }}</th>
+                                <th>{{ __('CountryName') }}</th>
+                                <th>{{ __('PhoneCode') }}</th>
+                                <th>{{ __('Language') }}</th>
+                                <th>{{ __('Actions') }}</th>
+                            </tr>
+                            </thead>
+                            <tbody class="body2earn">
+                            </tbody>
+                        </table>
                     </div>
-                </div>
             </div>
-
+        </div>
         <div wire:ignore.self class="modal fade" id="editCountriesModal" tabindex="" role="dialog"
              aria-labelledby="editCountriesModal">
             <div class=" modal-dialog modal-dialog-centered " role="document">
-                {{--                modal-dialog-centered--}}
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id=" ">{{ __('Edit country') }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-{{--                    @error('name') <span class="error alert-danger">{{ $message }}</span> @enderror--}}
-{{--                    @error('lastName') <span class="error alert-danger  ">{{ $message }}</span> @enderror--}}
-{{--                    @if(Session::has('message'))--}}
-{{--                        <div class="alert alert-danger" role="alert">--}}
-{{--                            {{ Session::get('message')}}--}}
-{{--                        </div>--}}
-{{--                    @endif--}}
                     <div class="modal-body">
                         <form wire:submit.prevent="save" id="basic-formdd" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="mb-3 col-xl-6">
                                     <label class="me-sm-2">{{ __('CountryName') }}</label>
-                                    <input type="text" wire:model.defer="name" class="form-control" name="name"   disabled>
+                                    <input type="text" wire:model.defer="name" class="form-control" name="name"
+                                           disabled>
                                 </div>
                                 <div class="mb-3 col-xl-6">
                                     <label class="me-sm-2">{{ __('Phone Code') }}</label>
-                                    <input type="text" class="form-control"  wire:model.defer="phonecode" name="phonecode"   disabled>
+                                    <input type="text" class="form-control" wire:model.defer="phonecode"
+                                           name="phonecode" disabled>
                                 </div>
                                 <div class="mb-3 col-xl-6">
                                     <label class="me-sm-2">{{ __('ISO') }}</label>
-                                    <input type="text"  wire:model.defer="ISO" class="form-control" name="iso"  disabled>
+                                    <input type="text" wire:model.defer="ISO" class="form-control" name="iso" disabled>
                                 </div>
                                 <div class="mb-3 col-xl-6">
                                     <label class="me-sm-2">{{ __('Language') }}</label>
                                     <select class="form-control" id="langueCountrie" name=" "
                                             wire:model.defer="langue">
-{{--                                        <option value="">Choose</option>--}}
                                         @foreach($allLanguage as $language)
                                             <option value="{{$language->name}}">{{$language->name}}</option>
                                         @endforeach
@@ -76,33 +73,43 @@
                 </div>
             </div>
         </div>
-
     </div>
     <style>
         .card-header:first-child {
             border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
         }
-        ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+
+        ::placeholder {
             color: #cbd5e0;
-            opacity: 1; /* Firefox */
+            opacity: 1;
             font-size: 12px;
         }
-        input{
-            border: 1px solid #cbd5e0 ;
+
+        input {
+            border: 1px solid #cbd5e0;
         }
     </style>
-
-    <script>
+    <script type="module">
         function getEditCountrie(id) {
-            window.livewire.emit('initCountrie', id);
-            // $('#countries_table').DataTable().ajax.reload( );
+            window.Livewire.emit('initCountrie', id);
         }
         $("#editCountriesModal").on('hidden.bs.modal', function () {
             window.location.href = "{{ route('countries_management', app()->getLocale())}}";
-            // location.reload();
+        });
+        $(document).on('turbolinks:load', function () {
+            $('#countries_table').DataTable(
+                {
+                    "ajax": "{{route('api_countries',app()->getLocale())}}",
+                    "columns": [
+                        {"data": "id"},
+                        {"data": "name"},
+                        {"data": "phonecode"},
+                        {"data": "langage"},
+                        {"data": "action"},
+                    ],
+                    "language": {"url": urlLang}
+                }
+            );
         });
     </script>
-
 </div>
-
-
