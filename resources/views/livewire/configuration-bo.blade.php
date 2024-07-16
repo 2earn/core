@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive table-card mt-3 mb-1">
-                    <table class="table align-middle table-nowrap flex-table"
+                    <table class="table table-striped table-bordered"
                            id="BalanceOperationsTable" style="width: 100%">
                         <thead class="table-light">
                         <tr>

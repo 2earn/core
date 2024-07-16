@@ -7,11 +7,11 @@
     <div class="row">
         <div class="card">
             <div class="card-body">
-                <table class="table align-middle table-nowrap flex-table"
+                <table class="table table-striped table-bordered"
                        id="ActionHistorysTable" style="width: 100%">
                     <thead class="table-light">
                     <tr>
-                        <th>{{ __('Name') }}</th>
+                        <th>{{ __('Name of setting') }}</th>
                         <th>{{ __('reponce') }}</th>
                         <th>{{ __('Actions') }}</th>
                     </tr>

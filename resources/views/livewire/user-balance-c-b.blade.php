@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 <div class="card-body table-responsive">
-                    <table class="table table-striped table-bordered"  id="ub_table"
+                    <table class="table table-striped table-bordered" id="ub_table"
                            style="width: 100%">
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">
@@ -89,6 +89,9 @@
                 </div>
                 <div class="modal-body">
                     <h5>{{ __('validate_transfert') }}</h5>
+                    <div class="alert alert-primary" role="alert">
+                        {{__('The amount must be from 1 and less than 10000')}}
+                    </div>
                     <h5 class="text-secondary">
                         <div class="row" id="usd"></div>
                     </h5>
@@ -135,20 +138,26 @@
             $('#ammount2').val($("#ammount1").val() * {{ usdToSar() }});
         });
 
-        $(document).on("click", "#tran_paytabs", function () {
-            if ($("#ammount1").val() > 0 && $("#ammount2").val() > 0) {
-                this.disabled = true;
-                $('#usd').removeClass("text-danger");
-                $('#usd').addClass("text-success");
-                $('#ammount2').val($("#ammount1").val() * {{ usdToSar() }});
-                var amount = $('#ammount2').val();
-                var routeUrl = "{{ route('paytabs', app()->getLocale()) }}";
-                routeUrl += "?amount=" + encodeURIComponent(amount);
-                window.location.href = routeUrl;
-            } else {
+
+        $("#tran_paytabs").one("click", function () {
+            if ($("#ammount1").val() < 0 && $("#ammount2").val() < 0) {
                 $('#usd').addClass("text-danger");
                 $('#usd').removeClass("text-success");
+                return;
             }
+            if ($("#ammount1").val() > 10000) {
+                $('#usd').addClass("text-danger");
+                $('#usd').removeClass("text-success");
+                return;
+            }
+            this.disabled = true;
+            $('#usd').removeClass("text-danger");
+            $('#usd').addClass("text-success");
+            $('#ammount2').val($("#ammount1").val() * {{ usdToSar() }});
+            var amount = $('#ammount2').val();
+            var routeUrl = "{{ route('paytabs', app()->getLocale()) }}";
+            routeUrl += "?amount=" + encodeURIComponent(amount);
+            window.location.href = routeUrl;
         });
 
         $(document).on('turbolinks:load', function () {
