@@ -1,6 +1,6 @@
 <div>
     @section('title')
-        {{ __('Share_sold') }}
+        {{ __('Shares Sold: Recent transaction') }}
     @endsection
     @component('components.breadcrumb')
         @slot('li_1')@endslot

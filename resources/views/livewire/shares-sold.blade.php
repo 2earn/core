@@ -1,11 +1,11 @@
 <div>
     @section('title')
-        {{ __('Share_sold') }}
+        {{ __('Shares Sold :  Dashboard') }}
     @endsection
     @component('components.breadcrumb')
         @slot('li_1')@endslot
         @slot('title')
-            {{ __('Shares Sold') }}
+            {{ __('Shares Sold :  Dashboard') }}
         @endslot
     @endcomponent
     <div class="row">
