@@ -179,13 +179,6 @@
                                 <span>{{ __('Users') }}</span>
                             </a>
                         </li>
-                        <li class="nav-item {{Route::currentRouteName()=='countries_management'? 'active' : ''}}">
-                            <a href="{{route('shares_sold', app()->getLocale(),false)}}"
-                               class="nav-link menu-link {{Route::currentRouteName()=='countries_management'? 'active' : ''}}"
-                               role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-user-settings-line"></i> <span>{{ __('Shares Sold') }}</span>
-                            </a>
-                        </li>
                         <li class="nav-item">
                             <a class="nav-link menu-link {{!in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'collapsed' : 'active'}}"
                                href="#sidebarShareSold" data-bs-toggle="collapse"
