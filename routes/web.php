@@ -52,7 +52,6 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/pdf', function () {
-    $data = array('name' => 'ghazi', 'detail' => 'sdfsdf', 'sender' => '2earn.cash');
     $pdf = Pdf::loadView('pdf');
     Mail::send('pwd_email', ['data' => "azerty"], function ($message) use ($pdf) {
         $message->to('khalil@2earn.cash')->subject('Invoice');
