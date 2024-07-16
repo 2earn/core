@@ -131,20 +131,20 @@
                             <span data-key="t-menu">{{ __('SUPER ADMIN MENU') }}</span>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link menu-link {{!in_array(Route::currentRouteName(), ['configuration-setting','configuration-bo','configuration-ha','configuration-amounts'])? 'collapsed' : 'active'}}"
+                            <a class="nav-link menu-link {{!in_array(Route::currentRouteName(), ['configuration_setting','configuration-bo','configuration-ha','configuration-amounts'])? 'collapsed' : 'active'}}"
                                href="#sidebarDashboards" data-bs-toggle="collapse"
                                role="button"
-                               aria-expanded="{{in_array(Route::currentRouteName(), ['configuration-setting','configuration-bo','configuration-ha','configuration-amounts'])? 'true' : 'false'}}"
+                               aria-expanded="{{in_array(Route::currentRouteName(), ['configuration_setting','configuration-bo','configuration-ha','configuration-amounts'])? 'true' : 'false'}}"
                                aria-controls="sidebarDashboards">
                                 <i class="ri-dashboard-2-line"></i> <span
                                     data-key="t-dashboards">{{ __('Settings') }}</span>
                             </a>
                             <div
-                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['configuration-setting','configuration-bo','configuration-ha','configuration-amounts'])? 'show' : ''}}"
+                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['configuration_setting','configuration-bo','configuration-ha','configuration-amounts'])? 'show' : ''}}"
                                 id="sidebarDashboards">
                                 <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item {{Route::currentRouteName()=='configuration-setting'? 'active' : ''}}">
-                                        <a href="{{route('configuration-setting', app()->getLocale(),false)}}"
+                                    <li class="nav-item {{Route::currentRouteName()=='configuration_setting'? 'active' : ''}}">
+                                        <a href="{{route('configuration_setting', app()->getLocale(),false)}}"
                                            class="nav-link" data-key="t-analytics">{{ __('General Settings') }}</a>
                                     </li>
                                     <li class="nav-item {{Route::currentRouteName()=='configuration-bo'? 'active' : ''}}">
@@ -243,7 +243,7 @@
             $('#navbar-nav li a').removeClass('active');
             $('#navbar-nav a[href="' + location.pathname + '"]').addClass('active');
             $('#navbar-nav a[href="' + location.pathname + '"]').parent().addClass('active');
-            const settingArray = ['configuration-setting', 'configuration-bo', 'configuration-ha', 'configuration-amounts'];
+            const settingArray = ['configuration_setting', 'configuration-bo', 'configuration-ha', 'configuration-amounts'];
             var currentRoutePath = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
             if (settingArray.includes(currentRoutePath)) {
                 $('#sidebarDashboards').addClass('show');
