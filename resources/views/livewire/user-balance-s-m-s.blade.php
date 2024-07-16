@@ -51,7 +51,7 @@
                     search: {return: true},
                     autoWidth: false,
                     bAutoWidth: false,
-                    "ajax": "<?php echo e(route('API_UserBalances', ['locale' => app()->getLocale(), 'idAmounts' => 'SMS-Balance'])); ?>",
+                    "ajax": "<?php echo e(route('api_user_balances', ['locale' => app()->getLocale(), 'idAmounts' => 'SMS-Balance'])); ?>",
                     "columns": [
                         {data: 'ranks', "width": "1%"},
                         {data: 'Ref'},

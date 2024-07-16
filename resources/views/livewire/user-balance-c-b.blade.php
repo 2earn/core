@@ -173,7 +173,7 @@
                     "serverSide": true,
                     "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
                     search: {return: false},
-                    "ajax": "{{route('API_UserBalances',['locale'=> app()->getLocale(), 'idAmounts'=>'cash-Balance'])}}",
+                    "ajax": "{{route('api_user_balances',['locale'=> app()->getLocale(), 'idAmounts'=>'cash-Balance'])}}",
                     "columns": [
                         {data: 'Ref'},
                         {data: 'Date'},
