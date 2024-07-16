@@ -914,9 +914,9 @@ class="btn btn-xs btn-primary btn2earnTable"  >
             ->setRowId('idSETTINGS')
             ->editColumn('Automatically_calculated', function ($settings) {
                 if ($settings->Automatically_calculated == 1)
-                    return '<span class="badge badge-success">Yes</span>';
+                    return '<span class="badge badge-success">'.trans('Yes').'</span>';
                 else
-                    return '<span class="badge badge-info">No</span>';
+                    return '<span class="badge badge-info">'.trans('No').'</span>';
             })
             ->editColumn('StringValue', function ($settings) {
                 return '***';
@@ -1013,9 +1013,9 @@ class="btn btn-xs btn-primary edit-amounts-btn btn2earnTable"  >
             })
             ->editColumn('reponce', function ($actionHistorys) {
                 if ($actionHistorys->reponce == 1)
-                    return '<span class="badge badge-success">create reponce</span>';
+                    return '<span class="badge bg-success-subtle text-success ">'.trans('create reponce').'</span>';
                 else
-                    return '<span class="badge badge-info">sans reponce</span>';
+                    return '<span class="badge bg-info-subtle text-info ">'.trans('sans reponce').'</span>';
             })
             ->escapeColumns([])
             ->make(true);
