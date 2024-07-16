@@ -108,13 +108,13 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/accept/request', AcceptFinancialRequest::class)->name('accept_financial_request')->middleware('CloseAuth');
 
         Route::middleware(['IsSuperAdmin'])->group(function () {
-            Route::get('user_list', \App\Http\Livewire\UsersList::class)->name('user_list');
-            Route::get('configuration-ha', ConfigurationHA::class)->name('configuration-ha');
-            Route::get('configuration-setting', \App\Http\Livewire\ConfigurationSetting::class)->name('configuration-setting');
-            Route::get('configuration-bo', \App\Http\Livewire\ConfigurationBO::class)->name('configuration-bo');
-            Route::get('configuration-amounts', \App\Http\Livewire\ConfigurationAmounts::class)->name('configuration-amounts');
-            Route::get('edit_admin', \App\Http\Livewire\EditAdmin::class)->name('edit_admin');
-            Route::get('countries_management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
+            Route::get('/user_list', \App\Http\Livewire\UsersList::class)->name('user_list');
+            Route::get('/configuration-ha', ConfigurationHA::class)->name('configuration-ha');
+            Route::get('/configuration-setting', \App\Http\Livewire\ConfigurationSetting::class)->name('configuration-setting');
+            Route::get('/configuration-bo', \App\Http\Livewire\ConfigurationBO::class)->name('configuration-bo');
+            Route::get('/configuration-amounts', \App\Http\Livewire\ConfigurationAmounts::class)->name('configuration-amounts');
+            Route::get('/edit_admin', \App\Http\Livewire\EditAdmin::class)->name('edit_admin');
+            Route::get('/countries_management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
             Route::get('/admin/identification_request', identificationRequest::class)->name('identificationRequest');
             Route::get('/translation', TranslateView::class)->name('translate');
         });
