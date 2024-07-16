@@ -1056,29 +1056,27 @@
             });
 
 
-            document.addEventListener("turbolinks:load", function () {
-                $("#validateMail").click(function (validateMailEvent) {
-                    validateMailEvent.preventDefault();
-                    validateMailEvent.stopImmediatePropagation();
-                    window.Livewire.emit("sendVerificationMail", $('#inputEmail').val());
-                });
+            $("#validateMail").click(function (validateMailEvent) {
+                validateMailEvent.preventDefault();
+                validateMailEvent.stopImmediatePropagation();
+                window.Livewire.emit("sendVerificationMail", $('#inputEmail').val());
+            });
 
-                function showIdentitiesModal(typeIdentitie) {
-                    $('#identies-viewer-title').empty().append($('#' + typeIdentitie + '-id-image').attr('title'));
-                    $('#identies-viewer-content').empty().append($('#' + typeIdentitie + '-id-image').clone().width('100%').height('200%'));
-                    var myModal = new bootstrap.Modal(document.getElementById('identies-viewer'))
-                    myModal.show();
-                }
+            function showIdentitiesModal(typeIdentitie) {
+                $('#identies-viewer-title').empty().append($('#' + typeIdentitie + '-id-image').attr('title'));
+                $('#identies-viewer-content').empty().append($('#' + typeIdentitie + '-id-image').clone().width('100%').height('200%'));
+                var myModal = new bootstrap.Modal(document.getElementById('identies-viewer'))
+                myModal.show();
+            }
 
-                $("#show-identity-front").click(function () {
-                    showIdentitiesModal('front')
-                });
-                $("#show-identity-back").click(function () {
-                    showIdentitiesModal('back')
-                });
-                $("#show-identity-international").click(function () {
-                    showIdentitiesModal('international')
-                });
+            $("#show-identity-front").click(function () {
+                showIdentitiesModal('front')
+            });
+            $("#show-identity-back").click(function () {
+                showIdentitiesModal('back')
+            });
+            $("#show-identity-international").click(function () {
+                showIdentitiesModal('international')
             });
             window.addEventListener('profilePhotoError', event => {
                 Swal.fire({
