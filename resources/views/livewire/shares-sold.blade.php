@@ -1,11 +1,11 @@
 <div>
     @section('title')
-        {{ __('Share_sold') }}
+        {{ __('Shares Sold :  Dashboard') }}
     @endsection
     @component('components.breadcrumb')
         @slot('li_1')@endslot
         @slot('title')
-            {{ __('Shares Sold') }}
+            {{ __('Shares Sold :  Dashboard') }}
         @endslot
     @endcomponent
     <div class="row">
@@ -320,92 +320,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="card" id="marketList">
-                <div class="card-header border-bottom-dashed d-flex align-items-center">
-                    <h4 class="card-title mb-0 flex-grow-1">{{__('Market Status')}}</h4>
-                    <div class="flex-shrink-0">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-primary btn-sm">{{__('Today')}}</button>
-                            <button type="button" class="btn btn-outline-primary btn-sm">{{__('Overall')}}</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body table-responsive">
-                    <table id="shares-sold"
-                           class="table table-striped table-bordered"
-                           style="width:100%">
-                        <thead class="table-light">
-                        <tr class="head2earn  tabHeader2earn">
-                            <th style=" border: none ;text-align: center;">{{__('date_purchase')}}</th>
-                            <th style=" border: none;">{{__('countrie')}}</th>
-                            <th style=" border: none;">{{__('mobile')}}</th>
-                            <th style=" border: none;">{{__('Name')}}</th>
-                            <th style=" border: none;">{{__('total_shares')}}</th>
-                            <th style=" border: none;">{{__('sell_price_now')}}</th>
-                            <th style=" border: none;">{{__('gains')}}</th>
-                            <th style=" border: none;">{{__('Real_Sold')}}</th>
-                            <th style=" border: none;">{{__('Real_Sold_amount')}}</th>
-                            <th style=" border: none;text-align: center; ">{{__('total_price')}}</th>
-                            <th style=" border: none;">{{__('number_of_shares')}}</th>
-                            <th style=" border: none;">{{__('gifted_shares')}}</th>
-                            <th style=" border: none ;text-align: center; ">{{__('average_price')}}</th>
-                            <th style=" border: none;text-align: center; ">{{__('share_price')}}</th>
-                            <th style=" border: none ;text-align: center;">{{__('heure_purchase')}}</th>
-                        </tr>
-                        </thead>
-                        <tfoot>
-                        </tfoot>
-                        <tbody class="body2earn">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="modal fade" id="realsoldmodif" tabindex="-1" aria-labelledby="exampleModalgridLabel"
-                 aria-modal="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">{{ __('Transfert Cash') }}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="javascript:void(0);">
-                                <div class="row g-3">
-                                    <div class="col-xxl-6">
-                                        <div class="input-group">
-                                                    <span class="input-group-text">
-                                                        <img id="realsold-country" alt=""
-                                                             class="avatar-xxs me-2"></span>
-                                            <input type="text" class="form-control" disabled id="realsold-phone"
-                                                   aria-describedby="basic-addon1">
-                                        </div>
-                                    </div>
-                                    <div class="col-xxl-6">
-                                        <div class="input-group">
-                                            <input id="realsold-reciver" type="hidden">
-                                            <input type="number" class="form-control" id="realsold-ammount">
-                                            <input hidden type="number" class="form-control"
-                                                   id="realsold-ammount-total">
-                                            <span class="input-group-text">$</span>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="hstack gap-2 justify-content-end">
-                                            <button type="button" class="btn btn-light"
-                                                    data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                                            <button type="button" id="realsold-submit"
-                                                    class="btn btn-primary">{{ __('Submit') }}</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="col-xxl-3">
             <div class="card">
@@ -451,19 +365,6 @@
                             <i class="ri-line-chart-line text-primary h1"></i>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">{{__('Recent Transaction')}}</h5>
-                </div>
-                <div class="card-body table-responsive">
-                    <table id="transfert"
-                           class="table nowrap dt-responsive align-middle table-hover table-bordered"
-                           style="width:100%">
-                        <tbody class="body2earn">
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>

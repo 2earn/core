@@ -21,9 +21,6 @@ use App\Http\Livewire\Login;
 use App\Http\Livewire\NotificationHistory;
 use App\Http\Livewire\NotificationSettings;
 
-use App\Http\Livewire\pay;
-use App\Http\Livewire\PaymentController;
-use App\Http\Controllers\HomeController;
 use App\Http\Livewire\Registre;
 use App\Http\Livewire\RequestPublicUser;
 use App\Http\Livewire\StripView;
@@ -86,6 +83,18 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');
         Route::get('/shares/sold', \App\Http\Livewire\SharesSold::class)->name('shares_sold');
         Route::get('/treeview', \App\Http\Livewire\treeview::class)->name('treeview');
+        Route::get('Home', Home::class)->name('home');
+        Route::get('Account', Account::class)->name('account');
+        Route::get('Contacts', Contacts::class)->name('contacts');
+        Route::get('NotificationHistory', NotificationHistory::class)->name('notification_history');
+        Route::get('NotificationSettings', NotificationSettings::class)->name('notification_settings');
+        Route::get('user_purchase', UserPurchaseHistory::class)->name('user_purchase');
+        Route::get('stat_countrie', \App\Http\Livewire\StatCountrie::class)->name('stat_countrie');
+        Route::get('sharessolde', \App\Http\Livewire\SharesSolde::class)->name('sharessolde');
+        Route::get('shares_sold', \App\Http\Livewire\SharesSold::class)->name('shares_sold');
+        Route::get('shares_sold_market_status', \App\Http\Livewire\SharesSoldMarketStatus::class)->name('shares_sold_market_status');
+        Route::get('shares_sold_recent_transaction', \App\Http\Livewire\SharesSoldRecentTransaction::class)->name('shares_sold_recent_transaction');
+        Route::get('treeview', \App\Http\Livewire\treeview::class)->name('treeview');
 
         Route::get('/user/balance-sms', UserBalanceSMS::class)->name('user_balance_sms');
         Route::get('/user/balance-cb', UserBalanceCB::class)->name('user_balance_cb');
