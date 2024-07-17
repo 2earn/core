@@ -99,7 +99,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/user/balance-sms', UserBalanceSMS::class)->name('user_balance_sms');
         Route::get('/user/balance-cb', UserBalanceCB::class)->name('user_balance_cb');
         Route::get('/user/balance-db', UserBalanceDB::class)->name('user_balance_db');
-        Route::get('/paytabs/notification', PaymentController::class)->name('paytabs_notification');
         Route::get('/user/balance-bfs', UserBalanceBFS::class)->name('user_balance_bfs');
         Route::get('/financial/transaction', FinancialTransaction::class)->name('financial_transaction');
         Route::get('/contact-number', ContactNumber::class)->name('contact_number');
@@ -123,7 +122,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/configuration-amounts', \App\Http\Livewire\ConfigurationAmounts::class)->name('configuration-amounts');
             Route::get('/edit_admin', \App\Http\Livewire\EditAdmin::class)->name('edit_admin');
             Route::get('/countries_management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
-            Route::get('/admin/identification_request', identificationRequest::class)->name('identificationRequest');
+            Route::get('/admin/identification_request', identificationRequest::class)->name('identification_request');
             Route::get('/translation', TranslateView::class)->name('translate');
         });
         Route::get('/stat-countries', 'App\Http\Controllers\ApiController@getCountriStat')->name('api_stat_countries');

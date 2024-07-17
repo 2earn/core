@@ -59,25 +59,25 @@
                             <span>{{ __('Purchase history') }}</span>
                         </a>
                     </li>
-                    <li class="nav-item {{Route::currentRouteName()=='RecuperationHistory'? 'active' : ''}}">
-                        <a href="{{route('RecuperationHistory',app()->getLocale(),false)}}"
-                           class="nav-link menu-link {{Route::currentRouteName()=='RecuperationHistory'? 'active' : ''}} disabled"
+                    <li class="nav-item {{Route::currentRouteName()=='recuperation_history'? 'active' : ''}}">
+                        <a href="{{route('recuperation_history',app()->getLocale(),false)}}"
+                           class="nav-link menu-link {{Route::currentRouteName()=='recuperation_history'? 'active' : ''}} disabled"
                            role="button">
                             <i class="fas fa-history"></i>
                             <span>{{ __('Historique_recuperation') }}</span>
                         </a>
                     </li>
-                    <li class="nav-item {{Route::currentRouteName()=='TreeEvolution'? 'active' : ''}}">
-                        <a href="{{route('TreeEvolution',app()->getLocale(),false)}}"
-                           class="nav-link menu-link {{Route::currentRouteName()=='TreeEvolution'? 'active' : ''}}"
+                    <li class="nav-item {{Route::currentRouteName()=='tree_evolution'? 'active' : ''}}">
+                        <a href="{{route('tree_evolution',app()->getLocale(),false)}}"
+                           class="nav-link menu-link {{Route::currentRouteName()=='tree_evolution'? 'active' : ''}}"
                            role="button">
                             <i class="fa-solid fa-tree" style="color: #009fe3;"></i>
                             <span>{{ __('Evolution_arbre') }}</span>
                         </a>
                     </li>
-                    <li class="nav-item {{Route::currentRouteName()=='TreeMaintenance'? 'active' : ''}}">
-                        <a href="{{route('TreeMaintenance',app()->getLocale(),false)}}"
-                           class="nav-link menu-link {{Route::currentRouteName()=='TreeMaintenance'? 'active' : ''}} disabled"
+                    <li class="nav-item {{Route::currentRouteName()=='tree_maintenance'? 'active' : ''}}">
+                        <a href="{{route('tree_maintenance',app()->getLocale(),false)}}"
+                           class="nav-link menu-link {{Route::currentRouteName()=='tree_maintenance'? 'active' : ''}} disabled"
                            role="button">
                             <i class="fa-brands fa-pagelines"></i>
                             <span>{{ __('Entretien_arbre') }}</span>
@@ -221,16 +221,16 @@
                             </a>
                         </li>
                         <li class="nav-item {{Route::currentRouteName()=='countries_management'? 'active' : ''}}">
-                            <a href="{{route('API_settings', app()->getLocale(),false)}}"
+                            <a href="{{route('api_settings', app()->getLocale(),false)}}"
                                class="nav-link menu-link disabled {{Route::currentRouteName()=='countries_management'? 'active' : ''}}"
                                role="button">
                                 <i class="ri-settings-line"></i>
                                 <span>{{ __('representatives Management') }}</span>
                             </a>
                         </li>
-                     <li class="nav-item {{Route::currentRouteName()=='identificationRequest'? 'active' : ''}}">
-                            <a href="{{route('identificationRequest', app()->getLocale(),false)}}"
-                               class="nav-link menu-link {{Route::currentRouteName()=='identificationRequest'? 'active' : ''}}"
+                     <li class="nav-item {{Route::currentRouteName()=='identification_request'? 'active' : ''}}">
+                            <a href="{{route('identification_request', app()->getLocale(),false)}}"
+                               class="nav-link menu-link {{Route::currentRouteName()=='identification_request'? 'active' : ''}}"
                                role="button">
                                 <i class="ri-git-pull-request-line"></i>
                                 <span>{{ __('Identification Requests') }}</span>

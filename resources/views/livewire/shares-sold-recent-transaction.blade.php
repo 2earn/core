@@ -46,7 +46,7 @@
                     search: {return: true},
                     autoWidth: false,
                     bAutoWidth: false,
-                    "ajax": "{{route('API_transfert',['locale'=> app()->getLocale()])}}",
+                    "ajax": "{{route('api_transfert',['locale'=> app()->getLocale()])}}",
                     "columns": [{data: 'value'}, {data: 'Description'}, {data: 'formatted_created_at'},],
                     "language": {"url": urlLang}
                 }
@@ -109,13 +109,13 @@
             }
 
             if (chartOrigin) {
-                var url = '{{route('API_usercash',['locale'=> app()->getLocale()])}}';
+                var url = '{{route('api_user_cash',['locale'=> app()->getLocale()])}}';
                 $.getJSON(url, function (response) {
                     chart.updateSeries([{name: 'Balance', data: response}])
                 });
             }
             if (chart2Origin && chart1Origin) {
-                var url3 = '{{route('API_shareevolutiondate',['locale'=> app()->getLocale()])}}';
+                var url3 = '{{route('api_share_evolution_date',['locale'=> app()->getLocale()])}}';
                 $.getJSON(url3, function (response) {
                     var series1 = {name: 'Sales-bar', type: 'bar', data: response};
                     var series2 = {name: 'sales-line', type: 'line', data: response};
@@ -124,7 +124,7 @@
             }
             $(document).on("click", "#date", function () {
                 if (chart2Origin) {
-                    var url3 = '{{route('API_shareevolutiondate',['locale'=> app()->getLocale()])}}';
+                    var url3 = '{{route('api_share_evolution_date',['locale'=> app()->getLocale()])}}';
                     $.getJSON(url3, function (response) {
                         var series1 = {name: 'Sales-bar', type: 'bar', data: response};
                         var series2 = {name: 'sales-line', type: 'line', data: response};
@@ -135,7 +135,7 @@
             });
             $(document).on("click", "#week", function () {
                 if (chart2Origin && chart1Origin) {
-                    var url3 = '{{route('API_shareevolutionweek',['locale'=> app()->getLocale()])}}';
+                    var url3 = '{{route('api_share_evolution_week',['locale'=> app()->getLocale()])}}';
                     $.getJSON(url3, function (response) {
                         var series1 = {name: 'Sales-bar', type: 'bar', data: response};
                         var series2 = {name: 'sales-line', type: 'line', data: response};
@@ -145,7 +145,7 @@
             });
             $(document).on("click", "#month", function () {
                 if (chart2Origin && chart1Origin) {
-                    var url3 = '{{route('API_shareevolutionmonth',['locale'=> app()->getLocale()])}}';
+                    var url3 = '{{route('api_share_evolution_month',['locale'=> app()->getLocale()])}}';
                     $.getJSON(url3, function (response) {
                         var series1 = {name: 'Sales-bar', type: 'bar', data: response};
                         var series2 = {name: 'sales-line', type: 'line', data: response};
@@ -155,7 +155,7 @@
             });
             $(document).on("click", "#day", function () {
                 if (chart2Origin && chart1Origin) {
-                    var url3 = '{{route('API_shareevolutionday',['locale'=> app()->getLocale()])}}';
+                    var url3 = '{{route('api_share_evolution_day',['locale'=> app()->getLocale()])}}';
                     $.getJSON(url3, function (response) {
                         var series1 = {name: 'Sales-bar', type: 'bar', data: response};
                         var series2 = {name: 'sales-line', type: 'line', data: response};
@@ -165,8 +165,8 @@
             });
             if (chart2Origin && chart1Origin) {
                 chart2.render();
-                var url1 = '{{route('API_shareevolution',['locale'=> app()->getLocale()])}}';
-                var url2 = '{{route('API_actionvalues',['locale'=> app()->getLocale()])}}';
+                var url1 = '{{route('api_share_evolution',['locale'=> app()->getLocale()])}}';
+                var url2 = '{{route('api_action_values',['locale'=> app()->getLocale()])}}';
 
                 $.when(
                     $.getJSON(url1),
