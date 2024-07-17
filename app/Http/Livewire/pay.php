@@ -14,7 +14,7 @@ class pay
 {
     public function test(Req $request)
     {
-        $url=  route('paytabs_notification_');
+        $url=  route('notification_from_paytabs');
 
         $name='';
         $email='';

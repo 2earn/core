@@ -82,11 +82,11 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/stat/countrie', \App\Http\Livewire\StatCountrie::class)->name('stat_countrie');
         Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');
         Route::get('/treeview', \App\Http\Livewire\treeview::class)->name('treeview');
-        Route::get('sharessolde', \App\Http\Livewire\SharesSolde::class)->name('sharessolde');
-        Route::get('shares_sold', \App\Http\Livewire\SharesSold::class)->name('shares_sold');
-        Route::get('shares_sold_market_status', \App\Http\Livewire\SharesSoldMarketStatus::class)->name('shares_sold_market_status');
-        Route::get('shares_sold_recent_transaction', \App\Http\Livewire\SharesSoldRecentTransaction::class)->name('shares_sold_recent_transaction');
-        Route::get('treeview', \App\Http\Livewire\treeview::class)->name('treeview');
+        Route::get('/sharessolde', \App\Http\Livewire\SharesSolde::class)->name('sharessolde');
+        Route::get('/shares_sold', \App\Http\Livewire\SharesSold::class)->name('shares_sold');
+        Route::get('/shares_sold_market_status', \App\Http\Livewire\SharesSoldMarketStatus::class)->name('shares_sold_market_status');
+        Route::get('/shares_sold_recent_transaction', \App\Http\Livewire\SharesSoldRecentTransaction::class)->name('shares_sold_recent_transaction');
+        Route::get('/treeview', \App\Http\Livewire\treeview::class)->name('treeview');
 
         Route::get('/user/balance-sms', UserBalanceSMS::class)->name('user_balance_sms');
         Route::get('/user/balance-cb', UserBalanceCB::class)->name('user_balance_cb');
@@ -134,7 +134,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
 });
 
-Route::group(['prefix' => 'api'], function () {
+Route::group(['prefix' => 'api/v1'], function () {
     Route::get('/countries', 'App\Http\Controllers\ApiController@getCountries')->name('api_countries');
     Route::get('/settings', 'App\Http\Controllers\ApiController@getSettings')->name('api_settings');
     Route::get('/balance/operations', 'App\Http\Controllers\ApiController@getBalanceOperations')->name('api_bal_operations');
@@ -154,7 +154,7 @@ Route::group(['prefix' => 'api'], function () {
     Route::get('/user/manager', 'App\Http\Controllers\ApiController@getAllUsers')->name('api_user_manager');
     Route::get('/user/invitations', 'App\Http\Controllers\ApiController@getInvitationsUser')->name('api_user_invitations');
     Route::get('/user/purchaseBFS', 'App\Http\Controllers\ApiController@getPurchaseBFSUser')->name('api_user_bfs_purchase');
-    Route::post('/paytabs/notification', 'App\Http\Controllers\ApiController@handlePaymentNotification')->name('paytabs_notification_')->withoutMiddleware('web');
+    Route::post('/paytabs/notification', 'App\Http\Controllers\ApiController@handlePaymentNotification')->name('notification_from_paytabs')->withoutMiddleware('web');
 
     Route::get('sankey', 'App\Http\Controllers\ApiController@getSankey')->name('API_sankey');
 
@@ -182,7 +182,7 @@ Route::group(['prefix' => 'api'], function () {
 });
 
 Route::get('/reset-not', 'App\Http\Controllers\FinancialRequestController@resetInComingNotification')->name('reset_incoming_notification');
-Route::get('/reset-not-oOut', 'App\Http\Controllers\FinancialRequestController@resetOutGoingNotification')->name('reset_out_going_notification');
+Route::get('/reset-not-out', 'App\Http\Controllers\FinancialRequestController@resetOutGoingNotification')->name('reset_out_going_notification');
 Route::get('/', function () {
     return redirect(app()->getLocale());
 });
