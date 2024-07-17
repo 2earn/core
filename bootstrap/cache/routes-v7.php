@@ -286,7 +286,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::ZZsZHGZzZofQueZi',
+            '_route' => 'generated::G81CfNv2KXQZywgk',
           ),
           1 => NULL,
           2 => 
@@ -325,7 +325,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::xFTdjB1RlP38Qinr',
+            '_route' => 'generated::ZR5cqLunUE0ZZhMJ',
           ),
           1 => NULL,
           2 => 
@@ -345,7 +345,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::ehxigNWVKhOHyhl3',
+            '_route' => 'generated::y1ayBiPAlnWoXjWl',
           ),
           1 => NULL,
           2 => 
@@ -465,7 +465,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::0XPHZm8typBtsnOV',
+            '_route' => 'generated::YwxwIp7hCSOeC79g',
           ),
           1 => NULL,
           2 => 
@@ -562,7 +562,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::Nd8EBfqJKZpsxLVS',
+            '_route' => 'generated::EjKdAs9TG6b3Idhv',
           ),
           1 => NULL,
           2 => 
@@ -582,7 +582,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::K1TuNdxhZUMu3gLE',
+            '_route' => 'generated::YHw4WqDdFVBdVJjU',
           ),
           1 => NULL,
           2 => 
@@ -602,7 +602,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::CDhmvc6DAjVHtjJp',
+            '_route' => 'generated::5fgQ9Ud5Hatt3j50',
           ),
           1 => NULL,
           2 => 
@@ -716,7 +716,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/countries' => 
+      '/api/countries' => 
       array (
         0 => 
         array (
@@ -736,7 +736,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/settings' => 
+      '/api/settings' => 
       array (
         0 => 
         array (
@@ -756,7 +756,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/balance/operations' => 
+      '/api/balance/operations' => 
       array (
         0 => 
         array (
@@ -776,7 +776,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/amounts' => 
+      '/api/amounts' => 
       array (
         0 => 
         array (
@@ -796,7 +796,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/action/historys' => 
+      '/api/action/historys' => 
       array (
         0 => 
         array (
@@ -816,7 +816,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/user/contacts' => 
+      '/api/user/contacts' => 
       array (
         0 => 
         array (
@@ -836,7 +836,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/user/admin' => 
+      '/api/user/admin' => 
       array (
         0 => 
         array (
@@ -856,7 +856,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/history/notification' => 
+      '/api/history/notification' => 
       array (
         0 => 
         array (
@@ -876,7 +876,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/request' => 
+      '/api/request' => 
       array (
         0 => 
         array (
@@ -896,7 +896,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/representatives' => 
+      '/api/representatives' => 
       array (
         0 => 
         array (
@@ -916,7 +916,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/user/balancesCB' => 
+      '/api/user/balancesCB' => 
       array (
         0 => 
         array (
@@ -936,7 +936,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/user/purchase' => 
+      '/api/user/purchase' => 
       array (
         0 => 
         array (
@@ -956,7 +956,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/user/manager' => 
+      '/api/user/manager' => 
       array (
         0 => 
         array (
@@ -976,7 +976,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/user/invitations' => 
+      '/api/user/invitations' => 
       array (
         0 => 
         array (
@@ -996,7 +996,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/user/purchaseBFS' => 
+      '/api/user/purchaseBFS' => 
       array (
         0 => 
         array (
@@ -1016,7 +1016,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/handle/paytabs/notification' => 
+      '/api/handle/paytabs/notification' => 
       array (
         0 => 
         array (
@@ -1035,7 +1035,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/sankey' => 
+      '/api/sankey' => 
       array (
         0 => 
         array (
@@ -1055,7 +1055,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/api/shares/solde' => 
+      '/api/api/shares/solde' => 
       array (
         0 => 
         array (
@@ -1075,7 +1075,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/api/shares/soldes' => 
+      '/api/api/shares/soldes' => 
       array (
         0 => 
         array (
@@ -1095,7 +1095,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/api/transfert' => 
+      '/api/api/transfert' => 
       array (
         0 => 
         array (
@@ -1115,7 +1115,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/api/user/cash' => 
+      '/api/api/user/cash' => 
       array (
         0 => 
         array (
@@ -1135,7 +1135,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/api/share/evolution' => 
+      '/api/api/share/evolution' => 
       array (
         0 => 
         array (
@@ -1155,7 +1155,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/api/share/evolution/date' => 
+      '/api/api/share/evolution/date' => 
       array (
         0 => 
         array (
@@ -1175,7 +1175,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/api/share/evolution/week' => 
+      '/api/api/share/evolution/week' => 
       array (
         0 => 
         array (
@@ -1195,7 +1195,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/api/share/evolution/month' => 
+      '/api/api/share/evolution/month' => 
       array (
         0 => 
         array (
@@ -1215,7 +1215,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/api/share/evolution/day' => 
+      '/api/api/share/evolution/day' => 
       array (
         0 => 
         array (
@@ -1235,7 +1235,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/api/share/evolution/user' => 
+      '/api/api/share/evolution/user' => 
       array (
         0 => 
         array (
@@ -1255,7 +1255,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/api/action/values' => 
+      '/api/api/action/values' => 
       array (
         0 => 
         array (
@@ -1275,7 +1275,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/get-updated-card-content' => 
+      '/api/get-updated-card-content' => 
       array (
         0 => 
         array (
@@ -1295,7 +1295,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/add-cash' => 
+      '/api/add-cash' => 
       array (
         0 => 
         array (
@@ -1314,7 +1314,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/vip' => 
+      '/api/vip' => 
       array (
         0 => 
         array (
@@ -1333,7 +1333,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/send-sms' => 
+      '/api/send-sms' => 
       array (
         0 => 
         array (
@@ -1352,7 +1352,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/update-balance-status' => 
+      '/api/update-balance-status' => 
       array (
         0 => 
         array (
@@ -1371,7 +1371,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/update-reserve-date' => 
+      '/api/update-reserve-date' => 
       array (
         0 => 
         array (
@@ -1390,7 +1390,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/API/update-balance-real' => 
+      '/api/update-balance-real' => 
       array (
         0 => 
         array (
@@ -1455,7 +1455,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::dKg8oq11fvmjgDcq',
+            '_route' => 'generated::KP7vbwlglEgYmBjM',
           ),
           1 => NULL,
           2 => 
@@ -1635,7 +1635,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::nxu5gjfdaGDBXA7u',
+            '_route' => 'generated::aVljlEou6Nmcep2g',
           ),
           1 => NULL,
           2 => 
@@ -1652,7 +1652,7 @@ app('router')->setCompiledRoutes(
     ),
     2 => 
     array (
-      0 => '{^(?|/_debugbar/c(?|lockwork/([^/]++)(*:39)|ache/([^/]++)(?:/([^/]++))?(*:73))|/oauth/(?|tokens/([^/]++)(*:106)|clients/([^/]++)(?|(*:133))|personal\\-access\\-tokens/([^/]++)(*:175))|/livewire/message/([^/]++)(*:210)|/([^/]++)/livewire/message/([^/]++)(*:253)|/livewire/preview\\-file/([^/]++)(*:293)|/config/EarnLog/f(?|ile/([^/]++)/download(*:342)|older/([^/]++)/download(*:373))|/([a-zA-Z]{2})(?|/(?|p(?|rivacy(*:413)|aytabs(*:427))|ho(?|me(*:443)|bbies(*:456))|a(?|c(?|c(?|ount(*:481)|ept/request(*:500))|tion\\-by\\-ammount(*:526))|dmin/identification_request(*:562))|c(?|o(?|n(?|tact(?|s(*:591)|\\-number(*:607))|figuration\\-(?|ha(*:633)|setting(*:648)|bo(*:658)|amounts(*:673)))|untries_management(*:701))|h(?|angePassword/([^/]++)(*:735)|eck\\-opt\\-code/([^/]++)/([^/]++)/([^/]++)(*:784)))|notification/(?|history(*:817)|settings(*:833))|user(?|/(?|purchase(*:861)|balance\\-(?|sms(*:884)|cb(*:894)|db(*:904)|bfs(*:915))|editContact(*:935))|_list(*:949)|s/list(*:963))|s(?|tat(?|/countrie(*:991)|\\-countries(*:1010))|hares(?|/solde(*:1034)|solde(*:1048)|_sold(?|(*:1065)|_(?|market_status(*:1091)|recent_transaction(*:1118)))))|tr(?|ee(?|view(*:1145)|/(?|evolution(*:1167)|maintenance(*:1187)))|anslation(*:1207))|f(?|inancial/transaction(*:1241)|orget\\-password(*:1265))|b(?|alances/exchange/funding/(?|RequestPulicUser(*:1323)|strip(*:1337))|uy\\-action(*:1357))|re(?|cuperation/history(*:1390)|gistre(*:1405))|description(*:1426)|edit_admin(*:1445)|validate\\-(?|phone(*:1472)|account(*:1488))|gift\\-action\\-by\\-ammount(*:1523)|login(*:1537))|(*:1547))|/API/(?|u(?|rl/list/([^/]++)/([^/]++)(*:1594)|ser\\-balances(?|/([^/]++)(*:1628)|\\-list/([^/]++)/([^/]++)(*:1661)))|shares\\-solde\\-list/([^/]++)(*:1700))|/([^/]++)(*:1719))/?$}sDu',
+      0 => '{^(?|/_debugbar/c(?|lockwork/([^/]++)(*:39)|ache/([^/]++)(?:/([^/]++))?(*:73))|/oauth/(?|tokens/([^/]++)(*:106)|clients/([^/]++)(?|(*:133))|personal\\-access\\-tokens/([^/]++)(*:175))|/livewire/message/([^/]++)(*:210)|/([^/]++)/livewire/message/([^/]++)(*:253)|/livewire/preview\\-file/([^/]++)(*:293)|/config/EarnLog/f(?|ile/([^/]++)/download(*:342)|older/([^/]++)/download(*:373))|/([a-zA-Z]{2})(?|/(?|p(?|rivacy(*:413)|aytabs(*:427))|ho(?|me(*:443)|bbies(*:456))|a(?|c(?|c(?|ount(*:481)|ept/request(*:500))|tion\\-by\\-ammount(*:526))|dmin/identification_request(*:562))|c(?|o(?|n(?|tact(?|s(*:591)|\\-number(*:607))|figuration\\-(?|ha(*:633)|setting(*:648)|bo(*:658)|amounts(*:673)))|untries_management(*:701))|h(?|angePassword/([^/]++)(*:735)|eck\\-opt\\-code/([^/]++)/([^/]++)/([^/]++)(*:784)))|notification/(?|history(*:817)|settings(*:833))|user(?|/(?|purchase(*:861)|balance\\-(?|sms(*:884)|cb(*:894)|db(*:904)|bfs(*:915))|editContact(*:935))|_list(*:949)|s/list(*:963))|s(?|tat(?|/countrie(*:991)|\\-countries(*:1010))|hares(?|/solde(*:1034)|solde(*:1048)|_sold(?|(*:1065)|_(?|market_status(*:1091)|recent_transaction(*:1118)))))|tr(?|ee(?|view(*:1145)|/(?|evolution(*:1167)|maintenance(*:1187)))|anslation(*:1207))|f(?|inancial/transaction(*:1241)|orget\\-password(*:1265))|b(?|alances/exchange/funding/(?|RequestPulicUser(*:1323)|strip(*:1337))|uy\\-action(*:1357))|re(?|cuperation/history(*:1390)|gistre(*:1405))|description(*:1426)|edit_admin(*:1445)|validate\\-(?|phone(*:1472)|account(*:1488))|gift\\-action\\-by\\-ammount(*:1523)|login(*:1537))|(*:1547))|/api/(?|u(?|rl/list/([^/]++)/([^/]++)(*:1594)|ser\\-balances(?|/([^/]++)(*:1628)|\\-list/([^/]++)/([^/]++)(*:1661)))|shares\\-solde\\-list/([^/]++)(*:1700))|/([^/]++)(*:1719))/?$}sDu',
     ),
     3 => 
     array (
@@ -3199,7 +3199,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::0fsLpM6kbWMktoym',
+            '_route' => 'generated::Ahdw4KLH1Ds5K2uc',
           ),
           1 => 
           array (
@@ -3972,7 +3972,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::ZZsZHGZzZofQueZi' => 
+    'generated::G81CfNv2KXQZywgk' => 
     array (
       'methods' => 
       array (
@@ -3993,7 +3993,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 'web',
         ),
-        'as' => 'generated::ZZsZHGZzZofQueZi',
+        'as' => 'generated::G81CfNv2KXQZywgk',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4134,7 +4134,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::xFTdjB1RlP38Qinr' => 
+    'generated::ZR5cqLunUE0ZZhMJ' => 
     array (
       'methods' => 
       array (
@@ -4146,7 +4146,7 @@ app('router')->setCompiledRoutes(
       array (
         'uses' => 'Livewire\\Controllers\\LivewireJavaScriptAssets@source',
         'controller' => 'Livewire\\Controllers\\LivewireJavaScriptAssets@source',
-        'as' => 'generated::xFTdjB1RlP38Qinr',
+        'as' => 'generated::ZR5cqLunUE0ZZhMJ',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4162,7 +4162,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::ehxigNWVKhOHyhl3' => 
+    'generated::y1ayBiPAlnWoXjWl' => 
     array (
       'methods' => 
       array (
@@ -4174,7 +4174,7 @@ app('router')->setCompiledRoutes(
       array (
         'uses' => 'Livewire\\Controllers\\LivewireJavaScriptAssets@maps',
         'controller' => 'Livewire\\Controllers\\LivewireJavaScriptAssets@maps',
-        'as' => 'generated::ehxigNWVKhOHyhl3',
+        'as' => 'generated::y1ayBiPAlnWoXjWl',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4452,7 +4452,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::0XPHZm8typBtsnOV' => 
+    'generated::YwxwIp7hCSOeC79g' => 
     array (
       'methods' => 
       array (
@@ -4474,7 +4474,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::0XPHZm8typBtsnOV',
+        'as' => 'generated::YwxwIp7hCSOeC79g',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4626,7 +4626,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::Nd8EBfqJKZpsxLVS' => 
+    'generated::EjKdAs9TG6b3Idhv' => 
     array (
       'methods' => 
       array (
@@ -4649,7 +4649,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::Nd8EBfqJKZpsxLVS',
+        'as' => 'generated::EjKdAs9TG6b3Idhv',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4665,7 +4665,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::K1TuNdxhZUMu3gLE' => 
+    'generated::YHw4WqDdFVBdVJjU' => 
     array (
       'methods' => 
       array (
@@ -4699,7 +4699,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::K1TuNdxhZUMu3gLE',
+        'as' => 'generated::YHw4WqDdFVBdVJjU',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4715,7 +4715,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::CDhmvc6DAjVHtjJp' => 
+    'generated::5fgQ9Ud5Hatt3j50' => 
     array (
       'methods' => 
       array (
@@ -4741,7 +4741,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::CDhmvc6DAjVHtjJp',
+        'as' => 'generated::5fgQ9Ud5Hatt3j50',
       ),
       'fallback' => false,
       'defaults' => 
@@ -7082,7 +7082,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/countries',
+      'uri' => 'api/countries',
       'action' => 
       array (
         'middleware' => 
@@ -7092,7 +7092,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getCountries',
         'controller' => 'App\\Http\\Controllers\\ApiController@getCountries',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -7119,7 +7119,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/settings',
+      'uri' => 'api/settings',
       'action' => 
       array (
         'middleware' => 
@@ -7129,7 +7129,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getSettings',
         'controller' => 'App\\Http\\Controllers\\ApiController@getSettings',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -7156,7 +7156,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/balance/operations',
+      'uri' => 'api/balance/operations',
       'action' => 
       array (
         'middleware' => 
@@ -7166,7 +7166,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getBalanceOperations',
         'controller' => 'App\\Http\\Controllers\\ApiController@getBalanceOperations',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -7193,7 +7193,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/amounts',
+      'uri' => 'api/amounts',
       'action' => 
       array (
         'middleware' => 
@@ -7203,7 +7203,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getAmounts',
         'controller' => 'App\\Http\\Controllers\\ApiController@getAmounts',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -7230,7 +7230,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/url/list/{idUser}/{idamount}',
+      'uri' => 'api/url/list/{idUser}/{idamount}',
       'action' => 
       array (
         'middleware' => 
@@ -7240,7 +7240,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getUrlList',
         'controller' => 'App\\Http\\Controllers\\ApiController@getUrlList',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -7267,7 +7267,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/action/historys',
+      'uri' => 'api/action/historys',
       'action' => 
       array (
         'middleware' => 
@@ -7277,7 +7277,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getActionHistorys',
         'controller' => 'App\\Http\\Controllers\\ApiController@getActionHistorys',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -7304,7 +7304,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/user/contacts',
+      'uri' => 'api/user/contacts',
       'action' => 
       array (
         'middleware' => 
@@ -7314,7 +7314,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getUserContacts',
         'controller' => 'App\\Http\\Controllers\\ApiController@getUserContacts',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -7341,7 +7341,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/user-balances/{idAmounts}',
+      'uri' => 'api/user-balances/{idAmounts}',
       'action' => 
       array (
         'middleware' => 
@@ -7351,7 +7351,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getUserBalances',
         'controller' => 'App\\Http\\Controllers\\ApiController@getUserBalances',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -7378,7 +7378,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/user-balances-list/{idUser}/{idAmounts}',
+      'uri' => 'api/user-balances-list/{idUser}/{idAmounts}',
       'action' => 
       array (
         'middleware' => 
@@ -7388,7 +7388,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getUserBalancesList',
         'controller' => 'App\\Http\\Controllers\\ApiController@getUserBalancesList',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -7415,7 +7415,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/shares-solde-list/{idUser}',
+      'uri' => 'api/shares-solde-list/{idUser}',
       'action' => 
       array (
         'middleware' => 
@@ -7425,7 +7425,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getSharesSoldeList',
         'controller' => 'App\\Http\\Controllers\\ApiController@getSharesSoldeList',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -7452,7 +7452,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/user/admin',
+      'uri' => 'api/user/admin',
       'action' => 
       array (
         'middleware' => 
@@ -7462,7 +7462,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getUserAdmin',
         'controller' => 'App\\Http\\Controllers\\ApiController@getUserAdmin',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -7489,7 +7489,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/history/notification',
+      'uri' => 'api/history/notification',
       'action' => 
       array (
         'middleware' => 
@@ -7499,7 +7499,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getHistoryNotification',
         'controller' => 'App\\Http\\Controllers\\ApiController@getHistoryNotification',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -7526,7 +7526,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/request',
+      'uri' => 'api/request',
       'action' => 
       array (
         'middleware' => 
@@ -7536,7 +7536,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getRequest',
         'controller' => 'App\\Http\\Controllers\\ApiController@getRequest',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -7563,7 +7563,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/representatives',
+      'uri' => 'api/representatives',
       'action' => 
       array (
         'middleware' => 
@@ -7573,7 +7573,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getRepresentatives',
         'controller' => 'App\\Http\\Controllers\\ApiController@getRepresentatives',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -7600,7 +7600,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/user/balancesCB',
+      'uri' => 'api/user/balancesCB',
       'action' => 
       array (
         'middleware' => 
@@ -7610,7 +7610,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getUserBalancesCB',
         'controller' => 'App\\Http\\Controllers\\ApiController@getUserBalancesCB',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -7637,7 +7637,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/user/purchase',
+      'uri' => 'api/user/purchase',
       'action' => 
       array (
         'middleware' => 
@@ -7647,7 +7647,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getPurchaseUser',
         'controller' => 'App\\Http\\Controllers\\ApiController@getPurchaseUser',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -7674,7 +7674,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/user/manager',
+      'uri' => 'api/user/manager',
       'action' => 
       array (
         'middleware' => 
@@ -7684,7 +7684,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getAllUsers',
         'controller' => 'App\\Http\\Controllers\\ApiController@getAllUsers',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -7711,7 +7711,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/user/invitations',
+      'uri' => 'api/user/invitations',
       'action' => 
       array (
         'middleware' => 
@@ -7721,7 +7721,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getInvitationsUser',
         'controller' => 'App\\Http\\Controllers\\ApiController@getInvitationsUser',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -7748,7 +7748,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/user/purchaseBFS',
+      'uri' => 'api/user/purchaseBFS',
       'action' => 
       array (
         'middleware' => 
@@ -7758,7 +7758,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getPurchaseBFSUser',
         'controller' => 'App\\Http\\Controllers\\ApiController@getPurchaseBFSUser',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -7784,7 +7784,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'API/handle/paytabs/notification',
+      'uri' => 'api/handle/paytabs/notification',
       'action' => 
       array (
         'middleware' => 
@@ -7794,7 +7794,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@handlePaymentNotification',
         'controller' => 'App\\Http\\Controllers\\ApiController@handlePaymentNotification',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -7825,7 +7825,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/sankey',
+      'uri' => 'api/sankey',
       'action' => 
       array (
         'middleware' => 
@@ -7835,7 +7835,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getSankey',
         'controller' => 'App\\Http\\Controllers\\ApiController@getSankey',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -7862,7 +7862,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/api/shares/solde',
+      'uri' => 'api/api/shares/solde',
       'action' => 
       array (
         'middleware' => 
@@ -7872,7 +7872,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getSharesSolde',
         'controller' => 'App\\Http\\Controllers\\ApiController@getSharesSolde',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -7899,7 +7899,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/api/shares/soldes',
+      'uri' => 'api/api/shares/soldes',
       'action' => 
       array (
         'middleware' => 
@@ -7909,7 +7909,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getSharesSoldes',
         'controller' => 'App\\Http\\Controllers\\ApiController@getSharesSoldes',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -7936,7 +7936,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/api/transfert',
+      'uri' => 'api/api/transfert',
       'action' => 
       array (
         'middleware' => 
@@ -7946,7 +7946,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getTransfert',
         'controller' => 'App\\Http\\Controllers\\ApiController@getTransfert',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -7973,7 +7973,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/api/user/cash',
+      'uri' => 'api/api/user/cash',
       'action' => 
       array (
         'middleware' => 
@@ -7983,7 +7983,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getUserCashBalance',
         'controller' => 'App\\Http\\Controllers\\ApiController@getUserCashBalance',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -8010,7 +8010,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/api/share/evolution',
+      'uri' => 'api/api/share/evolution',
       'action' => 
       array (
         'middleware' => 
@@ -8020,7 +8020,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getSharePriceEvolution',
         'controller' => 'App\\Http\\Controllers\\ApiController@getSharePriceEvolution',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -8047,7 +8047,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/api/share/evolution/date',
+      'uri' => 'api/api/share/evolution/date',
       'action' => 
       array (
         'middleware' => 
@@ -8057,7 +8057,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getSharePriceEvolutionDate',
         'controller' => 'App\\Http\\Controllers\\ApiController@getSharePriceEvolutionDate',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -8084,7 +8084,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/api/share/evolution/week',
+      'uri' => 'api/api/share/evolution/week',
       'action' => 
       array (
         'middleware' => 
@@ -8094,7 +8094,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getSharePriceEvolutionWeek',
         'controller' => 'App\\Http\\Controllers\\ApiController@getSharePriceEvolutionWeek',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -8121,7 +8121,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/api/share/evolution/month',
+      'uri' => 'api/api/share/evolution/month',
       'action' => 
       array (
         'middleware' => 
@@ -8131,7 +8131,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getSharePriceEvolutionMonth',
         'controller' => 'App\\Http\\Controllers\\ApiController@getSharePriceEvolutionMonth',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -8158,7 +8158,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/api/share/evolution/day',
+      'uri' => 'api/api/share/evolution/day',
       'action' => 
       array (
         'middleware' => 
@@ -8168,7 +8168,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getSharePriceEvolutionDay',
         'controller' => 'App\\Http\\Controllers\\ApiController@getSharePriceEvolutionDay',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -8195,7 +8195,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/api/share/evolution/user',
+      'uri' => 'api/api/share/evolution/user',
       'action' => 
       array (
         'middleware' => 
@@ -8205,7 +8205,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getSharePriceEvolutionUser',
         'controller' => 'App\\Http\\Controllers\\ApiController@getSharePriceEvolutionUser',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -8232,7 +8232,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/api/action/values',
+      'uri' => 'api/api/action/values',
       'action' => 
       array (
         'middleware' => 
@@ -8242,7 +8242,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getActionValues',
         'controller' => 'App\\Http\\Controllers\\ApiController@getActionValues',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -8269,7 +8269,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'API/get-updated-card-content',
+      'uri' => 'api/get-updated-card-content',
       'action' => 
       array (
         'middleware' => 
@@ -8279,7 +8279,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@getUpdatedCardContent',
         'controller' => 'App\\Http\\Controllers\\ApiController@getUpdatedCardContent',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -8305,7 +8305,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'API/add-cash',
+      'uri' => 'api/add-cash',
       'action' => 
       array (
         'middleware' => 
@@ -8315,7 +8315,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@addCash',
         'controller' => 'App\\Http\\Controllers\\ApiController@addCash',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -8341,7 +8341,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'API/vip',
+      'uri' => 'api/vip',
       'action' => 
       array (
         'middleware' => 
@@ -8351,7 +8351,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@vip',
         'controller' => 'App\\Http\\Controllers\\ApiController@vip',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -8377,7 +8377,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'API/send-sms',
+      'uri' => 'api/send-sms',
       'action' => 
       array (
         'middleware' => 
@@ -8387,7 +8387,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@sendSMS',
         'controller' => 'App\\Http\\Controllers\\ApiController@sendSMS',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -8413,7 +8413,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'API/update-balance-status',
+      'uri' => 'api/update-balance-status',
       'action' => 
       array (
         'middleware' => 
@@ -8423,7 +8423,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@updateBalanceStatus',
         'controller' => 'App\\Http\\Controllers\\ApiController@updateBalanceStatus',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -8449,7 +8449,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'API/update-reserve-date',
+      'uri' => 'api/update-reserve-date',
       'action' => 
       array (
         'middleware' => 
@@ -8459,7 +8459,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@updateReserveDate',
         'controller' => 'App\\Http\\Controllers\\ApiController@updateReserveDate',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -8485,7 +8485,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'API/update-balance-real',
+      'uri' => 'api/update-balance-real',
       'action' => 
       array (
         'middleware' => 
@@ -8495,7 +8495,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\ApiController@updateBalanceReal',
         'controller' => 'App\\Http\\Controllers\\ApiController@updateBalanceReal',
         'namespace' => NULL,
-        'prefix' => '/API',
+        'prefix' => '/api',
         'where' => 
         array (
         ),
@@ -8589,7 +8589,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::dKg8oq11fvmjgDcq' => 
+    'generated::KP7vbwlglEgYmBjM' => 
     array (
       'methods' => 
       array (
@@ -8611,7 +8611,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::dKg8oq11fvmjgDcq',
+        'as' => 'generated::KP7vbwlglEgYmBjM',
       ),
       'fallback' => false,
       'defaults' => 
@@ -8924,7 +8924,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::nxu5gjfdaGDBXA7u' => 
+    'generated::aVljlEou6Nmcep2g' => 
     array (
       'methods' => 
       array (
@@ -8945,7 +8945,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::nxu5gjfdaGDBXA7u',
+        'as' => 'generated::aVljlEou6Nmcep2g',
       ),
       'fallback' => false,
       'defaults' => 
@@ -8969,7 +8969,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::0fsLpM6kbWMktoym' => 
+    'generated::Ahdw4KLH1Ds5K2uc' => 
     array (
       'methods' => 
       array (
@@ -8991,7 +8991,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::0fsLpM6kbWMktoym',
+        'as' => 'generated::Ahdw4KLH1Ds5K2uc',
       ),
       'fallback' => false,
       'defaults' => 
