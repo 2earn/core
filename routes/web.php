@@ -81,15 +81,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/user/purchase', UserPurchaseHistory::class)->name('user_purchase');
         Route::get('/stat/countrie', \App\Http\Livewire\StatCountrie::class)->name('stat_countrie');
         Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');
-        Route::get('/shares/sold', \App\Http\Livewire\SharesSold::class)->name('shares_sold');
         Route::get('/treeview', \App\Http\Livewire\treeview::class)->name('treeview');
-        Route::get('Home', Home::class)->name('home');
-        Route::get('Account', Account::class)->name('account');
-        Route::get('Contacts', Contacts::class)->name('contacts');
-        Route::get('NotificationHistory', NotificationHistory::class)->name('notification_history');
-        Route::get('NotificationSettings', NotificationSettings::class)->name('notification_settings');
-        Route::get('user_purchase', UserPurchaseHistory::class)->name('user_purchase');
-        Route::get('stat_countrie', \App\Http\Livewire\StatCountrie::class)->name('stat_countrie');
         Route::get('sharessolde', \App\Http\Livewire\SharesSolde::class)->name('sharessolde');
         Route::get('shares_sold', \App\Http\Livewire\SharesSold::class)->name('shares_sold');
         Route::get('shares_sold_market_status', \App\Http\Livewire\SharesSoldMarketStatus::class)->name('shares_sold_market_status');
