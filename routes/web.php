@@ -154,7 +154,7 @@ Route::group(['prefix' => 'api/v1'], function () {
     Route::get('/user/manager', 'App\Http\Controllers\ApiController@getAllUsers')->name('api_user_manager');
     Route::get('/user/invitations', 'App\Http\Controllers\ApiController@getInvitationsUser')->name('api_user_invitations');
     Route::get('/user/purchaseBFS', 'App\Http\Controllers\ApiController@getPurchaseBFSUser')->name('api_user_bfs_purchase');
-    Route::post('/paytabs/notification', 'App\Http\Controllers\ApiController@handlePaymentNotification')->name('notification_from_paytabs')->withoutMiddleware('web');
+    Route::post('paytabs_notification', 'App\Http\Controllers\ApiController@handlePaymentNotification')->name('paytabs_notification')->withoutMiddleware('web');
 
     Route::get('sankey', 'App\Http\Controllers\ApiController@getSankey')->name('API_sankey');
 
