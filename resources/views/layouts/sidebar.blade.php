@@ -282,7 +282,7 @@
             $('#navbar-nav a[href="' + location.pathname + '"]').addClass('active');
             $('#navbar-nav a[href="' + location.pathname + '"]').parent().addClass('active');
             const settingArray = ['configuration-setting', 'configuration-bo', 'configuration-ha', 'configuration-amounts'];
-            const shareSoldArray = ['shares_sold', 'shares_sold_market_status', 'shares_sold_recent_transaction'];
+            const shareSoldArray = ['shares-sold', 'shares-sold-market-status', 'shares-sold-recent-transaction'];
             var currentRoutePath = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
 
             if (settingArray.includes(currentRoutePath)) {
