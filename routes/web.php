@@ -20,7 +20,6 @@ use App\Http\Livewire\IdentificationRequest;
 use App\Http\Livewire\Login;
 use App\Http\Livewire\NotificationHistory;
 use App\Http\Livewire\NotificationSettings;
-
 use App\Http\Livewire\Registre;
 use App\Http\Livewire\RequestPublicUser;
 use App\Http\Livewire\StripView;
@@ -31,11 +30,9 @@ use App\Http\Livewire\UserBalanceDB;
 use App\Http\Livewire\UserBalanceSMS;
 use App\Http\Livewire\UserPurchaseHistory;
 use App\Http\Livewire\ValidateAccount;
-use App\Services\Sponsorship\SponsorshipFacade;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,9 +80,9 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');
         Route::get('/treeview', \App\Http\Livewire\treeview::class)->name('treeview');
         Route::get('/sharessolde', \App\Http\Livewire\SharesSolde::class)->name('sharessolde');
-        Route::get('/shares_sold', \App\Http\Livewire\SharesSold::class)->name('shares_sold');
-        Route::get('/shares_sold_market_status', \App\Http\Livewire\SharesSoldMarketStatus::class)->name('shares_sold_market_status');
-        Route::get('/shares_sold_recent_transaction', \App\Http\Livewire\SharesSoldRecentTransaction::class)->name('shares_sold_recent_transaction');
+        Route::get('/shares-sold-dashboard', \App\Http\Livewire\SharesSold::class)->name('shares_sold');
+        Route::get('/shares-sold-market-status', \App\Http\Livewire\SharesSoldMarketStatus::class)->name('shares_sold_market_status');
+        Route::get('/shares-sold-recent-transaction', \App\Http\Livewire\SharesSoldRecentTransaction::class)->name('shares_sold_recent_transaction');
         Route::get('/treeview', \App\Http\Livewire\treeview::class)->name('treeview');
 
         Route::get('/user/balance-sms', UserBalanceSMS::class)->name('user_balance_sms');
@@ -131,7 +128,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
     Route::get('/check-opt-code/{iduser}/{ccode}/{numTel}', CheckOptCode::class)->name('check_opt_code');
     Route::get('/validate-account', ValidateAccount::class)->name('validate_account');
     Route::get('/login', Login::class)->name('login')->middleware('setLocalLogin');
-
 });
 
 Route::group(['prefix' => 'api/v1'], function () {
