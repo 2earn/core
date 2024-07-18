@@ -290,4 +290,76 @@
         }
     });
 </script>
+
+
+<script type="module">
+    $(document).on('turbolinks:load', function () {
+        var select2_array = [];
+        var classAl = "text-end";
+        var tts = '{{config('app.available_locales')[app()->getLocale()]['direction']}}';
+        if (tts == 'rtl') {
+            classAl = "text-start";
+        }
+        var url = '';
+        $(document).on('click', '.badge', function () {
+            var id = $(this).data('id');
+            var phone = $(this).data('phone');
+            var amount = String($(this).data('amount')).replace(',', '');
+            var asset = $(this).data('asset');
+            $('#realsold-country').attr('src', asset);
+            $('#realsold-reciver').attr('value', id);
+            $('#realsold-phone').attr('value', phone);
+            $('#realsold-ammount').attr('value', amount);
+            $('#realsold-ammount-total').attr('value', amount);
+            $('#realsoldmodif').modal('show');
+            fetchAndUpdateCardContent();
+            $('#shares-sold').DataTable().ajax.reload();
+        });
+        $(document).on("click", "#realsold-submit", function () {
+            let reciver = $('#realsold-reciver').val();
+            let ammount = $('#realsold-ammount').val();
+            let total = $('#realsold-ammount-total').val()
+            $.ajax({
+                url: "{{ route('update-balance-real') }}",
+                type: "POST",
+                data: {total: total, amount: ammount, id: reciver, "_token": "{{ csrf_token() }}"},
+                success: function (data) {
+                    $('#realsoldmodif').modal('hide');
+                    $('#shares-sold').DataTable().ajax.reload();
+                    fetchAndUpdateCardContent();
+                }
+
+            });
+
+            function saveHA() {
+                window.livewire.emit('saveHA', $("#tags").val());
+            }
+
+            function fetchAndUpdateCardContent() {
+                $.ajax({
+                    url: '{{ route('get-updated-card-content') }}', // Adjust the endpoint URL
+                    method: 'GET',
+                    success: function (data) {
+                        $('#realrev').html('$' + data.value);
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error)
+                    }
+                });
+            }
+
+            $("#select2bfs").select2();
+
+            $("#select2bfs").on("select2:select select2:unselect", function (e) {
+                var items = $(this).val();
+                if ($(this).val() == null) {
+                    table_bfs.columns(3).search("").draw();
+                } else {
+                    table_bfs.columns(3).search(items.join('|'), true, false).draw();
+                }
+            })
+        });
+    });
+
+</script>
 </div>

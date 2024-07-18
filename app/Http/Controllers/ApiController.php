@@ -1398,19 +1398,19 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUs
             ->editColumn('status', function ($userData) {
                 switch ($userData->status) {
                     case 0 :
-                        return '<span class="badge badge-info">Authentied</span>';
+                        return '<span class="badge badge-info">'.trans('Authentied').'</span>';
                         break;
                     case 1 :
-                        return ' <span class="badge badge-success">Identfied</span>';
+                        return ' <span class="badge badge-success">'.trans('Identfied').'</span>';
                         break;
                     case -1 :
-                        return '<span class="badge badge-warning">Identification in Progress</span>';
+                        return '<span class="badge badge-warning">'.trans('Identification in Progress').'</span>';
                         break;
                     case 2 :
-                        return '<span class="badge badge-danger">Suspended</span>';
+                        return '<span class="badge badge-danger">'.trans('Suspended').'</span>';
                         break;
                     default:
-                        return '<span class=" ">Erreur</span>';
+                        return '<span class=" ">'.trans('Erreur').'</span>';
                 }
             })
             ->editColumn('registred_from', function ($userData) {
