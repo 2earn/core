@@ -8,7 +8,6 @@ use Core\Enum\StatusRequst;
 use Core\Models\identificationuserrequest;
 use Core\Models\metta_user;
 use Core\Services\settingsManager;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
@@ -32,6 +31,7 @@ class IdentificationCheck extends Component
     public $userF;
     public $internationalCard;
     public $messageVerif = "";
+    public $disabled;
 
     public $listeners = [
         'sendIndentificationRequest' => 'sendIndentificationRequest'
@@ -132,7 +132,7 @@ class IdentificationCheck extends Component
 
         if ($photoBackValidated && $photoFrontValidated && (!$this->internationalCard or ($this->internationalCard && $photoInternationalValidated))) {
             $this->sendIdentificationRequest($settingsManager);
-            User::where('idUser', $userAuth->idUser)->update(['status' => 1, 'asked_at' => date('Y-m-d H:i:s'), 'iden_notif' => $this->notify]);
+            User::where('idUser', $userAuth->idUser)->update(['status' => StatusRequst::EnCours, 'asked_at' => date('Y-m-d H:i:s'), 'iden_notif' => $this->notify]);
             $this->messageVerif = Lang::get('demande_creer');
             return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Identification_send_succes'));
         } else {
@@ -170,7 +170,7 @@ class IdentificationCheck extends Component
             array_push($errors_array, getProfileMsgErreur('enFirstName'));
         }
         if ($usermetta_info->enLastName == null) {
-            array_push($errors_array,getProfileMsgErreur('enLastName'));
+            array_push($errors_array, getProfileMsgErreur('enLastName'));
         }
         if ($usermetta_info->birthday == null) {
             array_push($errors_array, getProfileMsgErreur('birthday'));
@@ -194,6 +194,8 @@ class IdentificationCheck extends Component
         if ($requestIdentification != null) {
             $noteRequset = $requestIdentification->note;
         }
+        $this->disabled = in_array($user->status, [StatusRequst::EnCours->value, StatusRequst::ValidNational->value, StatusRequst::ValidInternational->value]) ? true : false;
+
         return view('livewire.identification-check',
             compact('user', 'usermetta_info', 'errors_array', 'userAuth', 'hasRequest', 'hasFrontImage', 'hasBackImage', 'noteRequset'))
             ->extends('layouts.master')->section('content');

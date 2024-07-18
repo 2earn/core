@@ -300,6 +300,7 @@
                 <div class="card-body p-4">
                     <div class="tab-content">
                         <div class="tab-pane active" id="personalDetails" role="tabpanel">
+
                             <form action="javascript:void(0);">
                                 <div class="row">
                                     <div class="col-lg-6">
@@ -326,7 +327,7 @@
                                                 {{__('Last name label')}}
                                             </label>
                                             <input type="text" class="form-control"
-                                                   {{$disabled}}
+                                                   {{ $disabled ? 'disabled' : ''  }}
                                                    wire:model.defer="usermetta_info.enLastName"
                                                    placeholder="{{__('Last Name')}}" value="">
                                         </div>
@@ -336,7 +337,7 @@
                                             <label for="firstnameInput"
                                                    class="form-label">{{__('First name label')}}</label>
                                             <input
-                                                {{$disabled}}
+                                                {{ $disabled ? 'disabled' : ''  }}
                                                 wire:model.defer="usermetta_info.enFirstName"
                                                 placeholder="{{__('First name')}}" class="form-control">
                                         </div>
@@ -388,7 +389,8 @@
                                                 {{__('Date of birth')  }}
                                             </label>
                                             <input
-                                                {{$disabled}}
+                                                {{ $disabled ? 'disabled' : ''  }}
+
                                                 wire:model.defer="usermetta_info.birthday" type="date"
                                                 class="form-control" id="JoiningdatInput"/>
                                         </div>
@@ -479,7 +481,8 @@
                                             <input readonly wire:model.defer="countryUser" type="text"
                                                    class="form-control"
                                                    id="countryInput"
-                                                   {{$disabled}}
+                                                   {{ $disabled ? 'disabled' : ''  }}
+
                                                    value="United States"/>
                                         </div>
                                     </div>
@@ -489,7 +492,8 @@
                                                    class="form-label">{{ __('National ID') }}</label>
                                             <input type="text" class="form-control" minlength="5" maxlength="50"
                                                    wire:model.defer="usermetta_info.nationalID"
-                                                   id="zipcodeInput1" {{$disabled}} >
+                                                   id="zipcodeInput1" {{ $disabled ? 'disabled' : ''  }}
+                                            >
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
@@ -704,7 +708,7 @@
                                 <div>
                                     <label for="lastName" class="form-label">{{__('First Name')}}</label>
                                     <input wire:model.defer="usermetta_info.enFirstName" type="text"
-                                           class="form-control" {{$disabled}}
+                                           class="form-control" {{ $disabled ? 'disabled' : ''  }}
                                            placeholder="{{__('Enter your name')}}">
                                 </div>
                             </div>
@@ -712,7 +716,7 @@
                                 <div>
                                     <label for="phoneNumber" class="form-label">{{__('Last Name')}}</label>
                                     <input wire:model.defer="usermetta_info.enLastName" type="text"
-                                           class="form-control" {{$disabled}}
+                                           class="form-control" {{ $disabled ? 'disabled' : ''  }}
                                            placeholder="{{__('Enter your lastname')}}">
                                 </div>
                             </div>
@@ -721,15 +725,16 @@
                                     <label for="JoiningdatInput" class="form-label">
                                         {{__('Date of birth')  }}
                                     </label>
-                                    <input wire:model.defer="usermetta_info.birthday" {{$disabled}}  type="date"
-                                           class="form-control"/>
+                                    <input wire:model.defer="usermetta_info.birthday" {{ $disabled ? 'disabled' : ''  }}
+                                    type="date"   class="form-control"/>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="mb-3">
                                     <label for="zipcodeInput2" class="form-label">{{ __('National ID') }}</label>
                                     <input type="text" class="form-control" minlength="5" maxlength="50"
-                                           {{$disabled}}        wire:model.defer="usermetta_info.nationalID"
+                                           {{ $disabled ? 'disabled' : ''  }}
+                                           wire:model.defer="usermetta_info.nationalID"
                                            id="zipcodeInput2">
                                 </div>
                             </div>
@@ -757,20 +762,24 @@
                                              src="{{asset(('/uploads/profiles/default.png'))}}?={{Str::random(16)}}">
                                     @endif
                                 </div>
-                                <div class="wrap-custom-file" style="margin-top: 10px">
-                                    <input wire:model.defer="photoFront" type="file" name="image55" id="image55"
-                                           {{$disabled}}
-                                           accept=".png"/>
-                                    <label for="image55">
-                                        <lord-icon
-                                            src="https://cdn.lordicon.com/vixtkkbk.json"
-                                            trigger="loop" delay="1000"
-                                            colors="primary:#464fed,secondary:#bc34b6"
-                                            style="width:100px;height:100px">
-                                        </lord-icon>
-                                        <span> <i class="ri-camera-fill"></i> </span>
-                                    </label>
-                                </div>
+                                @if(!$disabled)
+                                    <div class="wrap-custom-file mt-2 ">
+                                        <input wire:model.defer="photoFront" type="file" name="image55" id="image55"
+                                               {{ $disabled ? 'disabled' : ''  }}
+
+                                               accept=".png"/>
+                                        <label for="image55">
+                                            <lord-icon
+                                                src="https://cdn.lordicon.com/vixtkkbk.json"
+                                                trigger="loop" delay="1000"
+                                                colors="primary:#464fed,secondary:#bc34b6"
+                                                style="width:100px;height:100px">
+                                            </lord-icon>
+                                            <span> <i class="ri-camera-fill"></i> </span>
+                                        </label>
+                                    </div>
+                                @endif
+
                             </div>
                             <div class="col-6">
                                 <div>
@@ -785,19 +794,22 @@
                                              src="{{asset(('/uploads/profiles/default.png'))}}?={{Str::random(16)}}">
                                     @endif
                                 </div>
-                                <div class="wrap-custom-file" style="margin-top: 10px">
-                                    <input wire:model.defer="photoBack" type="file" name="image44" id="image44"
-                                           {{$disabled}}   accept=".png"/>
-                                    <label for="image44">
-                                        <lord-icon
-                                            src="https://cdn.lordicon.com/vixtkkbk.json"
-                                            trigger="loop" delay="1000"
-                                            colors="primary:#464fed,secondary:#bc34b6"
-                                            style="width:100px;height:100px">
-                                        </lord-icon>
-                                        <span> <i class="ri-camera-fill"></i> </span>
-                                    </label>
-                                </div>
+                                @if(!$disabled)
+                                    <div class="wrap-custom-file mt-2">
+                                        <input wire:model.defer="photoBack" type="file" name="image44" id="image44"
+                                               {{ $disabled ? 'disabled' : ''  }}
+                                               accept=".png"/>
+                                        <label for="image44">
+                                            <lord-icon
+                                                src="https://cdn.lordicon.com/vixtkkbk.json"
+                                                trigger="loop" delay="1000"
+                                                colors="primary:#464fed,secondary:#bc34b6"
+                                                style="width:100px;height:100px">
+                                            </lord-icon>
+                                            <span> <i class="ri-camera-fill"></i> </span>
+                                        </label>
+                                    </div>
+                                @endif
                             </div>
                             <div class="col-lg-12">
                                 <div class="hstack gap-2 justify-content-end">

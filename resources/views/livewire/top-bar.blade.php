@@ -114,7 +114,8 @@
                         <div class="dropdown-menu dropdown-menu-end">
                             @foreach (config('app.available_locales') as  $locale => $value )
                                 <a href="{{ route($currentRoute, ['locale'=> $locale ]) }} "
-                                   class="dropdown-item notify-item language py-2  @if($locale==app()->getLocale()) active @endif" data-lang="{{$locale}}"
+                                   class="dropdown-item notify-item language py-2  @if($locale==app()->getLocale()) active @endif"
+                                   data-lang="{{$locale}}"
                                    title="{{ __('lang'.$locale)  }}" data-turbolinks="false">
                                     <img src="{{ Vite::asset('resources/images/flags/'.$value['flag'].'.svg') }}"
                                          alt="user-image" class="me-2 rounded" height="20">
@@ -144,7 +145,8 @@
                                 <div class="row g-0">
                                     <div class="col">
                                         <a class="dropdown-icon-item" href="{{route('coming_move')}}">
-                                            <img src="{{Vite::asset('resources/images/Move2earn Icon.png')}}" alt="Move2earn">
+                                            <img src="{{Vite::asset('resources/images/Move2earn Icon.png')}}"
+                                                 alt="Move2earn">
                                             <span>Move2earn</span>
                                         </a>
                                     </div>
@@ -157,7 +159,8 @@
                                     </div>
                                     <div class="col">
                                         <a class="dropdown-icon-item" href="{{route('coming_learn')}}">
-                                            <img src="{{Vite::asset('resources/images/icon-learn.png')}}" alt="Learn2earn">
+                                            <img src="{{Vite::asset('resources/images/icon-learn.png')}}"
+                                                 alt="Learn2earn">
                                             <span>Learn2earn</span>
                                         </a>
                                     </div>
@@ -183,7 +186,8 @@
                                 data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                             <i class='bx bx-bell fs-22'></i>
                             <span
-                                class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger" id="notif-counter">{{$count}}
+                                class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger"
+                                id="notif-counter">{{$count}}
                                 <span class="visually-hidden">{{__('unread messages')}}</span>
                             </span>
                         </button>
@@ -293,8 +297,12 @@
                                  <span
                                      class="d-none d-xl-block badge bg-light @if($user->status==1) text-success  @else text-muted @endif mb-0">
                                         <span class="mb-5">{{__($userRole)}}</span>
-                                        @if($user->status==1)
-                                         <i class="mdi mdi-24px mdi-account-check green validated-user"></i>
+                                        @if($user->status==2)
+                                         <i class="mdi mdi-24px mdi-account-check green validated-user" title="{{__('National identified')}}"></i>
+                                     @elseif($user->status==1)
+                                         <i class="mdi mdi-24px mdi-loading red validated-user" title="{{__('Identification request in process')}}"></i>
+                                     @elseif($user->status==4)
+                                         <i class="mdi mdi-24px mdi-account-check red validated-user" title="{{__('International identified')}}"></i>
                                      @endif
                                  </span>
                             </span>

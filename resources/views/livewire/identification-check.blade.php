@@ -16,10 +16,10 @@
                                         @if(!$usermetta_info2['enFirstName'] || !$usermetta_info2['enLastName'] || !$usermetta_info2['birthday'] || !$usermetta_info2['nationalID'] || !$userF['email'])
                                             disabled
                                         @endif
-                                        data-bs-target=@if($hasRequest) "#accountValidationModal" @else
-                                    "#identificationModal"
-                                @endif>
-                                {{__('Click_here_for_Verification')}}
+                                        @if($hasRequest) data-bs-target="#accountValidationModal"
+                                        @else  data-bs-target="#identificationModal" @endif
+                                >
+                                    {{__('Click_here_for_Verification')}}
                                 </button>
                             </div>
                         </div>
@@ -218,18 +218,21 @@
                                                      src={{asset(('/uploads/profiles/default.png'))}} >
                                             @endif
                                         </div>
+                                        @if(!$disabled)
+                                            <div class="wrap-custom-file mt-2">
+                                                <input wire:model.defer="photoFront" type="file" name="photoFront"
+                                                       id="photoFront"
+                                                       accept=".png"/>
+                                                <label for="photoFront">
+                                                    <lord-icon src="https://cdn.lordicon.com/vixtkkbk.json"
+                                                               trigger="loop"
+                                                               delay="1000" style="width:100px;height:100px">
+                                                    </lord-icon>
+                                                    <span> <i class="ri-camera-fill"></i> </span>
+                                                </label>
+                                            </div>
+                                        @endif
 
-                                        <div class="wrap-custom-file" style="margin-top: 10px">
-                                            <input wire:model.defer="photoFront" type="file" name="photoFront"
-                                                   id="photoFront"
-                                                   accept=".png"/>
-                                            <label for="photoFront">
-                                                <lord-icon src="https://cdn.lordicon.com/vixtkkbk.json" trigger="loop"
-                                                           delay="1000" style="width:100px;height:100px">
-                                                </lord-icon>
-                                                <span> <i class="ri-camera-fill"></i> </span>
-                                            </label>
-                                        </div>
                                     </div>
                                     <div class="col-6">
                                         <div>
@@ -247,17 +250,21 @@
                                                      src={{asset(('/uploads/profiles/default.png'))}} >
                                             @endif
                                         </div>
-                                        <div class="wrap-custom-file ml-2">
-                                            <input wire:model.defer="photoBack" type="file" name="photoBack"
-                                                   id="photoBack" accept=".png"/>
-                                            <label for="photoBack">
-                                                <lord-icon src="https://cdn.lordicon.com/vixtkkbk.json" trigger="loop"
-                                                           delay="1000" style="width:100px;height:100px">
+                                        @if(!$disabled)
+                                            <div class="wrap-custom-file mt-2">
+                                                <input wire:model.defer="photoBack" type="file" name="photoBack"
+                                                       id="photoBack" accept=".png"/>
+                                                <label for="photoBack">
+                                                    <lord-icon src="https://cdn.lordicon.com/vixtkkbk.json"
+                                                               trigger="loop"
+                                                               delay="1000" style="width:100px;height:100px">
 
-                                                </lord-icon>
-                                                <span> <i class="ri-camera-fill"></i> </span>
-                                            </label>
-                                        </div>
+                                                    </lord-icon>
+                                                    <span> <i class="ri-camera-fill"></i> </span>
+                                                </label>
+                                            </div>
+                                        @endif
+
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-start gap-3 mt-4">
@@ -480,6 +487,13 @@
                 $("#internationalId, #expiryDate, #photoInternational").val('');
             } else {
                 $('#international-card-block').addClass("d-none")
+            }
+        });
+
+
+        document.getElementById('identificationModal').addEventListener('shown.bs.modal', function (event) {
+            if ('{{$userAuth->status}}' == 2) {
+                $('#pills-inter-identities-card-tab').trigger('click');
             }
         });
 

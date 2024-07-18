@@ -670,8 +670,9 @@ class settingsManager
     {
         $requestIdentification = identificationuserrequest::where('idUser', $idUser)->where('status', StatusRequst::EnCours)->first();
         if ($requestIdentification == null) return;
-        $this->updateIdentity($requestIdentification, StatusRequst::Valid, 1, null);
-        User::where('idUser', $idUser)->update(['status' => 1]);
+        $newStatus = file_exists(public_path() . '/uploads/profiles/international-id-image' . $idUser . '.png') ? StatusRequst::ValidInternational : StatusRequst::ValidNational;
+        $this->updateIdentity($requestIdentification, $newStatus, 1, null);
+        User::where('idUser', $idUser)->update(['status' => $newStatus]);
         $user = User::where('idUser', $idUser)->first();
         $uMetta = metta_user::where('idUser', $idUser)->first();
         if (($user->iden_notif == 1)) {
