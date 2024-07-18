@@ -213,7 +213,6 @@ class settingsManager
     public function getAuthUser()
     {
         $user = $this->userRepository->getAuthenticatedUser();
-
         $userMetta = $this->getMettaUser()
             ->where('idUser', '=', $user->idUser)->first();
         $userAuth = new AuthenticatedUser();

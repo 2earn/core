@@ -195,7 +195,6 @@ class IdentificationCheck extends Component
             $noteRequset = $requestIdentification->note;
         }
         $this->disabled = in_array($user->status, [StatusRequst::EnCours->value, StatusRequst::ValidNational->value, StatusRequst::ValidInternational->value]) ? true : false;
-
         return view('livewire.identification-check',
             compact('user', 'usermetta_info', 'errors_array', 'userAuth', 'hasRequest', 'hasFrontImage', 'hasBackImage', 'noteRequset'))
             ->extends('layouts.master')->section('content');

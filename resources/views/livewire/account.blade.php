@@ -1,4 +1,13 @@
 <div>
+    @php
+        $lessThanSixMonths=$moreThanSixMonths=false;
+          if(!is_null(auth()->user()->expiryDate))
+      {        $now = new DateTime();
+              $input = DateTime::createFromFormat('Y-m-d',  auth()->user()->expiryDate);
+              $diff = $input->diff($now);
+              $lessThanSixMonths = $diff->y === 0 && $diff->m < 6;
+              $moreThanSixMonths = $diff->y === 0 && $diff->m > 6;}
+    @endphp
     @component('components.breadcrumb')
         @slot('title')
             @if(Route::getCurrentRoute()->getName()!="validate_account")
@@ -110,6 +119,10 @@
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title mb-2 text-info">{{ __('International identity card') }}</h5>
+                    @if(auth()->user()->status= 4 && $lessThanSixMonths)
+                        <button type="button" id="soonExpireIIC"
+                                class="btn btn-warning mt-2">{{__('The passport will soon expire')}}</button>
+                    @endif
                 </div>
                 <div class="card-body row">
                     <div class="col-12">
@@ -271,14 +284,15 @@
                 <div class="card-header">
                     <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0 tab2earn"
                         role="tablist">
-                        <li class="nav-item">
+                        <li class="nav-item" id="personalDetailsTab">
                             <a style="color: #f02602" class="nav-link active" data-bs-toggle="tab"
                                href="#personalDetails" role="tab">
                                 <i class="fas fa-home"></i>
                                 {{__('Edit_Profile')}}
                             </a>
                         </li>
-                        <li class="nav-item @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif">
+                        <li id="identificationsTab"
+                            class="nav-item @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif">
                             <a class="nav-link" data-bs-toggle="tab" href="#experience" role="tab">
                                 <i class="far fa-envelope"></i>
                                 {{__('Identifications')}}
@@ -1018,9 +1032,7 @@
                         clearInterval(timerInterval);
                     },
                     input: 'text',
-                    inputAttributes: {
-                        autocapitalize: 'off'
-                    },
+                    inputAttributes: {autocapitalize: 'off'},
                 }).then((resultat) => {
                     if (resultat.value) {
                         window.Livewire.emit('changePassword', resultat.value);
@@ -1151,6 +1163,22 @@
                 }
             })
         </script>
+        <script type="module">
+            $(document).on('turbolinks:load', function () {
+                $("#soonExpireIIC").click(function () {
+                    $('#personalDetailsTab a').removeClass('active')
+                    $('#personalDetails').removeClass('active')
+                    $('#personalDetailsTab a').attr('aria-selected', false)
+
+                    $('#identificationsTab a').addClass('active')
+                    $('#experience').addClass('active')
+                    $('#identificationsTab a').attr('aria-selected', true)
+
+                    $('#identificationModalbtn').trigger('click');
+                });
+            });
+        </script>
+
         <script type="module">
             $(document).on('turbolinks:load', function () {
                 $("#btnPlus").click(function () {

@@ -1,4 +1,13 @@
 <div>
+    @php
+        $lessThanSixMonths=$moreThanSixMonths=false;
+          if(!is_null(auth()->user()->expiryDate))
+      {        $now = new DateTime();
+              $input = DateTime::createFromFormat('Y-m-d',  auth()->user()->expiryDate);
+              $diff = $input->diff($now);
+              $lessThanSixMonths = $diff->y === 0 && $diff->m < 6;
+              $moreThanSixMonths = $diff->y === 0 && $diff->m > 6;}
+    @endphp
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -11,22 +20,19 @@
                             </p>
                             <div class="mt-4">
                                 <button type="button"
+                                        id="identificationModalbtn"
                                         class="btn btn-primary"
                                         data-bs-toggle="modal"
                                         @if(!$usermetta_info2['enFirstName'] || !$usermetta_info2['enLastName'] || !$usermetta_info2['birthday'] || !$usermetta_info2['nationalID'] || !$userF['email'])
                                             disabled
                                         @endif
-                                        @php
-                                            $now = new DateTime();
-                                            $input = DateTime::createFromFormat('Y-m-d',  $userAuth->expiryDate);
-                                            $diff = $input->diff($now);
-                                            $lessThanSixMonths = $diff->y === 0 && $diff->m > 6;
-                                        @endphp
-                                        @if($userAuth->status= 4 && $lessThanSixMonths)
+
+                                        @if($userAuth->status= 4 && $moreThanSixMonths)
                                             disabled
                                         @endif
                                         @if($hasRequest) data-bs-target="#accountValidationModal"
                                         @else data-bs-target="#identificationModal" @endif
+
                                 >
                                     {{__('Click_here_for_Verification')}}
                                 </button>
@@ -404,6 +410,10 @@
                 window.location.reload();
             }
 
+            function showIdentificationModal() {
+                $('#identificationModal').modal('show');
+            }
+
             function hideIdentificationModal() {
                 $('#identificationModal').modal('hide');
             }
@@ -499,9 +509,8 @@
             }
         });
 
-
         document.getElementById('identificationModal').addEventListener('shown.bs.modal', function (event) {
-            if ('{{$userAuth->status}}' == 2) {
+            if ('{{$user->status}}' == 2 || '{{$user->status}}' == 4) {
                 $('#pills-inter-identities-card-tab').trigger('click');
             }
         });

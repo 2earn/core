@@ -36,9 +36,9 @@ class TopBar extends Component
 
     public function render(settingsManager $settingsManager, BalancesManager $balancesManager)
     {
-        $authUser = $settingsManager->getAuthUser();
+        $authUser = auth()->user();
         $user = $settingsManager->getUserById($authUser->id);
-        $this->count = \auth()->user()->unreadNotifications()->count();
+     $this->count = auth()->user()->unreadNotifications()->count();
         $this->notifications = auth()->user()->unreadNotifications()->get();
         $this->locales = config('app.available_locales');
         if (!$authUser)
@@ -46,6 +46,7 @@ class TopBar extends Component
         $params = [
             'solde' => $balancesManager->getBalances($authUser->idUser, 0),
             'user' => $authUser,
+            'userStatus' => $user->status,
             'userRole' => $user->getRoleNames()->first()
         ];
         return view('livewire.top-bar', $params);
