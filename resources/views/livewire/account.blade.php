@@ -757,10 +757,10 @@
                                              src="{{asset(('/uploads/profiles/default.png'))}}?={{Str::random(16)}}">
                                     @endif
                                 </div>
-                                <div class="wrap-custom-file" style="margin-top: 10px">
+                                <div class="wrap-custom-file mt-2"">
                                     <input wire:model.defer="photoFront" type="file" name="image55" id="image55"
                                            {{$disabled}}
-                                           accept=".png"/>
+                                               accept=".png"/>
                                     <label for="image55">
                                         <lord-icon
                                             src="https://cdn.lordicon.com/vixtkkbk.json"
@@ -785,7 +785,7 @@
                                              src="{{asset(('/uploads/profiles/default.png'))}}?={{Str::random(16)}}">
                                     @endif
                                 </div>
-                                <div class="wrap-custom-file" style="margin-top: 10px">
+                                <div class="wrap-custom-file mt-2" >
                                     <input wire:model.defer="photoBack" type="file" name="image44" id="image44"
                                            {{$disabled}}   accept=".png"/>
                                     <label for="image44">

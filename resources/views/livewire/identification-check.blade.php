@@ -16,10 +16,10 @@
                                         @if(!$usermetta_info2['enFirstName'] || !$usermetta_info2['enLastName'] || !$usermetta_info2['birthday'] || !$usermetta_info2['nationalID'] || !$userF['email'])
                                             disabled
                                         @endif
-                                        data-bs-target=@if($hasRequest) "#accountValidationModal" @else
-                                    "#identificationModal"
-                                @endif>
-                                {{__('Click_here_for_Verification')}}
+                                        @if($hasRequest) data-bs-target="#accountValidationModal"
+                                        @else  data-bs-target="#identificationModal" @endif
+                                >
+                                    {{__('Click_here_for_Verification')}}
                                 </button>
                             </div>
                         </div>
@@ -480,6 +480,13 @@
                 $("#internationalId, #expiryDate, #photoInternational").val('');
             } else {
                 $('#international-card-block').addClass("d-none")
+            }
+        });
+
+
+        document.getElementById('identificationModal').addEventListener('shown.bs.modal', function (event) {
+            if ('{{$userAuth->status}}' == 2) {
+                $('#pills-inter-identities-card-tab').trigger('click');
             }
         });
 

@@ -8,6 +8,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Core\Enum\AmoutEnum;
 use Core\Enum\NotificationSettingEnum;
+use Core\Enum\StatusRequst;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
 use Core\Models\identificationuserrequest;
@@ -136,7 +137,7 @@ class Account extends Component
         }
         $this->CalculPercenteComplete();
         $hasRequest = $userAuth->hasIdentificationRequest();
-        $this->disabled = abs($user->status) == 1 ? "disabled" : '';
+        $this->disabled = in_array($user->status, [StatusRequst::EnCours, StatusRequst::ValidNational, StatusRequst::ValidInternational]) ? true : false;
         return view('livewire.account', ['hasRequest' => $hasRequest, 'errors_array' => $this->errors_array])->extends('layouts.master')->section('content');
     }
 
@@ -261,8 +262,7 @@ class Account extends Component
         }
     }
 
-    public
-    function PreChangePass(settingsManager $settingManager)
+    public function PreChangePass(settingsManager $settingManager)
     {
         $userAuth = $settingManager->getAuthUser();
         if (!$userAuth) return;
@@ -288,12 +288,7 @@ class Account extends Component
         $userContactActif = $settingManager->getidCountryForSms($userAuth->id);
         $fullNumberSend = $userContactActif->fullNumber;
 
-        $this->dispatchBrowserEvent('OptChangePass', [
-            'type' => 'warning',
-            'title' => "Opt",
-            'text' => '',
-            'mail' => $fullNumberSend
-        ]);
+        $this->dispatchBrowserEvent('OptChangePass', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'mail' => $fullNumberSend]);
     }
 
     public function changePassword($code, settingsManager $settingManager)
