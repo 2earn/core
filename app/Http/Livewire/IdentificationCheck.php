@@ -8,7 +8,6 @@ use Core\Enum\StatusRequst;
 use Core\Models\identificationuserrequest;
 use Core\Models\metta_user;
 use Core\Services\settingsManager;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
@@ -32,6 +31,7 @@ class IdentificationCheck extends Component
     public $userF;
     public $internationalCard;
     public $messageVerif = "";
+    public $disabled;
 
     public $listeners = [
         'sendIndentificationRequest' => 'sendIndentificationRequest'
@@ -170,7 +170,7 @@ class IdentificationCheck extends Component
             array_push($errors_array, getProfileMsgErreur('enFirstName'));
         }
         if ($usermetta_info->enLastName == null) {
-            array_push($errors_array,getProfileMsgErreur('enLastName'));
+            array_push($errors_array, getProfileMsgErreur('enLastName'));
         }
         if ($usermetta_info->birthday == null) {
             array_push($errors_array, getProfileMsgErreur('birthday'));
@@ -194,6 +194,8 @@ class IdentificationCheck extends Component
         if ($requestIdentification != null) {
             $noteRequset = $requestIdentification->note;
         }
+        $this->disabled = in_array($user->status, [StatusRequst::EnCours->value, StatusRequst::ValidNational->value, StatusRequst::ValidInternational->value]) ? true : false;
+
         return view('livewire.identification-check',
             compact('user', 'usermetta_info', 'errors_array', 'userAuth', 'hasRequest', 'hasFrontImage', 'hasBackImage', 'noteRequset'))
             ->extends('layouts.master')->section('content');
