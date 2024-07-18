@@ -44,7 +44,7 @@
                                 </div>
                                 <h6 class="mb-1">{{$identificationRequest->nationalID}}</h6>
                                 <p class="card-text text-muted">{{$identificationRequest->DateCreation}}</p>
-                                <a href="{{route('validateaccount', ['locale' => app()->getLocale(), 'paramIdUser' => $identificationRequest->id]) }}"
+                                <a href="{{route('validate_account', ['locale' => app()->getLocale(), 'paramIdUser' => $identificationRequest->id]) }}"
                                    class="btn btn-primary btn-sm">
                                     {{__('See Details')}}
                                 </a>

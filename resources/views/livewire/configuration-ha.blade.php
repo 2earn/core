@@ -93,7 +93,7 @@
                     },
                     "processing": true,
                     search: {return: true},
-                    "ajax": "{{route('API_ActionHistory',app()->getLocale())}}",
+                    "ajax": "{{route('api_action_history',app()->getLocale())}}",
                     "columns": [
                         {data: 'title'},
                         {data: 'reponce'},

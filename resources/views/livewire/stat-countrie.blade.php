@@ -65,7 +65,7 @@
             if ($('#any2').length > 0) {
 
                 anychart.data.loadJsonFile(
-                    "{{route('API_stat_countries',app()->getLocale())}}",
+                    "{{route('api_stat_countries',app()->getLocale())}}",
                     function (data) {
                         if (data.length) {
                             for (var i = 0; i < data.length; i++) {
@@ -416,7 +416,7 @@
         anychart.onDocumentReady(function () {
             if ($('#any1').length > 0) {
                 anychart.data.loadJsonFile(
-                    "{{route('API_stat_countries',app()->getLocale())}}",
+                    "{{route('api_stat_countries',app()->getLocale())}}",
                     function (data) {
                         var dataSet = anychart.data.set(data);
                         var mapping = dataSet.mapAs({x: "name", value: "COUNT_USERS", category: "continant"});

@@ -80,7 +80,7 @@
                     },
                     "processing": true,
                     search: {return: true},
-                    "ajax": "{{route('API_userBFSPurchase',app()->getLocale())}}",
+                    "ajax": "{{route('api_user_bfs_purchase',app()->getLocale())}}",
                     "columns": [
                         {data: 'ranks'},
                         {data: 'Ref'},

@@ -533,7 +533,7 @@
 
 
         $.ajax({
-            url: "{{ route('getRequestAjax') }}",
+            url: "{{ route('get_request_ajax') }}",
             type: 'GET',
             dataType: "json",
             success: function (result) {

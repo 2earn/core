@@ -54,7 +54,7 @@
                     },
                     "processing": true,
                     search: {return: true},
-                    "ajax": "{{route('API_HistoryNotification',app()->getLocale())}}",
+                    "ajax": "{{route('api_history_notification',app()->getLocale())}}",
                     "columns": [
                         {data: 'reference'},
                         {data: 'send'},

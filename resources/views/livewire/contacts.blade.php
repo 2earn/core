@@ -103,7 +103,7 @@
                         </td>
                         <td>
                             <div class="btn-group btn-group-toggle " data-toggle="buttons">
-                                <a href="{{ route('editContact', ['locale' =>  app()->getLocale(), 'UserContact'=>  $value->id  ]) }}"
+                                <a href="{{ route('user_contact_edit', ['locale' =>  app()->getLocale(), 'UserContact'=>  $value->id  ]) }}"
                                    class="btn btn-outline-primary ">
                                     {{__('Edit')}}
                                 </a>
@@ -341,7 +341,7 @@
                 paging: true,
                 "pageLength": 100,
                 "aLengthMenu": [[100, 500, 1000], [100, 500, 1000]],
-                "ajax": "{{route('API_UserContacts',app()->getLocale())}}",
+                "ajax": "{{route('api_user_contacts',app()->getLocale())}}",
                 "columns": [
                     {"data": "name"},
                     {"data": "lastName"},
@@ -421,7 +421,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         const iddd = '{{Session::get('sessionIdUserExiste')}}';
-                        var url = "{{ route('editContact', ['locale' =>  app()->getLocale(), 'UserContact'=> Session::get('sessionIdUserExiste')]) }}";
+                        var url = "{{ route('user_contact_edit', ['locale' =>  app()->getLocale(), 'UserContact'=> Session::get('sessionIdUserExiste')]) }}";
                         document.location.href = url;
                     }
                 });

@@ -29,7 +29,7 @@
             msg += "تمنياتنا لكم بالتوفيق";
 
             $.ajax({
-                url: "{{ route('sendSMS') }}",
+                url: "{{ route('send_sms') }}",
                 type: "POST",
 
                 data: {

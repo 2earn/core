@@ -81,15 +81,15 @@ class CheckOptCode extends Component
         $user = $settingsManager->getUsers()->where('idUser', Crypt::decryptString($this->idUser))->first();
 
         if (substr($user->OptActivation, 0, 4) != ($this->code)) {
-            return redirect()->route('CheckOptCode', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('ErrorOptCode', Lang::get('Invalid OPT code'));
+            return redirect()->route('check_opt_code', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('ErrorOptCode', Lang::get('Invalid OPT code'));
         }
         $date = date('Y-m-d H:i:s');
         if (abs(strtotime($date) - strtotime($user->OptActivation_at)) / 60 > 1500) {
-            return redirect()->route('CheckOptCode', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('ErrorExpirationCode', Lang::get('OPT code expired'));
+            return redirect()->route('check_opt_code', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('ErrorExpirationCode', Lang::get('OPT code expired'));
         }
         $user = $settingsManager->getUserById($user->id);
         if ($user->status != -2) {
-            return redirect()->route('CheckOptCode', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('ErrorExpirationCode', Lang::get('User already verified'));
+            return redirect()->route('check_opt_code', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('ErrorExpirationCode', Lang::get('User already verified'));
         }
         $userUpline = $settingsManager->checkUserInvited($user);
         $password = $this->randomNewPassword(8);

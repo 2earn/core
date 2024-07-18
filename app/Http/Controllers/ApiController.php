@@ -1023,7 +1023,7 @@ class="btn btn-xs btn-primary edit-amounts-btn btn2earnTable"  >
 
     public function getUrlList($idUser, $idamount)
     {
-        return route('API_UserBalances_list', ['locale' => app()->getLocale(), 'idUser' => $idUser, 'idAmounts' => $idamount]);
+        return route('api_user_balances_list', ['locale' => app()->getLocale(), 'idUser' => $idUser, 'idAmounts' => $idamount]);
     }
 
     public function getUserBalancesList($idUser, $idamount)
@@ -1220,7 +1220,7 @@ where ir.status = ?
         return datatables($query)
             ->addColumn('action', function ($query) {
                 return '<a data-bs-toggle="" data-bs-target="#modal"
-                href="' . route('validateaccount', ['locale' => app()->getLocale(), 'paramIdUser' => $query->id]) . '"
+                href="' . route('validate_account', ['locale' => app()->getLocale(), 'paramIdUser' => $query->id]) . '"
 class="btn btn-primary btn2earnTable">' . __("Edit") . '</a> ';
             })
             ->rawColumns(['action'])

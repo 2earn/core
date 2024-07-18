@@ -119,7 +119,7 @@ class Registre extends Component
             $settingsManager->NotifyUser($newUser->id, TypeEventNotificationEnum::Inscri, ['msg' => $newcode, 'type' => TypeNotificationEnum::SMS]);
         }
         $settingsManager->generateNotificationSetting($newUser->idUser);
-        return redirect()->route('CheckOptCode', ["locale" => app()->getLocale(), "iduser" => Crypt::encryptString($newUser->idUser), "ccode" => $this->ccode, "numTel" => $this->fullNumber]);
+        return redirect()->route('check_opt_code', ["locale" => app()->getLocale(), "iduser" => Crypt::encryptString($newUser->idUser), "ccode" => $this->ccode, "numTel" => $this->fullNumber]);
     }
 
     public function initNewUser()

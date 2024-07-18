@@ -110,20 +110,20 @@ class FinancialTransaction extends Component
         $financialRequest = FinancialRequest::where('numeroReq', '=', $numeroRequste)->first();
         if (!$financialRequest) return;
         if ($financialRequest->status != 0) return;
-        return redirect()->route('AcceptFinancialRequest', ['locale' => app()->getLocale(), 'numeroReq' => $numeroRequste]);
+        return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $numeroRequste]);
     }
 
     public function redirectPay($url, $amount)
     {
         switch ($url) {
             case 'paymentpaypal':
-                return redirect()->route('paymentpaypal', ["locale" => app()->getLocale(), "amount" => $amount]);
+                return redirect()->route('payment_paypal', ["locale" => app()->getLocale(), "amount" => $amount]);
                 break;
             case 'paymentcreditcard' :
-                return redirect()->route('paymentstrip', ["locale" => app()->getLocale(), "amount" => $amount]);
+                return redirect()->route('payment_strip', ["locale" => app()->getLocale(), "amount" => $amount]);
                 break;
             case 'req_public_user' :
-                return redirect()->route('RequesPublicUser', ["locale" => app()->getLocale(), "amount" => $amount]);
+                return redirect()->route('user_request_public', ["locale" => app()->getLocale(), "amount" => $amount]);
                 break;
         }
     }
@@ -228,7 +228,7 @@ class FinancialTransaction extends Component
             $settingsManager->getAuthUser()->idUser,
             $this->soldeExchange);
         if ($this->FinRequestN != null && $this->FinRequestN != '') {
-            return redirect()->route('AcceptFinancialRequest', ['locale' => app()->getLocale(), 'numeroReq' => $this->FinRequestN]);
+            return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $this->FinRequestN]);
         }
         return redirect()->route('financial_transaction', app()->getLocale())->with('SuccesExchange', Lang::get('SuccesExchange'));
     }

@@ -71,7 +71,7 @@
                 search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
-                "ajax": "{{route('API_userPurchase', app()->getLocale() )}}",
+                "ajax": "{{route('api_user_purchase', app()->getLocale() )}}",
                 "columns": [
                     {data: 'DateAchat'},
                     {data: 'ReferenceAchat'},
@@ -120,7 +120,7 @@
                 search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
-                "ajax": "{{route('API_userPurchase', app()->getLocale() )}}",
+                "ajax": "{{route('api_user_purchase', app()->getLocale() )}}",
                 "columns": [
                     {data: 'DateAchat'},
                     {data: 'ReferenceAchat'},

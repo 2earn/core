@@ -191,7 +191,7 @@ class Account extends Component
         $userC = $settingsManager->getUserContactsById($id);
         if (!$userC) return;
         $userC->delete();
-        return redirect()->route('myAccount', app()->getLocale());
+        return redirect()->route('account', app()->getLocale());
     }
 
     public function saveUser($nbrChild, settingsManager $settingsManager)
@@ -257,7 +257,7 @@ class Account extends Component
             return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Edit_profil_succes'));
         else {
             $settingsManager->validateIdentity($us->idUser);
-            return redirect()->route('identificationRequest', app()->getLocale());
+            return redirect()->route('identification_request', app()->getLocale());
         }
     }
 
@@ -376,7 +376,7 @@ class Account extends Component
         $user = User::find($idUser);
         if ($user) {
             $settingsManager->validateIdentity($user->idUser);
-            return redirect()->route('identificationRequest', app()->getLocale())->with('success', Lang::get('User identification request approuved') . ' : ' . $user->email);
+            return redirect()->route('identification_request', app()->getLocale())->with('success', Lang::get('User identification request approuved') . ' : ' . $user->email);
         }
     }
 
@@ -385,7 +385,7 @@ class Account extends Component
         $user = User::find($idUser);
         if ($user) {
             $settingsManager->rejectIdentity($user->idUser, $this->noteReject);
-            return redirect()->route('identificationRequest', app()->getLocale())->with('success', Lang::get('User identification request rejected') . ' : ' . $user->email);
+            return redirect()->route('identification_request', app()->getLocale())->with('success', Lang::get('User identification request rejected') . ' : ' . $user->email);
         }
     }
 

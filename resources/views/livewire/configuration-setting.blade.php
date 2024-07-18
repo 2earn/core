@@ -121,7 +121,7 @@
                     search: {return: true},
                     "processing": true,
                     "aLengthMenu": [[5, 30, 50], [5, 30, 50]],
-                    "ajax": "{{route('API_settings',app()->getLocale())}}",
+                    "ajax": "{{route('api_settings',app()->getLocale())}}",
                     "columns": [
                         {"data": "ParameterName"},
                         {"data": "IntegerValue"},

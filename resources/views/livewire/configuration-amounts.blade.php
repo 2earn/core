@@ -130,7 +130,7 @@
                     },
                     "processing": true,
                     search: {return: true},
-                    "ajax": "{{route('API_Amounts',app()->getLocale())}}",
+                    "ajax": "{{route('api_Amounts',app()->getLocale())}}",
                     "columns": [
                         {data: 'amountsname'},
                         {data: 'amountsshortname'},

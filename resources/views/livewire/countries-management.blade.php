@@ -99,7 +99,7 @@
         $(document).on('turbolinks:load', function () {
             $('#countries_table').DataTable(
                 {
-                    "ajax": "{{route('API_countries',app()->getLocale())}}",
+                    "ajax": "{{route('api_countries',app()->getLocale())}}",
                     "columns": [
                         {"data": "id"},
                         {"data": "name"},

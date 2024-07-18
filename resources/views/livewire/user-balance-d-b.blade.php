@@ -64,7 +64,7 @@
                             search: {
                                 return: true
                             },
-                            "ajax": "{{route('API_UserBalances',['locale'=> app()->getLocale(), 'idAmounts'=>'Discounts-Balance'])}}",
+                            "ajax": "{{route('api_user_balances',['locale'=> app()->getLocale(), 'idAmounts'=>'Discounts-Balance'])}}",
                             "columns": [
                                 {data: 'Ref'},
                                 {data: 'Date'},

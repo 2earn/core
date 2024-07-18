@@ -115,7 +115,7 @@
                     },
                     "processing": true,
                     search: {return: true},
-                    "ajax": "{{route('API_BalOperations' ,app()->getLocale())}}",
+                    "ajax": "{{route('api_bal_operations' ,app()->getLocale())}}",
                     "columns": [
                         {"data": "Designation"},
                         {"data": "IO"},
