@@ -78,7 +78,7 @@ class Registre extends Component
     public function signup(settingsManager $settingsManager, TransactionManager $transactionManager)
     {
         if ($this->phoneNumber == "") {
-            return redirect()->route('registre', app()->getLocale())->with('errorPhoneValidation', Lang::get('your message,here'));
+            return redirect()->route('registre', app()->getLocale())->with('danger', Lang::get('Invalid phone number format'));
         }
         $newUser = null;
         $user = $settingsManager->getUserByFullNumber($this->fullNumber);
@@ -86,7 +86,7 @@ class Registre extends Component
             $newUser = $this->initNewUser();
         }
         if ($user && $user->status != -2) {
-            return redirect()->route('registre', app()->getLocale())->with('errorPhoneExiste', Lang::get('UserExiste'));
+            return redirect()->route('registre', app()->getLocale())->with('danger', Lang::get('UserExiste'));
         }
         if ($user) {
             $newUser = $settingsManager->getUserById($user->id);
