@@ -31,10 +31,10 @@
                             <h5 class="card-header">
                                 {{$identificationRequest->enName}}
                                 @if(file_exists(public_path().'/uploads/profiles/back-id-image'.$identificationRequest->idUser.'.png'))
-                                    <span class="badge bg-success-subtle text-success">{{__('National')}}</span>
+                                    <span class="badge bg-info-subtle text-info">{{__('National')}}</span>
                                 @endif
                                 @if(file_exists(public_path().'/uploads/profiles/international-id-image'.$identificationRequest->idUser.'.png'))
-                                  <span class="badge bg-danger-subtle text-danger">{{__('International')}}</span>
+                                  <span class="badge bg-info-subtle text-info">{{__('International')}}</span>
                                 @endif
                             </h5>
                             <div class="card-body">

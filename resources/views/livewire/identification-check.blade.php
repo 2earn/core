@@ -16,8 +16,17 @@
                                         @if(!$usermetta_info2['enFirstName'] || !$usermetta_info2['enLastName'] || !$usermetta_info2['birthday'] || !$usermetta_info2['nationalID'] || !$userF['email'])
                                             disabled
                                         @endif
+                                        @php
+                                            $now = new DateTime();
+                                            $input = DateTime::createFromFormat('Y-m-d',  $userAuth->expiryDate);
+                                            $diff = $input->diff($now);
+                                            $lessThanSixMonths = $diff->y === 0 && $diff->m > 6;
+                                        @endphp
+                                        @if($userAuth->status= 4 && $lessThanSixMonths)
+                                            disabled
+                                        @endif
                                         @if($hasRequest) data-bs-target="#accountValidationModal"
-                                        @else  data-bs-target="#identificationModal" @endif
+                                        @else data-bs-target="#identificationModal" @endif
                                 >
                                     {{__('Click_here_for_Verification')}}
                                 </button>
