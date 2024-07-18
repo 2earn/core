@@ -132,7 +132,7 @@ class IdentificationCheck extends Component
 
         if ($photoBackValidated && $photoFrontValidated && (!$this->internationalCard or ($this->internationalCard && $photoInternationalValidated))) {
             $this->sendIdentificationRequest($settingsManager);
-            User::where('idUser', $userAuth->idUser)->update(['status' => 1, 'asked_at' => date('Y-m-d H:i:s'), 'iden_notif' => $this->notify]);
+            User::where('idUser', $userAuth->idUser)->update(['status' => StatusRequst::EnCours, 'asked_at' => date('Y-m-d H:i:s'), 'iden_notif' => $this->notify]);
             $this->messageVerif = Lang::get('demande_creer');
             return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Identification_send_succes'));
         } else {

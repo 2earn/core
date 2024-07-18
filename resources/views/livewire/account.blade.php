@@ -709,7 +709,6 @@
                                     <label for="lastName" class="form-label">{{__('First Name')}}</label>
                                     <input wire:model.defer="usermetta_info.enFirstName" type="text"
                                            class="form-control" {{ $disabled ? 'disabled' : ''  }}
-
                                            placeholder="{{__('Enter your name')}}">
                                 </div>
                             </div>
@@ -718,7 +717,6 @@
                                     <label for="phoneNumber" class="form-label">{{__('Last Name')}}</label>
                                     <input wire:model.defer="usermetta_info.enLastName" type="text"
                                            class="form-control" {{ $disabled ? 'disabled' : ''  }}
-
                                            placeholder="{{__('Enter your lastname')}}">
                                 </div>
                             </div>
@@ -728,8 +726,7 @@
                                         {{__('Date of birth')  }}
                                     </label>
                                     <input wire:model.defer="usermetta_info.birthday" {{ $disabled ? 'disabled' : ''  }}
-                                    type="date"
-                                           class="form-control"/>
+                                    type="date"   class="form-control"/>
                                 </div>
                             </div>
                             <div class="col-lg-6">
