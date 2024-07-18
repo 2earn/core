@@ -166,7 +166,7 @@
             </div>
         </div>
         <div class="col-xxl-8">
-            @if($user['status']!=1)
+            @if(!$disabled)
                 <div class="card @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif">
                     <div class="card-header">
                         <h5 class="card-title mb-2 text-info">{{ __('Complete_Profile') }}</h5>
@@ -243,8 +243,10 @@
                                     {{__('voter_demande_déja_en_cours')}}...
                                 </button>
                             @else
-                                @if($user['status'] == 1)
-                                    <h6>{{__('votre_compte_est_déja_validé')}}</h6>
+                                @if($user['status'] == 2)
+                                    <h6>{{__('Your account is already national validated')}}</h6>
+                                @elseif($user['status'] == 4)
+                                    <h6>{{__('your account is already international validated')}}</h6>
                                 @endif
                             @endif
                         @else
@@ -726,7 +728,7 @@
                                         {{__('Date of birth')  }}
                                     </label>
                                     <input wire:model.defer="usermetta_info.birthday" {{ $disabled ? 'disabled' : ''  }}
-                                    type="date"   class="form-control"/>
+                                    type="date" class="form-control"/>
                                 </div>
                             </div>
                             <div class="col-lg-6">

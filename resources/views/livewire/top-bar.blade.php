@@ -292,17 +292,21 @@
                             <img class="rounded-circle header-profile-user" alt="Header Avatar"
                                  src="@if (file_exists('uploads/profiles/profile-image-' . $user->idUser . '.png')) {{ URL::asset('uploads/profiles/profile-image-'.$user->idUser.'.png') }}@else{{ URL::asset('uploads/profiles/default.png') }} @endif">
                             <span class="text-center ms-xl-2">
-                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">
+                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"
+                                      title="{{$user->status}}">
                                     {{getUserDisplayedName()}} </span>
                                  <span
                                      class="d-none d-xl-block badge bg-light @if($user->status==1) text-success  @else text-muted @endif mb-0">
                                         <span class="mb-5">{{__($userRole)}}</span>
                                         @if($user->status==2)
-                                         <i class="mdi mdi-24px mdi-account-check green validated-user" title="{{__('National identified')}}"></i>
+                                         <i class="mdi mdi-24px mdi-account-check text-success validated-user"
+                                            title="{{__('National identified')}}"></i>
                                      @elseif($user->status==1)
-                                         <i class="mdi mdi-24px mdi-loading red validated-user" title="{{__('Identification request in process')}}"></i>
+                                         <i class="mdi mdi-24px mdi-account-check text-warning validated-user"
+                                            title="{{__('Identification request in process')}}"></i>
                                      @elseif($user->status==4)
-                                         <i class="mdi mdi-24px mdi-account-check red validated-user" title="{{__('International identified')}}"></i>
+                                         <i class="mdi mdi-24px mdi-account-check text-info validated-user"
+                                            title="{{__('International identified')}}"></i>
                                      @endif
                                  </span>
                             </span>
