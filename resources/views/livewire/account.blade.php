@@ -289,8 +289,8 @@
                                 {{__('ChangePassword')}}
                             </a>
                         </li>
-                        <li class="nav-item @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif">
-                            <a class="nav-link" data-bs-toggle="tab" href="#privacy" role="tab">
+                        <li class="nav-item  @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif d-none ">
+                            <a class="nav-link disabled" data-bs-toggle="tab" href="#privacy" role="tab">
                                 <i class="far fa-envelope"></i>
                                 {{__('UpdatePhoneNumber')}}
                             </a>
@@ -646,7 +646,7 @@
                             <livewire:identification-check/>
                         </div>
                         <div
-                            class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"
+                            class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif d-none "
                             id="privacy" role="tabpanel">
                             <livewire:edit-phone-number/>
                         </div>
