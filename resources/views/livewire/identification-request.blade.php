@@ -1,6 +1,6 @@
 <div>
     @section('title')
-        @lang('translation.team')
+        @lang('Identification requests')
     @endsection
     @section('content')
         @component('components.breadcrumb')
