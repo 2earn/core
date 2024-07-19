@@ -1,12 +1,11 @@
 <div>
     @php
-        $lessThanSixMonths=$moreThanSixMonths=false;
-          if(!is_null(auth()->user()->expiryDate))
-      {        $now = new DateTime();
-              $input = DateTime::createFromFormat('Y-m-d',  auth()->user()->expiryDate);
-              $diff = $input->diff($now);
-              $lessThanSixMonths = $diff->y === 0 && $diff->m < 6;
-              $moreThanSixMonths = $diff->y === 0 && $diff->m > 6;}
+        $justExpired=$lessThanSixMonths = false;
+        if (!is_null(auth()->user()->expiryDate)) {
+            $daysNumber = getDiffOnDays(auth()->user()->expiryDate);
+            $lessThanSixMonths = $daysNumber < 180 ? true : false;
+            $justExpired = $daysNumber < 1 ? true : false;
+        }
     @endphp
     @component('components.breadcrumb')
         @slot('title')
@@ -119,9 +118,12 @@
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title mb-2 text-info">{{ __('International identity card') }}</h5>
-                    @if(auth()->user()->status= 4 && $lessThanSixMonths)
+                    @if(auth()->user()->status == 4 && $justExpired)
                         <button type="button" id="soonExpireIIC"
-                                class="btn btn-warning mt-2">{{__('The passport will soon expire')}}</button>
+                                class="btn btn-danger mt-2">{{__('Your International identity is expired')}}</button>
+                    @elseif(auth()->user()->status == 4 && $lessThanSixMonths)
+                        <button type="button" id="soonExpireIIC"
+                                class="btn btn-warning mt-2">{{__('Your International identity will soon expire')}}</button>
                     @endif
                 </div>
                 <div class="card-body row">
@@ -346,9 +348,7 @@
                                                    {{ $disabled ? 'disabled' : ''  }}
                                                    wire:model.defer="usermetta_info.enLastName"
                                                    placeholder="{{__('Last Name')}}" value="">
-                                            <div class="form-text">
-                                                {{__('Required field for validation')}}
-                                            </div>
+                                            <div class="form-text">{{__('Required for account validation')}}</div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -359,9 +359,7 @@
                                                 {{ $disabled ? 'disabled' : ''  }}
                                                 wire:model.defer="usermetta_info.enFirstName"
                                                 placeholder="{{__('First name')}}" class="form-control">
-                                            <div class="form-text">
-                                                {{__('Required field for validation')}}
-                                            </div>
+                                            <div class="form-text">{{__('Required for account validation')}}</div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -403,9 +401,6 @@
                                                     @endif
                                                 </button>
                                             </div>
-                                            <div class="form-text">
-                                                {{__('Required field for validation')}}
-                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -415,11 +410,10 @@
                                             </label>
                                             <input
                                                 {{ $disabled ? 'disabled' : ''  }}
+
                                                 wire:model.defer="usermetta_info.birthday" type="date"
                                                 class="form-control" id="JoiningdatInput"/>
-                                            <div class="form-text">
-                                                {{__('Required field for validation')}}
-                                            </div>
+                                            <div class="form-text">{{__('Required for account validation')}}</div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -521,9 +515,7 @@
                                                    wire:model.defer="usermetta_info.nationalID"
                                                    id="zipcodeInput1" {{ $disabled ? 'disabled' : ''  }}
                                             >
-                                            <div class="form-text">
-                                                {{__('Required field for validation')}}
-                                            </div>
+                                            <div class="form-text">{{__('Required for account validation')}}</div>
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
@@ -704,6 +696,7 @@
                                     <label for="emailInput" class="form-label">{{ __('Your Email') }}</label>
                                     <input type="email" wire:model.defer="user.email" class="form-control"
                                            id="inputEmail" placeholder="{{ __('your_new_mail')}}">
+                                    <div class="form-text">{{__('Required for account validation')}}</div>
                                 </div>
                             </div>
                             <div class="col-lg-12">
@@ -740,20 +733,14 @@
                                     <input wire:model.defer="usermetta_info.enFirstName" type="text"
                                            class="form-control" {{ $disabled ? 'disabled' : ''  }}
                                            placeholder="{{__('Enter your name')}}">
-                                    <div class="form-text">
-                                        {{__('Required field for validation')}}
-                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div>
-                                    <label for="phoneNumber" class="form-label">{{__('Last Name')}}</label>
+                                    <label for="phoneNumber" class="form-label">{{__('Last Name')}}AA</label>
                                     <input wire:model.defer="usermetta_info.enLastName" type="text"
                                            class="form-control" {{ $disabled ? 'disabled' : ''  }}
                                            placeholder="{{__('Enter your lastname')}}">
-                                    <div class="form-text">
-                                        {{__('Required field for validation')}}
-                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -914,84 +901,10 @@
                 })
             }
 
-            var ChangeLanguge = '{{Session::has('ChangeLanguge')}}';
-            if (ChangeLanguge) {
-                location.reload();
-            }
-            var exisPhoneUpdated = '{{Session::has('SuccesUpdatePhone')}}';
-            if (exisPhoneUpdated) {
-                var tabChangePhone = document.querySelector('#pills-UpdatePhone-tab');
-                var tab = new bootstrap.Tab(tabChangePhone);
-                tab.show();
-                toastr.success('{{Session::get('SuccesUpdatePhone')}}');
-            }
-            var existSamePhone = '{{Session::has('ErrorSamePhone')}}';
-            if (existSamePhone) {
-                Swal.fire({
-                    title: '{{Session::get('ErrorSamePhone')}}',
-                    showClass: {popup: 'animate__animated animate__fadeInDown'},
-                    hideClass: {popup: 'animate__animated animate__fadeOutUp'}
-                }).then(okay => {
-                    if (okay) {
-                        var tabChangePhone = document.querySelector('#pills-UpdatePhone-tab');
-                        var tab = new bootstrap.Tab(tabChangePhone);
-                        tab.show();
-                    }
-                });
-            }
-            var existeErrorOpt = '{{ Session::has('ErrorOptCodeUpdatePass')}}'
-            if (existeErrorOpt) {
-                Swal.fire({
-                    title: '{{Session::get('ErrorOptCodeUpdatePass')}}',
-                    confirmButtonText: '{{trans('ok')}}',
-                    showClass: {popup: 'animate__animated animate__fadeInDown'},
-                    hideClass: {popup: 'animate__animated animate__fadeOutUp'}
-                }).then(okay => {
-                    if (okay) {
-                        var tabChangePass = document.querySelector('#pills-changePass-tab');
-                        var tab = new bootstrap.Tab(tabChangePass);
-                        tab.show();
-                    }
-                });
-            }
-            var ErrorMailUsed = '{{ Session::has('ErrorMailUsed')}}'
-            if (ErrorMailUsed) {
-                Swal.fire({
-                    title: '{{Session::get('ErrorMailUsed')}}',
-                    confirmButtonText: '{{trans('ok')}}',
-                    showClass: {popup: 'animate__animated animate__fadeInDown'},
-                    hideClass: {popup: 'animate__animated animate__fadeOutUp'}
-                });
-            }
-            var SoldeSms = '{{ Session::has('SoldeSmsInsuffisant')}}'
-            if (SoldeSms) {
-                Swal.fire({
-                    title: '{{Session::get('SoldeSmsInsuffisant')}}',
-                    confirmButtonText: '{{trans('ok')}}',
-                    showClass: {popup: 'animate__animated animate__fadeInDown'},
-                    hideClass: {popup: 'animate__animated animate__fadeOutUp'}
-                });
-            }
-            var MailNonValide = '{{ Session::has('MailNonValide')}}'
-            if (MailNonValide) {
-                Swal.fire({
-                    title: '{{Session::get('MailNonValide')}}',
-                    confirmButtonText: '{{trans('ok')}}',
-                    showClass: {popup: 'animate__animated animate__fadeInDown'},
-                    hideClass: {popup: 'animate__animated animate__fadeOutUp'}
-                });
-            }
+
             var SuccesUpdatePassword = '{{ Session::has('SuccesUpdatePassword')}}'
             if (SuccesUpdatePassword) {
                 toastr.success('{{Session::get('SuccesUpdatePassword')}}');
-            }
-            var SuccesUpdateProfile = '{{ Session::has('SuccesUpdateProfile')}}'
-            if (SuccesUpdateProfile) {
-                toastr.success('{{Session::get('SuccesUpdateProfile')}}');
-            }
-            var SuccesUpdateIdentification = '{{Session::has('SuccesUpdateIdentification')}}';
-            if (SuccesUpdateIdentification) {
-                toastr.success('{{Session::get('SuccesUpdateIdentification')}}');
             }
 
         </script>

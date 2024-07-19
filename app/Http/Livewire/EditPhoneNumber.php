@@ -51,7 +51,7 @@ class EditPhoneNumber extends Component
             DB::update('update usercontactnumber set active = 0 , isID= 0 where idUser = ?', [$userAuth->idUser]);
             DB::update('update usercontactnumber set active = ? ,isID = 1  where id = ?', [1, $newC->id]);
         }
-        return redirect()->route("account", app()->getLocale())->with('SuccesUpdatePhone', Lang::get('Phone number changed'));
+        return redirect()->route("account", app()->getLocale())->with('success', Lang::get('Phone number changed'));
     }
 
     public function PreChangePhone($phone, $fullNumber, $methodeVerification, settingsManager $settingsManager)
