@@ -192,11 +192,8 @@ class settingsManager
     {
         $mobile = $this->formatMobileNumber($mobile);
         $country = $this->getCountryByIso($iso);
-
         $user = $this->userRepository->getUserByMobile($mobile, $country->id, $pass);
-
         if (!$user) {
-
             $user = $this->loginWithGeneratePass($mobile, $country->id, $pass);
             if (!$user)
                 return null;
@@ -204,6 +201,12 @@ class settingsManager
 
         $user = $this->userRepository->getUserById($user->id);
         $this->userRepository->loginUser($user, $remember);
+        if ($user->status == StatusRequst::ValidInternational->value) {
+            if (getDiffOnDays($user->expiryDate) < 1) {
+                $user->status = StatusRequst::ValidNational;
+                $user->save();
+            }
+        }
         $userAuth = $this->getAuthUser();
         if (!$this->getAuthUser())
             return null;

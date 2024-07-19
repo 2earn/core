@@ -1,12 +1,10 @@
 <div>
     @php
-        $lessThanSixMonths=$moreThanSixMonths=false;
-          if(!is_null(auth()->user()->expiryDate))
-      {        $now = new DateTime();
-              $input = DateTime::createFromFormat('Y-m-d',  auth()->user()->expiryDate);
-              $diff = $input->diff($now);
-              $lessThanSixMonths = $diff->y === 0 && $diff->m < 6;
-              $moreThanSixMonths = $diff->y === 0 && $diff->m > 6;}
+         $moreThanSixMonths = false;
+        if (!is_null(auth()->user()->expiryDate)) {
+            $daysNumber = getDiffOnDays(auth()->user()->expiryDate);
+            $moreThanSixMonths = $daysNumber > 180 ? true : false;
+        }
     @endphp
     <div class="row">
         <div class="col-lg-12">
