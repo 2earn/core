@@ -202,9 +202,11 @@ class settingsManager
         $user = $this->userRepository->getUserById($user->id);
         $this->userRepository->loginUser($user, $remember);
         if ($user->status == StatusRequst::ValidInternational->value) {
-            if (getDiffOnDays($user->expiryDate) < 1) {
-                $user->status = StatusRequst::ValidNational;
-                $user->save();
+            if (!is_null($user->expiryDate)) {
+                if (getDiffOnDays($user->expiryDate) < 1) {
+                    $user->status = StatusRequst::ValidNational;
+                    $user->save();
+                }
             }
         }
         $userAuth = $this->getAuthUser();
