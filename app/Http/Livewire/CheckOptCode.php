@@ -4,31 +4,19 @@ namespace App\Http\Livewire;
 
 use App\Http\Traits\earnTrait;
 use App\Models\MettaUser;
-use App\Models\User;
 use App\Notifications\contact_registred;
-use Core\Enum\ActionEnum;
-use Core\Enum\AmoutEnum;
-use Core\Enum\BalanceOperationsEnum;
 use Core\Enum\EventBalanceOperationEnum;
-use Core\Enum\NotificationSettingEnum;
-use Core\Enum\OperateurSmsEnum;
-use Core\Enum\SettingsEnum;
-use Core\Enum\TypeNotificationEnum;
+use Core\Enum\StatusRequst;
 use Core\Enum\TypeEventNotificationEnum;
+use Core\Enum\TypeNotificationEnum;
 use Core\Services\CommandeServiceManager;
-use Core\Services\NotifyHelper;
 use Core\Services\settingsManager;
-use Core\Services\SmsHelper;
 use Core\Services\UserBalancesHelper;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Str;
 use Livewire\Component;
-use Illuminate\Support\Facades\Crypt;
 
 class CheckOptCode extends Component
 {
@@ -71,11 +59,7 @@ class CheckOptCode extends Component
      * 10 - save operations of userBalance
      *  ToDo
      */
-    public function verifCodeOpt(
-        settingsManager        $settingsManager,
-        CommandeServiceManager $commandeServiceManager,
-        UserBalancesHelper     $userBalancesHelper,
-    )
+    public function verifCodeOpt(settingsManager $settingsManager, CommandeServiceManager $commandeServiceManager, UserBalancesHelper $userBalancesHelper)
     {
         $this->validate();
         $user = $settingsManager->getUsers()->where('idUser', Crypt::decryptString($this->idUser))->first();
@@ -88,31 +72,24 @@ class CheckOptCode extends Component
             return redirect()->route('check_opt_code', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('ErrorExpirationCode', Lang::get('OPT code expired'));
         }
         $user = $settingsManager->getUserById($user->id);
-        if ($user->status != -2) {
+        if ($user->status != StatusRequst::Registred) {
             return redirect()->route('check_opt_code', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('ErrorExpirationCode', Lang::get('User already verified'));
         }
         $userUpline = $settingsManager->checkUserInvited($user);
         $password = $this->randomNewPassword(8);
         $user->password = Hash::make($password);
         $user->pass = $password;
-        $user->status = 0;
+        $user->status = StatusRequst::OptValidated;
         if ($commandeServiceManager->saveUser($user)) {
-            $settingsManager->NotifyUser($user->id, TypeEventNotificationEnum::Password, [
-                'msg' => $password,
-                'type' => TypeNotificationEnum::SMS
-            ]);
+            $settingsManager->NotifyUser($user->id, TypeEventNotificationEnum::Password, ['msg' => $password, 'type' => TypeNotificationEnum::SMS]);
             $user->assignRole(4);
             if ($userUpline) {
                 $userUpline->notify(new contact_registred($user->fullphone_number));
-                $settingsManager->NotifyUser($userUpline->id, TypeEventNotificationEnum::ToUpline, [
-                    'msg' => $user->fullphone_number,
-                    'toMail' => "khan_josef@hotmail.com",
-                    'emailTitle' => "reg Title",
-                ]);
+                $settingsManager->NotifyUser($userUpline->id, TypeEventNotificationEnum::ToUpline, ['msg' => $user->fullphone_number, 'toMail' => "khan_josef@hotmail.com", 'emailTitle' => "reg Title"]);
             }
             $userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::Signup, $user->idUser);
         }
-        return redirect()->route('login', app()->getLocale())->with('FromLogOut', Lang::get('fds'));
+        return redirect()->route('login', app()->getLocale())->with('success', Lang::get('fds'));
     }
 
 }

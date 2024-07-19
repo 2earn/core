@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Http\Traits\earnLog;
 use App\Http\Traits\earnTrait;
 use App\Models\User;
+use Core\Enum\StatusRequst;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
 use Core\Services\settingsManager;
@@ -78,7 +79,7 @@ class Registre extends Component
     public function signup(settingsManager $settingsManager, TransactionManager $transactionManager)
     {
         if ($this->phoneNumber == "") {
-            return redirect()->route('registre', app()->getLocale())->with('errorPhoneValidation', Lang::get('your message,here'));
+            return redirect()->route('registre', app()->getLocale())->with('danger', Lang::get('Invalid phone number format'));
         }
         $newUser = null;
         $user = $settingsManager->getUserByFullNumber($this->fullNumber);
@@ -86,7 +87,7 @@ class Registre extends Component
             $newUser = $this->initNewUser();
         }
         if ($user && $user->status != -2) {
-            return redirect()->route('registre', app()->getLocale())->with('errorPhoneExiste', Lang::get('UserExiste'));
+            return redirect()->route('registre', app()->getLocale())->with('danger', Lang::get('UserExiste'));
         }
         if ($user) {
             $newUser = $settingsManager->getUserById($user->id);
@@ -128,7 +129,7 @@ class Registre extends Component
         $lastuser = DB::table('users')->max('iduser');
         $newIdUser = $lastuser + 1;
         $newUser->idUser = $newIdUser;
-        $newUser->status = -2;
+        $newUser->status = StatusRequst::Registred;
         return $newUser;
     }
 

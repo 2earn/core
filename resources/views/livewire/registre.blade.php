@@ -8,67 +8,12 @@
             display: none;
         }
 
-        #error-msg {
-            color: red;
-        }
     </style>
-    <script>
-        window.addEventListener('load', () => {
-            var existSucess = '{{Session::has('successRegistre')}}';
-            var msgsuccess = "success !";
-            if (existSucess && "{{Session::get('successRegistre')}}" != "") {
-                var local = '{{app()->getLocale()}}';
-                if (local == 'ar') {
-                    msgsuccess = "هذا  !";
-                }
-                Swal.fire({
-                    title: ' ',
-                    text: msgsuccess,
-                    icon: 'error',
-                    confirmButtonText: '{{trans('ok')}}',
-                })
-            }
-            var exist = '{{Session::has('errorPhoneExiste')}}';
-            var msg = "this number is already registered!";
-            if (exist && "{{Session::get('errorPhoneExiste')}}" != "") {
-                msg = "{{Session::get('errorPhoneExiste')}}";
-                Swal.fire({
-                    title: ' ',
-                    text: msg,
-                    icon: 'error',
-                    confirmButtonText: '{{trans('ok')}}',
-                }).then(okay => {
-                    if (okay) {
-                        window.location.reload();
-                    }
-                });
-            }
-            var existn = '{{Session::has('errorPhoneValidation')}}';
-            var msg = "This number is not valid!";
-            if (existn && "{{Session::get('errorPhoneValidation')}}" != "") {
-                var local = '{{app()->getLocale()}}';
-                if (local == 'ar') {
-                    msg = "هذا الرقم غير صالح!";
-                }
-                Swal.fire({
-                    title: ' ',
-                    text: msg,
-                    icon: 'error',
-                    confirmButtonText: '{{trans('ok')}}',
-                }).then(okay => {
-                    if (okay) {
-                        window.location.reload();
-                    }
-                });
-            }
-        });
-
-    </script>
     <div class="auth-page-wrapper pt-5">
         <div class="auth-one-bg-position auth-one-bg col-lg-12 d-none d-md-block" id="auth-particles">
             <div class="bg-overlay"></div>
             <div class="shape">
-                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+                <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
                      viewBox="0 0 1440 120">
                     <path d="M 0,36 C 144,53.6 432,123.2 720,124 C 1008,124.8 1296,56.8 1440,40L1440 140L0 140z"></path>
                 </svg>
@@ -76,6 +21,7 @@
         </div>
         <div class="auth-page-content">
             <div class="container">
+
                 <div class="row col-lg-12 d-none d-md-block">
                     <div class="col-lg-12 mb-2 ">
                         <div class="text-center mt-sm-5 mb-4 text-white-50">
@@ -93,6 +39,14 @@
                                 <div class="text-center mt-2">
                                     <h5 class="text-primary">{{__('Create_New_Account')}}</h5>
                                     <p class="text-muted">{{__('Get_free_account')}}</p>
+                                </div>
+                                <div class="mt-4">
+                                    @include('layouts.flash-messages')
+                                    <div id="error-msg" class="alert alert-danger mx-1 hide" role="alert">
+                                    </div>
+                                    <div id="valid-msg" class="alert alert-danger mx-1 hide" role="alert">
+                                        {{__('Valid')}}
+                                    </div>
                                 </div>
                                 <div class="p-2 mt-4">
                                     <form>
@@ -112,8 +66,6 @@
                                             <div class="invalid-feedback">
                                                 {{__('Please enter email')}}
                                             </div>
-                                            <span id="valid-msg" class="hide">{{__('Valid')}}</span>
-                                            <span id="error-msg" class="hide"></span>
                                             <input type="hidden" name="fullnumber" id="output"
                                                    value=""
                                                    class="form-control">
@@ -142,16 +94,18 @@
                                                     <li class="active active-underline">
                                                         <div>
                                                             <a href="{{env('SHOP_LIEN')}}">
-                                                                <img src="{{Vite::asset('resources/images/icon-shop.png')}}"
-                                                                     width="70" height="70">
+                                                                <img
+                                                                    src="{{Vite::asset('resources/images/icon-shop.png')}}"
+                                                                    width="70" height="70">
                                                             </a>
                                                         </div>
                                                     </li>
                                                     <li>
                                                         <div>
                                                             <a href="{{env('LEARN_LIEN')}}">
-                                                                <img src="{{Vite::asset('resources/images/icon-learn.png')}}"
-                                                                     width="70" height="70">
+                                                                <img
+                                                                    src="{{Vite::asset('resources/images/icon-learn.png')}}"
+                                                                    width="70" height="70">
                                                             </a>
                                                         </div>
                                                     </li>

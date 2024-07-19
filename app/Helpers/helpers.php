@@ -2,29 +2,13 @@
 
 use App\Models\User;
 use Carbon\Carbon;
-use Core\Enum\OperateurSmsEnum;
-use Core\Enum\TypeEventNotificationEnum;
-use Core\Enum\TypeNotificationEnum;
-use Core\Interfaces\IBalanceOperationRepositoty;
-use Core\Interfaces\IUserBalancesRepository;
-use Core\Models\MailOperator\StandardMailOperator;
-use Core\Models\Notification\DefaultNotification;
-use Core\Models\Notification\MailNotification;
-use Core\Models\Notification\SmsNotification;
-use Core\Models\SmsOperators\InternationalOperatorSms;
-use Core\Models\SmsOperators\SaSmsOperator;
-use Core\Models\SmsOperators\TunisieOperatorSms;
-use Core\Services\settingsManager;
+use Core\Models\Setting;
 use Illuminate\Contracts\Encryption\DecryptException;
-use Illuminate\Http\Request as Req;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
-use Core\Services\BalancesManager;
-use Paytabscom\Laravel_paytabs\Facades\paypage;
-use Core\Models\Setting;
 
 if (!function_exists('getUserBalanceSoldes')) {
     function getUserBalanceSoldes($idUser, $amount)
@@ -240,7 +224,8 @@ if (!function_exists('getGiftedActions')) {
     }
 }
 if (!function_exists('find_actions')) {
-    function find_actions($result_final, $total_actions, $max_bonus, $k, $x) {
+    function find_actions($result_final, $total_actions, $max_bonus, $k, $x)
+    {
         $a = ($total_actions * $max_bonus) / 100;
         $epsilon = 0.0001; // tolérance pour la solution
         $actions_guess = $result_final / (1 + $x); // initial guess
@@ -580,5 +565,14 @@ if (!function_exists('getProfileMsgErreur')) {
     function getProfileMsgErreur($typeErreur)
     {
         return Lang::get('Identify_' . $typeErreur);
+    }
+}
+
+if (!function_exists('checkExpiredSoonInternationalIdentity')) {
+    function getDiffOnDays($disiredDate)
+    {
+        $now = new DateTime();
+        $input = DateTime::createFromFormat('Y-m-d', $disiredDate);
+        return $now->diff($input)->format("%r%a");
     }
 }
