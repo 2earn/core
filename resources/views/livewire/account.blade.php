@@ -346,6 +346,9 @@
                                                    {{ $disabled ? 'disabled' : ''  }}
                                                    wire:model.defer="usermetta_info.enLastName"
                                                    placeholder="{{__('Last Name')}}" value="">
+                                            <div class="form-text">
+                                                {{__('Required field for validation')}}
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -356,6 +359,9 @@
                                                 {{ $disabled ? 'disabled' : ''  }}
                                                 wire:model.defer="usermetta_info.enFirstName"
                                                 placeholder="{{__('First name')}}" class="form-control">
+                                            <div class="form-text">
+                                                {{__('Required field for validation')}}
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -397,6 +403,9 @@
                                                     @endif
                                                 </button>
                                             </div>
+                                            <div class="form-text">
+                                                {{__('Required field for validation')}}
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -406,9 +415,11 @@
                                             </label>
                                             <input
                                                 {{ $disabled ? 'disabled' : ''  }}
-
                                                 wire:model.defer="usermetta_info.birthday" type="date"
                                                 class="form-control" id="JoiningdatInput"/>
+                                            <div class="form-text">
+                                                {{__('Required field for validation')}}
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -510,6 +521,9 @@
                                                    wire:model.defer="usermetta_info.nationalID"
                                                    id="zipcodeInput1" {{ $disabled ? 'disabled' : ''  }}
                                             >
+                                            <div class="form-text">
+                                                {{__('Required field for validation')}}
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
@@ -726,6 +740,9 @@
                                     <input wire:model.defer="usermetta_info.enFirstName" type="text"
                                            class="form-control" {{ $disabled ? 'disabled' : ''  }}
                                            placeholder="{{__('Enter your name')}}">
+                                    <div class="form-text">
+                                        {{__('Required field for validation')}}
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -734,6 +751,9 @@
                                     <input wire:model.defer="usermetta_info.enLastName" type="text"
                                            class="form-control" {{ $disabled ? 'disabled' : ''  }}
                                            placeholder="{{__('Enter your lastname')}}">
+                                    <div class="form-text">
+                                        {{__('Required field for validation')}}
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-6">
