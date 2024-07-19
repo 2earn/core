@@ -665,14 +665,21 @@ class settingsManager
         }
     }
 
+    public function getNewValidatedstatus($idUser)
+    {
+        $user = User::where('idUser', $idUser)->first();
+        $HasInternatinalIdCard = file_exists(public_path() . '/uploads/profiles/international-id-image' . $idUser . '.png');
+        return (!is_null($user->internationalID) && !is_null($user->expiryDate) && $HasInternatinalIdCard) ? StatusRequst::ValidInternational : StatusRequst::ValidNational;
+    }
+
     public function validateIdentity($idUser)
     {
         $requestIdentification = identificationuserrequest::where('idUser', $idUser)->where('status', StatusRequst::EnCours)->first();
         if ($requestIdentification == null) return;
-        $newStatus = file_exists(public_path() . '/uploads/profiles/international-id-image' . $idUser . '.png') ? StatusRequst::ValidInternational : StatusRequst::ValidNational;
+        $user = User::where('idUser', $idUser)->first();
+        $newStatus = $this->getNewValidatedstatus($idUser);
         $this->updateIdentity($requestIdentification, $newStatus, 1, null);
         User::where('idUser', $idUser)->update(['status' => $newStatus]);
-        $user = User::where('idUser', $idUser)->first();
         $uMetta = metta_user::where('idUser', $idUser)->first();
         if (($user->iden_notif == 1)) {
             $lang = app()->getLocale();
