@@ -652,7 +652,7 @@ class settingsManager
         if ($requestIdentification == null) return;
         $this->updateIdentity($requestIdentification, StatusRequst::Rejected, 1, $note);
 
-        User::where('idUser', $idUser)->update(['status' => 4]);
+        User::where('idUser', $idUser)->update(['status' => StatusRequst::Rejected]);
         $user = User::where('idUser', $idUser)->first();
         $uMetta = metta_user::where('idUser', $idUser)->first();
         if (($user->iden_notif == 1)) {
