@@ -401,6 +401,8 @@
                                                     @endif
                                                 </button>
                                             </div>
+                                            <div class="form-text">{{__('Required for account validation')}}</div>
+
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -769,6 +771,7 @@
                                         <input disabled wire:model.defer="user.email" type="email"
                                                class="form-control form-control-icon" name="email" placeholder="">
                                         <i style="font-size: 20px" class="ri-mail-unread-line"></i>
+                                        <div class="form-text">{{__('Required for account validation')}}</div>
                                     </div>
                                 </div>
                             </div>
