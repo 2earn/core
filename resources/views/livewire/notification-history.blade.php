@@ -13,9 +13,10 @@
             <div class="card">
                 <div class="card-body table-responsive">
                     <table id="HistoryNotificationTable"
-                           class="table table-striped table-bordered  display nowrap" style="width: 100%;">
+                           class="table table-striped table-bordered  display nowrap">
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">
+                            <th>{{__('Details')}}</th>
                             <th>{{__('reference')}}</th>
                             <th>{{__('source')}}</th>
                             <th>{{__('receiver')}}</th>
@@ -55,6 +56,7 @@
                 search: {return: true},
                 "ajax": "{{route('api_history_notification',app()->getLocale())}}",
                 "columns": [
+                    datatableControlBtn,
                     {data: 'reference'},
                     {data: 'send'},
                     {data: 'receiver'},

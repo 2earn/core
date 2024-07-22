@@ -10,6 +10,12 @@
         var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";
         var urlLang = "https://cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
         var classAl = "text-end";
+        var datatableControlBtn = {
+            className: 'dtr-control arrow-right',
+            orderable: false,
+            data: null,
+            defaultContent: '<i class="fa-solid fa-circle-question text-info fa-lg dtmdbtn"></i>'
+        };
     </script>
     <script>
         window.dataLayer = window.dataLayer || [];

@@ -16072,3 +16072,5 @@ span.flatpickr-weekday {
 .hide {
     display: none;
 }
+
+.dtmdbtn{cursor: pointer}
