@@ -656,9 +656,9 @@ class settingsManager
 
         $requestIdentification = $requestIdentification->get()->first();
         if ($requestIdentification == null) return;
-        $this->updateIdentity($requestIdentification, StatusRequst::Rejected, 1, $note);
         $user = User::where('idUser', $idUser)->first();
-        $userStatus = $user->status = StatusRequst::EnCoursNational ? StatusRequst::OptValidated : StatusRequst::ValidNational;
+        $userStatus = $user->status == StatusRequst::EnCoursNational->value ? StatusRequst::OptValidated : StatusRequst::ValidNational;
+        $this->updateIdentity($requestIdentification, $userStatus, 1, $note);
         User::where('idUser', $idUser)->update(['status' => $userStatus]);
         $user = User::where('idUser', $idUser)->first();
         $uMetta = metta_user::where('idUser', $idUser)->first();
@@ -680,16 +680,22 @@ class settingsManager
     public function getNewValidatedstatus($idUser)
     {
         $user = User::where('idUser', $idUser)->first();
-        $HasInternatinalIdCard = file_exists(public_path() . '/uploads/profiles/international-id-image' . $idUser . '.png');
-        return (!is_null($user->internationalID) && !is_null($user->expiryDate) && $HasInternatinalIdCard) ? StatusRequst::ValidInternational : StatusRequst::ValidNational;
+        return $user->status == StatusRequst::EnCoursInternational->value ? StatusRequst::ValidInternational : StatusRequst::ValidNational;
     }
 
     public function validateIdentity($idUser)
     {
-        $requestIdentification = identificationuserrequest::where('idUser', $idUser)->where('status', StatusRequst::EnCours)->first();
+        $requestIdentification = identificationuserrequest::where('idUser', $idUser);
+        $requestIdentification = $requestIdentification->where(function ($query) {
+            $query->where('status', '=', StatusRequst::EnCoursNational)
+                ->orWhere('status', '=', StatusRequst::EnCoursInternational);
+        });
+
+        $requestIdentification = $requestIdentification->get()->first();
         if ($requestIdentification == null) return;
         $user = User::where('idUser', $idUser)->first();
         $newStatus = $this->getNewValidatedstatus($idUser);
+
         $this->updateIdentity($requestIdentification, $newStatus, 1, null);
         User::where('idUser', $idUser)->update(['status' => $newStatus]);
         $uMetta = metta_user::where('idUser', $idUser)->first();

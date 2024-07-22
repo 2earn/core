@@ -17,11 +17,13 @@ class  AuthenticatedUser
     {
         $identificationRequest = DB::table('identificationuserrequest')
             ->where('idUser', $this->idUser);
-        $identificationRequest = $identificationRequest->where(function ($identificationRequest) {
-            $identificationRequest->where('status', '=', StatusRequst::EnCoursNational)
+
+        $identificationRequest = $identificationRequest->where(function ($query) {
+            $query->where('status', '=', StatusRequst::EnCoursNational)
                 ->orWhere('status', '=', StatusRequst::EnCoursInternational);
         });
-        $identificationRequest->first();
+
+        $identificationRequest = $identificationRequest->first();
         return is_null($identificationRequest) ? false : true;
     }
 
