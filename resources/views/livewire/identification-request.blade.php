@@ -20,7 +20,6 @@
                     <div class="card">
                         <h5 class="card-header">
                             {{$identificationRequest->enName}}
-                            {{$identificationRequest->status}}
                             @if($identificationRequest->status==1)
                                 <span class="badge bg-info-subtle text-info">{{__('National')}}</span>
                             @endif
