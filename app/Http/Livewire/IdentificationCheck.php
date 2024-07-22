@@ -132,7 +132,8 @@ class IdentificationCheck extends Component
 
         if ($photoBackValidated && $photoFrontValidated && (!$this->internationalCard or ($this->internationalCard && $photoInternationalValidated))) {
             $this->sendIdentificationRequest($settingsManager);
-            User::where('idUser', $userAuth->idUser)->update(['status' => StatusRequst::EnCours, 'asked_at' => date('Y-m-d H:i:s'), 'iden_notif' => $this->notify]);
+            $newSatatus = $this->internationalCard ? StatusRequst::EnCoursInternational : StatusRequst::EnCoursNational;
+            User::where('idUser', $userAuth->idUser)->update(['status' => $newSatatus, 'asked_at' => date('Y-m-d H:i:s'), 'iden_notif' => $this->notify]);
             $this->messageVerif = Lang::get('demande_creer');
             return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Identification_send_succes'));
         } else {
@@ -193,7 +194,7 @@ class IdentificationCheck extends Component
         if ($requestIdentification != null) {
             $noteRequset = $requestIdentification->note;
         }
-        $this->disabled = in_array($user->status, [StatusRequst::EnCours->value, StatusRequst::ValidNational->value, StatusRequst::ValidInternational->value]) ? true : false;
+        $this->disabled = in_array($user->status, [StatusRequst::EnCoursNational->value,StatusRequst::EnCoursInternational->value, StatusRequst::ValidNational->value, StatusRequst::ValidInternational->value]) ? true : false;
         return view('livewire.identification-check',
             compact('user', 'usermetta_info', 'errors_array', 'userAuth', 'hasRequest', 'hasFrontImage', 'hasBackImage', 'noteRequset'))
             ->extends('layouts.master')->section('content');

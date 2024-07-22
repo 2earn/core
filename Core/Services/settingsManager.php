@@ -648,11 +648,18 @@ class settingsManager
 
     public function rejectIdentity($idUser, $note)
     {
-        $requestIdentification = identificationuserrequest::where('idUser', $idUser)->where('status', StatusRequst::EnCours)->first();
+        $requestIdentification = identificationuserrequest::where('idUser', $idUser);
+        $requestIdentification = $requestIdentification->where(function ($query) {
+            $query->where('status', '=', StatusRequst::EnCoursNational)
+                ->orWhere('status', '=', StatusRequst::EnCoursInternational);
+        });
+
+        $requestIdentification = $requestIdentification->get()->first();
         if ($requestIdentification == null) return;
         $this->updateIdentity($requestIdentification, StatusRequst::Rejected, 1, $note);
-
-        User::where('idUser', $idUser)->update(['status' => StatusRequst::Rejected]);
+        $user = User::where('idUser', $idUser)->first();
+        $userStatus = $user->status = StatusRequst::EnCoursNational ? StatusRequst::OptValidated : StatusRequst::ValidNational;
+        User::where('idUser', $idUser)->update(['status' => $userStatus]);
         $user = User::where('idUser', $idUser)->first();
         $uMetta = metta_user::where('idUser', $idUser)->first();
         if (($user->iden_notif == 1)) {

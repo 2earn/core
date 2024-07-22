@@ -10,8 +10,8 @@ class IdentificationRequest extends Component
 {
     public function render()
     {
-        $identificationRequests = DB::select("SELECT  u1.id id,u1.idUser idUser, concat(mu.enFirstName,' ', mu.enLastName)  enName , mu.nationalID  nationalID , u1.fullphone_number, u1.internationalID, u1.expiryDate, ir.created_at DateCreation, u2.name Validator, ir.response, ir.responseDate DateReponce , ir.note from identificationuserrequest ir
-inner join users u1 on ir.IdUser = u1.idUser inner join metta_users mu on ir.idUser = mu.idUser left join users u2 on ir.idUserResponse = u2.idUser where ir.status = ?", [StatusRequst::EnCours->value]);
+        $identificationRequests = DB::select("SELECT  u1.id id,u1.idUser idUser, u1.status status, concat(mu.enFirstName,' ', mu.enLastName)  enName , mu.nationalID  nationalID , u1.fullphone_number, u1.internationalID, u1.expiryDate, ir.created_at DateCreation, u2.name Validator, ir.response, ir.responseDate DateReponce , ir.note from identificationuserrequest ir
+inner join users u1 on ir.IdUser = u1.idUser inner join metta_users mu on ir.idUser = mu.idUser left join users u2 on ir.idUserResponse = u2.idUser where (ir.status = ? or ir.status = ?)", [StatusRequst::EnCoursNational->value, StatusRequst::EnCoursInternational->value]);
         return view('livewire.identification-request', ['identificationRequests' => $identificationRequests])->extends('layouts.master')->section('content');
     }
 }
