@@ -69,6 +69,9 @@
                                             <p class="text-primary"> {{__('continueTo2earn')}} </p>
                                         </div>
                                         <div class="mt-4">
+                                                @include('layouts.flash-messages')
+                                        </div>
+                                        <div class="mt-4">
                                             <form id="login-form">
                                                 @csrf
                                                 <div dir="ltr w-100" class="mb-3">
