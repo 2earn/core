@@ -27,7 +27,7 @@
         <div class="card-body pt-0">
             <div class="transaction-table">
                 <div class="table-responsive">
-                    <table id="RepresentativesTable" class="table table-striped table-bordered"  style="width: 100%">
+                    <table id="RepresentativesTable" class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"  style="width: 100%">
                         <thead>
                         <tr class="head2earn">
                             <th>Name</th>
