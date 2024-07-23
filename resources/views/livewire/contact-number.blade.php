@@ -14,8 +14,7 @@
                     </div>
                 </div>
                 <div class="card-body table-responsive">
-                    <table id="example" class="table table-striped table-bordered"
-                           style="width:100%">
+                    <table id="example" class="table table-striped table-bordered  display nowrap">
                         <thead class="table-light">
                         <tr class="tabHeader2earn">
                             <th scope="mobile">{{__('ID_Number')}}</th>

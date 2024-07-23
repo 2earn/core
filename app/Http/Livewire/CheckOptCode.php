@@ -6,7 +6,7 @@ use App\Http\Traits\earnTrait;
 use App\Models\MettaUser;
 use App\Notifications\contact_registred;
 use Core\Enum\EventBalanceOperationEnum;
-use Core\Enum\StatusRequst;
+use Core\Enum\StatusRequest;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
 use Core\Services\CommandeServiceManager;
@@ -72,14 +72,14 @@ class CheckOptCode extends Component
             return redirect()->route('check_opt_code', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('ErrorExpirationCode', Lang::get('OPT code expired'));
         }
         $user = $settingsManager->getUserById($user->id);
-        if ($user->status != StatusRequst::Registred) {
+        if ($user->status != StatusRequest::Registred) {
             return redirect()->route('check_opt_code', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('ErrorExpirationCode', Lang::get('User already verified'));
         }
         $userUpline = $settingsManager->checkUserInvited($user);
         $password = $this->randomNewPassword(8);
         $user->password = Hash::make($password);
         $user->pass = $password;
-        $user->status = StatusRequst::OptValidated;
+        $user->status = StatusRequest::OptValidated;
         if ($commandeServiceManager->saveUser($user)) {
             $settingsManager->NotifyUser($user->id, TypeEventNotificationEnum::Password, ['msg' => $password, 'type' => TypeNotificationEnum::SMS]);
             $user->assignRole(4);

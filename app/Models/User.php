@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use Core\Enum\StatusRequst;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Core\Enum\StatusRequest;
+use Core\Models\identificationuserrequest;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\DB;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -50,17 +49,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
     public function hasIdentificationRequest()
     {
-        $idUser= $this->idUser;
-        $identificationRequest = DB::table('identificationuserrequest')
-            ->where('idUser',$idUser)
-            ->where('status',StatusRequst::EnCours)
-            ->first();
-        if($identificationRequest){
-            return 1;
-        }else{
-            return 0;
-        }
+        $idUser = $this->idUser;
+        $requestIdentification = identificationuserrequest::where('idUser', $idUser);
+        $requestIdentification = $requestIdentification->where(function ($query) {
+            $query->where('status', '=', StatusRequest::InProgressNational->value)
+                ->orWhere('status', '=', StatusRequest::InProgressInternational->value);
+        });
+
+        return is_null($requestIdentification->get()->first()) ? false : true;
     }
 }
