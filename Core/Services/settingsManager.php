@@ -13,7 +13,7 @@ use Core\Enum\ExchangeTypeEnum;
 use Core\Enum\LanguageEnum;
 use Core\Enum\OperateurSmsEnum;
 use Core\Enum\SettingsEnum;
-use Core\Enum\StatusRequst;
+use Core\Enum\StatusRequest;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
 use Core\Interfaces\ICountriesRepository;
@@ -201,10 +201,10 @@ class settingsManager
 
         $user = $this->userRepository->getUserById($user->id);
         $this->userRepository->loginUser($user, $remember);
-        if ($user->status == StatusRequst::ValidInternational->value) {
+        if ($user->status == StatusRequest::ValidInternational->value) {
             if (!is_null($user->expiryDate)) {
                 if (getDiffOnDays($user->expiryDate) < 1) {
-                    $user->status = StatusRequst::ValidNational;
+                    $user->status = StatusRequest::ValidNational->value;
                     $user->save();
                 }
             }
@@ -650,14 +650,14 @@ class settingsManager
     {
         $requestIdentification = identificationuserrequest::where('idUser', $idUser);
         $requestIdentification = $requestIdentification->where(function ($query) {
-            $query->where('status', '=', StatusRequst::EnCoursNational)
-                ->orWhere('status', '=', StatusRequst::EnCoursInternational);
+            $query->where('status', '=', StatusRequest::InProgressNational->value)
+                ->orWhere('status', '=', StatusRequest::InProgressInternational->value);
         });
 
         $requestIdentification = $requestIdentification->get()->first();
         if ($requestIdentification == null) return;
         $user = User::where('idUser', $idUser)->first();
-        $userStatus = $user->status == StatusRequst::EnCoursNational->value ? StatusRequst::OptValidated : StatusRequst::ValidNational;
+        $userStatus = $user->status == StatusRequest::InProgressNational->value ? StatusRequest::OptValidated->value : StatusRequest::ValidNational->value;
         $this->updateIdentity($requestIdentification, $userStatus, 1, $note);
         User::where('idUser', $idUser)->update(['status' => $userStatus]);
         $user = User::where('idUser', $idUser)->first();
@@ -680,15 +680,15 @@ class settingsManager
     public function getNewValidatedstatus($idUser)
     {
         $user = User::where('idUser', $idUser)->first();
-        return $user->status == StatusRequst::EnCoursInternational->value ? StatusRequst::ValidInternational : StatusRequst::ValidNational;
+        return $user->status == StatusRequest::InProgressInternational->value ? StatusRequest::ValidInternational->value : StatusRequest::ValidNational->value;
     }
 
     public function validateIdentity($idUser)
     {
         $requestIdentification = identificationuserrequest::where('idUser', $idUser);
         $requestIdentification = $requestIdentification->where(function ($query) {
-            $query->where('status', '=', StatusRequst::EnCoursNational)
-                ->orWhere('status', '=', StatusRequst::EnCoursInternational);
+            $query->where('status', '=', StatusRequest::InProgressNational->value)
+                ->orWhere('status', '=', StatusRequest::InProgressInternational->value);
         });
 
         $requestIdentification = $requestIdentification->get()->first();

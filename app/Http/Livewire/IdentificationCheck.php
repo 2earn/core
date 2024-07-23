@@ -4,7 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\User;
 use Carbon\Carbon;
-use Core\Enum\StatusRequst;
+use Core\Enum\StatusRequest;
 use Core\Models\identificationuserrequest;
 use Core\Models\metta_user;
 use Core\Services\settingsManager;
@@ -131,7 +131,7 @@ class IdentificationCheck extends Component
         }
 
         if ($photoBackValidated && $photoFrontValidated && (!$this->internationalCard or ($this->internationalCard && $photoInternationalValidated))) {
-            $newStatus = $this->internationalCard ? StatusRequst::EnCoursInternational : StatusRequst::EnCoursNational;
+            $newStatus = $this->internationalCard ? StatusRequest::InProgressInternational->value : StatusRequest::InProgressNational->value;
             $this->sendIdentificationRequest($newStatus, $settingsManager);
             User::where('idUser', $userAuth->idUser)->update(['status' => $newStatus, 'asked_at' => date('Y-m-d H:i:s'), 'iden_notif' => $this->notify]);
             $this->messageVerif = Lang::get('demande_creer');
@@ -188,13 +188,13 @@ class IdentificationCheck extends Component
         $hasBackImage = $userAuth->hasBackImage();
 
         $requestIdentification = identificationuserrequest::where('idUser', $userAuth->idUser)
-            ->where('status', StatusRequst::Rejected->value)
+            ->where('status', StatusRequest::Rejected->value)
             ->latest('responseDate')
             ->first();
         if ($requestIdentification != null) {
             $noteRequset = $requestIdentification->note;
         }
-        $this->disabled = in_array($user->status, [StatusRequst::EnCoursNational->value, StatusRequst::EnCoursInternational->value, StatusRequst::ValidNational->value, StatusRequst::ValidInternational->value]) ? true : false;
+        $this->disabled = in_array($user->status, [StatusRequest::InProgressNational->value, StatusRequest::InProgressInternational->value, StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value]) ? true : false;
         return view('livewire.identification-check',
             compact('user', 'usermetta_info', 'errors_array', 'userAuth', 'hasRequest', 'hasFrontImage', 'hasBackImage', 'noteRequset'))
             ->extends('layouts.master')->section('content');

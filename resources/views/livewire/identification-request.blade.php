@@ -1,13 +1,13 @@
 <div>
     @section('title')
-        {{__('Identification request')}}
+        {{__('Identification requests')}}
     @endsection
     @component('components.breadcrumb')
         @slot('li_1')
             {{__('Pages')}}
         @endslot
         @slot('title')
-            {{__('Team')}}
+                {{__('Identification requests')}}
         @endslot
     @endcomponent
     <div class="container-fluid">

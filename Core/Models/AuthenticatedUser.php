@@ -2,7 +2,7 @@
 
 namespace Core\Models;
 
-use Core\Enum\StatusRequst;
+use Core\Enum\StatusRequest;
 use Illuminate\Support\Facades\DB;
 
 class  AuthenticatedUser
@@ -19,12 +19,11 @@ class  AuthenticatedUser
             ->where('idUser', $this->idUser);
 
         $identificationRequest = $identificationRequest->where(function ($query) {
-            $query->where('status', '=', StatusRequst::EnCoursNational)
-                ->orWhere('status', '=', StatusRequst::EnCoursInternational);
+            $query->where('status', '=', StatusRequest::InProgressNational->value)
+                ->orWhere('status', '=', StatusRequest::InProgressInternational->value);
         });
 
-        $identificationRequest = $identificationRequest->first();
-        return is_null($identificationRequest) ? false : true;
+        return is_null($identificationRequest->first()) ? false : true;
     }
 
 

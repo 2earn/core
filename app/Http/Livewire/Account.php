@@ -8,7 +8,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Core\Enum\AmoutEnum;
 use Core\Enum\NotificationSettingEnum;
-use Core\Enum\StatusRequst;
+use Core\Enum\StatusRequest;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
 use Core\Models\identificationuserrequest;
@@ -137,7 +137,7 @@ class Account extends Component
         }
         $this->CalculPercenteComplete();
         $hasRequest = $userAuth->hasIdentificationRequest();
-        $this->disabled = in_array($user->status, [StatusRequst::EnCoursNational->value,StatusRequst::EnCoursInternational->value, StatusRequst::ValidNational->value, StatusRequst::ValidInternational->value]) ? true : false;
+        $this->disabled = in_array($user->status, [StatusRequest::InProgressNational->value,StatusRequest::InProgressInternational->value, StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value]) ? true : false;
         return view('livewire.account', ['hasRequest' => $hasRequest, 'errors_array' => $this->errors_array])->extends('layouts.master')->section('content');
     }
 
@@ -389,7 +389,7 @@ class Account extends Component
         $userAuth = $settingsManager->getAuthUser();
         $hasRequest = $userAuth->hasIdentificationRequest();
         if ($hasRequest) {
-            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Identificationu request exist'));
+            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Identification request exist'));
         } else {
             identificationuserrequest::create(['idUser' => $userAuth->idUser, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(), 'response' => 0, 'note' => '', 'status' => 1]);
             return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Identification_send_succes'));

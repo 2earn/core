@@ -8,7 +8,7 @@ use App\Models\vip;
 use App\Services\Sponsorship\SponsorshipFacade;
 use carbon;
 use Core\Enum\AmoutEnum;
-use Core\Enum\StatusRequst;
+use Core\Enum\StatusRequest;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
 use Core\Models\countrie;
@@ -1215,7 +1215,7 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
 inner join users u1 on ir.IdUser = u1.idUser
 left join users u2 on ir.idUserResponse = u2.idUser
 where ir.status = ?
-', [StatusRequst::EnCours->value]);
+', [StatusRequest::EnCours->value]);
 
         return datatables($query)
             ->addColumn('action', function ($query) {
