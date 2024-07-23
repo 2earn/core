@@ -256,7 +256,7 @@
             }
             inputlog.focus();
         }
-        if (pathPage == 'user') {
+        if (pathPage == 'user'&&document.getElementById("ipAddContact")) {
 
             ipAddContact.innerHTML = "<div class='input-group-prepend'> " +
                 "</div><input wire:model.defer='phoneNumber' type='tel' name='phoneAddContact' id='phoneAddContact' class='form-control' onpaste='handlePaste(event)'" +
