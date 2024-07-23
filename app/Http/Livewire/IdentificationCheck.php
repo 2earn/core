@@ -134,7 +134,7 @@ class IdentificationCheck extends Component
             $user = User::where('idUser', $userAuth->idUser)->first();
             $newStatus = StatusRequest::InProgressNational->value;
             if ($this->internationalCard) {
-                if ($user->status == StatusRequest::ValidNational->value) {
+                if ($user->status == StatusRequest::ValidNational->value || $user->status == StatusRequest::ValidInternational->value) {
                     $newStatus = StatusRequest::InProgressInternational->value;
                 }
                 if ($user->status == StatusRequest::OptValidated->value) {
