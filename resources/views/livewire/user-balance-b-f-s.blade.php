@@ -22,7 +22,6 @@
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <h6 class="fw-semibold">{{__('Opération')}}</h6>
                         <select class="select2-hidden-accessible bfs_operation_multiple" name="states[]"
                                 id="select2bfs" multiple="multiple">
                         </select>
