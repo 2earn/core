@@ -91,7 +91,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/user/balance-bfs', UserBalanceBFS::class)->name('user_balance_bfs');
         Route::get('/financial/transaction', FinancialTransaction::class)->name('financial_transaction');
         Route::get('/contact-number', ContactNumber::class)->name('contact_number');
-        Route::get('/user/editContact', EditUserContact::class)->name('user_contact_edit');
+        Route::get('/user/edit-contact', EditUserContact::class)->name('user_contact_edit');
         Route::get('/balances/exchange/funding/RequestPulicUser', RequestPublicUser::class)->name('user_request_public');
         Route::get('/balances/exchange/funding/strip', stripView::class)->name('payment_strip');
         Route::get('/paytabs', '\App\Http\Livewire\pay@test')->name('paytabs');
@@ -127,7 +127,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
     Route::get('/forget-password', ForgotPassword::class)->name('forget_password');
     Route::get('/check-opt-code/{iduser}/{ccode}/{numTel}', CheckOptCode::class)->name('check_opt_code');
     Route::get('/validate-account', ValidateAccount::class)->name('validate_account');
-    Route::get('/login', Login::class)->name('login')->middleware('setLocalLogin');
 });
 
 Route::group(['prefix' => 'api/v1'], function () {

@@ -5,6 +5,7 @@ namespace App\DAL;
 use App\Models\ContactUser;
 use App\Models\User;
 use Core\Enum\AmoutEnum;
+use Core\Enum\StatusRequest;
 use Core\Models\AuthenticatedUser;
 use Core\Interfaces\IUserRepository;
 use Core\Models\metta_user;
@@ -258,7 +259,7 @@ class  UserRepository implements IUserRepository
         $lastuser = DB::table('users')->max('iduser');
         $newIdUser = $lastuser + 1;
         $newUser->idUser = $newIdUser;
-        $newUser->status = -2;
+        $newUser->status = StatusRequest::Registred->value;
         return $newUser;
     }
 

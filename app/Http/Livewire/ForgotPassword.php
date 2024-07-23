@@ -32,7 +32,7 @@ class ForgotPassword extends Component
 
         if (!$user) {
             $this->earnDebug('Forget password user not found : fullNumber- ' . $fullNumber . ' code pays- ' . $ccode);
-            return redirect()->route("forget_password", app()->getLocale())->with('ErrorUserFound', Lang::get('User not found !'));
+            return redirect()->route("forget_password", app()->getLocale())->with('danger', Lang::get('User not found !'));
         }
         $act_code = rand(1000, 9999);
         User::where('id', $user->id)->update(['activationCodeValue' => $act_code]);
@@ -58,11 +58,11 @@ class ForgotPassword extends Component
         $user = $settingsManager->getUserByFullNumber($phoneNumber);
         if (!$user) {
             $this->earnDebug('Forget password input opt user not found  : fullNumber- ' . $phoneNumber);
-            return redirect()->route("forget_password", app()->getLocale())->with('ErrorUserFound', Lang::get('User not found'));
+            return redirect()->route("forget_password", app()->getLocale())->with('danger', Lang::get('User not found'));
         }
         if ($codeOPT != $user->activationCodeValue) {
             $this->earnDebug('Forget password input opt code OPT invalide  : fullNumber- ' . $phoneNumber . ' codeOPT- ' . $codeOPT);
-            return redirect()->route("forget_password", app()->getLocale())->with('ErrorOptCodeForget', Lang::get('Invalid_OPT_code'));
+            return redirect()->route("forget_password", app()->getLocale())->with('danger', Lang::get('Invalid_OPT_code'));
         }
 
         return redirect()->route("reset_password", ["locale" => app()->getLocale(), "idUser" => Crypt::encryptString($user->idUser)]);
