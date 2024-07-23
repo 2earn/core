@@ -233,7 +233,7 @@ class Account extends Component
         $um->personaltitle = $this->usermetta_info['personaltitle'];
         $um->idLanguage = $this->usermetta_info['idLanguage'];
         if ($this->paramIdUser != "") {
-            $us->status = 1;
+            $us->status = StatusRequest::InProgressNational->value;
         }
         $um->save();
         $um = metta_user::find($this->usermetta_info['id']);

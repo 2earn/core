@@ -1,10 +1,10 @@
 <div>
     @php
-         $moreThanSixMonths = false;
-        if (!is_null(auth()->user()->expiryDate)) {
-            $daysNumber = getDiffOnDays(auth()->user()->expiryDate);
-            $moreThanSixMonths = $daysNumber > 180 ? true : false;
-        }
+        $moreThanSixMonths = false;
+       if (!is_null(auth()->user()->expiryDate)) {
+           $daysNumber = getDiffOnDays(auth()->user()->expiryDate);
+           $moreThanSixMonths = $daysNumber > 180 ? true : false;
+       }
     @endphp
     <div class="row">
         <div class="col-lg-12">
@@ -25,7 +25,7 @@
                                             disabled
                                         @endif
 
-                                        @if($userAuth->status= 4 && $moreThanSixMonths)
+                                        @if($userAuth->status== 4 && $moreThanSixMonths)
                                             disabled
                                         @endif
                                         @if($hasRequest) data-bs-target="#accountValidationModal"
