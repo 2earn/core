@@ -580,8 +580,6 @@ left join users user on user.idUser = recharge_requests.idUser";
     {
         try {
             $id = $request->input('id');
-            //$status = $request->input('status');
-
             $st = 0;
 
             // Assuming 'id' is the primary key for the 'user_balances' table
@@ -914,9 +912,9 @@ class="btn btn-xs btn-primary btn2earnTable"  >
             ->setRowId('idSETTINGS')
             ->editColumn('Automatically_calculated', function ($settings) {
                 if ($settings->Automatically_calculated == 1)
-                    return '<span class="badge badge-success">'.trans('Yes').'</span>';
+                    return '<span class="badge badge-success">' . trans('Yes') . '</span>';
                 else
-                    return '<span class="badge badge-info">'.trans('No').'</span>';
+                    return '<span class="badge badge-info">' . trans('No') . '</span>';
             })
             ->editColumn('StringValue', function ($settings) {
                 return '***';
@@ -1013,9 +1011,9 @@ class="btn btn-xs btn-primary edit-amounts-btn btn2earnTable"  >
             })
             ->editColumn('reponce', function ($actionHistorys) {
                 if ($actionHistorys->reponce == 1)
-                    return '<span class="badge bg-success-subtle text-success ">'.trans('create reponce').'</span>';
+                    return '<span class="badge bg-success-subtle text-success ">' . trans('create reponce') . '</span>';
                 else
-                    return '<span class="badge bg-info-subtle text-info ">'.trans('sans reponce').'</span>';
+                    return '<span class="badge bg-info-subtle text-info ">' . trans('sans reponce') . '</span>';
             })
             ->escapeColumns([])
             ->make(true);
@@ -1178,7 +1176,6 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
     public function getRequest()
     {
         $condition = "";
-//        $idUser = request()->idUser ;
         if ($this->settingsManager->getAuthUser() == null) {
             $idUser = "";
         } else {
@@ -1397,20 +1394,23 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUs
             })
             ->editColumn('status', function ($userData) {
                 switch ($userData->status) {
-                    case 0 :
-                        return '<span class="badge badge-info">'.trans('Authentied').'</span>';
+                    case StatusRequest::OptValidated->value :
+                        return '<span class="badge badge-info">' . trans('Authentied') . '</span>';
                         break;
-                    case 1 :
-                        return ' <span class="badge badge-success">'.trans('Identfied').'</span>';
+                    case StatusRequest::InProgressNational->value :
+                        return ' <span class="badge badge-success">' . trans('In progress national') . '</span>';
                         break;
-                    case -1 :
-                        return '<span class="badge badge-warning">'.trans('Identification in Progress').'</span>';
+                    case StatusRequest::InProgressInternational->value :
+                        return ' <span class="badge badge-success">' . trans('In progress international') . '</span>';
                         break;
-                    case 2 :
-                        return '<span class="badge badge-danger">'.trans('Suspended').'</span>';
+                    case StatusRequest::ValidNational->value :
+                        return '<span class="badge badge-warning">' . trans('National valid') . '</span>';
+                        break;
+                    case StatusRequest::ValidInternational->value:
+                        return '<span class="badge badge-danger">' . trans('International Valid') . '</span>';
                         break;
                     default:
-                        return '<span class=" ">'.trans('Erreur').'</span>';
+                        return '<span class=" ">' . trans('Erreur') . '</span>';
                 }
             })
             ->editColumn('registred_from', function ($userData) {
