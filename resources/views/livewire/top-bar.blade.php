@@ -303,7 +303,10 @@
                                             title="{{__('National identified')}}"></i>
                                      @elseif($userStatus==1)
                                          <i class="mdi mdi-24px mdi-account-alert text-warning validated-user"
-                                            title="{{__('Identification request in process')}}"></i>
+                                            title="{{__('National identification request in process')}}"></i>
+                                     @elseif($userStatus==5)
+                                         <i class="mdi mdi-24px mdi-account-alert text-warning validated-user"
+                                            title="{{__('International identification request in process')}}"></i>
                                      @elseif($userStatus==4)
                                          <i class="mdi mdi-24px mdi-account-check text-info validated-user"
                                             title="{{__('International identified')}}"></i>
