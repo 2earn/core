@@ -35,7 +35,8 @@
     </div>
     <script type="module">
         $(document).on('turbolinks:load', function () {
-            $('#HistoryNotificationTable').DataTable({
+            if ( !$.fn.dataTable.isDataTable( '#HistoryNotificationTable' ) ) {
+                $('#HistoryNotificationTable').DataTable({
                 "responsive": true,
                 "colReorder": true,
                 "orderCellsTop": true,
@@ -66,7 +67,7 @@
                     {data: 'responce'},
                 ],
                 "language": {"url": urlLang},
-            });
+            });}
         });
     </script>
 </div>
