@@ -307,6 +307,9 @@
                                      @elseif($userStatus==5)
                                          <i class="mdi mdi-24px mdi-account-alert text-warning validated-user"
                                             title="{{__('International identification request in process')}}"></i>
+                                     @elseif($userStatus==6)
+                                         <i class="mdi mdi-24px mdi-account-alert text-warning validated-user"
+                                            title="{{__('Global identification request in process')}}"></i>
                                      @elseif($userStatus==4)
                                          <i class="mdi mdi-24px mdi-account-check text-info validated-user"
                                             title="{{__('International identified')}}"></i>

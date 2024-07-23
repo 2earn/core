@@ -137,7 +137,7 @@ class Account extends Component
         }
         $this->CalculPercenteComplete();
         $hasRequest = $userAuth->hasIdentificationRequest();
-        $this->disabled = in_array($user->status, [StatusRequest::InProgressNational->value,StatusRequest::InProgressInternational->value, StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value]) ? true : false;
+        $this->disabled = in_array($user->status, [StatusRequest::InProgressNational->value, StatusRequest::InProgressInternational->value, StatusRequest::InProgressGlobal->value, StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value]) ? true : false;
         return view('livewire.account', ['hasRequest' => $hasRequest, 'errors_array' => $this->errors_array])->extends('layouts.master')->section('content');
     }
 
