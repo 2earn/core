@@ -13,7 +13,7 @@
             <div class="card">
                 <div class="card-body table-responsive">
                     <table id="HistoryNotificationTable"
-                           class="table table-striped table-bordered  display nowrap">
+                           class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">
                             <th>{{__('Details')}}</th>

@@ -47,6 +47,7 @@ export default defineConfig({
                 'resources/sass/app.scss',
                 'resources/css/dataTables.bootstrap.css',
                 'resources/css/rowReorder.bootstrap.css',
+                'resources/css/material-components-web.min.css',
                 'resources/js/app.js',
                 'resources/js/appWithoutNav.js',
                 'resources/js/plugins.js',

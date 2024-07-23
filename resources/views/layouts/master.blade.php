@@ -117,7 +117,7 @@
 </head>
 <body>
 @section('body')
-    @vite(['resources/css/select2.min.css','resources/css/dataTables.bootstrap.css','resources/css/rowReorder.bootstrap.css','resources/js/layout.js'])
+    @vite(['resources/css/select2.min.css','resources/css/material-components-web.min.css','resources/js/layout.js'])
     @vite(['resources/css/intlTelInput.min.css','resources/fontawesome/all.min.css','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
     <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PMK39HQQ"
