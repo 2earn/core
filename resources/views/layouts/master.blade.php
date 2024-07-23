@@ -176,7 +176,7 @@
         var ipAdd2Contact = document.querySelector("#ipAdd2Contact");
         var ipUpdatePhoneAd = document.querySelector("#inputPhoneUpdateAd");
         var ipNumberContact = document.querySelector("#inputNumberContact");
-        if (pathPage == 'Account') {
+        if (pathPage == 'account') {
 
             ipPhone.innerHTML =
                 "<input type='tel'  placeholder= '{{ __("PH_EditPhone") }}'    data-turbolinks-permanent name='mobileUpPhone' id='phoneUpPhone' class='form-control' onpaste='handlePaste(event)'>" +
@@ -230,7 +230,7 @@
             });
             resetUpPhone();
         }
-        if (pathPage == 'Contacts') {
+        if (pathPage == 'contacts') {
             inputlog = document.querySelector("#ipAdd2Contact");
             var itiLog = window.intlTelInput(inputlog, {
                 initialCountry: "auto",
@@ -256,7 +256,7 @@
             }
             inputlog.focus();
         }
-        if (pathPage == 'editContact') {
+        if (pathPage == 'user'&&document.getElementById("ipAddContact")) {
 
             ipAddContact.innerHTML = "<div class='input-group-prepend'> " +
                 "</div><input wire:model.defer='phoneNumber' type='tel' name='phoneAddContact' id='phoneAddContact' class='form-control' onpaste='handlePaste(event)'" +
@@ -329,7 +329,7 @@
             resetAddContact();
             $("#phoneAddContact").val($("#pho").val());
         }
-        if (pathPage == 'ContactNumber') {
+        if (pathPage == 'contact-number') {
 
             ipNumberContact.innerHTML = "<div class='input-group-prepend'> " +
                 "</div><input wire:model.defer='' type='tel' name='phoneContactNumber' id='phoneContactNumber' class='form-control' onpaste='handlePaste(event)'" +
