@@ -657,7 +657,18 @@ class settingsManager
         $requestIdentification = $requestIdentification->get()->first();
         if ($requestIdentification == null) return;
         $user = User::where('idUser', $idUser)->first();
-        $userStatus = $user->status == StatusRequest::InProgressNational->value ? StatusRequest::OptValidated->value : StatusRequest::ValidNational->value;
+        $userStatus = null;
+
+        if ($user->status == StatusRequest::InProgressNational->value) {
+            $userStatus = StatusRequest::OptValidated->value;
+        }
+        if ($user->status == StatusRequest::InProgressInternational->value) {
+            $userStatus = StatusRequest::ValidNational->value;
+        }
+        if ($user->status == StatusRequest::InProgressGlobal->value) {
+            $userStatus = StatusRequest::OptValidated->value;
+        }
+
         $this->updateIdentity($requestIdentification, $userStatus, 1, $note);
         User::where('idUser', $idUser)->update(['status' => $userStatus]);
         $user = User::where('idUser', $idUser)->first();

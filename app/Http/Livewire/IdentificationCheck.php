@@ -131,7 +131,19 @@ class IdentificationCheck extends Component
         }
 
         if ($photoBackValidated && $photoFrontValidated && (!$this->internationalCard or ($this->internationalCard && $photoInternationalValidated))) {
-            $newStatus = $this->internationalCard ? StatusRequest::InProgressInternational->value : StatusRequest::InProgressNational->value;
+            $user = User::where('idUser', $userAuth->idUser)->first();
+            $newStatus = null;
+            if( $this->internationalCard ){
+                if ($user->status == StatusRequest::OptValidated->value) {
+                    $newStatus = StatusRequest::InProgressGlobal->value;
+                }
+                if ($user->status == StatusRequest::ValidNational->value) {
+                    $newStatus = StatusRequest::InProgressInternational->value;
+                }
+            }else{
+                $newStatus=  StatusRequest::InProgressNational->value;
+            }
+
             $this->sendIdentificationRequest($newStatus, $settingsManager);
             User::where('idUser', $userAuth->idUser)->update(['status' => $newStatus, 'asked_at' => date('Y-m-d H:i:s'), 'iden_notif' => $this->notify]);
             $this->messageVerif = Lang::get('demande_creer');
