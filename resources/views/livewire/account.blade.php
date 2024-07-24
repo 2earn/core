@@ -118,7 +118,7 @@
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title mb-2 text-info">{{ __('International identity card') }}</h5>
-                    @if(auth()->user()->status == 4 && $justExpired)
+                    @if(auth()->user()->status == 2 && $justExpired)
                         <button type="button" id="soonExpireIIC"
                                 class="btn btn-danger mt-2">{{__('Your International identity is expired')}}</button>
                     @elseif(auth()->user()->status == 4 && $lessThanSixMonths)
