@@ -22,11 +22,10 @@
                 </div>
                 <div class="card-body table-responsive">
                     <table id="shares-sold"
-                           class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                           style="width:100%">
+                           class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">
-                            <th style=" border: none ;text-align: center;">{{__('date_purchase')}}</th>
+                            <th>{{__('date_purchase')}}</th>
                             <th>{{__('countrie')}}</th>
                             <th>{{__('mobile')}}</th>
                             <th>{{__('Name')}}</th>
@@ -99,6 +98,7 @@
     </div>
     <script type="module">
         $(document).on('turbolinks:load', function () {
+            console.log('dsqsdsqd')
             $('#shares-sold').DataTable(
                 {
                     "ordering": true,

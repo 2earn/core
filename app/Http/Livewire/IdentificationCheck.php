@@ -40,7 +40,15 @@ class IdentificationCheck extends Component
 
     public function mount()
     {
-        $this->internationalCard = !is_null(auth()->user()->internationalID) && !is_null(auth()->user()->expiryDate) ? true : false;
+        if (!is_null(auth()->user()->internationalID) && !is_null(auth()->user()->expiryDate)) {
+            $this->internationalCard = true;
+        } else {
+            $this->internationalCard = false;
+        }
+        if (auth()->user()->status == StatusRequest::ValidNational->value) {
+            $this->internationalCard == true;
+        }
+
     }
 
     public function sendIndentificationRequest(settingsManager $settingsManager)

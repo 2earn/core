@@ -307,6 +307,8 @@
                                         <div class="form-check form-switch form-switch-right form-switch-md">
                                             <input class="form-check-input" wire:model="internationalCard"
                                                    type="checkbox"
+                                                   @if($userAuth->status==2||$userAuth->status==4) disabled
+                                                   @endif
                                                    id="international-card">
                                             <label for="international-card"
                                                    class="form-label text-muted">{{__('I want to submit my international identitie card')}}</label>
