@@ -20,15 +20,17 @@
                     <div class="card">
                         <h5 class="card-header">
                             {{$identificationRequest->enName}}
-                            @if($identificationRequest->status==1)
-                                <span class="badge bg-info-subtle text-info">{{__('National')}}</span>
-                            @endif
-                            @if($identificationRequest->status==5)
-                                <span class="badge bg-info-subtle text-info">{{__('International')}}</span>
-                            @endif
-                            @if($identificationRequest->status==6)
-                                <span class="badge bg-info-subtle text-info">{{__('Global')}}</span>
-                            @endif
+                            <span class="float-end">
+                                @if($identificationRequest->status==1)
+                                    <span class="badge bg-info">{{__('National')}}</span>
+                                @elseif($identificationRequest->status==5)
+                                    <span class="badge bg-info">{{__('International')}}</span>
+                                @elseif($identificationRequest->status==6)
+                                    <span class="badge bg-info">{{__('Global')}}</span>
+                                @else
+                                    <span class="badge bg-warning">{{__('Old data')}}</span>
+                                @endif
+                   </span>
                         </h5>
                         <div class="card-body">
                             <div class="d-flex mb-4 align-items-center">
@@ -42,9 +44,11 @@
                                 </div>
                             </div>
                             <h6 class="mb-1">{{$identificationRequest->nationalID}}</h6>
-                            <p class="card-text text-muted">{{$identificationRequest->DateCreation}}</p>
+                            <p class="card-text text-muted float-end">{{$identificationRequest->DateCreation}}</p>
+                        </div>
+                        <div class="card-footer text-muted">
                             <a href="{{route('validate_account', ['locale' => app()->getLocale(), 'paramIdUser' => $identificationRequest->id]) }}"
-                               class="btn btn-primary btn-sm">
+                               class="btn btn-primary float-end">
                                 {{__('See Details')}}
                             </a>
                         </div>
@@ -55,6 +59,6 @@
                     {{__('No identification request found')}}
                 </div>
             @endforelse
-            </div>
         </div>
+    </div>
 </div>
