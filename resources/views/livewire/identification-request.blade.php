@@ -7,7 +7,7 @@
             {{__('Pages')}}
         @endslot
         @slot('title')
-                {{__('Identification requests')}}
+            {{__('Identification requests')}}
         @endslot
     @endcomponent
     <div class="container-fluid">
@@ -26,13 +26,16 @@
                             @if($identificationRequest->status==5)
                                 <span class="badge bg-info-subtle text-info">{{__('International')}}</span>
                             @endif
+                            @if($identificationRequest->status==6)
+                                <span class="badge bg-info-subtle text-info">{{__('Global')}}</span>
+                            @endif
                         </h5>
                         <div class="card-body">
                             <div class="d-flex mb-4 align-items-center">
                                 <div class="flex-shrink-0">
                                     <img
-                                            src="@if (file_exists('uploads/profiles/profile-image-' . $identificationRequest->idUser . '.png')) {{ URL::asset('uploads/profiles/profile-image-'.$identificationRequest->idUser.'.png') }}@else{{ URL::asset('uploads/profiles/default.png') }} @endif"
-                                            class="avatar-sm rounded-circle"/>
+                                        src="@if (file_exists('uploads/profiles/profile-image-' . $identificationRequest->idUser . '.png')) {{ URL::asset('uploads/profiles/profile-image-'.$identificationRequest->idUser.'.png') }}@else{{ URL::asset('uploads/profiles/default.png') }} @endif"
+                                        class="avatar-sm rounded-circle"/>
                                 </div>
                                 <div class="flex-grow-1 ms-2">
                                     <h5 class="card-title mb-1">{{$identificationRequest->fullphone_number}}</h5>

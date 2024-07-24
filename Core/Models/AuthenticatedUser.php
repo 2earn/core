@@ -20,7 +20,8 @@ class  AuthenticatedUser
 
         $identificationRequest = $identificationRequest->where(function ($query) {
             $query->where('status', '=', StatusRequest::InProgressNational->value)
-                ->orWhere('status', '=', StatusRequest::InProgressInternational->value);
+                ->orWhere('status', '=', StatusRequest::InProgressInternational->value)
+                ->orWhere('status', '=', StatusRequest::InProgressGlobal->value);
         });
 
         return is_null($identificationRequest->first()) ? false : true;
