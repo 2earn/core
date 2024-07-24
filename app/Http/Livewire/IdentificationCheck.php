@@ -132,16 +132,14 @@ class IdentificationCheck extends Component
 
         if ($photoBackValidated && $photoFrontValidated && (!$this->internationalCard or ($this->internationalCard && $photoInternationalValidated))) {
             $user = User::where('idUser', $userAuth->idUser)->first();
-            $newStatus = null;
-            if( $this->internationalCard ){
+            $newStatus = StatusRequest::InProgressNational->value;
+            if ($this->internationalCard) {
+                if ($user->status == StatusRequest::ValidNational->value || $user->status == StatusRequest::ValidInternational->value) {
+                    $newStatus = StatusRequest::InProgressInternational->value;
+                }
                 if ($user->status == StatusRequest::OptValidated->value) {
                     $newStatus = StatusRequest::InProgressGlobal->value;
                 }
-                if ($user->status == StatusRequest::ValidNational->value) {
-                    $newStatus = StatusRequest::InProgressInternational->value;
-                }
-            }else{
-                $newStatus=  StatusRequest::InProgressNational->value;
             }
 
             $this->sendIdentificationRequest($newStatus, $settingsManager);
@@ -206,7 +204,7 @@ class IdentificationCheck extends Component
         if ($requestIdentification != null) {
             $noteRequset = $requestIdentification->note;
         }
-        $this->disabled = in_array($user->status, [StatusRequest::InProgressNational->value, StatusRequest::InProgressInternational->value, StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value]) ? true : false;
+        $this->disabled = in_array($user->status, [StatusRequest::InProgressNational->value, StatusRequest::InProgressInternational->value, StatusRequest::InProgressGlobal->value, StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value]) ? true : false;
         return view('livewire.identification-check',
             compact('user', 'usermetta_info', 'errors_array', 'userAuth', 'hasRequest', 'hasFrontImage', 'hasBackImage', 'noteRequset'))
             ->extends('layouts.master')->section('content');

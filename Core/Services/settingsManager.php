@@ -651,24 +651,18 @@ class settingsManager
         $requestIdentification = identificationuserrequest::where('idUser', $idUser);
         $requestIdentification = $requestIdentification->where(function ($query) {
             $query->where('status', '=', StatusRequest::InProgressNational->value)
-                ->orWhere('status', '=', StatusRequest::InProgressInternational->value);
+                ->orWhere('status', '=', StatusRequest::InProgressInternational->value)
+                ->orWhere('status', '=', StatusRequest::InProgressGlobal->value);
         });
 
         $requestIdentification = $requestIdentification->get()->first();
         if ($requestIdentification == null) return;
         $user = User::where('idUser', $idUser)->first();
-        $userStatus = null;
+        $userStatus = StatusRequest::OptValidated->value;
 
-        if ($user->status == StatusRequest::InProgressNational->value) {
-            $userStatus = StatusRequest::OptValidated->value;
-        }
         if ($user->status == StatusRequest::InProgressInternational->value) {
             $userStatus = StatusRequest::ValidNational->value;
         }
-        if ($user->status == StatusRequest::InProgressGlobal->value) {
-            $userStatus = StatusRequest::OptValidated->value;
-        }
-
         $this->updateIdentity($requestIdentification, $userStatus, 1, $note);
         User::where('idUser', $idUser)->update(['status' => $userStatus]);
         $user = User::where('idUser', $idUser)->first();
@@ -691,7 +685,13 @@ class settingsManager
     public function getNewValidatedstatus($idUser)
     {
         $user = User::where('idUser', $idUser)->first();
-        return $user->status == StatusRequest::InProgressInternational->value ? StatusRequest::ValidInternational->value : StatusRequest::ValidNational->value;
+
+        if ($user->status == StatusRequest::InProgressNational->value) {
+            return StatusRequest::ValidNational->value;
+        }
+        if ($user->status == StatusRequest::InProgressInternational->value || $user->status == StatusRequest::InProgressGlobal->value) {
+            return StatusRequest::ValidInternational->value;
+        }
     }
 
     public function validateIdentity($idUser)
@@ -699,7 +699,8 @@ class settingsManager
         $requestIdentification = identificationuserrequest::where('idUser', $idUser);
         $requestIdentification = $requestIdentification->where(function ($query) {
             $query->where('status', '=', StatusRequest::InProgressNational->value)
-                ->orWhere('status', '=', StatusRequest::InProgressInternational->value);
+                ->orWhere('status', '=', StatusRequest::InProgressInternational->value)
+                ->orWhere('status', '=', StatusRequest::InProgressGlobal->value);
         });
 
         $requestIdentification = $requestIdentification->get()->first();
