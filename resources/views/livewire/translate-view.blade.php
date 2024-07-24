@@ -138,7 +138,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                             </div>
                         </div>
                         <div class="card-body">
-                            <table class="table table-striped table-bordered">
+                            <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
                             <thead>
                                 <tr>
                                     <th scope="Id">{{__('Id')}}</th>

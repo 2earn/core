@@ -220,10 +220,10 @@
         <div class="card">
             <div class="card-body table-responsive">
                 <table id="users-list"
-                       class="table table-striped table-bordered"
-                       style="width:100%">
-                    <thead class="table-light">
+                       class="table table-striped table-bordered  display nowrap">
+                <thead class="table-light">
                     <tr class="head2earn  tabHeader2earn">
+                        <th>{{__('Details')}}</th>
                         <th>{{__('created at')}}</th>
                         <th>{{__('pays')}}</th>
                         <th>{{__('Phone')}}</th>
@@ -375,7 +375,7 @@
                         <div class="card-body table-responsive">
                             <input id="balances-reciver" type="hidden">
                             <input id="balances-amount" type="hidden">
-                            <table class="table table-striped table-bordered"
+                            <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
                                    id="ub_table_list" style="width: 100%">
                                 <thead class="table-light">
                                 <tr class="head2earn  tabHeader2earn">
@@ -411,7 +411,7 @@
                         <div class="card-body table-responsive">
                             <input id="balances-reciversh" type="hidden">
                             <input id="balances-amountsh" type="hidden">
-                            <table class="table table-striped table-bordered"
+                            <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
                                    id="ub_table_listsh" style="width: 100%">
                                 <thead class="table-light">
                                 <tr class="head2earn  tabHeader2earn">
@@ -623,6 +623,7 @@
         });
         $(document).on('turbolinks:load', function () {
             $('#users-list').DataTable({
+                "responsive": true,
                 "ordering": true,
                 retrieve: true,
                 "colReorder": false,
@@ -637,6 +638,7 @@
                 bAutoWidth: false,
                 "ajax": "{{route('api_users_list',app()->getLocale())}}",
                 "columns": [
+                    datatableControlBtn,
                     {data: 'formatted_created_at'},
                     {data: 'flag'},
                     {data: 'formatted_mobile'},

@@ -892,7 +892,7 @@
 }
 
 .navbar-menu .navbar-nav .nav-sm .nav-link:hover {
-    color:var(--vz-vertical-menu-item-hover-color);
+    color: var(--vz-vertical-menu-item-hover-color);
 }
 
 .navbar-menu .navbar-nav .nav-sm .nav-link:hover:before {
@@ -16071,4 +16071,13 @@ span.flatpickr-weekday {
 
 .hide {
     display: none;
+}
+
+.dtmdbtn {
+    cursor: pointer;
+}
+
+.dt-layout-row {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
