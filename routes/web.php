@@ -76,13 +76,15 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/notification/history', NotificationHistory::class)->name('notification_history');
         Route::get('/notification/settings', NotificationSettings::class)->name('notification_settings');
         Route::get('/user/purchase', UserPurchaseHistory::class)->name('user_purchase');
-        Route::get('/stat/countrie', \App\Http\Livewire\StatCountrie::class)->name('stat_countrie');
-        Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');
         Route::get('/treeview', \App\Http\Livewire\treeview::class)->name('treeview');
-        Route::get('/sharessolde', \App\Http\Livewire\SharesSolde::class)->name('sharessolde');
-        Route::get('/shares-sold-dashboard', \App\Http\Livewire\SharesSold::class)->name('shares_sold');
-        Route::get('/shares-sold-market-status', \App\Http\Livewire\SharesSoldMarketStatus::class)->name('shares_sold_market_status');
-        Route::get('/shares-sold-recent-transaction', \App\Http\Livewire\SharesSoldRecentTransaction::class)->name('shares_sold_recent_transaction');
+        Route::middleware(['IsSuperAdmin'])->group(function () {
+            Route::get('/stat/countrie', \App\Http\Livewire\StatCountrie::class)->name('stat_countrie');
+            Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');
+            Route::get('/sharessolde', \App\Http\Livewire\SharesSolde::class)->name('sharessolde');
+            Route::get('/shares-sold-dashboard', \App\Http\Livewire\SharesSold::class)->name('shares_sold');
+            Route::get('/shares-sold-market-status', \App\Http\Livewire\SharesSoldMarketStatus::class)->name('shares_sold_market_status');
+            Route::get('/shares-sold-recent-transaction', \App\Http\Livewire\SharesSoldRecentTransaction::class)->name('shares_sold_recent_transaction');
+        });
         Route::get('/treeview', \App\Http\Livewire\treeview::class)->name('treeview');
 
         Route::get('/user/balance-sms', UserBalanceSMS::class)->name('user_balance_sms');
