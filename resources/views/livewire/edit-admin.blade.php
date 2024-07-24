@@ -41,15 +41,17 @@
                         <tbody>
                         @foreach ($translates as $value)
                             <tr>
-                                <td><span> {{$value->id}}</span></td>
-                                <td><span>{{$value->name}}</span></td>
-                                <td><span>{{$value->mobile}}</span></td>
-                                <td><span> {{$value->idCountry}}</span></td>
-                                <td><span>{{$value->idrole}}</span></td>
-                                <td><span>{{$value->role}}</span></td>
-                                <td><span>{{$value->countrie}}</span></td>
+                                <td>{{$value->id}}</td>
+                                <td>{{$value->name}}</td>
+                                <td>{{$value->mobile}}</td>
+                                <td> {{$value->idCountry}}</td>
+                                <td>{{$value->idrole}}</td>
+                                <td>{{$value->role}}</td>
+                                <td>{{$value->countrie}}</td>
                                 <td>
-                                    <button type="button" data-bs-toggle="modal" data-bs-target="#editAdminModal"   wire:click="edit({{$value->id }})"  class="btn rounded-pill btn-secondary waves-effect">{{ __('Edit') }}</button>
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#editAdminModal"  wire:click="edit({{$value->id }})"  class="btn btn-secondary">
+                                        {{ __('Edit') }}
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
@@ -69,7 +71,6 @@
                 </div>
                 <div class="modal-body">
                     @php $role=\Illuminate\Support\Facades\Lang::get("userRole") @endphp
-
                     <div> <label><span>{{$role}}:</span> <span>{{$name}}</span> </label></div>
                     <p>{{ __('Mobile_Number') }}: {{$mobile}}</p>
                     <label>{{ __('Role') }}</label>
@@ -82,7 +83,7 @@
                             <option value="{{$role->name}}">{{$cn}}</option>
                         @endforeach
                     </select>
-                    <div style="margin: 10px"  class="scheduler-border">
+                    <div class="scheduler-border">
                         <div  class="boxplatforms  d-flex">
                             @foreach($platformes   as $key => $setting)
                                 <div class="">

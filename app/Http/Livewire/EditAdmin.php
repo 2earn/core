@@ -38,10 +38,7 @@ class EditAdmin extends Component
             ->where('user_id', $idUser)
             ->delete();
         foreach ($this->platformes->where('selected', 1) as $platformUser) {
-            UserPlatforms::create([
-                'user_id' => $idUser,
-                'plateforme_id' => $platformUser->id
-            ]);
+            UserPlatforms::create(['user_id' => $idUser, 'plateforme_id' => $platformUser->id]);
         }
         if ($this->userRole == "") {
             dd("pas de role ");
@@ -65,9 +62,7 @@ class EditAdmin extends Component
             ->orWhere('users.mobile', 'like', '%' . $this->search . '%')
             ->orWhere('countries.name', 'like', '%' . $this->search . '%')
             ->paginate(5);
-        return view('livewire.edit-admin', [
-            'translates' => $translate
-        ])->extends('layouts.master')->section('content');
+        return view('livewire.edit-admin', ['translates' => $translate])->extends('layouts.master')->section('content');
     }
 
     public function edit($idUser)
