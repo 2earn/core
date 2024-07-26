@@ -26,8 +26,16 @@ class CheckOptCode extends Component
     public $idUser = 0;
     public $ccode;
     public $numPhone;
+
     protected $rules = [
-        'code' => 'required|numeric'
+        'code' => 'required|numeric|min:4|max:4'
+    ];
+
+    protected $messages = [
+        'code.required' => 'The code cannot be empty.',
+        'code.numeric' => 'The code format is not valid.',
+        'code.min' => 'The code format is not valid.',
+        'code.max' => 'The code format is not valid.',
     ];
 
     public function mount($iduser, $ccode, $numTel)
@@ -61,19 +69,22 @@ class CheckOptCode extends Component
      */
     public function verifCodeOpt(settingsManager $settingsManager, CommandeServiceManager $commandeServiceManager, UserBalancesHelper $userBalancesHelper)
     {
-        $this->validate();
+
         $user = $settingsManager->getUsers()->where('idUser', Crypt::decryptString($this->idUser))->first();
 
+        if (!empty($this->getErrorBag()->getMessages())) {
+            return redirect()->route('check_opt_code', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('danger', Lang::get('Invalid OPT code.') . json_encode($this->getErrorBag()->getMessages()));
+        }
         if (substr($user->OptActivation, 0, 4) != ($this->code)) {
-            return redirect()->route('check_opt_code', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('ErrorOptCode', Lang::get('Invalid OPT code'));
+            return redirect()->route('check_opt_code', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('danger', Lang::get('Invalid OPT code'));
         }
         $date = date('Y-m-d H:i:s');
         if (abs(strtotime($date) - strtotime($user->OptActivation_at)) / 60 > 1500) {
-            return redirect()->route('check_opt_code', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('ErrorExpirationCode', Lang::get('OPT code expired'));
+            return redirect()->route('check_opt_code', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('danger', Lang::get('OPT code expired'));
         }
         $user = $settingsManager->getUserById($user->id);
-        if ($user->status != StatusRequest::Registred) {
-            return redirect()->route('check_opt_code', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('ErrorExpirationCode', Lang::get('User already verified'));
+        if ($user->status != StatusRequest::Registred->value) {
+            return redirect()->route('check_opt_code', ["locale" => app()->getLocale(), "iduser" => $this->idUser, "ccode" => $this->ccode, "numTel" => $this->numPhone])->with('danger', Lang::get('User already verified'));
         }
         $userUpline = $settingsManager->checkUserInvited($user);
         $password = $this->randomNewPassword(8);
@@ -89,7 +100,7 @@ class CheckOptCode extends Component
             }
             $userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::Signup, $user->idUser);
         }
-        return redirect()->route('login', app()->getLocale())->with('success', Lang::get('fds'));
+        return redirect()->route('login', app()->getLocale())->with('success', Lang::get('User registred successfully, you can login now'));
     }
 
 }
