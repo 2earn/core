@@ -526,22 +526,25 @@
                 function formatCountDown(days, hours, minutes, seconds) {
                     var countDownValue = "- ";
                     if (days !== "00") {
-                        countDownValue += days + " {{__('days')}} : ";
+                        countDownValue += days + " {{__('days')}}";
                     }
                     if (hours !== "00") {
-                        countDownValue += hours + " {{__('hours')}} : ";
+                        countDownValue += days !== "00" ? " : " : "";
+                        countDownValue += hours + " {{__('hours')}}";
                     }
                     if (minutes !== "00") {
-                        countDownValue += minutes + " {{__('minutes')}} : ";
+                        countDownValue += hours !== "00" ? " : " : "";
+                        countDownValue += minutes + " {{__('minutes')}}";
                     }
                     if (seconds !== "00") {
+                        countDownValue += minutes !== "00" ? " : " : "";
                         countDownValue += seconds + " {{__('seconds')}}";
                     }
                     return countDownValue;
                 }
 
                 function startCountDownDate(dateVal) {
-                   return  new Date(dateVal).getTime();
+                    return new Date(dateVal).getTime();
                 }
 
                 function countDownTimer(start, targetDOM) {
@@ -549,7 +552,6 @@
                     var distance = start - now;
                     var days = Math.floor(distance / (millisecondsInOneDay));
                     var hours = Math.floor((distance % (millisecondsInOneDay)) / (millisecondsInOneHour));
-
                     var minutes = Math.floor((distance % (millisecondsInOneHour)) / (millisecondsInOneMinute));
                     var seconds = Math.floor((distance % (millisecondsInOneMinute)) / 1000);
 
