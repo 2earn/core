@@ -361,24 +361,28 @@
                     </a>
                     <div class="row d-flex">
                         <form class="needs-validation" novalidate>
-                            <div class="row mt-2  @if($flash) alert-flash @else alert  @endif alert-primary">
-                                <div class="col-2">
+                            <div class="row mt-2 ml-1 @if($flash) alert-flash @else alert  @endif alert-light">
+                                <h5 class="ml-3">
                                     <span class="form-label">{{ __('Buy For') }}:</span>
-                                </div>
-                                <div class="col-4">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" checked
-                                               id="inlineRadio1" value="me">
-                                        <label class="form-check-label" for="inlineRadio1">{{ __('me') }}</label>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                               id="inlineRadio2" value="other" disabled>
-                                        <label class="form-check-label" for="inlineRadio2">{{ __('other') }}</label>
-                                    </div>
-                                </div>
+                                </h5>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item list-group-item-light">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                   checked
+                                                   id="inlineRadio1" value="me">
+                                            <label class="form-check-label" for="inlineRadio1">{{ __('me') }}</label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item list-group-item-light">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                   id="inlineRadio2" value="other" disabled>
+                                            <label class="form-check-label" for="inlineRadio2">{{ __('other') }}</label>
+                                        </div>
+                                    </li>
+
+                                </ul>
                                 <div class="col-6 d-none" id="contact-select">
                                     <div>
                                         <label for="phone" class="form-label">{{ __('Mobile_Number') }}</label>
@@ -537,12 +541,13 @@
                     seconds = seconds < 10 ? "0" + seconds : seconds;
                     if ($("#" + targetDOM).length) {
 
-                    document.querySelector("#" + targetDOM).textContent =
-                        "- " + days + " {{__('days')}} : " + hours + " {{__('hours')}} : " + minutes + " {{__('minutes')}} : " + seconds + "  {{__('seconds')}}";
+                        document.querySelector("#" + targetDOM).textContent =
+                            "- " + days + " {{__('days')}} : " + hours + " {{__('hours')}} : " + minutes + " {{__('minutes')}} : " + seconds + "  {{__('seconds')}}";
 
-                    if (distance < 0) {
-                        document.querySelector("#" + targetDOM).textContent = "00 : 00 : 00 : 00";
-                    }}
+                        if (distance < 0) {
+                            document.querySelector("#" + targetDOM).textContent = "00 : 00 : 00 : 00";
+                        }
+                    }
                 }
 
                 var flashTimer = startCountDownDate(setEndDate6);
