@@ -41,270 +41,336 @@
             </div>
         </div>
     @endif
-    <div class="row">
-        <div class="col-xl-3 col-md-6 solde-cash">
-            <div class="card card-animate">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Cash Balance') }}</p>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <h5 class="text-success fs-14 mb-0">
-                                @php
-                                    $cb_asd =$cashBalance - $arraySoldeD[0];
-                                @endphp
-                                <p class="@if($cb_asd > 0) text-success @elseif($cb_asd < 0) text-danger @endif"
-                                   style="max-height: 5px">@if ($cb_asd > 0)
-                                        +
-                                    @endif
-                                    {{formatSolde($cb_asd)}}
-                                    <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
-                                </p>
-                            </h5>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-end justify-content-between mt-4">
-                        <div>
-                            <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
-                                @if(app()->getLocale()!="ar")
-                                    {{$currency}}
-                                    <span class="counter-value"
-                                          data-target="{{intval($cashBalance)}}">{{formatSolde($cashBalance,0)}}</span>
-                                    <small class="text-muted fs-13">
-                                        @if(getDecimals($cashBalance))
-                                            {{$decimalSeperator}}
-                                            {{getDecimals($cashBalance)}}
-                                        @endif
-                                    </small>
-                                @else
-                                    <small class="text-muted fs-13">
-                                        @if(getDecimals($cashBalance))
-                                            {{getDecimals($cashBalance)}}
-                                            {{$decimalSeperator}}
-                                        @endif
-                                    </small>
-                                    <span class="counter-value"
-                                          data-target="{{intval($cashBalance)}}">{{intval($cashBalance)}}</span>
-                                    {{$currency}}
-                                @endif
-                            </h3>
-                            <a href="{{route('user_balance_cb' , app()->getLocale() )}} "
-                               class="text-decoration-underline">{{ __('see_details') }}</a>
-                        </div>
-                        <div class="avatar-sm flex-shrink-0">
-                            <lord-icon
-                                src="https://cdn.lordicon.com/nlmjynuq.json"
-                                trigger="loop"
-                                style="width:55px;height:55px">
-                            </lord-icon>
-                        </div>
 
-                    </div>
-                </div>
+    <div class="row card card-animate">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h6 class="card-title mb-0 flex-grow-1">   {{__('Dashboard statistics')}}</h6>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6 solde-bfs">
-            <div class="card card-animate">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Balance For Shopping') }}</p>
+        <div class="card-body row">
+            <div class="col-xl-3 col-md-6 solde-cash">
+                <div class="card card-animate">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1 overflow-hidden">
+                                <p class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Cash Balance') }}</p>
+                            </div>
+                            <div class="flex-shrink-0">
+                                <h5 class="text-success fs-14 mb-0">
+                                    @php
+                                        $cb_asd =$cashBalance - $arraySoldeD[0];
+                                    @endphp
+                                    <p class="@if($cb_asd > 0) text-success @elseif($cb_asd < 0) text-danger @endif"
+                                       style="max-height: 5px">@if ($cb_asd > 0)
+                                            +
+                                        @endif
+                                        {{formatSolde($cb_asd)}}
+                                        <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
+                                    </p>
+                                </h5>
+                            </div>
                         </div>
-                        <div class="flex-shrink-0">
-                            <h5 class="text-success fs-14 mb-0">
-                                @php
-                                    $bfs_asd = $balanceForSopping - $arraySoldeD[1];
-                                @endphp
-                                <p class="@if ($bfs_asd > 0) text-success @elseif ($bfs_asd < 0) text-danger @endif"
-                                   style="max-height: 5px">
-                                    @if ($bfs_asd > 0)
-                                        +
+                        <div class="d-flex align-items-end justify-content-between mt-4">
+                            <div>
+                                <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
+                                    @if(app()->getLocale()!="ar")
+                                        {{$currency}}
+                                        <span class="counter-value"
+                                              data-target="{{intval($cashBalance)}}">{{formatSolde($cashBalance,0)}}</span>
+                                        <small class="text-muted fs-13">
+                                            @if(getDecimals($cashBalance))
+                                                {{$decimalSeperator}}
+                                                {{getDecimals($cashBalance)}}
+                                            @endif
+                                        </small>
+                                    @else
+                                        <small class="text-muted fs-13">
+                                            @if(getDecimals($cashBalance))
+                                                {{getDecimals($cashBalance)}}
+                                                {{$decimalSeperator}}
+                                            @endif
+                                        </small>
+                                        <span class="counter-value"
+                                              data-target="{{intval($cashBalance)}}">{{intval($cashBalance)}}</span>
+                                        {{$currency}}
                                     @endif
-                                    {{formatSolde($bfs_asd)}}
-                                    <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
-                                </p>
-                            </h5>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-end justify-content-between mt-4">
-                        <div>
-                            <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
-                                @if(app()->getLocale()!="ar")
-                                    {{$currency}}
-                                    <span class="counter-value"
-                                          data-target="{{intval($balanceForSopping)}}">{{formatSolde($balanceForSopping,0)}}</span>
-                                    <small class="text-muted fs-13">
-                                        @if(getDecimals($balanceForSopping))
-                                            {{$decimalSeperator}}
-                                            {{getDecimals($balanceForSopping)}}
-                                        @endif
-                                    </small>
-                                @else
-                                    <small class="text-muted fs-13">
-                                        @if(getDecimals($balanceForSopping))
-                                            {{getDecimals($balanceForSopping)}}
-                                            {{$decimalSeperator}}
-                                        @endif
-                                    </small>
-                                    <span class="counter-value"
-                                          data-target="{{intval($balanceForSopping)}}">{{formatSolde($balanceForSopping,0)}}</span>
-                                    {{$currency}}
-                                @endif
-                            </h3>
-                            <a href="{{route('user_balance_bfs' , app()->getLocale() )}} "
-                               class="text-decoration-underline">{{ __('see_details') }}</a>
-                        </div>
-                        <div class="avatar-sm flex-shrink-0">
-                            <lord-icon
-                                src="{{ URL::asset('build/icons/146-basket-trolley-shopping-card-gradient-edited.json') }}"
-                                trigger="loop"
-                                colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
-                            </lord-icon>
+                                </h3>
+                                <a href="{{route('user_balance_cb' , app()->getLocale() )}} "
+                                   class="text-decoration-underline">{{ __('see_details') }}</a>
+                            </div>
+                            <div class="avatar-sm flex-shrink-0">
+                                <lord-icon
+                                    src="https://cdn.lordicon.com/nlmjynuq.json"
+                                    trigger="loop"
+                                    style="width:55px;height:55px">
+                                </lord-icon>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-xl-2 col-md-6 solde-discount">
-            <div class="card card-animate">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-uppercase fw-medium text-muted text-truncate  mb-0">{{ __('Discounts Balance') }}</p>
+            <div class="col-xl-2 col-md-6 solde-bfs">
+                <div class="card card-animate">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1 overflow-hidden">
+                                <p class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Balance For Shopping') }}</p>
+                            </div>
+                            <div class="flex-shrink-0">
+                                <h5 class="text-success fs-14 mb-0">
+                                    @php
+                                        $bfs_asd = $balanceForSopping - $arraySoldeD[1];
+                                    @endphp
+                                    <p class="@if ($bfs_asd > 0) text-success @elseif ($bfs_asd < 0) text-danger @endif"
+                                       style="max-height: 5px">
+                                        @if ($bfs_asd > 0)
+                                            +
+                                        @endif
+                                        {{formatSolde($bfs_asd)}}
+                                        <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
+                                    </p>
+                                </h5>
+                            </div>
                         </div>
-                        <div class="flex-shrink-0">
-                            <h5 class="text-success fs-14 mb-0">
-                                @php
-                                    $db_asd = $discountBalance - $arraySoldeD[2];
-                                @endphp
-                                <p class="@if ( $db_asd > 0) text-success @elseif( $db_asd < 0) text-danger @endif"
-                                   style="max-height: 5px">
-                                    @if ($db_asd > 0)
-                                        +
+                        <div class="d-flex align-items-end justify-content-between mt-4">
+                            <div>
+                                <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
+                                    @if(app()->getLocale()!="ar")
+                                        {{$currency}}
+                                        <span class="counter-value"
+                                              data-target="{{intval($balanceForSopping)}}">{{formatSolde($balanceForSopping,0)}}</span>
+                                        <small class="text-muted fs-13">
+                                            @if(getDecimals($balanceForSopping))
+                                                {{$decimalSeperator}}
+                                                {{getDecimals($balanceForSopping)}}
+                                            @endif
+                                        </small>
+                                    @else
+                                        <small class="text-muted fs-13">
+                                            @if(getDecimals($balanceForSopping))
+                                                {{getDecimals($balanceForSopping)}}
+                                                {{$decimalSeperator}}
+                                            @endif
+                                        </small>
+                                        <span class="counter-value"
+                                              data-target="{{intval($balanceForSopping)}}">{{formatSolde($balanceForSopping,0)}}</span>
+                                        {{$currency}}
                                     @endif
-                                    {{ formatSolde($db_asd)}}
+                                </h3>
+                                <a href="{{route('user_balance_bfs' , app()->getLocale() )}} "
+                                   class="text-decoration-underline">{{ __('see_details') }}</a>
+                            </div>
+                            <div class="avatar-sm flex-shrink-0">
+                                <lord-icon
+                                    src="{{ URL::asset('build/icons/146-basket-trolley-shopping-card-gradient-edited.json') }}"
+                                    trigger="loop"
+                                    colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
+                                </lord-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-2 col-md-6 solde-discount">
+                <div class="card card-animate">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1 overflow-hidden">
+                                <p class="text-uppercase fw-medium text-muted text-truncate  mb-0">{{ __('Discounts Balance') }}</p>
+                            </div>
+                            <div class="flex-shrink-0">
+                                <h5 class="text-success fs-14 mb-0">
+                                    @php
+                                        $db_asd = $discountBalance - $arraySoldeD[2];
+                                    @endphp
+                                    <p class="@if ( $db_asd > 0) text-success @elseif( $db_asd < 0) text-danger @endif"
+                                       style="max-height: 5px">
+                                        @if ($db_asd > 0)
+                                            +
+                                        @endif
+                                        {{ formatSolde($db_asd)}}
+                                        <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
+                                    </p>
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-end justify-content-between mt-4">
+                            <div>
+                                <h4 class="mb-4 fs-22 fw-semibold ff-secondary">
+                                    @if(app()->getLocale()!="ar")
+                                        {{$currency}}
+                                        <span class="counter-value"
+                                              data-target="{{intval($discountBalance)}}">{{intval($discountBalance)}}</span>
+                                        <small class="text-muted fs-13">
+                                            @if(getDecimals($discountBalance))
+                                                {{$decimalSeperator}}
+                                                {{getDecimals($discountBalance)}}
+                                            @endif
+                                        </small>
+                                    @else
+                                        <small class="text-muted fs-13">
+                                            @if(getDecimals($discountBalance))
+                                                {{getDecimals($discountBalance)}}
+                                                {{$decimalSeperator}}
+                                            @endif
+                                        </small>
+                                        <span class="counter-value"
+                                              data-target="{{intval($discountBalance)}}">{{formatSolde($discountBalance,0)}}</span>
+                                        {{$currency}}
+                                    @endif
+                                </h4>
+                                <a href="{{route('user_balance_db' , app()->getLocale() )}} "
+                                   class="text-decoration-underline">{{ __('see_details') }}</a>
+                            </div>
+                            <div class="avatar-sm flex-shrink-0">
+                                <lord-icon
+                                    src="https://cdn.lordicon.com/qrbokoyz.json"
+                                    trigger="loop"
+                                    colors="primary:#464fed,secondary:#bc34b6"
+                                    style="width:55px;height:55px">
+                                </lord-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-2 col-md-6 solde-sms">
+                <div class="card card-animate">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1 overflow-hidden">
+                                <p class="text-uppercase fw-medium text-muted text-truncate mb-0">{{ __('SMS Solde') }}</p>
+                            </div>
+                            <div class="flex-shrink-0">
+                                <h5 class="text-success fs-14 mb-0">
+                                    {{$SMSBalance}}
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-end justify-content-between mt-4">
+                            <div>
+                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                    <span class="counter-value" data-target="{{$SMSBalance}}">{{$SMSBalance}}</span>
+                                </h4>
+                                <a href="{{route('user_balance_sms' , app()->getLocale() )}} "
+                                   class="text-decoration-underline">{{ __('see_details') }}</a>
+                            </div>
+                            <div class="avatar-sm flex-shrink-0">
+                                <lord-icon src="{{ URL::asset('build/icons/981-consultation-gradient-edited.json') }}"
+                                           trigger="loop"
+                                           colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
+                                </lord-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 solde-actions">
+                <div class="card card-animate">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1 overflow-hidden">
+                                <a href="{{route('shares_solde' , app()->getLocale() )}} "
+                                   class="text-decoration-underline"><p
+                                        class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Actions (Shares)') }}</p>
+                                </a>
+                            </div>
+                            <div class="flex-shrink-0">
+                                <h5 class="text-success fs-14 mb-0">
+                                    {{$actualActionValue['int']}}.{{$actualActionValue['2Fraction']}}<small
+                                        class="action_fraction">{{$actualActionValue['3_2Fraction']}}</small>
                                     <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
-                                </p>
-                            </h5>
+                                </h5>
+                            </div>
                         </div>
-                    </div>
-                    <div class="d-flex align-items-end justify-content-between mt-4">
-                        <div>
-                            <h4 class="mb-4 fs-22 fw-semibold ff-secondary">
-                                @if(app()->getLocale()!="ar")
-                                    {{$currency}}
-                                    <span class="counter-value"
-                                          data-target="{{intval($discountBalance)}}">{{intval($discountBalance)}}</span>
-                                    <small class="text-muted fs-13">
-                                        @if(getDecimals($discountBalance))
-                                            {{$decimalSeperator}}
-                                            {{getDecimals($discountBalance)}}
-                                        @endif
-                                    </small>
-                                @else
-                                    <small class="text-muted fs-13">
-                                        @if(getDecimals($discountBalance))
-                                            {{getDecimals($discountBalance)}}
-                                            {{$decimalSeperator}}
-                                        @endif
-                                    </small>
-                                    <span class="counter-value"
-                                          data-target="{{intval($discountBalance)}}">{{formatSolde($discountBalance,0)}}</span>
-                                    {{$currency}}
-                                @endif
-                            </h4>
-                            <a href="{{route('user_balance_db' , app()->getLocale() )}} "
-                               class="text-decoration-underline">{{ __('see_details') }}</a>
-                        </div>
-                        <div class="avatar-sm flex-shrink-0">
-                            <lord-icon
-                                src="https://cdn.lordicon.com/qrbokoyz.json"
-                                trigger="loop"
-                                colors="primary:#464fed,secondary:#bc34b6"
-                                style="width:55px;height:55px">
-                            </lord-icon>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-2 col-md-6 solde-sms">
-            <div class="card card-animate">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">{{ __('SMS Solde') }}</p>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <h5 class="text-success fs-14 mb-0">
-                                {{$SMSBalance}}
-                            </h5>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-end justify-content-between mt-4">
-                        <div>
-                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                <span class="counter-value" data-target="{{$SMSBalance}}">{{$SMSBalance}}</span>
-                            </h4>
-                            <a href="{{route('user_balance_sms' , app()->getLocale() )}} "
-                               class="text-decoration-underline">{{ __('see_details') }}</a>
-                        </div>
-                        <div class="avatar-sm flex-shrink-0">
-                            <lord-icon src="{{ URL::asset('build/icons/981-consultation-gradient-edited.json') }}"
-                                       trigger="loop"
-                                       colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
-                            </lord-icon>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-md-6 solde-actions">
-            <div class="card card-animate">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1 overflow-hidden">
-                            <a href="{{route('shares_solde' , app()->getLocale() )}} "
-                               class="text-decoration-underline"><p
-                                    class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Actions (Shares)') }}</p>
-                            </a>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <h5 class="text-success fs-14 mb-0">
-                                {{$actualActionValue['int']}}.{{$actualActionValue['2Fraction']}}<small
-                                    class="action_fraction">{{$actualActionValue['3_2Fraction']}}</small>
-                                <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
-                            </h5>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-end justify-content-between mt-3">
-                        <div>
-                            <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
+                        <div class="d-flex align-items-end justify-content-between mt-3">
+                            <div>
+                                <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
                                 <span class="counter-value"
                                       data-target="{{$userSelledAction}}">{{formatSolde($userSelledAction,0)}}</span>
-                                <small class="text-muted fs-13">
-                                    ({{$actionsValues}}{{$currency}})
-                                </small></h3>
-                            <button data-bs-target="#buy-action" data-bs-toggle="modal"
-                                    class="btn btn-sm @if($flash) btn-flash @else btn-secondary  @endif">{{ __('Buy Shares') }}</button>
-                            <span class="badge bg-light text-success  ms-2 mb-0"><i
-                                    class="ri-arrow-up-line align-middle"></i>
+                                    <small class="text-muted fs-13">
+                                        ({{$actionsValues}}{{$currency}})
+                                    </small></h3>
+                                <button data-bs-target="#buy-action" data-bs-toggle="modal"
+                                        class="btn btn-sm @if($flash) btn-flash @else btn-secondary  @endif">{{ __('Buy Shares') }}</button>
+                                <span class="badge bg-light text-success  ms-2 mb-0"><i
+                                        class="ri-arrow-up-line align-middle"></i>
                                 {{$userActualActionsProfit }} {{$currency}}
                             </span>
-                        </div>
-                        <div class="avatar-sm flex-shrink-0">
-                            <lord-icon
-                                src="{{ URL::asset('build/icons/wired-gradient-751-share.json') }}" trigger="loop"
-                                colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
-                            </lord-icon>
+                            </div>
+                            <div class="avatar-sm flex-shrink-0">
+                                <lord-icon
+                                    src="{{ URL::asset('build/icons/wired-gradient-751-share.json') }}" trigger="loop"
+                                    colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
+                                </lord-icon>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+    <div class="row card card-animate">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h6 class="card-title mb-0 flex-grow-1">   {{__('Surveys')}}</h6>
+                <div class="flex-shrink-0">
+                    <a href="#" class="link-primary">{{__('View All ')}}<i class="ri-arrow-right-line"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body row">
+            <div class="card-group">
+                <div class="card p-3 border border-dashed border-start-0">
+                    <div class="card-header fw-medium text-muted mb-0">
+                        {{__('Survey title 582')}}
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                            additional content. This card has even longer content than the first to show that equal
+                            height action.</p>
+                        <small class="text-muted">{{__('Date end')}} : 20/12/2024</small>
+                    </div>
+                    <div class="card-footer bg-transparent border-info">
+                        <a href="#" class="btn btn-soft-info material-shadow-none">{{__('Paticipate ')}}</a>
+                        <a href="#" class="btn btn-soft-success material-shadow-none">{{__('Show results')}}</a>
+                    </div>
+                </div>
+                <div class="card p-3 border border-dashed border-start-0">
+                    <div class="card-header fw-medium text-muted mb-0">
+                        {{__('Survey title 582')}}
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                            additional content. This card has even longer content than the first to show that equal
+                            height action.</p>
+                        <small class="text-muted">{{__('Date end')}} : 20/12/2024</small>
+                    </div>
+                    <div class="card-footer bg-transparent border-info">
+                        <a href="#" class="btn btn-soft-info material-shadow-none">{{__('Paticipate ')}}</a>
+                        <a href="#" class="btn btn-soft-success material-shadow-none">{{__('Show results')}}</a>
+                    </div>
+                </div>
+                <div class="card p-3 border border-dashed border-start-0">
+                    <div class="card-header fw-medium text-muted mb-0">
+                        {{__('Survey title 582')}}
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                            additional content. This card has even longer content than the first to show that equal
+                            height action.</p>
+                        <small class="text-muted">{{__('Date end')}} : 20/12/2024</small>
+                    </div>
+                    <div class="card-footer bg-transparent border-info">
+                        <a href="#" class="btn btn-soft-info material-shadow-none">{{__('Paticipate ')}}</a>
+                        <a href="#" class="btn btn-soft-success material-shadow-none">{{__('Show results')}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <h4 class="card-title" style="text-align: center">{{ __('we_are_present_in') }} </h4>
     <div class="col-12" style="padding-right: 0;padding-left: 0;">
         <div class="card" style="height: 500px;">
@@ -313,8 +379,8 @@
             </div>
         </div>
     </div>
-    <div class="col-12" style="padding-right: 0;padding-left: 0;">
-        <div class="card" style="height: 500px;">
+    <div class="row">
+        <div class="card">
             <div class="card-body">
                 <div id="any5"></div>
             </div>
