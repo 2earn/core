@@ -515,35 +515,50 @@
         @vite('resources/js/pages/form-validation.init.js');
         @if($flash)
             <script type="module">
+                const millisecondsInOneDay = 86400000;
+                const millisecondsInOneHour = 3600000;
+                const millisecondsInOneMinute = 60000;
+
                 var setEndDate6 = "{{$flashDate}}";
                 var vipInterval;
                 var vipInterval1;
 
+                function formatCountDown(days, hours, minutes, seconds) {
+                    var countDownValue = "- ";
+                    if (days !== "00") {
+                        countDownValue += days + " {{__('days')}} : ";
+                    }
+                    if (hours !== "00") {
+                        countDownValue += hours + " {{__('hours')}} : ";
+                    }
+                    if (minutes !== "00") {
+                        countDownValue += minutes + " {{__('minutes')}} : ";
+                    }
+                    if (seconds !== "00") {
+                        countDownValue += seconds + " {{__('seconds')}}";
+                    }
+                    return countDownValue;
+                }
+
                 function startCountDownDate(dateVal) {
-                    var countDownDate = new Date(dateVal).getTime();
-                    return countDownDate;
+                   return  new Date(dateVal).getTime();
                 }
 
                 function countDownTimer(start, targetDOM) {
                     var now = new Date().getTime();
                     var distance = start - now;
+                    var days = Math.floor(distance / (millisecondsInOneDay));
+                    var hours = Math.floor((distance % (millisecondsInOneDay)) / (millisecondsInOneHour));
 
-                    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                    var hours = Math.floor(
-                        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-                    );
-                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    var minutes = Math.floor((distance % (millisecondsInOneHour)) / (millisecondsInOneMinute));
+                    var seconds = Math.floor((distance % (millisecondsInOneMinute)) / 1000);
 
                     days = days < 10 ? "0" + days : days;
                     hours = hours < 10 ? "0" + hours : hours;
                     minutes = minutes < 10 ? "0" + minutes : minutes;
                     seconds = seconds < 10 ? "0" + seconds : seconds;
                     if ($("#" + targetDOM).length) {
-
-                        document.querySelector("#" + targetDOM).textContent =
-                            "- " + days + " {{__('days')}} : " + hours + " {{__('hours')}} : " + minutes + " {{__('minutes')}} : " + seconds + "  {{__('seconds')}}";
-
+                        document.querySelector("#" + targetDOM).textContent = formatCountDown(days, hours, minutes, seconds);
                         if (distance < 0) {
                             document.querySelector("#" + targetDOM).textContent = "00 : 00 : 00 : 00";
                         }
