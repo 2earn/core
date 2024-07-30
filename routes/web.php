@@ -96,8 +96,10 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/tree/maintenance', EntretienArbre::class)->name('tree_maintenance');
         Route::get('/description', Description::class)->name('description');
         Route::get('/accept/request', AcceptFinancialRequest::class)->name('accept_financial_request')->middleware('CloseAuth');
-        Route::get('/survey/index', \App\Http\Livewire\SurveyIndex::class)->name('survey_index');
+        Route::get('/survey/index', \App\Http\Livewire\SurveyIndex::class)->name('surveys_index');
         Route::get('/survey/show/{idServey}', \App\Http\Livewire\SurveyShow::class)->name('survey_show');
+        Route::get('/survey/participate/{idServey}', \App\Http\Livewire\SurveyParicipate::class)->name('survey_participate');
+        Route::get('/survey/results/{idServey}', \App\Http\Livewire\SurveyResult::class)->name('survey_results');
 
         Route::middleware(['IsSuperAdmin'])->group(function () {
             Route::get('/user_list', \App\Http\Livewire\UsersList::class)->name('user_list');

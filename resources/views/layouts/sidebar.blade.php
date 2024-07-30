@@ -118,9 +118,9 @@
                             <span>{{__('Hobbies')}}</span>
                         </a>
                     </li>
-                    <li class="nav-item {{Route::currentRouteName()=='survey_index'? 'active' : ''}}">
-                        <a href="{{route('survey_index',['locale'=>request()->route("locale"),'idServey'=>request()->route("idServey")],false )}}"
-                           class="nav-link menu-link {{Route::currentRouteName()=='survey_index'? 'active' : ''}}"
+                    <li class="nav-item {{Route::currentRouteName()=='surveys_index'? 'active' : ''}}">
+                        <a href="{{route('surveys_index',['locale'=>request()->route("locale"),'idServey'=>request()->route("idServey")],false )}}"
+                           class="nav-link menu-link {{Route::currentRouteName()=='surveys_index'? 'active' : ''}}"
                            role="button">
                             <i class="ri-bookmark-fill"></i>
                             <span>{{__('Surveys')}}</span>
