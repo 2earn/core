@@ -97,6 +97,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/description', Description::class)->name('description');
         Route::get('/accept/request', AcceptFinancialRequest::class)->name('accept_financial_request')->middleware('CloseAuth');
         Route::get('/survey/index', \App\Http\Livewire\SurveyIndex::class)->name('surveys_index');
+        Route::get('/survey/create', \App\Http\Livewire\SurveyCreate::class)->name('survey_create');
         Route::get('/survey/show/{idServey}', \App\Http\Livewire\SurveyShow::class)->name('survey_show');
         Route::get('/survey/participate/{idServey}', \App\Http\Livewire\SurveyParicipate::class)->name('survey_participate');
         Route::get('/survey/results/{idServey}', \App\Http\Livewire\SurveyResult::class)->name('survey_results');
