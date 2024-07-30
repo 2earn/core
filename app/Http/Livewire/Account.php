@@ -62,6 +62,7 @@ class Account extends Component
         'deleteContact' => 'deleteContact',
         'EmailCheckUser' => 'EmailCheckUser',
         'checkUserEmail' => 'checkUserEmail',
+        'cancelProcess' => 'cancelProcess',
     ];
 
     protected $rules = [
@@ -338,6 +339,11 @@ class Account extends Component
         $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::VerifMail, ['msg' => $opt, 'type' => TypeNotificationEnum::SMS]);
         $this->dispatchBrowserEvent('confirmOPTVerifMail', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'numberActif' => $numberActif]);
         $this->newMail = $mail;
+    }
+
+    public function cancelProcess($message)
+    {
+        return redirect()->route('account', app()->getLocale())->with('warning', Lang::get($message));
     }
 
     public function checkUserEmail($codeOpt, settingsManager $settingsManager)

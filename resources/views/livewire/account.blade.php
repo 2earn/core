@@ -17,7 +17,9 @@
         @endslot
     @endcomponent
     <div class="row">
-        @include('layouts.flash-messages')
+        <div class="col-12">
+            @include('layouts.flash-messages')
+        </div>
     </div>
     <div class="row">
         <div class="col-xxl-4">
@@ -926,10 +928,8 @@
                         var fileName = $file.val().split('\\').pop(),
                             tmppath = URL.createObjectURL(event.target.files[0]);
                         if (fileName) {
-                            $label.addClass('file-ok')
-                                .css('background-image', 'url(' + tmppath + ')');
+                            $label.addClass('file-ok').css('background-image', 'url(' + tmppath + ')');
                             $labelText.text(fileName);
-
                         } else {
                             $label.removeClass('file-ok');
                             $labelText.text(labelDefault);
@@ -941,7 +941,7 @@
 
             window.addEventListener('OptChangePass', event => {
                 Swal.fire({
-                    title: '{{trans('Your verification code')}}',
+                    title: '{{trans('Your verification code by email')}}',
                     html: '{{ __('We_will_send') }}' + '<br>' + event.detail.mail + '<br>' + '{{__('Your OTP Code')}}',
                     allowOutsideClick: false,
                     timer: '{{ env('timeOPT') }}',
@@ -979,7 +979,7 @@
             });
             window.addEventListener('confirmOPTVerifMail', event => {
                 Swal.fire({
-                    title: '{{trans('Your verification code')}}',
+                    title: '{{trans('Your verification code by phone number')}}',
                     html: '{{ __('We_will_send') }}' + '<br>' + event.detail.numberActif + '<br>' + '{{__('Your OTP Code')}}',
                     allowOutsideClick: false,
                     timer: '{{ env('timeOPT') }}',
@@ -1009,8 +1009,8 @@
                 }).then((resultat) => {
                     if (resultat.isConfirmed && resultat.value) {
                         window.Livewire.emit('checkUserEmail', resultat.value);
-                    } else if (resultat.isDismissed) {
-                        $('.modal-backdrop').remove();
+                    } else if (resultat.isDismissed && resultat.dismiss == 'cancel') {
+                        window.Livewire.emit('cancelProcess', "{{__('confirm OPT Verif Mail canceled')}}");
                     }
                 }).catch((error) => {
                     console.error('SweetAlert Error:', error);
@@ -1082,8 +1082,8 @@
                     }).then((resultat) => {
                         if (resultat.isConfirmed) {
                             window.Livewire.emit('saveVerifiedMail', resultat.value);
-                        } else if (resultat.isDismissed) {
-                            $('.modal-backdrop').remove();
+                        } else if (resultat.isDismissed && resultat.dismiss == 'cancel') {
+                            window.Livewire.emit('cancelProcess', "{{__('confirm Email Check User canceled')}}");
                         }
                     }).catch((error) => {
                         console.error('SweetAlert Error:', error);
