@@ -107,13 +107,19 @@
                         <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary"
                                 data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="true">
                             <img
-                                src="{{ Vite::asset('resources/images/flags/'.config('app.available_locales')[app()->getLocale()]['flag'].'.svg') }}"
-                                class="rounded" alt="Header Language"
-                                height="20">
+                                    src="{{ Vite::asset('resources/images/flags/'.config('app.available_locales')[app()->getLocale()]['flag'].'.svg') }}"
+                                    class="rounded" alt="Header Language"
+                                    height="20">
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
+
                             @foreach (config('app.available_locales') as  $locale => $value )
-                                <a href="{{ route($currentRoute, ['locale'=> $locale ]) }} "
+                                <a
+                                   @if($currentRoute=="survey_show")
+                                       href="{{route($currentRoute, ['locale'=> $locale,'idServey'=>request()->route("idServey") ])}}"
+                                   @else
+                                       href="{{route($currentRoute, ['locale'=> $locale ])}}"
+                                   @endif
                                    class="dropdown-item notify-item language py-2  @if($locale==app()->getLocale()) active @endif"
                                    data-lang="{{$locale}}"
                                    title="{{ __('lang'.$locale)  }}" data-turbolinks="false">
@@ -186,8 +192,8 @@
                                 data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                             <i class='bx bx-bell fs-22'></i>
                             <span
-                                class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger"
-                                id="notif-counter">{{$count}}
+                                    class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger"
+                                    id="notif-counter">{{$count}}
                                 <span class="visually-hidden">{{__('unread messages')}}</span>
                             </span>
                         </button>
@@ -239,12 +245,12 @@
                                 <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
                                     @foreach($notifications as $notification)
                                         <div
-                                            class="text-reset notification-item d-block dropdown-item position-relative"
-                                            id="{{$notification->id}}" title="{{$notification->id}}">
+                                                class="text-reset notification-item d-block dropdown-item position-relative"
+                                                id="{{$notification->id}}" title="{{$notification->id}}">
                                             <div class="d-flex">
                                                 <div class="avatar-xs me-3 flex-shrink-0">
                                                 <span
-                                                    class="avatar-title bg-danger-subtle text-danger rounded-circle fs-16">
+                                                        class="avatar-title bg-danger-subtle text-danger rounded-circle fs-16">
                                                     <i class="bx bx-message-square-dots"></i>
                                                 </span>
                                                 </div>
@@ -260,7 +266,7 @@
                                                 <span class="spinner-border spinner-border-sm" role="status"
                                                       aria-hidden="true"></span>
                                                                     <span
-                                                                        class="sr-only">{{__('Loading')}}...</span>
+                                                                            class="sr-only">{{__('Loading')}}...</span>
                                                                 </div>
                                                             </button>
                                                         </div>
@@ -296,7 +302,7 @@
                                       title="{{$userStatus}}">
                                     {{getUserDisplayedName()}} </span>
                                  <span
-                                     class="d-none d-xl-block badge bg-light @if($user->status==1) text-success  @else text-muted @endif mb-0">
+                                         class="d-none d-xl-block badge bg-light @if($user->status==1) text-success  @else text-muted @endif mb-0">
                                         <span class="mb-5">{{__($userRole)}}</span>
                                         @if($userStatus==2)
                                          <i class="mdi mdi-24px mdi-account-check text-success validated-user"
@@ -323,12 +329,12 @@
                                 <img class="rounded-circle header-profile-user"
                                      src="@if (file_exists('uploads/profiles/profile-image-' . $user->idUser . '.png')) {{ URL::asset('uploads/profiles/profile-image-'.$user->idUser.'.png') }}@else{{ URL::asset('uploads/profiles/default.png') }} @endif">
                                 <span
-                                    class="align-middle">{{ __('Account') }}</span>
+                                        class="align-middle">{{ __('Account') }}</span>
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{route('user_balance_cb',app()->getLocale())}}"><i
-                                    class="mdi mdi-wallet text-muted fs-16 align-middle me-1"></i> <span
-                                    class=""> {{ __('Cash Balance') }} : <b>  {{__('DPC')}}  {{$solde->soldeCB}}</b>
+                                        class="mdi mdi-wallet text-muted fs-16 align-middle me-1"></i> <span
+                                        class=""> {{ __('Cash Balance') }} : <b>  {{__('DPC')}}  {{$solde->soldeCB}}</b>
                                 </span>
                             </a>
                             <a class="dropdown-item" wire:click="logout">

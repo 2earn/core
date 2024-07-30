@@ -77,14 +77,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/notification/settings', NotificationSettings::class)->name('notification_settings');
         Route::get('/user/purchase', UserPurchaseHistory::class)->name('user_purchase');
         Route::get('/treeview', \App\Http\Livewire\treeview::class)->name('treeview');
-        Route::middleware(['IsSuperAdmin'])->group(function () {
-            Route::get('/stat/countrie', \App\Http\Livewire\StatCountrie::class)->name('stat_countrie');
-            Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');
-            Route::get('/sharessolde', \App\Http\Livewire\SharesSolde::class)->name('sharessolde');
-            Route::get('/shares-sold-dashboard', \App\Http\Livewire\SharesSold::class)->name('shares_sold');
-            Route::get('/shares-sold-market-status', \App\Http\Livewire\SharesSoldMarketStatus::class)->name('shares_sold_market_status');
-            Route::get('/shares-sold-recent-transaction', \App\Http\Livewire\SharesSoldRecentTransaction::class)->name('shares_sold_recent_transaction');
-        });
+
         Route::get('/treeview', \App\Http\Livewire\treeview::class)->name('treeview');
 
         Route::get('/user/balance-sms', UserBalanceSMS::class)->name('user_balance_sms');
@@ -97,13 +90,14 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/balances/exchange/funding/RequestPulicUser', RequestPublicUser::class)->name('user_request_public');
         Route::get('/balances/exchange/funding/strip', stripView::class)->name('payment_strip');
         Route::get('/paytabs', '\App\Http\Livewire\pay@test')->name('paytabs');
-
         Route::get('/hobbies', Hobbies::class)->name('hobbies');
         Route::get('/recuperation/history', HistoriqueRecuperation::class)->name('recuperation_history');
         Route::get('/tree/evolution', EvolutionArbre::class)->name('tree_evolution');
         Route::get('/tree/maintenance', EntretienArbre::class)->name('tree_maintenance');
         Route::get('/description', Description::class)->name('description');
         Route::get('/accept/request', AcceptFinancialRequest::class)->name('accept_financial_request')->middleware('CloseAuth');
+        Route::get('/survey/index', \App\Http\Livewire\SurveyIndex::class)->name('survey_index');
+        Route::get('/survey/show/{idServey}', \App\Http\Livewire\SurveyShow::class)->name('survey_show');
 
         Route::middleware(['IsSuperAdmin'])->group(function () {
             Route::get('/user_list', \App\Http\Livewire\UsersList::class)->name('user_list');
@@ -115,6 +109,14 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/countries_management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
             Route::get('/admin/identification_request', identificationRequest::class)->name('identification_request');
             Route::get('/translation', TranslateView::class)->name('translate');
+        });
+        Route::middleware(['IsSuperAdmin'])->group(function () {
+            Route::get('/stat/countrie', \App\Http\Livewire\StatCountrie::class)->name('stat_countrie');
+            Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');
+            Route::get('/sharessolde', \App\Http\Livewire\SharesSolde::class)->name('sharessolde');
+            Route::get('/shares-sold-dashboard', \App\Http\Livewire\SharesSold::class)->name('shares_sold');
+            Route::get('/shares-sold-market-status', \App\Http\Livewire\SharesSoldMarketStatus::class)->name('shares_sold_market_status');
+            Route::get('/shares-sold-recent-transaction', \App\Http\Livewire\SharesSoldRecentTransaction::class)->name('shares_sold_recent_transaction');
         });
         Route::get('/stat-countries', 'App\Http\Controllers\ApiController@getCountriStat')->name('api_stat_countries');
         Route::post('/validate-phone', 'App\Http\Controllers\ApiController@validatePhone')->name('validate_phone');

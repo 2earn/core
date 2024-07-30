@@ -118,6 +118,14 @@
                             <span>{{__('Hobbies')}}</span>
                         </a>
                     </li>
+                    <li class="nav-item {{Route::currentRouteName()=='survey_index'? 'active' : ''}}">
+                        <a href="{{route('survey_index',['locale'=>request()->route("locale"),'idServey'=>request()->route("idServey")],false )}}"
+                           class="nav-link menu-link {{Route::currentRouteName()=='survey_index'? 'active' : ''}}"
+                           role="button">
+                            <i class="ri-bookmark-fill"></i>
+                            <span>{{__('Surveys')}}</span>
+                        </a>
+                    </li>
                     <li class="nav-item {{Route::currentRouteName()=='description'? 'active' : ''}}">
                         <a href="{{route('description',app()->getLocale(),false )}}"
                            class="nav-link menu-link {{Route::currentRouteName()=='description'? 'active' : ''}} disabled"
@@ -138,11 +146,11 @@
                                aria-expanded="false"
                                aria-controls="sidebarDashboards">
                                 <i class="ri-dashboard-2-line"></i> <span
-                                    data-key="t-dashboards">{{ __('Settings') }}</span>
+                                        data-key="t-dashboards">{{ __('Settings') }}</span>
                             </a>
                             <div
-                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['configuration-setting','configuration-bo','configuration-ha','configuration-amounts'])? 'show' : ''}}"
-                                id="sidebarDashboards">
+                                    class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['configuration-setting','configuration-bo','configuration-ha','configuration-amounts'])? 'show' : ''}}"
+                                    id="sidebarDashboards">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item {{Route::currentRouteName()=='configuration-setting'? 'active' : ''}}">
                                         <a href="{{route('configuration-setting', app()->getLocale(),false)}}"
@@ -187,11 +195,11 @@
                                aria-expanded="{{in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'true' : 'false'}}"
                                aria-controls="sidebarShareSold">
                                 <i class="ri-dashboard-fill"></i> <span
-                                    data-key="t-dashboards">{{ __('Shares sold') }}</span>
+                                        data-key="t-dashboards">{{ __('Shares sold') }}</span>
                             </a>
                             <div
-                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'show' : ''}}"
-                                id="sidebarShareSold">
+                                    class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'show' : ''}}"
+                                    id="sidebarShareSold">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item {{Route::currentRouteName()=='shares_sold'? 'active' : ''}}">
                                         <a href="{{route('shares_sold', app()->getLocale(),false)}}"
@@ -228,7 +236,7 @@
                                 <span>{{ __('representatives Management') }}</span>
                             </a>
                         </li>
-                     <li class="nav-item {{Route::currentRouteName()=='identification_request'? 'active' : ''}}">
+                        <li class="nav-item {{Route::currentRouteName()=='identification_request'? 'active' : ''}}">
                             <a href="{{route('identification_request', app()->getLocale(),false)}}"
                                class="nav-link menu-link {{Route::currentRouteName()=='identification_request'? 'active' : ''}}"
                                role="button">
