@@ -599,11 +599,11 @@
                         countDownValue += hours + " {{__('hours')}}";
                     }
                     if (minutes !== "00") {
-                        countDownValue += hours !== "00" ? " : " : "";
+                        countDownValue += (hours !== "00" || days !== "00") ? " : " : "";
                         countDownValue += minutes + " {{__('minutes')}}";
                     }
                     if (seconds !== "00") {
-                        countDownValue += minutes !== "00" ? " : " : "";
+                        countDownValue += (hours !== "00" || days !== "00" || minutes !== "00") ? " : " : "";
                         countDownValue += seconds + " {{__('seconds')}}";
                     }
                     return countDownValue;
