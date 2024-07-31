@@ -23,10 +23,12 @@
                                         data-bs-toggle="modal"
                                         @if(!$usermetta_info2['enFirstName'] || !$usermetta_info2['enLastName'] || !$usermetta_info2['birthday'] || !$usermetta_info2['nationalID'] || !$userF['email'])
                                             disabled
+                                        title="missing infos"
                                         @endif
 
                                         @if($userAuth->status== 4 && $moreThanSixMonths)
                                             disabled
+                                        title="Status 4 + moreThanSixMonths"
                                         @endif
                                         @if($hasRequest) data-bs-target="#accountValidationModal"
                                         @else data-bs-target="#identificationModal" @endif
@@ -307,8 +309,7 @@
                                         <div class="form-check form-switch form-switch-right form-switch-md">
                                             <input class="form-check-input" wire:model="internationalCard"
                                                    type="checkbox"
-                                                   @if($userAuth->status==2||$userAuth->status==4) disabled
-                                                   @endif
+                                                   @if($userAuth->status==4) disabled title="Status 4" @endif
                                                    id="international-card">
                                             <label for="international-card"
                                                    class="form-label text-muted">{{__('I want to submit my international identitie card')}}</label>
