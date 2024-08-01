@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Survey;
 use Livewire\Component;
 
 class SurveyResult extends Component
@@ -15,7 +16,7 @@ class SurveyResult extends Component
 
     public function render()
     {
-        $params = [];
-        return view('livewire.survey-result', ["params" => $params])->extends('layouts.master')->section('content');
+        $params ['survey'] = Survey::findOrFail($this->idServey);
+        return view('livewire.survey-result', $params)->extends('layouts.master')->section('content');
     }
 }

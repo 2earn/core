@@ -14,21 +14,21 @@
                     <div class="card-body">
                         <div class="row col-12" role="alert">
                             <p>{{__('A mode for a')}} <span
-                                        class="col-auto flash-red">{{$flashTimes}}</span> {{__('times bonus over')}}
+                                    class="col-auto flash-red">{{$flashTimes}}</span> {{__('times bonus over')}}
                                 <span
-                                        class="col-auto flash-red">{{$flashPeriod}} {{__('hours')}}</span> {{__('with a minimum of')}}
+                                    class="col-auto flash-red">{{$flashPeriod}} {{__('hours')}}</span> {{__('with a minimum of')}}
                                 <span
-                                        class="col-auto flash-red">{{formatSolde($flashMinShares,0)}} {{__('Shares')}}</span>. {{__('il vous reste')}}
+                                    class="col-auto flash-red">{{formatSolde($flashMinShares,0)}} {{__('Shares')}}</span>. {{__('il vous reste')}}
                                 <span
-                                        class="col-auto flash-red">{{formatSolde($vip->solde,0)}}{{__('Shares')}}</span>
+                                    class="col-auto flash-red">{{formatSolde($vip->solde,0)}}{{__('Shares')}}</span>
                                 {{__('à conssommer. avec lachat de')}}
                                 <span
-                                        class="col-auto flash-red">{{formatSolde($actions,0)}}</span>
+                                    class="col-auto flash-red">{{formatSolde($actions,0)}}</span>
                                 {{__('actions, le prix de laction atteindra')}}
                                 <span
-                                        class="col-auto flash-red">{{formatSolde($cout,2)}}{{$currency}}</span> {{__('et les benefices instentannés seront')}}
+                                    class="col-auto flash-red">{{formatSolde($cout,2)}}{{$currency}}</span> {{__('et les benefices instentannés seront')}}
                                 <span
-                                        class="col-auto flash-red">{{formatSolde($benefices,2)}}{{$currency}}</span></p>
+                                    class="col-auto flash-red">{{formatSolde($benefices,2)}}{{$currency}}</span></p>
                         </div>
                         <div class="row col-12">
                             <div class="discount-time text-center">
@@ -101,9 +101,9 @@
                             </div>
                             <div class="avatar-sm flex-shrink-0">
                                 <lord-icon
-                                        src="https://cdn.lordicon.com/nlmjynuq.json"
-                                        trigger="loop"
-                                        style="width:55px;height:55px">
+                                    src="https://cdn.lordicon.com/nlmjynuq.json"
+                                    trigger="loop"
+                                    style="width:55px;height:55px">
                                 </lord-icon>
                             </div>
 
@@ -164,9 +164,9 @@
                             </div>
                             <div class="avatar-sm flex-shrink-0">
                                 <lord-icon
-                                        src="{{ URL::asset('build/icons/146-basket-trolley-shopping-card-gradient-edited.json') }}"
-                                        trigger="loop"
-                                        colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
+                                    src="{{ URL::asset('build/icons/146-basket-trolley-shopping-card-gradient-edited.json') }}"
+                                    trigger="loop"
+                                    colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
                                 </lord-icon>
                             </div>
                         </div>
@@ -226,10 +226,10 @@
                             </div>
                             <div class="avatar-sm flex-shrink-0">
                                 <lord-icon
-                                        src="https://cdn.lordicon.com/qrbokoyz.json"
-                                        trigger="loop"
-                                        colors="primary:#464fed,secondary:#bc34b6"
-                                        style="width:55px;height:55px">
+                                    src="https://cdn.lordicon.com/qrbokoyz.json"
+                                    trigger="loop"
+                                    colors="primary:#464fed,secondary:#bc34b6"
+                                    style="width:55px;height:55px">
                                 </lord-icon>
                             </div>
                         </div>
@@ -274,13 +274,13 @@
                             <div class="flex-grow-1 overflow-hidden">
                                 <a href="{{route('shares_solde' , app()->getLocale() )}} "
                                    class="text-decoration-underline"><p
-                                            class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Actions (Shares)') }}</p>
+                                        class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Actions (Shares)') }}</p>
                                 </a>
                             </div>
                             <div class="flex-shrink-0">
                                 <h5 class="text-success fs-14 mb-0">
                                     {{$actualActionValue['int']}}.{{$actualActionValue['2Fraction']}}<small
-                                            class="action_fraction">{{$actualActionValue['3_2Fraction']}}</small>
+                                        class="action_fraction">{{$actualActionValue['3_2Fraction']}}</small>
                                     <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
                                 </h5>
                             </div>
@@ -296,15 +296,15 @@
                                 <button data-bs-target="#buy-action" data-bs-toggle="modal"
                                         class="btn btn-sm @if($flash) btn-flash @else btn-secondary  @endif">{{ __('Buy Shares') }}</button>
                                 <span class="badge bg-light text-success  ms-2 mb-0"><i
-                                            class="ri-arrow-up-line align-middle"></i>
+                                        class="ri-arrow-up-line align-middle"></i>
                                 {{$userActualActionsProfit }} {{$currency}}
                             </span>
                             </div>
                             <div class="avatar-sm flex-shrink-0">
                                 <lord-icon
-                                        src="{{ URL::asset('build/icons/wired-gradient-751-share.json') }}"
-                                        trigger="loop"
-                                        colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
+                                    src="{{ URL::asset('build/icons/wired-gradient-751-share.json') }}"
+                                    trigger="loop"
+                                    colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
                                 </lord-icon>
                             </div>
                         </div>
@@ -319,69 +319,50 @@
                 <h6 class="card-title mb-0 flex-grow-1">   {{__('Surveys')}}</h6>
                 <div class="flex-shrink-0">
                     <a href="{{route('surveys_index',app()->getLocale())}}" class="link-primary">{{__('View All ')}}<i
-                                class="ri-arrow-right-line"></i></a>
+                            class="ri-arrow-right-line"></i></a>
                 </div>
             </div>
         </div>
         <div class="card-body row">
             <div class="card-group">
-                <div class="card p-3 border border-dashed border-start-0">
-                    <div class="card-header border-info fw-medium text-muted mb-0">
-                        {{__('Survey title 582')}}
+                @foreach($surveys as $survey)
+                    <div class="card mb-2 ml-4 border border-dashed ">
+                        <div class="card-header border-info fw-medium text-muted mb-0">
+                            {{$survey->id}} - {{$survey->name}}
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">
+                            <span
+                                class="badge {{ $survey->enabled ? 'badge-success-subtle text-success' : 'badge-danger-subtle text-danger'  }}">
+                            {{__('Enabled')}}
+                        </span>
+                                <span
+                                    class="badge badge-{{ $survey->archived ? 'badge-success-subtle text-success' : 'badge-danger-subtle text-danger'  }}">
+                            {{__('Archived')}}
+                        </span>
+                                <span
+                                    class="badge badge-{{ $survey->updatable ? 'badge-success-subtle text-success' : 'badge-danger-subtle text-danger'  }}">
+                            {{__('Updatable')}}
+                        </span>
+                                <span
+                                    class="badge badge-{{ $survey->showAchievement ? 'badge-success-subtle text-success' : 'badge-danger-subtle text-danger'  }}">
+                            {{__('showAchievement')}}
+                        </span>
+                            </h6>
+                            <p class="card-text text-muted">{{$survey->description}}</p>
+                            <small class="text-muted">{{__('Creation date')}} : {{$survey->created_at}}</small>
+                            <small class="text-muted">{{__('Update date')}} : {{$survey->updated_at}}</small>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <a href="{{route('survey_show', ['locale'=> request()->route("locale"),'idServey'=>$survey->id] )}}"
+                               class="btn btn-soft-info material-shadow-none">{{__('Details')}}</a>
+                            <a href="{{route('survey_participate', ['locale'=> request()->route("locale"),'idServey'=>$survey->id] )}}"
+                               class="btn btn-soft-info material-shadow-none">{{__('Paticipate ')}}</a>
+                            <a href="{{route('survey_results', ['locale'=> request()->route("locale"),'idServey'=>$survey->id] )}}"
+                               class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</a>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                            additional content. This card has even longer content than the first to show that equal
-                            height action.</p>
-                        <small class="text-muted">{{__('Date end')}} : 20/12/2024</small>
-                    </div>
-                    <div class="card-footer bg-transparent">
-                        <a href="{{route('survey_show', ['locale'=> request()->route("locale"),'idServey'=>'555'] )}}"
-                           class="btn btn-soft-info material-shadow-none">{{__('Details')}}</a>
-                        <a href="{{route('survey_participate', ['locale'=> request()->route("locale"),'idServey'=>'555'] )}}"
-                           class="btn btn-soft-info material-shadow-none">{{__('Paticipate ')}}</a>
-                        <a href="{{route('survey_results', ['locale'=> request()->route("locale"),'idServey'=>'555'] )}}"
-                           class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</a>
-                    </div>
-                </div>
-                <div class="card p-3 border border-dashed border-start-0">
-                    <div class="card-header border-info fw-medium text-muted mb-0">
-                        {{__('Survey title 582')}}
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                            additional content. This card has even longer content than the first to show that equal
-                            height action.</p>
-                        <small class="text-muted">{{__('Date end')}} : 20/12/2024</small>
-                    </div>
-                    <div class="card-footer bg-transparent">
-                        <a href="{{route('survey_show', ['locale'=> request()->route("locale"),'idServey'=>'555'] )}}"
-                           class="btn btn-soft-info material-shadow-none">{{__('Details')}}</a>
-                        <a href="{{route('survey_participate', ['locale'=> request()->route("locale"),'idServey'=>'555'] )}}"
-                           class="btn btn-soft-info material-shadow-none">{{__('Paticipate ')}}</a>
-                        <a href="{{route('survey_results', ['locale'=> request()->route("locale"),'idServey'=>'555'] )}}"
-                           class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</a>
-                    </div>
-                </div>
-                <div class="card p-3 border border-dashed border-start-0">
-                    <div class="card-header border-info fw-medium text-muted mb-0">
-                        {{__('Survey title 582')}}
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                            additional content. This card has even longer content than the first to show that equal
-                            height action.</p>
-                        <small class="text-muted">{{__('Date end')}} : 20/12/2024</small>
-                    </div>
-                    <div class="card-footer bg-transparent">
-                        <a href="{{route('survey_show', ['locale'=> request()->route("locale"),'idServey'=>'555'] )}}"
-                           class="btn btn-soft-info material-shadow-none">{{__('Details')}}</a>
-                        <a href="{{route('survey_participate', ['locale'=> request()->route("locale"),'idServey'=>'555'] )}}"
-                           class="btn btn-soft-info material-shadow-none">{{__('Paticipate ')}}</a>
-                        <a href="{{route('survey_results', ['locale'=> request()->route("locale"),'idServey'=>'555'] )}}"
-                           class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</a>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -415,11 +396,11 @@
                     @if($flash)
                         <div class="row pink col-12" role="alert">
                             <p>{{__('A mode for a')}} <span
-                                        class="pinkbold col-auto">{{$flashTimes}}</span> {{__('times bonus over')}}
+                                    class="pinkbold col-auto">{{$flashTimes}}</span> {{__('times bonus over')}}
                                 <span
-                                        class="pinkbold col-auto">{{$flashPeriod}} {{__('hours')}}</span> {{__('with a minimum of')}}
+                                    class="pinkbold col-auto">{{$flashPeriod}} {{__('hours')}}</span> {{__('with a minimum of')}}
                                 <span
-                                        class="pinkbold col-auto">{{$flashMinShares}} {{__('Shares')}}</span></p>
+                                    class="pinkbold col-auto">{{$flashMinShares}} {{__('Shares')}}</span></p>
                         </div>
                     @endif
                     <div class="row @if($flash) alert-flash @else alert  @endif alert-info" role="alert">
@@ -578,8 +559,8 @@
                                                 class="btn @if($flash) btn-flash @else btn-primary  @endif swal2-styled d-inline-flex">
                                             {{ __('Submit') }}
                                             <div
-                                                    class="spinner-border spinner-border-sm mx-2 mt-1 buy-action-submit-spinner"
-                                                    role="status"></div>
+                                                class="spinner-border spinner-border-sm mx-2 mt-1 buy-action-submit-spinner"
+                                                role="status"></div>
                                         </button>
                                     </div>
                                 </div>
