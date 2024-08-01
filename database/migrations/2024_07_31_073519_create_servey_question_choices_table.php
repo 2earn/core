@@ -33,6 +33,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('servey_question_choices');
+        Schema::dropIfExists(self::TABLE_NAME);
     }
 };
