@@ -3,12 +3,14 @@
 namespace App\Http\Livewire;
 
 use App\Models\Survey;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
 
 class SurveyCreateUpdate extends Component
 {
-    public $name, $enabled, $archived, $startDate, $endDate, $participationLimit, $updatable, $showResult, $achievement, $showAchievement, $description;
+
+    public $idSurvey, $name, $enabled, $archived, $startDate, $endDate, $participationLimit, $updatable, $showResult, $achievement, $showAchievement, $description;
     public $update = false;
     protected $listeners = [
         'deleteSurvey' => 'destroy'
@@ -16,12 +18,7 @@ class SurveyCreateUpdate extends Component
     // Validation Rules
     protected $rules = [
         'name' => 'required',
-        'description' => 'required',
-        'enabled' => 'required',
-        'archived' => 'required',
-        'updatable' => 'required',
-        'showResult' => 'required',
-        'showAchievement' => 'required'
+        'description' => 'required'
     ];
 
     public function resetFields()
@@ -44,9 +41,8 @@ class SurveyCreateUpdate extends Component
                 'showAchievement' => $this->showAchievement,
             ]);
             return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey Created Successfully!!'));
-            $this->resetFields();
         } catch (\Exception $exception) {
-            return redirect()->route('surveys_index', app()->getLocale())->with('danger', 'Something goes wrong while creating Survey!!');
+            return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while creating Survey!!') . ' : ' . $exception->getMessage());
             $this->resetFields();
         }
     }
@@ -56,27 +52,39 @@ class SurveyCreateUpdate extends Component
         $Survey = Survey::findOrFail($id);
         $this->name = $Survey->name;
         $this->description = $Survey->description;
-        $this->category_id = $Survey->id;
-        $this->updateCategory = true;
+        $this->idSurvey = $Survey->id;
+        $this->enabled = $Survey->enabled;
+        $this->archived = $Survey->archived;
+        $this->updatable = $Survey->updatable;
+        $this->showResult = $Survey->showResult;
+        $this->showAchievement = $Survey->showAchievement;
+        $this->update = true;
     }
 
     public function cancel()
     {
-        $this->update = false;
-        $this->resetFields();
+        return redirect()->route('surveys_index', app()->getLocale())->with('warning', Lang::get('Survey Operation cancelled!!'));
     }
 
     public function update()
     {
         $this->validate();
         try {
-            Survey::find($this->id)->fill(['name' => $this->name, 'description' => $this->description])->save();
-            session()->flash('success', 'Survey Updated Successfully!!');
+            Survey::where('id', $this->idSurvey)
+                ->update([
+                    'name' => $this->name,
+                    'description' => $this->description,
+                    'enabled' => $this->enabled,
+                    'archived' => $this->archived,
+                    'updatable' => $this->updatable,
+                    'showResult' => $this->showResult,
+                    'showAchievement' => $this->showAchievement,
+                ]);
 
+            return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey Updated Successfully!!'));
+        } catch (\Exception $exception) {
             $this->cancel();
-        } catch (\Exception $e) {
-            session()->flash('error', 'Something goes wrong while updating Survey!!');
-            $this->cancel();
+            return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while updating Survey!!') . ' : ' . $exception->getMessage());
         }
     }
 
@@ -90,8 +98,13 @@ class SurveyCreateUpdate extends Component
         }
     }
 
-    public function render()
+
+    public function render(Request $request)
     {
+        $idServey = $request->input('idServey');
+        if (!is_null($idServey)) {
+            $this->edit($idServey);
+        }
         return view('livewire.survey-create-update')->extends('layouts.master')->section('content');
     }
 }
