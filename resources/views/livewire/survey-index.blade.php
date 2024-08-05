@@ -26,7 +26,7 @@
                     </div>
                 @endif
                 @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
-                    @if(Route::currentRouteName()!=="home")
+                    @if(Route::currentRouteName()!=="home"&&Route::currentRouteName()!=="main")
                         <div class="float-end d-inline  mx-2">
                             <a href="{{route('survey_create_update', app()->getLocale())}}" class="btn btn-info add-btn"
                                id="create-btn">

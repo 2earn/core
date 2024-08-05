@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ServeyQuestion extends Model
+class SurveyQuestion extends Model
 {
     use HasFactory;
 
@@ -15,6 +15,10 @@ class ServeyQuestion extends Model
 
     public function serveyQuestions()
     {
-        return $this->hasMany(ServeyQuestionChoice::class,'question_id');
+        return $this->hasMany(SurveyQuestionChoice::class,'question_id');
+    }
+    public function servey()
+    {
+        return $this->belongsTo(Survey::class, 'question_id');
     }
 }

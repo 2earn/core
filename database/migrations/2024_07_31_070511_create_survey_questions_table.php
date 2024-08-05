@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
 
-    const TABLE_NAME = 'servey_questions';
+    const TABLE_NAME = 'survey_questions';
 
     /**
      * Run the migrations.
@@ -22,6 +22,7 @@ return new class extends Migration {
         Schema::create(self::TABLE_NAME, function (Blueprint $table) {
             $table->id();
             $table->string('content')->nullable();
+            $table->unsignedBigInteger('question_id')->foreign('question_id')->references('id')->on('servey')->onDelete('cascade');
             $table->timestamps();
         });
 

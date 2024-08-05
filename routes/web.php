@@ -101,6 +101,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/survey/show/{idServey}', \App\Http\Livewire\SurveyShow::class)->name('survey_show');
         Route::get('/survey/participate/{idServey}', \App\Http\Livewire\SurveyParicipate::class)->name('survey_participate');
         Route::get('/survey/results/{idServey}', \App\Http\Livewire\SurveyResult::class)->name('survey_results');
+        Route::get('/survey/{idServey}/question', \App\Http\Livewire\SurveyQuestionCreateUpdate::class)->name('survey_question_create_update');
 
         Route::middleware(['IsSuperAdmin'])->group(function () {
             Route::get('/user_list', \App\Http\Livewire\UsersList::class)->name('user_list');

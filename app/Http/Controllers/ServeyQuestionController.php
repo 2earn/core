@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ServeyQuestion;
+use App\Models\SurveyQuestion;
 use Illuminate\Http\Request;
 
 class ServeyQuestionController extends Controller
@@ -41,10 +41,10 @@ class ServeyQuestionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ServeyQuestion  $serveyQuestion
+     * @param  \App\Models\SurveyQuestion  $serveyQuestion
      * @return \Illuminate\Http\Response
      */
-    public function show(ServeyQuestion $serveyQuestion)
+    public function show(SurveyQuestion $serveyQuestion)
     {
         //
     }
@@ -52,10 +52,10 @@ class ServeyQuestionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ServeyQuestion  $serveyQuestion
+     * @param  \App\Models\SurveyQuestion  $serveyQuestion
      * @return \Illuminate\Http\Response
      */
-    public function edit(ServeyQuestion $serveyQuestion)
+    public function edit(SurveyQuestion $serveyQuestion)
     {
         //
     }
@@ -64,10 +64,10 @@ class ServeyQuestionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ServeyQuestion  $serveyQuestion
+     * @param  \App\Models\SurveyQuestion  $serveyQuestion
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ServeyQuestion $serveyQuestion)
+    public function update(Request $request, SurveyQuestion $serveyQuestion)
     {
         //
     }
@@ -75,10 +75,10 @@ class ServeyQuestionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ServeyQuestion  $serveyQuestion
+     * @param  \App\Models\SurveyQuestion  $serveyQuestion
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ServeyQuestion $serveyQuestion)
+    public function destroy(SurveyQuestion $serveyQuestion)
     {
         //
     }

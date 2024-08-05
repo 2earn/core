@@ -55,7 +55,6 @@ class SurveyCreateUpdate extends Component
         if (!is_null($idServey)) {
             $this->edit($idServey);
         }
-
     }
 
     public function resetFields()
@@ -105,7 +104,6 @@ class SurveyCreateUpdate extends Component
         $this->showAttchivementChrono = $survey->showAttchivementChrono;
         $this->showAfterArchiving = $survey->showAfterArchiving;
         $this->showAttchivementPourcentage = $survey->showAttchivementPourcentage;
-
         $this->startDate = date_format(new \DateTime($survey->startDate), self::DATE_FORMAT);
         $this->endDate = date_format(new \DateTime($survey->endDate), self::DATE_FORMAT);
         $this->goals = $survey->goals;
@@ -154,7 +152,6 @@ class SurveyCreateUpdate extends Component
             session()->flash('error', "Something goes wrong while deleting Survey!!");
         }
     }
-
 
     public function render()
     {

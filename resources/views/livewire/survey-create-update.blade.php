@@ -10,7 +10,6 @@
                 <h6 class="card-title flex-grow-1">
                     @if($update)
                         {{__('Survey Update')}} : {{$idSurvey}} - {{$name}}
-
                     @else
                         {{__('Survey Create')}}
                     @endif

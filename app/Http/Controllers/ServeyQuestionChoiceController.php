@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ServeyQuestionChoice;
+use App\Models\SurveyQuestionChoice;
 use Illuminate\Http\Request;
 
 class ServeyQuestionChoiceController extends Controller
@@ -41,10 +41,10 @@ class ServeyQuestionChoiceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ServeyQuestionChoice  $serveyQuestionChoice
+     * @param  \App\Models\SurveyQuestionChoice  $serveyQuestionChoice
      * @return \Illuminate\Http\Response
      */
-    public function show(ServeyQuestionChoice $serveyQuestionChoice)
+    public function show(SurveyQuestionChoice $serveyQuestionChoice)
     {
         //
     }
@@ -52,10 +52,10 @@ class ServeyQuestionChoiceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ServeyQuestionChoice  $serveyQuestionChoice
+     * @param  \App\Models\SurveyQuestionChoice  $serveyQuestionChoice
      * @return \Illuminate\Http\Response
      */
-    public function edit(ServeyQuestionChoice $serveyQuestionChoice)
+    public function edit(SurveyQuestionChoice $serveyQuestionChoice)
     {
         //
     }
@@ -64,10 +64,10 @@ class ServeyQuestionChoiceController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ServeyQuestionChoice  $serveyQuestionChoice
+     * @param  \App\Models\SurveyQuestionChoice  $serveyQuestionChoice
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ServeyQuestionChoice $serveyQuestionChoice)
+    public function update(Request $request, SurveyQuestionChoice $serveyQuestionChoice)
     {
         //
     }
@@ -75,10 +75,10 @@ class ServeyQuestionChoiceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ServeyQuestionChoice  $serveyQuestionChoice
+     * @param  \App\Models\SurveyQuestionChoice  $serveyQuestionChoice
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ServeyQuestionChoice $serveyQuestionChoice)
+    public function destroy(SurveyQuestionChoice $serveyQuestionChoice)
     {
         //
     }

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
 
-    CONST TABLE_NAME = 'servey_question_choices';
+    CONST TABLE_NAME = 'survey_question_choices';
     /**
      * Run the migrations.
      *
