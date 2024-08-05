@@ -1,44 +1,184 @@
-<div class="card mb-2 ml-4 border border-dashed ">
+<div class="card mb-2 ml-4 border">
     <div class="card-header border-info fw-medium text-muted mb-0">
         {{$survey->id}} - {{$survey->name}}
+        <span class="ml-2 mr-2 badge btn btn-lg
+        {{ $survey->status==\Core\Enum\StatusSurvey::NEW->value ? 'btn-primary' : ''  }}
+        {{ $survey->status==\Core\Enum\StatusSurvey::OPEN->value ? 'btn-success' : ''  }}
+        {{ $survey->status==\Core\Enum\StatusSurvey::CLOSED->value ? 'btn-warning' : ''  }}
+        {{ $survey->status==\Core\Enum\StatusSurvey::ARCHIVED->value ? 'btn-dark' : ''  }}
+        ">
+                {{ \Core\Enum\StatusSurvey::tryFrom($survey->status)->name}}
+                        </span>
     </div>
-    <div class="card-body">
-        <h6 class="card-subtitle mb-2 text-muted">
-                            <span
-                                class="badge {{ $survey->enabled ? 'badge-success-subtle text-success' : 'badge-danger-subtle text-danger'  }}">
+    @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
+        <div class="card-body">
+            <span class="badge btn {{ $survey->enabled ? 'btn-success' : 'btn-danger'  }}">
                             {{__('Enabled')}}
                         </span>
-            <span
-                class="badge badge-{{ $survey->archived ? 'badge-success-subtle text-success' : 'badge-danger-subtle text-danger'  }}">
-                            {{__('Archived')}}
+            <span class="badge btn {{ $survey->published ? 'btn-success' : 'btn-danger'  }}">
+                            {{__('published')}}
                         </span>
-            <span
-                class="badge badge-{{ $survey->updatable ? 'badge-success-subtle text-success' : 'badge-danger-subtle text-danger'  }}">
+            <span class="badge btn {{ $survey->updatable ? 'btn-success' : 'btn-danger'  }}">
                             {{__('Updatable')}}
                         </span>
-            <span
-                class="badge badge-{{ $survey->showResult ? 'badge-success-subtle text-success' : 'badge-danger-subtle text-danger'  }}">
+            <span class="badge btn {{ $survey->showResult ? 'btn-success' : 'btn-danger'  }}">
                             {{__('Shows result')}}
                         </span>
-            <span
-                class="badge badge-{{ $survey->showAchievement ? 'badge-success-subtle text-success' : 'badge-danger-subtle text-danger'  }}">
-                            {{__('Show achievement')}}
+            <span class="badge btn {{ $survey->showAttchivementChrono ? 'btn-success' : 'btn-danger'  }}">
+                            {{__('Show attchivement Chrono')}}
                         </span>
-        </h6>
-        <p class="card-text text-muted">{{$survey->description}}</p>
-        <small class="text-muted">{{__('Creation date')}} : {{$survey->created_at}}</small>
-        <small class="text-muted">{{__('Update date')}} : {{$survey->updated_at}}</small>
+            <span class="badge btn {{ $survey->showAttchivementPourcentage ? 'btn-success' : 'btn-danger'  }}">
+                            {{__('Show achievement %')}}
+                        </span>
+            <span class="badge btn {{ $survey->showAfterArchiving ? 'btn-success' : 'btn-danger'  }}">
+                            {{__('Show after archiving')}}
+                        </span>
+            <span class="badge btn {{ $survey->likable ? 'btn-success' : 'btn-danger'  }}">
+                            {{__('likable')}}
+                        </span>
+            <span class="badge btn {{ $survey->commentable ? 'btn-success' : 'btn-danger'  }}">
+                            {{__('commentable')}}
+                        </span>
+        </div>
+    @endif
+
+    <div class="card-body">
+        <h5 class="mt-2">{{__('Description')}}:</h5>
+        <p class="card-text text-muted">
+            @if(Route::currentRouteName()=="survey_show")
+                {{ $survey->description}}
+            @else
+                {{ Str::limit($survey->description,200)}}
+            @endif
+        </p>
     </div>
-    <div class="card-footer bg-transparent">
+    @if(Route::currentRouteName()=="survey_show")
+        <h5 class="mt-2">{{__('Dates')}}:</h5>
+        <blockquote class="blockquote mb-0">
+            <p class="card-text text-muted">
+                @if($survey->enabled)
+                    @if($survey->enableDate != null && !empty($survey->enableDate))
+                        <strong>{{__('Enable date')}} :</strong>  {{$survey->enableDate}}
+                    @endif
+                @else
+                    @if($survey->disableDate != null && !empty($survey->disableDate))
+                        <strong>{{__('Disnable date')}} :</strong>  {{$survey->disableDate}}
+                    @endif
+                @endif
+            </p>
+            <p class="card-text text-muted">
+                @if($survey->published)
+                    @if($survey->publishDate != null && !empty($survey->publishDate))
+                        <strong>{{__('Publish date')}} : </strong> {{$survey->publishDate}}
+                    @endif
+                @else
+                    @if($survey->unpublishDate != null && !empty($survey->unpublishDate))
+                        <strong>{{__('Un publish date')}} :</strong>  {{$survey->unpublishDate}}
+                    @endif
+                @endif
+            </p>
+            @if($survey->openDate != null && !empty($survey->openDate))
+                <p class="card-text text-muted">
+                    <strong>{{__('Open date')}} :</strong>
+                    {{$survey->openDate?? __('Not set')}}
+                </p>
+            @endif
+
+            @if($survey->closeDate != null && !empty($survey->closeDate))
+                <p class="card-text text-muted">
+                    <strong>{{__('Close date')}} :</strong>
+                    {{$survey->closeDate?? __('Not set')}}
+                </p>
+            @endif
+
+            @if($survey->startDate != null && !empty($survey->startDate))
+                <p class="card-text text-muted">
+                    <strong>{{__('Start date')}} :</strong>
+                    {{$survey->startDate?? __('Not set')}}
+                </p>
+            @endif
+
+            @if($survey->endDate != null && !empty($survey->endDate))
+                <p class="card-text text-muted">
+                    <strong>{{__('End date')}} :</strong>
+                    {{$survey->endDate?? __('Not set')}}
+                </p>
+            @endif
+
+            @if($survey->archivedDate != null && !empty($survey->archivedDate))
+                <p class="card-text text-muted">
+                    <strong>{{__('Archived date')}} :</strong>
+                    {{$survey->archivedDate?? __('Not set')}}</p>
+            @endif
+
+            @if($survey->created_at != null && !empty($survey->created_at))
+                <p class="card-text text-muted">
+                    <strong>{{__('Creation date')}} :</strong>
+                    {{$survey->created_at?? __('Not set')}}</p>
+            @endif
+
+            @if($survey->updated_at != null && !empty($survey->updated_at))
+                <p class="card-text text-muted">
+                    <strong>{{__('Update date')}} :</strong>
+                    {{$survey->updated_at?? __('Not set')}}
+                </p>
+            @endif
+
+        </blockquote>
+    @endif
+
+    @if($survey->disabledBtnDescription != null && !empty($survey->disabledBtnDescriptions))
+        <h5 class="mt-2">{{__('Disabled button description')}}:</h5>
+        <blockquote class="blockquote mb-0">
+            <p class="card-text text-muted">
+                @if(Route::currentRouteName()=="survey_show")
+                    {{ $survey->disabledBtnDescription}}
+                @else
+                    {{ Str::limit($survey->disabledBtnDescription,200)}}
+                @endif
+            </p>
+        </blockquote>
+    @endif
+
+</div>
+<div class="card-footer bg-transparent">
+    @if(!Route::currentRouteName()=="survey_show")
         <a href="{{route('survey_show', ['locale'=> request()->route("locale"),'idServey'=>$survey->id] )}}"
            class="btn btn-soft-info material-shadow-none">{{__('Details')}}</a>
+    @endif
+
+    @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
         <a href="{{route('survey_create_update', ['locale'=> request()->route("locale"),'idServey'=>$survey->id] )}}"
            class="btn btn-soft-info material-shadow-none">{{__('Edit')}}</a>
-        <a href="{{route('survey_show', ['locale'=> request()->route("locale"),'idServey'=>$survey->id] )}}"
-           class="btn btn-soft-info material-shadow-none">{{__('Delete')}}</a>
-        <a href="{{route('survey_participate', ['locale'=> request()->route("locale"),'idServey'=>$survey->id] )}}"
-           class="btn btn-soft-info material-shadow-none">{{__('Paticipate ')}}</a>
-        <a href="{{route('survey_results', ['locale'=> request()->route("locale"),'idServey'=>$survey->id] )}}"
-           class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</a>
-    </div>
+
+        @if($survey->status==\Core\Enum\StatusSurvey::NEW->value)
+            <a wire:click="open('{{$survey->id}}')"
+               class="btn btn-soft-secondary material-shadow-none">{{__('Open')}}</a>
+        @endif
+
+        @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
+            <a wire:click="close('{{$survey->id}}')"
+               class="btn btn-soft-secondary material-shadow-none">{{__('Close')}}</a>
+        @endif
+
+        @if($survey->status==\Core\Enum\StatusSurvey::CLOSED->value)
+            <a wire:click="archive('{{$survey->id}}')"
+               class="btn btn-soft-secondary material-shadow-none">{{__('Archive')}}</a>
+        @endif
+
+        @if(!$survey->enabled)
+                <a wire:click="enable('{{$survey->id}}')"
+                   class="btn btn-soft-success material-shadow-none">{{__('Enable')}}</a>
+        @else
+                <a wire:click="disable('{{$survey->id}}')"
+               class="btn btn-soft-danger material-shadow-none">{{__('Disable')}}</a>
+        @endif
+    @endif
+
+    <a href="{{route('survey_participate', ['locale'=> request()->route("locale"),'idServey'=>$survey->id] )}}"
+       class="btn btn-soft-info material-shadow-none">{{__('Paticipate')}}</a>
+
+    <a href="{{route('survey_results', ['locale'=> request()->route("locale"),'idServey'=>$survey->id] )}}"
+       class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</a>
+</div>
 </div>

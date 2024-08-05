@@ -313,24 +313,27 @@
             </div>
         </div>
     </div>
-    <div class="row card border-info">
-        <div class="card-header border-info">
-            <div class="d-flex align-items-center">
-                <h6 class="card-title mb-0 flex-grow-1">   {{__('Surveys')}}</h6>
-                <div class="flex-shrink-0">
-                    <a href="{{route('surveys_index',app()->getLocale())}}" class="link-primary">{{__('View All ')}}<i
-                            class="ri-arrow-right-line"></i></a>
+    @if(!$surveys->isEmpty())
+        <div class="row card border-info">
+            <div class="card-header border-info">
+                <div class="d-flex align-items-center">
+                    <h6 class="card-title mb-0 flex-grow-1">   {{__('Surveys')}}</h6>
+                    <div class="flex-shrink-0">
+                        <a href="{{route('surveys_index',app()->getLocale())}}" class="link-primary">{{__('View All ')}}
+                            <i
+                                class="ri-arrow-right-line"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body row">
+                <div class="card-group">
+                    @foreach($surveys as $survey)
+                        @include('livewire.survey-item', ['survey' => $survey])
+                    @endforeach
                 </div>
             </div>
         </div>
-        <div class="card-body row">
-            <div class="card-group">
-                @foreach($surveys as $survey)
-                    @include('livewire.survey-item', ['survey' => $survey])
-                @endforeach
-            </div>
-        </div>
-    </div>
+    @endif
     <h4 class="card-title" style="text-align: center">{{ __('we_are_present_in') }} </h4>
     <div class="col-12" style="padding-right: 0;padding-left: 0;">
         <div class="card" style="height: 500px;">

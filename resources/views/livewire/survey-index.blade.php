@@ -29,9 +29,11 @@
             </div>
         </div>
         <div class="card-body row ">
-            @foreach($surveys as $survey)
+            @forelse($surveys as $survey)
                 @include('livewire.survey-item', ['survey' => $survey])
-            @endforeach
+            @empty
+                <p>{{__('No Surveys')}}</p>
+            @endforelse
             {{ $surveys->links() }}
         </div>
     </div>

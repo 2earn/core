@@ -12,8 +12,6 @@ class  CountriesRepository implements ICountriesRepository
     public function getAllCountries()
     {
         return DB::table('countries')->get();
-//            ->where('id','=','1')
-//            ->paginate(50000);
     }
 
     public function getCountrieById($id)
@@ -23,13 +21,11 @@ class  CountriesRepository implements ICountriesRepository
 
     public function getStates($phoneCode)
     {
-        $states = DB::select('select * from states where country_id in (select id from countries where phonecode = ?)',[$phoneCode]);
-        return $states ;
+        return DB::select('select * from states where country_id in (select id from countries where phonecode = ?)', [$phoneCode]);
     }
 
     public function getCountryByIso($iso)
     {
-        $country = DB::select('select * from countries where apha2 = ?',[$iso]) ;
-        return $country ;
+        return DB::select('select * from countries where apha2 = ?', [$iso]);
     }
 }

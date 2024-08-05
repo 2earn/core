@@ -8,8 +8,6 @@
         <div class="card-header border-info">
             <div class="d-flex align-items-center">
                 <h6 class="card-title flex-grow-1">
-
-
                     @if($update)
                         {{__('Survey Update')}} : {{$idSurvey}} - {{$name}}
 
@@ -44,46 +42,83 @@
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                         </div>
-                        <div class="row">
-
+                        <div class="row mt-2">
                             <div class="form-group col-md-4">
-                                <input class="form-check-input" wire:model="enabled" type="checkbox" value=""
+                                <input class="form-check-input" wire:model="enabled" type="checkbox"
                                        id="Enabled" placeholder="{{__('enabled')}}" checked>
                                 <label class="form-check-label" for="Enabled">{{__('Enabled')}}</label>
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                             <div class="form-group col-md-4">
-                                <input class="form-check-input" wire:model="archived" type="checkbox" value=""
-                                       id="archived" placeholder="{{__('enabled')}}" checked>
-                                <label class="form-check-label" for="archived">{{__('Archived')}}</label>
-                                <div class="form-text">{{__('Required field')}}</div>
+                                <input class="form-check-input" wire:model="published" type="checkbox"
+                                       id="published" placeholder="{{__('published')}}" checked>
+                                <label class="form-check-label" for="published">{{__('Published')}}</label>
                             </div>
 
                             <div class="form-group col-md-4">
-                                <input class="form-check-input" wire:model="updatable" type="checkbox" value=""
+                                <input class="form-check-input" wire:model="updatable" type="checkbox"
                                        id="updatable" placeholder="{{__('updatable')}}" checked>
                                 <label class="form-check-label" for="updatable">{{__('Updatable')}}</label>
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
 
                             <div class="form-group col-md-4">
-                                <input class="form-check-input" wire:model="showResult" type="checkbox" value=""
+                                <input class="form-check-input" wire:model="showResult" type="checkbox"
                                        id="showResult" placeholder="{{__('showResult')}}" checked>
                                 <label class="form-check-label" for="showResult">{{__('Show result')}}</label>
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
-
                             <div class="form-group col-md-4">
-                                <input class="form-check-input" wire:model="showAchievement" type="checkbox"
-                                       value=""
-                                       id="showAchievement" placeholder="{{__('showAchievement')}}" checked>
+                                <input class="form-check-input" wire:model="showAttchivementPourcentage" type="checkbox"
+                                       id="showAttchivementPourcentage" placeholder="{{__('showAttchivementPourcentage')}}" checked>
                                 <label class="form-check-label"
-                                       for="showAchievement">{{__('Show achievement')}}</label>
+                                       for="showAttchivementPourcentage">{{__('Show achievement %')}}</label>
                                 <div class="form-text">{{__('Required field')}}</div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input class="form-check-input" wire:model="showAttchivementChrono" type="checkbox"
+                                       id="showAttchivementChrono" placeholder="{{__('showAttchivementChrono')}}" checked>
+                                <label class="form-check-label"
+                                       for="showAttchivementChrono">{{__('Show achievement Chrono')}}</label>
+                                <div class="form-text">{{__('Required field')}}</div>
+                            </div>                            <div class="form-group col-md-4">
+                                <input class="form-check-input" wire:model="showAfterArchiving" type="checkbox"
+                                       id="showAfterArchiving" placeholder="{{__('showAfterArchiving')}}" checked>
+                                <label class="form-check-label"
+                                       for="showAfterArchiving">{{__('Show after archiving')}}</label>
+                                <div class="form-text">{{__('Required field')}}</div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input class="form-check-input" wire:model="commentable" type="checkbox"
+                                       id="commentable" placeholder="{{__('Commentable')}}" checked>
+                                <label class="form-check-label"
+                                       for="commentable">{{__('Commentable')}}</label>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input class="form-check-input" wire:model="likable" type="checkbox"
+                                       id="likable" placeholder="{{__('Likable')}}" checked>
+                                <label class="form-check-label"
+                                       for="likable">{{__('Likable')}}</label>
                             </div>
 
                         </div>
-
+                        <div class="row mt-2">
+                            <div class="form-group col-md-4">
+                                <label for="startDate">{{__('Start Date')}}</label>
+                                <input class="form-control" wire:model="startDate" type="date"
+                                       id="startDate" placeholder="{{__('Start Date')}}" checked>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="endDate">{{__('End Date')}}</label>
+                                <input class="form-control" wire:model="endDate" type="date"
+                                       id="endDate" placeholder="{{__('End Date')}}" checked>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="goals">{{__('Goals')}}</label>
+                                <input class="form-control" wire:model="goals" type="number"
+                                       id="goals" placeholder="{{__('Goals')}}" checked>
+                            </div>
+                        </div>
                         <div class="row mt-3">
                             <div class="col-md-2">
                                 @if($update)
