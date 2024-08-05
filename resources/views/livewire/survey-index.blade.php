@@ -1,10 +1,10 @@
 <div>
     @if(Route::currentRouteName()=="surveys_index")
-    @component('components.breadcrumb')
-        @slot('title')
-            {{ __('Surveys') }}
-        @endslot
-    @endcomponent
+        @component('components.breadcrumb')
+            @slot('title')
+                {{ __('Surveys') }}
+            @endslot
+        @endcomponent
         <div class="row">
             @include('layouts.flash-messages')
         </div>
@@ -13,9 +13,9 @@
         <div class="card-header border-info">
             <div class="d-flex align-items-center">
                 <h6 class="card-title flex-grow-1">   {{__('Surveys')}}</h6>
-                <div class="float-end d-inline-flex">
-                    @if(Route::currentRouteName()=="surveys_index")
-                        <form class="items-center mr-2">
+                @if(Route::currentRouteName()=="surveys_index")
+                    <div class="float-end mx-2">
+                        <form class="items-center">
                             <label for="simple-search" class="sr-only">{{__('Search')}}</label>
                             <div class="w-full">
                                 <input wire:model.live="search" type="text" id="simple-search"
@@ -23,20 +23,22 @@
                                        placeholder="{{__('Search Survey')}}" required="">
                             </div>
                         </form>
-                    @endif
-                    @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
-                        @if(!Route::currentRouteName()=="survey_show")
+                    </div>
+                @endif
+                @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
+                    @if(Route::currentRouteName()!=="home")
+                        <div class="float-end d-inline  mx-2">
                             <a href="{{route('survey_create_update', app()->getLocale())}}" class="btn btn-info add-btn"
                                id="create-btn">
                                 <i class="ri-add-line align-bottom me-1 ml-2"></i>
                                 {{__('Create new Servey')}}
                             </a>
-                        @endif
+                        </div>
                     @endif
-                </div>
+                @endif
             </div>
         </div>
-        <div class="card-body row ">
+        <div class="card-body row mx-1">
             @forelse($surveys as $survey)
                 @include('livewire.survey-item', ['survey' => $survey])
             @empty
