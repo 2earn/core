@@ -22,7 +22,7 @@ return new class extends Migration {
         Schema::create(self::TABLE_NAME, function (Blueprint $table) {
             $table->id();
             $table->string('content')->nullable();
-            $table->unsignedBigInteger('question_id')->foreign('question_id')->references('id')->on('servey')->onDelete('cascade');
+            $table->unsignedBigInteger('survey_id')->foreign('survey_id')->references('id')->on('survey')->onDelete('cascade');
             $table->timestamps();
         });
 

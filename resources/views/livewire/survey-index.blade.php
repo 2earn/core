@@ -31,7 +31,7 @@
                             <a href="{{route('survey_create_update', app()->getLocale())}}" class="btn btn-info add-btn"
                                id="create-btn">
                                 <i class="ri-add-line align-bottom me-1 ml-2"></i>
-                                {{__('Create new Servey')}}
+                                {{__('Create new Survey')}}
                             </a>
                         </div>
                     @endif

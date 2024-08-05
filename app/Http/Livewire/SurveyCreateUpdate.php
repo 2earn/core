@@ -51,9 +51,9 @@ class SurveyCreateUpdate extends Component
 
     public function mount(Request $request)
     {
-        $idServey = $request->input('idServey');
-        if (!is_null($idServey)) {
-            $this->edit($idServey);
+        $idSurvey = $request->input('idSurvey');
+        if (!is_null($idSurvey)) {
+            $this->edit($idSurvey);
         }
     }
 

@@ -7,16 +7,16 @@ use Livewire\Component;
 
 class SurveyResult extends Component
 {
-    public $idServey;
+    public $idSurvey;
 
-    public function mount($idServey)
+    public function mount($idSurvey)
     {
-        $this->idServey = $idServey;
+        $this->idSurvey = $idSurvey;
     }
 
     public function render()
     {
-        $params ['survey'] = Survey::findOrFail($this->idServey);
+        $params ['survey'] = Survey::findOrFail($this->idSurvey);
         return view('livewire.survey-result', $params)->extends('layouts.master')->section('content');
     }
 }

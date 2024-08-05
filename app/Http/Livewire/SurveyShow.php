@@ -9,13 +9,13 @@ use Livewire\Component;
 
 class SurveyShow extends Component
 {
-    public $idServey;
+    public $idSurvey;
     public $routeRedirectionParams;
 
-    public function mount($idServey)
+    public function mount($idSurvey)
     {
-        $this->idServey = $idServey;
-        $this->routeRedirectionParams = ['locale' => app()->getLocale(), 'idServey' => $this->idServey];
+        $this->idSurvey = $idSurvey;
+        $this->routeRedirectionParams = ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey];
     }
 
     public function enable($id)
@@ -70,7 +70,7 @@ class SurveyShow extends Component
 
     public function render()
     {
-        $params ['survey'] = Survey::findOrFail($this->idServey);
+        $params ['survey'] = Survey::findOrFail($this->idSurvey);
         return view('livewire.survey-show', $params)->extends('layouts.master')->section('content');
     }
 }
