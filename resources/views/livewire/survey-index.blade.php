@@ -1,30 +1,38 @@
 <div>
+    @if(Route::currentRouteName()=="surveys_index")
     @component('components.breadcrumb')
         @slot('title')
             {{ __('Surveys') }}
         @endslot
     @endcomponent
-    <div class="row">
-        @include('layouts.flash-messages')
-    </div>
+        <div class="row">
+            @include('layouts.flash-messages')
+        </div>
+    @endif
     <div class="row card">
         <div class="card-header border-info">
             <div class="d-flex align-items-center">
                 <h6 class="card-title flex-grow-1">   {{__('Surveys')}}</h6>
                 <div class="float-end d-inline-flex">
-                    <form class="items-center mr-2">
-                        <label for="simple-search" class="sr-only">{{__('Search')}}</label>
-                        <div class="w-full">
-                            <input wire:model.live="search" type="text" id="simple-search"
-                                   class="form-control"
-                                   placeholder="{{__('Search Survey')}}" required="">
-                        </div>
-                    </form>
-                    <a href="{{route('survey_create_update', app()->getLocale())}}" class="btn btn-info add-btn"
-                       id="create-btn">
-                        <i class="ri-add-line align-bottom me-1 ml-2"></i>
-                        {{__('Create new Servey')}}
-                    </a>
+                    @if(Route::currentRouteName()=="surveys_index")
+                        <form class="items-center mr-2">
+                            <label for="simple-search" class="sr-only">{{__('Search')}}</label>
+                            <div class="w-full">
+                                <input wire:model.live="search" type="text" id="simple-search"
+                                       class="form-control"
+                                       placeholder="{{__('Search Survey')}}" required="">
+                            </div>
+                        </form>
+                    @endif
+                    @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
+                        @if(!Route::currentRouteName()=="survey_show")
+                            <a href="{{route('survey_create_update', app()->getLocale())}}" class="btn btn-info add-btn"
+                               id="create-btn">
+                                <i class="ri-add-line align-bottom me-1 ml-2"></i>
+                                {{__('Create new Servey')}}
+                            </a>
+                        @endif
+                    @endif
                 </div>
             </div>
         </div>

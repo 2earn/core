@@ -115,7 +115,7 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="goals">{{__('Goals')}}</label>
-                                <input class="form-control" wire:model="goals" type="number"
+                                <input class="form-control" wire:model="goals"
                                        id="goals" placeholder="{{__('Goals')}}" checked>
                             </div>
                         </div>
