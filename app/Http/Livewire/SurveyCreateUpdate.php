@@ -9,6 +9,7 @@ use Livewire\Component;
 
 class SurveyCreateUpdate extends Component
 {
+    const DATE_FORMAT = "Y-m-d";
 
     public
         $idSurvey,
@@ -48,6 +49,15 @@ class SurveyCreateUpdate extends Component
         'description' => 'required',
     ];
 
+    public function mount(Request $request)
+    {
+        $idServey = $request->input('idServey');
+        if (!is_null($idServey)) {
+            $this->edit($idServey);
+        }
+
+    }
+
     public function resetFields()
     {
         $this->name = '';
@@ -83,21 +93,22 @@ class SurveyCreateUpdate extends Component
 
     public function edit($id)
     {
-        $Survey = Survey::findOrFail($id);
-        $this->name = $Survey->name;
-        $this->description = $Survey->description;
-        $this->idSurvey = $Survey->id;
-        $this->enabled = $Survey->enabled;
-        $this->updatable = $Survey->updatable;
-        $this->commentable = $Survey->commentable;
-        $this->likable = $Survey->likable;
-        $this->showResult = $Survey->showResult;
-        $this->showAttchivementChrono = $Survey->showAttchivementChrono;
-        $this->showAfterArchiving = $Survey->showAfterArchiving;
-        $this->showAttchivementPourcentage = $Survey->showAttchivementPourcentage;
-        $this->startDate = $this->startDate;
-        $this->endDate = $this->endDate;
-        $this->goals = $this->goals;
+        $survey = Survey::findOrFail($id);
+        $this->name = $survey->name;
+        $this->description = $survey->description;
+        $this->idSurvey = $survey->id;
+        $this->enabled = $survey->enabled;
+        $this->updatable = $survey->updatable;
+        $this->commentable = $survey->commentable;
+        $this->likable = $survey->likable;
+        $this->showResult = $survey->showResult;
+        $this->showAttchivementChrono = $survey->showAttchivementChrono;
+        $this->showAfterArchiving = $survey->showAfterArchiving;
+        $this->showAttchivementPourcentage = $survey->showAttchivementPourcentage;
+
+        $this->startDate = date_format(new \DateTime($survey->startDate), self::DATE_FORMAT);
+        $this->endDate = date_format(new \DateTime($survey->endDate), self::DATE_FORMAT);
+        $this->goals = $survey->goals;
         $this->update = true;
     }
 
@@ -145,12 +156,8 @@ class SurveyCreateUpdate extends Component
     }
 
 
-    public function render(Request $request)
+    public function render()
     {
-        $idServey = $request->input('idServey');
-        if (!is_null($idServey)) {
-            $this->edit($idServey);
-        }
         return view('livewire.survey-create-update')->extends('layouts.master')->section('content');
     }
 }
