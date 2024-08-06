@@ -11,6 +11,8 @@ class SurveyQuestion extends Model
 
     protected $fillable = [
         'content',
+        'selection',
+        'maxResponse',
         'survey_id',
     ];
 

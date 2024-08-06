@@ -216,46 +216,60 @@
             <ul class="list-group">
                 @forelse ($survey->questions as $question)
                     <li class="list-group-item">
-                        {{ $question->id }} - {{ $question->content }}
-                        @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
-                            <div class="btn-group  btn-group-sm" role="group" aria-label="Basic example">
-                                <a href="{{route('survey_question_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id,'IdQuestion'=>$question->id] )}}"
-                                   class="btn btn-soft-info material-shadow-none">
-                                    {{__('Edit')}}
-                                </a>
-                                <a href="{{route('survey_question_choice_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id,'idQuestion'=>$question->id] )}}"
-                                   class="btn btn-soft-info material-shadow-none">
-                                    {{__('Add Choice')}}
-                                </a>
+                        <div class="row">
+                            <div class="col-7 text-info">
+                                {{ $question->id }} - {{ $question->content }}
                             </div>
-                            <ul>
-                                @forelse ($question->serveyQuestions as $choice)
-                                    <li class="list-group-item mt-2">
-                                        {{$choice->id}} - {{$choice->title}}
-                                        <div class="btn-group  btn-group-sm" role="group" aria-label="Basic example">
-                                            <a href="{{route('survey_question_choice_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id,'idQuestion'=>$question->id,'idChoice'=>$choice->id] )}}"
-                                               title="{{__('Update Choice')}}"
-                                               class="btn btn-soft-info material-shadow-none">
-                                                {{__('Update')}}
-                                            </a>
-                                            <a wire:click="removeChoice('{{$choice->id}}')"
-                                               title="{{__('Remove Choice')}}"
-                                               class="btn btn-soft-danger material-shadow-none">
-                                                {{__('Remove')}}
-                                            </a>
-                                        </div>
-                                    </li>
-                                @empty
-                                    ee
-                                @endforelse
-                            </ul>
-                            @if($survey->questions->count()>1)
-                                <a wire:click="removeQuestion('{{$question->id}}')"
-                                   class="btn btn-soft-danger material-shadow-none">
-                                    {{__('Remove')}}
-                                </a>
+                            @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
+                                <div class="col-5">
+                                    <div class="btn-group  btn-group-sm" role="group" aria-label="Basic example">
+                                        <a href="{{route('survey_question_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id,'IdQuestion'=>$question->id] )}}"
+                                           class="btn btn-soft-info material-shadow-none">
+                                            {{__('Edit')}}
+                                        </a>
+                                        <a href="{{route('survey_question_choice_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id,'idQuestion'=>$question->id] )}}"
+                                           class="btn btn-soft-info material-shadow-none">
+                                            {{__('Add Choice')}}
+                                        </a>
+                                    </div>
+                                    <ul>
+                                        @forelse ($question->serveyQuestions as $choice)
+                                            <li class="list-group-item mt-2">
+                                                <div class="row">
+                                                    <div class="col-7 text-muted">
+                                                        {{$choice->id}} - {{$choice->title}}
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <div class="btn-group  btn-group-sm" role="group"
+                                                             aria-label="Basic example">
+                                                            <a href="{{route('survey_question_choice_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id,'idQuestion'=>$question->id,'idChoice'=>$choice->id] )}}"
+                                                               title="{{__('Update Choice')}}"
+                                                               class="btn btn-soft-info material-shadow-none">
+                                                                {{__('Update')}}
+                                                            </a>
+                                                            <a wire:click="removeChoice('{{$choice->id}}')"
+                                                               title="{{__('Remove Choice')}}"
+                                                               class="btn btn-soft-danger material-shadow-none">
+                                                                {{__('Remove')}}
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                            </li>
+                                        @empty
+                                            <li class="list-group-item mt-2">
+                                                {{__('No Choices')}}
+                                            </li>
+                                        @endforelse
+                                    </ul>
+                                    @if($survey->questions->count()>1)
+                                        <a wire:click="removeQuestion('{{$question->id}}')"
+                                           class="btn btn-soft-danger material-shadow-none">
+                                            {{__('Remove')}}
+                                        </a>
+                                    @endif
+                                </div>
                             @endif
-                        @endif
+                        </div>
                     </li>
                 @empty
                     <li class="list-group-item">{{__('No questions')}}.
