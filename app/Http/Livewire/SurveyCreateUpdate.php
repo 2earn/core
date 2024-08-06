@@ -83,7 +83,7 @@ class SurveyCreateUpdate extends Component
                 'endDate' => $this->endDate,
                 'goals' => $this->goals,
             ]);
-            return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idServey' => $survey->id])->with('success', Lang::get('Survey Created Successfully!!'));
+            return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $survey->id])->with('success', Lang::get('Survey Created Successfully!!'));
         } catch (\Exception $exception) {
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while creating Survey!!') . ' : ' . $exception->getMessage());
             $this->resetFields();
@@ -136,10 +136,10 @@ class SurveyCreateUpdate extends Component
                     'endDate' => $this->endDate,
                     'goals' => $this->goals,
                 ]);
-            return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idServey' => $this->idSurvey])->with('success', Lang::get('Survey Updated Successfully!!'));
+            return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Survey Updated Successfully!!'));
         } catch (\Exception $exception) {
             $this->cancel();
-            return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idServey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while updating Survey!!') . ' : ' . $exception->getMessage());
+            return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while updating Survey!!') . ' : ' . $exception->getMessage());
         }
     }
 

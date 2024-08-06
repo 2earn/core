@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Survey;
+use App\Models\SurveyQuestion;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -16,6 +17,12 @@ class SurveyShow extends Component
     {
         $this->idSurvey = $idSurvey;
         $this->routeRedirectionParams = ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey];
+    }
+
+    public function removeQuestion($idQuestion)
+    {
+        SurveyQuestion::findOrFail($idQuestion)->delete();
+        return redirect()->route('survey_show', $this->routeRedirectionParams)->with('success', Lang::get('Question Deleted Successfully!!'));
     }
 
     public function enable($id)

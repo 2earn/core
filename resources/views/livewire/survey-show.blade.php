@@ -4,9 +4,10 @@
             {{ __('Survey Show') }}
         @endslot
     @endcomponent
-    <div class="row card">
-        <div class="card-body row">
+    <div class="row">
+        @include('layouts.flash-messages')
+    </div>
+    <div class="row">
             @include('livewire.survey-item', ['survey' => $survey])
-        </div>
     </div>
 </div>

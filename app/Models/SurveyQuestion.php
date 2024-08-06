@@ -11,6 +11,7 @@ class SurveyQuestion extends Model
 
     protected $fillable = [
         'content',
+        'survey_id',
     ];
 
     public function serveyQuestions()

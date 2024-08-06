@@ -116,7 +116,7 @@
                             @foreach (config('app.available_locales') as  $locale => $value )
                                 <a
                                    @if(str_starts_with($currentRoute,"survey_"))
-                                       href="{{route($currentRoute, ['locale'=> $locale,'idSurvey'=>request()->route("idServey") ])}}"
+                                       href="{{route($currentRoute, ['locale'=> $locale,'idSurvey'=>request()->route("idSurvey") ])}}"
                                    @else
                                        href="{{route($currentRoute, ['locale'=> $locale ])}}"
                                    @endif

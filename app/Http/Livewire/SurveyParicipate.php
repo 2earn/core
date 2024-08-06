@@ -8,16 +8,16 @@ use Livewire\Component;
 class SurveyParicipate extends Component
 {
 
-    public $idServey;
+    public $idSurvey;
 
-    public function mount($idServey)
+    public function mount($idSurvey)
     {
-        $this->idServey = $idServey;
+        $this->idSurvey = $idSurvey;
     }
 
     public function render()
     {
-        $params ['survey'] = Survey::findOrFail($this->idServey);
+        $params ['survey'] = Survey::findOrFail($this->idSurvey);
         return view('livewire.survey-paricipate', $params)->extends('layouts.master')->section('content');
     }
 }

@@ -201,16 +201,38 @@
         <a href="{{route('survey_results', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
            class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</a>
     </div>
-    <div class="card-header border-info fw-medium text-muted mb-0">
-        {{__('Questions')}}
-    </div>
-    <div class="card-body">
-        {{dump($survey->questions)}}
-
-    @if(is_null($survey->questions))
-            <a href="{{route('survey_question_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
-               class="btn btn-soft-info material-shadow-none">{{__('Add Queation')}}</a>
-        @endif
-    </div>
-
+    @if(Route::currentRouteName()=="survey_show")
+        <div class="card-header border-info fw-medium text-muted mb-0">
+            {{__('Questions')}}
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                @forelse ($survey->questions as $question)
+                    <li class="list-group-item">
+                        {{ $question->id }} - {{ $question->content }}
+                        @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
+                            <a href="{{route('survey_question_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id,'IdQuestion'=>$question->id] )}}"
+                               class="btn btn-soft-info material-shadow-none">
+                                {{__('Edit')}}
+                            </a>
+                            @if($survey->questions->count()>1)
+                                <a wire:click="removeQuestion('{{$question->id}}')"
+                                   class="btn btn-soft-danger material-shadow-none">
+                                    {{__('Remove')}}
+                                </a>
+                            @endif
+                        @endif
+                    </li>
+                @empty
+                    <li class="list-group-item">{{__('No questions')}}.
+                        <br>
+                        <a href="{{route('survey_question_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
+                           class="btn btn-soft-info material-shadow-none mt-2">
+                            {{__('Add')}}
+                        </a>
+                    </li>
+                @endforelse
+            </ul>
+        </div>
+    @endif
 </div>

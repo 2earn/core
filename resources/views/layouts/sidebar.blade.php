@@ -119,7 +119,7 @@
                         </a>
                     </li>
                     <li class="nav-item {{Route::currentRouteName()=='surveys_index'? 'active' : ''}}">
-                        <a href="{{route('surveys_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idServey")],false )}}"
+                        <a href="{{route('surveys_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
                            class="nav-link menu-link {{Route::currentRouteName()=='surveys_index'? 'active' : ''}}"
                            role="button">
                             <i class="ri-bookmark-fill"></i>
