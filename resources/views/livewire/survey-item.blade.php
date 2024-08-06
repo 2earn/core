@@ -217,11 +217,11 @@
                 @forelse ($survey->questions as $question)
                     <li class="list-group-item">
                         <div class="row">
-                            <div class="col-7 text-info">
+                            <div class="col-sm-12 col-md-6 col-lg-7 text-info">
                                 {{ $question->id }} - {{ $question->content }}
                             </div>
                             @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
-                                <div class="col-5">
+                                <div class="col-sm-12 col-md-6 col-lg-5">
                                     <div class="btn-group  btn-group-sm" role="group" aria-label="Basic example">
                                         <a href="{{route('survey_question_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id,'IdQuestion'=>$question->id] )}}"
                                            class="btn btn-soft-info material-shadow-none">
@@ -236,10 +236,10 @@
                                         @forelse ($question->serveyQuestions as $choice)
                                             <li class="list-group-item mt-2">
                                                 <div class="row">
-                                                    <div class="col-7 text-muted">
+                                                    <div class="col-sm-12 col-md-6 col-lg-7 text-muted">
                                                         {{$choice->id}} - {{$choice->title}}
                                                     </div>
-                                                    <div class="col-5">
+                                                    <div class="col-sm-12 col-md-6 col-lg-5">
                                                         <div class="btn-group  btn-group-sm" role="group"
                                                              aria-label="Basic example">
                                                             <a href="{{route('survey_question_choice_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id,'idQuestion'=>$question->id,'idChoice'=>$choice->id] )}}"
