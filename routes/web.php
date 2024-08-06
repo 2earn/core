@@ -102,6 +102,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/survey/participate/{idSurvey}', \App\Http\Livewire\SurveyParicipate::class)->name('survey_participate');
         Route::get('/survey/results/{idSurvey}', \App\Http\Livewire\SurveyResult::class)->name('survey_results');
         Route::get('/survey/{idSurvey}/question', \App\Http\Livewire\SurveyQuestionCreateUpdate::class)->name('survey_question_create_update');
+        Route::get('/survey/{idSurvey}/question/{idQuestion}/Choice', \App\Http\Livewire\SurveyQuestionChoiceCreateUpdate::class)->name('survey_question_choice_create_update');
 
         Route::middleware(['IsSuperAdmin'])->group(function () {
             Route::get('/user_list', \App\Http\Livewire\UsersList::class)->name('user_list');
@@ -114,6 +115,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/admin/identification_request', identificationRequest::class)->name('identification_request');
             Route::get('/translation', TranslateView::class)->name('translate');
         });
+
         Route::middleware(['IsSuperAdmin'])->group(function () {
             Route::get('/stat/countrie', \App\Http\Livewire\StatCountrie::class)->name('stat_countrie');
             Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');

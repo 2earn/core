@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Survey;
 use App\Models\SurveyQuestion;
+use App\Models\SurveyQuestionChoice;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -23,6 +24,12 @@ class SurveyShow extends Component
     {
         SurveyQuestion::findOrFail($idQuestion)->delete();
         return redirect()->route('survey_show', $this->routeRedirectionParams)->with('success', Lang::get('Question Deleted Successfully!!'));
+    }
+
+    public function removeChoice($idChoice)
+    {
+        SurveyQuestionChoice::findOrFail($idChoice)->delete();
+        return redirect()->route('survey_show', $this->routeRedirectionParams)->with('success', Lang::get('Choice Deleted Successfully!!'));
     }
 
     public function enable($id)

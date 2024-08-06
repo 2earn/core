@@ -10,7 +10,7 @@ class SurveyQuestionChoice extends Model
     use HasFactory;
 
     protected $fillable = [
-        'surveyQuestion_id',
+        'question_id',
         'title',
     ];
 
