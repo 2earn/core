@@ -52,6 +52,26 @@ class SurveyShow extends Component
         }
     }
 
+    public function publish($id)
+    {
+        try {
+            Survey::publish($id);
+            return redirect()->route('survey_show', $this->routeRedirectionParams)->with('success', Lang::get('Survey published Successfully!!'));
+        } catch (\Exception $exception) {
+            return redirect()->route('survey_show', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while publishing Survey!!') . ' : ' . $exception->getMessage());
+        }
+    }
+
+    public function unpublish($id)
+    {
+        try {
+            Survey::unpublish($id);
+            return redirect()->route('survey_show', $this->routeRedirectionParams)->with('success', Lang::get('Survey un published Successfully!!'));
+        } catch (\Exception $exception) {
+            return redirect()->route('survey_show', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while un publishing Survey!!') . ' : ' . $exception->getMessage());
+        }
+    }
+
     public function open($id)
     {
         try {

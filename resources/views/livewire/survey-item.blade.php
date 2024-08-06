@@ -193,6 +193,13 @@
                 <a wire:click="disable('{{$survey->id}}')"
                    class="btn btn-soft-danger material-shadow-none">{{__('Disable')}}</a>
             @endif
+            @if(!$survey->published)
+                <a wire:click="publish('{{$survey->id}}')"
+                   class="btn btn-soft-success material-shadow-none">{{__('Publish')}}</a>
+            @else
+                <a wire:click="unpublish('{{$survey->id}}')"
+                   class="btn btn-soft-danger material-shadow-none">{{__('Un Publish')}}</a>
+            @endif
         @endif
 
         <a href="{{route('survey_participate', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
@@ -242,9 +249,6 @@
                                     ee
                                 @endforelse
                             </ul>
-
-
-
                             @if($survey->questions->count()>1)
                                 <a wire:click="removeQuestion('{{$question->id}}')"
                                    class="btn btn-soft-danger material-shadow-none">

@@ -28,6 +28,7 @@ class SurveyIndex extends Component
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while Enabling Survey!!') . ' : ' . $exception->getMessage());
         }
     }
+
     public function disable($id)
     {
         try {
@@ -51,7 +52,7 @@ class SurveyIndex extends Component
     public function close($id)
     {
         try {
-            Survey::close( $id);
+            Survey::close($id);
             return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey closed Successfully!!'));
         } catch (\Exception $exception) {
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while closing Survey!!') . ' : ' . $exception->getMessage());
@@ -65,6 +66,26 @@ class SurveyIndex extends Component
             return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey arcived Successfully!!'));
         } catch (\Exception $exception) {
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while arciving Survey!!') . ' : ' . $exception->getMessage());
+        }
+    }
+
+    public function publish($id)
+    {
+        try {
+            Survey::publish($id);
+            return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey published Successfully!!'));
+        } catch (\Exception $exception) {
+            return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while publishing Survey!!') . ' : ' . $exception->getMessage());
+        }
+    }
+
+    public function unpublish($id)
+    {
+        try {
+            Survey::unpublish($id);
+            return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey un published Successfully!!'));
+        } catch (\Exception $exception) {
+            return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while un publishing Survey!!') . ' : ' . $exception->getMessage());
         }
     }
 
