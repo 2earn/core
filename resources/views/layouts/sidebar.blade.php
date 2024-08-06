@@ -118,7 +118,15 @@
                             <span>{{__('Hobbies')}}</span>
                         </a>
                     </li>
-                    <li class="nav-item {{Route::currentRouteName()=='surveys_index'? 'active' : ''}}">
+                    <li class="nav-item {{Route::currentRouteName()=='target_index'? 'active' : ''}}">
+                        <a href="{{route('target_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
+                           class="nav-link menu-link {{Route::currentRouteName()=='target_index'? 'active' : ''}}"
+                           role="button">
+                            <i class="ri-pushpin-fill"></i>
+                            <span>{{__('Targets')}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item {{Route::currentRouteName()=='tar'? 'active' : ''}}">
                         <a href="{{route('surveys_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
                            class="nav-link menu-link {{Route::currentRouteName()=='surveys_index'? 'active' : ''}}"
                            role="button">
