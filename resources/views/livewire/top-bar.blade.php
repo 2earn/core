@@ -122,7 +122,7 @@
                                     @elseif(str_starts_with($currentRoute,"condition_"))
                                         href="{{route($currentRoute, ['locale'=> $locale,'idTarget'=>request()->route("idTarget"), 'idQuestion'=>request()->route("idQuestion") ])}}"
                                     @elseif(str_starts_with($currentRoute,"group_"))
-                                        href="{{route($currentRoute, ['locale'=> $locale,'idTarget'=>request()->route("idTarget"), 'idQuestion'=>request()->route("idQuestion") ])}}"
+                                        href="{{route($currentRoute, ['locale'=> $locale,'idTarget'=>request()->route("idTarget"), 'idQuestion'=>request()->route("idQuestion"), 'idGroup'=>request()->route("idGroup") ])}}"
                                     @else
                                         href="{{route($currentRoute, ['locale'=> $locale ])}}"
                                     @endif

@@ -108,8 +108,9 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/target/index', \App\Http\Livewire\TargetIndex::class)->name('target_index');
         Route::get('/target', \App\Http\Livewire\TargetCreateUpdate::class)->name('target_create_update');
         Route::get('/target/show/{idTarget}', \App\Http\Livewire\TargetShow::class)->name('target_show');
-        Route::get('/target/group', \App\Http\Livewire\GroupCreateUpdate::class)->name('group_create_update');
+        Route::get('/target/{idTarget}/group', \App\Http\Livewire\GroupCreateUpdate::class)->name('group_create_update');
         Route::get('/target/{idTarget}/condition', \App\Http\Livewire\ConditionCreateUpdate::class)->name('condition_create_update');
+        Route::get('/target/{idTarget}/group/{idGroup}/condition', \App\Http\Livewire\GroupConditionCreateUpdate::class)->name('group_condition_create_update');
 
         Route::middleware(['IsSuperAdmin'])->group(function () {
             Route::get('/user_list', \App\Http\Livewire\UsersList::class)->name('user_list');
