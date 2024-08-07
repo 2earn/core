@@ -105,12 +105,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/survey/{idSurvey}/question', \App\Http\Livewire\SurveyQuestionCreateUpdate::class)->name('survey_question_create_update');
         Route::get('/survey/{idSurvey}/question/{idQuestion}/Choice', \App\Http\Livewire\SurveyQuestionChoiceCreateUpdate::class)->name('survey_question_choice_create_update');
 
-        Route::get('/target/index', \App\Http\Livewire\TargetIndex::class)->name('target_index');
-        Route::get('/target', \App\Http\Livewire\TargetCreateUpdate::class)->name('target_create_update');
-        Route::get('/target/show/{idTarget}', \App\Http\Livewire\TargetShow::class)->name('target_show');
-        Route::get('/target/{idTarget}/group', \App\Http\Livewire\GroupCreateUpdate::class)->name('group_create_update');
-        Route::get('/target/{idTarget}/condition', \App\Http\Livewire\ConditionCreateUpdate::class)->name('condition_create_update');
-        Route::get('/target/{idTarget}/group/{idGroup}/condition', \App\Http\Livewire\GroupConditionCreateUpdate::class)->name('group_condition_create_update');
+
 
         Route::middleware(['IsSuperAdmin'])->group(function () {
             Route::get('/user_list', \App\Http\Livewire\UsersList::class)->name('user_list');
@@ -122,6 +117,13 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/countries_management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
             Route::get('/admin/identification_request', identificationRequest::class)->name('identification_request');
             Route::get('/translation', TranslateView::class)->name('translate');
+
+            Route::get('/target/index', \App\Http\Livewire\TargetIndex::class)->name('target_index');
+            Route::get('/target', \App\Http\Livewire\TargetCreateUpdate::class)->name('target_create_update');
+            Route::get('/target/show/{idTarget}', \App\Http\Livewire\TargetShow::class)->name('target_show');
+            Route::get('/target/{idTarget}/group', \App\Http\Livewire\GroupCreateUpdate::class)->name('group_create_update');
+            Route::get('/target/{idTarget}/condition', \App\Http\Livewire\ConditionCreateUpdate::class)->name('condition_create_update');
+            Route::get('/target/{idTarget}/group/{idGroup}/condition', \App\Http\Livewire\GroupConditionCreateUpdate::class)->name('group_condition_create_update');
         });
 
         Route::middleware(['IsSuperAdmin'])->group(function () {

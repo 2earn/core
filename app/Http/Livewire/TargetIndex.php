@@ -3,6 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Models\Target;
+use App\Models\TargetGroup;
+use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -25,8 +27,17 @@ class TargetIndex extends Component
 
     public function deleteTarget($idTarget)
     {
-        dd($idTarget);
+        Target::findOrFail($idTarget)->delete();
+        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' =>$idTarget])->with('success', Lang::get('Target Deleted Successfully!!'));
+
     }
+
+    public function removeGroup($idGroup)
+    {
+        TargetGroup::findOrFail($idGroup)->delete();
+        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Group Deleted Successfully!!'));
+    }
+
 
     public function render()
     {
