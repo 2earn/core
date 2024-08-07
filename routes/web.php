@@ -96,6 +96,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/tree/maintenance', EntretienArbre::class)->name('tree_maintenance');
         Route::get('/description', Description::class)->name('description');
         Route::get('/accept/request', AcceptFinancialRequest::class)->name('accept_financial_request')->middleware('CloseAuth');
+
         Route::get('/survey/index', \App\Http\Livewire\SurveyIndex::class)->name('surveys_index');
         Route::get('/survey', \App\Http\Livewire\SurveyCreateUpdate::class)->name('survey_create_update');
         Route::get('/survey/show/{idSurvey}', \App\Http\Livewire\SurveyShow::class)->name('survey_show');
@@ -103,8 +104,12 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/survey/results/{idSurvey}', \App\Http\Livewire\SurveyResult::class)->name('survey_results');
         Route::get('/survey/{idSurvey}/question', \App\Http\Livewire\SurveyQuestionCreateUpdate::class)->name('survey_question_create_update');
         Route::get('/survey/{idSurvey}/question/{idQuestion}/Choice', \App\Http\Livewire\SurveyQuestionChoiceCreateUpdate::class)->name('survey_question_choice_create_update');
+
         Route::get('/target/index', \App\Http\Livewire\TargetIndex::class)->name('target_index');
         Route::get('/target', \App\Http\Livewire\TargetCreateUpdate::class)->name('target_create_update');
+        Route::get('/target/show/{idTarget}', \App\Http\Livewire\TargetShow::class)->name('target_show');
+        Route::get('/target/group', \App\Http\Livewire\GroupCreateUpdate::class)->name('group_create_update');
+        Route::get('/target/{idTarget}/condition', \App\Http\Livewire\ConditionCreateUpdate::class)->name('condition_create_update');
 
         Route::middleware(['IsSuperAdmin'])->group(function () {
             Route::get('/user_list', \App\Http\Livewire\UsersList::class)->name('user_list');

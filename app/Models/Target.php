@@ -14,8 +14,12 @@ class Target extends Model
         'description',
     ];
 
-    public function targetGroup()
+    public function group()
     {
         return $this->hasMany(TargetGroup::class);
+    }
+    public function condition()
+    {
+        return $this->hasMany(Condition::class);
     }
 }
