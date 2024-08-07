@@ -9,7 +9,7 @@
     @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
         <div class="card-footer row">
             <div class="col-sm-12 col-md-6 col-lg-5">
-                <div class="btn-group  btn-group-sm" role="group" aria-label="Basic example">
+                <div class="btn-groupmt-2" role="group" aria-label="Basic example">
                     @if(Route::currentRouteName()!=="target_show")
                         <a href="{{route('target_show',['locale'=>app()->getLocale(),'idTarget'=>$target->id])}}"
                            title="{{__('Show target')}}" class="btn btn-soft-info material-shadow-none">
@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-5">
-                <div class="btn-group  btn-group-sm" role="group" aria-label="Basic example">
+                <div class="btn-groupmt-2" role="group" aria-label="Basic example">
                     @if(Route::currentRouteName()=="target_show")
                         <a href="{{route('condition_create_update',['locale'=>app()->getLocale(),'idTarget'=>$target->id])}}"
                            title="{{__('Add Condition')}}" class="btn btn-soft-info material-shadow-none">
@@ -59,8 +59,8 @@
                                 <span class="text-danger">{{ $condition->operator }}</span>
                                 <span class="badge border border-primary text-primary">{{ $condition->value }}</span>
                             </div>
-                            <div class="col-sm-12 col-md-6 col-lg-5">
-                                <div class="btn-group  btn-group-sm" role="group" aria-label="Basic example">
+                            <div class="col-sm-12 col-md-6 col-lg-5 mt-2">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                                     <a href="{{route('condition_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$condition->target_id,'idCondition'=>$condition->id] )}}"
                                        title="{{__('Edit Condition')}}" class="btn btn-soft-info material-shadow-none">
                                         {{__('Edit')}}
@@ -85,6 +85,7 @@
             <h5> {{ __('Groups') }}</h5>
         </div>
         <div class="card-body">
+            <h6>{{ __('Description') }}</h6>
             <ul class="list-group">
                 @foreach($target->group as $group)
                     <li class="list-group-item">
@@ -92,11 +93,11 @@
                             <div class="col-sm-12 col-md-1 col-lg-1 text-muted">
                                 {{$loop->index + 1}} )
                             </div>
-                            <div class="col-sm-12 col-md-5 col-lg-6 text-info">
+                            <div class="col-sm-12 col-md-5 col-lg-6 text-info mt-2">
                                 <span class="text-danger">{{ $group->operator }}</span>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-5">
-                                <div class="btn-group  btn-group-sm" role="group" aria-label="Basic example">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                                     <a href="{{route('group_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idCondition'=>$group->id] )}}"
                                        title="{{__('Edit Group')}}" class="btn btn-soft-info material-shadow-none">
                                         {{__('Edit')}}
@@ -109,13 +110,57 @@
                                         {{__('Remove')}}
                                     </a>
                                 </div>
-                                <div class="btn-group  btn-group-sm" role="group" aria-label="Basic example">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                                     <a href="{{route('group_condition_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idGroup'=>$group->id] )}}"
                                        title="{{__('Add Group')}}" class="btn btn-soft-info material-shadow-none">
                                         {{__('Add Condition')}}
                                     </a>
                                 </div>
                             </div>
+                            @if($group->condition->isNotEmpty())
+                                <div class="col-sm-12 col-md-6 col-lg-5">
+                                    <h6>{{ __('Conditions') }}</h6>
+                                    <ul class="list-group">
+                                        @foreach($group->condition as $conditionItem)
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                    <div class="col-sm-12 col-md-1 col-lg-1 text-muted">
+                                                        {{$loop->index + 1}} )
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-5 col-lg-6 text-info">
+                                                        <span
+                                                            class="badge border border-primary text-primary">{{ $conditionItem->operand }}</span>
+                                                        <span class="text-danger">{{ $conditionItem->operator }}</span>
+                                                        <span
+                                                            class="badge border border-primary text-primary">{{ $conditionItem->value }}</span>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6 col-lg-5 mt-2">
+                                                        <div class="btn-group btn-group-sm" role="group"
+                                                             aria-label="Basic example">
+                                                            <a href="{{route('group_condition_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idGroup'=>$conditionItem->target_group_id,'idCondition'=>$condition->id] )}}"
+                                                               title="{{__('Edit Condition')}}"
+                                                               class="btn btn-soft-info material-shadow-none">
+                                                                {{__('Edit')}}
+                                                            </a>
+                                                        </div>
+                                                        <div class="btn-group btn-group-sm" role="group"
+                                                             aria-label="Basic example">
+                                                            <a wire:click="removeCondition('{{$condition->id}}')"
+                                                               title="{{__('Remove Condition')}}"
+                                                               class="btn btn-soft-danger material-shadow-none">
+                                                                {{__('Remove')}}
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                        @endforeach
+
+                                    </ul>
+                                </div>
+                            @endif
+
                         </div>
                     </li>
                 @endforeach

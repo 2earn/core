@@ -2,16 +2,16 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\GroupCondition;
+use App\Models\Condition;
 use App\Models\Target;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
-class GroupConditionCreateUpdate extends Component
+class ConditionCreateUpdate extends Component
 {
-    public $idTarget, $idGroup, $idCondition;
+    public $idTarget, $idCondition;
     public $operand = "country", $operator = 'eq', $value;
 
     public $update = false;
@@ -38,10 +38,9 @@ class GroupConditionCreateUpdate extends Component
         'value' => 'required'
     ];
 
-    public function mount($idGroup, Request $request)
+    public function mount($idTarget, Request $request)
     {
         $this->idTarget = Route::current()->parameter('idTarget');
-        $this->idGroup = Route::current()->parameter('idGroup');
         $idCondition = $request->input('idCondition');
         if (!is_null($idCondition)) {
             $this->edit($idCondition);
@@ -50,7 +49,7 @@ class GroupConditionCreateUpdate extends Component
 
     public function edit($idCondition)
     {
-        $question = GroupCondition::findOrFail($idCondition);
+        $question = Condition::findOrFail($idCondition);
         $this->idCondition = $idCondition;
         $this->operand = $question->operand;
         $this->operator = $question->operator;
@@ -67,12 +66,12 @@ class GroupConditionCreateUpdate extends Component
     {
         $this->validate();
         try {
-            GroupCondition::where('id', $this->idCondition)
+            Condition::where('id', $this->idCondition)
                 ->update([
                     'operand' => $this->operand,
                     'operator' => $this->operator,
                     'value' => $this->value,
-                    'target_group_id' => $this->idGroup,
+                    'target_id' => $this->idTarget,
                 ]);
             return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Condition Updated Successfully!!'));
         } catch (\Exception $exception) {
@@ -85,14 +84,13 @@ class GroupConditionCreateUpdate extends Component
     {
         $this->validate();
         try {
-            $groupCondition = GroupCondition::create([
+            $condition = Condition::create([
                 'operand' => $this->operand,
                 'operator' => $this->operator,
                 'value' => $this->value,
-                'target_group_id' => $this->idGroup,
+                'target_id' => $this->idTarget,
             ]);
-
-            return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Condition Created Successfully!!'));
+            return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Condition Created Successfully!!') . ' ' . $condition->content);
         } catch (\Exception $exception) {
             return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('danger', Lang::get('Something goes wrong while creating Condition!!') . ' : ' . $exception->getMessage());
             $this->resetFields();
