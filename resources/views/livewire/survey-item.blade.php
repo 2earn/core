@@ -283,4 +283,24 @@
             </ul>
         </div>
     @endif
+    @if(Route::currentRouteName()=="survey_show")
+        <div class="card-header border-info fw-medium text-muted mb-0">
+            {{__('Likes')}}
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+
+            </ul>
+        </div>
+    @endif
+    @if(Route::currentRouteName()=="survey_show")
+        <div class="card-header border-info fw-medium text-muted mb-0">
+            {{__('Comments')}}
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+
+            </ul>
+        </div>
+    @endif
 </div>
