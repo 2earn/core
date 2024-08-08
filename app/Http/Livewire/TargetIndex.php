@@ -2,9 +2,10 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Target;
 use App\Models\Group;
+use App\Models\Target;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -13,7 +14,13 @@ class TargetIndex extends Component
     use WithPagination;
 
     public $search = '';
+    public $currentRouteName;
     protected $paginationTheme = 'bootstrap';
+
+    public function mount()
+    {
+        $this->currentRouteName = Route::currentRouteName();
+    }
 
     public function resetPage($pageName = 'page')
     {
@@ -28,7 +35,7 @@ class TargetIndex extends Component
     public function deleteTarget($idTarget)
     {
         Target::findOrFail($idTarget)->delete();
-        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' =>$idTarget])->with('success', Lang::get('Target Deleted Successfully!!'));
+        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $idTarget])->with('success', Lang::get('Target Deleted Successfully!!'));
     }
 
     public function removeGroup($idGroup)

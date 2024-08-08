@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Survey;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -12,11 +13,19 @@ class SurveyIndex extends Component
     use WithPagination;
 
     public $search = '';
+    const ITEM_PER_PAGE = 5;
+
+    public $currentRouteName;
     protected $paginationTheme = 'bootstrap';
 
     public function updatingSearch()
     {
         $this->resetPage();
+    }
+
+    public function mount()
+    {
+        $this->currentRouteName = Route::currentRouteName();
     }
 
     public function enable($id)
@@ -89,9 +98,27 @@ class SurveyIndex extends Component
         }
     }
 
+    public function getSurveys()
+    {
+        if (auth()?->user()?->getRoleNames()->first() == "Super admin") {
+            if (!is_null($this->search) && !empty($this->search)) {
+                $surveys = Survey::where('name', 'like', '%' . $this->search . '%');
+            } else {
+                $surveys = Survey::whereNotNull('name');
+            }
+        } else {
+            $surveys = Survey::where('enabled', true);
+            if (!is_null($this->search) && !empty($this->search)) {
+                $surveys = $surveys->where('published', true)
+                    ->where('name', 'like', '%' . $this->search . '%');
+            }
+        }
+        return $surveys->paginate(self::ITEM_PER_PAGE);
+    }
+
     public function render()
     {
-        $params['surveys'] = Survey::where('name', 'like', '%' . $this->search . '%')->paginate(3);
+        $params['surveys'] = $this->getSurveys();
         return view('livewire.survey-index', $params)->extends('layouts.master')->section('content');
     }
 }

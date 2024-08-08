@@ -2,7 +2,7 @@
     <div class="card-header border-info fw-medium text-muted mb-0">
         {{$survey->id}} - {{$survey->name}}
         @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
-            <span class="ml-2 mr-2 badge btn btn-lg
+            <span class="ml-2 mr-2 badge btn btn-lg float-end
         {{ $survey->status==\Core\Enum\StatusSurvey::NEW->value ? 'btn-primary' : ''  }}
         {{ $survey->status==\Core\Enum\StatusSurvey::OPEN->value ? 'btn-success' : ''  }}
         {{ $survey->status==\Core\Enum\StatusSurvey::CLOSED->value ? 'btn-warning' : ''  }}
