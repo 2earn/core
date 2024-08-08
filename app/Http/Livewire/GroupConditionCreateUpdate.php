@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\GroupCondition;
+use App\Models\Condition;
 use App\Models\Target;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
@@ -50,7 +50,7 @@ class GroupConditionCreateUpdate extends Component
 
     public function edit($idCondition)
     {
-        $question = GroupCondition::findOrFail($idCondition);
+        $question = Condition::findOrFail($idCondition);
         $this->idCondition = $idCondition;
         $this->operand = $question->operand;
         $this->operator = $question->operator;
@@ -67,7 +67,7 @@ class GroupConditionCreateUpdate extends Component
     {
         $this->validate();
         try {
-            GroupCondition::where('id', $this->idCondition)
+           Condition::where('id', $this->idCondition)
                 ->update([
                     'operand' => $this->operand,
                     'operator' => $this->operator,
@@ -85,7 +85,7 @@ class GroupConditionCreateUpdate extends Component
     {
         $this->validate();
         try {
-            $groupCondition = GroupCondition::create([
+            $groupCondition = Condition::create([
                 'operand' => $this->operand,
                 'operator' => $this->operator,
                 'value' => $this->value,

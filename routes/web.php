@@ -123,7 +123,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/target/show/{idTarget}', \App\Http\Livewire\TargetShow::class)->name('target_show');
             Route::get('/target/{idTarget}/group', \App\Http\Livewire\GroupCreateUpdate::class)->name('group_create_update');
             Route::get('/target/{idTarget}/condition', \App\Http\Livewire\ConditionCreateUpdate::class)->name('condition_create_update');
-            Route::get('/target/{idTarget}/group/{idGroup}/condition', \App\Http\Livewire\GroupConditionCreateUpdate::class)->name('group_condition_create_update');
         });
 
         Route::middleware(['IsSuperAdmin'])->group(function () {

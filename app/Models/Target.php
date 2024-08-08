@@ -16,7 +16,7 @@ class Target extends Model
 
     public function group()
     {
-        return $this->hasMany(TargetGroup::class);
+        return $this->hasMany(Group::class);
     }
     public function condition()
     {

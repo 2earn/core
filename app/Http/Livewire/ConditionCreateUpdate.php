@@ -11,7 +11,7 @@ use Livewire\Component;
 
 class ConditionCreateUpdate extends Component
 {
-    public $idTarget, $idCondition;
+    public $idTarget, $idGroup, $idCondition;
     public $operand = "country", $operator = 'eq', $value;
 
     public $update = false;
@@ -38,12 +38,13 @@ class ConditionCreateUpdate extends Component
         'value' => 'required'
     ];
 
-    public function mount($idTarget, Request $request)
+    public function mount(Request $request)
     {
         $this->idTarget = Route::current()->parameter('idTarget');
-        $idCondition = $request->input('idCondition');
-        if (!is_null($idCondition)) {
-            $this->edit($idCondition);
+        $this->idGroup = $request->input('idGroup');
+        $this->idCondition = $request->input('idCondition');
+        if (!is_null($this->idCondition)) {
+            $this->edit($this->idCondition);
         }
     }
 
@@ -65,13 +66,13 @@ class ConditionCreateUpdate extends Component
     public function update()
     {
         $this->validate();
+
         try {
             Condition::where('id', $this->idCondition)
                 ->update([
                     'operand' => $this->operand,
                     'operator' => $this->operator,
                     'value' => $this->value,
-                    'target_id' => $this->idTarget,
                 ]);
             return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Condition Updated Successfully!!'));
         } catch (\Exception $exception) {
@@ -83,14 +84,16 @@ class ConditionCreateUpdate extends Component
     public function store()
     {
         $this->validate();
+        $condition = ['operand' => $this->operand, 'operator' => $this->operator, 'value' => $this->value];
+
+        if (!is_null($this->idGroup)) {
+            $condition['group_id'] = $this->idGroup;
+        } else {
+            $condition['target_id'] = $this->idTarget;
+        }
         try {
-            $condition = Condition::create([
-                'operand' => $this->operand,
-                'operator' => $this->operator,
-                'value' => $this->value,
-                'target_id' => $this->idTarget,
-            ]);
-            return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Condition Created Successfully!!') . ' ' . $condition->content);
+            Condition::create($condition);
+            return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Condition Created Successfully!!'));
         } catch (\Exception $exception) {
             return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('danger', Lang::get('Something goes wrong while creating Condition!!') . ' : ' . $exception->getMessage());
             $this->resetFields();

@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    const TABLE_NAME = 'likes';
+    const TABLE_NAME = 'comments';
 
     /**
      * Run the migrations.

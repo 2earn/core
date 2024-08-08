@@ -4,7 +4,6 @@ namespace App\Http\Livewire;
 
 use App\Models\Group;
 use App\Models\Target;
-use App\Models\TargetGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
@@ -51,7 +50,7 @@ class GroupCreateUpdate extends Component
     {
         $this->validate();
         try {
-            TargetGroup::where('id', $this->idGroup)
+            Group::where('id', $this->idGroup)
                 ->update([
                     'operator' => $this->operator,
                     'target_id' => $this->idTarget,
@@ -67,7 +66,7 @@ class GroupCreateUpdate extends Component
     {
         $this->validate();
         try {
-            $condition = TargetGroup::create([
+            $condition = Group::create([
                 'operator' => $this->operator,
                 'target_id' => $this->idTarget,
             ]);

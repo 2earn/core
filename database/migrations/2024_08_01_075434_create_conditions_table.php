@@ -19,7 +19,8 @@ return new class extends Migration {
             $table->string('operand')->nullable();
             $table->string('operator')->nullable();
             $table->string('value')->nullable();
-            $table->unsignedBigInteger('target_id')->foreign('target_id')->references('id')->on('target')->onDelete('cascade');
+            $table->unsignedBigInteger('target_id')->foreign('target_id')->nullable()->references('id')->on('target')->onDelete('cascade');
+            $table->unsignedBigInteger('group_id')->foreign('group_id')->nullable()->references('id')->on('groups')->onDelete('cascade');
             $table->timestamps();
         });
     }

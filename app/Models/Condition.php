@@ -13,11 +13,18 @@ class Condition extends Model
         'operand',
         'operator',
         'value',
+        'group_id',
         'target_id',
     ];
 
     public function target()
     {
-        return $this->belongsTo(TargetGroup::class, 'targetGroup_id', 'id');
+        return $this->belongsTo(Target::class, 'target_id', 'id');
     }
+
+    public function group()
+    {
+        return $this->belongsTo(Group::class, 'group_id', 'id');
+    }
+
 }

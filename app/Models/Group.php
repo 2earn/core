@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TargetGroup extends Model
+class Group extends Model
 {
     use HasFactory;
 
@@ -18,6 +18,6 @@ class TargetGroup extends Model
 
     public function condition()
     {
-        return $this->hasMany(GroupCondition::class);
+        return $this->hasMany(Condition::class);
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Target;
-use App\Models\TargetGroup;
+use App\Models\Group;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -29,12 +29,11 @@ class TargetIndex extends Component
     {
         Target::findOrFail($idTarget)->delete();
         return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' =>$idTarget])->with('success', Lang::get('Target Deleted Successfully!!'));
-
     }
 
     public function removeGroup($idGroup)
     {
-        TargetGroup::findOrFail($idGroup)->delete();
+        Group::findOrFail($idGroup)->delete();
         return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Group Deleted Successfully!!'));
     }
 

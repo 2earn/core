@@ -85,7 +85,7 @@
             <h5> {{ __('Groups') }}</h5>
         </div>
         <div class="card-body">
-            <h6>{{ __('Description') }}</h6>
+            <h6>{{ __('Groups details') }}:</h6>
             <ul class="list-group">
                 @foreach($target->group as $group)
                     <li class="list-group-item">
@@ -96,27 +96,31 @@
                             <div class="col-sm-12 col-md-5 col-lg-6 text-info mt-2">
                                 <span class="text-danger">{{ $group->operator }}</span>
                             </div>
-                            <div class="col-sm-12 col-md-6 col-lg-5">
-                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                    <a href="{{route('group_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idCondition'=>$group->id] )}}"
-                                       title="{{__('Edit Group')}}" class="btn btn-soft-info material-shadow-none">
-                                        {{__('Edit')}}
-                                    </a>
+
+                            @if(Route::currentRouteName()=="target_show")
+                                <div class="col-sm-12 col-md-6 col-lg-5">
+                                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                        <a href="{{route('group_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idCondition'=>$group->id] )}}"
+                                           title="{{__('Edit Group')}}" class="btn btn-soft-info material-shadow-none">
+                                            {{__('Edit')}}
+                                        </a>
+                                    </div>
+                                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                        <a wire:click="removeGroup('{{$group->id}}')"
+                                           title="{{__('Remove Condition')}}"
+                                           class="btn btn-soft-danger material-shadow-none">
+                                            {{__('Remove')}}
+                                        </a>
+                                    </div>
+                                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                        <a href="{{route('condition_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idGroup'=>$group->id] )}}"
+                                           title="{{__('Add Condition')}}"
+                                           class="btn btn-soft-info material-shadow-none">
+                                            {{__('Add Condition')}}
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                    <a wire:click="removeGroup('{{$group->id}}')"
-                                       title="{{__('Remove Group')}}"
-                                       class="btn btn-soft-danger material-shadow-none">
-                                        {{__('Remove')}}
-                                    </a>
-                                </div>
-                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                    <a href="{{route('group_condition_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idGroup'=>$group->id] )}}"
-                                       title="{{__('Add Group')}}" class="btn btn-soft-info material-shadow-none">
-                                        {{__('Add Condition')}}
-                                    </a>
-                                </div>
-                            </div>
+                            @endif
                             @if($group->condition->isNotEmpty())
                                 <div class="col-sm-12 col-md-6 col-lg-5">
                                     <h6>{{ __('Conditions') }}</h6>
@@ -134,33 +138,32 @@
                                                         <span
                                                             class="badge border border-primary text-primary">{{ $conditionItem->value }}</span>
                                                     </div>
-                                                    <div class="col-sm-12 col-md-6 col-lg-5 mt-2">
-                                                        <div class="btn-group btn-group-sm" role="group"
-                                                             aria-label="Basic example">
-                                                            <a href="{{route('group_condition_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idGroup'=>$conditionItem->target_group_id,'idCondition'=>$condition->id] )}}"
-                                                               title="{{__('Edit Condition')}}"
-                                                               class="btn btn-soft-info material-shadow-none">
-                                                                {{__('Edit')}}
-                                                            </a>
+                                                    @if(Route::currentRouteName()=="target_show")
+                                                        <div class="col-sm-12 col-md-6 col-lg-5 mt-2">
+                                                            <div class="btn-group btn-group-sm" role="group"
+                                                                 aria-label="Basic example">
+                                                                <a href="{{route('condition_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idGroup'=>$conditionItem->target_group_id,'idCondition'=>$condition->id] )}}"
+                                                                   title="{{__('Edit Condition')}}"
+                                                                   class="btn btn-soft-info material-shadow-none">
+                                                                    {{__('Edit')}}
+                                                                </a>
+                                                            </div>
+                                                            <div class="btn-group btn-group-sm" role="group"
+                                                                 aria-label="Basic example">
+                                                                <a wire:click="removeCondition('{{$condition->id}}')"
+                                                                   title="{{__('Remove Condition')}}"
+                                                                   class="btn btn-soft-danger material-shadow-none">
+                                                                    {{__('Remove')}}
+                                                                </a>
+                                                            </div>
                                                         </div>
-                                                        <div class="btn-group btn-group-sm" role="group"
-                                                             aria-label="Basic example">
-                                                            <a wire:click="removeCondition('{{$condition->id}}')"
-                                                               title="{{__('Remove Condition')}}"
-                                                               class="btn btn-soft-danger material-shadow-none">
-                                                                {{__('Remove')}}
-                                                            </a>
-                                                        </div>
-                                                    </div>
+                                                    @endif
                                                 </div>
                                             </li>
-
                                         @endforeach
-
                                     </ul>
                                 </div>
                             @endif
-
                         </div>
                     </li>
                 @endforeach

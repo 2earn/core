@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    CONST TABLE_NAME = 'target_groups';
+    CONST TABLE_NAME = 'groups';
 
     /**
      * Run the migrations.
