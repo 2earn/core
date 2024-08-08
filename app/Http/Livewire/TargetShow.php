@@ -3,18 +3,21 @@
 namespace App\Http\Livewire;
 
 use App\Models\Condition;
-use App\Models\Target;
 use App\Models\Group;
+use App\Models\Target;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
 class TargetShow extends Component
 {
     public $idSurvey;
+    public $currentRouteName;
 
     public function mount($idTarget)
     {
         $this->idTarget = $idTarget;
+        $this->currentRouteName = Route::currentRouteName();
     }
 
     public function removeCondition($idCondition)

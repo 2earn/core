@@ -5,12 +5,25 @@
     <div class="card-body">
         <h6 class="mt-2">{{__('Description')}}:</h6>
         {{$target->description}}
+        @if($target->created_at != null && !empty($target->created_at))
+            <p class="card-text text-muted">
+                <strong>{{__('Creation date')}} :</strong>
+                {{\Carbon\Carbon::parse($target->created_at)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+            </p>
+        @endif
+
+        @if($target->updated_at != null && !empty($target->updated_at))
+            <p class="card-text text-muted">
+                <strong>{{__('Update date')}} :</strong>
+                {{\Carbon\Carbon::parse($target->updated_at)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+            </p>
+        @endif
     </div>
     @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
         <div class="card-footer row">
             <div class="col-sm-12 col-md-6 col-lg-5">
                 <div class="btn-groupmt-2" role="group" aria-label="Basic example">
-                    @if(Route::currentRouteName()!=="target_show")
+                    @if($currentRouteName!=="target_show")
                         <a href="{{route('target_show',['locale'=>app()->getLocale(),'idTarget'=>$target->id])}}"
                            title="{{__('Show target')}}" class="btn btn-soft-info material-shadow-none">
                             {{__('Show')}}
@@ -28,7 +41,7 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-5">
                 <div class="btn-groupmt-2" role="group" aria-label="Basic example">
-                    @if(Route::currentRouteName()=="target_show")
+                    @if($currentRouteName=="target_show")
                         <a href="{{route('condition_create_update',['locale'=>app()->getLocale(),'idTarget'=>$target->id])}}"
                            title="{{__('Add Condition')}}" class="btn btn-soft-info material-shadow-none">
                             {{__('Add Condition')}}
@@ -44,7 +57,7 @@
     @endif
     @if($target->condition->isNotEmpty())
         <div class="card-header border-opacity-50 fw-medium text-muted mb-0">
-            <h5>{{ __('Conditions') }}</h5>
+            <h5 class="text-info"> {{ __('Conditions details') }}:</h5>
         </div>
         <div class="card-body">
             <ul class="list-group">
@@ -82,10 +95,10 @@
     @endif
     @if($target->group->isNotEmpty())
         <div class="card-header border-opacity-50 fw-medium text-muted mb-0">
-            <h5> {{ __('Groups') }}</h5>
+            <h5 class="text-info"> {{ __('Groups details') }}</h5>
         </div>
         <div class="card-body">
-            <h6>{{ __('Groups details') }}:</h6>
+            <h6 class="text-muted"> {{ __('Groups details') }}:</h6>
             <ul class="list-group">
                 @foreach($target->group as $group)
                     <li class="list-group-item">
@@ -97,7 +110,7 @@
                                 <span class="text-danger">{{ $group->operator }}</span>
                             </div>
 
-                            @if(Route::currentRouteName()=="target_show")
+                            @if($currentRouteName=="target_show")
                                 <div class="col-sm-12 col-md-6 col-lg-5">
                                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                                         <a href="{{route('group_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idCondition'=>$group->id] )}}"
@@ -123,7 +136,7 @@
                             @endif
                             @if($group->condition->isNotEmpty())
                                 <div class="col-sm-12 col-md-6 col-lg-5">
-                                    <h6>{{ __('Conditions') }}</h6>
+                                    <h6 class="text-muted">{{ __('Conditions details') }}:</h6>
                                     <ul class="list-group">
                                         @foreach($group->condition as $conditionItem)
                                             <li class="list-group-item">
@@ -138,7 +151,7 @@
                                                         <span
                                                             class="badge border border-primary text-primary">{{ $conditionItem->value }}</span>
                                                     </div>
-                                                    @if(Route::currentRouteName()=="target_show")
+                                                    @if($currentRouteName=="target_show")
                                                         <div class="col-sm-12 col-md-6 col-lg-5 mt-2">
                                                             <div class="btn-group btn-group-sm" role="group"
                                                                  aria-label="Basic example">

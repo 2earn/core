@@ -47,14 +47,14 @@
     <div class="card-body">
         <h5 class="mt-2">{{__('Description')}}:</h5>
         <p class="card-text text-muted">
-            @if(Route::currentRouteName()=="survey_show")
+            @if($currentRouteName=="survey_show")
                 {{ $survey->description}}
             @else
                 {{ Str::limit($survey->description,200)}}
             @endif
         </p>
     </div>
-    @if(Route::currentRouteName()=="survey_show")
+    @if($currentRouteName=="survey_show")
         @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
             <div class="card-body">
                 <h5 class="mt-2">{{__('Details')}}:</h5>
@@ -153,7 +153,7 @@
             <h5 class="mt-2">{{__('Disabled button description')}}:</h5>
             <blockquote class="blockquote mb-0">
                 <p class="card-text text-muted">
-                    @if(Route::currentRouteName()=="survey_show")
+                    @if($currentRouteName=="survey_show")
                         {{ $survey->disabledBtnDescription}}
                     @else
                         {{ Str::limit($survey->disabledBtnDescription,200)}}
@@ -163,7 +163,7 @@
         </div>
     @endif
     <div class="card-footer bg-transparent">
-        @if(Route::currentRouteName()!="survey_show")
+        @if($currentRouteName!="survey_show")
             <a href="{{route('survey_show', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
                class="btn btn-soft-info material-shadow-none">{{__('Details')}}</a>
         @endif
@@ -208,7 +208,7 @@
         <a href="{{route('survey_results', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
            class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</a>
     </div>
-    @if(Route::currentRouteName()=="survey_show")
+    @if($currentRouteName=="survey_show")
         <div class="card-header border-info fw-medium text-muted mb-0">
             {{__('Questions')}}
         </div>
@@ -283,24 +283,78 @@
             </ul>
         </div>
     @endif
-    @if(Route::currentRouteName()=="survey_show")
+    @if($currentRouteName=="survey_show" && $survey->likable)
+        <div class="card">
         <div class="card-header border-info fw-medium text-muted mb-0">
             {{__('Likes')}}
         </div>
-        <div class="card-body">
-            <ul class="list-group">
+        <div class="card-body row">
+            <div class="col-sm-12 col-md-4 col-lg-4">
+                @if($like)
+                    <button wire:click="dislike()" class="btn btn-warning btn-label waves-effect waves-light">
+                        <i class="ri-heart-fill label-icon align-middle fs-16 me-2"></i>
+                        {{__('Liked')}}
+                    </button>
+                @else
+                    <button wire:click="like()" class="btn btn-info btn-label waves-effect waves-light">
+                        <i class="ri-heart-fill label-icon align-middle fs-16 me-2"></i>
+                        {{__('Like')}}
+                    </button>
+                @endif
 
-            </ul>
-        </div>
+            </div>
+            <div class="col-sm-12 col-md-7 col-lg-7">
+                <ul class="list-group">
+                    @forelse ($survey->like as $like)
+                        <li class="list-group-item mt-2">
+                            {{ getUserDisplayedName($like->user->idUser)}} <span
+                                class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>
+                        </li>
+                    @empty
+                        <li class="list-group-item mt-2">
+                            {{__('No Likes')}}
+                        </li>
+                    @endforelse
+                </ul>
+            </div>
+        </div></div>
     @endif
-    @if(Route::currentRouteName()=="survey_show")
-        <div class="card-header border-info fw-medium text-muted mb-0">
+    @if($currentRouteName=="survey_show" && $survey->commentable)
+        <div class="card"> <div class="card-header border-info fw-medium text-muted mb-0">
             {{__('Comments')}}
         </div>
-        <div class="card-body">
-            <ul class="list-group">
+        <div class="card-body row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <ul class="list-group mb-3">
+                    @forelse ($survey->comment as $comment)
+                        <li class="list-group-item mt-1">
+                            <strong class="text-muted">{{ getUserDisplayedName($comment->user->idUser)}}:</strong>
+                            <br>
+                            <span class="mx-3">{{$comment->content }}</span>
+                            <span class="text-muted float-end">
+                              <strong>{{__('at')}}: </strong>  {{$comment->created_at}}
+                            </span>
+                        </li>
+                    @empty
+                        <li class="list-group-item mt-2">
+                            {{__('No Comments')}}
+                        </li>
+                    @endforelse
+                </ul>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <h6>{{__('Add a comment')}}</h6>
+            </div>
+            <hr class="text-info">
+            <div class="col-sm-12 col-md-9 col-lg-9">
+                <textarea class="form-control" wire:model="comment" id="comment" rows="3"></textarea>
+            </div>
+            <div class="col-sm-12 col-md-3 col-lg-3 ">
+                <button wire:click="addComment()" class="btn btn-info btn-label waves-effect waves-light mt-2">
+                    {{__('Add comment')}}
+                </button>
+            </div>
 
-            </ul>
-        </div>
+        </div></div>
     @endif
 </div>

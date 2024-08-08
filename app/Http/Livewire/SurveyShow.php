@@ -2,10 +2,13 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Comment;
+use App\Models\Like;
 use App\Models\Survey;
 use App\Models\SurveyQuestion;
 use App\Models\SurveyQuestionChoice;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Route;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 
@@ -13,11 +16,16 @@ class SurveyShow extends Component
 {
     public $idSurvey;
     public $routeRedirectionParams;
+    public $currentRouteName;
+    public $like;
+    public $comment;
 
     public function mount($idSurvey)
     {
         $this->idSurvey = $idSurvey;
         $this->routeRedirectionParams = ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey];
+        $this->currentRouteName = Route::currentRouteName();
+        $this->like = is_null(Like::where('user_id', '=', auth()->user()->id)->where('survey_id', '=', $this->idSurvey)) ? false : true;
     }
 
     public function removeQuestion($idQuestion)
@@ -102,9 +110,33 @@ class SurveyShow extends Component
         }
     }
 
+    public function like()
+    {
+        Like::create(['user_id' => auth()->user()->id, 'survey_id' => $this->idSurvey]);
+
+        $this->like = true;
+    }
+
+    public function addComment()
+    {
+        Comment::create([
+            'user_id' => auth()->user()->id,
+            'content' => $this->comment,
+            'survey_id' => $this->idSurvey
+        ]);
+    }
+
+    public function dislike()
+    {
+        Like::where('user_id', '=', auth()->user()->id)->where('survey_id', '=', $this->idSurvey)->delete();
+        $this->like = false;
+    }
+
     public function render()
     {
-        $params ['survey'] = Survey::findOrFail($this->idSurvey);
+        $params = [
+            'survey' => Survey::findOrFail($this->idSurvey),
+        ];
         return view('livewire.survey-show', $params)->extends('layouts.master')->section('content');
     }
 }

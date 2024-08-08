@@ -1,5 +1,5 @@
 <div>
-    @if(Route::currentRouteName()=="surveys_index")
+    @if($currentRouteName=="surveys_index")
         @component('components.breadcrumb')
             @slot('title')
                 {{ __('Targets') }}

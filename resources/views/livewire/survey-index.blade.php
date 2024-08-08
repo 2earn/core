@@ -1,5 +1,5 @@
 <div>
-    @if(Route::currentRouteName()=="surveys_index")
+    @if($currentRouteName=="surveys_index")
         @component('components.breadcrumb')
             @slot('title')
                 {{ __('Surveys') }}
@@ -13,7 +13,7 @@
         <div class="card-header border-info">
             <div class="d-flex align-items-center">
                 <h6 class="card-title flex-grow-1">   {{__('Surveys')}}</h6>
-                @if(Route::currentRouteName()=="surveys_index")
+                @if($currentRouteName=="surveys_index")
                     <div class="float-end mx-2">
                         <form class="items-center">
                             <label for="simple-search" class="sr-only">{{__('Search')}}</label>
@@ -26,7 +26,7 @@
                     </div>
                 @endif
                 @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
-                    @if(Route::currentRouteName()!=="home"&&Route::currentRouteName()!=="main")
+                    @if($currentRouteName!=="home"&&Route::currentRouteName()!=="main")
                         <div class="float-end d-inline  mx-2">
                             <a href="{{route('survey_create_update', app()->getLocale())}}" class="btn btn-info add-btn"
                                id="create-btn">
