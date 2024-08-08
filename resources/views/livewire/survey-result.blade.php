@@ -12,6 +12,14 @@
         </div>
         <div class="card-body row">
             @include('livewire.survey-item', ['survey' => $survey])
+            <div class="card">
+                <div class="card-header border-info fw-medium text-muted mb-0">
+                    {{ __('Results') }}
+                </div>
+                <div class="card-body row">
+
+                </div>
+            </div>
         </div>
     </div>
 </div>

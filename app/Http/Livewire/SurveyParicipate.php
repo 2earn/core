@@ -3,16 +3,19 @@
 namespace App\Http\Livewire;
 
 use App\Models\Survey;
+use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
 class SurveyParicipate extends Component
 {
 
     public $idSurvey;
+    public $currentRouteName;
 
     public function mount($idSurvey)
     {
         $this->idSurvey = $idSurvey;
+        $this->currentRouteName = Route::currentRouteName();
     }
 
     public function render()

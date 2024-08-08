@@ -43,10 +43,16 @@ class Survey extends Model
         return $this->hasMany(SurveyResponse::class);
     }
 
+    public function target()
+    {
+        return $this->hasOneThrough(Target::class);
+    }
+
     public function comment()
     {
         return $this->hasMany(Comment::class);
     }
+
     public function like()
     {
         return $this->hasMany(Like::class);

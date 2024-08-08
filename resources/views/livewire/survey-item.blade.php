@@ -162,52 +162,54 @@
             </blockquote>
         </div>
     @endif
-    <div class="card-footer bg-transparent">
-        @if($currentRouteName!="survey_show")
-            <a href="{{route('survey_show', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
-               class="btn btn-soft-info material-shadow-none">{{__('Details')}}</a>
-        @endif
-        @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
-            <a href="{{route('survey_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
-               class="btn btn-soft-info material-shadow-none">{{__('Edit')}}</a>
+    @if(!in_array( $currentRouteName,['survey_results','survey_participate']))
+        <div class="card-footer bg-transparent">
+            @if($currentRouteName!="survey_show")
+                <a href="{{route('survey_show', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
+                   class="btn btn-soft-info material-shadow-none">{{__('Details')}}</a>
+            @endif
+            @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
+                <a href="{{route('survey_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
+                   class="btn btn-soft-info material-shadow-none">{{__('Edit')}}</a>
 
-            @if($survey->status==\Core\Enum\StatusSurvey::NEW->value)
-                <a wire:click="open('{{$survey->id}}')"
-                   class="btn btn-soft-secondary material-shadow-none">{{__('Open')}}</a>
+                @if($survey->status==\Core\Enum\StatusSurvey::NEW->value)
+                    <a wire:click="open('{{$survey->id}}')"
+                       class="btn btn-soft-secondary material-shadow-none">{{__('Open')}}</a>
+                @endif
+
+                @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
+                    <a wire:click="close('{{$survey->id}}')"
+                       class="btn btn-soft-secondary material-shadow-none">{{__('Close')}}</a>
+                @endif
+
+                @if($survey->status==\Core\Enum\StatusSurvey::CLOSED->value)
+                    <a wire:click="archive('{{$survey->id}}')"
+                       class="btn btn-soft-secondary material-shadow-none">{{__('Archive')}}</a>
+                @endif
+
+                @if(!$survey->enabled)
+                    <a wire:click="enable('{{$survey->id}}')"
+                       class="btn btn-soft-success material-shadow-none">{{__('Enable')}}</a>
+                @else
+                    <a wire:click="disable('{{$survey->id}}')"
+                       class="btn btn-soft-danger material-shadow-none">{{__('Disable')}}</a>
+                @endif
+                @if(!$survey->published)
+                    <a wire:click="publish('{{$survey->id}}')"
+                       class="btn btn-soft-success material-shadow-none">{{__('Publish')}}</a>
+                @else
+                    <a wire:click="unpublish('{{$survey->id}}')"
+                       class="btn btn-soft-danger material-shadow-none">{{__('Un Publish')}}</a>
+                @endif
             @endif
 
-            @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
-                <a wire:click="close('{{$survey->id}}')"
-                   class="btn btn-soft-secondary material-shadow-none">{{__('Close')}}</a>
-            @endif
+            <a href="{{route('survey_participate', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
+               class="btn btn-soft-info material-shadow-none">{{__('Paticipate')}}</a>
 
-            @if($survey->status==\Core\Enum\StatusSurvey::CLOSED->value)
-                <a wire:click="archive('{{$survey->id}}')"
-                   class="btn btn-soft-secondary material-shadow-none">{{__('Archive')}}</a>
-            @endif
-
-            @if(!$survey->enabled)
-                <a wire:click="enable('{{$survey->id}}')"
-                   class="btn btn-soft-success material-shadow-none">{{__('Enable')}}</a>
-            @else
-                <a wire:click="disable('{{$survey->id}}')"
-                   class="btn btn-soft-danger material-shadow-none">{{__('Disable')}}</a>
-            @endif
-            @if(!$survey->published)
-                <a wire:click="publish('{{$survey->id}}')"
-                   class="btn btn-soft-success material-shadow-none">{{__('Publish')}}</a>
-            @else
-                <a wire:click="unpublish('{{$survey->id}}')"
-                   class="btn btn-soft-danger material-shadow-none">{{__('Un Publish')}}</a>
-            @endif
-        @endif
-
-        <a href="{{route('survey_participate', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
-           class="btn btn-soft-info material-shadow-none">{{__('Paticipate')}}</a>
-
-        <a href="{{route('survey_results', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
-           class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</a>
-    </div>
+            <a href="{{route('survey_results', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
+               class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</a>
+        </div>
+    @endif
     @if($currentRouteName=="survey_show")
         <div class="card-header border-info fw-medium text-muted mb-0">
             {{__('Questions')}}
@@ -285,76 +287,80 @@
     @endif
     @if($currentRouteName=="survey_show" && $survey->likable)
         <div class="card">
-        <div class="card-header border-info fw-medium text-muted mb-0">
-            {{__('Likes')}}
-        </div>
-        <div class="card-body row">
-            <div class="col-sm-12 col-md-4 col-lg-4">
-                @if($like)
-                    <button wire:click="dislike()" class="btn btn-warning btn-label waves-effect waves-light">
-                        <i class="ri-heart-fill label-icon align-middle fs-16 me-2"></i>
-                        {{__('Liked')}}
-                    </button>
-                @else
-                    <button wire:click="like()" class="btn btn-info btn-label waves-effect waves-light">
-                        <i class="ri-heart-fill label-icon align-middle fs-16 me-2"></i>
-                        {{__('Like')}}
-                    </button>
-                @endif
+            <div class="card-header border-info fw-medium text-muted mb-0">
+                {{__('Likes')}}
+            </div>
+            <div class="card-body row">
+                <div class="col-sm-12 col-md-4 col-lg-4">
+                    @if($like)
+                        <button wire:click="dislike()" class="btn btn-warning btn-label waves-effect waves-light">
+                            <i class="ri-heart-fill label-icon align-middle fs-16 me-2"></i>
+                            {{__('Liked')}}
+                        </button>
+                    @else
+                        <button wire:click="like()" class="btn btn-info btn-label waves-effect waves-light">
+                            <i class="ri-heart-fill label-icon align-middle fs-16 me-2"></i>
+                            {{__('Like')}}
+                        </button>
+                    @endif
 
+                </div>
+                <div class="col-sm-12 col-md-7 col-lg-7">
+                    <ul class="list-group">
+                        @forelse ($survey->like as $like)
+                            <li class="list-group-item mt-2">
+                                {{ getUserDisplayedName($like->user->idUser)}} <span
+                                    class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>
+                            </li>
+                        @empty
+                            <li class="list-group-item mt-2">
+                                {{__('No Likes')}}
+                            </li>
+                        @endforelse
+                    </ul>
+                </div>
             </div>
-            <div class="col-sm-12 col-md-7 col-lg-7">
-                <ul class="list-group">
-                    @forelse ($survey->like as $like)
-                        <li class="list-group-item mt-2">
-                            {{ getUserDisplayedName($like->user->idUser)}} <span
-                                class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>
-                        </li>
-                    @empty
-                        <li class="list-group-item mt-2">
-                            {{__('No Likes')}}
-                        </li>
-                    @endforelse
-                </ul>
-            </div>
-        </div></div>
+        </div>
     @endif
     @if($currentRouteName=="survey_show" && $survey->commentable)
-        <div class="card"> <div class="card-header border-info fw-medium text-muted mb-0">
-            {{__('Comments')}}
-        </div>
-        <div class="card-body row">
-            <div class="col-sm-12 col-md-12 col-lg-12">
-                <ul class="list-group mb-3">
-                    @forelse ($survey->comment as $comment)
-                        <li class="list-group-item mt-1">
-                            <strong class="text-muted">{{ getUserDisplayedName($comment->user->idUser)}}:</strong>
-                            <br>
-                            <span class="mx-3">{{$comment->content }}</span>
-                            <span class="text-muted float-end">
+        <div class="card">
+            <div class="card-header border-info fw-medium text-muted mb-0">
+                {{__('Comments')}}
+            </div>
+            <div class="card-body row">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <ul class="list-group mb-3">
+                        @forelse ($survey->comment as $comment)
+                            <li class="list-group-item mt-1">
+                                <strong class="text-muted">{{ getUserDisplayedName($comment->user->idUser)}}
+                                    :</strong>
+                                <br>
+                                <span class="mx-3">{{$comment->content }}</span>
+                                <span class="text-muted float-end">
                               <strong>{{__('at')}}: </strong>  {{$comment->created_at}}
                             </span>
-                        </li>
-                    @empty
-                        <li class="list-group-item mt-2">
-                            {{__('No Comments')}}
-                        </li>
-                    @endforelse
-                </ul>
-            </div>
-            <div class="col-sm-12 col-md-12 col-lg-12">
-                <h6>{{__('Add a comment')}}</h6>
-            </div>
-            <hr class="text-info">
-            <div class="col-sm-12 col-md-9 col-lg-9">
-                <textarea class="form-control" wire:model="comment" id="comment" rows="3"></textarea>
-            </div>
-            <div class="col-sm-12 col-md-3 col-lg-3 ">
-                <button wire:click="addComment()" class="btn btn-info btn-label waves-effect waves-light mt-2">
-                    {{__('Add comment')}}
-                </button>
-            </div>
+                            </li>
+                        @empty
+                            <li class="list-group-item mt-2">
+                                {{__('No Comments')}}
+                            </li>
+                        @endforelse
+                    </ul>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <h6>{{__('Add a comment')}}</h6>
+                </div>
+                <hr class="text-info">
+                <div class="col-sm-12 col-md-9 col-lg-9">
+                    <textarea class="form-control" wire:model="comment" id="comment" rows="3"></textarea>
+                </div>
+                <div class="col-sm-12 col-md-3 col-lg-3 ">
+                    <button wire:click="addComment()" class="btn btn-info btn-label waves-effect waves-light mt-2">
+                        {{__('Add comment')}}
+                    </button>
+                </div>
 
-        </div></div>
+            </div>
+        </div>
     @endif
 </div>
