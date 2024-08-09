@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Survey;
+use App\Models\Target;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
@@ -38,6 +39,7 @@ class SurveyCreateUpdate extends Component
         $description,
         $disabledBtnDescription;
 
+    public $idTarget = null;
     public $update = false;
 
     protected $listeners = [
@@ -52,6 +54,7 @@ class SurveyCreateUpdate extends Component
     public function mount(Request $request)
     {
         $idSurvey = $request->input('idSurvey');
+        $this->idTarget = $request->input('idTarget');
         if (!is_null($idSurvey)) {
             $this->edit($idSurvey);
         }
@@ -83,6 +86,10 @@ class SurveyCreateUpdate extends Component
                 'endDate' => $this->endDate,
                 'goals' => $this->goals,
             ]);
+            if (!is_null($this->idTarget)) {
+                $target = Target::findOrFail($this->idTarget);
+                $survey->target()->save($target);
+            }
             return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $survey->id])->with('success', Lang::get('Survey Created Successfully!!'));
         } catch (\Exception $exception) {
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while creating Survey!!') . ' : ' . $exception->getMessage());
@@ -140,16 +147,6 @@ class SurveyCreateUpdate extends Component
         } catch (\Exception $exception) {
             $this->cancel();
             return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while updating Survey!!') . ' : ' . $exception->getMessage());
-        }
-    }
-
-    public function changeStatus($id)
-    {
-        try {
-            Survey::find($id)->delete();
-            session()->flash('success', "Survey Deleted Successfully!!");
-        } catch (\Exception $e) {
-            session()->flash('error', "Something goes wrong while deleting Survey!!");
         }
     }
 

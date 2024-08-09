@@ -3,21 +3,21 @@
         <h4> {{$target->id}} - {{$target->name}}</h4>
     </div>
     <div class="card-body">
-        <h6 class="mt-2">{{__('Description')}}:</h6>
+        <h6 class="mt-2 text-info">{{__('Description')}}:</h6>
         {{$target->description}}
-        @if($target->created_at != null && !empty($target->created_at))
-            <p class="card-text text-muted">
+        <h6 class="mt-2 text-info">{{__('Details')}}:</h6>
+        <p class="text-muted mx-2">
+            @if($target->created_at != null && !empty($target->created_at))
                 <strong>{{__('Creation date')}} :</strong>
                 {{\Carbon\Carbon::parse($target->created_at)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-            </p>
-        @endif
-
-        @if($target->updated_at != null && !empty($target->updated_at))
-            <p class="card-text text-muted">
+                <br>
+            @endif
+            @if($target->updated_at != null && !empty($target->updated_at))
                 <strong>{{__('Update date')}} :</strong>
                 {{\Carbon\Carbon::parse($target->updated_at)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-            </p>
-        @endif
+                <br>
+            @endif
+        </p>
     </div>
     @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
         <div class="card-footer row">
@@ -36,6 +36,10 @@
                     <a wire:click="deleteTarget('{{$target->id}} ')"
                        title="{{__('Delete target')}}" class="btn btn-soft-danger material-shadow-none">
                         {{__('Delete')}}
+                    </a>
+                    <a href="{{route('survey_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$target->id] )}}"
+                       title="{{__('Create Survey')}}" class="btn btn-soft-primary material-shadow-none">
+                        {{__('Create Survey')}}
                     </a>
                 </div>
             </div>

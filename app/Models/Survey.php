@@ -45,7 +45,7 @@ class Survey extends Model
 
     public function target()
     {
-        return $this->hasOneThrough(Target::class);
+        return $this->morphOne(Target::class,'targetable');
     }
 
     public function comment()

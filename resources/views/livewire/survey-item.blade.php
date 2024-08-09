@@ -2,7 +2,7 @@
     <div class="card-header border-info fw-medium text-muted mb-0">
         {{$survey->id}} - {{$survey->name}}
         @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
-            <span class="ml-2 mr-2 badge btn btn-lg float-end
+            <span class="mx-2 mr-2 badge btn btn-lg float-end
         {{ $survey->status==\Core\Enum\StatusSurvey::NEW->value ? 'btn-primary' : ''  }}
         {{ $survey->status==\Core\Enum\StatusSurvey::OPEN->value ? 'btn-success' : ''  }}
         {{ $survey->status==\Core\Enum\StatusSurvey::CLOSED->value ? 'btn-warning' : ''  }}
@@ -45,105 +45,99 @@
     @endif
 
     <div class="card-body">
-        <h5 class="mt-2">{{__('Description')}}:</h5>
-        <p class="card-text text-muted">
-            @if($currentRouteName=="survey_show")
-                {{ $survey->description}}
-            @else
-                {{ Str::limit($survey->description,200)}}
-            @endif
-        </p>
+
+
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-7">
+                <h6 class="mt-2 text-info">{{__('Description')}}:</h6>
+                <p class="card-text text-muted">
+                    @if($currentRouteName=="survey_show")
+                        {{ $survey->description}}
+                    @else
+                        {{ Str::limit($survey->description,200)}}
+                    @endif
+                </p>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-5">
+                <h6 class="mt-2 text-info">{{__('Target')}}:</h6>
+                @if(is_null($survey->target))
+                    {{ __('No target') }}
+                @else
+                    {{ $survey->target->id }}  -  {{ $survey->target->name}}
+                @endif
+            </div>
+        </div>
     </div>
     @if($currentRouteName=="survey_show")
         @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
             <div class="card-body">
-                <h5 class="mt-2">{{__('Details')}}:</h5>
-                <blockquote class="blockquote mb-0">
-                    <p class="card-text text-muted">
-                        @if($survey->enabled)
-                            @if($survey->enableDate != null && !empty($survey->enableDate))
-                                <strong>{{__('Enable date')}} :</strong>
-                                {{\Carbon\Carbon::parse($survey->enableDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-                            @endif
-                        @else
-                            @if($survey->disableDate != null && !empty($survey->disableDate))
-                                <strong>{{__('Disable date')}} :</strong>
-                                {{\Carbon\Carbon::parse($survey->disableDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-                            @endif
+                <h6 class="mt-2 text-info">{{__('Details')}}:</h6>
+                <p class="text-muted mx-2">
+                    @if($survey->enabled)
+                        @if($survey->enableDate != null && !empty($survey->enableDate))
+                            <strong>{{__('Enable date')}} :</strong>
+                            {{\Carbon\Carbon::parse($survey->enableDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                         @endif
-                    </p>
-                    <p class="card-text text-muted">
-                        @if($survey->published)
-                            @if($survey->publishDate != null && !empty($survey->publishDate))
-                                <strong>{{__('Publish date')}} : </strong>
-                                {{\Carbon\Carbon::parse($survey->publishDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-                            @endif
-                        @else
-                            @if($survey->unpublishDate != null && !empty($survey->unpublishDate))
-                                <strong>{{__('Un publish date')}} :</strong>
-                                {{\Carbon\Carbon::parse($survey->unpublishDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-                            @endif
+                    @else
+                        @if($survey->disableDate != null && !empty($survey->disableDate))
+                            <strong>{{__('Disable date')}} :</strong>
+                            {{\Carbon\Carbon::parse($survey->disableDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                         @endif
-                    </p>
+                        <br>
+                    @endif
+                    @if($survey->published)
+                        @if($survey->publishDate != null && !empty($survey->publishDate))
+                            <strong>{{__('Publish date')}} : </strong>
+                            {{\Carbon\Carbon::parse($survey->publishDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                        @endif
+                    @else
+                        @if($survey->unpublishDate != null && !empty($survey->unpublishDate))
+                            <strong>{{__('Un publish date')}} :</strong>
+                            {{\Carbon\Carbon::parse($survey->unpublishDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                        @endif
+                        <br>
+                    @endif
                     @if($survey->openDate != null && !empty($survey->openDate))
-                        <p class="card-text text-muted">
-                            <strong>{{__('Open date')}} :</strong>
-                            {{\Carbon\Carbon::parse($survey->openDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-                        </p>
+                        <strong>{{__('Open date')}} :</strong>
+                        {{\Carbon\Carbon::parse($survey->openDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                        <br>
                     @endif
-
                     @if($survey->closeDate != null && !empty($survey->closeDate))
-                        <p class="card-text text-muted">
-                            <strong>{{__('Close date')}} :</strong>
-                            {{\Carbon\Carbon::parse($survey->closeDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-                        </p>
+                        <strong>{{__('Close date')}} :</strong>
+                        {{\Carbon\Carbon::parse($survey->closeDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                        <br>
                     @endif
-
                     @if($survey->startDate != null && !empty($survey->startDate))
-                        <p class="card-text text-muted">
-                            <strong>{{__('Start date')}} :</strong>
-                            {{\Carbon\Carbon::parse($survey->startDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-                        </p>
+                        <strong>{{__('Start date')}} :</strong>
+                        {{\Carbon\Carbon::parse($survey->startDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                        <br>
                     @endif
-
                     @if($survey->endDate != null && !empty($survey->endDate))
-                        <p class="card-text text-muted">
-                            <strong>{{__('End date')}} :</strong>
-                            {{\Carbon\Carbon::parse($survey->endDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-
-                        </p>
+                        <strong>{{__('End date')}} :</strong>
+                        {{\Carbon\Carbon::parse($survey->endDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                        <br>
                     @endif
-
                     @if($survey->archivedDate != null && !empty($survey->archivedDate))
-                        <p class="card-text text-muted">
-                            <strong>{{__('Archived date')}} :</strong>
-                            {{\Carbon\Carbon::parse($survey->archivedDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-                        </p>
-
+                        <strong>{{__('Archived date')}} :</strong>
+                        {{\Carbon\Carbon::parse($survey->archivedDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                        <br>
                     @endif
-
                     @if($survey->created_at != null && !empty($survey->created_at))
-                        <p class="card-text text-muted">
-                            <strong>{{__('Creation date')}} :</strong>
-                            {{\Carbon\Carbon::parse($survey->created_at)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-                        </p>
+                        <strong>{{__('Creation date')}} :</strong>
+                        {{\Carbon\Carbon::parse($survey->created_at)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                        <br>
                     @endif
-
                     @if($survey->updated_at != null && !empty($survey->updated_at))
-                        <p class="card-text text-muted">
-                            <strong>{{__('Update date')}} :</strong>
-                            {{\Carbon\Carbon::parse($survey->updated_at)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-                        </p>
+                        <strong>{{__('Update date')}} :</strong>
+                        {{\Carbon\Carbon::parse($survey->updated_at)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                        <br>
                     @endif
-
                     @if($survey->goals != null && !empty($survey->goals))
-                        <p class="card-text text-muted">
-                            <strong>{{__('Goals')}} :</strong>
-                            {{$survey->goals?? __('Not set')}}
-                        </p>
+                        <strong>{{__('Goals')}} :</strong>
+                        {{$survey->goals?? __('Not set')}}
+                        <br>
                     @endif
-
-                </blockquote>
+                </p>
             </div>
         @endif
     @endif
@@ -212,7 +206,7 @@
     @endif
     @if($currentRouteName=="survey_show")
         <div class="card-header border-info fw-medium text-muted mb-0">
-            {{__('Questions')}}
+            <h6 class="mt-2 text-info">    {{__('Questions')}}</h6>
         </div>
         <div class="card-body">
             <ul class="list-group">
@@ -288,7 +282,7 @@
     @if($currentRouteName=="survey_show" && $survey->likable)
         <div class="card">
             <div class="card-header border-info fw-medium text-muted mb-0">
-                {{__('Likes')}}
+                <h6 class="mt-2 text-info">       {{__('Likes')}}</h6>
             </div>
             <div class="card-body row">
                 <div class="col-sm-12 col-md-4 col-lg-4">
@@ -310,7 +304,7 @@
                         @forelse ($survey->like as $like)
                             <li class="list-group-item mt-2">
                                 {{ getUserDisplayedName($like->user->idUser)}} <span
-                                    class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>
+                                        class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>
                             </li>
                         @empty
                             <li class="list-group-item mt-2">
@@ -325,7 +319,7 @@
     @if($currentRouteName=="survey_show" && $survey->commentable)
         <div class="card">
             <div class="card-header border-info fw-medium text-muted mb-0">
-                {{__('Comments')}}
+                <h6 class="mt-2 text-info">          {{__('Comments')}}</h6>
             </div>
             <div class="card-body row">
                 <div class="col-sm-12 col-md-12 col-lg-12">

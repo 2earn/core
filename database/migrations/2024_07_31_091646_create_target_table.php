@@ -18,6 +18,8 @@ return new class extends Migration {
             $table->id();
             $table->string('name')->nullable();
             $table->text('description')->nullable();
+            $table->integer('targetable_id')->nullable();
+            $table->string('targetable_type')->nullable();
             $table->timestamps();
         });
     }

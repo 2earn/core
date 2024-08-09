@@ -14,10 +14,16 @@ class Target extends Model
         'description',
     ];
 
+    public function targetable()
+    {
+        return $this->morphTo();
+    }
+
     public function group()
     {
         return $this->hasMany(Group::class);
     }
+
     public function condition()
     {
         return $this->hasMany(Condition::class);
