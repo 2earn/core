@@ -2,7 +2,7 @@
 
 namespace Core\Enum;
 
-enum  ShowComment: int
+enum  ShowLike: int
 {
     case ALL = 1;
     case TARGET = 2;

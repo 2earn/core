@@ -10,10 +10,10 @@
                 <h6 class="card-title flex-grow-1">
                     @if($update)
                         {{__('Survey')}} : {{$survey->id}} - {{$survey->name}} <span
-                            class="text-muted"> > </span> {{__('Update question')}}
+                                class="text-muted"> > </span> {{__('Update question')}}
                     @else
                         {{__('Survey')}} : {{$survey->id}} - {{$survey->name}} <span
-                            class="text-muted"> > </span> {{__('Create question')}}
+                                class="text-muted"> > </span> {{__('Create question')}}
                     @endif
                 </h6>
             </div>
@@ -34,12 +34,19 @@
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                             <div class="form-group mb-3">
-                                <label for="selection">{{__('selection')}}</label>
-                                <input type="number" class="form-control @error('selection') is-invalid @enderror"
-                                       id="selection"
-                                       wire:model="selection"
-                                       placeholder="{{__('Enter selection')}}"></input>
-                                @error('selection') <span class="text-danger">{{ $message }}</span>@enderror
+                                <label for="operand">{{__('Selection')}}</label>
+                                <select
+                                        class="form-select form-control @error('Selection') is-invalid @enderror"
+                                        placeholder="{{__('Enter Selection')}}"
+                                        wire:model="selection"
+                                        id="operand"
+                                        aria-label="{{__('Enter Selection')}}">
+                                    @foreach ($selections as $selectionItem)
+                                        <option value="{{$selectionItem['value']}}"
+                                                @if($loop->index==0) selected @endif >{{$selectionItem['name']}}</option>
+                                    @endforeach
+                                </select>
+                                @error('Selection') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                             <div class="form-group mb-3">

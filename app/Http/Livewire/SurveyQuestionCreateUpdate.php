@@ -21,6 +21,10 @@ class SurveyQuestionCreateUpdate extends Component
 
     public $update = false;
 
+    public $selections = [
+        ['name' => "Multiple", 'value' => "*"],
+        ['name' => "Unique", 'value' => "1"]
+    ];
     protected $rules = [
         'content' => 'required',
         'selection' => 'required',
