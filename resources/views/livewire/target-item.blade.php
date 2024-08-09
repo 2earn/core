@@ -3,21 +3,38 @@
         <h4> {{$target->id}} - {{$target->name}}</h4>
     </div>
     <div class="card-body">
-        <h6 class="mt-2 text-info">{{__('Description')}}:</h6>
-        {{$target->description}}
-        <h6 class="mt-2 text-info">{{__('Details')}}:</h6>
-        <p class="text-muted mx-2">
-            @if($target->created_at != null && !empty($target->created_at))
-                <strong>{{__('Creation date')}} :</strong>
-                {{\Carbon\Carbon::parse($target->created_at)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-                <br>
-            @endif
-            @if($target->updated_at != null && !empty($target->updated_at))
-                <strong>{{__('Update date')}} :</strong>
-                {{\Carbon\Carbon::parse($target->updated_at)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-                <br>
-            @endif
-        </p>
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-7">
+                <h6 class="mt-2 text-info">{{__('Description')}}:</h6>
+                {{$target->description}}
+                <h6 class="mt-2 text-info">{{__('Details')}}:</h6>
+                <p class="text-muted mx-2">
+                    @if($target->created_at != null && !empty($target->created_at))
+                        <strong>{{__('Creation date')}} :</strong>
+                        {{\Carbon\Carbon::parse($target->created_at)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                        <br>
+                    @endif
+                    @if($target->updated_at != null && !empty($target->updated_at))
+                        <strong>{{__('Update date')}} :</strong>
+                        {{\Carbon\Carbon::parse($target->updated_at)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                        <br>
+                    @endif
+                </p>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-5">
+                <h5 class="mt-2 text-info">{{__('Links')}}:</h5>
+                <h6 class="mt-2 text-info">{{__('Surveys')}}:</h6>
+                @if($target->surveys->isEmpty())
+                   <span class="text-muted"> {{ __('No Surveys') }}</span>
+                @else
+                    <ul class="list-group">
+                        @foreach($target->surveys as $surveysItem)
+                            <li class="list-group-item">    {{ $surveysItem->id }} - {{ $surveysItem->name}}</li>
+                        @endforeach
+                    </ul>
+                @endif
+            </div>
+        </div>
     </div>
     @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
         <div class="card-footer row">

@@ -14,9 +14,9 @@ class Target extends Model
         'description',
     ];
 
-    public function targetable()
+    public function surveys()
     {
-        return $this->morphTo();
+        return $this->morphedByMany(Survey::class,'targetable');
     }
 
     public function group()

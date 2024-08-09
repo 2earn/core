@@ -41,6 +41,27 @@
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                         </div>
+
+                        @if(is_null($idTarget))
+                            <div class="form-group mb-3">
+                                <label for="target">{{__('Target')}}</label>
+                                <select
+                                    class="form-select form-control @error('target') is-invalid @enderror"
+                                    placeholder="{{__('Enter target')}}"
+                                    wire:model="target"
+                                    id="target"
+                                    aria-label="{{__('Enter target')}}">
+                                    @foreach ($targets as $targetItem)
+                                        <option value="{{$targetItem->id}}"
+                                                @if($targetItem->id==$target) selected @endif >
+                                            {{$targetItem->name}}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('target') <span class="text-danger">{{ $message }}</span>@enderror
+                                <div class="form-text">{{__('Required field')}}</div>
+                            </div>
+                        @endif
                         <div class="row mt-2">
                             <div class="form-group col-md-4">
                                 <input class="form-check-input" wire:model="enabled" type="checkbox"
@@ -66,13 +87,15 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <input class="form-check-input" wire:model="showAttchivementPourcentage" type="checkbox"
-                                       id="showAttchivementPourcentage" placeholder="{{__('showAttchivementPourcentage')}}" checked>
+                                       id="showAttchivementPourcentage"
+                                       placeholder="{{__('showAttchivementPourcentage')}}" checked>
                                 <label class="form-check-label"
                                        for="showAttchivementPourcentage">{{__('Show achievement %')}}</label>
                             </div>
                             <div class="form-group col-md-4">
                                 <input class="form-check-input" wire:model="showAttchivementChrono" type="checkbox"
-                                       id="showAttchivementChrono" placeholder="{{__('showAttchivementChrono')}}" checked>
+                                       id="showAttchivementChrono" placeholder="{{__('showAttchivementChrono')}}"
+                                       checked>
                                 <label class="form-check-label"
                                        for="showAttchivementChrono">{{__('Show achievement Chrono')}}</label>
                             </div>

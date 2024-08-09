@@ -16,6 +16,7 @@ class SurveyCreateUpdate extends Component
         $idSurvey,
         $name,
         $status;
+
     public $enabled = false;
     public $published = false;
     public $commentable = false;
@@ -40,6 +41,8 @@ class SurveyCreateUpdate extends Component
         $disabledBtnDescription;
 
     public $idTarget = null;
+    public $target = null;
+    public $targets = null;
     public $update = false;
 
     protected $listeners = [
@@ -87,8 +90,7 @@ class SurveyCreateUpdate extends Component
                 'goals' => $this->goals,
             ]);
             if (!is_null($this->idTarget)) {
-                $target = Target::findOrFail($this->idTarget);
-                $survey->target()->save($target);
+                $survey->targets()->attach([$this->idTarget]);
             }
             return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $survey->id])->with('success', Lang::get('Survey Created Successfully!!'));
         } catch (\Exception $exception) {
@@ -114,6 +116,9 @@ class SurveyCreateUpdate extends Component
         $this->startDate = date_format(new \DateTime($survey->startDate), self::DATE_FORMAT);
         $this->endDate = date_format(new \DateTime($survey->endDate), self::DATE_FORMAT);
         $this->goals = $survey->goals;
+        if (!empty($survey->target)) {
+            $this->target = $survey->target->first();
+        }
         $this->update = true;
     }
 
@@ -143,6 +148,11 @@ class SurveyCreateUpdate extends Component
                     'endDate' => $this->endDate,
                     'goals' => $this->goals,
                 ]);
+            if (!is_null($this->target)) {
+                $survey = Survey::find($this->idSurvey);
+                $survey->targets()->detach();
+                $survey->targets()->attach([$this->target]);
+            }
             return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Survey Updated Successfully!!'));
         } catch (\Exception $exception) {
             $this->cancel();
@@ -152,6 +162,7 @@ class SurveyCreateUpdate extends Component
 
     public function render()
     {
+        $this->targets = Target::all();
         return view('livewire.survey-create-update')->extends('layouts.master')->section('content');
     }
 }

@@ -45,8 +45,6 @@
     @endif
 
     <div class="card-body">
-
-
         <div class="row">
             <div class="col-sm-12 col-md-6 col-lg-7">
                 <h6 class="mt-2 text-info">{{__('Description')}}:</h6>
@@ -60,10 +58,16 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-5">
                 <h6 class="mt-2 text-info">{{__('Target')}}:</h6>
-                @if(is_null($survey->target))
-                    {{ __('No target') }}
+                @if($survey->targets->isEmpty())
+                    <span class="text-muted">{{ __('No target') }}</span>
                 @else
-                    {{ $survey->target->id }}  -  {{ $survey->target->name}}
+                    <ul class="list-group">
+                        @foreach($survey->targets as $targetItem)
+                            <li class="list-group-item">
+                                {{ $targetItem->id }} - {{ $targetItem->name}}
+                            </li>
+                        @endforeach
+                    </ul>
                 @endif
             </div>
         </div>
@@ -304,7 +308,7 @@
                         @forelse ($survey->like as $like)
                             <li class="list-group-item mt-2">
                                 {{ getUserDisplayedName($like->user->idUser)}} <span
-                                        class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>
+                                    class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>
                             </li>
                         @empty
                             <li class="list-group-item mt-2">

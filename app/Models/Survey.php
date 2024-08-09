@@ -43,9 +43,9 @@ class Survey extends Model
         return $this->hasMany(SurveyResponse::class);
     }
 
-    public function target()
+    public function targets()
     {
-        return $this->morphOne(Target::class,'targetable');
+        return $this->morphToMany(Target::class,'targetable');
     }
 
     public function comment()
