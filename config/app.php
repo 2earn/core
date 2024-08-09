@@ -227,10 +227,10 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'LaravelPwa' => \Ladumor\LaravelPwa\LaravelPwa::class,
         'Sponsorship' => \App\Services\Sponsorship\SponsorshipFacade::class,
+        'Targeting' => \App\Services\Targeting\TargetingFacade::class,
         'Vite' => \Illuminate\Support\Facades\Vite::class,
     ],
     'available_locales' => [
-
         'en' => ['name' => 'en', 'direction' => 'ltr', 'flag' => 'gb', 'tabLang' => 'en-GB'],
         'ar' => ['name' => 'ar', 'direction' => 'rtl', 'flag' => 'lib', 'tabLang' => 'ar'],
         'fr' => ['name' => 'fr', 'direction' => 'ltr', 'flag' => 'fr', 'tabLang' => 'fr-FR'],
