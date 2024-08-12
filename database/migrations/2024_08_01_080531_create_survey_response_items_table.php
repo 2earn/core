@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\SurveyQuestion;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,6 +20,7 @@ return new class extends Migration
             $table->id();
             $table->string('content');
             $table->unsignedBigInteger('surveyResponse_id')->foreign('surveyResponse_id')->references('id')->on('surveyResponse')->onDelete('cascade');
+            $table->unsignedBigInteger('surveyQuestion_id')->foreign('surveyQuestion_id')->references('id')->on('SurveyQuestion')->onDelete('cascade');
             $table->unsignedBigInteger('user_id')->foreign('user_id')->references('id')->on('user')->onDelete('cascade');
             $table->timestamps();
         });

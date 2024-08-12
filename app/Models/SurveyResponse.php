@@ -20,6 +20,6 @@ class SurveyResponse extends Model
     }
     public function surveyResponseItem()
     {
-        return $this->hasOne(User::class);
+        return $this->hasOne(SurveyResponseItem::class);
     }
 }
