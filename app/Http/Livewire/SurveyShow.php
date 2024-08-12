@@ -119,11 +119,13 @@ class SurveyShow extends Component
 
     public function addComment()
     {
-        Comment::create([
-            'user_id' => auth()->user()->id,
-            'content' => $this->comment,
-            'survey_id' => $this->idSurvey
-        ]);
+        $survey = Survey::find($this->idSurvey);
+        $survey->comments()->create(
+            [
+                'user_id' => auth()->user()->id,
+                'content' => $this->comment,
+            ]
+        );
     }
 
     public function dislike()

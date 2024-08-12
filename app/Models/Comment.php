@@ -12,15 +12,15 @@ class Comment extends Model
     protected $fillable = [
         'content',
         'user_id',
-        'survey_id'
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
-    public function survey()
+
+    public function commentable()
     {
-        return $this->belongsTo(Survey::class, 'survey_id', 'id');
+        return $this->morphTo();
     }
 }

@@ -328,7 +328,7 @@
             <div class="card-body row">
                 <div class="col-sm-12 col-md-12 col-lg-12">
                     <ul class="list-group mb-3">
-                        @forelse ($survey->comment as $comment)
+                        @forelse ($survey->comments as $comment)
                             <li class="list-group-item mt-1">
                                 <strong class="text-muted">{{ getUserDisplayedName($comment->user->idUser)}}
                                     :</strong>

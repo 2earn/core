@@ -48,9 +48,9 @@ class Survey extends Model
         return $this->morphToMany(Target::class,'targetable');
     }
 
-    public function comment()
+    public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->morphMany(Comment::class,'commentable');
     }
 
     public function like()
