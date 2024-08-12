@@ -17,6 +17,34 @@
                     {{ __('Results') }}
                 </div>
                 <div class="card-body row">
+                    <h6 class="card-title mb-0 flex-grow-1 text-info">   {{__('Participation')}}</h6>
+                    <table class="table table-bordered mt-2 pl-2">
+                        <thead>
+                        <tr>
+                            <th scope="col">{{__('Participation number')}}</th>
+                            <th scope="col">{{__('Limits')}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                {{$survey->surveyResponse->count()}}
+                            </td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <h6 class="card-title mb-0 flex-grow-1 text-info">
+                        {{__('Participation details')}}</h6>
+                    <ul class="list-group list-group-flush pl-2">
+                        @foreach ($survey->surveyResponse as $surveyResponse)
+                            <li class="list-group-item">
+                                {{ getUserDisplayedName($surveyResponse->user->idUser)}} <span
+                                    class="text-muted">{{__('at')}}: {{ $surveyResponse->created_at}} </span>
+                            </li>
+                        @endforeach
+                    </ul>
+                    <h6 class="card-title mb-0 flex-grow-1 text-info">   {{__('Participation responce details')}}</h6>
 
                 </div>
             </div>

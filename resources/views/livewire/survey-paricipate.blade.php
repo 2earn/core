@@ -14,7 +14,7 @@
             @include('livewire.survey-item', ['survey' => $survey])
             @if($survey->question)
                 <div class="card">
-                    <form wire:submit="participate()">
+                    <form wire:submit.prevent="participate()">
                         <div class="card-header border-info fw-medium text-muted mb-0">
                             {{ __('Participation') }}
                         </div>

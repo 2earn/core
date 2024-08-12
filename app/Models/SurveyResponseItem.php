@@ -9,14 +9,24 @@ class SurveyResponseItem extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['content'];
+    protected $fillable = [
+        'surveyResponse_id',
+        'surveyQuestion_id',
+        'surveyQuestionChoice_id',
+    ];
 
     public function surveyResponse()
     {
         return $this->belongsTo(SurveyResponse::class, 'surveyResponse_id', 'id');
     }
+
     public function surveyQuestion()
     {
         return $this->belongsTo(SurveyQuestion::class, 'surveyQuestion_id', 'id');
+    }
+
+    public function serveyQuestionsChoice()
+    {
+        return $this->hasOne(SurveyQuestionChoice::class, 'surveyQuestionChoice_id');
     }
 }

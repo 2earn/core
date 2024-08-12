@@ -23,7 +23,7 @@ class SurveyShow extends Component
         $this->idSurvey = $idSurvey;
         $this->routeRedirectionParams = ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey];
         $this->currentRouteName = Route::currentRouteName();
-        $this->like = Survey::find($this->idSurvey)->likes()->count() ? true : false;
+        $this->like = Survey::find($this->idSurvey)->likes()?->count() ? true : false;
     }
 
     public function removeQuestion($idQuestion)

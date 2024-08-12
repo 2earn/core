@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class SurveyResponse extends Model
 {
+    protected $fillable = [
+        'survey_id',
+        'user_id',
+    ];
+
     use HasFactory;
 
     public function survey()
@@ -18,6 +23,7 @@ class SurveyResponse extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
     public function surveyResponseItem()
     {
         return $this->hasOne(SurveyResponseItem::class);

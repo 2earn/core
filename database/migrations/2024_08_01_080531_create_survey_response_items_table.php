@@ -18,10 +18,9 @@ return new class extends Migration
     {
         Schema::create(self::TABLE_NAME, function (Blueprint $table) {
             $table->id();
-            $table->string('content');
             $table->unsignedBigInteger('surveyResponse_id')->foreign('surveyResponse_id')->references('id')->on('surveyResponse')->onDelete('cascade');
             $table->unsignedBigInteger('surveyQuestion_id')->foreign('surveyQuestion_id')->references('id')->on('SurveyQuestion')->onDelete('cascade');
-            $table->unsignedBigInteger('user_id')->foreign('user_id')->references('id')->on('user')->onDelete('cascade');
+            $table->unsignedBigInteger('surveyQuestionChoice_id')->foreign('surveyQuestionChoice_id')->references('id')->on('surveyQuestionChoice')->onDelete('cascade');
             $table->timestamps();
         });
     }

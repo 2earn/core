@@ -218,8 +218,8 @@
 
                     <li class="list-group-item">
                         <div class="row">
-                            <div class="col-sm-12 col-md-6 col-lg-7 text-info">
-                                {{ $survey->question->id }} - {{ $survey->question->content }}
+                            <div class="col-sm-12 col-md-6 col-lg-7">
+                                {{ $survey->question->content }}
                             </div>
                             @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
                                 <div class="col-sm-12 col-md-6 col-lg-5">
