@@ -305,7 +305,7 @@
                 </div>
                 <div class="col-sm-12 col-md-7 col-lg-7">
                     <ul class="list-group">
-                        @forelse ($survey->like as $like)
+                        @forelse ($survey->likes as $like)
                             <li class="list-group-item mt-2">
                                 {{ getUserDisplayedName($like->user->idUser)}} <span
                                     class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>

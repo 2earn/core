@@ -63,7 +63,7 @@
                                        id="value"
                                        wire:model="value"
                                        placeholder="{{__('Enter value')}}"></input>
-                                @error('maxResponse') <span class="text-danger">{{ $message }}</span>@enderror
+                                @error('value') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                         </div>

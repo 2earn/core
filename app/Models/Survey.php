@@ -45,17 +45,17 @@ class Survey extends Model
 
     public function targets()
     {
-        return $this->morphToMany(Target::class,'targetable');
+        return $this->morphToMany(Target::class, 'targetable');
     }
 
     public function comments()
     {
-        return $this->morphMany(Comment::class,'commentable');
+        return $this->morphMany(Comment::class, 'commentable');
     }
 
-    public function like()
+    public function likes()
     {
-        return $this->hasMany(Like::class);
+        return $this->morphMany(Like::class, 'likable');
     }
 
     public function questions()

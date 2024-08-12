@@ -2,8 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Comment;
-use App\Models\Like;
 use App\Models\Survey;
 use App\Models\SurveyQuestion;
 use App\Models\SurveyQuestionChoice;
@@ -25,7 +23,7 @@ class SurveyShow extends Component
         $this->idSurvey = $idSurvey;
         $this->routeRedirectionParams = ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey];
         $this->currentRouteName = Route::currentRouteName();
-        $this->like = is_null(Like::where('user_id', '=', auth()->user()->id)->where('survey_id', '=', $this->idSurvey)) ? false : true;
+        $this->like = Survey::find($this->idSurvey)->likes()->count() ? true : false;
     }
 
     public function removeQuestion($idQuestion)
@@ -112,8 +110,12 @@ class SurveyShow extends Component
 
     public function like()
     {
-        Like::create(['user_id' => auth()->user()->id, 'survey_id' => $this->idSurvey]);
-
+        $survey = Survey::find($this->idSurvey);
+        $survey->likes()->create(
+            [
+                'user_id' => auth()->user()->id,
+            ]
+        );
         $this->like = true;
     }
 
@@ -130,7 +132,7 @@ class SurveyShow extends Component
 
     public function dislike()
     {
-        Like::where('user_id', '=', auth()->user()->id)->where('survey_id', '=', $this->idSurvey)->delete();
+        Survey::find($this->idSurvey)->likes()->delete();
         $this->like = false;
     }
 

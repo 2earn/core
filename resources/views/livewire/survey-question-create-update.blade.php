@@ -50,7 +50,7 @@
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                             <div class="form-group mb-3">
-                                <label for="maxResponse">{{__('maxResponse')}}</label>
+                                <label for="maxResponse">{{__('Max response')}}</label>
                                 <input type="number" class="form-control @error('maxResponse') is-invalid @enderror"
                                        id="maxResponse"
                                        wire:model="maxResponse"

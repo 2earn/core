@@ -19,8 +19,8 @@ class Like extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function survey()
+    public function likable()
     {
-        return $this->belongsTo(Survey::class, 'survey_id', 'id');
+        return $this->morphTo();
     }
 }
