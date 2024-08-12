@@ -58,9 +58,9 @@ class Survey extends Model
         return $this->morphMany(Like::class, 'likable');
     }
 
-    public function questions()
+    public function question()
     {
-        return $this->hasMany(SurveyQuestion::class);
+        return $this->hasOne(SurveyQuestion::class);
     }
 
     public static function enable($id)

@@ -14,7 +14,7 @@ class SurveyQuestionCreateUpdate extends Component
         $idQuestion,
         $nameServey,
         $content,
-        $selection,
+        $selection = 2,
         $maxResponse;
 
     public $idSurvey;
@@ -22,8 +22,8 @@ class SurveyQuestionCreateUpdate extends Component
     public $update = false;
 
     public $selections = [
-        ['name' => "Multiple", 'value' => "*"],
-        ['name' => "Unique", 'value' => "1"]
+        ['name' => "Multiple", 'value' => 2],
+        ['name' => "Unique", 'value' => 1]
     ];
     protected $rules = [
         'content' => 'required',
