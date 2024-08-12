@@ -172,7 +172,7 @@
                                                 <th scope="row">
                                                     {{__('National ID identificatdion modal')}}
                                                 </th>
-                                                <td>
+                                                <td class="forceltr">
                                                     {{$usermetta_info2['nationalID']}}
                                                 </td>
                                             </tr>
