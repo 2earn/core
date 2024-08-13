@@ -16,8 +16,10 @@
                 <div class="card-header border-info fw-medium text-muted mb-0">
                     {{ __('Results') }}
                 </div>
-                <div class="card-body row">
+                <div class="card-header border-info fw-medium text-muted mb-0">
                     <h6 class="card-title mb-0 flex-grow-1 text-info">   {{__('Participation')}}</h6>
+                </div>
+                <div class="card-body row">
                     <table class="table table-bordered mt-2 pl-2">
                         <thead>
                         <tr>
@@ -34,8 +36,42 @@
                         </tr>
                         </tbody>
                     </table>
+                </div>
+                <div class="card-header border-info fw-medium text-muted mb-0">
+                    <h6 class="card-title mb-0 flex-grow-1 text-info ">   {{__('Participation response choices details')}}</h6>
+                </div>
+                <div class="card-body row">
+                    <table class="table table-bordered mt-2 pl-2">
+                        <thead>
+                        <tr>
+                            <th scope="col">{{__('Title')}}</th>
+                            <th scope="col">{{__('Choosen')}}</th>
+                            <th scope="col">{{__('Persontage')}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach ($stats as $statsItem)
+                            <tr>
+                                <td>
+                                    {{$statsItem['title']}}
+                                </td>
+                                <td>
+                                    {{$statsItem['choosen']}} {{__('times')}}
+                                </td>
+                                <td>
+                                    {{$statsItem['persontage']}}%
+                                </td>
+                            </tr>
+                        @endforeach
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-header border-info fw-medium text-muted mb-0">
                     <h6 class="card-title mb-0 flex-grow-1 text-info">
-                        {{__('Participation details')}}</h6>
+                        {{__('Participation details')}}</h6></div>
+                <div class="card-body row">
+
                     <ul class="list-group list-group-flush pl-2">
                         @foreach ($survey->surveyResponse as $surveyResponse)
                             <li class="list-group-item">
@@ -44,8 +80,6 @@
                             </li>
                         @endforeach
                     </ul>
-                    <h6 class="card-title mb-0 flex-grow-1 text-info">   {{__('Participation responce details')}}</h6>
-
                 </div>
             </div>
         </div>

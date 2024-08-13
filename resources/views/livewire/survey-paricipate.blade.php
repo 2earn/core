@@ -28,7 +28,7 @@
                                 @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
                                     <div class="col-sm-12 col-md-6 col-lg-6">
                                         <ul class="list-group">
-                                            @forelse ($survey->question->serveyQuestions as $choice)
+                                            @forelse ($survey->question->serveyQuestionChoice as $choice)
                                                 <li class="list-group-item mt-2">
                                                     <div class="row">
                                                         <div class="col-sm-12 col-md-6 col-lg-6 text-muted">

@@ -16,7 +16,7 @@ class SurveyQuestion extends Model
         'survey_id',
     ];
 
-    public function serveyQuestions()
+    public function serveyQuestionChoice()
     {
         return $this->hasMany(SurveyQuestionChoice::class,'question_id');
     }
