@@ -13,6 +13,7 @@ class SurveyIndex extends Component
     use WithPagination;
 
     public $search = '';
+    public $disableNote = '';
     const ITEM_PER_PAGE = 5;
 
     public $currentRouteName;
@@ -41,11 +42,15 @@ class SurveyIndex extends Component
     public function disable($id)
     {
         try {
-            Survey::disable($id);
-            return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey Disabled Successfully!!'));
+            if (!empty($this->disableNote)) {
+                Survey::disable($id, $this->disableNote);
+            } else {
+                return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while Disabling Survey!!') . ' : ');
+            }
         } catch (\Exception $exception) {
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while Disabling Survey!!') . ' : ' . $exception->getMessage());
         }
+        return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey Disabled Successfully!!'));
     }
 
     public function open($id)

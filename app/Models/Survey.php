@@ -63,39 +63,45 @@ class Survey extends Model
         return $this->hasOne(SurveyQuestion::class);
     }
 
-    public static function enable($id)
+    public static function enable($id): bool
     {
         Survey::where('id', $id)->update(['enabled' => true, 'enableDate' => Carbon::now()]);
+        return true;
     }
 
-    public static function disable($id)
+    public static function disable($id, $note): bool
     {
-        Survey::where('id', $id)->update(['enabled' => false, 'disabledate' => Carbon::now()]);
+        Survey::where('id', $id)->update(['enabled' => false, 'disabledBtnDescription' => $note, 'disabledate' => Carbon::now()]);
+        return true;
     }
 
-    public static function publish($id)
+    public static function publish($id): bool
     {
         Survey::where('id', $id)->update(['published' => true, 'publishDate' => Carbon::now()]);
+        return true;
     }
 
-    public static function unpublish($id)
+    public static function unpublish($id): bool
     {
         Survey::where('id', $id)->update(['published' => false, 'unpublishDate' => Carbon::now()]);
+        return true;
     }
 
-    public static function open($id)
+    public static function open($id): bool
     {
         Survey::where('id', $id)->update(['status' => StatusSurvey::OPEN->value, 'openDate' => Carbon::now()]);
+        return true;
     }
 
-    public static function close($id)
+    public static function close($id): bool
     {
         Survey::where('id', $id)->update(['status' => StatusSurvey::CLOSED->value, 'openDate' => Carbon::now()]);
+        return true;
     }
 
-    public static function archive($id)
+    public static function archive($id): bool
     {
         Survey::where('id', $id)->update(['status' => StatusSurvey::ARCHIVED->value, 'openDate' => Carbon::now()]);
+        return true;
     }
-
 }

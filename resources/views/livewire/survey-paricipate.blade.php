@@ -12,20 +12,20 @@
         </div>
         <div class="card-body row">
             @include('livewire.survey-item', ['survey' => $survey])
-
             @if($survey->question)
                 <div class="card">
                     <form wire:submit.prevent="participate()">
                         <div class="card-header border-info fw-medium text-muted mb-0">
                             {{ __('Participation') }}
                         </div>
-                        <div class="row">
+                        <div class="card-body">
+                            <div class="row">
                                 @include('layouts.flash-messages')
-                        </div>
-                        <div class="card-body row">
+                            </div>
                             <div class="row">
                                 <div class="col-sm-12 col-md-6 col-lg-6">
-                                    <h6 class="card-header border-info mb-0 flex-grow-1">   {{__('Question statement')}}
+                                    <h6 class="card-header border-info mb-0 flex-grow-1">
+                                        {{__('Question statement')}}
                                         :</h6>
                                     {{ $survey->question->content }}
                                 </div>
@@ -36,7 +36,7 @@
                                                 <li class="list-group-item mt-2">
                                                     <div class="row">
                                                         <div class="col-sm-12 col-md-6 col-lg-6 text-muted">
-                                                            @if($survey->question->selection == \Core\Enum\Selection::UNIQUE)
+                                                            @if($survey->question->selection == \Core\Enum\Selection::UNIQUE->value)
                                                                 <div class="form-check">
                                                                     <input
                                                                         wire:model="responces"
