@@ -86,7 +86,11 @@ class SurveyShow extends Component
     public function open($id)
     {
         try {
-            Survey::open($id);
+            if (Survey::canBeOpened($id)) {
+                Survey::open($id);
+            } else {
+                return redirect()->route('survey_show', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while opening Survey!!'));
+            }
         } catch (\Exception $exception) {
             return redirect()->route('survey_show', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while opening Survey!!') . ' : ' . $exception->getMessage());
         }
@@ -99,7 +103,8 @@ class SurveyShow extends Component
             Survey::close($id);
         } catch (\Exception $exception) {
             return redirect()->route('survey_show', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while closing Survey!!') . ' : ' . $exception->getMessage());
-        }            return redirect()->route('survey_show', $this->routeRedirectionParams)->with('success', Lang::get('Survey closed Successfully!!'));
+        }
+        return redirect()->route('survey_show', $this->routeRedirectionParams)->with('success', Lang::get('Survey closed Successfully!!'));
 
     }
 

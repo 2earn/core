@@ -28,4 +28,9 @@ class SurveyResponse extends Model
     {
         return $this->hasOne(SurveyResponseItem::class);
     }
+
+    public static function isPaticipated($idUser, $idSurvey)
+    {
+        return SurveyResponse::where('user_id', $idUser)->where('survey_id', $idSurvey)->exists();
+    }
 }

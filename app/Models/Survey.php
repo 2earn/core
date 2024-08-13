@@ -104,4 +104,16 @@ class Survey extends Model
         Survey::where('id', $id)->update(['status' => StatusSurvey::ARCHIVED->value, 'openDate' => Carbon::now()]);
         return true;
     }
+
+    public static function canBeOpened($id): bool
+    {
+        $survey = Survey::find($id);
+        if (!is_null($survey->question)) {
+            if ($survey->question->serveyQuestionChoice()->count() > 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

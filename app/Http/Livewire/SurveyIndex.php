@@ -56,12 +56,17 @@ class SurveyIndex extends Component
     public function open($id)
     {
         try {
-            Survey::open($id);
-            return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey Opened Successfully!!'));
+            if (Survey::canBeOpened($id)) {
+                Survey::open($id);
+            } else {
+                return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while opening Survey!!'));
+            }
         } catch (\Exception $exception) {
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while opening Survey!!') . ' : ' . $exception->getMessage());
         }
+        return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey Opened Successfully!!'));
     }
+
 
     public function close($id)
     {

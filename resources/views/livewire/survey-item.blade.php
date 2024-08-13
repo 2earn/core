@@ -200,8 +200,16 @@
                 @endif
             @endif
             @if(intval($survey->status)==\Core\Enum\StatusSurvey::OPEN->value)
-                <a href="{{route('survey_participate', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
-                   class="btn btn-soft-info material-shadow-none">{{__('Paticipate')}}</a>
+                @if(\App\Models\SurveyResponse::isPaticipated(auth()->user()->id, $survey->id))
+                    @if($survey->updatable)
+                        <a href="{{route('survey_participate', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
+                           class="btn btn-soft-info material-shadow-none">{{__('Re-Paticipate')}}</a>
+                    @endif
+                @else
+                    <a href="{{route('survey_participate', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
+                       class="btn btn-soft-info material-shadow-none">{{__('Paticipate')}}</a>
+                @endif
+
             @endif
             @if(intval($survey->status)<\Core\Enum\StatusSurvey::NEW->value)
                 <a href="{{route('survey_results', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
@@ -394,15 +402,16 @@
                     <div class="form-group mb-3">
                         <label for="disableNote">{{__('Disable Note')}}</label>
                         <textarea type="text" class="form-control @error('disableNote') is-invalid @enderror"
-                               id="disableNote"
-                               wire:model="disableNote"
-                               placeholder="{{__('Enter Disable Note')}}"></textarea>
+                                  id="disableNote"
+                                  wire:model="disableNote"
+                                  placeholder="{{__('Enter Disable Note')}}"></textarea>
                         @error('disableNote') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" wire:click="disable('{{$survey->id}}')"  class="btn btn-primary">{{__('Disable Survey')}}</button>
+                    <button type="button" wire:click="disable('{{$survey->id}}')"
+                            class="btn btn-primary">{{__('Disable Survey')}}</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
                 </div>
             </div>

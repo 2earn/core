@@ -23,7 +23,7 @@ class SurveyParicipate extends Component
         $this->currentRouteName = Route::currentRouteName();
         $this->routeRedirectionParams = ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey];
         $survey = Survey::findOrFail($this->idSurvey);
-        if ($survey->question->selection == Selection::MULTIPLE->value) {
+        if ($survey->question?->selection == Selection::MULTIPLE->value) {
             $this->responces = [];
         }
     }
@@ -33,9 +33,11 @@ class SurveyParicipate extends Component
         try {
             $survey = Survey::findOrFail($this->idSurvey);
             $question = $survey->question;
+
             if ($survey->question->selection == Selection::MULTIPLE->value && !count($this->responces)) {
                 return redirect()->route('survey_participate', $this->routeRedirectionParams)->with('danger', Lang::get('Invalid responce: no selected choices'));
             }
+
             if ($survey->question->selection == Selection::UNIQUE->value && empty($this->responces)) {
                 return redirect()->route('survey_participate', $this->routeRedirectionParams)->with('danger', Lang::get('Invalid responce: no selected choices'));
             }
@@ -43,6 +45,7 @@ class SurveyParicipate extends Component
             if ($question->selection == Selection::UNIQUE->value && empty($this->responces)) {
                 return redirect()->route('survey_participate', $this->routeRedirectionParams)->with('danger', Lang::get('Invalid responce: too many selected choices'));
             }
+
             if ($question->selection == Selection::MULTIPLE->value && count($this->responces) > $question->maxResponse) {
                 return redirect()->route('survey_participate', $this->routeRedirectionParams)->with('danger', Lang::get('Invalid responce: too many selected choices'));
             }
@@ -61,7 +64,6 @@ class SurveyParicipate extends Component
             }
 
         } catch (\Exception $exception) {
-            dd($exception);
             return redirect()->route('survey_participate', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while participating to this survey!!') . ' : ' . $exception->getMessage());
         }
         return redirect()->route('survey_show', $this->routeRedirectionParams)->with('success', Lang::get('You just participated successfully to this survey'));
