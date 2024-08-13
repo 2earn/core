@@ -12,11 +12,15 @@
         </div>
         <div class="card-body row">
             @include('livewire.survey-item', ['survey' => $survey])
+
             @if($survey->question)
                 <div class="card">
                     <form wire:submit.prevent="participate()">
                         <div class="card-header border-info fw-medium text-muted mb-0">
                             {{ __('Participation') }}
+                        </div>
+                        <div class="row">
+                                @include('layouts.flash-messages')
                         </div>
                         <div class="card-body row">
                             <div class="row">
@@ -70,7 +74,6 @@
                                             @endforelse
                                         </ul>
                                     </div>
-                                    responces : {{var_export($responces)}}
                                 @endif
                             </div>
                         </div>

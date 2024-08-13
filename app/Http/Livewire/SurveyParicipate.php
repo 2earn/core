@@ -25,33 +25,31 @@ class SurveyParicipate extends Component
 
     public function participate()
     {
-
         try {
+            $survey = Survey::findOrFail($this->idSurvey);
+            $question = $survey->question;
+            if (!count($this->responces)) {
+                return redirect()->route('survey_participate', $this->routeRedirectionParams)->with('danger', Lang::get('Invalid responce: no selected choices') );
+            }
 
 
-
-
-
-
-
-        $survey = Survey::findOrFail($this->idSurvey);
-        $surveyResponse = SurveyResponse::create(
-            [
-                'survey_id' => $this->idSurvey,
-                'user_id' => auth()->user()->id
-            ]
-        );
-        foreach ($this->responces as $responceItem) {
-           $surveyResponseItem=     SurveyResponseItem::create([
-                'surveyResponse_id' => $surveyResponse->id,
-                'surveyQuestion_id' => $survey->question->id,
-                'surveyQuestionChoice_id' => $responceItem,
-            ]);
-        }
+            $surveyResponse = SurveyResponse::create(
+                [
+                    'survey_id' => $this->idSurvey,
+                    'user_id' => auth()->user()->id
+                ]
+            );
+            foreach ($this->responces as $responceItem) {
+                $surveyResponseItem = SurveyResponseItem::create([
+                    'surveyResponse_id' => $surveyResponse->id,
+                    'surveyQuestion_id' => $survey->question->id,
+                    'surveyQuestionChoice_id' => $responceItem,
+                ]);
+            }
         } catch (\Exception $exception) {
-            return redirect()->route('survey_show', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while participating to this survey!!') . ' : ' . $exception->getMessage());
+            return redirect()->route('survey_participate', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while participating to this survey!!') . ' : ' . $exception->getMessage());
         }
-        return redirect()->route('survey_show', $this->routeRedirectionParams)->with('success', Lang::get('You just participated successfully to this survey'));
+        return redirect()->route('survey_participate', $this->routeRedirectionParams)->with('success', Lang::get('You just participated successfully to this survey'));
 
     }
 
