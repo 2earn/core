@@ -164,6 +164,9 @@ class SurveyCreateUpdate extends Component
     {
         $this->targets = Target::all();
         $this->targetTypes = TargetType::cases();
+        if (is_null($this->target)) {
+            $this->target = $this->targets[0]->id;
+        }
         return view('livewire.survey-create-update')->extends('layouts.master')->section('content');
     }
 }
