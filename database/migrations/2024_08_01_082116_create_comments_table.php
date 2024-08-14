@@ -17,6 +17,9 @@ return new class extends Migration {
         Schema::create(self::TABLE_NAME, function (Blueprint $table) {
             $table->id();
             $table->string('content');
+            $table->boolean('validated')->default(false);
+            $table->dateTime('validatedAt')->nullable();
+            $table->unsignedBigInteger('validatedBy_id')->foreign('validatedBy_id')->nullable()->references('id')->on('user')->onDelete('cascade');
             $table->unsignedBigInteger('user_id')->foreign('user_id')->references('id')->on('user')->onDelete('cascade');
             $table->morphs('commentable');
             $table->timestamps();

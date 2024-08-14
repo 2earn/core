@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Comment;
 use App\Models\Survey;
 use App\Models\SurveyQuestion;
 use App\Models\SurveyQuestionChoice;
@@ -129,6 +130,14 @@ class SurveyShow extends Component
     {
         $survey = Survey::find($this->idSurvey);
         $survey->comments()->create(['user_id' => auth()->user()->id, 'content' => $this->comment]);
+    }
+    public function validateComment($idComment)
+    {
+        Comment::validate($idComment);
+    }
+    public function deleteComment($idComment)
+    {
+        Comment::deleteComment($idComment);
     }
 
     public function dislike()

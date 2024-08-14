@@ -263,9 +263,7 @@
                             {{__('Disable Note')}} : {{$survey->question->disableNote}}
                         </span>
                                 @endif
-
                             </div>
-
                             @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
                                 <div class="col-sm-12 col-md-6 col-lg-5">
                                     <div class="btn-group  btn-group-sm" role="group" aria-label="Basic example">
@@ -368,24 +366,38 @@
             </div>
         </div>
     @endif
+
     @if($currentRouteName=="survey_show" && $survey->commentable)
         <div class="card">
             <div class="card-header border-info fw-medium text-muted mb-0">
-                <h6 class="mt-2 text-info">          {{__('Comments')}}</h6>
+                <h6 class="mt-2 text-info"> {{__('Comments')}}</h6>
             </div>
             <div class="card-body row">
                 <div class="col-sm-12 col-md-12 col-lg-12">
                     <ul class="list-group mb-3">
                         @forelse ($survey->comments as $comment)
-                            <li class="list-group-item mt-1">
-                                <strong class="text-muted">{{ getUserDisplayedName($comment->user->idUser)}}
-                                    :</strong>
-                                <br>
-                                <span class="mx-3">{{$comment->content }}</span>
-                                <span class="text-muted float-end">
-                              <strong>{{__('at')}}: </strong>  {{$comment->created_at}}
-                            </span>
-                            </li>
+
+                            @if(auth()?->user()?->getRoleNames()->first()=="Super admin" ||$comment->validated  )
+                                <li class="list-group-item mt-1">
+                                    <strong class="text-muted">{{ getUserDisplayedName($comment->user->idUser)}}
+                                        :</strong>
+                                    <br>
+                                    <span class="mx-3">{{$comment->content }}</span>
+                                    @if(!$comment->validated && auth()?->user()?->getRoleNames()->first()=="Super admin")
+                                        <button wire:click="deleteComment('{{$comment->id}}')"
+                                                class="btn btn-danger mt-3 mx-2 float-end">
+                                            {{__('Delete')}}
+                                        </button>
+                                        <button wire:click="validateComment('{{$comment->id}}')"
+                                                class="btn btn-success mt-3 mx-2 float-end">
+                                            {{__('Validate')}}
+                                        </button>
+                                    @endif
+                                    <span class="text-muted float-end">                              <strong>{{__('at')}}: </strong>  {{$comment->created_at}}                            </span>
+
+                                </li>
+                            @endif
+
                         @empty
                             <li class="list-group-item mt-2">
                                 {{__('No Comments')}}
@@ -409,6 +421,7 @@
             </div>
         </div>
     @endif
+
 
     <div wire:ignore class="modal fade" id="disableSurveyModal_{{$survey->id}}" tabindex="-1"
          aria-labelledby="disableSurveyModal_{{$survey->id}}Label"
