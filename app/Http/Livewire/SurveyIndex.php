@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Survey;
+use App\Services\Targeting\Targeting;
 use Core\Enum\StatusSurvey;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
@@ -114,6 +115,7 @@ class SurveyIndex extends Component
 
     public function getSurveys()
     {
+        $surveys = [];
         $surveysQuery = Survey::where('status', '!=', StatusSurvey::ARCHIVED->value);
 
         if (auth()?->user()?->getRoleNames()->first() == "Super admin") {
@@ -131,7 +133,13 @@ class SurveyIndex extends Component
             }
 
         }
-        return $surveysQuery->get();
+        foreach ($surveysQuery->get() as $survey) {
+            if (Targeting::isSurveyInTarget($survey,auth()->user())) {
+                $surveys[] = $survey;
+            }
+
+        }
+        return $surveys;
     }
 
     public function render()

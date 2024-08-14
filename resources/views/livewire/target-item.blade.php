@@ -89,9 +89,10 @@
                                 {{$loop->index + 1}} )
                             </div>
                             <div class="col-sm-12 col-md-5 col-lg-6 text-info">
-                                <span class="badge border border-primary text-primary">{{ $condition->operand }}</span>
+                                <h3>     <span class="badge border border-primary text-primary  btn-lg">{{ $condition->operand }}</span>
                                 <span class="text-danger">{{ $condition->operator }}</span>
-                                <span class="badge border border-primary text-primary">{{ $condition->value }}</span>
+                                <span class="badge border border-primary text-primary  btn-lg">{{ $condition->value }}</span>
+                                </h3>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-5 mt-2">
                                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
