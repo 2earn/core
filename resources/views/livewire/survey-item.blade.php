@@ -1,8 +1,7 @@
 <div class="card mb-2 ml-4 border">
     <div class="card-header border-info fw-medium text-muted mb-0">
-        {{$survey->id}} - {{$survey->name}}
         @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
-            <span class="mx-2 mr-2 badge btn btn-lg float-end
+            <span class="badge btn btn-lg float-end
         {{ $survey->status==\Core\Enum\StatusSurvey::NEW->value ? 'btn-primary' : ''  }}
         {{ $survey->status==\Core\Enum\StatusSurvey::OPEN->value ? 'btn-success' : ''  }}
         {{ $survey->status==\Core\Enum\StatusSurvey::CLOSED->value ? 'btn-warning' : ''  }}
@@ -11,6 +10,7 @@
                 {{ \Core\Enum\StatusSurvey::tryFrom($survey->status)->name}}
                         </span>
         @endif
+            <h5> {{$survey->id}} - {{$survey->name}}</h5>
     </div>
     @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
         <div class="card-body">
@@ -18,7 +18,7 @@
                             {{__('Enabled')}}
                         </span>
             <span class="badge btn {{ $survey->published ? 'btn-success' : 'btn-danger'  }}">
-                            {{__('published')}}
+                            {{__('Published')}}
                         </span>
             <span class="badge btn {{ $survey->updatable ? 'btn-success' : 'btn-danger'  }}">
                             {{__('Updatable')}}
@@ -36,12 +36,14 @@
             <span class="badge btn btn-info">
                             {{__('Show after archiving')}}: {{\Core\Enum\TargetType::tryFrom($survey->showAfterArchiving)?->name}}
                         </span>
+            <hr>
             <span class="badge btn btn-info">
-                            {{__('likable')}}: {{\Core\Enum\TargetType::tryFrom($survey->likable)?->name}}
+                            {{__('Likable')}}: {{\Core\Enum\TargetType::tryFrom($survey->likable)?->name}}
                         </span>
             <span class="badge btn btn-info">
-                            {{__('commentable')}}: {{\Core\Enum\TargetType::tryFrom($survey->commentable)?->name}}
-                        </span>
+                {{__('Commentable')}}: {{\Core\Enum\TargetType::tryFrom($survey->commentable)?->name}}
+            </span>
+            <hr>
         </div>
     @endif
 
@@ -94,6 +96,7 @@
 
     @if($survey->disabledBtnDescription != null && !$survey->enabled)
         <div class="card-body">
+            <hr>
             <h6 class="mt-2 text-info">{{__('Disabled button description')}}:</h6>
             <blockquote class="blockquote mb-0">
                 <p class="card-text text-muted">

@@ -98,6 +98,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/accept/request', AcceptFinancialRequest::class)->name('accept_financial_request')->middleware('CloseAuth');
 
         Route::get('/survey/index', \App\Http\Livewire\SurveyIndex::class)->name('surveys_index');
+        Route::get('/survey/archive', \App\Http\Livewire\SurveyArchive::class)->name('surveys_archive');
         Route::get('/survey', \App\Http\Livewire\SurveyCreateUpdate::class)->name('survey_create_update');
         Route::get('/survey/show/{idSurvey}', \App\Http\Livewire\SurveyShow::class)->name('survey_show');
         Route::get('/survey/participate/{idSurvey}', \App\Http\Livewire\SurveyParicipate::class)->name('survey_participate');

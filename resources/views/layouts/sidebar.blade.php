@@ -126,13 +126,32 @@
                             <span>{{__('Targets')}}</span>
                         </a>
                     </li>
-                    <li class="nav-item {{Route::currentRouteName()=='tar'? 'active' : ''}}">
-                        <a href="{{route('surveys_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
-                           class="nav-link menu-link {{Route::currentRouteName()=='surveys_index'? 'active' : ''}}"
-                           role="button">
+
+                    <li class="nav-item">
+                        <a class="nav-link menu-link {{!in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'collapsed' : 'active'}}"
+                           href="#sidebarSurvey" data-bs-toggle="collapse"
+                           role="button"
+                           aria-expanded="{{in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'true' : 'false'}}"
+                           aria-controls="sidebarSurvey">
                             <i class="ri-bookmark-fill"></i>
-                            <span>{{__('Surveys')}}</span>
+                            <span
+                                data-key="t-dashboards">{{ __('Surveys') }}</span>
                         </a>
+                        <div
+                            class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['surveys_index','surveys_archive'])? 'show' : ''}}"
+                            id="sidebarSurvey">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item {{Route::currentRouteName()=='surveys_index'? 'active' : ''}}">
+                                    <a href="{{route('surveys_index', app()->getLocale(),false)}}"
+                                       class="nav-link" data-key="t-analytics">{{ __('Surveys ') }}</a>
+                                </li>
+                                <li class="nav-item {{Route::currentRouteName()=='surveys_archive'? 'active' : ''}}">
+                                    <a href="{{route('surveys_archive', app()->getLocale(),false)}}"
+                                       class="nav-link"
+                                       data-key="t-analytics">{{ __('Archive') }}</a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                     <li class="nav-item {{Route::currentRouteName()=='description'? 'active' : ''}}">
                         <a href="{{route('description',app()->getLocale(),false )}}"
@@ -297,10 +316,16 @@
             $('#navbar-nav li a').removeClass('active');
             $('#navbar-nav a[href="' + location.pathname + '"]').addClass('active');
             $('#navbar-nav a[href="' + location.pathname + '"]').parent().addClass('active');
+            const surveyArray = ['surveys_index','surveys_archive'];
             const settingArray = ['configuration-setting', 'configuration-bo', 'configuration-ha', 'configuration-amounts'];
             const shareSoldArray = ['shares-sold-dashboard', 'shares-sold-market-status', 'shares-sold-recent-transaction'];
             var currentRoutePath = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
 
+            if (surveyArray.includes(currentRoutePath)) {
+                showDropDownMenu('sidebarSurvey')
+            } else {
+                hideDropDownMenu('sidebarSurvey');
+            }
             if (settingArray.includes(currentRoutePath)) {
                 showDropDownMenu('sidebarDashboards')
             } else {

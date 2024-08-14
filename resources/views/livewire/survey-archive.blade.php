@@ -2,7 +2,7 @@
     @if($currentRouteName=="surveys_index")
         @component('components.breadcrumb')
             @slot('title')
-                {{ __('Surveys') }}
+                {{ __('Surveys archive') }}
             @endslot
         @endcomponent
         <div class="row">
@@ -26,7 +26,7 @@
                     </div>
                 @endif
                 @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
-                    @if($currentRouteName!=="home"&&Route::currentRouteName()!=="main")
+                    @if($currentRouteName!=="home" && Route::currentRouteName()!=="main"&& Route::currentRouteName()!=="surveys_archive")
                         <div class="float-end d-inline  mx-2">
                             <a href="{{route('survey_create_update', app()->getLocale())}}" class="btn btn-info add-btn"
                                id="create-btn">
