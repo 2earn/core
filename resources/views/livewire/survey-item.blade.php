@@ -23,30 +23,31 @@
             <span class="badge btn {{ $survey->updatable ? 'btn-success' : 'btn-danger'  }}">
                             {{__('Updatable')}}
                         </span>
-            <span class="badge btn {{ $survey->showResult ? 'btn-success' : 'btn-danger'  }}">
-                            {{__('Shows result')}}
+            <hr>
+            <span class="badge btn btn-info">
+                            {{__('Shows result')}}: {{\Core\Enum\TargetType::tryFrom($survey->showResult)?->name}}
                         </span>
-            <span class="badge btn {{ $survey->showAttchivementChrono ? 'btn-success' : 'btn-danger'  }}">
-                            {{__('Show attchivement Chrono')}}
+            <span class="badge btn btn-info">
+                            {{__('Show attchivement Chrono')}}: {{\Core\Enum\TargetType::tryFrom($survey->showAttchivementChrono)?->name}}
                         </span>
-            <span class="badge btn {{ $survey->showAttchivementPourcentage ? 'btn-success' : 'btn-danger'  }}">
-                            {{__('Show achievement %')}}
+            <span class="badge btn btn-info">
+                            {{__('Show achievement %')}}: {{\Core\Enum\TargetType::tryFrom($survey->showAttchivementPourcentage)?->name}}
                         </span>
-            <span class="badge btn {{ $survey->showAfterArchiving ? 'btn-success' : 'btn-danger'  }}">
-                            {{__('Show after archiving')}}
+            <span class="badge btn btn-info">
+                            {{__('Show after archiving')}}: {{\Core\Enum\TargetType::tryFrom($survey->showAfterArchiving)?->name}}
                         </span>
-            <span class="badge btn {{ $survey->likable ? 'btn-success' : 'btn-danger'  }}">
-                            {{__('likable')}}
+            <span class="badge btn btn-info">
+                            {{__('likable')}}: {{\Core\Enum\TargetType::tryFrom($survey->likable)?->name}}
                         </span>
-            <span class="badge btn {{ $survey->commentable ? 'btn-success' : 'btn-danger'  }}">
-                            {{__('commentable')}}
+            <span class="badge btn btn-info">
+                            {{__('commentable')}}: {{\Core\Enum\TargetType::tryFrom($survey->commentable)?->name}}
                         </span>
         </div>
     @endif
 
     <div class="card-body">
         <div class="row">
-            <div class="col-sm-12 col-md-6 col-lg-7">
+            <div class="col-sm-12 col-md-6 col-lg-6">
                 <h6 class="mt-2 text-info">{{__('Description')}}:</h6>
                 <p class="card-text text-muted">
                     @if($currentRouteName=="survey_show")
@@ -56,7 +57,7 @@
                     @endif
                 </p>
             </div>
-            <div class="col-sm-12 col-md-6 col-lg-5">
+            <div class="col-sm-12 col-md-6 col-lg-6">
                 <h6 class="mt-2 text-info">{{__('Target')}}:</h6>
                 @if($survey->targets->isEmpty())
                     <span class="text-muted">{{ __('No target') }}</span>
@@ -70,6 +71,24 @@
                     </ul>
                 @endif
             </div>
+
+            @if($survey->showAttchivementChrono)
+                <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
+                    <h6 class="mt-2 text-info">{{__('Attchivement Chrono')}}:</h6>
+                    <p class="card-text text-muted">
+                        {{ $survey->getChronoAttchivement($survey->id)}}
+                    </p>
+                </div>
+            @endif
+            @if($survey->showAttchivementPourcentage)
+                <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
+                    <h6 class="mt-2 text-info">{{__('Attchivement %')}}:</h6>
+                    <p class="card-text text-muted">
+                        {{ $survey->getPourcentageAttchivement($survey->id)}}
+                    </p>
+                </div>
+            @endif
+
         </div>
     </div>
 
@@ -232,7 +251,7 @@
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-7">
             <span
-                class="badge btn {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'btn-success' : 'btn-danger'  }}">
+                    class="badge btn {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'btn-success' : 'btn-danger'  }}">
                             {{__('Multiple')}}
                         </span>
                                 @if(!empty($survey->question->disableNote))
@@ -333,7 +352,7 @@
                         @forelse ($survey->likes as $like)
                             <li class="list-group-item mt-2">
                                 {{ getUserDisplayedName($like->user->idUser)}} <span
-                                    class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>
+                                        class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>
                             </li>
                         @empty
                             <li class="list-group-item mt-2">

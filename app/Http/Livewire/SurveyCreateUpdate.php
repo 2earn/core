@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Survey;
 use App\Models\Target;
+use Core\Enum\TargetType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
@@ -19,14 +20,14 @@ class SurveyCreateUpdate extends Component
 
     public $enabled = false;
     public $published = false;
-    public $commentable = false;
-    public $likable = false;
-    public $showResult = false;
-    public $achievement = false;
     public $updatable = false;
-    public $showAttchivementChrono = false;
-    public $showAfterArchiving = false;
-    public $showAttchivementPourcentage = false;
+
+    public $commentable = TargetType::TARGET;
+    public $likable = TargetType::TARGET;
+    public $showResult = TargetType::TARGET;
+    public $showAttchivementChrono = TargetType::TARGET;
+    public $showAfterArchiving = TargetType::TARGET;
+    public $showAttchivementPourcentage = TargetType::TARGET;
 
     public
         $startDate,
@@ -49,10 +50,9 @@ class SurveyCreateUpdate extends Component
         'deleteSurvey' => 'destroy'
     ];
 
-    protected $rules = [
-        'name' => 'required',
-        'description' => 'required',
-    ];
+    protected $rules = ['name' => 'required', 'description' => 'required'];
+
+    public $targetTypes;
 
     public function mount(Request $request)
     {
@@ -163,6 +163,7 @@ class SurveyCreateUpdate extends Component
     public function render()
     {
         $this->targets = Target::all();
+        $this->targetTypes = TargetType::cases();
         return view('livewire.survey-create-update')->extends('layouts.master')->section('content');
     }
 }

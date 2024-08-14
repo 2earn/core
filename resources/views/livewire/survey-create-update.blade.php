@@ -41,8 +41,7 @@
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                         </div>
-
-                        @if(is_null($idTarget))
+                        @if(is_null($idTarget)&&$targets->isNotEmpty())
                             <div class="form-group mb-3">
                                 <label for="target">{{__('Target')}}</label>
                                 <select
@@ -63,74 +62,141 @@
                             </div>
                         @endif
                         <div class="row mt-2">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-4 mt-2">
                                 <input class="form-check-input" wire:model="enabled" type="checkbox"
                                        id="Enabled" placeholder="{{__('enabled')}}" checked>
                                 <label class="form-check-label" for="Enabled">{{__('Enabled')}}</label>
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-4 mt-2">
                                 <input class="form-check-input" wire:model="published" type="checkbox"
                                        id="published" placeholder="{{__('published')}}" checked>
                                 <label class="form-check-label" for="published">{{__('Published')}}</label>
                             </div>
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-4 mt-2">
                                 <input class="form-check-input" wire:model="updatable" type="checkbox"
                                        id="updatable" placeholder="{{__('updatable')}}" checked>
                                 <label class="form-check-label" for="updatable">{{__('Updatable')}}</label>
                             </div>
-
-                            <div class="form-group col-md-4">
-                                <input class="form-check-input" wire:model="showResult" type="checkbox"
-                                       id="showResult" placeholder="{{__('showResult')}}" checked>
-                                <label class="form-check-label" for="showResult">{{__('Show result')}}</label>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <input class="form-check-input" wire:model="showAttchivementPourcentage" type="checkbox"
-                                       id="showAttchivementPourcentage"
-                                       placeholder="{{__('showAttchivementPourcentage')}}" checked>
-                                <label class="form-check-label"
-                                       for="showAttchivementPourcentage">{{__('Show achievement %')}}</label>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <input class="form-check-input" wire:model="showAttchivementChrono" type="checkbox"
-                                       id="showAttchivementChrono" placeholder="{{__('showAttchivementChrono')}}"
-                                       checked>
-                                <label class="form-check-label"
-                                       for="showAttchivementChrono">{{__('Show achievement Chrono')}}</label>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <input class="form-check-input" wire:model="showAfterArchiving" type="checkbox"
-                                       id="showAfterArchiving" placeholder="{{__('showAfterArchiving')}}" checked>
-                                <label class="form-check-label"
-                                       for="showAfterArchiving">{{__('Show after archiving')}}</label>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <input class="form-check-input" wire:model="commentable" type="checkbox"
-                                       id="commentable" placeholder="{{__('Commentable')}}" checked>
-                                <label class="form-check-label"
-                                       for="commentable">{{__('Commentable')}}</label>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <input class="form-check-input" wire:model="likable" type="checkbox"
-                                       id="likable" placeholder="{{__('Likable')}}" checked>
-                                <label class="form-check-label"
-                                       for="likable">{{__('Likable')}}</label>
+                            <div class="form-group col-md-4 mt-2">
+                                <label for="showResult">{{__('Show result')}}</label>
+                                <select
+                                    class="form-select form-control @error('showResult') is-invalid @enderror"
+                                    placeholder="{{__('Show result')}}"
+                                    wire:model="showResult"
+                                    id="showResult"
+                                    aria-label="{{__('Show result')}}">
+                                    @foreach ($targetTypes as $targetType)
+                                        <option value="{{$targetType}}"
+                                                @if($loop->index==0) selected @endif >{{$targetType->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('showResult') <span class="text-danger">{{ $message }}</span>@enderror
+                                <div class="form-text">{{__('Required field')}}</div>
                             </div>
 
+                            <div class="form-group col-md-4 mt-2">
+                                <label for="showAttchivementPourcentage">{{__('Show attchivement pourcentage')}}</label>
+                                <select
+                                    class="form-select form-control @error('showAttchivementPourcentage') is-invalid @enderror"
+                                    placeholder="{{__('Show attchivement pourcentage')}}"
+                                    wire:model="showAttchivementPourcentage"
+                                    id="showAttchivementPourcentage"
+                                    aria-label="{{__('showAttchivementPourcentage')}}">
+                                    @foreach ($targetTypes as $targetType)
+                                        <option value="{{$targetType}}"
+                                                @if($loop->index==0) selected @endif >{{$targetType->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('showAttchivementPourcentage')
+                                <span class="text-danger">{{ $message }}</span>@enderror
+                                <div class="form-text">{{__('Required field')}}</div>
+                            </div>
+
+                            <div class="form-group col-md-4 mt-2">
+                                <label for="showAttchivementChrono">{{__('Show Attchivement Chrono')}}</label>
+                                <select
+                                    class="form-select form-control @error('showAttchivementChrono') is-invalid @enderror"
+                                    placeholder="{{__('Show Attchivement Chrono')}}"
+                                    wire:model="showAttchivementChrono"
+                                    id="showAttchivementChrono"
+                                    aria-label="{{__('showAttchivementChrono')}}">
+                                    @foreach ($targetTypes as $targetType)
+                                        <option value="{{$targetType}}"
+                                                @if($loop->index==0) selected @endif >{{$targetType->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('showAttchivementChrono')
+                                <span class="text-danger">{{ $message }}</span>@enderror
+                                <div class="form-text">{{__('Required field')}}</div>
+                            </div>
+
+                            <div class="form-group col-md-4 mt-2">
+                                <label for="showAfterArchiving">{{__('Show After Archiving')}}</label>
+                                <select
+                                    class="form-select form-control @error('showAfterArchiving') is-invalid @enderror"
+                                    placeholder="{{__('Show After Archiving')}}"
+                                    wire:model="showAfterArchiving"
+                                    id="showAfterArchiving"
+                                    aria-label="{{__('showAfterArchiving')}}">
+                                    @foreach ($targetTypes as $targetType)
+                                        <option value="{{$targetType}}"
+                                                @if($loop->index==0) selected @endif >{{$targetType->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('showAfterArchiving')
+                                <span class="text-danger">{{ $message }}</span>@enderror
+                                <div class="form-text">{{__('Required field')}}</div>
+                            </div>
+
+                            <div class="form-group col-md-4 mt-2">
+                                <label for="commentable">{{__('Commentable')}}</label>
+                                <select
+                                    class="form-select form-control @error('commentable') is-invalid @enderror"
+                                    placeholder="{{__('commentable')}}"
+                                    wire:model="commentable"
+                                    id="commentable"
+                                    aria-label="{{__('commentable')}}">
+                                    @foreach ($targetTypes as $targetType)
+                                        <option value="{{$targetType}}"
+                                                @if($loop->index==0) selected @endif >{{$targetType->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('commentable')
+                                <span class="text-danger">{{ $message }}</span>@enderror
+                                <div class="form-text">{{__('Required field')}}</div>
+                            </div>
+
+                            <div class="form-group col-md-4 mt-2">
+                                <label for="likable">{{__('Likable')}}</label>
+                                <select
+                                    class="form-select form-control @error('likable') is-invalid @enderror"
+                                    placeholder="{{__('likable')}}"
+                                    wire:model="likable"
+                                    id="likable"
+                                    aria-label="{{__('likable')}}">
+                                    @foreach ($targetTypes as $targetType)
+                                        <option value="{{$targetType}}"
+                                                @if($loop->index==0) selected @endif >{{$targetType->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('likable')
+                                <span class="text-danger">{{ $message }}</span>@enderror
+                                <div class="form-text">{{__('Required field')}}</div>
+                            </div>
                         </div>
                         <div class="row mt-2">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-4 mt-2">
                                 <label for="startDate">{{__('Start Date')}}:</label>
                                 <input class="form-control" wire:model="startDate" type="date"
                                        id="startDate" placeholder="{{__('Start Date')}}">
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-4 mt-2">
                                 <label for="endDate">{{__('End Date')}}:</label>
                                 <input class="form-control" wire:model="endDate" type="date"
                                        id="endDate" placeholder="{{__('End Date')}}">
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-4 mt-2">
                                 <label for="goals">{{__('Goals')}}</label>
                                 <input class="form-control" wire:model="goals"
                                        id="goals" placeholder="{{__('Goals')}}">

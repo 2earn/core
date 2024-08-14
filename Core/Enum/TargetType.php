@@ -2,7 +2,7 @@
 
 namespace Core\Enum;
 
-enum  ShowResult: int
+enum  TargetType: int
 {
     case ALL = 1;
     case TARGET = 2;

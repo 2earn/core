@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->boolean('published')->default(false);
             $table->string('status')->default(\Core\Enum\StatusSurvey::NEW->value);
             $table->boolean('updatable')->default(false);
+
             $table->dateTime('startDate')->nullable();
             $table->dateTime('endDate')->nullable();
             $table->dateTime('enableDate')->nullable();
@@ -30,14 +31,17 @@ return new class extends Migration {
             $table->dateTime('openDate')->nullable();
             $table->dateTime('closeDate')->nullable();
             $table->dateTime('ArchivedDate')->nullable();
-            $table->boolean('showResult')->default(false);
-            $table->boolean('commentable')->default(false);
-            $table->boolean('likable')->default(false);
-            $table->boolean('showAttchivementPourcentage')->default(false);
-            $table->boolean('showAttchivementChrono')->default(false);
+
+            $table->boolean('showAfterArchiving')->nullable();
+
+            $table->integer('showResult')->default(1);
+            $table->integer('commentable')->default(1);
+            $table->integer('likable')->default(1);
+            $table->integer('showAttchivementPourcentage')->default(1);
+            $table->integer('showAttchivementChrono')->default(1);
+
             $table->integer('goals')->nullable();
-            $table->integer('showAfterArchiving')->nullable();
-            $table->float('achievement')->nullable();
+
             $table->text('description')->nullable();
             $table->text('disabledBtnDescription')->nullable();
             $table->timestamps();
