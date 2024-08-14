@@ -40,7 +40,8 @@
                                 <div class="alert alert-borderless alert-warning text-center mb-2 mx-2" role="alert">
                                     {{__('Enter your mobile  will be sent to you!')}}
                                 </div>
-                                    <form id="forget-password-form">
+                                @include('layouts.flash-messages')
+                                <form id="forget-password-form">
                                         @csrf
                                         <div class="mb-3">
                                             <label for="useremail"

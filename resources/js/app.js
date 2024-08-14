@@ -7,7 +7,15 @@ import Alpine from 'alpinejs'
 import Turbolinks from "turbolinks";
 
 import Swiper from 'swiper';
-import DataTable from "datatables.net-bs5";
+
+import DataTable from 'datatables.net-bs5';
+import 'datatables.net-buttons-dt';
+import 'datatables.net-responsive-dt';
+import 'datatables.net-responsive-bs'
+import 'datatables.net-buttons/js/buttons.html5';
+import 'datatables.net-buttons-bs5';
+
+
 import intlTelInput from 'intl-tel-input';
 import {Dropzone} from "dropzone";
 import feather from 'feather-icons';

@@ -28,7 +28,7 @@
                 </div>
                 <div class="card-body table-responsive">
                     <table id="shares-solde"
-                           class="table table-striped table-bordered"
+                           class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
                            style="width:100%">
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">

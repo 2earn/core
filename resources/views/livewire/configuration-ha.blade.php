@@ -7,7 +7,7 @@
     <div class="row">
         <div class="card">
             <div class="card-body">
-                <table class="table table-striped table-bordered"
+                <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
                        id="ActionHistorysTable" style="width: 100%">
                     <thead class="table-light">
                     <tr>

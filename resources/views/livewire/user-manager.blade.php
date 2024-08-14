@@ -20,7 +20,7 @@
                 <div class="transaction-table">
 
                     <div class="table-responsive ">
-                        <table class="table table-striped table-bordered"   id="userManager_table"
+                        <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"   id="userManager_table"
                                style="width: 100%">
                             <thead>
                             <tr class="head2earn">

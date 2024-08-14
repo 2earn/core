@@ -16057,6 +16057,19 @@ span.flatpickr-weekday {
          margin-left: 0px;
     }
 }
+
+
+.anychart-credits {
+    display: none;
+}
+
+#any1, #any2, #any3 {
+    width: 100%;
+    height: 600px;;
+    margin: 0;
+    padding: 0;
+}
+
 #any4, #any5 {
     width: 100%;
     height: 100%;
@@ -16064,4 +16077,13 @@ span.flatpickr-weekday {
     max-height: 95%;
     margin: 0;
     padding: 0;
+}
+
+.dtmdbtn {
+    cursor: pointer;
+}
+
+.dt-layout-row {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

@@ -1,37 +1,4 @@
 <div>
-    <script>
-        var existSucess = '{{Session::has('ErrorExpirationCode')}}';
-
-        if (existSucess && "{{Session::get('ErrorExpirationCode')}}" != "") {
-            var msgsuccess = "{{Session::get('ErrorExpirationCode')}}";
-            // "Opt code expired !";
-            var local = '{{app()->getLocale()}}';
-            if (local == 'ar') {
-                msgsuccess = "هذا  !";
-            }
-            Swal.fire({
-                title: ' ',
-                text: msgsuccess,
-                icon: 'error',
-                confirmButtonText: '{{trans('ok')}}',
-            })
-        }
-        var existSucess2 = '{{Session::has('ErrorOptCode')}}';
-        if (existSucess2 && "{{Session::get('ErrorOptCode')}}" != "") {
-            var msgsuccess2 = "Invalid Opt code !";
-            var local = '{{app()->getLocale()}}';
-            if (local == 'ar') {
-                msgsuccess = "هذا  !";
-            }
-            Swal.fire({
-                title: ' ',
-                text: msgsuccess2,
-                icon: 'error',
-                confirmButtonText: '{{trans('ok')}}',
-            })
-        }
-
-    </script>
     <div id="main-wrapper">
         <div class="authincation section-padding">
             <div class="container h-100">
@@ -51,7 +18,11 @@
                                 <p class="text-center">{{ __('We will send one time code on this number') }} </br> {{$numPhone}}</p>
                                 <form action="javascript:void(0)">
                                     <input type="hidden" wire:model.defer="idUser">
+
                                     @csrf
+                                    <div class="mb-3">
+                                            @include('layouts.flash-messages')
+                                    </div>
                                     <div class="mb-3">
                                         <label>{{ __('Your OTP Code') }}</label>
                                         <input type="number" min="1" max="9999"

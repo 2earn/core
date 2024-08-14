@@ -4,7 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\User;
 use Carbon\Carbon;
-use Core\Enum\StatusRequst;
+use Core\Enum\StatusRequest;
 use Core\Models\identificationuserrequest;
 use Core\Models\metta_user;
 use Core\Services\settingsManager;
@@ -40,7 +40,15 @@ class IdentificationCheck extends Component
 
     public function mount()
     {
-        $this->internationalCard = !is_null(auth()->user()->internationalID) && !is_null(auth()->user()->expiryDate) ? true : false;
+        if (!is_null(auth()->user()->internationalID) && !is_null(auth()->user()->expiryDate)) {
+            $this->internationalCard = true;
+        } else {
+            $this->internationalCard = false;
+        }
+        if (auth()->user()->status == StatusRequest::ValidNational->value) {
+            $this->internationalCard == true;
+        }
+
     }
 
     public function sendIndentificationRequest(settingsManager $settingsManager)
@@ -131,8 +139,19 @@ class IdentificationCheck extends Component
         }
 
         if ($photoBackValidated && $photoFrontValidated && (!$this->internationalCard or ($this->internationalCard && $photoInternationalValidated))) {
-            $this->sendIdentificationRequest($settingsManager);
-            User::where('idUser', $userAuth->idUser)->update(['status' => StatusRequst::EnCours, 'asked_at' => date('Y-m-d H:i:s'), 'iden_notif' => $this->notify]);
+            $user = User::where('idUser', $userAuth->idUser)->first();
+            $newStatus = StatusRequest::InProgressNational->value;
+            if ($this->internationalCard) {
+                if ($user->status == StatusRequest::ValidNational->value || $user->status == StatusRequest::ValidInternational->value) {
+                    $newStatus = StatusRequest::InProgressInternational->value;
+                }
+                if ($user->status == StatusRequest::OptValidated->value) {
+                    $newStatus = StatusRequest::InProgressGlobal->value;
+                }
+            }
+
+            $this->sendIdentificationRequest($newStatus, $settingsManager);
+            User::where('idUser', $userAuth->idUser)->update(['status' => $newStatus, 'asked_at' => date('Y-m-d H:i:s'), 'iden_notif' => $this->notify]);
             $this->messageVerif = Lang::get('demande_creer');
             return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Identification_send_succes'));
         } else {
@@ -187,25 +206,31 @@ class IdentificationCheck extends Component
         $hasBackImage = $userAuth->hasBackImage();
 
         $requestIdentification = identificationuserrequest::where('idUser', $userAuth->idUser)
-            ->where('status', StatusRequst::Rejected->value)
+            ->where('status', StatusRequest::Rejected->value)
             ->latest('responseDate')
             ->first();
         if ($requestIdentification != null) {
             $noteRequset = $requestIdentification->note;
         }
-        $this->disabled = in_array($user->status, [StatusRequst::EnCours->value, StatusRequst::ValidNational->value, StatusRequst::ValidInternational->value]) ? true : false;
+        $this->disabled = in_array($user->status, [StatusRequest::InProgressNational->value, StatusRequest::InProgressInternational->value, StatusRequest::InProgressGlobal->value, StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value]) ? true : false;
         return view('livewire.identification-check',
             compact('user', 'usermetta_info', 'errors_array', 'userAuth', 'hasRequest', 'hasFrontImage', 'hasBackImage', 'noteRequset'))
             ->extends('layouts.master')->section('content');
     }
 
-    public function sendIdentificationRequest(settingsManager $settingsManager)
+    public function sendIdentificationRequest($newStatus, settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
         $hasRequest = $userAuth->hasIdentificationRequest();
         if (!$hasRequest) {
-            $sensIdentification = identificationuserrequest::create(
-                ['idUser' => $userAuth->idUser, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(), 'response' => 0, 'note' => '', 'status' => 1]
+            identificationuserrequest::create([
+                    'idUser' => $userAuth->idUser,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                    'response' => 0,
+                    'note' => '',
+                    'status' => $newStatus
+                ]
             );
         }
         $this->dispatchBrowserEvent('existIdentificationRequest', ['type' => 'warning', 'title' => "Opt", 'text' => '',]);

@@ -15,7 +15,7 @@
                     <h5 class="card-title mb-0">{{__('Recent Transaction')}}</h5>
                 </div>
                 <div class="card-body table-responsive">
-                    <table id="transfert" class="table table-striped table-bordered">
+                    <table id="transfert" class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">
                             <th>{{__('value')}}</th>

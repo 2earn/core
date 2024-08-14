@@ -3,24 +3,19 @@
 namespace App\Http\Livewire;
 
 
-use App\Http\Traits\contactNumberCheker;
 use App\Models\vip;
 use Core\Models\Setting;
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
 use DateInterval;
 use DateTime;
-use Illuminate\Http\Request as Req;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Request;
 use Livewire\Component;
 
 class Home extends Component
 {
+    const MAX_AMOUNT = 99999999;
+    const MAX_ACTIONS = 9999999;
     public $cashBalance;
     public $balanceForSopping;
     public $discountBalance;
@@ -48,10 +43,10 @@ class Home extends Component
 
     public $flash = false;
     public $hasFlashAmount = 0;
-    public $vip=0 ;
-    public $actions=0 ;
-    public $benefices=0;
-    public $cout=0;
+    public $vip = 0;
+    public $actions = 0;
+    public $benefices = 0;
+    public $cout = 0;
 
     protected $listeners = [
         'checkContactNumbre' => 'checkContactNumbre',
@@ -71,6 +66,9 @@ class Home extends Component
             $this->action = 0;
         }
 
+        if ($this->action > self::MAX_ACTIONS) {
+            $this->action = self::MAX_ACTIONS;
+        }
 
         $this->ammount = round($this->action * actualActionValue(getSelledActions(), false), 3);
         $this->getCommounSimulation();
@@ -80,6 +78,9 @@ class Home extends Component
     {
         if ($this->ammount < 0 && $this->ammount == "") {
             $this->ammount = 0;
+        }
+        if ($this->ammount > self::MAX_AMOUNT) {
+            $this->ammount = self::MAX_AMOUNT;
         }
         $this->action = intval(intval($this->ammount) / actualActionValue(getSelledActions()));
         $this->getCommounSimulation();
@@ -93,27 +94,23 @@ class Home extends Component
 
         if ($this->flash) {
             if ($this->vip->declenched) {
-
                 if ($this->action >= $this->actions) {
                     $this->flashGift = '+' . getFlashGiftedActions($this->actions, $this->flashTimes);
                     $this->flashGain = '+' . formatSolde($this->flashGift * actualActionValue(getSelledActions(), false), 2);
-
                 } else {
                     $this->flashGift = '+' . getFlashGiftedActions($this->action, $this->flashTimes);
                     $this->flashGain = '+' . formatSolde($this->flashGift * actualActionValue(getSelledActions(), false), 2);
-
                 }
             } else {
                 if ($this->action >= $this->flashMinShares) {
                     if ($this->action >= $this->actions) {
                         $this->flashGift = '+' . getFlashGiftedActions($this->actions, $this->flashTimes);
                         $this->flashGain = '+' . formatSolde($this->flashGift * actualActionValue(getSelledActions(), false), 2);
-
                     } else {
                         $this->flashGift = '+' . getFlashGiftedActions($this->action, $this->flashTimes);
                         $this->flashGain = '+' . formatSolde($this->flashGift * actualActionValue(getSelledActions(), false), 2);
                     }
-                    } else {
+                } else {
                     $this->flashGift = $this->flashGain = 0;
                 }
             }
@@ -180,7 +177,6 @@ class Home extends Component
             $this->actions = find_actions($this->vip->solde, $total_actions, $max_bonus, $k, $this->vip->flashCoefficient);
             $this->benefices = ($this->vip->solde - find_actions($this->vip->solde, $total_actions, $max_bonus, $k, $this->vip->flashCoefficient)) * $actualActionValue;
             $this->cout = formatSolde($this->actions * $actualActionValue / (($this->actions * $this->vip->flashCoefficient) + getGiftedActions($this->actions)), 2);
-
             $this->flashTimes = $this->vip->flashCoefficient;
             $this->flashPeriod = $this->vip->flashDeadline;
             $this->flashDate = $this->vip->dateFNS;

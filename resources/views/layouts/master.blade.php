@@ -10,6 +10,12 @@
         var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";
         var urlLang = "https://cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
         var classAl = "text-end";
+        var datatableControlBtn = {
+            className: 'dtr-control arrow-right',
+            orderable: false,
+            data: null,
+            defaultContent: '<i class="fa-solid fa-circle-question text-info fa-lg dtmdbtn"></i>'
+        };
     </script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -111,7 +117,7 @@
 </head>
 <body>
 @section('body')
-    @vite(['resources/css/select2.min.css','resources/css/dataTables.bootstrap.css','resources/css/rowReorder.bootstrap.css','resources/js/layout.js'])
+    @vite(['resources/css/select2.min.css','resources/css/dataTables.bootstrap.css','resources/css/material-components-web.min.css','resources/js/layout.js'])
     @vite(['resources/css/intlTelInput.min.css','resources/fontawesome/all.min.css','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
     <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PMK39HQQ"
@@ -176,7 +182,7 @@
         var ipAdd2Contact = document.querySelector("#ipAdd2Contact");
         var ipUpdatePhoneAd = document.querySelector("#inputPhoneUpdateAd");
         var ipNumberContact = document.querySelector("#inputNumberContact");
-        if (pathPage == 'Account') {
+        if (pathPage == 'account') {
 
             ipPhone.innerHTML =
                 "<input type='tel'  placeholder= '{{ __("PH_EditPhone") }}'    data-turbolinks-permanent name='mobileUpPhone' id='phoneUpPhone' class='form-control' onpaste='handlePaste(event)'>" +
@@ -230,7 +236,7 @@
             });
             resetUpPhone();
         }
-        if (pathPage == 'Contacts') {
+        if (pathPage == 'contacts') {
             inputlog = document.querySelector("#ipAdd2Contact");
             var itiLog = window.intlTelInput(inputlog, {
                 initialCountry: "auto",
@@ -256,7 +262,7 @@
             }
             inputlog.focus();
         }
-        if (pathPage == 'editContact') {
+        if (pathPage == 'user'&&document.getElementById("ipAddContact")) {
 
             ipAddContact.innerHTML = "<div class='input-group-prepend'> " +
                 "</div><input wire:model.defer='phoneNumber' type='tel' name='phoneAddContact' id='phoneAddContact' class='form-control' onpaste='handlePaste(event)'" +
@@ -329,7 +335,7 @@
             resetAddContact();
             $("#phoneAddContact").val($("#pho").val());
         }
-        if (pathPage == 'ContactNumber') {
+        if (pathPage == 'contact-number') {
 
             ipNumberContact.innerHTML = "<div class='input-group-prepend'> " +
                 "</div><input wire:model.defer='' type='tel' name='phoneContactNumber' id='phoneContactNumber' class='form-control' onpaste='handlePaste(event)'" +

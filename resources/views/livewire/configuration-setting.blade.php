@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="tab-content text-muted">
-                    <div class="table table-striped table-bordered" id="setting" role="tabpanel">
+                    <div class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap" id="setting" role="tabpanel">
                         <div wire:ignore class="card-body">
                             <div id="customerList">
                                 <div class="row ">

@@ -22,14 +22,13 @@
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <h6 class="fw-semibold">{{__('Opération')}}</h6>
                         <select class="select2-hidden-accessible bfs_operation_multiple" name="states[]"
                                 id="select2bfs" multiple="multiple">
                         </select>
                     </div>
                 </div>
                 <div class="card-body table-responsive">
-                    <table class="table table-striped table-bordered"
+                    <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
                            id="ub_table_bfs" style="width: 100%">
                         <thead class="table-light">
                         <tr class=" tabHeader2earn">

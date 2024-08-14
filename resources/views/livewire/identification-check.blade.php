@@ -1,10 +1,10 @@
 <div>
     @php
-         $moreThanSixMonths = false;
-        if (!is_null(auth()->user()->expiryDate)) {
-            $daysNumber = getDiffOnDays(auth()->user()->expiryDate);
-            $moreThanSixMonths = $daysNumber > 180 ? true : false;
-        }
+        $moreThanSixMonths = false;
+       if (!is_null(auth()->user()->expiryDate)) {
+           $daysNumber = getDiffOnDays(auth()->user()->expiryDate);
+           $moreThanSixMonths = $daysNumber > 180 ? true : false;
+       }
     @endphp
     <div class="row">
         <div class="col-lg-12">
@@ -23,10 +23,12 @@
                                         data-bs-toggle="modal"
                                         @if(!$usermetta_info2['enFirstName'] || !$usermetta_info2['enLastName'] || !$usermetta_info2['birthday'] || !$usermetta_info2['nationalID'] || !$userF['email'])
                                             disabled
+                                        title="missing infos"
                                         @endif
 
-                                        @if($userAuth->status= 4 && $moreThanSixMonths)
+                                        @if($userAuth->status== 4 && $moreThanSixMonths)
                                             disabled
+                                        title="Status 4 + moreThanSixMonths"
                                         @endif
                                         @if($hasRequest) data-bs-target="#accountValidationModal"
                                         @else data-bs-target="#identificationModal" @endif
@@ -170,7 +172,7 @@
                                                 <th scope="row">
                                                     {{__('National ID identificatdion modal')}}
                                                 </th>
-                                                <td>
+                                                <td class="forceltr">
                                                     {{$usermetta_info2['nationalID']}}
                                                 </td>
                                             </tr>
@@ -178,7 +180,7 @@
                                                 <th scope="row">
                                                     {{__('Email identificatdion modal')}}
                                                 </th>
-                                                <td>
+                                                <td class="forceltr">
                                                     {{$userF['email']}}
                                                 </td>
                                             </tr>
@@ -307,6 +309,7 @@
                                         <div class="form-check form-switch form-switch-right form-switch-md">
                                             <input class="form-check-input" wire:model="internationalCard"
                                                    type="checkbox"
+                                                   @if($userAuth->status==4) disabled title="Status 4" @endif
                                                    id="international-card">
                                             <label for="international-card"
                                                    class="form-label text-muted">{{__('I want to submit my international identitie card')}}</label>
@@ -356,7 +359,7 @@
                                                 {{ __('InternationalId ID identificatdion modal') }}
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control" minlength="5" maxlength="50"
+                                            <input type="text" class="form-control forceltr" minlength="5" maxlength="50"
                                                    wire:model.defer="userF.internationalID"
                                                    id="internationalId" placeholder="{{__('InternationalId ID')}}">
                                         </div>

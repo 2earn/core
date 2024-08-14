@@ -33,7 +33,6 @@
             inputlog = document.querySelector("#phone");
         var countryDataforget = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
             inputforget = document.querySelector("#phoneforget");
-
         if (pathPage == 'login' || pathPage2 == 'login') {
             var itiLog = window.intlTelInput(inputlog, {
                 initialCountry: "auto",
@@ -93,7 +92,7 @@
                 optionNode.value = country.iso2;
             }
         }
-        if (pathPage == 'forget_password') {
+        if (pathPage == 'forget-password') {
             var itiforget = window.intlTelInput(inputforget, {
                 initialCountry: "auto",
                 useFullscreenPopup: false,

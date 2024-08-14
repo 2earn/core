@@ -8,7 +8,7 @@ use App\Models\vip;
 use App\Services\Sponsorship\SponsorshipFacade;
 use carbon;
 use Core\Enum\AmoutEnum;
-use Core\Enum\StatusRequst;
+use Core\Enum\StatusRequest;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
 use Core\Models\countrie;
@@ -580,8 +580,6 @@ left join users user on user.idUser = recharge_requests.idUser";
     {
         try {
             $id = $request->input('id');
-            //$status = $request->input('status');
-
             $st = 0;
 
             // Assuming 'id' is the primary key for the 'user_balances' table
@@ -835,8 +833,7 @@ class="btn btn-xs btn-flash btn2earnTable vip"  >
 <i class="glyphicon glyphicon-add"></i>' . Lang::get('VIP') . '</a> ';
             })
             ->addColumn('flag', function ($settings) {
-
-                return '<img src="' . $this->getFormatedFlagResourceName($settings->apha2) . '" alt="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
+                return '<img src="' . $this->getFormatedFlagResourceName($settings->apha2) . '" alt="' . strtolower($settings->apha2) . '" title="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
             })
             ->addColumn('SoldeCB', function ($user_balance) {
                 return '<a data-bs-toggle="modal" data-bs-target="#detail"   data-amount="1" data-reciver="' . $user_balance->idUser . '"
@@ -914,9 +911,9 @@ class="btn btn-xs btn-primary btn2earnTable"  >
             ->setRowId('idSETTINGS')
             ->editColumn('Automatically_calculated', function ($settings) {
                 if ($settings->Automatically_calculated == 1)
-                    return '<span class="badge badge-success">'.trans('Yes').'</span>';
+                    return '<span class="badge badge-success">' . trans('Yes') . '</span>';
                 else
-                    return '<span class="badge badge-info">'.trans('No').'</span>';
+                    return '<span class="badge badge-info">' . trans('No') . '</span>';
             })
             ->editColumn('StringValue', function ($settings) {
                 return '***';
@@ -1013,9 +1010,9 @@ class="btn btn-xs btn-primary edit-amounts-btn btn2earnTable"  >
             })
             ->editColumn('reponce', function ($actionHistorys) {
                 if ($actionHistorys->reponce == 1)
-                    return '<span class="badge bg-success-subtle text-success ">'.trans('create reponce').'</span>';
+                    return '<span class="badge bg-success-subtle text-success ">' . trans('create reponce') . '</span>';
                 else
-                    return '<span class="badge bg-info-subtle text-info ">'.trans('sans reponce').'</span>';
+                    return '<span class="badge bg-info-subtle text-info ">' . trans('sans reponce') . '</span>';
             })
             ->escapeColumns([])
             ->make(true);
@@ -1178,7 +1175,6 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
     public function getRequest()
     {
         $condition = "";
-//        $idUser = request()->idUser ;
         if ($this->settingsManager->getAuthUser() == null) {
             $idUser = "";
         } else {
@@ -1215,7 +1211,7 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
 inner join users u1 on ir.IdUser = u1.idUser
 left join users u2 on ir.idUserResponse = u2.idUser
 where ir.status = ?
-', [StatusRequst::EnCours->value]);
+', [StatusRequest::EnCours->value]);
 
         return datatables($query)
             ->addColumn('action', function ($query) {
@@ -1397,20 +1393,23 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUs
             })
             ->editColumn('status', function ($userData) {
                 switch ($userData->status) {
-                    case 0 :
-                        return '<span class="badge badge-info">'.trans('Authentied').'</span>';
+                    case StatusRequest::OptValidated->value :
+                        return '<span class="badge badge-info">' . trans('Authentied') . '</span>';
                         break;
-                    case 1 :
-                        return ' <span class="badge badge-success">'.trans('Identfied').'</span>';
+                    case StatusRequest::InProgressNational->value :
+                        return ' <span class="badge badge-success">' . trans('In progress national') . '</span>';
                         break;
-                    case -1 :
-                        return '<span class="badge badge-warning">'.trans('Identification in Progress').'</span>';
+                    case StatusRequest::InProgressInternational->value :
+                        return ' <span class="badge badge-success">' . trans('In progress international') . '</span>';
                         break;
-                    case 2 :
-                        return '<span class="badge badge-danger">'.trans('Suspended').'</span>';
+                    case StatusRequest::ValidNational->value :
+                        return '<span class="badge badge-warning">' . trans('National valid') . '</span>';
+                        break;
+                    case StatusRequest::ValidInternational->value:
+                        return '<span class="badge badge-danger">' . trans('International Valid') . '</span>';
                         break;
                     default:
-                        return '<span class=" ">'.trans('Erreur').'</span>';
+                        return '<span class=" ">' . trans('Erreur') . '</span>';
                 }
             })
             ->editColumn('registred_from', function ($userData) {

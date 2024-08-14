@@ -76,13 +76,15 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/notification/history', NotificationHistory::class)->name('notification_history');
         Route::get('/notification/settings', NotificationSettings::class)->name('notification_settings');
         Route::get('/user/purchase', UserPurchaseHistory::class)->name('user_purchase');
-        Route::get('/stat/countrie', \App\Http\Livewire\StatCountrie::class)->name('stat_countrie');
-        Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');
         Route::get('/treeview', \App\Http\Livewire\treeview::class)->name('treeview');
-        Route::get('/sharessolde', \App\Http\Livewire\SharesSolde::class)->name('sharessolde');
-        Route::get('/shares-sold-dashboard', \App\Http\Livewire\SharesSold::class)->name('shares_sold');
-        Route::get('/shares-sold-market-status', \App\Http\Livewire\SharesSoldMarketStatus::class)->name('shares_sold_market_status');
-        Route::get('/shares-sold-recent-transaction', \App\Http\Livewire\SharesSoldRecentTransaction::class)->name('shares_sold_recent_transaction');
+        Route::middleware(['IsSuperAdmin'])->group(function () {
+            Route::get('/stat/countrie', \App\Http\Livewire\StatCountrie::class)->name('stat_countrie');
+            Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');
+            Route::get('/sharessolde', \App\Http\Livewire\SharesSolde::class)->name('sharessolde');
+            Route::get('/shares-sold-dashboard', \App\Http\Livewire\SharesSold::class)->name('shares_sold');
+            Route::get('/shares-sold-market-status', \App\Http\Livewire\SharesSoldMarketStatus::class)->name('shares_sold_market_status');
+            Route::get('/shares-sold-recent-transaction', \App\Http\Livewire\SharesSoldRecentTransaction::class)->name('shares_sold_recent_transaction');
+        });
         Route::get('/treeview', \App\Http\Livewire\treeview::class)->name('treeview');
 
         Route::get('/user/balance-sms', UserBalanceSMS::class)->name('user_balance_sms');
@@ -91,7 +93,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/user/balance-bfs', UserBalanceBFS::class)->name('user_balance_bfs');
         Route::get('/financial/transaction', FinancialTransaction::class)->name('financial_transaction');
         Route::get('/contact-number', ContactNumber::class)->name('contact_number');
-        Route::get('/user/editContact', EditUserContact::class)->name('user_contact_edit');
+        Route::get('/user/edit-contact', EditUserContact::class)->name('user_contact_edit');
         Route::get('/balances/exchange/funding/RequestPulicUser', RequestPublicUser::class)->name('user_request_public');
         Route::get('/balances/exchange/funding/strip', stripView::class)->name('payment_strip');
         Route::get('/paytabs', '\App\Http\Livewire\pay@test')->name('paytabs');
@@ -127,7 +129,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
     Route::get('/forget-password', ForgotPassword::class)->name('forget_password');
     Route::get('/check-opt-code/{iduser}/{ccode}/{numTel}', CheckOptCode::class)->name('check_opt_code');
     Route::get('/validate-account', ValidateAccount::class)->name('validate_account');
-    Route::get('/login', Login::class)->name('login')->middleware('setLocalLogin');
 });
 
 Route::group(['prefix' => 'api/v1'], function () {
