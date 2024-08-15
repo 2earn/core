@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Condition;
 use App\Models\Group;
 use App\Models\Target;
 use Illuminate\Support\Facades\Lang;
@@ -38,10 +39,16 @@ class TargetIndex extends Component
         return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $idTarget])->with('success', Lang::get('Target Deleted Successfully!!'));
     }
 
-    public function removeGroup($idGroup)
+    public function removeGroup($idGroup, $idTarget)
     {
         Group::findOrFail($idGroup)->delete();
-        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Group Deleted Successfully!!'));
+        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $idTarget])->with('success', Lang::get('Group Deleted Successfully!!'));
+    }
+
+    public function removeCondition($idCondition, $idTarget)
+    {
+        Condition::findOrFail($idCondition)->delete();
+        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $idTarget])->with('success', Lang::get('Condition Deleted Successfully!!'));
     }
 
 

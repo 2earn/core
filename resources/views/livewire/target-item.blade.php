@@ -25,7 +25,7 @@
                 <h5 class="mt-2 text-info">{{__('Links')}}:</h5>
                 <h6 class="mt-2 text-info">{{__('Surveys')}}:</h6>
                 @if($target->surveys->isEmpty())
-                   <span class="text-muted"> {{ __('No Surveys') }}</span>
+                    <span class="text-muted"> {{ __('No Surveys') }}</span>
                 @else
                     <ul class="list-group">
                         @foreach($target->surveys as $surveysItem)
@@ -89,9 +89,11 @@
                                 {{$loop->index + 1}} )
                             </div>
                             <div class="col-sm-12 col-md-5 col-lg-6 text-info">
-                                <h3>     <span class="badge border border-primary text-primary  btn-lg">{{ $condition->operand }}</span>
-                                <span class="text-danger">{{ $condition->operator }}</span>
-                                <span class="badge border border-primary text-primary  btn-lg">{{ $condition->value }}</span>
+                                <h3><span
+                                        class="badge border border-primary text-primary  btn-lg">{{ $condition->operand }}</span>
+                                    <span class="text-danger">{{ $condition->operator }}</span>
+                                    <span
+                                        class="badge border border-primary text-primary  btn-lg">{{ $condition->value }}</span>
                                 </h3>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-5 mt-2">
@@ -102,7 +104,7 @@
                                     </a>
                                 </div>
                                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                    <a wire:click="removeCondition('{{$condition->id}}')"
+                                    <a wire:click="removeCondition('{{$condition->id}}','{{$target->id}}')"
                                        title="{{__('Remove Condition')}}"
                                        class="btn btn-soft-danger material-shadow-none">
                                         {{__('Remove')}}
@@ -141,7 +143,7 @@
                                         </a>
                                     </div>
                                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                        <a wire:click="removeGroup('{{$group->id}}')"
+                                        <a wire:click="removeGroup('{{$group->id}}','{{$target->id}}')"
                                            title="{{__('Remove Condition')}}"
                                            class="btn btn-soft-danger material-shadow-none">
                                             {{__('Remove')}}
@@ -177,7 +179,7 @@
                                                         <div class="col-sm-12 col-md-6 col-lg-5 mt-2">
                                                             <div class="btn-group btn-group-sm" role="group"
                                                                  aria-label="Basic example">
-                                                                <a href="{{route('condition_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idGroup'=>$conditionItem->target_group_id,'idCondition'=>$condition->id] )}}"
+                                                                <a href="{{route('condition_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idGroup'=>$conditionItem->target_group_id,'idCondition'=>$conditionItem->id] )}}"
                                                                    title="{{__('Edit Condition')}}"
                                                                    class="btn btn-soft-info material-shadow-none">
                                                                     {{__('Edit')}}
@@ -185,7 +187,7 @@
                                                             </div>
                                                             <div class="btn-group btn-group-sm" role="group"
                                                                  aria-label="Basic example">
-                                                                <a wire:click="removeCondition('{{$condition->id}}')"
+                                                                <a wire:click="removeCondition('{{$conditionItem->id}}','{{$target->id}}')"
                                                                    title="{{__('Remove Condition')}}"
                                                                    class="btn btn-soft-danger material-shadow-none">
                                                                     {{__('Remove')}}

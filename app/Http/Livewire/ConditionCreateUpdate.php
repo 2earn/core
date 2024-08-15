@@ -17,19 +17,22 @@ class ConditionCreateUpdate extends Component
     public $update = false;
 
     public $operators = [
-        ['name' => 'country', 'value' => 'country'],
-        ['name' => 'city', 'value' => 'city'],
-        ['name' => 'gender', 'value' => 'gender'],
-        ['name' => 'birthDate', 'value' => 'birthDate']
+        ['name' => 'name', 'value' => 'u.name'],
+        ['name' => 'email', 'value' => 'u.email'],
+        ['name' => 'idUpline', 'value' => 'u.idUpline'],
+        ['name' => 'idUser', 'value' => 'u.idUser'],
+        ['name' => 'mobile', 'value' => 'u.mobile'],
+        ['name' => 'fullphone_number', 'value' => 'u.fullphone_number'],
+        ['name' => 'status', 'value' => 'u.status']
     ];
+
     public $operands = [
-        ['name' => 'eq', 'value' => '=='],
-        ['name' => 'neq', 'value' => '!=='],
-        ['name' => 'gt', 'value' => '<'],
-        ['name' => 'lt', 'value' => '>'],
-        ['name' => 'egt', 'value' => '<='],
-        ['name' => 'elt', 'value' => '>='],
-        ['name' => 'In', 'value' => 'In'],
+        ['name' => 'equal', 'value' => '='],
+        ['name' => 'not-equal', 'value' => '!='],
+        ['name' => 'less-than', 'value' => '<'],
+        ['name' => 'more-than', 'value' => '>'],
+        ['name' => 'less-than-or-equal', 'value' => '<='],
+        ['name' => 'more-than-or-equal', 'value' => '>=']
     ];
 
     protected $rules = [
