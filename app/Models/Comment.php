@@ -37,7 +37,9 @@ class Comment extends Model
     {
         Comment::findOrFail($idComment)->update(['validated' => true, 'validatedBy_id' => auth()->user()->id, 'validatedAt' => Carbon::now()]);
         return true;
-    }    public static function deleteComment($idComment)
+    }
+
+    public static function deleteComment($idComment)
     {
         Comment::findOrFail($idComment)->delete();
         return true;
