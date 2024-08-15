@@ -1,6 +1,6 @@
 <div>
     <div class="app-menu navbar-menu">
-        <div class="navbar-brand-box">
+        <div class="navbar-brand-box" title="15-08-2024">
             <a href="{{route('home',app()->getLocale(),false)}}" class="logo logo-dark">
             <span class="logo-sm">
                 <img src="{{ Vite::asset('resources/images/logo-sm.png') }}" alt="" height="22">
