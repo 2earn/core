@@ -43,7 +43,7 @@
                     @if($currentRouteName!=="target_show")
                         <a href="{{route('target_show',['locale'=>app()->getLocale(),'idTarget'=>$target->id])}}"
                            title="{{__('Show target')}}" class="btn btn-soft-info material-shadow-none">
-                            {{__('Show')}}
+                            {{__('Details')}}
                         </a>
                     @endif
                     <a href="{{route('target_create_update',['locale'=>app()->getLocale(),'idTarget'=>$target->id])}}"
@@ -55,7 +55,7 @@
                         {{__('Delete')}}
                     </a>
                     <a href="{{route('survey_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$target->id] )}}"
-                       title="{{__('Create Survey')}}" class="btn btn-soft-primary material-shadow-none">
+                       title="{{__('Create matched target Survey')}}" class="btn btn-soft-primary material-shadow-none">
                         {{__('Create Survey')}}
                     </a>
                 </div>

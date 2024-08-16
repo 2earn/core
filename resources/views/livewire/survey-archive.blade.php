@@ -1,14 +1,9 @@
 <div>
-    @if($currentRouteName=="surveys_index")
-        @component('components.breadcrumb')
-            @slot('title')
-                {{ __('Surveys archive') }}
-            @endslot
-        @endcomponent
-        <div class="row">
-            @include('layouts.flash-messages')
-        </div>
-    @endif
+    @component('components.breadcrumb')
+        @slot('title')
+            {{ __('Surveys archive') }}
+        @endslot
+    @endcomponent
     <div class="row card">
         <div class="card-header border-info">
             <div class="d-flex align-items-center">
