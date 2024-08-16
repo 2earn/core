@@ -35,7 +35,9 @@
         </div>
         <div class="card-body row mx-1">
             @forelse($surveys as $survey)
-                @include('livewire.survey-item', ['survey' => $survey])
+                @if($survey->canShowAfterArchiving($survey->id))
+                    @include('livewire.survey-item', ['survey' => $survey])
+                @endif
             @empty
                 <p>{{__('No Surveys')}}</p>
             @endforelse

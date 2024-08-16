@@ -79,7 +79,7 @@
                 @endif
             </div>
 
-            @if($survey->showAttchivementChrono)
+            @if($survey->canShowAttchivementChrono($survey->id))
                 <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
                     <h6 class="mt-2 text-info">{{__('Attchivement Chrono')}}:</h6>
                     <p class="card-text text-muted">
@@ -87,7 +87,7 @@
                     </p>
                 </div>
             @endif
-            @if($survey->showAttchivementPourcentage)
+            @if($survey->canShowAttchivementPourcentage($survey->id))
                 <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
                     <h6 class="mt-2 text-info">{{__('Attchivement %')}}:</h6>
                     <p class="card-text text-muted">
@@ -238,7 +238,7 @@
                 @endif
 
             @endif
-            @if(intval($survey->status)<\Core\Enum\StatusSurvey::NEW->value)
+            @if(intval($survey->status)<\Core\Enum\StatusSurvey::NEW->value && $survey->canShowResult($survey->id))
                 <a href="{{route('survey_results', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
                    class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</a>
             @endif

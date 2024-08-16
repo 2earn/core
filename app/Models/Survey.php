@@ -149,35 +149,48 @@ class Survey extends Model
     }
 
 
-    public function isLikable($id): bool
+    public function CheckVisibility($idSurvey, $property): bool
     {
-        $survey = Survey::find($id);
-        if ($survey->commentable == TargetType::ALL->value or auth()?->user()?->getRoleNames()->first() == self::SUPER_ADMIN_ROLE_NAME) {
+        $survey = Survey::find($idSurvey);
+        if ($survey->{$property} == TargetType::ALL->value or auth()?->user()?->getRoleNames()->first() == self::SUPER_ADMIN_ROLE_NAME) {
             return true;
         }
 
-        if ($survey->commentable == TargetType::TARGET->value) {
+        if ($survey->{$property} == TargetType::TARGET->value) {
             return Targeting::isSurveyInTarget($survey, auth()?->user());
         }
 
         return false;
+    }
+
+    public function isLikable($id): bool
+    {
+        return $this->CheckVisibility($id, 'likable');
     }
 
     public function isCommentable($id): bool
     {
-        $survey = Survey::find($id);
-        if ($survey->likable == TargetType::ALL->value or auth()?->user()?->getRoleNames()->first() == self::SUPER_ADMIN_ROLE_NAME) {
-            return true;
-        }
-        if ($survey->likable == TargetType::ADMINS->value and auth()?->user()?->getRoleNames()->first() == self::SUPER_ADMIN_ROLE_NAME) {
-            return true;
-        }
-        if ($survey->likable == TargetType::TARGET->value) {
-            return Targeting::isSurveyInTarget($survey, auth()?->user());
-        }
-
-        return false;
+        return $this->CheckVisibility($id, 'commentable');
     }
 
+    public function canShowAttchivementPourcentage($id): bool
+    {
+        return $this->CheckVisibility($id, 'showAttchivementPourcentage');
+    }
+
+    public function canShowAttchivementChrono($id): bool
+    {
+        return $this->CheckVisibility($id, 'showAttchivementChrono');
+    }
+
+    public function canShowAfterArchiving($id): bool
+    {
+        return $this->CheckVisibility($id, 'showAfterArchiving');
+    }
+
+    public function canShowResult($id): bool
+    {
+        return $this->CheckVisibility($id, 'showResult');
+    }
 
 }
