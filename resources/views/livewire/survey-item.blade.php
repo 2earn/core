@@ -14,7 +14,7 @@
     </div>
     @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
         <div class="card-body row">
-            <div class="col-sm-12 col-md-4 col-lg-3">
+            <div class="col-sm-12 col-md-4 col-lg-2">
   <span class="badge btn {{ $survey->enabled ? 'btn-success' : 'btn-danger'  }}">
                             {{__('Enabled')}}
                         </span>
@@ -24,29 +24,31 @@
                 <span class="badge btn {{ $survey->updatable ? 'btn-success' : 'btn-danger'  }}">
                             {{__('Updatable')}}
                         </span>
-
             </div>
-            <div class="col-sm-12 col-md-6 col-lg-5 text-center">
-<span class="badge btn btn-info">
-                            {{__('Shows result')}}: {{\Core\Enum\TargetType::tryFrom($survey->showResult)?->name}}
-                        </span>
-                <span class="badge btn btn-info">
-                            {{__('Show attchivement Chrono')}}: {{\Core\Enum\TargetType::tryFrom($survey->showAttchivementChrono)?->name}}
-                        </span>
-                <span class="badge btn btn-info">
-                            {{__('Show achievement %')}}: {{\Core\Enum\TargetType::tryFrom($survey->showAttchivementPourcentage)?->name}}
-                        </span>
-                <span class="badge btn btn-info">
-                            {{__('Show after archiving')}}: {{\Core\Enum\TargetType::tryFrom($survey->showAfterArchiving)?->name}}
-                        </span>
+            <div class="col-sm-12 col-md-6 col-lg-6">
+                {{__('Shows result')}}:
+                <span class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showResult)?->name}}</span>
+                {{__('Shows')}}:
+                <span class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->show)?->name}} </span>
 
+                {{__('Show attchivement Chrono')}}:
+                <span
+                    class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementChrono)?->name}}</span>
+
+                {{__('Show achievement %')}}:
+                <span
+                    class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementPourcentage)?->name}}</span>
+
+                {{__('Show after archiving')}}:
+                <span
+                    class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAfterArchiving)?->name}}</span>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-3 text-right">
-            <span class="badge btn btn-info">
-                            {{__('Likable')}}: {{\Core\Enum\TargetType::tryFrom($survey->likable)?->name}}
+
+                {{__('Likable')}}: <span class="badge btn btn-info"> {{\Core\Enum\TargetType::tryFrom($survey->likable)?->name}}
                         </span>
-                <span class="badge btn btn-info">
-                {{__('Commentable')}}: {{\Core\Enum\TargetType::tryFrom($survey->commentable)?->name}}
+
+                {{__('Commentable')}}: <span class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->commentable)?->name}}
             </span>
             </div>
         </div>

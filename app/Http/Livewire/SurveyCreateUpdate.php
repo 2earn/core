@@ -25,6 +25,7 @@ class SurveyCreateUpdate extends Component
     public $commentable = TargetType::TARGET;
     public $likable = TargetType::TARGET;
     public $showResult = TargetType::TARGET;
+    public $show = TargetType::TARGET;
     public $showAttchivementChrono = TargetType::TARGET;
     public $showAfterArchiving = TargetType::TARGET;
     public $showAttchivementPourcentage = TargetType::TARGET;
@@ -79,6 +80,7 @@ class SurveyCreateUpdate extends Component
                 'enabled' => $this->enabled,
                 'published' => $this->published,
                 'updatable' => $this->updatable,
+                'show' => $this->show,
                 'showResult' => $this->showResult,
                 'commentable' => $this->commentable,
                 'likable' => $this->likable,
@@ -109,6 +111,7 @@ class SurveyCreateUpdate extends Component
         $this->updatable = $survey->updatable;
         $this->commentable = $survey->commentable;
         $this->likable = $survey->likable;
+        $this->show = $survey->show;
         $this->showResult = $survey->showResult;
         $this->showAttchivementChrono = $survey->showAttchivementChrono;
         $this->showAfterArchiving = $survey->showAfterArchiving;
@@ -138,6 +141,7 @@ class SurveyCreateUpdate extends Component
                     'enabled' => $this->enabled,
                     'published' => $this->published,
                     'updatable' => $this->updatable,
+                    'show' => $this->show,
                     'showResult' => $this->showResult,
                     'commentable' => $this->commentable,
                     'likable' => $this->likable,

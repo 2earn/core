@@ -78,6 +78,7 @@
                                        id="updatable" placeholder="{{__('updatable')}}" checked>
                                 <label class="form-check-label" for="updatable">{{__('Updatable')}}</label>
                             </div>
+
                             <div class="form-group col-md-4 mt-2">
                                 <label for="showResult">{{__('Show result')}}</label>
                                 <select
@@ -92,6 +93,23 @@
                                     @endforeach
                                 </select>
                                 @error('showResult') <span class="text-danger">{{ $message }}</span>@enderror
+                                <div class="form-text">{{__('Required field')}}</div>
+                            </div>
+
+                            <div class="form-group col-md-4 mt-2">
+                                <label for="showResult">{{__('Show')}}</label>
+                                <select
+                                    class="form-select form-control @error('show') is-invalid @enderror"
+                                    placeholder="{{__('Show')}}"
+                                    wire:model="show"
+                                    id="show"
+                                    aria-label="{{__('Show')}}">
+                                    @foreach ($targetTypes as $targetType)
+                                        <option value="{{$targetType}}"
+                                                @if($loop->index==0) selected @endif >{{$targetType->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('show') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
 

@@ -20,6 +20,7 @@ class Survey extends Model
         'enabled',
         'published',
         'status',
+        'show',
         'showAttchivementChrono',
         'showAttchivementPourcentage',
         'showAfterArchiving',

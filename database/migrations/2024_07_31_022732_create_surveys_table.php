@@ -32,8 +32,8 @@ return new class extends Migration {
             $table->dateTime('closeDate')->nullable();
             $table->dateTime('ArchivedDate')->nullable();
 
-            $table->boolean('showAfterArchiving')->nullable();
-
+            $table->boolean('show')->default(1);
+            $table->boolean('showAfterArchiving')->default(1);
             $table->integer('showResult')->default(1);
             $table->integer('commentable')->default(1);
             $table->integer('likable')->default(1);
