@@ -109,6 +109,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         Route::middleware(['IsSuperAdmin'])->group(function () {
             Route::get('/user_list', \App\Http\Livewire\UsersList::class)->name('user_list');
+            Route::get('/user/{idUser}/details', \App\Http\Livewire\UserDetails::class)->name('user_details');
             Route::get('/configuration-ha', ConfigurationHA::class)->name('configuration-ha');
             Route::get('/configuration-setting', \App\Http\Livewire\ConfigurationSetting::class)->name('configuration-setting');
             Route::get('/configuration-bo', \App\Http\Livewire\ConfigurationBO::class)->name('configuration-bo');

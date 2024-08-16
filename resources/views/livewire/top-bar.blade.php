@@ -112,20 +112,9 @@
                                 height="20">
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
-
                             @foreach (config('app.available_locales') as  $locale => $value )
                                 <a
-                                    @if(str_starts_with($currentRoute,"survey_"))
-                                        href="{{route($currentRoute, ['locale'=> $locale,'idSurvey'=>request()->route("idSurvey"), 'idQuestion'=>request()->route("idQuestion") ])}}"
-                                    @elseif(str_starts_with($currentRoute,"target_"))
-                                        href="{{route($currentRoute, ['locale'=> $locale,'idTarget'=>request()->route("idTarget"), 'idQuestion'=>request()->route("idQuestion") ])}}"
-                                    @elseif(str_starts_with($currentRoute,"condition_"))
-                                        href="{{route($currentRoute, ['locale'=> $locale,'idTarget'=>request()->route("idTarget"), 'idQuestion'=>request()->route("idQuestion") ])}}"
-                                    @elseif(str_starts_with($currentRoute,"group_"))
-                                        href="{{route($currentRoute, ['locale'=> $locale,'idTarget'=>request()->route("idTarget"), 'idQuestion'=>request()->route("idQuestion"), 'idGroup'=>request()->route("idGroup") ])}}"
-                                    @else
-                                        href="{{route($currentRoute, ['locale'=> $locale ])}}"
-                                    @endif
+                                    href="{{str_replace('/'.app()->getLocale().'/', '/'.$value['name'].'/', Request::url())}}"
                                     class="dropdown-item notify-item language py-2  @if($locale==app()->getLocale()) active @endif"
                                     data-lang="{{$locale}}"
                                     title="{{ __('lang'.$locale)  }}" data-turbolinks="false">
