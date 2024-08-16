@@ -169,8 +169,10 @@ Route::group(['prefix' => 'api/v1'], function () {
     Route::get('/user/invitations', 'App\Http\Controllers\ApiController@getInvitationsUser')->name('api_user_invitations');
     Route::get('/user/purchaseBFS', 'App\Http\Controllers\ApiController@getPurchaseBFSUser')->name('api_user_bfs_purchase');
     Route::post('/paytabs/notification', 'App\Http\Controllers\ApiController@handlePaymentNotification')->name('notification_from_paytabs')->withoutMiddleware('web');
+    Route::get('/target/{idTarget}/data', [\App\Http\Controllers\TargetController::class, 'getTargetData'])->name('api_target_data');
 
     Route::get('sankey', 'App\Http\Controllers\ApiController@getSankey')->name('API_sankey');
+
 
     Route::get('/api/shares/solde', 'App\Http\Controllers\ApiController@getSharesSolde')->name('api_shares_solde');
     Route::get('/api/shares/soldes', 'App\Http\Controllers\ApiController@getSharesSoldes')->name('api_shares_soldes');

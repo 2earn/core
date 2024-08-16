@@ -13,27 +13,10 @@ class ConditionCreateUpdate extends Component
 {
     public $idTarget, $idGroup, $idCondition;
     public $operand = "country", $operator = 'eq', $value;
+    public $operands, $operators;
 
     public $update = false;
 
-    public $operators = [
-        ['name' => 'name', 'value' => 'u.name'],
-        ['name' => 'email', 'value' => 'u.email'],
-        ['name' => 'idUpline', 'value' => 'u.idUpline'],
-        ['name' => 'idUser', 'value' => 'u.idUser'],
-        ['name' => 'mobile', 'value' => 'u.mobile'],
-        ['name' => 'fullphone_number', 'value' => 'u.fullphone_number'],
-        ['name' => 'status', 'value' => 'u.status']
-    ];
-
-    public $operands = [
-        ['name' => 'equal', 'value' => '='],
-        ['name' => 'not-equal', 'value' => '!='],
-        ['name' => 'less-than', 'value' => '<'],
-        ['name' => 'more-than', 'value' => '>'],
-        ['name' => 'less-than-or-equal', 'value' => '<='],
-        ['name' => 'more-than-or-equal', 'value' => '>=']
-    ];
 
     protected $rules = [
         'operand' => 'required',
@@ -106,6 +89,8 @@ class ConditionCreateUpdate extends Component
 
     public function render()
     {
+        $this->operators = Condition::$operators;
+        $this->operands = Condition::$operands;
         $params = ['target' => Target::find($this->idTarget)];
         return view('livewire.condition-create-update', $params)->extends('layouts.master')->section('content');
     }

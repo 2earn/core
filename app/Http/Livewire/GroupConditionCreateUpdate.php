@@ -16,21 +16,7 @@ class GroupConditionCreateUpdate extends Component
 
     public $update = false;
 
-    public $operators = [
-        ['name' => 'country', 'value' => 'country'],
-        ['name' => 'city', 'value' => 'city'],
-        ['name' => 'gender', 'value' => 'gender'],
-        ['name' => 'birthDate', 'value' => 'birthDate']
-    ];
-    public $operands = [
-        ['name' => 'eq', 'value' => '=='],
-        ['name' => 'neq', 'value' => '!=='],
-        ['name' => 'gt', 'value' => '<'],
-        ['name' => 'lt', 'value' => '>'],
-        ['name' => 'egt', 'value' => '<='],
-        ['name' => 'elt', 'value' => '>='],
-        ['name' => 'In', 'value' => 'In'],
-    ];
+    public $operands, $operators;
 
     protected $rules = [
         'operand' => 'required',
@@ -67,7 +53,7 @@ class GroupConditionCreateUpdate extends Component
     {
         $this->validate();
         try {
-           Condition::where('id', $this->idCondition)
+            Condition::where('id', $this->idCondition)
                 ->update([
                     'operand' => $this->operand,
                     'operator' => $this->operator,
@@ -102,6 +88,8 @@ class GroupConditionCreateUpdate extends Component
 
     public function render()
     {
+        $this->operators = Condition::$operators;
+        $this->operands = Condition::$operands;
         $params = ['target' => Target::find($this->idTarget)];
         return view('livewire.condition-create-update', $params)->extends('layouts.master')->section('content');
     }

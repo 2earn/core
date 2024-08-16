@@ -50,8 +50,8 @@
                                     id="operator"
                                     aria-label="{{__('Enter operator')}}">
                                     @foreach ($operands as $operandItem)
-                                        <option value="{{$operandItem['value']}}"
-                                                @if($loop->index==0) selected @endif >{{$operandItem['name']}}</option>
+                                        <option value="{{$operandItem}}"
+                                                @if($loop->index==0) selected @endif >{{$operandItem}}</option>
                                     @endforeach
                                 </select>
                                 @error('operator') <span class="text-danger">{{ $message }}</span>@enderror
