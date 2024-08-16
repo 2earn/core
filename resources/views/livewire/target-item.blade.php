@@ -1,4 +1,4 @@
-<div class="card mb-2 ml-4 border">
+<div class="card mb-2 ml-2 border">
     <div class="card-header border-info fw-medium text-muted mb-0">
         <h4> {{$target->id}} - {{$target->name}}</h4>
     </div>
@@ -37,9 +37,9 @@
         </div>
     </div>
     @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
-        <div class="card-footer row">
-            <div class="col-sm-12 col-md-6 col-lg-5">
-                <div class="btn-groupmt-2" role="group" aria-label="Basic example">
+        <div class="card-body row">
+            <div class="col-sm-12 col-md-5 col-lg-5">
+                <div class="btn-group mt-2" role="group" >
                     @if($currentRouteName!=="target_show")
                         <a href="{{route('target_show',['locale'=>app()->getLocale(),'idTarget'=>$target->id])}}"
                            title="{{__('Show target')}}" class="btn btn-soft-info material-shadow-none">
@@ -60,8 +60,8 @@
                     </a>
                 </div>
             </div>
-            <div class="col-sm-12 col-md-6 col-lg-5">
-                <div class="btn-groupmt-2" role="group" aria-label="Basic example">
+            <div class="col-sm-12 col-md-5 col-lg-5">
+                <div class="btn-group mt-2" role="group" >
                     @if($currentRouteName=="target_show")
                         <a href="{{route('condition_create_update',['locale'=>app()->getLocale(),'idTarget'=>$target->id])}}"
                            title="{{__('Add Condition')}}" class="btn btn-soft-info material-shadow-none">
@@ -97,13 +97,13 @@
                                 </h3>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-5 mt-2">
-                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                <div class="btn-group btn-group-sm" role="group" >
                                     <a href="{{route('condition_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$condition->target_id,'idCondition'=>$condition->id] )}}"
                                        title="{{__('Edit Condition')}}" class="btn btn-soft-info material-shadow-none">
                                         {{__('Edit')}}
                                     </a>
                                 </div>
-                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                <div class="btn-group btn-group-sm" role="group" >
                                     <a wire:click="removeCondition('{{$condition->id}}','{{$target->id}}')"
                                        title="{{__('Remove Condition')}}"
                                        class="btn btn-soft-danger material-shadow-none">
@@ -136,20 +136,20 @@
 
                             @if($currentRouteName=="target_show")
                                 <div class="col-sm-12 col-md-6 col-lg-5">
-                                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                    <div class="btn-group btn-group-sm" role="group" >
                                         <a href="{{route('group_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idCondition'=>$group->id] )}}"
                                            title="{{__('Edit Group')}}" class="btn btn-soft-info material-shadow-none">
                                             {{__('Edit')}}
                                         </a>
                                     </div>
-                                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                    <div class="btn-group btn-group-sm" role="group" >
                                         <a wire:click="removeGroup('{{$group->id}}','{{$target->id}}')"
                                            title="{{__('Remove Condition')}}"
                                            class="btn btn-soft-danger material-shadow-none">
                                             {{__('Remove')}}
                                         </a>
                                     </div>
-                                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                    <div class="btn-group btn-group-sm" role="group" >
                                         <a href="{{route('condition_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idGroup'=>$group->id] )}}"
                                            title="{{__('Add Condition')}}"
                                            class="btn btn-soft-info material-shadow-none">
@@ -178,7 +178,7 @@
                                                     @if($currentRouteName=="target_show")
                                                         <div class="col-sm-12 col-md-6 col-lg-5 mt-2">
                                                             <div class="btn-group btn-group-sm" role="group"
-                                                                 aria-label="Basic example">
+                                                                 >
                                                                 <a href="{{route('condition_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idGroup'=>$conditionItem->target_group_id,'idCondition'=>$conditionItem->id] )}}"
                                                                    title="{{__('Edit Condition')}}"
                                                                    class="btn btn-soft-info material-shadow-none">
@@ -186,7 +186,7 @@
                                                                 </a>
                                                             </div>
                                                             <div class="btn-group btn-group-sm" role="group"
-                                                                 aria-label="Basic example">
+                                                                 >
                                                                 <a wire:click="removeCondition('{{$conditionItem->id}}','{{$target->id}}')"
                                                                    title="{{__('Remove Condition')}}"
                                                                    class="btn btn-soft-danger material-shadow-none">
