@@ -128,8 +128,7 @@ class Targeting
         return self::fillUsersQuery($usersQuery, $conditions, $groups);
     }
 
-    public
-    static function CheckUserInTarget($target, $user)
+    private static function CheckUserInTarget($target, $user)
     {
         return self::CheckUserIn(self::getTargetQuery($target), $user->id);
     }

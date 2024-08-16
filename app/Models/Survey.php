@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Services\Targeting\Targeting;
 use Core\Enum\StatusSurvey;
+use Core\Enum\TargetType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -10,6 +12,8 @@ use Illuminate\Support\Carbon;
 class Survey extends Model
 {
     use HasFactory;
+
+    const SUPER_ADMIN_ROLE_NAME = "Super Admin";
 
     protected $fillable = [
         'name',
@@ -143,4 +147,37 @@ class Survey extends Model
         }
         return 0;
     }
+
+
+    public function isLikable($id): bool
+    {
+        $survey = Survey::find($id);
+        if ($survey->commentable == TargetType::ALL->value or auth()?->user()?->getRoleNames()->first() == self::SUPER_ADMIN_ROLE_NAME) {
+            return true;
+        }
+
+        if ($survey->commentable == TargetType::TARGET->value) {
+            return Targeting::isSurveyInTarget($survey, auth()?->user());
+        }
+
+        return false;
+    }
+
+    public function isCommentable($id): bool
+    {
+        $survey = Survey::find($id);
+        if ($survey->likable == TargetType::ALL->value or auth()?->user()?->getRoleNames()->first() == self::SUPER_ADMIN_ROLE_NAME) {
+            return true;
+        }
+        if ($survey->likable == TargetType::ADMINS->value and auth()?->user()?->getRoleNames()->first() == self::SUPER_ADMIN_ROLE_NAME) {
+            return true;
+        }
+        if ($survey->likable == TargetType::TARGET->value) {
+            return Targeting::isSurveyInTarget($survey, auth()?->user());
+        }
+
+        return false;
+    }
+
+
 }

@@ -333,7 +333,7 @@
             </ul>
         </div>
     @endif
-    @if($currentRouteName=="survey_show" && $survey->likable)
+    @if($currentRouteName=="survey_show" && $survey->isLikable($survey->id))
         <div class="card">
             <div class="card-header border-info fw-medium text-muted mb-0">
                 <h6 class="mt-2 text-info">       {{__('Likes')}}</h6>
@@ -371,7 +371,7 @@
         </div>
     @endif
 
-    @if($currentRouteName=="survey_show" && $survey->commentable)
+    @if($currentRouteName=="survey_show" && $survey->isCommentable($survey->id))
         <div class="card">
             <div class="card-header border-info fw-medium text-muted mb-0">
                 <h6 class="mt-2 text-info"> {{__('Comments')}}</h6>
