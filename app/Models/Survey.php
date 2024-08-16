@@ -174,6 +174,11 @@ class Survey extends Model
         return $this->CheckVisibility($id, 'commentable');
     }
 
+    public function canShow($id): bool
+    {
+        return $this->CheckVisibility($id, 'show');
+    }
+
     public function canShowAttchivementPourcentage($id): bool
     {
         return $this->CheckVisibility($id, 'showAttchivementPourcentage');
