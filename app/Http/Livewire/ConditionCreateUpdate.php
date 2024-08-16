@@ -7,6 +7,7 @@ use App\Models\Target;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 use Livewire\Component;
 
 class ConditionCreateUpdate extends Component
@@ -46,7 +47,7 @@ class ConditionCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('warning', Lang::get('Condition Operation cancelled!!'));
+        return redirect()->to(url()->previous())->with('warning', Lang::get('Condition Operation cancelled!!'));
     }
 
     public function update()
@@ -90,7 +91,7 @@ class ConditionCreateUpdate extends Component
     public function render()
     {
         $this->operators = Condition::$operators;
-        $this->operands = Condition::$operands;
+        $this->operands = Condition::operands();
         $params = ['target' => Target::find($this->idTarget)];
         return view('livewire.condition-create-update', $params)->extends('layouts.master')->section('content');
     }

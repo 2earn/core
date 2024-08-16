@@ -9,8 +9,8 @@ class Condition extends Model
 {
     use HasFactory;
 
-    public  static $operands = ['=', '!=', '<', '>', '<=', '>='];
-
+    public static $simpleOperands = ['=', '!=', '<', '>', '<=', '>='];
+    public static $complexOperands = ['END WITH', 'START WITH', 'CONTAIN'];
 
     public static $operators = [
         ['name' => '[user] id', 'value' => 'u.id'],
@@ -40,5 +40,11 @@ class Condition extends Model
     {
         return $this->belongsTo(Group::class, 'group_id', 'id');
     }
+
+    public static function operands()
+    {
+        return array_merge(self::$simpleOperands, self::$complexOperands);
+    }
+
 
 }

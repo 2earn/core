@@ -118,15 +118,16 @@
                             <span>{{__('Hobbies')}}</span>
                         </a>
                     </li>
-                    <li class="nav-item {{Route::currentRouteName()=='target_index'? 'active' : ''}}">
-                        <a href="{{route('target_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
-                           class="nav-link menu-link {{Route::currentRouteName()=='target_index'? 'active' : ''}}"
-                           role="button">
-                            <i class="ri-pushpin-fill"></i>
-                            <span>{{__('Targets')}}</span>
-                        </a>
-                    </li>
-
+                    @if(auth()->user()->getRoleNames()->first() =="Super admin")
+                        <li class="nav-item {{Route::currentRouteName()=='target_index'? 'active' : ''}}">
+                            <a href="{{route('target_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
+                               class="nav-link menu-link {{Route::currentRouteName()=='target_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-pushpin-fill"></i>
+                                <span>{{__('Targets')}}</span>
+                            </a>
+                        </li>
+                    @endif
                     <li class="nav-item">
                         <a class="nav-link menu-link {{!in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'collapsed' : 'active'}}"
                            href="#sidebarSurvey" data-bs-toggle="collapse"
@@ -173,11 +174,11 @@
                                aria-expanded="false"
                                aria-controls="sidebarDashboards">
                                 <i class="ri-dashboard-2-line"></i> <span
-                                        data-key="t-dashboards">{{ __('Settings') }}</span>
+                                    data-key="t-dashboards">{{ __('Settings') }}</span>
                             </a>
                             <div
-                                    class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['configuration-setting','configuration-bo','configuration-ha','configuration-amounts'])? 'show' : ''}}"
-                                    id="sidebarDashboards">
+                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['configuration-setting','configuration-bo','configuration-ha','configuration-amounts'])? 'show' : ''}}"
+                                id="sidebarDashboards">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item {{Route::currentRouteName()=='configuration-setting'? 'active' : ''}}">
                                         <a href="{{route('configuration-setting', app()->getLocale(),false)}}"
@@ -222,11 +223,11 @@
                                aria-expanded="{{in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'true' : 'false'}}"
                                aria-controls="sidebarShareSold">
                                 <i class="ri-dashboard-fill"></i> <span
-                                        data-key="t-dashboards">{{ __('Shares sold') }}</span>
+                                    data-key="t-dashboards">{{ __('Shares sold') }}</span>
                             </a>
                             <div
-                                    class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'show' : ''}}"
-                                    id="sidebarShareSold">
+                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'show' : ''}}"
+                                id="sidebarShareSold">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item {{Route::currentRouteName()=='shares_sold'? 'active' : ''}}">
                                         <a href="{{route('shares_sold', app()->getLocale(),false)}}"
@@ -316,7 +317,7 @@
             $('#navbar-nav li a').removeClass('active');
             $('#navbar-nav a[href="' + location.pathname + '"]').addClass('active');
             $('#navbar-nav a[href="' + location.pathname + '"]').parent().addClass('active');
-            const surveyArray = ['surveys_index','surveys_archive'];
+            const surveyArray = ['surveys_index', 'surveys_archive'];
             const settingArray = ['configuration-setting', 'configuration-bo', 'configuration-ha', 'configuration-amounts'];
             const shareSoldArray = ['shares-sold-dashboard', 'shares-sold-market-status', 'shares-sold-recent-transaction'];
             var currentRoutePath = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);

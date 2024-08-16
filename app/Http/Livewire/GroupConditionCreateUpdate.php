@@ -89,7 +89,7 @@ class GroupConditionCreateUpdate extends Component
     public function render()
     {
         $this->operators = Condition::$operators;
-        $this->operands = Condition::$operands;
+        $this->operands = Condition::operands();
         $params = ['target' => Target::find($this->idTarget)];
         return view('livewire.condition-create-update', $params)->extends('layouts.master')->section('content');
     }

@@ -39,7 +39,7 @@
     @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
         <div class="card-body row">
             <div class="col-sm-12 col-md-5 col-lg-5">
-                <div class="btn-group mt-2" role="group" >
+                <div class="btn-group mt-2" role="group">
                     @if($currentRouteName!=="target_show")
                         <a href="{{route('target_show',['locale'=>app()->getLocale(),'idTarget'=>$target->id])}}"
                            title="{{__('Show target')}}" class="btn btn-soft-info material-shadow-none">
@@ -61,7 +61,7 @@
                 </div>
             </div>
             <div class="col-sm-12 col-md-5 col-lg-5">
-                <div class="btn-group mt-2" role="group" >
+                <div class="btn-group mt-2" role="group">
                     @if($currentRouteName=="target_show")
                         <a href="{{route('condition_create_update',['locale'=>app()->getLocale(),'idTarget'=>$target->id])}}"
                            title="{{__('Add Condition')}}" class="btn btn-soft-info material-shadow-none">
@@ -89,21 +89,22 @@
                                 {{$loop->index + 1}} )
                             </div>
                             <div class="col-sm-12 col-md-5 col-lg-6 text-info">
-                                <h3><span
-                                        class="badge border border-primary text-primary  btn-lg">{{ $condition->operand }}</span>
+                                <h4>
+                                    <span
+                                        class="badge border  text-primary  btn-lg">{{ $condition->operand }}</span>
                                     <span class="text-danger">{{ $condition->operator }}</span>
                                     <span
-                                        class="badge border border-primary text-primary  btn-lg">{{ $condition->value }}</span>
-                                </h3>
+                                        class="badge border text-primary  btn-lg">{{ $condition->value }}</span>
+                                </h4>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-5 mt-2">
-                                <div class="btn-group btn-group-sm" role="group" >
+                                <div class="btn-group btn-group-sm" role="group">
                                     <a href="{{route('condition_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$condition->target_id,'idCondition'=>$condition->id] )}}"
                                        title="{{__('Edit Condition')}}" class="btn btn-soft-info material-shadow-none">
                                         {{__('Edit')}}
                                     </a>
                                 </div>
-                                <div class="btn-group btn-group-sm" role="group" >
+                                <div class="btn-group btn-group-sm" role="group">
                                     <a wire:click="removeCondition('{{$condition->id}}','{{$target->id}}')"
                                        title="{{__('Remove Condition')}}"
                                        class="btn btn-soft-danger material-shadow-none">
@@ -136,20 +137,20 @@
 
                             @if($currentRouteName=="target_show")
                                 <div class="col-sm-12 col-md-6 col-lg-5">
-                                    <div class="btn-group btn-group-sm" role="group" >
+                                    <div class="btn-group btn-group-sm" role="group">
                                         <a href="{{route('group_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idCondition'=>$group->id] )}}"
                                            title="{{__('Edit Group')}}" class="btn btn-soft-info material-shadow-none">
                                             {{__('Edit')}}
                                         </a>
                                     </div>
-                                    <div class="btn-group btn-group-sm" role="group" >
+                                    <div class="btn-group btn-group-sm" role="group">
                                         <a wire:click="removeGroup('{{$group->id}}','{{$target->id}}')"
-                                           title="{{__('Remove Condition')}}"
+                                           title="{{__('Remove group')}}"
                                            class="btn btn-soft-danger material-shadow-none">
                                             {{__('Remove')}}
                                         </a>
                                     </div>
-                                    <div class="btn-group btn-group-sm" role="group" >
+                                    <div class="btn-group btn-group-sm" role="group">
                                         <a href="{{route('condition_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idGroup'=>$group->id] )}}"
                                            title="{{__('Add Condition')}}"
                                            class="btn btn-soft-info material-shadow-none">
@@ -169,16 +170,16 @@
                                                         {{$loop->index + 1}} )
                                                     </div>
                                                     <div class="col-sm-12 col-md-5 col-lg-6 text-info">
-                                                        <span
-                                                            class="badge border border-primary text-primary">{{ $conditionItem->operand }}</span>
-                                                        <span class="text-danger">{{ $conditionItem->operator }}</span>
-                                                        <span
-                                                            class="badge border border-primary text-primary">{{ $conditionItem->value }}</span>
+                                                        <h4>
+                                                            <span  class="badge border text-primary  btn-lg">{{ $conditionItem->operand }}</span>
+                                                            <span class="text-danger">{{ $conditionItem->operator }}</span>
+                                                            <span class="badge border text-primary  btn-lg">{{ $conditionItem->value }}</span>
+                                                        </h4>
                                                     </div>
                                                     @if($currentRouteName=="target_show")
                                                         <div class="col-sm-12 col-md-6 col-lg-5 mt-2">
                                                             <div class="btn-group btn-group-sm" role="group"
-                                                                 >
+                                                            >
                                                                 <a href="{{route('condition_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idGroup'=>$conditionItem->target_group_id,'idCondition'=>$conditionItem->id] )}}"
                                                                    title="{{__('Edit Condition')}}"
                                                                    class="btn btn-soft-info material-shadow-none">
@@ -186,7 +187,7 @@
                                                                 </a>
                                                             </div>
                                                             <div class="btn-group btn-group-sm" role="group"
-                                                                 >
+                                                            >
                                                                 <a wire:click="removeCondition('{{$conditionItem->id}}','{{$target->id}}')"
                                                                    title="{{__('Remove Condition')}}"
                                                                    class="btn btn-soft-danger material-shadow-none">
