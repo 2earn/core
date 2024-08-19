@@ -20,7 +20,7 @@
                         </form>
                     </div>
                 @endif
-                @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
+                @if(strtoupper(auth()?->user()?->getRoleNames()->first())== \App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
                     @if($currentRouteName!=="home" && Route::currentRouteName()!=="main"&& Route::currentRouteName()!=="surveys_archive")
                         <div class="float-end d-inline  mx-2">
                             <a href="{{route('survey_create_update', app()->getLocale())}}" class="btn btn-info add-btn"

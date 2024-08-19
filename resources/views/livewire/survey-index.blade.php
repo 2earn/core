@@ -15,7 +15,7 @@
                 <div class="mt-1 col-sm-12 col-md-12 col-lg-12 mx-2">
                     <h6 class="card-title flex-grow-1">   {{__('Surveys list')}}</h6>
                 </div>
-                @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
+                @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
                     @if($currentRouteName!=="home"&&Route::currentRouteName()!=="main")
                         <div class="col-sm-12 col-md-3  col-lg-6  mt-1 mx-2">
                             <a href="{{route('survey_create_update', app()->getLocale())}}" class="btn btn-info add-btn"
@@ -38,7 +38,6 @@
                         </form>
                     </div>
                 @endif
-
             </div>
         </div>
         <div class="card-body row mx-1">

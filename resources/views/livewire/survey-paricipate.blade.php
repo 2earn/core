@@ -29,7 +29,7 @@
                                         :</h6>
                                     {{ $survey->question->content }}
                                 </div>
-                                @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
+                                @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
                                     <div class="col-sm-12 col-md-6 col-lg-6">
                                         <ul class="list-group">
                                             @forelse ($survey->question->serveyQuestionChoice as $choice)

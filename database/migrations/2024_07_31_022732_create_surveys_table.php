@@ -44,6 +44,9 @@ return new class extends Migration {
 
             $table->text('description')->nullable();
             $table->text('disabledBtnDescription')->nullable();
+            $table->text('disabledResult')->nullable();
+            $table->text('disabledComment')->nullable();
+            $table->text('disabledLike')->nullable();
             $table->timestamps();
         });
     }

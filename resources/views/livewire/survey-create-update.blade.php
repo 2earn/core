@@ -18,7 +18,8 @@
             </div>
         </div>
         <div class="card-body row ">
-            <div class="card mb-2 ml-4 border border-dashed ">
+            @include('layouts.flash-messages')
+            <div class="card mb-2 ml-4">
                 <div class="card-body">
                     <form>
                         <input type="hidden" wire:model="id">
@@ -80,23 +81,6 @@
                             </div>
 
                             <div class="form-group col-md-4 mt-2">
-                                <label for="showResult">{{__('Show result')}}</label>
-                                <select
-                                    class="form-select form-control @error('showResult') is-invalid @enderror"
-                                    placeholder="{{__('Show result')}}"
-                                    wire:model="showResult"
-                                    id="showResult"
-                                    aria-label="{{__('Show result')}}">
-                                    @foreach ($targetTypes as $targetType)
-                                        <option value="{{$targetType}}"
-                                                @if($loop->index==0) selected @endif >{{$targetType->name}}</option>
-                                    @endforeach
-                                </select>
-                                @error('showResult') <span class="text-danger">{{ $message }}</span>@enderror
-                                <div class="form-text">{{__('Required field')}}</div>
-                            </div>
-
-                            <div class="form-group col-md-4 mt-2">
                                 <label for="showResult">{{__('Show')}}</label>
                                 <select
                                     class="form-select form-control @error('show') is-invalid @enderror"
@@ -150,21 +134,29 @@
                             </div>
 
                             <div class="form-group col-md-4 mt-2">
-                                <label for="showAfterArchiving">{{__('Show After Archiving')}}</label>
+                                <label for="showResult">{{__('Show result')}}</label>
                                 <select
-                                    class="form-select form-control @error('showAfterArchiving') is-invalid @enderror"
-                                    placeholder="{{__('Show After Archiving')}}"
-                                    wire:model="showAfterArchiving"
-                                    id="showAfterArchiving"
-                                    aria-label="{{__('showAfterArchiving')}}">
+                                    class="form-select form-control @error('showResult') is-invalid @enderror"
+                                    placeholder="{{__('Show result')}}"
+                                    wire:model="showResult"
+                                    id="showResult"
+                                    aria-label="{{__('Show result')}}">
                                     @foreach ($targetTypes as $targetType)
                                         <option value="{{$targetType}}"
                                                 @if($loop->index==0) selected @endif >{{$targetType->name}}</option>
                                     @endforeach
                                 </select>
-                                @error('showAfterArchiving')
-                                <span class="text-danger">{{ $message }}</span>@enderror
+                                @error('showResult') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
+                                <div class="form-group mb-3">
+                                    <label for="disabledResult">{{__('Disabled show result explanation')}}</label>
+                                    <textarea class="form-control @error('disabledResult') is-invalid @enderror"
+                                              id="disabledResult"
+                                              wire:model="disabledResult"
+                                              placeholder="{{__('Enter Description for disabled show result')}}"></textarea>
+                                    @error('disabledResult') <span class="text-danger">{{ $message }}</span>@enderror
+                                    <div class="form-text">{{__('Required field')}}</div>
+                                </div>
                             </div>
 
                             <div class="form-group col-md-4 mt-2">
@@ -183,6 +175,15 @@
                                 @error('commentable')
                                 <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
+                                <div class="form-group mb-3">
+                                    <label for="disabledComment">{{__('Disabled comment explanation')}}</label>
+                                    <textarea class="form-control @error('disabledComment') is-invalid @enderror"
+                                              id="disabledComment"
+                                              wire:model="disabledComment"
+                                              placeholder="{{__('Enter Description for disabled comment')}}"></textarea>
+                                    @error('disabledComment') <span class="text-danger">{{ $message }}</span>@enderror
+                                    <div class="form-text">{{__('Required field')}}</div>
+                                </div>
                             </div>
 
                             <div class="form-group col-md-4 mt-2">
@@ -201,7 +202,35 @@
                                 @error('likable')
                                 <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
+                                <div class="form-group mb-3">
+                                    <label for="disabledLike">{{__('Disabled show like explanation')}}</label>
+                                    <textarea class="form-control @error('disabledLike') is-invalid @enderror"
+                                              id="disabledLike"
+                                              wire:model="disabledLike"
+                                              placeholder="{{__('Enter Description for disabled like')}}"></textarea>
+                                    @error('disabledLike') <span class="text-danger">{{ $message }}</span>@enderror
+                                    <div class="form-text">{{__('Required field')}}</div>
+                                </div>
                             </div>
+
+                            <div class="form-group col-md-12 mt-2">
+                                <label for="showAfterArchiving">{{__('Show After Archiving')}}</label>
+                                <select
+                                    class="form-select form-control @error('showAfterArchiving') is-invalid @enderror"
+                                    placeholder="{{__('Show After Archiving')}}"
+                                    wire:model="showAfterArchiving"
+                                    id="showAfterArchiving"
+                                    aria-label="{{__('showAfterArchiving')}}">
+                                    @foreach ($targetTypes as $targetType)
+                                        <option value="{{$targetType}}"
+                                                @if($loop->index==0) selected @endif >{{$targetType->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('showAfterArchiving')
+                                <span class="text-danger">{{ $message }}</span>@enderror
+                                <div class="form-text">{{__('Required field')}}</div>
+                            </div>
+
                         </div>
                         <div class="row mt-2">
                             <div class="form-group col-md-4 mt-2">

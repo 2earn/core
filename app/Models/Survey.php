@@ -41,6 +41,9 @@ class Survey extends Model
         'likable',
         'description',
         'disabledBtnDescription',
+        'disabledResult',
+        'disabledComment',
+        'disabledLike',
     ];
 
     public function surveyResponse()
@@ -153,7 +156,7 @@ class Survey extends Model
     public function CheckVisibility($idSurvey, $property): bool
     {
         $survey = Survey::find($idSurvey);
-        if ($survey->{$property} == TargetType::ALL->value or strtoupper(auth()?->user()?->getRoleNames()->first()) == strtoupper(self::SUPER_ADMIN_ROLE_NAME)) {
+        if ($survey->{$property} == TargetType::ALL->value or strtoupper(auth()?->user()?->getRoleNames()->first()) == self::SUPER_ADMIN_ROLE_NAME) {
             return true;
         }
 

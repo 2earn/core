@@ -40,7 +40,10 @@ class SurveyCreateUpdate extends Component
         $archivedDate,
         $goals,
         $description,
-        $disabledBtnDescription;
+        $disabledBtnDescription,
+        $disabledResult,
+        $disabledComment,
+        $disabledLike;
 
     public $idTarget = null;
     public $target = null;
@@ -70,10 +73,24 @@ class SurveyCreateUpdate extends Component
         $this->description = '';
     }
 
+    public function validateDisabled()
+    {
+        if ($this->showResult->value == TargetType::TARGET->value && empty($this->disabledResult)) {
+            throw new \Exception(Lang::get('Missed disabled result explanation'));
+        }
+        if ($this->commentable->value == TargetType::TARGET->value && empty($this->disabledComment)) {
+            throw new \Exception(Lang::get('Missed disabled comment explanation'));
+        }
+        if ($this->likable->value == TargetType::TARGET->value && empty($this->disabledLike)) {
+            throw new \Exception(Lang::get('Missed disabled like explanation'));
+        }
+    }
+
     public function store()
     {
         $this->validate();
         try {
+            $this->validateDisabled();
             $survey = Survey::create([
                 'name' => $this->name,
                 'description' => $this->description,
@@ -89,16 +106,19 @@ class SurveyCreateUpdate extends Component
                 'showAttchivementPourcentage' => $this->showAttchivementPourcentage,
                 'startDate' => $this->startDate,
                 'endDate' => $this->endDate,
+                'disabledResult' => $this->disabledResult,
+                'disabledComment' => $this->disabledComment,
+                'disabledLike' => $this->disabledLike,
                 'goals' => $this->goals,
             ]);
             if (!is_null($this->idTarget)) {
                 $survey->targets()->attach([$this->idTarget]);
             }
-            return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $survey->id])->with('success', Lang::get('Survey Created Successfully!!'));
         } catch (\Exception $exception) {
-            return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while creating Survey!!') . ' : ' . $exception->getMessage());
+            return redirect()->route('survey_create_update', app()->getLocale())->with('danger', Lang::get('Something goes wrong while creating Survey!!') . ' : ' . $exception->getMessage());
             $this->resetFields();
         }
+        return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $survey->id])->with('success', Lang::get('Survey Created Successfully!!'));
     }
 
     public function edit($id)
@@ -134,6 +154,7 @@ class SurveyCreateUpdate extends Component
     {
         $this->validate();
         try {
+            $this->validateDisabled();
             Survey::where('id', $this->idSurvey)
                 ->update([
                     'name' => $this->name,
@@ -150,6 +171,9 @@ class SurveyCreateUpdate extends Component
                     'showAttchivementPourcentage' => $this->showAttchivementPourcentage,
                     'startDate' => $this->startDate,
                     'endDate' => $this->endDate,
+                    'disabledResult' => $this->disabledResult,
+                    'disabledComment' => $this->disabledComment,
+                    'disabledLike' => $this->disabledLike,
                     'goals' => $this->goals,
                 ]);
             if (!is_null($this->target)) {
@@ -157,18 +181,19 @@ class SurveyCreateUpdate extends Component
                 $survey->targets()->detach();
                 $survey->targets()->attach([$this->target]);
             }
-            return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Survey Updated Successfully!!'));
         } catch (\Exception $exception) {
             $this->cancel();
-            return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while updating Survey!!') . ' : ' . $exception->getMessage());
+            return redirect()->route('survey_create_update', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while updating Survey!!') . ' : ' . $exception->getMessage());
         }
+        return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Survey Updated Successfully!!'));
+
     }
 
     public function render()
     {
         $this->targets = Target::all();
         $this->targetTypes = TargetType::cases();
-        if (is_null($this->target)&&$this->targets->isNotEmpty()) {
+        if (is_null($this->target) && $this->targets->isNotEmpty()) {
             $this->target = $this->targets[0]->id;
         }
         return view('livewire.survey-create-update')->extends('layouts.master')->section('content');

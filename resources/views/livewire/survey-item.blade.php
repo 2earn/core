@@ -1,6 +1,6 @@
 <div class="card mb-2 ml-4 border">
     <div class="card-header border-info fw-medium text-muted mb-0">
-        @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
+        @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
             <span class="badge btn btn-lg float-end
         {{ $survey->status==\Core\Enum\StatusSurvey::NEW->value ? 'btn-primary' : ''  }}
         {{ $survey->status==\Core\Enum\StatusSurvey::OPEN->value ? 'btn-success' : ''  }}
@@ -12,7 +12,7 @@
         @endif
         <h5> {{$survey->id}} - {{$survey->name}}</h5>
     </div>
-    @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
+    @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
         <div class="card-body row">
             <div class="col-sm-12 col-md-4 col-lg-2">
   <span class="badge btn {{ $survey->enabled ? 'btn-success' : 'btn-danger'  }}">
@@ -33,15 +33,15 @@
 
                 {{__('Show attchivement Chrono')}}:
                 <span
-                    class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementChrono)?->name}}</span>
+                        class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementChrono)?->name}}</span>
 
                 {{__('Show achievement %')}}:
                 <span
-                    class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementPourcentage)?->name}}</span>
+                        class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementPourcentage)?->name}}</span>
 
                 {{__('Show after archiving')}}:
                 <span
-                    class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAfterArchiving)?->name}}</span>
+                        class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAfterArchiving)?->name}}</span>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-3 text-right">
 
@@ -101,24 +101,71 @@
         </div>
     </div>
 
-    @if($survey->disabledBtnDescription != null && !$survey->enabled)
-        <div class="card-body">
-            <hr>
-            <h6 class="mt-2 text-info">{{__('Disabled button description')}}:</h6>
-            <blockquote class="blockquote mb-0">
-                <p class="card-text text-muted">
-                    @if($currentRouteName=="survey_show")
-                        {{ $survey->disabledBtnDescription}}
-                    @else
-                        {{ Str::limit($survey->disabledBtnDescription,200)}}
-                    @endif
-                </p>
-            </blockquote>
+
+
+    @if(!is_null($survey->disabledResult) or !is_null($survey->disabledComment) or !is_null($survey->disabledLike))
+        <div class="card-body row">
+            @if($survey->disabledBtnDescription != null && !$survey->enabled)
+                <div class="col-sm-12 col-md-6 col-lg-3 mt-3">
+                    <h6 class="mt-2 text-info">{{__('Disabled button description')}}:</h6>
+                    <blockquote class="blockquote mb-0">
+                        <p class="card-text text-muted">
+                            @if($currentRouteName=="survey_show")
+                                {{ $survey->disabledBtnDescription}}
+                            @else
+                                {{ Str::limit($survey->disabledBtnDescription,200)}}
+                            @endif
+                        </p>
+                    </blockquote>
+                </div>
+            @endif
+            @if($survey->disabledResult != null)
+                <div class="col-sm-12 col-md-6 col-lg-3 mt-3">
+                    <h6 class="mt-2 text-info">{{__('Disabled result description')}}:</h6>
+                    <blockquote class="blockquote mb-0">
+                        <p class="card-text text-muted">
+                            @if($currentRouteName=="survey_show")
+                                {{ $survey->disabledResult}}
+                            @else
+                                {{ Str::limit($survey->disabledResult,200)}}
+                            @endif
+                        </p>
+                    </blockquote>
+                </div>
+            @endif
+            @if($survey->disabledComment != null)
+                <div class="col-sm-12 col-md-6 col-lg-3 mt-3">
+                    <h6 class="mt-2 text-info">{{__('Disabled comment description')}}:</h6>
+                    <blockquote class="blockquote mb-0">
+                        <p class="card-text text-muted">
+                            @if($currentRouteName=="survey_show")
+                                {{ $survey->disabledComment}}
+                            @else
+                                {{ Str::limit($survey->disabledComment,200)}}
+                            @endif
+                        </p>
+                    </blockquote>
+                </div>
+            @endif
+            @if($survey->disabledLike != null)
+                <div class="col-sm-12 col-md-6 col-lg-3 mt-3">
+                    <h6 class="mt-2 text-info">{{__('Disabled like description')}}:</h6>
+                    <blockquote class="blockquote mb-0">
+                        <p class="card-text text-muted">
+                            @if($currentRouteName=="survey_show")
+                                {{ $survey->disabledLike}}
+                            @else
+                                {{ Str::limit($survey->disabledLike,200)}}
+                            @endif
+                        </p>
+                    </blockquote>
+                </div>
+            @endif
         </div>
     @endif
 
     @if($currentRouteName=="survey_show")
-        @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
+        @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
             <div class="card-body">
                 <h6 class="mt-2 text-info">{{__('Details')}}:</h6>
                 <p class="text-muted mx-2">
@@ -188,7 +235,7 @@
                 <a href="{{route('survey_show', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
                    class="btn btn-soft-info material-shadow-none">{{__('Details')}}</a>
             @endif
-            @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
+            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
                 @if(intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
                     <a href="{{route('survey_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
                        class="btn btn-soft-info material-shadow-none">{{__('Edit')}}</a>
@@ -247,10 +294,10 @@
             @else
                 <a href="#" disabled class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</a>
             @endif
-                @if(!$survey->canShowResult($survey->id))
-                    <div class="alert alert-info mt-2" role="alert">
-                        * {{__('Only')}} {{\Core\Enum\TargetType::tryFrom($survey->showResult)->name}} {{__('can see the results')}}
-                    </div>
+            @if(!$survey->canShowResult($survey->id))
+                <div class="alert alert-info mt-2" role="alert">
+                    * {{__('Only')}} {{\Core\Enum\TargetType::tryFrom($survey->showResult)->name}} {{__('can see the results')}}
+                </div>
             @endif
         </div>
     @endif
@@ -269,7 +316,7 @@
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-7">
             <span
-                class="badge btn {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'btn-success' : 'btn-danger'  }}">
+                    class="badge btn {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'btn-success' : 'btn-danger'  }}">
                             {{__('Multiple')}}
                         </span>
                                 @if(!empty($survey->question->disableNote))
@@ -278,7 +325,7 @@
                         </span>
                                 @endif
                             </div>
-                            @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
+                            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
                                 <div class="col-sm-12 col-md-6 col-lg-5">
                                     <div class="btn-group  btn-group-sm" role="group" aria-label="Basic example">
                                         <a href="{{route('survey_question_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id,'IdQuestion'=>$survey->question->id] )}}"
@@ -368,7 +415,7 @@
                         @forelse ($survey->likes as $like)
                             <li class="list-group-item mt-2">
                                 {{ getUserDisplayedName($like->user->idUser)}} <span
-                                    class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>
+                                        class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>
                             </li>
                         @empty
                             <li class="list-group-item mt-2">
@@ -391,13 +438,13 @@
                     <ul class="list-group mb-3">
                         @forelse ($survey->comments as $comment)
 
-                            @if(auth()?->user()?->getRoleNames()->first()=="Super admin" ||$comment->validated  )
+                            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME ||$comment->validated  )
                                 <li class="list-group-item mt-1">
                                     <strong class="text-muted">{{ getUserDisplayedName($comment->user->idUser)}}
                                         :</strong>
                                     <br>
                                     <span class="mx-3">{{$comment->content }}</span>
-                                    @if(!$comment->validated && auth()?->user()?->getRoleNames()->first()=="Super admin")
+                                    @if(!$comment->validated && strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
                                         <button wire:click="deleteComment('{{$comment->id}}')"
                                                 class="btn btn-danger mt-3 mx-2 float-end">
                                             {{__('Delete')}}
@@ -407,7 +454,8 @@
                                             {{__('Validate')}}
                                         </button>
                                     @endif
-                                    <span class="text-muted float-end">                              <strong>{{__('at')}}: </strong>  {{$comment->created_at}}                            </span>
+                                    <span
+                                            class="text-muted float-end">                              <strong>{{__('at')}}: </strong>  {{$comment->created_at}}                            </span>
 
                                 </li>
                             @endif

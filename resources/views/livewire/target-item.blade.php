@@ -36,7 +36,7 @@
             </div>
         </div>
     </div>
-    @if(auth()?->user()?->getRoleNames()->first()=="Super admin")
+    @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
         <div class="card-body row">
             <div class="col-sm-12 col-md-5 col-lg-5">
                 <div class="btn-group mt-2" role="group">
