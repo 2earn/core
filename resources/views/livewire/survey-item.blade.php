@@ -101,8 +101,6 @@
         </div>
     </div>
 
-
-
     @if(!is_null($survey->disabledResult) or !is_null($survey->disabledComment) or !is_null($survey->disabledLike))
         <div class="card-body row">
             @if($survey->disabledBtnDescription != null && !$survey->enabled)
@@ -390,6 +388,8 @@
             </ul>
         </div>
     @endif
+
+
     @if($currentRouteName=="survey_show" && $survey->isLikable($survey->id))
         <div class="card">
             <div class="card-header border-info fw-medium text-muted mb-0">
@@ -397,6 +397,9 @@
             </div>
             <div class="card-body row">
                 <div class="col-sm-12 col-md-4 col-lg-4">
+
+{{--                    DIABLED with !isLikable--}}
+
                     @if($like)
                         <button wire:click="dislike()" class="btn btn-warning btn-label waves-effect waves-light">
                             <i class="ri-heart-fill label-icon align-middle fs-16 me-2"></i>
@@ -471,6 +474,8 @@
                     <h6>{{__('Add a comment')}}</h6>
                 </div>
                 <hr class="text-info">
+                {{--                    DIABLED with !isCommentable--}}
+
                 <div class="col-sm-12 col-md-9 col-lg-9">
                     <textarea class="form-control" wire:model="comment" id="comment" rows="3"></textarea>
                 </div>
