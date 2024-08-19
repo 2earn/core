@@ -156,7 +156,10 @@ class Survey extends Model
     public function CheckVisibility($idSurvey, $property): bool
     {
         $survey = Survey::find($idSurvey);
-        if ($survey->{$property} == TargetType::ALL->value or strtoupper(auth()?->user()?->getRoleNames()->first()) == self::SUPER_ADMIN_ROLE_NAME) {
+        if ($survey->{$property} == TargetType::ALL->value) {
+            return true;
+        }
+        if ($survey->{$property} == TargetType::ADMINS->value or strtoupper(auth()?->user()?->getRoleNames()->first()) == self::SUPER_ADMIN_ROLE_NAME) {
             return true;
         }
 
