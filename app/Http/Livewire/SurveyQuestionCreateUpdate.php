@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Survey;
 use App\Models\SurveyQuestion;
+use Core\Enum\Selection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
@@ -27,8 +28,7 @@ class SurveyQuestionCreateUpdate extends Component
     ];
     protected $rules = [
         'content' => 'required',
-        'selection' => 'required',
-        'maxResponse' => 'required'
+        'selection' => 'required'
     ];
 
     public function mount(Request $request)
@@ -44,7 +44,6 @@ class SurveyQuestionCreateUpdate extends Component
     {
         $this->content = '';
         $this->selection = '';
-        $this->maxResponse = '';
     }
 
 
@@ -68,11 +67,12 @@ class SurveyQuestionCreateUpdate extends Component
     {
         $this->validate();
         try {
+            $this->validateMultiselection();
             SurveyQuestion::where('id', $this->idQuestion)
                 ->update([
                     'content' => $this->content,
                     'selection' => $this->selection,
-                    'maxResponse' => $this->maxResponse,
+                    'maxResponse' => $this->maxResponse != "" ? $this->maxResponse : 0,
                 ]);
             return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Question Updated Successfully!!'));
         } catch (\Exception $exception) {
@@ -80,14 +80,22 @@ class SurveyQuestionCreateUpdate extends Component
         }
     }
 
+    public function validateMultiselection()
+    {
+        if ($this->selection == Selection::MULTIPLE->value && ($this->maxResponse == "" or $this->maxResponse == 0)) {
+            throw new \Exception(Lang::get('Max response cannot be null when using multiple selections'));
+        }
+    }
+
     public function store()
     {
         $this->validate();
         try {
+            $this->validateMultiselection();
             $surveyQuestion = SurveyQuestion::create([
                 'content' => $this->content,
                 'selection' => $this->selection,
-                'maxResponse' => $this->maxResponse,
+                'maxResponse' => $this->maxResponse != "" ? $this->maxResponse : 0,
                 'survey_id' => $this->idSurvey,
             ]);
             return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Survey Created Successfully!!') . ' ' . $surveyQuestion->content);
