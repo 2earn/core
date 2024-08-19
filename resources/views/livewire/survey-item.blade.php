@@ -240,9 +240,17 @@
                 @endif
 
             @endif
+
             @if(intval($survey->status)<\Core\Enum\StatusSurvey::NEW->value && $survey->canShowResult($survey->id))
                 <a href="{{route('survey_results', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
                    class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</a>
+            @else
+                <a href="#" disabled class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</a>
+            @endif
+                @if(!$survey->canShowResult($survey->id))
+                    <div class="alert alert-info mt-2" role="alert">
+                        * {{__('Only')}} {{\Core\Enum\TargetType::tryFrom($survey->showResult)->name}} {{__('can see the results')}}
+                    </div>
             @endif
         </div>
     @endif

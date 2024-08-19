@@ -43,7 +43,7 @@
         </div>
         <div class="card-body row mx-1">
             @forelse($surveys as $survey)
-                @if($survey->canShowAfterArchiving($survey->id))
+                @if($survey->canShow($survey->id))
                     @include('livewire.survey-item', ['survey' => $survey])
                 @endif
             @empty
