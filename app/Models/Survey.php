@@ -159,6 +159,7 @@ class Survey extends Model
         if ($survey->{$property} == TargetType::ALL->value) {
             return true;
         }
+
         if ($survey->{$property} == TargetType::ADMINS->value or strtoupper(auth()?->user()?->getRoleNames()->first()) == self::SUPER_ADMIN_ROLE_NAME) {
             return true;
         }

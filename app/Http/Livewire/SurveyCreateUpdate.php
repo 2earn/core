@@ -22,13 +22,14 @@ class SurveyCreateUpdate extends Component
     public $published = false;
     public $updatable = false;
 
-    public $commentable = TargetType::TARGET;
-    public $likable = TargetType::TARGET;
-    public $showResult = TargetType::TARGET;
-    public $show = TargetType::TARGET;
-    public $showAttchivementChrono = TargetType::TARGET;
-    public $showAfterArchiving = TargetType::TARGET;
-    public $showAttchivementPourcentage = TargetType::TARGET;
+    public
+        $commentable,
+        $likable,
+        $showResult,
+        $show,
+        $showAttchivementChrono,
+        $showAfterArchiving,
+        $showAttchivementPourcentage;
 
     public
         $startDate,
@@ -64,6 +65,14 @@ class SurveyCreateUpdate extends Component
         $this->idTarget = $request->input('idTarget');
         if (!is_null($idSurvey)) {
             $this->edit($idSurvey);
+        } else {
+            $this->commentable = TargetType::ALL->value;
+            $this->likable = TargetType::ALL->value;
+            $this->showResult = TargetType::ALL->value;
+            $this->show = TargetType::ALL->value;
+            $this->showAttchivementChrono = TargetType::ALL->value;
+            $this->showAfterArchiving = TargetType::ALL->value;
+            $this->showAttchivementPourcentage = TargetType::ALL->value;
         }
     }
 
@@ -75,13 +84,13 @@ class SurveyCreateUpdate extends Component
 
     public function validateDisabled()
     {
-        if ($this->showResult->value == TargetType::TARGET->value && empty($this->disabledResult)) {
+        if ($this->showResult == TargetType::TARGET->value && empty($this->disabledResult)) {
             throw new \Exception(Lang::get('Missed disabled result explanation'));
         }
-        if ($this->commentable->value == TargetType::TARGET->value && empty($this->disabledComment)) {
+        if ($this->commentable == TargetType::TARGET->value && empty($this->disabledComment)) {
             throw new \Exception(Lang::get('Missed disabled comment explanation'));
         }
-        if ($this->likable->value == TargetType::TARGET->value && empty($this->disabledLike)) {
+        if ($this->likable == TargetType::TARGET->value && empty($this->disabledLike)) {
             throw new \Exception(Lang::get('Missed disabled like explanation'));
         }
     }
@@ -182,7 +191,7 @@ class SurveyCreateUpdate extends Component
                 $survey->targets()->attach([$this->target]);
             }
         } catch (\Exception $exception) {
-            $this->cancel();
+            dd($exception);
             return redirect()->route('survey_create_update', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while updating Survey!!') . ' : ' . $exception->getMessage());
         }
         return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Survey Updated Successfully!!'));

@@ -100,66 +100,67 @@
 
         </div>
     </div>
-
-    @if(!is_null($survey->disabledResult) or !is_null($survey->disabledComment) or !is_null($survey->disabledLike))
-        <div class="card-body row">
-            @if($survey->disabledBtnDescription != null && !$survey->enabled)
-                <div class="col-sm-12 col-md-6 col-lg-3 mt-3">
-                    <h6 class="mt-2 text-info">{{__('Disabled button description')}}:</h6>
-                    <blockquote class="blockquote mb-0">
-                        <p class="card-text text-muted">
-                            @if($currentRouteName=="survey_show")
-                                {{ $survey->disabledBtnDescription}}
-                            @else
-                                {{ Str::limit($survey->disabledBtnDescription,200)}}
-                            @endif
-                        </p>
-                    </blockquote>
-                </div>
-            @endif
-            @if($survey->disabledResult != null)
-                <div class="col-sm-12 col-md-6 col-lg-3 mt-3">
-                    <h6 class="mt-2 text-info">{{__('Disabled result description')}}:</h6>
-                    <blockquote class="blockquote mb-0">
-                        <p class="card-text text-muted">
-                            @if($currentRouteName=="survey_show")
-                                {{ $survey->disabledResult}}
-                            @else
-                                {{ Str::limit($survey->disabledResult,200)}}
-                            @endif
-                        </p>
-                    </blockquote>
-                </div>
-            @endif
-            @if($survey->disabledComment != null)
-                <div class="col-sm-12 col-md-6 col-lg-3 mt-3">
-                    <h6 class="mt-2 text-info">{{__('Disabled comment description')}}:</h6>
-                    <blockquote class="blockquote mb-0">
-                        <p class="card-text text-muted">
-                            @if($currentRouteName=="survey_show")
-                                {{ $survey->disabledComment}}
-                            @else
-                                {{ Str::limit($survey->disabledComment,200)}}
-                            @endif
-                        </p>
-                    </blockquote>
-                </div>
-            @endif
-            @if($survey->disabledLike != null)
-                <div class="col-sm-12 col-md-6 col-lg-3 mt-3">
-                    <h6 class="mt-2 text-info">{{__('Disabled like description')}}:</h6>
-                    <blockquote class="blockquote mb-0">
-                        <p class="card-text text-muted">
-                            @if($currentRouteName=="survey_show")
-                                {{ $survey->disabledLike}}
-                            @else
-                                {{ Str::limit($survey->disabledLike,200)}}
-                            @endif
-                        </p>
-                    </blockquote>
-                </div>
-            @endif
-        </div>
+    @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+        @if(!is_null($survey->disabledResult) or !is_null($survey->disabledComment) or !is_null($survey->disabledLike))
+            <div class="card-body row">
+                @if($survey->disabledBtnDescription != null && !$survey->enabled)
+                    <div class="col-sm-12 col-md-6 col-lg-3 mt-3">
+                        <h6 class="mt-2 text-info">{{__('Disabled button description')}}:</h6>
+                        <blockquote class="blockquote mb-0">
+                            <p class="card-text text-muted">
+                                @if($currentRouteName=="survey_show")
+                                    {{ $survey->disabledBtnDescription}}
+                                @else
+                                    {{ Str::limit($survey->disabledBtnDescription,200)}}
+                                @endif
+                            </p>
+                        </blockquote>
+                    </div>
+                @endif
+                @if($survey->disabledResult != null)
+                    <div class="col-sm-12 col-md-6 col-lg-3 mt-3">
+                        <h6 class="mt-2 text-info">{{__('Disabled result description')}}:</h6>
+                        <blockquote class="blockquote mb-0">
+                            <p class="card-text text-muted">
+                                @if($currentRouteName=="survey_show")
+                                    {{ $survey->disabledResult}}
+                                @else
+                                    {{ Str::limit($survey->disabledResult,200)}}
+                                @endif
+                            </p>
+                        </blockquote>
+                    </div>
+                @endif
+                @if($survey->disabledComment != null)
+                    <div class="col-sm-12 col-md-6 col-lg-3 mt-3">
+                        <h6 class="mt-2 text-info">{{__('Disabled comment description')}}:</h6>
+                        <blockquote class="blockquote mb-0">
+                            <p class="card-text text-muted">
+                                @if($currentRouteName=="survey_show")
+                                    {{ $survey->disabledComment}}
+                                @else
+                                    {{ Str::limit($survey->disabledComment,200)}}
+                                @endif
+                            </p>
+                        </blockquote>
+                    </div>
+                @endif
+                @if($survey->disabledLike != null)
+                    <div class="col-sm-12 col-md-6 col-lg-3 mt-3">
+                        <h6 class="mt-2 text-info">{{__('Disabled like description')}}:</h6>
+                        <blockquote class="blockquote mb-0">
+                            <p class="card-text text-muted">
+                                @if($currentRouteName=="survey_show")
+                                    {{ $survey->disabledLike}}
+                                @else
+                                    {{ Str::limit($survey->disabledLike,200)}}
+                                @endif
+                            </p>
+                        </blockquote>
+                    </div>
+                @endif
+            </div>
+        @endif
     @endif
 
     @if($currentRouteName=="survey_show")
@@ -294,7 +295,7 @@
             @endif
             @if(!$survey->canShowResult($survey->id))
                 <div class="alert alert-info mt-2" role="alert">
-                    * {{__('Only')}} {{\Core\Enum\TargetType::tryFrom($survey->showResult)->name}} {{__('can see the results')}}
+                    <h4 class="alert-heading">{{__('Disabled result title')}}</h4> * {{$survey->disabledResult}}
                 </div>
             @endif
         </div>
@@ -390,7 +391,7 @@
     @endif
 
 
-    @if($currentRouteName=="survey_show" && $survey->isLikable($survey->id))
+    @if($currentRouteName=="survey_show")
         <div class="card">
             <div class="card-header border-info fw-medium text-muted mb-0">
                 <h6 class="mt-2 text-info">       {{__('Likes')}}</h6>
@@ -398,93 +399,109 @@
             <div class="card-body row">
                 <div class="col-sm-12 col-md-4 col-lg-4">
 
-{{--                    DIABLED with !isLikable--}}
+                    {{--                    DIABLED with !isLikable--}}
 
                     @if($like)
-                        <button wire:click="dislike()" class="btn btn-warning btn-label waves-effect waves-light">
+                        <button wire:click="dislike()" class="btn btn-warning btn-label waves-effect waves-light"
+                                @if(!$survey->isLikable($survey->id)) disabled @endif>
                             <i class="ri-heart-fill label-icon align-middle fs-16 me-2"></i>
                             {{__('Liked')}}
                         </button>
                     @else
-                        <button wire:click="like()" class="btn btn-info btn-label waves-effect waves-light">
+                        <button wire:click="like()" class="btn btn-info btn-label waves-effect waves-light"
+                                @if(!$survey->isLikable($survey->id)) disabled @endif>
                             <i class="ri-heart-fill label-icon align-middle fs-16 me-2"></i>
                             {{__('Like')}}
                         </button>
                     @endif
 
                 </div>
-                <div class="col-sm-12 col-md-7 col-lg-7">
-                    <ul class="list-group">
-                        @forelse ($survey->likes as $like)
-                            <li class="list-group-item mt-2">
-                                {{ getUserDisplayedName($like->user->idUser)}} <span
-                                        class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>
-                            </li>
-                        @empty
-                            <li class="list-group-item mt-2">
-                                {{__('No Likes')}}
-                            </li>
-                        @endforelse
-                    </ul>
-                </div>
+                @if($survey->isLikable($survey->id))
+                    <div class="col-sm-12 col-md-7 col-lg-7">
+                        <ul class="list-group">
+                            @forelse ($survey->likes as $like)
+                                <li class="list-group-item mt-2">
+                                    {{ getUserDisplayedName($like->user->idUser)}} <span
+                                            class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>
+                                </li>
+                            @empty
+                                <li class="list-group-item mt-2">
+                                    {{__('No Likes')}}
+                                </li>
+                            @endforelse
+                        </ul>
+                    </div>
+                @endif
+
+                @if(!$survey->isLikable($survey->id))
+                    <div class="alert alert-info mt-2" role="alert">
+                        <h4 class="alert-heading">{{__('Disabled like title')}}</h4> * {{$survey->disabledLike}}
+                    </div>
+                @endif
             </div>
         </div>
     @endif
 
-    @if($currentRouteName=="survey_show" && $survey->isCommentable($survey->id))
+    @if($currentRouteName=="survey_show" )
         <div class="card">
             <div class="card-header border-info fw-medium text-muted mb-0">
                 <h6 class="mt-2 text-info"> {{__('Comments')}}</h6>
             </div>
             <div class="card-body row">
-                <div class="col-sm-12 col-md-12 col-lg-12">
-                    <ul class="list-group mb-3">
-                        @forelse ($survey->comments as $comment)
+                @if($survey->isCommentable($survey->id))
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <ul class="list-group mb-3">
+                            @forelse ($survey->comments as $comment)
 
-                            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME ||$comment->validated  )
-                                <li class="list-group-item mt-1">
-                                    <strong class="text-muted">{{ getUserDisplayedName($comment->user->idUser)}}
-                                        :</strong>
-                                    <br>
-                                    <span class="mx-3">{{$comment->content }}</span>
-                                    @if(!$comment->validated && strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
-                                        <button wire:click="deleteComment('{{$comment->id}}')"
-                                                class="btn btn-danger mt-3 mx-2 float-end">
-                                            {{__('Delete')}}
-                                        </button>
-                                        <button wire:click="validateComment('{{$comment->id}}')"
-                                                class="btn btn-success mt-3 mx-2 float-end">
-                                            {{__('Validate')}}
-                                        </button>
-                                    @endif
-                                    <span
-                                            class="text-muted float-end">                              <strong>{{__('at')}}: </strong>  {{$comment->created_at}}                            </span>
+                                @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME ||$comment->validated  )
+                                    <li class="list-group-item mt-1">
+                                        <strong class="text-muted">{{ getUserDisplayedName($comment->user->idUser)}}
+                                            :</strong>
+                                        <br>
+                                        <span class="mx-3">{{$comment->content }}</span>
+                                        @if(!$comment->validated && strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                                            <button wire:click="deleteComment('{{$comment->id}}')"
+                                                    class="btn btn-danger mt-3 mx-2 float-end">
+                                                {{__('Delete')}}
+                                            </button>
+                                            <button wire:click="validateComment('{{$comment->id}}')"
+                                                    class="btn btn-success mt-3 mx-2 float-end">
+                                                {{__('Validate')}}
+                                            </button>
+                                        @endif
+                                        <span class="text-muted float-end"><strong>{{__('at')}}: </strong>  {{$comment->created_at}}</span>
+                                    </li>
+                                @endif
 
+                            @empty
+                                <li class="list-group-item mt-2">
+                                    {{__('No Comments')}}
                                 </li>
-                            @endif
-
-                        @empty
-                            <li class="list-group-item mt-2">
-                                {{__('No Comments')}}
-                            </li>
-                        @endforelse
-                    </ul>
-                </div>
+                            @endforelse
+                        </ul>
+                    </div>
+                @endif
                 <div class="col-sm-12 col-md-12 col-lg-12">
                     <h6>{{__('Add a comment')}}</h6>
                 </div>
                 <hr class="text-info">
-                {{--                    DIABLED with !isCommentable--}}
 
                 <div class="col-sm-12 col-md-9 col-lg-9">
-                    <textarea class="form-control" wire:model="comment" id="comment" rows="3"></textarea>
+                    <textarea class="form-control" wire:model="comment" id="comment" rows="3"
+                              @if(!$survey->isCommentable($survey->id)) disabled @endif></textarea>
                 </div>
                 <div class="col-sm-12 col-md-3 col-lg-3 ">
-                    <button wire:click="addComment()" class="btn btn-info btn-label waves-effect waves-light mt-2">
+                    <button wire:click="addComment()" class="btn btn-info btn-label waves-effect waves-light mt-2"
+                            @if(!$survey->isCommentable($survey->id)) disabled @endif>
                         {{__('Add comment')}}
                     </button>
                 </div>
 
+                    @if(!$survey->isCommentable($survey->id))
+                        <div class="alert alert-info mt-2" role="alert">
+                            <h4 class="alert-heading">{{__('Disabled comment title')}}</h4> * {{$survey->disabledComment}}
+                        </div>
+                    @endif
             </div>
         </div>
     @endif

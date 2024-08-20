@@ -142,7 +142,7 @@
                                     id="showResult"
                                     aria-label="{{__('Show result')}}">
                                     @foreach ($targetTypes as $targetType)
-                                        <option value="{{$targetType}}"
+                                        <option value="{{$targetType->value}}"
                                                 @if($loop->index==0) selected @endif >{{$targetType->name}}</option>
                                     @endforeach
                                 </select>
@@ -168,7 +168,7 @@
                                     id="commentable"
                                     aria-label="{{__('commentable')}}">
                                     @foreach ($targetTypes as $targetType)
-                                        <option value="{{$targetType}}"
+                                        <option value="{{$targetType->value}}"
                                                 @if($loop->index==0) selected @endif >{{$targetType->name}}</option>
                                     @endforeach
                                 </select>
@@ -195,7 +195,7 @@
                                     id="likable"
                                     aria-label="{{__('likable')}}">
                                     @foreach ($targetTypes as $targetType)
-                                        <option value="{{$targetType}}"
+                                        <option value="{{$targetType->value}}"
                                                 @if($loop->index==0) selected @endif >{{$targetType->name}}</option>
                                     @endforeach
                                 </select>

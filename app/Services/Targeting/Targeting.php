@@ -40,7 +40,7 @@ class Targeting
     public static function isSurveyInTarget($survey, $user): bool
     {
         if ($survey->targets->isEmpty()) {
-            return true;
+            return false;
         } else {
             return self::CheckUserInTarget($survey->targets->first(), $user);
         }
