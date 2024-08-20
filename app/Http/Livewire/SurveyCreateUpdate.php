@@ -84,13 +84,13 @@ class SurveyCreateUpdate extends Component
 
     public function validateDisabled()
     {
-        if ($this->showResult == TargetType::TARGET->value && empty($this->disabledResult)) {
+        if ($this->showResult != TargetType::ALL->value && empty($this->disabledResult)) {
             throw new \Exception(Lang::get('Missed disabled result explanation'));
         }
-        if ($this->commentable == TargetType::TARGET->value && empty($this->disabledComment)) {
+        if ($this->commentable != TargetType::ALL->value && empty($this->disabledComment)) {
             throw new \Exception(Lang::get('Missed disabled comment explanation'));
         }
-        if ($this->likable == TargetType::TARGET->value && empty($this->disabledLike)) {
+        if ($this->likable != TargetType::ALL->value && empty($this->disabledLike)) {
             throw new \Exception(Lang::get('Missed disabled like explanation'));
         }
     }
@@ -148,6 +148,9 @@ class SurveyCreateUpdate extends Component
         $this->startDate = date_format(new \DateTime($survey->startDate), self::DATE_FORMAT);
         $this->endDate = date_format(new \DateTime($survey->endDate), self::DATE_FORMAT);
         $this->goals = $survey->goals;
+        $this->disabledResult = $survey->disabledResult;
+        $this->disabledComment = $survey->disabledComment;
+        $this->disabledLike = $survey->disabledLike;
         if (!empty($survey->target)) {
             $this->target = $survey->target->first();
         }
@@ -191,7 +194,6 @@ class SurveyCreateUpdate extends Component
                 $survey->targets()->attach([$this->target]);
             }
         } catch (\Exception $exception) {
-            dd($exception);
             return redirect()->route('survey_create_update', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while updating Survey!!') . ' : ' . $exception->getMessage());
         }
         return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Survey Updated Successfully!!'));

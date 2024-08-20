@@ -42,9 +42,7 @@
         </div>
         <div class="card-body row mx-1">
             @forelse($surveys as $survey)
-                @if($survey->canShow($survey->id))
-                    @include('livewire.survey-item', ['survey' => $survey])
-                @endif
+                @include('livewire.survey-item', ['survey' => $survey])
             @empty
                 <p>{{__('No Surveys')}}</p>
             @endforelse

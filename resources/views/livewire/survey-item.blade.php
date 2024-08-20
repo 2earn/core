@@ -33,15 +33,15 @@
 
                 {{__('Show attchivement Chrono')}}:
                 <span
-                        class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementChrono)?->name}}</span>
+                    class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementChrono)?->name}}</span>
 
                 {{__('Show achievement %')}}:
                 <span
-                        class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementPourcentage)?->name}}</span>
+                    class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementPourcentage)?->name}}</span>
 
                 {{__('Show after archiving')}}:
                 <span
-                        class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAfterArchiving)?->name}}</span>
+                    class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAfterArchiving)?->name}}</span>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-3 text-right">
 
@@ -274,7 +274,7 @@
                     @endif
                 @endif
             @endif
-            @if(intval($survey->status)==\Core\Enum\StatusSurvey::OPEN->value)
+            @if(intval($survey->status)==\Core\Enum\StatusSurvey::OPEN->value && $survey->enabled)
                 @if(\App\Models\SurveyResponse::isPaticipated(auth()->user()->id, $survey->id))
                     @if($survey->updatable)
                         <a href="{{route('survey_participate', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
@@ -285,17 +285,17 @@
                        class="btn btn-soft-info material-shadow-none">{{__('Paticipate')}}</a>
                 @endif
 
+                @if( $survey->canShowResult($survey->id))
+                    <a href="{{route('survey_results', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
+                       class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</a>
+                @else
+                    <btn disabled class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</btn>
+                @endif
             @endif
 
-            @if(intval($survey->status)<\Core\Enum\StatusSurvey::NEW->value && $survey->canShowResult($survey->id))
-                <a href="{{route('survey_results', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
-                   class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</a>
-            @else
-                <a href="#" disabled class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</a>
-            @endif
             @if(!$survey->canShowResult($survey->id))
                 <div class="alert alert-info mt-2" role="alert">
-                    <h4 class="alert-heading">{{__('Disabled result title')}}</h4> * {{$survey->disabledResult}}
+                    <h6 class="alert-heading">{{__('Disabled result title')}}</h6> * {{$survey->disabledResult}}
                 </div>
             @endif
         </div>
@@ -315,7 +315,7 @@
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-7">
             <span
-                    class="badge btn {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'btn-success' : 'btn-danger'  }}">
+                class="badge btn {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'btn-success' : 'btn-danger'  }}">
                             {{__('Multiple')}}
                         </span>
                                 @if(!empty($survey->question->disableNote))
@@ -390,16 +390,18 @@
         </div>
     @endif
 
-
     @if($currentRouteName=="survey_show")
         <div class="card">
             <div class="card-header border-info fw-medium text-muted mb-0">
                 <h6 class="mt-2 text-info">       {{__('Likes')}}</h6>
             </div>
+            @if(!$survey->isLikable($survey->id))
+                <div class="alert alert-info mt-2" role="alert">
+                    <h6 class="alert-heading">{{__('Disabled like title')}}</h6> * {{$survey->disabledLike}}
+                </div>
+            @endif
             <div class="card-body row">
                 <div class="col-sm-12 col-md-4 col-lg-4">
-
-                    {{--                    DIABLED with !isLikable--}}
 
                     @if($like)
                         <button wire:click="dislike()" class="btn btn-warning btn-label waves-effect waves-light"
@@ -422,7 +424,7 @@
                             @forelse ($survey->likes as $like)
                                 <li class="list-group-item mt-2">
                                     {{ getUserDisplayedName($like->user->idUser)}} <span
-                                            class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>
+                                        class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>
                                 </li>
                             @empty
                                 <li class="list-group-item mt-2">
@@ -430,12 +432,6 @@
                                 </li>
                             @endforelse
                         </ul>
-                    </div>
-                @endif
-
-                @if(!$survey->isLikable($survey->id))
-                    <div class="alert alert-info mt-2" role="alert">
-                        <h4 class="alert-heading">{{__('Disabled like title')}}</h4> * {{$survey->disabledLike}}
                     </div>
                 @endif
             </div>
@@ -447,6 +443,12 @@
             <div class="card-header border-info fw-medium text-muted mb-0">
                 <h6 class="mt-2 text-info"> {{__('Comments')}}</h6>
             </div>
+
+            @if(!$survey->isCommentable($survey->id))
+                <div class="alert alert-info mt-2" role="alert">
+                    <h6 class="alert-heading">{{__('Disabled comment title')}}</h6> * {{$survey->disabledComment}}
+                </div>
+            @endif
             <div class="card-body row">
                 @if($survey->isCommentable($survey->id))
                     <div class="col-sm-12 col-md-12 col-lg-12">
@@ -496,12 +498,6 @@
                         {{__('Add comment')}}
                     </button>
                 </div>
-
-                    @if(!$survey->isCommentable($survey->id))
-                        <div class="alert alert-info mt-2" role="alert">
-                            <h4 class="alert-heading">{{__('Disabled comment title')}}</h4> * {{$survey->disabledComment}}
-                        </div>
-                    @endif
             </div>
         </div>
     @endif

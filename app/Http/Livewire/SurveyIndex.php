@@ -3,7 +3,6 @@
 namespace App\Http\Livewire;
 
 use App\Models\Survey;
-use App\Services\Targeting\Targeting;
 use Core\Enum\StatusSurvey;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
@@ -134,7 +133,7 @@ class SurveyIndex extends Component
 
         }
         foreach ($surveysQuery->get() as $survey) {
-            if (Targeting::isSurveyInTarget($survey,auth()->user())) {
+            if ($survey->canShow($survey->id)) {
                 $surveys[] = $survey;
             }
 

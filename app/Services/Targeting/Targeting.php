@@ -41,9 +41,12 @@ class Targeting
     {
         if ($survey->targets->isEmpty()) {
             return false;
-        } else {
+        }
+        if ($survey->targets->isNotEmpty()) {
             return self::CheckUserInTarget($survey->targets->first(), $user);
         }
+        return false;
+
     }
 
     private static function formatOperand($condition)
