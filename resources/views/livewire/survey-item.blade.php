@@ -280,17 +280,19 @@
                         <a href="{{route('survey_participate', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
                            class="btn btn-soft-info material-shadow-none">{{__('Re-Paticipate')}}</a>
                     @endif
-                @else
+                @endif
+                @if(! \App\Models\SurveyResponse::isPaticipated(auth()->user()->id, $survey->id))
                     <a href="{{route('survey_participate', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
                        class="btn btn-soft-info material-shadow-none">{{__('Paticipate')}}</a>
                 @endif
 
-                @if( $survey->canShowResult($survey->id))
-                    <a href="{{route('survey_results', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
-                       class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</a>
-                @else
-                    <btn disabled class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</btn>
-                @endif
+            @endif
+
+            @if( $survey->canShowResult($survey->id))
+                <a href="{{route('survey_results', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
+                   class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</a>
+            @else
+                <btn disabled class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</btn>
             @endif
 
             @if(!$survey->canShowResult($survey->id))

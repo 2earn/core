@@ -44,7 +44,9 @@
                                                                         type="radio"
                                                                         value="{{$choice->id}}"
                                                                         name="flexRadioDefault"
-                                                                        id="flexRadio_{{$survey->question->id}}_{{$choice->id}}">
+                                                                        id="flexRadio_{{$survey->question->id}}_{{$choice->id}}"
+
+                                                                    >
                                                                     <label class="form-check-label"
                                                                            for="flexRadio_{{$survey->question->id}}_{{$choice->id}}">
                                                                         {{$choice->id}} - {{$choice->title}}
@@ -57,7 +59,8 @@
                                                                         class="form-check-input"
                                                                         type="checkbox"
                                                                         value="{{$choice->id}}"
-                                                                        id="flexCheck_{{$survey->question->id}}_{{$choice->id}}">
+                                                                        id="flexCheck_{{$survey->question->id}}_{{$choice->id}}"
+                                                                    >
                                                                     <label class="form-check-label"
                                                                            for="flexCheck_{{$survey->question->id}}_{{$choice->id}}">
                                                                         {{$choice->id}} - {{$choice->title}}
@@ -75,6 +78,9 @@
                                         </ul>
                                     </div>
                                 @endif
+
+
+
                             </div>
                         </div>
                         <div class="card-footer">
