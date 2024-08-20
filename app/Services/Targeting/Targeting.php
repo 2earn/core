@@ -51,7 +51,7 @@ class Targeting
         }
 
         if (in_array("role", $tablesAleas)) {
-            $queryString = $queryString->join('roles', 'roles.id', '=', 'model_has_roles.role_id');
+            $queryString = $queryString->join('roles as role', 'role.id', '=', 'model_has_roles.role_id');
         }
         return $queryString;
     }

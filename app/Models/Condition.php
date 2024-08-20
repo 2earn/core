@@ -41,6 +41,8 @@ class Condition extends Model
         ['name' => '[country] lang', 'value' => 'country.lang'],
         ['name' => '[state] id', 'value' => 'state.id'],
         ['name' => '[state] name', 'value' => 'state.name'],
+        ['name' => '[role] id', 'value' => 'role.id'],
+        ['name' => '[role] name', 'value' => 'role.name'],
     ];
 
     protected $fillable = [
