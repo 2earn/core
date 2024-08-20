@@ -119,13 +119,13 @@ class Targeting
     {
         $groups = $target->group()->get();
         $conditions = $target->condition()->get();
-        if ($groups->isEmpty() && $conditions->isEmpty()) {
-            return true;
-        }
-
         $usersQuery = self::initUsersQuery();
         if ($preveiw) {
             $usersQuery = self::addPreveiewData($usersQuery);
+        }
+
+        if ($groups->isEmpty() && $conditions->isEmpty()) {
+            return $usersQuery;
         }
 
         return self::fillUsersQuery($usersQuery, $conditions, $groups);
