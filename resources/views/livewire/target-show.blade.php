@@ -42,7 +42,11 @@
     </div>
     <script type="module">
         $(document).on('turbolinks:load', function () {
-            $.fn.dataTable.ext.errMode = 'none';
+            $.fn.dataTable.ext.errMode = function ( settings, helpPage, message ) {
+                console.log('Error : ', message);
+                $("#warningDetail").removeClass("d-none")
+                $('#warningDetail').html('').append(message)
+            };
             if (!$.fn.dataTable.isDataTable('#HistoryNotificationTable')) {
                 $('#TargetTable').DataTable({
                     "responsive": true,
@@ -63,10 +67,6 @@
                 });
             }
         });
-        $('#TargetTable').on('error.dt', function (e, settings, techNote, message) {
-            console.log('Error : ', message);
-            $("#warningDetail").removeClass("d-none")
-            $('#warningDetail').html('').append(message)
-        })
+
     </script>
 </div>

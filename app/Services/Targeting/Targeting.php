@@ -38,6 +38,10 @@ class Targeting
             $queryString = $queryString->join('metta_users as metta', 'metta.idUser', '=', 'u.idUser');
         }
 
+        if (in_array("country", $tablesAleas)) {
+            $queryString = $queryString->join('countries as country', 'country.id', '=', 'u.idCountry');
+
+        }
         if (in_array("role", $tablesAleas)) {
             $queryString = $queryString->join('model_has_roles', 'u.id', '=', 'model_has_roles.model_id');
         }
@@ -45,7 +49,6 @@ class Targeting
         if (in_array("role", $tablesAleas)) {
             $queryString = $queryString->join('roles', 'roles.id', '=', 'model_has_roles.role_id');
         }
-
         return $queryString;
     }
 

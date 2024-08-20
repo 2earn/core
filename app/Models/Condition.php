@@ -33,6 +33,12 @@ class Condition extends Model
         ['name' => '[metta user] nationalID', 'value' => 'metta.nationalID'],
         ['name' => '[metta user] adresse', 'value' => 'metta.adresse'],
         ['name' => '[metta user] note', 'value' => 'metta.note'],
+        ['name' => '[country] id', 'value' => 'country.id'],
+        ['name' => '[country] name', 'value' => 'country.name'],
+        ['name' => '[country] continant', 'value' => 'country.continant'],
+        ['name' => '[country] apha2', 'value' => 'country.apha2'],
+        ['name' => '[country] ExchangeRate', 'value' => 'country.ExchangeRate'],
+        ['name' => '[country] lang', 'value' => 'country.lang'],
     ];
 
     protected $fillable = [
