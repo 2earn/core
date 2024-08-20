@@ -13,17 +13,45 @@ class Targeting
     {
     }
 
-    private static function initUsersQuery()
+
+    private static function initUsersQuery($conditions, $groups)
     {
-        return DB::table('users as u')->whereNotNull('fullphone_number')
-            ->join('metta_users as meta', 'meta.idUser', '=', 'u.idUser')
-            ->join('model_has_roles', 'u.id', '=', 'model_has_roles.model_id')
-            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id');
+        $tablesAleas = [];
+        if ($conditions->isNotEmpty()) {
+            foreach ($conditions as $condition) {
+                $tablesAleas = array_unique(array_merge($tablesAleas, [substr($condition->operand, 0, strpos($condition->operand, '.'))]));
+            }
+        }
+
+        if ($groups->isNotEmpty()) {
+            foreach ($groups as $group) {
+                foreach ($group->condition()->get() as $condition) {
+                    $tablesAleas = array_unique(array_merge($tablesAleas, [substr($condition->operand, 0, strpos($condition->operand, '.'))]));
+                }
+            }
+        }
+
+
+        $queryString = DB::table('users as u');
+
+        if (in_array("metta", $tablesAleas)) {
+            $queryString = $queryString->join('metta_users as metta', 'metta.idUser', '=', 'u.idUser');
+        }
+
+        if (in_array("role", $tablesAleas)) {
+            $queryString = $queryString->join('model_has_roles', 'u.id', '=', 'model_has_roles.model_id');
+        }
+
+        if (in_array("role", $tablesAleas)) {
+            $queryString = $queryString->join('roles', 'roles.id', '=', 'model_has_roles.role_id');
+        }
+
+        return $queryString;
     }
 
     private static function addPreveiewData($usersQuery)
     {
-        return $usersQuery->select('u.id', 'u.name', 'u.email', 'u.fullphone_number');
+        return $usersQuery->select('u.id', 'u.name', 'u.email', 'u.status', 'u.fullphone_number');
     }
 
     private static function CheckUserIn($usersQuery, $userId)
@@ -52,10 +80,6 @@ class Targeting
     private static function formatOperand($condition)
     {
 
-        if (in_array($condition->operator, Condition::$simpleOperands)) {
-            return $condition;
-        }
-
         if (in_array($condition->operator, Condition::$complexOperands)) {
             $formatedCondition = new Condition();
             $formatedCondition->operator = 'LIKE';
@@ -74,9 +98,11 @@ class Targeting
                     $formatedCondition->value = '%' . $condition->value . '%';
                     break;
             }
+
             return $formatedCondition;
 
         }
+        return $condition;
     }
 
     private static function fillUsersQuery($usersQuery, $conditions, $groups)
@@ -111,6 +137,7 @@ class Targeting
                 });
             }
         }
+
         return $usersQuery;
     }
 
@@ -119,7 +146,7 @@ class Targeting
     {
         $groups = $target->group()->get();
         $conditions = $target->condition()->get();
-        $usersQuery = self::initUsersQuery();
+        $usersQuery = self::initUsersQuery($conditions, $groups);
         if ($preveiw) {
             $usersQuery = self::addPreveiewData($usersQuery);
         }

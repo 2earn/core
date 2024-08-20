@@ -15,7 +15,11 @@
             <div class="card">
                 <div class="card-header border-info fw-medium text-muted mb-0">
                     <h5 class="text-info"> {{ __('Target details') }}</h5>
+                    <div id="warningDetail" class="alert alert-warning d-none" role="alert">
+
+                    </div>
                 </div>
+
                 <div class="card-body table-responsive">
                     <table id="TargetTable"
                            class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
@@ -24,6 +28,7 @@
                             <th>{{__('id')}}</th>
                             <th>{{__('name')}}</th>
                             <th>{{__('email')}}</th>
+                            <th>{{__('status')}}</th>
                             <th>{{__('fullphone_number')}}</th>
                         </tr>
                         </thead>
@@ -37,6 +42,7 @@
     </div>
     <script type="module">
         $(document).on('turbolinks:load', function () {
+            $.fn.dataTable.ext.errMode = 'none';
             if (!$.fn.dataTable.isDataTable('#HistoryNotificationTable')) {
                 $('#TargetTable').DataTable({
                     "responsive": true,
@@ -49,6 +55,7 @@
                         {data: 'id'},
                         {data: 'name'},
                         {data: 'email'},
+                        {data: 'status'},
                         {data: 'fullphone_number'}
                     ],
                     "ajax": "{{route('api_target_data',['locale'=>app()->getLocale(),'idTarget'=> $target->id])}}",
@@ -56,5 +63,10 @@
                 });
             }
         });
+        $('#TargetTable').on('error.dt', function (e, settings, techNote, message) {
+            console.log('Error : ', message);
+            $("#warningDetail").removeClass("d-none")
+            $('#warningDetail').html('').append(message)
+        })
     </script>
 </div>

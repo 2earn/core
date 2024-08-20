@@ -20,7 +20,19 @@ class Condition extends Model
         ['name' => '[user] idUser', 'value' => 'u.idUser'],
         ['name' => '[user] mobile', 'value' => 'u.mobile'],
         ['name' => '[user] fullphone_number', 'value' => 'u.fullphone_number'],
-        ['name' => '[user] status', 'value' => 'u.status']
+        ['name' => '[user] status', 'value' => 'u.status'],
+        ['name' => '[metta user] id', 'value' => 'metta.id'],
+        ['name' => '[metta user] idUser', 'value' => 'metta.idUser'],
+        ['name' => '[metta user] arFirstName', 'value' => 'metta.arFirstName'],
+        ['name' => '[metta user] arLastName', 'value' => 'metta.arLastName'],
+        ['name' => '[metta user] enFirstName', 'value' => 'metta.enFirstName'],
+        ['name' => '[metta user] enLastName', 'value' => 'metta.enLastName'],
+        ['name' => '[metta user] childrenCount', 'value' => 'metta.childrenCount'],
+        ['name' => '[metta user] email', 'value' => 'metta.email'],
+        ['name' => '[metta user] secondEmail', 'value' => 'metta.secondEmail'],
+        ['name' => '[metta user] nationalID', 'value' => 'metta.nationalID'],
+        ['name' => '[metta user] adresse', 'value' => 'metta.adresse'],
+        ['name' => '[metta user] note', 'value' => 'metta.note'],
     ];
 
     protected $fillable = [
