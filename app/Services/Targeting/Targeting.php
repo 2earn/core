@@ -34,12 +34,16 @@ class Targeting
 
         $queryString = DB::table('users as u');
 
-        if (in_array("metta", $tablesAleas)) {
+        if (in_array("metta", $tablesAleas) or in_array("state", $tablesAleas)) {
             $queryString = $queryString->join('metta_users as metta', 'metta.idUser', '=', 'u.idUser');
         }
 
         if (in_array("country", $tablesAleas)) {
             $queryString = $queryString->join('countries as country', 'country.id', '=', 'u.idCountry');
+
+        }
+        if (in_array("state", $tablesAleas)) {
+            $queryString = $queryString->join('states as state', 'state.id', '=', 'metta.idState');
 
         }
         if (in_array("role", $tablesAleas)) {

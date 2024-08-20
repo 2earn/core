@@ -39,6 +39,8 @@ class Condition extends Model
         ['name' => '[country] apha2', 'value' => 'country.apha2'],
         ['name' => '[country] ExchangeRate', 'value' => 'country.ExchangeRate'],
         ['name' => '[country] lang', 'value' => 'country.lang'],
+        ['name' => '[state] id', 'value' => 'state.id'],
+        ['name' => '[state] name', 'value' => 'state.name'],
     ];
 
     protected $fillable = [
