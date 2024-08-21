@@ -171,39 +171,39 @@ class Survey extends Model
         return false;
     }
 
-    public function isLikable($id): bool
+    public function isLikable(): bool
     {
-        return $this->CheckVisibility($id, 'likable');
+        return $this->CheckVisibility($this->id, 'likable');
     }
 
-    public function isCommentable($id): bool
+    public function isCommentable(): bool
     {
-        return $this->CheckVisibility($id, 'commentable');
+        return $this->CheckVisibility($this->id, 'commentable');
     }
 
-    public function canShow($id): bool
+    public function canShow(): bool
     {
-        return $this->CheckVisibility($id, 'show');
+        return $this->CheckVisibility($this->id, 'show');
     }
 
-    public function canShowAttchivementPourcentage($id): bool
+    public function canShowAttchivementPourcentage(): bool
     {
-        return $this->CheckVisibility($id, 'showAttchivementPourcentage');
+        return $this->CheckVisibility($this->id, 'showAttchivementPourcentage');
     }
 
-    public function canShowAttchivementChrono($id): bool
+    public function canShowAttchivementChrono(): bool
     {
-        return $this->CheckVisibility($id, 'showAttchivementChrono');
+        return $this->CheckVisibility($this->id, 'showAttchivementChrono');
     }
 
-    public function canShowAfterArchiving($id): bool
+    public function canShowAfterArchiving(): bool
     {
-        return $this->CheckVisibility($id, 'showAfterArchiving');
+        return $this->CheckVisibility($this->id, 'showAfterArchiving');
     }
 
-    public function canShowResult($id): bool
+    public function canShowResult(): bool
     {
-        return $this->CheckVisibility($id, 'showResult');
+        return $this->CheckVisibility($this->id, 'showResult');
     }
 
 }

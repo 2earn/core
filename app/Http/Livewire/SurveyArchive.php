@@ -49,7 +49,7 @@ class SurveyArchive extends Component
 
         $surveys = $surveysQuery->get();
         foreach ($surveys as $survey) {
-            if ($survey->canShowAfterArchiving($survey->id)) {
+            if ($survey->canShowAfterArchiving()) {
                 $archivedSurveys[] = $survey;
             }
         }

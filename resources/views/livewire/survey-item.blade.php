@@ -84,7 +84,7 @@
                 @endif
             </div>
 
-            @if($survey->canShowAttchivementChrono($survey->id))
+            @if($survey->canShowAttchivementChrono())
                 <div class="col-sm-12 col-md-6 col-lg-2 mt-3">
                     <h6 class="mt-2 text-info">{{__('Attchivement Chrono')}}:</h6>
                     <p class="card-text text-muted">
@@ -92,7 +92,7 @@
                     </p>
                 </div>
             @endif
-            @if($survey->canShowAttchivementPourcentage($survey->id))
+            @if($survey->canShowAttchivementPourcentage())
                 <div class="col-sm-12 col-md-6 col-lg-2 mt-3">
                     <h6 class="mt-2 text-info">{{__('Attchivement %')}}:</h6>
                     <p class="card-text text-muted">
@@ -284,7 +284,7 @@
             @endif
 
             @if(intval($survey->status)>\Core\Enum\StatusSurvey::NEW->value)
-                @if( $survey->canShowResult($survey->id) && $survey->enabled )
+                @if( $survey->canShowResult() && $survey->enabled )
                     <a href="{{route('survey_results', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
                        class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</a>
                 @else
@@ -292,7 +292,7 @@
                 @endif
             @endif
 
-            @if(!$survey->canShowResult($survey->id))
+            @if(!$survey->canShowResult())
                 <div class="alert alert-info mt-2" role="alert">
                     <h6 class="alert-heading">{{__('Disabled result title')}}</h6> * {{$survey->disabledResult}}
                 </div>
@@ -400,7 +400,7 @@
             <div class="card-header border-info fw-medium text-muted mb-0">
                 <h5 class="mt-2 text-info">       {{__('Likes')}}</h5>
             </div>
-            @if(!$survey->isLikable($survey->id))
+            @if(!$survey->isLikable())
                 <div class="alert alert-info mt-2" role="alert">
                     <h6 class="alert-heading">{{__('Disabled like title')}}</h6> * {{$survey->disabledLike}}
                 </div>
@@ -409,7 +409,7 @@
                 @if($like)
                     <div class="col-sm-12 col-md-6 col-lg-6">
                         <button wire:click="dislike()" class="btn btn-warning"
-                                @if(!$survey->isLikable($survey->id)) disabled @endif>
+                                @if(!$survey->isLikable()) disabled @endif>
                             <i class="ri-thumb-down-line align-bottom me-1"></i>
                             {{__('Un - Like')}}
                         </button>
@@ -420,14 +420,14 @@
                 @else
                     <div class="col-sm-12 col-md-12 col-lg-12">
                         <button wire:click="like()" class="btn btn-info"
-                                @if(!$survey->isLikable($survey->id)) disabled @endif>
+                                @if(!$survey->isLikable()) disabled @endif>
                             <i class="ri-thumb-up-line align-bottom me-1"></i>
                             {{__('Like')}}
                         </button>
                     </div>
                 @endif
 
-                @if($survey->isLikable($survey->id))
+                @if($survey->isLikable())
                     <div class="col-sm-12 col-md-12 col-lg-12">
                         <ul class="list-group">
                             @forelse ($survey->likes as $like)
@@ -453,13 +453,13 @@
                 <h5 class="mt-2 text-info"> {{__('Comments')}}</h5>
             </div>
 
-            @if(!$survey->isCommentable($survey->id))
+            @if(!$survey->isCommentable())
                 <div class="alert alert-info mt-2" role="alert">
                     <h6 class="alert-heading">{{__('Disabled comment title')}}</h6> * {{$survey->disabledComment}}
                 </div>
             @endif
             <div class="card-body row">
-                @if($survey->isCommentable($survey->id))
+                @if($survey->isCommentable())
                     <div class="col-sm-12 col-md-12 col-lg-12">
                         <ul class="list-group mb-3">
                             @forelse ($survey->comments as $comment)
@@ -497,11 +497,11 @@
                 </div>
                 <div class="col-sm-12 col-md-9 col-lg-9">
                     <textarea class="form-control" wire:model="comment" id="comment" rows="3"
-                              @if(!$survey->isCommentable($survey->id)) disabled @endif></textarea>
+                              @if(!$survey->isCommentable()) disabled @endif></textarea>
                 </div>
                 <div class="col-sm-12 col-md-3 col-lg-3 ">
                     <button wire:click="addComment()" class="btn btn-info mt-2"
-                            @if(!$survey->isCommentable($survey->id)) disabled @endif>
+                            @if(!$survey->isCommentable()) disabled @endif>
                         {{__('Add comment')}}
                     </button>
                 </div>
