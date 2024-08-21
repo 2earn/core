@@ -133,15 +133,18 @@ class Survey extends Model
         return true;
     }
 
-    public static function getChronoAttchivement($id): int
+    public function getChronoAttchivement(): int
     {
-        $survey = Survey::find($id);
+        $survey = Survey::find($this->id);
         if (is_null($survey->startDate) || is_null($survey->endDate)) {
             return 0;
         }
         $startDate = new \DateTime($survey->startDate);
         $endDate = new \DateTime($survey->endDate);
         $today = new \DateTime();
+        if ($startDate > $today) {
+            return 0;
+        }
         $surveyInterval = $startDate->diff($endDate);
         $startNowInterval = $startDate->diff($today);
         $surveyInterval_h = ($surveyInterval->days * 24) + $surveyInterval->h;
@@ -152,9 +155,9 @@ class Survey extends Model
         return round($startNowInterval_h / $surveyInterval_h * 100, 2);
     }
 
-    public static function getPourcentageAttchivement($id): int
+    public function getPourcentageAttchivement(): int
     {
-        $survey = Survey::find($id);
+        $survey = Survey::find($this->id);
         if (!is_null($survey->goals) && $survey->goals > 0) {
             return round($survey->surveyResponse->count() / $survey->goals * 100, 2);
         }
