@@ -87,10 +87,9 @@ class SurveyShow extends Component
     public function open($id)
     {
         try {
-            if (!Survey::canBeOpened($id)) {
-                return redirect()->route('survey_show', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while opening Survey!!'));
+            if (Survey::canBeOpened($id)) {
+                Survey::open($id);
             }
-            Survey::open($id);
 
         } catch (\Exception $exception) {
             return redirect()->route('survey_show', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while opening Survey!!') . ' : ' . $exception->getMessage());

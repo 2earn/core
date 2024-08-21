@@ -8,6 +8,7 @@ use Core\Enum\TargetType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Lang;
 
 class Survey extends Model
 {
@@ -116,12 +117,20 @@ class Survey extends Model
     public static function canBeOpened($id): bool
     {
         $survey = Survey::find($id);
-        if (!is_null($survey->question)) {
-            if ($survey->question->serveyQuestionChoice()->count() > 1) {
-                return true;
-            }
+
+        if ($survey->targets->isEmpty()) {
+            throw new \Exception(Lang::get('No target spacified'));
         }
-        return false;
+
+        if (!is_null($survey->question)) {
+            if ($survey->question->serveyQuestionChoice()->count() < 2) {
+                throw new \Exception(Lang::get('We need more choices for the question'));
+            }
+        } else {
+            throw new \Exception(Lang::get('We need to add the question'));
+        }
+
+        return true;
     }
 
     public static function getChronoAttchivement($id): int
