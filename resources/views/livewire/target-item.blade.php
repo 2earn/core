@@ -29,7 +29,10 @@
                 @else
                     <ul class="list-group">
                         @foreach($target->surveys as $surveysItem)
-                            <li class="list-group-item">    {{ $surveysItem->id }} - {{ $surveysItem->name}}</li>
+                            <li class="list-group-item">
+                                <a class="link-info" href="{{route('survey_show',['locale'=>app()->getLocale(),'idSurvey'=> $surveysItem->id])}}">  {{ $surveysItem->id }} - {{ $surveysItem->name}}</a>
+
+                            </li>
                         @endforeach
                     </ul>
                 @endif

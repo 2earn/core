@@ -33,15 +33,15 @@
 
                 {{__('Show attchivement Chrono')}}:
                 <span
-                    class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementChrono)?->name}}</span>
+                        class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementChrono)?->name}}</span>
 
                 {{__('Show achievement %')}}:
                 <span
-                    class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementPourcentage)?->name}}</span>
+                        class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementPourcentage)?->name}}</span>
 
                 {{__('Show after archiving')}}:
                 <span
-                    class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAfterArchiving)?->name}}</span>
+                        class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAfterArchiving)?->name}}</span>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-3 text-right">
 
@@ -75,7 +75,8 @@
                     <ul class="list-group">
                         @foreach($survey->targets as $targetItem)
                             <li class="list-group-item">
-                                {{ $targetItem->id }} - {{ $targetItem->name}}
+                                <a class="link-info" href="{{route('target_show',['locale'=>app()->getLocale(),'idTarget'=> $targetItem->id])}}">  {{ $targetItem->id }}
+                                    - {{ $targetItem->name}}</a>
                             </li>
                         @endforeach
                     </ul>
@@ -310,11 +311,11 @@
                             <div class="col-sm-12 col-md-6 col-lg-12 mt-2">
                                 <h6 class="text-muted">{{__('Question params')}}:</h6>
                                 {{__('Choice Type')}} : <span
-                                    class="badge btn {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'btn-success' : 'btn-danger'  }}">
+                                        class="badge btn {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'btn-success' : 'btn-danger'  }}">
                             {{__('Multiple')}}                                        </span>
                                 @if($survey->question->selection== \Core\Enum\Selection::MULTIPLE->value )
                                     {{__('Max Responses')}} :  <span
-                                        class="badge btn btn-info"> {{$survey->question->maxResponse}}</span>
+                                            class="badge btn btn-info"> {{$survey->question->maxResponse}}</span>
                                 @endif
 
                                 @if(!empty($survey->question->disableNote))
@@ -427,7 +428,7 @@
                             @forelse ($survey->likes as $like)
                                 <li class="list-group-item mt-2">
                                     {{ getUserDisplayedName($like->user->idUser)}} <span
-                                        class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>
+                                            class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>
                                 </li>
                             @empty
                                 <li class="list-group-item mt-2">
