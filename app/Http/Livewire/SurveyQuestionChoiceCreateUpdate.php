@@ -54,27 +54,26 @@ class SurveyQuestionChoiceCreateUpdate extends Component
     {
         $this->validate();
         try {
-            $surveyQuestionChoice=    SurveyQuestionChoice::where('id', $this->idChoice)
+            SurveyQuestionChoice::where('id', $this->idChoice)
                 ->update(['title' => $this->title]);
-            return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Choice Updated Successfully!!'));
         } catch (\Exception $exception) {
             return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while updating Choice!!') . ' : ' . $exception->getMessage());
         }
+        return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Choice Updated Successfully!!'));
     }
 
     public function store()
     {
         $this->validate();
         try {
-            $surveyQuestionChoice = SurveyQuestionChoice::create([
+            SurveyQuestionChoice::create([
                 'title' => $this->title,
                 'question_id' => $this->idQuestion,
             ]);
-            return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Choice Created Successfully!!') . ' ' . $surveyQuestionChoice->content);
         } catch (\Exception $exception) {
             return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while creating Choice!!') . ' : ' . $exception->getMessage());
-            $this->resetFields();
         }
+        return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Choice Created Successfully!!'));
     }
 
 

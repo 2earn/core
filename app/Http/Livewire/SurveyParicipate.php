@@ -14,6 +14,7 @@ class SurveyParicipate extends Component
 {
 
     public $idSurvey;
+
     public $currentRouteName;
     public $responces;
     public $oldSurveyResponses;
@@ -28,13 +29,16 @@ class SurveyParicipate extends Component
         if ($survey->question?->selection == Selection::MULTIPLE->value) {
             $this->responces = [];
         }
+        $this->initializeResponse($survey);
+    }
+
+    public function initializeResponse($survey)
+    {
         $this->oldReponses = SurveyResponse::where('user_id', auth()->user()->id)->where('survey_id', $this->idSurvey)->first();
         if (!is_null($this->oldReponses)) {
             $this->oldSurveyResponses = SurveyResponseItem::where('surveyResponse_id', $this->oldReponses->id)->get();
-
             foreach ($survey->question->serveyQuestionChoice as $choice) {
                 foreach ($this->oldSurveyResponses as $responce) {
-
                     if ($survey->question->id == $responce->surveyQuestion_id && $choice->id == $responce->surveyQuestionChoice_id) {
                         $this->responces[] = $choice->id;
                     }
@@ -43,27 +47,31 @@ class SurveyParicipate extends Component
         }
     }
 
+    public function checkParticipation($survey, $question)
+    {
+        if ($survey->question->selection == Selection::MULTIPLE->value && !count($this->responces)) {
+            throw new \Exception(Lang::get('Invalid responce: no selected choices'));
+        }
+
+        if ($survey->question->selection == Selection::UNIQUE->value && empty($this->responces)) {
+            throw new \Exception(Lang::get('Invalid responce: no selected choices'));
+        }
+
+        if ($question->selection == Selection::UNIQUE->value && empty($this->responces)) {
+            throw new \Exception(Lang::get('Invalid responce: too many selected choices'));
+        }
+
+        if ($question->selection == Selection::MULTIPLE->value && count($this->responces) > $question->maxResponse) {
+            throw new \Exception(Lang::get('Invalid responce: too many selected choices'));
+        }
+    }
+
     public function participate()
     {
         try {
             $survey = Survey::findOrFail($this->idSurvey);
             $question = $survey->question;
-
-            if ($survey->question->selection == Selection::MULTIPLE->value && !count($this->responces)) {
-                return redirect()->route('survey_participate', $this->routeRedirectionParams)->with('danger', Lang::get('Invalid responce: no selected choices'));
-            }
-
-            if ($survey->question->selection == Selection::UNIQUE->value && empty($this->responces)) {
-                return redirect()->route('survey_participate', $this->routeRedirectionParams)->with('danger', Lang::get('Invalid responce: no selected choices'));
-            }
-
-            if ($question->selection == Selection::UNIQUE->value && empty($this->responces)) {
-                return redirect()->route('survey_participate', $this->routeRedirectionParams)->with('danger', Lang::get('Invalid responce: too many selected choices'));
-            }
-
-            if ($question->selection == Selection::MULTIPLE->value && count($this->responces) > $question->maxResponse) {
-                return redirect()->route('survey_participate', $this->routeRedirectionParams)->with('danger', Lang::get('Invalid responce: too many selected choices'));
-            }
+            $this->checkParticipation($survey, $question);
 
             if (!is_null($this->oldReponses)) {
                 $surveyResponse = $this->oldReponses;
@@ -71,7 +79,6 @@ class SurveyParicipate extends Component
                 $surveyResponseParams = ['survey_id' => $this->idSurvey, 'user_id' => auth()->user()->id];
                 $surveyResponse = SurveyResponse::create($surveyResponseParams);
             }
-
 
             SurveyResponseItem::where('surveyResponse_id', $surveyResponse->id)->where('surveyQuestion_id', $survey->question->id)->delete();
 
@@ -95,7 +102,6 @@ class SurveyParicipate extends Component
     public function render()
     {
         $params['survey'] = Survey::findOrFail($this->idSurvey);
-
         return view('livewire.survey-paricipate', $params)->extends('layouts.master')->section('content');
     }
 }

@@ -23,13 +23,14 @@ class SurveyArchive extends Component
         $this->currentRouteName = Route::currentRouteName();
     }
 
-    public function updatingSearch()
+    public function updatingSearch(): void
     {
         $this->resetPage();
     }
 
-    public function getSurveys()
+    public function getArchivedSurveys()
     {
+        $archivedSurveys = [];
         $surveysQuery = Survey::where('status', '=', StatusSurvey::ARCHIVED->value);
 
         if (strtoupper(auth()?->user()?->getRoleNames()->first()) == Survey::SUPER_ADMIN_ROLE_NAME) {
@@ -39,15 +40,20 @@ class SurveyArchive extends Component
             }
 
         } else {
-            $surveysQuery = Survey::where('published', true);
-
             if (!is_null($this->search) && !empty($this->search)) {
                 $surveysQuery = $surveysQuery
                     ->where('name', 'like', '%' . $this->search . '%');
             }
 
         }
-        return $surveysQuery->get();
+
+        $surveys = $surveysQuery->get();
+        foreach ($surveys as $survey) {
+            if ($survey->canShowAfterArchiving($survey->id)) {
+                $archivedSurveys[] = $survey;
+            }
+        }
+        return $archivedSurveys;
     }
 
     public function render()

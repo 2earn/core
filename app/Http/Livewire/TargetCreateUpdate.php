@@ -51,33 +51,23 @@ class TargetCreateUpdate extends Component
     {
         $this->validate();
         try {
-            $target = Target::where('id', $this->idTarget)->update(
-                [
-                    'name' => $this->name,
-                    'description' => $this->description
-                ]
-            );
-            return redirect()->route('target_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Target Updated Successfully!!'));
+            $target = Target::where('id', $this->idTarget)->update(['name' => $this->name, 'description' => $this->description]);
         } catch (\Exception $exception) {
             return redirect()->route('target_index', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while updating Target!!') . ' : ' . $exception->getMessage());
         }
+        return redirect()->route('target_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Target Updated Successfully!!'));
     }
 
     public function store()
     {
         $this->validate();
         try {
-            $target = Target::create(
-                [
-                    'name' => $this->name,
-                    'description' => $this->description,
-                ]
-            );
-            return redirect()->route('target_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Target Created Successfully!!'));
+            Target::create(['name' => $this->name, 'description' => $this->description]);
         } catch (\Exception $exception) {
             return redirect()->route('target_index', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while creating Target!!') . ' : ' . $exception->getMessage());
-            $this->resetFields();
         }
+        return redirect()->route('target_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Target Created Successfully!!'));
+
     }
 
     public function render()

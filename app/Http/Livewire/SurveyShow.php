@@ -53,11 +53,11 @@ class SurveyShow extends Component
     public function disable($id)
     {
         try {
-            if (!empty($this->disableNote)) {
-                Survey::disable($id, $this->disableNote);
-            } else {
+            if (empty($this->disableNote)) {
                 return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while Disabling Survey!!') . ' : ');
             }
+            Survey::disable($id, $this->disableNote);
+
         } catch (\Exception $exception) {
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while Disabling Survey!!') . ' : ' . $exception->getMessage());
         }
@@ -87,11 +87,11 @@ class SurveyShow extends Component
     public function open($id)
     {
         try {
-            if (Survey::canBeOpened($id)) {
-                Survey::open($id);
-            } else {
+            if (!Survey::canBeOpened($id)) {
                 return redirect()->route('survey_show', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while opening Survey!!'));
             }
+            Survey::open($id);
+
         } catch (\Exception $exception) {
             return redirect()->route('survey_show', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while opening Survey!!') . ' : ' . $exception->getMessage());
         }
@@ -131,10 +131,12 @@ class SurveyShow extends Component
         $survey = Survey::find($this->idSurvey);
         $survey->comments()->create(['user_id' => auth()->user()->id, 'content' => $this->comment]);
     }
+
     public function validateComment($idComment)
     {
         Comment::validate($idComment);
     }
+
     public function deleteComment($idComment)
     {
         Comment::deleteComment($idComment);

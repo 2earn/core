@@ -28,7 +28,7 @@ class TargetIndex extends Component
         $this->setPage(1, $pageName);
     }
 
-    public function updatingSearch()
+    public function updatingSearch(): void
     {
         $this->resetPage();
     }

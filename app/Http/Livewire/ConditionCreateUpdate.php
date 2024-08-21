@@ -7,13 +7,12 @@ use App\Models\Target;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\URL;
 use Livewire\Component;
 
 class ConditionCreateUpdate extends Component
 {
     public $idTarget, $idGroup, $idCondition;
-    public $operand = "country", $operator = 'eq', $value;
+    public $operand, $operator, $value;
     public $operands, $operators;
 
     public $update = false;
@@ -56,16 +55,13 @@ class ConditionCreateUpdate extends Component
 
         try {
             Condition::where('id', $this->idCondition)
-                ->update([
-                    'operand' => $this->operand,
-                    'operator' => $this->operator,
-                    'value' => $this->value,
-                ]);
-            return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Condition Updated Successfully!!'));
+                ->update(['operand' => $this->operand, 'operator' => $this->operator, 'value' => $this->value]);
         } catch (\Exception $exception) {
             $this->cancel();
             return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('danger', Lang::get('Something goes wrong while updating Condition!!') . ' : ' . $exception->getMessage());
         }
+        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Condition Updated Successfully!!'));
+
     }
 
     public function store()
@@ -80,11 +76,10 @@ class ConditionCreateUpdate extends Component
         }
         try {
             Condition::create($condition);
-            return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Condition Created Successfully!!'));
         } catch (\Exception $exception) {
             return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('danger', Lang::get('Something goes wrong while creating Condition!!') . ' : ' . $exception->getMessage());
-            $this->resetFields();
         }
+        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Condition Created Successfully!!'));
     }
 
 

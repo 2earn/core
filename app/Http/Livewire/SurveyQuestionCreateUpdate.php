@@ -13,7 +13,6 @@ class SurveyQuestionCreateUpdate extends Component
 {
     public
         $idQuestion,
-        $nameServey,
         $content,
         $selection = 2,
         $maxResponse;
@@ -74,10 +73,11 @@ class SurveyQuestionCreateUpdate extends Component
                     'selection' => $this->selection,
                     'maxResponse' => $this->maxResponse != "" ? $this->maxResponse : 0,
                 ]);
-            return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Question Updated Successfully!!'));
         } catch (\Exception $exception) {
             return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while updating Question!!') . ' : ' . $exception->getMessage());
         }
+        return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Question Updated Successfully!!'));
+
     }
 
     public function validateMultiselection()
@@ -98,11 +98,10 @@ class SurveyQuestionCreateUpdate extends Component
                 'maxResponse' => $this->maxResponse != "" ? $this->maxResponse : 0,
                 'survey_id' => $this->idSurvey,
             ]);
-            return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Survey Created Successfully!!') . ' ' . $surveyQuestion->content);
         } catch (\Exception $exception) {
             return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while creating Survey!!') . ' : ' . $exception->getMessage());
-            $this->resetFields();
         }
+        return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Survey Created Successfully!!'));
     }
 
     public function render()

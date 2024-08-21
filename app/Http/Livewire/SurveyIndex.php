@@ -19,7 +19,7 @@ class SurveyIndex extends Component
     public $currentRouteName;
     protected $paginationTheme = 'bootstrap';
 
-    public function updatingSearch()
+    public function updatingSearch(): void
     {
         $this->resetPage();
     }
@@ -42,11 +42,10 @@ class SurveyIndex extends Component
     public function disable($id)
     {
         try {
-            if (!empty($this->disableNote)) {
-                Survey::disable($id, $this->disableNote);
-            } else {
-                return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while Disabling Survey!!') . ' : ');
+            if (empty($this->disableNote)) {
+                throw new \Exception(Lang::get('Something goes wrong while Disabling Survey!!'));
             }
+            Survey::disable($id, $this->disableNote);
         } catch (\Exception $exception) {
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while Disabling Survey!!') . ' : ' . $exception->getMessage());
         }
@@ -56,11 +55,10 @@ class SurveyIndex extends Component
     public function open($id)
     {
         try {
-            if (Survey::canBeOpened($id)) {
-                Survey::open($id);
-            } else {
-                return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while opening Survey!!'));
+            if (!Survey::canBeOpened($id)) {
+                throw new \Exception(Lang::get('Something goes wrong while opening Survey!!'));
             }
+            Survey::open($id);
         } catch (\Exception $exception) {
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while opening Survey!!') . ' : ' . $exception->getMessage());
         }

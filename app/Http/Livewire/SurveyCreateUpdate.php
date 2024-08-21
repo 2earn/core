@@ -66,13 +66,7 @@ class SurveyCreateUpdate extends Component
         if (!is_null($idSurvey)) {
             $this->edit($idSurvey);
         } else {
-            $this->commentable = TargetType::ALL->value;
-            $this->likable = TargetType::ALL->value;
-            $this->showResult = TargetType::ALL->value;
-            $this->show = TargetType::ALL->value;
-            $this->showAttchivementChrono = TargetType::ALL->value;
-            $this->showAfterArchiving = TargetType::ALL->value;
-            $this->showAttchivementPourcentage = TargetType::ALL->value;
+            $this->resetFields();
         }
     }
 
@@ -80,6 +74,13 @@ class SurveyCreateUpdate extends Component
     {
         $this->name = '';
         $this->description = '';
+        $this->commentable = TargetType::ALL->value;
+        $this->likable = TargetType::ALL->value;
+        $this->showResult = TargetType::ALL->value;
+        $this->show = TargetType::ALL->value;
+        $this->showAttchivementChrono = TargetType::ALL->value;
+        $this->showAfterArchiving = TargetType::ALL->value;
+        $this->showAttchivementPourcentage = TargetType::ALL->value;
     }
 
     public function validateDisabled()
@@ -125,7 +126,6 @@ class SurveyCreateUpdate extends Component
             }
         } catch (\Exception $exception) {
             return redirect()->route('survey_create_update', app()->getLocale())->with('danger', Lang::get('Something goes wrong while creating Survey!!') . ' : ' . $exception->getMessage());
-            $this->resetFields();
         }
         return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $survey->id])->with('success', Lang::get('Survey Created Successfully!!'));
     }

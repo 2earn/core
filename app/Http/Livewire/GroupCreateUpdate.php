@@ -19,9 +19,7 @@ class GroupCreateUpdate extends Component
     ];
     public $update = false;
 
-    protected $rules = [
-        'operator' => 'required',
-    ];
+    protected $rules = ['operator' => 'required'];
 
     public function mount($idTarget, Request $request)
     {
@@ -55,11 +53,11 @@ class GroupCreateUpdate extends Component
                     'operator' => $this->operator,
                     'target_id' => $this->idTarget,
                 ]);
-            return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Group Updated Successfully!!'));
         } catch (\Exception $exception) {
-            $this->cancel();
             return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('danger', Lang::get('Something goes wrong while updating Group!!') . ' : ' . $exception->getMessage());
         }
+        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Group Updated Successfully!!'));
+
     }
 
     public function store()
@@ -70,11 +68,10 @@ class GroupCreateUpdate extends Component
                 'operator' => $this->operator,
                 'target_id' => $this->idTarget,
             ]);
-            return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Group Created Successfully!!') . ' ' . $condition->content);
         } catch (\Exception $exception) {
             return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('danger', Lang::get('Something goes wrong while creating Group!!') . ' : ' . $exception->getMessage());
-            $this->resetFields();
         }
+        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Group Created Successfully!!') . ' ' . $condition->content);
     }
 
 
