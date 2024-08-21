@@ -26,7 +26,7 @@
                             <div class="form-group mb-3">
                                 <label for="title">{{__('Choice')}}</label>
                                 <textarea class="form-control @error('title') is-invalid @enderror"
-                                          id="title"
+                                          maxlength="80"               id="title"
                                           wire:model="title"
                                           placeholder="{{__('Enter title')}}"></textarea>
                                 @error('title') <span class="text-danger">{{ $message }}</span>@enderror

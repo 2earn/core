@@ -28,7 +28,7 @@
                                 <label for="content">{{__('Content')}}</label>
                                 <textarea class="form-control @error('content') is-invalid @enderror"
                                           id="content"
-                                          wire:model="content"
+                                          maxlength="190"  wire:model="content"
                                           placeholder="{{__('Enter content')}}"></textarea>
                                 @error('content') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>

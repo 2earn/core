@@ -66,6 +66,28 @@ class SurveyParicipate extends Component
         }
     }
 
+    public function createNewParicipationAndCheckLimits()
+    {
+        $surveyResponseParams = ['survey_id' => $this->idSurvey, 'user_id' => auth()->user()->id];
+        $survey = Survey::findOrFail($this->idSurvey);
+
+        if ($survey->getChronoAttchivement() == 100) {
+            Survey::close($survey->id);
+            throw new \Exception(Lang::get('Date limit ratcheted'));
+        }
+
+        $surveyResponse = SurveyResponse::create($surveyResponseParams);
+
+        if (!is_null($survey->goals)) {
+            if (SurveyResponse::where('survey_id', $this->idSurvey)->count() > $survey->goals) {
+                Survey::close($survey->id);
+                throw new \Exception(Lang::get('Gools limit ratcheted'));
+            }
+        }
+
+        return $surveyResponse;
+    }
+
     public function participate()
     {
         try {
@@ -76,8 +98,7 @@ class SurveyParicipate extends Component
             if (!is_null($this->oldReponses)) {
                 $surveyResponse = $this->oldReponses;
             } else {
-                $surveyResponseParams = ['survey_id' => $this->idSurvey, 'user_id' => auth()->user()->id];
-                $surveyResponse = SurveyResponse::create($surveyResponseParams);
+                $surveyResponse = $this->createNewParicipationAndCheckLimits();
             }
 
             SurveyResponseItem::where('surveyResponse_id', $surveyResponse->id)->where('surveyQuestion_id', $survey->question->id)->delete();

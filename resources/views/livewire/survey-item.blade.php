@@ -33,15 +33,15 @@
 
                 {{__('Show attchivement Chrono')}}:
                 <span
-                        class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementChrono)?->name}}</span>
+                    class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementChrono)?->name}}</span>
 
                 {{__('Show achievement %')}}:
                 <span
-                        class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementPourcentage)?->name}}</span>
+                    class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementPourcentage)?->name}}</span>
 
                 {{__('Show after archiving')}}:
                 <span
-                        class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAfterArchiving)?->name}}</span>
+                    class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAfterArchiving)?->name}}</span>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-3 text-right">
 
@@ -88,7 +88,7 @@
                 <div class="col-sm-12 col-md-6 col-lg-2 mt-3">
                     <h6 class="mt-2 text-info">{{__('Attchivement Chrono')}}:</h6>
                     <p class="card-text text-muted">
-                        {{ $survey->getChronoAttchivement($survey->id)}}
+                        {{ $survey->getChronoAttchivement()}}
                     </p>
                 </div>
             @endif
@@ -96,7 +96,7 @@
                 <div class="col-sm-12 col-md-6 col-lg-2 mt-3">
                     <h6 class="mt-2 text-info">{{__('Attchivement %')}}:</h6>
                     <p class="card-text text-muted">
-                        {{ $survey->getPourcentageAttchivement($survey->id)}}
+                        {{ $survey->getPourcentageAttchivement()}}
                     </p>
                 </div>
             @endif
@@ -273,7 +273,7 @@
                 @if(\App\Models\SurveyResponse::isPaticipated(auth()->user()->id, $survey->id))
                     @if($survey->updatable)
                         <a href="{{route('survey_participate', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
-                           class="btn btn-soft-info material-shadow-none">{{__('Re-Paticipate')}}</a>
+                           class="btn btn-soft-info material-shadow-none">{{__('Update Participation')}}</a>
                     @endif
                 @endif
                 @if(! \App\Models\SurveyResponse::isPaticipated(auth()->user()->id, $survey->id))
@@ -311,11 +311,11 @@
                             <div class="col-sm-12 col-md-6 col-lg-12 mt-2">
                                 <h5 class="text-muted mx-3">{{__('Question params')}}:</h5>
                                 {{__('Choice Type')}} : <span
-                                        class="badge btn {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'btn-success' : 'btn-danger'  }}">
+                                    class="badge btn {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'btn-success' : 'btn-danger'  }}">
                             {{__('Multiple')}}                                        </span>
                                 @if($survey->question->selection== \Core\Enum\Selection::MULTIPLE->value )
                                     {{__('Max Responses')}} :  <span
-                                            class="badge btn btn-info"> {{$survey->question->maxResponse}}</span>
+                                        class="badge btn btn-info"> {{$survey->question->maxResponse}}</span>
                                 @endif
 
                                 @if(!empty($survey->question->disableNote))
@@ -433,7 +433,7 @@
                             @forelse ($survey->likes as $like)
                                 <li class="list-group-item mt-2">
                                     {{ getUserDisplayedName($like->user->idUser)}} <span
-                                            class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>
+                                        class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>
                                 </li>
                             @empty
                                 <li class="list-group-item mt-2">
@@ -496,7 +496,7 @@
                     <h6>{{__('Add a comment')}}</h6>
                 </div>
                 <div class="col-sm-12 col-md-9 col-lg-9">
-                    <textarea class="form-control" wire:model="comment" id="comment" rows="3"
+                    <textarea class="form-control" maxlength="190" wire:model="comment" id="comment" rows="3"
                               @if(!$survey->isCommentable()) disabled @endif></textarea>
                 </div>
                 <div class="col-sm-12 col-md-3 col-lg-3 ">
@@ -525,7 +525,7 @@
                     <div class="form-group mb-3">
                         <label for="disableNote">{{__('Disable Note')}}</label>
                         <textarea type="text" class="form-control @error('disableNote') is-invalid @enderror"
-                                  id="disableNote"
+                                  maxlength="190" id="disableNote"
                                   wire:model="disableNote"
                                   placeholder="{{__('Enter Disable Note')}}"></textarea>
                         @error('disableNote') <span class="text-danger">{{ $message }}</span>@enderror
