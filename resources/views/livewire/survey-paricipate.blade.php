@@ -24,13 +24,14 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12 col-md-6 col-lg-6">
-                                    <h6 class="card-header border-info mb-0 flex-grow-1">
-                                        {{__('Question statement')}}
+                                    <h6 class="card-header border-muted mb-0 flex-grow-1">                                        {{__('Question statement')}}
                                         :</h6>
                                     {{ $survey->question->content }}
                                 </div>
                                 @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
                                     <div class="col-sm-12 col-md-6 col-lg-6">
+                                        <h6 class="card-header border-muted mb-0 flex-grow-1">                                            {{__('Response')}}
+                                            :</h6>
                                         <ul class="list-group">
                                             @forelse ($survey->question->serveyQuestionChoice as $choice)
                                                 <li class="list-group-item mt-2">
@@ -78,9 +79,6 @@
                                         </ul>
                                     </div>
                                 @endif
-
-
-
                             </div>
                         </div>
                         <div class="card-footer">

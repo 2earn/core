@@ -7,17 +7,17 @@
     <div class="row card">
         <div class="card-header border-info">
             <div class="d-flex align-items-center">
-                <h6 class="card-title mb-0 flex-grow-1">   {{__('Surveys')}}</h6>
+                <h6 class="card-title mb-0">   {{__('Surveys')}}</h6>
             </div>
         </div>
         <div class="card-body row">
             @include('livewire.survey-item', ['survey' => $survey])
             <div class="card">
                 <div class="card-header border-info fw-medium text-muted mb-0">
-                    {{ __('Results') }}
+                    <h5 class="card-title mb-0 text-info ">      {{ __('Results') }}</h5>
                 </div>
-                <div class="card-header border-info fw-medium text-muted mb-0">
-                    <h6 class="card-title mb-0 flex-grow-1 text-info">   {{__('Participation')}}</h6>
+                <div class="card-header border-muted fw-medium text-muted mb-0">
+                    <h6 class="card-title mb-0 text-info">   {{__('Participation')}}</h6>
                 </div>
                 <div class="card-body row">
                     <table class="table table-bordered mt-2 pl-2">
@@ -32,13 +32,15 @@
                             <td>
                                 {{$survey->surveyResponse->count()}}
                             </td>
-                            <td></td>
+                            <td>
+                                {{$survey->goals}}
+                            </td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="card-header border-info fw-medium text-muted mb-0">
-                    <h6 class="card-title mb-0 flex-grow-1 text-info ">   {{__('Participation response choices details')}}</h6>
+                <div class="card-header border-muted fw-medium text-muted mb-0">
+                    <h6 class="card-title mb-0 text-info ">   {{__('Participation response choices details')}}</h6>
                 </div>
                 <div class="card-body row">
                     <table class="table table-bordered mt-2 pl-2">
@@ -67,18 +69,21 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="card-header border-info fw-medium text-muted mb-0">
+                <div class="card-header border-muted fw-medium text-muted mb-0">
                     <h6 class="card-title mb-0 flex-grow-1 text-info">
                         {{__('Participation details')}}</h6></div>
                 <div class="card-body row">
-
                     <ul class="list-group list-group-flush pl-2">
-                        @foreach ($survey->surveyResponse as $surveyResponse)
+                        @forelse($survey->surveyResponse as $surveyResponse)
                             <li class="list-group-item">
                                 {{ getUserDisplayedName($surveyResponse->user->idUser)}} <span
-                                    class="text-muted">{{__('at')}}: {{ $surveyResponse->created_at}} </span>
+                                        class="text-muted">{{__('at')}}: {{ $surveyResponse->created_at}} </span>
                             </li>
-                        @endforeach
+                        @empty
+                            <li class="list-group-item">
+                                {{__('No responces')}}
+                            </li>
+                        @endforelse
                     </ul>
                 </div>
             </div>

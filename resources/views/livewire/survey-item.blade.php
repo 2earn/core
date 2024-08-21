@@ -56,7 +56,7 @@
 
     <div class="card-body">
         <div class="row">
-            <div class="col-sm-12 col-md-6 col-lg-6">
+            <div class="col-sm-12 col-md-6 col-lg-4">
                 <h6 class="mt-2 text-info">{{__('Description')}}:</h6>
                 <p class="card-text text-muted">
                     @if($currentRouteName=="survey_show")
@@ -66,7 +66,8 @@
                     @endif
                 </p>
             </div>
-            <div class="col-sm-12 col-md-6 col-lg-6">
+
+            <div class="col-sm-12 col-md-6 col-lg-4">
                 <h6 class="mt-2 text-info">{{__('Target')}}:</h6>
                 @if($survey->targets->isEmpty())
                     <span class="text-muted">{{ __('No target') }}</span>
@@ -82,7 +83,7 @@
             </div>
 
             @if($survey->canShowAttchivementChrono($survey->id))
-                <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
+                <div class="col-sm-12 col-md-6 col-lg-2 mt-3">
                     <h6 class="mt-2 text-info">{{__('Attchivement Chrono')}}:</h6>
                     <p class="card-text text-muted">
                         {{ $survey->getChronoAttchivement($survey->id)}}
@@ -90,7 +91,7 @@
                 </div>
             @endif
             @if($survey->canShowAttchivementPourcentage($survey->id))
-                <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
+                <div class="col-sm-12 col-md-6 col-lg-2 mt-3">
                     <h6 class="mt-2 text-info">{{__('Attchivement %')}}:</h6>
                     <p class="card-text text-muted">
                         {{ $survey->getPourcentageAttchivement($survey->id)}}
@@ -106,57 +107,49 @@
                 @if($survey->disabledBtnDescription != null && !$survey->enabled)
                     <div class="col-sm-12 col-md-6 col-lg-3 mt-3">
                         <h6 class="mt-2 text-info">{{__('Disabled button description')}}:</h6>
-                        <blockquote class="blockquote mb-0">
-                            <p class="card-text text-muted">
-                                @if($currentRouteName=="survey_show")
-                                    {{ $survey->disabledBtnDescription}}
-                                @else
-                                    {{ Str::limit($survey->disabledBtnDescription,200)}}
-                                @endif
-                            </p>
-                        </blockquote>
+                        <p class="card-text text-muted">
+                            @if($currentRouteName=="survey_show")
+                                {{ $survey->disabledBtnDescription}}
+                            @else
+                                {{ Str::limit($survey->disabledBtnDescription,200)}}
+                            @endif
+                        </p>
                     </div>
                 @endif
                 @if($survey->disabledResult != null)
                     <div class="col-sm-12 col-md-6 col-lg-3 mt-3">
                         <h6 class="mt-2 text-info">{{__('Disabled result description')}}:</h6>
-                        <blockquote class="blockquote mb-0">
-                            <p class="card-text text-muted">
-                                @if($currentRouteName=="survey_show")
-                                    {{ $survey->disabledResult}}
-                                @else
-                                    {{ Str::limit($survey->disabledResult,200)}}
-                                @endif
-                            </p>
-                        </blockquote>
+                        <p class="card-text text-muted">
+                            @if($currentRouteName=="survey_show")
+                                {{ $survey->disabledResult}}
+                            @else
+                                {{ Str::limit($survey->disabledResult,200)}}
+                            @endif
+                        </p>
                     </div>
                 @endif
                 @if($survey->disabledComment != null)
                     <div class="col-sm-12 col-md-6 col-lg-3 mt-3">
                         <h6 class="mt-2 text-info">{{__('Disabled comment description')}}:</h6>
-                        <blockquote class="blockquote mb-0">
-                            <p class="card-text text-muted">
-                                @if($currentRouteName=="survey_show")
-                                    {{ $survey->disabledComment}}
-                                @else
-                                    {{ Str::limit($survey->disabledComment,200)}}
-                                @endif
-                            </p>
-                        </blockquote>
+                        <p class="card-text text-muted">
+                            @if($currentRouteName=="survey_show")
+                                {{ $survey->disabledComment}}
+                            @else
+                                {{ Str::limit($survey->disabledComment,200)}}
+                            @endif
+                        </p>
                     </div>
                 @endif
                 @if($survey->disabledLike != null)
                     <div class="col-sm-12 col-md-6 col-lg-3 mt-3">
                         <h6 class="mt-2 text-info">{{__('Disabled like description')}}:</h6>
-                        <blockquote class="blockquote mb-0">
-                            <p class="card-text text-muted">
-                                @if($currentRouteName=="survey_show")
-                                    {{ $survey->disabledLike}}
-                                @else
-                                    {{ Str::limit($survey->disabledLike,200)}}
-                                @endif
-                            </p>
-                        </blockquote>
+                        <p class="card-text text-muted">
+                            @if($currentRouteName=="survey_show")
+                                {{ $survey->disabledLike}}
+                            @else
+                                {{ Str::limit($survey->disabledLike,200)}}
+                            @endif
+                        </p>
                     </div>
                 @endif
             </div>
@@ -288,11 +281,13 @@
 
             @endif
 
-            @if( $survey->canShowResult($survey->id))
-                <a href="{{route('survey_results', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
-                   class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</a>
-            @else
-                <btn disabled class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</btn>
+            @if(intval($survey->status)>\Core\Enum\StatusSurvey::NEW->value)
+                @if( $survey->canShowResult($survey->id) && $survey->enabled )
+                    <a href="{{route('survey_results', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
+                       class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</a>
+                @else
+                    <btn disabled class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</btn>
+                @endif
             @endif
 
             @if(!$survey->canShowResult($survey->id))
@@ -311,20 +306,26 @@
                 @if($survey->question)
                     <li class="list-group-item">
                         <div class="row">
-                            <div class="col-sm-12 col-md-12 col-lg-12">
-                                <h6>{{__('Question statement')}}:</h6>
-                                {{ $survey->question->content }}
-                            </div>
-                            <div class="col-sm-12 col-md-6 col-lg-7">
-            <span
-                class="badge btn {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'btn-success' : 'btn-danger'  }}">
-                            {{__('Multiple')}}
-                        </span>
+
+                            <div class="col-sm-12 col-md-6 col-lg-12 mt-2">
+                                <h6 class="text-muted">{{__('Question params')}}:</h6>
+                                {{__('Choice Type')}} : <span
+                                    class="badge btn {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'btn-success' : 'btn-danger'  }}">
+                            {{__('Multiple')}}                                        </span>
+                                @if($survey->question->selection== \Core\Enum\Selection::MULTIPLE->value )
+                                    {{__('Max Responses')}} :  <span
+                                        class="badge btn btn-info"> {{$survey->question->maxResponse}}</span>
+                                @endif
+
                                 @if(!empty($survey->question->disableNote))
                                     <span class="badge btn btn-info">
                             {{__('Disable Note')}} : {{$survey->question->disableNote}}
                         </span>
                                 @endif
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-7 mt-2">
+                                <h6 class="text-muted">{{__('Question statement')}}:</h6>
+                                {{ $survey->question->content }}
                             </div>
                             @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
                                 <div class="col-sm-12 col-md-6 col-lg-5">

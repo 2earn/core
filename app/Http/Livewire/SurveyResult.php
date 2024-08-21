@@ -35,7 +35,7 @@ class SurveyResult extends Component
             $stats[$response->id] = [
                 'title' => $response->title,
                 'choosen' => $choosen,
-                'persontage' => ($choosen / $participation) * 100
+                'persontage' => $participation > 0 ? (($choosen / $participation) * 100) : 0
             ];
         }
         $params ['stats'] = $stats;

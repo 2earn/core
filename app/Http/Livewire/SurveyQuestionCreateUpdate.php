@@ -15,7 +15,7 @@ class SurveyQuestionCreateUpdate extends Component
         $idQuestion,
         $content,
         $selection = 2,
-        $maxResponse;
+        $maxResponse=1;
 
     public $idSurvey;
 
@@ -92,7 +92,7 @@ class SurveyQuestionCreateUpdate extends Component
         $this->validate();
         try {
             $this->validateMultiselection();
-            $surveyQuestion = SurveyQuestion::create([
+             SurveyQuestion::create([
                 'content' => $this->content,
                 'selection' => $this->selection,
                 'maxResponse' => $this->maxResponse != "" ? $this->maxResponse : 0,

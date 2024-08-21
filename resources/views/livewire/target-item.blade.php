@@ -91,10 +91,11 @@
                             <div class="col-sm-12 col-md-5 col-lg-6 text-info">
                                 <h4>
                                     <span
-                                        class="badge border  text-primary  btn-lg">{{ $condition->operand }}</span>
-                                    <span class="text-danger">{{ $condition->operator }}</span>
+                                        class="badge border  text-secondary  btn-lg">{{ $condition->operand }}</span>
                                     <span
-                                        class="badge border text-primary  btn-lg">{{ $condition->value }}</span>
+                                        class="badge border  text-danger-emphasis  text-danger btn-lg">{{ $condition->operator }}</span>
+                                    <span
+                                        class="badge border text-secondary  btn-lg">{{ $condition->value }}</span>
                                 </h4>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-5 mt-2">
@@ -123,16 +124,15 @@
             <h5 class="text-info"> {{ __('Groups details') }}</h5>
         </div>
         <div class="card-body">
-            <h6 class="text-muted"> {{ __('Groups details') }}:</h6>
             <ul class="list-group">
                 @foreach($target->group as $group)
                     <li class="list-group-item">
                         <div class="row">
-                            <div class="col-sm-12 col-md-1 col-lg-1 text-muted">
+                            <div class="col-sm-12 col-md-1 col-lg-1 text-secondary">
                                 {{$loop->index + 1}} )
                             </div>
                             <div class="col-sm-12 col-md-5 col-lg-6 text-info mt-2">
-                                <span class="text-danger">{{ $group->operator }}</span>
+                                <h3><span class="text-danger">{{ $group->operator }}</span></h3>
                             </div>
 
                             @if($currentRouteName=="target_show")
@@ -171,9 +171,12 @@
                                                     </div>
                                                     <div class="col-sm-12 col-md-5 col-lg-6 text-info">
                                                         <h4>
-                                                            <span  class="badge border text-primary  btn-lg">{{ $conditionItem->operand }}</span>
-                                                            <span class="text-danger">{{ $conditionItem->operator }}</span>
-                                                            <span class="badge border text-primary  btn-lg">{{ $conditionItem->value }}</span>
+                                                            <span
+                                                                class="badge border text-secondary btn-lg">{{ $conditionItem->operand }}</span>
+                                                            <span
+                                                                class="badge border  text-danger-emphasis  text-danger btn-lg">{{ $conditionItem->operator }}</span>
+                                                            <span
+                                                                class="badge border text-secondary  btn-lg">{{ $conditionItem->value }}</span>
                                                         </h4>
                                                     </div>
                                                     @if($currentRouteName=="target_show")
