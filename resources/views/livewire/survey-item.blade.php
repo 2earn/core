@@ -75,7 +75,8 @@
                     <ul class="list-group">
                         @foreach($survey->targets as $targetItem)
                             <li class="list-group-item">
-                                <a class="link-info" href="{{route('target_show',['locale'=>app()->getLocale(),'idTarget'=> $targetItem->id])}}">  {{ $targetItem->id }}
+                                <a class="link-info"
+                                   href="{{route('target_show',['locale'=>app()->getLocale(),'idTarget'=> $targetItem->id])}}">  {{ $targetItem->id }}
                                     - {{ $targetItem->name}}</a>
                             </li>
                         @endforeach
@@ -300,16 +301,15 @@
     @endif
     @if($currentRouteName=="survey_show")
         <div class="card-header border-info fw-medium text-muted mb-0">
-            <h6 class="mt-2 text-info">    {{__('Questions')}}</h6>
+            <h5 class="mt-2 text-info">    {{__('Questions')}}</h5>
         </div>
         <div class="card-body">
             <ul class="list-group">
                 @if($survey->question)
                     <li class="list-group-item">
                         <div class="row">
-
                             <div class="col-sm-12 col-md-6 col-lg-12 mt-2">
-                                <h6 class="text-muted">{{__('Question params')}}:</h6>
+                                <h5 class="text-muted mx-3">{{__('Question params')}}:</h5>
                                 {{__('Choice Type')}} : <span
                                         class="badge btn {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'btn-success' : 'btn-danger'  }}">
                             {{__('Multiple')}}                                        </span>
@@ -325,7 +325,7 @@
                                 @endif
                             </div>
                             <div class="col-sm-12 col-md-12 col-lg-7 mt-2">
-                                <h6 class="text-muted">{{__('Question statement')}}:</h6>
+                                <h5 class="text-muted mx-3">{{__('Question statement')}}:</h5>
                                 {{ $survey->question->content }}
                             </div>
                             @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
@@ -344,8 +344,9 @@
                                         @forelse ($survey->question->serveyQuestionChoice as $choice)
                                             <li class="list-group-item mt-2">
                                                 <div class="row">
-                                                    <div class="col-sm-12 col-md-6 col-lg-7 text-muted">
-                                                        {{$choice->id}} - {{$choice->title}}
+                                                    <div class="col-sm-12 col-md-6 col-lg-7 text-muted"
+                                                         title="{{$choice->id}}">
+                                                        {{$loop->index+1}} - {{$choice->title}}
                                                     </div>
                                                     <div class="col-sm-12 col-md-6 col-lg-5">
                                                         <div class="btn-group  btn-group-sm" role="group"
@@ -397,7 +398,7 @@
     @if($currentRouteName=="survey_show")
         <div class="card">
             <div class="card-header border-info fw-medium text-muted mb-0">
-                <h6 class="mt-2 text-info">       {{__('Likes')}}</h6>
+                <h5 class="mt-2 text-info">       {{__('Likes')}}</h5>
             </div>
             @if(!$survey->isLikable($survey->id))
                 <div class="alert alert-info mt-2" role="alert">
@@ -405,25 +406,29 @@
                 </div>
             @endif
             <div class="card-body row">
-                <div class="col-sm-12 col-md-4 col-lg-4">
-
-                    @if($like)
-                        <button wire:click="dislike()" class="btn btn-warning btn-label waves-effect waves-light"
+                @if($like)
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                        <button wire:click="dislike()" class="btn btn-warning"
                                 @if(!$survey->isLikable($survey->id)) disabled @endif>
-                            <i class="ri-heart-fill label-icon align-middle fs-16 me-2"></i>
-                            {{__('Liked')}}
+                            <i class="ri-thumb-down-line align-bottom me-1"></i>
+                            {{__('Un - Like')}}
                         </button>
-                    @else
-                        <button wire:click="like()" class="btn btn-info btn-label waves-effect waves-light"
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                        <h5 class="mx-2"><span class="text-success">{{__('Liked')}}</span></h5>
+                    </div>
+                @else
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <button wire:click="like()" class="btn btn-info"
                                 @if(!$survey->isLikable($survey->id)) disabled @endif>
-                            <i class="ri-heart-fill label-icon align-middle fs-16 me-2"></i>
+                            <i class="ri-thumb-up-line align-bottom me-1"></i>
                             {{__('Like')}}
                         </button>
-                    @endif
+                    </div>
+                @endif
 
-                </div>
                 @if($survey->isLikable($survey->id))
-                    <div class="col-sm-12 col-md-7 col-lg-7">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
                         <ul class="list-group">
                             @forelse ($survey->likes as $like)
                                 <li class="list-group-item mt-2">
@@ -445,7 +450,7 @@
     @if($currentRouteName=="survey_show" )
         <div class="card">
             <div class="card-header border-info fw-medium text-muted mb-0">
-                <h6 class="mt-2 text-info"> {{__('Comments')}}</h6>
+                <h5 class="mt-2 text-info"> {{__('Comments')}}</h5>
             </div>
 
             @if(!$survey->isCommentable($survey->id))
@@ -481,7 +486,7 @@
 
                             @empty
                                 <li class="list-group-item mt-2">
-                                    {{__('No Comments')}}
+                                    {{__('No Comments')}}:
                                 </li>
                             @endforelse
                         </ul>
@@ -490,14 +495,12 @@
                 <div class="col-sm-12 col-md-12 col-lg-12">
                     <h6>{{__('Add a comment')}}</h6>
                 </div>
-                <hr class="text-info">
-
                 <div class="col-sm-12 col-md-9 col-lg-9">
                     <textarea class="form-control" wire:model="comment" id="comment" rows="3"
                               @if(!$survey->isCommentable($survey->id)) disabled @endif></textarea>
                 </div>
                 <div class="col-sm-12 col-md-3 col-lg-3 ">
-                    <button wire:click="addComment()" class="btn btn-info btn-label waves-effect waves-light mt-2"
+                    <button wire:click="addComment()" class="btn btn-info mt-2"
                             @if(!$survey->isCommentable($survey->id)) disabled @endif>
                         {{__('Add comment')}}
                     </button>

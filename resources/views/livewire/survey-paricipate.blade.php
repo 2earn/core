@@ -50,7 +50,7 @@
                                                                     >
                                                                     <label class="form-check-label"
                                                                            for="flexRadio_{{$survey->question->id}}_{{$choice->id}}">
-                                                                        {{$choice->id}} - {{$choice->title}}
+                                                                        {{$loop->index+1}} - {{$choice->title}}
                                                                     </label>
                                                                 </div>
                                                             @else
@@ -64,7 +64,7 @@
                                                                     >
                                                                     <label class="form-check-label"
                                                                            for="flexCheck_{{$survey->question->id}}_{{$choice->id}}">
-                                                                        {{$choice->id}} - {{$choice->title}}
+                                                                        {{$loop->index+1}} - {{$choice->title}}
                                                                     </label>
                                                                 </div>
                                                             @endif

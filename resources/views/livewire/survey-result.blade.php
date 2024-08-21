@@ -24,7 +24,7 @@
                         <thead>
                         <tr>
                             <th scope="col">{{__('Participation number')}}</th>
-                            <th scope="col">{{__('Limits')}}</th>
+                            <th scope="col">{{__('Goals')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -33,7 +33,11 @@
                                 {{$survey->surveyResponse->count()}}
                             </td>
                             <td>
-                                {{$survey->goals}}
+                                @if($survey->goals)
+                                    {{$survey->goals}}
+                                @else
+                                    <span class="text-muted">{{__('No gools')}}</span>
+                                @endif
                             </td>
                         </tr>
                         </tbody>
@@ -46,6 +50,7 @@
                     <table class="table table-bordered mt-2 pl-2">
                         <thead>
                         <tr>
+                            <th scope="col">{{__('#')}}</th>
                             <th scope="col">{{__('Title')}}</th>
                             <th scope="col">{{__('Choosen')}}</th>
                             <th scope="col">{{__('Persontage')}}</th>
@@ -54,6 +59,9 @@
                         <tbody>
                         @foreach ($stats as $statsItem)
                             <tr>
+                                <td>
+                                    {{$loop->index+1}}
+                                </td>
                                 <td>
                                     {{$statsItem['title']}}
                                 </td>
@@ -77,7 +85,7 @@
                         @forelse($survey->surveyResponse as $surveyResponse)
                             <li class="list-group-item">
                                 {{ getUserDisplayedName($surveyResponse->user->idUser)}} <span
-                                        class="text-muted">{{__('at')}}: {{ $surveyResponse->created_at}} </span>
+                                    class="text-muted">{{__('at')}}: {{ $surveyResponse->created_at}} </span>
                             </li>
                         @empty
                             <li class="list-group-item">

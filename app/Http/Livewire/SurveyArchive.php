@@ -58,7 +58,7 @@ class SurveyArchive extends Component
 
     public function render()
     {
-        $params['surveys'] = $this->getSurveys();
+        $params['surveys'] = $this->getArchivedSurveys();
         return view('livewire.survey-archive', $params)->extends('layouts.master')->section('content');
     }
 }
