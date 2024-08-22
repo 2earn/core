@@ -53,9 +53,15 @@
                        title="{{__('Edit target')}}" class="btn btn-soft-info material-shadow-none">
                         {{__('Edit')}}
                     </a>
-                    <a wire:click="deleteTarget('{{$target->id}} ')"
+                    <a wire:click="deleteTarget('{{$target->id}}')"
                        title="{{__('Delete target')}}" class="btn btn-soft-danger material-shadow-none">
                         {{__('Delete')}}
+                        <div wire:loading wire:target="deleteTarget('{{$target->id}}')">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                            <span class="sr-only">{{__('Loading')}}...</span>
+                        </div>
+
                     </a>
                     <a href="{{route('survey_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$target->id] )}}"
                        title="{{__('Create matched target Survey')}}" class="btn btn-soft-primary material-shadow-none">
@@ -113,6 +119,11 @@
                                        title="{{__('Remove Condition')}}"
                                        class="btn btn-soft-danger material-shadow-none">
                                         {{__('Remove')}}
+                                        <div wire:loading wire:target="removeCondition('{{$condition->id}}','{{$target->id}}')">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                            <span class="sr-only">{{__('Loading')}}...</span>
+                                        </div>
                                     </a>
                                 </div>
                             </div>
@@ -151,6 +162,11 @@
                                            title="{{__('Remove group')}}"
                                            class="btn btn-soft-danger material-shadow-none">
                                             {{__('Remove')}}
+                                            <div wire:loading wire:target="removeGroup('{{$group->id}}','{{$target->id}}')">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                                <span class="sr-only">{{__('Loading')}}...</span>
+                                            </div>
                                         </a>
                                     </div>
                                     <div class="btn-group btn-group-sm" role="group">
@@ -198,6 +214,11 @@
                                                                    title="{{__('Remove Condition')}}"
                                                                    class="btn btn-soft-danger material-shadow-none">
                                                                     {{__('Remove')}}
+                                                                    <div wire:loading wire:target="removeCondition('{{$conditionItem->id}}','{{$target->id}}')">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                                                        <span class="sr-only">{{__('Loading')}}...</span>
+                                                                    </div>
                                                                 </a>
                                                             </div>
                                                         </div>
