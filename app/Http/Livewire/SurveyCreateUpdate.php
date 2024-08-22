@@ -29,7 +29,7 @@ class SurveyCreateUpdate extends Component
         $show,
         $showAttchivementChrono,
         $showAfterArchiving,
-        $showAttchivementPourcentage;
+        $showAttchivementGool;
 
     public
         $startDate,
@@ -80,7 +80,7 @@ class SurveyCreateUpdate extends Component
         $this->show = TargetType::ALL->value;
         $this->showAttchivementChrono = TargetType::ALL->value;
         $this->showAfterArchiving = TargetType::ALL->value;
-        $this->showAttchivementPourcentage = TargetType::ALL->value;
+        $this->showAttchivementGool = TargetType::ALL->value;
     }
 
     public function validateDisabled()
@@ -113,7 +113,7 @@ class SurveyCreateUpdate extends Component
                 'likable' => $this->likable,
                 'showAttchivementChrono' => $this->showAttchivementChrono,
                 'showAfterArchiving' => $this->showAfterArchiving,
-                'showAttchivementPourcentage' => $this->showAttchivementPourcentage,
+                'showAttchivementGool' => $this->showAttchivementGool,
                 'startDate' => $this->startDate,
                 'endDate' => $this->endDate,
                 'disabledResult' => $this->disabledResult,
@@ -144,7 +144,7 @@ class SurveyCreateUpdate extends Component
         $this->showResult = $survey->showResult;
         $this->showAttchivementChrono = $survey->showAttchivementChrono;
         $this->showAfterArchiving = $survey->showAfterArchiving;
-        $this->showAttchivementPourcentage = $survey->showAttchivementPourcentage;
+        $this->showAttchivementGool = $survey->showAttchivementGool;
         $this->startDate = date_format(new \DateTime($survey->startDate), self::DATE_FORMAT);
         $this->endDate = date_format(new \DateTime($survey->endDate), self::DATE_FORMAT);
         $this->goals = $survey->goals;
@@ -180,7 +180,7 @@ class SurveyCreateUpdate extends Component
                     'likable' => $this->likable,
                     'showAttchivementChrono' => $this->showAttchivementChrono,
                     'showAfterArchiving' => $this->showAfterArchiving,
-                    'showAttchivementPourcentage' => $this->showAttchivementPourcentage,
+                    'showAttchivementGool' => $this->showAttchivementGool,
                     'startDate' => $this->startDate,
                     'endDate' => $this->endDate,
                     'disabledResult' => $this->disabledResult,

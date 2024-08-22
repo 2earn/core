@@ -1,4 +1,36 @@
-<div class="card mb-2 border">
+<style>
+    html,
+    body,
+    h1 {
+        margin: 0;
+        padding: 0;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        display: grid;
+        place-items: center;
+        height: 100vh;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+        sans-serif;
+    }
+
+    h1:empty:after {
+        display: none;
+    }
+
+    h1:after {
+        content: "June 5, 2100 11:27:15";
+        display: block;
+        font-weight: 400;
+        font-size: 17px;
+    }
+</style>
+
+<div class="card mb-2 ml-4 border">
     <div class="card-header border-info fw-medium text-muted mb-0">
         @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
             <span class="badge btn btn-lg float-end
@@ -37,7 +69,7 @@
 
                 {{__('Show achievement %')}}:
                 <span
-                    class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementPourcentage)?->name}}</span>
+                    class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementGool)?->name}}</span>
 
                 {{__('Show after archiving')}}:
                 <span
@@ -56,53 +88,7 @@
 
     <div class="card-body">
         <div class="row">
-            @if($survey->canShowAttchivementChrono())
-                <div class="col-sm-12 col-md-6 col-lg-6 mt-3" title="{{ $survey->getChronoAttchivement()}} / 100">
-                    <h6 class="mt-2 text-info">{{__('Attchivement Chrono Dates')}}:</h6>
-                    @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
-                        <div class="survey-countdown connect-page" title="{{$survey->endDate}}">
-                            <div class="survey-countdown-body">
-                                <div class="survey-cd survey-cd-{{$survey->id}}" id="survey-cd-{{$survey->id}}"
-                                     data-start="{{$survey->startDate}}"
-                                     data-end="{{$survey->endDate}}">
-                                    <div class="counter timer">
-                                        <h2 class="title">{{__('time remaining')}}</h2>
-                                        <div class="counter-boxes">
-                                            <div class="count-box">
-                                                <h3 class="value day">0</h3>
-                                                <span>{{__('Days')}}</span>
-                                            </div>
-                                            <div class="count-box">
-                                                <h3 class="value hour">0</h3>
-                                                <span>{{__('Hours')}}</span>
-                                            </div>
-                                            <div class="count-box">
-                                                <h3 class="value minute">0</h3>
-                                                <span>{{__('Minutes')}}</span>
-                                            </div>
-                                            <div class="count-box">
-                                                <h3 class="value second">0</h3>
-                                                <span>{{__('Seconds')}}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @else
-                        <span class="text-muted">{{$survey->getChronoAttchivement()}} %</span>
-                    @endif
-                </div>
-            @endif
-            @if($survey->canShowAttchivementGools())
-                <div class="col-sm-12 col-md-6 col-lg-2 mt-3">
-                    <h6 class="mt-2 text-info">{{__('Attchivement Gools')}}:</h6>
-                    <p class="card-text text-muted">
-                        {{ $survey->getGoolsAttchivement()}} %
-                    </p>
-                </div>
-            @endif
-            <div class="col-sm-12 col-md-6 col-lg-6">
+            <div class="col-sm-12 col-md-6 col-lg-4">
                 <h6 class="mt-2 text-info">{{__('Description')}}:</h6>
                 <p class="card-text text-muted">
                     @if($currentRouteName=="survey_show")
@@ -112,7 +98,8 @@
                     @endif
                 </p>
             </div>
-            <div class="col-sm-12 col-md-6 col-lg-6">
+
+            <div class="col-sm-12 col-md-6 col-lg-4">
                 <h6 class="mt-2 text-info">{{__('Target')}}:</h6>
                 @if($survey->targets->isEmpty())
                     <span class="text-muted">{{ __('No target') }}</span>
@@ -128,6 +115,34 @@
                     </ul>
                 @endif
             </div>
+
+            @if($survey->canShowAttchivementChrono())
+                <div class="col-sm-12 col-md-6 col-lg-2 mt-3">
+                    <h6 class="mt-2 text-info">{{__('Attchivement Chrono Dates')}}:</h6>
+                    <p class="card-text text-muted">
+                        {{ $survey->getChronoAttchivement()}} / 100
+
+                    @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
+
+                        <h6 class="text-muted" >
+                            {{$survey->endDate}}
+                        </h6>
+                        <h6 class="text-muted" id="timer-{{$survey->id}}"></h6>
+
+                        @endif
+                        </p>
+
+                </div>
+            @endif
+            @if($survey->canShowAttchivementGool())
+                <div class="col-sm-12 col-md-6 col-lg-2 mt-3">
+                    <h6 class="mt-2 text-info">{{__('Attchivement Gools')}}:</h6>
+                    <p class="card-text text-muted">
+                        {{ $survey->getPourcentageAttchivement()}} / 100
+                    </p>
+                </div>
+            @endif
+
         </div>
     </div>
     @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
@@ -261,56 +276,25 @@
                     <a href="{{route('survey_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
                        class="btn btn-soft-info material-shadow-none">{{__('Edit')}}</a>
                 @endif
+
                 @if($survey->status==\Core\Enum\StatusSurvey::NEW->value)
                     <a wire:click="open('{{$survey->id}}')"
-                       class="btn btn-soft-secondary material-shadow-none">
-                        {{__('Open')}}
-
-                        <div wire:loading wire:target="open('{{$survey->id}}')">
-                                                <span class="spinner-border spinner-border-sm" role="status"
-                                                      aria-hidden="true"></span>
-                            <span class="sr-only">{{__('Loading')}}...</span>
-                        </div>
-
-                    </a>
+                       class="btn btn-soft-secondary material-shadow-none">{{__('Open')}}</a>
                 @endif
 
                 @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
                     <a wire:click="close('{{$survey->id}}')"
-                       class="btn btn-soft-secondary material-shadow-none">
-                        {{__('Close')}}
-
-                        <div wire:loading wire:target="close('{{$survey->id}}')">
-                                                <span class="spinner-border spinner-border-sm" role="status"
-                                                      aria-hidden="true"></span>
-                            <span class="sr-only">{{__('Loading')}}...</span>
-                        </div>
-                    </a>
+                       class="btn btn-soft-secondary material-shadow-none">{{__('Close')}}</a>
                 @endif
 
                 @if($survey->status==\Core\Enum\StatusSurvey::CLOSED->value)
                     <a wire:click="archive('{{$survey->id}}')"
-                       class="btn btn-soft-secondary material-shadow-none">
-                        {{__('Archive')}}
-                        <div wire:loading wire:target="archive('{{$survey->id}}')">
-                                                <span class="spinner-border spinner-border-sm" role="status"
-                                                      aria-hidden="true"></span>
-                            <span class="sr-only">{{__('Loading')}}...</span>
-                        </div>
-                    </a>
+                       class="btn btn-soft-secondary material-shadow-none">{{__('Archive')}}</a>
                 @endif
                 @if($survey->status<\Core\Enum\StatusSurvey::CLOSED->value)
                     @if(!$survey->enabled)
                         <a wire:click="enable('{{$survey->id}}')"
-                           class="btn btn-soft-success material-shadow-none">
-                            {{__('Enable')}}
-                            <div wire:loading wire:target="enable">
-                                                <span class="spinner-border spinner-border-sm" role="status"
-                                                      aria-hidden="true"></span>
-                                <span class="sr-only">{{__('Loading')}}...</span>
-                            </div>
-                        </a>
-
+                           class="btn btn-soft-success material-shadow-none">{{__('Enable')}}</a>
                     @else
                         <button type="button" id="disableSurveyModalbtn_{{$survey->id}}"
                                 class="btn btn-soft-danger material-shadow-none" data-bs-toggle="modal"
@@ -320,24 +304,10 @@
                     @endif
                     @if(!$survey->published)
                         <a wire:click="publish('{{$survey->id}}')"
-                           class="btn btn-soft-success material-shadow-none">
-                            {{__('Publish')}}
-                            <div wire:loading wire:target="publish">
-                                                <span class="spinner-border spinner-border-sm" role="status"
-                                                      aria-hidden="true"></span>
-                                <span class="sr-only">{{__('Loading')}}...</span>
-                            </div>
-                        </a>
+                           class="btn btn-soft-success material-shadow-none">{{__('Publish')}}</a>
                     @else
                         <a wire:click="unpublish('{{$survey->id}}')"
-                           class="btn btn-soft-danger material-shadow-none">
-                            {{__('Un Publish')}}
-                            <div wire:loading wire:target="unpublish">
-                                                <span class="spinner-border spinner-border-sm" role="status"
-                                                      aria-hidden="true"></span>
-                                <span class="sr-only">{{__('Loading')}}...</span>
-                            </div>
-                        </a>
+                           class="btn btn-soft-danger material-shadow-none">{{__('Un Publish')}}</a>
                     @endif
                 @endif
             @endif
@@ -484,11 +454,6 @@
                                 @if(!$survey->isLikable()) disabled @endif>
                             <i class="ri-thumb-down-line align-bottom me-1"></i>
                             {{__('Un - Like')}}
-                            <div wire:loading wire:target="dislike">
-                                                <span class="spinner-border spinner-border-sm" role="status"
-                                                      aria-hidden="true"></span>
-                                <span class="sr-only">{{__('Loading')}}...</span>
-                            </div>
                         </button>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6">
@@ -500,11 +465,6 @@
                                 @if(!$survey->isLikable()) disabled @endif>
                             <i class="ri-thumb-up-line align-bottom me-1"></i>
                             {{__('Like')}}
-                            <div wire:loading wire:target="like">
-                                                <span class="spinner-border spinner-border-sm" role="status"
-                                                      aria-hidden="true"></span>
-                                <span class="sr-only">{{__('Loading')}}...</span>
-                            </div>
                         </button>
                     </div>
                 @endif
@@ -556,21 +516,10 @@
                                             <button wire:click="deleteComment('{{$comment->id}}')"
                                                     class="btn btn-danger mt-3 mx-2 float-end">
                                                 {{__('Delete')}}
-
-                                                <div wire:loading wire:target="deleteComment('{{$comment->id}}')">
-                                                <span class="spinner-border spinner-border-sm" role="status"
-                                                      aria-hidden="true"></span>
-                                                    <span class="sr-only">{{__('Loading')}}...</span>
-                                                </div>
                                             </button>
                                             <button wire:click="validateComment('{{$comment->id}}')"
                                                     class="btn btn-success mt-3 mx-2 float-end">
                                                 {{__('Validate')}}
-                                                <div wire:loading wire:target="validateComment('{{$comment->id}}')">
-                                                <span class="spinner-border spinner-border-sm" role="status"
-                                                      aria-hidden="true"></span>
-                                                    <span class="sr-only">{{__('Loading')}}...</span>
-                                                </div>
                                             </button>
                                         @endif
                                         <span class="text-muted float-end"><strong>{{__('at')}}: </strong>  {{$comment->created_at}}</span>
@@ -596,16 +545,13 @@
                     <button wire:click="addComment()" class="btn btn-info mt-2"
                             @if(!$survey->isCommentable()) disabled @endif>
                         {{__('Add comment')}}
-                        <div wire:loading wire:target="addComment">
-                                                <span class="spinner-border spinner-border-sm" role="status"
-                                                      aria-hidden="true"></span>
-                            <span class="sr-only">{{__('Loading')}}...</span>
-                        </div>
                     </button>
                 </div>
             </div>
         </div>
     @endif
+
+
     <div wire:ignore class="modal fade" id="disableSurveyModal_{{$survey->id}}" tabindex="-1"
          aria-labelledby="disableSurveyModal_{{$survey->id}}Label"
          aria-hidden="true">
@@ -630,16 +576,35 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" wire:click="disable('{{$survey->id}}')"
-                            class="btn btn-primary">{{__('Disable Survey')}}
-                        <div wire:loading wire:target="disable">
-                                                <span class="spinner-border spinner-border-sm" role="status"
-                                                      aria-hidden="true"></span>
-                            <span class="sr-only">{{__('Loading')}}...</span>
-                        </div>
-                    </button>
+                            class="btn btn-primary">{{__('Disable Survey')}}</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
                 </div>
             </div>
         </div>
     </div>
+    @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
+
+        <script type="module">
+            $(document).on('turbolinks:load', function () {
+                var countDownDate = new Date("{{$survey->endDate}}").getTime();
+                var timeClear = setInterval(function () {
+                    var now = new Date().getTime();
+                    var timeLeft = countDownDate - now;
+                    var days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                    var hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                    $("#timer-{{$survey->id}}").html(days + "d " + hours + "h " + minutes + "m " + seconds + "s ");
+
+                    if (timeLeft < 0) {
+                        clearInterval(timeClear);
+                        $("#timer-{{$survey->id}}").html("Timer Finished");
+                    }
+                }, 1000);
+            });
+
+        </script>
+    @endif
+
 </div>
