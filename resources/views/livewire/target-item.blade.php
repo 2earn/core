@@ -1,4 +1,4 @@
-<div class="card mb-2 ml-2 border">
+<div class="card mb-2 border">
     <div class="card-header border-info fw-medium text-muted mb-0">
         <h4> {{$target->id}} - {{$target->name}}</h4>
     </div>
