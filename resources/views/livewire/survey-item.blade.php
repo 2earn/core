@@ -1,35 +1,3 @@
-<style>
-    html,
-    body,
-    h1 {
-        margin: 0;
-        padding: 0;
-    }
-
-    * {
-        box-sizing: border-box;
-    }
-
-    body {
-        display: grid;
-        place-items: center;
-        height: 100vh;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
-        sans-serif;
-    }
-
-    h1:empty:after {
-        display: none;
-    }
-
-    h1:after {
-        content: "June 5, 2100 11:27:15";
-        display: block;
-        font-weight: 400;
-        font-size: 17px;
-    }
-</style>
-
 <div class="card mb-2 ml-4 border">
     <div class="card-header border-info fw-medium text-muted mb-0">
         @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
