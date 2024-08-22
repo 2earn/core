@@ -85,7 +85,14 @@
                     </div>
                     <div class="card-footer">
                         <button class="btn btn-info add-btn float-end"
-                                type="submit">{{__('Participate')}}</button>
+                                type="submit">
+                            {{__('Participate')}}
+                            <div wire:loading>
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                <span class="sr-only">{{__('Loading')}}...</span>
+                            </div>
+                        </button>
                     </div>
                 </form>
             </div>

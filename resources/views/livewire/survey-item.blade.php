@@ -261,25 +261,56 @@
                     <a href="{{route('survey_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
                        class="btn btn-soft-info material-shadow-none">{{__('Edit')}}</a>
                 @endif
-
                 @if($survey->status==\Core\Enum\StatusSurvey::NEW->value)
                     <a wire:click="open('{{$survey->id}}')"
-                       class="btn btn-soft-secondary material-shadow-none">{{__('Open')}}</a>
+                       class="btn btn-soft-secondary material-shadow-none">
+                        {{__('Open')}}
+
+                        <div wire:loading wire:target="open('{{$survey->id}}')">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                            <span class="sr-only">{{__('Loading')}}...</span>
+                        </div>
+
+                    </a>
                 @endif
 
                 @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
                     <a wire:click="close('{{$survey->id}}')"
-                       class="btn btn-soft-secondary material-shadow-none">{{__('Close')}}</a>
+                       class="btn btn-soft-secondary material-shadow-none">
+                        {{__('Close')}}
+
+                        <div wire:loading wire:target="close('{{$survey->id}}')">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                            <span class="sr-only">{{__('Loading')}}...</span>
+                        </div>
+                    </a>
                 @endif
 
                 @if($survey->status==\Core\Enum\StatusSurvey::CLOSED->value)
                     <a wire:click="archive('{{$survey->id}}')"
-                       class="btn btn-soft-secondary material-shadow-none">{{__('Archive')}}</a>
+                       class="btn btn-soft-secondary material-shadow-none">
+                        {{__('Archive')}}
+                        <div wire:loading wire:target="archive('{{$survey->id}}')">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                            <span class="sr-only">{{__('Loading')}}...</span>
+                        </div>
+                    </a>
                 @endif
                 @if($survey->status<\Core\Enum\StatusSurvey::CLOSED->value)
                     @if(!$survey->enabled)
                         <a wire:click="enable('{{$survey->id}}')"
-                           class="btn btn-soft-success material-shadow-none">{{__('Enable')}}</a>
+                           class="btn btn-soft-success material-shadow-none">
+                            {{__('Enable')}}
+                            <div wire:loading wire:target="enable">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                <span class="sr-only">{{__('Loading')}}...</span>
+                            </div>
+                        </a>
+
                     @else
                         <button type="button" id="disableSurveyModalbtn_{{$survey->id}}"
                                 class="btn btn-soft-danger material-shadow-none" data-bs-toggle="modal"
@@ -289,10 +320,24 @@
                     @endif
                     @if(!$survey->published)
                         <a wire:click="publish('{{$survey->id}}')"
-                           class="btn btn-soft-success material-shadow-none">{{__('Publish')}}</a>
+                           class="btn btn-soft-success material-shadow-none">
+                            {{__('Publish')}}
+                            <div wire:loading wire:target="publish">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                <span class="sr-only">{{__('Loading')}}...</span>
+                            </div>
+                        </a>
                     @else
                         <a wire:click="unpublish('{{$survey->id}}')"
-                           class="btn btn-soft-danger material-shadow-none">{{__('Un Publish')}}</a>
+                           class="btn btn-soft-danger material-shadow-none">
+                            {{__('Un Publish')}}
+                            <div wire:loading wire:target="unpublish">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                <span class="sr-only">{{__('Loading')}}...</span>
+                            </div>
+                        </a>
                     @endif
                 @endif
             @endif
@@ -439,6 +484,11 @@
                                 @if(!$survey->isLikable()) disabled @endif>
                             <i class="ri-thumb-down-line align-bottom me-1"></i>
                             {{__('Un - Like')}}
+                            <div wire:loading wire:target="dislike">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                <span class="sr-only">{{__('Loading')}}...</span>
+                            </div>
                         </button>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6">
@@ -450,6 +500,11 @@
                                 @if(!$survey->isLikable()) disabled @endif>
                             <i class="ri-thumb-up-line align-bottom me-1"></i>
                             {{__('Like')}}
+                            <div wire:loading wire:target="like">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                <span class="sr-only">{{__('Loading')}}...</span>
+                            </div>
                         </button>
                     </div>
                 @endif
@@ -501,10 +556,21 @@
                                             <button wire:click="deleteComment('{{$comment->id}}')"
                                                     class="btn btn-danger mt-3 mx-2 float-end">
                                                 {{__('Delete')}}
+
+                                                <div wire:loading wire:target="deleteComment('{{$comment->id}}')">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                                    <span class="sr-only">{{__('Loading')}}...</span>
+                                                </div>
                                             </button>
                                             <button wire:click="validateComment('{{$comment->id}}')"
                                                     class="btn btn-success mt-3 mx-2 float-end">
                                                 {{__('Validate')}}
+                                                <div wire:loading wire:target="validateComment('{{$comment->id}}')">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                                    <span class="sr-only">{{__('Loading')}}...</span>
+                                                </div>
                                             </button>
                                         @endif
                                         <span class="text-muted float-end"><strong>{{__('at')}}: </strong>  {{$comment->created_at}}</span>
@@ -530,13 +596,16 @@
                     <button wire:click="addComment()" class="btn btn-info mt-2"
                             @if(!$survey->isCommentable()) disabled @endif>
                         {{__('Add comment')}}
+                        <div wire:loading wire:target="addComment">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                            <span class="sr-only">{{__('Loading')}}...</span>
+                        </div>
                     </button>
                 </div>
             </div>
         </div>
     @endif
-
-
     <div wire:ignore class="modal fade" id="disableSurveyModal_{{$survey->id}}" tabindex="-1"
          aria-labelledby="disableSurveyModal_{{$survey->id}}Label"
          aria-hidden="true">
@@ -561,7 +630,13 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" wire:click="disable('{{$survey->id}}')"
-                            class="btn btn-primary">{{__('Disable Survey')}}</button>
+                            class="btn btn-primary">{{__('Disable Survey')}}
+                        <div wire:loading wire:target="disable">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                            <span class="sr-only">{{__('Loading')}}...</span>
+                        </div>
+                    </button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
                 </div>
             </div>
