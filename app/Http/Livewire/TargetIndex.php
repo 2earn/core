@@ -36,7 +36,7 @@ class TargetIndex extends Component
     public function deleteTarget($idTarget)
     {
         Target::findOrFail($idTarget)->delete();
-        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $idTarget])->with('success', Lang::get('Target Deleted Successfully!!'));
+        return redirect()->route('target_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Target Deleted Successfully!!'));
     }
 
     public function removeGroup($idGroup, $idTarget)

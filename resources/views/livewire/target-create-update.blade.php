@@ -46,10 +46,24 @@
                             <div class="col-md-2">
                                 @if($update)
                                     <button wire:click.prevent="update()"
-                                            class="btn btn-success btn-block">{{__('Update')}}</button>
+                                            class="btn btn-success btn-block">
+                                        {{__('Update')}}
+                                        <div wire:loading wire:target="update">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                            <span class="sr-only">{{__('Loading')}}...</span>
+                                        </div>
+                                    </button>
                                 @else
                                     <button wire:click.prevent="store()"
-                                            class="btn btn-success btn-block">{{__('Save')}}</button>
+                                            class="btn btn-success btn-block">
+                                        {{__('Save')}}
+                                        <div wire:loading wire:target="store">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                            <span class="sr-only">{{__('Loading')}}...</span>
+                                        </div>
+                                    </button>
                                 @endif
                             </div>
                             <div class="col-md-2">

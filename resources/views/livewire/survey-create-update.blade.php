@@ -98,19 +98,19 @@
                             </div>
 
                             <div class="form-group col-md-4 mt-2">
-                                <label for="showAttchivementPourcentage">{{__('Show attchivement pourcentage')}}</label>
+                                <label for="showAttchivementGool">{{__('Show attchivement pourcentage')}}</label>
                                 <select
-                                    class="form-select form-control @error('showAttchivementPourcentage') is-invalid @enderror"
+                                    class="form-select form-control @error('showAttchivementGool') is-invalid @enderror"
                                     placeholder="{{__('Show attchivement pourcentage')}}"
-                                    wire:model="showAttchivementPourcentage"
-                                    id="showAttchivementPourcentage"
-                                    aria-label="{{__('showAttchivementPourcentage')}}">
+                                    wire:model="showAttchivementGool"
+                                    id="showAttchivementGool"
+                                    aria-label="{{__('showAttchivementGool')}}">
                                     @foreach ($targetTypes as $targetType)
                                         <option value="{{$targetType}}"
                                                 @if($loop->index==0) selected @endif >{{$targetType->name}}</option>
                                     @endforeach
                                 </select>
-                                @error('showAttchivementPourcentage')
+                                @error('showAttchivementGool')
                                 <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>

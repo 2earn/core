@@ -37,7 +37,7 @@ return new class extends Migration {
             $table->integer('showResult')->default(1);
             $table->integer('commentable')->default(1);
             $table->integer('likable')->default(1);
-            $table->integer('showAttchivementPourcentage')->default(1);
+            $table->integer('showAttchivementGool')->default(1);
             $table->integer('showAttchivementChrono')->default(1);
 
             $table->integer('goals')->nullable();

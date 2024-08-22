@@ -16,7 +16,6 @@ class Survey extends Model
 
     const SUPER_ADMIN_ROLE_NAME = "SUPER ADMIN";
     const DELAY_AFTER_CLOSED = 10;
-    const DELAY_AFTER_ARCHIVED = 100;
 
     protected $fillable = [
         'name',
@@ -25,7 +24,7 @@ class Survey extends Model
         'status',
         'show',
         'showAttchivementChrono',
-        'showAttchivementPourcentage',
+        'showAttchivementGool',
         'showAfterArchiving',
         'startDate',
         'endDate',
@@ -162,7 +161,7 @@ class Survey extends Model
         return round($startNowInterval_h / $surveyInterval_h * 100, 2);
     }
 
-    public function getGoolsAttchivement(): int
+    public function getPourcentageAttchivement(): int
     {
         $survey = Survey::find($this->id);
         if (!is_null($survey->goals) && $survey->goals > 0) {
@@ -204,21 +203,8 @@ class Survey extends Model
     {
         $survey = Survey::find($this->id);
         $today = new \DateTime();
-        if ($survey->status != StatusSurvey::ARCHIVED->value) {
 
-            if ($survey->status == StatusSurvey::CLOSED->value) {
-                if (!is_null($survey->closeDate)) {
-                    $closeDate = new \DateTime($survey->closeDate);
-                    if ($closeDate->modify('+' . self::DELAY_AFTER_CLOSED . ' day') > $today) {
-                        return true;
-                    } else {
-                        Survey::close($survey->id);
-                    }
-                    return false;
-                }
-                return false;
-            }
-
+        if ($survey->status == StatusSurvey::OPEN->value || $survey->status == StatusSurvey::NEW->value) {
             if (SurveyResponse::where('survey_id', $this->id)->count() >= $survey->goals) {
                 Survey::close($survey->id);
                 return false;
@@ -252,14 +238,24 @@ class Survey extends Model
                 }
             }
         }
+        if ($survey->status == StatusSurvey::CLOSED->value) {
+
+            if (!is_null($survey->closeDate)) {
+                $closeDate = new \DateTime($survey->closeDate);
+
+                if ($closeDate->modify('+' . self::DELAY_AFTER_CLOSED . ' day') > $today) {
+                    return true;
+                }
+            }
+        }
 
         return false;
 
     }
 
-    public function canShowAttchivementGools(): bool
+    public function canShowAttchivementGool(): bool
     {
-        return $this->CheckVisibility($this->id, 'showAttchivementPourcentage');
+        return $this->CheckVisibility($this->id, 'showAttchivementGool');
     }
 
     public function canShowAttchivementChrono(): bool
@@ -269,16 +265,7 @@ class Survey extends Model
 
     public function canShowAfterArchiving(): bool
     {
-        $survey = Survey::find($this->id);
-        $today = new \DateTime();
-        if (!is_null($survey->archivedDate)) {
-            $archiveDate = new \DateTime($survey->archivedDate);
-            if ($archiveDate->modify('+' . self::DELAY_AFTER_ARCHIVED . ' day') > $today) {
-                return $this->CheckVisibility($this->id, 'showAfterArchiving');
-            }
-            return false;
-        }
-        return false;
+        return $this->CheckVisibility($this->id, 'showAfterArchiving');
     }
 
     public function canShowResult(): bool
