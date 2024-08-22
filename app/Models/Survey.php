@@ -16,6 +16,7 @@ class Survey extends Model
 
     const SUPER_ADMIN_ROLE_NAME = "SUPER ADMIN";
     const DELAY_AFTER_CLOSED = 10;
+    const DELAY_AFTER_ARCHIVED = 100;
 
     protected $fillable = [
         'name',
@@ -210,6 +211,8 @@ class Survey extends Model
                     $closeDate = new \DateTime($survey->closeDate);
                     if ($closeDate->modify('+' . self::DELAY_AFTER_CLOSED . ' day') > $today) {
                         return true;
+                    } else {
+                        Survey::close($survey->id);
                     }
                     return false;
                 }
@@ -250,7 +253,6 @@ class Survey extends Model
             }
         }
 
-
         return false;
 
     }
@@ -267,7 +269,16 @@ class Survey extends Model
 
     public function canShowAfterArchiving(): bool
     {
-        return $this->CheckVisibility($this->id, 'showAfterArchiving');
+        $survey = Survey::find($this->id);
+        $today = new \DateTime();
+        if (!is_null($survey->archivedDate)) {
+            $archiveDate = new \DateTime($survey->archivedDate);
+            if ($archiveDate->modify('+' . self::DELAY_AFTER_ARCHIVED . ' day') > $today) {
+                return $this->CheckVisibility($this->id, 'showAfterArchiving');
+            }
+            return false;
+        }
+        return false;
     }
 
     public function canShowResult(): bool

@@ -30,7 +30,7 @@ return new class extends Migration {
             $table->dateTime('unpublishDate')->nullable();
             $table->dateTime('openDate')->nullable();
             $table->dateTime('closeDate')->nullable();
-            $table->dateTime('ArchivedDate')->nullable();
+            $table->dateTime('archivedDate')->nullable();
 
             $table->boolean('show')->default(1);
             $table->boolean('showAfterArchiving')->default(1);
