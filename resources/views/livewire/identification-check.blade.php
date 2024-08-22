@@ -172,7 +172,7 @@
                                                 <th scope="row">
                                                     {{__('National ID identificatdion modal')}}
                                                 </th>
-                                                <td>
+                                                <td class="forceltr">
                                                     {{$usermetta_info2['nationalID']}}
                                                 </td>
                                             </tr>
@@ -180,7 +180,7 @@
                                                 <th scope="row">
                                                     {{__('Email identificatdion modal')}}
                                                 </th>
-                                                <td>
+                                                <td class="forceltr">
                                                     {{$userF['email']}}
                                                 </td>
                                             </tr>
@@ -359,7 +359,7 @@
                                                 {{ __('InternationalId ID identificatdion modal') }}
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control" minlength="5" maxlength="50"
+                                            <input type="text" class="form-control forceltr" minlength="5" maxlength="50"
                                                    wire:model.defer="userF.internationalID"
                                                    id="internationalId" placeholder="{{__('InternationalId ID')}}">
                                         </div>

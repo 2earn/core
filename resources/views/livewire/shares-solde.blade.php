@@ -88,9 +88,9 @@
                 }
                 var chart1 = new ApexCharts(document.querySelector("#chart1"), options1);
                 chart1.render();
-                var url1 = '{{route('API_shareevolution',['locale'=> app()->getLocale()])}}';
-                var url2 = '{{route('API_actionvalues',['locale'=> app()->getLocale()])}}';
-                var url3 = '{{route('API_shareevolutionuser',['locale'=> app()->getLocale()])}}';
+                var url1 = '{{route('api_share_evolution',['locale'=> app()->getLocale()])}}';
+                var url2 = '{{route('api_action_values',['locale'=> app()->getLocale()])}}';
+                var url3 = '{{route('api_share_evolution_user',['locale'=> app()->getLocale()])}}';
                 $.when(
                     $.getJSON(url1),
                     $.getJSON(url2),
@@ -119,7 +119,7 @@
                 search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
-                "ajax": "{{route('API_sharessolde',['locale'=> app()->getLocale()])}}",
+                "ajax": "{{route('api_shares_solde',['locale'=> app()->getLocale()])}}",
                 "columns": [
                     {data: 'formatted_created_at'},
                     {data: 'value_format'},

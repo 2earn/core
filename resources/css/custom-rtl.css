@@ -402,3 +402,8 @@ label, h1, h2, h3, h4, h5, h6, a, button, p, i, span, strong, .btn, div {
     border-width: 0px;
     border-color: transparent;
 }
+
+.forceltr {
+    direction: ltr;
+    float: right;
+}

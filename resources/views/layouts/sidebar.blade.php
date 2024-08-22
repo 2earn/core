@@ -1,6 +1,6 @@
 <div>
     <div class="app-menu navbar-menu">
-        <div class="navbar-brand-box">
+        <div class="navbar-brand-box" title="15-08-2024">
             <a href="{{route('home',app()->getLocale(),false)}}" class="logo logo-dark">
             <span class="logo-sm">
                 <img src="{{ Vite::asset('resources/images/logo-sm.png') }}" alt="" height="22">
@@ -118,6 +118,42 @@
                             <span>{{__('Hobbies')}}</span>
                         </a>
                     </li>
+                    @if(auth()->user()->getRoleNames()->first() =="Super admin")
+                        <li class="nav-item {{Route::currentRouteName()=='target_index'? 'active' : ''}}">
+                            <a href="{{route('target_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
+                               class="nav-link menu-link {{Route::currentRouteName()=='target_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-pushpin-fill"></i>
+                                <span>{{__('Targets')}}</span>
+                            </a>
+                        </li>
+                    @endif
+                    <li class="nav-item">
+                        <a class="nav-link menu-link {{!in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'collapsed' : 'active'}}"
+                           href="#sidebarSurvey" data-bs-toggle="collapse"
+                           role="button"
+                           aria-expanded="{{in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'true' : 'false'}}"
+                           aria-controls="sidebarSurvey">
+                            <i class="ri-bookmark-fill"></i>
+                            <span
+                                data-key="t-dashboards">{{ __('Surveys') }}</span>
+                        </a>
+                        <div
+                            class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['surveys_index','surveys_archive'])? 'show' : ''}}"
+                            id="sidebarSurvey">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item {{Route::currentRouteName()=='surveys_index'? 'active' : ''}}">
+                                    <a href="{{route('surveys_index', app()->getLocale(),false)}}"
+                                       class="nav-link" data-key="t-analytics">{{ __('Surveys ') }}</a>
+                                </li>
+                                <li class="nav-item {{Route::currentRouteName()=='surveys_archive'? 'active' : ''}}">
+                                    <a href="{{route('surveys_archive', app()->getLocale(),false)}}"
+                                       class="nav-link"
+                                       data-key="t-analytics">{{ __('Archive') }}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                     <li class="nav-item {{Route::currentRouteName()=='description'? 'active' : ''}}">
                         <a href="{{route('description',app()->getLocale(),false )}}"
                            class="nav-link menu-link {{Route::currentRouteName()=='description'? 'active' : ''}} disabled"
@@ -228,7 +264,7 @@
                                 <span>{{ __('representatives Management') }}</span>
                             </a>
                         </li>
-                     <li class="nav-item {{Route::currentRouteName()=='identification_request'? 'active' : ''}}">
+                        <li class="nav-item {{Route::currentRouteName()=='identification_request'? 'active' : ''}}">
                             <a href="{{route('identification_request', app()->getLocale(),false)}}"
                                class="nav-link menu-link {{Route::currentRouteName()=='identification_request'? 'active' : ''}}"
                                role="button">
@@ -281,10 +317,16 @@
             $('#navbar-nav li a').removeClass('active');
             $('#navbar-nav a[href="' + location.pathname + '"]').addClass('active');
             $('#navbar-nav a[href="' + location.pathname + '"]').parent().addClass('active');
+            const surveyArray = ['surveys_index', 'surveys_archive'];
             const settingArray = ['configuration-setting', 'configuration-bo', 'configuration-ha', 'configuration-amounts'];
             const shareSoldArray = ['shares-sold-dashboard', 'shares-sold-market-status', 'shares-sold-recent-transaction'];
             var currentRoutePath = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
 
+            if (surveyArray.includes(currentRoutePath)) {
+                showDropDownMenu('sidebarSurvey')
+            } else {
+                hideDropDownMenu('sidebarSurvey');
+            }
             if (settingArray.includes(currentRoutePath)) {
                 showDropDownMenu('sidebarDashboards')
             } else {

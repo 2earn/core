@@ -2,14 +2,9 @@
 
 namespace App\Http\Livewire;
 
-use Core\Models\language;
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
-use Illuminate\Support\Facades\Route;
 
 class TopBar extends Component
 {
@@ -26,8 +21,9 @@ class TopBar extends Component
 
     public function boot()
     {
-     $this->locales = config('app.available_locales');
+        $this->locales = config('app.available_locales');
     }
+
     public function mount(settingsManager $settingsManager, BalancesManager $balancesManager)
     {
         $this->settingsManager = $settingsManager;
@@ -38,7 +34,7 @@ class TopBar extends Component
     {
         $authUser = auth()->user();
         $user = $settingsManager->getUserById($authUser->id);
-     $this->count = auth()->user()->unreadNotifications()->count();
+        $this->count = auth()->user()->unreadNotifications()->count();
         $this->notifications = auth()->user()->unreadNotifications()->get();
         $this->locales = config('app.available_locales');
         if (!$authUser)

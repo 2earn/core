@@ -27,9 +27,6 @@ return new class extends Migration
             $table->dateTime('declenchedDate')->nullable();
             $table->boolean('closed')->default(false);
             $table->dateTime('closedDate')->nullable();
-
-
-
         });
     }
 

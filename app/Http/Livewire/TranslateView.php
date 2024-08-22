@@ -63,7 +63,7 @@ class TranslateView extends Component
         return redirect()->route('translate', app()->getLocale())->with('success', Lang::get('Translation item deleted'));
     }
 
-    public function updatingSearch()
+    public function updatingSearch(): void
     {
         $this->resetPage();
     }
