@@ -46,7 +46,6 @@
                                                                         value="{{$choice->id}}"
                                                                         name="flexRadioDefault"
                                                                         id="flexRadio_{{$survey->question->id}}_{{$choice->id}}"
-
                                                                     >
                                                                     <label class="form-check-label"
                                                                            for="flexRadio_{{$survey->question->id}}_{{$choice->id}}">
@@ -90,4 +89,5 @@
             @endif
         </div>
     </div>
+        @vite('resources/js/surveys.js')
 </div>

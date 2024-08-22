@@ -16,6 +16,7 @@ $(document).on('turbolinks:load', function () {
 
         function countdown() {
             var gap = calculateRemaining();
+
             var shouldRefresh = previousGap > day && gap <= day || previousGap > 0 && gap === 0;
 
             previousGap = gap;
@@ -51,9 +52,25 @@ $(document).on('turbolinks:load', function () {
 
     });
 
-    setupCountdown(".survey-cd-0", 1705780800000, 1802649540000);
+    function isElement(obj) {
+        try {
+            return obj instanceof HTMLElement;
+        } catch (e) {
+            return (typeof obj === "object") &&
+                (obj.nodeType === 1) && (typeof obj.style === "object") &&
+                (typeof obj.ownerDocument === "object");
+        }
+    }
 
-// 1705780800000 = Saturday 20 January 2024 20:00:00 (GMT)
-// 1802649540000 = Sunday 14 February 2027 23:59:00 (GMT)
+    var elements = document.getElementsByClassName('survey-cd');
+    for (var i in elements) {
+        var item = elements[i];
+        if (isElement(item)) {
+            setupCountdown(
+                "." + item.getAttribute("id"),
+                new Date(document.getElementById(item.getAttribute("id")).getAttribute('data-start')).getTime(),
+                new Date(document.getElementById(item.getAttribute("id")).getAttribute('data-end')).getTime())
+        }
 
+    }
 });

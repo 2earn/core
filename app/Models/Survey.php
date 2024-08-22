@@ -203,8 +203,20 @@ class Survey extends Model
     {
         $survey = Survey::find($this->id);
         $today = new \DateTime();
+dump($survey->status);
+        if ($survey->status != StatusSurvey::ARCHIVED->value) {
 
-        if ($survey->status == StatusSurvey::OPEN->value || $survey->status == StatusSurvey::NEW->value) {
+            if ($survey->status == StatusSurvey::CLOSED->value) {
+                if (!is_null($survey->closeDate)) {
+                    $closeDate = new \DateTime($survey->closeDate);
+                    if ($closeDate->modify('+' . self::DELAY_AFTER_CLOSED . ' day') > $today) {
+                        return true;
+                    }
+                    return false;
+                }
+                return false;
+            }
+
             if (SurveyResponse::where('survey_id', $this->id)->count() >= $survey->goals) {
                 Survey::close($survey->id);
                 return false;
@@ -238,16 +250,7 @@ class Survey extends Model
                 }
             }
         }
-        if ($survey->status == StatusSurvey::CLOSED->value) {
 
-            if (!is_null($survey->closeDate)) {
-                $closeDate = new \DateTime($survey->closeDate);
-
-                if ($closeDate->modify('+' . self::DELAY_AFTER_CLOSED . ' day') > $today) {
-                    return true;
-                }
-            }
-        }
 
         return false;
 

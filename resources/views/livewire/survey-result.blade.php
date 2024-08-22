@@ -97,4 +97,5 @@
             </div>
         </div>
     </div>
+    @vite('resources/js/surveys.js')
 </div>

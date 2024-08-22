@@ -47,5 +47,6 @@
                 <p>{{__('No Surveys')}}</p>
             @endforelse
         </div>
+        @vite('resources/js/surveys.js')
     </div>
 </div>
