@@ -79,7 +79,7 @@ class SurveyParicipate extends Component
         $surveyResponse = SurveyResponse::create($surveyResponseParams);
 
         if (!is_null($survey->goals)) {
-            if (SurveyResponse::where('survey_id', $this->idSurvey)->count() > $survey->goals) {
+            if (SurveyResponse::where('survey_id', $this->idSurvey)->count() >= $survey->goals) {
                 Survey::close($survey->id);
                 throw new \Exception(Lang::get('Gools limit ratcheted'));
             }

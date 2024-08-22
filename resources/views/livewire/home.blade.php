@@ -314,21 +314,41 @@
         </div>
     </div>
     <livewire:survey-index/>
-    <h4 class="card-title" style="text-align: center">{{ __('we_are_present_in') }} </h4>
-    <div class="col-12" style="padding-right: 0;padding-left: 0;">
-        <div class="card" style="height: 500px;">
-            <div class="card-body">
-                <div id="any4"></div>
+    <div class="row card">
+        <div class="card-header border-info">
+            <div class="d-flex align-items-center">
+                <h6 class="card-title mb-0 flex-grow-1">{{ __('we_are_present_in') }}</h6>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12" style="padding-right: 0;padding-left: 0;">
+                    <div class="card" style="height: 500px;">
+                        <div class="card-body">
+                            <div id="any4"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="card">
-            <div class="card-body">
-                <div id="any5"></div>
+    <div class="row card">
+        <div class="card-header border-info">
+            <div class="d-flex align-items-center">
+                <h6 class="card-title mb-0 flex-grow-1">{{ __('Country ponderation') }}</h6>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="card" style="height: 500px;">
+                    <div class="card-body">
+                        <div id="any5"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
     <div wire:ignore.self class="modal fade" id="buy-action" tabindex="-1" aria-labelledby="exampleModalgridLabel"
          aria-modal="true">
         <div class="modal-dialog" id="buy-share">
@@ -380,14 +400,16 @@
                                             <input class="form-check-input" type="radio" name="inlineRadioOptions"
                                                    checked
                                                    id="inlineRadio1" value="me">
-                                            <label class="form-check-label" for="inlineRadio1">{{ __('me') }}</label>
+                                            <label class="form-check-label"
+                                                   for="inlineRadio1">{{ __('me') }}</label>
                                         </div>
                                     </li>
                                     <li class="list-group-item list-group-item-light">
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="inlineRadioOptions"
                                                    id="inlineRadio2" value="other" disabled>
-                                            <label class="form-check-label" for="inlineRadio2">{{ __('other') }}</label>
+                                            <label class="form-check-label"
+                                                   for="inlineRadio2">{{ __('other') }}</label>
                                         </div>
                                     </li>
 
@@ -404,12 +426,14 @@
                                     <span class="form-label mb-3">{{ __('BFS bonuses  for') }} </span>
                                     <div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="bfs-for" id="bfs-for-1"
+                                            <input class="form-check-input" type="radio" name="bfs-for"
+                                                   id="bfs-for-1"
                                                    value="me">
                                             <label for="bfs-for-1" class="form-check-label">{{ __('me') }}</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="bfs-for" id="bfs-for-2"
+                                            <input class="form-check-input" type="radio" name="bfs-for"
+                                                   id="bfs-for-2"
                                                    value="other">
                                             <label for="bfs-for-2"
                                                    class="form-check-label">{{ __('The chosen user') }}</label>
@@ -430,8 +454,10 @@
                                         )</label>
                                     <div class="input-group mb-3">
 
-                                        <input aria-describedby="simulateAmmount" type="number" max="{{$cashBalance}}"
-                                               wire:keyup.debounce="simulateAmmount()" wire:model="ammount" id="ammount"
+                                        <input aria-describedby="simulateAmmount" type="number"
+                                               max="{{$cashBalance}}"
+                                               wire:keyup.debounce="simulateAmmount()" wire:model="ammount"
+                                               id="ammount"
                                                class="form-control @if($flash) flash @endif">
                                         <div class="input-group-append">
                                             <button wire:click="simulateAmmount()"
@@ -453,7 +479,8 @@
                                     </label>
                                     <div class="input-group mb-3">
                                         <input aria-describedby="simulateAction" type="number" max="{{$maxActions}}"
-                                               wire:keyup.debounce="simulateAction()" wire:model="action" id="action"
+                                               wire:keyup.debounce="simulateAction()" wire:model="action"
+                                               id="action"
                                                class="form-control @if($flash) flash @endif">
                                         <div class="input-group-append">
                                             <button wire:click="simulateAction()"
@@ -482,7 +509,8 @@
                                     <label for="profit" class="col-form-label">{{ __('Profit') }}
                                         ({{$currency}}) </label>
                                     <input type="text" inputmode="numeric" pattern="[-+]?[0-9]*[.,]?[0-9]+" disabled
-                                           class="@if($flash) form-control-flash @else form-control  @endif" id="profit"
+                                           class="@if($flash) form-control-flash @else form-control  @endif"
+                                           id="profit"
                                            value="0000"
                                            wire:model.live="profit">
                                 </div>
@@ -714,7 +742,11 @@
                                 zoomController.render(map);
                                 map.container('any4');
                                 map.draw();
-                                var mapping = dataSet.mapAs({x: "name", value: "COUNT_USERS", category: "continant"});
+                                var mapping = dataSet.mapAs({
+                                    x: "name",
+                                    value: "COUNT_USERS",
+                                    category: "continant"
+                                });
                                 var colors = anychart.scales.ordinalColor().colors(['#26959f', '#f18126', '#3b8ad8', '#60727b', '#e24b26']);
                                 var chart = anychart.tagCloud();
                                 chart.data(mapping).colorScale(colors).angles([-90, 0, 90,]);

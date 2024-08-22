@@ -36,7 +36,7 @@
                     </div>
                 </div>
         </div>
-        <div class="card-body row mx-1">
+        <div class="card-body row ml-1">
             @forelse($targets as $target)
                 @include('livewire.target-item', ['target' => $target])
             @empty

@@ -10,4 +10,5 @@
     <div class="row">
         @include('livewire.survey-item', ['survey' => $survey])
     </div>
+    @vite('resources/js/surveys.js')
 </div>
