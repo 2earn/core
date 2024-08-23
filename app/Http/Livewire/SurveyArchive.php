@@ -13,7 +13,6 @@ class SurveyArchive extends Component
     use WithPagination;
 
     public $search = '';
-    public $disableNote = '';
     public $currentRouteName;
 
     protected $paginationTheme = 'bootstrap';

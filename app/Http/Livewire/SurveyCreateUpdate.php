@@ -34,14 +34,8 @@ class SurveyCreateUpdate extends Component
     public
         $startDate,
         $endDate,
-        $enableDate,
-        $disableDate,
-        $openDate,
-        $closeDate,
-        $archivedDate,
         $goals,
         $description,
-        $disabledBtnDescription,
         $disabledResult,
         $disabledComment,
         $disabledLike;

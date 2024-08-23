@@ -14,9 +14,7 @@
         <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header border-info fw-medium text-muted mb-0">
-                    <h5 class="text-info"> {{ __('Target details') }}</h5>
-
-
+                    <h5 class="text-info"> {{ __('Target details') }}:</h5>
                     <div id="warningDetail" class="alert alert-warning d-none" role="alert">
                     </div>
                 </div>
@@ -25,20 +23,18 @@
                         <h6 class="mt-2 text-info">{{__('SQL')}}:</h6>
                         <code class="text-muted">{{$sql}}</code>
                     </div>
-
                     <div class="col-sm-12 col-md-12 col-lg-12">
                         <h6 class="mt-2 text-info">{{__('Resultats')}}:</h6>
-
                         <div class="card-body table-responsive">
                             <table id="TargetTable"
                                    class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
                                 <thead class="table-light">
                                 <tr class="head2earn  tabHeader2earn">
-                                    <th>{{__('id')}}</th>
-                                    <th>{{__('name')}}</th>
-                                    <th>{{__('email')}}</th>
-                                    <th>{{__('status')}}</th>
-                                    <th>{{__('fullphone_number')}}</th>
+                                    <th>{{__('Id')}}</th>
+                                    <th>{{__('Name')}}</th>
+                                    <th>{{__('Email')}}</th>
+                                    <th>{{__('Status')}}</th>
+                                    <th>{{__('Fullphone number')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody class="body2earn">
@@ -48,7 +44,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
     <script type="module">
@@ -78,6 +73,5 @@
                 });
             }
         });
-
     </script>
 </div>

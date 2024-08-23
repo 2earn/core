@@ -49,10 +49,7 @@ class GroupCreateUpdate extends Component
         $this->validate();
         try {
             Group::where('id', $this->idGroup)
-                ->update([
-                    'operator' => $this->operator,
-                    'target_id' => $this->idTarget,
-                ]);
+                ->update(['operator' => $this->operator, 'target_id' => $this->idTarget]);
         } catch (\Exception $exception) {
             return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('danger', Lang::get('Something goes wrong while updating Group!!') . ' : ' . $exception->getMessage());
         }
@@ -64,10 +61,7 @@ class GroupCreateUpdate extends Component
     {
         $this->validate();
         try {
-            $condition = Group::create([
-                'operator' => $this->operator,
-                'target_id' => $this->idTarget,
-            ]);
+            $condition = Group::create(['operator' => $this->operator, 'target_id' => $this->idTarget]);
         } catch (\Exception $exception) {
             return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('danger', Lang::get('Something goes wrong while creating Group!!') . ' : ' . $exception->getMessage());
         }

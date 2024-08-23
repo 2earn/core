@@ -8,12 +8,13 @@
         <div class="card-header border-info">
             <div class="d-flex align-items-center">
                 <h6 class="card-title flex-grow-1">
+                    {{__('Survey')}} : {{$question->id}} - {{$question->content}} <span
+                        class="text-muted"> > </span>
                     @if($update)
-                        {{__('Survey')}} : {{$question->id}} - {{$question->content}} <span class="text-muted"> > </span> {{__('Update Choice')}}
+                        {{__('Update Choice')}}
                     @else
-                        {{__('Survey')}} : {{$question->id}} - {{$question->content}} <span class="text-muted"> > </span> {{__('Create Choice')}}
+                        {{__('Create Choice')}}
                     @endif
-
                 </h6>
             </div>
         </div>
@@ -26,7 +27,7 @@
                             <div class="form-group mb-3">
                                 <label for="title">{{__('Choice')}}</label>
                                 <textarea class="form-control @error('title') is-invalid @enderror"
-                                          maxlength="80"               id="title"
+                                          maxlength="80" id="title"
                                           wire:model="title"
                                           placeholder="{{__('Enter title')}}"></textarea>
                                 @error('title') <span class="text-danger">{{ $message }}</span>@enderror

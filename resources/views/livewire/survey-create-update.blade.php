@@ -13,7 +13,6 @@
                     @else
                         {{__('Survey Create')}}
                     @endif
-
                 </h6>
             </div>
         </div>
@@ -269,5 +268,4 @@
             </div>
         </div>
     </div>
-
 </div>

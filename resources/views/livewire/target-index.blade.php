@@ -16,7 +16,6 @@
                         <h6 class="card-title flex-grow-1">
                             {{__('Targets')}}</h6>
                     </div>
-
                     <div class="col-sm-12 col-md-3  col-lg-6  mx-2">
                         <a href="{{route('target_create_update', app()->getLocale())}}" class="btn btn-info add-btn"
                            id="create-btn">
@@ -30,7 +29,7 @@
                             <div class="w-full">
                                 <input wire:model.live="search" type="text" id="simple-search"
                                        class="form-control"
-                                       placeholder="{{__('Search target')}}" required="">
+                                       placeholder="{{__('Search target')}}">
                             </div>
                         </form>
                     </div>

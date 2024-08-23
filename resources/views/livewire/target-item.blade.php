@@ -24,7 +24,6 @@
                     @endif
                 </ul>
             </div>
-
             <div class="col-sm-12 col-md-6 col-lg-6">
                 <h5 class="mt-2 text-info">{{__('Links')}}:</h5>
                 <h6 class="mt-2 text-info">{{__('Surveys')}}:</h6>
@@ -247,6 +246,5 @@
                 </ul>
             </div>
         @endif
-
     </div>
 </div>

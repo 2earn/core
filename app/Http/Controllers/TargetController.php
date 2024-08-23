@@ -9,8 +9,6 @@ class TargetController extends Controller
 {
     public function getTargetData($idTarget)
     {
-        $target = Target::find($idTarget);
-        $data = Targeting::getTargetQuery($target, true);
-        return datatables($data)->make(true);
+        return datatables(Targeting::getTargetQuery(Target::find($idTarget), true))->make(true);
     }
 }

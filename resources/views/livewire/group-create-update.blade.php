@@ -15,7 +15,6 @@
                         {{__('Target')}} : {{$target->id}} - {{$target->name}} <span
                             class="text-muted"> > </span> {{__('Create Condition')}}
                     @endif
-
                 </h6>
             </div>
         </div>
@@ -64,4 +63,3 @@
         </div>
     </div>
 </div>
-^=

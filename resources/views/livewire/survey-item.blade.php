@@ -52,7 +52,6 @@
 
             </div>
             <div class="col-sm-12 col-md-4 col-lg-3 mt-1">
-
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Show attchivement Chrono')}} <span
@@ -604,7 +603,6 @@
                                         @endif
                                     </li>
                                 @endif
-
                             @empty
                                 <li class="list-group-item mt-2">
                                     {{__('No Comments')}}:

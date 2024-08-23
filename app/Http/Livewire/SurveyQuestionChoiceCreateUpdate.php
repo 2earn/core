@@ -54,8 +54,7 @@ class SurveyQuestionChoiceCreateUpdate extends Component
     {
         $this->validate();
         try {
-            SurveyQuestionChoice::where('id', $this->idChoice)
-                ->update(['title' => $this->title]);
+            SurveyQuestionChoice::where('id', $this->idChoice)->update(['title' => $this->title]);
         } catch (\Exception $exception) {
             return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while updating Choice!!') . ' : ' . $exception->getMessage());
         }
@@ -66,10 +65,7 @@ class SurveyQuestionChoiceCreateUpdate extends Component
     {
         $this->validate();
         try {
-            SurveyQuestionChoice::create([
-                'title' => $this->title,
-                'question_id' => $this->idQuestion,
-            ]);
+            SurveyQuestionChoice::create(['title' => $this->title, 'question_id' => $this->idQuestion]);
         } catch (\Exception $exception) {
             return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while creating Choice!!') . ' : ' . $exception->getMessage());
         }
