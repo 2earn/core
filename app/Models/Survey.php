@@ -75,38 +75,32 @@ class Survey extends Model
 
     public static function enable($id): bool
     {
-        Survey::where('id', $id)->update(['enabled' => true, 'enableDate' => Carbon::now()]);
-        return true;
+       return Survey::where('id', $id)->update(['enabled' => true, 'enableDate' => Carbon::now()]);
     }
 
     public static function disable($id, $note): bool
     {
-        Survey::where('id', $id)->update(['enabled' => false, 'disabledBtnDescription' => $note, 'disabledate' => Carbon::now()]);
-        return true;
+        return Survey::where('id', $id)->update(['enabled' => false, 'disabledBtnDescription' => $note, 'disabledate' => Carbon::now()]);
     }
 
     public static function publish($id): bool
     {
-        Survey::where('id', $id)->update(['published' => true, 'publishDate' => Carbon::now()]);
-        return true;
+        return Survey::where('id', $id)->update(['published' => true, 'publishDate' => Carbon::now()]);
     }
 
     public static function unpublish($id): bool
     {
-        Survey::where('id', $id)->update(['published' => false, 'unpublishDate' => Carbon::now()]);
-        return true;
+        return Survey::where('id', $id)->update(['published' => false, 'unpublishDate' => Carbon::now()]);
     }
 
     public static function open($id): bool
     {
-        Survey::where('id', $id)->update(['status' => StatusSurvey::OPEN->value, 'openDate' => Carbon::now()]);
-        return true;
+        return Survey::where('id', $id)->update(['status' => StatusSurvey::OPEN->value, 'openDate' => Carbon::now()]);
     }
 
     public static function close($id): bool
     {
-        Survey::where('id', $id)->update(['status' => StatusSurvey::CLOSED->value, 'closeDate' => Carbon::now()]);
-        return true;
+        return Survey::where('id', $id)->update(['status' => StatusSurvey::CLOSED->value, 'closeDate' => Carbon::now()]);
     }
 
     public static function archive($id): bool

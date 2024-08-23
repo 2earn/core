@@ -14,46 +14,75 @@
     </div>
     @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
         <div class="card-body row">
-            <div class="col-sm-12 col-md-4 col-lg-2">
+            <div class="col-sm-12 col-md-4 col-lg-3">
+
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{__('Enabled')}}
   <span class="badge btn {{ $survey->enabled ? 'btn-success' : 'btn-danger'  }}">
-                            {{__('Enabled')}}
+                            {{__($survey->enabled ? 'True' : 'False')}}
                         </span>
-                <span class="badge btn {{ $survey->published ? 'btn-success' : 'btn-danger'  }}">
-                            {{__('Published')}}
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{__('Published')}}
+                        <span class="badge btn {{ $survey->published ? 'btn-success' : 'btn-danger'  }}">
+                            {{__($survey->published ? 'True' : 'False')}}
                         </span>
-                <span class="badge btn {{ $survey->updatable ? 'btn-success' : 'btn-danger'  }}">
-                            {{__('Updatable')}}
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{__('Updatable')}}
+                        <span class="badge btn {{ $survey->updatable ? 'btn-success' : 'btn-danger'  }}">
+                             {{__($survey->updatable ? 'True' : 'False')}}
                         </span>
+                    </li>
+                </ul>
             </div>
-            <div class="col-sm-12 col-md-6 col-lg-6">
-                {{__('Shows result')}}:
-                <span class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showResult)?->name}}</span>
-                {{__('Shows')}}:
-                <span class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->show)?->name}} </span>
+            <div class="col-sm-12 col-md-4 col-lg-3">
 
-                {{__('Show attchivement Chrono')}}:
-                <span
-                    class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementChrono)?->name}}</span>
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{__('Shows result')}} <span
+                            class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showResult)?->name}}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{__('Shows')}} <span
+                            class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->show)?->name}} </span>
+                    </li>
+                </ul>
 
-                {{__('Show achievement %')}}:
-                <span
-                    class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementGool)?->name}}</span>
-
-                {{__('Show after archiving')}}:
-                <span
-                    class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAfterArchiving)?->name}}</span>
             </div>
-            <div class="col-sm-12 col-md-6 col-lg-3 text-right">
+            <div class="col-sm-12 col-md-4 col-lg-3">
 
-                {{__('Likable')}}: <span class="badge btn btn-info"> {{\Core\Enum\TargetType::tryFrom($survey->likable)?->name}}
-                        </span>
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{__('Show attchivement Chrono')}} <span
+                            class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementChrono)?->name}}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{__('Show achievement %')}} <span
+                            class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementGool)?->name}}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{__('Show after archiving')}}: <span
+                            class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAfterArchiving)?->name}}</span>
+                    </li>
+                </ul>
 
-                {{__('Commentable')}}: <span class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->commentable)?->name}}
-            </span>
+            </div>
+            <div class="col-sm-12 col-md-4 col-lg-3 text-right">
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{__('Likable')}} <span
+                            class="badge btn btn-info"> {{\Core\Enum\TargetType::tryFrom($survey->likable)?->name}}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{__('Commentable')}} <span
+                            class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->commentable)?->name}}</span>
+                    </li>
+                </ul>
             </div>
         </div>
     @endif
-
 
 
     <div class="card-body">
@@ -547,7 +576,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">{{__('Disable Survey')}}</h5>
-                    <button type="button" class="btn btn-close close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
