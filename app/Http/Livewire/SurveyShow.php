@@ -54,14 +54,15 @@ class SurveyShow extends Component
     {
         try {
             if (empty($this->disableNote)) {
-                return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while Disabling Survey!!') . ' : ');
+                return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while Disabling Survey!!') );
             }
             Survey::disable($id, $this->disableNote);
 
         } catch (\Exception $exception) {
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while Disabling Survey!!') . ' : ' . $exception->getMessage());
         }
-        return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey Disabled Successfully!!'));
+
+        return redirect()->route('surveys_index', app()->getLocale())->with('success', $id .Lang::get('Survey Disabled Successfully!!'));
     }
 
     public function publish($id)
