@@ -8,6 +8,7 @@ use Core\Enum\TargetType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 
 class Survey extends Model
@@ -16,6 +17,7 @@ class Survey extends Model
 
     const SUPER_ADMIN_ROLE_NAME = "SUPER ADMIN";
     const DELAY_AFTER_CLOSED = 10;
+    const DELAY_AFTER_ARCHIVED = 100;
 
     protected $fillable = [
         'name',
@@ -75,7 +77,7 @@ class Survey extends Model
 
     public static function enable($id): bool
     {
-       return Survey::where('id', $id)->update(['enabled' => true, 'enableDate' => Carbon::now()]);
+        return Survey::where('id', $id)->update(['enabled' => true, 'enableDate' => Carbon::now()]);
     }
 
     public static function disable($id, $note): bool
@@ -197,11 +199,35 @@ class Survey extends Model
     {
         $survey = Survey::find($this->id);
         $today = new \DateTime();
+        $param = DB::table('settings')->where("ParameterName", "=", "DELAY_AFTER_CLOSED")->first();
+        if (!is_null($param) && !is_null($param)) {
+            $delayAfterClosed = $param->IntegerValue;
+        } else {
+            $delayAfterClosed = self::DELAY_AFTER_CLOSED;
+        }
 
-        if ($survey->status == StatusSurvey::OPEN->value || $survey->status == StatusSurvey::NEW->value) {
-            if (!is_null($survey->goals) && $survey->goals > 0 && SurveyResponse::where('survey_id', $this->id)->count() >= $survey->goals) {
-                Survey::close($survey->id);
+
+        if ($survey->status != StatusSurvey::ARCHIVED->value) {
+
+            if ($survey->status == StatusSurvey::CLOSED->value) {
+                if (!is_null($survey->closeDate)) {
+                    $closeDate = new \DateTime($survey->closeDate);
+                    if ($closeDate->modify('+' . $delayAfterClosed . ' day') > $today) {
+                        return true;
+                    } else {
+                        Survey::close($survey->id);
+                    }
+
+                    return false;
+                }
                 return false;
+            }
+
+            if (!is_null($survey->goals) && $survey->goals > 0) {
+                if (SurveyResponse::where('survey_id', $this->id)->count() >= $survey->goals) {
+                    Survey::close($survey->id);
+                    return false;
+                }
             }
 
             if (is_null($survey->startDate) && is_null($survey->endDate)) {
@@ -232,16 +258,6 @@ class Survey extends Model
                 }
             }
         }
-        if ($survey->status == StatusSurvey::CLOSED->value) {
-
-            if (!is_null($survey->closeDate)) {
-                $closeDate = new \DateTime($survey->closeDate);
-
-                if ($closeDate->modify('+' . self::DELAY_AFTER_CLOSED . ' day') > $today) {
-                    return true;
-                }
-            }
-        }
 
         return false;
 
@@ -259,7 +275,24 @@ class Survey extends Model
 
     public function canShowAfterArchiving(): bool
     {
-        return $this->CheckVisibility($this->id, 'showAfterArchiving');
+        $survey = Survey::find($this->id);
+        $today = new \DateTime();
+        $param = DB::table('settings')->where("ParameterName", "=", "DELAY_AFTER_ARCHIVED")->first();
+        if (!is_null($param) && !is_null($param)) {
+            $delayAfterArchived = $param->IntegerValue;
+        } else {
+            $delayAfterArchived = self::DELAY_AFTER_ARCHIVED;
+        }
+
+
+        if (!is_null($survey->archivedDate)) {
+            $archiveDate = new \DateTime($survey->archivedDate);
+            if ($archiveDate->modify('+' . $delayAfterArchived . ' day') > $today) {
+                return $this->CheckVisibility($this->id, 'showAfterArchiving');
+            }
+            return false;
+        }
+        return false;
     }
 
     public function canShowResult(): bool
