@@ -253,7 +253,7 @@ class Survey extends Model
 
     }
 
-    public function canShowAttchivementGool(): bool
+    public function canShowAttchivementGools(): bool
     {
         return $this->CheckVisibility($this->id, 'showAttchivementGool');
     }

@@ -71,6 +71,5 @@ $(document).on('turbolinks:load', function () {
                 new Date(document.getElementById(item.getAttribute("id")).getAttribute('data-start')).getTime(),
                 new Date(document.getElementById(item.getAttribute("id")).getAttribute('data-end')).getTime())
         }
-
     }
 });

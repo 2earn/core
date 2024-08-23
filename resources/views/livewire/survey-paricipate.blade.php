@@ -31,56 +31,54 @@
                                     :</h6>
                                 {{ $survey->question->content }}
                             </div>
-                            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
-                                <div class="col-sm-12 col-md-6 col-lg-6">
-                                    <h6 class="card-header border-muted mb-0 flex-grow-1">                                            {{__('Response')}}
-                                        :</h6>
-                                    <ul class="list-group">
-                                        @forelse ($survey->question->serveyQuestionChoice as $choice)
-                                            <li class="list-group-item mt-2">
-                                                <div class="row">
-                                                    <div class="col-sm-12 col-md-6 col-lg-6 text-muted">
-                                                        @if($survey->question->selection == \Core\Enum\Selection::UNIQUE->value)
-                                                            <div class="form-check">
-                                                                <input
-                                                                    wire:model="responces"
-                                                                    class="form-check-input"
-                                                                    type="radio"
-                                                                    value="{{$choice->id}}"
-                                                                    name="flexRadioDefault"
-                                                                    id="flexRadio_{{$survey->question->id}}_{{$choice->id}}"
-                                                                >
-                                                                <label class="form-check-label"
-                                                                       for="flexRadio_{{$survey->question->id}}_{{$choice->id}}">
-                                                                    {{$loop->index+1}} - {{$choice->title}}
-                                                                </label>
-                                                            </div>
-                                                        @else
-                                                            <div class="form-check">
-                                                                <input
-                                                                    wire:model="responces"
-                                                                    class="form-check-input"
-                                                                    type="checkbox"
-                                                                    value="{{$choice->id}}"
-                                                                    id="flexCheck_{{$survey->question->id}}_{{$choice->id}}"
-                                                                >
-                                                                <label class="form-check-label"
-                                                                       for="flexCheck_{{$survey->question->id}}_{{$choice->id}}">
-                                                                    {{$loop->index+1}} - {{$choice->title}}
-                                                                </label>
-                                                            </div>
-                                                        @endif
-                                                    </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <h6 class="card-header border-muted mb-0 flex-grow-1">                                            {{__('Response')}}
+                                    :</h6>
+                                <ul class="list-group">
+                                    @forelse ($survey->question->serveyQuestionChoice as $choice)
+                                        <li class="list-group-item mt-2">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-6 col-lg-6 text-muted">
+                                                    @if($survey->question->selection == \Core\Enum\Selection::UNIQUE->value)
+                                                        <div class="form-check">
+                                                            <input
+                                                                wire:model="responces"
+                                                                class="form-check-input"
+                                                                type="radio"
+                                                                value="{{$choice->id}}"
+                                                                name="flexRadioDefault"
+                                                                id="flexRadio_{{$survey->question->id}}_{{$choice->id}}"
+                                                            >
+                                                            <label class="form-check-label"
+                                                                   for="flexRadio_{{$survey->question->id}}_{{$choice->id}}">
+                                                                {{$loop->index+1}} - {{$choice->title}}
+                                                            </label>
+                                                        </div>
+                                                    @else
+                                                        <div class="form-check">
+                                                            <input
+                                                                wire:model="responces"
+                                                                class="form-check-input"
+                                                                type="checkbox"
+                                                                value="{{$choice->id}}"
+                                                                id="flexCheck_{{$survey->question->id}}_{{$choice->id}}"
+                                                            >
+                                                            <label class="form-check-label"
+                                                                   for="flexCheck_{{$survey->question->id}}_{{$choice->id}}">
+                                                                {{$loop->index+1}} - {{$choice->title}}
+                                                            </label>
+                                                        </div>
+                                                    @endif
                                                 </div>
-                                            </li>
-                                        @empty
-                                            <li class="list-group-item mt-2">
-                                                {{__('No Choices')}}
-                                            </li>
-                                        @endforelse
-                                    </ul>
-                                </div>
-                            @endif
+                                            </div>
+                                        </li>
+                                    @empty
+                                        <li class="list-group-item mt-2">
+                                            {{__('No Choices')}}
+                                        </li>
+                                    @endforelse
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -97,7 +95,8 @@
                 </form>
             </div>
         @endif
-
-        @vite('resources/js/surveys.js')
+        @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
+            @vite('resources/js/surveys.js')
+        @endif
     </div>
 </div>

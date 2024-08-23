@@ -54,9 +54,57 @@
         </div>
     @endif
 
+
+
     <div class="card-body">
         <div class="row">
-            <div class="col-sm-12 col-md-6 col-lg-4">
+            @if($survey->canShowAttchivementChrono())
+                <div class="col-sm-12 col-md-6 col-lg-6 mt-3" title="{{ $survey->getChronoAttchivement()}} / 100">
+                    <h6 class="mt-2 text-info">{{__('Attchivement Chrono Dates')}}:</h6>
+                    @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
+                        <div class="survey-countdown connect-page" title="{{$survey->endDate}}">
+                            <div class="survey-countdown-body">
+                                <div class="survey-cd survey-cd-{{$survey->id}}" id="survey-cd-{{$survey->id}}"
+                                     data-start="{{$survey->startDate}}"
+                                     data-end="{{$survey->endDate}}">
+                                    <div class="counter timer">
+                                        <h2 class="title">{{__('time remaining')}}</h2>
+                                        <div class="counter-boxes">
+                                            <div class="count-box">
+                                                <h3 class="value day">0</h3>
+                                                <span>{{__('Days')}}</span>
+                                            </div>
+                                            <div class="count-box">
+                                                <h3 class="value hour">0</h3>
+                                                <span>{{__('Hours')}}</span>
+                                            </div>
+                                            <div class="count-box">
+                                                <h3 class="value minute">0</h3>
+                                                <span>{{__('Minutes')}}</span>
+                                            </div>
+                                            <div class="count-box">
+                                                <h3 class="value second">0</h3>
+                                                <span>{{__('Seconds')}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <span class="text-muted">{{$survey->getChronoAttchivement()}} %</span>
+                    @endif
+                </div>
+            @endif
+            @if($survey->canShowAttchivementGools())
+                <div class="col-sm-12 col-md-6 col-lg-2 mt-3">
+                    <h6 class="mt-2 text-info">{{__('Attchivement Gools')}}:</h6>
+                    <p class="card-text text-muted">
+                        {{ $survey->getGoolsAttchivement()}} %
+                    </p>
+                </div>
+            @endif
+            <div class="col-sm-12 col-md-6 col-lg-6">
                 <h6 class="mt-2 text-info">{{__('Description')}}:</h6>
                 <p class="card-text text-muted">
                     @if($currentRouteName=="survey_show")
@@ -66,8 +114,7 @@
                     @endif
                 </p>
             </div>
-
-            <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="col-sm-12 col-md-6 col-lg-6">
                 <h6 class="mt-2 text-info">{{__('Target')}}:</h6>
                 @if($survey->targets->isEmpty())
                     <span class="text-muted">{{ __('No target') }}</span>
@@ -83,36 +130,10 @@
                     </ul>
                 @endif
             </div>
-
-            @if($survey->canShowAttchivementChrono())
-                <div class="col-sm-12 col-md-6 col-lg-2 mt-3">
-                    <h6 class="mt-2 text-info">{{__('Attchivement Chrono Dates')}}:</h6>
-                    <p class="card-text text-muted">
-                        {{ $survey->getChronoAttchivement()}} / 100
-
-                    @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
-
-                        <h6 class="text-muted" >
-                            {{$survey->endDate}}
-                        </h6>
-                        <h6 class="text-muted" id="timer-{{$survey->id}}"></h6>
-
-                        @endif
-                        </p>
-
-                </div>
-            @endif
-            @if($survey->canShowAttchivementGool())
-                <div class="col-sm-12 col-md-6 col-lg-2 mt-3">
-                    <h6 class="mt-2 text-info">{{__('Attchivement Gools')}}:</h6>
-                    <p class="card-text text-muted">
-                        {{ $survey->getGoolsAttchivement()}} / 100
-                    </p>
-                </div>
-            @endif
-
         </div>
     </div>
+
+
     @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
         @if(!is_null($survey->disabledResult) or !is_null($survey->disabledComment) or !is_null($survey->disabledLike))
             <div class="card-body row">
@@ -549,29 +570,4 @@
             </div>
         </div>
     </div>
-    @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
-
-        <script type="module">
-            $(document).on('turbolinks:load', function () {
-                var countDownDate = new Date("{{$survey->endDate}}").getTime();
-                var timeClear = setInterval(function () {
-                    var now = new Date().getTime();
-                    var timeLeft = countDownDate - now;
-                    var days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-                    var hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    var minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-                    $("#timer-{{$survey->id}}").html(days + "d " + hours + "h " + minutes + "m " + seconds + "s ");
-
-                    if (timeLeft < 0) {
-                        clearInterval(timeClear);
-                        $("#timer-{{$survey->id}}").html("Timer Finished");
-                    }
-                }, 1000);
-            });
-
-        </script>
-    @endif
-
 </div>

@@ -45,4 +45,5 @@
             {{ $targets->links() }}
         </div>
     </div>
+
 </div>
