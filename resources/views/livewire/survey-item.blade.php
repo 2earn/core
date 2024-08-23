@@ -577,14 +577,22 @@
                     <div class="col-sm-12 col-md-12 col-lg-12">
                         <ul class="list-group mb-3">
                             @forelse ($survey->comments as $comment)
+                                @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME ||$comment->validated||$comment->user_id ==auth()->user()->id  )
+                                    <li class="list-group-item mt-2">
 
-                                @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME ||$comment->validated  )
-                                    <li class="list-group-item mt-1">
                                         <strong class="text-muted">{{ getUserDisplayedName($comment->user->idUser)}}
                                             :</strong>
-                                        <br>
+
                                         <span class="mx-3">{{$comment->content }}</span>
+                                        <br>
+                                        <span class="text-muted float-end"><strong>{{__('at')}}: </strong>  {{$comment->created_at}}</span>
+                                        @if(!$comment->validated)
+                                            <span
+                                                class="badge badge-soft-warning float-end mx-2">{{ __('Waiting for admin approving')}}</span>
+                                        @endif
+
                                         @if(!$comment->validated && strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                                            <br>
                                             <button wire:click="deleteComment('{{$comment->id}}')"
                                                     class="btn btn-soft-danger mt-3 mx-2 float-end">
                                                 {{__('Delete')}}
@@ -594,7 +602,6 @@
                                                 {{__('Validate')}}
                                             </button>
                                         @endif
-                                        <span class="text-muted float-end"><strong>{{__('at')}}: </strong>  {{$comment->created_at}}</span>
                                     </li>
                                 @endif
 
