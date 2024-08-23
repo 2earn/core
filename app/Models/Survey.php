@@ -161,7 +161,7 @@ class Survey extends Model
         return round($startNowInterval_h / $surveyInterval_h * 100, 2);
     }
 
-    public function getPourcentageAttchivement(): int
+    public function getGoolsAttchivement(): int
     {
         $survey = Survey::find($this->id);
         if (!is_null($survey->goals) && $survey->goals > 0) {
@@ -205,7 +205,7 @@ class Survey extends Model
         $today = new \DateTime();
 
         if ($survey->status == StatusSurvey::OPEN->value || $survey->status == StatusSurvey::NEW->value) {
-            if (SurveyResponse::where('survey_id', $this->id)->count() >= $survey->goals) {
+            if (!is_null($survey->goals) && $survey->goals > 0 && SurveyResponse::where('survey_id', $this->id)->count() >= $survey->goals) {
                 Survey::close($survey->id);
                 return false;
             }

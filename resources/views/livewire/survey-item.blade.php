@@ -106,7 +106,7 @@
                 <div class="col-sm-12 col-md-6 col-lg-2 mt-3">
                     <h6 class="mt-2 text-info">{{__('Attchivement Gools')}}:</h6>
                     <p class="card-text text-muted">
-                        {{ $survey->getPourcentageAttchivement()}} / 100
+                        {{ $survey->getGoolsAttchivement()}} / 100
                     </p>
                 </div>
             @endif
@@ -519,7 +519,6 @@
         </div>
     @endif
 
-
     <div wire:ignore class="modal fade" id="disableSurveyModal_{{$survey->id}}" tabindex="-1"
          aria-labelledby="disableSurveyModal_{{$survey->id}}Label"
          aria-hidden="true">
@@ -527,7 +526,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">{{__('Disable Survey')}}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="btn btn-close close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
