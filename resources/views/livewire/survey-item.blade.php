@@ -14,12 +14,12 @@
     </div>
     @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
         <div class="card-body row">
-            <div class="col-sm-12 col-md-4 col-lg-3">
+            <div class="col-sm-12 col-md-4 col-lg-3  mt-1">
 
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Enabled')}}
-  <span class="badge btn {{ $survey->enabled ? 'btn-success' : 'btn-danger'  }}">
+                        <span class="badge btn {{ $survey->enabled ? 'btn-success' : 'btn-danger'  }}">
                             {{__($survey->enabled ? 'True' : 'False')}}
                         </span>
                     </li>
@@ -37,7 +37,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-sm-12 col-md-4 col-lg-3">
+            <div class="col-sm-12 col-md-4 col-lg-3 mt-1">
 
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -51,7 +51,7 @@
                 </ul>
 
             </div>
-            <div class="col-sm-12 col-md-4 col-lg-3">
+            <div class="col-sm-12 col-md-4 col-lg-3 mt-1">
 
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -69,7 +69,7 @@
                 </ul>
 
             </div>
-            <div class="col-sm-12 col-md-4 col-lg-3 text-right">
+            <div class="col-sm-12 col-md-4 col-lg-3 text-right mt-1">
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Likable')}} <span
@@ -84,11 +84,10 @@
         </div>
     @endif
 
-
-    <div class="card-body">
+    <div class="card-body border-top border-muted">
         <div class="row">
             @if($survey->canShowAttchivementChrono())
-                <div class="col-sm-12 col-md-6 col-lg-6 mt-3" title="{{ $survey->getChronoAttchivement()}} / 100">
+                <div class="col-sm-12 col-md-6 col-lg-6 mt-1 " title="{{ $survey->getChronoAttchivement()}} / 100">
                     <h6 class="mt-2 text-info">{{__('Attchivement Chrono Dates')}}:</h6>
                     @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
                         <div class="survey-countdown connect-page" title="{{$survey->endDate}}">
@@ -126,13 +125,20 @@
                 </div>
             @endif
             @if($survey->canShowAttchivementGools())
-                <div class="col-sm-12 col-md-6 col-lg-2 mt-3">
+                <div class="col-sm-12 col-md-3 col-lg-2 mt-1">
                     <h6 class="mt-2 text-info">{{__('Attchivement Gools')}}:</h6>
                     <p class="card-text text-muted">
                         {{ $survey->getGoolsAttchivement()}} %
                     </p>
                 </div>
             @endif
+            @if($survey->goals != null && !empty($survey->goals))
+                <div class="col-sm-12 col-md-3 col-lg-2 mt-3">
+                    <h6 class="mt-2 text-info">{{__('Goals')}} :</h6>
+                    {{$survey->goals?? __('Not set')}}
+                </div>
+            @endif
+
             <div class="col-sm-12 col-md-6 col-lg-6">
                 <h6 class="mt-2 text-info">{{__('Description')}}:</h6>
                 <p class="card-text text-muted">
@@ -162,12 +168,12 @@
         </div>
     </div>
 
-
     @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
         @if(!is_null($survey->disabledResult) or !is_null($survey->disabledComment) or !is_null($survey->disabledLike))
             <div class="card-body row">
+                <hr class="text-muted">
                 @if($survey->disabledBtnDescription != null && !$survey->enabled)
-                    <div class="col-sm-12 col-md-6 col-lg-3 mt-3">
+                    <div class="col-sm-12 col-md-6 col-lg-3 mt-1">
                         <h6 class="mt-2 text-info">{{__('Disabled button description')}}:</h6>
                         <p class="card-text text-muted">
                             @if($currentRouteName=="survey_show")
@@ -179,7 +185,7 @@
                     </div>
                 @endif
                 @if($survey->disabledResult != null)
-                    <div class="col-sm-12 col-md-6 col-lg-3 mt-3">
+                    <div class="col-sm-12 col-md-6 col-lg-3 mt-1">
                         <h6 class="mt-2 text-info">{{__('Disabled result description')}}:</h6>
                         <p class="card-text text-muted">
                             @if($currentRouteName=="survey_show")
@@ -221,64 +227,100 @@
     @if($currentRouteName=="survey_show")
         @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
             <div class="card-body">
+                <hr class="text-muted">
                 <h6 class="mt-2 text-info">{{__('Details')}}:</h6>
-                <p class="text-muted mx-2">
-                    @if($survey->enabled)
-                        @if($survey->enableDate != null && !empty($survey->enableDate))
-                            <strong class="text-muted">{{__('Enable date')}} :</strong>
-                            {{\Carbon\Carbon::parse($survey->enableDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-                        @endif
-                    @else
-                        @if($survey->disableDate != null && !empty($survey->disableDate))
-                            <strong class="text-muted">{{__('Disable date')}} :</strong>
-                            {{\Carbon\Carbon::parse($survey->disableDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-                        @endif
-                        <br>
-                    @endif
-                    @if($survey->published)
-                        @if($survey->publishDate != null && !empty($survey->publishDate))
-                            <strong class="text-muted">{{__('Publish date')}} : </strong>
-                            {{\Carbon\Carbon::parse($survey->publishDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-                        @endif
-                    @else
-                        @if($survey->unpublishDate != null && !empty($survey->unpublishDate))
-                            <strong class="text-muted">{{__('Un publish date')}} :</strong>
-                            {{\Carbon\Carbon::parse($survey->unpublishDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-                        @endif
-                    @endif
-                    @if($survey->openDate != null && !empty($survey->openDate))
-                        <strong class="text-muted">{{__('Open date')}} :</strong>
-                        {{\Carbon\Carbon::parse($survey->openDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-                    @endif
-                    @if($survey->closeDate != null && !empty($survey->closeDate))
-                        <strong class="text-muted">{{__('Close date')}} :</strong>
-                        {{\Carbon\Carbon::parse($survey->closeDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-                    @endif
-                    @if($survey->startDate != null && !empty($survey->startDate))
-                        <strong class="text-muted">{{__('Start date')}} :</strong>
-                        {{\Carbon\Carbon::parse($survey->startDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-                    @endif
-                    @if($survey->endDate != null && !empty($survey->endDate))
-                        <strong class="text-muted">{{__('End date')}} :</strong>
-                        {{\Carbon\Carbon::parse($survey->endDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-                    @endif
-                    @if($survey->archivedDate != null && !empty($survey->archivedDate))
-                        <strong class="text-muted">{{__('Archived date')}} :</strong>
-                        {{\Carbon\Carbon::parse($survey->archivedDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-                    @endif
-                    @if($survey->created_at != null && !empty($survey->created_at))
-                        <strong class="text-muted">{{__('Creation date')}} :</strong>
-                        {{\Carbon\Carbon::parse($survey->created_at)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-                    @endif
-                    @if($survey->updated_at != null && !empty($survey->updated_at))
-                        <strong class="text-muted">{{__('Update date')}} :</strong>
-                        {{\Carbon\Carbon::parse($survey->updated_at)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
-                    @endif
-                    @if($survey->goals != null && !empty($survey->goals))
-                        <strong class="text-muted">{{__('Goals')}} :</strong>
-                        {{$survey->goals?? __('Not set')}}
-                    @endif
-                </p>
+                <div class="row">
+                    <div class="col-sm-12 col-md-4 col-lg-3 text-right  mt-1">
+                        <ul class="list-group">
+                            @if($survey->enableDate != null && !empty($survey->enableDate))
+                                @if($survey->enabled)
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <strong class="text-muted">{{__('Enable date')}} :</strong>
+                                        {{\Carbon\Carbon::parse($survey->enableDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                    </li>
+                                @endif
+                            @else
+                                @if($survey->disableDate != null && !empty($survey->disableDate))
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <strong class="text-muted">{{__('Disable date')}} :</strong>
+                                        {{\Carbon\Carbon::parse($survey->disableDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                    </li>
+                                @endif
+                            @endif
+
+                            @if($survey->published)
+                                @if($survey->publishDate != null && !empty($survey->publishDate))
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <strong class="text-muted">{{__('Publish date')}} : </strong>
+                                        {{\Carbon\Carbon::parse($survey->publishDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                    </li>
+                                @endif
+                            @else
+                                @if($survey->unpublishDate != null && !empty($survey->unpublishDate))
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <strong class="text-muted">{{__('Un publish date')}} :</strong>
+                                        {{\Carbon\Carbon::parse($survey->unpublishDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                    </li>
+                                @endif
+                            @endif
+                        </ul>
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-lg-3 text-right  mt-1">
+                        <ul class="list-group">
+                            @if($survey->openDate != null && !empty($survey->openDate))
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <strong class="text-muted">{{__('Open date')}} :</strong>
+                                    {{\Carbon\Carbon::parse($survey->openDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                </li>
+                            @endif
+
+                            @if($survey->closeDate != null && !empty($survey->closeDate))
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <strong class="text-muted">{{__('Close date')}} :</strong>
+                                    {{\Carbon\Carbon::parse($survey->closeDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                </li>
+                            @endif
+                        </ul>
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-lg-3 text-right   mt-1">
+                        <ul class="list-group">
+                            @if($survey->startDate != null && !empty($survey->startDate))
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <strong class="text-muted">{{__('Start date')}} :</strong>
+                                    {{\Carbon\Carbon::parse($survey->startDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                </li>
+                            @endif
+                            @if($survey->endDate != null && !empty($survey->endDate))
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <strong class="text-muted">{{__('End date')}} :</strong>
+                                    {{\Carbon\Carbon::parse($survey->endDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                </li>
+                            @endif
+                        </ul>
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-lg-3 text-right  mt-1">
+                        <ul class="list-group">
+                            @if($survey->archivedDate != null && !empty($survey->archivedDate))
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <strong class="text-muted">{{__('Archived date')}} :</strong>
+                                    {{\Carbon\Carbon::parse($survey->archivedDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                </li>
+                            @endif
+                            @if($survey->created_at != null && !empty($survey->created_at))
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <strong class="text-muted">{{__('Creation date')}} :</strong>
+                                    {{\Carbon\Carbon::parse($survey->created_at)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                </li>
+                            @endif
+                            @if($survey->updated_at != null && !empty($survey->updated_at))
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <strong class="text-muted">{{__('Update date')}} :</strong>
+                                    {{\Carbon\Carbon::parse($survey->updated_at)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                </li>
+                            @endif
+                        </ul>
+                    </div>
+                </div>
             </div>
         @endif
     @endif
@@ -292,22 +334,30 @@
             @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
                 @if(intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
                     <a href="{{route('survey_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
-                       class="btn btn-soft-info material-shadow-none">{{__('Edit')}}</a>
+                       class="btn btn-soft-info material-shadow-none">
+                        {{__('Edit')}}
+                    </a>
                 @endif
 
                 @if($survey->status==\Core\Enum\StatusSurvey::NEW->value)
                     <a wire:click="open('{{$survey->id}}')"
-                       class="btn btn-soft-secondary material-shadow-none">{{__('Open')}}</a>
+                       class="btn btn-soft-secondary material-shadow-none">
+                        {{__('Open')}}
+                    </a>
                 @endif
 
                 @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
                     <a wire:click="close('{{$survey->id}}')"
-                       class="btn btn-soft-secondary material-shadow-none">{{__('Close')}}</a>
+                       class="btn btn-soft-secondary material-shadow-none">
+                        {{__('Close')}}
+                    </a>
                 @endif
 
                 @if($survey->status==\Core\Enum\StatusSurvey::CLOSED->value)
                     <a wire:click="archive('{{$survey->id}}')"
-                       class="btn btn-soft-secondary material-shadow-none">{{__('Archive')}}</a>
+                       class="btn btn-soft-secondary material-shadow-none">
+                        {{__('Archive')}}
+                    </a>
                 @endif
                 @if($survey->status<\Core\Enum\StatusSurvey::CLOSED->value)
                     @if(!$survey->enabled)
@@ -322,10 +372,14 @@
                     @endif
                     @if(!$survey->published)
                         <a wire:click="publish('{{$survey->id}}')"
-                           class="btn btn-soft-success material-shadow-none">{{__('Publish')}}</a>
+                           class="btn btn-soft-success material-shadow-none">
+                            {{__('Publish')}}
+                        </a>
                     @else
                         <a wire:click="unpublish('{{$survey->id}}')"
-                           class="btn btn-soft-danger material-shadow-none">{{__('Un Publish')}}</a>
+                           class="btn btn-soft-danger material-shadow-none">
+                            {{__('Un Publish')}}
+                        </a>
                     @endif
                 @endif
             @endif
@@ -445,7 +499,7 @@
                     <li class="list-group-item">{{__('No questions')}}.
                         <br>
                         <a href="{{route('survey_question_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
-                           title="{{__('Add Question')}}" class="btn btn-info material-shadow-none mt-2">
+                           title="{{__('Add Question')}}" class="btn btn-soft-info material-shadow-none mt-2">
                             {{__('Add Question')}}
                         </a>
                     </li>
@@ -479,7 +533,7 @@
                     </div>
                 @else
                     <div class="col-sm-12 col-md-12 col-lg-12">
-                        <button wire:click="like()" class="btn btn-info"
+                        <button wire:click="like()" class="btn btn-soft-info"
                                 @if(!$survey->isLikable()) disabled @endif>
                             <i class="ri-thumb-up-line align-bottom me-1"></i>
                             {{__('Like')}}
@@ -532,11 +586,11 @@
                                         <span class="mx-3">{{$comment->content }}</span>
                                         @if(!$comment->validated && strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
                                             <button wire:click="deleteComment('{{$comment->id}}')"
-                                                    class="btn btn-danger mt-3 mx-2 float-end">
+                                                    class="btn btn-soft-danger mt-3 mx-2 float-end">
                                                 {{__('Delete')}}
                                             </button>
                                             <button wire:click="validateComment('{{$comment->id}}')"
-                                                    class="btn btn-success mt-3 mx-2 float-end">
+                                                    class="btn btn-soft-success mt-3 mx-2 float-end">
                                                 {{__('Validate')}}
                                             </button>
                                         @endif
@@ -560,7 +614,7 @@
                               @if(!$survey->isCommentable()) disabled @endif></textarea>
                 </div>
                 <div class="col-sm-12 col-md-3 col-lg-3 ">
-                    <button wire:click="addComment()" class="btn btn-info mt-2"
+                    <button wire:click="addComment()" class="btn btn-soft-info mt-2"
                             @if(!$survey->isCommentable()) disabled @endif>
                         {{__('Add comment')}}
                     </button>
