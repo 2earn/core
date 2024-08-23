@@ -35,6 +35,7 @@
                                     <th>{{__('Email')}}</th>
                                     <th>{{__('Status')}}</th>
                                     <th>{{__('Fullphone number')}}</th>
+                                    <th>{{__('Detail')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody class="body2earn">
@@ -66,7 +67,8 @@
                         {data: 'name'},
                         {data: 'email'},
                         {data: 'status'},
-                        {data: 'fullphone_number'}
+                        {data: 'fullphone_number'},
+                        {data: 'detail'}
                     ],
                     "ajax": "{{route('api_target_data',['locale'=>app()->getLocale(),'idTarget'=> $target->id])}}",
                     "language": {"url": urlLang},
