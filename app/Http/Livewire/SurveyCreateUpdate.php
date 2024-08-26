@@ -142,8 +142,8 @@ class SurveyCreateUpdate extends Component
         $this->showAttchivementChrono = $survey->showAttchivementChrono;
         $this->showAfterArchiving = $survey->showAfterArchiving;
         $this->showAttchivementGool = $survey->showAttchivementGool;
-        $this->startDate = date_format(new \DateTime($survey->startDate), self::DATE_FORMAT);
-        $this->endDate = date_format(new \DateTime($survey->endDate), self::DATE_FORMAT);
+        $this->startDate = !is_null($survey->startDate) ? date_format(new \DateTime($survey->startDate), self::DATE_FORMAT) : null;
+        $this->endDate = !is_null($survey->endDate) ? date_format(new \DateTime($survey->endDate), self::DATE_FORMAT) : null;
         $this->goals = $survey->goals;
         $this->disabledResult = $survey->disabledResult;
         $this->disabledComment = $survey->disabledComment;
@@ -164,27 +164,35 @@ class SurveyCreateUpdate extends Component
         $this->validate();
         try {
             $this->validateDisabled();
+
+            $paramsToUpdate = [
+                'name' => $this->name,
+                'description' => $this->description,
+                'enabled' => $this->enabled,
+                'published' => $this->published,
+                'updatable' => $this->updatable,
+                'show' => $this->show,
+                'showResult' => $this->showResult,
+                'commentable' => $this->commentable,
+                'likable' => $this->likable,
+                'showAttchivementChrono' => $this->showAttchivementChrono,
+                'showAfterArchiving' => $this->showAfterArchiving,
+                'showAttchivementGool' => $this->showAttchivementGool,
+                'startDate' => $this->startDate,
+                'endDate' => $this->endDate,
+                'disabledResult' => $this->disabledResult,
+                'disabledComment' => $this->disabledComment,
+                'disabledLike' => $this->disabledLike,
+                'goals' => $this->goals,
+            ];
+            if (!is_null($this->startDate)) {
+                $paramsToUpdate['startDate'] = $this->startDate;
+            }
+            if (!is_null($this->endDate)) {
+                $paramsToUpdate['endDate'] = $this->endDate;
+            }
             Survey::where('id', $this->idSurvey)
-                ->update([
-                    'name' => $this->name,
-                    'description' => $this->description,
-                    'enabled' => $this->enabled,
-                    'published' => $this->published,
-                    'updatable' => $this->updatable,
-                    'show' => $this->show,
-                    'showResult' => $this->showResult,
-                    'commentable' => $this->commentable,
-                    'likable' => $this->likable,
-                    'showAttchivementChrono' => $this->showAttchivementChrono,
-                    'showAfterArchiving' => $this->showAfterArchiving,
-                    'showAttchivementGool' => $this->showAttchivementGool,
-                    'startDate' => $this->startDate,
-                    'endDate' => $this->endDate,
-                    'disabledResult' => $this->disabledResult,
-                    'disabledComment' => $this->disabledComment,
-                    'disabledLike' => $this->disabledLike,
-                    'goals' => $this->goals,
-                ]);
+                ->update($paramsToUpdate);
             if (!is_null($this->target)) {
                 $survey = Survey::find($this->idSurvey);
                 $survey->targets()->detach();

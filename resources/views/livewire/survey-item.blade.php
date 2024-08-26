@@ -361,31 +361,31 @@
                 @if($survey->status<\Core\Enum\StatusSurvey::CLOSED->value)
                     @if(!$survey->enabled)
                         <a wire:click="enable('{{$survey->id}}')"
-                           class="btn btn-soft-success material-shadow-none">{{__('Enable')}}</a>
+                           class="btn btn-soft-success material-shadow-none mt-1">{{__('Enable')}}</a>
                     @else
                         <button type="button" id="disableSurveyModalbtn_{{$survey->id}}"
-                                class="btn btn-soft-danger material-shadow-none" data-bs-toggle="modal"
+                                class="btn btn-soft-danger material-shadow-none mt-1" data-bs-toggle="modal"
                                 data-bs-target="#disableSurveyModal_{{$survey->id}}">
                             {{__('Disable')}}
                         </button>
                     @endif
                     @if(!$survey->published)
                         <a wire:click="publish('{{$survey->id}}')"
-                           class="btn btn-soft-success material-shadow-none">
+                           class="btn btn-soft-success material-shadow-none mt-1">
                             {{__('Publish')}}
                         </a>
                     @else
                         <a wire:click="unpublish('{{$survey->id}}')"
-                           class="btn btn-soft-danger material-shadow-none">
+                           class="btn btn-soft-danger material-shadow-none mt-1">
                             {{__('Un Publish')}}
                         </a>
                     @endif
                     @if(!$survey->updatable)
                         <a wire:click="changeUpdatable('{{$survey->id}}')"
-                           class="btn btn-soft-success material-shadow-none">{{__('Make it updatable')}}</a>
+                           class="btn btn-soft-success material-shadow-none mt-1">{{__('Make it updatable')}}</a>
                     @else
                         <a wire:click="changeUpdatable('{{$survey->id}}')"
-                           class="btn btn-soft-danger material-shadow-none">{{__('Make it not updatable')}}</a>
+                           class="btn btn-soft-danger material-shadow-none mt-1">{{__('Make it not updatable')}}</a>
                     @endif
                 @endif
             @endif
@@ -393,12 +393,12 @@
                 @if(\App\Models\SurveyResponse::isPaticipated(auth()->user()->id, $survey->id))
                     @if($survey->updatable)
                         <a href="{{route('survey_participate', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
-                           class="btn btn-soft-info material-shadow-none">{{__('Update Participation')}}</a>
+                           class="btn btn-soft-info material-shadow-none mt-1">{{__('Update Participation')}}</a>
                     @endif
                 @endif
                 @if(! \App\Models\SurveyResponse::isPaticipated(auth()->user()->id, $survey->id))
                     <a href="{{route('survey_participate', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
-                       class="btn btn-soft-info material-shadow-none">{{__('Paticipate')}}</a>
+                       class="btn btn-soft-info material-shadow-none mt-1">{{__('Paticipate')}}</a>
                 @endif
 
             @endif
@@ -408,7 +408,7 @@
                     <a href="{{route('survey_results', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
                        class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</a>
                 @else
-                    <btn disabled class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</btn>
+                    <btn disabled class="btn btn-soft-info material-shadow-none mt-1">{{__('Show results')}}</btn>
                 @endif
             @endif
 
