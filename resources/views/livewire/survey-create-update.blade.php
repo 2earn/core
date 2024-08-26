@@ -53,7 +53,7 @@
                                     @foreach ($targets as $targetItem)
                                         <option value="{{$targetItem->id}}"
                                                 @if($targetItem->id==$target) selected @endif >
-                                            {{$targetItem->name}}
+                                            {{$targetItem->id }})  {{$targetItem->name}}
                                         </option>
                                     @endforeach
                                 </select>

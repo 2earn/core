@@ -118,6 +118,9 @@ class SurveyCreateUpdate extends Component
             if (!is_null($this->idTarget)) {
                 $survey->targets()->attach([$this->idTarget]);
             }
+            if (!is_null($this->target)) {
+                $survey->targets()->attach([$this->target]);
+            }
         } catch (\Exception $exception) {
             return redirect()->route('survey_create_update', app()->getLocale())->with('danger', Lang::get('Something goes wrong while creating Survey!!') . ' : ' . $exception->getMessage());
         }

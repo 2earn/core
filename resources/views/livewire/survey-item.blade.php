@@ -132,7 +132,7 @@
                 </div>
             @endif
             @if($survey->goals != null && !empty($survey->goals))
-                <div class="col-sm-12 col-md-3 col-lg-2 mt-3">
+                <div class="col-sm-12 col-md-3 col-lg-2 mt-1">
                     <h6 class="mt-2 text-info">{{__('Goals')}} :</h6>
                     {{$survey->goals?? __('Not set')}}
                 </div>
