@@ -212,9 +212,7 @@ class Survey extends Model
             $delayAfterClosed = self::DELAY_AFTER_CLOSED;
         }
 
-
         if ($survey->status != StatusSurvey::ARCHIVED->value) {
-
             if ($survey->status == StatusSurvey::CLOSED->value) {
                 if (!is_null($survey->closeDate)) {
                     $closeDate = new \DateTime($survey->closeDate);
@@ -240,14 +238,12 @@ class Survey extends Model
                 return $this->CheckVisibility($this->id, 'show');
             }
 
-
             if (!is_null($survey->startDate)) {
                 $startDate = new \DateTime($survey->startDate);
                 if ($startDate > $today) {
                     return false;
                 }
             }
-
             if (!is_null($survey->endDate)) {
                 $endDate = new \DateTime($survey->endDate);
                 if ($endDate < $today) {
@@ -263,6 +259,7 @@ class Survey extends Model
                     return $this->CheckVisibility($this->id, 'show');
                 }
             }
+            return true;
         }
 
         return false;

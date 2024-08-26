@@ -144,7 +144,6 @@ class SurveyIndex extends Component
 
         }
 
-
         foreach ($surveysQuery->get() as $survey) {
             if ($survey->canShow()) {
                 $surveys[] = $survey;

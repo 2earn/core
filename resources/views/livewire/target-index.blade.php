@@ -12,10 +12,6 @@
     <div class="row card">
         <div class="card-header border-info">
                 <div class="row">
-                    <div class="mt-1 col-sm-12 col-md-12 col-lg-12 mx-2">
-                        <h6 class="card-title flex-grow-1">
-                            {{__('Targets')}}</h6>
-                    </div>
                     <div class="col-sm-12 col-md-3  col-lg-6  mx-2">
                         <a href="{{route('target_create_update', app()->getLocale())}}" class="btn btn-info add-btn"
                            id="create-btn">
