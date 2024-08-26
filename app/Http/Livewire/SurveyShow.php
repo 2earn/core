@@ -54,7 +54,7 @@ class SurveyShow extends Component
     {
         try {
             if (empty($this->disableNote)) {
-                return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while Disabling Survey!!') );
+                return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while Disabling Survey!!'));
             }
             Survey::disable($id, $this->disableNote);
 
@@ -62,7 +62,7 @@ class SurveyShow extends Component
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while Disabling Survey!!') . ' : ' . $exception->getMessage());
         }
 
-        return redirect()->route('surveys_index', app()->getLocale())->with('success', $id .Lang::get('Survey Disabled Successfully!!'));
+        return redirect()->route('surveys_index', app()->getLocale())->with('success', $id . Lang::get('Survey Disabled Successfully!!'));
     }
 
     public function publish($id)
@@ -122,8 +122,8 @@ class SurveyShow extends Component
     public function changeUpdatable($id)
     {
         try {
-            $survey =Survey::find($id);
-            Survey::changeUpdatable($id,!$survey->updatable);
+            $survey = Survey::find($id);
+            Survey::changeUpdatable($id, !$survey->updatable);
         } catch (\Exception $exception) {
             return redirect()->route('survey_show', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while updating Survey updatable property!!') . ' : ' . $exception->getMessage());
         }
@@ -142,6 +142,7 @@ class SurveyShow extends Component
     {
         $survey = Survey::find($this->idSurvey);
         $survey->comments()->create(['user_id' => auth()->user()->id, 'content' => $this->comment]);
+        $this->comment = "";
     }
 
     public function validateComment($idComment)

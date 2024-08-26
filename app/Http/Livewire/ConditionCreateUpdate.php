@@ -46,7 +46,7 @@ class ConditionCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->to(url()->previous())->with('warning', Lang::get('Condition Operation cancelled!!'));
+        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('warning', Lang::get('Condition operation cancelled!!'));
     }
 
     public function update()

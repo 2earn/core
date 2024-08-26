@@ -35,7 +35,7 @@ class TargetCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('target_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Target Operation cancelled!!'));
+        return redirect()->route('target_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Target operation cancelled!!'));
     }
 
     public function edit($idTarget)

@@ -271,11 +271,20 @@ class Survey extends Model
 
     public function canShowAttchivementGools(): bool
     {
+        $survey = Survey::find($this->id);
+        if (is_null($survey->goals)) {
+            return false;
+        }
         return $this->CheckVisibility($this->id, 'showAttchivementGool');
     }
 
     public function canShowAttchivementChrono(): bool
     {
+        $survey = Survey::find($this->id);
+        if (is_null($survey->endDate) || is_null($survey->startDate)) {
+            return false;
+        }
+
         return $this->CheckVisibility($this->id, 'showAttchivementChrono');
     }
 

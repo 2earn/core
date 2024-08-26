@@ -111,11 +111,11 @@ class SurveyIndex extends Component
 
     }
 
-    public function changeUpdateble($id)
+    public function changeUpdatable($id)
     {
         try {
             $survey = Survey::find($id);
-            Survey::changeUpdateble($id, !$survey->updatable);
+            Survey::changeUpdatable($id, !$survey->updatable);
         } catch (\Exception $exception) {
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while updating Survey updatable property!!') . ' : ' . $exception->getMessage());
         }

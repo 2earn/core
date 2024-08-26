@@ -38,7 +38,7 @@ class SurveyQuestionChoiceCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('warning', Lang::get('Choice Operation cancelled!!'));
+        return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('warning', Lang::get('Choice operation cancelled!!'));
     }
 
     public function edit($idChoice)
