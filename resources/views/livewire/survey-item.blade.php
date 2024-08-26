@@ -380,13 +380,13 @@
                             {{__('Un Publish')}}
                         </a>
                     @endif
-                        @if(!$survey->updatable)
-                            <a wire:click="changeUpdatable('{{$survey->id}}')"
-                               class="btn btn-soft-success material-shadow-none">{{__('Make it updatable')}}</a>
-                        @else
-                            <a wire:click="changeUpdatable('{{$survey->id}}')"
-                               class="btn btn-soft-danger material-shadow-none">{{__('Make it not updatable')}}</a>
-                        @endif
+                    @if(!$survey->updatable)
+                        <a wire:click="changeUpdatable('{{$survey->id}}')"
+                           class="btn btn-soft-success material-shadow-none">{{__('Make it updatable')}}</a>
+                    @else
+                        <a wire:click="changeUpdatable('{{$survey->id}}')"
+                           class="btn btn-soft-danger material-shadow-none">{{__('Make it not updatable')}}</a>
+                    @endif
                 @endif
             @endif
             @if(intval($survey->status)==\Core\Enum\StatusSurvey::OPEN->value && $survey->enabled)
@@ -448,8 +448,9 @@
                                 <h5 class="text-muted mx-3">{{__('Question statement')}}:</h5>
                                 {{ $survey->question->content }}
                             </div>
-                            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
-                                <div class="col-sm-12 col-md-6 col-lg-5">
+                            <div class="col-sm-12 col-md-6 col-lg-5">
+
+                                @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME && intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
                                     <div class="btn-group  btn-group-sm" role="group" aria-label="Basic example">
                                         <a href="{{route('survey_question_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id,'IdQuestion'=>$survey->question->id] )}}"
                                            class="btn btn-soft-info material-shadow-none">
@@ -460,14 +461,16 @@
                                             {{__('Add Choice')}}
                                         </a>
                                     </div>
-                                    <ul class="mt-3">
-                                        @forelse ($survey->question->serveyQuestionChoice as $choice)
-                                            <li class="list-group-item mt-2">
-                                                <div class="row">
-                                                    <div class="col-sm-12 col-md-6 col-lg-7 text-muted"
-                                                         title="{{$choice->id}}">
-                                                        {{$loop->index+1}} - {{$choice->title}}
-                                                    </div>
+                                @endif
+                                <ul class="mt-3">
+                                    @forelse ($survey->question->serveyQuestionChoice as $choice)
+                                        <li class="list-group-item mt-2">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-6 col-lg-7 text-muted"
+                                                     title="{{$choice->id}}">
+                                                    {{$loop->index+1}} - {{$choice->title}}
+                                                </div>
+                                                @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME && intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
                                                     <div class="col-sm-12 col-md-6 col-lg-5">
                                                         <div class="btn-group  btn-group-sm" role="group"
                                                              aria-label="Basic example">
@@ -483,21 +486,21 @@
                                                             </a>
                                                         </div>
                                                     </div>
-                                            </li>
-                                        @empty
-                                            <li class="list-group-item mt-2">
-                                                {{__('No Choices')}}
-                                            </li>
-                                        @endforelse
-                                    </ul>
-                                    @if(!$survey->question)
-                                        <a wire:click="removeQuestion('{{$question->id}}')"
-                                           class="btn btn-soft-danger material-shadow-none">
-                                            {{__('Remove')}}
-                                        </a>
-                                    @endif
-                                </div>
-                            @endif
+                                            @endif
+                                        </li>
+                                    @empty
+                                        <li class="list-group-item mt-2">
+                                            {{__('No Choices')}}
+                                        </li>
+                                    @endforelse
+                                </ul>
+                                @if(!$survey->question)
+                                    <a wire:click="removeQuestion('{{$question->id}}')"
+                                       class="btn btn-soft-danger material-shadow-none">
+                                        {{__('Remove')}}
+                                    </a>
+                                @endif
+                            </div>
                         </div>
                     </li>
                 @else
