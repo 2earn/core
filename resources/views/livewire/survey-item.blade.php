@@ -380,6 +380,13 @@
                             {{__('Un Publish')}}
                         </a>
                     @endif
+                        @if(!$survey->updatable)
+                            <a wire:click="changeUpdateble('{{$survey->id}}')"
+                               class="btn btn-soft-success material-shadow-none">{{__('Make it updatable')}}</a>
+                        @else
+                            <a wire:click="changeUpdateble('{{$survey->id}}')"
+                               class="btn btn-soft-danger material-shadow-none">{{__('Make it not updatable')}}</a>
+                        @endif
                 @endif
             @endif
             @if(intval($survey->status)==\Core\Enum\StatusSurvey::OPEN->value && $survey->enabled)
