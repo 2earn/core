@@ -111,7 +111,7 @@ class Survey extends Model
         return true;
     }
 
-    public static function changeUpdateble($id, $updatable): bool
+    public static function changeUpdatable($id, $updatable): bool
     {
         return Survey::where('id', $id)->update(['updatable' => $updatable]);
     }
