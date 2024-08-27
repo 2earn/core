@@ -11,7 +11,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editTranslationModalLabel">{{__('Edit field')}} : </h5>
-                    <button type="button" id="editTranslationModalClose" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" id="editTranslationModalClose" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p class="text-primary">
@@ -138,39 +139,42 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                             </div>
                         </div>
                         <div class="card-body">
-                            <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
-                            <thead>
-                                <tr>
-                                    <th scope="Id">{{__('Id')}}</th>
-                                    <th scope="key">{{__('key')}}</th>
-                                    <th scope="English">{{__('English')}}</th>
-                                    <th scope="Arabe">{{__('Arabe')}}</th>
-                                    <th scope="Francais">{{__('Francais')}}</th>
-                                    <th scope="Actions">{{__('Actions')}}</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach ($translates as $value)
+                            <div class="table-responsive">
+                                <table
+                                    class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
+                                    <thead>
                                     <tr>
-                                        <td><span> {{$value->id}}</span></td>
-                                        <td><span>{{$value->name}}</span></td>
-                                        <td><span>{{$value->valueEn}}</span></td>
-                                        <td><span> {{$value->value}}</span></td>
-                                        <td><span>{{$value->valueFr}}</span></td>
-                                        <td>
-                                            <a type="btn" wire:click="initTranslate({{$value->id}})"
-                                               data-bs-toggle="modal" data-bs-target="#editTranslationModal"
-                                               class="btn btn-info">{{__('Edit')}}
-                                            </a>
-                                            <a type="btn" onclick="confirmDelete({{$value->id}})"
-                                               class="btn btn-danger mt-1">{{__('Delete')}}
-                                            </a>
-                                        </td>
+                                        <th scope="Id">{{__('Id')}}</th>
+                                        <th scope="key">{{__('key')}}</th>
+                                        <th scope="English">{{__('English')}}</th>
+                                        <th scope="Arabe">{{__('Arabe')}}</th>
+                                        <th scope="Francais">{{__('Francais')}}</th>
+                                        <th scope="Actions">{{__('Actions')}}</th>
                                     </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                            {{$translates->links()}}
+                                    </thead>
+                                    <tbody>
+                                    @foreach ($translates as $value)
+                                        <tr>
+                                            <td><span> {{$value->id}}</span></td>
+                                            <td><span>{{$value->name}}</span></td>
+                                            <td><span>{{$value->valueEn}}</span></td>
+                                            <td><span> {{$value->value}}</span></td>
+                                            <td><span>{{$value->valueFr}}</span></td>
+                                            <td>
+                                                <a type="btn" wire:click="initTranslate({{$value->id}})"
+                                                   data-bs-toggle="modal" data-bs-target="#editTranslationModal"
+                                                   class="btn btn-info">{{__('Edit')}}
+                                                </a>
+                                                <a type="btn" onclick="confirmDelete({{$value->id}})"
+                                                   class="btn btn-danger mt-1">{{__('Delete')}}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                                {{$translates->links()}}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -178,68 +182,69 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         </div>
     </div>
     <script>
-            function confirmDelete(idTranslate) {
-                Swal.fire({
-                    title: '{{__('Confirm delete')}}',
-                    showDenyButton: true,
-                    confirmButtonText: '{{__('yes')}}',
-                    denyButtonText: '{{__('no')}}'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.Livewire.emit('deleteTranslate', idTranslate);
-                    } else if (result.isDenied) {
-                        location.reload();
-                    }
-                })
-            }
-            window.addEventListener('closeModal', event => {
-              $("#editTranslationModalClose").trigger('click');
-            });
-            window.addEventListener('PassEnter', event => {
-
-                Swal.fire({
-                    title: '{{ __('Pass') }}',
-                    input: 'text',
-                    inputAttributes: {autocapitalize: 'off'},
-                    showCancelButton: true,
-                    confirmButtonText: 'Confirm',
-                }).then((resultat) => {
-                    if (resultat.value) {
-                        switch (event.detail.ev) {
-                            case 'arToData':
-                                window.Livewire.emit('addArabicField', resultat.value);
-                                break;
-                            case 'enToData':
-                                window.Livewire.emit('addEnglishField', resultat.value);
-                                break;
-                            case 'mergeToData':
-                                window.Livewire.emit('mergeTransaction', resultat.value);
-                                break;
-                            case 'databaseToFile':
-                                window.Livewire.emit('databaseToFile', resultat.value);
-                                break;
-                        }
-                    }
-                    if (resultat.isDismissed) {
-                        Swal.hideLoading()
-                    }
-                })
+        function confirmDelete(idTranslate) {
+            Swal.fire({
+                title: '{{__('Confirm delete')}}',
+                showDenyButton: true,
+                confirmButtonText: '{{__('yes')}}',
+                denyButtonText: '{{__('no')}}'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.Livewire.emit('deleteTranslate', idTranslate);
+                } else if (result.isDenied) {
+                    location.reload();
+                }
             })
-            window.addEventListener('PreAjoutTrans', event => {
-                Swal.fire({
-                    title: '{{__('Enter field name')}}',
-                    input: 'text',
-                    inputAttributes: {autocapitalize: 'off'},
-                    showCancelButton: true,
-                    confirmButtonText: 'Confirm',
-                }).then((resultat) => {
-                    if (resultat.value) {
-                        window.Livewire.emit('AddFieldTranslate', resultat.value);
+        }
+
+        window.addEventListener('closeModal', event => {
+            $("#editTranslationModalClose").trigger('click');
+        });
+        window.addEventListener('PassEnter', event => {
+
+            Swal.fire({
+                title: '{{ __('Pass') }}',
+                input: 'text',
+                inputAttributes: {autocapitalize: 'off'},
+                showCancelButton: true,
+                confirmButtonText: 'Confirm',
+            }).then((resultat) => {
+                if (resultat.value) {
+                    switch (event.detail.ev) {
+                        case 'arToData':
+                            window.Livewire.emit('addArabicField', resultat.value);
+                            break;
+                        case 'enToData':
+                            window.Livewire.emit('addEnglishField', resultat.value);
+                            break;
+                        case 'mergeToData':
+                            window.Livewire.emit('mergeTransaction', resultat.value);
+                            break;
+                        case 'databaseToFile':
+                            window.Livewire.emit('databaseToFile', resultat.value);
+                            break;
                     }
-                    if (resultat.isDismissed) {
-                        location.reload();
-                    }
-                });
+                }
+                if (resultat.isDismissed) {
+                    Swal.hideLoading()
+                }
+            })
+        })
+        window.addEventListener('PreAjoutTrans', event => {
+            Swal.fire({
+                title: '{{__('Enter field name')}}',
+                input: 'text',
+                inputAttributes: {autocapitalize: 'off'},
+                showCancelButton: true,
+                confirmButtonText: 'Confirm',
+            }).then((resultat) => {
+                if (resultat.value) {
+                    window.Livewire.emit('AddFieldTranslate', resultat.value);
+                }
+                if (resultat.isDismissed) {
+                    location.reload();
+                }
             });
+        });
     </script>
 </div>

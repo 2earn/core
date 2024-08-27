@@ -111,52 +111,52 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                             </div>
                         </div>
                         <div class="card-body">
-                            <table
-                                class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
-                                <thead>
-                                <tr>
-                                    <th scope="Id">{{__('Id')}}</th>
-                                    <th scope="key">{{__('key')}}</th>
-                                    <th scope="English">{{__('English')}}</th>
-                                    <th scope="Arabe">{{__('Arabe')}}</th>
-                                    <th scope="Francais">{{__('Francais')}}</th>
-                                    <th scope="created_at">{{__('Dates')}}</th>
-                                    <th scope="Actions">{{__('Actions')}}</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach ($translates as $value)
+                            <div class="table-responsive-sm">
+                                <table
+                                    class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
+                                    <thead>
                                     <tr>
-                                        <td><span> {{$value->id}}</span></td>
-                                        <td title="{{$value->name}}">
-                                            <h5>
-                                                {{__('Class')}} :    <span
+                                        <th>{{__('Id')}}</th>
+                                        <th>{{__('key')}}</th>
+                                        <th class="d-none d-md-block">{{__('Translation')}}</th>
+                                        <th>{{__('Actions')}}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach ($translates as $value)
+                                        <tr>
+                                            <td><span> {{$value->id}}</span></td>
+                                            <td title="{{$value->name}}">
+                                                {{__('Class')}} : <span
                                                     class="badge text-info">{{\App\Models\TranslaleModel::getClassNameFromName($value->name)}}</span>
                                                 > {{__('Property')}} : <span
                                                     class="badge text-info">{{\App\Models\TranslaleModel::getPropertyFromName($value->name)}}</span>
-                                                > {{__('ID')}} :  <span
+                                                > {{__('ID')}} : <span
                                                     class="badge text-dark">{{\App\Models\TranslaleModel::getIdFromName($value->name)}}</span>
-                                            </h5>
-                                        </td>
-                                        <td><span>{{$value->valueEn}}</span></td>
-                                        <td><span> {{$value->value}}</span></td>
-                                        <td><span>{{$value->valueFr}}</span></td>
-                                        <td><span><i class="fa-solid fa-plus mx-2"></i>{{$value->created_at}}<br><i
-                                                    class="fa-solid fa-pen-to-square mx-2"></i>{{$value->updated_at}}</span>
-                                        </td>
-                                        <td>
-                                            <a type="btn" wire:click="initTranslate({{$value->id}})"
-                                               data-bs-toggle="modal" data-bs-target="#editTranslationModal"
-                                               class="btn btn-info  mt-1">{{__('Edit')}}
-                                            </a>
-                                            <a type="btn" onclick="confirmDelete({{$value->id}})"
-                                               class="btn btn-danger mt-1">{{__('Delete')}}
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+                                            </td>
+                                            <td class="d-none d-md-block text-info">{{__('English')}}:<span class="text-muted mx-1">{{ Str::limit($value->valueEn,100)}}</span>
+                                                <hr>
+                                                {{__('Arabe')}}:<span class="text-muted mx-1">{{ Str::limit($value->value,100)}}</span>
+                                            <hr>
+                                                {{__('Francais')}}:<span class="text-muted mx-1">{{ Str::limit($value->valueFr,100)}}</span>
+                                            </td>
+                                            <td class="d-none d-md-block" ><span class="text-muted"><i class="fa-solid fa-plus mx-2"></i>{{$value->created_at}}<br><i
+                                                        class="fa-solid fa-pen-to-square mx-2"></i>{{$value->updated_at}}</span>
+                                            </td>
+                                            <td>
+                                                <a type="btn" wire:click="initTranslate({{$value->id}})"
+                                                   data-bs-toggle="modal" data-bs-target="#editTranslationModal"
+                                                   class="btn btn-info  mt-1">{{__('Edit')}}
+                                                </a>
+                                                <a type="btn" onclick="confirmDelete({{$value->id}})"
+                                                   class="btn btn-danger mt-1">{{__('Delete')}}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                             {{$translates->links()}}
                         </div>
                     </div>
