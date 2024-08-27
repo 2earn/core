@@ -816,7 +816,11 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
             DB::raw('`vip`.`dateFNS` as date'))
             ->join('metta_users as meta', 'meta.idUser', '=', 'users.idUser')
             ->join('countries', 'countries.id', '=', 'users.idCountry')
-            ->leftJoin('vip', 'vip.idUser', '=', 'users.idUser');
+            ->leftJoin('vip', function($join)
+            {
+                $join->on('vip.idUser', '=', 'users.idUser')
+                    ->where('vip.closed','=', 0);
+            });
 
         return datatables($query)
             ->addColumn('formatted_mobile', function ($user) {
