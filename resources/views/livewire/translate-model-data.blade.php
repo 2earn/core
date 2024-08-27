@@ -1,7 +1,7 @@
 <div>
     @component('components.breadcrumb')
         @slot('title')
-            {{ __('Translate') }}
+            {{ __('Translate Model') }}
         @endslot
     @endcomponent
     <div wire:ignore.self class="modal fade" id="editTranslationModal" tabindex="-1"
@@ -73,36 +73,8 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12 col-md-6 col-lg-5 mt-1">
-            <div class="btn-group material-shadow" role="group" aria-label="Basic example">
-                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
-                   wire:click="PreImport('arToData')">
-                    <i class="ri-dashboard-2-fill label-icon align-middle fs-16 ms-2"></i>
-                    {{__('Arabic field To base')}}
-                </a>
-                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
-                   wire:click="PreImport('enToData')">
-                    <i class="ri-dashboard-2-fill label-icon align-middle fs-16 ms-2"></i>
-                    {{__('English field To base')}}
-                </a>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-5 mt-1">
-            <div class="btn-group material-shadow" role="group" aria-label="Basic example">
-                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
-                   wire:click="PreImport('mergeToData')">
-                    <i class="ri-database-2-fill label-icon align-middle fs-16 ms-2"></i>
-                    {{__('Merge field To base')}}
-                </a>
-                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
-                   wire:click="PreImport('databaseToFile')">
-                    <i class="ri-file-2-line label-icon align-middle fs-16 ms-2"></i>
-                    {{__('Database To file')}}
-                </a>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-2 mt-1">
-            <div class="btn-group material-shadow" role="group" aria-label="Basic example">
+        <div class="col-sm-12 col-md-12 col-lg-12 mt-1">
+            <div class="btn-group material-shadow float-end" role="group" aria-label="Basic example">
                 <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
                    wire:click="PreAjout">
                     <i class="ri-file-add-fill label-icon align-middle fs-16 ms-2"></i>
@@ -139,31 +111,42 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive">
+                            <div class="table-responsive-sm">
                                 <table
                                     class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
                                     <thead>
                                     <tr>
-                                        <th scope="Id">{{__('Id')}}</th>
-                                        <th scope="key">{{__('key')}}</th>
-                                        <th scope="English">{{__('English')}}</th>
-                                        <th scope="Arabe">{{__('Arabe')}}</th>
-                                        <th scope="Francais">{{__('Francais')}}</th>
-                                        <th scope="Actions">{{__('Actions')}}</th>
+                                        <th>{{__('Id')}}</th>
+                                        <th>{{__('key')}}</th>
+                                        <th class="d-none d-md-block">{{__('Translation')}}</th>
+                                        <th>{{__('Actions')}}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach ($translates as $value)
                                         <tr>
                                             <td><span> {{$value->id}}</span></td>
-                                            <td><span>{{$value->name}}</span></td>
-                                            <td><span>{{$value->valueEn}}</span></td>
-                                            <td><span> {{$value->value}}</span></td>
-                                            <td><span>{{$value->valueFr}}</span></td>
+                                            <td title="{{$value->name}}">
+                                                {{__('Class')}} : <span
+                                                    class="badge text-info">{{\App\Models\TranslaleModel::getClassNameFromName($value->name)}}</span>
+                                                > {{__('Property')}} : <span
+                                                    class="badge text-info">{{\App\Models\TranslaleModel::getPropertyFromName($value->name)}}</span>
+                                                > {{__('ID')}} : <span
+                                                    class="badge text-dark">{{\App\Models\TranslaleModel::getIdFromName($value->name)}}</span>
+                                            </td>
+                                            <td class="d-none d-md-block text-info">{{__('English')}}:<span class="text-muted mx-1">{{ Str::limit($value->valueEn,100)}}</span>
+                                                <hr>
+                                                {{__('Arabe')}}:<span class="text-muted mx-1">{{ Str::limit($value->value,100)}}</span>
+                                            <hr>
+                                                {{__('Francais')}}:<span class="text-muted mx-1">{{ Str::limit($value->valueFr,100)}}</span>
+                                            </td>
+                                            <td class="d-none d-md-block" ><span class="text-muted"><i class="fa-solid fa-plus mx-2"></i>{{$value->created_at}}<br><i
+                                                        class="fa-solid fa-pen-to-square mx-2"></i>{{$value->updated_at}}</span>
+                                            </td>
                                             <td>
                                                 <a type="btn" wire:click="initTranslate({{$value->id}})"
                                                    data-bs-toggle="modal" data-bs-target="#editTranslationModal"
-                                                   class="btn btn-info">{{__('Edit')}}
+                                                   class="btn btn-info  mt-1">{{__('Edit')}}
                                                 </a>
                                                 <a type="btn" onclick="confirmDelete({{$value->id}})"
                                                    class="btn btn-danger mt-1">{{__('Delete')}}
@@ -173,8 +156,8 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                     @endforeach
                                     </tbody>
                                 </table>
-                                {{$translates->links()}}
                             </div>
+                            {{$translates->links()}}
                         </div>
                     </div>
                 </div>
@@ -200,36 +183,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         window.addEventListener('closeModal', event => {
             $("#editTranslationModalClose").trigger('click');
         });
-        window.addEventListener('PassEnter', event => {
 
-            Swal.fire({
-                title: '{{ __('Pass') }}',
-                input: 'text',
-                inputAttributes: {autocapitalize: 'off'},
-                showCancelButton: true,
-                confirmButtonText: 'Confirm',
-            }).then((resultat) => {
-                if (resultat.value) {
-                    switch (event.detail.ev) {
-                        case 'arToData':
-                            window.Livewire.emit('addArabicField', resultat.value);
-                            break;
-                        case 'enToData':
-                            window.Livewire.emit('addEnglishField', resultat.value);
-                            break;
-                        case 'mergeToData':
-                            window.Livewire.emit('mergeTransaction', resultat.value);
-                            break;
-                        case 'databaseToFile':
-                            window.Livewire.emit('databaseToFile', resultat.value);
-                            break;
-                    }
-                }
-                if (resultat.isDismissed) {
-                    Swal.hideLoading()
-                }
-            })
-        })
         window.addEventListener('PreAjoutTrans', event => {
             Swal.fire({
                 title: '{{__('Enter field name')}}',

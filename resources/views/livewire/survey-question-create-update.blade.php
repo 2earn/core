@@ -1,7 +1,7 @@
 <div>
     @component('components.breadcrumb')
         @slot('title')
-            {{ __('Survey ') }} : {{$survey->name}}     {{ __('Add question ') }}
+            {{ __('Survey ') }} : {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}    {{ __('Add question ') }}
         @endslot
     @endcomponent
     <div class="row card">
@@ -9,10 +9,10 @@
             <div class="d-flex align-items-center">
                 <h6 class="card-title flex-grow-1">
                     @if($update)
-                        {{__('Survey')}} : {{$survey->id}} - {{$survey->name}} <span
+                        {{__('Survey')}} : {{$survey->id}} - {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}<span
                                 class="text-muted"> > </span> {{__('Update question')}}
                     @else
-                        {{__('Survey')}} : {{$survey->id}} - {{$survey->name}} <span
+                        {{__('Survey')}} : {{$survey->id}} - {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}} <span
                                 class="text-muted"> > </span> {{__('Create question')}}
                     @endif
                 </h6>

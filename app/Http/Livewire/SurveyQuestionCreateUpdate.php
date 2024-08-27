@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Survey;
 use App\Models\SurveyQuestion;
+use App\Models\TranslaleModel;
 use Core\Enum\Selection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
@@ -15,7 +16,7 @@ class SurveyQuestionCreateUpdate extends Component
         $idQuestion,
         $content,
         $selection = 2,
-        $maxResponse=1;
+        $maxResponse = 1;
 
     public $idSurvey;
 
@@ -92,12 +93,21 @@ class SurveyQuestionCreateUpdate extends Component
         $this->validate();
         try {
             $this->validateMultiselection();
-             SurveyQuestion::create([
+            $surveyQuestion = SurveyQuestion::create([
                 'content' => $this->content,
                 'selection' => $this->selection,
                 'maxResponse' => $this->maxResponse != "" ? $this->maxResponse : 0,
                 'survey_id' => $this->idSurvey,
             ]);
+
+            TranslaleModel::create(
+                [
+                    'name' => TranslaleModel::getTranslateName($surveyQuestion, 'content'),
+                    'value' => $this->content . ' AR',
+                    'valueFr' => $this->content . ' FR',
+                    'valueEn' => $this->content . ' EN'
+                ]);
+
         } catch (\Exception $exception) {
             return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while creating Survey!!') . ' : ' . $exception->getMessage());
         }

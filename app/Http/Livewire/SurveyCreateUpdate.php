@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Survey;
 use App\Models\Target;
+use App\Models\TranslaleModel;
 use Core\Enum\TargetType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
@@ -121,6 +122,18 @@ class SurveyCreateUpdate extends Component
             if (!is_null($this->target)) {
                 $survey->targets()->attach([$this->target]);
             }
+            $translations = ['name', 'description', 'disabledResult', 'disabledComment', 'disabledLike'];
+            foreach ($translations as $translation) {
+                TranslaleModel::create(
+                    [
+                        'name' => TranslaleModel::getTranslateName($survey, $translation),
+                        'value' => $this->{$translation} . ' AR',
+                        'valueFr' => $this->{$translation} . ' FR',
+                        'valueEn' => $this->{$translation} . ' EN'
+                    ]);
+            }
+
+
         } catch (\Exception $exception) {
             return redirect()->route('survey_create_update', app()->getLocale())->with('danger', Lang::get('Something goes wrong while creating Survey!!') . ' : ' . $exception->getMessage());
         }

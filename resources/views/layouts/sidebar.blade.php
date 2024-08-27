@@ -282,15 +282,33 @@
                         </li>
                     @endif
                     @if(auth()->user()->getRoleNames()->first() =="Super admin")
-                        <li class="nav-item {{Route::currentRouteName()=='translate'? 'active' : ''}}">
-                            <a href="{{route('translate', app()->getLocale(),false)}}"
-                               class="nav-link menu-link {{Route::currentRouteName()=='translate'? 'active' : ''}}"
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link {{!in_array(Route::currentRouteName(), ['translate','translate_model_data'])? 'collapsed' : 'active'}}"
+                               href="#sidebarTranslate" data-bs-toggle="collapse"
                                role="button"
-                            >
-                                <i class="ri-translate"></i>
-                                <span>{{ __('Translate') }}</span>
+                               aria-expanded="{{in_array(Route::currentRouteName(), ['translate','translate_model_data'])? 'true' : 'false'}}"
+                               aria-controls="sidebarTranslate">
+                                <i class="ri-dashboard-fill"></i> <span
+                                    data-key="t-dashboards">{{ __('Translation') }}</span>
                             </a>
+                            <div
+                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['translate','translate_model_data'])? 'show' : ''}}"
+                                id="sidebarTranslate">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item {{Route::currentRouteName()=='translate'? 'active' : ''}}">
+                                        <a href="{{route('translate', app()->getLocale(),false)}}"
+                                           class="nav-link" data-key="t-analytics">{{ __('Translate') }}</a>
+                                    </li>
+                                    <li class="nav-item {{Route::currentRouteName()=='translate_model_data'? 'active' : ''}}">
+                                        <a href="{{route('translate_model_data', app()->getLocale(),false)}}"
+                                           class="nav-link"
+                                           data-key="t-analytics">{{ __('Translate model data') }}</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
+
                     @endif
                 </ul>
             </div>
@@ -318,6 +336,7 @@
             $('#navbar-nav a[href="' + location.pathname + '"]').addClass('active');
             $('#navbar-nav a[href="' + location.pathname + '"]').parent().addClass('active');
             const surveyArray = ['surveys_index', 'surveys_archive'];
+            const translateArray = ['translate', 'translate_model_data'];
             const settingArray = ['configuration-setting', 'configuration-bo', 'configuration-ha', 'configuration-amounts'];
             const shareSoldArray = ['shares-sold-dashboard', 'shares-sold-market-status', 'shares-sold-recent-transaction'];
             var currentRoutePath = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
@@ -337,6 +356,11 @@
                 showDropDownMenu('sidebarShareSold')
             } else {
                 hideDropDownMenu('sidebarShareSold');
+            }
+            if (translateArray.includes(currentRoutePath)) {
+                showDropDownMenu('sidebarTranslate')
+            } else {
+                hideDropDownMenu('sidebarTranslate');
             }
         });
     </script>

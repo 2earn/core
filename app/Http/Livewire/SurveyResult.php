@@ -6,6 +6,7 @@ use App\Models\Survey;
 use App\Models\SurveyQuestion;
 use App\Models\SurveyResponse;
 use App\Models\SurveyResponseItem;
+use App\Models\TranslaleModel;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
@@ -33,7 +34,7 @@ class SurveyResult extends Component
                 ->where('surveyQuestionChoice_id', $response->id)->count();
 
             $stats[$response->id] = [
-                'title' => $response->title,
+                'title' => TranslaleModel::getTranslation($response, 'title', $response->title),
                 'choosen' => $choosen,
                 'persontage' => $participation > 0 ? (($choosen / $participation) * 100) : 0
             ];
