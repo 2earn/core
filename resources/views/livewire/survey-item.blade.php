@@ -151,8 +151,8 @@
                         {{ Str::limit(\App\Models\TranslaleModel::getTranslation($survey,'description',$survey->description),200)}}
                     @endif
                     @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
-                      <br>  <a class="link-info"
-                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'description')])}}">{{__('See or update Translation')}}</a>
+                        <br>  <a class="link-info"
+                                 href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'description')])}}">{{__('See or update Translation')}}</a>
                     @endif
                 </p>
             </div>
@@ -196,9 +196,13 @@
                         <h6 class="mt-2 text-info">{{__('Disabled result description')}}:</h6>
                         <p class="card-text text-muted">
                             @if($currentRouteName=="survey_show")
-                                {{ $survey->disabledResult}}
+                                {{\App\Models\TranslaleModel::getTranslation($survey,'disabledResult',$survey->disabledResult)}}
                             @else
-                                {{ Str::limit($survey->disabledResult,200)}}
+                                {{ Str::limit(\App\Models\TranslaleModel::getTranslation($survey,'disabledResult',$survey->disabledResult),200)}}
+                            @endif
+                            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                                <br>  <a class="link-info"
+                                         href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'disabledResult')])}}">{{__('See or update Translation')}}</a>
                             @endif
                         </p>
                     </div>
@@ -208,9 +212,13 @@
                         <h6 class="mt-2 text-info">{{__('Disabled comment description')}}:</h6>
                         <p class="card-text text-muted">
                             @if($currentRouteName=="survey_show")
-                                {{ $survey->disabledComment}}
+                                {{\App\Models\TranslaleModel::getTranslation($survey,'disabledComment',$survey->disabledComment)}}
                             @else
-                                {{ Str::limit($survey->disabledComment,200)}}
+                                {{ Str::limit(\App\Models\TranslaleModel::getTranslation($survey,'disabledComment',$survey->disabledComment),200)}}
+                            @endif
+                            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                                <br>  <a class="link-info"
+                                         href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'disabledComment')])}}">{{__('See or update Translation')}}</a>
                             @endif
                         </p>
                     </div>
@@ -220,9 +228,13 @@
                         <h6 class="mt-2 text-info">{{__('Disabled like description')}}:</h6>
                         <p class="card-text text-muted">
                             @if($currentRouteName=="survey_show")
-                                {{ $survey->disabledLike}}
+                                {{\App\Models\TranslaleModel::getTranslation($survey,'disabledLike',$survey->disabledLike)}}
                             @else
-                                {{ Str::limit($survey->disabledLike,200)}}
+                                {{ Str::limit(\App\Models\TranslaleModel::getTranslation($survey,'disabledLike',$survey->disabledLike),200)}}
+                            @endif
+                            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                                <br>  <a class="link-info"
+                                         href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'disabledLike')])}}">{{__('See or update Translation')}}</a>
                             @endif
                         </p>
                     </div>

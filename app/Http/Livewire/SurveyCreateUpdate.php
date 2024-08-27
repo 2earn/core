@@ -122,22 +122,17 @@ class SurveyCreateUpdate extends Component
             if (!is_null($this->target)) {
                 $survey->targets()->attach([$this->target]);
             }
+            $translations = ['name', 'description', 'disabledResult', 'disabledComment', 'disabledLike'];
+            foreach ($translations as $translation) {
+                TranslaleModel::create(
+                    [
+                        'name' => TranslaleModel::getTranslateName($survey, $translation),
+                        'value' => $this->{$translation} . ' AR',
+                        'valueFr' => $this->{$translation} . ' FR',
+                        'valueEn' => $this->{$translation} . ' EN'
+                    ]);
+            }
 
-            TranslaleModel::create(
-                [
-                    'name' => TranslaleModel::getTranslateName($survey, 'name'),
-                    'value' => $this->name . ' AR',
-                    'valueFr' => $this->name . ' FR',
-                    'valueEn' => $this->name . ' EN'
-                ]);
-
-            TranslaleModel::create(
-                [
-                    'name' => TranslaleModel::getTranslateName($survey, 'description'),
-                    'value' => $this->description . ' AR',
-                    'valueFr' => $this->description . ' FR',
-                    'valueEn' => $this->description . ' EN'
-                ]);
 
         } catch (\Exception $exception) {
             return redirect()->route('survey_create_update', app()->getLocale())->with('danger', Lang::get('Something goes wrong while creating Survey!!') . ' : ' . $exception->getMessage());
