@@ -816,7 +816,7 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
             DB::raw('`vip`.`dateFNS` as date'))
             ->join('metta_users as meta', 'meta.idUser', '=', 'users.idUser')
             ->join('countries', 'countries.id', '=', 'users.idCountry')
-        ->leftJoin('vip', 'vip.idUser', '=', 'users.idUser');
+            ->leftJoin('vip', 'vip.idUser', '=', 'users.idUser');
 
         return datatables($query)
             ->addColumn('formatted_mobile', function ($user) {
@@ -836,11 +836,12 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
                 return Carbon\Carbon::parse($user->created_at)->format('Y-m-d H:i:s');
             })
             ->addColumn('VIP', function ($settings) {
+                $vip = "";
                 if (vip::Where('idUser', '=', $settings->idUser)
                     ->where('closed', '=', false)->get()->isNotEmpty()) {
-                    return '<a class="btn btn-danger" disabled="disabled">' . Lang::get('Acctually is vip') . '</a>';
+                    $vip = '<a class="btn btn-danger" disabled="disabled">' . Lang::get('Acctually is vip') . '</a>';
                 }
-                return '<a data-bs-toggle="modal" data-bs-target="#vip"   data-phone="' . $settings->mobile . '" data-country="' . $this->getFormatedFlagResourceName($settings->apha2) . '"  data-reciver="' . $settings->idUser . '"
+                return $vip . '<a data-bs-toggle="modal" data-bs-target="#vip"   data-phone="' . $settings->mobile . '" data-country="' . $this->getFormatedFlagResourceName($settings->apha2) . '"  data-reciver="' . $settings->idUser . '"
 class="btn btn-xs btn-flash btn2earnTable vip"  >
 <i class="glyphicon glyphicon-add"></i>' . Lang::get('VIP') . '</a> ';
 
