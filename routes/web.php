@@ -118,7 +118,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/countries_management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
             Route::get('/admin/identification_request', identificationRequest::class)->name('identification_request');
             Route::get('/translation', TranslateView::class)->name('translate');
-            Route::get('/translate_model_data', \App\Http\Livewire\TranslateModelData::class)->name('translate_model_data');
+            Route::get('/translation/model/data', \App\Http\Livewire\TranslateModelData::class)->name('translate_model_data');
 
             Route::get('/target/index', \App\Http\Livewire\TargetIndex::class)->name('target_index');
             Route::get('/target', \App\Http\Livewire\TargetCreateUpdate::class)->name('target_create_update');
