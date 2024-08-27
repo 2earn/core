@@ -31,4 +31,26 @@ class TranslaleModel extends Model
         }
         return $other;
     }
+
+    public static function getDataFromName($var)
+    {
+        return explode('-', $var);
+
+    }
+
+    public static function getClassNameFromName($var)
+    {
+        return self::getDataFromName($var)[0];
+    }
+
+    public static function getPropertyFromName($var)
+    {
+        return strtoupper(self::getDataFromName($var)[1]);
+    }
+
+    public static function getIdFromName($var)
+    {
+        return self::getDataFromName($var)[2];
+    }
+
 }

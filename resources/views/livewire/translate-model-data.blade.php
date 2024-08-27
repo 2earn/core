@@ -128,11 +128,22 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                 @foreach ($translates as $value)
                                     <tr>
                                         <td><span> {{$value->id}}</span></td>
-                                        <td><span>{{$value->name}}</span></td>
+                                        <td title="{{$value->name}}">
+                                            <h5>
+                                                {{__('Class')}} :    <span
+                                                    class="badge text-info">{{\App\Models\TranslaleModel::getClassNameFromName($value->name)}}</span>
+                                                > {{__('Property')}} : <span
+                                                    class="badge text-info">{{\App\Models\TranslaleModel::getPropertyFromName($value->name)}}</span>
+                                                > {{__('ID')}} :  <span
+                                                    class="badge text-dark">{{\App\Models\TranslaleModel::getIdFromName($value->name)}}</span>
+                                            </h5>
+                                        </td>
                                         <td><span>{{$value->valueEn}}</span></td>
                                         <td><span> {{$value->value}}</span></td>
                                         <td><span>{{$value->valueFr}}</span></td>
-                                        <td><span><i class="fa-solid fa-plus mx-2"></i>{{$value->created_at}}<br><i class="fa-solid fa-pen-to-square mx-2"></i>{{$value->updated_at}}</span></td>
+                                        <td><span><i class="fa-solid fa-plus mx-2"></i>{{$value->created_at}}<br><i
+                                                    class="fa-solid fa-pen-to-square mx-2"></i>{{$value->updated_at}}</span>
+                                        </td>
                                         <td>
                                             <a type="btn" wire:click="initTranslate({{$value->id}})"
                                                data-bs-toggle="modal" data-bs-target="#editTranslationModal"

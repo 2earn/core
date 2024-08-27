@@ -10,7 +10,7 @@
                 {{ \Core\Enum\StatusSurvey::tryFrom($survey->status)->name}}
                         </span>
         @endif
-        <h5> {{$survey->id}} - {{$survey->name}}</h5>
+        <h5> {{$survey->id}} - {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}</h5>
     </div>
     @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
         <div class="card-body row">
@@ -142,9 +142,9 @@
                 <h6 class="mt-2 text-info">{{__('Description')}}:</h6>
                 <p class="card-text text-muted">
                     @if($currentRouteName=="survey_show")
-                        {{ $survey->description}}
+                        {{\App\Models\TranslaleModel::getTranslation($survey,'description',$survey->description)}}
                     @else
-                        {{ Str::limit($survey->description,200)}}
+                        {{ Str::limit(\App\Models\TranslaleModel::getTranslation($survey,'description',$survey->description),200)}}
                     @endif
                 </p>
             </div>

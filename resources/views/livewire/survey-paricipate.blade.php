@@ -1,7 +1,7 @@
 <div>
     @component('components.breadcrumb')
         @slot('title')
-            {{__('Survey')}} > {{$survey->id}} - {{$survey->name}} > {{__('Participation')}}
+            {{__('Survey')}} > {{$survey->id}} - {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}} > {{__('Participation')}}
         @endslot
     @endcomponent
     <div class="row">
