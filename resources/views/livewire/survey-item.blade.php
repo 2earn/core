@@ -11,6 +11,10 @@
                         </span>
         @endif
         <h5> {{$survey->id}} - {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}</h5>
+        @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+            <a class="link-info"
+               href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'name')])}}">{{__('See or update Translation')}}</a>
+        @endif
     </div>
     @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
         <div class="card-body row">
@@ -42,11 +46,11 @@
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Shows result')}} <span
-                            class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showResult)?->name}}</span>
+                                class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showResult)?->name}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Shows')}} <span
-                            class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->show)?->name}} </span>
+                                class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->show)?->name}} </span>
                     </li>
                 </ul>
 
@@ -55,15 +59,15 @@
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Show attchivement Chrono')}} <span
-                            class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementChrono)?->name}}</span>
+                                class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementChrono)?->name}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Show achievement %')}} <span
-                            class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementGool)?->name}}</span>
+                                class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementGool)?->name}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Show after archiving')}}: <span
-                            class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAfterArchiving)?->name}}</span>
+                                class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAfterArchiving)?->name}}</span>
                     </li>
                 </ul>
 
@@ -72,11 +76,11 @@
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Likable')}} <span
-                            class="badge btn btn-info"> {{\Core\Enum\TargetType::tryFrom($survey->likable)?->name}}</span>
+                                class="badge btn btn-info"> {{\Core\Enum\TargetType::tryFrom($survey->likable)?->name}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Commentable')}} <span
-                            class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->commentable)?->name}}</span>
+                                class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->commentable)?->name}}</span>
                     </li>
                 </ul>
             </div>
@@ -145,6 +149,10 @@
                         {{\App\Models\TranslaleModel::getTranslation($survey,'description',$survey->description)}}
                     @else
                         {{ Str::limit(\App\Models\TranslaleModel::getTranslation($survey,'description',$survey->description),200)}}
+                    @endif
+                    @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                      <br>  <a class="link-info"
+                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'description')])}}">{{__('See or update Translation')}}</a>
                     @endif
                 </p>
             </div>
@@ -431,11 +439,11 @@
                             <div class="col-sm-12 col-md-6 col-lg-12 mt-2">
                                 <h5 class="text-muted mx-3">{{__('Question params')}}:</h5>
                                 {{__('Choice Type')}} : <span
-                                    class="badge btn {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'btn-success' : 'btn-danger'  }}">
+                                        class="badge btn {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'btn-success' : 'btn-danger'  }}">
                             {{__('Multiple')}}                                        </span>
                                 @if($survey->question->selection== \Core\Enum\Selection::MULTIPLE->value )
                                     {{__('Max Responses')}} :  <span
-                                        class="badge btn btn-info"> {{$survey->question->maxResponse}}</span>
+                                            class="badge btn btn-info"> {{$survey->question->maxResponse}}</span>
                                 @endif
 
                                 @if(!empty($survey->question->disableNote))
@@ -561,7 +569,7 @@
                             @forelse ($survey->likes as $like)
                                 <li class="list-group-item mt-2">
                                     {{ getUserDisplayedName($like->user->idUser)}} <span
-                                        class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>
+                                            class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>
                                 </li>
                             @empty
                                 <li class="list-group-item mt-2">
@@ -602,7 +610,7 @@
                                         <span class="text-muted float-end"><strong>{{__('at')}}: </strong>  {{$comment->created_at}}</span>
                                         @if(!$comment->validated)
                                             <span
-                                                class="badge badge-soft-warning float-end mx-2">{{ __('Waiting for admin approving')}}</span>
+                                                    class="badge badge-soft-warning float-end mx-2">{{ __('Waiting for admin approving')}}</span>
                                         @endif
 
                                         @if(!$comment->validated && strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)

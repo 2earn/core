@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\TranslaleModel;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
@@ -35,6 +36,14 @@ class TranslateModelData extends Component
         'mergeTransaction' => 'mergeTransaction',
         'deleteTranslate' => 'deleteTranslate'
     ];
+
+    public function mount(Request $request)
+    {
+        $search = $request->input('search');
+        if (!empty($search)) {
+            $this->search = $search;
+        }
+    }
 
 
     public function AddFieldTranslate($val)
@@ -73,7 +82,7 @@ class TranslateModelData extends Component
     public function save()
     {
         foreach ($this->translate as $key => $value) {
-            TranslaleModel::where('id', $value->id)->update(['value' => $value->value,'valueFr' => $value->valueFr]);
+            TranslaleModel::where('id', $value->id)->update(['value' => $value->value, 'valueFr' => $value->valueFr]);
             $this->tabfin[$value->name] = $value->value;
             $this->tabfinFr[$value->name] = $value->valueFr;
         }
@@ -105,9 +114,9 @@ class TranslateModelData extends Component
             $this->tabfinEn[$value->name] = $value->valueEn;
         }
         try {
-            $pathFile = resource_path() .  self::TRANSLATION_PATH.'ar.json';
-            $pathFileFr = resource_path() . self::TRANSLATION_PATH. 'fr.json';
-            $pathFileEn = resource_path() . self::TRANSLATION_PATH. 'en.json';
+            $pathFile = resource_path() . self::TRANSLATION_PATH . 'ar.json';
+            $pathFileFr = resource_path() . self::TRANSLATION_PATH . 'fr.json';
+            $pathFileEn = resource_path() . self::TRANSLATION_PATH . 'en.json';
             File::put($pathFile, json_encode($this->tabfin, JSON_UNESCAPED_UNICODE));
             File::put($pathFileFr, json_encode($this->tabfinFr, JSON_UNESCAPED_UNICODE));
             File::put($pathFileEn, json_encode($this->tabfinEn, JSON_UNESCAPED_UNICODE));
