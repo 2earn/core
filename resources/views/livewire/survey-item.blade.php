@@ -446,7 +446,11 @@
                             </div>
                             <div class="col-sm-12 col-md-12 col-lg-7 mt-2">
                                 <h5 class="text-muted mx-3">{{__('Question statement')}}:</h5>
-                                {{ $survey->question->content }}
+                                <figure class="mt-2 ">
+                                    <blockquote class="blockquote ml-2">
+                                        {{\App\Models\TranslaleModel::getTranslation($survey->question,'content',$survey->question->content)}}
+                                    </blockquote>
+                                </figure>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-5">
 
@@ -468,7 +472,8 @@
                                             <div class="row">
                                                 <div class="col-sm-12 col-md-6 col-lg-7 text-muted"
                                                      title="{{$choice->id}}">
-                                                    {{$loop->index+1}} - {{$choice->title}}
+                                                    {{$loop->index+1}}
+                                                    - {{\App\Models\TranslaleModel::getTranslation($choice,'title',$choice->title)}}
                                                 </div>
                                                 @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME && intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
                                                     <div class="col-sm-12 col-md-6 col-lg-5">

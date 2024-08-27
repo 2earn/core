@@ -20,6 +20,14 @@
                 <h6 class="card-title mb-0">      {{ __('Results') }}</h6>
             </div>
             <div class="card-header border-muted fw-medium text-muted mb-0">
+                <h6 class="card-title mb-0 text-info">{{__('Question statement')}}:</h6>
+                <figure class="mt-2 ">
+                    <blockquote class="blockquote ml-2">
+                        {{\App\Models\TranslaleModel::getTranslation($question,'content',$question->content)}}
+                    </blockquote>
+                </figure>
+            </div>
+            <div class="card-header border-muted fw-medium text-muted mb-0">
                 <h6 class="card-title mb-0 text-info">   {{__('Participation')}}</h6>
             </div>
             <div class="card-body row">
@@ -49,6 +57,7 @@
             <div class="card-header border-muted fw-medium text-muted mb-0">
                 <h6 class="card-title mb-0 text-info ">   {{__('Participation response choices details')}}</h6>
             </div>
+
             <div class="card-body row">
                 <table class="table table-bordered mt-2 pl-2">
                     <thead>
@@ -100,7 +109,7 @@
         </div>
     </div>
     @vite('resources/js/surveys.js')
-        @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
-            @vite('resources/js/surveys.js')
-        @endif
+    @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
+        @vite('resources/js/surveys.js')
+    @endif
 </div>

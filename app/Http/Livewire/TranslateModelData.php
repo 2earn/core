@@ -3,9 +3,6 @@
 namespace App\Http\Livewire;
 
 use App\Models\TranslaleModel;
-use Carbon\Carbon;
-use Core\Models\translatearabes;
-use Core\Models\translateenglishs;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
@@ -36,14 +33,9 @@ class TranslateModelData extends Component
     protected $listeners = [
         'AddFieldTranslate' => 'AddFieldTranslate',
         'mergeTransaction' => 'mergeTransaction',
-        'databaseToFile' => 'databaseToFile',
         'deleteTranslate' => 'deleteTranslate'
     ];
 
-    public function PreImport($param)
-    {
-        $this->dispatchBrowserEvent('PassEnter', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'ev' => $param]);
-    }
 
     public function AddFieldTranslate($val)
     {
@@ -66,69 +58,6 @@ class TranslateModelData extends Component
         $this->resetPage();
     }
 
-    public function mergeTransaction($pass)
-    {
-        if ($pass != self::TRANSLATION_PASSWORD) return;
-        try {
-            TranslaleModel::truncate();
-            $pathFile = resource_path() . self::TRANSLATION_PATH . 'en.json';
-            $contents = File::get($pathFile);
-            $json = collect(json_decode($contents));
-
-            foreach ($json as $key => $value) {
-                if ($value) {
-                    if (TranslaleModel::where('name', $key)->get()->count() == 0) {
-                        TranslaleModel::create(['name' => $key, 'valueEn' => $value, 'value' => '', 'valueFr' => '']);
-                    } else {
-                        TranslaleModel::where('name', $key)->update(['valueEn' => $value]);
-                    }
-                }
-            }
-
-            $pathFileAr = resource_path() . self::TRANSLATION_PATH . 'ar.json';
-            $contentsAr = File::get($pathFileAr);
-            $jsonAr = collect(json_decode($contentsAr));
-            foreach ($jsonAr as $key => $value) {
-                TranslaleModel::where('name', $key)->update(['value' => $value]);
-            }
-
-            $pathFileFr = resource_path() . self::TRANSLATION_PATH . 'fr.json';
-            $contentsFr = File::get($pathFileFr);
-            $jsonFr = collect(json_decode($contentsFr));
-            foreach ($jsonFr as $key => $value) {
-                TranslaleModel::where('name', $key)->update(['valueFr' => $value]);
-            }
-        } catch (\Exception $exception) {
-            $this->dispatchBrowserEvent('closeModal');
-            return redirect()->route('translate_model_data', app()->getLocale())->with('danger', trans('Translation merge failed') . ' : ' . Lang::get($exception->getMessage()));
-        }
-        $this->dispatchBrowserEvent('closeModal');
-        return redirect()->route('translate_model_data', app()->getLocale())->with('success', trans('Translation merged successfully'));
-    }
-
-
-
-    public function databaseToFile($pass)
-    {
-        if ($pass != self::TRANSLATION_PASSWORD) return;
-        $all = TranslaleModel::all();
-        foreach ($all as $key => $value) {
-            $this->tabfin[$value->name] = $value->value;
-            $this->tabfinFr[$value->name] = $value->valueFr;
-            $this->tabfinEn[$value->name] = $value->valueEn;
-        }
-        try {
-            $pathFile = resource_path() . self::TRANSLATION_PATH . 'ar.json';
-            $pathFileFr = resource_path() . self::TRANSLATION_PATH . 'fr.json';
-            $pathFileEn = resource_path() . self::TRANSLATION_PATH . 'en.json';
-            File::put($pathFile, json_encode($this->tabfin, JSON_UNESCAPED_UNICODE));
-            File::put($pathFileFr, json_encode($this->tabfinFr, JSON_UNESCAPED_UNICODE));
-            File::put($pathFileEn, json_encode($this->tabfinEn, JSON_UNESCAPED_UNICODE));
-        } catch (\Exception $exception) {
-            return redirect()->route('translate_model_data', app()->getLocale())->with('danger', trans('Keys to database  failed') . ' : ' . Lang::get($exception->getMessage()));
-        }
-        return redirect()->route('translate_model_data', app()->getLocale())->with('success', trans('Keys to database added successfully'));
-    }
 
     public function render()
     {
@@ -144,8 +73,7 @@ class TranslateModelData extends Component
     public function save()
     {
         foreach ($this->translate as $key => $value) {
-            TranslaleModel::where('id', $value->id)->update(['value' => $value->value]);
-            TranslaleModel::where('id', $value->id)->update(['valueFr' => $value->valueFr]);
+            TranslaleModel::where('id', $value->id)->update(['value' => $value->value,'valueFr' => $value->valueFr]);
             $this->tabfin[$value->name] = $value->value;
             $this->tabfinFr[$value->name] = $value->valueFr;
         }

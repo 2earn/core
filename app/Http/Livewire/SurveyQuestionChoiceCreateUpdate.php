@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Survey;
 use App\Models\SurveyQuestion;
 use App\Models\SurveyQuestionChoice;
+use App\Models\TranslaleModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
@@ -65,7 +66,20 @@ class SurveyQuestionChoiceCreateUpdate extends Component
     {
         $this->validate();
         try {
-            SurveyQuestionChoice::create(['title' => $this->title, 'question_id' => $this->idQuestion]);
+            $surveyQuestionChoice = SurveyQuestionChoice::create(
+                [
+                    'title' => $this->title,
+                    'question_id' => $this->idQuestion
+                ]);
+
+            TranslaleModel::create(
+                [
+                    'name' => TranslaleModel::getTranslateName($surveyQuestionChoice,'title'),
+                    'value' => $this->title . ' AR',
+                    'valueFr' => $this->title . ' FR',
+                    'valueEn' => $this->title . ' EN'
+                ]);
+
         } catch (\Exception $exception) {
             return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while creating Choice!!') . ' : ' . $exception->getMessage());
         }

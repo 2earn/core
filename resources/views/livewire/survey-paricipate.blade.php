@@ -28,7 +28,7 @@
                         <div class="row">
                             <div class="col-sm-12 col-md-6 col-lg-6">
                                 <h6 class="card-header border-muted mb-0 flex-grow-1">{{__('Question statement')}}:</h6>
-                                {{ $survey->question->content }}
+                                {{\App\Models\TranslaleModel::getTranslation($survey->question,'content',$survey->question->content)}}
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-6">
                                 <h6 class="card-header border-muted mb-0 flex-grow-1">                                            {{__('Response')}}
@@ -50,7 +50,7 @@
                                                             >
                                                             <label class="form-check-label"
                                                                    for="flexRadio_{{$survey->question->id}}_{{$choice->id}}">
-                                                                {{$loop->index+1}} - {{$choice->title}}
+                                                                {{$loop->index+1}} - {{\App\Models\TranslaleModel::getTranslation($choice,'title',$choice->title)}}
                                                             </label>
                                                         </div>
                                                     @else
@@ -64,7 +64,7 @@
                                                             >
                                                             <label class="form-check-label"
                                                                    for="flexCheck_{{$survey->question->id}}_{{$choice->id}}">
-                                                                {{$loop->index+1}} - {{$choice->title}}
+                                                                {{$loop->index+1}} - {{\App\Models\TranslaleModel::getTranslation($choice,'title',$choice->title)}}
                                                             </label>
                                                         </div>
                                                     @endif

@@ -73,21 +73,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12 col-md-6 col-lg-6 mt-1">
-            <div class="btn-group material-shadow" role="group" aria-label="Basic example">
-                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
-                   wire:click="PreImport('mergeToData')">
-                    <i class="ri-database-2-fill label-icon align-middle fs-16 ms-2"></i>
-                    {{__('Merge field To base')}}
-                </a>
-                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
-                   wire:click="PreImport('databaseToFile')">
-                    <i class="ri-file-2-line label-icon align-middle fs-16 ms-2"></i>
-                    {{__('Database To file')}}
-                </a>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-6 mt-1">
+        <div class="col-sm-12 col-md-12 col-lg-12 mt-1">
             <div class="btn-group material-shadow float-end" role="group" aria-label="Basic example">
                 <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
                    wire:click="PreAjout">
@@ -186,30 +172,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         window.addEventListener('closeModal', event => {
             $("#editTranslationModalClose").trigger('click');
         });
-        window.addEventListener('PassEnter', event => {
 
-            Swal.fire({
-                title: '{{ __('Pass') }}',
-                input: 'text',
-                inputAttributes: {autocapitalize: 'off'},
-                showCancelButton: true,
-                confirmButtonText: 'Confirm',
-            }).then((resultat) => {
-                if (resultat.value) {
-                    switch (event.detail.ev) {
-                        case 'mergeToData':
-                            window.Livewire.emit('mergeTransaction', resultat.value);
-                            break;
-                        case 'databaseToFile':
-                            window.Livewire.emit('databaseToFile', resultat.value);
-                            break;
-                    }
-                }
-                if (resultat.isDismissed) {
-                    Swal.hideLoading()
-                }
-            })
-        })
         window.addEventListener('PreAjoutTrans', event => {
             Swal.fire({
                 title: '{{__('Enter field name')}}',
