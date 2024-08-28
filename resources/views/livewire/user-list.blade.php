@@ -233,11 +233,12 @@
                         <th>{{__('SoldeDB')}}</th>
                         <th>{{__('SoldeSMS')}}</th>
                         <th>{{__('SoldeSHARES')}}</th>
+                        <th>{{__('Action')}}</th>
+                        <th>{{__('VIP')}}</th>
                         <th>{{__('otp')}}</th>
                         <th>{{__('Password')}}</th>
                         <th>{{__('register_upline')}}</th>
-                        <th>{{__('Action')}}</th>
-                        <th>{{__('VIP')}}</th>
+
                         <th>{{__('MinShare')}}</th>
                         <th>{{__('Periode')}}</th>
                         <th>{{__('date')}}</th>
@@ -634,7 +635,7 @@
                 "order": [[0, 'desc']],
                 "processing": true,
                 "serverSide": false,
-                "aLengthMenu": [[100, 500, 1000], [100, 500, 1000]],
+                "aLengthMenu": [[20, 50, 100], [20, 50, 100]],
                 search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
@@ -650,11 +651,11 @@
                     {data: 'SoldeDB'},
                     {data: 'SoldeSMS'},
                     {data: 'SoldeSH'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false},
+                    {data: 'VIP', name: 'action', orderable: false, searchable: false},
                     {data: 'OptActivation'},
                     {data: 'pass'},
                     {data: 'register_upline'},
-                    {data: 'action', name: 'action', orderable: false, searchable: false},
-                    {data: 'VIP', name: 'action', orderable: false, searchable: false},
                     {data: 'minshares'},
                     {data: 'periode'},
                     {data: 'date'},
