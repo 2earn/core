@@ -407,3 +407,11 @@ label, h1, h2, h3, h4, h5, h6, a, button, p, i, span, strong, .btn, div {
     direction: ltr;
     float: right;
 }
+
+.logoTopCashDanger {
+    color: red !important
+}
+
+.logoTopCashDanger span, .page-title-box {
+    background-color: red !important
+}
