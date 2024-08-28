@@ -803,10 +803,9 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
 
     }
 
-
-    public function getUsersList()
+    public function getUsersListQuery()
     {
-        $query = User::select('countries.apha2', 'users.idUser', 'idUplineRegister',
+        return User::select('countries.apha2', 'users.idUser', 'idUplineRegister',
             DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'),
             'users.mobile', 'users.created_at', 'OptActivation', 'pass',
             DB::raw('IFNULL(`vip`.`flashCoefficient`,"##") as coeff'),
@@ -816,13 +815,15 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
             DB::raw('`vip`.`dateFNS` as date'))
             ->join('metta_users as meta', 'meta.idUser', '=', 'users.idUser')
             ->join('countries', 'countries.id', '=', 'users.idCountry')
-            ->leftJoin('vip', function($join)
-            {
+            ->leftJoin('vip', function ($join) {
                 $join->on('vip.idUser', '=', 'users.idUser')
-                    ->where('vip.closed','=', 0);
-            });
+                    ->where('vip.closed', '=', 0);
+            })->orderBy('created_at', 'ASC');
+    }
 
-        return datatables($query)
+    public function getUsersList()
+    {
+        return datatables($this->getUsersListQuery())
             ->addColumn('formatted_mobile', function ($user) {
                 $phone = new PhoneNumber($user->mobile, $user->apha2);
                 try {
@@ -843,10 +844,10 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
                 $vip = "";
                 if (vip::Where('idUser', '=', $settings->idUser)
                     ->where('closed', '=', false)->get()->isNotEmpty()) {
-                    $vip = '<a class="btn btn-danger" disabled="disabled">' . Lang::get('Acctually is vip') . '</a>';
+                    $vip = '<a class="btn btn-danger m-1" disabled="disabled">' . Lang::get('Acctually is vip') . '</a>';
                 }
                 return $vip . '<a data-bs-toggle="modal" data-bs-target="#vip"   data-phone="' . $settings->mobile . '" data-country="' . $this->getFormatedFlagResourceName($settings->apha2) . '"  data-reciver="' . $settings->idUser . '"
-class="btn btn-xs btn-flash btn2earnTable vip"  >
+class="btn btn-xs btn-flash btn2earnTable vip m-1"  >
 <i class="glyphicon glyphicon-add"></i>' . Lang::get('VIP') . '</a> ';
 
             })
@@ -880,7 +881,7 @@ class="btn btn-ghost-success waves-effect waves-light sh"  >
             })
             ->addColumn('action', function ($settings) {
                 return '<a data-bs-toggle="modal" data-bs-target="#AddCash"   data-phone="' . $settings->mobile . '" data-country="' . $this->getFormatedFlagResourceName($settings->apha2) . '" data-reciver="' . $settings->idUser . '"
-class="btn btn-xs btn-primary btn2earnTable addCash" >' . Lang::get('Add cash') . '</a> ';
+class="btn btn-xs btn-primary btn2earnTable addCash m-1" >' . Lang::get('Add cash') . '</a> ';
             })
             ->rawColumns(['action', 'flag', 'SoldeCB', 'SoldeBFS', 'SoldeDB', 'SoldeSMS', 'SoldeSH', 'VIP'])
             ->make(true);
