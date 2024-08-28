@@ -15,7 +15,6 @@ class TranslateModelData extends Component
     use WithPagination;
 
     const TRANSLATION_PASSWORD = "159159";
-    const TRANSLATION_PATH = '/lang/models/';
     protected $paginationTheme = 'bootstrap';
     public $arabicValue = "";
     public $frenchValue = "";
@@ -86,16 +85,6 @@ class TranslateModelData extends Component
             $this->tabfin[$value->name] = $value->value;
             $this->tabfinFr[$value->name] = $value->valueFr;
         }
-        try {
-            $pathFile = resource_path() . self::TRANSLATION_PATH . 'ar.json';
-            $pathFileFr = resource_path() . self::TRANSLATION_PATH . 'fr.json';
-            $pathFileEn = resource_path() . self::TRANSLATION_PATH . 'en.json';
-            File::put($pathFile, json_encode($this->tabfin, JSON_UNESCAPED_UNICODE));
-            File::put($pathFileFr, json_encode($this->tabfinFr, JSON_UNESCAPED_UNICODE));
-            File::put($pathFileEn, json_encode($this->tabfinEn, JSON_UNESCAPED_UNICODE));
-        } catch (\Exception $exception) {
-            return redirect()->route('translate_model_data', app()->getLocale())->with('danger', trans('Keys to files  failed') . ' : ' . Lang::get($exception->getMessage()));
-        }
         return redirect()->route('translate_model_data', app()->getLocale())->with('success', trans('Keys to files added successfully'));
     }
 
@@ -112,16 +101,6 @@ class TranslateModelData extends Component
             $this->tabfin[$value->name] = $value->value;
             $this->tabfinFr[$value->name] = $value->valueFr;
             $this->tabfinEn[$value->name] = $value->valueEn;
-        }
-        try {
-            $pathFile = resource_path() . self::TRANSLATION_PATH . 'ar.json';
-            $pathFileFr = resource_path() . self::TRANSLATION_PATH . 'fr.json';
-            $pathFileEn = resource_path() . self::TRANSLATION_PATH . 'en.json';
-            File::put($pathFile, json_encode($this->tabfin, JSON_UNESCAPED_UNICODE));
-            File::put($pathFileFr, json_encode($this->tabfinFr, JSON_UNESCAPED_UNICODE));
-            File::put($pathFileEn, json_encode($this->tabfinEn, JSON_UNESCAPED_UNICODE));
-        } catch (\Exception $exception) {
-            return redirect()->route('translate_model_data', app()->getLocale())->with('danger', trans('Edit translation failed') . " " . Lang::get($exception->getMessage()));
         }
         return redirect()->route('translate_model_data', app()->getLocale())->with('success', trans('Edit translation succeeded'));
     }

@@ -117,11 +117,10 @@ class SurveyCreateUpdate extends Component
                 'goals' => $this->goals,
             ]);
             if (!is_null($this->idTarget)) {
+                $survey->targets()->detach();
                 $survey->targets()->attach([$this->idTarget]);
             }
-            if (!is_null($this->target)) {
-                $survey->targets()->attach([$this->target]);
-            }
+
             $translations = ['name', 'description', 'disabledResult', 'disabledComment', 'disabledLike'];
             foreach ($translations as $translation) {
                 TranslaleModel::create(
