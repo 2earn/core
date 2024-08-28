@@ -82,16 +82,15 @@ class Survey extends Model
 
     public static function disable($id, $note): bool
     {
-        $survey = Survey::where('id', $id)->update(['enabled' => false, 'disabledBtnDescription' => $note, 'disabledate' => Carbon::now()]);
-
+        $result = Survey::where('id', $id)->update(['enabled' => false, 'disabledBtnDescription' => $note, 'disabledate' => Carbon::now()]);
         TranslaleModel::create(
             [
-                'name' => TranslaleModel::getTranslateName($survey, 'disabledBtnDescription'),
+                'name' => TranslaleModel::getTranslateName(Survey::find($id), 'disabledBtnDescription'),
                 'value' => $note . ' AR',
                 'valueFr' => $note . ' FR',
                 'valueEn' => $note . ' EN'
             ]);
-        return $survey;
+        return $result;
     }
 
     public static function publish($id): bool
