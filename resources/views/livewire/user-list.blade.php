@@ -221,7 +221,7 @@
             <div class="card-body table-responsive">
                 <table id="users-list"
                        class="table table-striped table-bordered  display nowrap">
-                <thead class="table-light">
+                    <thead class="table-light">
                     <tr class="head2earn  tabHeader2earn">
                         <th>{{__('Details')}}</th>
                         <th>{{__('created at')}}</th>
@@ -375,8 +375,9 @@
                         <div class="card-body table-responsive">
                             <input id="balances-reciver" type="hidden">
                             <input id="balances-amount" type="hidden">
-                            <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                                   id="ub_table_list" style="width: 100%">
+                            <table
+                                class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                                id="ub_table_list" style="width: 100%">
                                 <thead class="table-light">
                                 <tr class="head2earn  tabHeader2earn">
                                     <th>{{ __('ref') }}</th>
@@ -411,8 +412,9 @@
                         <div class="card-body table-responsive">
                             <input id="balances-reciversh" type="hidden">
                             <input id="balances-amountsh" type="hidden">
-                            <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                                   id="ub_table_listsh" style="width: 100%">
+                            <table
+                                class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                                id="ub_table_listsh" style="width: 100%">
                                 <thead class="table-light">
                                 <tr class="head2earn  tabHeader2earn">
                                     <th>{{__('date_purchase')}}</th>
@@ -441,7 +443,7 @@
                 position: 'center',
                 icon: iconSwal,
                 title: titleSwal,
-                text: textSwal,
+                html: textSwal,
                 showConfirmButton: true,
                 showCloseButton: true
             });
@@ -698,7 +700,8 @@
             let coefficient = $('#coefficient').val();
             let note = $('#note').val();
             let date = Date.now();
-            let msgvip = "l'utilisateur " + reciver + " est VIP(x" + coefficient + ") pour une periode de " + periode + " à partir de " + date + " avec un minimum de " + minshares + " actions acheté";
+            let msgvip = "{{__('The user')}} " + reciver + " {{__('is VIP(x')}}" + coefficient + " {{__(') for a period of')}} " + periode + " {{__('from')}} " + Date().toLocaleString() + " {{__('with a minimum of')}} " + minshares + " {{__('shares bought')}}";
+            let swalTitle = "{{__('VIP mode')}}";
             let user = 126;
             if (minshares && periode && coefficient) {
                 $.ajax({
@@ -719,14 +722,20 @@
                             type: "POST",
                             data: {user: user, msg: msgvip, "_token": "{{ csrf_token() }}"},
                             success: function (data) {
-                                fireSwalInformMessage('success', data, msgvip)
+                                fireSwalInformMessage('success', swalTitle, msgvip + '<br> <span class="text-success">{{__('SMS sending succeded')}}</span>');
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                fireSwalInformMessage('warning', swalTitle, msgvip + '<br> <span class="text-danger">{{__('SMS sending failed')}}</span>')
                             }
                         });
                         $('.btn-vip-close').trigger('click');
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        fireSwalInformMessage('error', swalTitle, '{{__('VIP mode activation failed')}}')
                     }
                 });
             } else {
-                fireSwalInformMessage('error', '{{__('Error Vip')}}', '{{__('Please check form data')}}')
+                fireSwalInformMessage('error', swalTitle, '{{__('Please check form data')}}')
             }
         });
     </script>
