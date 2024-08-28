@@ -842,9 +842,16 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
             })
             ->addColumn('VIP', function ($settings) {
                 $vip = "";
-                if (vip::Where('idUser', '=', $settings->idUser)
-                    ->where('closed', '=', false)->get()->isNotEmpty()) {
-                    $vip = '<a class="btn btn-danger m-1" disabled="disabled">' . Lang::get('Acctually is vip') . '</a>';
+                $hasVip = vip::Where('idUser', '=', $settings->idUser)
+                    ->where('closed', '=', false)->get();
+                if ($hasVip->isNotEmpty()) {
+                    $dateStart = new \DateTime($hasVip->first()->dateFNS);
+                    $dateEnd = $dateStart->modify($hasVip->first()->flashDeadline . ' hour');;
+                    if ($dateEnd > now()) {
+                        $vip = '<a class="btn btn-success m-1" disabled="disabled">' . Lang::get('Acctually is vip') . '</a>';
+                    } else {
+                        $vip = '<a class="btn btn-info m-1" disabled="disabled">' . Lang::get('It was a vip') . '</a>';
+                    }
                 }
                 return $vip . '<a data-bs-toggle="modal" data-bs-target="#vip"   data-phone="' . $settings->mobile . '" data-country="' . $this->getFormatedFlagResourceName($settings->apha2) . '"  data-reciver="' . $settings->idUser . '"
 class="btn btn-xs btn-flash btn2earnTable vip m-1"  >
