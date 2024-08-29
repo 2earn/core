@@ -76,6 +76,12 @@ class SurveyCreateUpdate extends Component
         $this->showAttchivementChrono = TargetType::ALL->value;
         $this->showAfterArchiving = TargetType::ALL->value;
         $this->showAttchivementGool = TargetType::ALL->value;
+        if (!is_null($this->idTarget)) {
+            $this->target = $this->idTarget;
+        } else {
+            $targetSelected = Target::all()->first();
+            $this->target = $targetSelected->id;
+        }
     }
 
     public function validateDisabled()
@@ -116,9 +122,11 @@ class SurveyCreateUpdate extends Component
                 'disabledLike' => $this->disabledLike,
                 'goals' => $this->goals,
             ]);
-            if (!is_null($this->idTarget)) {
+
+
+            if (!is_null($this->target)) {
                 $survey->targets()->detach();
-                $survey->targets()->attach([$this->idTarget]);
+                $survey->targets()->attach([$this->target]);
             }
 
             $translations = ['name', 'description', 'disabledResult', 'disabledComment', 'disabledLike'];
@@ -131,7 +139,6 @@ class SurveyCreateUpdate extends Component
                         'valueEn' => $this->{$translation} . ' EN'
                     ]);
             }
-
 
         } catch (\Exception $exception) {
             return redirect()->route('survey_create_update', app()->getLocale())->with('danger', Lang::get('Something goes wrong while creating Survey!!') . ' : ' . $exception->getMessage());
@@ -160,9 +167,10 @@ class SurveyCreateUpdate extends Component
         $this->disabledResult = $survey->disabledResult;
         $this->disabledComment = $survey->disabledComment;
         $this->disabledLike = $survey->disabledLike;
-        if (!empty($survey->target)) {
-            $this->target = $survey->target->first();
+        if ($survey->targets->isEmpty()) {
+            $this->target = $survey->targets->first();
         }
+
         $this->update = true;
     }
 
