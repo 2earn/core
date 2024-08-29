@@ -803,13 +803,27 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
 
     }
 
+    public function getUsersListQuery()
+    {
+        return User::select('countries.apha2', 'users.idUser', 'idUplineRegister',
+            DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'),
+            'users.mobile', 'users.created_at', 'OptActivation', 'pass',
+            DB::raw('IFNULL(`vip`.`flashCoefficient`,"##") as coeff'),
+            DB::raw('IFNULL(`vip`.`flashDeadline`,"##") as periode'),
+            DB::raw('IFNULL(`vip`.`flashNote`,"##") as note'),
+            DB::raw('IFNULL(`vip`.`flashMinAmount`,"##") as minshares'),
+            DB::raw('`vip`.`dateFNS` as date'))
+            ->join('metta_users as meta', 'meta.idUser', '=', 'users.idUser')
+            ->join('countries', 'countries.id', '=', 'users.idCountry')
+            ->leftJoin('vip', function ($join) {
+                $join->on('vip.idUser', '=', 'users.idUser')
+                    ->where('vip.closed', '=', 0);
+            })->orderBy('created_at', 'ASC');
+    }
 
     public function getUsersList()
     {
-        $query = User::select('countries.apha2', 'users.idUser', 'idUplineRegister', DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'), 'users.mobile', 'users.created_at', 'OptActivation', 'pass', DB::raw('IFNULL(`flashCoefficient`,"##") as coeff'), DB::raw('IFNULL(`flashDeadline`,"##") as periode'), DB::raw('IFNULL(`flashNote`,"##") as note'), DB::raw('IFNULL(`flashMinAmount`,"##") as minshares'), DB::raw('IFNULL(`dateFNS`,"##") as date'))
-            ->join('metta_users as meta', 'meta.idUser', '=', 'users.idUser')
-            ->join('countries', 'countries.id', '=', 'users.idCountry');
-        return datatables($query)
+        return datatables($this->getUsersListQuery())
             ->addColumn('formatted_mobile', function ($user) {
                 $phone = new PhoneNumber($user->mobile, $user->apha2);
                 try {
@@ -827,10 +841,22 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
                 return Carbon\Carbon::parse($user->created_at)->format('Y-m-d H:i:s');
             })
             ->addColumn('VIP', function ($settings) {
-
-                return '<a data-bs-toggle="modal" data-bs-target="#vip"   data-phone="' . $settings->mobile . '" data-country="' . $this->getFormatedFlagResourceName($settings->apha2) . '"  data-reciver="' . $settings->idUser . '"
-class="btn btn-xs btn-flash btn2earnTable vip"  >
+                $vip = "";
+                $hasVip = vip::Where('idUser', '=', $settings->idUser)
+                    ->where('closed', '=', false)->get();
+                if ($hasVip->isNotEmpty()) {
+                    $dateStart = new \DateTime($hasVip->first()->dateFNS);
+                    $dateEnd = $dateStart->modify($hasVip->first()->flashDeadline . ' hour');;
+                    if ($dateEnd > now()) {
+                        $vip = '<a class="btn btn-success m-1" disabled="disabled">' . Lang::get('Acctually is vip') . '</a>';
+                    } else {
+                        $vip = '<a class="btn btn-info m-1" disabled="disabled">' . Lang::get('It was a vip') . '</a>';
+                    }
+                }
+                return $vip . '<a data-bs-toggle="modal" data-bs-target="#vip"   data-phone="' . $settings->mobile . '" data-country="' . $this->getFormatedFlagResourceName($settings->apha2) . '"  data-reciver="' . $settings->idUser . '"
+class="btn btn-xs btn-flash btn2earnTable vip m-1"  >
 <i class="glyphicon glyphicon-add"></i>' . Lang::get('VIP') . '</a> ';
+
             })
             ->addColumn('flag', function ($settings) {
                 return '<img src="' . $this->getFormatedFlagResourceName($settings->apha2) . '" alt="' . strtolower($settings->apha2) . '" title="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
@@ -862,7 +888,7 @@ class="btn btn-ghost-success waves-effect waves-light sh"  >
             })
             ->addColumn('action', function ($settings) {
                 return '<a data-bs-toggle="modal" data-bs-target="#AddCash"   data-phone="' . $settings->mobile . '" data-country="' . $this->getFormatedFlagResourceName($settings->apha2) . '" data-reciver="' . $settings->idUser . '"
-class="btn btn-xs btn-primary btn2earnTable addCash" >' . Lang::get('Add cash') . '</a> ';
+class="btn btn-xs btn-primary btn2earnTable addCash m-1" >' . Lang::get('Add cash') . '</a> ';
             })
             ->rawColumns(['action', 'flag', 'SoldeCB', 'SoldeBFS', 'SoldeDB', 'SoldeSMS', 'SoldeSH', 'VIP'])
             ->make(true);

@@ -61,4 +61,14 @@ class User extends Authenticatable
 
         return is_null($requestIdentification->get()->first()) ? false : true;
     }
+
+    public function surveyResponse()
+    {
+        return $this->hasMany(SurveyResponse::class);
+    }
+
+    public function comment()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

@@ -8,7 +8,6 @@ class Setting extends Model
 {
     public $primaryKey = 'idSETTINGS';
     protected $table = 'settings';
-//    protected $fillable = [ 'name','value'];
     public $timestamps = false;
 
 }

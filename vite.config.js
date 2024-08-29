@@ -83,6 +83,7 @@ export default defineConfig({
                 'resources/js/livewire-turbolinks.js',
                 'resources/js/pages/form-validation.init.js',
                 'resources/js/pages/crypto-kyc.init.js',
+                'resources/js/surveys.js',
             ],
             refresh: true,
             server: {
