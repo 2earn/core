@@ -126,23 +126,44 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                     @foreach ($translates as $value)
                                         <tr>
                                             <td><span> {{$value->id}}</span></td>
-                                            <td title="{{$value->name}}">
-                                                {{__('Class')}} : <span
-                                                    class="badge text-info">{{\App\Models\TranslaleModel::getClassNameFromName($value->name)}}</span>
-                                                > {{__('Property')}} : <span
-                                                    class="badge text-info">{{\App\Models\TranslaleModel::getPropertyFromName($value->name)}}</span>
-                                                > {{__('ID')}} : <span
-                                                    class="badge text-dark">{{\App\Models\TranslaleModel::getIdFromName($value->name)}}</span>
+                                            <td title="{{$value->name}}" class="w-25">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item">   {{__('Class')}} : <span
+                                                            class="badge text-info">{{\App\Models\TranslaleModel::getClassNameFromName($value->name)}}</span>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        > {{__('Property')}} : <span
+                                                            class="badge text-info">{{\App\Models\TranslaleModel::getPropertyFromName($value->name)}}</span>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        > {{__('ID')}} : <span
+                                                            class="badge text-dark">{{\App\Models\TranslaleModel::getIdFromName($value->name)}}</span>
+                                                    </li>
+                                                </ul>
                                             </td>
-                                            <td class="d-none d-md-block text-info">{{__('English')}}:<span class="text-muted mx-1">{{ Str::limit($value->valueEn,100)}}</span>
-                                                <hr>
-                                                {{__('Arabe')}}:<span class="text-muted mx-1">{{ Str::limit($value->value,100)}}</span>
-                                            <hr>
-                                                {{__('Francais')}}:<span class="text-muted mx-1">{{ Str::limit($value->valueFr,100)}}</span>
+                                            <td class="d-none d-md-block text-info">
+
+                                                <ul class="list-group">
+                                                    <li class="list-group-item">
+                                                        {{__('English')}}:<span
+                                                            class="text-muted mx-1">{{ Str::limit($value->valueEn,100)}}</span>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        {{__('Arabe')}}:<span
+                                                            class="text-muted mx-1">{{ Str::limit($value->value,100)}}</span>
+                                                    </li>
+                                                    <li class="list-group-item">
+
+                                                        {{__('Francais')}}:<span
+                                                            class="text-muted mx-1">{{ Str::limit($value->valueFr,100)}}</span>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                  <span class="text-muted"><i class="fa-solid fa-plus mx-2"></i>{{$value->created_at}}<br><i
+                                                          class="fa-solid fa-pen-to-square mx-2"></i>{{$value->updated_at}}</span>
+                                                    </li>
+                                                </ul>
                                             </td>
-                                            <td class="d-none d-md-block" ><span class="text-muted"><i class="fa-solid fa-plus mx-2"></i>{{$value->created_at}}<br><i
-                                                        class="fa-solid fa-pen-to-square mx-2"></i>{{$value->updated_at}}</span>
-                                            </td>
+
                                             <td>
                                                 <a type="btn" wire:click="initTranslate({{$value->id}})"
                                                    data-bs-toggle="modal" data-bs-target="#editTranslationModal"

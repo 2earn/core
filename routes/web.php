@@ -110,11 +110,11 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::middleware(['IsSuperAdmin'])->group(function () {
             Route::get('/user_list', \App\Http\Livewire\UsersList::class)->name('user_list');
             Route::get('/user/{idUser}/details', \App\Http\Livewire\UserDetails::class)->name('user_details');
-            Route::get('/configuration-ha', ConfigurationHA::class)->name('configuration-ha');
-            Route::get('/configuration-setting', \App\Http\Livewire\ConfigurationSetting::class)->name('configuration-setting');
-            Route::get('/configuration-bo', \App\Http\Livewire\ConfigurationBO::class)->name('configuration-bo');
-            Route::get('/configuration-amounts', \App\Http\Livewire\ConfigurationAmounts::class)->name('configuration-amounts');
-            Route::get('/edit_admin', \App\Http\Livewire\EditAdmin::class)->name('edit_admin');
+            Route::get('/configuration/ha', ConfigurationHA::class)->name('configuration-ha');
+            Route::get('/configuration/setting', \App\Http\Livewire\ConfigurationSetting::class)->name('configuration-setting');
+            Route::get('/configuration/bo', \App\Http\Livewire\ConfigurationBO::class)->name('configuration-bo');
+            Route::get('/configuration/amounts', \App\Http\Livewire\ConfigurationAmounts::class)->name('configuration-amounts');
+            Route::get('/admin/edit', \App\Http\Livewire\EditAdmin::class)->name('edit_admin');
             Route::get('/countries_management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
             Route::get('/admin/identification_request', identificationRequest::class)->name('identification_request');
             Route::get('/translation', TranslateView::class)->name('translate');
@@ -131,9 +131,9 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/stat/countrie', \App\Http\Livewire\StatCountrie::class)->name('stat_countrie');
             Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');
             Route::get('/sharessolde', \App\Http\Livewire\SharesSolde::class)->name('sharessolde');
-            Route::get('/shares-sold-dashboard', \App\Http\Livewire\SharesSold::class)->name('shares_sold');
-            Route::get('/shares-sold-market-status', \App\Http\Livewire\SharesSoldMarketStatus::class)->name('shares_sold_market_status');
-            Route::get('/shares-sold-recent-transaction', \App\Http\Livewire\SharesSoldRecentTransaction::class)->name('shares_sold_recent_transaction');
+            Route::get('/shares-sold/dashboard', \App\Http\Livewire\SharesSold::class)->name('shares_sold');
+            Route::get('/shares-sold/market-status', \App\Http\Livewire\SharesSoldMarketStatus::class)->name('shares_sold_market_status');
+            Route::get('/shares-sold/recent-transaction', \App\Http\Livewire\SharesSoldRecentTransaction::class)->name('shares_sold_recent_transaction');
         });
         Route::get('/stat-countries', 'App\Http\Controllers\ApiController@getCountriStat')->name('api_stat_countries');
         Route::post('/validate-phone', 'App\Http\Controllers\ApiController@validatePhone')->name('validate_phone');

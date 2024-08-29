@@ -47,7 +47,6 @@ class SurveyIndex extends Component
             }
             Survey::disable($id, $this->disableNote);
         } catch (\Exception $exception) {
-            dd($exception);
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while Disabling Survey!!') . ' : ' . $exception->getMessage());
         }
 

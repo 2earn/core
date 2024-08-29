@@ -127,7 +127,7 @@
 @show
 <div id="layout-wrapper">
     <livewire:top-bar :currentRoute="Route::currentRouteName()"/>
-    @include('layouts.sidebar')
+    @include('layouts.sidebar',['currentRoute'=>Route::currentRouteName()])
     <div class="main-content">
         <div class="page-content">
             <div class="container-fluid">
@@ -262,7 +262,7 @@
             }
             inputlog.focus();
         }
-        if (pathPage == 'user'&&document.getElementById("ipAddContact")) {
+        if (pathPage == 'user' && document.getElementById("ipAddContact")) {
 
             ipAddContact.innerHTML = "<div class='input-group-prepend'> " +
                 "</div><input wire:model.defer='phoneNumber' type='tel' name='phoneAddContact' id='phoneAddContact' class='form-control' onpaste='handlePaste(event)'" +

@@ -144,26 +144,35 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                     class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
                                     <thead>
                                     <tr>
-                                        <th scope="Id">{{__('Id')}}</th>
-                                        <th scope="key">{{__('key')}}</th>
-                                        <th scope="English">{{__('English')}}</th>
-                                        <th scope="Arabe">{{__('Arabe')}}</th>
-                                        <th scope="Francais">{{__('Francais')}}</th>
-                                        <th scope="Actions">{{__('Actions')}}</th>
+                                        <th>{{__('Id')}}</th>
+                                        <th>{{__('key')}}</th>
+                                        <th class="d-none d-md-block">{{__('Translation')}}</th>
+                                        <th>{{__('Actions')}}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach ($translates as $value)
                                         <tr>
                                             <td><span> {{$value->id}}</span></td>
-                                            <td><span>{{$value->name}}</span></td>
-                                            <td><span>{{$value->valueEn}}</span></td>
-                                            <td><span> {{$value->value}}</span></td>
-                                            <td><span>{{$value->valueFr}}</span></td>
+                                            <td title="{{$value->name}}">
+                                                {{$value->name}} </td>
+                                            <td class="d-none d-md-block text-info">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item">  {{__('English')}}:<span
+                                                            class="text-muted mx-1">{{ Str::limit($value->valueEn,200)}}</span>
+                                                    </li>
+                                                    <li class="list-group-item">  {{__('Arabe')}}:<span
+                                                            class="text-muted mx-1">{{ Str::limit($value->value,200)}}</span>
+                                                    </li>
+                                                    <li class="list-group-item">  {{__('Francais')}}:<span
+                                                            class="text-muted mx-1">{{ Str::limit($value->valueFr,200)}}</span>
+                                                    </li>
+                                                </ul>
+                                            </td>
                                             <td>
                                                 <a type="btn" wire:click="initTranslate({{$value->id}})"
                                                    data-bs-toggle="modal" data-bs-target="#editTranslationModal"
-                                                   class="btn btn-info">{{__('Edit')}}
+                                                   class="btn btn-info  mt-1">{{__('Edit')}}
                                                 </a>
                                                 <a type="btn" onclick="confirmDelete({{$value->id}})"
                                                    class="btn btn-danger mt-1">{{__('Delete')}}
