@@ -72,117 +72,128 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-12 col-md-6 col-lg-5 mt-1">
-            <div class="btn-group material-shadow" role="group" aria-label="Basic example">
-                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
-                   wire:click="PreImport('arToData')">
-                    <i class="ri-dashboard-2-fill label-icon align-middle fs-16 ms-2"></i>
-                    {{__('Arabic field To base')}}
-                </a>
-                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
-                   wire:click="PreImport('enToData')">
-                    <i class="ri-dashboard-2-fill label-icon align-middle fs-16 ms-2"></i>
-                    {{__('English field To base')}}
-                </a>
+    <div class="row card">
+        <div class="card-header border-info">
+            <div class="d-flex align-items-center">
+                <h6 class="card-title mb-0 flex-grow-1">{{ __('Translate') }}</h6>
             </div>
         </div>
-        <div class="col-sm-12 col-md-6 col-lg-5 mt-1">
-            <div class="btn-group material-shadow" role="group" aria-label="Basic example">
-                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
-                   wire:click="PreImport('mergeToData')">
-                    <i class="ri-database-2-fill label-icon align-middle fs-16 ms-2"></i>
-                    {{__('Merge field To base')}}
-                </a>
-                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
-                   wire:click="PreImport('databaseToFile')">
-                    <i class="ri-file-2-line label-icon align-middle fs-16 ms-2"></i>
-                    {{__('Database To file')}}
-                </a>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-2 mt-1">
-            <div class="btn-group material-shadow" role="group" aria-label="Basic example">
-                <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
-                   wire:click="PreAjout">
-                    <i class="ri-file-add-fill label-icon align-middle fs-16 ms-2"></i>
-                    {{__('Add a new')}}
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12 mt-2">
-            @include('layouts.flash-messages')
-        </div>
-        <div class="col-12">
+        <div class="card-body">
             <div class="row">
+                <div class="col-sm-12 col-md-6 col-lg-5 mt-1">
+                    <div class="btn-group material-shadow" role="group" aria-label="Basic example">
+                        <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
+                           wire:click="PreImport('arToData')">
+                            <i class="ri-dashboard-2-fill label-icon align-middle fs-16 ms-2"></i>
+                            {{__('Arabic field To base')}}
+                        </a>
+                        <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
+                           wire:click="PreImport('enToData')">
+                            <i class="ri-dashboard-2-fill label-icon align-middle fs-16 ms-2"></i>
+                            {{__('English field To base')}}
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-5 mt-1">
+                    <div class="btn-group material-shadow" role="group" aria-label="Basic example">
+                        <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
+                           wire:click="PreImport('mergeToData')">
+                            <i class="ri-database-2-fill label-icon align-middle fs-16 ms-2"></i>
+                            {{__('Merge field To base')}}
+                        </a>
+                        <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
+                           wire:click="PreImport('databaseToFile')">
+                            <i class="ri-file-2-line label-icon align-middle fs-16 ms-2"></i>
+                            {{__('Database To file')}}
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-2 mt-1">
+                    <div class="btn-group material-shadow" role="group" aria-label="Basic example">
+                        <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
+                           wire:click="PreAjout">
+                            <i class="ri-file-add-fill label-icon align-middle fs-16 ms-2"></i>
+                            {{__('Add a new')}}
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 mt-2">
+                    @include('layouts.flash-messages')
+                </div>
                 <div class="col-12">
-                    <div class="card">
-                        <div class="card-header headerTranslate">
-                            <div class="row ">
-                                <div class="col-md-6 form-row">
-                                    <label for="nbrPagibation" class="col-4"> {{__('Show')}} </label>
-                                    <select wire:model="nbrPagibation" class="form-control col-6"
-                                            id="nbrPagibation">
-                                        <option value="10">10</option>
-                                        <option value="25">25</option>
-                                        <option value="50">50</option>
-                                    </select>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header headerTranslate">
+                                    <div class="row ">
+                                        <div class="col-md-6 form-row">
+                                            <label for="nbrPagibation" class="col-4"> {{__('Show')}} </label>
+                                            <select wire:model="nbrPagibation" class="form-control col-6"
+                                                    id="nbrPagibation">
+                                                <option value="10">10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 form-row">
+                                            <label for="search" class="col-4">{{__('Search')}} </label>
+                                            <input type="text" class="form-control col-6"
+                                                   placeholder="{{__('Search')}}..."
+                                                   id="search"
+                                                   wire:model="search"/>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-6 form-row">
-                                    <label for="search" class="col-4">{{__('Search')}} </label>
-                                    <input type="text" class="form-control col-6" placeholder="{{__('Search')}}..."
-                                           id="search"
-                                           wire:model="search"/>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table
+                                            class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
+                                            <thead>
+                                            <tr>
+                                                <th>{{__('Id')}}</th>
+                                                <th>{{__('key')}}</th>
+                                                <th class="d-none d-md-block">{{__('Translation')}}</th>
+                                                <th>{{__('Actions')}}</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach ($translates as $value)
+                                                <tr>
+                                                    <td><span> {{$value->id}}</span></td>
+                                                    <td title="{{$value->name}}">
+                                                        {{$value->name}} </td>
+                                                    <td class="d-none d-md-block text-info">
+                                                        <ul class="list-group">
+                                                            <li class="list-group-item">  {{__('English')}}:<span
+                                                                    class="text-muted mx-1">{{ Str::limit($value->valueEn,200)}}</span>
+                                                            </li>
+                                                            <li class="list-group-item">  {{__('Arabe')}}:<span
+                                                                    class="text-muted mx-1">{{ Str::limit($value->value,200)}}</span>
+                                                            </li>
+                                                            <li class="list-group-item">  {{__('Francais')}}:<span
+                                                                    class="text-muted mx-1">{{ Str::limit($value->valueFr,200)}}</span>
+                                                            </li>
+                                                        </ul>
+                                                    </td>
+                                                    <td>
+                                                        <a type="btn" wire:click="initTranslate({{$value->id}})"
+                                                           data-bs-toggle="modal" data-bs-target="#editTranslationModal"
+                                                           class="btn btn-info  mt-1">{{__('Edit')}}
+                                                        </a>
+                                                        <a type="btn" onclick="confirmDelete({{$value->id}})"
+                                                           class="btn btn-danger mt-1">{{__('Delete')}}
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                        {{$translates->links()}}
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table
-                                    class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
-                                    <thead>
-                                    <tr>
-                                        <th>{{__('Id')}}</th>
-                                        <th>{{__('key')}}</th>
-                                        <th class="d-none d-md-block">{{__('Translation')}}</th>
-                                        <th>{{__('Actions')}}</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach ($translates as $value)
-                                        <tr>
-                                            <td><span> {{$value->id}}</span></td>
-                                            <td title="{{$value->name}}">
-                                                {{$value->name}} </td>
-                                            <td class="d-none d-md-block text-info">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item">  {{__('English')}}:<span
-                                                            class="text-muted mx-1">{{ Str::limit($value->valueEn,200)}}</span>
-                                                    </li>
-                                                    <li class="list-group-item">  {{__('Arabe')}}:<span
-                                                            class="text-muted mx-1">{{ Str::limit($value->value,200)}}</span>
-                                                    </li>
-                                                    <li class="list-group-item">  {{__('Francais')}}:<span
-                                                            class="text-muted mx-1">{{ Str::limit($value->valueFr,200)}}</span>
-                                                    </li>
-                                                </ul>
-                                            </td>
-                                            <td>
-                                                <a type="btn" wire:click="initTranslate({{$value->id}})"
-                                                   data-bs-toggle="modal" data-bs-target="#editTranslationModal"
-                                                   class="btn btn-info  mt-1">{{__('Edit')}}
-                                                </a>
-                                                <a type="btn" onclick="confirmDelete({{$value->id}})"
-                                                   class="btn btn-danger mt-1">{{__('Delete')}}
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                                {{$translates->links()}}
                             </div>
                         </div>
                     </div>
