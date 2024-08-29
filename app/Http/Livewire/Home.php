@@ -64,7 +64,9 @@ class Home extends Component
     public function simulateAction()
     {
         if ($this->action < 0 && $this->action == "") {
-            $this->action = 0;
+            $this->ammount = "";
+            $this->action = "";
+            return;
         }
 
         if ($this->action > self::MAX_ACTIONS) {
@@ -78,7 +80,9 @@ class Home extends Component
     public function simulateAmmount()
     {
         if ($this->ammount < 0 && $this->ammount == "") {
-            $this->ammount = 0;
+            $this->ammount = "";
+            $this->action = "";
+            return;
         }
         if ($this->ammount > self::MAX_AMOUNT) {
             $this->ammount = self::MAX_AMOUNT;
@@ -157,7 +161,7 @@ class Home extends Component
             "soldeBuyShares" => $balancesManager->getBalances($user->idUser, 2),
             'arraySoldeD' => [$solde->soldeCB, $solde->soldeBFS, $solde->soldeDB],
             'usermetta_info' => $usermetta_info,
-            'surveys'=> Survey::all()->sortByDesc("id")->take(4),
+            'surveys' => Survey::all()->sortByDesc("id")->take(4),
             "actualActionValue" => [
                 'int' => intval($actualActionValue),
                 '2Fraction' => intval(($actualActionValue - floor($actualActionValue)) * 100),
