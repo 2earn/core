@@ -249,11 +249,11 @@
                         <th>{{__('SoldeDB')}}</th>
                         <th>{{__('SoldeSMS')}}</th>
                         <th>{{__('SoldeSHARES')}}</th>
+                        <th>{{__('Action')}}</th>
+                        <th>{{__('VIP')}}</th>
                         <th>{{__('otp')}}</th>
                         <th>{{__('Password')}}</th>
                         <th>{{__('register_upline')}}</th>
-                        <th>{{__('Action')}}</th>
-                        <th>{{__('VIP')}}</th>
                         <th>{{__('MinShare')}}</th>
                         <th>{{__('Periode')}}</th>
                         <th>{{__('date')}}</th>
@@ -459,7 +459,7 @@
                 position: 'center',
                 icon: iconSwal,
                 title: titleSwal,
-                text: textSwal,
+                html: textSwal,
                 showConfirmButton: true,
                 showCloseButton: true
             });
@@ -666,11 +666,11 @@
                     {data: 'SoldeDB'},
                     {data: 'SoldeSMS'},
                     {data: 'SoldeSH'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false},
+                    {data: 'VIP', name: 'action', orderable: false, searchable: false},
                     {data: 'OptActivation'},
                     {data: 'pass'},
                     {data: 'register_upline'},
-                    {data: 'action', name: 'action', orderable: false, searchable: false},
-                    {data: 'VIP', name: 'action', orderable: false, searchable: false},
                     {data: 'minshares'},
                     {data: 'periode'},
                     {data: 'date'},
@@ -716,7 +716,8 @@
             let coefficient = $('#coefficient').val();
             let note = $('#note').val();
             let date = Date.now();
-            let msgvip = "l'utilisateur " + reciver + " est VIP(x" + coefficient + ") pour une periode de " + periode + " à partir de " + date + " avec un minimum de " + minshares + " actions acheté";
+            let msgvip = "{{__('The user')}} " + reciver + " {{__('is VIP(x')}}" + coefficient + " {{__(') for a period of')}} " + periode + " {{__('from')}} " + Date().toLocaleString() + " {{__('with a minimum of')}} " + minshares + " {{__('shares bought')}}";
+            let swalTitle = "{{__('VIP mode')}}";
             let user = 126;
             if (minshares && periode && coefficient) {
                 $.ajax({
@@ -737,14 +738,20 @@
                             type: "POST",
                             data: {user: user, msg: msgvip, "_token": "{{ csrf_token() }}"},
                             success: function (data) {
-                                fireSwalInformMessage('success', data, msgvip)
+                                fireSwalInformMessage('success', swalTitle, msgvip + '<br> <span class="text-success">{{__('SMS sending succeded')}}</span>');
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                fireSwalInformMessage('warning', swalTitle, msgvip + '<br> <span class="text-danger">{{__('SMS sending failed')}}</span>')
                             }
                         });
                         $('.btn-vip-close').trigger('click');
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        fireSwalInformMessage('error', swalTitle, '{{__('VIP mode activation failed')}}')
                     }
                 });
             } else {
-                fireSwalInformMessage('error', '{{__('Error Vip')}}', '{{__('Please check form data')}}')
+                fireSwalInformMessage('error', swalTitle, '{{__('Please check form data')}}')
             }
         });
     </script>
