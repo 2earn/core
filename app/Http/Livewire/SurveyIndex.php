@@ -158,7 +158,6 @@ class SurveyIndex extends Component
     public function render()
     {
         $params['surveys'] = $this->getSurveys();
-        return view('livewire.survey-ind
-        ex', $params)->extends('layouts.master')->section('content');
+        return view('livewire.survey-index', $params)->extends('layouts.master')->section('content');
     }
 }
