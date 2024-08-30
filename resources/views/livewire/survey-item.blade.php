@@ -550,15 +550,15 @@
                         </div>
                     </li>
                 @else
-                    @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
                         <li class="list-group-item">{{__('No questions')}}.
+                            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
                             <br>
                             <a href="{{route('survey_question_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
                                title="{{__('Add Question')}}" class="btn btn-soft-info material-shadow-none mt-2">
                                 {{__('Add Question')}}
                             </a>
+                            @endif
                         </li>
-                    @endif
                 @endif
 
             </ul>

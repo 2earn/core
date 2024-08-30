@@ -135,7 +135,9 @@ class SurveyIndex extends Component
             }
 
         } else {
-            $surveysQuery = Survey::where('published', true);
+
+            $surveysQuery = $surveysQuery->where('published', true)
+                ->where('status', '!=', StatusSurvey::NEW->value);
 
             if (!is_null($this->search) && !empty($this->search)) {
                 $surveysQuery = $surveysQuery
@@ -156,6 +158,7 @@ class SurveyIndex extends Component
     public function render()
     {
         $params['surveys'] = $this->getSurveys();
-        return view('livewire.survey-index', $params)->extends('layouts.master')->section('content');
+        return view('livewire.survey-ind
+        ex', $params)->extends('layouts.master')->section('content');
     }
 }
