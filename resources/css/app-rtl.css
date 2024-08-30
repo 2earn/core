@@ -16079,6 +16079,11 @@ span.flatpickr-weekday {
     padding: 0;
 }
 
+
+.hide {
+    display: none;
+}
+
 .dtmdbtn {
     cursor: pointer;
 }
@@ -16086,4 +16091,45 @@ span.flatpickr-weekday {
 .dt-layout-row {
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.section.pair .pair-steps .step .step-number .value {
+    color: rgba(var(--vz-info-rgb), var(--vz-text-opacity)) !important;
+    font-weight: 600;
+    font-size: 30px;
+}
+
+.survey-countdown .survey-countdown-body .counter .title {
+    color: #878a99;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 1px 2px #0003;
+    margin-top: 5px;
+}
+
+.survey-countdown .survey-countdown-body .counter .counter-boxes {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+}
+
+.survey-countdown .survey-countdown-body .counter .counter-boxes .count-box {
+    backdrop-filter: blur(3px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    margin: 5px;
+}
+
+.survey-countdown .survey-countdown-body .counter .counter-boxes .count-box span {
+    color: #46a2bb;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
