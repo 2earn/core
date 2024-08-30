@@ -157,7 +157,12 @@ class SurveyShow extends Component
 
     public function dislike()
     {
-        Survey::find($this->idSurvey)->likes()->delete();
+        $likes = Survey::find($this->idSurvey)->likes()->get();
+        foreach ($likes as $like) {
+            if ($like->user_id == auth()->user()->id) {
+                $like->delete();
+            }
+        }
         $this->like = false;
     }
 
