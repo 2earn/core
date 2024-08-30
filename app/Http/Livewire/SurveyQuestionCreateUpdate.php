@@ -74,6 +74,16 @@ class SurveyQuestionCreateUpdate extends Component
                     'selection' => $this->selection,
                     'maxResponse' => $this->maxResponse != "" ? $this->maxResponse : 0,
                 ]);
+            $translationModel = TranslaleModel::where('name', TranslaleModel::getTranslateName(SurveyQuestion::find($this->idQuestion), 'content'))->first();
+            if (!is_null($translationModel)) {
+                $translationModel->update(
+                    [
+                        'value' => $this->content . ' AR',
+                        'valueFr' => $this->content . ' FR',
+                        'valueEn' => $this->content . ' EN'
+                    ]);
+            }
+
         } catch (\Exception $exception) {
             return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while updating Question!!') . ' : ' . $exception->getMessage());
         }

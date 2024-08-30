@@ -55,7 +55,17 @@ class SurveyQuestionChoiceCreateUpdate extends Component
     {
         $this->validate();
         try {
-            SurveyQuestionChoice::where('id', $this->idChoice)->update(['title' => $this->title]);
+          SurveyQuestionChoice::where('id', $this->idChoice)->update(['title' => $this->title]);
+            $translationModel = TranslaleModel::where('name', TranslaleModel::getTranslateName(SurveyQuestionChoice::find($this->idChoice), 'title'))->first();
+            if (!is_null($translationModel)) {
+                $translationModel->update(
+                    [
+                        'value' => $this->title . ' AR',
+                        'valueFr' => $this->title . ' FR',
+                        'valueEn' => $this->title . ' EN'
+                    ]);
+            }
+
         } catch (\Exception $exception) {
             return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while updating Choice!!') . ' : ' . $exception->getMessage());
         }
@@ -74,7 +84,7 @@ class SurveyQuestionChoiceCreateUpdate extends Component
 
             TranslaleModel::create(
                 [
-                    'name' => TranslaleModel::getTranslateName($surveyQuestionChoice,'title'),
+                    'name' => TranslaleModel::getTranslateName($surveyQuestionChoice, 'title'),
                     'value' => $this->title . ' AR',
                     'valueFr' => $this->title . ' FR',
                     'valueEn' => $this->title . ' EN'

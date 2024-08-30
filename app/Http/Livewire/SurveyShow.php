@@ -140,9 +140,13 @@ class SurveyShow extends Component
 
     public function addComment()
     {
+        if (empty($this->comment)) {
+            return redirect()->route('survey_show', $this->routeRedirectionParams)->with('danger', Lang::get('Empty comment !!'));
+        }
         $survey = Survey::find($this->idSurvey);
         $survey->comments()->create(['user_id' => auth()->user()->id, 'content' => $this->comment]);
         $this->comment = "";
+
     }
 
     public function validateComment($idComment)
