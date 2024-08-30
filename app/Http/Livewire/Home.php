@@ -63,7 +63,9 @@ class Home extends Component
     public function simulateAction()
     {
         if ($this->action < 0 && $this->action == "") {
-            $this->action = 0;
+            $this->ammount = "";
+            $this->action = "";
+            return;
         }
 
         if ($this->action > self::MAX_ACTIONS) {
@@ -77,7 +79,9 @@ class Home extends Component
     public function simulateAmmount()
     {
         if ($this->ammount < 0 && $this->ammount == "") {
-            $this->ammount = 0;
+            $this->ammount = "";
+            $this->action = "";
+            return;
         }
         if ($this->ammount > self::MAX_AMOUNT) {
             $this->ammount = self::MAX_AMOUNT;
