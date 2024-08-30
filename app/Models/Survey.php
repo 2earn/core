@@ -311,13 +311,14 @@ class Survey extends Model
     {
         $survey = Survey::find($this->id);
         $today = new \DateTime();
+
         $param = DB::table('settings')->where("ParameterName", "=", "DELAY_AFTER_ARCHIVED")->first();
+
         if (!is_null($param) && !is_null($param)) {
             $delayAfterArchived = $param->IntegerValue;
         } else {
             $delayAfterArchived = self::DELAY_AFTER_ARCHIVED;
         }
-
 
         if (!is_null($survey->archivedDate)) {
             $archiveDate = new \DateTime($survey->archivedDate);
