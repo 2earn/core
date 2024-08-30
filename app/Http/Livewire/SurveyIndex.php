@@ -146,11 +146,14 @@ class SurveyIndex extends Component
 
         }
 
+        if (strtoupper(auth()?->user()?->getRoleNames()->first()) == Survey::SUPER_ADMIN_ROLE_NAME) {
+            return $surveysQuery->get();
+        }
+
         foreach ($surveysQuery->get() as $survey) {
             if ($survey->canShow()) {
                 $surveys[] = $survey;
             }
-
         }
         return $surveys;
     }
