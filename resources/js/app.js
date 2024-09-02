@@ -75,7 +75,6 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
 
 
 (function () {
-    var lightDarkBtnListenerAdded = false;
 
     var btnHover = document.getElementById("MyHover");
     if (btnHover !== null) {
@@ -1609,14 +1608,13 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
         var html = document.getElementsByTagName("HTML")[0];
         var lightDarkBtn = document.querySelectorAll(".light-dark-mode");
 
-
-        if (lightDarkBtn && lightDarkBtn.length && !lightDarkBtnListenerAdded) {
+        if (lightDarkBtn && lightDarkBtn.length) {
 
             lightDarkBtn[0].addEventListener("click", function (event) {
-
-                html.hasAttribute("data-layout-mode") && html.getAttribute("data-layout-mode") == "dark" ?
+                html.hasAttribute("data-layout-mode") && sessionStorage.getItem('data-layout-mode') == "dark" ?
                     setLayoutMode("data-layout-mode", "light", "layout-mode-light", html) :
                     setLayoutMode("data-layout-mode", "dark", "layout-mode-dark", html);
+                console.log(sessionStorage.getItem('data-layout-mode'))
 
                 sessionStorage.setItem("data-sidebar", html.getAttribute("data-layout-mode"));
                 document.documentElement.setAttribute("data-sidebar", html.getAttribute("data-layout-mode"));
@@ -1629,7 +1627,6 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
 
 
             });
-            lightDarkBtnListenerAdded = true;
         }
 
     }
@@ -1649,7 +1646,6 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
         isCustomDropdown();
         isCustomDropdownResponsive();
         initFullScreen();
-        initModeSetting();
         windowLoadContent();
         counter();
         initLeftMenuCollapse();
