@@ -8,8 +8,13 @@
             {{ __('sms balance') }}
         @endslot
     @endcomponent
-    <div class="row">
-        <div class="col-lg-12">
+        <div class="row card">
+            <div class="card-header border-info">
+                <div class="d-flex align-items-center">
+                    <h6 class="card-title mb-0 flex-grow-1">{{ __('SMS balance') }}</h6>
+                </div>
+            </div>
+            <div class="card-body">         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
                 </div>
@@ -33,6 +38,7 @@
                     </table>
                 </div>
             </div>
+        </div>
         </div>
     </div>
     <script type="module">
