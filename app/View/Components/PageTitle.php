@@ -2,29 +2,29 @@
 
 namespace App\View\Components;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\View\Component;
 
 class PageTitle extends Component
 {
-    /**
-     * Create a new component instance.
-     *
-     * @return void
-     */
 
-    public $bg ;
-    public $pageTitle ;
-    public function __construct($bg=null,$pageTitle)
+
+    public $bg;
+    public $pageTitle;
+
+    public function __construct($pageTitle)
     {
-        $this->bg=$bg ;
+        $this->bg = "#464fed";
+
+        if (Route::currentRouteName() == "user_balance_bfs") {
+            $this->bg = '#bc34b6';
+        } elseif (Route::currentRouteName() == "user_balance_db") {
+            $this->bg = '#009fe3';
+        }
+
         $this->pageTitle = $pageTitle;
     }
 
-    /**
-     * Get the view / contents that represent the component.
-     *
-     * @return \Illuminate\Contracts\View\View|\Closure|string
-     */
     public function render()
     {
         return view('components.page-title');
