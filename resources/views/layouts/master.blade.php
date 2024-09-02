@@ -533,22 +533,7 @@
             }
         });
 
-        $("#HTMLMain").attr("data-layout-mode", sessionStorage.getItem("data-layout-mode"));
-        $("#HTMLMain").attr("data-sidebar", sessionStorage.getItem("data-sidebar"));
-        $("#btndark").click(function () {
-            var mode = $("#HTMLMain").attr("data-layout-mode");
-            if (mode == "dark") {
-                $("#HTMLMain").attr("data-layout-mode", "light")
-                $("#HTMLMain").attr("data-sidebar", "light")
-                sessionStorage.setItem("data-sidebar", "light");
-                sessionStorage.setItem("data-layout-mode", "light");
-            } else {
-                $("#HTMLMain").attr("data-layout-mode", "dark")
-                $("#HTMLMain").attr("data-sidebar", "dark")
-                sessionStorage.setItem("data-sidebar", "dark");
-                sessionStorage.setItem("data-layout-mode", "dark");
-            }
-        });
+
     });
 </script>
 </body>
