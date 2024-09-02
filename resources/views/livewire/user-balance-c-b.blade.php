@@ -7,62 +7,71 @@
             {{ __('Cash Balance') }}
         @endslot
     @endcomponent
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    <div class="row g-4">
-                        <div class="col-sm-12 col-md-4 col-lg-2 col-xl-2">
-                            <img src=" {{ Vite::asset('resources/images/qr_code.jpg') }}"
-                                 class="img-fluid img-thumbnail rounded avatar-lg">
-                        </div>
-                        <div class="col-sm-12 col-md-8 col-lg-10 col-xl-10">
-                            <div class="search-box ms-2">
-                                <p>{!! __('You can replenish your Cash Balance through various payment methods') !!}</p>
-                                <ol>
-                                    <li>{{__('Bank transfer to Al Rajhi account: 379000010006080004540, IBAN: SA5680000379000010006080004540')}}</li>
-                                    <li>{{__('Use of Visa and MasterCard.')}}</li>
-                                    <li>{{__('Payment via ApplePay.')}}</li>
-                                </ol>
+    <div class="row card">
+        <div class="card-header border-info">
+            <div class="d-flex align-items-center">
+                <h6 class="card-title mb-0 flex-grow-1">{{ __('Cash Balance') }}</h6>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row g-4">
+                            <div class="col-sm-12 col-md-4 col-lg-2 col-xl-2">
+                                <img src=" {{ Vite::asset('resources/images/qr_code.jpg') }}"
+                                     class="img-fluid img-thumbnail rounded avatar-lg">
                             </div>
-                        </div>
-                    </div>
-                    <div class="card border card-border-info">
-                        <div class="card-body row">
-                            <div class="col-sm-12 col-md-6 col-lg-3">
-                                <img id="logo-paytabs" src="{{ Vite::asset('resources/images/paytabs.jpeg') }}"
-                                     class="rounded mx-auto d-block"/>
-                            </div>
-                            <div class="col-sm-12 col-md-6 col-lg-3">
-                                <img id="logo-pay" src="{{ Vite::asset('resources/images/pay.jpeg') }}"
-                                     class="rounded mx-auto d-block"/>
-                            </div>
-                            <div class="col-sm-12 col-md-12 col-lg-4">
-                                <div class="input-group" id="validate-group">
-                                    <input aria-describedby="simulate" type="number" class="form-control"
-                                           id="ammount1" placeholder="{{__('Put your solde here')}}" required>
-                                    <span class="input-group-text">$</span>
-                                    <button class="btn btn-success" type="button" data-bs-target="#tr_paytabs"
-                                            data-bs-toggle="modal" id="validate">{{ __('validate') }}
-                                    </button>
+                            <div class="col-sm-12 col-md-8 col-lg-10 col-xl-10">
+                                <div class="search-box ms-2">
+                                    <p>{!! __('You can replenish your Cash Balance through various payment methods') !!}</p>
+                                    <ol>
+                                        <li>{{__('Bank transfer to Al Rajhi account: 379000010006080004540, IBAN: SA5680000379000010006080004540')}}</li>
+                                        <li>{{__('Use of Visa and MasterCard.')}}</li>
+                                        <li>{{__('Payment via ApplePay.')}}</li>
+                                    </ol>
                                 </div>
-                                <div class="input-group d-none">
-                                    <input aria-describedby="simulate" type="number" class="form-control"
-                                           id="ammount2" required>
-                                    <span class="input-group-text">{{__('SAR')}}</span>
+                            </div>
+                        </div>
+                        <div class="card border card-border-info">
+                            <div class="card-body row">
+                                <div class="col-sm-12 col-md-6 col-lg-3">
+                                    <img id="logo-paytabs" src="{{ Vite::asset('resources/images/paytabs.jpeg') }}"
+                                         class="rounded mx-auto d-block"/>
                                 </div>
-                                <div class="input-group">
-                                    <button class="btn btn-outline-secondary d-none" type="button"
-                                            id="simulate1">{{ __('simulate') }}
-                                    </button>
+                                <div class="col-sm-12 col-md-6 col-lg-3">
+                                    <img id="logo-pay" src="{{ Vite::asset('resources/images/pay.jpeg') }}"
+                                         class="rounded mx-auto d-block"/>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-4">
+                                    <div class="input-group" id="validate-group">
+                                        <input aria-describedby="simulate" type="number" class="form-control"
+                                               id="ammount1" placeholder="{{__('Put your solde here')}}" required>
+                                        <span class="input-group-text">$</span>
+                                        <button class="btn btn-success" type="button" data-bs-target="#tr_paytabs"
+                                                data-bs-toggle="modal" id="validate">{{ __('validate') }}
+                                        </button>
+                                    </div>
+                                    <div class="input-group d-none">
+                                        <input aria-describedby="simulate" type="number" class="form-control"
+                                               id="ammount2" required>
+                                        <span class="input-group-text">{{__('SAR')}}</span>
+                                    </div>
+                                    <div class="input-group">
+                                        <button class="btn btn-outline-secondary d-none" type="button"
+                                                id="simulate1">{{ __('simulate') }}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-body table-responsive">
-                    <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap" id="ub_table"
-                           style="width: 100%">
+                    <table
+                        class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                        id="ub_table"
+                        style="width: 100%">
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">
                             <th>{{ __('ref') }}</th>

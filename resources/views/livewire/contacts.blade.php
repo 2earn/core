@@ -77,7 +77,7 @@
                         </tr>
                         </thead>
                         <tbody class="list form-check-all">
-                        @foreach ($contactUsers as $value)
+                        @forelse($contactUsers as $value)
                             <tr>
                                 <td title="{{$value->updated_at}}">{{$value->name}}</td>
                                 <td>{{$value->lastName}}</td>
@@ -154,7 +154,11 @@
                                     </div>
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="7">{{__('No records')}}.</td>
+                            </tr>
+                        @endforelse
                         </tbody>
                     </table>
                 </div>
