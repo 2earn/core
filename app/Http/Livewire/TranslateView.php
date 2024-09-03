@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
-use  Livewire\WithPagination;
+use Livewire\WithPagination;
 
 class TranslateView extends Component
 {
@@ -49,8 +49,8 @@ class TranslateView extends Component
 
     public function AddFieldTranslate($val)
     {
-        if (translatetabs::where(DB::raw('upper(name)'), strtoupper($val))->get()->count() == 0) {
-            translatetabs::create(['name' => $val, 'value' => $val. ' AR', 'valueFr' => $val. ' FR', 'valueEn' => $val. ' EN']);
+        if (translatetabs::where('name', $val)->get()->count() == 0) {
+            translatetabs::create(['name' => $val, 'value' => $val . ' AR', 'valueFr' => $val . ' FR', 'valueEn' => $val . ' EN']);
             return redirect()->route('translate', app()->getLocale())->with('success', trans('key added successfully') . ' : ' . $val);
         } else {
             return redirect()->route('translate', app()->getLocale())->with('danger', trans('key exist!'));

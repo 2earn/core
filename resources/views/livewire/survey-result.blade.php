@@ -63,7 +63,7 @@
                     <thead>
                     <tr>
                         <th scope="col">{{__('#')}}</th>
-                        <th scope="col">{{__('Title')}}</th>
+                        <th scope="col">{{__('title')}}</th>
                         <th scope="col">{{__('Choosen')}}</th>
                         <th scope="col">{{__('Persontage')}}</th>
                     </tr>
