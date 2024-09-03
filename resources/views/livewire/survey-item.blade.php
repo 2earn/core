@@ -7,7 +7,7 @@
         {{ $survey->status==\Core\Enum\StatusSurvey::CLOSED->value ? 'btn-warning' : ''  }}
         {{ $survey->status==\Core\Enum\StatusSurvey::ARCHIVED->value ? 'btn-dark' : ''  }}
         ">
-                {{ \Core\Enum\StatusSurvey::tryFrom($survey->status)->name}}
+                {{ __(\Core\Enum\StatusSurvey::tryFrom($survey->status)->name)}}
                         </span>
         @endif
         <h5> {{$survey->id}} - {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}</h5>
