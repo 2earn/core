@@ -49,7 +49,7 @@ class TranslateView extends Component
 
     public function AddFieldTranslate($val)
     {
-        if (translatetabs::where('name', $val)->get()->count() == 0) {
+        if (translatetabs::where(DB::raw('BINARY `name`'), $val)->get()->count() == 0) {
             translatetabs::create(['name' => $val, 'value' => $val . ' AR', 'valueFr' => $val . ' FR', 'valueEn' => $val . ' EN']);
             return redirect()->route('translate', app()->getLocale())->with('success', trans('key added successfully') . ' : ' . $val);
         } else {
