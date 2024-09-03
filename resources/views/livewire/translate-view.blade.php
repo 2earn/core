@@ -226,7 +226,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         window.addEventListener('PassEnter', event => {
 
             Swal.fire({
-                title: '{{ __('Can you type') }}' + " " + {{$defRandomNumber}},
+                title: '{{ __('Can you type') }}' + ": " + {{$defRandomNumber}},
                 input: 'text',
                 inputAttributes: {autocapitalize: 'off'},
                 showCancelButton: true,
