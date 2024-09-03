@@ -16,7 +16,6 @@ class TranslateView extends Component
 {
     use WithPagination;
 
-    const TRANSLATION_PASSWORD = "159159";
     protected $paginationTheme = 'bootstrap';
     public $arabicValue = "";
     public $frenchValue = "";
@@ -29,6 +28,8 @@ class TranslateView extends Component
     public $tabfinEn = [];
     public $search = '';
     public $nbrPagibation = 10;
+    public $defRandomNumber;
+    public $randomNumber;
 
     protected $rules = [
         'frenchValue' => 'required'
@@ -41,6 +42,12 @@ class TranslateView extends Component
         'databaseToFile' => 'databaseToFile',
         'deleteTranslate' => 'deleteTranslate'
     ];
+
+    public function mount()
+    {
+        $this->defRandomNumber = mt_rand(999, 10000);
+    }
+
 
     public function PreImport($param)
     {
@@ -70,8 +77,10 @@ class TranslateView extends Component
 
     public function mergeTransaction($pass)
     {
-        if ($pass != self::TRANSLATION_PASSWORD) return;
         try {
+            if (empty($pass) or $pass != $this->defRandomNumber) {
+                throw new \Exception(trans('Key not confirmed'));
+            }
             translatetabs::truncate();
             $pathFile = resource_path() . '/lang/en.json';
             $contents = File::get($pathFile);
@@ -110,8 +119,10 @@ class TranslateView extends Component
 
     public function addEnglishField($pass)
     {
-        if ($pass != self::TRANSLATION_PASSWORD) return;
         try {
+            if (empty($pass) or $pass != $this->defRandomNumber) {
+                throw new \Exception(trans('Key not confirmed'));
+            }
             $pathFile = resource_path() . '/lang/en.json';
             $contents = File::get($pathFile);
             $json = collect(json_decode($contents));
@@ -134,8 +145,10 @@ class TranslateView extends Component
 
     public function addArabicField($pass)
     {
-        if ($pass != self::TRANSLATION_PASSWORD) return;
         try {
+            if (empty($pass) or $pass != $this->defRandomNumber) {
+                throw new \Exception(trans('Key not confirmed'));
+            }
             $pathFile = resource_path() . '/lang/ar.json';
             $contents = File::get($pathFile);
             $json = collect(json_decode($contents));
@@ -156,14 +169,16 @@ class TranslateView extends Component
 
     public function databaseToFile($pass)
     {
-        if ($pass != self::TRANSLATION_PASSWORD) return;
-        $all = translatetabs::all();
-        foreach ($all as $key => $value) {
-            $this->tabfin[$value->name] = $value->value;
-            $this->tabfinFr[$value->name] = $value->valueFr;
-            $this->tabfinEn[$value->name] = $value->valueEn;
-        }
         try {
+            if (empty($pass) or $pass != $this->defRandomNumber) {
+                throw new \Exception(trans('Key not confirmed'));
+            }
+            $all = translatetabs::all();
+            foreach ($all as $key => $value) {
+                $this->tabfin[$value->name] = $value->value;
+                $this->tabfinFr[$value->name] = $value->valueFr;
+                $this->tabfinEn[$value->name] = $value->valueEn;
+            }
             $pathFile = resource_path() . '/lang/ar.json';
             $pathFileFr = resource_path() . '/lang/fr.json';
             $pathFileEn = resource_path() . '/lang/en.json';
@@ -176,16 +191,6 @@ class TranslateView extends Component
         return redirect()->route('translate', app()->getLocale())->with('success', trans('Keys to database added successfully'));
     }
 
-    public function render()
-    {
-        $translate = translatetabs::where(DB::raw('upper(name)'), 'like', '%' . strtoupper($this->search) . '%')
-            ->orWhere(DB::raw('upper(valueFr)'), 'like', '%' . strtoupper($this->search) . '%')
-            ->orWhere(DB::raw('upper(valueEn)'), 'like', '%' . strtoupper($this->search) . '%')
-            ->orWhere(DB::raw('upper(value)'), 'like', '%' . strtoupper($this->search) . '%')
-            ->orderBy('id', 'desc')
-            ->paginate($this->nbrPagibation);
-        return view('livewire.translate-view', ["translates" => $translate])->extends('layouts.master')->section('content');
-    }
 
     public function save()
     {
@@ -245,5 +250,16 @@ class TranslateView extends Component
             $this->frenchValue = $trans->valueFr;
             $this->englishValue = $trans->valueEn;
         }
+    }
+
+    public function render()
+    {
+        $translate = translatetabs::where(DB::raw('upper(name)'), 'like', '%' . strtoupper($this->search) . '%')
+            ->orWhere(DB::raw('upper(valueFr)'), 'like', '%' . strtoupper($this->search) . '%')
+            ->orWhere(DB::raw('upper(valueEn)'), 'like', '%' . strtoupper($this->search) . '%')
+            ->orWhere(DB::raw('upper(value)'), 'like', '%' . strtoupper($this->search) . '%')
+            ->orderBy('id', 'desc')
+            ->paginate($this->nbrPagibation);
+        return view('livewire.translate-view', ["translates" => $translate])->extends('layouts.master')->section('content');
     }
 }

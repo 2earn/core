@@ -5,7 +5,6 @@ namespace App\Http\Livewire;
 use App\Models\TranslaleModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -14,7 +13,6 @@ class TranslateModelData extends Component
 {
     use WithPagination;
 
-    const TRANSLATION_PASSWORD = "159159";
     protected $paginationTheme = 'bootstrap';
     public $arabicValue = "";
     public $frenchValue = "";
@@ -67,17 +65,6 @@ class TranslateModelData extends Component
     }
 
 
-    public function render()
-    {
-        $translate = TranslaleModel::where(DB::raw('upper(name)'), 'like', '%' . strtoupper($this->search) . '%')
-            ->orWhere(DB::raw('upper(valueFr)'), 'like', '%' . strtoupper($this->search) . '%')
-            ->orWhere(DB::raw('upper(valueEn)'), 'like', '%' . strtoupper($this->search) . '%')
-            ->orWhere(DB::raw('upper(value)'), 'like', '%' . strtoupper($this->search) . '%')
-            ->orderBy('id', 'desc')
-            ->paginate($this->nbrPagibation);
-        return view('livewire.translate-model-data', ["translates" => $translate])->extends('layouts.master')->section('content');
-    }
-
     public function save()
     {
         foreach ($this->translate as $key => $value) {
@@ -116,4 +103,16 @@ class TranslateModelData extends Component
             $this->englishValue = $trans->valueEn;
         }
     }
+
+    public function render()
+    {
+        $translate = TranslaleModel::where(DB::raw('upper(name)'), 'like', '%' . strtoupper($this->search) . '%')
+            ->orWhere(DB::raw('upper(valueFr)'), 'like', '%' . strtoupper($this->search) . '%')
+            ->orWhere(DB::raw('upper(valueEn)'), 'like', '%' . strtoupper($this->search) . '%')
+            ->orWhere(DB::raw('upper(value)'), 'like', '%' . strtoupper($this->search) . '%')
+            ->orderBy('id', 'desc')
+            ->paginate($this->nbrPagibation);
+        return view('livewire.translate-model-data', ["translates" => $translate])->extends('layouts.master')->section('content');
+    }
+
 }

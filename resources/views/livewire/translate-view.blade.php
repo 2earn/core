@@ -80,6 +80,11 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         </div>
         <div class="card-body">
             <div class="row">
+                <div class="col-12 mt-2 mb-2">
+                    @include('layouts.flash-messages')
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-sm-12 col-md-6 col-lg-5 mt-1">
                     <div class="btn-group material-shadow" role="group" aria-label="Basic example">
                         <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
@@ -119,9 +124,6 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 mt-2">
-                    @include('layouts.flash-messages')
-                </div>
                 <div class="col-12">
 
                     <div class="row">
@@ -223,27 +225,25 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         window.addEventListener('PassEnter', event => {
 
             Swal.fire({
-                title: '{{ __('Pass') }}',
+                title: '{{ __('Can you type') }}' + " " + {{$defRandomNumber}},
                 input: 'text',
                 inputAttributes: {autocapitalize: 'off'},
                 showCancelButton: true,
                 confirmButtonText: 'Confirm',
             }).then((resultat) => {
-                if (resultat.value) {
-                    switch (event.detail.ev) {
-                        case 'arToData':
-                            window.Livewire.emit('addArabicField', resultat.value);
-                            break;
-                        case 'enToData':
-                            window.Livewire.emit('addEnglishField', resultat.value);
-                            break;
-                        case 'mergeToData':
-                            window.Livewire.emit('mergeTransaction', resultat.value);
-                            break;
-                        case 'databaseToFile':
-                            window.Livewire.emit('databaseToFile', resultat.value);
-                            break;
-                    }
+                switch (event.detail.ev) {
+                    case 'arToData':
+                        window.Livewire.emit('addArabicField', resultat.value);
+                        break;
+                    case 'enToData':
+                        window.Livewire.emit('addEnglishField', resultat.value);
+                        break;
+                    case 'mergeToData':
+                        window.Livewire.emit('mergeTransaction', resultat.value);
+                        break;
+                    case 'databaseToFile':
+                        window.Livewire.emit('databaseToFile', resultat.value);
+                        break;
                 }
                 if (resultat.isDismissed) {
                     Swal.hideLoading()
