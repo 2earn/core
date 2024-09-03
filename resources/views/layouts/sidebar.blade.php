@@ -144,7 +144,7 @@
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item {{Route::currentRouteName()=='surveys_index'? 'active' : ''}}">
                                     <a href="{{route('surveys_index', app()->getLocale(),false)}}"
-                                       class="nav-link" data-key="t-analytics">{{ __('Surveys ') }}</a>
+                                       class="nav-link" data-key="t-analytics">{{ __('Surveys') }}</a>
                                 </li>
                                 <li class="nav-item {{Route::currentRouteName()=='surveys_archive'? 'active' : ''}}">
                                     <a href="{{route('surveys_archive', app()->getLocale(),false)}}"
@@ -159,7 +159,7 @@
                            class="nav-link menu-link {{Route::currentRouteName()=='description'? 'active' : ''}} disabled"
                            role="button">
                             <i class="fa-solid fa-pen-fancy"></i>
-                            <span>{{__('description')}}</span>
+                            <span>{{__('User guide')}}</span>
                         </a>
                     </li>
                     @if(auth()->user()->getRoleNames()->first() =="Super admin")

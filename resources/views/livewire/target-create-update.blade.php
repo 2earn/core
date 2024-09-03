@@ -33,7 +33,7 @@
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                             <div class="form-group mb-3">
-                                <label for="description">{{__('Decription')}}</label>
+                                <label for="description">{{__('Description')}}</label>
                                 <textarea class="form-control @error('description') is-invalid @enderror"
                                           id="description"
                                           wire:model="description"
