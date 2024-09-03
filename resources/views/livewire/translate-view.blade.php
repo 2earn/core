@@ -222,6 +222,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         window.addEventListener('closeModal', event => {
             $("#editTranslationModalClose").trigger('click');
         });
+
         window.addEventListener('PassEnter', event => {
 
             Swal.fire({
@@ -231,19 +232,21 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                 showCancelButton: true,
                 confirmButtonText: 'Confirm',
             }).then((resultat) => {
-                switch (event.detail.ev) {
-                    case 'arToData':
-                        window.Livewire.emit('addArabicField', resultat.value);
-                        break;
-                    case 'enToData':
-                        window.Livewire.emit('addEnglishField', resultat.value);
-                        break;
-                    case 'mergeToData':
-                        window.Livewire.emit('mergeTransaction', resultat.value);
-                        break;
-                    case 'databaseToFile':
-                        window.Livewire.emit('databaseToFile', resultat.value);
-                        break;
+                if (resultat.isConfirmed) {
+                    switch (event.detail.ev) {
+                        case 'arToData':
+                            window.Livewire.emit('addArabicField', resultat.value);
+                            break;
+                        case 'enToData':
+                            window.Livewire.emit('addEnglishField', resultat.value);
+                            break;
+                        case 'mergeToData':
+                            window.Livewire.emit('mergeTransaction', resultat.value);
+                            break;
+                        case 'databaseToFile':
+                            window.Livewire.emit('databaseToFile', resultat.value);
+                            break;
+                    }
                 }
                 if (resultat.isDismissed) {
                     Swal.hideLoading()
