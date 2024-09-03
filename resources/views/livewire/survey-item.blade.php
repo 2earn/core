@@ -50,12 +50,14 @@
 
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {{__('Shows result')}} <span
-                            class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showResult)?->name}}</span>
+                        {{__('Shows result')}}
+                        <span
+                            class="badge btn btn-info">{{__(\Core\Enum\TargetType::tryFrom($survey->showResult)?->name)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {{__('Shows')}} <span
-                            class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->show)?->name}} </span>
+                        {{__('Shows')}}
+                        <span
+                            class="badge btn btn-info">{{__(\Core\Enum\TargetType::tryFrom($survey->show)?->name)}} </span>
                     </li>
                 </ul>
 
@@ -64,15 +66,15 @@
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Show attchivement Chrono')}} <span
-                            class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementChrono)?->name}}</span>
+                            class="badge btn btn-info">{{__(\Core\Enum\TargetType::tryFrom($survey->showAttchivementChrono)?->name)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Show achievement %')}} <span
-                            class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAttchivementGool)?->name}}</span>
+                            class="badge btn btn-info">{{__(\Core\Enum\TargetType::tryFrom($survey->showAttchivementGool)?->name)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Show after archiving')}}: <span
-                            class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->showAfterArchiving)?->name}}</span>
+                            class="badge btn btn-info">{{__(\Core\Enum\TargetType::tryFrom($survey->showAfterArchiving)?->name)}}</span>
                     </li>
                 </ul>
 
@@ -81,11 +83,11 @@
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Likable')}} <span
-                            class="badge btn btn-info"> {{\Core\Enum\TargetType::tryFrom($survey->likable)?->name}}</span>
+                            class="badge btn btn-info"> {{__(\Core\Enum\TargetType::tryFrom($survey->likable)?->name)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Commentable')}} <span
-                            class="badge btn btn-info">{{\Core\Enum\TargetType::tryFrom($survey->commentable)?->name}}</span>
+                            class="badge btn btn-info">{{__(\Core\Enum\TargetType::tryFrom($survey->commentable)?->name)}}</span>
                     </li>
                 </ul>
             </div>
