@@ -11,9 +11,11 @@
                         </span>
         @endif
         <h5>
-            <a href="{{route('surveys_index', app()->getLocale())}}" class="btn btn-info mx-2">
-                {{__('Back to surveys')}}
-            </a>
+            @if(in_array($currentRouteName,["survey_show","survey_participate","survey_results"]))
+                <a href="{{route('surveys_index', app()->getLocale())}}" class="btn btn-info mx-2">
+                    {{__('Back to surveys')}}
+                </a>
+            @endif
             @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
                 {{$survey->id}} -
             @endif
@@ -58,12 +60,12 @@
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Shows result')}}
                         <span
-                                class="badge btn btn-info">{{__(\Core\Enum\TargetType::tryFrom($survey->showResult)?->name)}}</span>
+                            class="badge btn btn-info">{{__(\Core\Enum\TargetType::tryFrom($survey->showResult)?->name)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Shows')}}
                         <span
-                                class="badge btn btn-info">{{__(\Core\Enum\TargetType::tryFrom($survey->show)?->name)}} </span>
+                            class="badge btn btn-info">{{__(\Core\Enum\TargetType::tryFrom($survey->show)?->name)}} </span>
                     </li>
                 </ul>
             </div>
@@ -71,15 +73,15 @@
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Show attchivement Chrono')}} <span
-                                class="badge btn btn-info">{{__(\Core\Enum\TargetType::tryFrom($survey->showAttchivementChrono)?->name)}}</span>
+                            class="badge btn btn-info">{{__(\Core\Enum\TargetType::tryFrom($survey->showAttchivementChrono)?->name)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Show achievement %')}} <span
-                                class="badge btn btn-info">{{__(\Core\Enum\TargetType::tryFrom($survey->showAttchivementGool)?->name)}}</span>
+                            class="badge btn btn-info">{{__(\Core\Enum\TargetType::tryFrom($survey->showAttchivementGool)?->name)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Show after archiving')}}: <span
-                                class="badge btn btn-info">{{__(\Core\Enum\TargetType::tryFrom($survey->showAfterArchiving)?->name)}}</span>
+                            class="badge btn btn-info">{{__(\Core\Enum\TargetType::tryFrom($survey->showAfterArchiving)?->name)}}</span>
                     </li>
                 </ul>
 
@@ -88,11 +90,11 @@
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Likable')}} <span
-                                class="badge btn btn-info"> {{__(\Core\Enum\TargetType::tryFrom($survey->likable)?->name)}}</span>
+                            class="badge btn btn-info"> {{__(\Core\Enum\TargetType::tryFrom($survey->likable)?->name)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Commentable')}} <span
-                                class="badge btn btn-info">{{__(\Core\Enum\TargetType::tryFrom($survey->commentable)?->name)}}</span>
+                            class="badge btn btn-info">{{__(\Core\Enum\TargetType::tryFrom($survey->commentable)?->name)}}</span>
                     </li>
                 </ul>
             </div>
@@ -474,11 +476,11 @@
                             <div class="col-sm-12 col-md-6 col-lg-12 mt-2">
                                 <h5 class="text-muted mx-3">{{__('Question params')}}:</h5>
                                 {{__('Choice Type')}} : <span
-                                        class="badge btn {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'btn-success' : 'btn-danger'  }}">
+                                    class="badge btn {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'btn-success' : 'btn-danger'  }}">
                             {{__('Multiple')}}                                        </span>
                                 @if($survey->question->selection== \Core\Enum\Selection::MULTIPLE->value )
                                     {{__('Max Responses')}} :  <span
-                                            class="badge btn btn-info"> {{$survey->question->maxResponse}}</span>
+                                        class="badge btn btn-info"> {{$survey->question->maxResponse}}</span>
                                 @endif
 
                                 @if(!empty($survey->question->disableNote))
@@ -615,7 +617,7 @@
                             @forelse ($survey->likes as $like)
                                 <li class="list-group-item mt-2 text-muted">
                                     {{$loop->index+1}} ) {{ getUserDisplayedName($like->user->idUser)}} <span
-                                            class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>
+                                        class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>
                                 </li>
                             @empty
                                 <li class="list-group-item mt-2">
@@ -653,10 +655,10 @@
                                         </blockquote>
 
                                         <span class="text-muted float-end" title="{{$loop->index+1}}"><strong
-                                                    class="text-muted">{{ getUserDisplayedName($comment->user->idUser)}}</strong> <strong>{{__('at')}}: </strong>  {{$comment->created_at}}</span>
+                                                class="text-muted">{{ getUserDisplayedName($comment->user->idUser)}}</strong> <strong>{{__('at')}}: </strong>  {{$comment->created_at}}</span>
                                         @if(!$comment->validated)
                                             <span
-                                                    class="badge badge-soft-warning float-end mx-2">{{ __('Waiting for admin approving')}}</span>
+                                                class="badge badge-soft-warning float-end mx-2">{{ __('Waiting for admin approving')}}</span>
                                         @endif
 
                                         @if(!$comment->validated && strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
