@@ -89,7 +89,7 @@
                                     aria-label="{{__('Show')}}">
                                     @foreach ($targetTypes as $targetType)
                                         <option value="{{$targetType}}"
-                                                @if($loop->index==0) selected @endif >{{$targetType->name}}</option>
+                                                @if($loop->index==0) selected @endif >{{__($targetType->name)}}</option>
                                     @endforeach
                                 </select>
                                 @error('show') <span class="text-danger">{{ $message }}</span>@enderror
@@ -106,7 +106,7 @@
                                     aria-label="{{__('showAttchivementGool')}}">
                                     @foreach ($targetTypes as $targetType)
                                         <option value="{{$targetType}}"
-                                                @if($loop->index==0) selected @endif >{{$targetType->name}}</option>
+                                                @if($loop->index==0) selected @endif >{{__($targetType->name)}}</option>
                                     @endforeach
                                 </select>
                                 @error('showAttchivementGool')
@@ -124,7 +124,7 @@
                                     aria-label="{{__('showAttchivementChrono')}}">
                                     @foreach ($targetTypes as $targetType)
                                         <option value="{{$targetType}}"
-                                                @if($loop->index==0) selected @endif >{{$targetType->name}}</option>
+                                                @if($loop->index==0) selected @endif >{{__($targetType->name)}}</option>
                                     @endforeach
                                 </select>
                                 @error('showAttchivementChrono')
@@ -142,7 +142,7 @@
                                     aria-label="{{__('Show result')}}">
                                     @foreach ($targetTypes as $targetType)
                                         <option value="{{$targetType->value}}"
-                                                @if($loop->index==0) selected @endif >{{$targetType->name}}</option>
+                                                @if($loop->index==0) selected @endif >{{__($targetType->name)}}</option>
                                     @endforeach
                                 </select>
                                 @error('showResult') <span class="text-danger">{{ $message }}</span>@enderror
@@ -168,7 +168,7 @@
                                     aria-label="{{__('commentable')}}">
                                     @foreach ($targetTypes as $targetType)
                                         <option value="{{$targetType->value}}"
-                                                @if($loop->index==0) selected @endif >{{$targetType->name}}</option>
+                                                @if($loop->index==0) selected @endif >{{__($targetType->name)}}</option>
                                     @endforeach
                                 </select>
                                 @error('commentable')
@@ -195,7 +195,7 @@
                                     aria-label="{{__('likable')}}">
                                     @foreach ($targetTypes as $targetType)
                                         <option value="{{$targetType->value}}"
-                                                @if($loop->index==0) selected @endif >{{$targetType->name}}</option>
+                                                @if($loop->index==0) selected @endif >{{__($targetType->name)}}</option>
                                     @endforeach
                                 </select>
                                 @error('likable')
@@ -222,7 +222,7 @@
                                     aria-label="{{__('showAfterArchiving')}}">
                                     @foreach ($targetTypes as $targetType)
                                         <option value="{{$targetType}}"
-                                                @if($loop->index==0) selected @endif >{{$targetType->name}}</option>
+                                                @if($loop->index==0) selected @endif >{{__($targetType->name)}}</option>
                                     @endforeach
                                 </select>
                                 @error('showAfterArchiving')

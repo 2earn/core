@@ -1,7 +1,7 @@
 <div>
     @component('components.breadcrumb')
         @slot('title')
-            {{ __('Target Create ') }}
+            {{ __('Target Create') }}
         @endslot
     @endcomponent
     <div class="row card">
