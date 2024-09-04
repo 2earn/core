@@ -60,7 +60,6 @@
                             class="badge btn btn-info">{{__(\Core\Enum\TargetType::tryFrom($survey->show)?->name)}} </span>
                     </li>
                 </ul>
-
             </div>
             <div class="col-sm-12 col-md-4 col-lg-3 mt-1">
                 <ul class="list-group">
@@ -362,12 +361,12 @@
         <div class="card-footer bg-transparent">
             @if($currentRouteName!="survey_show")
                 <a href="{{route('survey_show', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
-                   class="btn btn-soft-info material-shadow-none">{{__('Details')}}</a>
+                   class="btn btn-soft-info material-shadow-none  mt-1">{{__('Details')}}</a>
             @endif
             @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
                 @if(intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
                     <a href="{{route('survey_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
-                       class="btn btn-soft-info material-shadow-none">
+                       class="btn btn-soft-info material-shadow-none mt-1">
                         {{__('Edit')}}
                     </a>
                 @endif
@@ -440,7 +439,7 @@
             @if(intval($survey->status)>\Core\Enum\StatusSurvey::NEW->value)
                 @if( $survey->canShowResult() && $survey->enabled )
                     <a href="{{route('survey_results', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
-                       class="btn btn-soft-info material-shadow-none">{{__('Show results')}}</a>
+                       class="btn btn-soft-info material-shadow-none  mt-1">{{__('Show results')}}</a>
                 @else
                     <btn disabled class="btn btn-soft-info material-shadow-none mt-1">{{__('Show results')}}</btn>
                 @endif
