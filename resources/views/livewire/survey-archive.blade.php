@@ -20,17 +20,6 @@
                         </form>
                     </div>
                 @endif
-                @if(strtoupper(auth()?->user()?->getRoleNames()->first())== \App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
-                    @if($currentRouteName!=="home" && Route::currentRouteName()!=="main"&& Route::currentRouteName()!=="surveys_archive")
-                        <div class="float-end d-inline  mx-2">
-                            <a href="{{route('survey_create_update', app()->getLocale())}}" class="btn btn-info add-btn"
-                               id="create-btn">
-                                <i class="ri-add-line align-bottom me-1 ml-2"></i>
-                                {{__('Create new Survey')}}
-                            </a>
-                        </div>
-                    @endif
-                @endif
             </div>
         </div>
         <div class="card-body row mx-1">

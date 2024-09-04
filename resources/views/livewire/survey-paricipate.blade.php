@@ -26,7 +26,7 @@
                             @include('layouts.flash-messages')
                         </div>
                         <div class="row">
-                            <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
                                 <h6 class="card-header border-muted mb-0 flex-grow-1">{{__('Question statement')}}:</h6>
                                 {{\App\Models\TranslaleModel::getTranslation($survey->question,'content',$survey->question->content)}}
                             </div>

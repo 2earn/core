@@ -11,15 +11,21 @@
                         </span>
         @endif
         <h5>
+            <a href="{{route('surveys_index', app()->getLocale())}}" class="btn btn-info mx-2">
+                {{__('Back to surveys')}}
+            </a>
             @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
                 {{$survey->id}} -
             @endif
             {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}
+            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                <small class="mx-2">
+                    <a class="link-info"
+                       href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'name')])}}">{{__('See or update Translation')}}</a>
+                </small>
+            @endif
         </h5>
-        @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
-            <a class="link-info"
-               href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'name')])}}">{{__('See or update Translation')}}</a>
-        @endif
+
     </div>
     @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
         <div class="card-body row">
@@ -481,7 +487,7 @@
                         </span>
                                 @endif
                             </div>
-                            <div class="col-sm-12 col-md-12 col-lg-7 mt-2">
+                            <div class="col-sm-12 col-md-12 col-lg-7 mt-3">
                                 <h5 class="text-muted mx-3">{{__('Question statement')}}:</h5>
                                 <figure class="mt-2 ">
                                     <blockquote class="blockquote ml-2">

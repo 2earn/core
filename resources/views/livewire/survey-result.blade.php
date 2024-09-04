@@ -19,7 +19,7 @@
             <div class="card-header border-info">
                 <h6 class="card-title mb-0">      {{ __('Results') }}</h6>
             </div>
-            <div class="card-header border-muted fw-medium text-muted mb-0">
+            <div class="card-header border-muted fw-medium text-muted mb-0 mt3">
                 <h6 class="card-title mb-0 text-info">{{__('Question statement')}}:</h6>
                 <figure class="mt-2 ">
                     <blockquote class="blockquote ml-2">
