@@ -31,7 +31,16 @@ class ConditionCreateUpdate extends Component
         $this->idCondition = $request->input('idCondition');
         if (!is_null($this->idCondition)) {
             $this->edit($this->idCondition);
+        } else {
+            $this->init();
+
         }
+    }
+
+    public function init()
+    {
+        $this->operand = Condition::$operators[1]['value'];
+        $this->operator = Condition::$simpleOperands[1];
     }
 
     public function edit($idCondition)
