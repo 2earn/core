@@ -312,6 +312,9 @@
                 </div>
             </div>
         </div>
+        <div class="card-footer text-muted">
+      <span class="float-end">{{__('Soldes calculated at')}} : <cite title="Source Title">{{Carbon\Carbon::now()->toDateTimeString()}}</cite></span>
+        </div>
     </div>
     <livewire:survey-index/>
     <div class="row card">

@@ -80,7 +80,7 @@
                             </div>
 
                             <div class="form-group col-md-4 mt-2">
-                                <label for="showResult">{{__('Show')}}</label>
+                                <label for="showResult">{{__('can show')}}</label>
                                 <select
                                     class="form-select form-control @error('show') is-invalid @enderror"
                                     placeholder="{{__('Show')}}"

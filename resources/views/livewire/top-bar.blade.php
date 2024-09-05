@@ -29,8 +29,8 @@
                         <span></span>
                     </span>
                     </button>
-                    <div class="ms-1 header-item d-none  d-xl-flex me-5 ">
-                        <div class="d-flex align-items-end justify-content-between logoTopCash">
+                    <div class="ms-1 header-item d-none  d-xl-flex me-5">
+                        <div class="d-flex align-items-end justify-content-between logoTopCash" title="{{__('Soldes calculated at')}} : {{Carbon\Carbon::now()->toDateTimeString()}}">
                             <a href="{{route('user_balance_cb',app()->getLocale())}}">
                                 <div class="avatar-sm flex-shrink-0">
                                     <span class="avatar-title bg-soft-info rounded fs-3">
@@ -53,7 +53,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="ms-1 header-item d-none d-xl-flex me-5">
+                    <div class="ms-1 header-item d-none d-xl-flex me-5" title="{{__('Soldes calculated at')}} : {{Carbon\Carbon::now()->toDateTimeString()}}">
                         <div class="d-flex align-items-end justify-content-between logoTopBFS">
                             <a href="{{route('user_balance_bfs',app()->getLocale())}}">
                                 <div class="avatar-sm flex-shrink-0">
@@ -77,7 +77,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="ms-1 header-item d-none d-xl-flex me-5">
+                    <div class="ms-1 header-item d-none d-xl-flex me-5" title="{{__('Soldes calculated at')}} : {{Carbon\Carbon::now()->toDateTimeString()}}">
                         <div class="d-flex align-items-end justify-content-between logoTopDB">
                             <a href="{{route('user_balance_db',app()->getLocale())}}">
                                 <div class="avatar-sm flex-shrink-0">
@@ -102,7 +102,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center" >
                     <div class="dropdown ms-1 topbar-head-dropdown header-item">
                         <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary"
                                 data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="true">
@@ -136,7 +136,7 @@
                             @endforeach
                         </div>
                     </div>
-                    <div class="dropdown topbar-head-dropdown ms-1 header-item">
+                    <div class="dropdown topbar-head-dropdown ms-1 header-item" >
                         <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class='bx bx-category-alt fs-22'></i>
