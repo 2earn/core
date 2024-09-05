@@ -47,7 +47,7 @@
                                              title="{{__('Front id image')}}"
                                              src="{{asset(('/uploads/profiles/front-id-image'.$user->idUser.'.png'))}}?={{Str::random(16)}}">
                                     @else
-                                        <div class="alert alert-warning" role="alert">
+                                        <div class="alert alert-warning material-shadow" role="alert">
                                             {{__('No image uploaded')}}
                                         </div>
                                     @endif
@@ -58,7 +58,7 @@
                                              title="{{__('Back id image')}}"
                                              src="{{asset(('/uploads/profiles/back-id-image'.$user->idUser.'.png'))}}?={{Str::random(16)}}">
                                     @else
-                                        <div class="alert alert-warning" role="alert">
+                                        <div class="alert alert-warning material-shadow" role="alert">
                                             {{__('No image uploaded')}}
                                         </div>
                                     @endif
@@ -88,7 +88,7 @@
                                              title="{{__('International identity card')}}"
                                              src="{{asset(('/uploads/profiles/international-id-image'.$user->idUser.'.png'))}}?={{Str::random(16)}}">
                                     @else
-                                        <div class="alert alert-warning" role="alert">
+                                        <div class="alert alert-warning material-shadow" role="alert">
                                             {{__('No image uploaded')}}
                                         </div>
                                     @endif

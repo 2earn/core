@@ -232,7 +232,7 @@
                                 <div style="background-color: #009fe3" class="alert   alert-dismissible alert-solid alert-label-icon fade show" role="alert">
                                     <i class="ri-notification-off-line label-icon"></i><strong>{{__('Gratuit')}}</strong>
                                 </div>
-                                <div style="background-color: #bc34b6" class="alert alert-danger alert-dismissible alert-solid alert-label-icon fade show" role="alert">
+                                <div style="background-color: #bc34b6" class="alert alert-danger material-shadow alert-dismissible alert-solid alert-label-icon fade show" role="alert">
                                     <i class="ri-notification-off-line label-icon"></i><strong>{{__('Payant')}}</strong>
                                 </div>
 

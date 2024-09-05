@@ -15,7 +15,7 @@
             <div class="card">
                 <div class="card-header border-info fw-medium text-muted mb-0">
                     <h5 class="text-info"> {{ __('Target details') }}:</h5>
-                    <div id="warningDetail" class="alert alert-warning d-none" role="alert">
+                    <div id="warningDetail" class="alert alert-warning material-shadow d-none" role="alert">
                     </div>
                 </div>
                 <div class="card-body row">

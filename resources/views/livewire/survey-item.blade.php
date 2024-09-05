@@ -454,11 +454,11 @@
             @endif
 
             @if(!$survey->canShowResult() )
-                <div class="alert alert-info mt-2" role="alert">
+                <div class="alert alert-info material-shadow material-shadow mt-2" role="alert">
                     <h6 class="alert-heading">{{__('Disabled result title')}}</h6> * {{$survey->disabledResult}}
                 </div>
             @endif            @if($survey->canShowResult() && !$survey->enabled )
-                <div class="alert alert-info mt-2" role="alert">
+                <div class="alert alert-info  material-shadow mt-2" role="alert">
                     <h6 class="alert-heading">{{__('Disabled result title')}}</h6> * {{__('Disabled')}}
                 </div>
             @endif
@@ -585,7 +585,7 @@
                 <h5 class="mt-2 text-info">{{__('Likes')}} : ({{ $survey->likes->count() }})</h5>
             </div>
             @if(!$survey->isLikable())
-                <div class="alert alert-info mt-2" role="alert">
+                <div class="alert alert-info material-shadow mt-2" role="alert">
                     <h6 class="alert-heading">{{__('Disabled like title')}}</h6> * {{$survey->disabledLike}}
                 </div>
             @endif
@@ -638,7 +638,7 @@
             </div>
 
             @if(!$survey->isCommentable())
-                <div class="alert alert-info mt-2" role="alert">
+                <div class="alert alert-info material-shadow mt-2" role="alert">
                     <h6 class="alert-heading">{{__('Disabled comment title')}}</h6> * {{$survey->disabledComment}}
                 </div>
             @endif
