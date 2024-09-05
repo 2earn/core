@@ -368,7 +368,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div
-                                        class="alert alert-info border-0 rounded-top rounded-0 m-0 d-flex align-items-center mb-3">
+                                        class="alert alert-info material-shadow border-0 rounded-top rounded-0 m-0 d-flex align-items-center mb-3">
                                         <div class="flex-grow-1 text-truncate ">
                                             {{ __('SMS price') }} <b>{{ $prix_sms}} </b> {{__('DPC')}}
                                         </div>

@@ -98,7 +98,7 @@
                 </div>
                 <div class="modal-body">
                     <h5>{{ __('validate_transfert') }}</h5>
-                    <div class="alert alert-primary" role="alert">
+                    <div class="alert alert-primary material-shadow" role="alert">
                         {{__('The amount must be from 1 and less than 10000')}}
                     </div>
                     <h5 class="text-secondary">

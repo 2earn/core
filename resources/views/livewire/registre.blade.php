@@ -42,9 +42,9 @@
                                 </div>
                                 <div class="mt-4">
                                     @include('layouts.flash-messages')
-                                    <div id="error-msg" class="alert alert-danger mx-1 hide" role="alert">
+                                    <div id="error-msg" class="alert alert-danger material-shadow material-shadow mx-1 hide" role="alert">
                                     </div>
-                                    <div id="valid-msg" class="alert alert-danger mx-1 hide" role="alert">
+                                    <div id="valid-msg" class="alert alert-danger material-shadow mx-1 hide" role="alert">
                                         {{__('Valid')}}
                                     </div>
                                 </div>

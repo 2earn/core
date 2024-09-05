@@ -7,12 +7,12 @@
             <div class="row">
                 <div class="row">
                     @if(Session::has('success'))
-                        <div class="alert alert-success" role="alert">
+                        <div class="alert alert-success material-shadow" role="alert">
                             {{ Session::get('success') }}
                         </div>
                     @endif
                     @if(Session::has('danger'))
-                        <div class="alert alert-danger" role="alert">
+                        <div class="alert alert-danger material-shadow" role="alert">
                             {{ Session::get('danger') }}
                         </div>
                     @endif

@@ -46,6 +46,17 @@ class Condition extends Model
         ['name' => '[state] name', 'value' => 'state.name'],
         ['name' => '[role] id', 'value' => 'role.id'],
         ['name' => '[role] name', 'value' => 'role.name'],
+        ['name' => '[vip] flashCoefficient', 'value' => 'vip.flashCoefficient'],
+        ['name' => '[vip] flashDeadline', 'value' => 'vip.flashDeadline'],
+        ['name' => '[vip] flashNote', 'value' => 'vip.flashNote'],
+        ['name' => '[vip] flashMinAmount', 'value' => 'vip.flashMinAmount'],
+        ['name' => '[vip] dateFNS', 'value' => 'vip.dateFNS'],
+        ['name' => '[vip] maxShares', 'value' => 'vip.maxShares'],
+        ['name' => '[vip] solde', 'value' => 'vip.solde'],
+        ['name' => '[vip] declenched', 'value' => 'vip.declenched'],
+        ['name' => '[vip] declenchedDate', 'value' => 'vip.declenchedDate'],
+        ['name' => '[vip] closed', 'value' => 'vip.closed'],
+        ['name' => '[vip] closedDate', 'value' => 'vip.closedDate'],
     ];
 
     protected $fillable = [
