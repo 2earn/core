@@ -35,23 +35,27 @@ class Targeting
         $queryString = DB::table('users as u');
 
         if (in_array("metta", $tablesAleas) or in_array("state", $tablesAleas)) {
-            $queryString = $queryString->join('metta_users as metta', 'metta.idUser', '=', 'u.idUser');
+            $queryString = $queryString->leftJoin('metta_users as metta', 'metta.idUser', '=', 'u.idUser');
         }
 
         if (in_array("country", $tablesAleas)) {
-            $queryString = $queryString->join('countries as country', 'country.id', '=', 'u.idCountry');
+            $queryString = $queryString->leftJoin('countries as country', 'country.id', '=', 'u.idCountry');
 
         }
         if (in_array("state", $tablesAleas)) {
-            $queryString = $queryString->join('states as state', 'state.id', '=', 'metta.idState');
+            $queryString = $queryString->leftJoin('states as state', 'state.id', '=', 'metta.idState');
 
         }
         if (in_array("role", $tablesAleas)) {
-            $queryString = $queryString->join('model_has_roles', 'u.id', '=', 'model_has_roles.model_id');
+            $queryString = $queryString->leftJoin('model_has_roles', 'u.id', '=', 'model_has_roles.model_id');
         }
 
         if (in_array("role", $tablesAleas)) {
-            $queryString = $queryString->join('roles as role', 'role.id', '=', 'model_has_roles.role_id');
+            $queryString = $queryString->leftJoin('roles as role', 'role.id', '=', 'model_has_roles.role_id');
+        }
+
+        if (in_array("vip", $tablesAleas)) {
+            $queryString = $queryString->leftJoin('vip as vip', 'vip.idUser', '=', 'u.idUser');
         }
         return $queryString;
     }

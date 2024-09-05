@@ -55,9 +55,9 @@ class TargetIndex extends Component
     public function render()
     {
         if (!is_null($this->search) && !empty($this->search)) {
-            $params['targets'] = Target::where('name', 'like', '%' . $this->search . '%')->paginate(3);
+            $params['targets'] = Target::where('name', 'like', '%' . $this->search . '%')->orderBy('created_at', 'desc')->paginate(3);
         } else {
-            $params['targets'] = Target::paginate(3);
+            $params['targets'] = Target::orderBy('created_at', 'desc')->paginate(3);
         }
         return view('livewire.target-index', $params)->extends('layouts.master')->section('content');
     }
