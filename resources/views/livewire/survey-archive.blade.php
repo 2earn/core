@@ -7,7 +7,7 @@
     <div class="row card">
         <div class="card-header border-info">
             <div class="d-flex align-items-center">
-                <h6 class="card-title flex-grow-1">   {{__('Surveys')}}</h6>
+                <h6 class="card-title flex-grow-1">   {{__('Surveys archive list')}}</h6>
                 @if($currentRouteName=="surveys_index")
                     <div class="float-end mx-2">
                         <form class="items-center">

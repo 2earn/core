@@ -43,7 +43,6 @@ class SurveyArchive extends Component
                 $surveysQuery = $surveysQuery
                     ->where('name', 'like', '%' . $this->search . '%');
             }
-
         }
 
         $surveys = $surveysQuery->get();
