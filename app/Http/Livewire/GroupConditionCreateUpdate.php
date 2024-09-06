@@ -62,7 +62,7 @@ class GroupConditionCreateUpdate extends Component
                 ]);
         } catch (\Exception $exception) {
             $this->cancel();
-            return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('danger', Lang::get('Something goes wrong while updating Condition!!') . ' : ' . $exception->getMessage());
+            return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('danger', Lang::get('Something goes wrong while updating Condition!!') );
         }
         return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Condition Updated Successfully!!'));
     }
@@ -74,7 +74,7 @@ class GroupConditionCreateUpdate extends Component
             Condition::create(['operand' => $this->operand, 'operator' => $this->operator, 'value' => $this->value, 'target_group_id' => $this->idGroup]);
 
         } catch (\Exception $exception) {
-            return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('danger', Lang::get('Something goes wrong while creating Condition!!') . ' : ' . $exception->getMessage());
+            return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('danger', Lang::get('Something goes wrong while creating Condition!!') );
         }
         return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Condition Created Successfully!!'));
     }

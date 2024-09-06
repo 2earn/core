@@ -67,7 +67,7 @@ class SurveyQuestionChoiceCreateUpdate extends Component
             }
 
         } catch (\Exception $exception) {
-            return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while updating Choice!!') . ' : ' . $exception->getMessage());
+            return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while updating Choice!!') );
         }
         return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Choice Updated Successfully!!'));
     }
@@ -91,7 +91,7 @@ class SurveyQuestionChoiceCreateUpdate extends Component
                 ]);
 
         } catch (\Exception $exception) {
-            return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while creating Choice!!') . ' : ' . $exception->getMessage());
+            return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while creating Choice!!') );
         }
         return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Choice Created Successfully!!'));
     }

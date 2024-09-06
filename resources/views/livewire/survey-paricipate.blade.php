@@ -81,7 +81,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button class="btn btn-info add-btn float-end"
+                        <button class="btn btn-info add-btn float-end mb-2"
                                 type="submit">
                             {{__('Participate')}}
                             <div wire:loading>
