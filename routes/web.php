@@ -54,9 +54,12 @@ Route::get('/pdf', function () {
 });
 
 Route::get('/tables-datatables', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
-Route::get('/coming-soon-Move', [App\Http\Controllers\HomeController::class, 'index'])->name('coming_move');
-Route::get('/coming-soon-learn', [App\Http\Controllers\HomeController::class, 'index'])->name('coming_learn');
-Route::get('/coming-soon-shop', [App\Http\Controllers\HomeController::class, 'index'])->name('coming_shop');
+Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'middleware' => 'setlocale'], function () {
+    Route::get('/coming-soon-Move', [App\Http\Controllers\HomeController::class, 'index'])->name('coming_move');
+    Route::get('/coming-soon-learn', [App\Http\Controllers\HomeController::class, 'index'])->name('coming_learn');
+    Route::get('/coming-soon-shop', [App\Http\Controllers\HomeController::class, 'index'])->name('coming_shop');
+});
+
 Route::get('/widgets', [App\Http\Controllers\HomeController::class, 'index'])->name('widgets');
 Route::get('/offline', function () {
     return view('livewire.offline');

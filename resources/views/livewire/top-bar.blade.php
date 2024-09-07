@@ -30,7 +30,8 @@
                     </span>
                     </button>
                     <div class="ms-1 header-item d-none  d-xl-flex me-5">
-                        <div class="d-flex align-items-end justify-content-between logoTopCash" title="{{__('Soldes calculated at')}} : {{Carbon\Carbon::now()->toDateTimeString()}}">
+                        <div class="d-flex align-items-end justify-content-between logoTopCash"
+                             title="{{__('Soldes calculated at')}} : {{Carbon\Carbon::now()->toDateTimeString()}}">
                             <a href="{{route('user_balance_cb',app()->getLocale())}}">
                                 <div class="avatar-sm flex-shrink-0">
                                     <span class="avatar-title bg-soft-info rounded fs-3">
@@ -53,7 +54,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="ms-1 header-item d-none d-xl-flex me-5" title="{{__('Soldes calculated at')}} : {{Carbon\Carbon::now()->toDateTimeString()}}">
+                    <div class="ms-1 header-item d-none d-xl-flex me-5"
+                         title="{{__('Soldes calculated at')}} : {{Carbon\Carbon::now()->toDateTimeString()}}">
                         <div class="d-flex align-items-end justify-content-between logoTopBFS">
                             <a href="{{route('user_balance_bfs',app()->getLocale())}}">
                                 <div class="avatar-sm flex-shrink-0">
@@ -77,7 +79,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="ms-1 header-item d-none d-xl-flex me-5" title="{{__('Soldes calculated at')}} : {{Carbon\Carbon::now()->toDateTimeString()}}">
+                    <div class="ms-1 header-item d-none d-xl-flex me-5"
+                         title="{{__('Soldes calculated at')}} : {{Carbon\Carbon::now()->toDateTimeString()}}">
                         <div class="d-flex align-items-end justify-content-between logoTopDB">
                             <a href="{{route('user_balance_db',app()->getLocale())}}">
                                 <div class="avatar-sm flex-shrink-0">
@@ -102,14 +105,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="d-flex align-items-center" >
+                <div class="d-flex align-items-center">
                     <div class="dropdown ms-1 topbar-head-dropdown header-item">
                         <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary"
                                 data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="true">
                             <img
-                                src="{{ Vite::asset('resources/images/flags/'.config('app.available_locales')[app()->getLocale()]['flag'].'.svg') }}"
-                                class="rounded" alt="Header Language"
-                                height="20">
+                                    src="{{ Vite::asset('resources/images/flags/'.config('app.available_locales')[app()->getLocale()]['flag'].'.svg') }}"
+                                    class="rounded" alt="Header Language"
+                                    height="20">
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
                             @foreach (config('app.available_locales') as  $locale => $value )
@@ -136,7 +139,7 @@
                             @endforeach
                         </div>
                     </div>
-                    <div class="dropdown topbar-head-dropdown ms-1 header-item" >
+                    <div class="dropdown topbar-head-dropdown ms-1 header-item">
                         <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class='bx bx-category-alt fs-22'></i>
@@ -156,21 +159,24 @@
                             <div class="p-2">
                                 <div class="row g-0">
                                     <div class="col">
-                                        <a class="dropdown-icon-item" href="{{route('coming_move')}}">
+                                        <a class="dropdown-icon-item"
+                                           href="{{route('coming_move',app()->getLocale() )}}">
                                             <img src="{{Vite::asset('resources/images/Move2earn Icon.png')}}"
                                                  alt="Move2earn">
                                             <span>Move2earn</span>
                                         </a>
                                     </div>
                                     <div class="col">
-                                        <a class="dropdown-icon-item" href="{{route('coming_shop')}}">
+                                        <a class="dropdown-icon-item"
+                                           href="{{route('coming_shop',app()->getLocale() )}}">
                                             <img src="{{Vite::asset('resources/images/icon-shop.png')}}"
                                                  alt="Shop2earn">
                                             <span>Shop2earn</span>
                                         </a>
                                     </div>
                                     <div class="col">
-                                        <a class="dropdown-icon-item" href="{{route('coming_learn')}}">
+                                        <a class="dropdown-icon-item"
+                                           href="{{route('coming_learn',app()->getLocale() )}}">
                                             <img src="{{Vite::asset('resources/images/icon-learn.png')}}"
                                                  alt="Learn2earn">
                                             <span>Learn2earn</span>
@@ -198,8 +204,8 @@
                                 data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                             <i class='bx bx-bell fs-22'></i>
                             <span
-                                class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger"
-                                id="notif-counter">{{$count}}
+                                    class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger"
+                                    id="notif-counter">{{$count}}
                                 <span class="visually-hidden">{{__('unread messages')}}</span>
                             </span>
                         </button>
@@ -251,12 +257,12 @@
                                 <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
                                     @foreach($notifications as $notification)
                                         <div
-                                            class="text-reset notification-item d-block dropdown-item position-relative"
-                                            id="{{$notification->id}}" title="{{$notification->id}}">
+                                                class="text-reset notification-item d-block dropdown-item position-relative"
+                                                id="{{$notification->id}}" title="{{$notification->id}}">
                                             <div class="d-flex">
                                                 <div class="avatar-xs me-3 flex-shrink-0">
                                                 <span
-                                                    class="avatar-title bg-danger-subtle text-danger rounded-circle fs-16">
+                                                        class="avatar-title bg-danger-subtle text-danger rounded-circle fs-16">
                                                     <i class="bx bx-message-square-dots"></i>
                                                 </span>
                                                 </div>
@@ -272,7 +278,7 @@
                                                 <span class="spinner-border spinner-border-sm" role="status"
                                                       aria-hidden="true"></span>
                                                                     <span
-                                                                        class="sr-only">{{__('Loading')}}...</span>
+                                                                            class="sr-only">{{__('Loading')}}...</span>
                                                                 </div>
                                                             </button>
                                                         </div>
@@ -308,7 +314,7 @@
                                       title="{{$userStatus}}">
                                     {{getUserDisplayedName()}} </span>
                                  <span
-                                     class="d-none d-xl-block badge bg-light @if($user->status==1) text-success  @else text-muted @endif mb-0">
+                                         class="d-none d-xl-block badge bg-light @if($user->status==1) text-success  @else text-muted @endif mb-0">
                                         <span class="mb-5">{{__($userRole)}}</span>
                                         @if($userStatus==2)
                                          <i class="mdi mdi-24px mdi-account-check text-success validated-user"
@@ -335,12 +341,12 @@
                                 <img class="rounded-circle header-profile-user"
                                      src="@if (file_exists('uploads/profiles/profile-image-' . $user->idUser . '.png')) {{ URL::asset('uploads/profiles/profile-image-'.$user->idUser.'.png') }}@else{{ URL::asset('uploads/profiles/default.png') }} @endif">
                                 <span
-                                    class="align-middle">{{ __('Account') }}</span>
+                                        class="align-middle">{{ __('Account') }}</span>
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{route('user_balance_cb',app()->getLocale())}}"><i
-                                    class="mdi mdi-wallet text-muted fs-16 align-middle me-1"></i> <span
-                                    class=""> {{ __('Cash Balance') }} : <b>  {{__('DPC')}}  {{$solde->soldeCB}}</b>
+                                        class="mdi mdi-wallet text-muted fs-16 align-middle me-1"></i> <span
+                                        class=""> {{ __('Cash Balance') }} : <b>  {{__('DPC')}}  {{$solde->soldeCB}}</b>
                                 </span>
                             </a>
                             <a class="dropdown-item" wire:click="logout">
