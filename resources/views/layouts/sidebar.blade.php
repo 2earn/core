@@ -118,16 +118,7 @@
                             <span>{{__('Hobbies')}}</span>
                         </a>
                     </li>
-                    @if(auth()->user()->getRoleNames()->first() =="Super admin")
-                        <li class="nav-item {{Route::currentRouteName()=='target_index'? 'active' : ''}}">
-                            <a href="{{route('target_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
-                               class="nav-link menu-link {{Route::currentRouteName()=='target_index'? 'active' : ''}}"
-                               role="button">
-                                <i class="ri-pushpin-fill"></i>
-                                <span>{{__('Targets')}}</span>
-                            </a>
-                        </li>
-                    @endif
+
                     <li class="nav-item">
                         <a class="nav-link menu-link {{!in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'collapsed' : 'active'}}"
                            href="#sidebarSurvey" data-bs-toggle="collapse"
@@ -166,6 +157,16 @@
                         <li class="menu-title">
                             <span data-key="t-menu">{{ __('SUPER ADMIN MENU') }}</span>
                         </li>
+                        @if(auth()->user()->getRoleNames()->first() =="Super admin")
+                            <li class="nav-item {{Route::currentRouteName()=='target_index'? 'active' : ''}}">
+                                <a href="{{route('target_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
+                                   class="nav-link menu-link {{Route::currentRouteName()=='target_index'? 'active' : ''}}"
+                                   role="button">
+                                    <i class="ri-pushpin-fill"></i>
+                                    <span>{{__('Targets')}}</span>
+                                </a>
+                            </li>
+                        @endif
                         <li class="nav-item">
                             <a class="nav-link menu-link {{in_array(Route::currentRouteName(), ['configuration-setting','configuration-bo','configuration-ha','configuration-amounts'])? 'active' : ''}}"
                                href="#sidebarDashboards"
