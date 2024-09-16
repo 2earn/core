@@ -313,45 +313,52 @@
             </div>
         </div>
         <div class="card-footer text-muted">
-      <span class="float-end">{{__('Soldes calculated at')}} : <cite title="Source Title">{{Carbon\Carbon::now()->toDateTimeString()}}</cite></span>
+            <span class="float-end">{{__('Soldes calculated at')}} : <cite
+                    title="Source Title">{{Carbon\Carbon::now()->toDateTimeString()}}</cite></span>
         </div>
     </div>
     <livewire:survey-index/>
-    <div class="row card">
-        <div class="card-header border-info">
-            <div class="d-flex align-items-center">
-                <h6 class="card-title mb-0 flex-grow-1">{{ __('we_are_present_in') }}</h6>
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-7">
+            <div class="card">
+                <div class="card-header border-info">
+                    <div class="d-flex align-items-center">
+                        <h6 class="card-title mb-0 flex-grow-1">{{ __('we_are_present_in') }}</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12" style="padding-right: 0;padding-left: 0;">
+                            <div class="card" style="height: 500px;">
+                                <div class="card-body">
+                                    <div id="any4"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-12" style="padding-right: 0;padding-left: 0;">
-                    <div class="card" style="height: 500px;">
-                        <div class="card-body">
-                            <div id="any4"></div>
+        <div class="col-sm-12 col-md-12 col-lg-5">
+            <div class="card">
+                <div class="card-header border-info">
+                    <div class="d-flex align-items-center">
+                        <h6 class="card-title mb-0 flex-grow-1">{{ __('Country ponderation') }}</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="card" style="height: 500px;">
+                            <div class="card-body">
+                                <div id="any5"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row card">
-        <div class="card-header border-info">
-            <div class="d-flex align-items-center">
-                <h6 class="card-title mb-0 flex-grow-1">{{ __('Country ponderation') }}</h6>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="card" style="height: 500px;">
-                    <div class="card-body">
-                        <div id="any5"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div wire:ignore.self class="modal fade" id="buy-action" tabindex="-1" aria-labelledby="exampleModalgridLabel"
          aria-modal="true">
         <div class="modal-dialog" id="buy-share">

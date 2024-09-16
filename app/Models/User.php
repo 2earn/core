@@ -12,6 +12,9 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
+    const SUPER_ADMIN_ROLE_NAME = "Super admin";
+
+
     use HasApiTokens, HasFactory, Notifiable;
 
     use HasRoles;

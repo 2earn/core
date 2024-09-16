@@ -127,11 +127,11 @@
                            aria-controls="sidebarSurvey">
                             <i class="ri-bookmark-fill"></i>
                             <span
-                                    data-key="t-dashboards">{{ __('Surveys') }}</span>
+                                data-key="t-dashboards">{{ __('Surveys') }}</span>
                         </a>
                         <div
-                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['surveys_index','surveys_archive'])? 'show' : ''}}"
-                                id="sidebarSurvey">
+                            class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['surveys_index','surveys_archive'])? 'show' : ''}}"
+                            id="sidebarSurvey">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item {{Route::currentRouteName()=='surveys_index'? 'active' : ''}}">
                                     <a href="{{route('surveys_index', app()->getLocale(),false)}}"
@@ -153,11 +153,11 @@
                             <span>{{__('User guide')}}</span>
                         </a>
                     </li>
-                    @if(auth()->user()->getRoleNames()->first() =="Super admin")
+                    @if(auth()->user()->getRoleNames()->first() ==\App\Models\User::SUPER_ADMIN_ROLE_NAME)
                         <li class="menu-title">
                             <span data-key="t-menu">{{ __('SUPER ADMIN MENU') }}</span>
                         </li>
-                        @if(auth()->user()->getRoleNames()->first() =="Super admin")
+                        @if(auth()->user()->getRoleNames()->first() ==\App\Models\User::SUPER_ADMIN_ROLE_NAME)
                             <li class="nav-item {{Route::currentRouteName()=='target_index'? 'active' : ''}}">
                                 <a href="{{route('target_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
                                    class="nav-link menu-link {{Route::currentRouteName()=='target_index'? 'active' : ''}}"
@@ -175,11 +175,11 @@
                                aria-expanded="false"
                                aria-controls="sidebarDashboards">
                                 <i class="ri-dashboard-2-line"></i> <span
-                                        data-key="t-dashboards">{{ __('Settings') }}</span>
+                                    data-key="t-dashboards">{{ __('Settings') }}</span>
                             </a>
                             <div
-                                    class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['configuration-setting','configuration-bo','configuration-ha','configuration-amounts'])? 'show' : ''}}"
-                                    id="sidebarDashboards">
+                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['configuration-setting','configuration-bo','configuration-ha','configuration-amounts'])? 'show' : ''}}"
+                                id="sidebarDashboards">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item {{Route::currentRouteName()=='configuration-setting'? 'active' : ''}}">
                                         <a href="{{route('configuration-setting', app()->getLocale(),false)}}"
@@ -224,11 +224,11 @@
                                aria-expanded="{{in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'true' : 'false'}}"
                                aria-controls="sidebarShareSold">
                                 <i class="ri-dashboard-fill"></i> <span
-                                        data-key="t-dashboards">{{ __('Shares sold') }}</span>
+                                    data-key="t-dashboards">{{ __('Shares sold') }}</span>
                             </a>
                             <div
-                                    class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'show' : ''}}"
-                                    id="sidebarShareSold">
+                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'show' : ''}}"
+                                id="sidebarShareSold">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item {{Route::currentRouteName()=='shares_sold'? 'active' : ''}}">
                                         <a href="{{route('shares_sold', app()->getLocale(),false)}}"
@@ -282,7 +282,7 @@
                             </a>
                         </li>
                     @endif
-                    @if(auth()->user()->getRoleNames()->first() =="Super admin")
+                    @if(auth()->user()->getRoleNames()->first() ==\App\Models\User::SUPER_ADMIN_ROLE_NAME)
 
                         <li class="nav-item">
                             <a class="nav-link menu-link {{!in_array(Route::currentRouteName(), ['translate','translate_model_data'])? 'collapsed' : 'active'}}"
@@ -291,11 +291,11 @@
                                aria-expanded="{{in_array(Route::currentRouteName(), ['translate','translate_model_data'])? 'true' : 'false'}}"
                                aria-controls="sidebarTranslate">
                                 <i class="ri-dashboard-fill"></i> <span
-                                        data-key="t-dashboards">{{ __('Translation') }}</span>
+                                    data-key="t-dashboards">{{ __('Translation') }}</span>
                             </a>
                             <div
-                                    class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['translate','translate_model_data'])? 'show' : ''}}"
-                                    id="sidebarTranslate">
+                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['translate','translate_model_data'])? 'show' : ''}}"
+                                id="sidebarTranslate">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item {{Route::currentRouteName()=='translate'? 'active' : ''}}">
                                         <a href="{{route('translate', app()->getLocale(),false)}}"
