@@ -1614,8 +1614,6 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
                 html.hasAttribute("data-layout-mode") && sessionStorage.getItem('data-layout-mode') == "dark" ?
                     setLayoutMode("data-layout-mode", "light", "layout-mode-light", html) :
                     setLayoutMode("data-layout-mode", "dark", "layout-mode-dark", html);
-                console.log(sessionStorage.getItem('data-layout-mode'))
-
                 sessionStorage.setItem("data-sidebar", html.getAttribute("data-layout-mode"));
                 document.documentElement.setAttribute("data-sidebar", html.getAttribute("data-layout-mode"));
                 setLayoutMode("data-layout-mode", html.getAttribute("data-layout-mode"), "layout-mode-dark", html);

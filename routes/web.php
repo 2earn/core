@@ -138,6 +138,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/shares-sold/market-status', \App\Http\Livewire\SharesSoldMarketStatus::class)->name('shares_sold_market_status');
             Route::get('/shares-sold/recent-transaction', \App\Http\Livewire\SharesSoldRecentTransaction::class)->name('shares_sold_recent_transaction');
         });
+
         Route::get('/stat-countries', 'App\Http\Controllers\ApiController@getCountriStat')->name('api_stat_countries');
         Route::post('/validate-phone', 'App\Http\Controllers\ApiController@validatePhone')->name('validate_phone');
         Route::post('/buy-action', 'App\Http\Controllers\ApiController@buyAction')->name('buyAction');
