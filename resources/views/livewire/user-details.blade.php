@@ -168,6 +168,12 @@
                                 <span class="float-end">{{$metta->idLanguage}}</span>
                             </li>
                         @endif
+                        @if(!empty($metta->birthday))
+                            <li class="list-group-item">
+                                <strong>{{__('Birth date')}}</strong>
+                                <span class="float-end">{{$metta->birthday}}</span>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </div>
