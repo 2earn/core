@@ -154,7 +154,6 @@ class SurveyCreateUpdate extends Component
         $this->name = $survey->name;
         $this->description = $survey->description;
         $this->idSurvey = $survey->id;
-        $this->published = $survey->published;
         $this->enabled = $survey->enabled;
         $this->updatable = $survey->updatable;
         $this->commentable = $survey->commentable;
@@ -187,7 +186,6 @@ class SurveyCreateUpdate extends Component
         $this->validate();
         try {
             $this->validateDisabled();
-            $old = Survey::where('id', $this->idSurvey)->first();
 
             $paramsToUpdate = [
                 'name' => $this->name,
@@ -217,25 +215,23 @@ class SurveyCreateUpdate extends Component
             }
             Survey::where('id', $this->idSurvey)
                 ->update($paramsToUpdate);
-
             if (!is_null($this->target)) {
                 $survey = Survey::find($this->idSurvey);
                 $survey->targets()->detach();
                 $survey->targets()->attach([$this->target]);
             }
-            $new = Survey::where('id', $this->idSurvey)->first();
+
+
             $translations = ['name', 'description', 'disabledResult', 'disabledComment', 'disabledLike'];
             foreach ($translations as $translation) {
-                if ($old->{$translation} != $new->{$translation}) {
-                    $translationModel = TranslaleModel::where('name', TranslaleModel::getTranslateName($survey, $translation))->first();
-                    if (!is_null($translationModel)) {
-                        $translationModel->update(
-                            [
-                                'value' => $this->{$translation} . ' AR',
-                                'valueFr' => $this->{$translation} . ' FR',
-                                'valueEn' => $this->{$translation} . ' EN'
-                            ]);
-                    }
+                $translationModel = TranslaleModel::where('name', TranslaleModel::getTranslateName($survey, $translation))->first();
+                if (!is_null($translationModel)) {
+                    $translationModel->update(
+                        [
+                            'value' => $this->{$translation} . ' AR',
+                            'valueFr' => $this->{$translation} . ' FR',
+                            'valueEn' => $this->{$translation} . ' EN'
+                        ]);
                 }
             }
 

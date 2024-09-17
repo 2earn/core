@@ -1,17 +1,21 @@
 <div>
-    @component('components.breadcrumb')
-        @slot('title')
-            {{ __('Edit contact') }}
-        @endslot
-    @endcomponent
     <div class="card">
         <div class="card-header">
             <h5 class="card-title" id="ContactsModalLabel">{{ __('Edit a contact') }}</h5>
         </div>
         <div class="card-body ">
             <div class="row">
-                <div class="col-12">
-                    @include('layouts.flash-messages')
+                <div class="row">
+                    @if(Session::has('success'))
+                        <div class="alert alert-success material-shadow" role="alert">
+                            {{ Session::get('success') }}
+                        </div>
+                    @endif
+                    @if(Session::has('danger'))
+                        <div class="alert alert-danger material-shadow" role="alert">
+                            {{ Session::get('danger') }}
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="row">
@@ -20,16 +24,16 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label">{{ __('First name') }}</label>
+                                <label class="form-label">{{ __('Name') }}</label>
                                 <input id="inputNameContact" type="text"
                                        class="form-control" name="name" wire:model.defer="nameUserContact"
-                                       placeholder="{{ __('First name') }} ">
+                                       placeholder="{{ __('Name') }} ">
                             </div>
                             @error('nameUserContact') <span class="error alert-danger">{{ $message }}</span> @enderror
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label">{{ __('Last name') }}</label>
+                                <label class="form-label">{{ __('Last Name') }}</label>
                                 <input id="inputlLastNameContact" type="text"
                                        class="form-control" name="inputlLastNameContact"
                                        wire:model.defer="lastNameUserContact"
@@ -54,11 +58,11 @@
                         <div class="row">
                             <input type="text" name="idUser" hidden>
                             <div class="col-md-12">
-                                <button type="button" class="btn btn-outline-secondary float-end  mx-1"
+                                <button type="button" class="btn btn-outline-secondary"
                                         wire:click="close">{{ __('Close') }}
                                 </button>
                                 <button type="button" id="SubmitAd3dContact" onclick="editContactEvent()"
-                                        class="btn btn-outline-info float-end mx-1">
+                                        class="btn btn-outline-info">
                                     {{ __('Save') }}
                                     <div wire:loading wire:target="save">
                                             <span class="spinner-border spinner-border-sm" role="status"

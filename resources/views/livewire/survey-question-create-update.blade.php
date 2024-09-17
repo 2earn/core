@@ -2,7 +2,7 @@
     @component('components.breadcrumb')
         @slot('title')
             {{ __('Survey') }}
-            : {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}    {{ __('Add question') }}
+            : {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}    {{ __('Add question ') }}
         @endslot
     @endcomponent
     <div class="row card">
@@ -33,7 +33,7 @@
                                           id="content"
                                           maxlength="190" wire:model="content"
                                           placeholder="{{__('Enter content')}}"></textarea>
-                                @error('content') <span class="text-danger">{{ __($message) }}</span>@enderror
+                                @error('content') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                             <div class="form-group mb-3">
@@ -49,7 +49,7 @@
                                                 @if($loop->index==0) selected @endif >{{__($selectionItem['name'])}}</option>
                                     @endforeach
                                 </select>
-                                @error('Selection') <span class="text-danger">{{ __($message) }}</span>@enderror
+                                @error('Selection') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                             <div class="form-group mb-3">
@@ -58,7 +58,7 @@
                                        id="maxResponse"
                                        wire:model="maxResponse"
                                        placeholder="{{__('Enter max response')}}"></input>
-                                @error('maxResponse') <span class="text-danger">{{ __($message) }}</span>@enderror
+                                @error('maxResponse') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                         </div>

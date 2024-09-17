@@ -716,7 +716,7 @@
                                   maxlength="190" id="disableNote"
                                   wire:model="disableNote"
                                   placeholder="{{__('Enter Disable Note')}}"></textarea>
-                        @error('disableNote') <span class="text-danger">{{ __($message) }}</span>@enderror
+                        @error('disableNote') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>
                 </div>

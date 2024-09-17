@@ -30,7 +30,7 @@
                                           maxlength="80" id="title"
                                           wire:model="title"
                                           placeholder="{{__('Enter title')}}"></textarea>
-                                @error('title') <span class="text-danger">{{ __($message) }}</span>@enderror
+                                @error('title') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                         </div>

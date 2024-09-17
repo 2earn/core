@@ -349,7 +349,7 @@
                                             <input type="text" class="form-control"
                                                    {{ $disabled ? 'disabled' : ''  }}
                                                    wire:model.defer="usermetta_info.enLastName"
-                                                   placeholder="{{__('Last Name latin')}}" value="">
+                                                   placeholder="{{__('Last Name')}}" value="">
                                             <div class="form-text">{{__('Required for account validation')}}</div>
                                         </div>
                                     </div>
@@ -360,7 +360,7 @@
                                             <input
                                                 {{ $disabled ? 'disabled' : ''  }}
                                                 wire:model.defer="usermetta_info.enFirstName"
-                                                placeholder="{{__('First name latin')}}" class="form-control">
+                                                placeholder="{{__('First name')}}" class="form-control">
                                             <div class="form-text">{{__('Required for account validation')}}</div>
                                         </div>
                                     </div>

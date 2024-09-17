@@ -29,7 +29,7 @@
                                        id="name"
                                        wire:model="name"
                                        placeholder="{{__('Enter name')}}"></input>
-                                @error('name') <span class="text-danger">{{ __($message) }}</span>@enderror
+                                @error('name') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                             <div class="form-group mb-3">
@@ -38,7 +38,7 @@
                                           id="description"
                                           wire:model="description"
                                           placeholder="{{__('Enter description')}}"></textarea>
-                                @error('description') <span class="text-danger">{{ __($message) }}</span>@enderror
+                                @error('description') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                         </div>
