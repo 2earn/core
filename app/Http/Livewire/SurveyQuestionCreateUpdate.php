@@ -68,14 +68,16 @@ class SurveyQuestionCreateUpdate extends Component
         $this->validate();
         try {
             $this->validateMultiselection();
+            $old = SurveyQuestion::where('id', $this->idQuestion)->first();
             SurveyQuestion::where('id', $this->idQuestion)
                 ->update([
                     'content' => $this->content,
                     'selection' => $this->selection,
                     'maxResponse' => $this->maxResponse != "" ? $this->maxResponse : 0,
                 ]);
+            $new = SurveyQuestion::where('id', $this->idQuestion)->first();
             $translationModel = TranslaleModel::where('name', TranslaleModel::getTranslateName(SurveyQuestion::find($this->idQuestion), 'content'))->first();
-            if (!is_null($translationModel)) {
+            if ($new->name != $old->name && !is_null($translationModel)) {
                 $translationModel->update(
                     [
                         'value' => $this->content . ' AR',
@@ -85,7 +87,7 @@ class SurveyQuestionCreateUpdate extends Component
             }
 
         } catch (\Exception $exception) {
-            return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while updating Question!!') );
+            return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while updating Question!!'));
         }
         return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Question Updated Successfully!!'));
 
@@ -119,7 +121,7 @@ class SurveyQuestionCreateUpdate extends Component
                 ]);
 
         } catch (\Exception $exception) {
-            return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while creating Survey!!') );
+            return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while creating Survey!!'));
         }
         return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Survey Created Successfully!!'));
     }
