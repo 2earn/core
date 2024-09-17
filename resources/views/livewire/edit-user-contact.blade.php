@@ -5,17 +5,8 @@
         </div>
         <div class="card-body ">
             <div class="row">
-                <div class="row">
-                    @if(Session::has('success'))
-                        <div class="alert alert-success material-shadow" role="alert">
-                            {{ Session::get('success') }}
-                        </div>
-                    @endif
-                    @if(Session::has('danger'))
-                        <div class="alert alert-danger material-shadow" role="alert">
-                            {{ Session::get('danger') }}
-                        </div>
-                    @endif
+                <div class="col-12">
+                    @include('layouts.flash-messages')
                 </div>
             </div>
             <div class="row">
@@ -33,7 +24,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label">{{ __('Last Name') }}</label>
+                                <label class="form-label">{{ __('Last name') }}</label>
                                 <input id="inputlLastNameContact" type="text"
                                        class="form-control" name="inputlLastNameContact"
                                        wire:model.defer="lastNameUserContact"
