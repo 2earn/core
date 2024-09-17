@@ -16128,3 +16128,37 @@ span.flatpickr-weekday {
     text-transform: uppercase;
 }
 
+
+.cool-link {
+    color: var(--vz-vertical-menu-title-color);
+    text-decoration: none;
+}
+
+
+.cool-link::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: var(--vz-vertical-menu-title-color);
+    transition: width .3s;
+}
+
+.cool-link:hover::after {
+    width: 100%;
+    transition: width .3s;
+}
+
+.navbar-menu .navbar-nav .nav-link.active {
+    font-weight: bold;
+}
+
+
+.cool-link .active::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: var(--vz-vertical-menu-title-color);
+    transition: width .3s;
+}
