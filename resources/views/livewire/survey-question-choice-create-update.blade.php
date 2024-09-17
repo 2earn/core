@@ -1,7 +1,7 @@
 <div>
     @component('components.breadcrumb')
         @slot('title')
-            {{ __('Question') }} : {{ __('Add Option ') }}
+            {{ __('Question') }} : {{ __('Add Option') }}
         @endslot
     @endcomponent
     <div class="row card">

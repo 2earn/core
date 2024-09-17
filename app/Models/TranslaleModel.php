@@ -53,4 +53,36 @@ class TranslaleModel extends Model
         return self::getDataFromName($var)[2];
     }
 
+    public static function getLink($var)
+    {
+        $class = self::getClassNameFromName($var);
+        $id = self::getIdFromName($var);
+
+        if ($class == 'Survey') {
+            return route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $id]);
+        }
+
+        if ($class == 'SurveyQuestion') {
+            $surveyQuestion = SurveyQuestion::find($id);
+            if (!is_null($surveyQuestion)) {
+                return route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $surveyQuestion->survey_id]);
+            }
+        }
+
+        if ($class == 'SurveyQuestionChoice') {
+            $surveyQuestionChoice = SurveyQuestionChoice::find($id);
+            if (!is_null($surveyQuestionChoice)) {
+
+                $surveyQuestion = SurveyQuestion::find($surveyQuestionChoice->question_id);
+                if (!is_null($surveyQuestion)) {
+
+                    return route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $surveyQuestion->survey_id]);
+                }
+            }
+
+        }
+
+        return "#";
+    }
+
 }

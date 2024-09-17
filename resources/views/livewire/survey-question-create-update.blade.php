@@ -1,7 +1,8 @@
 <div>
     @component('components.breadcrumb')
         @slot('title')
-            {{ __('Survey') }} : {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}    {{ __('Add question ') }}
+            {{ __('Survey') }}
+            : {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}    {{ __('Add question ') }}
         @endslot
     @endcomponent
     <div class="row card">
@@ -9,10 +10,12 @@
             <div class="d-flex align-items-center">
                 <h6 class="card-title flex-grow-1">
                     @if($update)
-                        {{__('Survey')}} : {{$survey->id}} - {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}<span
+                        {{__('Survey')}} : {{$survey->id}}
+                        - {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}<span
                                 class="text-muted"> > </span> {{__('Update question')}}
                     @else
-                        {{__('Survey')}} : {{$survey->id}} - {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}} <span
+                        {{__('Survey')}} : {{$survey->id}}
+                        - {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}} <span
                                 class="text-muted"> > </span> {{__('Create question')}}
                     @endif
                 </h6>
@@ -28,7 +31,7 @@
                                 <label for="content">{{__('Content')}}</label>
                                 <textarea class="form-control @error('content') is-invalid @enderror"
                                           id="content"
-                                          maxlength="190"  wire:model="content"
+                                          maxlength="190" wire:model="content"
                                           placeholder="{{__('Enter content')}}"></textarea>
                                 @error('content') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
@@ -43,7 +46,7 @@
                                         aria-label="{{__('Enter Selection')}}">
                                     @foreach ($selections as $selectionItem)
                                         <option value="{{$selectionItem['value']}}"
-                                                @if($loop->index==0) selected @endif >{{$selectionItem['name']}}</option>
+                                                @if($loop->index==0) selected @endif >{{__($selectionItem['name'])}}</option>
                                     @endforeach
                                 </select>
                                 @error('Selection') <span class="text-danger">{{ $message }}</span>@enderror

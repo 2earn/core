@@ -83,7 +83,7 @@
                             </a>
                             <a href="{{route('group_create_update',['locale'=>app()->getLocale(),'idTarget'=>$target->id])}}"
                                title="{{__('Add Group')}}" class="btn btn-soft-info material-shadow-none">
-                                {{__('Add Group ')}}
+                                {{__('Add Group')}}
                             </a>
                         @endif
                     </div>

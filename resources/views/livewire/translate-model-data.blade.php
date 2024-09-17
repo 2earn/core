@@ -135,19 +135,22 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                 <tr>
                                                     <td><span> {{$value->id}}</span></td>
                                                     <td title="{{$value->name}}" class="w-25">
-                                                        <ul class="list-group">
-                                                            <li class="list-group-item">   {{__('Class')}} : <span
-                                                                    class="badge text-info">{{\App\Models\TranslaleModel::getClassNameFromName($value->name)}}</span>
-                                                            </li>
-                                                            <li class="list-group-item">
-                                                                > {{__('Property')}} : <span
-                                                                    class="badge text-info">{{\App\Models\TranslaleModel::getPropertyFromName($value->name)}}</span>
-                                                            </li>
-                                                            <li class="list-group-item">
-                                                                > {{__('ID')}} : <span
-                                                                    class="badge text-dark">{{\App\Models\TranslaleModel::getIdFromName($value->name)}}</span>
-                                                            </li>
-                                                        </ul>
+                                                        <a href="{{\App\Models\TranslaleModel::getLink($value->name)}}">
+                                                            <span class="text-info">{{__('Go to the')}} </span>
+                                                            <ul class="list-group mt-2">
+                                                                <li class="list-group-item">   {{__('Class')}} : <span
+                                                                        class="badge text-info">{{\App\Models\TranslaleModel::getClassNameFromName($value->name)}}</span>
+                                                                </li>
+                                                                <li class="list-group-item">
+                                                                    > {{__('Property')}} : <span
+                                                                        class="badge text-info">{{\App\Models\TranslaleModel::getPropertyFromName($value->name)}}</span>
+                                                                </li>
+                                                                <li class="list-group-item">
+                                                                    > {{__('ID')}} : <span
+                                                                        class="badge text-dark">{{\App\Models\TranslaleModel::getIdFromName($value->name)}}</span>
+                                                                </li>
+                                                            </ul>
+                                                        </a>
                                                     </td>
                                                     <td class="d-none d-md-block text-info">
 
