@@ -1,4 +1,9 @@
 <div>
+    @component('components.breadcrumb')
+        @slot('title')
+            {{ __('Edit contact') }}
+        @endslot
+    @endcomponent
     <div class="card">
         <div class="card-header">
             <h5 class="card-title" id="ContactsModalLabel">{{ __('Edit a contact') }}</h5>
@@ -49,11 +54,11 @@
                         <div class="row">
                             <input type="text" name="idUser" hidden>
                             <div class="col-md-12">
-                                <button type="button" class="btn btn-outline-secondary"
+                                <button type="button" class="btn btn-outline-secondary float-end  mx-1"
                                         wire:click="close">{{ __('Close') }}
                                 </button>
                                 <button type="button" id="SubmitAd3dContact" onclick="editContactEvent()"
-                                        class="btn btn-outline-info">
+                                        class="btn btn-outline-info float-end mx-1">
                                     {{ __('Save') }}
                                     <div wire:loading wire:target="save">
                                             <span class="spinner-border spinner-border-sm" role="status"
