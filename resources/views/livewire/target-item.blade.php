@@ -35,7 +35,7 @@
                             <li class="list-group-item">
                                 <a class="link-info"
                                    href="{{route('survey_show',['locale'=>app()->getLocale(),'idSurvey'=> $surveysItem->id])}}">  {{ $surveysItem->id }}
-                                    - {{ $surveysItem->name}}
+                                    - {{\App\Models\TranslaleModel::getTranslation($surveysItem,'name',$surveysItem->name)}}
                                 </a>
                             </li>
                         @endforeach
