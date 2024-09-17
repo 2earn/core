@@ -37,7 +37,7 @@
                                                 @if($loop->index==0) selected @endif >{{$operatorItem['name']}}</option>
                                     @endforeach
                                 </select>
-                                @error('operand') <span class="text-danger">{{ $message }}</span>@enderror
+                                @error('operand') <span class="text-danger">{{ __($message) }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                             <div class="form-group mb-3">
@@ -53,7 +53,7 @@
                                                 @if($loop->index==0) selected @endif >{{$operandItem['name']}}</option>
                                     @endforeach
                                 </select>
-                                @error('operator') <span class="text-danger">{{ $message }}</span>@enderror
+                                @error('operator') <span class="text-danger">{{ __($message) }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                             <div class="form-group mb-3">
@@ -62,7 +62,7 @@
                                        id="value"
                                        wire:model="value"
                                        placeholder="{{__('Enter value')}}"></input>
-                                @error('value') <span class="text-danger">{{ $message }}</span>@enderror
+                                @error('value') <span class="text-danger">{{ __($message) }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                         </div>

@@ -28,7 +28,7 @@
                                 <input type="text" class="form-control @error('name') is-invalid @enderror"
                                        id="Name"
                                        placeholder="{{__('Enter Name')}}" wire:model="name">
-                                @error('name') <span class="text-danger">{{ $message }}</span>@enderror
+                                @error('name') <span class="text-danger">{{ __($message) }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                             <div class="form-group mb-3">
@@ -37,7 +37,7 @@
                                           id="Description"
                                           wire:model="description"
                                           placeholder="{{__('Enter Description')}}"></textarea>
-                                @error('description') <span class="text-danger">{{ $message }}</span>@enderror
+                                @error('description') <span class="text-danger">{{ __($message) }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                @error('target') <span class="text-danger">{{ $message }}</span>@enderror
+                                @error('target') <span class="text-danger">{{ __($message) }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                         @endif
@@ -92,7 +92,7 @@
                                                 @if($loop->index==0) selected @endif >{{__($targetType->name)}}</option>
                                     @endforeach
                                 </select>
-                                @error('show') <span class="text-danger">{{ $message }}</span>@enderror
+                                @error('show') <span class="text-danger">{{ __($message) }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
 
@@ -110,7 +110,7 @@
                                     @endforeach
                                 </select>
                                 @error('showAttchivementGool')
-                                <span class="text-danger">{{ $message }}</span>@enderror
+                                <span class="text-danger">{{ __($message) }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
 
@@ -128,7 +128,7 @@
                                     @endforeach
                                 </select>
                                 @error('showAttchivementChrono')
-                                <span class="text-danger">{{ $message }}</span>@enderror
+                                <span class="text-danger">{{ __($message) }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
 
@@ -145,7 +145,7 @@
                                                 @if($loop->index==0) selected @endif >{{__($targetType->name)}}</option>
                                     @endforeach
                                 </select>
-                                @error('showResult') <span class="text-danger">{{ $message }}</span>@enderror
+                                @error('showResult') <span class="text-danger">{{ __($message) }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                                 <div class="form-group mb-3">
                                     <label for="disabledResult">{{__('Disabled show result explanation')}}</label>
@@ -153,7 +153,7 @@
                                               id="disabledResult"
                                               wire:model="disabledResult"
                                               placeholder="{{__('Enter Description for disabled show result')}}"></textarea>
-                                    @error('disabledResult') <span class="text-danger">{{ $message }}</span>@enderror
+                                    @error('disabledResult') <span class="text-danger">{{ __($message) }}</span>@enderror
                                     <div class="form-text">{{__('Required field')}}</div>
                                 </div>
                             </div>
@@ -172,7 +172,7 @@
                                     @endforeach
                                 </select>
                                 @error('commentable')
-                                <span class="text-danger">{{ $message }}</span>@enderror
+                                <span class="text-danger">{{ __($message) }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                                 <div class="form-group mb-3">
                                     <label for="disabledComment">{{__('Disabled comment explanation')}}</label>
@@ -180,7 +180,7 @@
                                               id="disabledComment"
                                               wire:model="disabledComment"
                                               placeholder="{{__('Enter Description for disabled comment')}}"></textarea>
-                                    @error('disabledComment') <span class="text-danger">{{ $message }}</span>@enderror
+                                    @error('disabledComment') <span class="text-danger">{{ __($message) }}</span>@enderror
                                     <div class="form-text">{{__('Required field')}}</div>
                                 </div>
                             </div>
@@ -199,7 +199,7 @@
                                     @endforeach
                                 </select>
                                 @error('likable')
-                                <span class="text-danger">{{ $message }}</span>@enderror
+                                <span class="text-danger">{{ __($message) }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                                 <div class="form-group mb-3">
                                     <label for="disabledLike">{{__('Disabled show like explanation')}}</label>
@@ -226,7 +226,7 @@
                                     @endforeach
                                 </select>
                                 @error('showAfterArchiving')
-                                <span class="text-danger">{{ $message }}</span>@enderror
+                                <span class="text-danger">{{ __($message) }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
 
