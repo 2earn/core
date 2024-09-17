@@ -586,7 +586,8 @@
             </div>
             @if(!$survey->isLikable())
                 <div class="alert alert-info material-shadow mt-2" role="alert">
-                    <h6 class="alert-heading">{{__('Disabled like title')}}</h6> * {{$survey->disabledLike}}
+                    <h6 class="alert-heading">{{__('Disabled like title')}}</h6>
+                                        * {{\App\Models\TranslaleModel::getTranslation($survey,'disabledLike',$survey->disabledLike)}}
                 </div>
             @endif
             <div class="card-body row">
@@ -639,7 +640,8 @@
 
             @if(!$survey->isCommentable())
                 <div class="alert alert-info material-shadow mt-2" role="alert">
-                    <h6 class="alert-heading">{{__('Disabled comment title')}}</h6> * {{$survey->disabledComment}}
+                    <h6 class="alert-heading">{{__('Disabled comment title')}}</h6> * {{\App\Models\TranslaleModel::getTranslation($survey,'disabledComment',$survey->disabledComment)}}
+
                 </div>
             @endif
             <div class="card-body row">
