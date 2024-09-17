@@ -20,10 +20,10 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label">{{ __('Name') }}</label>
+                                <label class="form-label">{{ __('First name') }}</label>
                                 <input id="inputNameContact" type="text"
                                        class="form-control" name="name" wire:model.defer="nameUserContact"
-                                       placeholder="{{ __('Name') }} ">
+                                       placeholder="{{ __('First name') }} ">
                             </div>
                             @error('nameUserContact') <span class="error alert-danger">{{ $message }}</span> @enderror
                         </div>
@@ -58,8 +58,7 @@
                                         wire:click="close">{{ __('Close') }}
                                 </button>
                                 <button type="button" id="SubmitAd3dContact" onclick="editContactEvent()"
-                                        class="btn btn-outline-info">
-                                    class="btn btn-outline-info float-end mx-1">
+                                        class="btn btn-outline-info float-end mx-1">
                                     {{ __('Save') }}
                                     <div wire:loading wire:target="save">
                                             <span class="spinner-border spinner-border-sm" role="status"
@@ -88,4 +87,3 @@
         }
     </script>
 </div>
-
