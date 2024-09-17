@@ -40,7 +40,7 @@
 :root {
     --vz-vertical-menu-bg: #fff;
     --vz-vertical-menu-item-color: #6d7080;
-    --vz-vertical-menu-item-hover-color: #464fed;
+    --vz-vertical-menu-item-hover-color: #009fe3;
     --vz-vertical-menu-item-active-color: #009fe3;
     --vz-vertical-menu-sub-item-color: #7c7f90;
     --vz-vertical-menu-sub-item-hover-color: #5ea3cb;
@@ -788,7 +788,11 @@
     top: 0;
     box-shadow: 0 2px 4px rgba(15, 34, 58, .12);
     padding: 0 0 95px;
-    transition: all .1s ease-out
+    transition: all .1s ease-out;
+    background: var(--vz-vertical-menu-bg);
+    border-right: 1px solid var(--vz-vertical-menu-border);
+    -webkit-box-shadow: var(--vz-vertical-menu-box-shadow);
+    box-shadow: var(--vz-vertical-menu-box-shadow);
 }
 
 .navbar-menu .navbar-nav .nav-link {
@@ -796,7 +800,8 @@
     align-items: center;
     padding: .625rem 1.5rem;
     font-size: .9375rem;
-    font-family: IBM Plex Sans, sans-serif
+    color: #7c7f90;
+    font-family: "Public Sans", sans-serif;
 }
 
 .navbar-menu .navbar-nav .nav-link.active {
@@ -16122,3 +16127,4 @@ span.flatpickr-weekday {
     letter-spacing: 2px;
     text-transform: uppercase;
 }
+
