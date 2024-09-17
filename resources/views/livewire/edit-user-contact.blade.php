@@ -20,10 +20,10 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label">{{ __('Name') }}</label>
+                                <label class="form-label">{{ __('First name') }}</label>
                                 <input id="inputNameContact" type="text"
                                        class="form-control" name="name" wire:model.defer="nameUserContact"
-                                       placeholder="{{ __('Name') }} ">
+                                       placeholder="{{ __('First name') }} ">
                             </div>
                             @error('nameUserContact') <span class="error alert-danger">{{ $message }}</span> @enderror
                         </div>
