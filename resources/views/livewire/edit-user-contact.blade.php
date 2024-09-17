@@ -54,7 +54,6 @@
                         <div class="row">
                             <input type="text" name="idUser" hidden>
                             <div class="col-md-12">
-                                <button type="button" class="btn btn-outline-secondary"
                                 <button type="button" class="btn btn-outline-secondary float-end  mx-1"
                                         wire:click="close">{{ __('Close') }}
                                 </button>
