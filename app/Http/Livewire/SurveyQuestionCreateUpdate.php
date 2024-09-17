@@ -76,8 +76,10 @@ class SurveyQuestionCreateUpdate extends Component
                     'maxResponse' => $this->maxResponse != "" ? $this->maxResponse : 0,
                 ]);
             $new = SurveyQuestion::where('id', $this->idQuestion)->first();
+
+
             $translationModel = TranslaleModel::where('name', TranslaleModel::getTranslateName(SurveyQuestion::find($this->idQuestion), 'content'))->first();
-            if ($new->name != $old->name && !is_null($translationModel)) {
+            if ($new->content != $old->content && !is_null($translationModel)) {
                 $translationModel->update(
                     [
                         'value' => $this->content . ' AR',

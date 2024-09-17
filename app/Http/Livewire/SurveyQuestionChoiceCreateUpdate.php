@@ -60,7 +60,7 @@ class SurveyQuestionChoiceCreateUpdate extends Component
             $new = SurveyQuestionChoice::where('id', $this->idChoice)->first();
 
             $translationModel = TranslaleModel::where('name', TranslaleModel::getTranslateName(SurveyQuestionChoice::find($this->idChoice), 'title'))->first();
-            if ($new->name != $old->name && !is_null($translationModel)) {
+            if ($new->title != $old->title && !is_null($translationModel)) {
                 $translationModel->update(
                     [
                         'value' => $this->title . ' AR',
