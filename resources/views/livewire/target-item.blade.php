@@ -160,7 +160,7 @@
                                     @if($currentRouteName=="target_show")
                                         <div class="col-sm-12 col-md-6 col-lg-5">
                                             <div class="btn-group btn-group-sm" role="group">
-                                                <a href="{{route('group_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idCondition'=>$group->id] )}}"
+                                                <a href="{{route('group_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idGroup'=>$group->id] )}}"
                                                    title="{{__('Edit Group')}}"
                                                    class="btn btn-soft-info material-shadow-none">
                                                     {{__('Edit')}}

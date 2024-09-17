@@ -1,7 +1,11 @@
 <div>
     @component('components.breadcrumb')
         @slot('title')
-            {{ __('Target') }} : {{ $target->id }} - {{ $target->name }}  : {{ __('Add Condition') }}
+            {{ __('Target') }} : {{ $target->id }} - {{ $target->name }}  :       @if($update)
+                {{__('Update Condition')}}
+            @else
+                {{ __('Add Condition') }}
+            @endif
         @endslot
     @endcomponent
     <div class="row card">
