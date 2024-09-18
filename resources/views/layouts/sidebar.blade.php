@@ -53,7 +53,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link menu-link {{!in_array(Route::currentRouteName(), ['business_hub','trading','user_running_business','be_influencer'])? 'collapsed' : 'active'}}"
+                        <a class="nav-link menu-link {{!in_array(Route::currentRouteName(), ['business_hub'])? 'collapsed' : 'active'}}"
                            href="#sidebarBusiness" data-bs-toggle="collapse"
                            role="button"
                            aria-expanded="{{in_array(Route::currentRouteName(), ['user_running_business'])? 'true' : 'false'}}"
@@ -88,27 +88,37 @@
                         </div>
                     </li>
 
-                    <li class="nav-item cool-link {{Route::currentRouteName()=='user_purchase'? 'active' : ''}}">
-                        <a href="{{route('user_purchase',app()->getLocale(),false)}}"
-                           class="nav-link menu-link {{Route::currentRouteName()=='user_purchase'? 'active' : ''}}"
-                           role="button">
-                            <i class="ri-dashboard-2-line"></i>
-                            <span>{{ __('Purchase history') }}</span>
+                    <li class="nav-item">
+                        <a class="nav-link menu-link {{!in_array(Route::currentRouteName(), ['user_purchase','recuperation_history'])? 'collapsed' : 'active'}}"
+                           href="#sidebarSavings" data-bs-toggle="collapse"
+                           role="button"
+                           aria-expanded="{{in_array(Route::currentRouteName(), ['user_purchase','recuperation_history'])? 'true' : 'false'}}"
+                           aria-controls="sidebarSavings">
+                            <i class="ri-vip-diamond-fill"></i> <span
+                                data-key="t-dashboards">{{ __('My Savings') }}</span>
                         </a>
+                        <div
+                            class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['user_purchase','recuperation_history'])? 'show' : ''}}"
+                            id="sidebarSavings">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item cool-link {{Route::currentRouteName()=='user_purchase'? 'active' : ''}} disabled">
+                                    <a href="{{route('user_purchase', app()->getLocale(),false)}}"
+                                       class="nav-link disabled" data-key="t-analytics">{{ __('Purchase history') }}</a>
+                                </li>
+                                <li class="nav-item cool-link {{Route::currentRouteName()=='recuperation_history'? 'active' : ''}}">
+                                    <a href="{{route('recuperation_history', app()->getLocale(),false)}}"
+                                       class="nav-link"
+                                       data-key="t-analytics">{{ __('Historique_recuperation') }}</a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
-                    <li class="nav-item cool-link {{Route::currentRouteName()=='recuperation_history'? 'active' : ''}}">
-                        <a href="{{route('recuperation_history',app()->getLocale(),false)}}"
-                           class="nav-link menu-link {{Route::currentRouteName()=='recuperation_history'? 'active' : ''}} disabled"
-                           role="button">
-                            <i class="fas fa-history"></i>
-                            <span>{{ __('Historique_recuperation') }}</span>
-                        </a>
-                    </li>
+
                     <li class="nav-item cool-link {{Route::currentRouteName()=='tree_evolution'? 'active' : ''}}">
                         <a href="{{route('tree_evolution',app()->getLocale(),false)}}"
                            class="nav-link menu-link {{Route::currentRouteName()=='tree_evolution'? 'active' : ''}}"
                            role="button">
-                            <i class="fa-solid fa-tree"></i>
+                            <i class="mdi mdi-pine-tree-box"></i>
                             <span>{{ __('Evolution_arbre') }}</span>
                         </a>
                     </li>
@@ -116,7 +126,7 @@
                         <a href="{{route('tree_maintenance',app()->getLocale(),false)}}"
                            class="nav-link menu-link {{Route::currentRouteName()=='tree_maintenance'? 'active' : ''}} disabled"
                            role="button">
-                            <i class="fa-brands fa-pagelines"></i>
+                            <i class="mdi mdi-pine-tree"></i>
                             <span>{{ __('Entretien_arbre') }}</span>
                         </a>
                     </li>
@@ -377,6 +387,7 @@
             const settingArray = ['configuration/setting', 'configuration/bo', 'configuration/ha', 'configuration/amounts'];
             const shareSoldArray = ['shares-sold/dashboard', 'shares-sold/market-status', 'shares-sold/recent-transaction'];
             const businessArray = ['user/running-business'];
+            const savingsArray = ['recuperation/history'];
             var currentRoutePath = location.pathname.substring(4);
 
             if (surveyArray.includes(currentRoutePath)) {
@@ -404,6 +415,11 @@
                 showDropDownMenu('sidebarBusiness')
             } else {
                 hideDropDownMenu('sidebarBusiness');
+            }
+            if (savingsArray.includes(currentRoutePath)) {
+                showDropDownMenu('sidebarSavings')
+            } else {
+                hideDropDownMenu('sidebarSavings');
             }
         });
     </script>
