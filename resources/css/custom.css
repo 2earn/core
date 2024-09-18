@@ -563,3 +563,12 @@ div.dt-processing {
     --vz-text-opacity: 1;
     color: rgba(var(--vz-info-rgb), var(--vz-text-opacity)) !important;
 }
+
+.text-business {
+    width: 220px;
+    height: 60px;
+}
+.img-business {
+    width: 180px;
+    height: 160px;
+}
