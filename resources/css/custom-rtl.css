@@ -344,10 +344,6 @@ input[type=range]::-ms-fill-upper {
     background-color: rgba(70, 79, 237, .1) !important
 }
 
-.navbar-menu .navbar-nav .nav-link {
-    color: var(--vz-vertical-menu-item-active-color);
-}
-
 .navbar-menu .navbar-nav .nav-link.active {
     color: var(--vz-vertical-menu-item-hover-color);
 }
@@ -380,11 +376,6 @@ label, h1, h2, h3, h4, h5, h6, a, button, p, i, span, strong, .btn, div {
 
 }
 
-.navbar-menu .navbar-nav .nav-link {
-    color: #464fed;
-    color: var(--vz-vertical-menu-item-active-color);
-
-}
 
 .navbar-menu .navbar-nav .nav-link.active {
     color: var(--vz-vertical-menu-item-hover-color);
@@ -431,6 +422,13 @@ div.dt-processing {
     margin-bottom: 20px;
     --vz-text-opacity: 1;
     color: rgba(var(--vz-info-rgb), var(--vz-text-opacity)) !important;
+}
+
+.navbar-nav .nav-item .active, .navbar-nav .nav-item:hover {
+    background-color: #e6e4e4
+}
+.navbar-nav .nav-item .disabled {
+   opacity: .5;
 }
 
 .text-business {

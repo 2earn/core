@@ -353,10 +353,6 @@ nav svg {
     float: left
 }
 
-.navbar-nav .nav-item .active, .navbar-nav .nav-item:hover {
-    background-color: #e6e4e4
-}
-
 .btn-ghost-danger:active, .btn-ghost-danger:focus, .btn-ghost-danger:hover {
     color: #bc34b6 !important;
     background-color: rgba(188, 52, 182, .1) !important
@@ -562,6 +558,13 @@ div.dt-processing {
     margin-bottom: 20px;
     --vz-text-opacity: 1;
     color: rgba(var(--vz-info-rgb), var(--vz-text-opacity)) !important;
+}
+
+.navbar-nav .nav-item .active, .navbar-nav .nav-item:hover {
+    background-color: #e6e4e4
+}
+.navbar-nav .nav-item .disabled {
+    opacity: .5;
 }
 
 .text-business {

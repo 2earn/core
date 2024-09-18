@@ -51,14 +51,43 @@
                             <span>{{ __('Contact') }}</span>
                         </a>
                     </li>
-                    <li class="nav-item cool-link {{Route::currentRouteName()=='user_running_business'? 'active' : ''}}">
-                        <a href="{{route('user_running_business',app()->getLocale(),false)}}"
-                           class="nav-link menu-link {{Route::currentRouteName()=='user_running_business'? 'active' : ''}}"
-                           role="button">
-                            <i class="ri-exchange-dollar-fill"></i>
-                            <span>{{ __('Running a business') }}</span>
+
+                    <li class="nav-item">
+                        <a class="nav-link menu-link {{!in_array(Route::currentRouteName(), ['business_hub','trading','user_running_business','be_influencer'])? 'collapsed' : 'active'}}"
+                           href="#sidebarBusiness" data-bs-toggle="collapse"
+                           role="button"
+                           aria-expanded="{{in_array(Route::currentRouteName(), ['user_running_business'])? 'true' : 'false'}}"
+                           aria-controls="sidebarBusiness">
+                            <i class="ri-dashboard-fill"></i> <span
+                                data-key="t-dashboards">{{ __('Business Hub') }}</span>
                         </a>
+                        <div
+                            class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['user_running_business'])? 'show' : ''}}"
+                            id="sidebarBusiness">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item cool-link {{Route::currentRouteName()=='shares_sold'? 'active' : ''}} disabled">
+                                    <a href="{{route('shares_sold', app()->getLocale(),false)}}"
+                                       class="nav-link disabled" data-key="t-analytics">{{ __('Trading') }}</a>
+                                </li>
+                                <li class="nav-item cool-link {{Route::currentRouteName()=='user_running_business'? 'active' : ''}}">
+                                    <a href="{{route('user_running_business', app()->getLocale(),false)}}"
+                                       class="nav-link"
+                                       data-key="t-analytics">{{ __('Additional Income') }}</a>
+                                </li>
+                                <li class="nav-item cool-link {{Route::currentRouteName()=='shares_sold_recent_transaction'? 'active' : ''}}">
+                                    <a href="{{route('shares_sold_recent_transaction', app()->getLocale(),false)}}"
+                                       class="nav-link disabled"
+                                       data-key="t-analytics">{{ __('Be Influencer') }}</a>
+                                </li>
+                                <li class="nav-item cool-link {{Route::currentRouteName()=='shares_sold_recent_transaction'? 'active' : ''}}">
+                                    <a href="{{route('shares_sold_recent_transaction', app()->getLocale(),false)}}"
+                                       class="nav-link disabled"
+                                       data-key="t-analytics">{{ __('Job Opportunities') }}</a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
+
                     <li class="nav-item cool-link {{Route::currentRouteName()=='user_purchase'? 'active' : ''}}">
                         <a href="{{route('user_purchase',app()->getLocale(),false)}}"
                            class="nav-link menu-link {{Route::currentRouteName()=='user_purchase'? 'active' : ''}}"
@@ -135,11 +164,11 @@
                            aria-controls="sidebarSurvey">
                             <i class="ri-bookmark-fill"></i>
                             <span
-                                    data-key="t-dashboards">{{ __('Surveys') }}</span>
+                                data-key="t-dashboards">{{ __('Surveys') }}</span>
                         </a>
                         <div
-                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['surveys_index','surveys_archive'])? 'show' : ''}}"
-                                id="sidebarSurvey">
+                            class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['surveys_index','surveys_archive'])? 'show' : ''}}"
+                            id="sidebarSurvey">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item cool-link {{Route::currentRouteName()=='surveys_index'? 'active' : ''}}">
                                     <a href="{{route('surveys_index', app()->getLocale(),false)}}"
@@ -183,11 +212,11 @@
                                aria-expanded="false"
                                aria-controls="sidebarDashboards">
                                 <i class="ri-dashboard-2-line"></i> <span
-                                        data-key="t-dashboards">{{ __('Settings') }}</span>
+                                    data-key="t-dashboards">{{ __('Settings') }}</span>
                             </a>
                             <div
-                                    class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['configuration-setting','configuration-bo','configuration-ha','configuration-amounts'])? 'show' : ''}}"
-                                    id="sidebarDashboards">
+                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['configuration-setting','configuration-bo','configuration-ha','configuration-amounts'])? 'show' : ''}}"
+                                id="sidebarDashboards">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item cool-link {{Route::currentRouteName()=='configuration-setting'? 'active' : ''}}">
                                         <a href="{{route('configuration-setting', app()->getLocale(),false)}}"
@@ -232,11 +261,11 @@
                                aria-expanded="{{in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'true' : 'false'}}"
                                aria-controls="sidebarShareSold">
                                 <i class="ri-dashboard-fill"></i> <span
-                                        data-key="t-dashboards">{{ __('Shares sold') }}</span>
+                                    data-key="t-dashboards">{{ __('Shares sold') }}</span>
                             </a>
                             <div
-                                    class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'show' : ''}}"
-                                    id="sidebarShareSold">
+                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'show' : ''}}"
+                                id="sidebarShareSold">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item cool-link {{Route::currentRouteName()=='shares_sold'? 'active' : ''}}">
                                         <a href="{{route('shares_sold', app()->getLocale(),false)}}"
@@ -255,7 +284,6 @@
                                 </ul>
                             </div>
                         </li>
-
 
                         <li class="nav-item cool-link {{Route::currentRouteName()=='stat_countrie'? 'active' : ''}}">
                             <a href="{{route('stat_countrie', app()->getLocale(),false)}}"
@@ -299,11 +327,11 @@
                                aria-expanded="{{in_array(Route::currentRouteName(), ['translate','translate_model_data'])? 'true' : 'false'}}"
                                aria-controls="sidebarTranslate">
                                 <i class="ri-dashboard-fill"></i> <span
-                                        data-key="t-dashboards">{{ __('Translation') }}</span>
+                                    data-key="t-dashboards">{{ __('Translation') }}</span>
                             </a>
                             <div
-                                    class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['translate','translate_model_data'])? 'show' : ''}}"
-                                    id="sidebarTranslate">
+                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['translate','translate_model_data'])? 'show' : ''}}"
+                                id="sidebarTranslate">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item cool-link {{Route::currentRouteName()=='translate'? 'active' : ''}}">
                                         <a href="{{route('translate', app()->getLocale(),false)}}"
@@ -348,6 +376,7 @@
             const translateArray = ['translation', 'translation/model/data'];
             const settingArray = ['configuration/setting', 'configuration/bo', 'configuration/ha', 'configuration/amounts'];
             const shareSoldArray = ['shares-sold/dashboard', 'shares-sold/market-status', 'shares-sold/recent-transaction'];
+            const businessArray = ['user/running-business'];
             var currentRoutePath = location.pathname.substring(4);
 
             if (surveyArray.includes(currentRoutePath)) {
@@ -370,6 +399,11 @@
                 showDropDownMenu('sidebarTranslate')
             } else {
                 hideDropDownMenu('sidebarTranslate');
+            }
+            if (businessArray.includes(currentRoutePath)) {
+                showDropDownMenu('sidebarBusiness')
+            } else {
+                hideDropDownMenu('sidebarBusiness');
             }
         });
     </script>

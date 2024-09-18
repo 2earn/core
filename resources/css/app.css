@@ -41,7 +41,7 @@
     --vz-vertical-menu-bg: #fff;
     --vz-vertical-menu-item-color: #6d7080;
     --vz-vertical-menu-item-hover-color: #009fe3;
-    --vz-vertical-menu-item-active-color: #009fe3;
+    --vz-vertical-menu-item-active-color: #7c7f90;
     --vz-vertical-menu-sub-item-color: #7c7f90;
     --vz-vertical-menu-sub-item-hover-color: #5ea3cb;
     --vz-vertical-menu-sub-item-active-color: #5ea3cb;
@@ -117,7 +117,7 @@
     --vz-body-color-rgb: 206, 212, 218;
     --vz-vertical-menu-bg: #fff;
     --vz-vertical-menu-item-color: #5f6270;
-    --vz-vertical-menu-item-hover-color: #464fed;
+    --vz-vertical-menu-item-hover-color: #009fe3;
     --vz-vertical-menu-item-active-color: #5ea3cb;
     --vz-vertical-menu-sub-item-color: #686b7b;
     --vz-vertical-menu-sub-item-hover-color: #5ea3cb;
