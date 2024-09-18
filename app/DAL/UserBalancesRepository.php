@@ -2,10 +2,9 @@
 
 namespace App\DAL;
 
-use Core\Enum\AmoutEnum;
 use Core\Enum\BalanceOperationsEnum;
-use Core\Models\calculated_userbalances;
 use Core\Interfaces\IUserBalancesRepository;
+use Core\Models\calculated_userbalances;
 use Core\Models\user_balance;
 use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\Types\Collection;
@@ -14,6 +13,7 @@ class  UserBalancesRepository implements IUserBalancesRepository
 {
     const SOLD_INIT = 0;
 
+    // TO DO : SOLDES
     public function getBalance($idUser, $decimals = 2): calculated_userbalances
     {
         $calculetedUserBalances = new  calculated_userbalances;
