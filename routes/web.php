@@ -79,6 +79,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/notification/history', NotificationHistory::class)->name('notification_history');
         Route::get('/notification/settings', NotificationSettings::class)->name('notification_settings');
         Route::get('/user/purchase', UserPurchaseHistory::class)->name('user_purchase');
+        Route::get('/user/running-business', \App\Http\Livewire\RunningBusiness::class)->name('user_running_business');
         Route::get('/treeview', \App\Http\Livewire\treeview::class)->name('treeview');
 
         Route::get('/treeview', \App\Http\Livewire\treeview::class)->name('treeview');
