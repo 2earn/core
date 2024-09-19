@@ -53,40 +53,40 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link menu-link {{!in_array(Route::currentRouteName(), ['user_running_business','user_be_influencer','tree_evolution','tree_maintenance'])? 'collapsed' : 'active'}}"
+                        <a class="nav-link menu-link {{!in_array(Route::currentRouteName(), ['business_hub_user_running_business','business_hub_be_influencer','be_influencer_tree_evolution','tree_maintenance'])? 'collapsed' : 'active'}}"
                            href="#sidebarBusiness" data-bs-toggle="collapse"
                            role="button"
-                           aria-expanded="{{in_array(Route::currentRouteName(), ['user_running_business','user_be_influencer'])? 'true' : 'false'}}"
+                           aria-expanded="{{in_array(Route::currentRouteName(), ['business_hub_user_running_business','business_hub_be_influencer'])? 'true' : 'false'}}"
                            aria-controls="sidebarBusiness">
                             <i class="ri-dashboard-fill"></i> <span
-                                    data-key="t-dashboards">{{ __('Business Hub') }}</span>
+                                data-key="t-dashboards">{{ __('Business Hub') }}</span>
                         </a>
                         <div
-                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['user_running_business','user_be_influencer','tree_evolution','tree_maintenance','job_opportunities'])? 'show' : ''}}"
-                                id="sidebarBusiness">
+                            class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['business_hub_trading','business_hub_be_influencer','be_influencer_tree_evolution','tree_maintenance','business_hub_job_opportunities'])? 'show' : ''}}"
+                            id="sidebarBusiness">
 
                             <ul class="nav nav-sm flex-column">
-                                <li class="nav-item cool-link {{Route::currentRouteName()=='shares_sold'? 'active' : ''}} disabled">
-                                    <a href="{{route('shares_sold', app()->getLocale(),false)}}"
-                                       class="nav-link disabled" data-key="t-analytics">{{ __('Trading') }}</a>
+                                <li class="nav-item cool-link {{Route::currentRouteName()=='business_hub_trading'? 'active' : ''}}">
+                                    <a href="{{route('business_hub_trading', app()->getLocale(),false)}}"
+                                       class="nav-link" data-key="t-analytics">{{ __('Trading') }}</a>
                                 </li>
 
-                                <li class="nav-item cool-link {{Route::currentRouteName()=='user_running_business'? 'active' : ''}}">
-                                    <a href="{{route('user_running_business', app()->getLocale(),false)}}"
+                                <li class="nav-item cool-link {{Route::currentRouteName()=='business_hub_user_running_business'? 'active' : ''}}">
+                                    <a href="{{route('business_hub_user_running_business', app()->getLocale(),false)}}"
                                        class="nav-link"
                                        data-key="t-analytics">{{ __('Additional Income') }}</a>
                                 </li>
-                                <li class="nav-item cool-link {{in_array(Route::currentRouteName(), ['user_running_business','user_be_influencer','tree_evolution','tree_maintenance','job_opportunities'])? ' active ' : ''}}">
-                                    <a href="{{route('user_be_influencer', app()->getLocale(),false)}}"
+                                <li class="nav-item cool-link {{in_array(Route::currentRouteName(), ['business_hub_user_running_business','business_hub_be_influencer','be_influencer_tree_evolution','tree_maintenance','job_opportunities'])? ' active ' : ''}}">
+                                    <a href="{{route('business_hub_be_influencer', app()->getLocale(),false)}}"
                                        class="nav-link"
                                        data-key="t-analytics">
                                         {{ __('Be Influencer') }}
                                     </a>
                                 </li>
 
-                                <li class="nav-item cool-link {{Route::currentRouteName()=='job_opportunities'? 'active' : ''}}">
-                                    <a href=""
-                                       class="nav-link disabled"
+                                <li class="nav-item cool-link {{Route::currentRouteName()=='business_hub_job_opportunities'? 'active' : ''}}">
+                                    <a href="{{route('business_hub_job_opportunities', app()->getLocale(),false)}}"
+                                       class="nav-link "
                                        data-key="t-analytics">{{ __('Job Opportunities') }}</a>
                                 </li>
                             </ul>
@@ -94,26 +94,110 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link menu-link {{!in_array(Route::currentRouteName(), ['user_purchase','recuperation_history'])? 'collapsed' : 'active'}}"
+                        <a class="nav-link menu-link {{!in_array(Route::currentRouteName(), ['savings_user_purchase','savings_recuperation_history'])? 'collapsed' : 'active'}}"
                            href="#sidebarSavings" data-bs-toggle="collapse"
                            role="button"
-                           aria-expanded="{{in_array(Route::currentRouteName(), ['user_purchase','recuperation_history'])? 'true' : 'false'}}"
+                           aria-expanded="{{in_array(Route::currentRouteName(), ['savings_user_purchase','savings_recuperation_history'])? 'true' : 'false'}}"
                            aria-controls="sidebarSavings">
                             <i class="ri-vip-diamond-fill"></i> <span
-                                    data-key="t-dashboards">{{ __('My Savings') }}</span>
+                                data-key="t-dashboards">{{ __('My Savings') }}</span>
                         </a>
                         <div
-                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['user_purchase','recuperation_history'])? 'show' : ''}}"
-                                id="sidebarSavings">
+                            class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['savings_user_purchase','savings_recuperation_history'])? 'show' : ''}}"
+                            id="sidebarSavings">
                             <ul class="nav nav-sm flex-column">
-                                <li class="nav-item cool-link {{Route::currentRouteName()=='user_purchase'? 'active' : ''}} disabled">
-                                    <a href="{{route('user_purchase', app()->getLocale(),false)}}"
+                                <li class="nav-item cool-link {{Route::currentRouteName()=='savings_user_purchase'? 'active' : ''}} disabled">
+                                    <a href="{{route('savings_user_purchase', app()->getLocale(),false)}}"
                                        class="nav-link disabled" data-key="t-analytics">{{ __('Purchase history') }}</a>
                                 </li>
-                                <li class="nav-item cool-link {{Route::currentRouteName()=='recuperation_history'? 'active' : ''}}">
-                                    <a href="{{route('recuperation_history', app()->getLocale(),false)}}"
+                                <li class="nav-item cool-link {{Route::currentRouteName()=='savings_recuperation_history'? 'active' : ''}}">
+                                    <a href="{{route('savings_recuperation_history', app()->getLocale(),false)}}"
                                        class="nav-link"
                                        data-key="t-analytics">{{ __('Historique_recuperation') }}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link menu-link {{!in_array(Route::currentRouteName(), ['savings_user_purchase','savings_recuperation_history'])? 'collapsed' : 'active'}}"
+                           href="#sidebarBiography" data-bs-toggle="collapse"
+                           role="button"
+                           aria-expanded="{{in_array(Route::currentRouteName(), ['savings_user_purchase','savings_recuperation_history'])? 'true' : 'false'}}"
+                           aria-controls="sidebarBiography">
+                            <i class="ri-briefcase-4-fill"></i> <span
+                                data-key="t-dashboards">{{ __('Biography') }}</span>
+                        </a>
+                        <div
+                            class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['savings_user_purchase','savings_recuperation_history'])? 'show' : ''}}"
+                            id="sidebarBiography">
+
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item cool-link {{Route::currentRouteName()=='biography_academic_background'? 'active' : ''}} disabled">
+                                    <a href="{{route('biography_academic_background', app()->getLocale(),false)}}"
+                                       class="nav-link disabled" data-key="t-analytics">
+                                        {{ __('Academic Background') }}
+                                    </a>
+                                </li>
+                                <li class="nav-item cool-link {{Route::currentRouteName()=='biography_career_experience'? 'active' : ''}}">
+                                    <a href="{{route('biography_career_experience', app()->getLocale(),false)}}"
+                                       class="nav-link" data-key="t-analytics">
+                                        {{ __('Career Experience') }}
+                                    </a>
+                                </li>
+                                <li class="nav-item cool-link {{Route::currentRouteName()=='biography_hard_skills'? 'active' : ''}}">
+                                    <a href="{{route('biography_hard_skills', app()->getLocale(),false)}}"
+                                       class="nav-link" data-key="t-analytics">
+                                        {{ __('Hard Skills') }}
+                                    </a>
+                                </li>
+                                <li class="nav-item cool-link {{Route::currentRouteName()=='biography_soft_skills'? 'active' : ''}}">
+                                    <a href="{{route('biography_soft_skills', app()->getLocale(),false)}}"
+                                       class="nav-link" data-key="t-analytics">
+                                        {{ __('Soft Skills') }}
+                                    </a>
+                                </li>
+                                <li class="nav-item cool-link {{Route::currentRouteName()=='biography_personal_characterization'? 'active' : ''}}">
+                                    <a href="{{route('biography_personal_characterization', app()->getLocale(),false)}}"
+                                       class="nav-link" data-key="t-analytics">
+                                        {{ __('Personal Characterization') }}
+                                    </a>
+                                </li>
+                                <li class="nav-item cool-link {{Route::currentRouteName()=='biography_NCDPersonality'? 'active' : ''}}">
+                                    <a href="{{route('biography_NCDPersonality', app()->getLocale(),false)}}"
+                                       class="nav-link" data-key="t-analytics">
+                                        {{ __('CD Personality') }}
+                                    </a>
+                                </li>
+                                <li class="nav-item cool-link {{Route::currentRouteName()=='biography_sensory_representation_system'? 'active' : ''}}">
+                                    <a href="{{route('biography_sensory_representation_system', app()->getLocale(),false)}}"
+                                       class="nav-link" data-key="t-analytics">
+                                        {{ __('Sensory Representation System') }}
+                                    </a>
+                                </li>
+                                <li class="nav-item cool-link {{Route::currentRouteName()=='biography_MBTI'? 'active' : ''}}">
+                                    <a href="{{route('biography_MBTI', app()->getLocale(),false)}}"
+                                       class="nav-link" data-key="t-analytics">
+                                        {{ __('Myers-Briggs Type Indicator (MBTI)') }}
+                                    </a>
+                                </li>
+                                <li class="nav-item cool-link {{Route::currentRouteName()=='biography_career_experience'? 'active' : ''}}">
+                                    <a href="{{route('biography_career_experience', app()->getLocale(),false)}}"
+                                       class="nav-link" data-key="t-analytics">
+                                        {{ __('Career Experience') }}
+                                    </a>
+                                </li>
+                                <li class="nav-item cool-link {{Route::currentRouteName()=='biography_e_business_card'? 'active' : ''}}">
+                                    <a href="{{route('biography_e_business_card', app()->getLocale(),false)}}"
+                                       class="nav-link" data-key="t-analytics">
+                                        {{ __('e-Business Card (EBC)') }}
+                                    </a>
+                                </li>
+                                <li class="nav-item cool-link {{Route::currentRouteName()=='biography_generating_pdf_report'? 'active' : ''}}">
+                                    <a href="{{route('biography_generating_pdf_report', app()->getLocale(),false)}}"
+                                       class="nav-link" data-key="t-analytics">
+                                        {{ __('Rapport PDF') }}
+                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -164,11 +248,11 @@
                            aria-controls="sidebarSurvey">
                             <i class="ri-bookmark-fill"></i>
                             <span
-                                    data-key="t-dashboards">{{ __('Surveys') }}</span>
+                                data-key="t-dashboards">{{ __('Surveys') }}</span>
                         </a>
                         <div
-                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['surveys_index','surveys_archive'])? 'show' : ''}}"
-                                id="sidebarSurvey">
+                            class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['surveys_index','surveys_archive'])? 'show' : ''}}"
+                            id="sidebarSurvey">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item cool-link {{Route::currentRouteName()=='surveys_index'? 'active' : ''}}">
                                     <a href="{{route('surveys_index', app()->getLocale(),false)}}"
@@ -212,11 +296,11 @@
                                aria-expanded="false"
                                aria-controls="sidebarDashboards">
                                 <i class="ri-dashboard-2-line"></i> <span
-                                        data-key="t-dashboards">{{ __('Settings') }}</span>
+                                    data-key="t-dashboards">{{ __('Settings') }}</span>
                             </a>
                             <div
-                                    class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['configuration-setting','configuration-bo','configuration-ha','configuration-amounts'])? 'show' : ''}}"
-                                    id="sidebarDashboards">
+                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['configuration-setting','configuration-bo','configuration-ha','configuration-amounts'])? 'show' : ''}}"
+                                id="sidebarDashboards">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item cool-link {{Route::currentRouteName()=='configuration-setting'? 'active' : ''}}">
                                         <a href="{{route('configuration-setting', app()->getLocale(),false)}}"
@@ -261,11 +345,11 @@
                                aria-expanded="{{in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'true' : 'false'}}"
                                aria-controls="sidebarShareSold">
                                 <i class="ri-dashboard-fill"></i> <span
-                                        data-key="t-dashboards">{{ __('Shares sold') }}</span>
+                                    data-key="t-dashboards">{{ __('Shares sold') }}</span>
                             </a>
                             <div
-                                    class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'show' : ''}}"
-                                    id="sidebarShareSold">
+                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'show' : ''}}"
+                                id="sidebarShareSold">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item cool-link {{Route::currentRouteName()=='shares_sold'? 'active' : ''}}">
                                         <a href="{{route('shares_sold', app()->getLocale(),false)}}"
@@ -327,11 +411,11 @@
                                aria-expanded="{{in_array(Route::currentRouteName(), ['translate','translate_model_data'])? 'true' : 'false'}}"
                                aria-controls="sidebarTranslate">
                                 <i class="ri-dashboard-fill"></i> <span
-                                        data-key="t-dashboards">{{ __('Translation') }}</span>
+                                    data-key="t-dashboards">{{ __('Translation') }}</span>
                             </a>
                             <div
-                                    class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['translate','translate_model_data'])? 'show' : ''}}"
-                                    id="sidebarTranslate">
+                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['translate','translate_model_data'])? 'show' : ''}}"
+                                id="sidebarTranslate">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item cool-link {{Route::currentRouteName()=='translate'? 'active' : ''}}">
                                         <a href="{{route('translate', app()->getLocale(),false)}}"
@@ -386,8 +470,27 @@
             initMenuPart(['configuration/setting', 'configuration/bo', 'configuration/ha', 'configuration/amounts'], 'sidebarDashboards')
             initMenuPart(['shares-sold/dashboard', 'shares-sold/market-status', 'shares-sold/recent-transaction'], 'sidebarShareSold')
             initMenuPart(['translation', 'translation/model/data'], 'sidebarTranslate')
-            initMenuPart(['user/running-business', 'user/be-influencer', 'tree/evolution', 'tree/maintenance'], 'sidebarBusiness')
+            initMenuPart([
+                '/business-hub/trading',
+                'business-hub/user/running-business',
+                '/business-hub/be-influencer',
+                '/be-influencer/tree/evolution',
+                '/be-influencer/tree/maintenance',
+                '/business-hub/job/opportunities',
+                '/biography/generating/pdf/report'
+            ], 'sidebarBusiness')
             initMenuPart(['recuperation/history'], 'sidebarSavings')
+            initMenuPart([
+                '/biography/career-experience',
+                '/biography/hard-skills',
+                '/biography/soft-skills',
+                '/biography/personal-characterization',
+                '/biography/NCDPersonality',
+                '/biography/sensory-representation-system',
+                '/biography/MBTI',
+                '/biography/e-business-card',
+                '/biography/academic-background',
+            ], 'biography')
         });
     </script>
 </div>

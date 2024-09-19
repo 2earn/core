@@ -78,9 +78,40 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/contacts', Contacts::class)->name('contacts');
         Route::get('/notification/history', NotificationHistory::class)->name('notification_history');
         Route::get('/notification/settings', NotificationSettings::class)->name('notification_settings');
-        Route::get('/user/purchase', UserPurchaseHistory::class)->name('user_purchase');
-        Route::get('/user/running-business', \App\Http\Livewire\RunningBusiness::class)->name('user_running_business');
-        Route::get('/user/be-influencer', \App\Http\Livewire\BeInfluencer::class)->name('user_be_influencer');
+
+
+        Route::prefix('/business-hub')->name('business_hub_')->group(function () {
+            Route::get('/trading', \App\Http\Livewire\Trading::class)->name('trading');
+            Route::get('/user/running-business', \App\Http\Livewire\RunningBusiness::class)->name('user_running_business');
+            Route::get('/be-influencer', \App\Http\Livewire\BeInfluencer::class)->name('be_influencer');
+            Route::get('/job/opportunities', \App\Http\Livewire\JobOpportunities::class)->name('job_opportunities');
+        });
+
+        Route::prefix('/be-influencer')->name('be_influencer_')->group(function () {
+            Route::get('/tree/evolution', EvolutionArbre::class)->name('tree_evolution');
+            Route::get('/tree/maintenance', EntretienArbre::class)->name('tree_maintenance');
+            Route::get('/successful-sharing-pool', \App\Http\Livewire\SuccessfulSharingPool::class)->name('successful_sharing_pool');
+        });
+
+        Route::prefix('/savings')->name('savings_')->group(function () {
+            Route::get('/recuperation/history', HistoriqueRecuperation::class)->name('recuperation_history');
+            Route::get('/user/purchase', UserPurchaseHistory::class)->name('user_purchase');
+        });
+
+        Route::prefix('/biography')->name('biography_')->group(function () {
+            Route::get('/academic-background', \App\Http\Livewire\AcademicBackground::class)->name('academic_background');
+            Route::get('/career-experience', \App\Http\Livewire\CareerExperience::class)->name('career_experience');
+            Route::get('/hard-skills', \App\Http\Livewire\HardSkills::class)->name('hard_skills');
+            Route::get('/soft-skills', \App\Http\Livewire\SoftSkills::class)->name('soft_skills');
+            Route::get('/personal-characterization', \App\Http\Livewire\PersonalCharacterization::class)->name('personal_characterization');
+            Route::get('/NCDPersonality', \App\Http\Livewire\CDPersonality::class)->name('NCDPersonality');
+            Route::get('/sensory-representation-system', \App\Http\Livewire\SensoryRepresentationSystem::class)->name('sensory_representation_system');
+            Route::get('/MBTI', \App\Http\Livewire\MBTI::class)->name('MBTI');
+            Route::get('/e-business-card', \App\Http\Livewire\EBusinessCard::class)->name('e_business_card');
+            Route::get('/generating/pdf/report', \App\Http\Livewire\GeneratingPDFReport::class)->name('generating_pdf_report');
+        });
+
+
         Route::get('/treeview', \App\Http\Livewire\treeview::class)->name('treeview');
 
         Route::get('/treeview', \App\Http\Livewire\treeview::class)->name('treeview');
@@ -96,9 +127,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/balances/exchange/funding/strip', stripView::class)->name('payment_strip');
         Route::get('/paytabs', '\App\Http\Livewire\pay@test')->name('paytabs');
         Route::get('/hobbies', Hobbies::class)->name('hobbies');
-        Route::get('/recuperation/history', HistoriqueRecuperation::class)->name('recuperation_history');
-        Route::get('/tree/evolution', EvolutionArbre::class)->name('tree_evolution');
-        Route::get('/tree/maintenance', EntretienArbre::class)->name('tree_maintenance');
+
         Route::get('/description', Description::class)->name('description');
         Route::get('/accept/request', AcceptFinancialRequest::class)->name('accept_financial_request')->middleware('CloseAuth');
 

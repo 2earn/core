@@ -13,11 +13,11 @@
         <div class="card-body">
             <div class="row mt-2">
                 <div class="col-auto col-md-3 col-lg-3 mt-2 m-auto">
-                    <a href="{{route('tree_evolution',app()->getLocale(),false)}}"><h3>{{ __('Evolution_arbre') }}</h3>
+                    <a href="{{route('be_influencer_tree_evolution',app()->getLocale(),false)}}"><h3>{{ __('Evolution_arbre') }}</h3>
                     </a>
                 </div>
                 <div class="col-auto col-md-3 col-lg-3 mt-2 m-auto">
-                    <a href="{{route('tree_maintenance',app()->getLocale(),false)}}">
+                    <a href="{{route('be_influencer_tree_maintenance',app()->getLocale(),false)}}">
                         <h3>{{ __('Entretien_arbre') }}</h3></a>
                 </div>
                 <div class="col-auto col-md-3 col-lg-3 mt-2 m-auto">
