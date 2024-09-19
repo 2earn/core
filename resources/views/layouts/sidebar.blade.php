@@ -53,34 +53,39 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link menu-link {{!in_array(Route::currentRouteName(), ['business_hub'])? 'collapsed' : 'active'}}"
+                        <a class="nav-link menu-link {{!in_array(Route::currentRouteName(), ['user_running_business','user_be_influencer','tree_evolution','tree_maintenance'])? 'collapsed' : 'active'}}"
                            href="#sidebarBusiness" data-bs-toggle="collapse"
                            role="button"
-                           aria-expanded="{{in_array(Route::currentRouteName(), ['user_running_business'])? 'true' : 'false'}}"
+                           aria-expanded="{{in_array(Route::currentRouteName(), ['user_running_business','user_be_influencer'])? 'true' : 'false'}}"
                            aria-controls="sidebarBusiness">
                             <i class="ri-dashboard-fill"></i> <span
-                                data-key="t-dashboards">{{ __('Business Hub') }}</span>
+                                    data-key="t-dashboards">{{ __('Business Hub') }}</span>
                         </a>
                         <div
-                            class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['user_running_business'])? 'show' : ''}}"
-                            id="sidebarBusiness">
+                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['user_running_business','user_be_influencer','tree_evolution','tree_maintenance','job_opportunities'])? 'show' : ''}}"
+                                id="sidebarBusiness">
+
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item cool-link {{Route::currentRouteName()=='shares_sold'? 'active' : ''}} disabled">
                                     <a href="{{route('shares_sold', app()->getLocale(),false)}}"
                                        class="nav-link disabled" data-key="t-analytics">{{ __('Trading') }}</a>
                                 </li>
+
                                 <li class="nav-item cool-link {{Route::currentRouteName()=='user_running_business'? 'active' : ''}}">
                                     <a href="{{route('user_running_business', app()->getLocale(),false)}}"
                                        class="nav-link"
                                        data-key="t-analytics">{{ __('Additional Income') }}</a>
                                 </li>
-                                <li class="nav-item cool-link {{Route::currentRouteName()=='shares_sold_recent_transaction'? 'active' : ''}}">
-                                    <a href="{{route('shares_sold_recent_transaction', app()->getLocale(),false)}}"
-                                       class="nav-link disabled"
-                                       data-key="t-analytics">{{ __('Be Influencer') }}</a>
+                                <li class="nav-item cool-link {{in_array(Route::currentRouteName(), ['user_running_business','user_be_influencer','tree_evolution','tree_maintenance','job_opportunities'])? ' active ' : ''}}">
+                                    <a href="{{route('user_be_influencer', app()->getLocale(),false)}}"
+                                       class="nav-link"
+                                       data-key="t-analytics">
+                                        {{ __('Be Influencer') }}
+                                    </a>
                                 </li>
-                                <li class="nav-item cool-link {{Route::currentRouteName()=='shares_sold_recent_transaction'? 'active' : ''}}">
-                                    <a href="{{route('shares_sold_recent_transaction', app()->getLocale(),false)}}"
+
+                                <li class="nav-item cool-link {{Route::currentRouteName()=='job_opportunities'? 'active' : ''}}">
+                                    <a href=""
                                        class="nav-link disabled"
                                        data-key="t-analytics">{{ __('Job Opportunities') }}</a>
                                 </li>
@@ -95,11 +100,11 @@
                            aria-expanded="{{in_array(Route::currentRouteName(), ['user_purchase','recuperation_history'])? 'true' : 'false'}}"
                            aria-controls="sidebarSavings">
                             <i class="ri-vip-diamond-fill"></i> <span
-                                data-key="t-dashboards">{{ __('My Savings') }}</span>
+                                    data-key="t-dashboards">{{ __('My Savings') }}</span>
                         </a>
                         <div
-                            class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['user_purchase','recuperation_history'])? 'show' : ''}}"
-                            id="sidebarSavings">
+                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['user_purchase','recuperation_history'])? 'show' : ''}}"
+                                id="sidebarSavings">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item cool-link {{Route::currentRouteName()=='user_purchase'? 'active' : ''}} disabled">
                                     <a href="{{route('user_purchase', app()->getLocale(),false)}}"
@@ -114,22 +119,7 @@
                         </div>
                     </li>
 
-                    <li class="nav-item cool-link {{Route::currentRouteName()=='tree_evolution'? 'active' : ''}}">
-                        <a href="{{route('tree_evolution',app()->getLocale(),false)}}"
-                           class="nav-link menu-link {{Route::currentRouteName()=='tree_evolution'? 'active' : ''}}"
-                           role="button">
-                            <i class="mdi mdi-pine-tree-box"></i>
-                            <span>{{ __('Evolution_arbre') }}</span>
-                        </a>
-                    </li>
-                    <li class="nav-item cool-link {{Route::currentRouteName()=='tree_maintenance'? 'active' : ''}}">
-                        <a href="{{route('tree_maintenance',app()->getLocale(),false)}}"
-                           class="nav-link menu-link {{Route::currentRouteName()=='tree_maintenance'? 'active' : ''}} disabled"
-                           role="button">
-                            <i class="mdi mdi-pine-tree"></i>
-                            <span>{{ __('Entretien_arbre') }}</span>
-                        </a>
-                    </li>
+
                     <li class="nav-item cool-link {{Route::currentRouteName()=='notification_settings'? 'active' : ''}}">
                         <a href="{{route('notification_settings',app()->getLocale(),false)}}"
                            class="nav-link menu-link {{Route::currentRouteName()=='notification_settings'? 'active' : ''}}"
@@ -174,11 +164,11 @@
                            aria-controls="sidebarSurvey">
                             <i class="ri-bookmark-fill"></i>
                             <span
-                                data-key="t-dashboards">{{ __('Surveys') }}</span>
+                                    data-key="t-dashboards">{{ __('Surveys') }}</span>
                         </a>
                         <div
-                            class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['surveys_index','surveys_archive'])? 'show' : ''}}"
-                            id="sidebarSurvey">
+                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['surveys_index','surveys_archive'])? 'show' : ''}}"
+                                id="sidebarSurvey">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item cool-link {{Route::currentRouteName()=='surveys_index'? 'active' : ''}}">
                                     <a href="{{route('surveys_index', app()->getLocale(),false)}}"
@@ -222,11 +212,11 @@
                                aria-expanded="false"
                                aria-controls="sidebarDashboards">
                                 <i class="ri-dashboard-2-line"></i> <span
-                                    data-key="t-dashboards">{{ __('Settings') }}</span>
+                                        data-key="t-dashboards">{{ __('Settings') }}</span>
                             </a>
                             <div
-                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['configuration-setting','configuration-bo','configuration-ha','configuration-amounts'])? 'show' : ''}}"
-                                id="sidebarDashboards">
+                                    class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['configuration-setting','configuration-bo','configuration-ha','configuration-amounts'])? 'show' : ''}}"
+                                    id="sidebarDashboards">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item cool-link {{Route::currentRouteName()=='configuration-setting'? 'active' : ''}}">
                                         <a href="{{route('configuration-setting', app()->getLocale(),false)}}"
@@ -271,11 +261,11 @@
                                aria-expanded="{{in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'true' : 'false'}}"
                                aria-controls="sidebarShareSold">
                                 <i class="ri-dashboard-fill"></i> <span
-                                    data-key="t-dashboards">{{ __('Shares sold') }}</span>
+                                        data-key="t-dashboards">{{ __('Shares sold') }}</span>
                             </a>
                             <div
-                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'show' : ''}}"
-                                id="sidebarShareSold">
+                                    class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['shares_sold','shares_sold_market_status','shares_sold_recent_transaction'])? 'show' : ''}}"
+                                    id="sidebarShareSold">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item cool-link {{Route::currentRouteName()=='shares_sold'? 'active' : ''}}">
                                         <a href="{{route('shares_sold', app()->getLocale(),false)}}"
@@ -337,11 +327,11 @@
                                aria-expanded="{{in_array(Route::currentRouteName(), ['translate','translate_model_data'])? 'true' : 'false'}}"
                                aria-controls="sidebarTranslate">
                                 <i class="ri-dashboard-fill"></i> <span
-                                    data-key="t-dashboards">{{ __('Translation') }}</span>
+                                        data-key="t-dashboards">{{ __('Translation') }}</span>
                             </a>
                             <div
-                                class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['translate','translate_model_data'])? 'show' : ''}}"
-                                id="sidebarTranslate">
+                                    class="menu-dropdown collapse {{in_array(Route::currentRouteName(), ['translate','translate_model_data'])? 'show' : ''}}"
+                                    id="sidebarTranslate">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item cool-link {{Route::currentRouteName()=='translate'? 'active' : ''}}">
                                         <a href="{{route('translate', app()->getLocale(),false)}}"
@@ -377,50 +367,27 @@
             $('#' + dropDownId).parent().find('a.menu-link').removeClass('collapse');
         }
 
+        function initMenuPart(array, menuDropdown) {
+            console.log(location.pathname.substring(4))
+            if (array.includes(location.pathname.substring(4))) {
+                showDropDownMenu(menuDropdown)
+            } else {
+                hideDropDownMenu(menuDropdown);
+            }
+        }
+
         $(document).on('ready turbolinks:load', function () {
             $('#navbar-nav li').removeClass('active');
             $('#navbar-nav li a').removeClass('active');
             $('#navbar-nav a[href="' + location.pathname + '"]').addClass('active');
             $('#navbar-nav a[href="' + location.pathname + '"]').parent().addClass('active');
-            const surveyArray = ['survey/index', 'survey/archive'];
-            const translateArray = ['translation', 'translation/model/data'];
-            const settingArray = ['configuration/setting', 'configuration/bo', 'configuration/ha', 'configuration/amounts'];
-            const shareSoldArray = ['shares-sold/dashboard', 'shares-sold/market-status', 'shares-sold/recent-transaction'];
-            const businessArray = ['user/running-business'];
-            const savingsArray = ['recuperation/history'];
-            var currentRoutePath = location.pathname.substring(4);
 
-            if (surveyArray.includes(currentRoutePath)) {
-                showDropDownMenu('sidebarSurvey')
-            } else {
-                hideDropDownMenu('sidebarSurvey');
-            }
-            if (settingArray.includes(currentRoutePath)) {
-                showDropDownMenu('sidebarDashboards')
-            } else {
-                hideDropDownMenu('sidebarDashboards');
-            }
-
-            if (shareSoldArray.includes(currentRoutePath)) {
-                showDropDownMenu('sidebarShareSold')
-            } else {
-                hideDropDownMenu('sidebarShareSold');
-            }
-            if (translateArray.includes(currentRoutePath)) {
-                showDropDownMenu('sidebarTranslate')
-            } else {
-                hideDropDownMenu('sidebarTranslate');
-            }
-            if (businessArray.includes(currentRoutePath)) {
-                showDropDownMenu('sidebarBusiness')
-            } else {
-                hideDropDownMenu('sidebarBusiness');
-            }
-            if (savingsArray.includes(currentRoutePath)) {
-                showDropDownMenu('sidebarSavings')
-            } else {
-                hideDropDownMenu('sidebarSavings');
-            }
+            initMenuPart(['survey/index', 'survey/archive'], 'sidebarSurvey')
+            initMenuPart(['configuration/setting', 'configuration/bo', 'configuration/ha', 'configuration/amounts'], 'sidebarDashboards')
+            initMenuPart(['shares-sold/dashboard', 'shares-sold/market-status', 'shares-sold/recent-transaction'], 'sidebarShareSold')
+            initMenuPart(['translation', 'translation/model/data'], 'sidebarTranslate')
+            initMenuPart(['user/running-business', 'user/be-influencer', 'tree/evolution', 'tree/maintenance'], 'sidebarBusiness')
+            initMenuPart(['recuperation/history'], 'sidebarSavings')
         });
     </script>
 </div>
