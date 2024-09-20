@@ -11,7 +11,7 @@
                         </span>
         @endif
         <h5>
-            @if(in_array($currentRouteName,["survey_show","survey_participate","survey_results"]))
+            @if(in_array($currentRouteName,["surveys_show","surveys_participate","surveys_results"]))
                 <a href="{{route('surveys_index', app()->getLocale())}}" class="btn btn-info mx-2">
                     {{__('Back to surveys')}}
                 </a>
@@ -365,15 +365,15 @@
         @endif
     @endif
 
-    @if(!in_array( $currentRouteName,['survey_results','survey_participate']))
+    @if(!in_array( $currentRouteName,['surveys_results','surveys_participate']))
         <div class="card-footer bg-transparent">
             @if($currentRouteName!="survey_show")
-                <a href="{{route('survey_show', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
+                <a href="{{route('surveys_show', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
                    class="btn btn-soft-info material-shadow-none  mt-1">{{__('Details')}}</a>
             @endif
             @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
                 @if(intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
-                    <a href="{{route('survey_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
+                    <a href="{{route('surveys_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
                        class="btn btn-soft-info material-shadow-none mt-1">
                         {{__('Edit')}}
                     </a>
@@ -433,12 +433,12 @@
             @if(intval($survey->status)==\Core\Enum\StatusSurvey::OPEN->value && $survey->enabled)
                 @if(\App\Models\SurveyResponse::isPaticipated(auth()->user()->id, $survey->id))
                     @if($survey->updatable)
-                        <a href="{{route('survey_participate', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
+                        <a href="{{route('surveys_participate', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
                            class="btn btn-soft-info material-shadow-none mt-1">{{__('Update Participation')}}</a>
                     @endif
                 @endif
                 @if(! \App\Models\SurveyResponse::isPaticipated(auth()->user()->id, $survey->id))
-                    <a href="{{route('survey_participate', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
+                    <a href="{{route('surveys_participate', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
                        class="btn btn-soft-info material-shadow-none mt-1">{{__('Paticipate')}}</a>
                 @endif
 
@@ -446,7 +446,7 @@
 
             @if(intval($survey->status)>\Core\Enum\StatusSurvey::NEW->value)
                 @if( $survey->canShowResult() && $survey->enabled )
-                    <a href="{{route('survey_results', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
+                    <a href="{{route('surveys_results', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
                        class="btn btn-soft-info material-shadow-none  mt-1">{{__('Show results')}}</a>
                 @else
                     <btn disabled class="btn btn-soft-info material-shadow-none mt-1">{{__('Show results')}}</btn>
@@ -506,11 +506,11 @@
 
                                 @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME && intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
                                     <div class="btn-group  btn-group-sm" role="group" aria-label="Basic example">
-                                        <a href="{{route('survey_question_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id,'IdQuestion'=>$survey->question->id] )}}"
+                                        <a href="{{route('surveys_question_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id,'IdQuestion'=>$survey->question->id] )}}"
                                            class="btn btn-soft-info material-shadow-none">
                                             {{__('Edit')}}
                                         </a>
-                                        <a href="{{route('survey_question_choice_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id,'idQuestion'=>$survey->question->id] )}}"
+                                        <a href="{{route('surveys_question_choice_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id,'idQuestion'=>$survey->question->id] )}}"
                                            class="btn btn-soft-info material-shadow-none">
                                             {{__('Add Choice')}}
                                         </a>
@@ -534,7 +534,7 @@
                                                     <div class="col-sm-12 col-md-6 col-lg-5">
                                                         <div class="btn-group  btn-group-sm" role="group"
                                                              aria-label="Basic example">
-                                                            <a href="{{route('survey_question_choice_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id,'idQuestion'=>$survey->question->id,'idChoice'=>$choice->id] )}}"
+                                                            <a href="{{route('surveys_question_choice_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id,'idQuestion'=>$survey->question->id,'idChoice'=>$choice->id] )}}"
                                                                title="{{__('Update Choice')}}"
                                                                class="btn btn-soft-info material-shadow-none">
                                                                 {{__('Update')}}
@@ -567,7 +567,7 @@
                     <li class="list-group-item">{{__('No questions')}}.
                         @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
                             <br>
-                            <a href="{{route('survey_question_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
+                            <a href="{{route('surveys_question_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
                                title="{{__('Add Question')}}" class="btn btn-soft-info material-shadow-none mt-2">
                                 {{__('Add Question')}}
                             </a>

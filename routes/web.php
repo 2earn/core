@@ -131,23 +131,24 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/description', Description::class)->name('description');
         Route::get('/accept/request', AcceptFinancialRequest::class)->name('accept_financial_request')->middleware('CloseAuth');
 
-        Route::get('/survey/index', \App\Http\Livewire\SurveyIndex::class)->name('surveys_index');
-        Route::get('/survey/archive', \App\Http\Livewire\SurveyArchive::class)->name('surveys_archive');
-        Route::get('/survey', \App\Http\Livewire\SurveyCreateUpdate::class)->name('survey_create_update');
-        Route::get('/survey/show/{idSurvey}', \App\Http\Livewire\SurveyShow::class)->name('survey_show');
-        Route::get('/survey/participate/{idSurvey}', \App\Http\Livewire\SurveyParicipate::class)->name('survey_participate');
-        Route::get('/survey/results/{idSurvey}', \App\Http\Livewire\SurveyResult::class)->name('survey_results');
-        Route::get('/survey/{idSurvey}/question', \App\Http\Livewire\SurveyQuestionCreateUpdate::class)->name('survey_question_create_update');
-        Route::get('/survey/{idSurvey}/question/{idQuestion}/Choice', \App\Http\Livewire\SurveyQuestionChoiceCreateUpdate::class)->name('survey_question_choice_create_update');
-
+        Route::prefix('/surveys')->name('surveys_')->group(function () {
+            Route::get('/index', \App\Http\Livewire\SurveyIndex::class)->name('index');
+            Route::get('/archive', \App\Http\Livewire\SurveyArchive::class)->name('archive');
+            Route::get('/', \App\Http\Livewire\SurveyCreateUpdate::class)->name('create_update');
+            Route::get('/show/{idSurvey}', \App\Http\Livewire\SurveyShow::class)->name('show');
+            Route::get('/participate/{idSurvey}', \App\Http\Livewire\SurveyParicipate::class)->name('participate');
+            Route::get('/results/{idSurvey}', \App\Http\Livewire\SurveyResult::class)->name('surveys_results');
+            Route::get('/{idSurvey}/question', \App\Http\Livewire\SurveyQuestionCreateUpdate::class)->name('question_create_update');
+            Route::get('/{idSurvey}/question/{idQuestion}/Choice', \App\Http\Livewire\SurveyQuestionChoiceCreateUpdate::class)->name('question_choice_create_update');
+        });
 
         Route::middleware(['IsSuperAdmin'])->group(function () {
             Route::get('/user_list', \App\Http\Livewire\UsersList::class)->name('user_list');
             Route::get('/user/{idUser}/details', \App\Http\Livewire\UserDetails::class)->name('user_details');
-            Route::get('/configuration/ha', ConfigurationHA::class)->name('configuration-ha');
-            Route::get('/configuration/setting', \App\Http\Livewire\ConfigurationSetting::class)->name('configuration-setting');
-            Route::get('/configuration/bo', \App\Http\Livewire\ConfigurationBO::class)->name('configuration-bo');
-            Route::get('/configuration/amounts', \App\Http\Livewire\ConfigurationAmounts::class)->name('configuration-amounts');
+            Route::get('/configuration/ha', ConfigurationHA::class)->name('configuration_ha');
+            Route::get('/configuration/setting', \App\Http\Livewire\ConfigurationSetting::class)->name('configuration_setting');
+            Route::get('/configuration/bo', \App\Http\Livewire\ConfigurationBO::class)->name('configuration_bo');
+            Route::get('/configuration/amounts', \App\Http\Livewire\ConfigurationAmounts::class)->name('configuration_amounts');
             Route::get('/admin/edit', \App\Http\Livewire\EditAdmin::class)->name('edit_admin');
             Route::get('/countries_management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
             Route::get('/admin/identification_request', identificationRequest::class)->name('identification_request');
@@ -165,9 +166,13 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/stat/countrie', \App\Http\Livewire\StatCountrie::class)->name('stat_countrie');
             Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');
             Route::get('/sharessolde', \App\Http\Livewire\SharesSolde::class)->name('sharessolde');
-            Route::get('/shares-sold/dashboard', \App\Http\Livewire\SharesSold::class)->name('shares_sold');
-            Route::get('/shares-sold/market-status', \App\Http\Livewire\SharesSoldMarketStatus::class)->name('shares_sold_market_status');
-            Route::get('/shares-sold/recent-transaction', \App\Http\Livewire\SharesSoldRecentTransaction::class)->name('shares_sold_recent_transaction');
+
+            Route::prefix('/shares-sold')->name('shares_sold_')->group(function () {
+                Route::get('dashboard', \App\Http\Livewire\SharesSold::class)->name('dashboard');
+                Route::get('/market-status', \App\Http\Livewire\SharesSoldMarketStatus::class)->name('market_status');
+                Route::get('/recent-transaction', \App\Http\Livewire\SharesSoldRecentTransaction::class)->name('recent_transaction');
+            });
+
         });
 
         Route::get('/stat-countries', 'App\Http\Controllers\ApiController@getCountriStat')->name('api_stat_countries');
