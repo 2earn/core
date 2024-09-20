@@ -258,14 +258,7 @@
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item cool-link {{$currentRouteName=='description'? 'active' : ''}}">
-                        <a href="{{route('description',app()->getLocale(),false )}}"
-                           class="nav-link menu-link {{$currentRouteName=='description'? 'active' : ''}} disabled"
-                           role="button">
-                            <i class="fa-solid fa-pen-fancy"></i>
-                            <span>{{__('User guide')}}</span>
-                        </a>
-                    </li>
+
                     @if(auth()->user()->getRoleNames()->first() ==User::SUPER_ADMIN_ROLE_NAME)
                         <li class="menu-title">
                             <span data-key="t-menu">{{ __('SUPER ADMIN MENU') }}</span>
