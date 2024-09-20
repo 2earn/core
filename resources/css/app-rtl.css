@@ -878,11 +878,10 @@
     white-space: none;
     position: relative;
     font-size: .875rem;
-    font-family: IBM Plex Sans, sans-serif
+    font-family: IBM Plex Sans, sans-serif;
 }
 
 .navbar-menu .navbar-nav .nav-sm .nav-link:before {
-    content: "";
     width: 6px;
     height: 1.5px;
     background-color: var(--vz-vertical-menu-sub-item-color);
@@ -895,6 +894,7 @@
 
 .navbar-menu .navbar-nav .nav-sm .nav-link:hover {
     color:var(--vz-vertical-menu-item-hover-color);
+    background-color: rgba(247, 247, 253, 0.8);
 }
 
 .navbar-menu .navbar-nav .nav-sm .nav-link:hover:before {
