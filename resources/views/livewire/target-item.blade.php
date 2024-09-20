@@ -34,7 +34,7 @@
                         @foreach($target->surveys as $surveysItem)
                             <li class="list-group-item">
                                 <a class="link-info"
-                                   href="{{route('survey_show',['locale'=>app()->getLocale(),'idSurvey'=> $surveysItem->id])}}">  {{ $surveysItem->id }}
+                                   href="{{route('surveys_show',['locale'=>app()->getLocale(),'idSurvey'=> $surveysItem->id])}}">  {{ $surveysItem->id }}
                                     - {{\App\Models\TranslaleModel::getTranslation($surveysItem,'name',$surveysItem->name)}}
                                 </a>
                             </li>
@@ -67,7 +67,7 @@
                             </div>
 
                         </a>
-                        <a href="{{route('survey_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$target->id] )}}"
+                        <a href="{{route('surveys_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$target->id] )}}"
                            title="{{__('Create matched target Survey')}}"
                            class="btn btn-soft-primary material-shadow-none">
                             {{__('Create Survey')}}
