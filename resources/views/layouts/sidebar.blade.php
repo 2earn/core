@@ -441,7 +441,7 @@
     </div>
     <div class="vertical-overlay">
     </div>
-    <script type="module">
+    <script data-turbolinks-eval="false" type="module">
         var sidebarBusinessArray = {!! json_encode($sidebarBusinessArray) !!};
         var sidebarSavingsArray = {!! json_encode($sidebarSavingsArray) !!};
         var sidebarBiographyArray = {!! json_encode($sidebarBiographyArray) !!};
@@ -463,8 +463,6 @@
         }
 
         function init(theArray) {
-            console.log('init :')
-
             var currentRouteName = location.pathname.substring(4).replaceAll("/", '_').replaceAll("-", '_');
             console.log(currentRouteName)
 
