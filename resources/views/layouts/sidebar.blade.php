@@ -212,22 +212,6 @@
                         </div>
                     </li>
 
-                    <li class="nav-item cool-link {{$currentRouteName=='notification_settings'? 'active' : ''}}">
-                        <a href="{{route('notification_settings',app()->getLocale(),false)}}"
-                           class="nav-link menu-link {{$currentRouteName=='notification_settings'? 'active' : ''}}"
-                           role="button">
-                            <i class="ri-notification-2-fill"></i>
-                            <span>{{ __('Notification Settings') }}</span>
-                        </a>
-                    </li>
-                    <li class="nav-item cool-link {{$currentRouteName=='notification_history'? 'active' : ''}}">
-                        <a href="{{route('notification_history',app()->getLocale(),false)}}"
-                           class="nav-link menu-link {{$currentRouteName=='notification_history'? 'active' : ''}}"
-                           role="button">
-                            <i class="ri-dashboard-2-line"></i>
-                            <span>{{ __('Notification history') }}</span>
-                        </a>
-                    </li>
                     <li class="nav-item cool-link {{$currentRouteName=='financial_transaction'? 'active' : ''}}">
                         <a href="{{route('financial_transaction',app()->getLocale(),false)}}"
                            class="nav-link menu-link {{$currentRouteName=='financial_transaction'? 'active' : ''}}"
