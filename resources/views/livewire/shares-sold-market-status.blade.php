@@ -98,7 +98,6 @@
     </div>
     <script type="module">
         $(document).on('turbolinks:load', function () {
-            console.log('dsqsdsqd')
             $('#shares-sold').DataTable(
                 {
                     "ordering": true,

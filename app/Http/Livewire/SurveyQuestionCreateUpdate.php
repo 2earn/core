@@ -49,7 +49,7 @@ class SurveyQuestionCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('warning', Lang::get('Question operation cancelled!!'));
+        return redirect()->route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('warning', Lang::get('Question operation cancelled!!'));
     }
 
     public function edit($idQuestion)
@@ -89,9 +89,9 @@ class SurveyQuestionCreateUpdate extends Component
             }
 
         } catch (\Exception $exception) {
-            return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while updating Question!!'));
+            return redirect()->route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while updating Question!!'));
         }
-        return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Question Updated Successfully!!'));
+        return redirect()->route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Question Updated Successfully!!'));
 
     }
 
@@ -123,9 +123,9 @@ class SurveyQuestionCreateUpdate extends Component
                 ]);
 
         } catch (\Exception $exception) {
-            return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while creating Survey!!'));
+            return redirect()->route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while creating Survey!!'));
         }
-        return redirect()->route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Survey Created Successfully!!'));
+        return redirect()->route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Survey Created Successfully!!'));
     }
 
     public function render()

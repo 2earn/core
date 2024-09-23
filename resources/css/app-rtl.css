@@ -39,7 +39,7 @@
 :root {
     --vz-vertical-menu-bg: #fff;
     --vz-vertical-menu-item-color: #2e2f33;
-    --vz-vertical-menu-item-hover-color: #464fed;
+    --vz-vertical-menu-item-hover-color: #009fe3;
     --vz-vertical-menu-item-active-color: #5ea3cb;
     --vz-vertical-menu-sub-item-color: #7c7f90;
     --vz-vertical-menu-sub-item-hover-color: #5ea3cb;
@@ -116,7 +116,7 @@
     --vz-body-color-rgb: 206, 212, 218;
     --vz-vertical-menu-bg: #fff;
     --vz-vertical-menu-item-color: #5f6270;
-    --vz-vertical-menu-item-hover-color: #464fed;
+    --vz-vertical-menu-item-hover-color: #5ea3cb;
     --vz-vertical-menu-item-active-color: #5ea3cb;
     --vz-vertical-menu-sub-item-color: #686b7b;
     --vz-vertical-menu-sub-item-hover-color: #5ea3cb;
@@ -878,11 +878,10 @@
     white-space: none;
     position: relative;
     font-size: .875rem;
-    font-family: IBM Plex Sans, sans-serif
+    font-family: IBM Plex Sans, sans-serif;
 }
 
 .navbar-menu .navbar-nav .nav-sm .nav-link:before {
-    content: "";
     width: 6px;
     height: 1.5px;
     background-color: var(--vz-vertical-menu-sub-item-color);
@@ -895,6 +894,7 @@
 
 .navbar-menu .navbar-nav .nav-sm .nav-link:hover {
     color:var(--vz-vertical-menu-item-hover-color);
+    background-color: rgba(247, 247, 253, 0.8);
 }
 
 .navbar-menu .navbar-nav .nav-sm .nav-link:hover:before {
@@ -16137,22 +16137,37 @@ span.flatpickr-weekday {
     letter-spacing: 2px;
     text-transform: uppercase;
 }
+.cool-link
 .cool-link {
-    display: inline-block;
-    color: #000;
+    color: var(--vz-vertical-menu-title-color);
     text-decoration: none;
 }
+
 
 .cool-link::after {
     content: '';
     display: block;
     width: 0;
     height: 2px;
-    background: #000;
+    background: var(--vz-vertical-menu-title-color);
     transition: width .3s;
 }
 
 .cool-link:hover::after {
     width: 100%;
-//transition: width .3s;
+    transition: width .3s;
+}
+
+.navbar-menu .navbar-nav .nav-link.active {
+    font-weight: bold;
+}
+
+
+.cool-link .active::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: var(--vz-vertical-menu-title-color);
+    transition: width .3s;
 }

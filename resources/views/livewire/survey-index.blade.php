@@ -20,7 +20,7 @@
                 @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
                     @if($currentRouteName!=="home"&& $currentRouteName!=="main")
                         <div class="col-sm-12 col-md-3  col-lg-6">
-                            <a href="{{route('survey_create_update', app()->getLocale())}}" class="btn btn-info add-btn"
+                            <a href="{{route('surveys_create_update', app()->getLocale())}}" class="btn btn-info add-btn"
                                id="create-btn">
                                 {{__('Create new Survey')}}
                             </a>
