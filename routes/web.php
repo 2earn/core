@@ -82,7 +82,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         Route::prefix('/business-hub')->name('business_hub_')->group(function () {
             Route::get('/trading', \App\Http\Livewire\Trading::class)->name('trading');
-            Route::get('/user/running-business', \App\Http\Livewire\RunningBusiness::class)->name('user_running_business');
+            Route::get('/additional-income', \App\Http\Livewire\RunningBusiness::class)->name('additional_income');
             Route::get('/be-influencer', \App\Http\Livewire\BeInfluencer::class)->name('be_influencer');
             Route::get('/job/opportunities', \App\Http\Livewire\JobOpportunities::class)->name('job_opportunities');
         });

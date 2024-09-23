@@ -29,7 +29,7 @@
                 </div>
                 @php
                     $currentRouteName = Route::currentRouteName();
-                    $sidebarBusinessArray=['business_hub_trading','business_hub_user_running_business','business_hub_be_influencer','business_hub_job_opportunities'];
+                    $sidebarBusinessArray=['business_hub_trading','business_hub_additional_income','business_hub_be_influencer','business_hub_job_opportunities'];
                     $sidebarSavingsArray=['savings_user_purchase','savings_recuperation_history'];
                     $sidebarBiographyArray=['biography_academic_background','biography_career_experience','biography_hard_skills','biography_soft_skills','biography_personal_characterization','biography_NCDPersonality','biography_sensory_representation_system','biography_MBTI','biography_e_business_card','biography_generating_pdf_report'];
                     $sidebarArchiveArray=['surveys_archive'];
@@ -81,12 +81,12 @@
                                        class="nav-link disabled">{{ __('Trading') }}</a>
                                 </li>
 
-                                <li class="nav-item cool-link {{$currentRouteName=='business_hub_user_running_business'? 'active' : ''}}">
-                                    <a href="{{route('business_hub_user_running_business', app()->getLocale(),false)}}"
+                                <li class="nav-item cool-link {{$currentRouteName=='business_hub_additional_income'? 'active' : ''}}">
+                                    <a href="{{route('business_hub_additional_income', app()->getLocale(),false)}}"
                                        class="nav-link"
                                     >{{ __('Additional Income') }}</a>
                                 </li>
-                                <li class="nav-item cool-link {{$currentRouteName=='business_hub_user_running_business'? 'active' : ''}}">
+                                <li class="nav-item cool-link {{$currentRouteName=='business_hub_additional_income'? 'active' : ''}}">
                                     <a href="{{route('business_hub_be_influencer', app()->getLocale(),false)}}"
                                        class="nav-link">
                                         {{ __('Be Influencer') }}
