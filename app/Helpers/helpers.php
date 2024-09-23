@@ -293,7 +293,6 @@ if (!function_exists('getRevenuSharesReal')) {
 if (!function_exists('getUserSelledActions')) {
     function getUserSelledActions($user)
     {
-        // TO DO : ACTIONS
         return \Core\Models\user_balance::where('idBalancesOperation', 44)->where('idUser', $user)->selectRaw('SUM(value + gifted_shares) as total_sum')->first()->total_sum;
     }
 }

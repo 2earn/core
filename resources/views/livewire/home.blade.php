@@ -317,7 +317,11 @@
                     title="Source Title">{{Carbon\Carbon::now()->toDateTimeString()}}</cite></span>
         </div>
     </div>
-    <livewire:survey-index/>
+    <div class="row">
+        <div class="col-12 px-0">
+            <livewire:survey-index/>
+        </div>
+    </div>
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-7 px-0">
             <div class="card mx-1">

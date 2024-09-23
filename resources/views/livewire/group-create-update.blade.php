@@ -28,7 +28,6 @@
                     <form>
                         <input type="hidden" wire:model="id">
                         <div class="row">
-
                             <div class="form-group mb-3">
                                 <label for="value">{{__('operator')}}</label>
                                 <select

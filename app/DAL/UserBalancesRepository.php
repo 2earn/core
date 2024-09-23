@@ -13,7 +13,6 @@ class  UserBalancesRepository implements IUserBalancesRepository
 {
     const SOLD_INIT = 0;
 
-    // TO DO : SOLDES
     public function getBalance($idUser, $decimals = 2): calculated_userbalances
     {
         $calculetedUserBalances = new  calculated_userbalances;

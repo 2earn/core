@@ -155,6 +155,7 @@ class SurveyCreateUpdate extends Component
         $this->description = $survey->description;
         $this->idSurvey = $survey->id;
         $this->enabled = $survey->enabled;
+        $this->published = $survey->published;
         $this->updatable = $survey->updatable;
         $this->commentable = $survey->commentable;
         $this->likable = $survey->likable;

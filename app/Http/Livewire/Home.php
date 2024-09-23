@@ -144,7 +144,6 @@ class Home extends Component
         if (!$user) {
             dd('not found page');
         }
-        // TO DO : SOLDES
         $solde = $balancesManager->getBalances($user->idUser, -1);
         $this->cashBalance = $solde->soldeCB;
         $this->balanceForSopping = $solde->soldeBFS;
@@ -154,7 +153,6 @@ class Home extends Component
         $this->maxActions = intval($solde->soldeCB / actualActionValue(getSelledActions(), false));
         $solde = $balancesManager->getCurrentBalance($user->idUser);
         $usermetta_info = collect(DB::table('metta_users')->where('idUser', $user->idUser)->first());
-        // TO DO : ACTIONS
         $this->actionsValues = formatSolde(getUserSelledActions(Auth()->user()->idUser) * actualActionValue(getSelledActions()), 2);
         $this->userActualActionsProfit = number_format(getUserActualActionsProfit(Auth()->user()->idUser), 2);
         $this->userSelledAction = getUserSelledActions(Auth()->user()->idUser);

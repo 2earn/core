@@ -32,7 +32,7 @@
                     $sidebarBusinessArray=['business_hub_trading','business_hub_user_running_business','business_hub_be_influencer','business_hub_job_opportunities'];
                     $sidebarSavingsArray=['savings_user_purchase','savings_recuperation_history'];
                     $sidebarBiographyArray=['biography_academic_background','biography_career_experience','biography_hard_skills','biography_soft_skills','biography_personal_characterization','biography_NCDPersonality','biography_sensory_representation_system','biography_MBTI','biography_e_business_card','biography_generating_pdf_report'];
-                    $sidebarSurveyArray=['surveys_index','surveys_archive'];
+                    $sidebarArchiveArray=['surveys_archive'];
                     $sidebarDashboardsArray=['configuration_setting','configuration_bo','configuration_ha','configuration_amounts'];
                     $sidebarShareSoldArray=['shares_sold_dashboard','shares_sold_market_status','shares_sold_recent_transaction'];
                     $sidebarTranslateArray=['translate','translate_model_data'];
@@ -233,23 +233,19 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link menu-link {{!in_array($currentRouteName, $sidebarSurveyArray)? 'collapsed' : 'active'}}"
-                           href="#sidebarSurvey" data-bs-toggle="collapse"
+                        <a class="nav-link menu-link {{!in_array($currentRouteName, $sidebarArchiveArray)? 'collapsed' : 'active'}}"
+                           href="#sidebarArchive" data-bs-toggle="collapse"
                            role="button"
-                           aria-expanded="{{in_array($currentRouteName, $sidebarSurveyArray)? 'true' : 'false'}}"
-                           aria-controls="sidebarSurvey">
-                            <i class="ri-bookmark-fill"></i>
+                           aria-expanded="{{in_array($currentRouteName, $sidebarArchiveArray)? 'true' : 'false'}}"
+                           aria-controls="sidebarArchive">
+                            <i class="ri-archive-fill"></i>
                             <span
-                            >{{ __('Surveys') }}</span>
+                            >{{ __('Archives') }}</span>
                         </a>
                         <div
-                            class="menu-dropdown collapse {{in_array($currentRouteName,$sidebarSurveyArray)? 'show' : ''}}"
-                            id="sidebarSurvey">
+                            class="menu-dropdown collapse {{in_array($currentRouteName,$sidebarArchiveArray)? 'show' : ''}}"
+                            id="sidebarArchive">
                             <ul class="nav nav-sm flex-column">
-                                <li class="nav-item cool-link {{$currentRouteName=='surveys_index'? 'active' : ''}}">
-                                    <a href="{{route('surveys_index', app()->getLocale(),false)}}"
-                                       class="nav-link">{{ __('Surveys') }}</a>
-                                </li>
                                 <li class="nav-item cool-link {{$currentRouteName=='surveys_archive'? 'active' : ''}}">
                                     <a href="{{route('surveys_archive', app()->getLocale(),false)}}"
                                        class="nav-link"
@@ -281,7 +277,7 @@
                                aria-expanded="{{in_array($currentRouteName, $sidebarDashboardsArray)? 'true' : 'false'}}"
 
                                aria-controls="sidebarDashboards">
-                                <i class="ri-dashboard-2-line"></i> <span
+                                <i class="ri-settings-fill"></i> <span
                                 >{{ __('Settings') }}</span>
                             </a>
                             <div
@@ -312,7 +308,7 @@
                             <a href="{{route('edit_admin', app()->getLocale(),false)}}"
                                class="nav-link menu-link {{$currentRouteName=='edit_admin'? 'active' : ''}}"
                                role="button">
-                                <i class="ri-user-settings-line"></i>
+                                <i class="ri-admin-fill"></i>
                                 <span>{{ __('Administrators Management') }}</span>
                             </a>
                         </li>
@@ -359,7 +355,7 @@
                             <a href="{{route('stat_countrie', app()->getLocale(),false)}}"
                                class="nav-link menu-link {{$currentRouteName=='stat_countrie'? 'active' : ''}}"
                                role="button">
-                                <i class="ri-user-settings-line"></i>
+                                <i class="ri-flag-fill"></i>
                                 <span>{{ __('StatByCountry') }}</span>
                             </a>
                         </li>
@@ -367,7 +363,7 @@
                             <a href="{{route('api_settings', app()->getLocale(),false)}}"
                                class="nav-link menu-link disabled {{$currentRouteName=='countries_management'? 'active' : ''}}"
                                role="button">
-                                <i class="ri-settings-line"></i>
+                                <i class="ri-team-fill"></i>
                                 <span>{{ __('representatives Management') }}</span>
                             </a>
                         </li>
@@ -383,7 +379,7 @@
                             <a href="{{route('countries_management', app()->getLocale(),false)}}"
                                class="nav-link menu-link {{$currentRouteName=='countries_management'? 'active' : ''}}"
                                role="button">
-                                <i class="ri-flag-line"></i>
+                                <i class="ri-globe-fill"></i>
                                 <span>{{ __('Countries Management') }}</span>
                             </a>
                         </li>
@@ -395,7 +391,7 @@
                                role="button"
                                aria-expanded="{{in_array($currentRouteName, $sidebarTranslateArray)? 'true' : 'false'}}"
                                aria-controls="sidebarTranslate">
-                                <i class="ri-dashboard-fill"></i> <span
+                                <i class="ri-global-fill"></i> <span
                                 >{{ __('Translation') }}</span>
                             </a>
                             <div
@@ -427,7 +423,7 @@
         var sidebarBusinessArray = {!! json_encode($sidebarBusinessArray) !!};
         var sidebarSavingsArray = {!! json_encode($sidebarSavingsArray) !!};
         var sidebarBiographyArray = {!! json_encode($sidebarBiographyArray) !!};
-        var sidebarSurveyArray = {!! json_encode($sidebarSurveyArray) !!};
+        var sidebarArchiveArray = {!! json_encode($sidebarArchiveArray) !!};
         var sidebarDashboardsArray = {!! json_encode($sidebarDashboardsArray) !!};
         var sidebarShareSoldArray = {!! json_encode($sidebarShareSoldArray) !!};
         var sidebarTranslateArray = {!! json_encode($sidebarTranslateArray) !!};
@@ -459,8 +455,8 @@
                 hideDropDownMenu(dropDownId)
             }
 
-            if (sidebarSurveyArray.includes(currentRouteName)) {
-                showDropDownMenu('sidebarSurvey')
+            if (sidebarArchiveArray.includes(currentRouteName)) {
+                showDropDownMenu('sidebarArchive')
             }
 
             if (sidebarDashboardsArray.includes(currentRouteName)) {
@@ -489,7 +485,7 @@
         }
 
         $(document).on('ready turbolinks:load', function () {
-            init(['sidebarSurvey', 'sidebarDashboards', 'sidebarShareSold', 'sidebarTranslate', 'sidebarBusiness', 'sidebarSavings', 'sidebarBiography'])
+            init(['sidebarArchive', 'sidebarDashboards', 'sidebarShareSold', 'sidebarTranslate', 'sidebarBusiness', 'sidebarSavings', 'sidebarBiography'])
         });
     </script>
 </div>

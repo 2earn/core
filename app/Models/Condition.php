@@ -57,10 +57,12 @@ class Condition extends Model
         ['name' => '[vip] declenchedDate', 'value' => 'vip.declenchedDate'],
         ['name' => '[vip] closed', 'value' => 'vip.closed'],
         ['name' => '[vip] closedDate', 'value' => 'vip.closedDate'],
-        ['name' => '[balances] action', 'value' => 'balances.action'],
-        ['name' => '[balances] cash', 'value' => 'balances.cash'],
-        ['name' => '[balances] bfs', 'value' => 'balances.bfs'],
-        ['name' => '[balances] discount', 'value' => 'balances.discount'],
+        ['name' => '[balances] cash', 'value' => 'soldes_view.cash'],
+        ['name' => '[balances] bfs', 'value' => 'soldes_view.bfs'],
+        ['name' => '[balances] db', 'value' => 'soldes_view.db'],
+        ['name' => '[balances] t', 'value' => 'soldes_view.t'],
+        ['name' => '[balances] sms', 'value' => 'soldes_view.sms'],
+        ['name' => '[balances] action', 'value' => 'soldes_view.action'],
     ];
 
     protected $fillable = [

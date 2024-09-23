@@ -57,6 +57,9 @@ class Targeting
         if (in_array("vip", $tablesAleas)) {
             $queryString = $queryString->leftJoin('vip as vip', 'vip.idUser', '=', 'u.idUser');
         }
+        if (in_array("soldes_view", $tablesAleas)) {
+            $queryString = $queryString->leftJoin('soldes_view as soldes_view', 'soldes_view.id', '=', 'u.id');
+        }
         return $queryString;
     }
 
@@ -120,12 +123,9 @@ class Targeting
     {
         if ($conditions->isNotEmpty()) {
             foreach ($conditions as $condition) {
-                if (!str_starts_with($condition->operand, 'balances.')) {
-                    $formatedCondition = self::formatOperand($condition);
-                    $usersQuery = $usersQuery->where($formatedCondition->operand, $formatedCondition->operator, $formatedCondition->value);
-                }else{
+                $formatedCondition = self::formatOperand($condition);
+                $usersQuery = $usersQuery->where($formatedCondition->operand, $formatedCondition->operator, $formatedCondition->value);
 
-                }
             }
         }
 
@@ -134,23 +134,19 @@ class Targeting
                 $usersQuery = $usersQuery->where(function ($query) use ($group) {
                     if ($group->operator == '||') {
                         foreach ($group->condition()->get() as $key => $condition) {
-                            if (!str_starts_with($condition->operand, 'balances.')) {
-                                $formatedCondition = self::formatOperand($condition);
-                                if ($key == 0) {
-                                    $query->where($formatedCondition->operand, $formatedCondition->operator, $formatedCondition->value);
+                            $formatedCondition = self::formatOperand($condition);
+                            if ($key == 0) {
+                                $query->where($formatedCondition->operand, $formatedCondition->operator, $formatedCondition->value);
 
-                                } else {
-                                    $query->orWhere($formatedCondition->operand, $formatedCondition->operator, $formatedCondition->value);
-                                }
+                            } else {
+                                $query->orWhere($formatedCondition->operand, $formatedCondition->operator, $formatedCondition->value);
                             }
                         }
                     }
                     if ($group->operator == '&&') {
                         foreach ($group->condition()->get() as $condition) {
-                            if (!str_starts_with($condition->operand, 'balances.')) {
-                                $formatedCondition = self::formatOperand($condition);
-                                $query->where($formatedCondition->operand, $formatedCondition->operator, $formatedCondition->value);
-                            }
+                            $formatedCondition = self::formatOperand($condition);
+                            $query->where($formatedCondition->operand, $formatedCondition->operator, $formatedCondition->value);
                         }
                     }
                 });
