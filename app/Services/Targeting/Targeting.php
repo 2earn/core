@@ -57,6 +57,9 @@ class Targeting
         if (in_array("vip", $tablesAleas)) {
             $queryString = $queryString->leftJoin('vip as vip', 'vip.idUser', '=', 'u.idUser');
         }
+        if (in_array("soldes_view", $tablesAleas)) {
+            $queryString = $queryString->leftJoin('soldes_view as soldes_view', 'soldes_view.id', '=', 'u.id');
+        }
         return $queryString;
     }
 
@@ -122,6 +125,7 @@ class Targeting
             foreach ($conditions as $condition) {
                 $formatedCondition = self::formatOperand($condition);
                 $usersQuery = $usersQuery->where($formatedCondition->operand, $formatedCondition->operator, $formatedCondition->value);
+
             }
         }
 

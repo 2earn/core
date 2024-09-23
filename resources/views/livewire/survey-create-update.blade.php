@@ -23,13 +23,37 @@
                     <form>
                         <input type="hidden" wire:model="id">
                         <div class="row">
-                            <div class="form-group mb-3">
+                            <div class="form-group col-sm-12 col-md-6 mb-3">
                                 <label for="Name">{{__('Name')}}</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror"
                                        id="Name"
                                        placeholder="{{__('Enter Name')}}" wire:model="name">
                                 @error('name') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
+                            </div>
+
+                            <div class="form-group  col-sm-4 col-md-2">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" role="switch" wire:model="enabled" type="checkbox"
+                                           id="Enabled" placeholder="{{__('enabled')}}" checked>
+                                    <label class="form-check-label" for="Enabled">{{__('Enabled')}}</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group  col-sm-4 col-md-2">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" role="switch" wire:model="published" type="checkbox"
+                                           id="published" placeholder="{{__('published')}}" checked>
+                                    <label class="form-check-label" for="published">{{__('Published')}}</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group  col-sm-4 col-md-2">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" role="switch" wire:model="updatable" type="checkbox"
+                                           id="updatable" placeholder="{{__('updatable')}}" checked>
+                                    <label class="form-check-label" for="updatable">{{__('Updatable')}}</label>
+                                </div>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="Description">{{__('Description')}}</label>
@@ -53,7 +77,7 @@
                                     @foreach ($targets as $targetItem)
                                         <option value="{{$targetItem->id}}"
                                                 @if($targetItem->id==$target) selected @endif >
-                                            {{$targetItem->id }})  {{$targetItem->name}}
+                                            {{$targetItem->id }}) {{$targetItem->name}}
                                         </option>
                                     @endforeach
                                 </select>
@@ -62,23 +86,6 @@
                             </div>
                         @endif
                         <div class="row mt-2">
-                            <div class="form-group col-md-4 mt-2">
-                                <input class="form-check-input" wire:model="enabled" type="checkbox"
-                                       id="Enabled" placeholder="{{__('enabled')}}" checked>
-                                <label class="form-check-label" for="Enabled">{{__('Enabled')}}</label>
-                            </div>
-                            <div class="form-group col-md-4 mt-2">
-                                <input class="form-check-input" wire:model="published" type="checkbox"
-                                       id="published" placeholder="{{__('published')}}" checked>
-                                <label class="form-check-label" for="published">{{__('Published')}}</label>
-                            </div>
-
-                            <div class="form-group col-md-4 mt-2">
-                                <input class="form-check-input" wire:model="updatable" type="checkbox"
-                                       id="updatable" placeholder="{{__('updatable')}}" checked>
-                                <label class="form-check-label" for="updatable">{{__('Updatable')}}</label>
-                            </div>
-
                             <div class="form-group col-md-4 mt-2">
                                 <label for="showResult">{{__('can show')}}</label>
                                 <select

@@ -137,7 +137,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/', \App\Http\Livewire\SurveyCreateUpdate::class)->name('create_update');
             Route::get('/show/{idSurvey}', \App\Http\Livewire\SurveyShow::class)->name('show');
             Route::get('/participate/{idSurvey}', \App\Http\Livewire\SurveyParicipate::class)->name('participate');
-            Route::get('/results/{idSurvey}', \App\Http\Livewire\SurveyResult::class)->name('surveys_results');
+            Route::get('/results/{idSurvey}', \App\Http\Livewire\SurveyResult::class)->name('results');
             Route::get('/{idSurvey}/question', \App\Http\Livewire\SurveyQuestionCreateUpdate::class)->name('question_create_update');
             Route::get('/{idSurvey}/question/{idQuestion}/Choice', \App\Http\Livewire\SurveyQuestionChoiceCreateUpdate::class)->name('question_choice_create_update');
         });
