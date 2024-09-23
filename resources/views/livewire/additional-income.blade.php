@@ -20,11 +20,19 @@
                         class="form-check form-switch form-switch-lg  form-switch-success d-block img-fluid text-business w-75 m-auto">
                         <label class="form-check-label  "
                                for="be_commited_investor">{{__('Be commited Investor')}}</label>
-                        <input type="checkbox" class="form-check-input" id="be_commited_investor" checked="">
+                        <input type="checkbox" class="form-check-input" wire:model="isCommitedInvestor" id="be_commited_investor" checked=""
+                               @if(!$canBeCommitedInvestor) disabled @endif>
                     </div>
-                    <div class="alert alert-danger material-shadow" role="alert">
-                        {{__('You must hold a minimum of 1000 shares to be considered a committed investor')}}
-                    </div>
+                    @if(!$canBeCommitedInvestor)
+                        <div class="alert alert-danger material-shadow" role="alert">
+                            {{__('You must hold a minimum of')}} {{formatSolde($beCommitedInvestor,0)}} {{__('shares to be considered a committed investor')}}
+                            <a href="{{route('home',app()->getLocale() )}}">{{__('Go to home, To buy more actions')}}</a>
+                        </div>
+                    @else
+                        <div class="alert alert-danger material-shadow" role="alert">
+                            {{__('To benefit from this privilege please activate the option')}}
+                        </div>
+                    @endif
                 </div>
                 <div class="col-sm-12 col-md-3 col-lg-3">
                     <img src="{{ Vite::asset('resources/images/icon-learn.png') }}" alt="logo2earn"
