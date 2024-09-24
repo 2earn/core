@@ -66,7 +66,6 @@ class AdditionalIncome extends Component
             $this->isCommitedInvestorDisabled = true;
         }
 
-
         $params = [
             'beCommitedInvestorMinActions' => $beCommitedInvestorMinActions,
             'soldesAction' => $soldesAction,
