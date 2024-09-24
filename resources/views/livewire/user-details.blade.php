@@ -185,42 +185,30 @@
                 </h5>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
-                        @if(!empty($soldes->cash))
-                            <li class="list-group-item">
-                                <strong>{{__('Cash')}}</strong>
-                                <span class="float-end">{{formatSolde($soldes->cash,3)}}</span>
-                            </li>
-                        @endif
-                            @if(!empty($soldes->db))
-                                <li class="list-group-item">
-                                    <strong>{{__('DB')}}</strong>
-                                    <span class="float-end">{{formatSolde($soldes->db,3)}}</span>
-                                </li>
-                            @endif
-                            @if(!empty($soldes->bfs))
-                                <li class="list-group-item">
-                                    <strong>{{__('BFS')}}</strong>
-                                    <span class="float-end">{{formatSolde($soldes->bfs,3)}}</span>
-                                </li>
-                            @endif
-                        @if(!empty($soldes->sms))
-                            <li class="list-group-item">
-                                <strong>{{__('sms')}}</strong>
-                                <span class="float-end">{{formatSolde($soldes->sms,0)}}</span>
-                            </li>
-                        @endif
-                        @if(!empty($soldes->t))
-                            <li class="list-group-item">
-                                <strong>{{__('T')}}</strong>
-                                <span class="float-end">{{$soldes->t}}</span>
-                            </li>
-                        @endif
-                        @if(!empty($soldes->action))
-                            <li class="list-group-item">
-                                <strong>{{__('Action')}}</strong>
-                                <span class="float-end">{{formatSolde($soldes->action,0)}}</span>
-                            </li>
-                        @endif
+                        <li class="list-group-item">
+                            <strong>{{__('Cash')}}</strong>
+                            <span class="float-end">{{formatSolde($soldes->cash,3)}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>{{__('DB')}}</strong>
+                            <span class="float-end">{{formatSolde($soldes->db,3)}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>{{__('BFS')}}</strong>
+                            <span class="float-end">{{formatSolde($soldes->bfs,3)}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>{{__('sms')}}</strong>
+                            <span class="float-end">{{formatSolde($soldes->sms,0)}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>{{__('T')}}</strong>
+                            <span class="float-end">{{$soldes->t}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>{{__('Action')}}</strong>
+                            <span class="float-end">{{formatSolde($soldes->action,0)}}</span>
+                        </li>
                     </ul>
                 </div>
             </div>

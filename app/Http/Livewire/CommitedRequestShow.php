@@ -12,6 +12,7 @@ class CommitedRequestShow extends Component
 {
     public $rejectOpened = false;
     public $note;
+    public $note_message;
 
     public function mount()
     {
@@ -39,22 +40,30 @@ class CommitedRequestShow extends Component
 
     public function rejectRequest()
     {
-        $committedInvestorRequest = CommittedInvestorRequest::find($this->CommitedRequestId);
-        $committedInvestorRequest->update(
-            [
-                'status' => CommittedInvestorRequestStatus::Rejected->value,
-                'examination_date' => now(),
-                'note' => $this->note,
-                'examiner_id' => auth()->user()->id,
-            ]
-        );
-        return redirect()->route('requests_commited_investors', app()->getLocale())->with('warning', trans('Committed investor request is Rejected'));
+        if (!empty($this->note) && !is_null($this->note)) {
+            $committedInvestorRequest = CommittedInvestorRequest::find($this->CommitedRequestId);
+            $committedInvestorRequest->update(
+                [
+                    'status' => CommittedInvestorRequestStatus::Rejected->value,
+                    'examination_date' => now(),
+                    'note' => $this->note,
+                    'examiner_id' => auth()->user()->id,
+                ]
+            );
+            return redirect()->route('requests_commited_investors', app()->getLocale())->with('warning', trans('Committed investor request is Rejected'));
 
+        } else {
+            $this->note_message = trans('Empty Rejection message');
+        }
     }
 
     public function render()
     {
-        $params = ['commitedInvestorsRequest' => CommittedInvestorRequest::find($this->CommitedRequestId)];
+
+        $params = [
+            'commitedInvestorsRequests' => CommittedInvestorRequest::where('user_id', auth()->user()->id)->get(),
+            'commitedInvestorsRequest' => CommittedInvestorRequest::find($this->CommitedRequestId)
+        ];
         return view('livewire.commited-request-show', $params)->extends('layouts.master')->section('content');
     }
 }
