@@ -8,6 +8,11 @@
             {{ __('Additional income') }}
         @endslot
     @endcomponent
+    <div class="row">
+        <div class="col-12 mt-2 mb-2">
+            @include('layouts.flash-messages')
+        </div>
+    </div>
     <div class="card">
         <div class="card-body">
             <div class="row mt-2">
@@ -20,17 +25,34 @@
                         class="form-check form-switch form-switch-lg  form-switch-success d-block img-fluid text-business w-75 m-auto">
                         <label class="form-check-label  "
                                for="be_commited_investor">{{__('Be commited Investor')}}</label>
-                        <input type="checkbox" class="form-check-input" wire:model="isCommitedInvestor" id="be_commited_investor" checked=""
-                               @if(!$canBeCommitedInvestor) disabled @endif>
+                        <input type="checkbox" class="form-check-input" wire:model="isCommitedInvestor"
+                               wire:click="sendCommitedInvestorRequest()" id="be_commited_investor"
+                               @if($isCommitedInvestorDisabled) disabled @endif>
                     </div>
-                    @if(!$canBeCommitedInvestor)
-                        <div class="alert alert-danger material-shadow" role="alert">
-                            {{__('You must hold a minimum of')}} {{formatSolde($beCommitedInvestor,0)}} {{__('shares to be considered a committed investor')}}
-                            <a href="{{route('home',app()->getLocale() )}}">{{__('Go to home, To buy more actions')}}</a>
-                        </div>
+
+                    @if($soldesAction >= $beCommitedInvestorMinActions)
+
+                        @if(!is_null($lastCommittedInvestorRequest)||$lastCommittedInvestorRequest?->status == \Core\Enum\CommittedInvestorRequestStatus::Rejected->value)
+                            <div class="alert alert-danger material-shadow" role="alert">
+                                {{__('To benefit from this privilege please activate the option')}}
+                            </div>
+                        @endif
+
+                        @if($lastCommittedInvestorRequest?->status == \Core\Enum\CommittedInvestorRequestStatus::InProgress->value)
+                            <div class="alert alert-info material-shadow" role="alert">
+                                {{__('You have one committed investor request under reviewing')}}
+                            </div>
+                        @endif
+                        @if($lastCommittedInvestorRequest?->status == \Core\Enum\CommittedInvestorRequestStatus::Validated->value)
+                            <div class="alert alert-success material-shadow" role="alert">
+                                {{__('You are committed investor')}}
+                            </div>
+                        @endif
+
                     @else
                         <div class="alert alert-danger material-shadow" role="alert">
-                            {{__('To benefit from this privilege please activate the option')}}
+                            {{__('You must hold a minimum of')}} {{formatSolde($beCommitedInvestorMinActions,0)}} {{__('shares to be considered a committed investor')}}
+                            <a href="{{route('home',app()->getLocale() )}}">{{__('Go to home, To buy more actions')}}</a>
                         </div>
                     @endif
                 </div>

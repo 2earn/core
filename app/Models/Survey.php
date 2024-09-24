@@ -228,7 +228,7 @@ class Survey extends Model
         $survey = Survey::find($this->id);
         $today = new \DateTime();
         $param = DB::table('settings')->where("ParameterName", "=", "DELAY_AFTER_CLOSED")->first();
-        if (!is_null($param) && !is_null($param)) {
+        if (!is_null($param)) {
             $delayAfterClosed = $param->IntegerValue;
         } else {
             $delayAfterClosed = self::DELAY_AFTER_CLOSED;
@@ -314,7 +314,7 @@ class Survey extends Model
 
         $param = DB::table('settings')->where("ParameterName", "=", "DELAY_AFTER_ARCHIVED")->first();
 
-        if (!is_null($param) && !is_null($param)) {
+        if (!is_null($param)) {
             $delayAfterArchived = $param->IntegerValue;
         } else {
             $delayAfterArchived = self::DELAY_AFTER_ARCHIVED;
