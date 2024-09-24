@@ -10,6 +10,9 @@ use Livewire\Component;
 
 class CommitedRequestShow extends Component
 {
+    public $rejectOpened = false;
+    public $note;
+
     public function mount()
     {
         $this->CommitedRequestId = Route::current()->parameter('id');
@@ -29,6 +32,11 @@ class CommitedRequestShow extends Component
 
     }
 
+    public function initRejectRequest()
+    {
+        $this->rejectOpened = true;
+    }
+
     public function rejectRequest()
     {
         $committedInvestorRequest = CommittedInvestorRequest::find($this->CommitedRequestId);
@@ -36,8 +44,10 @@ class CommitedRequestShow extends Component
             [
                 'status' => CommittedInvestorRequestStatus::Rejected->value,
                 'examination_date' => now(),
+                'note' => $this->note,
                 'examiner_id' => auth()->user()->id,
-            ]);
+            ]
+        );
         return redirect()->route('commited_investors_requests', app()->getLocale())->with('warning', trans('Committed investor request is Rejected'));
 
     }

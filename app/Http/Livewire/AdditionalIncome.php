@@ -62,7 +62,7 @@ class AdditionalIncome extends Component
             $this->isCommitedInvestor = true;
         }
 
-        if ($lastCommittedInvestorRequest?->status == CommittedInvestorRequestStatus::InProgress->value || $lastCommittedInvestorRequest?->status == CommittedInvestorRequestStatus::Validated->value || $soldesAction >= $beCommitedInvestorMinActions) {
+        if ($lastCommittedInvestorRequest?->status == CommittedInvestorRequestStatus::InProgress->value || $lastCommittedInvestorRequest?->status == CommittedInvestorRequestStatus::Validated->value || $soldesAction < $beCommitedInvestorMinActions) {
             $this->isCommitedInvestorDisabled = true;
         }
 
