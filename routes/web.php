@@ -82,7 +82,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         Route::prefix('/business-hub')->name('business_hub_')->group(function () {
             Route::get('/trading', \App\Http\Livewire\Trading::class)->name('trading');
-            Route::get('/user/running-business', \App\Http\Livewire\RunningBusiness::class)->name('user_running_business');
+            Route::get('/additional-income', \App\Http\Livewire\AdditionalIncome::class)->name('additional_income');
             Route::get('/be-influencer', \App\Http\Livewire\BeInfluencer::class)->name('be_influencer');
             Route::get('/job/opportunities', \App\Http\Livewire\JobOpportunities::class)->name('job_opportunities');
         });
@@ -151,9 +151,11 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/configuration/amounts', \App\Http\Livewire\ConfigurationAmounts::class)->name('configuration_amounts');
             Route::get('/admin/edit', \App\Http\Livewire\EditAdmin::class)->name('edit_admin');
             Route::get('/countries_management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
-            Route::get('/admin/identification_request', identificationRequest::class)->name('identification_request');
-            Route::get('/translation', TranslateView::class)->name('translate');
-            Route::get('/translation/model/data', \App\Http\Livewire\TranslateModelData::class)->name('translate_model_data');
+            Route::get('/requests/identification', identificationRequest::class)->name('requests_identification');
+            Route::get('/requests/commited-investors', \App\Http\Livewire\CommitedRequest::class)->name('requests_commited_investors');
+            Route::get('/requests/commited-investors/{id}/show', \App\Http\Livewire\CommitedRequestShow::class)->name('requests_commited_investors_show');
+            Route::get('/translate', TranslateView::class)->name('translate');
+            Route::get('/translate/model/data', \App\Http\Livewire\TranslateModelData::class)->name('translate_model_data');
 
             Route::get('/target/index', \App\Http\Livewire\TargetIndex::class)->name('target_index');
             Route::get('/target', \App\Http\Livewire\TargetCreateUpdate::class)->name('target_create_update');
