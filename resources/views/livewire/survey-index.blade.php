@@ -12,7 +12,9 @@
     @forelse($surveys as $survey)
         @include('livewire.survey-item', ['survey' => $survey])
     @empty
-        <p>{{__('No Surveys')}}</p>
+        @if($currentRouteName=="surveys_index")
+            <p>{{__('No Surveys')}}</p>
+        @endif
     @endforelse
     @vite('resources/js/surveys.js')
 </div>

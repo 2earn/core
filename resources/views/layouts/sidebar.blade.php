@@ -367,6 +367,16 @@
                                 <span>{{ __('representatives Management') }}</span>
                             </a>
                         </li>
+
+                        <li class="nav-item cool-link {{$currentRouteName=='commited_investors_requests'? 'active' : ''}}">
+                            <a href="{{route('commited_investors_requests', app()->getLocale(),false)}}"
+                               class="nav-link menu-link {{$currentRouteName=='commited_investors_requests'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-coins-fill"></i>
+                                <span>{{ __('Commited investors requests') }}</span>
+                            </a>
+                        </li>
+
                         <li class="nav-item cool-link {{$currentRouteName=='identification_request'? 'active' : ''}}">
                             <a href="{{route('identification_request', app()->getLocale(),false)}}"
                                class="nav-link menu-link {{$currentRouteName=='identification_request'? 'active' : ''}}"
@@ -375,6 +385,7 @@
                                 <span>{{ __('Identification Requests') }}</span>
                             </a>
                         </li>
+
                         <li class="nav-item cool-link {{$currentRouteName=='countries_management'? 'active' : ''}}">
                             <a href="{{route('countries_management', app()->getLocale(),false)}}"
                                class="nav-link menu-link {{$currentRouteName=='countries_management'? 'active' : ''}}"

@@ -427,8 +427,9 @@ div.dt-processing {
 .navbar-nav .nav-item .active, .navbar-nav .nav-item:hover {
     background-color: #e6e4e4
 }
+
 .navbar-nav .nav-item .disabled {
-   opacity: .5;
+    opacity: .5;
 }
 
 .text-business {
@@ -437,6 +438,12 @@ div.dt-processing {
 }
 
 .img-business {
-    width: 180px;
-    height: 160px;
+    width: 204px;
+    height: 62px;
 }
+
+.img-business-square {
+    width: 180px;
+    height: 180px;
+}
+

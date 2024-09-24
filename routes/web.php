@@ -152,6 +152,8 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/admin/edit', \App\Http\Livewire\EditAdmin::class)->name('edit_admin');
             Route::get('/countries_management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
             Route::get('/admin/identification_request', identificationRequest::class)->name('identification_request');
+            Route::get('/admin/commited-investors-requests', \App\Http\Livewire\CommitedRequest::class)->name('commited_investors_requests');
+            Route::get('/admin/commited-investors-requests/{id}/show', \App\Http\Livewire\CommitedRequestShow::class)->name('commited_investors_requests_show');
             Route::get('/translation', TranslateView::class)->name('translate');
             Route::get('/translation/model/data', \App\Http\Livewire\TranslateModelData::class)->name('translate_model_data');
 

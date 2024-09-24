@@ -563,6 +563,7 @@ div.dt-processing {
 .navbar-nav .nav-item .active, .navbar-nav .nav-item:hover {
     background-color: #e6e4e4
 }
+
 .navbar-nav .nav-item .disabled {
     opacity: .5;
 }
@@ -571,7 +572,13 @@ div.dt-processing {
     width: 220px;
     height: 60px;
 }
+
 .img-business {
-    width: 180px;
-    height: 160px;
+    width: 254px;
+    height: 76px;
+}
+
+.img-business-square {
+    width: 130px;
+    height: 130px;
 }
