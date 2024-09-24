@@ -28,7 +28,7 @@ class CommitedRequestShow extends Component
                 'examiner_id' => auth()->user()->id,
             ]);
         User::find($committedInvestorRequest->user_id)->update(['commited_investor' => true]);
-        return redirect()->route('commited_investors_requests', app()->getLocale())->with('success', trans('Committed investor request is validated'));
+        return redirect()->route('requests_commited_investors', app()->getLocale())->with('success', trans('Committed investor request is validated'));
 
     }
 
@@ -48,7 +48,7 @@ class CommitedRequestShow extends Component
                 'examiner_id' => auth()->user()->id,
             ]
         );
-        return redirect()->route('commited_investors_requests', app()->getLocale())->with('warning', trans('Committed investor request is Rejected'));
+        return redirect()->route('requests_commited_investors', app()->getLocale())->with('warning', trans('Committed investor request is Rejected'));
 
     }
 
