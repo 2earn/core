@@ -23,8 +23,8 @@ return new class extends Migration
                         END),
                         0) AS `solde`
         FROM
-            (`2earn`.`user_balances` `u`
-            JOIN `2earn`.`balanceoperations` `b`)
+            (`user_balances` `u`
+            JOIN `balanceoperations` `b`)
         WHERE
             `u`.`idBalancesOperation` = `b`.`idBalanceOperations`
                 AND `b`.`MODIFY_AMOUNT` = '1'
@@ -38,8 +38,8 @@ return new class extends Migration
                         END),
                         0) AS `solde`
         FROM
-            (`2earn`.`user_balances` `u`
-            JOIN `2earn`.`balanceoperations` `b`)
+            (`user_balances` `u`
+            JOIN `balanceoperations` `b`)
         WHERE
             `u`.`idBalancesOperation` = `b`.`idBalanceOperations`
                 AND `b`.`MODIFY_AMOUNT` = '1'
@@ -53,8 +53,8 @@ return new class extends Migration
                         END),
                         0) AS `solde`
         FROM
-            (`2earn`.`user_balances` `u`
-            JOIN `2earn`.`balanceoperations` `b`)
+            (`user_balances` `u`
+            JOIN `balanceoperations` `b`)
         WHERE
             `u`.`idBalancesOperation` = `b`.`idBalanceOperations`
                 AND `b`.`MODIFY_AMOUNT` = '1'
@@ -68,8 +68,8 @@ return new class extends Migration
                         END),
                         0) AS `solde`
         FROM
-            (`2earn`.`user_balances` `u`
-            JOIN `2earn`.`balanceoperations` `b`)
+            (`user_balances` `u`
+            JOIN `balanceoperations` `b`)
         WHERE
             `u`.`idBalancesOperation` = `b`.`idBalanceOperations`
                 AND `b`.`MODIFY_AMOUNT` = '1'
@@ -83,8 +83,8 @@ return new class extends Migration
                         END),
                         0) AS `solde`
         FROM
-            (`2earn`.`user_balances` `u`
-            JOIN `2earn`.`balanceoperations` `b`)
+            (`user_balances` `u`
+            JOIN `balanceoperations` `b`)
         WHERE
             `u`.`idBalancesOperation` = `b`.`idBalanceOperations`
                 AND `b`.`MODIFY_AMOUNT` = '1'
@@ -92,14 +92,14 @@ return new class extends Migration
                 AND `u`.`idamount` = 5
         GROUP BY `u`.`idUser` , `u`.`idamount`) AS `sms`,
     (SELECT
-            SUM(`2earn`.`user_balances`.`value` + `2earn`.`user_balances`.`gifted_shares`) AS `sum(value+user_balances.gifted_shares)`
+            SUM(`user_balances`.`value` + `user_balances`.`gifted_shares`) AS `sum(value+user_balances.gifted_shares)`
         FROM
-            `2earn`.`user_balances`
+            `user_balances`
         WHERE
             `users`.`idUser` = `user_balances`.`idUser`
-        GROUP BY `2earn`.`user_balances`.`idUser`) AS `action`
+        GROUP BY `user_balances`.`idUser`) AS `action`
 FROM
-    `2earn`.`users` AS `users`
+    `users` AS `users`
 
     ");
     }
