@@ -269,6 +269,14 @@
                                     <span>{{__('Targets')}}</span>
                                 </a>
                             </li>
+                            <li class="nav-item cool-link {{$currentRouteName=='surveys_index'? 'active' : ''}}">
+                                <a href="{{route('surveys_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
+                                   class="nav-link menu-link {{$currentRouteName=='target_index'? 'active' : ''}}"
+                                   role="button">
+                                    <i class="ri-pushpin-fill"></i>
+                                    <span>{{__('Surveys')}}</span>
+                                </a>
+                            </li>
                         @endif
                         <li class="nav-item">
                             <a class="nav-link menu-link {{!in_array($currentRouteName, $sidebarDashboardsArray)? 'collapsed' : 'active'}}"
