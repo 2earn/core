@@ -1,53 +1,53 @@
 <div>
     @section('title')
-        {{ __('Committed investor request examination') }}
+        {{ __('Instructor requests') }}
     @endsection
     @component('components.breadcrumb')
         @slot('li_1')@endslot
         @slot('title')
-            {{ __('Committed investor request examination') }}
+                {{ __('Instructor requests') }}
         @endslot
     @endcomponent
 
     <div class="card">
         <div class="card-header">
-            {{getUserDisplayedName($commitedInvestorsRequest->user->idUser)}}
+            {{getUserDisplayedName($instructorRequest->user->idUser)}}
         </div>
         <div class="card-body">
             <h6 class="card-title mt-2">{{__('Details')}}</h6>
             <div class="row">
                 <div class="col-sm-6 col-md-6 col-lg-4">
                     <img
-                            src="@if (file_exists('uploads/profiles/profile-image-' . $commitedInvestorsRequest->user->idUser . '.png')) {{ URL::asset('uploads/profiles/profile-image-'. $commitedInvestorsRequest->user->idUser.'.png') }}@else{{ URL::asset('uploads/profiles/default.png') }} @endif"
+                            src="@if (file_exists('uploads/profiles/profile-image-' . $instructorRequest->user->idUser . '.png')) {{ URL::asset('uploads/profiles/profile-image-'. $instructorRequest->user->idUser.'.png') }}@else{{ URL::asset('uploads/profiles/default.png') }} @endif"
                             class="avatar-sm rounded-circle"/>
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-8">
                     <ul class="list-group">
-                        @if($commitedInvestorsRequest->user->email)
+                        @if($instructorRequest->user->email)
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <strong>{{__('Email')}}</strong><span
-                                        class="text-muted float-end">{{$commitedInvestorsRequest->user->email}}</span>
+                                        class="text-muted float-end">{{$instructorRequest->user->email}}</span>
                             </li>
                         @endif
-                        @if($commitedInvestorsRequest->user->idUser)
+                        @if($instructorRequest->user->idUser)
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <strong>{{__('Id User')}}</strong><span
-                                        class="text-muted float-end">{{$commitedInvestorsRequest->user->idUser}}</span>
+                                        class="text-muted float-end">{{$instructorRequest->user->idUser}}</span>
                             </li>
                         @endif
-                        @if($commitedInvestorsRequest->user->name)
+                        @if($instructorRequest->user->name)
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <strong>{{__('Name')}}</strong><span
-                                        class="text-muted float-end">{{$commitedInvestorsRequest->user->name}}</span>
+                                        class="text-muted float-end">{{$instructorRequest->user->name}}</span>
                             </li>
                         @endif
                     </ul>
                 </div>
                 <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
-                    <p class="card-text text-muted float-end">{{$commitedInvestorsRequest->request_date}}</p>
+                    <p class="card-text text-muted float-end">{{$instructorRequest->request_date}}</p>
                 </div>
                 <div class="col-sm-12 col-md-12 col-lg-6 mt-3">
-                    <a href="{{route('user_details', ['locale' => app()->getLocale(), 'idUser' => $commitedInvestorsRequest->user_id]) }}"
+                    <a href="{{route('user_details', ['locale' => app()->getLocale(), 'idUser' => $instructorRequest->user_id]) }}"
                        class=" float-end" target="_blank">{{__('More Details')}}</a>
                 </div>
             </div>
@@ -55,10 +55,10 @@
             <h6 class="card-title mt-2">{{__('History')}}</h6>
             <div class="flex-grow-1 ms-2">
                 <ul class="list-group">
-                    @forelse($commitedInvestorsRequests as $commitedRequest)
+                    @forelse($instructorRequests as $instructorRequest)
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            {{$commitedRequest->request_date}} <span
-                                    class="badge {{$commitedRequest->status==\Core\Enum\RequestStatus::Rejected->value?'bg-warning':'bg-success'}} ">{{__(\Core\Enum\RequestStatus::tryFrom($commitedRequest->status)->name)}}</span>
+                            {{$instructorRequest->request_date}} <span
+                                    class="badge {{$instructorRequest->status==\Core\Enum\RequestStatus::Rejected->value?'bg-warning':'bg-success'}} ">{{__(\Core\Enum\RequestStatus::tryFrom($instructorRequest->status)->name)}}</span>
                         </li>
                     @empty
                     @endforelse

@@ -154,6 +154,8 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/requests/identification', identificationRequest::class)->name('requests_identification');
             Route::get('/requests/commited-investors', \App\Http\Livewire\CommitedRequest::class)->name('requests_commited_investors');
             Route::get('/requests/commited-investors/{id}/show', \App\Http\Livewire\CommitedRequestShow::class)->name('requests_commited_investors_show');
+            Route::get('/requests/instructor', \App\Http\Livewire\InstructorRequest::class)->name('requests_instructor');
+            Route::get('/requests/instructor/{id}/show', \App\Http\Livewire\InstructorRequestShow::class)->name('requests_instructor_show');
             Route::get('/translate', TranslateView::class)->name('translate');
             Route::get('/translate/model/data', \App\Http\Livewire\TranslateModelData::class)->name('translate_model_data');
 

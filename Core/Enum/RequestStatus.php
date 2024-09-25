@@ -2,7 +2,7 @@
 
 namespace Core\Enum;
 
-enum CommittedInvestorRequestStatus: int
+enum RequestStatus: int
 {
 
     case InProgress = 1;
