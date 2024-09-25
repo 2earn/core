@@ -36,7 +36,7 @@
                     $sidebarDashboardsArray=['configuration_setting','configuration_bo','configuration_amounts','configuration_ha'];
                     $sidebarShareSoldArray=['shares_sold_dashboard','shares_sold_market_status','shares_sold_recent_transaction'];
                     $sidebarTranslateArray=['translate','translate_model_data'];
-                    $sidebarRequestsArray=['requests_commited_investors','requests_identification'];
+                    $sidebarRequestsArray=['requests_commited_investors','requests_instructor','requests_identification'];
                 @endphp
                 <ul class="navbar-nav" id="navbar-nav">
                     <li class="nav-item cool-link {{$currentRouteName=='home'? 'active' : ''}}">
@@ -390,6 +390,11 @@
                                     </li>
                                     <li class="nav-item cool-link {{$currentRouteName==$sidebarRequestsArray[1]? 'active' : ''}}">
                                         <a href="{{route($sidebarRequestsArray[1], app()->getLocale(),false)}}"
+                                           class="nav-link"
+                                        >{{ __('Instructor') }}</a>
+                                    </li>
+                                    <li class="nav-item cool-link {{$currentRouteName==$sidebarRequestsArray[2]? 'active' : ''}}">
+                                        <a href="{{route($sidebarRequestsArray[2], app()->getLocale(),false)}}"
                                            class="nav-link"
                                         >{{ __('Identification') }}</a>
                                     </li>

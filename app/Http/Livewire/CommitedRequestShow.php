@@ -4,7 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\CommittedInvestorRequest;
 use App\Models\User;
-use Core\Enum\CommittedInvestorRequestStatus;
+use Core\Enum\RequestStatus;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
@@ -24,7 +24,7 @@ class CommitedRequestShow extends Component
         $committedInvestorRequest = CommittedInvestorRequest::find($this->CommitedRequestId);
         $committedInvestorRequest->update(
             [
-                'status' => CommittedInvestorRequestStatus::Validated->value,
+                'status' => RequestStatus::Validated->value,
                 'examination_date' => now(),
                 'examiner_id' => auth()->user()->id,
             ]);
@@ -44,7 +44,7 @@ class CommitedRequestShow extends Component
             $committedInvestorRequest = CommittedInvestorRequest::find($this->CommitedRequestId);
             $committedInvestorRequest->update(
                 [
-                    'status' => CommittedInvestorRequestStatus::Rejected->value,
+                    'status' => RequestStatus::Rejected->value,
                     'examination_date' => now(),
                     'note' => $this->note,
                     'examiner_id' => auth()->user()->id,
