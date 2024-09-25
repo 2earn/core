@@ -85,13 +85,17 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12 col-md-6 col-lg-3 mt-1">
+                <div class="col-sm-12 col-md-6 col-lg-2 mt-1">
                     <div class="btn-group material-shadow" role="group" aria-label="Basic example">
                         <a class="btn btn-outline-secondary btn-label waves-effect right waves-light" type="button"
                            wire:click="PreImport('arToData')">
                             <i class="ri-dashboard-2-fill label-icon align-middle fs-16 ms-2"></i>
                             {{__('Arabic field To base')}}
                         </a>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-2 mt-1">
+                    <div class="btn-group material-shadow" role="group" aria-label="Basic example">
                         <a class="btn btn-outline-secondary btn-label waves-effect right waves-light" type="button"
                            wire:click="PreImport('enToData')">
                             <i class="ri-dashboard-2-fill label-icon align-middle fs-16 ms-2"></i>

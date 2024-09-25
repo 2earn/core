@@ -82,7 +82,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12 mt-1">
                     <div class="btn-group material-shadow float-end" role="group" aria-label="Basic example">
-                        <a class="btn btn-secondary btn-label waves-effect right waves-light" type="button"
+                        <a class="btn btn-outline-secondary btn-label waves-effect right waves-light" type="button"
                            wire:click="PreAjout">
                             <i class="ri-file-add-fill label-icon align-middle fs-16 ms-2"></i>
                             {{__('Add a new')}}
