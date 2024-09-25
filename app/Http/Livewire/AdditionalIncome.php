@@ -5,13 +5,16 @@ namespace App\Http\Livewire;
 use App\Models\CommittedInvestorRequest;
 use App\Models\SoldesView;
 use Core\Enum\CommittedInvestorRequestStatus;
+use Core\Enum\StatusRequest;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class AdditionalIncome extends Component
 {
     public $isCommitedInvestor = false;
+    public $isInstructor = false;
     public $isCommitedInvestorDisabled = false;
+    public $isInstructorDisabled = false;
     const BE_COMMITED_INVESTOR = 1000;
 
     protected $listeners = [
@@ -64,6 +67,10 @@ class AdditionalIncome extends Component
 
         if ($lastCommittedInvestorRequest?->status == CommittedInvestorRequestStatus::InProgress->value || $lastCommittedInvestorRequest?->status == CommittedInvestorRequestStatus::Validated->value || $soldesAction < $beCommitedInvestorMinActions) {
             $this->isCommitedInvestorDisabled = true;
+        }
+
+        if (!in_array(auth()->user()->status, [StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value, StatusRequest::ValidNational->value,])) {
+            $this->isInstructorDisabled = true;
         }
 
         $params = [

@@ -84,10 +84,11 @@
                     <div
                         class="form-check form-switch form-switch-lg  form-switch-success d-block img-fluid text-business w-75 m-auto">
                         <label class="form-check-label  "
-                               for="be_commited_investor">{{__('Be Instructor')}}</label>
-                        <input type="checkbox" class="form-check-input" id="be_commited_investor"
-                               disabled>
+                               for="be_instructor">{{__('Be Instructor')}}</label>
+                        <input type="checkbox" class="form-check-input" id="be_instructor" wire:model="isInstructor"
+                               @if($isInstructorDisabled) disabled @endif>
                     </div>
+
                     <div class="alert alert-warning material-shadow  d-none" role="alert">
                         {{__('Your request is currently being processes...')}}
                     </div>
