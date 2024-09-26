@@ -37,14 +37,12 @@
                             <table class="table table-striped table-bordered tableEditAdmin">
                                 <thead>
                                 <tr>
-                                    <th scope="Id">Id</th>
+                                    <th scope="Id">{{__('Id')}}</th>
                                     <th scope="Name">{{ __('Name') }}</th>
-                                    <th scope="Francais">{{ __('Mobile Number') }}</th>
-                                    <th scope="Arabe">id Countrie</th>
-                                    <th scope="Francais">id Role</th>
-                                    <th scope="Francais">{{ __('Role') }}</th>
-                                    <th scope="Francais">{{ __('Countrie') }}</th>
-                                    <th scope=" "></th>
+                                    <th scope="Number">{{ __('Mobile Number') }}</th>
+                                    <th scope="role">{{ __('Role') }}</th>
+                                    <th scope="Countrie">{{ __('Countrie') }}</th>
+                                    <th>{{ __('Actions') }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -53,8 +51,6 @@
                                         <td>{{$value->id}}</td>
                                         <td>{{$value->name}}</td>
                                         <td>{{$value->mobile}}</td>
-                                        <td> {{$value->idCountry}}</td>
-                                        <td>{{$value->idrole}}</td>
                                         <td>{{$value->role}}</td>
                                         <td>{{$value->countrie}}</td>
                                         <td>
