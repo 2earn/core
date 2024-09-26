@@ -12,7 +12,7 @@
         <div class="col-xxl-4">
             <div class="card">
                 <img class="card-img-top img-fluid"
-                     src="{{ Vite::asset('resources/images/be-influencer/tree_evolution.jpg') }}"
+                     src="{{ Vite::asset('resources/images/be-influencer/the-tree-money.png') }}"
                      alt="Card image cap">
                 <div class="card-body">
                     <h4 class="card-title mb-2">{{ __('Evolution arbre title') }}</h4>
@@ -28,7 +28,7 @@
         <div class="col-xxl-4">
             <div class="card">
                 <img class="card-img-top img-fluid"
-                     src="{{ Vite::asset('resources/images/be-influencer/tree_maintenance.webp') }}"
+                     src="{{ Vite::asset('resources/images/be-influencer/nature-the-tree.png') }}"
                      alt="Card image cap">
                 <div class="card-body">
                     <h4 class="card-title mb-2">{{ __('Entretien arbre title') }}</h4>
@@ -44,7 +44,7 @@
         <div class="col-xxl-4">
             <div class="card">
                 <img class="card-img-top img-fluid"
-                     src="{{ Vite::asset('resources/images/be-influencer/successful_sharing_pool.jpeg') }}"
+                     src="{{ Vite::asset('resources/images/be-influencer/sharing-is-winning.png') }}"
                      alt="Card image cap">
                 <div class="card-body">
                     <h4 class="card-title mb-2">{{ __('Successful Sharing Pool title') }}</h4>

@@ -145,8 +145,8 @@
                                for="be_PHV_driver">{{__('Be PHV (Private Hire Vehicle)')}}</label>
                         <input type="checkbox" class="form-check-input" id="be_PHV_driver" disabled>
                     </div>
-                    <div class="alert alert-success material-shadow  text-center d-none" role="alert">
-                        {{__('Congratulation You are anow a PHV driver')}}
+                    <div class="alert alert-info material-shadow  text-center" role="alert">
+                        {{__('Comming soon')}}
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-3 col-lg-3">
@@ -176,8 +176,8 @@
                                for="be_seller">{{__('Be Seller')}}</label>
                         <input type="checkbox" class="form-check-input" id="be_seller" disabled>
                     </div>
-                    <div class="alert alert-success material-shadow  text-center d-none" role="alert">
-                        {{__('Congratulation You are anow a PHV driver')}}
+                    <div class="alert alert-info material-shadow  text-center" role="alert">
+                        {{__('Comming soon')}}
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-3 col-lg-3">
