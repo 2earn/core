@@ -22,8 +22,8 @@
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6">
                     <div
-                        class="form-check form-switch form-switch-lg  form-switch-success d-block img-fluid text-business w-75 m-auto">
-                        <label class="form-check-label  "
+                        class="form-check form-switch form-switch-lg  form-switch-success d-block img-fluid text-business text-center mx-auto">
+                        <label class="form-check-label"
                                for="be_commited_investor">{{__('Be commited Investor')}}</label>
                         <input type="checkbox" class="form-check-input" wire:model="isCommitedInvestor"
                                wire:click="sendCommitedInvestorRequest()" id="be_commited_investor"
@@ -33,7 +33,7 @@
                     @if($soldesAction >= $beCommitedInvestorMinActions)
 
                         @if(is_null($lastCommittedInvestorRequest)||$lastCommittedInvestorRequest?->status == \Core\Enum\RequestStatus::Rejected->value)
-                            <div class="alert alert-danger material-shadow" role="alert">
+                            <div class="alert alert-danger material-shadow text-center" role="alert">
                                 {{__('To benefit from this privilege please activate the option')}}
                                 @if(!is_null($lastCommittedInvestorRequest))
                                     @if(!is_null($lastCommittedInvestorRequest?->note||$lastCommittedInvestorRequest?->status == \Core\Enum\RequestStatus::Rejected->value))
@@ -47,18 +47,18 @@
                         @endif
 
                         @if($lastCommittedInvestorRequest?->status == \Core\Enum\RequestStatus::InProgress->value)
-                            <div class="alert alert-warning material-shadow" role="alert">
+                            <div class="alert alert-warning material-shadow text-center" role="alert">
                                 {{__('Your request is currently being processes...')}}
                             </div>
                         @endif
                         @if($lastCommittedInvestorRequest?->status == \Core\Enum\RequestStatus::Validated->value)
-                            <div class="alert alert-success material-shadow" role="alert">
+                            <div class="alert alert-success material-shadow text-center" role="alert">
                                 {{__('You are committed investor')}}
                             </div>
                         @endif
 
                     @else
-                        <div class="alert alert-danger material-shadow" role="alert">
+                        <div class="alert alert-danger material-shadow text-center" role="alert">
                             {{__('You must hold a minimum of')}} {{formatSolde($beCommitedInvestorMinActions,0)}} {{__('shares to be considered a committed investor')}}
                             <a href="{{route('home',app()->getLocale() )}}">{{__('Go to home, To buy more actions')}}</a>
                         </div>
@@ -82,7 +82,7 @@
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6">
                     <div
-                        class="form-check form-switch form-switch-lg  form-switch-success d-block img-fluid text-business w-75 m-auto">
+                        class="form-check form-switch form-switch-lg  form-switch-success d-block img-fluid text-business text-center mx-auto">
                         <label class="form-check-label  "
                                for="be_instructor">{{__('Be Instructor')}}</label>
                         <input type="checkbox" class="form-check-input" id="be_instructor" wire:model="isInstructor"
@@ -91,7 +91,7 @@
 
                     @if($validatedUser)
                         @if(is_null($lastInstructorRequest)||$lastInstructorRequest?->status == \Core\Enum\RequestStatus::Rejected->value)
-                            <div class="alert alert-danger material-shadow" role="alert">
+                            <div class="alert alert-danger material-shadow  text-center" role="alert">
                                 {{__('To benefit from this privilege please activate the option')}}
                                 @if(!is_null($lastInstructorRequest))
                                     @if(!is_null($lastInstructorRequest?->note||$lastInstructorRequest?->status == \Core\Enum\RequestStatus::Rejected->value))
@@ -105,16 +105,22 @@
                         @endif
 
                         @if($lastInstructorRequest?->status == \Core\Enum\RequestStatus::InProgress->value)
-                            <div class="alert alert-warning material-shadow" role="alert">
+                            <div class="alert alert-warning material-shadow text-center" role="alert">
                                 {{__('Your request is currently being processes...')}}
                             </div>
                         @endif
                         @if($lastInstructorRequest?->status == \Core\Enum\RequestStatus::Validated->value)
-                            <div class="alert alert-success material-shadow" role="alert">
+                            <div class="alert alert-success material-shadow text-center" role="alert">
                                 {{__('You are Instructor')}}
                             </div>
                         @endif
                     @else
+                        <div class="alert alert-info material-shadow text-center" role="alert">
+                            {{__('You must be validated user')}}
+                            <hr>
+                            <a href="{{route('account',app()->getLocale() )}}">{{__('Go to Account, To validate your account')}}</a>
+
+                        </div>
                     @endif
                 </div>
                 <div class="col-sm-12 col-md-3 col-lg-3">
@@ -133,12 +139,13 @@
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6">
                     <div
-                        class="form-check form-switch form-switch-lg  form-switch-success d-block img-fluid text-business w-75 m-auto">
+                        class="form-check form-switch  form-switch-success d-block img-fluid text-business text-center mx-auto">
+
                         <label class="form-check-label  "
-                               for="be_commited_investor">{{__('Be PHV (Private Hire Vehicle)')}}</label>
-                        <input type="checkbox" class="form-check-input" id="be_commited_investor" disabled>
+                               for="be_PHV_driver">{{__('Be PHV (Private Hire Vehicle)')}}</label>
+                        <input type="checkbox" class="form-check-input" id="be_PHV_driver" disabled>
                     </div>
-                    <div class="alert alert-success material-shadow d-none" role="alert">
+                    <div class="alert alert-success material-shadow  text-center d-none" role="alert">
                         {{__('Congratulation You are anow a PHV driver')}}
                     </div>
                 </div>
@@ -163,12 +170,13 @@
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6">
                     <div
-                        class="form-check form-switch form-switch-lg  form-switch-success d-block img-fluid text-business w-75 m-auto">
-                        <label class="form-check-label  "
-                               for="be_commited_investor">{{__('Be Seller')}}</label>
-                        <input type="checkbox" class="form-check-input" id="be_commited_investor" disabled>
+                        class="form-check form-switch  form-switch-success d-block img-fluid text-business text-center mx-auto">
+
+                        <label class="form-check-label"
+                               for="be_seller">{{__('Be Seller')}}</label>
+                        <input type="checkbox" class="form-check-input" id="be_seller" disabled>
                     </div>
-                    <div class="alert alert-success material-shadow  d-none" role="alert">
+                    <div class="alert alert-success material-shadow  text-center d-none" role="alert">
                         {{__('Congratulation You are anow a PHV driver')}}
                     </div>
                 </div>

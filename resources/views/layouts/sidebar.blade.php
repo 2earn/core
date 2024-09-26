@@ -273,7 +273,7 @@
                                 <a href="{{route('surveys_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
                                    class="nav-link menu-link {{$currentRouteName=='target_index'? 'active' : ''}}"
                                    role="button">
-                                    <i class="ri-pushpin-fill"></i>
+                                    <i class="ri-bookmark-fill"></i>
                                     <span>{{__('Surveys')}}</span>
                                 </a>
                             </li>

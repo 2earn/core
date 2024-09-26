@@ -96,7 +96,7 @@ class Account extends Component
         }
         if ($this->sendPasswordChangeOPT) {
             if (!is_null($paramInavalidCountry)) {
-                if (in_array($userContactActif->codeP, explode($paramInavalidCountry->StringValue))) {
+                if (in_array($userContactActif->codeP, explode(',',$paramInavalidCountry->StringValue))) {
                     $this->sendPasswordChangeOPT = false;
                 }
             }
