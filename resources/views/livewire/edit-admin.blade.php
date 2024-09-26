@@ -51,8 +51,8 @@
                                         <td>{{$value->id}}</td>
                                         <td>{{$value->name}}</td>
                                         <td>{{$value->mobile}}</td>
-                                        <td>{{$value->role}}</td>
-                                        <td>{{$value->countrie}}</td>
+                                        <td>{{__($value->role)}}</td>
+                                        <td>{{__($value->countrie)}}</td>
                                         <td>
                                             <button type="button" data-bs-toggle="modal"
                                                     data-bs-target="#editAdminModal" wire:click="edit({{$value->id }})"
