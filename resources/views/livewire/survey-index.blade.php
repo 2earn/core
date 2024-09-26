@@ -12,10 +12,10 @@
 
     @if($currentRouteName=="surveys_index")
         <div class="row">
-            <div class="col-sm-12 col-md-6 col-lg-4 float-end ">
+            <div class="col-sm-12 col-md-12 col-lg-12">
                 <a href="{{route('surveys_create_update', ['locale'=> request()->route("locale")] )}}"
                    title="{{__('Create matched target Survey')}}"
-                   class="btn btn-soft-success material-shadow-none mb-2">
+                   class="btn btn-soft-secondary material-shadow-none mb-2  float-end">
                     {{__('Create Survey')}}
                 </a>
             </div>
