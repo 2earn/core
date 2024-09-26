@@ -100,7 +100,7 @@ class AdditionalIncome extends Component
             $this->isInstructor = true;
         }
 
-        if (!$validatedUser || $lastInstructorRequest?->status == RequestStatus::Validated->value || $lastInstructorRequest->status == RequestStatus::InProgress->value) {
+        if (!$validatedUser || $lastInstructorRequest?->status == RequestStatus::Validated->value || $lastInstructorRequest?->status == RequestStatus::InProgress->value) {
             $this->isInstructorDisabled = true;
         }
 

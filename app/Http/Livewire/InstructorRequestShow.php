@@ -29,6 +29,7 @@ class InstructorRequestShow extends Component
                 'examiner_id' => auth()->user()->id,
             ]);
         User::find($instructorRequest->user_id)->update(['instructor' => true]);
+
         return redirect()->route('requests_instructor', app()->getLocale())->with('success', trans('Instructor request is validated'));
 
     }

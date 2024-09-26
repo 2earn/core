@@ -33,6 +33,7 @@ class User extends Authenticatable
         'idLastUpline',
         'idReservedUpline',
         'commited_investor',
+        'instructor',
     ];
 
     /**

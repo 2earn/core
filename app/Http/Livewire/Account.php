@@ -81,9 +81,7 @@ class Account extends Component
             $this->sendPassSMS = $notSetings->value;
         }
 
-        $userContactActif = $settingManager->getidCountryForSms(auth()->user()->id);
-
-
+        $this->initSendPasswordChangeOPT($settingManager->getidCountryForSms(auth()->user()->id));
     }
 
     public function initSendPasswordChangeOPT($userContactActif)
