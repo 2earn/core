@@ -15,7 +15,7 @@
             @if(in_array($currentRouteName,["surveys_show","surveys_participate","surveys_results"]))
                 <a href="{{route('surveys_index', app()->getLocale())}}" class="btn btn-outline-info waves-effect waves-light material-shadow-none mx-1 btn-sm"
                    title="{{__('To Surveys list')}}">
-                    <i class="ri-arrow-go-back-line"></i>
+                    <i class="ri-bookmark-fill"></i>
                 </a>
             @endif
 

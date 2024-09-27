@@ -166,11 +166,11 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/target/{idTarget}/condition', \App\Http\Livewire\ConditionCreateUpdate::class)->name('condition_create_update');
         });
 
+        Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');
+        Route::get('/sharessolde', \App\Http\Livewire\SharesSolde::class)->name('sharessolde');
+
         Route::middleware(['IsSuperAdmin'])->group(function () {
             Route::get('/stat/countrie', \App\Http\Livewire\StatCountrie::class)->name('stat_countrie');
-            Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');
-            Route::get('/sharessolde', \App\Http\Livewire\SharesSolde::class)->name('sharessolde');
-
             Route::prefix('/shares-sold')->name('shares_sold_')->group(function () {
                 Route::get('dashboard', \App\Http\Livewire\SharesSold::class)->name('dashboard');
                 Route::get('/market-status', \App\Http\Livewire\SharesSoldMarketStatus::class)->name('market_status');

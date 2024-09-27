@@ -16,7 +16,7 @@
     <div class="card">
         <div class="card-body">
             <div class="row mt-2">
-                <div class="col-sm-12 col-md-3 col-lg-3">
+                <div class="col-sm-12 col-md-3 col-lg-3 d-flex align-items-center justify-content-center">
                     <img src="{{ Vite::asset('resources/images/logos/2earn.png') }}" alt="logo2earn"
                          class="d-block img-fluid img-business mx-auto rounded float-left">
                 </div>
@@ -76,7 +76,7 @@
     <div class="card">
         <div class="card-body">
             <div class="row mt-2">
-                <div class="col-sm-12 col-md-3 col-lg-3">
+                <div class="col-sm-12 col-md-3 col-lg-3 d-flex align-items-center justify-content-center">
                     <img src="{{ Vite::asset('resources/images/logos/learn.png') }}" alt="logolearn"
                          class="d-block img-fluid img-business mx-auto rounded float-left">
                 </div>
@@ -123,7 +123,7 @@
                         </div>
                     @endif
                 </div>
-                <div class="col-sm-12 col-md-3 col-lg-3">
+                <div class="col-sm-12 col-md-3 col-lg-3 d-flex align-items-center justify-content-center">
                     <img src="{{ Vite::asset('resources/images/business-hub/be-instructor.png') }}" alt="be-instructor"
                          class="d-block img-fluid img-business-square mx-auto rounded float-left">
                 </div>
@@ -133,7 +133,7 @@
     <div class="card">
         <div class="card-body">
             <div class="row mt-2">
-                <div class="col-sm-12 col-md-3 col-lg-3">
+                <div class="col-sm-12 col-md-3 col-lg-3 d-flex align-items-center justify-content-center">
                     <img src="{{ Vite::asset('resources/images/logos/move.png') }}" alt="logomove"
                          class="d-block img-fluid img-business mx-auto rounded float-left">
                 </div>
@@ -149,7 +149,7 @@
                         {{__('Comming soon')}}
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-3 col-lg-3">
+                <div class="col-sm-12 col-md-3 col-lg-3 d-flex align-items-center justify-content-center">
                     <img src="{{ Vite::asset('resources/images/business-hub/be-phv.png') }}" alt="be-phv"
                          class="d-block img-fluid img-business-square mx-auto rounded float-left">
                 </div>
@@ -160,7 +160,7 @@
     <div class="card">
         <div class="card-body">
             <div class="row mt-2">
-                <div class="col-sm-12 col-md-3 col-lg-3">
+                <div class="col-sm-12 col-md-3 col-lg-3 align-items-center justify-content-center">
                     <img src="{{ Vite::asset('resources/images/logos/belegant.png') }}" alt="logobelegant"
                          class="d-block img-fluid img-business mx-auto rounded float-left my-1">
                     <img src="{{ Vite::asset('resources/images/logos/shop.png') }}" alt="logoshop"
@@ -171,7 +171,6 @@
                 <div class="col-sm-12 col-md-6 col-lg-6">
                     <div
                         class="form-check form-switch  form-switch-success d-block img-fluid text-business text-center mx-auto">
-
                         <label class="form-check-label"
                                for="be_seller">{{__('Be Seller')}}</label>
                         <input type="checkbox" class="form-check-input" id="be_seller" disabled>
@@ -180,9 +179,9 @@
                         {{__('Comming soon')}}
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-3 col-lg-3">
-                    <img src="{{ Vite::asset('resources/images/business-hub/be-seller.png') }}" alt="be-seller"
-                         class="d-block img-fluid img-business-square mx-auto rounded float-right my-1 my-auto">
+                <div class="col-sm-12 col-md-3 col-lg-3 d-flex align-items-center justify-content-center">
+                <img src="{{ Vite::asset('resources/images/business-hub/be-seller.png') }}" alt="be-seller"
+                     class="d-block img-fluid img-business-square mx-auto rounded float-left">
                 </div>
             </div>
         </div>

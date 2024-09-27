@@ -75,7 +75,7 @@
                                         {{$statsItem['choosen']}} {{__('times')}}
                                     </td>
                                     <td>
-                                        {{$statsItem['persontage']}}%
+                                        {{formatSolde($statsItem['persontage'],2)}}%
                                     </td>
                                 </tr>
                             @endforeach
