@@ -20,16 +20,17 @@
                     <img src="{{ Vite::asset('resources/images/logos/2earn.png') }}" alt="logo 2earn"
                          class="d-block img-fluid img-business mx-auto rounded float-left">
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-6">
+                <div class="col-sm-12 col-md-6 col-lg-6 my-2">
                     <div
-                        class="form-check form-switch form-switch-lg  form-switch-success d-block img-fluid text-business text-center mx-auto">
-                        <label class="form-check-label"
-                               for="be_commited_investor">{{__('Be commited Investor')}}</label>
+                        class="form-check form-switch form-switch-lg  form-switch-success d-block img-fluid text-center mx-auto">
                         <input type="checkbox" class="form-check-input" wire:model="isCommitedInvestor"
                                wire:click="sendCommitedInvestorRequest()" id="be_commited_investor"
                                @if($isCommitedInvestorDisabled) disabled @endif>
-                    </div>
+                        <label class="form-check-label"
+                               for="be_commited_investor">{{__('Be commited Investor')}}</label>
 
+                    </div>
+                    <br>
                     @if(auth()->user()->commited_investor)
                         <div class="alert alert-success material-shadow text-center" role="alert">
                             {{__('You are committed investor')}}
@@ -80,14 +81,16 @@
                     <img src="{{ Vite::asset('resources/images/logos/learn.png') }}" alt="logo learn"
                          class="d-block img-fluid img-business mx-auto rounded float-left">
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-6">
+                <div class="col-sm-12 col-md-6 col-lg-6 my-2">
                     <div
-                        class="form-check form-switch form-switch-lg  form-switch-success d-block img-fluid text-business text-center mx-auto">
-                        <label class="form-check-label  "
-                               for="be_instructor">{{__('Be Instructor')}}</label>
+                        class="form-check form-switch form-switch-lg form-switch-success d-block img-fluid  text-center mx-auto">
+
                         <input type="checkbox" class="form-check-input" id="be_instructor" wire:model="isInstructor"
                                wire:click="sendInstructorRequest()" @if($isInstructorDisabled) disabled @endif>
+                        <label class="form-check-label"
+                               for="be_instructor">{{__('Be Instructor')}}</label>
                     </div>
+                    <br>
 
                     @if(auth()->user()->instructor)
                         <div class="alert alert-success material-shadow text-center" role="alert">
@@ -139,14 +142,16 @@
                     <img src="{{ Vite::asset('resources/images/logos/move.png') }}" alt="logo move"
                          class="d-block img-fluid img-business mx-auto rounded float-left">
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-6">
+                <div class="col-sm-12 col-md-6 col-lg-6 my-2">
                     <div
-                        class="form-check form-switch  form-switch-success d-block img-fluid text-business text-center mx-auto">
+                        class="form-check form-switch  form-switch-lg form-switch-success d-block img-fluid  text-center mx-auto">
 
-                        <label class="form-check-label  "
-                               for="be_PHV_driver">{{__('Be PHV (Private Hire Vehicle)')}}</label>
                         <input type="checkbox" class="form-check-input" id="be_PHV_driver" disabled>
+                        <label class="form-check-label"
+                               for="be_PHV_driver">{{__('Be PHV (Private Hire Vehicle)')}}</label>
+
                     </div>
+                    <br>
                     <div class="alert alert-info material-shadow  text-center" role="alert">
                         {{__('Comming soon')}}
                     </div>
@@ -170,13 +175,14 @@
                     <img src="{{ Vite::asset('resources/images/logos/takecare.png') }}" alt="logo takecare"
                          class="d-block img-fluid img-business mx-auto rounded float-left my-1">
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-6">
+                <div class="col-sm-12 col-md-6 col-lg-6 my-2">
                     <div
-                        class="form-check form-switch  form-switch-success d-block img-fluid text-business text-center mx-auto">
+                        class="form-check form-switch  form-switch-lg form-switch-success d-block img-fluid  text-center mx-auto">
+                        <input type="checkbox" class="form-check-input" id="be_seller" disabled>
                         <label class="form-check-label"
                                for="be_seller">{{__('Be Seller')}}</label>
-                        <input type="checkbox" class="form-check-input" id="be_seller" disabled>
                     </div>
+                    <br>
                     <div class="alert alert-info material-shadow  text-center" role="alert">
                         {{__('Comming soon')}}
                     </div>
