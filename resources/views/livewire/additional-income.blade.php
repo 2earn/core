@@ -30,39 +30,39 @@
                                @if($isCommitedInvestorDisabled) disabled @endif>
                     </div>
 
-                    @if($soldesAction >= $beCommitedInvestorMinActions)
-
-                        @if(is_null($lastCommittedInvestorRequest)||$lastCommittedInvestorRequest?->status == \Core\Enum\RequestStatus::Rejected->value)
-                            <div class="alert alert-danger material-shadow text-center" role="alert">
-                                {{__('To benefit from this privilege please activate the option')}}
-                                @if(!is_null($lastCommittedInvestorRequest))
-                                    @if(!is_null($lastCommittedInvestorRequest?->note||$lastCommittedInvestorRequest?->status == \Core\Enum\RequestStatus::Rejected->value))
-                                        <hr class="text-muted">
-                                        <span class="mt-2 text-muted">
+                    @if(auth()->user()->commited_investor)
+                        <div class="alert alert-success material-shadow text-center" role="alert">
+                            {{__('You are committed investor')}}
+                        </div>
+                    @else
+                        @if($soldesAction >= $beCommitedInvestorMinActions)
+                            @if(is_null($lastCommittedInvestorRequest)||$lastCommittedInvestorRequest?->status == \Core\Enum\RequestStatus::Rejected->value)
+                                <div class="alert alert-danger material-shadow text-center" role="alert">
+                                    {{__('To benefit from this privilege please activate the option')}}
+                                    @if(!is_null($lastCommittedInvestorRequest))
+                                        @if(!is_null($lastCommittedInvestorRequest?->note||$lastCommittedInvestorRequest?->status == \Core\Enum\RequestStatus::Rejected->value))
+                                            <hr class="text-muted">
+                                            <span class="mt-2 text-muted">
                                         <strong>{{__('Latest request rejection raison')}} :</strong> {{$lastCommittedInvestorRequest?->note}}
                                     </span>
+                                        @endif
                                     @endif
-                                @endif
-                            </div>
-                        @endif
+                                </div>
+                            @endif
 
-                        @if($lastCommittedInvestorRequest?->status == \Core\Enum\RequestStatus::InProgress->value)
-                            <div class="alert alert-warning material-shadow text-center" role="alert">
-                                {{__('Your request is currently being processes...')}}
+                            @if($lastCommittedInvestorRequest?->status == \Core\Enum\RequestStatus::InProgress->value)
+                                <div class="alert alert-warning material-shadow text-center" role="alert">
+                                    {{__('Your request is currently being processes...')}}
+                                </div>
+                            @endif
+                        @else
+                            <div class="alert alert-danger material-shadow text-center" role="alert">
+                                {{__('You must hold a minimum of')}} {{formatSolde($beCommitedInvestorMinActions,0)}} {{__('shares to be considered a committed investor')}}
+                                <a href="{{route('home',app()->getLocale() )}}">{{__('Go to home, To buy more actions')}}</a>
                             </div>
                         @endif
-                        @if($lastCommittedInvestorRequest?->status == \Core\Enum\RequestStatus::Validated->value)
-                            <div class="alert alert-success material-shadow text-center" role="alert">
-                                {{__('You are committed investor')}}
-                            </div>
-                        @endif
-
-                    @else
-                        <div class="alert alert-danger material-shadow text-center" role="alert">
-                            {{__('You must hold a minimum of')}} {{formatSolde($beCommitedInvestorMinActions,0)}} {{__('shares to be considered a committed investor')}}
-                            <a href="{{route('home',app()->getLocale() )}}">{{__('Go to home, To buy more actions')}}</a>
-                        </div>
                     @endif
+
                 </div>
                 <div class="col-sm-12 col-md-3 col-lg-3">
                     <img src="{{ Vite::asset('resources/images/business-hub/be-commited-investor.png') }}"
@@ -89,38 +89,40 @@
                                wire:click="sendInstructorRequest()" @if($isInstructorDisabled) disabled @endif>
                     </div>
 
-                    @if($validatedUser)
-                        @if(is_null($lastInstructorRequest)||$lastInstructorRequest?->status == \Core\Enum\RequestStatus::Rejected->value)
-                            <div class="alert alert-danger material-shadow  text-center" role="alert">
-                                {{__('To benefit from this privilege please activate the option')}}
-                                @if(!is_null($lastInstructorRequest))
-                                    @if(!is_null($lastInstructorRequest?->note||$lastInstructorRequest?->status == \Core\Enum\RequestStatus::Rejected->value))
-                                        <hr class="text-muted">
-                                        <span class="mt-2 text-muted">
+                    @if(auth()->user()->instructor)
+                        <div class="alert alert-success material-shadow text-center" role="alert">
+                            {{__('You are Instructor')}}
+                        </div>
+                    @else
+
+                        @if($validatedUser)
+                            @if(is_null($lastInstructorRequest)||$lastInstructorRequest?->status == \Core\Enum\RequestStatus::Rejected->value)
+                                <div class="alert alert-danger material-shadow  text-center" role="alert">
+                                    {{__('To benefit from this privilege please activate the option')}}
+                                    @if(!is_null($lastInstructorRequest))
+                                        @if(!is_null($lastInstructorRequest?->note||$lastInstructorRequest?->status == \Core\Enum\RequestStatus::Rejected->value))
+                                            <hr class="text-muted">
+                                            <span class="mt-2 text-muted">
                                         <strong>{{__('Latest request rejection raison')}} :</strong> {{$lastInstructorRequest?->note}}
                                     </span>
+                                        @endif
                                     @endif
-                                @endif
-                            </div>
-                        @endif
+                                </div>
+                            @endif
 
-                        @if($lastInstructorRequest?->status == \Core\Enum\RequestStatus::InProgress->value)
-                            <div class="alert alert-warning material-shadow text-center" role="alert">
-                                {{__('Your request is currently being processes...')}}
-                            </div>
-                        @endif
-                        @if($lastInstructorRequest?->status == \Core\Enum\RequestStatus::Validated->value)
-                            <div class="alert alert-success material-shadow text-center" role="alert">
-                                {{__('You are Instructor')}}
-                            </div>
-                        @endif
-                    @else
-                        <div class="alert alert-info material-shadow text-center" role="alert">
-                            {{__('You must be validated user')}}
-                            <hr>
-                            <a href="{{route('account',app()->getLocale() )}}">{{__('Go to Account, To validate your account')}}</a>
+                            @if($lastInstructorRequest?->status == \Core\Enum\RequestStatus::InProgress->value)
+                                <div class="alert alert-warning material-shadow text-center" role="alert">
+                                    {{__('Your request is currently being processes...')}}
+                                </div>
+                            @endif
+                        @else
+                            <div class="alert alert-info material-shadow text-center" role="alert">
+                                {{__('You must be validated user')}}
+                                <hr>
+                                <a href="{{route('account',app()->getLocale() )}}">{{__('Go to Account, To validate your account')}}</a>
 
-                        </div>
+                            </div>
+                        @endif
                     @endif
                 </div>
                 <div class="col-sm-12 col-md-3 col-lg-3 d-flex align-items-center justify-content-center">
@@ -180,8 +182,8 @@
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-3 col-lg-3 d-flex align-items-center justify-content-center">
-                <img src="{{ Vite::asset('resources/images/business-hub/be-seller.png') }}" alt="be-seller"
-                     class="d-block img-fluid img-business-square mx-auto rounded float-left">
+                    <img src="{{ Vite::asset('resources/images/business-hub/be-seller.png') }}" alt="be-seller"
+                         class="d-block img-fluid img-business-square mx-auto rounded float-left">
                 </div>
             </div>
         </div>

@@ -86,21 +86,20 @@ class AdditionalIncome extends Component
         $lastInstructorRequest = InstructorRequest::where('user_id', auth()->user()->id)->orderBy('created_at', 'DESC')->first();
 
 
-        $validatedUser = in_array(auth()->user()->status, [StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value, StatusRequest::ValidNational->value]);
+        $validatedUser = in_array(auth()->user()->status, [StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value, StatusRequest::ValidNational->value]);;
 
-        if (!is_null($lastCommittedInvestorRequest) && ($lastCommittedInvestorRequest->status == RequestStatus::InProgress->value || $lastCommittedInvestorRequest->status == RequestStatus::Validated->value)) {
+        if (auth()->user()->commited_investor == true || (!is_null($lastCommittedInvestorRequest) && $lastCommittedInvestorRequest->status == RequestStatus::InProgress->value)) {
             $this->isCommitedInvestor = true;
         }
 
-        if ($lastCommittedInvestorRequest?->status == RequestStatus::InProgress->value || $lastCommittedInvestorRequest?->status == RequestStatus::Validated->value || $soldesAction < $beCommitedInvestorMinActions) {
+        if ($lastCommittedInvestorRequest?->status == RequestStatus::InProgress->value || auth()->user()->commited_investor == true || $soldesAction < $beCommitedInvestorMinActions) {
             $this->isCommitedInvestorDisabled = true;
         }
-
-        if (!is_null($lastInstructorRequest) && ($lastInstructorRequest->status == RequestStatus::InProgress->value || $lastInstructorRequest->status == RequestStatus::Validated->value)) {
+        if (auth()->user()->instructor == true || (!is_null($lastInstructorRequest) && ($lastInstructorRequest->status == RequestStatus::InProgress->value))) {
             $this->isInstructor = true;
         }
 
-        if (!$validatedUser || $lastInstructorRequest?->status == RequestStatus::Validated->value || $lastInstructorRequest?->status == RequestStatus::InProgress->value) {
+        if (!$validatedUser || auth()->user()->instructor == true || $lastInstructorRequest?->status == RequestStatus::InProgress->value) {
             $this->isInstructorDisabled = true;
         }
 
