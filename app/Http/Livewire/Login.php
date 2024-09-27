@@ -19,6 +19,12 @@ class Login extends Component
         'changeLanguage' => 'changeLanguage'
     ];
 
+    public ?string $from = null;
+
+    public function mount(Request $request)
+    {
+        $this->from = $request->query->get('form');
+    }
 
     public function render(settingsManager $settingsManager)
     {
@@ -37,6 +43,9 @@ class Login extends Component
         if (!$user) {
             $this->earnDebug('Failed login : number phone -  ' . $number . ' Code pays- : ' . $code . ' Password- : ' . $pass . ' Iso- :' . $iso);
             return redirect()->route('login', ['locale' => app()->getLocale()])->with('danger', Lang::get('your phone or your password is incorrect !'));
+        }
+        if (!is_null($this->from)) {
+            return redirect()->intended(route('home', app()->getLocale()))->with('from', $this->from);
         }
         return redirect()->intended(route('home', app()->getLocale()));
     }

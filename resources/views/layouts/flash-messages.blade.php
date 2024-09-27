@@ -13,3 +13,9 @@
         {{ Session::get('warning') }}
     </div>
 @endif
+@if(Session::has('from'))
+    <div class="alert alert-warning mx-1" role="alert">
+        {{__(' You can now login to')}}: <a href="https://{{ Session::get('from') }}">{{ Session::get('from') }}</a>
+    </div>
+@endif
+
