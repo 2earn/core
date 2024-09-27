@@ -17,7 +17,7 @@
         <div class="card-body">
             <div class="row mt-2">
                 <div class="col-sm-12 col-md-3 col-lg-3 d-flex align-items-center justify-content-center">
-                    <img src="{{ Vite::asset('resources/images/logos/2earn.png') }}" alt="logo2earn"
+                    <img src="{{ Vite::asset('resources/images/logos/2earn.png') }}" alt="logo 2earn"
                          class="d-block img-fluid img-business mx-auto rounded float-left">
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6">
@@ -77,7 +77,7 @@
         <div class="card-body">
             <div class="row mt-2">
                 <div class="col-sm-12 col-md-3 col-lg-3 d-flex align-items-center justify-content-center">
-                    <img src="{{ Vite::asset('resources/images/logos/learn.png') }}" alt="logolearn"
+                    <img src="{{ Vite::asset('resources/images/logos/learn.png') }}" alt="logo learn"
                          class="d-block img-fluid img-business mx-auto rounded float-left">
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6">
@@ -134,7 +134,7 @@
         <div class="card-body">
             <div class="row mt-2">
                 <div class="col-sm-12 col-md-3 col-lg-3 d-flex align-items-center justify-content-center">
-                    <img src="{{ Vite::asset('resources/images/logos/move.png') }}" alt="logomove"
+                    <img src="{{ Vite::asset('resources/images/logos/move.png') }}" alt="logo move"
                          class="d-block img-fluid img-business mx-auto rounded float-left">
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6">
@@ -161,11 +161,11 @@
         <div class="card-body">
             <div class="row mt-2">
                 <div class="col-sm-12 col-md-3 col-lg-3 align-items-center justify-content-center">
-                    <img src="{{ Vite::asset('resources/images/logos/belegant.png') }}" alt="logobelegant"
+                    <img src="{{ Vite::asset('resources/images/logos/belegant.png') }}" alt="logo belegant"
                          class="d-block img-fluid img-business mx-auto rounded float-left my-1">
-                    <img src="{{ Vite::asset('resources/images/logos/shop.png') }}" alt="logoshop"
+                    <img src="{{ Vite::asset('resources/images/logos/shop.png') }}" alt="logo shop"
                          class="d-block img-fluid img-business mx-auto rounded float-left my-1">
-                    <img src="{{ Vite::asset('resources/images/logos/takecare.png') }}" alt="logotakecare"
+                    <img src="{{ Vite::asset('resources/images/logos/takecare.png') }}" alt="logo takecare"
                          class="d-block img-fluid img-business mx-auto rounded float-left my-1">
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6">
