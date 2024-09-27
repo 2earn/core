@@ -224,7 +224,8 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                 input: 'text',
                 inputAttributes: {autocapitalize: 'off'},
                 showCancelButton: true,
-                confirmButtonText: 'Confirm',
+                cancelButtonText: '{{__('Cancel')}}',
+                confirmButtonText: '{{__('Confirm')}}',
             }).then((resultat) => {
                 if (resultat.value) {
                     window.Livewire.emit('AddFieldTranslate', resultat.value);

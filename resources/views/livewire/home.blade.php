@@ -710,7 +710,8 @@
                                 Swal.fire({
                                     icon: 'error',
                                     title: "{{__('Error in action purchase transaction')}}",
-                                    confirmButtonText: '{{__('ok')}}',
+                                    cancelButtonText: '{{__('Cancel')}}',
+                                    confirmButtonText: '{{__('Confirm')}}',
                                     text: responseData.error[0]
                                 });
                                 $('.buy-action-submit-spinner').hide();

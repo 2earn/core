@@ -202,9 +202,8 @@
                 },
                 showCancelButton: true,
                 timer: '{{ env('timeOPT') }}',
-                confirmButtonText: 'Confirm',
-                confirmButtonText: '{{trans('ok')}}',
-                cancelButtonText: '{{trans('canceled !')}}',
+                cancelButtonText: '{{__('Cancel')}}',
+                confirmButtonText: '{{__('Confirm')}}',
                 footer: ' <i></i><div class="footerOpt"></div>',
                 didOpen: () => {
                     const b = Swal.getFooter().querySelector('i')

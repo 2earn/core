@@ -521,7 +521,8 @@
                 title: event.detail.title,
                 text: event.detail.text,
                 icon: 'error',
-                confirmButtonText: "{{__('ok')}}"
+                cancelButtonText: '{{__('Cancel')}}',
+                confirmButtonText: '{{__('Confirm')}}',
             })
         });
     </script>

@@ -119,7 +119,6 @@
         <div class="row">
             @if($survey->canShowAttchivementChrono() && $survey->getChronoAttchivement()!=0)
                 <div class="col-sm-12 col-md-6 col-lg-6 mt-1 " title="{{ $survey->getChronoAttchivement()}} / 100">
-                    <h6 class="mt-2 text-info">{{__('Attchivement Chrono Dates')}}:</h6>
                     @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
                         <div class="survey-countdown connect-page" title="{{$survey->endDate}}">
                             <div class="survey-countdown-body">
