@@ -192,7 +192,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
     Route::get('/forget-password', ForgotPassword::class)->name('forget_password');
     Route::get('/check-opt-code/{iduser}/{ccode}/{numTel}', CheckOptCode::class)->name('check_opt_code');
     Route::get('/validate-account', ValidateAccount::class)->name('validate_account');
-});
+
 
 Route::group(['prefix' => 'api/v1'], function () {
     Route::get('/countries', 'App\Http\Controllers\ApiController@getCountries')->name('api_countries');
@@ -243,6 +243,7 @@ Route::group(['prefix' => 'api/v1'], function () {
 
 });
 
+});
 Route::get('/reset-not', 'App\Http\Controllers\FinancialRequestController@resetInComingNotification')->name('reset_incoming_notification');
 Route::get('/reset-not-out', 'App\Http\Controllers\FinancialRequestController@resetOutGoingNotification')->name('reset_out_going_notification');
 Route::get('/', function () {
