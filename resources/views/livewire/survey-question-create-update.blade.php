@@ -2,7 +2,7 @@
     @component('components.breadcrumb')
         @slot('title')
             {{ __('Survey') }}
-            : {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}    {{ __('Add question ') }}
+            : {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}    {{ __('Add Question') }}
         @endslot
     @endcomponent
     <div class="row card">
