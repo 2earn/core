@@ -17,13 +17,13 @@ class Targeting
     private static function initUsersQuery($conditions, $groups)
     {
         $tablesAleas = [];
-        if ($conditions->isNotEmpty()) {
+        if ($conditions?->isNotEmpty()) {
             foreach ($conditions as $condition) {
                 $tablesAleas = array_unique(array_merge($tablesAleas, [substr($condition->operand, 0, strpos($condition->operand, '.'))]));
             }
         }
 
-        if ($groups->isNotEmpty()) {
+        if ($groups?->isNotEmpty()) {
             foreach ($groups as $group) {
                 foreach ($group->condition()->get() as $condition) {
                     $tablesAleas = array_unique(array_merge($tablesAleas, [substr($condition->operand, 0, strpos($condition->operand, '.'))]));
@@ -121,7 +121,7 @@ class Targeting
 
     private static function fillUsersQuery($usersQuery, $conditions, $groups)
     {
-        if ($conditions->isNotEmpty()) {
+        if ($conditions?->isNotEmpty()) {
             foreach ($conditions as $condition) {
                 $formatedCondition = self::formatOperand($condition);
                 $usersQuery = $usersQuery->where($formatedCondition->operand, $formatedCondition->operator, $formatedCondition->value);
@@ -129,7 +129,7 @@ class Targeting
             }
         }
 
-        if ($groups->isNotEmpty()) {
+        if ($groups?->isNotEmpty()) {
             foreach ($groups as $group) {
                 $usersQuery = $usersQuery->where(function ($query) use ($group) {
                     if ($group->operator == '||') {
@@ -159,14 +159,16 @@ class Targeting
 
     public static function getTargetQuery($target, $preveiw = false)
     {
-        $groups = $target->group()->get();
-        $conditions = $target->condition()->get();
+
+     $groups = $target?->group()->get();
+        $conditions = $target?->condition()->get();
+
         $usersQuery = self::initUsersQuery($conditions, $groups);
         if ($preveiw) {
             $usersQuery = self::addPreveiewData($usersQuery);
         }
 
-        if ($groups->isEmpty() && $conditions->isEmpty()) {
+        if ($groups?->isEmpty() && $conditions->isEmpty()) {
             return $usersQuery;
         }
 
