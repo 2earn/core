@@ -101,6 +101,7 @@ class SurveyCreateUpdate extends Component
 
     public function store()
     {
+
         $this->validate();
         try {
             $this->validateDisabled();
@@ -117,8 +118,8 @@ class SurveyCreateUpdate extends Component
                 'showAttchivementChrono' => $this->showAttchivementChrono,
                 'showAfterArchiving' => $this->showAfterArchiving,
                 'showAttchivementGool' => $this->showAttchivementGool,
-                'startDate' => $this->startDate,
-                'endDate' => $this->endDate,
+                'startDate' => getValidCurrentDateTime($this->startDate),
+                'endDate' => getValidCurrentDateTime($this->endDate),
                 'disabledResult' => $this->disabledResult,
                 'disabledComment' => $this->disabledComment,
                 'disabledLike' => $this->disabledLike,
@@ -164,8 +165,8 @@ class SurveyCreateUpdate extends Component
         $this->showAttchivementChrono = $survey->showAttchivementChrono;
         $this->showAfterArchiving = $survey->showAfterArchiving;
         $this->showAttchivementGool = $survey->showAttchivementGool;
-        $this->startDate = !is_null($survey->startDate) ? date_format(new \DateTime($survey->startDate), self::DATE_FORMAT) : null;
-        $this->endDate = !is_null($survey->endDate) ? date_format(new \DateTime($survey->endDate), self::DATE_FORMAT) : null;
+        $this->startDate = !is_null($survey->startDate) ? getValidCurrentDateTime($survey->startDate) : null;
+        $this->endDate = !is_null($survey->endDate) ? getValidCurrentDateTime($survey->endDate) : null;
         $this->goals = $survey->goals;
         $this->disabledResult = $survey->disabledResult;
         $this->disabledComment = $survey->disabledComment;
@@ -209,10 +210,10 @@ class SurveyCreateUpdate extends Component
                 'goals' => $this->goals,
             ];
             if (!is_null($this->startDate)) {
-                $paramsToUpdate['startDate'] = $this->startDate;
+                $paramsToUpdate['startDate'] = getValidCurrentDateTime($this->startDate);
             }
             if (!is_null($this->endDate)) {
-                $paramsToUpdate['endDate'] = $this->endDate;
+                $paramsToUpdate['endDate'] = getValidCurrentDateTime($this->endDate);
             }
             Survey::where('id', $this->idSurvey)
                 ->update($paramsToUpdate);
