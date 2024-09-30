@@ -576,3 +576,19 @@ if (!function_exists('checkExpiredSoonInternationalIdentity')) {
         return $now->diff($input)->format("%r%a");
     }
 }
+
+if (!function_exists('getValidCurrentDateTime')) {
+    function getValidCurrentDateTime($date)
+    {
+
+        if (is_null($date)) {
+            return null;
+        }
+        if (strlen($date) > 10) {
+            $datetime = new \DateTime(date($date));
+        } else {
+            $datetime = new \DateTime(date($date . ' H:i:s'));
+        }
+        return $datetime->format('Y-m-d H:i:s');
+    }
+}
