@@ -133,7 +133,7 @@
                         </div>
                     </li>
 
-                    <li class="nav-item">
+                    <li class="nav-item d-none">
                         <a class="nav-link menu-link {{!in_array($currentRouteName, $sidebarBiographyArray)? 'collapsed' : 'active'}}"
                            href="#sidebarBiography" data-bs-toggle="collapse"
                            role="button"
