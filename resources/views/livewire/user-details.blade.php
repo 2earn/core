@@ -186,19 +186,19 @@
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            <strong>{{__('Cash')}}</strong>
+                            <strong>{{__('Cash Balance')}}</strong>
                             <span class="float-end">{{formatSolde($soldes->cash,3)}}</span>
                         </li>
                         <li class="list-group-item">
-                            <strong>{{__('DB')}}</strong>
+                            <strong>{{__('Discounts Balance')}}</strong>
                             <span class="float-end">{{formatSolde($soldes->db,3)}}</span>
                         </li>
                         <li class="list-group-item">
-                            <strong>{{__('BFS')}}</strong>
+                            <strong>{{__('Balance For Shopping')}}</strong>
                             <span class="float-end">{{formatSolde($soldes->bfs,3)}}</span>
                         </li>
                         <li class="list-group-item">
-                            <strong>{{__('sms')}}</strong>
+                            <strong>{{__('SMS Solde')}}</strong>
                             <span class="float-end">{{formatSolde($soldes->sms,0)}}</span>
                         </li>
                         <li class="list-group-item">
@@ -206,7 +206,7 @@
                             <span class="float-end">{{$soldes->t}}</span>
                         </li>
                         <li class="list-group-item">
-                            <strong>{{__('Action')}}</strong>
+                            <strong>{{__('Actions (Shares)')}}</strong>
                             <span class="float-end">{{formatSolde($soldes->action,0)}}</span>
                         </li>
                     </ul>
