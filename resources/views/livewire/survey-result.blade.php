@@ -60,8 +60,6 @@
                                 <th scope="col">{{__('title')}}</th>
                                 <th scope="col">{{__('Choosen')}}</th>
                                 <th scope="col">{{__('Choosen times')}}</th>
-                                <th scope="col">{{__('Persontage')}}</th>
-                                <th scope="col">{{__('Persontage Choosen times')}}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -74,16 +72,10 @@
                                         {{$statsItem['title']}}
                                     </td>
                                     <td>
-                                        {{$statsItem['choosen']}} {{__('times')}}
+                                        {{$statsItem['choosen']}} {{__('times')}} -  {{formatSolde($statsItem['persontage'],2)}}%
                                     </td>
                                     <td>
-                                        {{$statsItem['choosenK']}} {{__('times')}}
-                                    </td>
-                                    <td>
-                                        {{formatSolde($statsItem['persontage'],2)}}%
-                                    </td>
-                                    <td>
-                                        {{formatSolde($statsItem['persontageK'],2)}}%
+                                        {{$statsItem['choosenK']}} {{__('times')}} -   {{formatSolde($statsItem['persontageK'],2)}}%
                                     </td>
                                 </tr>
                             @endforeach
