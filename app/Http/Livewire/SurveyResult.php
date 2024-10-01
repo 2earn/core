@@ -29,14 +29,17 @@ class SurveyResult extends Component
         $params ['responses'] = $params ['question']->serveyQuestionChoice()->get();
         $participation = SurveyResponse::where('survey_id', $this->idSurvey)->count();
         $stats = [];
+        $totalChoiceChoosen = SurveyResponseItem::where('surveyQuestion_id', $params ['survey']->question->id)->count();
         foreach ($params ['responses'] as $response) {
             $choosen = SurveyResponseItem::where('surveyQuestion_id', $params ['survey']->question->id)
                 ->where('surveyQuestionChoice_id', $response->id)->count();
 
             $stats[$response->id] = [
                 'title' => TranslaleModel::getTranslation($response, 'title', $response->title),
-                'choosen' => $choosen,
-                'persontage' => $participation > 0 ? (($choosen / $participation) * 100) : 0
+                'choosen' => $choosen . ' / ' . $participation,
+                'choosenK' => $choosen . ' / ' . $totalChoiceChoosen,
+                'persontage' => $participation > 0 ? (($choosen / $participation) * 100) : 0,
+                'persontageK' => $participation > 0 ? (($choosen / $totalChoiceChoosen) * 100) : 0
             ];
         }
         $params ['stats'] = $stats;

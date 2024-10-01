@@ -59,7 +59,9 @@
                                 <th scope="col">{{__('#')}}</th>
                                 <th scope="col">{{__('title')}}</th>
                                 <th scope="col">{{__('Choosen')}}</th>
+                                <th scope="col">{{__('Choosen times')}}</th>
                                 <th scope="col">{{__('Persontage')}}</th>
+                                <th scope="col">{{__('Persontage Choosen times')}}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -75,7 +77,13 @@
                                         {{$statsItem['choosen']}} {{__('times')}}
                                     </td>
                                     <td>
+                                        {{$statsItem['choosenK']}} {{__('times')}}
+                                    </td>
+                                    <td>
                                         {{formatSolde($statsItem['persontage'],2)}}%
+                                    </td>
+                                    <td>
+                                        {{formatSolde($statsItem['persontageK'],2)}}%
                                     </td>
                                 </tr>
                             @endforeach
@@ -91,7 +99,7 @@
                             @forelse($survey->surveyResponse as $surveyResponse)
                                 <li class="list-group-item">
                                     {{ getUserDisplayedName($surveyResponse->user->idUser)}} <span
-                                        class="text-muted">{{__('at')}}: {{ $surveyResponse->created_at}} </span>
+                                            class="text-muted">{{__('at')}}: {{ $surveyResponse->created_at}} </span>
                                 </li>
                             @empty
                                 <li class="list-group-item">
