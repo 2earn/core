@@ -202,10 +202,6 @@
                             <span class="float-end">{{formatSolde($soldes->sms,0)}}</span>
                         </li>
                         <li class="list-group-item">
-                            <strong>{{__('T')}}</strong>
-                            <span class="float-end">{{$soldes->t}}</span>
-                        </li>
-                        <li class="list-group-item">
                             <strong>{{__('Actions (Shares)')}}</strong>
                             <span class="float-end">{{formatSolde($soldes->action,0)}}</span>
                         </li>

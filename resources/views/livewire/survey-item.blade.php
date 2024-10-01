@@ -487,12 +487,11 @@
                     <li class="list-group-item">
                         <div class="row">
                             <div class="col-sm-12 col-md-6 col-lg-12 mt-2">
-                                {{__('Choice Type')}} : <span
+                              <span
                                         class="badge btn {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'btn-success' : 'btn-danger'  }}">
                             {{__('Multiple')}}                                        </span>
                                 @if($survey->question->selection== \Core\Enum\Selection::MULTIPLE->value )
-                                    {{__('Max Responses')}} :  <span
-                                            class="badge btn btn-info"> {{$survey->question->maxResponse}}</span>
+                                    <span class="badge btn btn-info"> {{$survey->question->maxResponse}}</span>
                                 @endif
 
                                 @if(!empty($survey->question->disableNote))
