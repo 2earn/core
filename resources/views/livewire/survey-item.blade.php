@@ -487,7 +487,6 @@
                     <li class="list-group-item">
                         <div class="row">
                             <div class="col-sm-12 col-md-6 col-lg-12 mt-2">
-                                <h5 class="text-muted mx-3">{{__('Question params')}}:</h5>
                                 {{__('Choice Type')}} : <span
                                         class="badge btn {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'btn-success' : 'btn-danger'  }}">
                             {{__('Multiple')}}                                        </span>
@@ -503,7 +502,6 @@
                                 @endif
                             </div>
                             <div class="col-sm-12 col-md-12 col-lg-7 mt-3">
-                                <h5 class="text-muted mx-3">{{__('Question statement')}}:</h5>
                                 <figure class="mt-2 ">
                                     <blockquote class="blockquote ml-2">
                                         {{\App\Models\TranslaleModel::getTranslation($survey->question,'content',$survey->question->content)}}
