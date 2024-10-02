@@ -13,7 +13,7 @@
                 </h6>
             </div>
             <div class="card-body">
-                <div class="ribbon ribbon-info ribbon-shape trending-ribbon">
+                <div class="ribbon ribbon-danger ribbon-shape trending-ribbon">
                     <i class="ri-flashlight-fill text-white align-bottom float-start me-1"></i> <span
                         class="trending-ribbon-text">{{__('News')}}</span>
                 </div>
@@ -152,7 +152,7 @@
                 </h6>
             </div>
             <div class="card-body">
-                <div class="ribbon ribbon-info ribbon-shape trending-ribbon">
+                <div class="ribbon ribbon-danger ribbon-shape trending-ribbon">
                     <i class="ri-flashlight-fill text-white align-bottom float-start me-1"></i> <span
                         class="trending-ribbon-text">{{__('News')}}</span>
                 </div>
@@ -229,7 +229,7 @@
                 </h6>
             </div>
             <div class="card-body">
-                <div class="ribbon ribbon-info ribbon-shape trending-ribbon">
+                <div class="ribbon ribbon-danger ribbon-shape trending-ribbon">
                     <i class="ri-flashlight-fill text-white align-bottom float-start me-1"></i> <span
                         class="trending-ribbon-text">{{__('News')}}</span>
                 </div>
@@ -248,7 +248,7 @@
 
                     </p>
                     <img src="{{Vite::asset('resources/images/static-news/EBA.jpg')}}" alt="EBA"
-                         class="d-block img-fluid img-business mx-auto rounded float-left">
+                       style="width: 484px; height: 299px"  class="d-block img-fluid mx-auto rounded float-left">
                     <p class="text-muted mb-2 mt-4">
                         @if(app()->getLocale()=="en")
                             With a network of over 1,200 trainers and 200,000 learners, the Egyptian Board Academy
@@ -315,7 +315,7 @@
                 </h6>
             </div>
             <div class="card-body">
-                <div class="ribbon ribbon-info ribbon-shape trending-ribbon">
+                <div class="ribbon ribbon-danger ribbon-shape trending-ribbon">
                     <i class="ri-flashlight-fill text-white align-bottom float-start me-1"></i> <span
                         class="trending-ribbon-text">{{__('News')}}</span>
                 </div>
@@ -398,7 +398,7 @@
                 </h6>
             </div>
             <div class="card-body">
-                <div class="ribbon ribbon-info ribbon-shape trending-ribbon">
+                <div class="ribbon ribbon-danger ribbon-shape trending-ribbon">
                     <i class="ri-flashlight-fill text-white align-bottom float-start me-1"></i> <span
                         class="trending-ribbon-text">{{__('News')}}</span>
                 </div>
