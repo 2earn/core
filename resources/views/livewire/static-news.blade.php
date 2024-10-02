@@ -4,11 +4,11 @@
             <div class="card-header">
                 <h6 class="card-title text-info mb-0">
                     @if(app()->getLocale()=="en")
-                        News 1: Communication Board
+                         Communication Board
                     @elseif(app()->getLocale()=="fr")
-                        Actualité 1 :   Communication Board
+                           Communication Board
                     @else
-                        الخبر 1:لوحة التواصل
+                        لوحة التواصل
                     @endif
                 </h6>
             </div>
@@ -143,11 +143,11 @@
             <div class="card-header">
                 <h6 class="card-title text-info mb-0">
                     @if(app()->getLocale()=="en")
-                        News 2: the VIP Offer
+                         the VIP Offer
                     @elseif(app()->getLocale()=="fr")
-                        Actualité 2 : L’offre VIP
+                         L’offre VIP
                     @else
-                        الخبر 2: عرض VIP
+                         عرض VIP
                     @endif
                 </h6>
             </div>
@@ -219,11 +219,11 @@
             <div class="card-header">
                 <h6 class="card-title text-info mb-0">
                     @if(app()->getLocale()=="en")
-                        News 3: The signing of a strategic partnership
+                         The signing of a strategic partnership
                     @elseif(app()->getLocale()=="fr")
-                        Actualité 3 :  signature d’un partenariat stratégique
+                          signature d’un partenariat stratégique
                     @else
-                        الخبر 3: توقيع شراكة
+                         توقيع شراكة
                     @endif
 
                 </h6>
@@ -306,11 +306,11 @@
             <div class="card-header">
                 <h6 class="card-title text-info mb-0">
                     @if(app()->getLocale()=="en")
-                        News 4: the official launch of the Learn<strong>2earn.cash</strong>
+                        the official launch of the Learn<strong>2earn.cash</strong>
                     @elseif(app()->getLocale()=="fr")
-                        Actualité 4 : Lancement officiel de la plateforme Learn<strong>2earn.cash</strong>
+                        Lancement officiel de la plateforme Learn<strong>2earn.cash</strong>
                     @else
-                        الخبر 4: الإطلاق الرسمي لمنصة Learn<strong>2earn.cash</strong>
+                         الإطلاق الرسمي لمنصة Learn<strong>2earn.cash</strong>
                     @endif
                 </h6>
             </div>
@@ -388,12 +388,12 @@
             <div class="card-header">
                 <h6 class="card-title text-info mb-0">
                     @if(app()->getLocale()=="en")
-                        News 5 : Stock Trading Opening Indicator Between
+                        Stock Trading Opening Indicator Between
                         Investors
                     @elseif(app()->getLocale()=="fr")
-                        Actualité 5 : Indicateur d'ouverture des transactions d'actions entre investisseurs
+                        Indicateur d'ouverture des transactions d'actions entre investisseurs
                     @else
-                        الخبر 5:  مؤشر افتتاح معاملات الأسهم بين المستثمرين
+                        مؤشر افتتاح معاملات الأسهم بين المستثمرين
                     @endif
                 </h6>
             </div>
