@@ -489,7 +489,7 @@
                             <div class="col-sm-12 col-md-6 col-lg-12 mt-2">
                               <span
                                         class="badge btn {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'btn-success' : 'btn-danger'  }}">
-                            {{__('Multiple')}}                                        </span>
+                          {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? __('Multiple') : __('Unique')  }}                                      </span>
                                 @if($survey->question->selection== \Core\Enum\Selection::MULTIPLE->value )
                                     <span class="badge btn btn-info"> {{$survey->question->maxResponse}}</span>
                                 @endif
