@@ -58,7 +58,7 @@
                                 <button class="accordion-button collapsed" type="button"
                                         data-bs-toggle="collapse" data-bs-target="#collapseThree"
                                         aria-expanded="false" aria-controls="collapseThree">
-                                    {{__(' Share Price')}}
+                                    {{__('Share Price sold')}}
                                 </button>
 
                             </h2>

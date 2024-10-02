@@ -20,7 +20,7 @@ class SurveySettingSeeder extends Seeder
                 'IntegerValue' => 9,
             ]);
         }
-        if (!DB::table('settings')->where("ParameterName", "=", 'DELAY_AFTER_CLOSED')->exists()) {
+        if (!DB::table('settings')->where("ParameterName", "=", 'DELAY_AFTER_ARCHIVED')->exists()) {
             DB::table('settings')->insert([
                 'ParameterName' => 'DELAY_AFTER_ARCHIVED',
                 'IntegerValue' => 99,

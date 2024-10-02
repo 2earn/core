@@ -19,12 +19,12 @@
             </div>
         </div>
         <div class="card-body row ">
-            <div class="card mb-2 mr-2 ml-2 border border-dashed ">
+            <div class="card mb-2 mr-2 ml-2">
                 <div class="card-body">
                     <form>
                         <input type="hidden" wire:model="id">
                         <div class="row">
-                            <div class="form-group mb-3">
+                            <div class="form-group col-auto mb-3">
                                 <label for="operand">{{__('Operand')}}</label>
                                 <select
                                     class="form-select form-control @error('operand') is-invalid @enderror"
@@ -40,7 +40,7 @@
                                 @error('operand') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
-                            <div class="form-group mb-3">
+                            <div class="form-group col-auto mb-3">
                                 <label for="value">{{__('operator')}}</label>
                                 <select
                                     class="form-select form-control @error('operator') is-invalid @enderror"
@@ -56,7 +56,7 @@
                                 @error('operator') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
-                            <div class="form-group mb-3">
+                            <div class="form-group col-auto mb-3">
                                 <label for="value">{{__('Value')}}</label>
                                 <input type="text" class="form-control @error('value') is-invalid @enderror"
                                        id="value"
@@ -67,18 +67,17 @@
                             </div>
                         </div>
                         <div class="row mt-3">
-                            <div class="col-md-2">
+                            <div class="col-12">
                                 @if($update)
                                     <button wire:click.prevent="update()"
-                                            class="btn btn-success btn-block">{{__('Update')}}</button>
+                                            class="btn btn-success btn-block mx-2 float-end ">{{__('Update')}}</button>
                                 @else
                                     <button wire:click.prevent="store()"
-                                            class="btn btn-success btn-block">{{__('Save')}}</button>
+                                            class="btn btn-success btn-block float-end ">{{__('Save')}}</button>
                                 @endif
-                            </div>
-                            <div class="col-md-2">
+
                                 <button wire:click.prevent="cancel()"
-                                        class="btn btn-danger">{{__('Cancel')}}</button>
+                                        class="btn btn-danger float-end  mx-2">{{__('Cancel')}}</button>
                             </div>
                         </div>
                     </form>

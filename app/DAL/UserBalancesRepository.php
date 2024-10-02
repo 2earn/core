@@ -2,10 +2,9 @@
 
 namespace App\DAL;
 
-use Core\Enum\AmoutEnum;
 use Core\Enum\BalanceOperationsEnum;
-use Core\Models\calculated_userbalances;
 use Core\Interfaces\IUserBalancesRepository;
+use Core\Models\calculated_userbalances;
 use Core\Models\user_balance;
 use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\Types\Collection;

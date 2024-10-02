@@ -59,13 +59,13 @@ class TranslaleModel extends Model
         $id = self::getIdFromName($var);
 
         if ($class == 'Survey') {
-            return route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $id]);
+            return route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $id]);
         }
 
         if ($class == 'SurveyQuestion') {
             $surveyQuestion = SurveyQuestion::find($id);
             if (!is_null($surveyQuestion)) {
-                return route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $surveyQuestion->survey_id]);
+                return route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $surveyQuestion->survey_id]);
             }
         }
 
@@ -76,7 +76,7 @@ class TranslaleModel extends Model
                 $surveyQuestion = SurveyQuestion::find($surveyQuestionChoice->question_id);
                 if (!is_null($surveyQuestion)) {
 
-                    return route('survey_show', ['locale' => app()->getLocale(), 'idSurvey' => $surveyQuestion->survey_id]);
+                    return route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $surveyQuestion->survey_id]);
                 }
             }
 

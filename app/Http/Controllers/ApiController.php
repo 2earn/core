@@ -932,7 +932,7 @@ class="btn btn-xs btn-primary btn2earnTable"  >
                 return '<div class="d-flex gap-2">
                              <div class="edit">
                                     <button  data-id="' . $settings->idSETTINGS . '"   data-bs-toggle="modal" data-bs-target="#settingModal"
- class="btn btn-primary edit-item-btn edit-setting-btn"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</button> </div> </div>';
+ class="btn btn-primary edit-item-btn edit-setting-btn"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Update') . '</button> </div> </div>';
             })
             ->setRowId('idSETTINGS')
             ->editColumn('Automatically_calculated', function ($settings) {
@@ -960,7 +960,7 @@ class="btn btn-xs btn-primary btn2earnTable"  >
         return datatables($balanceOperations)
             ->addColumn('action', function ($settings) {
                 return '<a  data-id="' . $settings->idBalanceOperations . '"   data-bs-toggle="modal" data-bs-target="#BoModal"
-class="btn btn-xs btn-primary btn2earnTable edit-bo-btn"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a> ';
+class="btn btn-xs btn-primary btn2earnTable edit-bo-btn"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Update') . '</a> ';
             })
             ->editColumn('MODIFY_AMOUNT', function ($balanceOperations) {
                 if ($balanceOperations->MODIFY_AMOUNT == 1)
@@ -990,7 +990,7 @@ class="btn btn-xs btn-primary btn2earnTable edit-bo-btn"  ><i class="glyphicon g
             ->addColumn('action', function ($settings) {
                 return '<a data-id="' . $settings->idamounts . '"   data-bs-toggle="modal" data-bs-target="#AmountsModal"
 class="btn btn-xs btn-primary edit-amounts-btn btn2earnTable"  >
-<i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a>';
+<i class="glyphicon glyphicon-edit""></i>' . Lang::get('Update') . '</a>';
             })
             ->editColumn('amountswithholding_tax', function ($amounts) {
                 if ($amounts->amountswithholding_tax == 1)
@@ -1032,7 +1032,7 @@ class="btn btn-xs btn-primary edit-amounts-btn btn2earnTable"  >
             ->select('id', 'title', 'reponce');
         return datatables($actionHistorys)
             ->addColumn('action', function ($settings) {
-                return '<a data-id="' . $settings->id . '"   data-bs-toggle="modal" data-bs-target="#HistoryActionModal"  class="btn btn-xs btn-primary edit-ha-btn btn2earnTable"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a>';
+                return '<a data-id="' . $settings->id . '"   data-bs-toggle="modal" data-bs-target="#HistoryActionModal"  class="btn btn-xs btn-primary edit-ha-btn btn2earnTable"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Update') . '</a>';
             })
             ->editColumn('reponce', function ($actionHistorys) {
                 if ($actionHistorys->reponce == 1)
@@ -1177,7 +1177,7 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [2, $user->idUs
         return datatables($admins)
             ->addColumn('action', function ($query) {
                 return "<a data-bs-toggle='modal' data-bs-target='#modalcontact'  onclick='myFunction(" . $query->id . ")'
-class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'></i>" . __('Edit') . "</a>
+class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'></i>" . Lang::get('Edit') . "</a>
 <a  class='btn btn-xs btn-danger btn2earnTable'  ><i></i>" . Lang::get('Delete') . "</a>";
             })
             ->rawColumns(['action'])

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\SoldesView;
 use App\Models\User;
 use App\Models\vip;
 use Core\Models\metta_user;
@@ -24,6 +25,7 @@ class UserDetails extends Component
         $params['metta'] = metta_user::where('idUser', $params['user']->idUser)->first();
         $params['dispalyedUserCred'] = getUserDisplayedName($params['user']->idUser);
 
+        $params['soldes'] = SoldesView::Where('id', '=', $params['user']->id)->first();
         $hasVip = vip::Where('idUser', '=', $params['user']->idUser)
             ->where('closed', '=', false)->get();
         if ($hasVip->isNotEmpty()) {

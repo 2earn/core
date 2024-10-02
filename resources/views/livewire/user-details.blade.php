@@ -178,6 +178,37 @@
                 </div>
             </div>
         </div>
+        <div class="col-xl-4 mt-2">
+            <div class="card border shadow-none mb-lg-0 material-shadow">
+                <h5 class="card-header text-info">
+                    {{__('Soldes')}}
+                </h5>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <strong>{{__('Cash Balance')}}</strong>
+                            <span class="float-end">{{formatSolde($soldes->cash,3)}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>{{__('Discounts Balance')}}</strong>
+                            <span class="float-end">{{formatSolde($soldes->db,3)}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>{{__('Balance For Shopping')}}</strong>
+                            <span class="float-end">{{formatSolde($soldes->bfs,3)}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>{{__('SMS Solde')}}</strong>
+                            <span class="float-end">{{formatSolde($soldes->sms,0)}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>{{__('Actions (Shares)')}}</strong>
+                            <span class="float-end">{{formatSolde($soldes->action,0)}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
         @if(isset($metta->adresse))
             <div class="col-xl-4 mt-2">
                 <div class="card border shadow-none mb-lg-0 material-shadow">

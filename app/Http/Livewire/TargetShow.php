@@ -33,6 +33,13 @@ class TargetShow extends Component
         return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $idTarget])->with('success', Lang::get('Group Deleted Successfully!!'));
     }
 
+    public function deleteTarget($idTarget)
+    {
+        Target::findOrFail($idTarget)->delete();
+        return redirect()->route('target_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Target Deleted Successfully!!'));
+    }
+
+
     private function getNewBindings($bindings)
     {
         $newBindings = [];

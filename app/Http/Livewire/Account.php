@@ -29,6 +29,7 @@ class Account extends Component
     use earnLog;
 
     const MAX_PHOTO_ALLAWED_SIZE = 2048000;
+    const SEND_PASSWORD_CHANGE_OPT = false;
 
     public $nbrChild = 9;
     public $photoFront;
@@ -49,6 +50,7 @@ class Account extends Component
     public $errors_array;
     public $disabled;
     public $dispalyedUserCred;
+    public $sendPasswordChangeOPT;
 
     protected $listeners = [
         'PreChangePass' => 'PreChangePass',
@@ -71,6 +73,36 @@ class Account extends Component
         'confirmedPassword' => 'required|same:newPassword'
     ];
 
+    public function mount(settingsManager $settingManager)
+    {
+        if (!is_null(auth()->user())) {
+            $notSetings = $settingManager->getNotificationSetting(auth()->user()->idUser)
+                ->where('idNotification', '=', NotificationSettingEnum::change_pwd_sms->value)->first();
+            $this->sendPassSMS = $notSetings->value;
+        }
+
+        $this->initSendPasswordChangeOPT($settingManager->getidCountryForSms(auth()->user()->id));
+    }
+
+    public function initSendPasswordChangeOPT($userContactActif)
+    {
+
+        $paramSendPassword = DB::table('settings')->where("ParameterName", "=", "SEND_PASSWORD_CHANGE_OPT")->first();
+        $paramInavalidCountry = DB::table('settings')->where("ParameterName", "=", "INVALID_OPT_COUNTRIES")->first();
+        if (!is_null($paramSendPassword)) {
+            $this->sendPasswordChangeOPT = $paramSendPassword->IntegerValue == 1 ? true : false;
+        } else {
+            $this->sendPasswordChangeOPT = self::SEND_PASSWORD_CHANGE_OPT;
+        }
+        if ($this->sendPasswordChangeOPT) {
+            if (!is_null($paramInavalidCountry)) {
+                if (in_array($userContactActif->codeP, explode(',',$paramInavalidCountry->StringValue))) {
+                    $this->sendPasswordChangeOPT = false;
+                }
+            }
+        }
+    }
+
     public function SaveChangeEdit()
     {
         $um = metta_user::find($this->usermetta_info['id']);
@@ -88,14 +120,6 @@ class Account extends Component
         return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Edit_profil_succes'));
     }
 
-    public function mount(settingsManager $settingManager)
-    {
-        if (!is_null(auth()->user())) {
-            $notSetings = $settingManager->getNotificationSetting(auth()->user()->idUser)
-                ->where('idNotification', '=', NotificationSettingEnum::change_pwd_sms->value)->first();
-            $this->sendPassSMS = $notSetings->value;
-        }
-    }
 
     public function ParamSendChanged(settingsManager $settingManager)
     {
@@ -259,7 +283,7 @@ class Account extends Component
             return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Edit_profil_succes'));
         else {
             $settingsManager->validateIdentity($us->idUser);
-            return redirect()->route('identification_request', app()->getLocale());
+            return redirect()->route('requests_identification', app()->getLocale());
         }
     }
 
@@ -267,18 +291,28 @@ class Account extends Component
     {
         $userAuth = $settingManager->getAuthUser();
         if (!$userAuth) return;
+
         if ($this->sendPassSMS) {
-            $soldeSms = $settingManager->getSoldeByAmount($userAuth->idUser, AmoutEnum::Sms_Balance);
+            $settingManager->getSoldeByAmount($userAuth->idUser, AmoutEnum::Sms_Balance);
         }
-        $userMail = $settingManager->getUserById($userAuth->id)->email;
-        if ($this->newPassword != $this->confirmedPassword) {
-            $this->earnDebug('Edit password input confirmed password invalide  : userid- ' . $userAuth->id . 'newPassword- ' . $this->newPassword . ' confirmedPassword- ' . $this->confirmedPassword);
-            return redirect()->route("account", app()->getLocale())->with('danger', Lang::get('Password_not_Confirmed'));
-        }
+
         if (!Hash::check($this->oldPassword, auth()->user()->password)) {
             return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Old_Password_invalid'));
         }
 
+        if ($this->newPassword != $this->confirmedPassword) {
+            $this->earnDebug('Edit password input confirmed password invalide  : userid- ' . $userAuth->id . 'newPassword- ' . $this->newPassword . ' confirmedPassword- ' . $this->confirmedPassword);
+            return redirect()->route("account", app()->getLocale())->with('danger', Lang::get('Password_not_Confirmed'));
+        }
+        if ($this->sendPasswordChangeOPT) {
+            $this->sendActivationCodeValue($userAuth, $settingManager);
+        } else {
+            $this->changePassword($userAuth, $settingManager);
+        }
+    }
+
+    public function sendActivationCodeValue($userAuth, settingsManager $settingManager)
+    {
         $check_exchange = $settingManager->randomNewCodeOpt();
         User::where('id', $userAuth->id)->update(['activationCodeValue' => $check_exchange]);
 
@@ -292,7 +326,7 @@ class Account extends Component
         $this->dispatchBrowserEvent('OptChangePass', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'mail' => $fullNumberSend]);
     }
 
-    public function changePassword($code, settingsManager $settingManager)
+    public function changePasswordWithOPTValidation($code, settingsManager $settingManager)
     {
         $userAuth = $settingManager->getAuthUser();
         $user = $settingManager->getUserById($userAuth->id);
@@ -307,11 +341,15 @@ class Account extends Component
         if (!Hash::check($this->oldPassword, auth()->user()->password)) {
             return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Old_Password_invalid'));
         }
+        $this->changePassword($userAuth, $settingManager);
 
+    }
+
+    public function changePassword($userAuth, settingsManager $settingManager)
+    {
         $new_pass = Hash::make($this->newPassword);
         DB::table('users')->where('id', auth()->user()->id)->update(['password' => $new_pass]);
         $sendSMS = $this->sendPassSMS == true ? 1 : 0;
-
         $settingManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::SendNewSMS, ['msg' => $this->newPassword, 'canSendSMS' => $sendSMS]);
         return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Password updated'));
     }
@@ -377,7 +415,7 @@ class Account extends Component
         $user = User::find($idUser);
         if ($user) {
             $settingsManager->validateIdentity($user->idUser);
-            return redirect()->route('identification_request', app()->getLocale())->with('success', Lang::get('User identification request approuved') . ' : ' . $user->email);
+            return redirect()->route('requests_identification', app()->getLocale())->with('success', Lang::get('User identification request approuved') . ' : ' . $user->email);
         }
     }
 
@@ -386,7 +424,7 @@ class Account extends Component
         $user = User::find($idUser);
         if ($user) {
             $settingsManager->rejectIdentity($user->idUser, $this->noteReject);
-            return redirect()->route('identification_request', app()->getLocale())->with('success', Lang::get('User identification request rejected') . ' : ' . $user->email);
+            return redirect()->route('requests_identification', app()->getLocale())->with('success', Lang::get('User identification request rejected') . ' : ' . $user->email);
         }
     }
 

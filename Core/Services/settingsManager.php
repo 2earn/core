@@ -382,9 +382,8 @@ class settingsManager
 
     public function getidCountryForSms($id)
     {
-        $idCountry = $this->getUserById($id)->idCountry;
-        $actifNumber = $this->getNumberCOntactActif($this->getUserById($id)->idUser);
-        return $actifNumber;
+        $this->getUserById($id)->idCountry;
+        return $this->getNumberCOntactActif($this->getUserById($id)->idUser);
     }
 
     /**

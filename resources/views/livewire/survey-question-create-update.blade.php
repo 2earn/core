@@ -2,7 +2,7 @@
     @component('components.breadcrumb')
         @slot('title')
             {{ __('Survey') }}
-            : {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}    {{ __('Add question ') }}
+            : {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}    {{ __('Add Question') }}
         @endslot
     @endcomponent
     <div class="row card">
@@ -12,11 +12,11 @@
                     @if($update)
                         {{__('Survey')}} : {{$survey->id}}
                         - {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}<span
-                                class="text-muted"> > </span> {{__('Update question')}}
+                            class="text-muted"> > </span> {{__('Update question')}}
                     @else
                         {{__('Survey')}} : {{$survey->id}}
                         - {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}} <span
-                                class="text-muted"> > </span> {{__('Create question')}}
+                            class="text-muted"> > </span> {{__('Create question')}}
                     @endif
                 </h6>
             </div>
@@ -36,14 +36,16 @@
                                 @error('content') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
-                            <div class="form-group mb-3">
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-auto mb-3">
                                 <label for="operand">{{__('Selection')}}</label>
                                 <select
-                                        class="form-select form-control @error('Selection') is-invalid @enderror"
-                                        placeholder="{{__('Enter Selection')}}"
-                                        wire:model="selection"
-                                        id="operand"
-                                        aria-label="{{__('Enter Selection')}}">
+                                    class="form-select form-control @error('Selection') is-invalid @enderror"
+                                    placeholder="{{__('Enter Selection')}}"
+                                    wire:model="selection"
+                                    id="operand"
+                                    aria-label="{{__('Enter Selection')}}">
                                     @foreach ($selections as $selectionItem)
                                         <option value="{{$selectionItem['value']}}"
                                                 @if($loop->index==0) selected @endif >{{__($selectionItem['name'])}}</option>
@@ -52,7 +54,7 @@
                                 @error('Selection') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
-                            <div class="form-group mb-3">
+                            <div class="form-group col-auto mb-3">
                                 <label for="maxResponse">{{__('Max response')}}</label>
                                 <input type="number" class="form-control @error('maxResponse') is-invalid @enderror"
                                        id="maxResponse"

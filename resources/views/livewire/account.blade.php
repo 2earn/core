@@ -663,7 +663,7 @@
                                         <div class="text-end">
                                             <button wire:click="PreChangePass" type="button"
                                                     class="btn btn-success btn2earn">
-                                                {{ __('Save') }}
+                                                {{ __('Change password') }}
                                             </button>
                                         </div>
                                     </div>
@@ -971,7 +971,7 @@
                     inputAttributes: {autocapitalize: 'off'},
                 }).then((resultat) => {
                     if (resultat.value) {
-                        window.Livewire.emit('changePassword', resultat.value);
+                        window.Livewire.emit('changePasswordWithOPTValidation', resultat.value);
                     }
                 }).catch((error) => {
                     console.error('SweetAlert Error:', error);

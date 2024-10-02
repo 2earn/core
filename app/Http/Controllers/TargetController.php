@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Lang;
 
 class TargetController extends Controller
 {
-    public function getTargetData($idTarget)
+    public function getTargetData($locale,$idTarget)
     {
         return datatables(Targeting::getTargetQuery(Target::find($idTarget), true))
             ->addColumn('detail', function ($query) {
