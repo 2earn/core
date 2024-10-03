@@ -14,12 +14,14 @@
                     <i class=" ri-home-gear-line"></i>
                 </a>
             @endif
-            @if(in_array($currentRouteName,["surveys_show","surveys_participate","surveys_results"]))
-                <a href="{{route('surveys_index', app()->getLocale())}}"
-                   class="btn btn-outline-info waves-effect waves-light material-shadow-none mx-1 btn-sm"
-                   title="{{__('To Surveys list')}}">
-                    <i class="ri-bookmark-fill"></i>
-                </a>
+            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                @if(in_array($currentRouteName,["surveys_show","surveys_participate","surveys_results"]))
+                    <a href="{{route('surveys_index', app()->getLocale())}}"
+                       class="btn btn-outline-info waves-effect waves-light material-shadow-none mx-1 btn-sm"
+                       title="{{__('To Surveys list')}}">
+                        <i class="ri-bookmark-fill"></i>
+                    </a>
+                @endif
             @endif
 
             @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
@@ -118,9 +120,9 @@
 
     <div class="card-body border-top border-muted">
         <div class="row">
-            @if($survey->canShowAttchivementChrono() && $survey->getChronoAttchivement()!=0)
+            @if($survey->canShowAttchivementChrono())
                 <div class="col-sm-12 col-md-6 col-lg-6 mt-1 " title="{{ $survey->getChronoAttchivement()}} / 100">
-                    @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
+                  @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
                         <div class="survey-countdown connect-page" title="{{$survey->endDate}}">
                             <div class="survey-countdown-body">
                                 <div class="survey-cd survey-cd-{{$survey->id}}" id="survey-cd-{{$survey->id}}"
