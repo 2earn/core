@@ -122,7 +122,7 @@
         <div class="row">
             @if($survey->canShowAttchivementChrono())
                 <div class="col-sm-12 col-md-6 col-lg-6 mt-1 " title="{{ $survey->getChronoAttchivement()}} / 100">
-                  @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
+                    @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
                         <div class="survey-countdown connect-page" title="{{$survey->endDate}}">
                             <div class="survey-countdown-body">
                                 <div class="survey-cd survey-cd-{{$survey->id}}" id="survey-cd-{{$survey->id}}"
@@ -461,7 +461,7 @@
             @endif
 
             @if(intval($survey->status)>\Core\Enum\StatusSurvey::NEW->value)
-                @if( $survey->canShowResult() && $survey->enabled )
+                @if( ($survey->canShowResult() && $survey->enabled) ||strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
                     <a href="{{route('surveys_results', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
                        class="btn btn-soft-info material-shadow-none  mt-1">{{__('Show results')}}</a>
                 @else
