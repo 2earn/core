@@ -58,7 +58,7 @@ class TranslateView extends Component
 
     public function AddFieldTranslate($val)
     {
-        if (translatetabs::where(DB::raw('BINARY `name`'), $val)->exists()) {
+        if (!translatetabs::where(DB::raw('BINARY `name`'), $val)->exists()) {
             translatetabs::create(['name' => $val, 'value' => $val . ' AR', 'valueFr' => $val . ' FR', 'valueEn' => $val . ' EN']);
             return redirect()->route('translate', app()->getLocale())->with('success', trans('key added successfully') . self::SEPARATION . $val);
         } else {
@@ -256,6 +256,7 @@ class TranslateView extends Component
     public function render()
     {
         $translate = translatetabs::where(DB::raw('upper(name)'), 'like', '%' . strtoupper($this->search) . '%')
+            ->orWhere(DB::raw('BINARY `name`'), 'like', '%' . strtoupper($this->search) . '%')
             ->orWhere(DB::raw('upper(valueFr)'), 'like', '%' . strtoupper($this->search) . '%')
             ->orWhere(DB::raw('upper(valueEn)'), 'like', '%' . strtoupper($this->search) . '%')
             ->orWhere(DB::raw('upper(value)'), 'like', '%' . strtoupper($this->search) . '%')
