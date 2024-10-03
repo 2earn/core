@@ -16,6 +16,8 @@ class TranslateView extends Component
 {
     use WithPagination;
 
+
+    const SEPARATION = ' : ';
     protected $paginationTheme = 'bootstrap';
     public $arabicValue = "";
     public $frenchValue = "";
@@ -56,9 +58,9 @@ class TranslateView extends Component
 
     public function AddFieldTranslate($val)
     {
-        if (translatetabs::where(DB::raw('BINARY `name`'), $val)->get()->count() == 0) {
+        if (translatetabs::where(DB::raw('BINARY `name`'), $val)->exists()) {
             translatetabs::create(['name' => $val, 'value' => $val . ' AR', 'valueFr' => $val . ' FR', 'valueEn' => $val . ' EN']);
-            return redirect()->route('translate', app()->getLocale())->with('success', trans('key added successfully') . ' : ' . $val);
+            return redirect()->route('translate', app()->getLocale())->with('success', trans('key added successfully') . self::SEPARATION . $val);
         } else {
             return redirect()->route('translate', app()->getLocale())->with('danger', trans('key exist!'));
         }
@@ -85,10 +87,9 @@ class TranslateView extends Component
             $pathFile = resource_path() . '/lang/en.json';
             $contents = File::get($pathFile);
             $json = collect(json_decode($contents));
-
             foreach ($json as $key => $value) {
                 if ($value) {
-                    if (translatetabs::where('name', $key)->get()->count() == 0) {
+                    if (!translatetabs::where(DB::raw('BINARY `name`'), $key)->exists()) {
                         translatetabs::create(['name' => $key, 'valueEn' => $value, 'value' => '', 'valueFr' => '']);
                     } else {
                         translatetabs::where('name', $key)->update(['valueEn' => $value]);
@@ -111,10 +112,10 @@ class TranslateView extends Component
             }
         } catch (\Exception $exception) {
             $this->dispatchBrowserEvent('closeModal');
-            return redirect()->route('translate', app()->getLocale())->with('danger', trans('Translation merge failed') . ' : ' . Lang::get($exception->getMessage()));
+            return redirect()->route('translate', app()->getLocale())->with('danger', trans('Translation merge failed') . self::SEPARATION . Lang::get($exception->getMessage()));
         }
         $this->dispatchBrowserEvent('closeModal');
-        return redirect()->route('translate', app()->getLocale())->with('success', trans('Translation merged successfully'));
+        return redirect()->route('translate', app()->getLocale())->with('success', trans('Translation merged successfully') . self::SEPARATION . trans('Translation number') . self::SEPARATION . (count($json)));
     }
 
     public function addEnglishField($pass)
@@ -137,7 +138,7 @@ class TranslateView extends Component
             }
         } catch (\Exception $exception) {
             $this->dispatchBrowserEvent('closeModal');
-            return redirect()->route('translate', app()->getLocale())->with('danger', trans('English fields add failed') . ' : ' . Lang::get($exception->getMessage()));
+            return redirect()->route('translate', app()->getLocale())->with('danger', trans('English fields add failed') . self::SEPARATION . Lang::get($exception->getMessage()));
         }
         $this->dispatchBrowserEvent('closeModal');
         return redirect()->route('translate', app()->getLocale())->with('success', trans('English fields added successfully'));
@@ -162,7 +163,7 @@ class TranslateView extends Component
                 }
             }
         } catch (\Exception $exception) {
-            return redirect()->route('translate', app()->getLocale())->with('danger', trans('Arabic fields add failed') . ' : ' . Lang::get($exception->getMessage()));
+            return redirect()->route('translate', app()->getLocale())->with('danger', trans('Arabic fields add failed') . self::SEPARATION . Lang::get($exception->getMessage()));
         }
         return redirect()->route('translate', app()->getLocale())->with('success', trans('Arabic fields added successfully'));
     }
@@ -186,7 +187,7 @@ class TranslateView extends Component
             File::put($pathFileFr, json_encode($this->tabfinFr, JSON_UNESCAPED_UNICODE));
             File::put($pathFileEn, json_encode($this->tabfinEn, JSON_UNESCAPED_UNICODE));
         } catch (\Exception $exception) {
-            return redirect()->route('translate', app()->getLocale())->with('danger', trans('Keys to database  failed') . ' : ' . Lang::get($exception->getMessage()));
+            return redirect()->route('translate', app()->getLocale())->with('danger', trans('Keys to database  failed') . self::SEPARATION . Lang::get($exception->getMessage()));
         }
         return redirect()->route('translate', app()->getLocale())->with('success', trans('Keys to database added successfully'));
     }
@@ -208,7 +209,7 @@ class TranslateView extends Component
             File::put($pathFileFr, json_encode($this->tabfinFr, JSON_UNESCAPED_UNICODE));
             File::put($pathFileEn, json_encode($this->tabfinEn, JSON_UNESCAPED_UNICODE));
         } catch (\Exception $exception) {
-            return redirect()->route('translate', app()->getLocale())->with('danger', trans('Keys to files  failed') . ' : ' . Lang::get($exception->getMessage()));
+            return redirect()->route('translate', app()->getLocale())->with('danger', trans('Keys to files  failed') . self::SEPARATION . Lang::get($exception->getMessage()));
         }
         return redirect()->route('translate', app()->getLocale())->with('success', trans('Keys to files added successfully'));
     }
