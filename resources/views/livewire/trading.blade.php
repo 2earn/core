@@ -1,3 +1,9 @@
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: Arial, sans-serif;
+    }
+</style>
 <div>
     @section('title')
         {{ __('Trading') }}
@@ -8,11 +14,11 @@
             {{ __('Trading') }}
         @endslot
     @endcomponent
+        <div class="card">
+            <div class="card-body">
+                @livewire('page-timer')
 
-    <div class="card">
-        <div class="card-body">
-
+            </div>
         </div>
-    </div>
 
 </div>
