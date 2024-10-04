@@ -1061,7 +1061,7 @@ and u.idamount not in(4,6)  and u.idUser=? and u.idamount=? order by Date   ", [
         return response()->json($userData);
     }
 
-    public function getUserBalances($typeAmounts)
+    public function getUserBalances($locale,$typeAmounts)
     {
         $idAmounts = 0;
         switch ($typeAmounts) {
@@ -1102,7 +1102,6 @@ end)   OVER(ORDER BY date) ,3) , ' $') else concat( format( ub.balance ,3,'en_EN
 ub.idBalancesOperation = bo.idBalanceOperations
 where  (bo.idamounts = ? and ub.idUser =  ?)  order by ref desc", [$idAmounts, auth()->user()->idUser]
         );
-
         return Datatables::of($userData)
             ->addColumn('formatted_date', function ($user) {
                 return Carbon\Carbon::parse($user->Date)->format('Y-m-d');
