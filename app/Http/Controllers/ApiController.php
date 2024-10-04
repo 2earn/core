@@ -803,13 +803,27 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
 
     }
 
+    public function getUsersListQuery()
+    {
+        return User::select('countries.apha2', 'users.idUser', 'idUplineRegister',
+            DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'),
+            'users.mobile', 'users.created_at', 'OptActivation', 'pass',
+            DB::raw('IFNULL(`vip`.`flashCoefficient`,"##") as coeff'),
+            DB::raw('IFNULL(`vip`.`flashDeadline`,"##") as periode'),
+            DB::raw('IFNULL(`vip`.`flashNote`,"##") as note'),
+            DB::raw('IFNULL(`vip`.`flashMinAmount`,"##") as minshares'),
+            DB::raw('`vip`.`dateFNS` as date'))
+            ->join('metta_users as meta', 'meta.idUser', '=', 'users.idUser')
+            ->join('countries', 'countries.id', '=', 'users.idCountry')
+            ->leftJoin('vip', function ($join) {
+                $join->on('vip.idUser', '=', 'users.idUser')
+                    ->where('vip.closed', '=', 0);
+            })->orderBy('created_at', 'ASC');
+    }
 
     public function getUsersList()
     {
-        $query = User::select('countries.apha2', 'users.idUser', 'idUplineRegister', DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'), 'users.mobile', 'users.created_at', 'OptActivation', 'pass', DB::raw('IFNULL(`flashCoefficient`,"##") as coeff'), DB::raw('IFNULL(`flashDeadline`,"##") as periode'), DB::raw('IFNULL(`flashNote`,"##") as note'), DB::raw('IFNULL(`flashMinAmount`,"##") as minshares'), DB::raw('IFNULL(`dateFNS`,"##") as date'))
-            ->join('metta_users as meta', 'meta.idUser', '=', 'users.idUser')
-            ->join('countries', 'countries.id', '=', 'users.idCountry');
-        return datatables($query)
+        return datatables($this->getUsersListQuery())
             ->addColumn('formatted_mobile', function ($user) {
                 $phone = new PhoneNumber($user->mobile, $user->apha2);
                 try {
@@ -827,10 +841,22 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
                 return Carbon\Carbon::parse($user->created_at)->format('Y-m-d H:i:s');
             })
             ->addColumn('VIP', function ($settings) {
-
-                return '<a data-bs-toggle="modal" data-bs-target="#vip"   data-phone="' . $settings->mobile . '" data-country="' . $this->getFormatedFlagResourceName($settings->apha2) . '"  data-reciver="' . $settings->idUser . '"
-class="btn btn-xs btn-flash btn2earnTable vip"  >
+                $vip = "";
+                $hasVip = vip::Where('idUser', '=', $settings->idUser)
+                    ->where('closed', '=', false)->get();
+                if ($hasVip->isNotEmpty()) {
+                    $dateStart = new \DateTime($hasVip->first()->dateFNS);
+                    $dateEnd = $dateStart->modify($hasVip->first()->flashDeadline . ' hour');;
+                    if ($dateEnd > now()) {
+                        $vip = '<a class="btn btn-success m-1" disabled="disabled">' . Lang::get('Acctually is vip') . '</a>';
+                    } else {
+                        $vip = '<a class="btn btn-info m-1" disabled="disabled">' . Lang::get('It was a vip') . '</a>';
+                    }
+                }
+                return $vip . '<a data-bs-toggle="modal" data-bs-target="#vip"   data-phone="' . $settings->mobile . '" data-country="' . $this->getFormatedFlagResourceName($settings->apha2) . '"  data-reciver="' . $settings->idUser . '"
+class="btn btn-xs btn-flash btn2earnTable vip m-1"  >
 <i class="glyphicon glyphicon-add"></i>' . Lang::get('VIP') . '</a> ';
+
             })
             ->addColumn('flag', function ($settings) {
                 return '<img src="' . $this->getFormatedFlagResourceName($settings->apha2) . '" alt="' . strtolower($settings->apha2) . '" title="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
@@ -862,7 +888,7 @@ class="btn btn-ghost-success waves-effect waves-light sh"  >
             })
             ->addColumn('action', function ($settings) {
                 return '<a data-bs-toggle="modal" data-bs-target="#AddCash"   data-phone="' . $settings->mobile . '" data-country="' . $this->getFormatedFlagResourceName($settings->apha2) . '" data-reciver="' . $settings->idUser . '"
-class="btn btn-xs btn-primary btn2earnTable addCash" >' . Lang::get('Add cash') . '</a> ';
+class="btn btn-xs btn-primary btn2earnTable addCash m-1" >' . Lang::get('Add cash') . '</a> ';
             })
             ->rawColumns(['action', 'flag', 'SoldeCB', 'SoldeBFS', 'SoldeDB', 'SoldeSMS', 'SoldeSH', 'VIP'])
             ->make(true);
@@ -906,7 +932,7 @@ class="btn btn-xs btn-primary btn2earnTable"  >
                 return '<div class="d-flex gap-2">
                              <div class="edit">
                                     <button  data-id="' . $settings->idSETTINGS . '"   data-bs-toggle="modal" data-bs-target="#settingModal"
- class="btn btn-primary edit-item-btn edit-setting-btn"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</button> </div> </div>';
+ class="btn btn-primary edit-item-btn edit-setting-btn"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Update') . '</button> </div> </div>';
             })
             ->setRowId('idSETTINGS')
             ->editColumn('Automatically_calculated', function ($settings) {
@@ -934,7 +960,7 @@ class="btn btn-xs btn-primary btn2earnTable"  >
         return datatables($balanceOperations)
             ->addColumn('action', function ($settings) {
                 return '<a  data-id="' . $settings->idBalanceOperations . '"   data-bs-toggle="modal" data-bs-target="#BoModal"
-class="btn btn-xs btn-primary btn2earnTable edit-bo-btn"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a> ';
+class="btn btn-xs btn-primary btn2earnTable edit-bo-btn"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Update') . '</a> ';
             })
             ->editColumn('MODIFY_AMOUNT', function ($balanceOperations) {
                 if ($balanceOperations->MODIFY_AMOUNT == 1)
@@ -964,7 +990,7 @@ class="btn btn-xs btn-primary btn2earnTable edit-bo-btn"  ><i class="glyphicon g
             ->addColumn('action', function ($settings) {
                 return '<a data-id="' . $settings->idamounts . '"   data-bs-toggle="modal" data-bs-target="#AmountsModal"
 class="btn btn-xs btn-primary edit-amounts-btn btn2earnTable"  >
-<i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a>';
+<i class="glyphicon glyphicon-edit""></i>' . Lang::get('Update') . '</a>';
             })
             ->editColumn('amountswithholding_tax', function ($amounts) {
                 if ($amounts->amountswithholding_tax == 1)
@@ -1006,7 +1032,7 @@ class="btn btn-xs btn-primary edit-amounts-btn btn2earnTable"  >
             ->select('id', 'title', 'reponce');
         return datatables($actionHistorys)
             ->addColumn('action', function ($settings) {
-                return '<a data-id="' . $settings->id . '"   data-bs-toggle="modal" data-bs-target="#HistoryActionModal"  class="btn btn-xs btn-primary edit-ha-btn btn2earnTable"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a>';
+                return '<a data-id="' . $settings->id . '"   data-bs-toggle="modal" data-bs-target="#HistoryActionModal"  class="btn btn-xs btn-primary edit-ha-btn btn2earnTable"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Update') . '</a>';
             })
             ->editColumn('reponce', function ($actionHistorys) {
                 if ($actionHistorys->reponce == 1)
@@ -1151,7 +1177,7 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [2, $user->idUs
         return datatables($admins)
             ->addColumn('action', function ($query) {
                 return "<a data-bs-toggle='modal' data-bs-target='#modalcontact'  onclick='myFunction(" . $query->id . ")'
-class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'></i>" . __('Edit') . "</a>
+class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'></i>" . Lang::get('Edit') . "</a>
 <a  class='btn btn-xs btn-danger btn2earnTable'  ><i></i>" . Lang::get('Delete') . "</a>";
             })
             ->rawColumns(['action'])

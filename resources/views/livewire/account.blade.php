@@ -85,7 +85,7 @@
                                                 id="show-identity-front"
                                                 data-target=".bd-example-modal-lg">{{__('Show Identity')}}</button>
                                     @else
-                                        <div class="alert alert-warning" role="alert">
+                                        <div class="alert alert-warning material-shadow" role="alert">
                                             {{__('No image uploaded')}}
                                         </div>
                                     @endif
@@ -106,7 +106,7 @@
                                                 id="show-identity-back"
                                                 data-target=".bd-example-modal-lg">{{__('Show Identity')}}</button>
                                     @else
-                                        <div class="alert alert-warning" role="alert">
+                                        <div class="alert alert-warning material-shadow" role="alert">
                                             {{__('No image uploaded')}}
                                         </div>
                                     @endif
@@ -147,7 +147,7 @@
                                             {{__('Show Identity')}}
                                         </button>
                                     @else
-                                        <div class="alert alert-warning" role="alert">
+                                        <div class="alert alert-warning material-shadow" role="alert">
                                             {{__('No image uploaded')}}
                                         </div>
                                     @endif
@@ -159,7 +159,7 @@
                                     @if($user['internationalID'])
                                         {{$user['internationalID']}}
                                     @else
-                                        <div class="alert alert-warning" role="alert">
+                                        <div class="alert alert-warning material-shadow" role="alert">
                                             {{__('No international ID')}}
                                         </div>
                                     @endif
@@ -171,7 +171,7 @@
                                     @if($user['internationalID'])
                                         {{$user['expiryDate']}}
                                     @else
-                                        <div class="alert alert-warning" role="alert">
+                                        <div class="alert alert-warning material-shadow" role="alert">
                                             {{__('No international ID')}}
                                         </div>
                                     @endif
@@ -268,7 +268,7 @@
                             @endif
                         @else
                             @if(!empty($errors_array))
-                                <div class="alert alert-warning mt-2" role="alert">
+                                <div class="alert alert-warning material-shadow mt-2" role="alert">
                                     <h4 class="alert-heading"> {{ __('Please fill in the missing fields profile') }}
                                         :</h4>
                                     <div class="mx-4">
@@ -663,7 +663,7 @@
                                         <div class="text-end">
                                             <button wire:click="PreChangePass" type="button"
                                                     class="btn btn-success btn2earn">
-                                                {{ __('Save') }}
+                                                {{ __('Change password') }}
                                             </button>
                                         </div>
                                     </div>
@@ -971,7 +971,7 @@
                     inputAttributes: {autocapitalize: 'off'},
                 }).then((resultat) => {
                     if (resultat.value) {
-                        window.Livewire.emit('changePassword', resultat.value);
+                        window.Livewire.emit('changePasswordWithOPTValidation', resultat.value);
                     }
                 }).catch((error) => {
                     console.error('SweetAlert Error:', error);

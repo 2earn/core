@@ -17,30 +17,13 @@ class ConfigurationHA extends Component
     public int $idSetting;
     public string $parameterName;
     public $IntegerValue;
-    public $StringValue;
-    public $DecimalValue;
+
     public $Unit;
-    public bool $Automatically_calculated;
     public string $Description;
 
     public $idBalanceOperations;
-    public $DesignationBO;
-    public $IOBO;
-    public $idSourceBO;
-    public $ModeBO;
-    public $idamountsBO;
-    public $NoteBO;
-    public $MODIFY_AMOUNT;
 
 
-    public $idamountsAm;
-    public $amountsnameAm;
-    public $amountswithholding_taxAm;
-    public $amountspaymentrequestAm;
-    public $amountstransferAm;
-    public $amountscashAm;
-    public $amountsactiveAm;
-    public $amountsshortnameAm;
 
 
     public $idHA;

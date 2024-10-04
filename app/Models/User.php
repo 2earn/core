@@ -12,6 +12,9 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
+    const SUPER_ADMIN_ROLE_NAME = "Super admin";
+
+
     use HasApiTokens, HasFactory, Notifiable;
 
     use HasRoles;
@@ -29,6 +32,8 @@ class User extends Authenticatable
         'purchasesNumber',
         'idLastUpline',
         'idReservedUpline',
+        'commited_investor',
+        'instructor',
     ];
 
     /**
@@ -60,5 +65,15 @@ class User extends Authenticatable
         });
 
         return is_null($requestIdentification->get()->first()) ? false : true;
+    }
+
+    public function surveyResponse()
+    {
+        return $this->hasMany(SurveyResponse::class);
+    }
+
+    public function comment()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

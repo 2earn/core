@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
@@ -28,8 +28,9 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        if (view()->exists($request->path())) {
-            return view($request->path());
+
+        if (view()->exists($request->segment(2))) {
+            return view($request->segment(2));
         }
         return abort(404);
     }
@@ -69,25 +70,17 @@ class HomeController extends Controller
             $avatarName = time() . '.' . $avatar->getClientOriginalExtension();
             $avatarPath = public_path('/images/');
             $avatar->move($avatarPath, $avatarName);
-            $user->avatar =  $avatarName;
+            $user->avatar = $avatarName;
         }
 
         $user->update();
         if ($user) {
             Session::flash('message', 'User Details Updated successfully!');
             Session::flash('alert-class', 'alert-success');
-            // return response()->json([
-            //     'isSuccess' => true,
-            //     'Message' => "User Details Updated successfully!"
-            // ], 200); // Status code here
             return redirect()->back();
         } else {
             Session::flash('message', 'Something went wrong!');
             Session::flash('alert-class', 'alert-danger');
-            // return response()->json([
-            //     'isSuccess' => true,
-            //     'Message' => "Something went wrong!"
-            // ], 200); // Status code here
             return redirect()->back();
 
         }
@@ -104,7 +97,7 @@ class HomeController extends Controller
             return response()->json([
                 'isSuccess' => false,
                 'Message' => "Your Current password does not matches with the password you provided. Please try again."
-            ], 200); // Status code
+            ], 200);
         } else {
             $user = User::find($id);
             $user->password = Hash::make($request->get('password'));
@@ -115,14 +108,14 @@ class HomeController extends Controller
                 return response()->json([
                     'isSuccess' => true,
                     'Message' => "Password updated successfully!"
-                ], 200); // Status code here
+                ], 200);
             } else {
                 Session::flash('message', 'Something went wrong!');
                 Session::flash('alert-class', 'alert-danger');
                 return response()->json([
                     'isSuccess' => true,
                     'Message' => "Something went wrong!"
-                ], 200); // Status code here
+                ], 200);
             }
         }
     }

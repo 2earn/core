@@ -1,7 +1,7 @@
 <div>
     @component('components.breadcrumb')
         @slot('title')
-            {{ __('ConfigurationHA Settings') }}
+            {{ __('Configuration Settings') }}
         @endslot
     @endcomponent
     <div class="row">

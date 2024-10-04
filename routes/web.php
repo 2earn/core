@@ -54,9 +54,12 @@ Route::get('/pdf', function () {
 });
 
 Route::get('/tables-datatables', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
-Route::get('/coming-soon-Move', [App\Http\Controllers\HomeController::class, 'index'])->name('coming_move');
-Route::get('/coming-soon-learn', [App\Http\Controllers\HomeController::class, 'index'])->name('coming_learn');
-Route::get('/coming-soon-shop', [App\Http\Controllers\HomeController::class, 'index'])->name('coming_shop');
+Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'middleware' => 'setlocale'], function () {
+    Route::get('/coming-soon-Move', [App\Http\Controllers\HomeController::class, 'index'])->name('coming_move');
+    Route::get('/coming-soon-learn', [App\Http\Controllers\HomeController::class, 'index'])->name('coming_learn');
+    Route::get('/coming-soon-shop', [App\Http\Controllers\HomeController::class, 'index'])->name('coming_shop');
+});
+
 Route::get('/widgets', [App\Http\Controllers\HomeController::class, 'index'])->name('widgets');
 Route::get('/offline', function () {
     return view('livewire.offline');
@@ -75,16 +78,42 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/contacts', Contacts::class)->name('contacts');
         Route::get('/notification/history', NotificationHistory::class)->name('notification_history');
         Route::get('/notification/settings', NotificationSettings::class)->name('notification_settings');
-        Route::get('/user/purchase', UserPurchaseHistory::class)->name('user_purchase');
-        Route::get('/treeview', \App\Http\Livewire\treeview::class)->name('treeview');
-        Route::middleware(['IsSuperAdmin'])->group(function () {
-            Route::get('/stat/countrie', \App\Http\Livewire\StatCountrie::class)->name('stat_countrie');
-            Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');
-            Route::get('/sharessolde', \App\Http\Livewire\SharesSolde::class)->name('sharessolde');
-            Route::get('/shares-sold-dashboard', \App\Http\Livewire\SharesSold::class)->name('shares_sold');
-            Route::get('/shares-sold-market-status', \App\Http\Livewire\SharesSoldMarketStatus::class)->name('shares_sold_market_status');
-            Route::get('/shares-sold-recent-transaction', \App\Http\Livewire\SharesSoldRecentTransaction::class)->name('shares_sold_recent_transaction');
+
+
+        Route::prefix('/business-hub')->name('business_hub_')->group(function () {
+            Route::get('/trading', \App\Http\Livewire\Trading::class)->name('trading');
+            Route::get('/additional-income', \App\Http\Livewire\AdditionalIncome::class)->name('additional_income');
+            Route::get('/be-influencer', \App\Http\Livewire\BeInfluencer::class)->name('be_influencer');
+            Route::get('/job/opportunities', \App\Http\Livewire\JobOpportunities::class)->name('job_opportunities');
         });
+
+        Route::prefix('/be-influencer')->name('be_influencer_')->group(function () {
+            Route::get('/tree/evolution', EvolutionArbre::class)->name('tree_evolution');
+            Route::get('/tree/maintenance', EntretienArbre::class)->name('tree_maintenance');
+            Route::get('/successful-sharing-pool', \App\Http\Livewire\SuccessfulSharingPool::class)->name('successful_sharing_pool');
+        });
+
+        Route::prefix('/savings')->name('savings_')->group(function () {
+            Route::get('/recuperation/history', HistoriqueRecuperation::class)->name('recuperation_history');
+            Route::get('/user/purchase', UserPurchaseHistory::class)->name('user_purchase');
+        });
+
+        Route::prefix('/biography')->name('biography_')->group(function () {
+            Route::get('/academic-background', \App\Http\Livewire\AcademicBackground::class)->name('academic_background');
+            Route::get('/career-experience', \App\Http\Livewire\CareerExperience::class)->name('career_experience');
+            Route::get('/hard-skills', \App\Http\Livewire\HardSkills::class)->name('hard_skills');
+            Route::get('/soft-skills', \App\Http\Livewire\SoftSkills::class)->name('soft_skills');
+            Route::get('/personal-characterization', \App\Http\Livewire\PersonalCharacterization::class)->name('personal_characterization');
+            Route::get('/NCDPersonality', \App\Http\Livewire\CDPersonality::class)->name('NCDPersonality');
+            Route::get('/sensory-representation-system', \App\Http\Livewire\SensoryRepresentationSystem::class)->name('sensory_representation_system');
+            Route::get('/MBTI', \App\Http\Livewire\MBTI::class)->name('MBTI');
+            Route::get('/e-business-card', \App\Http\Livewire\EBusinessCard::class)->name('e_business_card');
+            Route::get('/generating/pdf/report', \App\Http\Livewire\GeneratingPDFReport::class)->name('generating_pdf_report');
+        });
+
+
+        Route::get('/treeview', \App\Http\Livewire\treeview::class)->name('treeview');
+
         Route::get('/treeview', \App\Http\Livewire\treeview::class)->name('treeview');
 
         Route::get('/user/balance-sms', UserBalanceSMS::class)->name('user_balance_sms');
@@ -97,25 +126,61 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/balances/exchange/funding/RequestPulicUser', RequestPublicUser::class)->name('user_request_public');
         Route::get('/balances/exchange/funding/strip', stripView::class)->name('payment_strip');
         Route::get('/paytabs', '\App\Http\Livewire\pay@test')->name('paytabs');
-
         Route::get('/hobbies', Hobbies::class)->name('hobbies');
-        Route::get('/recuperation/history', HistoriqueRecuperation::class)->name('recuperation_history');
-        Route::get('/tree/evolution', EvolutionArbre::class)->name('tree_evolution');
-        Route::get('/tree/maintenance', EntretienArbre::class)->name('tree_maintenance');
+
         Route::get('/description', Description::class)->name('description');
         Route::get('/accept/request', AcceptFinancialRequest::class)->name('accept_financial_request')->middleware('CloseAuth');
 
+        Route::prefix('/surveys')->name('surveys_')->group(function () {
+            Route::middleware(['IsSuperAdmin'])->group(function () {
+                Route::get('/index', \App\Http\Livewire\SurveyIndex::class)->name('index');
+            });
+            Route::get('/archive', \App\Http\Livewire\SurveyArchive::class)->name('archive');
+            Route::get('/', \App\Http\Livewire\SurveyCreateUpdate::class)->name('create_update');
+            Route::get('/show/{idSurvey}', \App\Http\Livewire\SurveyShow::class)->name('show');
+            Route::get('/participate/{idSurvey}', \App\Http\Livewire\SurveyParicipate::class)->name('participate');
+            Route::get('/results/{idSurvey}', \App\Http\Livewire\SurveyResult::class)->name('results');
+            Route::get('/{idSurvey}/question', \App\Http\Livewire\SurveyQuestionCreateUpdate::class)->name('question_create_update');
+            Route::get('/{idSurvey}/question/{idQuestion}/Choice', \App\Http\Livewire\SurveyQuestionChoiceCreateUpdate::class)->name('question_choice_create_update');
+        });
+
         Route::middleware(['IsSuperAdmin'])->group(function () {
             Route::get('/user_list', \App\Http\Livewire\UsersList::class)->name('user_list');
-            Route::get('/configuration-ha', ConfigurationHA::class)->name('configuration-ha');
-            Route::get('/configuration-setting', \App\Http\Livewire\ConfigurationSetting::class)->name('configuration-setting');
-            Route::get('/configuration-bo', \App\Http\Livewire\ConfigurationBO::class)->name('configuration-bo');
-            Route::get('/configuration-amounts', \App\Http\Livewire\ConfigurationAmounts::class)->name('configuration-amounts');
-            Route::get('/edit_admin', \App\Http\Livewire\EditAdmin::class)->name('edit_admin');
+            Route::get('/user/{idUser}/details', \App\Http\Livewire\UserDetails::class)->name('user_details');
+            Route::get('/configuration/ha', ConfigurationHA::class)->name('configuration_ha');
+            Route::get('/configuration/setting', \App\Http\Livewire\ConfigurationSetting::class)->name('configuration_setting');
+            Route::get('/configuration/bo', \App\Http\Livewire\ConfigurationBO::class)->name('configuration_bo');
+            Route::get('/configuration/amounts', \App\Http\Livewire\ConfigurationAmounts::class)->name('configuration_amounts');
+            Route::get('/admin/edit', \App\Http\Livewire\EditAdmin::class)->name('edit_admin');
             Route::get('/countries_management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
-            Route::get('/admin/identification_request', identificationRequest::class)->name('identification_request');
-            Route::get('/translation', TranslateView::class)->name('translate');
+            Route::get('/requests/identification', identificationRequest::class)->name('requests_identification');
+            Route::get('/requests/commited-investors', \App\Http\Livewire\CommitedRequest::class)->name('requests_commited_investors');
+            Route::get('/requests/commited-investors/{id}/show', \App\Http\Livewire\CommitedRequestShow::class)->name('requests_commited_investors_show');
+            Route::get('/requests/instructor', \App\Http\Livewire\InstructorRequest::class)->name('requests_instructor');
+            Route::get('/requests/instructor/{id}/show', \App\Http\Livewire\InstructorRequestShow::class)->name('requests_instructor_show');
+            Route::get('/translate', TranslateView::class)->name('translate');
+            Route::get('/translate/model/data', \App\Http\Livewire\TranslateModelData::class)->name('translate_model_data');
+
+            Route::get('/target/index', \App\Http\Livewire\TargetIndex::class)->name('target_index');
+            Route::get('/target', \App\Http\Livewire\TargetCreateUpdate::class)->name('target_create_update');
+            Route::get('/target/show/{idTarget}', \App\Http\Livewire\TargetShow::class)->name('target_show');
+            Route::get('/target/{idTarget}/group', \App\Http\Livewire\GroupCreateUpdate::class)->name('group_create_update');
+            Route::get('/target/{idTarget}/condition', \App\Http\Livewire\ConditionCreateUpdate::class)->name('condition_create_update');
         });
+
+        Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');
+        Route::get('/sharessolde', \App\Http\Livewire\SharesSolde::class)->name('sharessolde');
+
+        Route::middleware(['IsSuperAdmin'])->group(function () {
+            Route::get('/stat/countrie', \App\Http\Livewire\StatCountrie::class)->name('stat_countrie');
+            Route::prefix('/shares-sold')->name('shares_sold_')->group(function () {
+                Route::get('dashboard', \App\Http\Livewire\SharesSold::class)->name('dashboard');
+                Route::get('/market-status', \App\Http\Livewire\SharesSoldMarketStatus::class)->name('market_status');
+                Route::get('/recent-transaction', \App\Http\Livewire\SharesSoldRecentTransaction::class)->name('recent_transaction');
+            });
+
+        });
+
         Route::get('/stat-countries', 'App\Http\Controllers\ApiController@getCountriStat')->name('api_stat_countries');
         Route::post('/validate-phone', 'App\Http\Controllers\ApiController@validatePhone')->name('validate_phone');
         Route::post('/buy-action', 'App\Http\Controllers\ApiController@buyAction')->name('buyAction');
@@ -129,55 +194,58 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
     Route::get('/forget-password', ForgotPassword::class)->name('forget_password');
     Route::get('/check-opt-code/{iduser}/{ccode}/{numTel}', CheckOptCode::class)->name('check_opt_code');
     Route::get('/validate-account', ValidateAccount::class)->name('validate_account');
+
+
+    Route::group(['prefix' => 'api/v1'], function () {
+        Route::get('/countries', 'App\Http\Controllers\ApiController@getCountries')->name('api_countries');
+        Route::get('/settings', 'App\Http\Controllers\ApiController@getSettings')->name('api_settings');
+        Route::get('/balance/operations', 'App\Http\Controllers\ApiController@getBalanceOperations')->name('api_bal_operations');
+        Route::get('/amounts', 'App\Http\Controllers\ApiController@getAmounts')->name('api_Amounts');
+        Route::get('/url/list/{idUser}/{idamount}', 'App\Http\Controllers\ApiController@getUrlList')->name('url_list');
+        Route::get('/action/historys', 'App\Http\Controllers\ApiController@getActionHistorys')->name('api_action_history');
+        Route::get('/user/contacts', 'App\Http\Controllers\ApiController@getUserContacts')->name('api_user_contacts');
+        Route::get('/user-balances/{idAmounts}', 'App\Http\Controllers\ApiController@getUserBalances')->name('api_user_balances');
+        Route::get('/user-balances-list/{idUser}/{idAmounts}', 'App\Http\Controllers\ApiController@getUserBalancesList')->name('api_user_balances_list');
+        Route::get('/shares-solde-list/{idUser}', 'App\Http\Controllers\ApiController@getSharesSoldeList')->name('api_shares_solde_list');
+        Route::get('/user/admin', 'App\Http\Controllers\ApiController@getUserAdmin')->name('api_user_admin');
+        Route::get('/history/notification', 'App\Http\Controllers\ApiController@getHistoryNotification')->name('api_history_notification');
+        Route::get('/request', 'App\Http\Controllers\ApiController@getRequest')->name('api_request');
+        Route::get('/representatives', 'App\Http\Controllers\ApiController@getRepresentatives')->name('api_representatives');
+        Route::get('/user/balancesCB', 'App\Http\Controllers\ApiController@getUserBalancesCB')->name('api_user_balances_cb');
+        Route::get('/user/purchase', 'App\Http\Controllers\ApiController@getPurchaseUser')->name('api_user_purchase');
+        Route::get('/user/manager', 'App\Http\Controllers\ApiController@getAllUsers')->name('api_user_manager');
+        Route::get('/user/invitations', 'App\Http\Controllers\ApiController@getInvitationsUser')->name('api_user_invitations');
+        Route::get('/user/purchaseBFS', 'App\Http\Controllers\ApiController@getPurchaseBFSUser')->name('api_user_bfs_purchase');
+        Route::post('/paytabs/notification', 'App\Http\Controllers\ApiController@handlePaymentNotification')->name('notification_from_paytabs')->withoutMiddleware('web');
+        Route::get('/target/{idTarget}/data', [\App\Http\Controllers\TargetController::class, 'getTargetData'])->name('api_target_data');
+
+        Route::get('sankey', 'App\Http\Controllers\ApiController@getSankey')->name('API_sankey');
+
+
+        Route::get('/api/shares/solde', 'App\Http\Controllers\ApiController@getSharesSolde')->name('api_shares_solde');
+        Route::get('/api/shares/soldes', 'App\Http\Controllers\ApiController@getSharesSoldes')->name('api_shares_soldes');
+        Route::get('/api/transfert', 'App\Http\Controllers\ApiController@getTransfert')->name('api_transfert');
+        Route::get('/api/user/cash', 'App\Http\Controllers\ApiController@getUserCashBalance')->name('api_user_cash');
+        Route::get('/api/share/evolution', 'App\Http\Controllers\ApiController@getSharePriceEvolution')->name('api_share_evolution');
+        Route::get('/api/share/evolution/date', 'App\Http\Controllers\ApiController@getSharePriceEvolutionDate')->name('api_share_evolution_date');
+        Route::get('/api/share/evolution/week', 'App\Http\Controllers\ApiController@getSharePriceEvolutionWeek')->name('api_share_evolution_week');
+        Route::get('/api/share/evolution/month', 'App\Http\Controllers\ApiController@getSharePriceEvolutionMonth')->name('api_share_evolution_month');
+        Route::get('/api/share/evolution/day', 'App\Http\Controllers\ApiController@getSharePriceEvolutionDay')->name('api_share_evolution_day');
+        Route::get('/api/share/evolution/user', 'App\Http\Controllers\ApiController@getSharePriceEvolutionUser')->name('api_share_evolution_user');
+
+        Route::get('/api/action/values', 'App\Http\Controllers\ApiController@getActionValues')->name('api_action_values');
+
+        Route::get('/get-updated-card-content', 'App\Http\Controllers\ApiController@getUpdatedCardContent')->name('get-updated-card-content');
+        Route::post('/add-cash', 'App\Http\Controllers\ApiController@addCash')->name('add_cash');
+        Route::post('/vip', 'App\Http\Controllers\ApiController@vip')->name('vip');
+        Route::post('/send-sms', 'App\Http\Controllers\ApiController@sendSMS')->name('send_sms');
+        Route::post('/update-balance-status', 'App\Http\Controllers\ApiController@updateBalanceStatus')->name('update-balance-status');
+        Route::post('/update-reserve-date', 'App\Http\Controllers\ApiController@updateReserveDate')->name('update-reserve-date');
+        Route::post('/update-balance-real', 'App\Http\Controllers\ApiController@updateBalanceReal')->name('update-balance-real');
+
+    });
+
 });
-
-Route::group(['prefix' => 'api/v1'], function () {
-    Route::get('/countries', 'App\Http\Controllers\ApiController@getCountries')->name('api_countries');
-    Route::get('/settings', 'App\Http\Controllers\ApiController@getSettings')->name('api_settings');
-    Route::get('/balance/operations', 'App\Http\Controllers\ApiController@getBalanceOperations')->name('api_bal_operations');
-    Route::get('/amounts', 'App\Http\Controllers\ApiController@getAmounts')->name('api_Amounts');
-    Route::get('/url/list/{idUser}/{idamount}', 'App\Http\Controllers\ApiController@getUrlList')->name('url_list');
-    Route::get('/action/historys', 'App\Http\Controllers\ApiController@getActionHistorys')->name('api_action_history');
-    Route::get('/user/contacts', 'App\Http\Controllers\ApiController@getUserContacts')->name('api_user_contacts');
-    Route::get('/user-balances/{idAmounts}', 'App\Http\Controllers\ApiController@getUserBalances')->name('api_user_balances');
-    Route::get('/user-balances-list/{idUser}/{idAmounts}', 'App\Http\Controllers\ApiController@getUserBalancesList')->name('api_user_balances_list');
-    Route::get('/shares-solde-list/{idUser}', 'App\Http\Controllers\ApiController@getSharesSoldeList')->name('api_shares_solde_list');
-    Route::get('/user/admin', 'App\Http\Controllers\ApiController@getUserAdmin')->name('api_user_admin');
-    Route::get('/history/notification', 'App\Http\Controllers\ApiController@getHistoryNotification')->name('api_history_notification');
-    Route::get('/request', 'App\Http\Controllers\ApiController@getRequest')->name('api_request');
-    Route::get('/representatives', 'App\Http\Controllers\ApiController@getRepresentatives')->name('api_representatives');
-    Route::get('/user/balancesCB', 'App\Http\Controllers\ApiController@getUserBalancesCB')->name('api_user_balances_cb');
-    Route::get('/user/purchase', 'App\Http\Controllers\ApiController@getPurchaseUser')->name('api_user_purchase');
-    Route::get('/user/manager', 'App\Http\Controllers\ApiController@getAllUsers')->name('api_user_manager');
-    Route::get('/user/invitations', 'App\Http\Controllers\ApiController@getInvitationsUser')->name('api_user_invitations');
-    Route::get('/user/purchaseBFS', 'App\Http\Controllers\ApiController@getPurchaseBFSUser')->name('api_user_bfs_purchase');
-    Route::post('/paytabs/notification', 'App\Http\Controllers\ApiController@handlePaymentNotification')->name('notification_from_paytabs')->withoutMiddleware('web');
-
-    Route::get('sankey', 'App\Http\Controllers\ApiController@getSankey')->name('API_sankey');
-
-    Route::get('/api/shares/solde', 'App\Http\Controllers\ApiController@getSharesSolde')->name('api_shares_solde');
-    Route::get('/api/shares/soldes', 'App\Http\Controllers\ApiController@getSharesSoldes')->name('api_shares_soldes');
-    Route::get('/api/transfert', 'App\Http\Controllers\ApiController@getTransfert')->name('api_transfert');
-    Route::get('/api/user/cash', 'App\Http\Controllers\ApiController@getUserCashBalance')->name('api_user_cash');
-    Route::get('/api/share/evolution', 'App\Http\Controllers\ApiController@getSharePriceEvolution')->name('api_share_evolution');
-    Route::get('/api/share/evolution/date', 'App\Http\Controllers\ApiController@getSharePriceEvolutionDate')->name('api_share_evolution_date');
-    Route::get('/api/share/evolution/week', 'App\Http\Controllers\ApiController@getSharePriceEvolutionWeek')->name('api_share_evolution_week');
-    Route::get('/api/share/evolution/month', 'App\Http\Controllers\ApiController@getSharePriceEvolutionMonth')->name('api_share_evolution_month');
-    Route::get('/api/share/evolution/day', 'App\Http\Controllers\ApiController@getSharePriceEvolutionDay')->name('api_share_evolution_day');
-    Route::get('/api/share/evolution/user', 'App\Http\Controllers\ApiController@getSharePriceEvolutionUser')->name('api_share_evolution_user');
-
-    Route::get('/api/action/values', 'App\Http\Controllers\ApiController@getActionValues')->name('api_action_values');
-
-    Route::get('/get-updated-card-content', 'App\Http\Controllers\ApiController@getUpdatedCardContent')->name('get-updated-card-content');
-    Route::post('/add-cash', 'App\Http\Controllers\ApiController@addCash')->name('add_cash');
-    Route::post('/vip', 'App\Http\Controllers\ApiController@vip')->name('vip');
-    Route::post('/send-sms', 'App\Http\Controllers\ApiController@sendSMS')->name('send_sms');
-    Route::post('/update-balance-status', 'App\Http\Controllers\ApiController@updateBalanceStatus')->name('update-balance-status');
-    Route::post('/update-reserve-date', 'App\Http\Controllers\ApiController@updateReserveDate')->name('update-reserve-date');
-    Route::post('/update-balance-real', 'App\Http\Controllers\ApiController@updateBalanceReal')->name('update-balance-real');
-
-});
-
 Route::get('/reset-not', 'App\Http\Controllers\FinancialRequestController@resetInComingNotification')->name('reset_incoming_notification');
 Route::get('/reset-not-out', 'App\Http\Controllers\FinancialRequestController@resetOutGoingNotification')->name('reset_out_going_notification');
 Route::get('/', function () {

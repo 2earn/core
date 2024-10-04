@@ -29,8 +29,9 @@
                         <span></span>
                     </span>
                     </button>
-                    <div class="ms-1 header-item d-none  d-xl-flex me-5 ">
-                        <div class="d-flex align-items-end justify-content-between logoTopCash">
+                    <div class="ms-1 header-item d-none  d-xl-flex me-5">
+                        <div class="d-flex align-items-end justify-content-between logoTopCash"
+                             title="{{__('Soldes calculated at')}} : {{Carbon\Carbon::now()->toDateTimeString()}}">
                             <a href="{{route('user_balance_cb',app()->getLocale())}}">
                                 <div class="avatar-sm flex-shrink-0">
                                     <span class="avatar-title bg-soft-info rounded fs-3">
@@ -53,7 +54,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="ms-1 header-item d-none d-xl-flex me-5">
+                    <div class="ms-1 header-item d-none d-xl-flex me-5"
+                         title="{{__('Soldes calculated at')}} : {{Carbon\Carbon::now()->toDateTimeString()}}">
                         <div class="d-flex align-items-end justify-content-between logoTopBFS">
                             <a href="{{route('user_balance_bfs',app()->getLocale())}}">
                                 <div class="avatar-sm flex-shrink-0">
@@ -77,7 +79,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="ms-1 header-item d-none d-xl-flex me-5">
+                    <div class="ms-1 header-item d-none d-xl-flex me-5"
+                         title="{{__('Soldes calculated at')}} : {{Carbon\Carbon::now()->toDateTimeString()}}">
                         <div class="d-flex align-items-end justify-content-between logoTopDB">
                             <a href="{{route('user_balance_db',app()->getLocale())}}">
                                 <div class="avatar-sm flex-shrink-0">
@@ -113,14 +116,26 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
                             @foreach (config('app.available_locales') as  $locale => $value )
-                                <a href="{{ route($currentRoute, ['locale'=> $locale ]) }} "
-                                   class="dropdown-item notify-item language py-2  @if($locale==app()->getLocale()) active @endif"
-                                   data-lang="{{$locale}}"
-                                   title="{{ __('lang'.$locale)  }}" data-turbolinks="false">
-                                    <img src="{{ Vite::asset('resources/images/flags/'.$value['flag'].'.svg') }}"
-                                         alt="user-image" class="me-2 rounded" height="20">
-                                    <span class="align-middle">{{ __('lang'.$locale)  }}</span>
-                                </a>
+                                @if(strpos(Request::url(), '/'.app()->getLocale().'/'))
+                                    <a href="{{str_replace('/'.app()->getLocale().'/', '/'.$value['name'].'/', Request::url())}}"
+                                       class="dropdown-item notify-item language py-2  @if($locale==app()->getLocale()) active @endif"
+                                       data-lang="{{$locale}}"
+                                       title="{{ __('lang'.$locale)  }}" data-turbolinks="false">
+                                        <img src="{{ Vite::asset('resources/images/flags/'.$value['flag'].'.svg') }}"
+                                             alt="user-image" class="me-2 rounded" height="20">
+                                        <span class="align-middle">{{ __('lang'.$locale)  }}</span>
+                                    </a>
+                                @else
+                                    <a href="{{str_replace('/'.app()->getLocale(), '/'.$value['name'].'/', Request::url())}}"
+                                       class="dropdown-item notify-item language py-2  @if($locale==app()->getLocale()) active @endif"
+                                       data-lang="{{$locale}}"
+                                       title="{{ __('lang'.$locale)  }}" data-turbolinks="false">
+                                        <img src="{{ Vite::asset('resources/images/flags/'.$value['flag'].'.svg') }}"
+                                             alt="user-image" class="me-2 rounded" height="20">
+                                        <span class="align-middle">{{ __('lang'.$locale)  }}</span>
+                                    </a>
+                                @endif
+
                             @endforeach
                         </div>
                     </div>
@@ -144,21 +159,24 @@
                             <div class="p-2">
                                 <div class="row g-0">
                                     <div class="col">
-                                        <a class="dropdown-icon-item" href="{{route('coming_move')}}">
+                                        <a class="dropdown-icon-item"
+                                           href="{{route('coming_move',app()->getLocale() )}}">
                                             <img src="{{Vite::asset('resources/images/Move2earn Icon.png')}}"
                                                  alt="Move2earn">
                                             <span>Move2earn</span>
                                         </a>
                                     </div>
                                     <div class="col">
-                                        <a class="dropdown-icon-item" href="{{route('coming_shop')}}">
+                                        <a class="dropdown-icon-item"
+                                           href="{{route('coming_shop',app()->getLocale() )}}">
                                             <img src="{{Vite::asset('resources/images/icon-shop.png')}}"
                                                  alt="Shop2earn">
                                             <span>Shop2earn</span>
                                         </a>
                                     </div>
                                     <div class="col">
-                                        <a class="dropdown-icon-item" href="{{route('coming_learn')}}">
+                                        <a class="dropdown-icon-item"
+                                           href="{{route('coming_learn',app()->getLocale() )}}">
                                             <img src="{{Vite::asset('resources/images/icon-learn.png')}}"
                                                  alt="Learn2earn">
                                             <span>Learn2earn</span>
@@ -325,12 +343,27 @@
                                 <span
                                     class="align-middle">{{ __('Account') }}</span>
                             </a>
-                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-divider">
+                            </div>
                             <a class="dropdown-item" href="{{route('user_balance_cb',app()->getLocale())}}"><i
                                     class="mdi mdi-wallet text-muted fs-16 align-middle me-1"></i> <span
                                     class=""> {{ __('Cash Balance') }} : <b>  {{__('DPC')}}  {{$solde->soldeCB}}</b>
                                 </span>
                             </a>
+                            <div class="dropdown-divider">
+                            </div>
+                            <a class="dropdown-item" href="{{route('notification_history',app()->getLocale())}}">
+                                <span class=""> {{ __('Notification history') }}</span>
+                            </a>
+
+                            <a class="dropdown-item" href="{{route('notification_settings',app()->getLocale())}}">
+                                <span class=""> {{ __('Notification Settings') }}</span>
+                            </a>
+                            <a class="dropdown-item" href="{{route('description',app()->getLocale())}}">
+                                <span class=""> {{ __('User guide') }}</span>
+                            </a>
+                            <div class="dropdown-divider">
+                            </div>
                             <a class="dropdown-item" wire:click="logout">
                                 <i class="bx bx-power-off font-size-16 align-middle me-1"></i>
                                 <span key="t-logout">{{ __('Logout') }}</span>

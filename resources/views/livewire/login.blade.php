@@ -201,7 +201,8 @@
                     title: ' ',
                     text: msgMsgLogin,
                     icon: 'error',
-                    confirmButtonText: '{{trans('ok')}}'
+                    cancelButtonText: '{{__('Cancel')}}',
+                    confirmButtonText: '{{__('Confirm')}}',
                 }).then(okay => {
                     if (okay) {
                         window.location.reload();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +12,7 @@ class IsSuperAdmin
 {
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user() && Auth::user()->getRoleNames()->contains('Super admin')) {
+        if (Auth::user() && Auth::user()->getRoleNames()->contains(User::SUPER_ADMIN_ROLE_NAME)) {
             return $next($request);
         }
 

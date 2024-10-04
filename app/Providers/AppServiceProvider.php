@@ -20,6 +20,10 @@ class AppServiceProvider extends ServiceProvider
             return new Sponsorship($app->make('App\DAL\UserRepository'), $app->make('Core\Services\BalancesManager'));
         });
 
+        $this->app->bind('Targeting', function ($app) {
+            return new Sponsorship($app->make('App\DAL\UserRepository'), $app->make('Core\Services\BalancesManager'));
+        });
+
     }
 
 
@@ -32,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         Request::macro('hasValidSignature', function ($absolute = true) {
-                return true;
+            return true;
         });
     }
 }

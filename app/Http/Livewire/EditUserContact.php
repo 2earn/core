@@ -3,19 +3,15 @@
 namespace App\Http\Livewire;
 
 use App\Models\ContactUser;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Lang;
-use Livewire\Component;
-
 use Core\Models\countrie;
-use Core\Models\UserContact;
 use Core\Services\settingsManager;
 use Core\Services\TransactionManager;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Session;
+use Livewire\Component;
 use Propaganistas\LaravelPhone\PhoneNumber;
-use function PHPUnit\Framework\isEmpty;
 
 class EditUserContact extends Component
 {
@@ -54,10 +50,6 @@ class EditUserContact extends Component
         }
     }
 
-    public function render()
-    {
-        return view('livewire.edit-user-contact')->extends('layouts.master')->section('content');
-    }
 
     public function validateContact()
     {
@@ -139,8 +131,7 @@ class EditUserContact extends Component
         }
     }
 
-    public
-    function show($idd)
+    public function show($idd)
     {
         return view('livewire.edit-user-contact',
             [
@@ -149,5 +140,11 @@ class EditUserContact extends Component
         )->with('idd', 'dfdf');
         return redirect()->route('user_contact_edit', ['locale' => app()->getLocale(), 'idd' => $idd]);
 
+    }
+
+
+    public function render()
+    {
+        return view('livewire.edit-user-contact')->extends('layouts.master')->section('content');
     }
 }

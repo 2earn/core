@@ -1607,13 +1607,26 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
     function initModeSetting() {
         var html = document.getElementsByTagName("HTML")[0];
         var lightDarkBtn = document.querySelectorAll(".light-dark-mode");
+
         if (lightDarkBtn && lightDarkBtn.length) {
+
             lightDarkBtn[0].addEventListener("click", function (event) {
-                html.hasAttribute("data-layout-mode") && html.getAttribute("data-layout-mode") == "dark" ?
+                html.hasAttribute("data-layout-mode") && sessionStorage.getItem('data-layout-mode') == "dark" ?
                     setLayoutMode("data-layout-mode", "light", "layout-mode-light", html) :
                     setLayoutMode("data-layout-mode", "dark", "layout-mode-dark", html);
+                sessionStorage.setItem("data-sidebar", html.getAttribute("data-layout-mode"));
+                document.documentElement.setAttribute("data-sidebar", html.getAttribute("data-layout-mode"));
+                setLayoutMode("data-layout-mode", html.getAttribute("data-layout-mode"), "layout-mode-dark", html);
+
+
+                getElementUsingTagname("data-layout-mode", html.getAttribute("data-layout-mode"));
+                document.documentElement.setAttribute("data-layout-mode", html.getAttribute("data-layout-mode"));
+                sessionStorage.setItem("data-layout-mode", html.getAttribute("data-layout-mode"));
+
+
             });
         }
+
     }
 
     function resetLayout() {
@@ -1631,7 +1644,6 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
         isCustomDropdown();
         isCustomDropdownResponsive();
         initFullScreen();
-        initModeSetting();
         windowLoadContent();
         counter();
         initLeftMenuCollapse();

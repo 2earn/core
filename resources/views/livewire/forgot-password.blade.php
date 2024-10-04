@@ -37,7 +37,7 @@
                                                colors="primary:#0ab39c" class="avatar-xl">
                                     </lord-icon>
                                 </div>
-                                <div class="alert alert-borderless alert-warning text-center mb-2 mx-2" role="alert">
+                                <div class="alert alert-borderless alert-warning  material-shadow text-center mb-2 mx-2" role="alert">
                                     {{__('Enter your mobile  will be sent to you!')}}
                                 </div>
                                 @include('layouts.flash-messages')
@@ -202,9 +202,8 @@
                 },
                 showCancelButton: true,
                 timer: '{{ env('timeOPT') }}',
-                confirmButtonText: 'Confirm',
-                confirmButtonText: '{{trans('ok')}}',
-                cancelButtonText: '{{trans('canceled !')}}',
+                cancelButtonText: '{{__('Cancel')}}',
+                confirmButtonText: '{{__('Confirm')}}',
                 footer: ' <i></i><div class="footerOpt"></div>',
                 didOpen: () => {
                     const b = Swal.getFooter().querySelector('i')

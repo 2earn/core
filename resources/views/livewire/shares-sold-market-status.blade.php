@@ -98,7 +98,6 @@
     </div>
     <script type="module">
         $(document).on('turbolinks:load', function () {
-            console.log('dsqsdsqd')
             $('#shares-sold').DataTable(
                 {
                     "ordering": true,
@@ -190,7 +189,7 @@
                 let ammount = $('#realsold-ammount').val();
                 let total = $('#realsold-ammount-total').val()
                 $.ajax({
-                    url: "{{ route('update-balance-real') }}",
+                    url: "{{ route('update-balance-real', app()->getLocale()) }}",
                     type: "POST",
                     data: {total: total, amount: ammount, id: reciver, "_token": "{{ csrf_token() }}"},
                     success: function (data) {
@@ -207,7 +206,7 @@
 
                 function fetchAndUpdateCardContent() {
                     $.ajax({
-                        url: '{{ route('get-updated-card-content') }}', // Adjust the endpoint URL
+                        url: '{{ route('get-updated-card-content',app()->getLocale()) }}', // Adjust the endpoint URL
                         method: 'GET',
                         success: function (data) {
                             $('#realrev').html('$' + data.value);

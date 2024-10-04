@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 
+use App\Models\Survey;
 use App\Models\vip;
 use Core\Models\Setting;
 use Core\Services\BalancesManager;
@@ -156,12 +157,11 @@ class Home extends Component
         $this->userActualActionsProfit = number_format(getUserActualActionsProfit(Auth()->user()->idUser), 2);
         $this->userSelledAction = getUserSelledActions(Auth()->user()->idUser);
         $actualActionValue = actualActionValue(getSelledActions(), false);
-
-
         $params = [
             "soldeBuyShares" => $balancesManager->getBalances($user->idUser, 2),
             'arraySoldeD' => [$solde->soldeCB, $solde->soldeBFS, $solde->soldeDB],
             'usermetta_info' => $usermetta_info,
+            'surveys' => Survey::all()->sortByDesc("id")->take(4),
             "actualActionValue" => [
                 'int' => intval($actualActionValue),
                 '2Fraction' => intval(($actualActionValue - floor($actualActionValue)) * 100),

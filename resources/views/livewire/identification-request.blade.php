@@ -55,7 +55,7 @@
                     </div>
                 </div>
             @empty
-                <div class="alert alert-info" role="alert">
+                <div class="alert alert-info material-shadow" role="alert">
                     {{__('No identification request found')}}
                 </div>
             @endforelse

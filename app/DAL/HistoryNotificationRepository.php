@@ -2,6 +2,7 @@
 
 namespace App\DAL;
 
+use App\Models\User;
 use Core\Enum\RoleEnum;
 use Core\Interfaces\IHistoryNotificationRepository;
 use Illuminate\Support\Facades\DB;
@@ -43,10 +44,9 @@ ifnull(title,"")  action  ,history.date date , history.type ,  ifnull( history.r
         $userRole = auth()->user()->getRoleNames()->first() ;
 
        $idUser = auth()->user()->idUser;
-//            =="Super admin"
         $req = "";
         switch ($userRole) {
-            case  "Super admin" :
+            case  User::SUPER_ADMIN_ROLE_NAME :
             case "Admin":
                 $req = 'select history.ref reference ,  IFNULL(usend.name , "System")   send  , users.name   receiver ,
 ifnull(title,"")  action  ,history.date date , history.type ,  ifnull( history.reponce,"") responce from history

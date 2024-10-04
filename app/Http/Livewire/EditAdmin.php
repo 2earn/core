@@ -27,7 +27,7 @@ class EditAdmin extends Component
     ];
     public $currentId;
 
-    public function updatingSearch()
+    public function updatingSearch(): void
     {
         $this->resetPage();
     }

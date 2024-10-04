@@ -42,7 +42,7 @@
                     @if(!empty($errors_array))
                         <div class="row">
                             <div class="col-lg-12">
-                                <div class="alert alert-warning mt-2" role="alert">
+                                <div class="alert alert-warning material-shadow mt-2" role="alert">
                                     <h4 class="alert-heading"> {{ __('Please fill in the missing fields identification') }}
                                         :</h4>
                                     <div class="mx-4">
@@ -131,7 +131,7 @@
                             <div class="tab-pane fade show active" id="pills-bill-info" role="tabpanel"
                                  aria-labelledby="pills-bill-info-tab">
                                 <div class="row g-3">
-                                    <div id="personalInformationMessage" class="alert alert-danger" role="alert"
+                                    <div id="personalInformationMessage" class="alert alert-danger material-shadow" role="alert"
                                          style="display: none">
                                         {{__('Please check form data')}}
                                         <a class="btn btn-outline-primary ml-2 mr-2"
@@ -521,7 +521,8 @@
                 title: event.detail.title,
                 text: event.detail.text,
                 icon: 'error',
-                confirmButtonText: "{{__('ok')}}"
+                cancelButtonText: '{{__('Cancel')}}',
+                confirmButtonText: '{{__('Confirm')}}',
             })
         });
     </script>
