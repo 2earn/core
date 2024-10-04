@@ -1049,7 +1049,7 @@ class="btn btn-xs btn-primary edit-amounts-btn btn2earnTable"  >
         return route('api_user_balances_list', ['locale' => app()->getLocale(), 'idUser' => $idUser, 'idAmounts' => $idamount]);
     }
 
-    public function getUserBalancesList($idUser, $idamount)
+    public function getUserBalancesList($locale, $idUser, $idamount)
     {
 
         $userData = DB::select("select ref,u.idUser,u.idamount,Date,u.idBalancesOperation,b.Designation,u.Description,
@@ -1061,7 +1061,7 @@ and u.idamount not in(4,6)  and u.idUser=? and u.idamount=? order by Date   ", [
         return response()->json($userData);
     }
 
-    public function getUserBalances($locale,$typeAmounts)
+    public function getUserBalances($locale, $typeAmounts)
     {
         $idAmounts = 0;
         switch ($typeAmounts) {
