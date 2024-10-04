@@ -25,7 +25,7 @@
                                 {{__('à conssommer. avec lachat de')}}
                                 <span
                                         class="col-auto flash-red">{{formatSolde($actions,0)}}</span>
-                                {{__('actions,')}}
+                                {{__('actions')}} ,
                                {{__('et les benefices instentannés seront')}}
                                 <span
                                         class="col-auto flash-red">{{formatSolde($benefices,2)}}{{$currency}}</span></p>
