@@ -46,7 +46,7 @@
                                     <p class="text-uppercase fw-medium     mb-0 ms-2">
                                         {{ __('Cash Balance') }}</p>
                                     <h5 class="fs-14 mb-0 ms-2">
-                                        {{__('DPC')}}{{$solde->soldeCB}}
+                                        {{__('DPC')}}{{floor($solde->soldeCB)}}
                                     </h5>
                                 </a>
                             </div>
@@ -71,7 +71,7 @@
                                     <p class="text-uppercase fw-medium     mb-0 ms-2">
                                         {{ __('Balance For Shopping') }}</p>
                                     <h5 class="text-success fs-14 mb-0  ms-2">
-                                        {{__('DPC')}}{{$solde->soldeBFS}}
+                                        {{__('DPC')}}{{floor($solde->soldeBFS)}}
                                     </h5>
                                 </a>
                             </div>
@@ -96,7 +96,7 @@
                                     <p class="text-uppercase fw-medium     mb-0 ms-2">
                                         {{ __('Discounts Balance') }}</p>
                                     <h5 class="text-secondary fs-14 mb-0 ms-2">
-                                        {{__('DPC')}}{{$solde->soldeDB}}
+                                        {{__('DPC')}}{{floor($solde->soldeDB)}}
                                     </h5>
                                 </a>
                             </div>
@@ -347,7 +347,7 @@
                             </div>
                             <a class="dropdown-item" href="{{route('user_balance_cb',app()->getLocale())}}"><i
                                     class="mdi mdi-wallet text-muted fs-16 align-middle me-1"></i> <span
-                                    class=""> {{ __('Cash Balance') }} : <b>  {{__('DPC')}}  {{$solde->soldeCB}}</b>
+                                    class=""> {{ __('Cash Balance') }} : <b>  {{__('DPC')}}  {{floor($solde->soldeCB)}}</b>
                                 </span>
                             </a>
                             <div class="dropdown-divider">

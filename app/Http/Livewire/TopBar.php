@@ -40,7 +40,7 @@ class TopBar extends Component
         if (!$authUser)
             dd('not found page');
         $params = [
-            'solde' => $balancesManager->getBalances($authUser->idUser, 0),
+            'solde' => $balancesManager->getBalances($authUser->idUser, 2),
             'user' => $authUser,
             'userStatus' => $user->status,
             'userRole' => $user->getRoleNames()->first()
