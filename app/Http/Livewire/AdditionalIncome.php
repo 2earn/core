@@ -5,7 +5,9 @@ namespace App\Http\Livewire;
 use App\Models\CommittedInvestorRequest;
 use App\Models\InstructorRequest;
 use App\Models\SoldesView;
+use App\Models\User;
 use Core\Enum\RequestStatus;
+use Core\Enum\BeInstructorRequestStatus;
 use Core\Enum\StatusRequest;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -24,18 +26,19 @@ class AdditionalIncome extends Component
 
     public function sendInstructorRequest()
     {
-
         if ($this->isInstructor) {
             $lastInstructorRequest = InstructorRequest::where('user_id', auth()->user()->id)
-                ->where('status', RequestStatus::InProgress->value)
+                ->where('status', BeInstructorRequestStatus::InProgress->value)
                 ->orderBy('created_at', 'DESC')->first();
 
             if (is_null($lastInstructorRequest)) {
-                InstructorRequest::Create([
+                $instructorRequest=  InstructorRequest::Create([
                     'user_id' => auth()->user()->id,
                     'request_date' => now(),
-                    'status' => RequestStatus::InProgress->value
+                    'status' => BeInstructorRequestStatus::InProgress->value
                 ]);
+                User::find($instructorRequest->user_id)->update(['instructor' => BeInstructorRequestStatus::InProgress->value]);
+
                 return redirect()->route('business_hub_additional_income', app()->getLocale())->with('success', trans('Your instructor request is sent'));
             } else {
                 return redirect()->route('business_hub_additional_income', app()->getLocale())->with('warning', trans('You have one instructor request under reviewing'));
@@ -95,13 +98,17 @@ class AdditionalIncome extends Component
         if ($lastCommittedInvestorRequest?->status == RequestStatus::InProgress->value || auth()->user()->commited_investor == true || $soldesAction < $beCommitedInvestorMinActions) {
             $this->isCommitedInvestorDisabled = true;
         }
-        if (auth()->user()->instructor == true || (!is_null($lastInstructorRequest) && ($lastInstructorRequest->status == RequestStatus::InProgress->value))) {
+
+
+
+        if (auth()->user()->instructor == BeInstructorRequestStatus::Validated->value ||auth()->user()->instructor == BeInstructorRequestStatus::Validated2earn->value || (!is_null($lastInstructorRequest) && ($lastInstructorRequest->status == BeInstructorRequestStatus::InProgress->value))) {
             $this->isInstructor = true;
         }
 
-        if (!$validatedUser || auth()->user()->instructor == true || $lastInstructorRequest?->status == RequestStatus::InProgress->value) {
+        if (!$validatedUser || auth()->user()->instructor == BeInstructorRequestStatus::Validated2earn->value ||auth()->user()->instructor == BeInstructorRequestStatus::Validated->value || $lastInstructorRequest?->status == BeInstructorRequestStatus::InProgress->value) {
             $this->isInstructorDisabled = true;
         }
+
 
         $params = [
             'beCommitedInvestorMinActions' => $beCommitedInvestorMinActions,
