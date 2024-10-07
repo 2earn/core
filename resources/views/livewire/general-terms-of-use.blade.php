@@ -46,19 +46,19 @@
                                     La plateforme 2earn.cash se positionne comme un outil de gestion
                                     centralisé, permettant le suivi des activités et des soldes des utilisateurs,
                                     tout en s’appuyant sur un réseau de plateformes e-commerce
-                                    interconnectées : <strong>learn2earn.cash</strong>, <strong>move2earn.cash</strong>,
-                                    <strong>belegant2earn.cash</strong>, <strong>takecare2earn.cash</strong>, <strong>shop2earn.cash</strong>,
-                                    <strong>eat2earn.cash,</strong> et <strong>travel2earn.cash</strong>. Bien que ces
+                                    interconnectées : <b>learn2earn.cash</b>, <b>move2earn.cash</b>,
+                                    <b>belegant2earn.cash</b>, <b>takecare2earn.cash</b>, <b>shop2earn.cash</b>,
+                                    <b>eat2earn.cash,</b> et <b>travel2earn.cash</b>. Bien que ces
                                     plateformes opèrent
                                     de manière autonome dans leurs fonctions respectives, elles partagent
                                     une vision commune et sont unifiées sous le concept directeur de
                                     2earn.cash.
                                 </p>
                                 <p class="text-muted">
-                                    Les présentes <strong>Conditions Générales d’Utilisation</strong> s’appliquent à tous les
+                                    Les présentes <b>Conditions Générales d’Utilisation</b> s’appliquent à tous les
                                     utilisateurs de la plateforme, qu’il s’agisse d’utilisateurs réguliers,
                                     d’investisseurs ayant acquis des actions ou de partenaires d’affaires
-                                    explorant des opportunités au sein de notre <strong>Business Hub</strong>. Le simple fait
+                                    explorant des opportunités au sein de notre <b>Business Hub</b>. Le simple fait
                                     d’accéder à la plateforme, de naviguer sur ses pages ou d’utiliser ses
                                     fonctionnalités constitue une acceptation inconditionnelle des présentes
                                     conditions par l’utilisateur.
@@ -72,8 +72,8 @@
                                     <li>
                                         Lors de l’inscription sur notre plateforme, il vous sera demandé de
                                         fournir un numéro de téléphone, utilisé comme identifiant unique. Afin
-                                        de garantir la sécurité de vos informations, <strong>un code OTP (One-Time
-                                            Password)</strong> sera envoyé par SMS. Vous devrez entrer ce code pour valider
+                                        de garantir la sécurité de vos informations, <b>un code OTP (One-Time
+                                            Password)</b> sera envoyé par SMS. Vous devrez entrer ce code pour valider
                                         la procédure d’inscription.
                                     </li>
                                     <li>
@@ -150,7 +150,7 @@
                             <div class="card-body">
                                 <p class="text-muted">
                                     Toutes les marques, logos, concepts, et contenus de la plateforme
-                                    <strong>2earn.cash</strong> sont protégés par des droits de propriété intellectuelle. Ils ne
+                                    <b>2earn.cash</b> sont protégés par des droits de propriété intellectuelle. Ils ne
                                     peuvent être reproduits, modifiés, ou utilisés sans autorisation expresse
                                     et préalable de la société
                                 </p>
@@ -160,7 +160,7 @@
                             </div>
                             <div class="card-body">
                                 <p class="text-muted">
-                                    En cas de non-respect des présentes conditions, <strong>2earn.cash</strong> se réserve le
+                                    En cas de non-respect des présentes conditions, <b>2earn.cash</b> se réserve le
                                     droit de suspendre ou de restreindre l’accès de l’utilisateur à tout ou
                                     partie des services, ainsi que de prendre les mesures juridiques
                                     nécessaires.
@@ -177,22 +177,22 @@
                             </div>
                             <div class="card-body">
                                 <p class="text-muted">
-                                    The <strong>2earn.cash</strong> platform is positioned as a centralized management
+                                    The <b>2earn.cash</b> platform is positioned as a centralized management
                                     tool
                                     that allows users to track activities and balances, while relying on a
-                                    network of interconnected e-commerce platforms: <strong>learn2earn.cash</strong>,
-                                    <strong>move2earn.cash</strong>, <strong>belegant2earn.cash</strong>, <strong>takecare2earn.cash</strong>,
-                                    shop2earn.cash, <strong>eat2earn.cash</strong>, and
-                                    <strong>travel2earn.cash</strong>. Although these
+                                    network of interconnected e-commerce platforms: <b>learn2earn.cash</b>,
+                                    <b>move2earn.cash</b>, <b>belegant2earn.cash</b>, <b>takecare2earn.cash</b>,
+                                    shop2earn.cash, <b>eat2earn.cash</b>, and
+                                    <b>travel2earn.cash</b>. Although these
                                     platforms operate autonomously within their respective functions, they
                                     share a common vision and are unified under the central concept of
-                                    <strong>2earn.cash</strong>.
+                                    <b>2earn.cash</b>.
                                 </p>
                                 <p class="text-muted">
-                                    The present <strong>General Terms of Use</strong> apply to all users of the
+                                    The present <b>General Terms of Use</b> apply to all users of the
                                     platform,
                                     whether they are regular users, investors who have purchased shares, or
-                                    business partners exploring opportunities through our <strong>Business Hub</strong>.
+                                    business partners exploring opportunities through our <b>Business Hub</b>.
                                     By
                                     merely accessing the platform, browsing its pages, or using its features,
                                     the user unconditionally accepts these terms.
@@ -206,7 +206,7 @@
                                     <li>
                                         When registering on our platform, you will be asked to provide a phone
                                         number to be used as a unique identifier. To ensure the security of your
-                                        information, a <strong>One-Time Password (OTP)</strong> code will be sent via
+                                        information, a <b>One-Time Password (OTP)</b> code will be sent via
                                         SMS. You
                                         must enter this code to validate the registration process.
                                     </li>
@@ -280,7 +280,7 @@
                             </div>
                             <div class="card-body">
                                 <p class="text-muted">
-                                    All trademarks, logos, concepts, and content of the <strong>2earn.cash</strong>
+                                    All trademarks, logos, concepts, and content of the <b>2earn.cash</b>
                                     platform
                                     are protected by intellectual property rights. They may not be
                                     reproduced, modified, or used without the express prior authorization of
@@ -292,7 +292,7 @@
                             </div>
                             <div class="card-body">
                                 <p class="text-muted">
-                                    In the event of a breach of these terms, <strong>2earn.cash</strong> reserves the
+                                    In the event of a breach of these terms, <b>2earn.cash</b> reserves the
                                     right to
                                     suspend or restrict the user's access to all or part of the services, as well
                                     as to take the necessary legal actions.
@@ -310,17 +310,17 @@
                             <div class="card-body">
                                 <p class="text-muted">
                                     تتموضع منصة <b> 2earn.cash </b> كأداة إدارة مركزية تتيح للمستخدمين متابعة
-                                    أنشطتهم وأرصدة حساباتهم، مع االستناد إلى شبكة من المنصات التجارية
+                                    أنشطتهم وأرصدة حساباتهم، مع الإستناد إلى شبكة من المنصات التجارية
                                     <b>learn2earn.cash</b>، <b>move2earn.cash</b>، :المترابطة اإللكترونية
                                     <b>belegant2earn.cash</b>، <b>takecare2earn.cash</b>، <b>shop2earn.cash</b>،
-                                    <b> 2earn.cash </b>eat، و<b> 2earn.cash </b>travel . وعلى الرغم من أن هذه المنصات تعمل
-                                    بشكل مستقل في وظائفها الخاصة، إال أنها تشترك في رؤية موحدة ومفهوم
-                                    مركزي يجمعها تحت مظلة cash.earn..
+                                    <b> eat2earn.cash </b> و<b> travel2earn.cash </b> . وعلى الرغم من أن هذه المنصات تعمل
+                                    بشكل مستقل في وظائفها الخاصة، الا أنها تشترك في رؤية موحدة ومفهوم
+                                    مركزي يجمعها تحت مظلة <b>2cash.earn</b>..
                                 </p>
                                 <p class="text-muted">
-                                    تنطبق هذه الشروط العامة لالستخدام على جميع مستخدمي المنصة،
+                                    تنطبق هذه الشروط العامة للإستخدام على جميع مستخدمي المنصة،
                                     سواء كانوا مستخدمين عاديين، أو مستثمرين يمتلكون أسهمًا، أو شركاء
-                                    أعمال يبحثون عن فرص من خالل <b>Hub Business</b>. إن مجرد الوصول إلى المنصة
+                                    أعمال يبحثون عن فرص من خلال <b>Hub Business</b>. إن مجرد الوصول إلى المنصة
                                     قبوًل غير مشروط لهذه أو تصفح صفحاتها أو استخدام ميزاتها ُيعتبر ا
                                     الشروط.
                                 </p>

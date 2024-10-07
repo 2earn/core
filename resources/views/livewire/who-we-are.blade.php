@@ -39,14 +39,14 @@
                         <div class="card">
                             <div class="card-body">
                                 <p class="text-muted">
-                                    <strong>2EARN.CASH</strong> est une entreprise innovante et ambitieuse, spécialisée
+                                    <b>2EARN.CASH</b> est une entreprise innovante et ambitieuse, spécialisée
                                     dans
                                     le domaine du e-Business, avec pour mission de redéfinir les standards du
                                     commerce numérique à travers des concepts novateurs et des approches
                                     axées sur l’excellence et la satisfaction de ses utilisateurs. Son siège
                                     social, stratégiquement situé au sein de l’Université King Abdulaziz à
                                     Jeddah, en Arabie Saoudite, bénéficie d’un cadre institutionnel prestigieux
-                                    et d’une infrastructure de premier ordre. Parallèlement, <strong>2EARN.CASH</strong>
+                                    et d’une infrastructure de premier ordre. Parallèlement, <b>2EARN.CASH</b>
                                     est
                                     également implantée en Tunisie et en Égypte, témoignant ainsi de sa
                                     présence croissante sur le marché international et de sa volonté de se
@@ -54,13 +54,13 @@
                                     e-Business.
                                 </p>
                                 <p class="text-muted">
-                                    L'entreprise repose sur un concept révolutionnaire, <strong>The Earner
-                                        Marketing</strong>, qui transcende les paradigmes traditionnels en n’étant pas
+                                    L'entreprise repose sur un concept révolutionnaire, <b>The Earner
+                                        Marketing</b>, qui transcende les paradigmes traditionnels en n’étant pas
                                     uniquement focalisé sur un produit ou un service spécifique. Il s’agit
                                     d’une philosophie novatrice, orientée vers la création de valeur partagée.
-                                    Contrairement aux approches marketing conventionnelles, <strong>EARN.CASH</strong> a
+                                    Contrairement aux approches marketing conventionnelles, <b>EARN.CASH</b> a
                                     su réconcilier les intérêts des consommateurs et des fournisseurs en
-                                    s’appuyant sur le principe du <strong>Partage des Intérêts</strong>. Ce modèle
+                                    s’appuyant sur le principe du <b>Partage des Intérêts</b>. Ce modèle
                                     unique
                                     offre des avantages significatifs et durables aux deux parties prenantes,
                                     établissant ainsi une relation harmonieuse et équilibrée, que l’on ne
@@ -68,14 +68,14 @@
                                 </p>
 
                                 <p class="text-muted">
-                                    Fort de ce concept pionnier, <strong>2EARN.CASH</strong> a mis en place un
+                                    Fort de ce concept pionnier, <b>2EARN.CASH</b> a mis en place un
                                     écosystème
                                     digital intégré, constitué de plusieurs plateformes spécialisées telles que
-                                    <strong>Learn2earn.cash</strong>, <strong>Move2earn.cash</strong>,
-                                    <strong>Belegant2earn.cash</strong>,
-                                    <strong>Takecare2earn.cash</strong>, <strong>Shop2earn.cash</strong>, <strong>Eat2earn.cash</strong>,
+                                    <b>Learn2earn.cash</b>, <b>Move2earn.cash</b>,
+                                    <b>Belegant2earn.cash</b>,
+                                    <b>Takecare2earn.cash</b>, <b>Shop2earn.cash</b>, <b>Eat2earn.cash</b>,
                                     et
-                                    <strong>Travel2earn.cash</strong>. Bien que chaque plateforme opère de manière
+                                    <b>Travel2earn.cash</b>. Bien que chaque plateforme opère de manière
                                     indépendante dans son secteur d’activité respectif, elles sont toutes unies
                                     par une plateforme technologique centralisée et une vision commune,
                                     conférant à l’ensemble une cohérence et une synergie incomparables.
@@ -93,16 +93,16 @@
                                     cet écosystème unique.
                                 </p>
                                 <p class="text-muted">
-                                    Les marques et enseignes commerciales de <strong>2EARN.CASH</strong> ont été dûment
+                                    Les marques et enseignes commerciales de <b>2EARN.CASH</b> ont été dûment
                                     enregistrées et protégées à l’échelle internationale, conformément aux
-                                    normes établies par la <strong>Classification de Nice</strong>, garantissant ainsi
+                                    normes établies par la <b>Classification de Nice</b>, garantissant ainsi
                                     leur
                                     sécurité juridique dans le monde entier.
                                 </p>
                                 <p class="text-muted">
-                                    En février 2024, <strong>2EARN.CASH</strong> a franchi une nouvelle étape dans son
-                                    développement en adoptant le statut de <strong>Société par Actions Simplifiée
-                                        (S.A.S.)</strong>
+                                    En février 2024, <b>2EARN.CASH</b> a franchi une nouvelle étape dans son
+                                    développement en adoptant le statut de <b>Société par Actions Simplifiée
+                                        (S.A.S.)</b>
                                     , une structure juridique qui lui permet de lever des fonds par
                                     l’émission d’actions négociables. Cette évolution stratégique facilite la
                                     mobilisation de capitaux pour soutenir ses ambitions de croissance
@@ -117,39 +117,39 @@
                         <div class="card">
                             <div class="card-body">
                                 <p class="text-muted">
-                                    <strong>2EARN.CASH</strong> is an innovative and ambitious company specializing in
+                                    <b>2EARN.CASH</b> is an innovative and ambitious company specializing in
                                     the
                                     field of e-Business, with the mission to redefine the standards of digital
                                     commerce through groundbreaking concepts and approaches focused on
                                     excellence and user satisfaction. Its headquarters, strategically located at
                                     King Abdulaziz University in Jeddah, Saudi Arabia, benefits from a
                                     prestigious institutional framework and a top-tier infrastructure. At the
-                                    same time, <strong>2EARN.CASH</strong> is also established in Tunisia and Egypt,
+                                    same time, <b>2EARN.CASH</b> is also established in Tunisia and Egypt,
                                     reflecting its growing international presence and its aspiration to become
                                     a major global player in the digital commerce sector.
                                 </p>
                                 <p class="text-muted">
-                                    The company is built on a revolutionary concept, <strong>The Earner
-                                        Marketing</strong>,
+                                    The company is built on a revolutionary concept, <b>The Earner
+                                        Marketing</b>,
                                     which transcends traditional paradigms by not being focused on a single
                                     product or service. It is a groundbreaking philosophy centered around
                                     the creation of shared value. Unlike conventional marketing approaches,
-                                    <strong>2EARN.CASH</strong> has successfully harmonized the interests of both
-                                    consumers and suppliers by adopting the principle of <strong>Interest
-                                        Sharing</strong>.
+                                    <b>2EARN.CASH</b> has successfully harmonized the interests of both
+                                    consumers and suppliers by adopting the principle of <b>Interest
+                                        Sharing</b>.
                                     This unique model offers significant and sustainable benefits to both
                                     parties, establishing a balanced and harmonious relationship that is
                                     unmatched by any other marketing concept today.
                                 </p>
 
                                 <p class="text-muted">
-                                    Building on this pioneering concept, <strong>2EARN.CASH</strong> has developed an
+                                    Building on this pioneering concept, <b>2EARN.CASH</b> has developed an
                                     integrated digital ecosystem consisting of several specialized platforms:
-                                    <strong>Learn2earn.cash</strong>, <strong>Move2earn.cash</strong>,
-                                    <strong>Belegant2earn.cash</strong>,
-                                    <strong>Takecare2earn.cash</strong>, <strong>Shop2earn.cash</strong>, <strong>Eat2earn.cash</strong>,
+                                    <b>Learn2earn.cash</b>, <b>Move2earn.cash</b>,
+                                    <b>Belegant2earn.cash</b>,
+                                    <b>Takecare2earn.cash</b>, <b>Shop2earn.cash</b>, <b>Eat2earn.cash</b>,
                                     and
-                                    <strong>Travel2earn.cash</strong>. While each platform operates independently in its
+                                    <b>Travel2earn.cash</b>. While each platform operates independently in its
                                     respective sector, they are all united by a centralized technology platform
                                     and a shared vision, providing the entire system with unparalleled
                                     coherence and synergy. Together, these entities form a dynamic network
@@ -164,16 +164,16 @@
                                     opportunities generated by this unique ecosystem.
                                 </p>
                                 <p class="text-muted">
-                                    The trademarks and trade names of <strong>2EARN.CASH</strong> have been duly
+                                    The trademarks and trade names of <b>2EARN.CASH</b> have been duly
                                     registered and protected at the international level, in accordance with
-                                    the standards established by the <strong>Nice Classification</strong>, thus ensuring
+                                    the standards established by the <b>Nice Classification</b>, thus ensuring
                                     their
                                     legal security worldwide.
                                 </p>
                                 <p class="text-muted">
-                                    In February 2024, <strong>2EARN.CASH</strong> took a significant step forward in its
-                                    development by adopting the status of a <strong>Simplified Joint Stock Company
-                                        (S.J.S.C)</strong>, a legal structure that enables it to raise funds through the
+                                    In February 2024, <b>2EARN.CASH</b> took a significant step forward in its
+                                    development by adopting the status of a <b>Simplified Joint Stock Company
+                                        (S.J.S.C)</b>, a legal structure that enables it to raise funds through the
                                     issuance of tradable shares. This strategic shift facilitates capital
                                     mobilization to support its accelerated growth ambitions and global
                                     expansion.
