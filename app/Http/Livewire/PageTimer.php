@@ -8,15 +8,25 @@ class PageTimer extends Component
 {
     public $timeRemaining;
 
-    public function mount()
+    public function mount($providedDate = null)
     {
-        // Initialize with zero time
-        $this->timeRemaining = 0;
+
+        $now = new \DateTime();
+
+
+        if ($providedDate) {
+            $targetDate = \DateTime::createFromFormat('d/m/Y', $providedDate);
+        } else {
+            $targetDate = (clone $now)->modify('+180 days');
+        }
+
+
+        $this->timeRemaining = max(0, $targetDate->getTimestamp() - $now->getTimestamp());
     }
 
     public function render()
     {
-        return view('livewire.page-timer');
+        return view('livewire.page-timer')->extends('layouts.master')->section('content');
     }
 
     public function decrementTime()

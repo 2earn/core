@@ -1,144 +1,69 @@
-<style>
-    body {
-        text-align: center;
-        font-family: sans-serif;
-        font-weight: 100;
-    }
+@extends('layouts.master')
+@section('title')
+    @lang('translation.coming-soon')
+@endsection
+@section('content')
 
-    h1 {
-        color: #0a0c0d;
-        font-weight: 100;
-        font-size: 40px;
-        margin: 40px 0px 20px;
-    }
+    <div class="auth-page-wrapper pt-5">
+        <div class="auth-page-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center mt-sm-1 pt-4 mb-4">
+                        <div class="mb-sm-5 pb-sm-4 pb-5">
+                            <h1 class="display-1 coming-soon-text">Coming Soon</h1>
+                        </div>
+                        <img src="{{ Vite::asset('resources/images/timer/1.png') }}" alt=""
+                             height="120" class="move-animation">
+                    </div>
 
-    #clockdiv {
-        font-family: sans-serif;
-        color: #fff;
-        display: inline-block;
-        font-weight: 100;
-        text-align: center;
-        font-size: 30px;
-    }
-
-    #clockdiv > div {
-        padding: 10px;
-        border-radius: 3px;
-        background: #3c3f40;
-        display: inline-block;
-    }
-
-    #clockdiv div > span {
-        padding: 15px;
-        border-radius: 3px;
-        background: #0a53be;
-        display: inline-block;
-    }
-
-    .smalltext {
-        padding-top: 5px;
-        font-size: 16px;
-    }
-</style><div>
-    <h1>Coming Soon</h1>
-
-    <div>
-        <h2>Temps restant :</h2>
-        <div id="timer">
-            <h1>Countdown Clock</h1>
-            <div id="clockdiv">
-                <div>
-                    <span class="days">{{ $this->days }}</span>
-                    <div class="smalltext">Days</div>
-                </div>
-                <div>
-                    <span class="hours">{{ $this->hours }}</span>
-                    <div class="smalltext">Hours</div>
-                </div>
-                <div>
-                    <span class="minutes">{{ $this->minutes }}</span>
-                    <div class="smalltext">Minutes</div>
-                </div>
-                <div>
-                    <span class="seconds">{{ $this->seconds }}</span>
-                    <div class="smalltext">Seconds</div>
+                    <div class="row justify-content-center mt-5">
+                        <div class="col-lg-8">
+                            <div id="countdown" class="countdownlist">
+                                <div class="countdownlist-item">
+                                    <div class="count-title">Days</div>
+                                    <div class="count-num">{{ $this->days }}</div>
+                                </div>
+                                <div class="countdownlist-item">
+                                    <div class="count-title">Hours</div>
+                                    <div class="count-num">{{ $this->hours }}</div>
+                                </div>
+                                <div class="countdownlist-item">
+                                    <div class="count-title">Minutes</div>
+                                    <div class="count-num">{{ $this->minutes }}</div>
+                                </div>
+                                <div class="countdownlist-item">
+                                    <div class="count-title">Seconds</div>
+                                    <div class="count-num">{{ $this->seconds }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center mt-5">
+                        <div class="col-lg-12 text-center mt-sm-2 pt-4 mb-4">
+                            <h4>Get notified when we launch</h4>
+                            <p class="text-muted">Don't worry we will not spam you 😊</p>
+                        </div>
+                    </div>
+                        <div class="input-group countdown-input-group mx-auto my-4">
+                            <input type="email" class="form-control border-light shadow"
+                                   placeholder="Enter your email address" aria-label="search result"
+                                   aria-describedby="button-email">
+                            <button class="btn btn-success" type="button" id="button-email">Send<i
+                                    class="ri-send-plane-2-fill align-bottom ms-2"></i></button>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <!-- end row -->
+
+            <!-- end container -->
         </div>
-    </div>
+            <!-- end auth page content -->
 
-    <script>
-        let countdownInterval;
-
-
-        window.onload = function() {
-            const savedDate = localStorage.getItem('futureDate');
-            if (savedDate) {
-                document.getElementById('futureDate').value = savedDate;
-                startCountdown(new Date(savedDate));
-            }
-        };
-
-        function startCountdown(futureDate) {
-            const futureDateInput = document.getElementById('futureDate').value;
-            if (!futureDate && futureDateInput) {
-                futureDate = new Date(futureDateInput);
-            }
-
-            if (!isNaN(futureDate)) {
-                localStorage.setItem('futureDate', futureDate.toISOString());
-                clearInterval(countdownInterval);
-
-                initializeClock('clockdiv', futureDate);
-
-
-                countdownInterval = setInterval(() => {
-                    Livewire.emit('decrementTime');
-                }, 1000);
-            } else {
-                alert('Veuillez sélectionner une date valide.');
-            }
-        }
-
-        function clearDate() {
-            localStorage.removeItem('futureDate');
-            document.getElementById('futureDate').value = '';
-            clearInterval(countdownInterval);
-
-            Livewire.emit('resetCountdown');
-        }
-
-        function initializeClock(id, endtime) {
-            const clock = document.getElementById(id);
-            const daysSpan = clock.querySelector('.days');
-            const hoursSpan = clock.querySelector('.hours');
-            const minutesSpan = clock.querySelector('.minutes');
-            const secondsSpan = clock.querySelector('.seconds');
-
-            function updateClock() {
-                const t = Date.parse(endtime) - Date.parse(new Date());
-                if (t <= 0) {
-                    clearInterval(countdownInterval);
-                    daysSpan.innerHTML = 0;
-                    hoursSpan.innerHTML = 0;
-                    minutesSpan.innerHTML = 0;
-                    secondsSpan.innerHTML = 0;
-                    return;
-                }
-                const seconds = Math.floor((t / 1000) % 60);
-                const minutes = Math.floor((t / 1000 / 60) % 60);
-                const hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-                const days = Math.floor(t / (1000 * 60 * 60 * 24));
-
-                daysSpan.innerHTML = days;
-                hoursSpan.innerHTML = hours;
-                minutesSpan.innerHTML = minutes;
-                secondsSpan.innerHTML = seconds;
-            }
-
-            updateClock();
-            countdownInterval = setInterval(updateClock, 1000);
-        }
-    </script>
-</div>
-
+        <!-- end auth-page-wrapper -->
+@endsection
+@section('script')
+    <script src="{{ URL::asset('build/libs/particles.js/particles.js') }}"></script>
+    <script src="{{ URL::asset('build/js/pages/particles.app.js') }}"></script>
+    <script src="{{ URL::asset('build/js/pages/coming-soon.init.js') }}"></script>
+@endsection
