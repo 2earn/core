@@ -270,10 +270,9 @@
                         alt="Dr.Mahmoud Saleh" width="250px" height="350px"
                         class="d-block img-fluid mx-auto rounded float-left mb-2">
 
-                    <iframe style="height: 300px; width: 600px"
-                            src="{{Vite::asset('resources/images/static-news/y-ny-yh-tot-z-tkwn-mdrb-hqyqy-wt-ml-flws_video_1080p60.0.mp4')}}"
-                            class=" d-block img-fluid mx-auto rounded float-left" allowfullscreen>
-                    </iframe>
+                    <video style="height: 300px; width: 600px" controls class=" d-block img-fluid mx-auto rounded" >
+                        <source    src="{{Vite::asset('resources/images/static-news/y-ny-yh-tot-z-tkwn-mdrb-hqyqy-wt-ml-flws_video_1080p60.0.mp4')}}" type="video/mp4">
+                    </video>
 
                     <p class="text-muted my-2">     @if(app()->getLocale()=="en")
                             Best regards
