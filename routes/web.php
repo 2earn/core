@@ -65,9 +65,10 @@ Route::get('/offline', function () {
     return view('livewire.offline');
 });
 Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'middleware' => 'setlocale'], function () {
-    Route::get('/privacy', function () {
-        return view('livewire.privacy')->extends('layouts.master-without-nav')->section('content');
-    })->name('privacy');
+    Route::get('/privacy', \App\Http\Livewire\Privacy::class)->name('privacy');
+    Route::get('/who-we-are', \App\Http\Livewire\WhoWeAre::class)->name('who_we_are');
+    Route::get('/general-terms-of-use', \App\Http\Livewire\GeneralTermsOfUse::class)->name('general_terms_of_use');
+    Route::get('/contact-us', \App\Http\Livewire\ContactUs::class)->name('contact_us');
 });
 
 Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'middleware' => 'setlocale'], function () {
