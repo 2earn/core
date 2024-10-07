@@ -3,16 +3,16 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use Illuminate\Support\Facades\Vite;
 
 class PageTimer extends Component
 {
     public $timeRemaining;
+    public $imagePath;
 
-    public function mount($providedDate = null)
+    public function mount($providedDate = '30/12/2024')
     {
-
         $now = new \DateTime();
-
 
         if ($providedDate) {
             $targetDate = \DateTime::createFromFormat('d/m/Y', $providedDate);
@@ -20,8 +20,8 @@ class PageTimer extends Component
             $targetDate = (clone $now)->modify('+180 days');
         }
 
-
         $this->timeRemaining = max(0, $targetDate->getTimestamp() - $now->getTimestamp());
+        $this->updateImagePath();
     }
 
     public function render()
@@ -33,6 +33,7 @@ class PageTimer extends Component
     {
         if ($this->timeRemaining > 0) {
             $this->timeRemaining--;
+            $this->updateImagePath();
         }
     }
 
@@ -62,4 +63,19 @@ class PageTimer extends Component
     }
 
     protected $listeners = ['decrementTime'];
+
+    private function updateImagePath()
+    {
+        $daysLeft = $this->days;
+
+        if ($daysLeft <= 0) {
+            $imageName = '18.png';
+        } else {
+            $imageIndex = ceil($daysLeft / 10);
+            $imageIndex = max(1, min($imageIndex, 18));
+            $imageName = "{$imageIndex}.png";
+        }
+
+        $this->imagePath = Vite::asset('resources/images/timer/' . $imageName);
+    }
 }
