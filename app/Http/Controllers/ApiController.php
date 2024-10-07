@@ -70,7 +70,10 @@ left join users user on user.idUser = recharge_requests.idUser";
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()->all()], 400);
         }
-        $number_of_action = intval($request->ammount / $actualActionValue);
+
+        $number_of_action = round($request->ammount / $actualActionValue);
+
+
         $gift = getGiftedActions($number_of_action);
         $actual_price = actualActionValue(getSelledActions());
         $PU = $number_of_action * ($actual_price) / ($number_of_action + $gift);
