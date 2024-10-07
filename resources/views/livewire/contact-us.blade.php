@@ -14,8 +14,8 @@
                 <div class="py-4 text-center">
                     <h4>{{__('Contact us')}}</h4>
                     <p class="text-info fs-15 mt-3">
-                        {{__('If you can not find answer to your question, you can always contact us or email us')}}
-                        {{__('We will answer you shortly!')}}
+                        {{__('If you can not find answer to your question, you can always contact us or email us')}},
+                        {{__('We will answer you shortly')}}!
                     </p>
                 </div>
             </div>
