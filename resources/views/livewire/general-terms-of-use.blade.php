@@ -1,4 +1,7 @@
 <div class="row justify-content-center mt-2">
+    @section('title')
+        {{ __('General Terms of Use') }}
+    @endsection
     <div class="col-lg-10">
         <div class="card">
             <div class="bg-warning-subtle position-relative">
@@ -43,18 +46,19 @@
                                     La plateforme 2earn.cash se positionne comme un outil de gestion
                                     centralisé, permettant le suivi des activités et des soldes des utilisateurs,
                                     tout en s’appuyant sur un réseau de plateformes e-commerce
-                                    interconnectées : learn2earn.cash, move2earn.cash,
-                                    belegant2earn.cash, takecare2earn.cash, shop2earn.cash,
-                                    eat2earn.cash, et travel2earn.cash. Bien que ces plateformes opèrent
+                                    interconnectées : <strong>learn2earn.cash</strong>, <strong>move2earn.cash</strong>,
+                                    <strong>belegant2earn.cash</strong>, <strong>takecare2earn.cash</strong>, <strong>shop2earn.cash</strong>,
+                                    <strong>eat2earn.cash,</strong> et <strong>travel2earn.cash</strong>. Bien que ces
+                                    plateformes opèrent
                                     de manière autonome dans leurs fonctions respectives, elles partagent
                                     une vision commune et sont unifiées sous le concept directeur de
                                     2earn.cash.
                                 </p>
                                 <p class="text-muted">
-                                    Les présentes Conditions Générales d’Utilisation s’appliquent à tous les
+                                    Les présentes <strong>Conditions Générales d’Utilisation</strong> s’appliquent à tous les
                                     utilisateurs de la plateforme, qu’il s’agisse d’utilisateurs réguliers,
                                     d’investisseurs ayant acquis des actions ou de partenaires d’affaires
-                                    explorant des opportunités au sein de notre Business Hub. Le simple fait
+                                    explorant des opportunités au sein de notre <strong>Business Hub</strong>. Le simple fait
                                     d’accéder à la plateforme, de naviguer sur ses pages ou d’utiliser ses
                                     fonctionnalités constitue une acceptation inconditionnelle des présentes
                                     conditions par l’utilisateur.
@@ -68,8 +72,8 @@
                                     <li>
                                         Lors de l’inscription sur notre plateforme, il vous sera demandé de
                                         fournir un numéro de téléphone, utilisé comme identifiant unique. Afin
-                                        de garantir la sécurité de vos informations, un code OTP (One-Time
-                                        Password) sera envoyé par SMS. Vous devrez entrer ce code pour valider
+                                        de garantir la sécurité de vos informations, <strong>un code OTP (One-Time
+                                            Password)</strong> sera envoyé par SMS. Vous devrez entrer ce code pour valider
                                         la procédure d’inscription.
                                     </li>
                                     <li>
@@ -126,13 +130,16 @@
                                     de la plateforme
                                 </p>
                                 <ol class="text-muted">
-                                    <li>Ne pas utiliser la plateforme de manière abusive ou contraire aux
+                                    <li>
+                                        Ne pas utiliser la plateforme de manière abusive ou contraire aux
                                         règles d’éthique
                                     </li>
-                                    <li>Ne pas publier de contenus à caractère illégal, offensant, ou
+                                    <li>
+                                        Ne pas publier de contenus à caractère illégal, offensant, ou
                                         discriminatoire
                                     </li>
-                                    <li>Ne pas tenter d’exploiter les vulnérabilités de sécurité ou de
+                                    <li>
+                                        Ne pas tenter d’exploiter les vulnérabilités de sécurité ou de
                                         contourner les dispositifs de protection mis en place.
                                     </li>
                                 </ol>
@@ -143,7 +150,7 @@
                             <div class="card-body">
                                 <p class="text-muted">
                                     Toutes les marques, logos, concepts, et contenus de la plateforme
-                                    2earn.cash sont protégés par des droits de propriété intellectuelle. Ils ne
+                                    <strong>2earn.cash</strong> sont protégés par des droits de propriété intellectuelle. Ils ne
                                     peuvent être reproduits, modifiés, ou utilisés sans autorisation expresse
                                     et préalable de la société
                                 </p>
@@ -153,7 +160,7 @@
                             </div>
                             <div class="card-body">
                                 <p class="text-muted">
-                                    En cas de non-respect des présentes conditions, 2earn.cash se réserve le
+                                    En cas de non-respect des présentes conditions, <strong>2earn.cash</strong> se réserve le
                                     droit de suspendre ou de restreindre l’accès de l’utilisateur à tout ou
                                     partie des services, ainsi que de prendre les mesures juridiques
                                     nécessaires.
@@ -302,18 +309,18 @@
                             </div>
                             <div class="card-body">
                                 <p class="text-muted">
-                                    تتموضع منصة cash.earn2 كأداة إدارة مركزية تتيح للمستخدمين متابعة
+                                    تتموضع منصة <b> 2earn.cash </b> كأداة إدارة مركزية تتيح للمستخدمين متابعة
                                     أنشطتهم وأرصدة حساباتهم، مع االستناد إلى شبكة من المنصات التجارية
-                                    learn2earn.cash، move2earn.cash، :المترابطة اإللكترونية
-                                    belegant2earn.cash، takecare2earn.cash، shop2earn.cash،
-                                    cash.earn2eat، وcash.earn2travel . وعلى الرغم من أن هذه المنصات تعمل
+                                    <b>learn2earn.cash</b>، <b>move2earn.cash</b>، :المترابطة اإللكترونية
+                                    <b>belegant2earn.cash</b>، <b>takecare2earn.cash</b>، <b>shop2earn.cash</b>،
+                                    <b> 2earn.cash </b>eat، و<b> 2earn.cash </b>travel . وعلى الرغم من أن هذه المنصات تعمل
                                     بشكل مستقل في وظائفها الخاصة، إال أنها تشترك في رؤية موحدة ومفهوم
                                     مركزي يجمعها تحت مظلة cash.earn..
                                 </p>
                                 <p class="text-muted">
                                     تنطبق هذه الشروط العامة لالستخدام على جميع مستخدمي المنصة،
                                     سواء كانوا مستخدمين عاديين، أو مستثمرين يمتلكون أسهمًا، أو شركاء
-                                    أعمال يبحثون عن فرص من خالل Hub Business. إن مجرد الوصول إلى المنصة
+                                    أعمال يبحثون عن فرص من خالل <b>Hub Business</b>. إن مجرد الوصول إلى المنصة
                                     قبوًل غير مشروط لهذه أو تصفح صفحاتها أو استخدام ميزاتها ُيعتبر ا
                                     الشروط.
                                 </p>
@@ -324,9 +331,8 @@
                             <div class="card-body">
                                 <ul class="text-muted">
                                     <li>
-                                        عند التسجيل على منصتنا، سُيطلب منك تقديم رقم هاتف يتم استخدامه
-                                        كمعرف فريد. ولضمان أمان معلوماتك، سيتم إرسال رمز تحقق لمرة واحدة
-                                        )OTP )عبر رسالة نصية. يجب عليك إدخال هذا الرمز لتأكيد عملية التسجيل.
+                                        - عند التسجيل على منصتنا، سيُطلب منك تقديم رقم هاتف يتم استخدامه كمعرف فريد. ولضمان أمان معلوماتك، سيتم إرسال <b>رمز تحقق لمرة واحدة (OTP)</b> عبر رسالة نصية. يجب عليك إدخال هذا الرمز لتأكيد عملية التسجيل.
+
                                     </li>
                                     <li>
                                         إرسال كلمة مرور مؤقتة إليك عبر رسالة نصية، يمكنك تغييرها ًض - سيتم ا
@@ -397,7 +403,7 @@
                             <div class="card-body">
                                 <p class="text-muted">
                                     جميع العالمات التجارية، والشعارات، والمفاهيم، والمحتويات الموجودة على
-                                    منصة cash.earn2 محمية بحقوق الملكية الفكرية. ال يجوز إعادة إنتاجها أو
+                                    منصة <b> 2earn.cash </b> محمية بحقوق الملكية الفكرية. ال يجوز إعادة إنتاجها أو
                                     تعديلها أو استخدامها دون إذن صريح مسبق من الشركة.
 
                                 </p>
@@ -407,7 +413,7 @@
                             </div>
                             <div class="card-body">
                                 <p class="text-muted">
-                                    في حالة حدوث أي انتهاك لهذه الشروط، تحتفظ cash.earn2 بالحق في تعليق
+                                    في حالة حدوث أي انتهاك لهذه الشروط، تحتفظ <b> 2earn.cash </b> بالحق في تعليق
                                     أو تقييد وصول المستخدم إلى كل أو جزء من الخدمات، باإلضافة إلى اتخاذ
                                     اإلجراءات القانونية الالزمة.
                                 </p>
@@ -415,9 +421,6 @@
                         </div>
                     </div>
                 @endif
-            </div>
-            <div class="card-footer">
-                @include('layouts.footer-static', ['pageName' => 'static'])
             </div>
         </div>
     </div>

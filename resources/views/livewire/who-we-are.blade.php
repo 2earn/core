@@ -1,4 +1,7 @@
 <div class="row justify-content-center mt-2">
+    @section('title')
+        {{ __('Who are we') }}
+    @endsection
     <div class="col-lg-10">
         <div class="card">
             <div class="bg-warning-subtle position-relative">
@@ -80,6 +83,8 @@
                                     composante contribue de manière significative à l’expansion globale, tout
                                     en offrant aux utilisateurs une expérience fluide, intégrée et parfaitement
                                     optimisée.
+                                </p>
+                                <p class="text-muted">
                                     Cette synergie engendre une dynamique positive et une interaction
                                     mutuellement bénéfique, encourageant ainsi nos utilisateurs à explorer
                                     avec enthousiasme et curiosité l’ensemble de nos services. En
@@ -119,7 +124,7 @@
                                     excellence and user satisfaction. Its headquarters, strategically located at
                                     King Abdulaziz University in Jeddah, Saudi Arabia, benefits from a
                                     prestigious institutional framework and a top-tier infrastructure. At the
-                                    same time,<strong>2EARN.CASH</strong> is also established in Tunisia and Egypt,
+                                    same time, <strong>2EARN.CASH</strong> is also established in Tunisia and Egypt,
                                     reflecting its growing international presence and its aspiration to become
                                     a major global player in the digital commerce sector.
                                 </p>
@@ -187,24 +192,24 @@
                                     رائدة ونهج يركز على التميز وإرضاء المستخدمين. يقع مقرها الرئيسي بشكل
                                     استراتيجي في جامعة الملك عبد العزيز بجدة، المملكة العربية السعودية، مما
                                     مرموًق وبنية تحتية من الدرجة األولى. في الوقت نفسه، يمنحها إطاًرا مؤسسًيا ا
-                                    أي في تونس ومصر، مما يعكس حضورها الدولي ًض تتواجد CASH.EARN2 ا
+                                    أي في تونس ومصر، مما يعكس حضورها الدولي ًض تتواجد <b>2EARN.CASH </b> ا
                                     المتزايد و طموحها لتصبح العًبا عالمًيا رئيسًيا في قطاع التجارة الرقمية.
                                 </p>
                                 <p class="text-muted">
-                                    تستند الشركة إلى مفهوم ثوري ُيعرف باسم Marketing Earner The ، الذي
-                                    يتجاوز النماذج التقليدية بعدم تركيزه على منتج أو خدمة واحدة فقط. إنه
-                                    فلسفة مبتكرة تركز على خلق قيمة مشتركة. على عكس نهج التسويق
-                                    التقليدي، نجحت CASH.EARN2 في تحقيق التوازن بين مصالح كل من
-                                    المستهلكين والموردين من خالل اعتماد مبدأ تقاسم المنافع. هذا النموذج
-                                    الفريد يقدم فوائد كبيرة ومستدامة للطرفين، مما يرسخ عالقة متوازنة
-                                    ومنسجمة ال مثيل لها في أي مفهوم تسويقي آخر اليوم.
+                                    تستند الشركة إلى مفهوم ثوري يُعرف باسم <b>The Earner Marketing</b> ، الذي يتجاوز
+                                    النماذج
+                                    التقليدية بعدم تركيزه على منتج أو خدمة واحدة فقط. إنه فلسفة مبتكرة تركز على خلق قيمة
+                                    مشتركة. على عكس نهج التسويق التقليدي، نجحت 2EARN.CASH في تحقيق التوازن بين مصالح كل
+                                    من المستهلكين والمزودين والتجار من خلال اعتماد مبدأ تقاسم المنافع. هذا النموذج
+                                    الفريد يقدم فوائد كبيرة ومستدامة للطرفين، مما يرسخ علاقة متوازنة ومنسجمة لا مثيل لها
+                                    في أي مفهوم تسويقي آخر اليوم.
                                 </p>
 
                                 <p class="text-muted">
-                                    باالعتماد على هذا المفهوم الرائد، قامت CASH.EARN2 بتطوير منظومة رقمية
-                                    متكاملة تتألف من عدة منصات متخصصة: ،cash.earn2Learn
-                                    Move2earn.cash، Belegant2earn.cash، Takecare2earn.cash،
-                                    منصة كل أن ورغم .*ravel2earn.cash و ،Shop2earn.cash، Eat2earn.cash
+                                    باالعتماد على هذا المفهوم الرائد، قامت <b>2EARN.CASH </b> بتطوير منظومة رقمية
+                                    متكاملة تتألف من عدة منصات متخصصة: ،<b><b>2EARN.CASH </b>Learn</b>
+                                    <b>Move2earn.cash</b>، <b>Belegant2earn.cash</b>، <b>Takecare2earn.cash</b>،
+                                    منصة كل أن ورغم .*<b>ravel2earn.cash</b> و ،Shop2earn.cash، <b>Eat2earn.cash</b>
                                     تعمل بشكل مستقل في قطاعها الخاص، فإنها جمي ًعا موحدة بمنصة تقنية
                                     مركزية ورؤية مشتركة، مما يمنح النظام بأكمله تماس ًكا وتكامًلا ال مثيل لهما.
                                     تشكل هذه الكيانات شبكة ديناميكية حيث تساهم كل مكونة بشكل كبير
@@ -219,11 +224,17 @@
                                     المتنوعة التي تولدها هذه المنظومة الفريدة
                                 </p>
                                 <p class="text-muted">
-                                    لقد تم تسجيل العالمات التجارية واألسماء التجارية الخاصة بـ CASH.EARN2
+                                    لقد تم تسجيل العلامات التجارية والأسماء التجارية الخاصة بـ <b>2EARN.CASH</b>
+                                    وحمايتها على المستوى الدولي، وفقًا للمعايير التي وضعتها التصنيف الدولي في نيس، مما
+                                    يضمن أمنها القانوني في جميع أنحاء العالم.
+
+                                </p>
+                                <p class="text-muted">
+                                    لقد تم تسجيل العالمات التجارية واألسماء التجارية الخاصة بـ <b>2EARN.CASH </b>
                                     وحمايتها على المستوى الدولي، وف ًقا للمعايير التي وضعتها التصنيف الدولي
                                     في نيس، مما يضمن أمنها القانوني في جميع أنحاء العالم.
-                                    في فبراير ،2024 اتخذت CASH.EARN2 خطوة كبيرة في تطويرها من خالل
-                                    اعتمادها صفة شركة مساهمة مبسطة )S.A.S)، وهي هيكل قانوني يسمح
+                                    في فبراير ،2024 اتخذت <b>2EARN.CASH </b> خطوة كبيرة في تطويرها من خالل
+                                    اعتمادها <b>صفة شركة مساهمة مبسطة )S.A.S)،</b> وهي هيكل قانوني يسمح
                                     لها بجمع األموال من خالل إصدار أسهم قابلة للتداول. يسهل هذا التحول
                                     االستراتيجي تعبئة رؤوس األموال لدعم طموحات النمو السريع والتوسع
                                     العالمي.
@@ -233,13 +244,6 @@
                     </div>
                 @endif
             </div>
-            <div class="card-footer">
-                @include('layouts.footer-static', ['pageName' => 'static'])
-            </div>
         </div>
     </div>
 </div>
-
-
-
-

@@ -9,7 +9,6 @@
     <meta content="Themesbrand" name="author"/>
     <link rel="shortcut icon" href="{{ Vite::asset('resources/images/favicon.ico')}}">
     @livewireStyles
-    <script src="https://www.google.com/recaptcha/api.js?render={{config('services.recaptcha.key')}}"></script>
     @if(config('app.available_locales')[app()->getLocale()]['direction'] === 'rtl')
         @vite(['resources/css/bootstrap-rtl.css','resources/css/icons-rtl.css','resources/css/app-rtl.css','resources/css/custom-rtl.css'])
     @else
@@ -21,6 +20,7 @@
 <div class="container">
     @yield('content')
 </div>
+@include('layouts.footer-static', ['pageName' => 'static'])
 @livewireScripts
 </body>
 </html>

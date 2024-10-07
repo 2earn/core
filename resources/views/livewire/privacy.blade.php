@@ -1,19 +1,15 @@
-@component('components.breadcrumb')
-    @slot('title')
-        {{ __('Privacy') }}
-    @endslot
-@endcomponent
+
 <!-- vite -->
 @vite([ 'resources/css/app.css','resources/css/intlTelInput.min.css','resources/fontawesome/all.min.css','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
 <!-- vite -->
 
-<div class="row">
+<div class="row mt-2">
     <div class="card">
         <div class="bg-warning-subtle position-relative">
             <div class="card-body p-5">
                 <div class="text-center">
                     <h3>{{__('Privacy Policy for 2earn.cash')}}</h3>
-                    <p class="mb-0 text-muted"><strong>{{__('Last Updated')}}:</strong> February 29, 2024</p>
+                    <p class="mb-0 text-muted">{{__('Privacy Policy for 2earn.cash last updated')}}</p>
                 </div>
             </div>
         </div>
