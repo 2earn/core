@@ -6,11 +6,11 @@
         <a href="{{route('who_we_are',app()->getLocale())}}" class="link-info link-footer">
             {{__('Who we are')}}
         </a>
-        <i class="ri-subtract-line"></i>
+        <i class="las la-grip-lines-vertical"></i>
         <a href="{{route('general_terms_of_use',app()->getLocale())}}" class="link-info link-footer">
             {{__('General terms of use')}}
         </a>
-        <i class="ri-subtract-line"></i>
+        <i class="las la-grip-lines-vertical"></i>
         <a href="{{route('contact_us',app()->getLocale())}}" class="link-info link-footer">
             {{__('Contact us')}}
         </a>
