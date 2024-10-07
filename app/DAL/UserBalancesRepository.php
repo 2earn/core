@@ -51,7 +51,7 @@ class  UserBalancesRepository implements IUserBalancesRepository
             $calculetedUserBalances->soldeT = $solde->where("idamounts", "4")->first()->solde;
             $calculetedUserBalances->soldeSMS = $solde->where("idamounts", "5")->first()->solde;
 
-            $calculetedUserBalances->soldeCB = formatSolde($calculetedUserBalances->soldeCB, $decimals);
+            $calculetedUserBalances->soldeCB = formatSolde(round($calculetedUserBalances->soldeCB), $decimals);
             $calculetedUserBalances->soldeBFS = formatSolde($calculetedUserBalances->soldeBFS, $decimals);
             $calculetedUserBalances->soldeDB = formatSolde($calculetedUserBalances->soldeDB, $decimals);
             $calculetedUserBalances->soldeT = formatSolde($calculetedUserBalances->soldeT, $decimals);
