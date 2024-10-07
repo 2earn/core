@@ -10,12 +10,12 @@ class PageTimer extends Component
     public $timeRemaining;
     public $imagePath;
 
-    public function mount($providedDate = '30/12/2024')
+    public function mount($deadline = null)
     {
         $now = new \DateTime();
 
-        if ($providedDate) {
-            $targetDate = \DateTime::createFromFormat('d/m/Y', $providedDate);
+        if ($deadline) {
+            $targetDate = \DateTime::createFromFormat('d/m/Y', $deadline);
         } else {
             $targetDate = (clone $now)->modify('+180 days');
         }

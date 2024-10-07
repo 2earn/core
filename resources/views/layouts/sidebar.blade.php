@@ -96,7 +96,7 @@
 
                                 <li class="nav-item cool-link {{$currentRouteName==$sidebarBusinessArray[3]? 'active' : ''}}">
                                     <a href="{{route($sidebarBusinessArray[3], app()->getLocale(),false)}}"
-                                       class="nav-link disabled">
+                                       class="nav-link">
                                         {{ __('Job Opportunities') }}
                                     </a>
                                 </li>

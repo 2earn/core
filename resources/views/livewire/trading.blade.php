@@ -14,11 +14,10 @@
             {{ __('Trading') }}
         @endslot
     @endcomponent
-        <div class="card">
-            <div class="card-body">
-                @livewire('page-timer')
-
-            </div>
+    <div class="card">
+        <div class="card-body">
+            @livewire('page-timer', ['deadline' => '29/10/2024'])
         </div>
+    </div>
 
 </div>
