@@ -17,11 +17,15 @@
         <div class="col-xxl-4 col-lg-6">
             <div class="card">
                 <div class="card-header">
-                    <h5 id="exampleModalgridLabel">{{ __('Buy Shares') }}
-                        @if($flash)
-                            <div class="flash-background float-end">{{__('V I P')}}</div>
-                        @endif
-                    </h5>
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <h5 id="exampleModalgridLabel">{{ __('Buy Shares') }}
+                                @if($flash)
+                                    <div class="flash-background float-end">{{__('V I P')}}</div>
+                                @endif
+                            </h5>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="modal-content">
@@ -34,7 +38,8 @@
                                         <span
                                             class="pinkbold col-auto">{{$flashPeriod}} {{__('hours')}}</span> {{__('with a minimum of')}}
                                         <span
-                                            class="pinkbold col-auto">{{$flashMinShares}} {{__('Shares')}}</span></p>
+                                            class="pinkbold col-auto">{{$flashMinShares}} {{__('Shares')}}</span>
+                                    </p>
                                 </div>
                             @endif
                             <div class="row @if($flash) alert-flash @else alert  @endif alert-info" role="alert">
@@ -220,6 +225,36 @@
                     </div>
                 </div>
             </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <h5 class="card-title mb-0">{{__('Sale Shares')}}</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex align-items-center pb-2" title="{{$selledActions." / ".$totalActions}}">
+                        <div class="flex-shrink-0 me-3">
+                            <div class="avatar-xs">
+                                <div class="avatar-title bg-light rounded-circle text-muted fs-16">
+                                    <i class=" ri-creative-commons-nc-fill"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="progress animated-progress custom-progress progress-label">
+                                <div class="progress-bar bg-primary" role="progressbar"
+                                     style="width: {{$precentageOfActions}}%"
+                                     aria-valuenow="{{$selledActions}}" aria-valuemin="0"
+                                     aria-valuemax="{{$totalActions}}">
+                                    <div class="label">{{$precentageOfActions}}%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="col-xxl-8 col-lg-6">
             <div class="card">
@@ -237,6 +272,11 @@
             </div>
             <div class="card">
                 <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <h5 class="card-title mb-0">{{__('Sale Shares tables')}}</h5>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body table-responsive">
                     <table id="shares-solde"
@@ -244,13 +284,13 @@
                            style="width:100%">
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">
-                            <th style=" border: none ;text-align: center;">{{__('date_purchase')}}</th>
-                            <th style=" border: none;">{{__('number_of_shares')}}</th>
-                            <th style=" border: none;">{{__('gifted_shares')}}</th>
-                            <th style=" border: none ;text-align: center; ">{{__('total_shares')}}</th>
-                            <th style=" border: none;text-align: center; ">{{__('total_price')}}</th>
-                            <th style=" border: none;text-align: center; ">{{__('present_value')}}</th>
-                            <th style=" border: none;text-align: center; ">{{__('current_earnings')}}</th>
+                            <th>{{__('date_purchase')}}</th>
+                            <th>{{__('number_of_shares')}}</th>
+                            <th>{{__('gifted_shares')}}</th>
+                            <th>{{__('total_shares')}}</th>
+                            <th>{{__('total_price')}}</th>
+                            <th>{{__('present_value')}}</th>
+                            <th>{{__('current_earnings')}}</th>
                         </tr>
                         </thead>
                         <tbody class="body2earn">

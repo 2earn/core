@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\vip;
 use Core\Models\Setting;
 use Core\Services\BalancesManager;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class Trading extends Component
@@ -16,16 +17,50 @@ class Trading extends Component
     public $action;
     public $ammount;
     public $currency = '$';
-
     public $maxActions;
-
-
     public $flashGift = 0;
     public $flashTimes = 1;
     public $flashPeriod;
     public $flashDate;
     public $flashMinShares = -1;
     public $flashGain = 0;
+    public $actualActionValue = 0;
+    public $selledActions = 0;
+    public $totalActions = 0;
+    public $precentageOfActions = 0;
+    public $precentageOfSharesSale = 0;
+    public $numberSharesSale = 0;
+    public $giftedShares = 0;
+
+
+    public function mount()
+    {
+        $param = DB::table('settings')->where("ParameterName", "=", "Actions Number")->first();
+        if (!is_null($param)) {
+            $this->totalActions = $param->IntegerValue - $this->giftedShares;
+        }
+
+        $param = DB::table('settings')->where("ParameterName", "=", "GIFTED_SHARES")->first();
+        if (!is_null($param)) {
+            $this->giftedShares = $param->IntegerValue;
+        }
+
+        $this->selledActions = intval(getSelledActions()) ;
+        $this->precentageOfActions = round($this->selledActions / $this->totalActions, 3) * 100;
+
+        $this->numberSharesSale = $this->totalActions - $this->giftedShares;
+        $this->precentageOfSharesSale = round($this->selledActions / $this->numberSharesSale, 3) * 100;
+        $this->actualActionValue = actualActionValue(getSelledActions(), false);
+
+
+        $selledActionCursor = 0;
+        $selledActionCursor = $this->totalActions - $this->giftedShares;
+        $selledActionCursor = $this->selledActions;
+        $totalPaied = \Core\Models\user_balance::where('idBalancesOperation', 44)->where('idUser', Auth()->user()->idUser)->selectRaw('SUM((value + gifted_shares) * PU) as total_sum')->first()->total_sum;
+
+        $estimatedGain = ($this->actualActionValue * actualActionValue($selledActionCursor, false)) - $totalPaied;
+
+    }
 
     public function simulateAction()
     {
