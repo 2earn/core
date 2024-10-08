@@ -22,6 +22,12 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
+                                                       <span
+                                                           class="badge btn {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'btn-success' : 'btn-danger'  }}">
+                          {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? __('Multiple') : __('Unique')  }}                                      </span>
+                                        @if($survey->question->selection== \Core\Enum\Selection::MULTIPLE->value )
+                                            <span class="badge btn btn-info"> {{$survey->question->maxResponse}}</span>
+                                        @endif
                                         <h6 class="card-header border-muted mb-0 flex-grow-1">{{__('Question statement')}}
                                             :</h6>
                                         {{\App\Models\TranslaleModel::getTranslation($survey->question,'content',$survey->question->content)}}

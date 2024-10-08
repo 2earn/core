@@ -46,7 +46,7 @@
                                     <p class="text-uppercase fw-medium     mb-0 ms-2">
                                         {{ __('Cash Balance') }}</p>
                                     <h5 class="fs-14 mb-0 ms-2">
-                                        {{__('DPC')}}{{$solde->soldeCB}}
+                                        {{__('DPC')}} {{$solde->soldeCB}}
                                     </h5>
                                 </a>
                             </div>

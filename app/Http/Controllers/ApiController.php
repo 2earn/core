@@ -70,7 +70,10 @@ left join users user on user.idUser = recharge_requests.idUser";
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()->all()], 400);
         }
-        $number_of_action = intval($request->ammount / $actualActionValue);
+
+        $number_of_action = round($request->ammount / $actualActionValue);
+
+
         $gift = getGiftedActions($number_of_action);
         $actual_price = actualActionValue(getSelledActions());
         $PU = $number_of_action * ($actual_price) / ($number_of_action + $gift);
@@ -1049,7 +1052,7 @@ class="btn btn-xs btn-primary edit-amounts-btn btn2earnTable"  >
         return route('api_user_balances_list', ['locale' => app()->getLocale(), 'idUser' => $idUser, 'idAmounts' => $idamount]);
     }
 
-    public function getUserBalancesList($idUser, $idamount)
+    public function getUserBalancesList($locale, $idUser, $idamount)
     {
 
         $userData = DB::select("select ref,u.idUser,u.idamount,Date,u.idBalancesOperation,b.Designation,u.Description,
@@ -1061,7 +1064,7 @@ and u.idamount not in(4,6)  and u.idUser=? and u.idamount=? order by Date   ", [
         return response()->json($userData);
     }
 
-    public function getUserBalances($typeAmounts)
+    public function getUserBalances($locale, $typeAmounts)
     {
         $idAmounts = 0;
         switch ($typeAmounts) {
@@ -1102,7 +1105,6 @@ end)   OVER(ORDER BY date) ,3) , ' $') else concat( format( ub.balance ,3,'en_EN
 ub.idBalancesOperation = bo.idBalanceOperations
 where  (bo.idamounts = ? and ub.idUser =  ?)  order by ref desc", [$idAmounts, auth()->user()->idUser]
         );
-
         return Datatables::of($userData)
             ->addColumn('formatted_date', function ($user) {
                 return Carbon\Carbon::parse($user->Date)->format('Y-m-d');

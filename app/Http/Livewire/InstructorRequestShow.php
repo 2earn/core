@@ -4,7 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\InstructorRequest;
 use App\Models\User;
-use Core\Enum\RequestStatus;
+use Core\Enum\BeInstructorRequestStatus;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
@@ -24,11 +24,11 @@ class InstructorRequestShow extends Component
         $instructorRequest = InstructorRequest::find($this->InstructorRequestId);
         $instructorRequest->update(
             [
-                'status' => RequestStatus::Validated->value,
+                'status' => BeInstructorRequestStatus::Validated2earn->value,
                 'examination_date' => now(),
                 'examiner_id' => auth()->user()->id,
             ]);
-        User::find($instructorRequest->user_id)->update(['instructor' => true]);
+        User::find($instructorRequest->user_id)->update(['instructor' => BeInstructorRequestStatus::Validated2earn->value]);
 
         return redirect()->route('requests_instructor', app()->getLocale())->with('success', trans('Instructor request is validated'));
 
@@ -45,7 +45,7 @@ class InstructorRequestShow extends Component
             $instructorRequest = InstructorRequest::find($this->InstructorRequestId);
             $instructorRequest->update(
                 [
-                    'status' => RequestStatus::Rejected->value,
+                    'status' => BeInstructorRequestStatus::Rejected->value,
                     'examination_date' => now(),
                     'note' => $this->note,
                     'examiner_id' => auth()->user()->id,

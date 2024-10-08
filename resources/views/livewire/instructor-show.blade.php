@@ -58,7 +58,7 @@
                     @forelse($instructorRequests as $instructorRequest)
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             {{$instructorRequest->request_date}} <span
-                                    class="badge {{$instructorRequest->status==\Core\Enum\RequestStatus::Rejected->value?'bg-warning':'bg-success'}} ">{{__(\Core\Enum\RequestStatus::tryFrom($instructorRequest->status)->name)}}</span>
+                                    class="badge {{$instructorRequest->status==\Core\Enum\BeInstructorRequestStatus::Rejected->value?'bg-warning':'bg-success'}} ">{{__(\Core\Enum\BeInstructorRequestStatus::tryFrom($instructorRequest->status)->name)}}</span>
                         </li>
                     @empty
                     @endforelse

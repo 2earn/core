@@ -17,8 +17,8 @@ class AddCashSeeder extends Seeder
      */
     public function run()
     {
-        $idUser = 999996390;
-        $value = 100;
+        $idUser = 197604395;
+        $value = 1000;
         DB::table('user_balances')->insert([
             'Date' => now(),
             'idBalancesOperation' => 18,
@@ -34,7 +34,7 @@ class AddCashSeeder extends Seeder
             'PrixUnitaire' => '1',
         ]);
 
-        $idUser = 197604420;
+        $idUser = 197604395;
         DB::table('usercurrentbalances')
             ->where('idUser', $idUser)
             ->where('idamounts', 1)->update([

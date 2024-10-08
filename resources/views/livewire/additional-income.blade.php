@@ -22,7 +22,7 @@
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6 my-2">
                     <div
-                        class="form-check form-switch form-switch-lg  form-switch-success d-block img-fluid text-center mx-auto">
+                            class="form-check form-switch form-switch-lg  form-switch-success d-block img-fluid text-center mx-auto">
                         <input type="checkbox" class="form-check-input" wire:model="isCommitedInvestor"
                                wire:click="sendCommitedInvestorRequest()" id="be_commited_investor"
                                @if($isCommitedInvestorDisabled) disabled @endif>
@@ -83,7 +83,7 @@
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6 my-2">
                     <div
-                        class="form-check form-switch form-switch-lg form-switch-success d-block img-fluid  text-center mx-auto">
+                            class="form-check form-switch form-switch-lg form-switch-success d-block img-fluid  text-center mx-auto">
 
                         <input type="checkbox" class="form-check-input" id="be_instructor" wire:model="isInstructor"
                                wire:click="sendInstructorRequest()" @if($isInstructorDisabled) disabled @endif>
@@ -92,18 +92,26 @@
                     </div>
                     <br>
 
-                    @if(auth()->user()->instructor)
+                    @if(auth()->user()->instructor==\Core\Enum\BeInstructorRequestStatus::Validated->value)
                         <div class="alert alert-success material-shadow text-center" role="alert">
                             {{__('You are Instructor')}}
                         </div>
-                    @else
+                    @endif
 
+                    @if(auth()->user()->instructor==\Core\Enum\BeInstructorRequestStatus::Validated2earn->value)
+                        <div class="alert alert-info material-shadow text-center" role="alert">
+                            {{__('Waiting for Learn2earn platform validation')}}
+                        </div>
+                    @endif
+
+                    @if(auth()->user()->instructor<\Core\Enum\BeInstructorRequestStatus::Validated2earn->value)
                         @if($validatedUser)
-                            @if(is_null($lastInstructorRequest)||$lastInstructorRequest?->status == \Core\Enum\RequestStatus::Rejected->value)
+                            @if(is_null($lastInstructorRequest)||$lastInstructorRequest?->status == \Core\Enum\BeInstructorRequestStatus::Rejected->value)
                                 <div class="alert alert-danger material-shadow  text-center" role="alert">
                                     {{__('To benefit from this privilege please activate the option')}}
+
                                     @if(!is_null($lastInstructorRequest))
-                                        @if(!is_null($lastInstructorRequest?->note||$lastInstructorRequest?->status == \Core\Enum\RequestStatus::Rejected->value))
+                                        @if(!is_null($lastInstructorRequest?->note||$lastInstructorRequest?->status == \Core\Enum\BeInstructorRequestStatus::Rejected->value))
                                             <hr class="text-muted">
                                             <span class="mt-2 text-muted">
                                         <strong>{{__('Latest request rejection raison')}} :</strong> {{$lastInstructorRequest?->note}}
@@ -113,7 +121,7 @@
                                 </div>
                             @endif
 
-                            @if($lastInstructorRequest?->status == \Core\Enum\RequestStatus::InProgress->value)
+                            @if($lastInstructorRequest?->status == \Core\Enum\BeInstructorRequestStatus::InProgress->value)
                                 <div class="alert alert-warning material-shadow text-center" role="alert">
                                     {{__('Your request is currently being processes...')}}
                                 </div>
@@ -123,7 +131,6 @@
                                 {{__('You must be validated user')}}
                                 <hr>
                                 <a href="{{route('account',app()->getLocale() )}}">{{__('Go to Account, To validate your account')}}</a>
-
                             </div>
                         @endif
                     @endif
@@ -144,7 +151,7 @@
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6 my-2">
                     <div
-                        class="form-check form-switch  form-switch-lg form-switch-success d-block img-fluid  text-center mx-auto">
+                            class="form-check form-switch  form-switch-lg form-switch-success d-block img-fluid  text-center mx-auto">
 
                         <input type="checkbox" class="form-check-input" id="be_PHV_driver" disabled>
                         <label class="form-check-label"
@@ -177,7 +184,7 @@
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6 my-2">
                     <div
-                        class="form-check form-switch  form-switch-lg form-switch-success d-block img-fluid  text-center mx-auto">
+                            class="form-check form-switch  form-switch-lg form-switch-success d-block img-fluid  text-center mx-auto">
                         <input type="checkbox" class="form-check-input" id="be_seller" disabled>
                         <label class="form-check-label"
                                for="be_seller">{{__('Be Seller')}}</label>
