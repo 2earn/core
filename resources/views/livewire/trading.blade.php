@@ -221,93 +221,193 @@
                 </div>
             </div>
         </div>
+        <div class="col-xxl-8 col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <h5 class="card-title mb-0">{{__('Share Price Evolution')}}</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="chart1">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-        <script type="module">
-            $(document).ready(function () {
-                    const input = document.querySelector("#phone");
-                    const iti = window.intlTelInput(input, {
-                        initialCountry: "auto",
-                        useFullscreenPopup: false,
-                        utilsScript: " {{asset('/build/utils.js/utils.js')}}"
-                    });
-                    $('[name="inlineRadioOptions"]').on('change', function () {
-                        if ($('#inlineRadio2').is(':checked')) {
-                            $('#contact-select').removeClass('d-none');
-                            $('#bfs-select').removeClass('d-none');
-                        } else {
-                            $('#contact-select').addClass('d-none');
-                            $('#bfs-select').addClass('d-none');
+    <script type="module">
+        $(document).ready(function () {
+                const input = document.querySelector("#phone");
+                const iti = window.intlTelInput(input, {
+                    initialCountry: "auto",
+                    useFullscreenPopup: false,
+                    utilsScript: " {{asset('/build/utils.js/utils.js')}}"
+                });
+                $('[name="inlineRadioOptions"]').on('change', function () {
+                    if ($('#inlineRadio2').is(':checked')) {
+                        $('#contact-select').removeClass('d-none');
+                        $('#bfs-select').removeClass('d-none');
+                    } else {
+                        $('#contact-select').addClass('d-none');
+                        $('#bfs-select').addClass('d-none');
+                    }
+                });
+                $("#buy-action-submit").one("click", function () {
+                    this.disabled = true;
+                    $('.buy-action-submit-spinner').show();
+                    let ammount = parseFloat($('#ammount').val());
+                    let phone = $('#phone').val();
+                    let me_or_other = $("input[name='inlineRadioOptions']:checked").val();
+                    let bfs_for = $("input[name='bfs-for']:checked").val();
+                    let country_code = iti.getSelectedCountryData().iso2;
+                    $.ajax({
+                        url: "{{ route('buyAction', app()->getLocale()) }}",
+                        type: "POST",
+                        data: {
+                            me_or_other: me_or_other,
+                            bfs_for: bfs_for,
+                            phone: phone,
+                            country_code: country_code,
+                            ammount: ammount,
+                            vip: {{$flashTimes}},
+                            flashMinShares: {{$flashMinShares}},
+                            flash: "{{$flash}}",
+                            actions: {{$actions}},
+                            "_token": "{{ csrf_token() }}"
+                        },
+                        success: function (data) {
+                            let backgroundColor = "#27a706"
+                            if (data.error) {
+                                backgroundColor = "#ba0404";
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "{{__('Validation failed')}}",
+                                    html: response.error.join('<br>')
+                                });
+                            }
+
+                            $('.btn-close-buy-share').trigger('click')
+
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: data.message,
+                                text: data.message,
+                                showConfirmButton: false,
+                                timer: 2000,
+                                showCloseButton: true
+                            });
+
+                            $('.buy-action-submit-spinner').hide();
+                            location.reload();
+                        },
+                        error: function (data) {
+                            var responseData = JSON.parse(data.responseText);
+                            Swal.fire({
+                                icon: 'error',
+                                title: "{{__('Error in action purchase transaction')}}",
+                                cancelButtonText: '{{__('Cancel')}}',
+                                confirmButtonText: '{{__('Confirm')}}',
+                                text: responseData.error[0]
+                            });
+                            $('.buy-action-submit-spinner').hide();
                         }
                     });
-                    $("#buy-action-submit").one("click", function () {
-                        this.disabled = true;
-                        $('.buy-action-submit-spinner').show();
-                        let ammount = parseFloat($('#ammount').val());
-                        let phone = $('#phone').val();
-                        let me_or_other = $("input[name='inlineRadioOptions']:checked").val();
-                        let bfs_for = $("input[name='bfs-for']:checked").val();
-                        let country_code = iti.getSelectedCountryData().iso2;
-                        $.ajax({
-                            url: "{{ route('buyAction', app()->getLocale()) }}",
-                            type: "POST",
-                            data: {
-                                me_or_other: me_or_other,
-                                bfs_for: bfs_for,
-                                phone: phone,
-                                country_code: country_code,
-                                ammount: ammount,
-                                vip: {{$flashTimes}},
-                                flashMinShares: {{$flashMinShares}},
-                                flash: "{{$flash}}",
-                                actions: {{$actions}},
-                                "_token": "{{ csrf_token() }}"
+                    setTimeout(() => {
+                        this.disabled = false;
+                        $('.buy-action-submit-spinner').hide();
+                    }, 2000);
+
+                })
+            }
+        );
+
+    </script>
+    <script src="{{ URL::asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
+    <script id="rendered-js" type="module">
+        $(document).on('turbolinks:load', function () {
+            var chart1Origin = document.querySelector('#chart1');
+            if (chart1Origin) {
+                var options1 = {
+                    colors: ['#008ffb', '#00e396', '#d4526e'],
+                    chart: {height: 350, type: 'area',},
+                    dataLabels: {enabled: false},
+                    series: [],
+                    title: {text: '{{__('Share Price Evolution')}}',},
+                    noData: {text: '{{__('Loading')}}...'},
+                    xaxis: {type: 'numeric',},
+                    stroke: {curve: 'straight',},
+                    annotations: {
+                        points: [{
+                            x: {{getSelledActions() * 1.05/2}},
+                            y: {{getHalfActionValue()*1.01}},
+                            marker: {
+                                size: 0,
+                                fillColor: '#fff',
+                                strokeColor: 'transparent',
+                                radius: 0,
+                                cssClass: 'apexcharts-custom-class'
                             },
-                            success: function (data) {
-                                let backgroundColor = "#27a706"
-                                if (data.error) {
-                                    backgroundColor = "#ba0404";
-                                    Swal.fire({
-                                        icon: "error",
-                                        title: "{{__('Validation failed')}}",
-                                        html: response.error.join('<br>')
-                                    });
-                                }
-
-                                $('.btn-close-buy-share').trigger('click')
-
-                                Swal.fire({
-                                    position: 'center',
-                                    icon: 'success',
-                                    title: data.message,
-                                    text: data.message,
-                                    showConfirmButton: false,
-                                    timer: 2000,
-                                    showCloseButton: true
-                                });
-
-                                $('.buy-action-submit-spinner').hide();
-                                location.reload();
-                            },
-                            error: function (data) {
-                                var responseData = JSON.parse(data.responseText);
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: "{{__('Error in action purchase transaction')}}",
-                                    cancelButtonText: '{{__('Cancel')}}',
-                                    confirmButtonText: '{{__('Confirm')}}',
-                                    text: responseData.error[0]
-                                });
-                                $('.buy-action-submit-spinner').hide();
+                            label: {
+                                borderColor: '#ffffff',
+                                offsetY: 0,
+                                style: {
+                                    color: '#fff',
+                                    background: '#00e396',
+                                    fontSize: '15px',
+                                },
+                                text: "{{__('x_times')}}",
                             }
-                        });
-                        setTimeout(() => {
-                            this.disabled = false;
-                            $('.buy-action-submit-spinner').hide();
-                        }, 2000);
-
-                    })
+                        }]
+                    }
                 }
-            );
-
-        </script>
+                var chart1 = new ApexCharts(document.querySelector("#chart1"), options1);
+                chart1.render();
+                var url1 = '{{route('api_share_evolution',['locale'=> app()->getLocale()])}}';
+                var url2 = '{{route('api_action_values',['locale'=> app()->getLocale()])}}';
+                var url3 = '{{route('api_share_evolution_user',['locale'=> app()->getLocale()])}}';
+                $.when(
+                    $.getJSON(url1),
+                    $.getJSON(url2),
+                    $.getJSON(url3)
+                ).then(function (response1, response2, response3) {
+                    var series1 = {
+                        name: 'Sales',
+                        type: 'area',
+                        data: response1[0],
+                    };
+                    var series2 = {name: 'Function', type: 'line', data: response2[0]};
+                    var series3 = {name: 'My Shares', type: 'area', data: response3[0]};
+                    chart1.updateSeries([series1, series2, series3]);
+                });
+            }
+            $('#shares-solde').DataTable({
+                "ordering": true,
+                retrieve: true,
+                "colReorder": false,
+                "orderCellsTop": true,
+                "fixedHeader": true,
+                "order": [[5, 'asc']],
+                "processing": true,
+                "serverSide": false,
+                "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
+                search: {return: true},
+                autoWidth: false,
+                bAutoWidth: false,
+                "ajax": "{{route('api_shares_solde',['locale'=> app()->getLocale()])}}",
+                "columns": [
+                    {data: 'formatted_created_at'},
+                    {data: 'value_format'},
+                    {data: 'gifted_shares'},
+                    {data: 'total_shares'},
+                    {data: 'total_price'},
+                    {data: 'present_value'},
+                    {data: 'current_earnings'},
+                ],
+                "language": {"url": urlLang}
+            });
+        });
+    </script>
 </div>
