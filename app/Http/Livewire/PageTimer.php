@@ -10,15 +10,11 @@ class PageTimer extends Component
     public $timeRemaining;
     public $imagePath;
 
-    public function mount($deadline = null)
+    public function mount($deadline)
     {
         $now = new \DateTime();
 
-        if ($deadline) {
-            $targetDate = \DateTime::createFromFormat('d/m/Y', $deadline);
-        } else {
-            $targetDate = (clone $now)->modify('+180 days');
-        }
+        $targetDate = \DateTime::createFromFormat('d/m/Y', $deadline);
 
         $this->timeRemaining = max(0, $targetDate->getTimestamp() - $now->getTimestamp());
         $this->updateImagePath();
