@@ -14,22 +14,22 @@
                     <div class="card-body">
                         <div class="row col-12" role="alert">
                             <p>  {{__('Dear vip')}} : <br><strong
-                                    class="mx-3">{{getUserDisplayedName(auth()->user()->idUser)}},</strong><br>
+                                        class="mx-3">{{getUserDisplayedName(auth()->user()->idUser)}},</strong><br>
                                 {{__('A mode for a')}} <span
-                                    class="col-auto flash-red">{{$flashTimes}}</span> {{__('times bonus over')}}
+                                        class="col-auto flash-red">{{$flashTimes}}</span> {{__('times bonus over')}}
                                 <span
-                                    class="col-auto flash-red">{{$flashPeriod}} {{__('hours')}}</span> {{__('with a minimum of')}}
+                                        class="col-auto flash-red">{{$flashPeriod}} {{__('hours')}}</span> {{__('with a minimum of')}}
                                 <span
-                                    class="col-auto flash-red">{{formatSolde($flashMinShares,0)}} {{__('Shares')}}</span>. {{__('il vous reste')}}
+                                        class="col-auto flash-red">{{formatSolde($flashMinShares,0)}} {{__('Shares')}}</span>. {{__('il vous reste')}}
                                 <span
-                                    class="col-auto flash-red">{{formatSolde($vip->solde,0)}}{{__('Shares')}}</span>
+                                        class="col-auto flash-red">{{formatSolde($vip->solde,0)}}{{__('Shares')}}</span>
                                 {{__('à conssommer. avec lachat de')}}
                                 <span
-                                    class="col-auto flash-red">{{formatSolde($actions,0)}}</span>
+                                        class="col-auto flash-red">{{formatSolde($actions,0)}}</span>
                                 {{__('actions')}} ,
                                 {{__('et les benefices instentannés seront')}}
                                 <span
-                                    class="col-auto flash-red">{{formatSolde($benefices,2)}}{{$currency}}</span></p>
+                                        class="col-auto flash-red">{{formatSolde($benefices,2)}}{{$currency}}</span></p>
                         </div>
                         <div class="row col-12">
                             <div class="discount-time text-center">
@@ -107,9 +107,9 @@
                             </div>
                             <div class="avatar-sm flex-shrink-0">
                                 <lord-icon
-                                    src="https://cdn.lordicon.com/nlmjynuq.json"
-                                    trigger="loop"
-                                    style="width:55px;height:55px">
+                                        src="https://cdn.lordicon.com/nlmjynuq.json"
+                                        trigger="loop"
+                                        style="width:55px;height:55px">
                                 </lord-icon>
                             </div>
 
@@ -170,9 +170,9 @@
                             </div>
                             <div class="avatar-sm flex-shrink-0">
                                 <lord-icon
-                                    src="{{ URL::asset('build/icons/146-basket-trolley-shopping-card-gradient-edited.json') }}"
-                                    trigger="loop"
-                                    colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
+                                        src="{{ URL::asset('build/icons/146-basket-trolley-shopping-card-gradient-edited.json') }}"
+                                        trigger="loop"
+                                        colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
                                 </lord-icon>
                             </div>
                         </div>
@@ -232,10 +232,10 @@
                             </div>
                             <div class="avatar-sm flex-shrink-0">
                                 <lord-icon
-                                    src="https://cdn.lordicon.com/qrbokoyz.json"
-                                    trigger="loop"
-                                    colors="primary:#464fed,secondary:#bc34b6"
-                                    style="width:55px;height:55px">
+                                        src="https://cdn.lordicon.com/qrbokoyz.json"
+                                        trigger="loop"
+                                        colors="primary:#464fed,secondary:#bc34b6"
+                                        style="width:55px;height:55px">
                                 </lord-icon>
                             </div>
                         </div>
@@ -280,13 +280,13 @@
                             <div class="flex-grow-1 overflow-hidden">
                                 <a href="{{route('shares_solde' , app()->getLocale() )}} "
                                    class="text-decoration-underline"><p
-                                        class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Actions (Shares)') }}</p>
+                                            class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Actions (Shares)') }}</p>
                                 </a>
                             </div>
                             <div class="flex-shrink-0">
                                 <h5 class="text-success fs-14 mb-0">
                                     {{$actualActionValue['int']}}.{{$actualActionValue['2Fraction']}}<small
-                                        class="action_fraction">{{$actualActionValue['3_2Fraction']}}</small>
+                                            class="action_fraction">{{$actualActionValue['3_2Fraction']}}</small>
                                     <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
                                 </h5>
                             </div>
@@ -299,18 +299,18 @@
                                     <small class="text-muted fs-13">
                                         ({{$actionsValues}}{{$currency}})
                                     </small></h3>
-                                <button data-bs-target="#buy-action" data-bs-toggle="modal"
-                                        class="btn btn-sm @if($flash) btn-flash @else btn-secondary  @endif">{{ __('Buy Shares') }}</button>
-                                <span class="badge bg-light text-success  ms-2 mb-0"><i
-                                        class="ri-arrow-up-line align-middle"></i>
+                                <a href="{{route('business_hub_trading',app()->getLocale())}}"
+                                   class="btn btn-sm @if($flash) btn-flash @else btn-secondary  @endif">{{ __('Buy Shares') }}</a>
+                                    <span class="badge bg-light text-success  ms-2 mb-0"><i
+                                                class="ri-arrow-up-line align-middle"></i>
                                 {{$userActualActionsProfit }} {{$currency}}
                             </span>
                             </div>
                             <div class="avatar-sm flex-shrink-0">
                                 <lord-icon
-                                    src="{{ URL::asset('build/icons/wired-gradient-751-share.json') }}"
-                                    trigger="loop"
-                                    colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
+                                        src="{{ URL::asset('build/icons/wired-gradient-751-share.json') }}"
+                                        trigger="loop"
+                                        colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
                                 </lord-icon>
                             </div>
                         </div>
@@ -320,7 +320,7 @@
         </div>
         <div class="card-footer text-muted">
             <span class="float-end">{{__('Soldes calculated at')}} : <cite
-                    title="Source Title">{{Carbon\Carbon::now()->toDateTimeString()}}</cite></span>
+                        title="Source Title">{{Carbon\Carbon::now()->toDateTimeString()}}</cite></span>
         </div>
     </div>
     <div class="row">
@@ -389,11 +389,11 @@
                     @if($flash)
                         <div class="row pink col-12" role="alert">
                             <p>{{__('A mode for a')}} <span
-                                    class="pinkbold col-auto">{{$flashTimes}}</span> {{__('times bonus over')}}
+                                        class="pinkbold col-auto">{{$flashTimes}}</span> {{__('times bonus over')}}
                                 <span
-                                    class="pinkbold col-auto">{{$flashPeriod}} {{__('hours')}}</span> {{__('with a minimum of')}}
+                                        class="pinkbold col-auto">{{$flashPeriod}} {{__('hours')}}</span> {{__('with a minimum of')}}
                                 <span
-                                    class="pinkbold col-auto">{{$flashMinShares}} {{__('Shares')}}</span></p>
+                                        class="pinkbold col-auto">{{$flashMinShares}} {{__('Shares')}}</span></p>
                         </div>
                     @endif
                     <div class="row @if($flash) alert-flash @else alert  @endif alert-info" role="alert">
@@ -565,8 +565,8 @@
                                                 class="btn @if($flash) btn-flash @else btn-primary  @endif swal2-styled d-inline-flex">
                                             {{ __('Submit') }}
                                             <div
-                                                class="spinner-border spinner-border-sm mx-2 mt-1 buy-action-submit-spinner"
-                                                role="status"></div>
+                                                    class="spinner-border spinner-border-sm mx-2 mt-1 buy-action-submit-spinner"
+                                                    role="status"></div>
                                         </button>
                                     </div>
                                 </div>
