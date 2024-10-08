@@ -73,10 +73,9 @@ left join users user on user.idUser = recharge_requests.idUser";
 
         $number_of_action = intval(($request->ammount) / $actualActionValue);
 
-        dd($number_of_action, $request->ammount, $actualActionValue);
 
         $gift = getGiftedActions($number_of_action);
-        $actual_price = actualActionValue(getSelledActions());
+        $actual_price = actualActionValue(getSelledActions(),false);
         $PU = $number_of_action * ($actual_price) / ($number_of_action + $gift);
         $Count = DB::table('user_balances')->count();
         $ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);

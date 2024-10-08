@@ -86,10 +86,13 @@ class Home extends Component
             $this->action = "";
             return;
         }
+
         if ($this->ammount > self::MAX_AMOUNT) {
             $this->ammountReal = $this->ammount = self::MAX_AMOUNT;
         }
-        $this->action = intval(intval($this->ammount) / actualActionValue(getSelledActions()));
+        $this->ammountReal = $this->ammount;
+        $this->action = intval(intval($this->ammountReal) / actualActionValue(getSelledActions(), false));
+
         $this->getCommounSimulation();
     }
 
