@@ -18,7 +18,6 @@
                                 <p class="text-center">{{ __('We will send one time code on this number') }} </br> {{$numPhone}}</p>
 
                                 @if(!is_null($numHelpPhone))
-                                    <!-- Primary Alert -->
                                     <div class="alert alert-primary material-shadow" role="alert">
                                         <p class="text-center text-muted">{{ __('If you have not received the OTP code by SMS,') }}
                                             <br>{{__('please contact by WhatsApp the number')}}
