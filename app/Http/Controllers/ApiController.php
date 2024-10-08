@@ -54,9 +54,9 @@ left join users user on user.idUser = recharge_requests.idUser";
 
     public function buyAction(Req $request, BalancesManager $balancesManager)
     {
-        $actualActionValue = actualActionValue(getSelledActions());
+        $actualActionValue = actualActionValue(getSelledActions(), false);
         $validator = Val::make($request->all(), [
-            'ammount' => ['required', 'numeric', 'gte:' . $actualActionValue, 'lte:' . $balancesManager->getBalances(Auth()->user()->idUser, -1)->soldeCB],
+            'ammount' => ['required', 'numeric', 'gte:' . round($actualActionValue,2), 'lte:' . $balancesManager->getBalances(Auth()->user()->idUser, -1)->soldeCB],
             'phone' => [Rule::requiredIf($request->me_or_other == "other")],
             'bfs_for' => [Rule::requiredIf($request->me_or_other == "other")],
         ], [
@@ -71,11 +71,10 @@ left join users user on user.idUser = recharge_requests.idUser";
             return response()->json(['error' => $validator->errors()->all()], 400);
         }
 
-        $number_of_action = round($request->ammount / $actualActionValue);
-
+        $number_of_action = intval(($request->ammount) / round($actualActionValue,3));
 
         $gift = getGiftedActions($number_of_action);
-        $actual_price = actualActionValue(getSelledActions());
+        $actual_price = actualActionValue(getSelledActions(), false);
         $PU = $number_of_action * ($actual_price) / ($number_of_action + $gift);
         $Count = DB::table('user_balances')->count();
         $ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
@@ -346,7 +345,7 @@ left join users user on user.idUser = recharge_requests.idUser";
             ->make(true);
     }
 
-    public function getSharesSoldeList($idUser)
+    public function getSharesSoldeList($locale, $idUser)
     {
         $actualActionValue = actualActionValue(getSelledActions());
 

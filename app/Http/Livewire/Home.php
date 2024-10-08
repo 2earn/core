@@ -29,6 +29,7 @@ class Home extends Component
     private settingsManager $settingsManager;
     private BalancesManager $balancesManager;
     public $ammount;
+    public $ammountReal;
     public $action;
     public $gift;
     public $profit;
@@ -59,68 +60,6 @@ class Home extends Component
     {
         $this->settingsManager = $settingsManager;
         $this->balancesManager = $balancesManager;
-    }
-
-    public function simulateAction()
-    {
-        if ($this->action < 0 && $this->action == "") {
-            $this->ammount = "";
-            $this->action = "";
-            return;
-        }
-
-        if ($this->action > self::MAX_ACTIONS) {
-            $this->action = self::MAX_ACTIONS;
-        }
-
-        $this->ammount = round($this->action * actualActionValue(getSelledActions(), false), 3);
-        $this->getCommounSimulation();
-    }
-
-    public function simulateAmmount()
-    {
-        if ($this->ammount < 0 && $this->ammount == "") {
-            $this->ammount = "";
-            $this->action = "";
-            return;
-        }
-        if ($this->ammount > self::MAX_AMOUNT) {
-            $this->ammount = self::MAX_AMOUNT;
-        }
-        $this->action = round(intval($this->ammount) / actualActionValue(getSelledActions()));
-        $this->getCommounSimulation();
-    }
-
-    public function getCommounSimulation()
-    {
-        $this->gift = getGiftedActions($this->action);
-        $profitRaw = actualActionValue(getSelledActions(), false) * $this->gift;
-        $this->profit = formatSolde($profitRaw, 2);
-
-        if ($this->flash) {
-            if ($this->vip->declenched) {
-                if ($this->action >= $this->actions) {
-                    $this->flashGift = '+' . getFlashGiftedActions($this->actions, $this->flashTimes);
-                    $this->flashGain = '+' . formatSolde($this->flashGift * actualActionValue(getSelledActions(), false), 2);
-                } else {
-                    $this->flashGift = '+' . getFlashGiftedActions($this->action, $this->flashTimes);
-                    $this->flashGain = '+' . formatSolde($this->flashGift * actualActionValue(getSelledActions(), false), 2);
-                }
-            } else {
-                if ($this->action >= $this->flashMinShares) {
-                    if ($this->action >= $this->actions) {
-                        $this->flashGift = '+' . getFlashGiftedActions($this->actions, $this->flashTimes);
-                        $this->flashGain = '+' . formatSolde($this->flashGift * actualActionValue(getSelledActions(), false), 2);
-                    } else {
-                        $this->flashGift = '+' . getFlashGiftedActions($this->action, $this->flashTimes);
-                        $this->flashGain = '+' . formatSolde($this->flashGift * actualActionValue(getSelledActions(), false), 2);
-                    }
-                } else {
-                    $this->flashGift = $this->flashGain = 0;
-                }
-            }
-
-        }
     }
 
     public function getIp()

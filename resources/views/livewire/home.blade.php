@@ -484,6 +484,11 @@
                                                wire:keyup.debounce="simulateAmmount()" wire:model="ammount"
                                                id="ammount"
                                                class="form-control @if($flash) flash @endif">
+                                        <input aria-describedby="simulateAmmount" type="hidden"
+                                               max="{{$cashBalance}}"
+                                               wire:keyup.debounce="simulateAmmount()" wire:model="ammountReal"
+                                               id="ammountReal"
+                                               class="form-control @if($flash) flash @endif">
                                         <div class="input-group-append">
                                             <button wire:click="simulateAmmount()"
                                                     class="btn @if($flash) btn-outline-flash @else btn-outline-primary  @endif">
@@ -670,7 +675,7 @@
                     $("#buy-action-submit").one("click", function () {
                         this.disabled = true;
                         $('.buy-action-submit-spinner').show();
-                        let ammount = parseFloat($('#ammount').val());
+                        let ammount = parseFloat($('#ammountReal').val());
                         let phone = $('#phone').val();
                         let me_or_other = $("input[name='inlineRadioOptions']:checked").val();
                         let bfs_for = $("input[name='bfs-for']:checked").val();
