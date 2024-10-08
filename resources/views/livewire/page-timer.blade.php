@@ -36,7 +36,11 @@
         </div>
     </div>
 </div>
-
+<script>
+    setInterval(function () {
+        Livewire.emit('decrementTime');
+    }, 1000);
+</script>
 @section('script')
     <script src="{{ URL::asset('build/libs/particles.js/particles.js') }}"></script>
     <script src="{{ URL::asset('build/js/pages/particles.app.js') }}"></script>
