@@ -235,6 +235,30 @@
                     </div>
                 </div>
             </div>
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <div class="card-body table-responsive">
+                    <table id="shares-solde"
+                           class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                           style="width:100%">
+                        <thead class="table-light">
+                        <tr class="head2earn  tabHeader2earn">
+                            <th style=" border: none ;text-align: center;">{{__('date_purchase')}}</th>
+                            <th style=" border: none;">{{__('number_of_shares')}}</th>
+                            <th style=" border: none;">{{__('gifted_shares')}}</th>
+                            <th style=" border: none ;text-align: center; ">{{__('total_shares')}}</th>
+                            <th style=" border: none;text-align: center; ">{{__('total_price')}}</th>
+                            <th style=" border: none;text-align: center; ">{{__('present_value')}}</th>
+                            <th style=" border: none;text-align: center; ">{{__('current_earnings')}}</th>
+                        </tr>
+                        </thead>
+                        <tbody class="body2earn">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
     <script type="module">
