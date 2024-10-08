@@ -149,9 +149,9 @@
                             id="sidebarBiography">
 
                             <ul class="nav nav-sm flex-column">
-                                <li class="nav-item cool-link {{$currentRouteName==$sidebarBiographyArray[0]? 'active' : ''}} disabled">
+                                <li class="nav-item cool-link {{$currentRouteName==$sidebarBiographyArray[0]? 'active' : ''}} ">
                                     <a href="{{route($sidebarBiographyArray[0], app()->getLocale(),false)}}"
-                                       class="nav-link disabled">
+                                       class="nav-link ">
                                         {{ __('Academic Background') }}
                                     </a>
                                 </li>
