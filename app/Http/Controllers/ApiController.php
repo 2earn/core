@@ -75,7 +75,7 @@ left join users user on user.idUser = recharge_requests.idUser";
 
 
         $gift = getGiftedActions($number_of_action);
-        $actual_price = actualActionValue(getSelledActions(),false);
+        $actual_price = actualActionValue(getSelledActions(), false);
         $PU = $number_of_action * ($actual_price) / ($number_of_action + $gift);
         $Count = DB::table('user_balances')->count();
         $ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
@@ -346,7 +346,7 @@ left join users user on user.idUser = recharge_requests.idUser";
             ->make(true);
     }
 
-    public function getSharesSoldeList($idUser)
+    public function getSharesSoldeList($locale, $idUser)
     {
         $actualActionValue = actualActionValue(getSelledActions());
 
