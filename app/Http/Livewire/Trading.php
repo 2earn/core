@@ -13,6 +13,7 @@ class Trading extends Component
     const MAX_ACTIONS = 9999999;
     public $flash = false;
     public $cashBalance;
+    public $action;
     public $ammount;
     public $currency = '$';
 

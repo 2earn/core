@@ -9,6 +9,11 @@
         @endslot
     @endcomponent
     <div class="row">
+        <div class="col-12 mt-2 mb-2">
+            @include('layouts.flash-messages')
+        </div>
+    </div>
+    <div class="row">
         <div class="col-xxl-4 col-lg-6">
             <div class="card">
                 <div class="card-header">
@@ -217,4 +222,92 @@
             </div>
         </div>
     </div>
+        <script type="module">
+            $(document).ready(function () {
+                    const input = document.querySelector("#phone");
+                    const iti = window.intlTelInput(input, {
+                        initialCountry: "auto",
+                        useFullscreenPopup: false,
+                        utilsScript: " {{asset('/build/utils.js/utils.js')}}"
+                    });
+                    $('[name="inlineRadioOptions"]').on('change', function () {
+                        if ($('#inlineRadio2').is(':checked')) {
+                            $('#contact-select').removeClass('d-none');
+                            $('#bfs-select').removeClass('d-none');
+                        } else {
+                            $('#contact-select').addClass('d-none');
+                            $('#bfs-select').addClass('d-none');
+                        }
+                    });
+                    $("#buy-action-submit").one("click", function () {
+                        this.disabled = true;
+                        $('.buy-action-submit-spinner').show();
+                        let ammount = parseFloat($('#ammount').val());
+                        let phone = $('#phone').val();
+                        let me_or_other = $("input[name='inlineRadioOptions']:checked").val();
+                        let bfs_for = $("input[name='bfs-for']:checked").val();
+                        let country_code = iti.getSelectedCountryData().iso2;
+                        $.ajax({
+                            url: "{{ route('buyAction', app()->getLocale()) }}",
+                            type: "POST",
+                            data: {
+                                me_or_other: me_or_other,
+                                bfs_for: bfs_for,
+                                phone: phone,
+                                country_code: country_code,
+                                ammount: ammount,
+                                vip: {{$flashTimes}},
+                                flashMinShares: {{$flashMinShares}},
+                                flash: "{{$flash}}",
+                                actions: {{$actions}},
+                                "_token": "{{ csrf_token() }}"
+                            },
+                            success: function (data) {
+                                let backgroundColor = "#27a706"
+                                if (data.error) {
+                                    backgroundColor = "#ba0404";
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "{{__('Validation failed')}}",
+                                        html: response.error.join('<br>')
+                                    });
+                                }
+
+                                $('.btn-close-buy-share').trigger('click')
+
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: data.message,
+                                    text: data.message,
+                                    showConfirmButton: false,
+                                    timer: 2000,
+                                    showCloseButton: true
+                                });
+
+                                $('.buy-action-submit-spinner').hide();
+                                location.reload();
+                            },
+                            error: function (data) {
+                                var responseData = JSON.parse(data.responseText);
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: "{{__('Error in action purchase transaction')}}",
+                                    cancelButtonText: '{{__('Cancel')}}',
+                                    confirmButtonText: '{{__('Confirm')}}',
+                                    text: responseData.error[0]
+                                });
+                                $('.buy-action-submit-spinner').hide();
+                            }
+                        });
+                        setTimeout(() => {
+                            this.disabled = false;
+                            $('.buy-action-submit-spinner').hide();
+                        }, 2000);
+
+                    })
+                }
+            );
+
+        </script>
 </div>
