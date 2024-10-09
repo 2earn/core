@@ -11,7 +11,7 @@
 
     <div class="card">
         <div class="card-body">
-            @livewire('page-timer', ['deadline' => DB::table('settings')->where('ParameterName', 'mbti_cs')->value('StringValue')])
+            @livewire('page-timer', ['deadline' => 'mbti_cs'])
         </div>
     </div>
 

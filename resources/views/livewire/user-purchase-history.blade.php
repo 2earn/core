@@ -10,7 +10,7 @@
     @endcomponent
 
         <div class="card-body">
-            @livewire('page-timer', ['deadline' => DB::table('settings')->where('ParameterName', 'purchases_history_cs')->value('StringValue')])
+            @livewire('page-timer', ['deadline' => 'purchases_history_cs'])
         </div>
 
 {{--    <div class="row card">--}}
