@@ -261,11 +261,10 @@
                     </div>
                 </div>
                 <div class="card-body row">
-
                     <div class="col-12">
                         <label for="estimatedGain" class="form-label">{{__('Gain')}}</label>
                         <input aria-describedby="estimatedGain" type="number" wire:keyup.debounce="simulateAction()"
-                               wire:model="estimatedGain" id="estimatedGain" class="form-control">
+                             disabled  wire:model="estimatedGain" id="estimatedGain" class="form-control">
                     </div>
                     <div class="col-12">
                         <ul class="mt-2">
