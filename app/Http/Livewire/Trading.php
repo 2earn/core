@@ -25,7 +25,6 @@ class Trading extends Component
     public $flashDate;
     public $flashMinShares = -1;
     public $flashGain = 0;
-    public $actualActionValue = 0;
     public $selledActions = 0;
     public $totalActions = 0;
     public $precentageOfActions = 0;
@@ -51,7 +50,7 @@ class Trading extends Component
             $this->totalActions = $param->IntegerValue - $this->giftedShares;
         }
 
-        $this->selledActions = intval(getSelledActions());
+        $this->selledActions = intval(getSelledActions(true));
         $this->precentageOfActions = round($this->selledActions / $this->totalActions, 3) * 100;
 
         $this->numberSharesSale = $this->totalActions - $this->giftedShares;
