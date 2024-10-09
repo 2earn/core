@@ -3,6 +3,7 @@
 use App\Models\User;
 use Carbon\Carbon;
 use Core\Models\Setting;
+use Core\Models\user_balance;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Crypt;
@@ -264,9 +265,13 @@ if (!function_exists('actualActionValue')) {
 }
 
 if (!function_exists('getSelledActions')) {
-    function getSelledActions()
+    function getSelledActions($withGiftedShares = false)
     {
-        return \Core\Models\user_balance::where('idBalancesOperation', 44)->sum('value');
+        if ($withGiftedShares) {
+            return user_balance::where('idBalancesOperation', 44)->sum(DB::raw('value + gifted_shares'));
+        } else {
+            return user_balance::where('idBalancesOperation', 44)->sum('value');
+        }
     }
 }
 if (!function_exists('getGiftedShares')) {
@@ -300,7 +305,7 @@ if (!function_exists('getUserSelledActions')) {
 if (!function_exists('getUserActualActionsValue')) {
     function getUserActualActionsValue($user)
     {
-        return actualActionValue(getSelledActions()) * getUserSelledActions($user);
+        return actualActionValue(getSelledActions(true)) * getUserSelledActions($user);
     }
 }
 
