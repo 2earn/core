@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\vip;
 use Core\Models\Setting;
+use Core\Models\user_balance;
 use Core\Services\BalancesManager;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -56,7 +57,7 @@ class Trading extends Component
         $this->actualActionValue = actualActionValue(getSelledActions(), false);
 
         $this->selledActionCursor = $this->selledActions;
-        $this->totalPaied = \Core\Models\user_balance::where('idBalancesOperation', 44)->where('idUser', Auth()->user()->idUser)->selectRaw('SUM((value + gifted_shares) * PU) as total_sum')->first()->total_sum;
+        $this->totalPaied = user_balance::where('idBalancesOperation', 44)->where('idUser', Auth()->user()->idUser)->selectRaw('SUM((value + gifted_shares) * PU) as total_sum')->first()->total_sum;
 
         $this->estimatedGain = $this->simulateGain();
 

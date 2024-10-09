@@ -293,7 +293,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div id="chart1">
+                    <div id="chart1"  wire:ignore>
                     </div>
                 </div>
             </div>
@@ -306,7 +306,7 @@
                     </div>
                 </div>
                 <div class="card-body table-responsive">
-                    <table id="shares-solde"
+                    <table id="shares-solde" data-turbolinks="false" wire:ignore
                            class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
                            style="width:100%">
                         <thead class="table-light">
@@ -417,7 +417,7 @@
 
     </script>
     <script src="{{ URL::asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
-    <script id="rendered-js" type="module">
+    <script id="rendered-js" type="module" data-turbolinks="false">
         $(document).on('turbolinks:load', function () {
             var chart1Origin = document.querySelector('#chart1');
             if (chart1Origin) {
