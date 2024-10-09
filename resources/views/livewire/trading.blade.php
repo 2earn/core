@@ -16,7 +16,6 @@
     @endcomponent
     <div class="card">
         <div class="card-body">
-            @livewire('page-timer', ['deadline' => $deadline])
         </div>
     </div>
 

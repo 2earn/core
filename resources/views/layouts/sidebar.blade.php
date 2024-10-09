@@ -79,7 +79,7 @@
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item cool-link {{$currentRouteName==$sidebarBusinessArray[0]? 'active' : ''}}">
                                     <a href="{{route($sidebarBusinessArray[0], app()->getLocale(),false)}}"
-                                       class="nav-link">{{ __('Trading') }}</a>
+                                       class="nav-link disabled">{{ __('Trading') }}</a>
                                 </li>
 
                                 <li class="nav-item cool-link {{$currentRouteName==$sidebarBusinessArray[1]? 'active' : ''}}">
