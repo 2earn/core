@@ -89,13 +89,13 @@ class Home extends Component
         $this->discountBalance = $solde->soldeDB;
         $this->SMSBalance = intval($solde->soldeSMS);
 
-        $this->maxActions = intval($solde->soldeCB / actualActionValue(getSelledActions(), false));
+        $this->maxActions = intval($solde->soldeCB / actualActionValue(getSelledActions(true), false));
         $solde = $balancesManager->getCurrentBalance($user->idUser);
         $usermetta_info = collect(DB::table('metta_users')->where('idUser', $user->idUser)->first());
-        $this->actionsValues = formatSolde(getUserSelledActions(Auth()->user()->idUser) * actualActionValue(getSelledActions()), 2);
+        $this->actionsValues = formatSolde(getUserSelledActions(Auth()->user()->idUser) * actualActionValue(getSelledActions(true)), 2);
         $this->userActualActionsProfit = number_format(getUserActualActionsProfit(Auth()->user()->idUser), 2);
         $this->userSelledAction = getUserSelledActions(Auth()->user()->idUser);
-        $actualActionValue = actualActionValue(getSelledActions(), false);
+        $actualActionValue = actualActionValue(getSelledActions(true), false);
         $params = [
             "soldeBuyShares" => $balancesManager->getBalances($user->idUser, 2),
             'arraySoldeD' => [$solde->soldeCB, $solde->soldeBFS, $solde->soldeDB],

@@ -54,7 +54,7 @@ left join users user on user.idUser = recharge_requests.idUser";
 
     public function buyAction(Req $request, BalancesManager $balancesManager)
     {
-        $actualActionValue = actualActionValue(getSelledActions(), false);
+        $actualActionValue = actualActionValue(getSelledActions(true), false);
         $validator = Val::make($request->all(), [
             'ammount' => ['required', 'numeric', 'gte:' . $actualActionValue, 'lte:' . $balancesManager->getBalances(Auth()->user()->idUser, -1)->soldeCB],
             'phone' => [Rule::requiredIf($request->me_or_other == "other")],
@@ -73,7 +73,7 @@ left join users user on user.idUser = recharge_requests.idUser";
 
         $number_of_action = intval(($request->ammount) / $actualActionValue);
         $gift = getGiftedActions($number_of_action);
-        $actual_price = actualActionValue(getSelledActions(), false);
+        $actual_price = actualActionValue(getSelledActions(true), false);
         $PU = $number_of_action * ($actual_price) / ($number_of_action + $gift);
         $Count = DB::table('user_balances')->count();
         $ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
@@ -185,9 +185,9 @@ left join users user on user.idUser = recharge_requests.idUser";
 
     public function actionByAmmount(Req $request)
     {
-        $action = intval($request->ammount / actualActionValue(getSelledActions()));
+        $action = intval($request->ammount / actualActionValue(getSelledActions(true)));
         $gifted_action = getGiftedActions($action);
-        $profit = actualActionValue(getSelledActions()) * $gifted_action;
+        $profit = actualActionValue(getSelledActions(true)) * $gifted_action;
         $array = array('action' => $action, "gift" => $gifted_action, 'profit' => $profit);
         return response()->json($array);
     }
@@ -332,10 +332,10 @@ left join users user on user.idUser = recharge_requests.idUser";
                 return $user_balance->value + $user_balance->gifted_shares;
             })
             ->addColumn('present_value', function ($user_balance) {
-                return number_format(($user_balance->value + $user_balance->gifted_shares) * actualActionValue(getSelledActions()), 2);
+                return number_format(($user_balance->value + $user_balance->gifted_shares) * actualActionValue(getSelledActions(true)), 2);
             })
             ->addColumn('current_earnings', function ($user_balance) {
-                return number_format(($user_balance->value + $user_balance->gifted_shares) * actualActionValue(getSelledActions()) - $user_balance->PU * ($user_balance->value + $user_balance->gifted_shares), 2);
+                return number_format(($user_balance->value + $user_balance->gifted_shares) * actualActionValue(getSelledActions(true)) - $user_balance->PU * ($user_balance->value + $user_balance->gifted_shares), 2);
             })
             ->addColumn('value_format', function ($user_balance) {
                 return number_format($user_balance->value, 0);
@@ -346,7 +346,7 @@ left join users user on user.idUser = recharge_requests.idUser";
 
     public function getSharesSoldeList($locale, $idUser)
     {
-        $actualActionValue = actualActionValue(getSelledActions());
+        $actualActionValue = actualActionValue(getSelledActions(true));
 
         // Effectuer la requête SQL avec le résultat obtenu
         $userBalances = user_balance::select(
@@ -400,10 +400,10 @@ left join users user on user.idUser = recharge_requests.idUser";
                 return '<img src="' . $this->getFormatedFlagResourceName($settings->apha2) . '" alt="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
             })
             ->addColumn('sell_price_now', function ($user_balance) {
-                return number_format(actualActionValue(getSelledActions()) * ($user_balance->value + $user_balance->gifted_shares), 2);
+                return number_format(actualActionValue(getSelledActions(true)) * ($user_balance->value + $user_balance->gifted_shares), 2);
             })
             ->addColumn('gain', function ($user_balance) {
-                return number_format(actualActionValue(getSelledActions()) * ($user_balance->value + $user_balance->gifted_shares) - $user_balance->PU * ($user_balance->value + $user_balance->gifted_shares), 2);
+                return number_format(actualActionValue(getSelledActions(true)) * ($user_balance->value + $user_balance->gifted_shares) - $user_balance->PU * ($user_balance->value + $user_balance->gifted_shares), 2);
             })
             ->addColumn('total_shares', function ($user_balance) {
                 return number_format($user_balance->value + $user_balance->gifted_shares, 0);
