@@ -2,37 +2,38 @@
 
 namespace App\Http\Livewire;
 
+use Datetime;
 use Illuminate\Support\Facades\DB;
-use Livewire\Component;
 use Illuminate\Support\Facades\Vite;
-use \Datetime;
+use Livewire\Component;
 
 class PageTimer extends Component
 {
-    const DEFAULT_DATE = "09/04/2025";
+    const FROM_DATE = "2024/01/10";
+    const DEFAULT_DATE = "2025/04/07";
     public $timeRemaining;
     public $imagePath;
+    public $targetDate;
 
     public function mount($deadline = null)
     {
+
         if (!is_null($deadline)) {
             $dateValue = DB::table('settings')->where('ParameterName', $deadline)->value('StringValue');
-            $targetDate = $dateValue ? DateTime::createFromFormat('d/m/Y', $dateValue) : DateTime::createFromFormat('d/m/Y', self::DEFAULT_DATE);
+            $this->targetDate = $dateValue ? new Datetime($dateValue) : new Datetime(self::DEFAULT_DATE);
         } else {
-            $targetDate = DateTime::createFromFormat('d/m/Y', self::DEFAULT_DATE);
+            $this->targetDate = new Datetime(self::DEFAULT_DATE);
         }
-        $this->updateTimeRemaining($targetDate);
+        $this->updateTimeRemaining($this->targetDate);
     }
 
-    private function updateTimeRemaining($targetDate)
+    private function updateTimeRemaining()
     {
         $now = new DateTime();
-        $interval = $now->diff($targetDate);
-
-        $totalDays = $interval->m * 30 + $interval->d;
+        $interval = $now->diff($this->targetDate);
 
         $this->timeRemaining = [
-            'days' => $totalDays,
+            'days' => $interval->days,
             'hours' => $interval->h,
             'minutes' => $interval->i,
             'seconds' => $interval->s,
@@ -43,51 +44,18 @@ class PageTimer extends Component
 
     public function decrementTime()
     {
-        if (
-            $this->timeRemaining['days'] > 0 ||
-            $this->timeRemaining['hours'] > 0 ||
-            $this->timeRemaining['minutes'] > 0 ||
-            $this->timeRemaining['seconds'] > 0
-        ) {
-            if ($this->timeRemaining['seconds'] > 0) {
-                $this->timeRemaining['seconds']--;
-            } else {
-                if ($this->timeRemaining['minutes'] > 0) {
-                    $this->timeRemaining['minutes']--;
-                    $this->timeRemaining['seconds'] = 59;
-                } else {
-                    if ($this->timeRemaining['hours'] > 0) {
-                        $this->timeRemaining['hours']--;
-                        $this->timeRemaining['minutes'] = 59;
-                        $this->timeRemaining['seconds'] = 59;
-                    } else {
-                        if ($this->timeRemaining['days'] > 0) {
-                            $this->timeRemaining['days']--;
-                            $this->timeRemaining['hours'] = 23;
-                            $this->timeRemaining['minutes'] = 59;
-                            $this->timeRemaining['seconds'] = 59;
-                        }
-                    }
-                }
-            }
-
-            $this->updateImagePath();
-        }
+        $this->updateTimeRemaining();
+        $this->updateImagePath();
     }
 
 
     private function updateImagePath()
     {
-        $daysLeft = $this->timeRemaining['days'];
-
-        if ($daysLeft <= 0) {
-            $imageName = '18.png';
-        } else {
-            $imageIndex = ceil($daysLeft / 10);
-            $imageIndex = max(1, min($imageIndex, 18));
-            $imageName = "{$imageIndex}.png";
-        }
-
+        $from = new Datetime(self::FROM_DATE);
+        $now = new DateTime();
+        $interval = $from->diff($this->targetDate);
+        $passed = $from->diff($now);
+        $imageName = $interval->days - $passed->days <= 0 ? '18.png' : intval(round($passed->days / $interval->days, 4) * 18) . ".png";
         $this->imagePath = Vite::asset('resources/images/timer/' . $imageName);
     }
 

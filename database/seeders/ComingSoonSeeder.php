@@ -16,20 +16,20 @@ class ComingSoonSeeder extends Seeder
     public function run()
     {
         $settings = [
-            ['ParameterName' => 'job_opportunity', 'StringValue' => '09/04/2025'],
-            ['ParameterName' => 'purchases_history', 'StringValue' => '09/04/2025'],
-            ['ParameterName' => 'career_experience', 'StringValue' => '09/04/2025'],
-            ['ParameterName' => 'hard_skills', 'StringValue' => '09/04/2025'],
-            ['ParameterName' => 'soft_skills', 'StringValue' => '09/04/2025'],
-            ['ParameterName' => 'personal_characterization', 'StringValue' => '09/04/2025'],
-            ['ParameterName' => 'c_d_personality', 'StringValue' => '09/04/2025'],
-            ['ParameterName' => 'representational_system', 'StringValue' => '09/04/2025'],
-            ['ParameterName' => 'mbti', 'StringValue' => '09/04/2025'],
-            ['ParameterName' => 'ebc', 'StringValue' => '09/04/2025'],
-            ['ParameterName' => 'pdf', 'StringValue' => '09/04/2025'],
-            ['ParameterName' => 'academic_background', 'StringValue' => '09/04/2025'],
-            ['ParameterName' => 'sensory_rep_sys', 'StringValue' => '09/04/2025'],
-            ['ParameterName' => 'generating_pdf', 'StringValue' => '09/04/2025'],
+            ['ParameterName' => 'job_opportunity', 'StringValue' => '2025/04/07'],
+            ['ParameterName' => 'purchases_history', 'StringValue' => '2025/04/07'],
+            ['ParameterName' => 'career_experience', 'StringValue' => '2025/04/07'],
+            ['ParameterName' => 'hard_skills', 'StringValue' => '2025/04/07'],
+            ['ParameterName' => 'soft_skills', 'StringValue' => '2025/04/07'],
+            ['ParameterName' => 'personal_characterization', 'StringValue' => '2025/04/07'],
+            ['ParameterName' => 'c_d_personality', 'StringValue' => '2025/04/07'],
+            ['ParameterName' => 'representational_system', 'StringValue' => '2025/04/07'],
+            ['ParameterName' => 'mbti', 'StringValue' => '2025/04/07'],
+            ['ParameterName' => 'ebc', 'StringValue' => '2025/04/07'],
+            ['ParameterName' => 'pdf', 'StringValue' => '2025/04/07'],
+            ['ParameterName' => 'academic_background', 'StringValue' => '2025/04/07'],
+            ['ParameterName' => 'sensory_rep_sys', 'StringValue' => '2025/04/07'],
+            ['ParameterName' => 'generating_pdf', 'StringValue' => '2025/04/07'],
         ];
 
         foreach ($settings as $setting) {
