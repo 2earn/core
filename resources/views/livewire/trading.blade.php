@@ -127,11 +127,17 @@
                                             )</label>
                                         <div class="input-group mb-3">
 
+                                            <input type="hidden"
+                                                   max="{{$cashBalance}}"
+                                                   wire:model="ammountReal"
+                                                   id="ammountReal"
+                                            >
                                             <input aria-describedby="simulateAmmount" type="number"
                                                    max="{{$cashBalance}}"
                                                    wire:keyup.debounce="simulateAmmount()" wire:model="ammount"
                                                    id="ammount"
                                                    class="form-control @if($flash) flash @endif">
+
                                             <div class="input-group-append">
                                                 <button wire:click="simulateAmmount()"
                                                         class="btn @if($flash) btn-outline-flash @else btn-outline-primary  @endif">
@@ -264,15 +270,21 @@
                     <div class="col-12">
                         <label for="estimatedGain" class="form-label">{{__('Gain')}}</label>
                         <input aria-describedby="estimatedGain" type="number" wire:keyup.debounce="simulateAction()"
-                             disabled  wire:model="estimatedGain" id="estimatedGain" class="form-control">
+                               disabled wire:model="estimatedGain" id="estimatedGain" class="form-control">
                     </div>
                     <div class="col-12">
                         <ul class="mt-2">
-                            <li>{{__('Total Paied')}} : <span class="badge badge-light text-warning float-end">{{$totalPaied}}</span></li>
-                            <li>{{__('Estimated Gain')}} : <span class="badge badge-light text-info float-end">{{$estimatedGain}}</span></li>
-                            <li>{{__('User Selled Action Number')}} : <span class="badge badge-light text-success float-end">{{$userSelledActionNumber}}</span></li>
-                            <li>{{__('Action Value')}} : <span class="badge badge-light text-info float-end">{{$actionValue}}</span></li>
-                            <li>{{__('Selled Action Cursor')}} : <span class="badge badge-light text-info float-end">{{$selledActionCursor}}</span></li>
+                            <li>{{__('Total Paied')}} : <span
+                                    class="badge badge-light text-warning float-end">{{$totalPaied}}</span></li>
+                            <li>{{__('Estimated Gain')}} : <span
+                                    class="badge badge-light text-info float-end">{{$estimatedGain}}</span></li>
+                            <li>{{__('User Selled Action Number')}} : <span
+                                    class="badge badge-light text-success float-end">{{$userSelledActionNumber}}</span>
+                            </li>
+                            <li>{{__('Action Value')}} : <span
+                                    class="badge badge-light text-info float-end">{{$actionValue}}</span></li>
+                            <li>{{__('Selled Action Cursor')}} : <span
+                                    class="badge badge-light text-info float-end">{{$selledActionCursor}}</span></li>
                         </ul>
                     </div>
                     <div class="col-12">
@@ -348,7 +360,7 @@
                 $("#buy-action-submit").one("click", function () {
                     this.disabled = true;
                     $('.buy-action-submit-spinner').show();
-                    let ammount = parseFloat($('#ammount').val());
+                    let ammount = parseFloat($('#ammountReal').val());
                     let phone = $('#phone').val();
                     let me_or_other = $("input[name='inlineRadioOptions']:checked").val();
                     let bfs_for = $("input[name='bfs-for']:checked").val();
