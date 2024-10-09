@@ -36,6 +36,7 @@ class Trading extends Component
     public $selledActionCursor = 0;
     public $totalPaied = 0;
     public $userSelledActionNumber = 0;
+    public $actionValue = 0;
 
 
     public function mount()
@@ -55,10 +56,10 @@ class Trading extends Component
 
         $this->numberSharesSale = $this->totalActions - $this->giftedShares;
         $this->precentageOfSharesSale = round($this->selledActions / $this->numberSharesSale, 3) * 100;
-        $this->userSelledActionNumber = \Core\Models\user_balance::where('idBalancesOperation', 44)->where('idUser', Auth()->user()->idUser)->selectRaw('SUM(value) as total_sum')->first()->total_sum;
+        $this->userSelledActionNumber = round(user_balance::where('idBalancesOperation', 44)->where('idUser', Auth()->user()->idUser)->selectRaw('SUM(value) as total_sum')->first()->total_sum);
 
         $this->selledActionCursor = $this->selledActions;
-        $this->totalPaied = user_balance::where('idBalancesOperation', 44)->where('idUser', Auth()->user()->idUser)->selectRaw('SUM((value + gifted_shares) * PU) as total_sum')->first()->total_sum;
+        $this->totalPaied =round( user_balance::where('idBalancesOperation', 44)->where('idUser', Auth()->user()->idUser)->selectRaw('SUM((value + gifted_shares) * PU) as total_sum')->first()->total_sum,3);
 
         $this->simulateGain();
 
@@ -66,6 +67,7 @@ class Trading extends Component
 
     public function simulateGain()
     {
+        $this->actionValue = round( actualActionValue($this->selledActionCursor, false), 3);
         $this->estimatedGain = round(($this->userSelledActionNumber * actualActionValue($this->selledActionCursor, false)) - $this->totalPaied, 3);
     }
 

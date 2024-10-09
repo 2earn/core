@@ -269,9 +269,11 @@
                     </div>
                     <div class="col-12">
                         <ul class="mt-2">
-                            <li>  {{__('total Paied')}} : {{$totalPaied}}</li>
-                            <li>{{__('actual Action Value')}} : {{$actualActionValue}}</li>
-                            <li>{{__('selled Action Cursor')}} : {{$selledActionCursor}}</li>
+                            <li>{{__('Total Paied')}} : <span class="badge badge-light text-warning float-end">{{$totalPaied}}</span></li>
+                            <li>{{__('Estimated Gain')}} : <span class="badge badge-light text-info float-end">{{$estimatedGain}}</span></li>
+                            <li>{{__('User Selled Action Number')}} : <span class="badge badge-light text-success float-end">{{$userSelledActionNumber}}</span></li>
+                            <li>{{__('Action Value')}} : <span class="badge badge-light text-info float-end">{{$actionValue}}</span></li>
+                            <li>{{__('Selled Action Cursor')}} : <span class="badge badge-light text-info float-end">{{$selledActionCursor}}</span></li>
                         </ul>
                     </div>
                     <div class="col-12">
