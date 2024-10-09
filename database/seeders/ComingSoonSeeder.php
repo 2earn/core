@@ -19,14 +19,17 @@ class ComingSoonSeeder extends Seeder
             ['ParameterName' => 'job_opportunity', 'StringValue' => '09/04/2025'],
             ['ParameterName' => 'purchases_history', 'StringValue' => '09/04/2025'],
             ['ParameterName' => 'career_experience', 'StringValue' => '09/04/2025'],
-            ['ParameterName' => 'technical_skills', 'StringValue' => '09/04/2025'],
-            ['ParameterName' => 'general_skills', 'StringValue' => '09/04/2025'],
+            ['ParameterName' => 'hard_skills', 'StringValue' => '09/04/2025'],
+            ['ParameterName' => 'soft_skills', 'StringValue' => '09/04/2025'],
             ['ParameterName' => 'personal_characterization', 'StringValue' => '09/04/2025'],
-            ['ParameterName' => 'personality_according_to_neural_adaptation', 'StringValue' => '09/04/2025'],
+            ['ParameterName' => 'c_d_personality', 'StringValue' => '09/04/2025'],
             ['ParameterName' => 'representational_system', 'StringValue' => '09/04/2025'],
             ['ParameterName' => 'mbti', 'StringValue' => '09/04/2025'],
             ['ParameterName' => 'ebc', 'StringValue' => '09/04/2025'],
             ['ParameterName' => 'pdf', 'StringValue' => '09/04/2025'],
+            ['ParameterName' => 'academic_background', 'StringValue' => '09/04/2025'],
+            ['ParameterName' => 'sensory_rep_sys', 'StringValue' => '09/04/2025'],
+            ['ParameterName' => 'generating_pdf', 'StringValue' => '09/04/2025'],
         ];
 
         foreach ($settings as $setting) {

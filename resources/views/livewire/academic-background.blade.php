@@ -11,7 +11,7 @@
 
     <div class="card">
         <div class="card-body">
-            @livewire('page-timer', ['deadline' => $deadline])
+            @livewire('page-timer', ['deadline' => DB::table('settings')->where('ParameterName', 'academic_background_cs')->value('StringValue')])
         </div>
     </div>
 
