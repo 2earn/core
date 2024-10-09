@@ -14,6 +14,7 @@ use Core\Services\settingsManager;
 use Core\Services\UserBalancesHelper;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
@@ -26,6 +27,7 @@ class CheckOptCode extends Component
     public $idUser = 0;
     public $ccode;
     public $numPhone;
+    public $numHelpPhone = null;
 
     protected $rules = [
         'code' => 'required|numeric|min:4|max:4'
@@ -43,6 +45,12 @@ class CheckOptCode extends Component
         $this->idUser = $iduser;
         $this->ccode = $ccode;
         $this->numPhone = $numTel;
+
+        $param = DB::table('settings')->where("ParameterName", "=", "WHATSAPP_HELP_NUMBER")->first();
+
+        if (!is_null($param)) {
+            $this->numHelpPhone = $param->StringValue;
+        }
     }
 
     public function render()

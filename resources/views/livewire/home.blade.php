@@ -13,7 +13,9 @@
                 <div class="card vip-background">
                     <div class="card-body">
                         <div class="row col-12" role="alert">
-                            <p>{{__('A mode for a')}} <span
+                            <p>  {{__('Dear vip')}} : <br><strong
+                                    class="mx-3">{{getUserDisplayedName(auth()->user()->idUser)}},</strong><br>
+                                {{__('A mode for a')}} <span
                                     class="col-auto flash-red">{{$flashTimes}}</span> {{__('times bonus over')}}
                                 <span
                                     class="col-auto flash-red">{{$flashPeriod}} {{__('hours')}}</span> {{__('with a minimum of')}}
@@ -24,9 +26,8 @@
                                 {{__('à conssommer. avec lachat de')}}
                                 <span
                                     class="col-auto flash-red">{{formatSolde($actions,0)}}</span>
-                                {{__('actions, le prix de laction atteindra')}}
-                                <span
-                                    class="col-auto flash-red">{{formatSolde($cout,2)}}{{$currency}}</span> {{__('et les benefices instentannés seront')}}
+                                {{__('actions')}} ,
+                                {{__('et les benefices instentannés seront')}}
                                 <span
                                     class="col-auto flash-red">{{formatSolde($benefices,2)}}{{$currency}}</span></p>
                         </div>
@@ -66,7 +67,12 @@
                                             +
                                         @endif
                                         {{formatSolde($cb_asd)}}
-                                        <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
+
+                                        @if($cb_asd > 0)
+                                            <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
+                                        @else
+                                            <i class="ri-arrow-right-down-line fs-13 align-middle"></i>
+                                        @endif
                                     </p>
                                 </h5>
                             </div>
@@ -478,6 +484,11 @@
                                                wire:keyup.debounce="simulateAmmount()" wire:model="ammount"
                                                id="ammount"
                                                class="form-control @if($flash) flash @endif">
+                                        <input aria-describedby="simulateAmmount" type="hidden"
+                                               max="{{$cashBalance}}"
+                                               wire:keyup.debounce="simulateAmmount()" wire:model="ammountReal"
+                                               id="ammountReal"
+                                               class="form-control @if($flash) flash @endif">
                                         <div class="input-group-append">
                                             <button wire:click="simulateAmmount()"
                                                     class="btn @if($flash) btn-outline-flash @else btn-outline-primary  @endif">
@@ -664,7 +675,7 @@
                     $("#buy-action-submit").one("click", function () {
                         this.disabled = true;
                         $('.buy-action-submit-spinner').show();
-                        let ammount = parseFloat($('#ammount').val());
+                        let ammount = parseFloat($('#ammountReal').val());
                         let phone = $('#phone').val();
                         let me_or_other = $("input[name='inlineRadioOptions']:checked").val();
                         let bfs_for = $("input[name='bfs-for']:checked").val();

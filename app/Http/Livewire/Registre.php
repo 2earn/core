@@ -48,7 +48,7 @@ class Registre extends Component
         $body = [
             'secret' => config('services.recaptcha.secret'),
             'response' => $this->captcha,
-            'remoteip' => IpUtils::anonymize($_SERVER['SERVER_ADDR']) //anonymize the ip to be GDPR compliant. Otherwise just pass the default ip address
+            'remoteip' => IpUtils::anonymize($_SERVER['SERVER_ADDR'])
         ];
         $response = Http::asForm()->post($url, $body);
         $result = json_decode($response);
