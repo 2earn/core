@@ -59,7 +59,7 @@ class Trading extends Component
         $this->selledActionCursor = $this->selledActions;
         $this->totalPaied = user_balance::where('idBalancesOperation', 44)->where('idUser', Auth()->user()->idUser)->selectRaw('SUM((value + gifted_shares) * PU) as total_sum')->first()->total_sum;
 
-        $this->estimatedGain = $this->simulateGain();
+        $this->simulateGain();
 
     }
 

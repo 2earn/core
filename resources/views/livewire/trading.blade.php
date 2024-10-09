@@ -268,16 +268,14 @@
                                wire:model="estimatedGain" id="estimatedGain" class="form-control">
                     </div>
                     <div class="col-12">
-                        totalPaied : {{$totalPaied}}
+                      <ul class="mt-2">
+                          <li>  {{__('total Paied')}} : {{$totalPaied}}</li>
+                          <li>{{__('actual Action Value')}} : {{$actualActionValue}}</li>
+                          <li>{{__('selled Action Cursor')}} : {{$selledActionCursor}}</li>
+                      </ul>
                     </div>
                     <div class="col-12">
-                        actualActionValue : {{$actualActionValue}}
-                    </div>
-                    <div class="col-12">
-                        selledActionCursor : {{$selledActionCursor}}
-                    </div>
-                    <div class="col-12">
-                        <input type="range" min="0" max="{{$this->totalActions}}" title="{{$this->totalActions}}"
+                        <input type="range" min="0" max="{{$this->totalActions}}" title="{{$this->totalActions}}" class="w-100"
                                wire:model="selledActionCursor" step="1" wire:change="simulateGain()" id="customRange3">
                     </div>
                 </div>
