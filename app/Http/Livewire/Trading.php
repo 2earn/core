@@ -86,7 +86,7 @@ class Trading extends Component
             $this->action = self::MAX_ACTIONS;
         }
 
-        $this->ammountReal = $this->action * actualActionValue(getSelledActions(), false);
+        $this->ammountReal = $this->action * actualActionValue(getSelledActions(true), false);
         $this->ammount = round($this->ammountReal, 3);
         $this->getCommounSimulation();
     }
@@ -103,7 +103,7 @@ class Trading extends Component
             $this->ammountReal = $this->ammount = self::MAX_AMOUNT;
         }
         $this->ammountReal = $this->ammount;
-        $this->action = intval(intval($this->ammountReal) / actualActionValue(getSelledActions(), false));
+        $this->action = intval(intval($this->ammountReal) / actualActionValue(getSelledActions(true), false));
 
         $this->getCommounSimulation();
     }
@@ -111,26 +111,26 @@ class Trading extends Component
     public function getCommounSimulation()
     {
         $this->gift = getGiftedActions($this->action);
-        $profitRaw = actualActionValue(getSelledActions(), false) * $this->gift;
+        $actualActionValue=actualActionValue(getSelledActions(true), false);
+        $profitRaw = $actualActionValue * $this->gift;
         $this->profit = formatSolde($profitRaw, 2);
-
         if ($this->flash) {
             if ($this->vip->declenched) {
                 if ($this->action >= $this->actions) {
                     $this->flashGift = '+' . getFlashGiftedActions($this->actions, $this->flashTimes);
-                    $this->flashGain = '+' . formatSolde($this->flashGift * actualActionValue(getSelledActions(), false), 2);
+                    $this->flashGain = '+' . formatSolde($this->flashGift * $actualActionValue, 2);
                 } else {
                     $this->flashGift = '+' . getFlashGiftedActions($this->action, $this->flashTimes);
-                    $this->flashGain = '+' . formatSolde($this->flashGift * actualActionValue(getSelledActions(), false), 2);
+                    $this->flashGain = '+' . formatSolde($this->flashGift * $actualActionValue, 2);
                 }
             } else {
                 if ($this->action >= $this->flashMinShares) {
                     if ($this->action >= $this->actions) {
                         $this->flashGift = '+' . getFlashGiftedActions($this->actions, $this->flashTimes);
-                        $this->flashGain = '+' . formatSolde($this->flashGift * actualActionValue(getSelledActions(), false), 2);
+                        $this->flashGain = '+' . formatSolde($this->flashGift * $actualActionValue, 2);
                     } else {
                         $this->flashGift = '+' . getFlashGiftedActions($this->action, $this->flashTimes);
-                        $this->flashGain = '+' . formatSolde($this->flashGift * actualActionValue(getSelledActions(), false), 2);
+                        $this->flashGain = '+' . formatSolde($this->flashGift * $actualActionValue, 2);
                     }
                 } else {
                     $this->flashGift = $this->flashGain = 0;
@@ -147,14 +147,14 @@ class Trading extends Component
         $this->balanceForSopping = $solde->soldeBFS;
         $this->discountBalance = $solde->soldeDB;
         $this->SMSBalance = intval($solde->soldeSMS);
-        $this->maxActions = intval($solde->soldeCB / actualActionValue(getSelledActions(), false));
+        $this->maxActions = intval($solde->soldeCB / actualActionValue(getSelledActions(true), false));
     }
 
     public function render(BalancesManager $balancesManager)
     {
         $this->initSoldes($balancesManager);
 
-        $actualActionValue = actualActionValue(getSelledActions(), false);
+        $actualActionValue = actualActionValue(getSelledActions(true), false);
         $this->vip = vip::Where('idUser', '=', auth()->user()->idUser)->where('closed', '=', false)->first();
         if ($this->vip) {
             $setting = Setting::WhereIn('idSETTINGS', ['20', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
