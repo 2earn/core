@@ -59,7 +59,7 @@ class Trading extends Component
         $this->userSelledActionNumber = round(user_balance::where('idBalancesOperation', 44)->where('idUser', Auth()->user()->idUser)->selectRaw('SUM(value) as total_sum')->first()->total_sum);
 
         $this->selledActionCursor = $this->selledActions;
-        $this->totalPaied =round( user_balance::where('idBalancesOperation', 44)->where('idUser', Auth()->user()->idUser)->selectRaw('SUM((value + gifted_shares) * PU) as total_sum')->first()->total_sum,3);
+        $this->totalPaied = round(user_balance::where('idBalancesOperation', 44)->where('idUser', Auth()->user()->idUser)->selectRaw('SUM((value + gifted_shares) * PU) as total_sum')->first()->total_sum, 3);
 
         $this->simulateGain();
 
@@ -67,8 +67,11 @@ class Trading extends Component
 
     public function simulateGain()
     {
-        $this->actionValue = round( actualActionValue($this->selledActionCursor, false), 3);
+        $this->actionValue = round(actualActionValue($this->selledActionCursor, false), 3);
         $this->estimatedGain = round(($this->userSelledActionNumber * actualActionValue($this->selledActionCursor, false)) - $this->totalPaied, 3);
+        if ($this->estimatedGain < 0) {
+            $this->estimatedGain = 0;
+        }
     }
 
     public function simulateAction()
