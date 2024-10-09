@@ -659,7 +659,7 @@ left join users user on user.idUser = recharge_requests.idUser";
     {
         $query = DB::table('user_balances')
             ->select(
-                DB::raw('CAST(SUM(value) OVER (ORDER BY id) AS DECIMAL(10,0))AS x'),
+                DB::raw('CAST(SUM(value ) OVER (ORDER BY id) AS DECIMAL(10,0))AS x'),
                 DB::raw('CAST((value + gifted_shares) * PU / value AS DECIMAL(10,2)) AS y')
             )
             ->where('idBalancesOperation', 44)
@@ -786,7 +786,7 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
 
     public function getActionValues()
     {
-        $limit = getSelledActions() * 1.05;
+        $limit = getSelledActions(true) * 1.05;
         $data = [];
         $setting = Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
         $initial_value = $setting[0];

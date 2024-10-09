@@ -64,7 +64,7 @@
                     stroke: {curve: 'straight',},
                     annotations: {
                         points: [{
-                            x: {{getSelledActions() * 1.05/2}},
+                            x: {{getSelledActions(true) * 1.05/2}},
                             y: {{getHalfActionValue()*1.01}},
                             marker: {
                                 size: 0,

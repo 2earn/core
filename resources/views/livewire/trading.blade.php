@@ -444,7 +444,7 @@
                     stroke: {curve: 'straight',},
                     annotations: {
                         points: [{
-                            x: {{getSelledActions() * 1.05/2}},
+                            x: {{getSelledActions(true) * 1.05/2}},
                             y: {{getHalfActionValue()*1.01}},
                             marker: {
                                 size: 0,
@@ -481,8 +481,8 @@
                         type: 'area',
                         data: response1[0],
                     };
-                    var series2 = {name: 'Function', type: 'line', data: response2[0]};
-                    var series3 = {name: 'My Shares', type: 'area', data: response3[0]};
+                    var series2 = {name: '{{__('Function')}}', type: 'line', data: response2[0]};
+                    var series3 = {name: '{{__('My Shares')}}', type: 'area', data: response3[0]};
                     chart1.updateSeries([series1, series2, series3]);
                 });
             }
