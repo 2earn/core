@@ -268,7 +268,7 @@
                                wire:model="estimatedGain" id="estimatedGain" class="form-control">
                     </div>
                     <div class="col-12">
-                        totalPaied : {{$totalPaied}}
+                        {{__('Total Paied')}} : {{$totalPaied}}
                     </div>
                     <div class="col-12">
                         actualActionValue : {{$actualActionValue}}

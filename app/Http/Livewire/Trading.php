@@ -35,6 +35,7 @@ class Trading extends Component
     public $estimatedGain = 0;
     public $selledActionCursor = 0;
     public $totalPaied = 0;
+    public $userSelledActionNumber = 0;
 
 
     public function mount()
@@ -54,7 +55,7 @@ class Trading extends Component
 
         $this->numberSharesSale = $this->totalActions - $this->giftedShares;
         $this->precentageOfSharesSale = round($this->selledActions / $this->numberSharesSale, 3) * 100;
-        $this->actualActionValue = actualActionValue(getSelledActions(), false);
+        $this->userSelledActionNumber = \Core\Models\user_balance::where('idBalancesOperation', 44)->where('idUser', Auth()->user()->idUser)->selectRaw('SUM(value) as total_sum')->first()->total_sum;
 
         $this->selledActionCursor = $this->selledActions;
         $this->totalPaied = user_balance::where('idBalancesOperation', 44)->where('idUser', Auth()->user()->idUser)->selectRaw('SUM((value + gifted_shares) * PU) as total_sum')->first()->total_sum;
@@ -65,7 +66,7 @@ class Trading extends Component
 
     public function simulateGain()
     {
-        $this->estimatedGain = round(($this->actualActionValue * actualActionValue($this->selledActionCursor, false)) - $this->totalPaied, 3);
+        $this->estimatedGain = round(($this->userSelledActionNumber * actualActionValue($this->selledActionCursor, false)) - $this->totalPaied, 3);
     }
 
     public function simulateAction()
@@ -134,7 +135,7 @@ class Trading extends Component
         }
     }
 
-    public function render(BalancesManager $balancesManager)
+    public function initSoldes(BalancesManager $balancesManager)
     {
         $solde = $balancesManager->getBalances(auth()->user()->idUser, -1);
         $this->cashBalance = $solde->soldeCB;
@@ -142,10 +143,14 @@ class Trading extends Component
         $this->discountBalance = $solde->soldeDB;
         $this->SMSBalance = intval($solde->soldeSMS);
         $this->maxActions = intval($solde->soldeCB / actualActionValue(getSelledActions(), false));
+    }
+
+    public function render(BalancesManager $balancesManager)
+    {
+        $this->initSoldes($balancesManager);
 
         $actualActionValue = actualActionValue(getSelledActions(), false);
-        $this->vip = vip::Where('idUser', '=', auth()->user()->idUser)
-            ->where('closed', '=', false)->first();
+        $this->vip = vip::Where('idUser', '=', auth()->user()->idUser)->where('closed', '=', false)->first();
         if ($this->vip) {
             $setting = Setting::WhereIn('idSETTINGS', ['20', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
             $max_bonus = $setting[0];
