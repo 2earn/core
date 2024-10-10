@@ -29,6 +29,7 @@ class Account extends Component
     use earnLog;
 
     const MAX_PHOTO_ALLAWED_SIZE = 2048000;
+    const PHOTO_ALLAWED_EXT = ['png', 'jpg', 'jpeg'];
     const SEND_PASSWORD_CHANGE_OPT = false;
 
     public $nbrChild = 9;
@@ -96,7 +97,7 @@ class Account extends Component
         }
         if ($this->sendPasswordChangeOPT) {
             if (!is_null($paramInavalidCountry)) {
-                if (in_array($userContactActif->codeP, explode(',',$paramInavalidCountry->StringValue))) {
+                if (in_array($userContactActif->codeP, explode(',', $paramInavalidCountry->StringValue))) {
                     $this->sendPasswordChangeOPT = false;
                 }
             }
@@ -265,11 +266,10 @@ class Account extends Component
         $us->is_public = $this->user['is_public'];
         $us->save();
         $us = User::find($this->user['id']);
-
         if (!is_null($this->imageProfil) && gettype($this->imageProfil) == "object") {
-            if ($this->imageProfil->extension() == 'png') {
+            if (in_array($this->imageProfil->extension(), self::PHOTO_ALLAWED_EXT)) {
                 if ($this->imageProfil->getSize() < self::MAX_PHOTO_ALLAWED_SIZE) {
-                    $this->imageProfil->storeAs('profiles', 'profile-image-' . $us->idUser . '.png', 'public2');
+                    $this->imageProfil->storeAs('profiles', 'profile-image-' . $us->idUser . '.' . $this->imageProfil->extension(), 'public2');
                 } else {
                     $this->dispatchBrowserEvent('profilePhotoError', ['type' => 'warning', 'title' => Lang::get('Profile photo Error'), 'text' => Lang::get('Profile photo big size'),]);
                     return;
