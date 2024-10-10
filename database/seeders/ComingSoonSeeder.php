@@ -30,6 +30,9 @@ class ComingSoonSeeder extends Seeder
             ['ParameterName' => 'academic_background', 'StringValue' => '2025/04/07'],
             ['ParameterName' => 'sensory_rep_sys', 'StringValue' => '2025/04/07'],
             ['ParameterName' => 'generating_pdf', 'StringValue' => '2025/04/07'],
+            ['ParameterName' => 'historique_recup', 'StringValue' => '2025/04/07'],
+            ['ParameterName' => 'entretien_arbre', 'StringValue' => '2025/04/07'],
+            ['ParameterName' => 'successful_sharing_pool', 'StringValue' => '2025/04/07'],
         ];
 
         foreach ($settings as $setting) {
