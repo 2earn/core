@@ -14,6 +14,7 @@ class PageTimer extends Component
     public $timeRemaining;
     public $imagePath;
     public $targetDate;
+    protected $listeners = ['decrementTime' => 'decrementTime'];
 
     public function mount($deadline = null)
     {

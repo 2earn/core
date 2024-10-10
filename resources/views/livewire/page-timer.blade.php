@@ -30,11 +30,9 @@
     </div>
 </div>
 @section('script')
-    @vite(['resources/libs/particles.js/particles.js', 'resources/js/pages/particles.app.js'])
     <script>
         setInterval(function () {
-            @this.
-            decrementTime();
+            Livewire.emit('decrementTime');
         }, 1000);
     </script>
 @endsection
