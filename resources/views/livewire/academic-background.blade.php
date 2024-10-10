@@ -11,7 +11,7 @@
 
     <div class="card">
         <div class="card-body">
-
+            @livewire('page-timer', ['deadline' => 'academic_background_cs'])
         </div>
     </div>
 

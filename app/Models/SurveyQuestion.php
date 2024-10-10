@@ -18,8 +18,9 @@ class SurveyQuestion extends Model
 
     public function serveyQuestionChoice()
     {
-        return $this->hasMany(SurveyQuestionChoice::class,'question_id');
+        return $this->hasMany(SurveyQuestionChoice::class, 'question_id');
     }
+
     public function servey()
     {
         return $this->belongsTo(Survey::class, 'question_id');
