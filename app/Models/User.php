@@ -41,24 +41,18 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = ['password', 'remember_token'];
 
     /**
      * The attributes that should be cast.
      *
      * @var array
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    protected $casts = ['email_verified_at' => 'datetime'];
 
     public function hasIdentificationRequest()
     {
-        $idUser = $this->idUser;
-        $requestIdentification = identificationuserrequest::where('idUser', $idUser);
+        $requestIdentification = identificationuserrequest::where('idUser', $this->idUser);
         $requestIdentification = $requestIdentification->where(function ($query) {
             $query->where('status', '=', StatusRequest::InProgressNational->value)
                 ->orWhere('status', '=', StatusRequest::InProgressInternational->value);
@@ -75,5 +69,25 @@ class User extends Authenticatable
     public function comment()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function profileImage()
+    {
+        return $this->morphOne(Image::class, 'imageable')->where('type', '=', 'profile');
+    }
+
+    public function nationalIdentitieFrontImage()
+    {
+        return $this->morphOne(Image::class, 'imageable')->where('type', '=', 'national-front-image');
+    }
+
+    public function nationalIdentitieBackImage()
+    {
+        return $this->morphOne(Image::class, 'imageable')->where('type', '=', 'national-back-image');
+    }
+
+    public function internationalIdentitieImage()
+    {
+        return $this->morphOne(Image::class, 'imageable')->where('type', '=', 'international');
     }
 }
