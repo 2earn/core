@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class SurveyResponseItem extends Model
 {
@@ -17,17 +15,17 @@ class SurveyResponseItem extends Model
         'surveyQuestionChoice_id',
     ];
 
-    public function surveyResponse(): BelongsTo
+    public function surveyResponse()
     {
         return $this->belongsTo(SurveyResponse::class, 'surveyResponse_id', 'id');
     }
 
-    public function surveyQuestion(): BelongsTo
+    public function surveyQuestion()
     {
         return $this->belongsTo(SurveyQuestion::class, 'surveyQuestion_id', 'id');
     }
 
-    public function serveyQuestionsChoice(): HasOne
+    public function serveyQuestionsChoice()
     {
         return $this->hasOne(SurveyQuestionChoice::class, 'surveyQuestionChoice_id');
     }

@@ -5,7 +5,6 @@ namespace App\Models;
 use Core\Enum\StatusRequest;
 use Core\Models\identificationuserrequest;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -68,12 +67,12 @@ class User extends Authenticatable
         return is_null($requestIdentification->get()->first()) ? false : true;
     }
 
-    public function surveyResponse(): HasMany
+    public function surveyResponse()
     {
         return $this->hasMany(SurveyResponse::class);
     }
 
-    public function comment(): HasMany
+    public function comment()
     {
         return $this->hasMany(Comment::class);
     }

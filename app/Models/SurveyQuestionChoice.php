@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SurveyQuestionChoice extends Model
 {
@@ -15,7 +14,7 @@ class SurveyQuestionChoice extends Model
         'title',
     ];
 
-    public function Question(): BelongsTo
+    public function Question()
     {
         return $this->belongsTo(SurveyQuestion::class, 'question_id');
     }

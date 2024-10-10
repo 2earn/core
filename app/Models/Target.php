@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Target extends Model
 {
@@ -16,17 +14,17 @@ class Target extends Model
         'description',
     ];
 
-    public function surveys(): BelongsToMany
+    public function surveys()
     {
         return $this->morphedByMany(Survey::class, 'targetable');
     }
 
-    public function group(): HasMany
+    public function group()
     {
         return $this->hasMany(Group::class);
     }
 
-    public function condition(): HasMany
+    public function condition()
     {
         return $this->hasMany(Condition::class);
     }

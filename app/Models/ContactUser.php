@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ContactUser extends Model
 {
@@ -15,12 +14,12 @@ class ContactUser extends Model
 
     protected $fillable = ['idUser', 'idContact', 'name', 'lastName', 'mobile', 'availablity', 'disponible', 'fullphone_number', 'phonecode'];
 
-    public function user(): BelongsTo
+    public function user()
     {
         return $this->belongsTo(User::class, 'idUser');
     }
 
-    public function contact(): BelongsTo
+    public function contact()
     {
         return $this->belongsTo(User::class, 'idContact');
     }
