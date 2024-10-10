@@ -7,6 +7,10 @@ use Core\Enum\StatusSurvey;
 use Core\Enum\TargetType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -50,27 +54,27 @@ class Survey extends Model
         'disabledLike',
     ];
 
-    public function surveyResponse()
+    public function surveyResponse(): HasMany
     {
         return $this->hasMany(SurveyResponse::class);
     }
 
-    public function targets()
+    public function targets(): MorphToMany
     {
         return $this->morphToMany(Target::class, 'targetable');
     }
 
-    public function comments()
+    public function comments(): MorphMany
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
 
-    public function likes()
+    public function likes(): MorphMany
     {
         return $this->morphMany(Like::class, 'likable');
     }
 
-    public function question()
+    public function question(): HasOne
     {
         return $this->hasOne(SurveyQuestion::class);
     }

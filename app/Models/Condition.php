@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Condition extends Model
 {
@@ -73,12 +74,12 @@ class Condition extends Model
         'target_id',
     ];
 
-    public function target()
+    public function target(): BelongsTo
     {
         return $this->belongsTo(Target::class, 'target_id', 'id');
     }
 
-    public function group()
+    public function group(): BelongsTo
     {
         return $this->belongsTo(Group::class, 'group_id', 'id');
     }

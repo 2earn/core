@@ -1,12 +1,13 @@
 <div class="auth-page-wrapper pt-5">
     <div class="auth-page-content">
         <div class="row">
-            <div class="col-lg-12 text-center mt-sm-1 pt-4 mb-4">
-                <div class="mb-sm-5 pb-sm-4 pb-5">
-                    <h1 class="display-1 mb-sm-0">{{__('Coming Soon')}}</h1>
+            <div class="d-flex flex-column align-items-center mt-sm-1 pt-4 mb-4">
+                <div class="mb-sm-5 pb-sm-4 pb-5 text-center">
+                    <h1 class="display-1 mb-sm-0">{{ __('Coming Soon') }}</h1>
                 </div>
                 <img src="{{ $imagePath }}" alt="" height="150" class="move-animation">
             </div>
+
             <div id="countdown" class="countdownlist">
                 <div class="countdownlist-item">
                     <div class="count-title">{{__('Days')}}</div>

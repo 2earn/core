@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class SurveyQuestion extends Model
 {
@@ -16,11 +18,12 @@ class SurveyQuestion extends Model
         'survey_id',
     ];
 
-    public function serveyQuestionChoice()
+    public function serveyQuestionChoice(): HasMany
     {
-        return $this->hasMany(SurveyQuestionChoice::class,'question_id');
+        return $this->hasMany(SurveyQuestionChoice::class, 'question_id');
     }
-    public function servey()
+
+    public function servey(): BelongsTo
     {
         return $this->belongsTo(Survey::class, 'question_id');
     }

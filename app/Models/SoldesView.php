@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class SoldesView extends Model
 {
     use HasFactory;
+
     protected $table = 'soldes_view';
 
     protected $fillable = [

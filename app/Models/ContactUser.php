@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ContactUser extends Model
 {
@@ -18,6 +19,7 @@ class ContactUser extends Model
     {
         return $this->belongsTo(User::class, 'idUser');
     }
+
     public function contact(): BelongsTo
     {
         return $this->belongsTo(User::class, 'idContact');

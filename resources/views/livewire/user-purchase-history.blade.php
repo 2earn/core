@@ -9,8 +9,10 @@
         @endslot
     @endcomponent
 
-        <div class="card-body">
-            @livewire('page-timer', ['deadline' => 'purchases_history_cs'])
+        <div class="card">
+            <div class="card-body">
+                @livewire('page-timer', ['deadline' => 'purchases_history_cs'])
+            </div>
         </div>
 
 {{--    <div class="row card">--}}

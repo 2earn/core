@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class vip extends Model
 {
     use HasFactory;
+
     protected $table = 'vip';
     public $timestamps = false;
     protected $fillable = [
