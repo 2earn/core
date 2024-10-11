@@ -272,21 +272,24 @@
                         <input aria-describedby="estimatedGain" type="number" wire:keyup.debounce="simulateAction()"
                                disabled wire:model="estimatedGain" id="estimatedGain" class="form-control">
                     </div>
-                    <div class="col-12">
-                        <ul class="mt-2">
-                            <li>{{__('Total Paied')}} : <span
-                                    class="badge badge-light text-warning float-end">{{$totalPaied}}</span></li>
-                            <li>{{__('Estimated Gain')}} : <span
-                                    class="badge badge-light text-info float-end">{{$estimatedGain}}</span></li>
-                            <li>{{__('User Selled Action Number')}} : <span
-                                    class="badge badge-light text-success float-end">{{$userSelledActionNumber}}</span>
-                            </li>
-                            <li>{{__('Action Value')}} : <span
-                                    class="badge badge-light text-info float-end">{{$actionValue}}</span></li>
-                            <li>{{__('Selled Action Cursor')}} : <span
-                                    class="badge badge-light text-info float-end">{{$selledActionCursor}}</span></li>
-                        </ul>
-                    </div>
+                    @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                        <div class="col-12">
+                            <ul class="mt-2">
+                                <li>{{__('Total Paied')}} : <span
+                                        class="badge badge-light text-warning float-end">{{$totalPaied}}</span></li>
+                                <li>{{__('Estimated Gain')}} : <span
+                                        class="badge badge-light text-info float-end">{{$estimatedGain}}</span></li>
+                                <li>{{__('User Selled Action Number')}} : <span
+                                        class="badge badge-light text-success float-end">{{$userSelledActionNumber}}</span>
+                                </li>
+                                <li>{{__('Action Value')}} : <span
+                                        class="badge badge-light text-info float-end">{{$actionValue}}</span></li>
+                                <li>{{__('Selled Action Cursor')}} : <span
+                                        class="badge badge-light text-info float-end">{{$selledActionCursor}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    @endif
                     <div class="col-12">
                         <input type="range" min="0" max="{{$this->totalActions}}" title="{{$this->totalActions}}"
                                class="w-100"
