@@ -374,37 +374,16 @@
                                                        aria-label=""
                                                        placeholder="">
                                                 <i style="font-size: 20px;" class="ri-phone-line"></i>
-                                                <a href="#" id="update_tel"
-                                                   style="cursor: pointer; background-color: #009fe3!important"
-                                                   class="btn btn-primary" type="button">
+
+                                                <a href="{{ !empty($user['email']) ? route('contact_number', app()->getLocale()) : '#' }}"
+                                                   id="update_tel" class="btn btn-info" type="button"
+                                                   @if(empty($user['email']))
+                                                       onclick="event.preventDefault(); var modal = new bootstrap.Modal(document.getElementById('topmodal')); modal.show();"
+                                                    @endif>
                                                     {{ __('Change') }}
                                                 </a>
                                             </div>
                                         </div>
-                                        @if(empty($user['email']))
-                                            <div id="topmodal" class="modal fade" tabindex="-1" aria-hidden="true"
-                                                 style="display: none;">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-body text-center p-5">
-                                                            <lord-icon src="https://cdn.lordicon.com/pithnlch.json"
-                                                                       trigger="loop" colors="primary:#121331,secondary:#08a88a" style="width:120px;height:120px">
-                                                            </lord-icon>
-                                                            <h4 class="mb-3">{{ __('Email Needed') }}</h4>
-                                                            <p class="text-muted mb-4">{{ __('Please enter your email to proceed with the update of your contact number.') }}</p>
-                                                            <div class="hstack gap-2 justify-content-center">
-                                                                <a href="javascript:void(0);"
-                                                                   class="btn btn-link link-success fw-medium"
-                                                                   data-bs-dismiss="modal"><i
-                                                                        class="ri-close-line me-1 align-middle"></i>
-                                                                    Close</a>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endif
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-3">
@@ -415,9 +394,8 @@
                                                        class="form-control form-control-icon"
                                                        name="email" placeholder="">
                                                 <i style="font-size: 20px;" class="ri-mail-unread-line"></i>
-                                                <button style="background-color: #009fe3!important"
-                                                        data-bs-toggle="modal" data-bs-target="#modalMail"
-                                                        class="btn btn-primary"
+                                                <button data-bs-toggle="modal" data-bs-target="#modalMail"
+                                                        class="btn btn-info"
                                                         type="button">
                                                     @if($user['email']=="")
                                                         {{__('add')}}
@@ -1203,17 +1181,24 @@
                 this.classList.toggle("bi-eye");
             });
         </script>
-        <script src="https://cdn.lordicon.com/lordicon.js"></script>
-        <script>
-            document.getElementById('update_tel').addEventListener('click', function (event) {
-                event.preventDefault();
-                @if(empty($user['email']))
-                var modal = new bootstrap.Modal(document.getElementById('topmodal'));
-                modal.show();
-                @else
-                    window.location.href = "{{ route('contact_number', app()->getLocale()) }}";
-                @endif
-            });
-        </script>
+    </div>
+    <div id="topmodal" class="modal fade" tabindex="-1" aria-hidden="true"
+         style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body text-center p-5">
+                    <h4 class="mb-3">{{ __('Email Needed') }}</h4>
+                    <p class="text-muted mb-4">{{ __('Please enter your email to proceed with the update of your contact number.') }}</p>
+                    <div class="hstack gap-2 justify-content-center">
+                        <a href="javascript:void(0);"
+                           class="btn btn-link link-success fw-medium"
+                           data-bs-dismiss="modal"><i
+                                class="ri-close-line me-1 align-middle"></i>
+                            {{ __('Close')}}</a>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
