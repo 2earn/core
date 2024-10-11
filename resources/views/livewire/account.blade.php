@@ -366,7 +366,8 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="phonenumberInput" class="form-label">{{ __('Your Contact number') }}</label>
+                                            <label for="phonenumberInput"
+                                                   class="form-label">{{ __('Your Contact number') }}</label>
                                             <div class="input-group form-icon">
                                                 <input disabled wire:model.defer="numberActif" type="text"
                                                        class="form-control inputtest form-control-icon"
@@ -380,27 +381,28 @@
                                                 </a>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    @if($user['email'] == "")
-                                        <div id="topmodal" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-body text-center p-5">
-                                                        <div class="mt-4">
-                                                            <h4 class="mb-3">{{ __('Please enter your email to proceed') }}</h4>
-                                                            <p class="text-muted mb-4">{{ __('You need to provide a valid email address to change your contact number.') }}</p>
+                                        @if(empty($user['email']))
+                                            <div id="topmodal" class="modal fade" tabindex="-1" aria-hidden="true"
+                                                 style="display: none;">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body text-center p-5">
+                                                            <h4 class="mb-3">{{ __('Email Needed') }}</h4>
+                                                            <p class="text-muted mb-4">{{ __('Please enter your email to proceed with the update of your contact number.') }}</p>
                                                             <div class="hstack gap-2 justify-content-center">
-                                                                <a href="javascript:void(0);" class="btn btn-link link-success fw-medium" data-bs-dismiss="modal">
-                                                                    <i class="ri-close-line me-1 align-middle"></i> {{ __('Close') }}
+                                                                <a href="javascript:void(0);"
+                                                                   class="btn btn-link link-success fw-medium"
+                                                                   data-bs-dismiss="modal"><i
+                                                                        class="ri-close-line me-1 align-middle"></i>
+                                                                    Close</a>
                                                                 </a>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    @endif
+                                        @endif
+                                    </div>
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="emailInput"
@@ -1201,11 +1203,12 @@
         <script>
             document.getElementById('update_tel').addEventListener('click', function (event) {
                 event.preventDefault();
-                @if($user['email'] == "")
+                @if(empty($user['email']))
                 var modal = new bootstrap.Modal(document.getElementById('topmodal'));
                 modal.show();
+                @else
+                    window.location.href = "{{ route('contact_number', app()->getLocale()) }}";
                 @endif
-
             });
         </script>
     </div>
