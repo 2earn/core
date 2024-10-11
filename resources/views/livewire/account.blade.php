@@ -366,23 +366,41 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="phonenumberInput"
-                                                   class="form-label">{{ __('Your Contact number') }}</label>
+                                            <label for="phonenumberInput" class="form-label">{{ __('Your Contact number') }}</label>
                                             <div class="input-group form-icon">
                                                 <input disabled wire:model.defer="numberActif" type="text"
                                                        class="form-control inputtest form-control-icon"
                                                        aria-label=""
                                                        placeholder="">
                                                 <i style="font-size: 20px;" class="ri-phone-line"></i>
-                                                <a href="{{route('contact_number', app()->getLocale())}}"
-                                                   id="update_tel"
-                                                   style="cursor: pointer;background-color: #009fe3!important"
+                                                <a href="#" id="update_tel"
+                                                   style="cursor: pointer; background-color: #009fe3!important"
                                                    class="btn btn-primary" type="button">
-                                                    {{__('Change')}}
+                                                    {{ __('Change') }}
                                                 </a>
                                             </div>
                                         </div>
                                     </div>
+
+                                    @if($user['email'] == "")
+                                        <div id="topmodal" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-body text-center p-5">
+                                                        <div class="mt-4">
+                                                            <h4 class="mb-3">{{ __('Please enter your email to proceed') }}</h4>
+                                                            <p class="text-muted mb-4">{{ __('You need to provide a valid email address to change your contact number.') }}</p>
+                                                            <div class="hstack gap-2 justify-content-center">
+                                                                <a href="javascript:void(0);" class="btn btn-link link-success fw-medium" data-bs-dismiss="modal">
+                                                                    <i class="ri-close-line me-1 align-middle"></i> {{ __('Close') }}
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="emailInput"
@@ -1178,6 +1196,16 @@
                 var type = confirmPassword.getAttribute("type") === "password" ? "text" : "password";
                 confirmPassword.setAttribute("type", type);
                 this.classList.toggle("bi-eye");
+            });
+        </script>
+        <script>
+            document.getElementById('update_tel').addEventListener('click', function (event) {
+                event.preventDefault();
+                @if($user['email'] == "")
+                var modal = new bootstrap.Modal(document.getElementById('topmodal'));
+                modal.show();
+                @endif
+
             });
         </script>
     </div>
