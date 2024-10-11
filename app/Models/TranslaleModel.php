@@ -45,7 +45,7 @@ class TranslaleModel extends Model
 
     public static function getPropertyFromName($var)
     {
-        return isset(self::getDataFromName($var)[1])?strtoupper(self::getDataFromName($var)[1]): '';
+        return isset(self::getDataFromName($var)[1]) ? strtoupper(self::getDataFromName($var)[1]) : '';
     }
 
     public static function getIdFromName($var)
