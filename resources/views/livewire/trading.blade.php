@@ -30,12 +30,16 @@
                     <div class="modal-body">
                         @if($flash)
                             <div class="row pink col-12" role="alert">
-                                <p>{{__('A mode for a')}} <span
-                                        class="pinkbold col-auto">{{$flashTimes}}</span> {{__('times bonus over')}}
-                                    <span
-                                        class="pinkbold col-auto">{{$flashPeriod}} {{__('hours')}}</span> {{__('with a minimum of')}}
-                                    <span
-                                        class="pinkbold col-auto">{{$flashMinShares}} {{__('Shares')}}</span>
+                                <p>{{__('A mode for a')}}
+                                    <span class="pinkbold col-auto">
+                                        {{$flashTimes}}</span>
+                                    {{__('times bonus over')}}
+                                    <span class="pinkbold col-auto">
+                                        {{$flashPeriod}} {{__('hours')}}</span>
+                                    {{__('with a minimum of')}}
+                                    <span class="pinkbold col-auto">
+                                        {{$flashMinShares}} {{__('Shares')}}
+                                    </span>
                                 </p>
                             </div>
                         @endif

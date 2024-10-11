@@ -42,7 +42,6 @@ class Home extends Component
 
     public $flashGain = 0;
 
-
     public $flash = false;
     public $hasFlashAmount = 0;
     public $vip = 0;
@@ -56,8 +55,7 @@ class Home extends Component
     ];
 
 
-    public function mount(settingsManager $settingsManager, BalancesManager $balancesManager)
-    {
+    public function mount(settingsManager $settingsManager, BalancesManager $balancesManager)    {
         $this->settingsManager = $settingsManager;
         $this->balancesManager = $balancesManager;
     }
