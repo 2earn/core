@@ -54,15 +54,15 @@ left join users user on user.idUser = recharge_requests.idUser";
 
     public function buyAction(Req $request, BalancesManager $balancesManager)
     {
-        $actualActionValue = actualActionValue(getSelledActions(true), false);
+        $actualActionValue = round(actualActionValue(getSelledActions(true), false),12);
         $validator = Val::make($request->all(), [
-            'ammount' => ['required', 'numeric', 'gte:' . $actualActionValue, 'lte:' . $balancesManager->getBalances(Auth()->user()->idUser, -1)->soldeCB],
+            'ammount' => ['required', 'numeric', 'gte:' . round(actualActionValue(getSelledActions(true), false),12), 'lte:' . $balancesManager->getBalances(Auth()->user()->idUser, -1)->soldeCB],
             'phone' => [Rule::requiredIf($request->me_or_other == "other")],
             'bfs_for' => [Rule::requiredIf($request->me_or_other == "other")],
         ], [
             'ammount.required' => Lang::get('ammonut is required !'),
             'ammount.numeric' => Lang::get('Ammount must be numeric !!'),
-            'ammount.gte' => Lang::get('The ammount must be greater than action value') . ' ( ' . $actualActionValue . ' )',
+            'ammount.gte' => Lang::get('The ammount must be greater than action value') . ' ( ' . round($actualActionValue, 3) . ' )',
             'ammount.lte' => Lang::get('Ammount > Cash Balance !!'),
             'teinte.exists' => Lang::get('Le champ Teinte est obligatoire !'),
         ]);

@@ -363,7 +363,7 @@
                 $("#buy-action-submit").one("click", function () {
                     this.disabled = true;
                     $('.buy-action-submit-spinner').show();
-                    let ammount = parseFloat($('#ammountReal').val());
+                    let ammount = parseFloat($('#ammountReal').val()).toFixed(12);
                     let phone = $('#phone').val();
                     let me_or_other = $("input[name='inlineRadioOptions']:checked").val();
                     let bfs_for = $("input[name='bfs-for']:checked").val();
