@@ -30,7 +30,6 @@ class Account extends Component
 
 
     const SEND_PASSWORD_CHANGE_OPT = false;
-    const DEFAULT_PROFILE_URL = 'uploads/profiles/default.png';
 
     public $nbrChild = 9;
     public $photoFront;
@@ -53,6 +52,9 @@ class Account extends Component
     public $dispalyedUserCred;
     public $sendPasswordChangeOPT;
     public $userProfileImage;
+    public $userNationalFrontImage;
+    public $userNationalBackImage;
+    public $userInternationalImage;
 
     protected $listeners = [
         'PreChangePass' => 'PreChangePass',
@@ -82,9 +84,11 @@ class Account extends Component
                 ->where('idNotification', '=', NotificationSettingEnum::change_pwd_sms->value)->first();
             $this->sendPassSMS = $notSetings->value;
         }
-
+        $this->userProfileImage = User::getUserProfileImage(auth()->user()->idUser);
+        $this->userNationalFrontImage = User::getNationalFrontImage(auth()->user()->idUser);
+        $this->userNationalBackImage = User::getNationalBackImage(auth()->user()->idUser);
+        $this->userInternationalImage = User::getInternational(auth()->user()->idUser);
         $this->initSendPasswordChangeOPT($settingManager->getidCountryForSms(auth()->user()->id));
-        $this->userProfileImage = self::DEFAULT_PROFILE_URL;
     }
 
     public function initSendPasswordChangeOPT($userContactActif)
@@ -398,16 +402,6 @@ class Account extends Component
         }
     }
 
-    public function getuserProfileImage($idUser)
-    {
-        $accountUser = User::where('idUser', $idUser)->first();
-        try {
-            $this->userProfileImage = $accountUser->profileImage()->first()->url;
-
-        } catch (\Exception $exception) {
-            $this->userProfileImage = self::DEFAULT_PROFILE_URL;
-        }
-    }
 
     public function render(settingsManager $settingsManager, Request $request)
     {
@@ -445,7 +439,6 @@ class Account extends Component
         $hasRequest = $userAuth->hasIdentificationRequest();
         $this->disabled = in_array($user->status, [StatusRequest::InProgressNational->value, StatusRequest::InProgressInternational->value, StatusRequest::InProgressGlobal->value, StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value]) ? true : false;
 
-        $this->getuserProfileImage($userAuth->idUser);
         return view('livewire.account', ['hasRequest' => $hasRequest, 'errors_array' => $this->errors_array])->extends('layouts.master')->section('content');
     }
 

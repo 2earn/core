@@ -32,10 +32,11 @@ class IdentificationCheck extends Component
     public $internationalCard;
     public $messageVerif = "";
     public $disabled;
+    public $userNationalBackImage;
+    public $userNationalFrontImage;
+    public $userInternationalImage;
 
-    public $listeners = [
-        'sendIndentificationRequest' => 'sendIndentificationRequest'
-    ];
+    public $listeners = ['sendIndentificationRequest' => 'sendIndentificationRequest'];
 
 
     public function mount()
@@ -49,6 +50,9 @@ class IdentificationCheck extends Component
             $this->internationalCard == true;
         }
 
+        $this->userNationalFrontImage = User::getNationalFrontImage(auth()->user()->idUser);
+        $this->userNationalBackImage = User::getNationalBackImage(auth()->user()->idUser);
+        $this->userInternationalImage = User::getInternational(auth()->user()->idUser);
     }
 
     public function sendIndentificationRequest(settingsManager $settingsManager)
@@ -80,60 +84,37 @@ class IdentificationCheck extends Component
         $photoFrontValidated = $userAuth->hasFrontImage();
         $photoBackValidated = $userAuth->hasBackImage();
         $photoInternationalValidated = $userAuth->hasInternationalIdentity();
-
-        if (!is_null($this->photoFront) && gettype($this->photoFront) == "object") {
-            if ($this->photoFront->extension() == 'png') {
-                if ($this->photoFront->getSize() < self::MAX_PHOTO_ALLAWED_SIZE) {
-                    $this->photoFront->storeAs('profiles', 'front-id-image' . $userAuth->idUser . '.png', 'public2');
-                    $photoFrontValidated = true;
-                } else {
-                    $photoFrontValidated = false;
-                    $this->messageVerif = Lang::get('Identification request missing information');;
-                    $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request wrong information'), 'text' => Lang::get('Photo front big size'),]);
-                    return;
-                }
-            } else {
+        if (!$photoFrontValidated) {
+            try {
+                User::saveNationalFrontImage($userAuth->idUser, $this->photoFront);
+                $photoFrontValidated = true;
+            } catch (\Exception $e) {
                 $photoFrontValidated = false;
                 $this->messageVerif = Lang::get('Identification request missing information');;
-                $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request wrong information'), 'text' => Lang::get('Photo front wrong type'),]);
+                $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request wrong information'), 'text' => Lang::get('Front id image') . ' : ' . Lang::get($e->getMessage())]);
+                return;
+            }
+        }
+        if (!$photoBackValidated) {
+            try {
+                User::saveNationalBackImage($userAuth->idUser, $this->photoBack);
+                $photoBackValidated = true;
+            } catch (\Exception $e) {
+                $photoBackValidated = false;
+                $this->messageVerif = Lang::get('Identification request missing information');;
+                $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request wrong information'), 'text' => Lang::get('Back id image') . ' : ' . Lang::get($e->getMessage())]);
                 return;
             }
         }
 
-        if (!is_null($this->photoBack) && gettype($this->photoBack) == "object") {
-            if ($this->photoBack->extension() == 'png') {
-                if ($this->photoBack->getSize() < self::MAX_PHOTO_ALLAWED_SIZE) {
-                    $this->photoBack->storeAs('profiles', 'back-id-image' . $userAuth->idUser . '.png', 'public2');
-                    $photoBackValidated = true;
-                } else {
-                    $photoBackValidated = false;
-                    $this->messageVerif = Lang::get('Identification request missing information');;
-                    $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request wrong information'), 'text' => Lang::get('Photo back big size'),]);
-                    return;
-                }
-            } else {
-                $photoFrontValidated = false;
-                $this->messageVerif = Lang::get('Identification request missing information');;
-                $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request wrong information'), 'text' => Lang::get('Photo back wrong type'),]);
-                return;
-            }
-        }
-
-        if ($this->internationalCard && !is_null($this->photoInternational) && gettype($this->photoInternational) == "object") {
-            if ($this->photoInternational->extension() == 'png') {
-                if ($this->photoInternational->getSize() < self::MAX_PHOTO_ALLAWED_SIZE) {
-                    $this->photoInternational->storeAs('profiles', 'international-id-image' . $userAuth->idUser . '.png', 'public2');
-                    $photoInternationalValidated = true;
-                } else {
-                    $photoInternationalValidated = false;
-                    $this->messageVerif = Lang::get('Identification request missing information');;
-                    $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request wrong information'), 'text' => Lang::get('International Identity big size')]);
-                    return;
-                }
-            } else {
+        if ($this->internationalCard) {
+            try {
+                User::saveInternationalImage($userAuth->idUser, $this->photoInternational);
+                $photoInternationalValidated = true;
+            } catch (\Exception $e) {
                 $photoInternationalValidated = false;
                 $this->messageVerif = Lang::get('Identification request missing information');;
-                $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request wrong information'), 'text' => Lang::get('International Identity wrong type')]);
+                $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request wrong information'), 'text' => Lang::get('International id image') . ' : ' . Lang::get($e->getMessage())]);
                 return;
             }
         }
@@ -160,7 +141,8 @@ class IdentificationCheck extends Component
         }
     }
 
-    public function save(settingsManager $settingsManager)
+    public
+    function save(settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth)
@@ -169,7 +151,29 @@ class IdentificationCheck extends Component
         return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Identification_send_succes'));
     }
 
-    public function render(settingsManager $settingsManager)
+
+    public
+    function sendIdentificationRequest($newStatus, settingsManager $settingsManager)
+    {
+        $userAuth = $settingsManager->getAuthUser();
+        $hasRequest = $userAuth->hasIdentificationRequest();
+        if (!$hasRequest) {
+            identificationuserrequest::create([
+                    'idUser' => $userAuth->idUser,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                    'response' => 0,
+                    'note' => '',
+                    'status' => $newStatus
+                ]
+            );
+        }
+        $this->dispatchBrowserEvent('existIdentificationRequest', ['type' => 'warning', 'title' => "Opt", 'text' => '',]);
+    }
+
+
+    public
+    function render(settingsManager $settingsManager)
     {
         $noteRequset = "";
         $userAuth = $settingsManager->getAuthUser();
@@ -216,23 +220,5 @@ class IdentificationCheck extends Component
         return view('livewire.identification-check',
             compact('user', 'usermetta_info', 'errors_array', 'userAuth', 'hasRequest', 'hasFrontImage', 'hasBackImage', 'noteRequset'))
             ->extends('layouts.master')->section('content');
-    }
-
-    public function sendIdentificationRequest($newStatus, settingsManager $settingsManager)
-    {
-        $userAuth = $settingsManager->getAuthUser();
-        $hasRequest = $userAuth->hasIdentificationRequest();
-        if (!$hasRequest) {
-            identificationuserrequest::create([
-                    'idUser' => $userAuth->idUser,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                    'response' => 0,
-                    'note' => '',
-                    'status' => $newStatus
-                ]
-            );
-        }
-        $this->dispatchBrowserEvent('existIdentificationRequest', ['type' => 'warning', 'title' => "Opt", 'text' => '',]);
     }
 }

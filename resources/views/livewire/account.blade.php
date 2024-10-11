@@ -36,7 +36,7 @@
                                 </br>
                                 <div wire:loading wire:target="imageProfil">{{__('Uploading')}}...</div>
                                 <img src="{{ URL::asset($userProfileImage) }}?={{Str::random(16)}}"
-                                     class="  rounded-circle avatar-xl img-thumbnail user-profile-image"
+                                     class="rounded-circle avatar-xl img-thumbnail user-profile-image"
                                      alt="user-profile-image">
 
                                 <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
@@ -76,19 +76,14 @@
                             <tbody>
                             <tr>
                                 <th scope="row">{{ __('Front ID') }}</th>
-                                <td>   @if(file_exists(public_path('/uploads/profiles/front-id-image'.$user['idUser'].'.png')))
-                                        <img class="img-thumbnail" width="150" height="100" id="front-id-image"
-                                             title="{{__('Front id image')}}"
-                                             src="{{asset(('/uploads/profiles/front-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}">
-                                        <button type="button" class="btn btn-outline-primary mt-1"
-                                                data-toggle="modal"
-                                                id="show-identity-front"
-                                                data-target=".bd-example-modal-lg">{{__('Show Identity')}}</button>
-                                    @else
-                                        <div class="alert alert-warning material-shadow" role="alert">
-                                            {{__('No image uploaded')}}
-                                        </div>
-                                    @endif
+                                <td>
+                                    <img class="img-thumbnail" width="150" height="100" id="front-id-image"
+                                         title="{{__('Front id image')}}"
+                                         src="{{asset($userNationalFrontImage)}}?={{Str::random(16)}}">
+                                    <button type="button" class="btn btn-outline-primary mt-1"
+                                            data-toggle="modal"
+                                            id="show-identity-front"
+                                            data-target=".bd-example-modal-lg">{{__('Show Identity')}}</button>
                                 </td>
                             </tr>
                             <tr>
@@ -97,19 +92,13 @@
                                         </span>
                                 </th>
                                 <td>
-                                    @if(file_exists(public_path('/uploads/profiles/back-id-image'.$user['idUser'].'.png')))
-                                        <img class="img-thumbnail" width="150" height="100" id="back-id-image"
-                                             title="{{__('Back id image')}}"
-                                             src="{{asset(('/uploads/profiles/back-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}">
-                                        <button type="button" class="btn btn-outline-primary mt-1"
-                                                data-toggle="modal"
-                                                id="show-identity-back"
-                                                data-target=".bd-example-modal-lg">{{__('Show Identity')}}</button>
-                                    @else
-                                        <div class="alert alert-warning material-shadow" role="alert">
-                                            {{__('No image uploaded')}}
-                                        </div>
-                                    @endif
+                                    <img class="img-thumbnail" width="150" height="100" id="back-id-image"
+                                         title="{{__('Back id image')}}"
+                                         src="{{asset($userNationalBackImage)}}?={{Str::random(16)}}">
+                                    <button type="button" class="btn btn-outline-primary mt-1"
+                                            data-toggle="modal"
+                                            id="show-identity-back"
+                                            data-target=".bd-example-modal-lg">{{__('Show Identity')}}</button>
                                 </td>
                             </tr>
                             </tbody>
@@ -135,22 +124,16 @@
                             <tr>
                                 <th scope="row">{{ __('Identity card') }}</th>
                                 <td>
-                                    @if(file_exists(public_path('/uploads/profiles/international-id-image'.$user['idUser'].'.png')))
-                                        <img class="img-thumbnail" width="150" height="100"
-                                             id="international-id-image"
-                                             title="{{__('International identity card')}}"
-                                             src="{{asset(('/uploads/profiles/international-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}">
-                                        <button type="button" class="btn btn-outline-primary mt-1"
-                                                data-toggle="modal"
-                                                id="show-identity-international"
-                                                data-target=".bd-example-modal-lg">
-                                            {{__('Show Identity')}}
-                                        </button>
-                                    @else
-                                        <div class="alert alert-warning material-shadow" role="alert">
-                                            {{__('No image uploaded')}}
-                                        </div>
-                                    @endif
+                                    <img class="img-thumbnail" width="150" height="100"
+                                         id="international-id-image"
+                                         title="{{__('International identity card')}}"
+                                         src="{{asset($userInternationalImage)}}?={{Str::random(16)}}">
+                                    <button type="button" class="btn btn-outline-primary mt-1"
+                                            data-toggle="modal"
+                                            id="show-identity-international"
+                                            data-target=".bd-example-modal-lg">
+                                        {{__('Show Identity')}}
+                                    </button>
                                 </td>
                             <tr>
                             <tr>
@@ -782,13 +765,8 @@
                                     <label class="form-label">{{ __('Front ID') }}</label>
                                 </div>
                                 <div>
-                                    @if(file_exists(public_path('/uploads/profiles/front-id-image'.$user['idUser'].'.png')))
-                                        <img class="img-thumbnail" width="150" height="100"
-                                             src="{{asset(('/uploads/profiles/front-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}">
-                                    @else
-                                        <img class="img-thumbnail" width="150" height="100"
-                                             src="{{asset(('/uploads/profiles/default.png'))}}?={{Str::random(16)}}">
-                                    @endif
+                                    <img class="img-thumbnail" width="150" height="100"
+                                         src="{{asset($userNationalFrontImage)}}?={{Str::random(16)}}">
                                 </div>
                                 @if(!$disabled)
                                     <div class="wrap-custom-file mt-2 ">
@@ -814,13 +792,8 @@
                                     <label class="form-label">{{ __('Back ID') }}</label>
                                 </div>
                                 <div>
-                                    @if(file_exists(public_path('/uploads/profiles/back-id-image'.$user['idUser'].'.png')))
-                                        <img width="150" height="100"
-                                             src="{{asset(('/uploads/profiles/back-id-image'.$user['idUser'].'.png'))}}?={{Str::random(16)}}">
-                                    @else
-                                        <img width="150" height="100"
-                                             src="{{asset(('/uploads/profiles/default.png'))}}?={{Str::random(16)}}">
-                                    @endif
+                                    <img width="150" height="100"
+                                         src="{{asset($userNationalBackImage)}}?={{Str::random(16)}}">
                                 </div>
                                 @if(!$disabled)
                                     <div class="wrap-custom-file mt-2">

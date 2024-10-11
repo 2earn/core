@@ -20,13 +20,13 @@ class Image extends Model
     public static function validateImage($image)
     {
         if (is_null($image) || gettype($image) != "object") {
-            throw new Exception('Invalid image type');
+            throw new \Exception('Invalid image type');
         }
         if ($image->getSize() > self::MAX_PHOTO_ALLAWED_SIZE) {
-            throw new Exception('You have exceeded the maximum photo size');
+            throw new \Exception('You have exceeded the maximum photo size');
         }
         if (!in_array($image->extension(), self::PHOTO_ALLAWED_EXT)) {
-            throw new Exception('Profile photo wrong type');
+            throw new \Exception('Profile photo wrong type');
         }
     }
 

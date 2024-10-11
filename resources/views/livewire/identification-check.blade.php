@@ -131,7 +131,8 @@
                             <div class="tab-pane fade show active" id="pills-bill-info" role="tabpanel"
                                  aria-labelledby="pills-bill-info-tab">
                                 <div class="row g-3">
-                                    <div id="personalInformationMessage" class="alert alert-danger material-shadow" role="alert"
+                                    <div id="personalInformationMessage" class="alert alert-danger material-shadow"
+                                         role="alert"
                                          style="display: none">
                                         {{__('Please check form data')}}
                                         <a class="btn btn-outline-primary ml-2 mr-2"
@@ -225,19 +226,14 @@
                                             </label>
                                         </div>
                                         <div>
-                                            @if(file_exists(public_path('/uploads/profiles/front-id-image'.$userAuth->idUser.'.png')))
-                                                <img class="img-thumbnail" width="150" height="100"
-                                                     src={{asset(('/uploads/profiles/front-id-image'.$userAuth->idUser.'.png'))}} >
-                                            @else
-                                                <img class="img-thumbnail" width="150" height="100"
-                                                     src={{asset(('/uploads/profiles/default.png'))}} >
-                                            @endif
+                                            <img class="img-thumbnail" width="150" height="100"
+                                                 src={{asset($userNationalFrontImage)}} >
                                         </div>
                                         @if(!$disabled)
                                             <div class="wrap-custom-file mt-2">
                                                 <input wire:model.defer="photoFront" type="file" name="photoFront"
                                                        id="photoFront"
-                                                       accept=".png"/>
+                                                       accept="image/png, image/jpeg"/>
                                                 <label for="photoFront">
                                                     <lord-icon src="https://cdn.lordicon.com/vixtkkbk.json"
                                                                trigger="loop"
@@ -257,18 +253,13 @@
                                             </label>
                                         </div>
                                         <div>
-                                            @if(file_exists(public_path('/uploads/profiles/back-id-image'.$userAuth->idUser.'.png')))
-                                                <img class="img-thumbnail" width="150" height="100"
-                                                     src={{asset(('/uploads/profiles/back-id-image'.$userAuth->idUser.'.png'))}} >
-                                            @else
-                                                <img class="img-thumbnail" width="150" height="100"
-                                                     src={{asset(('/uploads/profiles/default.png'))}} >
-                                            @endif
+                                            <img class="img-thumbnail" width="150" height="100"
+                                                 src={{asset($userNationalBackImage)}} >
                                         </div>
                                         @if(!$disabled)
                                             <div class="wrap-custom-file mt-2">
                                                 <input wire:model.defer="photoBack" type="file" name="photoBack"
-                                                       id="photoBack" accept=".png"/>
+                                                       id="photoBack" accept="image/png, image/jpeg"/>
                                                 <label for="photoBack">
                                                     <lord-icon src="https://cdn.lordicon.com/vixtkkbk.json"
                                                                trigger="loop"
@@ -332,19 +323,14 @@
                                             </label>
                                         </div>
                                         <div>
-                                            @if(file_exists(public_path('/uploads/profiles/international-id-image'.$userAuth->idUser.'.png')))
-                                                <img class="img-thumbnail" width="150" height="100"
-                                                     src={{asset(('/uploads/profiles/international-id-image'.$userAuth->idUser.'.png'))}} >
-                                            @else
-                                                <img class="img-thumbnail" width="150" height="100"
-                                                     src={{asset(('/uploads/profiles/default.png'))}} >
-                                            @endif
+                                            <img class="img-thumbnail" width="150" height="100"
+                                                 src={{asset($userInternationalImage)}} >
                                         </div>
                                         <div class="wrap-custom-file">
                                             <input wire:model.defer="photoInternational" type="file"
                                                    name="photoInternational"
                                                    id="photoInternational"
-                                                   accept=".png"/>
+                                                   accept="image/png, image/jpeg"/>
                                             <label for="photoInternational">
                                                 <lord-icon src="https://cdn.lordicon.com/vixtkkbk.json" trigger="loop"
                                                            delay="1000" style="width:100px;height:100px">
@@ -359,7 +345,8 @@
                                                 {{ __('InternationalId ID identificatdion modal') }}
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control forceltr" minlength="5" maxlength="50"
+                                            <input type="text" class="form-control forceltr" minlength="5"
+                                                   maxlength="50"
                                                    wire:model.defer="userF.internationalID"
                                                    id="internationalId" placeholder="{{__('InternationalId ID')}}">
                                         </div>

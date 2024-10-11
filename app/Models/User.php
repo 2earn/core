@@ -19,7 +19,10 @@ class User extends Authenticatable
     const IMAGE_TYPE_NATIONAL_FRONT = 'national-front-image';
     const IMAGE_TYPE_NATIONAL_BACK = 'national-back-image';
     const IMAGE_TYPE_INTERNATIONAL = 'international';
-
+    const DEFAULT_PROFILE_URL = 'uploads/profiles/default.png';
+    const DEFAULT_NATIONAL_FRONT_URL = 'uploads/profiles/front-id-image.png';
+    const DEFAULT_NATIONAL_BACK_URL = 'uploads/profiles/back-id-image.png';
+    const DEFAULT_INTERNATIONAL_URL = 'uploads/profiles/international-id-image.png';
     use HasApiTokens, HasFactory, Notifiable;
 
     use HasRoles;
@@ -96,6 +99,47 @@ class User extends Authenticatable
         return $this->morphOne(Image::class, 'imageable')->where('type', '=', self::IMAGE_TYPE_INTERNATIONAL);
     }
 
+    public static function getUserProfileImage($idUser)
+    {
+        $accountUser = User::where('idUser', $idUser)->first();
+        try {
+            return $accountUser->profileImage()->first()->url;
+        } catch (\Exception $exception) {
+            return self::DEFAULT_PROFILE_URL;
+        }
+    }
+
+
+    public static function getNationalFrontImage($idUser)
+    {
+        $accountUser = User::where('idUser', $idUser)->first();
+        try {
+            return $accountUser->nationalIdentitieFrontImage()->first()->url;
+        } catch (\Exception $exception) {
+            return self::DEFAULT_NATIONAL_FRONT_URL;
+        }
+    }
+
+    public static function getNationalBackImage($idUser)
+    {
+        $accountUser = User::where('idUser', $idUser)->first();
+        try {
+            return $accountUser->nationalIdentitieBackImage()->first()->url;
+        } catch (\Exception $exception) {
+            return self::DEFAULT_NATIONAL_BACK_URL;
+        }
+    }
+
+    public static function getInternational($idUser)
+    {
+        $accountUser = User::where('idUser', $idUser)->first();
+        try {
+            return $accountUser->internationalIdentitieImage()->first()->url;
+        } catch (\Exception $exception) {
+            return self::DEFAULT_INTERNATIONAL_URL;
+        }
+    }
+
     public static function saveProfileImage($idUser, $imageProfil)
     {
         Image::ValidateImage($imageProfil);
@@ -111,5 +155,56 @@ class User extends Authenticatable
         }
 
         $user->profileImage()->save($image);
+    }
+
+    public static function saveNationalFrontImage($idUser, $imageNationalFront)
+    {
+        Image::ValidateImage($imageNationalFront);
+        $imageNationalFront->storeAs('profiles', 'front-id-image-' . $idUser . '.' . $imageNationalFront->extension(), 'public2');
+
+        $image = Image::create([
+            'type' => self::IMAGE_TYPE_NATIONAL_FRONT,
+            'url' => 'uploads/profiles/front-id-image-' . $idUser . '.' . $imageNationalFront->extension()
+        ]);
+        $user = User::where('idUser', $idUser)->first();
+        if ($user->nationalIdentitieFrontImage()->where('type', '=', self::IMAGE_TYPE_NATIONAL_FRONT)->exists()) {
+            $user->nationalIdentitieFrontImage()->where('type', '=', self::IMAGE_TYPE_NATIONAL_FRONT)->first()->delete();
+        }
+
+        $user->nationalIdentitieFrontImage()->save($image);
+    }
+
+    public static function saveNationalBackImage($idUser, $imageNationalBack)
+    {
+        Image::ValidateImage($imageNationalBack);
+        $imageNationalBack->storeAs('profiles', 'back-id-image-' . $idUser . '.' . $imageNationalBack->extension(), 'public2');
+
+        $image = Image::create([
+            'type' => self::IMAGE_TYPE_NATIONAL_BACK,
+            'url' => 'uploads/profiles/back-id-image-' . $idUser . '.' . $imageNationalBack->extension()
+        ]);
+        $user = User::where('idUser', $idUser)->first();
+        if ($user->nationalIdentitieBackImage()->where('type', '=', self::IMAGE_TYPE_NATIONAL_BACK)->exists()) {
+            $user->nationalIdentitieBackImage()->where('type', '=', self::IMAGE_TYPE_NATIONAL_BACK)->first()->delete();
+        }
+
+        $user->nationalIdentitieBackImage()->save($image);
+    }
+
+    public static function saveInternationalImage($idUser, $imageInternational)
+    {
+        Image::ValidateImage($imageInternational);
+        $imageInternational->storeAs('profiles', 'international-id-image-' . $idUser . '.' . $imageInternational->extension(), 'public2');
+
+        $image = Image::create([
+            'type' => self::IMAGE_TYPE_INTERNATIONAL,
+            'url' => 'uploads/profiles/international-id-image-' . $idUser . '.' . $imageInternational->extension()
+        ]);
+        $user = User::where('idUser', $idUser)->first();
+        if ($user->internationalIdentitieImage()->where('type', '=', self::IMAGE_TYPE_INTERNATIONAL)->exists()) {
+            $user->internationalIdentitieImage()->where('type', '=', self::IMAGE_TYPE_INTERNATIONAL)->first()->delete();
+        }
+
+        $user->internationalIdentitieImage()->save($image);
     }
 }
