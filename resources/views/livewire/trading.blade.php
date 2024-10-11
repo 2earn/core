@@ -9,7 +9,7 @@
         @endslot
     @endcomponent
     <div class="row">
-        <div class="col-12 mt-2 mb-2">
+        <div class="col-12">
             @include('layouts.flash-messages')
         </div>
     </div>
@@ -19,11 +19,10 @@
                 <div class="card-header">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h5 id="exampleModalgridLabel">{{ __('Buy Shares') }}
-                                @if($flash)
-                                    <div class="flash-background float-end">{{__('V I P')}}</div>
-                                @endif
-                            </h5>
+                            <h5 class="card-title mb-0">{{ __('Buy Shares') }}</h5>
+                            @if($flash)
+                                <div class="flash-background float-end">{{__('V I P')}}</div>
+                            @endif
                         </div>
                     </div>
                 </div>
