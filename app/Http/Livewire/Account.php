@@ -28,9 +28,9 @@ class Account extends Component
     use earnTrait;
     use earnLog;
 
-    const MAX_PHOTO_ALLAWED_SIZE = 2048000;
-    const PHOTO_ALLAWED_EXT = ['png', 'jpg', 'jpeg'];
+
     const SEND_PASSWORD_CHANGE_OPT = false;
+    const DEFAULT_PROFILE_URL = 'uploads/profiles/default.png';
 
     public $nbrChild = 9;
     public $photoFront;
@@ -52,6 +52,7 @@ class Account extends Component
     public $disabled;
     public $dispalyedUserCred;
     public $sendPasswordChangeOPT;
+    public $userProfileImage;
 
     protected $listeners = [
         'PreChangePass' => 'PreChangePass',
@@ -83,6 +84,7 @@ class Account extends Component
         }
 
         $this->initSendPasswordChangeOPT($settingManager->getidCountryForSms(auth()->user()->id));
+        $this->userProfileImage = self::DEFAULT_PROFILE_URL;
     }
 
     public function initSendPasswordChangeOPT($userContactActif)
@@ -127,44 +129,6 @@ class Account extends Component
         UserNotificationSettings::where('idUser', $settingManager->getAuthUser()->idUser)
             ->where('idNotification', NotificationSettingEnum::change_pwd_sms->value)
             ->update(['value' => $this->sendPassSMS]);
-    }
-
-    public function render(settingsManager $settingsManager, Request $request)
-    {
-        $this->paramIdUser = $request->input('paramIdUser');
-        if ($this->paramIdUser == null) $this->paramIdUser = "";
-        if ($this->paramIdUser == null || $this->paramIdUser == "")
-            $userAuth = $settingsManager->getAuthUser();
-        else {
-            $this->noteReject = Lang::get('Note_rejected');
-            $userAuth = $settingsManager->getAuthUserById($this->paramIdUser);
-        }
-        $this->dispalyedUserCred = getUserDisplayedName($userAuth->idUser);
-
-        if (!$userAuth)
-            dd('not found page');
-        $this->numberActif = $settingsManager->getidCountryForSms($userAuth->id)->fullNumber;
-        $this->genders = DB::table('genders')->get();
-        $this->personaltitles = DB::table('personal_titles')->get()->toArray();
-        $this->languages = DB::table('languages')->get();
-        $usermetta_info = collect(DB::table('metta_users')->where('idUser', $userAuth->idUser)->first());
-        $user = DB::table('users')->where('idUser', $userAuth->idUser)->first();
-        $this->countryUser = $settingsManager->getCountrieById($user->idCountry)->name;
-        $this->countryUser = Lang::get($this->countryUser);
-        $this->usermetta_info = $usermetta_info;
-        $this->user = collect($user);
-        $this->states = $settingsManager->getStatesContrie($user->id_phone);
-        $this->soldeSms = $settingsManager->getSoldeByAmount($userAuth->idUser, AmoutEnum::Sms_Balance);
-        $this->soldeSms = $this->soldeSms == null ? 0 : $this->soldeSms;
-        if ($this->sendPassSMS) {
-            if ($this->soldeSms <= 0) {
-                $this->sendPassSMS = 0;
-            }
-        }
-        $this->CalculPercenteComplete();
-        $hasRequest = $userAuth->hasIdentificationRequest();
-        $this->disabled = in_array($user->status, [StatusRequest::InProgressNational->value, StatusRequest::InProgressInternational->value, StatusRequest::InProgressGlobal->value, StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value]) ? true : false;
-        return view('livewire.account', ['hasRequest' => $hasRequest, 'errors_array' => $this->errors_array])->extends('layouts.master')->section('content');
     }
 
 
@@ -266,19 +230,13 @@ class Account extends Component
         $us->is_public = $this->user['is_public'];
         $us->save();
         $us = User::find($this->user['id']);
-        if (!is_null($this->imageProfil) && gettype($this->imageProfil) == "object") {
-            if (in_array($this->imageProfil->extension(), self::PHOTO_ALLAWED_EXT)) {
-                if ($this->imageProfil->getSize() < self::MAX_PHOTO_ALLAWED_SIZE) {
-                    $this->imageProfil->storeAs('profiles', 'profile-image-' . $us->idUser . '.' . $this->imageProfil->extension(), 'public2');
-                } else {
-                    $this->dispatchBrowserEvent('profilePhotoError', ['type' => 'warning', 'title' => Lang::get('Profile photo Error'), 'text' => Lang::get('Profile photo big size'),]);
-                    return;
-                }
-            } else {
-                $this->dispatchBrowserEvent('profilePhotoError', ['type' => 'warning', 'title' => Lang::get('Profile photo Error'), 'text' => Lang::get('Profile photo wrong type'),]);
-                return;
-            }
+
+        try {
+            User::saveProfileImage($us->idUser, $this->imageProfil);
+        } catch (\Exception $e) {
+            return redirect()->route('account', app()->getLocale())->with('success', Lang::get($e->getMessage()));
         }
+
         if ($this->paramIdUser == "")
             return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Edit_profil_succes'));
         else {
@@ -439,4 +397,57 @@ class Account extends Component
             return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Identification_send_succes'));
         }
     }
+
+    public function getuserProfileImage($idUser)
+    {
+        $accountUser = User::where('idUser', $idUser)->first();
+        try {
+            $this->userProfileImage = $accountUser->profileImage()->first()->url;
+
+        } catch (\Exception $exception) {
+            $this->userProfileImage = self::DEFAULT_PROFILE_URL;
+        }
+    }
+
+    public function render(settingsManager $settingsManager, Request $request)
+    {
+        $this->paramIdUser = $request->input('paramIdUser');
+        if ($this->paramIdUser == null) $this->paramIdUser = "";
+        if ($this->paramIdUser == null || $this->paramIdUser == "")
+            $userAuth = $settingsManager->getAuthUser();
+        else {
+            $this->noteReject = Lang::get('Note_rejected');
+            $userAuth = $settingsManager->getAuthUserById($this->paramIdUser);
+        }
+        $this->dispalyedUserCred = getUserDisplayedName($userAuth->idUser);
+
+        if (!$userAuth)
+            dd('not found page');
+        $this->numberActif = $settingsManager->getidCountryForSms($userAuth->id)->fullNumber;
+        $this->genders = DB::table('genders')->get();
+        $this->personaltitles = DB::table('personal_titles')->get()->toArray();
+        $this->languages = DB::table('languages')->get();
+        $usermetta_info = collect(DB::table('metta_users')->where('idUser', $userAuth->idUser)->first());
+        $user = DB::table('users')->where('idUser', $userAuth->idUser)->first();
+        $this->countryUser = $settingsManager->getCountrieById($user->idCountry)->name;
+        $this->countryUser = Lang::get($this->countryUser);
+        $this->usermetta_info = $usermetta_info;
+        $this->user = collect($user);
+        $this->states = $settingsManager->getStatesContrie($user->id_phone);
+        $this->soldeSms = $settingsManager->getSoldeByAmount($userAuth->idUser, AmoutEnum::Sms_Balance);
+        $this->soldeSms = $this->soldeSms == null ? 0 : $this->soldeSms;
+        if ($this->sendPassSMS) {
+            if ($this->soldeSms <= 0) {
+                $this->sendPassSMS = 0;
+            }
+        }
+        $this->CalculPercenteComplete();
+        $hasRequest = $userAuth->hasIdentificationRequest();
+        $this->disabled = in_array($user->status, [StatusRequest::InProgressNational->value, StatusRequest::InProgressInternational->value, StatusRequest::InProgressGlobal->value, StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value]) ? true : false;
+
+        $this->getuserProfileImage($userAuth->idUser);
+        return view('livewire.account', ['hasRequest' => $hasRequest, 'errors_array' => $this->errors_array])->extends('layouts.master')->section('content');
+    }
+
+
 }

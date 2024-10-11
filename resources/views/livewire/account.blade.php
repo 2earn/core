@@ -35,10 +35,10 @@
                                 @endif
                                 </br>
                                 <div wire:loading wire:target="imageProfil">{{__('Uploading')}}...</div>
-                                <img
-                                    src="@if (file_exists('uploads/profiles/profile-image-' . $user['idUser'] . '.png')) {{ URL::asset('uploads/profiles/profile-image-'.$user['idUser'].'.png') }}?={{Str::random(16)}} @else{{ URL::asset('uploads/profiles/default.png') }} @endif"
-                                    class="  rounded-circle avatar-xl img-thumbnail user-profile-image"
-                                    alt="user-profile-image">
+                                <img src="{{ URL::asset($userProfileImage) }}?={{Str::random(16)}}"
+                                     class="  rounded-circle avatar-xl img-thumbnail user-profile-image"
+                                     alt="user-profile-image">
+
                                 <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
                                     <input id="profile-img-file-input" type="file" class="profile-img-file-input"
                                            accept="image/png, image/jpeg"

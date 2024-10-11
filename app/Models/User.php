@@ -13,7 +13,12 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     const SUPER_ADMIN_ROLE_NAME = "Super admin";
-
+    const MAX_PHOTO_ALLAWED_SIZE = 2048000;
+    const PHOTO_ALLAWED_EXT = ['png', 'jpg', 'jpeg'];
+    const IMAGE_TYPE_PROFILE = 'profile';
+    const IMAGE_TYPE_NATIONAL_FRONT = 'national-front-image';
+    const IMAGE_TYPE_NATIONAL_BACK = 'national-back-image';
+    const IMAGE_TYPE_INTERNATIONAL = 'international';
 
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -73,21 +78,38 @@ class User extends Authenticatable
 
     public function profileImage()
     {
-        return $this->morphOne(Image::class, 'imageable')->where('type', '=', 'profile');
+        return $this->morphOne(Image::class, 'imageable')->where('type', '=', self::IMAGE_TYPE_PROFILE);
     }
 
     public function nationalIdentitieFrontImage()
     {
-        return $this->morphOne(Image::class, 'imageable')->where('type', '=', 'national-front-image');
+        return $this->morphOne(Image::class, 'imageable')->where('type', '=', self::IMAGE_TYPE_NATIONAL_FRONT);
     }
 
     public function nationalIdentitieBackImage()
     {
-        return $this->morphOne(Image::class, 'imageable')->where('type', '=', 'national-back-image');
+        return $this->morphOne(Image::class, 'imageable')->where('type', '=', self::IMAGE_TYPE_NATIONAL_BACK);
     }
 
     public function internationalIdentitieImage()
     {
-        return $this->morphOne(Image::class, 'imageable')->where('type', '=', 'international');
+        return $this->morphOne(Image::class, 'imageable')->where('type', '=', self::IMAGE_TYPE_INTERNATIONAL);
+    }
+
+    public static function saveProfileImage($idUser, $imageProfil)
+    {
+        Image::ValidateImage($imageProfil);
+        $imageProfil->storeAs('profiles', 'profile-image-' . $idUser . '.' . $imageProfil->extension(), 'public2');
+
+        $image = Image::create([
+            'type' => self::IMAGE_TYPE_PROFILE,
+            'url' => 'uploads/profiles/profile-image-' . $idUser . '.' . $imageProfil->extension()
+        ]);
+        $user = User::where('idUser', $idUser)->first();
+        if ($user->profileImage()->where('type', '=', self::IMAGE_TYPE_PROFILE)->exists()) {
+            $user->profileImage()->where('type', '=', self::IMAGE_TYPE_PROFILE)->first()->delete();
+        }
+
+        $user->profileImage()->save($image);
     }
 }

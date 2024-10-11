@@ -18,7 +18,8 @@ return new class extends Migration {
         Schema::create(self::TABLE_NAME, function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            $table->morphs('imageable');
+            $table->string('url');
+            $table->nullableMorphs('imageable');
             $table->timestamps();
         });
     }
