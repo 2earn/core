@@ -119,48 +119,65 @@
                 </div>
                 <div class="card-body row">
                     <div class="col-12">
-                        <table class="table table-bordered">
-                            <tbody>
-                            <tr>
-                                <th scope="row">{{ __('Identity card') }}</th>
-                                <td>
-                                    <img class="img-thumbnail" width="150" height="100"
-                                         id="international-id-image"
-                                         title="{{__('International identity card')}}"
-                                         src="{{asset($userInternationalImage)}}?={{Str::random(16)}}">
-                                    <button type="button" class="btn btn-outline-primary mt-1"
-                                            data-toggle="modal"
-                                            id="show-identity-international"
-                                            data-target=".bd-example-modal-lg">
-                                        {{__('Show Identity')}}
-                                    </button>
-                                </td>
-                            <tr>
-                            <tr>
-                                <th scope="row">{{__('InternationalId ID identificatdion modal')}}</th>
-                                <td>
-                                    @if($user['internationalID'])
-                                        {{$user['internationalID']}}
-                                    @else
-                                        <div class="alert alert-warning material-shadow" role="alert">
-                                            {{__('No international ID')}}
+                        @if($user['internationalID'])
+                            <table class="table table-bordered">
+                                <tbody>
+                                <tr>
+                                    <th scope="row">{{ __('Identity card') }}</th>
+                                    <td>
+                                        <img class="img-thumbnail" width="150" height="100"
+                                             id="international-id-image"
+                                             title="{{__('International identity card')}}"
+                                             src="{{asset($userInternationalImage)}}?={{Str::random(16)}}">
+                                        <button type="button" class="btn btn-outline-primary mt-1"
+                                                data-toggle="modal"
+                                                id="show-identity-international"
+                                                data-target=".bd-example-modal-lg">
+                                            {{__('Show Identity')}}
+                                        </button>
+                                    </td>
+                                <tr>
+                                <tr>
+                                    <th scope="row">{{__('InternationalId ID identificatdion modal')}}</th>
+                                    <td>
+                                        @if($user['internationalID'])
+                                            {{$user['internationalID']}}
+                                        @endif
+                                    </td>
+                                <tr>
+                                <tr>
+                                    <th scope="row">{{__('Expiry date identificatdion modal')}}</th>
+                                    <td>
+                                        @if($user['internationalID'])
+                                            {{$user['expiryDate']}}
+                                        @endif
+                                    </td>
+                                <tr>
+                            </table>
+                        @else
+
+                            <!-- Warning Alert -->
+                            <div
+                                class="alert alert-warning alert-dismissible alert-additional fade show mb-0 material-shadow"
+                                role="alert">
+                                <div class="alert-body">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                    <div class="d-flex">
+                                        <div class="flex-shrink-0 me-3">
+                                            <i class="ri-alert-line fs-16 align-middle"></i>
                                         </div>
-                                    @endif
-                                </td>
-                            <tr>
-                            <tr>
-                                <th scope="row">{{__('Expiry date identificatdion modal')}}</th>
-                                <td>
-                                    @if($user['internationalID'])
-                                        {{$user['expiryDate']}}
-                                    @else
-                                        <div class="alert alert-warning material-shadow" role="alert">
-                                            {{__('No international ID')}}
+                                        <div class="flex-grow-1">
+                                            <h5 class="alert-heading">{{__('No international identities data information')}}</h5>
+                                            <p class="mb-0">{{__('Please log in to benefit from many advantages')}} </p>
                                         </div>
-                                    @endif
-                                </td>
-                            <tr>
-                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <button
+                                class="my-2 float-end btn btn-info" id="goToIdentification"
+                            >{{__('Open identification tab')}}</button>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -1074,7 +1091,8 @@
         </script>
         <script type="module">
             $(document).on('turbolinks:load', function () {
-                $("#soonExpireIIC").click(function () {
+                $("#soonExpireIIC, #goToIdentification").click(function () {
+                    console.log('Hi')
                     $('#personalDetailsTab a').removeClass('active')
                     $('#personalDetails').removeClass('active')
                     $('#personalDetailsTab a').attr('aria-selected', false)

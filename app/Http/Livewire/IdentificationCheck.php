@@ -141,8 +141,7 @@ class IdentificationCheck extends Component
         }
     }
 
-    public
-    function save(settingsManager $settingsManager)
+    public function save(settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth)
@@ -152,8 +151,7 @@ class IdentificationCheck extends Component
     }
 
 
-    public
-    function sendIdentificationRequest($newStatus, settingsManager $settingsManager)
+    public function sendIdentificationRequest($newStatus, settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
         $hasRequest = $userAuth->hasIdentificationRequest();
@@ -172,8 +170,7 @@ class IdentificationCheck extends Component
     }
 
 
-    public
-    function render(settingsManager $settingsManager)
+    public function render(settingsManager $settingsManager)
     {
         $noteRequset = "";
         $userAuth = $settingsManager->getAuthUser();

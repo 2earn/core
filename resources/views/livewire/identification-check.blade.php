@@ -300,7 +300,7 @@
                                         <div class="form-check form-switch form-switch-right form-switch-md">
                                             <input class="form-check-input" wire:model="internationalCard"
                                                    type="checkbox"
-                                                   @if($userAuth->status==4) disabled title="Status 4" @endif
+                                                   @if($userAuth->status==\Core\Enum\StatusRequest::ValidInternational) disabled title="Status 4" @endif
                                                    id="international-card">
                                             <label for="international-card"
                                                    class="form-label text-muted">{{__('I want to submit my international identitie card')}}</label>
