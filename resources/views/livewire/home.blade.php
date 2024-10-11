@@ -327,7 +327,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-7 px-0">
+        <div class="col-sm-12 col-md-12 col-lg-12 px-0">
             <div class="card mx-1">
                 <div class="card-header border-info">
                     <div class="d-flex align-items-center">
@@ -346,9 +346,10 @@
                     </div>
                 </div>
             </div>
-
         </div>
-        <div class="col-sm-12 col-md-12 col-lg-5 px-0">
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12 px-0">
             <div class="card mx-1">
                 <div class="card-header border-info">
                     <div class="d-flex align-items-center">
