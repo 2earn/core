@@ -54,15 +54,15 @@ left join users user on user.idUser = recharge_requests.idUser";
 
     public function buyAction(Req $request, BalancesManager $balancesManager)
     {
-        $actualActionValue = actualActionValue(getSelledActions(true), false);
+        $actualActionValue = round(actualActionValue(getSelledActions(true), false),12);
         $validator = Val::make($request->all(), [
-            'ammount' => ['required', 'numeric', 'gte:' . $actualActionValue, 'lte:' . $balancesManager->getBalances(Auth()->user()->idUser, -1)->soldeCB],
+            'ammount' => ['required', 'numeric', 'gte:' . round(actualActionValue(getSelledActions(true), false),12), 'lte:' . $balancesManager->getBalances(Auth()->user()->idUser, -1)->soldeCB],
             'phone' => [Rule::requiredIf($request->me_or_other == "other")],
             'bfs_for' => [Rule::requiredIf($request->me_or_other == "other")],
         ], [
             'ammount.required' => Lang::get('ammonut is required !'),
             'ammount.numeric' => Lang::get('Ammount must be numeric !!'),
-            'ammount.gte' => Lang::get('The ammount must be greater than action value') . ' ( ' . $actualActionValue . ' )',
+            'ammount.gte' => Lang::get('The ammount must be greater than action value') . ' ( ' . round($actualActionValue, 3) . ' )',
             'ammount.lte' => Lang::get('Ammount > Cash Balance !!'),
             'teinte.exists' => Lang::get('Le champ Teinte est obligatoire !'),
         ]);
@@ -72,8 +72,6 @@ left join users user on user.idUser = recharge_requests.idUser";
         }
 
         $number_of_action = intval(($request->ammount) / $actualActionValue);
-
-
         $gift = getGiftedActions($number_of_action);
         $actual_price = actualActionValue(getSelledActions(true), false);
         $PU = $number_of_action * ($actual_price) / ($number_of_action + $gift);
@@ -661,7 +659,7 @@ left join users user on user.idUser = recharge_requests.idUser";
     {
         $query = DB::table('user_balances')
             ->select(
-                DB::raw('CAST(SUM(value) OVER (ORDER BY id) AS DECIMAL(10,0))AS x'),
+                DB::raw('CAST(SUM(value ) OVER (ORDER BY id) AS DECIMAL(10,0))AS x'),
                 DB::raw('CAST((value + gifted_shares) * PU / value AS DECIMAL(10,2)) AS y')
             )
             ->where('idBalancesOperation', 44)
@@ -788,7 +786,7 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
 
     public function getActionValues()
     {
-        $limit = getSelledActions() * 1.05;
+        $limit = getSelledActions(true) * 1.05;
         $data = [];
         $setting = Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
         $initial_value = $setting[0];
