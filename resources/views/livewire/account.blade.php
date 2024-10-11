@@ -378,8 +378,8 @@
                                                 <a href="{{ !empty($user['email']) ? route('contact_number', app()->getLocale()) : '#' }}"
                                                    id="update_tel" class="btn btn-info" type="button"
                                                    @if(empty($user['email']))
-                                                       onclick="event.preventDefault(); var modal = new bootstrap.Modal(document.getElementById('topmodal')); modal.show();"
-                                                    @endif>
+                                                       data-bs-toggle="modal"
+                                                   data-bs-target="#topmodal" @endif>
                                                     {{ __('Change') }}
                                                 </a>
                                             </div>
