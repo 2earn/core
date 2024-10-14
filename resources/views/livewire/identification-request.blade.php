@@ -36,7 +36,7 @@
                             <div class="d-flex mb-4 align-items-center">
                                 <div class="flex-shrink-0">
                                     <img
-                                            src="@if (file_exists('uploads/profiles/profile-image-' . $identificationRequest->idUser . '.png')) {{ URL::asset('uploads/profiles/profile-image-'.$identificationRequest->idUser.'.png') }}@else{{ URL::asset('uploads/profiles/default.png') }} @endif"
+                                            src="{{asset(\App\Models\User::getUserProfileImage($identificationRequest->idUser))}}"
                                             class="avatar-sm rounded-circle"/>
                                 </div>
                                 <div class="flex-grow-1 ms-2">
