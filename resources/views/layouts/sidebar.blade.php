@@ -119,7 +119,7 @@
                             class="menu-dropdown collapse {{in_array($currentRouteName,$sidebarSavingsArray)? 'show' : ''}}"
                             id="sidebarSavings">
                             <ul class="nav nav-sm flex-column">
-                                <li class="nav-item cool-link {{$currentRouteName==$sidebarSavingsArray[0]? 'active' : ''}} disabled">
+                                <li class="nav-item cool-link {{$currentRouteName==$sidebarSavingsArray[0]? 'active' : ''}}">
                                     <a href="{{route($sidebarSavingsArray[0], app()->getLocale(),false)}}"
                                        class="nav-link ">{{ __('Purchase history') }}</a>
                                 </li>

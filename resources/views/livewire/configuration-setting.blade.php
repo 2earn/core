@@ -8,7 +8,9 @@
         <div class="card">
             <div class="card-body">
                 <div class="tab-content text-muted">
-                    <div class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap" id="setting" role="tabpanel">
+                    <div
+                        class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                        id="setting" role="tabpanel">
                         <div wire:ignore class="card-body">
                             <div id="customerList">
                                 <div class="row ">
@@ -48,7 +50,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="settingsModalLabel">{{__('Add setting')}}</h5>
+                    <h5 class="modal-title" id="settingsModalLabel">{{__('Update setting')}}</h5>
                     <button type="button" class="btn-close btn-close-setting " data-bs-dismiss="modal"
                             aria-label="Close"></button>
                 </div>
@@ -98,9 +100,10 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
                     <button type="button" wire:click="saveSetting"
                             class="btn btn-primary">{{__('Save changes')}}</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('Close')}}</button>
+
                 </div>
             </div>
         </div>
