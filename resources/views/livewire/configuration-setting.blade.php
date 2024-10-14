@@ -15,12 +15,13 @@
                                     <div class="col-sm-auto">
 
                                     </div>
-                                    <div class="table-responsive table-card mt-3 mb-1">
+                                    <div class="table-responsive table-card mb-3">
                                         <table
                                             class="table table-bordered dt-responsive nowrap table-striped align-middle"
-                                            id="SettingsTable" style="width: 100%">
+                                            id="SettingsTable">
                                             <thead class="table-light">
                                             <tr>
+                                                <th>{{ __('id') }}</th>
                                                 <th>{{ __('Name of setting') }}</th>
                                                 <th>{{ __('IntegerValue') }}</th>
                                                 <th>{{ __('StringValue') }}</th>
@@ -120,9 +121,10 @@
                     "fixedHeader": true,
                     search: {return: true},
                     "processing": true,
-                    "aLengthMenu": [[5, 30, 50], [5, 30, 50]],
+                    "aLengthMenu": [[10, 25, 50], [10, 25, 50]],
                     "ajax": "{{route('api_settings',app()->getLocale())}}",
                     "columns": [
+                        {"data": "idSETTINGS"},
                         {"data": "ParameterName"},
                         {"data": "IntegerValue"},
                         {"data": "StringValue"},
@@ -132,6 +134,7 @@
                         {data: 'action', name: 'action', orderable: false, searchable: false},
                     ],
                     "language": {"url": urlLang},
+                    order: [[0, 'desc']],
                     "drawCallback": function (settings, json) {
                         $(".edit-setting-btn").each(function () {
                             $(this).on("click", function () {

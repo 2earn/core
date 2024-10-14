@@ -54,9 +54,9 @@ left join users user on user.idUser = recharge_requests.idUser";
 
     public function buyAction(Req $request, BalancesManager $balancesManager)
     {
-        $actualActionValue = round(actualActionValue(getSelledActions(true), false),12);
+        $actualActionValue = round(actualActionValue(getSelledActions(true), false), 12);
         $validator = Val::make($request->all(), [
-            'ammount' => ['required', 'numeric', 'gte:' . round(actualActionValue(getSelledActions(true), false),12), 'lte:' . $balancesManager->getBalances(Auth()->user()->idUser, -1)->soldeCB],
+            'ammount' => ['required', 'numeric', 'gte:' . round(actualActionValue(getSelledActions(true), false), 12), 'lte:' . $balancesManager->getBalances(Auth()->user()->idUser, -1)->soldeCB],
             'phone' => [Rule::requiredIf($request->me_or_other == "other")],
             'bfs_for' => [Rule::requiredIf($request->me_or_other == "other")],
         ], [
@@ -927,7 +927,8 @@ class="btn btn-xs btn-primary btn2earnTable"  >
     public function getSettings()
     {
         $settings = DB::table('settings')
-            ->select('idSETTINGS', 'ParameterName', 'IntegerValue', 'StringValue', 'DecimalValue', 'Unit', 'Automatically_calculated');
+            ->select('idSETTINGS', 'ParameterName', 'IntegerValue', 'StringValue', 'DecimalValue', 'Unit', 'Automatically_calculated')
+            ->orderBy('idSETTINGS');
         return datatables($settings)
             ->addColumn('action', function ($settings) {
                 return '<div class="d-flex gap-2">
@@ -935,18 +936,11 @@ class="btn btn-xs btn-primary btn2earnTable"  >
                                     <button  data-id="' . $settings->idSETTINGS . '"   data-bs-toggle="modal" data-bs-target="#settingModal"
  class="btn btn-primary edit-item-btn edit-setting-btn"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Update') . '</button> </div> </div>';
             })
-            ->setRowId('idSETTINGS')
             ->editColumn('Automatically_calculated', function ($settings) {
                 if ($settings->Automatically_calculated == 1)
-                    return '<span class="badge badge-success">' . trans('Yes') . '</span>';
+                    return '<span class="badge bg-success-info text-success">' . trans('Yes') . '</span>';
                 else
-                    return '<span class="badge badge-info">' . trans('No') . '</span>';
-            })
-            ->editColumn('StringValue', function ($settings) {
-                return '***';
-            })
-            ->setRowClass(function ($settings) {
-                return 'testaddclass';
+                    return '<span class="badge bg-danger-info text-info">' . trans('No') . '</span>';
             })
             ->escapeColumns([])
             ->toJson();
