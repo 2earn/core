@@ -60,7 +60,6 @@ class updateImageData extends Command
                 $this->output->writeln(' User ID : ' . $idUser, false);
 
                 $user = User::where('idUser', $idUser)->first();
-                dump($idUser);
                 if (!is_null($user)) {
                     $image = Image::create([
                         'type' => User::IMAGE_TYPE_NATIONAL_FRONT,

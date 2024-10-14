@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use mysql_xdevapi\Exception;
 
 class Image extends Model
 {
     use HasFactory;
+
+    protected $table = 'images';
 
     const MAX_PHOTO_ALLAWED_SIZE = 2048000;
     const PHOTO_ALLAWED_EXT = ['png', 'jpg', 'jpeg'];
