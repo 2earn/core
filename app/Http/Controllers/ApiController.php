@@ -54,7 +54,7 @@ left join users user on user.idUser = recharge_requests.idUser";
 
     public function buyAction(Req $request, BalancesManager $balancesManager)
     {
-        $actualActionValue = round(actualActionValue(getSelledActions(true), false), 12);
+        $actualActionValue = round(actualActionValue(getSelledActions(true), false), 13);
         $validator = Val::make($request->all(), [
             'ammount' => ['required', 'numeric', 'gte:' . round(actualActionValue(getSelledActions(true), false), 12), 'lte:' . $balancesManager->getBalances(Auth()->user()->idUser, -1)->soldeCB],
             'phone' => [Rule::requiredIf($request->me_or_other == "other")],
