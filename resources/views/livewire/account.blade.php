@@ -374,11 +374,13 @@
                                                        aria-label=""
                                                        placeholder="">
                                                 <i style="font-size: 20px;" class="ri-phone-line"></i>
-                                                <a href="{{route('contact_number', app()->getLocale())}}"
-                                                   id="update_tel"
-                                                   style="cursor: pointer;background-color: #009fe3!important"
-                                                   class="btn btn-primary" type="button">
-                                                    {{__('Change')}}
+
+                                                <a href="{{ !empty($user['email']) ? route('contact_number', app()->getLocale()) : '#' }}"
+                                                   id="update_tel" class="btn btn-info" type="button"
+                                                   @if(empty($user['email']))
+                                                       data-bs-toggle="modal"
+                                                   data-bs-target="#topmodal" @endif>
+                                                    {{ __('Change') }}
                                                 </a>
                                             </div>
                                         </div>
@@ -392,9 +394,8 @@
                                                        class="form-control form-control-icon"
                                                        name="email" placeholder="">
                                                 <i style="font-size: 20px;" class="ri-mail-unread-line"></i>
-                                                <button style="background-color: #009fe3!important"
-                                                        data-bs-toggle="modal" data-bs-target="#modalMail"
-                                                        class="btn btn-primary"
+                                                <button data-bs-toggle="modal" data-bs-target="#modalMail"
+                                                        class="btn btn-info"
                                                         type="button">
                                                     @if($user['email']=="")
                                                         {{__('add')}}
@@ -1180,5 +1181,24 @@
                 this.classList.toggle("bi-eye");
             });
         </script>
+    </div>
+    <div id="topmodal" class="modal fade" tabindex="-1" aria-hidden="true"
+         style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body text-center p-5">
+                    <h4 class="mb-3">{{ __('Email Needed') }}</h4>
+                    <p class="text-muted mb-4">{{ __('Please enter your email to proceed with the update of your contact number.') }}</p>
+                    <div class="hstack gap-2 justify-content-center">
+                        <a href="javascript:void(0);"
+                           class="btn btn-link link-success fw-medium"
+                           data-bs-dismiss="modal"><i
+                                class="ri-close-line me-1 align-middle"></i>
+                            {{ __('Close')}}</a>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
