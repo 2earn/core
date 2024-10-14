@@ -31,7 +31,7 @@ class updateImageData extends Command
      */
     public function handle()
     {
-        DB::table('Images')->truncate();
+        DB::table('images')->truncate();
         $files = Storage::disk('public2')->allFiles('profiles');
         foreach ($files as $filePath) {
             $file = explode('/', $filePath);
