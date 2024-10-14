@@ -5,7 +5,8 @@
                 <div class="mb-sm-5 pb-sm-4 pb-5 text-center">
                     <h1 class="display-1 mb-sm-0">{{ __('Coming Soon') }}</h1>
                 </div>
-                <img src="{{ $imagePath }}" alt="" height="150" class="move-animation">
+                <img src="{{ $imagePath }}" alt="{{$passedDays}}" title="{{$passedDays * 100}}%" height="150"
+                     class="move-animation">
             </div>
 
             <div id="countdown" class="countdownlist">

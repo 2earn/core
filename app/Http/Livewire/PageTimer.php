@@ -9,11 +9,12 @@ use Livewire\Component;
 
 class PageTimer extends Component
 {
-    const FROM_DATE = "2024/01/10";
-    const DEFAULT_DATE = "2025/04/07";
+    const FROM_DATE = "2024/10/10";
+    const DEFAULT_DATE = "2025/04/01";
     public $timeRemaining;
     public $imagePath;
     public $targetDate;
+    public $passedDays = 0;
     protected $listeners = ['decrementTime' => 'decrementTime'];
 
     public function mount($deadline = null)
@@ -42,22 +43,21 @@ class PageTimer extends Component
         $this->updateImagePath();
     }
 
-
-    public function decrementTime()
-    {
-        $this->updateTimeRemaining();
-        $this->updateImagePath();
-    }
-
-
     private function updateImagePath()
     {
         $from = new Datetime(self::FROM_DATE);
         $now = new DateTime();
         $interval = $from->diff($this->targetDate);
         $passed = $from->diff($now);
-        $imageName = $interval->days - $passed->days <= 0 ? '18.png' : intval(round($passed->days / $interval->days, 4) * 18) . ".png";
+        $this->passedDays = round($passed->days / $interval->days, 4);
+        $imageName = $interval->days - $passed->days <= 0 ? '18.png' : intval($this->passedDays * 18) . ".png";
         $this->imagePath = Vite::asset('resources/images/timer/' . $imageName);
+    }
+
+    public function decrementTime()
+    {
+        $this->updateTimeRemaining();
+        $this->updateImagePath();
     }
 
     public function render()
