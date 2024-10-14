@@ -367,6 +367,7 @@
                     this.disabled = true;
                     $('.buy-action-submit-spinner').show();
                     let ammount = parseFloat($('#ammountReal').val()).toFixed(12);
+                    let numberOfActions = parseFloat($('#action').val()).toFixed(12);
                     let phone = $('#phone').val();
                     let me_or_other = $("input[name='inlineRadioOptions']:checked").val();
                     let bfs_for = $("input[name='bfs-for']:checked").val();
@@ -379,6 +380,7 @@
                             bfs_for: bfs_for,
                             phone: phone,
                             country_code: country_code,
+                            numberOfActions: numberOfActions,
                             ammount: ammount,
                             vip: {{$flashTimes}},
                             flashMinShares: {{$flashMinShares}},

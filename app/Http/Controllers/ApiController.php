@@ -70,8 +70,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()->all()], 400);
         }
-
-        $number_of_action = intval(($request->ammount) / $actualActionValue);
+        $number_of_action = intval($request->numberOfActions);
         $gift = getGiftedActions($number_of_action);
         $actual_price = actualActionValue(getSelledActions(true), false);
         $PU = $number_of_action * ($actual_price) / ($number_of_action + $gift);
@@ -315,7 +314,7 @@ left join users user on user.idUser = recharge_requests.idUser";
     public function getSharesSolde()
     {
         $query = DB::table('user_balances')->select('value', 'gifted_shares', 'PU', 'Date')->where('idBalancesOperation', 44)
-            ->where('idUser', Auth()->user()->idUser);
+            ->where('idUser', Auth()->user()->idUser)->orderBy('Date', 'desc');
         return datatables($query)
             ->addColumn('total_price', function ($user_balance) {
                 return number_format($user_balance->PU * ($user_balance->value + $user_balance->gifted_shares), 2);
