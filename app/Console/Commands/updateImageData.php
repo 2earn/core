@@ -29,78 +29,104 @@ class updateImageData extends Command
      *
      * @return int
      */
+    protected $resultSet = [
+        Image::IMAGE_PREFIX_PROFILE => ['ALL' => 0, 'Filled' => 0, 'NOT Filled' => 0],
+        Image::IMAGE_PREFIX_FRONT => ['ALL' => 0, 'Filled' => 0, 'NOT Filled' => 0],
+        Image::IMAGE_PREFIX_BACK => ['ALL' => 0, 'Filled' => 0, 'NOT Filled' => 0],
+        Image::IMAGE_PREFIX_INTERNATIONAL => ['ALL' => 0, 'Filled' => 0, 'NOT Filled' => 0]
+    ];
+
+
     public function handle()
     {
         DB::table('images')->truncate();
+
         $files = Storage::disk('public2')->allFiles('profiles');
+
         foreach ($files as $filePath) {
             $file = explode('/', $filePath);
-            $filename = $file[1];
-            $file = explode('.', $file[1]);
+            $filenameWithExt = $file[1];
+            $file = explode('.', $filenameWithExt);
+            $filename = $file[0];
             $fileExtenssion = $file[1];
-            $this->output->writeln($filename . ' ' . $fileExtenssion, false);
 
-            if (str_starts_with($file[0], 'profile-image')) {
-                $idUser = substr($file[0], strlen('profile-image') + 1, strlen($file[0]) + 1);
-                $this->output->writeln(' User ID : ' . $idUser, false);
+
+            if (str_starts_with($filename, Image::IMAGE_PREFIX_PROFILE)) {
+                $this->resultSet[Image::IMAGE_PREFIX_PROFILE]['ALL']++;
+                $idUser = substr($filename, strlen(Image::IMAGE_PREFIX_PROFILE), strlen($filename));
+
                 $user = User::where('idUser', $idUser)->first();
                 if (!is_null($user)) {
                     $image = Image::create([
                         'type' => User::IMAGE_TYPE_PROFILE,
-                        'url' => 'uploads/profiles/profile-image-' . $idUser . '.' . $fileExtenssion
+                        'url' => Image::IMAGE_PROFILE_PATH . Image::IMAGE_PREFIX_PROFILE . $idUser . '.' . $fileExtenssion
                     ]);
                     $user->profileImage()->save($image);
-                    $this->output->writeln('___________________________________ Filled : ' . json_encode($image), false);
+                    $this->output->writeln('------> Filled : ' . $image->url, false);
+                    $this->resultSet[Image::IMAGE_PREFIX_PROFILE]['Filled']++;
+                } else {
+                    $this->output->writeln($idUser . ' ====> Not Filled : ' . $filename . false);
+                    $this->resultSet[Image::IMAGE_PREFIX_PROFILE]['NOT Filled']++;
                 }
 
             }
-
-            if (str_starts_with($file[0], 'front-id-image')) {
-                $idUser = substr($file[0], strlen('front-id-image'), strlen($file[0]) + 1);
-                $this->output->writeln(' User ID : ' . $idUser, false);
-
+            if (str_starts_with($filename, Image::IMAGE_PREFIX_FRONT)) {
+                $this->resultSet[Image::IMAGE_PREFIX_FRONT]['ALL']++;
+                $idUser = substr($filename, strlen(Image::IMAGE_PREFIX_FRONT), strlen($filename));
                 $user = User::where('idUser', $idUser)->first();
                 if (!is_null($user)) {
                     $image = Image::create([
                         'type' => User::IMAGE_TYPE_NATIONAL_FRONT,
-                        'url' => 'uploads/profiles/front-id-image' . $idUser . '.' . $fileExtenssion
+                        'url' => Image::IMAGE_PROFILE_PATH . Image::IMAGE_PREFIX_FRONT . $idUser . '.' . $fileExtenssion
                     ]);
                     $user->nationalIdentitieFrontImage()->save($image);
-                    $this->output->writeln(' Filled : ' . json_encode($image), false);
+                    $this->output->writeln('------> Filled : ' . $image->url, false);
+                    $this->resultSet[Image::IMAGE_PREFIX_FRONT]['Filled']++;
+                } else {
+                    $this->output->writeln($idUser . ' ====> Not Filled : ' . $filename . false);
+                    $this->resultSet[Image::IMAGE_PREFIX_FRONT]['NOT Filled']++;
                 }
             }
-
-            if (str_starts_with($file[0], 'back-id-image')) {
-                $idUser = substr($file[0], strlen('back-id-image') , strlen($file[0]) + 1);
-                $this->output->writeln(' User ID : ' . $idUser, false);
-
+            if (str_starts_with($filename, Image::IMAGE_PREFIX_BACK)) {
+                $this->resultSet[Image::IMAGE_PREFIX_BACK]['ALL']++;
+                $idUser = substr($filename, strlen(Image::IMAGE_PREFIX_BACK), strlen($filename));
                 $user = User::where('idUser', $idUser)->first();
                 if (!is_null($user)) {
                     $image = Image::create([
                         'type' => User::IMAGE_TYPE_NATIONAL_BACK,
-                        'url' => 'uploads/profiles/back-id-image' . $idUser . '.' . $fileExtenssion
+                        'url' => Image::IMAGE_PROFILE_PATH . Image::IMAGE_PREFIX_BACK . $idUser . '.' . $fileExtenssion
                     ]);
                     $user->nationalIdentitieBackImage()->save($image);
-                    $this->output->writeln(' Filled : ' . json_encode($image), false);
+                    $this->output->writeln('------> Filled : ' . $image->url, false);
+                    $this->resultSet[Image::IMAGE_PREFIX_BACK]['Filled']++;
+                } else {
+                    $this->output->writeln($idUser . ' ====> Not Filled : ' . $filename . false);
+                    $this->resultSet[Image::IMAGE_PREFIX_BACK]['NOT Filled']++;
                 }
             }
-
-            if (str_starts_with($file[0], 'international-id-image')) {
-                $idUser = substr($file[0], strlen('international-id-image'), strlen($file[0]) + 1);
-                $this->output->writeln(' User ID : ' . $idUser, false);
-
+            if (str_starts_with($filename, Image::IMAGE_PREFIX_INTERNATIONAL)) {
+                $this->resultSet[Image::IMAGE_PREFIX_INTERNATIONAL]['ALL']++;
+                $idUser = substr($filename, strlen(Image::IMAGE_PREFIX_INTERNATIONAL), strlen($filename));
                 $user = User::where('idUser', $idUser)->first();
                 if (!is_null($user)) {
                     $image = Image::create([
                         'type' => User::IMAGE_TYPE_INTERNATIONAL,
-                        'url' => 'uploads/profiles/profile-image-' . $idUser . '.' . $fileExtenssion
+                        'url' => Image::IMAGE_PROFILE_PATH . Image::IMAGE_PREFIX_INTERNATIONAL . $idUser . '.' . $fileExtenssion
                     ]);
                     $user->internationalIdentitieImage()->save($image);
-                    $this->output->writeln(' Filled : ' . json_encode($image), false);
+                    $this->output->writeln('------> Filled : ' . $image->url, false);
+                    $this->resultSet[Image::IMAGE_PREFIX_INTERNATIONAL]['Filled']++;
+                } else {
+                    $this->output->writeln($idUser . ' ====> Not Filled : ' . $filename . false);
+                    $this->resultSet[Image::IMAGE_PREFIX_INTERNATIONAL]['NOT Filled']++;
                 }
+
+
             }
 
         }
+        $this->output->writeln(json_encode($this->resultSet), false);
         return Command::SUCCESS;
+
     }
 }

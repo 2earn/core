@@ -12,7 +12,14 @@ class Image extends Model
     protected $table = 'images';
 
     const MAX_PHOTO_ALLAWED_SIZE = 2048000;
+    const IMAGE_PROFILE_PATH = 'uploads/profiles/';
+    const IMAGE_PREFIX_PROFILE = 'profile-image-';
+    const IMAGE_PREFIX_FRONT = 'front-id-image';
+    const IMAGE_PREFIX_BACK = 'back-id-image';
+    const IMAGE_PREFIX_INTERNATIONAL = 'international-id-image';
+
     const PHOTO_ALLAWED_EXT = ['png', 'jpg', 'jpeg'];
+
     protected $fillable = [
         'type',
         'url'
