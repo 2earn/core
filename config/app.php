@@ -234,5 +234,7 @@ return [
         'en' => ['name' => 'en', 'direction' => 'ltr', 'flag' => 'gb', 'tabLang' => 'en-GB'],
         'ar' => ['name' => 'ar', 'direction' => 'rtl', 'flag' => 'lib', 'tabLang' => 'ar'],
         'fr' => ['name' => 'fr', 'direction' => 'ltr', 'flag' => 'fr', 'tabLang' => 'fr-FR'],
+        'es' => ['name' => 'es', 'direction' => 'ltr', 'flag' => 'es', 'tabLang' => 'es-ES'],
+        'tr' => ['name' => 'tr', 'direction' => 'ltr', 'flag' => 'tr', 'tabLang' => 'tr-TR'],
     ]
 ];
