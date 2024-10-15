@@ -27,7 +27,7 @@
                 <div class="card-body p-4">
                     <div class="text-center">
                         <div class="profile-user position-relative d-inline-block mx-auto  mb-4">
-                            <label>{{__('MaxTaillePhoto')}}</label>
+                            <label>{{__('The photo must be in PNG, JPG or JPEG format, and must not exceed 8 Mb in size')}}</label>
                             @if ($imageProfil)
                                 <img class="rounded-circle" width="70" height="70"
                                      src="{{ $imageProfil->temporaryUrl() }}?={{Str::random(16)}}">
