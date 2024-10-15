@@ -490,7 +490,7 @@
                 "colReorder": false,
                 "orderCellsTop": true,
                 "fixedHeader": true,
-                "order": [[5, 'asc']],
+                "order": [[1, 'desc']],
                 "processing": true,
                 "serverSide": false,
                 "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
