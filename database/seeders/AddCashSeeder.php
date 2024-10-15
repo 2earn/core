@@ -27,7 +27,6 @@ class AddCashSeeder extends Seeder
                 'idUser' => $idUser,
                 'idamount' => '1',
                 'value' => $value,
-                'Balance' => '100',
                 'WinPurchaseAmount' => '0',
                 'Block_trait' => '0',
                 'ref' => '182400000082',
