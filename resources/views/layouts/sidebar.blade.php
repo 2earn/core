@@ -220,7 +220,7 @@
                             <i class="ri-bank-fill"></i> <span>{{ __('Exchange') }}</span>
                         </a>
                     </li>
-                    <li style="margin-top: -20px" class="nav-item">
+                    <li style="margin-top: -20px" class="nav-item d-none">
                         <a id="NotificationRequest" class="nav-link menu-link">
                         </a>
                     </li>
