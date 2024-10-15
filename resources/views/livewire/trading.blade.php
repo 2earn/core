@@ -304,17 +304,16 @@
                                             class=" ri-arrow-drop-right-line"></i>{{$numberSharesSale}}</span>
                                 </li>
                             @endif
-                            <li class="list-group-item text-info">{{__('Percent of progress of  selled shares')}}
-                                <span class="float-end">{{round((($selledActionCursor / $numberSharesSale)*100),2) }} <i
+                            <li class="list-group-item text-info">{{__('Percent of progress of selled shares')}}
+                                <span class="float-end">{{round((($selledActionCursor / $totalActions)*100),2) }} <i
                                         class="ri-percent-line"></i>
                                 </span>
                             </li>
                         </ul>
                     </div>
                     <div class="col-12">
-                        <input type="range" min="0" max="{{$this->totalActions}}" title="{{$this->totalActions}}"
-                               class="w-100"
-                               wire:model="selledActionCursor" step="1" wire:change="simulateGain()" id="customRange3">
+                        <input type="range" min="0" max="{{$totalActions}}" title="{{$totalActions}}"
+                               class="w-100" wire:model="selledActionCursor" step="1" wire:change="simulateGain()" id="selledActionCursor">
                     </div>
                 </div>
             </div>
