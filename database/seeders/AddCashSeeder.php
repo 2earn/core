@@ -14,9 +14,9 @@ class AddCashSeeder extends Seeder
      */
     public function run()
     {
-        $idUsers = [197604550, 197604395];
+        $idUsers = [197604550, 197604395, 197604239, 197604342];
 
-        $value = 1000;
+        $value = 10000;
 
         foreach ($idUsers as $idUser) {
             DB::table('user_balances')->insert([
