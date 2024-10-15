@@ -19,6 +19,12 @@ class AddCashSeeder extends Seeder
         $value = 10000;
 
         foreach ($idUsers as $idUser) {
+
+            $userCurrentBalances = DB::table('usercurrentbalances')->where('idUser', $idUser)->where('idamounts', 1);
+
+            $OldValue = $userCurrentBalances->value;
+
+
             DB::table('user_balances')->insert([
                 'Date' => now(),
                 'idBalancesOperation' => 18,
@@ -27,17 +33,19 @@ class AddCashSeeder extends Seeder
                 'idUser' => $idUser,
                 'idamount' => '1',
                 'value' => $value,
+                'Balance' => $OldValue + $value,
                 'WinPurchaseAmount' => '0',
                 'Block_trait' => '0',
                 'ref' => '182400000082',
                 'PrixUnitaire' => '1',
             ]);
 
-            DB::table('usercurrentbalances')
-                ->where('idUser', $idUser)
-                ->where('idamounts', 1)->update([
-                    'value' => $value,
-                ]);
+            DB::table('usercurrentbalances')->where('idUser', $idUser)->where('idamounts', 1)->update(
+                [
+                    'value' => $OldValue + $value,
+                    'dernier_value' => $OldValue,
+                ]
+            );
         }
 
     }
