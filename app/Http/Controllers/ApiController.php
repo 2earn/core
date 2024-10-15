@@ -54,19 +54,18 @@ left join users user on user.idUser = recharge_requests.idUser";
 
     public function buyAction(Req $request, BalancesManager $balancesManager)
     {
-        $actualActionValue = round(actualActionValue(getSelledActions(true), false), 13);
-        $validator = Val::make($request->all(), [
-            'ammount' => ['required', 'numeric', 'gte:' . round(actualActionValue(getSelledActions(true), false), 12), 'lte:' . $balancesManager->getBalances(Auth()->user()->idUser, -1)->soldeCB],
+        $actualActionValue =round( actualActionValue(getSelledActions(true), false),3);
+      $validator = Val::make($request->all(), [
+            'ammount' => ['required', 'numeric', 'gte:' . $actualActionValue, 'lte:' . $balancesManager->getBalances(Auth()->user()->idUser, -1)->soldeCB],
             'phone' => [Rule::requiredIf($request->me_or_other == "other")],
             'bfs_for' => [Rule::requiredIf($request->me_or_other == "other")],
         ], [
             'ammount.required' => Lang::get('ammonut is required !'),
             'ammount.numeric' => Lang::get('Ammount must be numeric !!'),
-            'ammount.gte' => Lang::get('The ammount must be greater than action value') . ' ( ' . round($actualActionValue, 3) . ' )',
+            'ammount.gte' => Lang::get('The ammount must be greater than action value') . ' ( ' . $actualActionValue . ' )',
             'ammount.lte' => Lang::get('Ammount > Cash Balance !!'),
             'teinte.exists' => Lang::get('Le champ Teinte est obligatoire !'),
         ]);
-
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()->all()], 400);
         }
@@ -313,8 +312,8 @@ left join users user on user.idUser = recharge_requests.idUser";
 
     public function getSharesSolde()
     {
-        $query = DB::table('user_balances')->select('value', 'gifted_shares', 'PU', 'Date')->where('idBalancesOperation', 44)
-            ->where('idUser', Auth()->user()->idUser)->orderBy('Date', 'desc');
+        $query = DB::table('user_balances')->select('id', 'value', 'gifted_shares', 'PU', 'Date')->where('idBalancesOperation', 44)
+            ->where('idUser', Auth()->user()->idUser)->orderBy('id', 'desc');
         return datatables($query)
             ->addColumn('total_price', function ($user_balance) {
                 return number_format($user_balance->PU * ($user_balance->value + $user_balance->gifted_shares), 2);

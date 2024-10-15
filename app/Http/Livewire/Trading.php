@@ -76,7 +76,7 @@ class Trading extends Component
     public function simulateAction()
     {
         if ($this->action < 0 && $this->action == "") {
-            $this->ammountReal = $this->ammount = "";
+           $this->ammount = "";
             $this->action = "";
             return;
         }
@@ -85,24 +85,23 @@ class Trading extends Component
             $this->action = self::MAX_ACTIONS;
         }
 
-        $this->ammountReal = $this->action * actualActionValue(getSelledActions(true), false);
-        $this->ammount = round($this->ammountReal, 3);
+        $this->ammount =  round($this->action * actualActionValue(getSelledActions(true), false),3);
         $this->getCommounSimulation();
     }
 
     public function simulateAmmount()
     {
-        if ($this->ammount < 0 && $this->ammount == "") {
-            $this->ammountReal = $this->ammount = "";
+       if ($this->ammount < 0 && $this->ammount == "") {
+            $this->ammount = "";
             $this->action = "";
             return;
         }
 
         if ($this->ammount > self::MAX_AMOUNT) {
-            $this->ammountReal = $this->ammount = self::MAX_AMOUNT;
+          $this->ammount = self::MAX_AMOUNT;
         }
-        $this->ammountReal = $this->ammount;
-        $this->action = intval(intval($this->ammountReal) / actualActionValue(getSelledActions(true), false));
+
+        $this->action = intval(intval($this->ammount) / actualActionValue(getSelledActions(true), false));
 
         $this->getCommounSimulation();
     }

@@ -129,12 +129,6 @@
                                             ({{$currency}}
                                             )</label>
                                         <div class="input-group mb-3">
-
-                                            <input type="hidden"
-                                                   max="{{round($cashBalance)}}"
-                                                   wire:model="ammountReal"
-                                                   id="ammountReal"
-                                            >
                                             <input aria-describedby="simulateAmmount" type="number"
                                                    max="{{round($cashBalance)}}"
                                                    wire:keyup.debounce="simulateAmmount()" wire:model="ammount"
@@ -329,6 +323,7 @@
                            style="width:100%">
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">
+                            <th>{{__('id')}}</th>
                             <th>{{__('date_purchase')}}</th>
                             <th>{{__('number_of_shares')}}</th>
                             <th>{{__('gifted_shares')}}</th>
@@ -366,8 +361,8 @@
                 $("#buy-action-submit").one("click", function () {
                     this.disabled = true;
                     $('.buy-action-submit-spinner').show();
-                    let ammount = parseFloat($('#ammountReal').val()).toFixed(12);
-                    let numberOfActions = parseFloat($('#action').val()).toFixed(12);
+                    let ammount = parseFloat($('#ammount').val()).toFixed(3);
+                    let numberOfActions = parseInt($('#action').val());
                     let phone = $('#phone').val();
                     let me_or_other = $("input[name='inlineRadioOptions']:checked").val();
                     let bfs_for = $("input[name='bfs-for']:checked").val();
@@ -491,7 +486,6 @@
 
         $(document).on('turbolinks:load', function () {
             $('#shares-solde').DataTable({
-                "ordering": true,
                 retrieve: true,
                 "colReorder": false,
                 "orderCellsTop": true,
@@ -505,6 +499,7 @@
                 bAutoWidth: false,
                 "ajax": "{{route('api_shares_solde',['locale'=> app()->getLocale()])}}",
                 "columns": [
+                    {data: 'id'},
                     {data: 'formatted_created_at'},
                     {data: 'value_format'},
                     {data: 'gifted_shares'},
