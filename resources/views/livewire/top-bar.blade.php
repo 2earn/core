@@ -339,7 +339,7 @@
                         <div class="dropdown-menu dropdown-menu-end">
                             <a class="dropdown-item" href="{{route('account',app()->getLocale() )}}">
                                 <img class="rounded-circle header-profile-user"
-                                     src="@if (file_exists('uploads/profiles/profile-image-' . $user->idUser . '.png')) {{ URL::asset('uploads/profiles/profile-image-'.$user->idUser.'.png') }}@else{{ URL::asset('uploads/profiles/default.png') }} @endif">
+                                     src="{{ URL::asset($userProfileImage) }}">
                                 <span
                                     class="align-middle">{{ __('Account') }}</span>
                             </a>
