@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\User;
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
 use Livewire\Component;
@@ -11,6 +12,7 @@ class TopBar extends Component
     public $count = 0;
     public $notifications = [];
     public $currentRoute;
+    public $userProfileImage;
     public $locales;
     private settingsManager $settingsManager;
     private BalancesManager $balancesManager;
@@ -28,6 +30,7 @@ class TopBar extends Component
     {
         $this->settingsManager = $settingsManager;
         $this->balancesManager = $balancesManager;
+        $this->userProfileImage = User::getUserProfileImage(auth()->user()->idUser);
     }
 
     public function render(settingsManager $settingsManager, BalancesManager $balancesManager)
