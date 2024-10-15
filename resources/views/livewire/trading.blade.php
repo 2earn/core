@@ -131,12 +131,12 @@
                                         <div class="input-group mb-3">
 
                                             <input type="hidden"
-                                                   max="{{$cashBalance}}"
+                                                   max="{{round($cashBalance)}}"
                                                    wire:model="ammountReal"
                                                    id="ammountReal"
                                             >
                                             <input aria-describedby="simulateAmmount" type="number"
-                                                   max="{{$cashBalance}}"
+                                                   max="{{round($cashBalance)}}"
                                                    wire:keyup.debounce="simulateAmmount()" wire:model="ammount"
                                                    id="ammount"
                                                    class="form-control @if($flash) flash @endif">
