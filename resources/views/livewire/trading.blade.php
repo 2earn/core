@@ -234,7 +234,11 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="d-flex align-items-center pb-2" title="{{$selledActions." / ".$totalActions}}">
+                    <div class="d-flex align-items-center pb-2"
+                         @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                             title="{{$selledActions." / ".$totalActions}}"
+                        @endif
+                        >
                         <div class="flex-shrink-0 me-3">
                             <div class="avatar-xs">
                                 <div class="avatar-title bg-light rounded-circle text-muted fs-16">
@@ -265,28 +269,48 @@
                 </div>
                 <div class="card-body row">
                     <div class="col-12">
+                        <ul class="list-group  mt-2">
+                            <li class="list-group-item  text-info">{{__('User Selled Action Number')}} : <span
+                                    class="float-end">{{$userSelledActionNumber}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-12 mt-2">
                         <label for="estimatedGain" class="form-label">{{__('Gain')}}</label>
                         <input aria-describedby="estimatedGain" type="number" wire:keyup.debounce="simulateAction()"
                                disabled wire:model="estimatedGain" id="estimatedGain" class="form-control">
                     </div>
-                    @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
-                        <div class="col-12">
-                            <ul class="mt-2">
-                                <li>{{__('Total Paied')}} : <span
-                                        class="badge badge-light text-warning float-end">{{$totalPaied}}</span></li>
-                                <li>{{__('Estimated Gain')}} : <span
-                                        class="badge badge-light text-info float-end">{{$estimatedGain}}</span></li>
-                                <li>{{__('User Selled Action Number')}} : <span
-                                        class="badge badge-light text-success float-end">{{$userSelledActionNumber}}</span>
+                    <div class="col-12">
+                        <ul class="list-group mt-2">
+                            <li class="list-group-item">
+                            <span class="text-info font-weight-bold">
+                                {{__('Total Paied')}} <i class=" ri-arrow-drop-right-line"></i>
+                                <span class="text-success">{{__('Estimated Gain')}}</span>
+                                                               </span>
+
+                                <span class="badge badge-light text-info float-end">
+                                    {{$totalPaied}}
+                                    <i class=" ri-arrow-drop-right-line"></i>
+                                    <span class="text-success">{{$estimatedGain}}</span>
+                                </span>
+                            </li>
+                            <li class="list-group-item text-secondary">
+                                {{__('Action Value')}} : <span
+                                    class="float-end">{{$actionValue}}</span></li>
+                            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                                <li class="list-group-item">{{__('Selled Action Cursor')}} <i
+                                        class=" ri-arrow-drop-right-line"></i> {{__('Total number of shares for sale')}}
+                                    <span class="badge badge-light text-info float-end">{{$selledActionCursor}} <i
+                                            class=" ri-arrow-drop-right-line"></i>{{$numberSharesSale}}</span>
                                 </li>
-                                <li>{{__('Action Value')}} : <span
-                                        class="badge badge-light text-info float-end">{{$actionValue}}</span></li>
-                                <li>{{__('Selled Action Cursor')}} : <span
-                                        class="badge badge-light text-info float-end">{{$selledActionCursor}}</span>
-                                </li>
-                            </ul>
-                        </div>
-                    @endif
+                            @endif
+                            <li class="list-group-item text-info">{{__('Percent of progress of  selled shares')}}
+                                <span class="float-end">{{round((($selledActionCursor / $numberSharesSale)*100),2) }} <i
+                                        class="ri-percent-line"></i>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
                     <div class="col-12">
                         <input type="range" min="0" max="{{$this->totalActions}}" title="{{$this->totalActions}}"
                                class="w-100"
