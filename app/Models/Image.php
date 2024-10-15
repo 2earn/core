@@ -11,7 +11,7 @@ class Image extends Model
 
     protected $table = 'images';
 
-    const MAX_PHOTO_ALLAWED_SIZE = 2048000;
+    const MAX_PHOTO_ALLAWED_SIZE = 8000000;
     const IMAGE_PROFILE_PATH = 'uploads/profiles/';
     const IMAGE_PREFIX_PROFILE = 'profile-image-';
     const IMAGE_PREFIX_FRONT = 'front-id-image';
