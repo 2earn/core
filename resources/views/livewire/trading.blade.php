@@ -341,7 +341,7 @@
 
         </div>
     </div>
-    <script type="module">
+    <script type="module" data-turbolinks-eval="false">
         $(document).ready(function () {
                 const input = document.querySelector("#phone");
                 const iti = window.intlTelInput(input, {
