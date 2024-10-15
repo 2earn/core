@@ -54,8 +54,8 @@ left join users user on user.idUser = recharge_requests.idUser";
 
     public function buyAction(Req $request, BalancesManager $balancesManager)
     {
-        $actualActionValue =round( actualActionValue(getSelledActions(true), false),3);
-      $validator = Val::make($request->all(), [
+        $actualActionValue = round(actualActionValue(getSelledActions(true), false), 3);
+        $validator = Val::make($request->all(), [
             'ammount' => ['required', 'numeric', 'gte:' . $actualActionValue, 'lte:' . $balancesManager->getBalances(Auth()->user()->idUser, -1)->soldeCB],
             'phone' => [Rule::requiredIf($request->me_or_other == "other")],
             'bfs_for' => [Rule::requiredIf($request->me_or_other == "other")],
@@ -66,9 +66,11 @@ left join users user on user.idUser = recharge_requests.idUser";
             'ammount.lte' => Lang::get('Ammount > Cash Balance !!'),
             'teinte.exists' => Lang::get('Le champ Teinte est obligatoire !'),
         ]);
+
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()->all()], 400);
         }
+
         $number_of_action = intval($request->numberOfActions);
         $gift = getGiftedActions($number_of_action);
         $actual_price = actualActionValue(getSelledActions(true), false);
