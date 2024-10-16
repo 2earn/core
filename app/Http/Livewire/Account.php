@@ -423,8 +423,7 @@ class Account extends Component
         $this->languages = DB::table('languages')->get();
         $usermetta_info = collect(DB::table('metta_users')->where('idUser', $userAuth->idUser)->first());
         $user = DB::table('users')->where('idUser', $userAuth->idUser)->first();
-        $this->countryUser = $settingsManager->getCountrieById($user->idCountry)->name;
-        $this->countryUser = Lang::get($this->countryUser);
+        $this->countryUser = Lang::get($settingsManager->getCountrieById($user->idCountry)->name);
         $this->usermetta_info = $usermetta_info;
         $this->user = collect($user);
         $this->states = $settingsManager->getStatesContrie($user->id_phone);

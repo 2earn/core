@@ -664,5 +664,81 @@
                 });
             });
         </script>
+
+            @if($flash)
+                <script type="module">
+                    const millisecondsInOneDay = 86400000;
+                    const millisecondsInOneHour = 3600000;
+                    const millisecondsInOneMinute = 60000;
+
+                    var setEndDate6 = "{{$flashDate}}";
+                    var vipInterval;
+                    var vipInterval1;
+
+                    function formatCountDown(days, hours, minutes, seconds) {
+                        var countDownValue = "- ";
+                        if (days !== "00") {
+                            countDownValue += days + " {{__('days')}}";
+                        }
+                        if (hours !== "00") {
+                            countDownValue += days !== "00" ? " : " : "";
+                            countDownValue += hours + " {{__('hours')}}";
+                        }
+                        if (minutes !== "00") {
+                            countDownValue += (hours !== "00" || days !== "00") ? " : " : "";
+                            countDownValue += minutes + " {{__('minutes')}}";
+                        }
+                        if (seconds !== "00") {
+                            countDownValue += (hours !== "00" || days !== "00" || minutes !== "00") ? " : " : "";
+                            countDownValue += seconds + " {{__('seconds')}}";
+                        }
+                        return countDownValue;
+                    }
+
+                    function startCountDownDate(dateVal) {
+                        const d1 = new Date(Date.parse('{{ date('Y-m-d H:i:s')}}'));
+                        const d2 = new Date();
+                        return new Date(new Date(dateVal).getTime() + (d2 - d1));
+                    }
+
+                    function countDownTimer(start, targetDOM) {
+                        var now = new Date().getTime();
+                        var distance = start - now;
+                        var days = Math.floor(distance / (millisecondsInOneDay));
+                        var hours = Math.floor((distance % (millisecondsInOneDay)) / (millisecondsInOneHour));
+                        var minutes = Math.floor((distance % (millisecondsInOneHour)) / (millisecondsInOneMinute));
+                        var seconds = Math.floor((distance % (millisecondsInOneMinute)) / 1000);
+
+                        days = days < 10 ? "0" + days : days;
+                        hours = hours < 10 ? "0" + hours : hours;
+                        minutes = minutes < 10 ? "0" + minutes : minutes;
+                        seconds = seconds < 10 ? "0" + seconds : seconds;
+                        if ($("#" + targetDOM).length) {
+                            document.querySelector("#" + targetDOM).textContent = formatCountDown(days, hours, minutes, seconds);
+                            if (distance < 0) {
+                                document.querySelector("#" + targetDOM).textContent = "00 : 00 : 00 : 00";
+                            }
+                        }
+                    }
+
+                    var flashTimer = startCountDownDate(setEndDate6);
+                    if ($('#flash-timer').length) {
+                        vipInterval = setInterval(function () {
+                            countDownTimer(flashTimer, "flash-timer");
+                        }, 1000);
+                    } else {
+                        clearInterval(vipInterval);
+                    }
+
+                    if ($('#flash-timer1').length) {
+                        vipInterval1 = setInterval(function () {
+                            countDownTimer(flashTimer, "flash-timer1");
+                        }, 1000);
+                    } else {
+                        clearInterval(vipInterval1);
+                    }
+
+                </script>
+            @endif
     @endpush
 </div>
