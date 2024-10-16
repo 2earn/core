@@ -58,7 +58,7 @@
                                         Marketing</b>, qui transcende les paradigmes traditionnels en n’étant pas
                                     uniquement focalisé sur un produit ou un service spécifique. Il s’agit
                                     d’une philosophie novatrice, orientée vers la création de valeur partagée.
-                                    Contrairement aux approches marketing conventionnelles, <b>EARN.CASH</b> a
+                                    Contrairement aux approches marketing conventionnelles, <b>2EARN.CASH</b> a
                                     su réconcilier les intérêts des consommateurs et des fournisseurs en
                                     s’appuyant sur le principe du <b>Partage des Intérêts</b>. Ce modèle
                                     unique
