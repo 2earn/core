@@ -201,6 +201,7 @@
                             </div>
                         </div>
                         <div class="progress progress-label" style="height: 20px;">
+                        <div class="progress progress-label" style="height: 20px;">
                             @if($PercentComplete>=20)
                                 <div class="progress-bar progress-bar-striped progress-bar-animated   bg-danger"
                                      role="progressbar"
@@ -440,7 +441,7 @@
                                         <div class="mb-3">
                                             <label for="designationInput"
                                                    class="form-label">{{ __('Personal Title') }}</label>
-                                            <select class="form-select mb-3" aria-label=" "
+                                            <select class="form-select mb-3"
                                                     wire:model.defer="usermetta_info.personaltitle">
                                                 <option value="">{{__('no selected value')}}</option>
                                                 <?php if (isset($personaltitles)){
