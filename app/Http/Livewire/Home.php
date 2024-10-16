@@ -29,6 +29,7 @@ class Home extends Component
     private settingsManager $settingsManager;
     private BalancesManager $balancesManager;
     public $ammount;
+    public $ammountReal;
     public $action;
     public $gift;
     public $profit;
@@ -64,7 +65,7 @@ class Home extends Component
     public function simulateAction()
     {
         if ($this->action < 0 && $this->action == "") {
-            $this->ammount = "";
+            $this->ammountReal = $this->ammount = "";
             $this->action = "";
             return;
         }
@@ -73,47 +74,51 @@ class Home extends Component
             $this->action = self::MAX_ACTIONS;
         }
 
-        $this->ammount = round($this->action * actualActionValue(getSelledActions(), false), 3);
+        $this->ammountReal = $this->action * actualActionValue(getSelledActions(true), false);
+        $this->ammount = round($this->ammountReal, 3);
         $this->getCommounSimulation();
     }
 
     public function simulateAmmount()
     {
         if ($this->ammount < 0 && $this->ammount == "") {
-            $this->ammount = "";
+            $this->ammountReal = $this->ammount = "";
             $this->action = "";
             return;
         }
+
         if ($this->ammount > self::MAX_AMOUNT) {
-            $this->ammount = self::MAX_AMOUNT;
+            $this->ammountReal = $this->ammount = self::MAX_AMOUNT;
         }
-        $this->action = round(intval($this->ammount) / actualActionValue(getSelledActions()));
+        $this->ammountReal = $this->ammount;
+        $this->action = intval(intval($this->ammountReal) / actualActionValue(getSelledActions(true), false));
+
         $this->getCommounSimulation();
     }
 
     public function getCommounSimulation()
     {
         $this->gift = getGiftedActions($this->action);
-        $profitRaw = actualActionValue(getSelledActions(), false) * $this->gift;
+        $profitRaw = actualActionValue(getSelledActions(true), false) * $this->gift;
         $this->profit = formatSolde($profitRaw, 2);
 
         if ($this->flash) {
             if ($this->vip->declenched) {
                 if ($this->action >= $this->actions) {
                     $this->flashGift = '+' . getFlashGiftedActions($this->actions, $this->flashTimes);
-                    $this->flashGain = '+' . formatSolde($this->flashGift * actualActionValue(getSelledActions(), false), 2);
+                    $this->flashGain = '+' . formatSolde($this->flashGift * actualActionValue(getSelledActions(true), false), 2);
                 } else {
                     $this->flashGift = '+' . getFlashGiftedActions($this->action, $this->flashTimes);
-                    $this->flashGain = '+' . formatSolde($this->flashGift * actualActionValue(getSelledActions(), false), 2);
+                    $this->flashGain = '+' . formatSolde($this->flashGift * actualActionValue(getSelledActions(true), false), 2);
                 }
             } else {
                 if ($this->action >= $this->flashMinShares) {
                     if ($this->action >= $this->actions) {
                         $this->flashGift = '+' . getFlashGiftedActions($this->actions, $this->flashTimes);
-                        $this->flashGain = '+' . formatSolde($this->flashGift * actualActionValue(getSelledActions(), false), 2);
+                        $this->flashGain = '+' . formatSolde($this->flashGift * actualActionValue(getSelledActions(true), false), 2);
                     } else {
                         $this->flashGift = '+' . getFlashGiftedActions($this->action, $this->flashTimes);
-                        $this->flashGain = '+' . formatSolde($this->flashGift * actualActionValue(getSelledActions(), false), 2);
+                        $this->flashGain = '+' . formatSolde($this->flashGift * actualActionValue(getSelledActions(true), false), 2);
                     }
                 } else {
                     $this->flashGift = $this->flashGain = 0;
@@ -150,13 +155,13 @@ class Home extends Component
         $this->discountBalance = $solde->soldeDB;
         $this->SMSBalance = intval($solde->soldeSMS);
 
-        $this->maxActions = intval($solde->soldeCB / actualActionValue(getSelledActions(), false));
+        $this->maxActions = intval($solde->soldeCB / actualActionValue(getSelledActions(true), false));
         $solde = $balancesManager->getCurrentBalance($user->idUser);
         $usermetta_info = collect(DB::table('metta_users')->where('idUser', $user->idUser)->first());
-        $this->actionsValues = formatSolde(getUserSelledActions(Auth()->user()->idUser) * actualActionValue(getSelledActions()), 2);
+        $this->actionsValues = formatSolde(getUserSelledActions(Auth()->user()->idUser) * actualActionValue(getSelledActions(true)), 2);
         $this->userActualActionsProfit = number_format(getUserActualActionsProfit(Auth()->user()->idUser), 2);
         $this->userSelledAction = getUserSelledActions(Auth()->user()->idUser);
-        $actualActionValue = actualActionValue(getSelledActions(), false);
+        $actualActionValue = actualActionValue(getSelledActions(true), false);
         $params = [
             "soldeBuyShares" => $balancesManager->getBalances($user->idUser, 2),
             'arraySoldeD' => [$solde->soldeCB, $solde->soldeBFS, $solde->soldeDB],

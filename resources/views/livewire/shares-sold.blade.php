@@ -230,7 +230,7 @@
                             </div>
                             <div class="row align-items-end g-0">
                                 <div class="col-6">
-                                    <h5 class="mb-1 mt-4"><?php $val = number_format(actualActionValue(getSelledActions()), 2) ?>
+                                    <h5 class="mb-1 mt-4"><?php $val = number_format(actualActionValue(getSelledActions(true)), 2) ?>
                                         @if(1>0)
                                             {{$val}}$
                                         @endif</h5>
