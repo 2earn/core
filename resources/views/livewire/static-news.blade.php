@@ -161,7 +161,7 @@
                 <div class="card-header">
                     <h6 class="card-title text-info mb-0">
                         @if(app()->getLocale()=="en")
-                            the VIP Offer
+                            The VIP Offer
                         @elseif(app()->getLocale()=="fr")
                             L’offre VIP
                         @else
@@ -334,7 +334,7 @@
                 <div class="card-header">
                     <h6 class="card-title text-info mb-0">
                         @if(app()->getLocale()=="en")
-                            the official launch of the Learn<strong>2earn.cash</strong>
+                            The official launch of the Learn<strong>2earn.cash</strong>
                         @elseif(app()->getLocale()=="fr")
                             Lancement officiel de la plateforme Learn<strong>2earn.cash</strong>
                         @else
