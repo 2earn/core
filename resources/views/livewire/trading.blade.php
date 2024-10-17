@@ -229,7 +229,7 @@
                 <div class="card-header">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h5 class="card-title mb-0">{{__('Sale Shares')}} @if(!is_null($targetDate))<span class="float-end">{{$targetDate}}</span>@endif</h5>
+                            <h5 class="card-title mb-0">{{__('Sale Shares')}}</h5>
                         </div>
                     </div>
                 </div>
@@ -238,7 +238,7 @@
                          @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
                              title="{{$selledActions." / ".$totalActions}}"
                         @endif
-                        >
+                    >
                         <div class="flex-shrink-0 me-3">
                             <div class="avatar-xs">
                                 <div class="avatar-title bg-light rounded-circle text-muted fs-16">
@@ -256,8 +256,17 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
+                @if(!is_null($targetDate))
+                    <div class="card-footer">
+                        <div class="flex-grow-1">
+                            <span class="btn text-muted"> {{__('Shares exchange estimated date')}}</span>
+                            <span class="btn btn-soft-success float-end">{{$targetDate}}</span>
+                        </div>
+                    </div>
+                @endif
             </div>
             <div class="card">
                 <div class="card-header">
@@ -313,7 +322,8 @@
                     </div>
                     <div class="col-12">
                         <input type="range" min="0" max="{{$totalActions}}" title="{{$totalActions}}"
-                               class="w-100" wire:model="selledActionCursor" step="1" wire:change="simulateGain()" id="selledActionCursor">
+                               class="w-100" wire:model="selledActionCursor" step="1" wire:change="simulateGain()"
+                               id="selledActionCursor">
                     </div>
                 </div>
             </div>
