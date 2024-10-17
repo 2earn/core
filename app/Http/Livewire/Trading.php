@@ -36,6 +36,7 @@ class Trading extends Component
     public $totalPaied = 0;
     public $userSelledActionNumber = 0;
     public $actionValue = 0;
+    public $targetDate = null;
 
 
     public function mount()
@@ -43,6 +44,10 @@ class Trading extends Component
         $param = DB::table('settings')->where("ParameterName", "=", "GIFTED_SHARES")->first();
         if (!is_null($param)) {
             $this->giftedShares = $param->IntegerValue;
+        }
+        $param = DB::table('settings')->where("ParameterName", "=", "TARGET_DATE")->first();
+        if (!is_null($param)) {
+            $this->targetDate = $param->StringValue;
         }
 
         $param = DB::table('settings')->where("ParameterName", "=", "Actions Number")->first();
