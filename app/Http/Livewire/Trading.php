@@ -26,6 +26,7 @@ class Trading extends Component
     public $flashMinShares = -1;
     public $flashGain = 0;
     public $selledActions = 0;
+    public $actions = 0;
     public $totalActions = 0;
     public $precentageOfActions = 0;
     public $precentageOfSharesSale = 0;
