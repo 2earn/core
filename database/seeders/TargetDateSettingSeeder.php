@@ -14,7 +14,7 @@ class TargetDateSettingSeeder extends Seeder
      */
     public function run()
     {
-        if (!DB::table('settings')->where("ParameterName", "=", 'ENABLE_STATIC_NEWS')->exists()) {
+        if (!DB::table('settings')->where("ParameterName", "=", 'TARGET_DATE')->exists()) {
             DB::table('settings')->insert([
                 'ParameterName' => 'TARGET_DATE',
                 'StringValue' =>  '2025/04/07',
