@@ -4,9 +4,9 @@ namespace App\DAL;
 
 use App\Models\ContactUser;
 use App\Models\User;
+use Carbon\Carbon;
 use Core\Enum\AmoutEnum;
 use Core\Enum\StatusRequest;
-use Core\Models\AuthenticatedUser;
 use Core\Interfaces\IUserRepository;
 use Core\Models\metta_user;
 use Core\Models\user_earn;
@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
-use Carbon\Carbon;
 
 class  UserRepository implements IUserRepository
 {
@@ -137,10 +136,6 @@ class  UserRepository implements IUserRepository
                 ['idCountry', '=', $idContry],
             ])
             ->get()->first();
-//     $u2 =   User::find($user->id) ;
-//        $u2->password = Hash::make($testpass);
-//        $u2->save();
-//        return null ;
         if (!$user)
             return null;
         if (!Hash::check($pass, $user->password))
