@@ -13,11 +13,19 @@ use Livewire\Component;
 
 class UserDetails extends Component
 {
+    public $userProfileImage;
+    public $userNationalFrontImage;
+    public $userNationalBackImage;
+    public $userInternationalImage;
+
     public function mount($idUser, Request $request)
     {
         $this->idUser = Route::current()->parameter('idUser');
+        $this->userProfileImage = User::getUserProfileImage(auth()->user()->idUser);
+        $this->userNationalFrontImage = User::getNationalFrontImage(auth()->user()->idUser);
+        $this->userNationalBackImage = User::getNationalBackImage(auth()->user()->idUser);
+        $this->userInternationalImage = User::getInternational(auth()->user()->idUser);
     }
-
 
     public function render()
     {
@@ -39,7 +47,6 @@ class UserDetails extends Component
                 $params['vip'] = vip::where('idUser', $params['user']->idUser)->first();
             }
         }
-
 
         return view('livewire.user-details', $params)->extends('layouts.master')->section('content');
     }

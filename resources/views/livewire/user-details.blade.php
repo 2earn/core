@@ -17,7 +17,7 @@
                     <div class="text-center">
                         <div class="profile-user position-relative d-inline-block mx-auto  mb-4">
                             <img
-                                src="@if (file_exists('uploads/profiles/profile-image-' . $user['idUser'] . '.png')) {{ URL::asset('uploads/profiles/profile-image-'.$user['idUser'].'.png') }}?={{Str::random(16)}} @else{{ URL::asset('uploads/profiles/default.png') }} @endif"
+                                src="{{ URL::asset($userProfileImage) }}?={{Str::random(16)}}"
                                 class="  rounded-circle avatar-xl img-thumbnail user-profile-image"
                                 alt="user-profile-image">
                         </div>
@@ -30,7 +30,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
         <div class="col-xl-4 mt-2">
             <div class="card">
@@ -42,26 +41,19 @@
                         <table class="table table-bordered">
                             <tbody>
                             <tr>
-                                <td>   @if(file_exists(public_path('/uploads/profiles/front-id-image'.$user->idUser.'.png')))
-                                        <img class="img-thumbnail" width="150" height="100" id="front-id-image"
-                                             title="{{__('Front id image')}}"
-                                             src="{{asset(('/uploads/profiles/front-id-image'.$user->idUser.'.png'))}}?={{Str::random(16)}}">
-                                    @else
-                                        <div class="alert alert-warning material-shadow" role="alert">
-                                            {{__('No image uploaded')}}
-                                        </div>
-                                    @endif
+                                <td>
+                                    <img class="img-thumbnail" width="150" height="100" id="front-id-image"
+                                         title="{{__('Front id image')}}"
+                                         src="{{asset($userNationalFrontImage)}}?={{Str::random(16)}}"
+                                    >
+
                                 </td>
                                 <td>
-                                    @if(file_exists(public_path('/uploads/profiles/back-id-image'.$user->idUser.'.png')))
-                                        <img class="img-thumbnail" width="150" height="100" id="back-id-image"
-                                             title="{{__('Back id image')}}"
-                                             src="{{asset(('/uploads/profiles/back-id-image'.$user->idUser.'.png'))}}?={{Str::random(16)}}">
-                                    @else
-                                        <div class="alert alert-warning material-shadow" role="alert">
-                                            {{__('No image uploaded')}}
-                                        </div>
-                                    @endif
+                                    <img class="img-thumbnail" width="150" height="100" id="back-id-image"
+                                         title="{{__('Back id image')}}"
+                                         src="{{asset($userNationalBackImage)}}?={{Str::random(16)}}"
+                                    >
+
                                 </td>
                             </tr>
                             </tbody>
@@ -82,16 +74,10 @@
                             <tr>
                                 <th scope="row">{{ __('Identity card') }}</th>
                                 <td>
-                                    @if(file_exists(public_path('/uploads/profiles/international-id-image'.$user->idUser.'.png')))
-                                        <img class="img-thumbnail" width="150" height="100"
-                                             id="international-id-image"
-                                             title="{{__('International identity card')}}"
-                                             src="{{asset(('/uploads/profiles/international-id-image'.$user->idUser.'.png'))}}?={{Str::random(16)}}">
-                                    @else
-                                        <div class="alert alert-warning material-shadow" role="alert">
-                                            {{__('No image uploaded')}}
-                                        </div>
-                                    @endif
+                                    <img class="img-thumbnail" width="150" height="100"
+                                         id="international-id-image"
+                                         title="{{__('International identity card')}}"
+                                         src="{{asset($userInternationalImage)}}?={{Str::random(16)}}">
                                 </td>
                             <tr>
                         </table>
@@ -131,6 +117,18 @@
                             <li class="list-group-item">
                                 <strong>{{__('iden_notif')}}</strong>
                                 <span class="float-end">{{$user->iden_notif}}</span>
+                            </li>
+                        @endif
+                        @if(!empty($user->OptActivation))
+                            <li class="list-group-item">
+                                <strong>{{__('OPT Activation code')}}</strong>
+                                <span class="float-end">{{$user->OptActivation}}</span>
+                            </li>
+                        @endif
+                        @if(!empty($user->Upline))
+                            <li class="list-group-item">
+                                <strong>{{__('Upline')}}</strong>
+                                <span class="float-end">{{$user->Upline}}</span>
                             </li>
                         @endif
                     </ul>
