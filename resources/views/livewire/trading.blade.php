@@ -229,7 +229,7 @@
                 <div class="card-header">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h5 class="card-title mb-0">{{__('Sale Shares')}}</h5>
+                            <h5 class="card-title mb-0">{{__('Sale Shares')}} @if(!is_null($targetDate))<span class="float-end">{{$targetDate}}</span>@endif</h5>
                         </div>
                     </div>
                 </div>

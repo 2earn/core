@@ -20,5 +20,6 @@ class Sprint007Seeder extends Seeder
         Artisan::call('db:seed', ['--class' => 'Database\Seeders\WattsappHelpNumberSettingSeeder']);
         Artisan::call('db:seed', ['--class' => 'Database\Seeders\ComingSoonSeeder']);
         Artisan::call('db:seed', ['--class' => 'Database\Seeders\StaticNewsSettingSeeder']);
+        Artisan::call('db:seed', ['--class' => 'Database\Seeders\TargetDateSettingSeeder']);
     }
 }
