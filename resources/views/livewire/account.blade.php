@@ -201,7 +201,6 @@
                             </div>
                         </div>
                         <div class="progress progress-label" style="height: 20px;">
-                        <div class="progress progress-label" style="height: 20px;">
                             @if($PercentComplete>=20)
                                 <div class="progress-bar progress-bar-striped progress-bar-animated   bg-danger"
                                      role="progressbar"
