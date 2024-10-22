@@ -318,11 +318,6 @@
 
     <div class="row">
         <div class="col">
-            <livewire:static-news/>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
             <livewire:survey-index/>
         </div>
     </div>
