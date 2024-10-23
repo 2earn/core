@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -36,10 +35,12 @@ class ComingSoonSeeder extends Seeder
         ];
 
         foreach ($settings as $setting) {
-            DB::table('settings')->insert([
-                'ParameterName' => $setting['ParameterName'] . '_cs',
-                'StringValue' => $setting['StringValue'],
-            ]);
+            if (!DB::table('settings')->where("ParameterName", "=", $setting['ParameterName'] . '_cs')->exists()) {
+                DB::table('settings')->insert([
+                    'ParameterName' => $setting['ParameterName'] . '_cs',
+                    'StringValue' => $setting['StringValue'],
+                ]);
+            }
         }
     }
 }

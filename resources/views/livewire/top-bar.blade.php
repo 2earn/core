@@ -308,7 +308,7 @@
                                 aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
                             <img class="rounded-circle header-profile-user" alt="Header Avatar"
-                                 src="@if (file_exists('uploads/profiles/profile-image-' . $user->idUser . '.png')) {{ URL::asset('uploads/profiles/profile-image-'.$user->idUser.'.png') }}@else{{ URL::asset('uploads/profiles/default.png') }} @endif">
+                                 src="{{ URL::asset($userProfileImage) }}">
                             <span class="text-center ms-xl-2">
                                 <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"
                                       title="{{$userStatus}}">
@@ -339,7 +339,7 @@
                         <div class="dropdown-menu dropdown-menu-end">
                             <a class="dropdown-item" href="{{route('account',app()->getLocale() )}}">
                                 <img class="rounded-circle header-profile-user"
-                                     src="@if (file_exists('uploads/profiles/profile-image-' . $user->idUser . '.png')) {{ URL::asset('uploads/profiles/profile-image-'.$user->idUser.'.png') }}@else{{ URL::asset('uploads/profiles/default.png') }} @endif">
+                                     src="{{ URL::asset($userProfileImage) }}">
                                 <span
                                     class="align-middle">{{ __('Account') }}</span>
                             </a>

@@ -1,28 +1,5 @@
 <div class="container ">
-    <style>
-        .card-header {
-            text-align: center !important;
-            justify-content: center !important;
-        }
 
-        element.style {
-        }
-
-        #btnsubmitchange {
-            background-image: linear-gradient(to right, #009fe3, #673bb7, #bc34b6) !important;
-            border-color: #f6f8fe !important;
-            border-radius: 20px !important;
-            color: white;
-        }
-
-        .container {
-
-            vertical-align: bottom;
-        }
-
-        .center-div {
-        }
-    </style>
     <div class="row text-center  " style="  height: 80px">
         <div class=" ">
             <a href=" "><img class="imgminilogo" src="{{Vite::asset('resources/images/2earn.png')}}" alt=""></a>
@@ -34,15 +11,9 @@
                 <h4 class="card-title">{{ __('Security') }}</h4>
             </div>
             <div class="card-body">
-                @if ($errors->any())
-                    <div class="alert alert-danger material-shadow">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+                <div class="row">
+                    @include('layouts.flash-messages')
+                </div>
                 @if(session()->has('ErrorConfirmPassWord'))
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         {{Session::get('ErrorConfirmPassWord')}}
@@ -115,8 +86,8 @@
                         </span>
                     </div>
                 </div>
-                <div class="text-center" style="margin-top: 20px;">
-                    <button wire:click="change" type="submit" class="btn ps-5 pe-5"
+                <div class="text-center">
+                    <button wire:click="change" type="submit" class="btn btn-info mt-3 ps-5 pe-5"
                             id="btnsubmitchange">{{ __('Save') }}</button>
                 </div>
             </div>

@@ -23,11 +23,14 @@
     </div>
     <div class="row">
         <div class="col-xxl-4">
-            <div class="card  ">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-2 text-info">{{ __('Your Profile Picture') }}</h5>
+                </div>
                 <div class="card-body p-4">
                     <div class="text-center">
                         <div class="profile-user position-relative d-inline-block mx-auto  mb-4">
-                            <label>{{__('MaxTaillePhoto')}}</label>
+                            <span class="text-muted">{{__('The photo must be in PNG, JPG or JPEG format and must not exceed 8 Mb in size')}}</span>
                             @if ($imageProfil)
                                 <img class="rounded-circle" width="70" height="70"
                                      src="{{ $imageProfil->temporaryUrl() }}?={{Str::random(16)}}">
@@ -155,11 +158,9 @@
                                 <tr>
                             </table>
                         @else
-
-                            <!-- Warning Alert -->
                             <div
-                                class="alert alert-warning alert-dismissible alert-additional fade show mb-0 material-shadow"
-                                role="alert">
+                                    class="alert alert-warning alert-dismissible alert-additional fade show mb-0 material-shadow"
+                                    role="alert">
                                 <div class="alert-body">
                                     <button type="button" class="btn-close" data-bs-dismiss="alert"
                                             aria-label="Close"></button>
@@ -175,7 +176,7 @@
                                 </div>
                             </div>
                             <button
-                                class="my-2 float-end btn btn-info" id="goToIdentification"
+                                    class="my-2 float-end btn btn-info" id="goToIdentification"
                             >{{__('Open identification tab')}}</button>
                         @endif
                     </div>
@@ -191,12 +192,12 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-3">
                             <div
-                                class="flex-shrink-0 @if(Route::getCurrentRoute()->getName()!="validate_account") d-none   @endif">
+                                    class="flex-shrink-0 @if(Route::getCurrentRoute()->getName()!="validate_account") d-none   @endif">
                                 <a style="color: #009fe3!important" data-bs-toggle="modal"
                                    data-bs-target="#modalEditProf"
                                    href="javascript:void(0);"
                                    class="badge bg-light text-primary fs-12"><i
-                                        class="ri-edit-box-line align-bottom me-1"></i> {{__('Edit')}}</a>
+                                            class="ri-edit-box-line align-bottom me-1"></i> {{__('Edit')}}</a>
                             </div>
                         </div>
                         <div class="progress progress-label" style="height: 20px;">
@@ -286,26 +287,26 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0 tab2earn"
+                    <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0"
                         role="tablist">
                         <li class="nav-item" id="personalDetailsTab">
-                            <a style="color: #f02602" class="nav-link active" data-bs-toggle="tab"
+                            <a class="nav-link active" data-bs-toggle="tab"
                                href="#personalDetails" role="tab">
-                                <i class="fas fa-home"></i>
+                                <i class="fas fa-home-user"></i>
                                 {{__('Edit_Profile')}}
                             </a>
                         </li>
                         <li id="identificationsTab"
                             class="nav-item @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif">
                             <a class="nav-link" data-bs-toggle="tab" href="#experience" role="tab">
-                                <i class="far fa-envelope"></i>
+                                <i class="fas fa-contact-card"></i>
                                 {{__('Identifications')}}
                             </a>
                         </li>
                         <li class="nav-item @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif">
                             <a class="nav-link" data-bs-toggle="tab" href="#changePassword" role="tab"
                                id="tabEditPass">
-                                <i class="far fa-user"></i>
+                                <i class="fas fa-user"></i>
                                 {{__('ChangePassword')}}
                             </a>
                         </li>
@@ -358,9 +359,9 @@
                                             <label for="firstnameInput"
                                                    class="form-label">{{__('First name label')}}</label>
                                             <input
-                                                {{ $disabled ? 'disabled' : ''  }}
-                                                wire:model.defer="usermetta_info.enFirstName"
-                                                placeholder="{{__('First name')}}" class="form-control">
+                                                    {{ $disabled ? 'disabled' : ''  }}
+                                                    wire:model.defer="usermetta_info.enFirstName"
+                                                    placeholder="{{__('First name')}}" class="form-control">
                                             <div class="form-text">{{__('Required for account validation')}}</div>
                                         </div>
                                     </div>
@@ -414,10 +415,10 @@
                                                 {{__('Date of birth')  }}
                                             </label>
                                             <input
-                                                {{ $disabled ? 'disabled' : ''  }}
+                                                    {{ $disabled ? 'disabled' : ''  }}
 
-                                                wire:model.defer="usermetta_info.birthday" type="date"
-                                                class="form-control" id="JoiningdatInput"/>
+                                                    wire:model.defer="usermetta_info.birthday" type="date"
+                                                    class="form-control" id="JoiningdatInput"/>
                                             <div class="form-text">{{__('Required for account validation')}}</div>
                                         </div>
                                     </div>
@@ -439,14 +440,14 @@
                                         <div class="mb-3">
                                             <label for="designationInput"
                                                    class="form-label">{{ __('Personal Title') }}</label>
-                                            <select class="form-select mb-3" aria-label=" "
+                                            <select class="form-select mb-3"
                                                     wire:model.defer="usermetta_info.personaltitle">
                                                 <option value="">{{__('no selected value')}}</option>
                                                 <?php if (isset($personaltitles)){
                                                 foreach ($personaltitles as $personaltitle){
                                                     ?>
                                                 <option
-                                                    value="{{$personaltitle->id}}">{{__($personaltitle->name)}}</option>
+                                                        value="{{$personaltitle->id}}">{{__($personaltitle->name)}}</option>
                                                 <?php }
                                                 } ?>
                                             </select>
@@ -480,7 +481,7 @@
                                                 foreach ($languages as $language){
                                                     ?>
                                                 <option
-                                                    value="{{$language->name}}"> {{ __('lang'.$language->PrefixLanguage)  }}</option>
+                                                        value="{{$language->name}}"> {{ __('lang'.$language->PrefixLanguage)  }}</option>
                                                 <?php }
                                                 } ?>
                                             </select>
@@ -595,8 +596,8 @@
                             </form>
                         </div>
                         <div
-                            class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"
-                            id="changePassword" role="tabpanel">
+                                class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"
+                                id="changePassword" role="tabpanel">
                             <form action="">
                                 <div class="row g-2">
                                     <div class="col-lg-4">
@@ -611,9 +612,9 @@
                                                    placeholder="{{__('Old password')}}"
                                                    id="oldpasswordInput">
                                             <button
-                                                class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
-                                                type="button" id="toggleOldPassword"><i
-                                                    class="ri-eye-fill align-middle"></i></button>
+                                                    class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
+                                                    type="button" id="toggleOldPassword"><i
+                                                        class="ri-eye-fill align-middle"></i></button>
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
@@ -627,8 +628,8 @@
                                                    name="password" placeholder="{{__('New password please')}}"
                                                    id="newpasswordInput">
                                             <button
-                                                class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
-                                                type="button" id="toggleNewPassword">
+                                                    class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
+                                                    type="button" id="toggleNewPassword">
                                                 <i class="ri-eye-fill align-middle"></i>
                                             </button>
                                         </div>
@@ -644,8 +645,8 @@
                                                        class="form-control" id="confirmpasswordInput"
                                                        placeholder="{{__('Confirm password')}}">
                                                 <button
-                                                    class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
-                                                    type="button" id="toggleConfirmPassword">
+                                                        class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
+                                                        type="button" id="toggleConfirmPassword">
                                                     <i class="ri-eye-fill align-middle"></i>
                                                 </button>
                                             </div>
@@ -672,13 +673,13 @@
                             </form>
                         </div>
                         <div
-                            class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"
-                            id="experience" role="tabpanel">
+                                class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"
+                                id="experience" role="tabpanel">
                             <livewire:identification-check/>
                         </div>
                         <div
-                            class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif d-none "
-                            id="privacy" role="tabpanel">
+                                class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif d-none "
+                                id="privacy" role="tabpanel">
                             <livewire:edit-phone-number/>
                         </div>
                     </div>
@@ -794,10 +795,10 @@
                                                accept=".png"/>
                                         <label for="image55">
                                             <lord-icon
-                                                src="https://cdn.lordicon.com/vixtkkbk.json"
-                                                trigger="loop" delay="1000"
-                                                colors="primary:#464fed,secondary:#bc34b6"
-                                                style="width:100px;height:100px">
+                                                    src="https://cdn.lordicon.com/vixtkkbk.json"
+                                                    trigger="loop" delay="1000"
+                                                    colors="primary:#464fed,secondary:#bc34b6"
+                                                    style="width:100px;height:100px">
                                             </lord-icon>
                                             <span> <i class="ri-camera-fill"></i> </span>
                                         </label>
@@ -820,10 +821,10 @@
                                                accept=".png"/>
                                         <label for="image44">
                                             <lord-icon
-                                                src="https://cdn.lordicon.com/vixtkkbk.json"
-                                                trigger="loop" delay="1000"
-                                                colors="primary:#464fed,secondary:#bc34b6"
-                                                style="width:100px;height:100px">
+                                                    src="https://cdn.lordicon.com/vixtkkbk.json"
+                                                    trigger="loop" delay="1000"
+                                                    colors="primary:#464fed,secondary:#bc34b6"
+                                                    style="width:100px;height:100px">
                                             </lord-icon>
                                             <span> <i class="ri-camera-fill"></i> </span>
                                         </label>
@@ -1184,7 +1185,7 @@
                         <a href="javascript:void(0);"
                            class="btn btn-link link-success fw-medium"
                            data-bs-dismiss="modal"><i
-                                class="ri-close-line me-1 align-middle"></i>
+                                    class="ri-close-line me-1 align-middle"></i>
                             {{ __('Close')}}</a>
                         </a>
                     </div>

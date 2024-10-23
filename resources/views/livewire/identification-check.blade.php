@@ -215,7 +215,7 @@
                                     <div class="col-12">
                                         <div class="alert border-0 alert-primary material-shadow" role="alert">
                                             <strong>{{__('Note')}}
-                                                : </strong>{{__('The photo must be in PNG format, and must not exceed 2 Mb in size')}}
+                                                : </strong>{{__('The photo must be in PNG, JPG or JPEG format and must not exceed 8 Mb in size')}}
                                         </div>
                                     </div>
                                     <div class="col-6">
@@ -312,7 +312,7 @@
                                     <div class="col-12">
                                         <div class="alert border-0 alert-primary material-shadow" role="alert">
                                             <strong>{{__('Note')}}
-                                                : </strong>{{__('The photo must be in PNG format, and must not exceed 2 Mb in size')}}
+                                                : </strong>{{__('The photo must be in PNG, JPG or JPEG format and must not exceed 8 Mb in size')}}
                                         </div>
                                     </div>
                                     <div class="col-4">
