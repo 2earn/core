@@ -233,8 +233,12 @@ class TranslateView extends Component
         foreach ($this->translate as $key => $value) {
             translatetabs::where('id', $value->id)->update(['value' => $value->value]);
             translatetabs::where('id', $value->id)->update(['valueFr' => $value->valueFr]);
+            translatetabs::where('id', $value->id)->update(['valueTr' => $value->valueTr]);
+            translatetabs::where('id', $value->id)->update(['valueEs' => $value->valueEs]);
             $this->tabfin[$value->name] = $value->value;
             $this->tabfinFr[$value->name] = $value->valueFr;
+            $this->tabfinTr[$value->name] = $value->valueTr;
+            $this->tabfinEs[$value->name] = $value->valueEs;
         }
         try {
             $pathFile = resource_path() . '/lang/ar.json';

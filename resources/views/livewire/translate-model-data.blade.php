@@ -7,7 +7,7 @@
     <div wire:ignore.self class="modal fade" id="editTranslationModal" tabindex="-1"
          aria-labelledby="editTranslationModalLabel"
          aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editTranslationModalLabel">{{__('Edit field')}} : </h5>
@@ -17,32 +17,44 @@
                 <div class="modal-body">
                     <p class="text-primary">
                         {{$name}}
-                    </p>
-                    <span class="text-warning">
+                        <span class="text-warning float-end">
                         {{ __('Max char is 190! every translation item will be shrinked to 190 char.') }}
                     </span>
+                    </p>
 
-                    <form>
-                        <div class="mb-3">
+                    <form class="row">
+                        <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
                             <label for="recipient-name" class="col-form-label">{{__('Arabe')}}</label>
                             <textarea rows="4" class="form-control" wire:model.defer="arabicValue" maxlength="190"
                                       required>
                             </textarea>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
                             <label for="message-text" class="col-form-label">{{__('Francais')}}</label>
                             <textarea rows="4" class="form-control" wire:model.defer="frenchValue" maxlength="190"
                                       required>
                             </textarea>
-
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
                             <label for="message-text" class="col-form-label">{{__('English')}}</label>
                             <textarea rows="4" class="form-control" wire:model.defer="englishValue" maxlength="190"
                                       required>
                             </textarea>
-
                         </div>
+                        <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
+                            <label for="message-text" class="col-form-label">{{__('Turkish')}}</label>
+                            <textarea rows="4" class="form-control" wire:model.defer="turkishValue" maxlength="190"
+                                      required>
+                            </textarea>
+                        </div>
+
+                        <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
+                            <label for="message-text" class="col-form-label">{{__('Spanish')}}</label>
+                            <textarea rows="4" class="form-control" wire:model.defer="spanishValue" maxlength="190"
+                                      required>
+                            </textarea>
+                        </div>
+
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -167,6 +179,16 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
 
                                                                 {{__('Francais')}}:<span
                                                                     class="text-muted mx-1">{{ Str::limit($value->valueFr,100)}}</span>
+                                                            </li>
+                                                            <li class="list-group-item">
+
+                                                                {{__('Turkish')}}:<span
+                                                                    class="text-muted mx-1">{{ Str::limit($value->valueTr,100)}}</span>
+                                                            </li>
+                                                            <li class="list-group-item">
+
+                                                                {{__('Spanish')}}:<span
+                                                                    class="text-muted mx-1">{{ Str::limit($value->valueEs,100)}}</span>
                                                             </li>
                                                             <li class="list-group-item">
                                                   <span class="text-muted"><i class="fa-solid fa-plus mx-2"></i>{{$value->created_at}}<br><i
