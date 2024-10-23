@@ -43,6 +43,19 @@
                             </textarea>
 
                         </div>
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">{{__('Turkish')}}</label>
+                            <textarea rows="4" class="form-control" wire:model.defer="turkishValue" maxlength="190"
+                                      required>
+                            </textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">{{__('Spanish')}}</label>
+                            <textarea rows="4" class="form-control" wire:model.defer="spanishValue" maxlength="190"
+                                      required>
+                            </textarea>
+
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -185,6 +198,14 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                             </li>
                                                             <li class="list-group-item">  {{__('Francais')}}:<span
                                                                     class="text-muted mx-1">{{ Str::limit($value->valueFr,200)}}</span>
+                                                            </li>
+                                                            <li class="list-group-item">
+                                                                {{__('Turkish')}}:<span
+                                                                    class="text-muted mx-1">{{ Str::limit($value->valueTr,200)}}</span>
+                                                            </li>
+                                                            <li class="list-group-item">
+                                                                {{__('Spanish')}}:<span
+                                                                    class="text-muted mx-1">{{ Str::limit($value->valueEs,200)}}</span>
                                                             </li>
                                                         </ul>
                                                     </td>
