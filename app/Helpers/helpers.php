@@ -4,6 +4,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Core\Models\Setting;
 use Core\Models\user_balance;
+use Core\Models\UserContact;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Crypt;
@@ -165,8 +166,8 @@ if (!function_exists('getUserByPhone')) {
 if (!function_exists('getUserByContact')) {
     function getUserByContact($phone)
     {
-        $hours = \Core\Models\Setting::Where('idSETTINGS', '25')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
-        $user = \Core\Models\UserContact::where('fullphone_number', $phone)->where('availablity', '1')->whereRaw('TIMESTAMPDIFF(HOUR, reserved_at, NOW()) < ?', [$hours])
+        $hours = Setting::Where('idSETTINGS', '25')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
+        $user = UserContact::where('fullphone_number', $phone)->where('availablity', '1')->whereRaw('TIMESTAMPDIFF(HOUR, reserved_at, NOW()) < ?', [$hours])
             ->orderBy('reserved_at')->pluck('idUser')->first();
         return $user ? $user : NULL;
     }
@@ -177,8 +178,8 @@ if (!function_exists('getSwitchBlock')) {
     function getSwitchBlock($id)
     {
 
-        $hours = \Core\Models\Setting::Where('idSETTINGS', '29')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
-        $user = \Core\Models\UserContact::where('id', $id)
+        $hours = Setting::Where('idSETTINGS', '29')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
+        $user = UserContact::where('id', $id)
             ->pluck('reserved_at')->first();
         if ($user) {
             $user = Carbon::parse($user);
@@ -193,7 +194,7 @@ if (!function_exists('getHalfActionValue')) {
     function getHalfActionValue()
     {
         $selledActions = getSelledActions(true) * 1.05 / 2;
-        $setting = \Core\Models\Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
+        $setting = Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
         $initial_value = $setting[0];
         $final_value = $initial_value * 5;
         $total_actions = $setting[2];
@@ -246,7 +247,7 @@ if (!function_exists('getFlashGiftedActions')) {
 if (!function_exists('actualActionValue')) {
     function actualActionValue($selled_actions, $formated = true)
     {
-        $setting = \Core\Models\Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
+        $setting = Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
         $initial_value = $setting[0];
         $final_value = $setting[1];
         $total_actions = $setting[2];
@@ -427,8 +428,7 @@ if (!function_exists('earnDebug')) {
 if (!function_exists('usdToSar')) {
     function usdToSar()
     {
-        $k = \Core\Models\Setting::Where('idSETTINGS', '30')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
-        return $k;
+        return Setting::Where('idSETTINGS', '30')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
     }
 
     if (!function_exists('checkUserBalancesInReservation')) {

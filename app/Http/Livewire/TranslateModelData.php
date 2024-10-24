@@ -104,7 +104,8 @@ class TranslateModelData extends Component
 
     public function saveTranslate()
     {
-        TranslaleModel::where('id', $this->idTranslate)->update(['value' => $this->arabicValue, 'valueFr' => $this->frenchValue, 'valueEn' => $this->englishValue]);
+        $params = ['value' => $this->arabicValue, 'valueFr' => $this->frenchValue, 'valueEn' => $this->englishValue, 'valueTr' => $this->turkishValue, 'valueEs' => $this->spanishValue];
+        TranslaleModel::where('id', $this->idTranslate)->update($params);
         $all = TranslaleModel::all();
         foreach ($all as $value) {
             $this->tabfin[$value->name] = $value->value;

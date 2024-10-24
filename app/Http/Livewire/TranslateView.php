@@ -24,6 +24,7 @@ class TranslateView extends Component
     public $englishValue = "";
     public $spanishValue = "";
     public $turkishValue = "";
+
     public $name;
     public $idTranslate;
     public $tab = [];
@@ -32,6 +33,7 @@ class TranslateView extends Component
     public $tabfinEn = [];
     public $tabfinTr = [];
     public $tabfinEs = [];
+
     public $search = '';
     public $nbrPagibation = 10;
     public $defRandomNumber;

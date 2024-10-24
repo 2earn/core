@@ -10,18 +10,12 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editTranslationModalLabel">{{__('Edit field')}} : </h5>
+                    <h5 class="modal-title" id="editTranslationModalLabel"><p class="text-primary">{{__('Edit field')}} :  {{$name}}</p></h5>
                     <button type="button" id="editTranslationModalClose" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="text-primary">
-                        {{$name}}
 
-                        <span class="text-warning float-end">
-                        {{ __('Max char is 190! every translation item will be shrinked to 190 char.') }}
-                    </span>
-                    </p>
                     <form class="row">
                         <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
                             <label for="recipient-name" class="col-form-label">{{__('Arabe')}}</label>
@@ -59,6 +53,9 @@
                     </form>
                 </div>
                 <div class="modal-footer">
+                                        <span class="text-warning">
+                        {{ __('Max char is 190! every translation item will be shrinked to 190 char.') }}
+                    </span>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
                     <button type="button" wire:click="saveTranslate"
                             class="btn btn-success">
@@ -288,6 +285,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
             Swal.fire({
                 title: '{{__('Enter field name')}}',
                 input: 'text',
+                allowOutsideClick: false,
                 inputAttributes: {autocapitalize: 'off'},
                 showCancelButton: true,
                 cancelButtonText: '{{__('Cancel')}}',
