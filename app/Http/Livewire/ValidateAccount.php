@@ -2,15 +2,16 @@
 
 namespace App\Http\Livewire;
 
-use Illuminate\Support\Facades\Crypt;
+use Illuminate\Http\Request;
 use Livewire\Component;
 
 class ValidateAccount extends Component
 {
     public $paramIdUser;
 
-    public function mount()
+    public function mount(Request $request)
     {
+        $this->paramIdUser = $request->input('paramIdUser');;
     }
 
     public function render()

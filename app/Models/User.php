@@ -115,6 +115,8 @@ class User extends Authenticatable
         $accountUser = User::where('idUser', $idUser)->first();
         try {
             return $accountUser->nationalIdentitieFrontImage()->first()->url;
+
+
         } catch (\Exception $exception) {
             return self::DEFAULT_NATIONAL_FRONT_URL;
         }
@@ -157,10 +159,10 @@ class User extends Authenticatable
     public static function saveNationalFrontImage($idUser, $imageNationalFront)
     {
         Image::ValidateImage($imageNationalFront);
-        $imageNationalFront->storeAs('profiles', 'front-id-image-' . $idUser . '.' . $imageNationalFront->extension(), 'public2');
+        $imageNationalFront->storeAs('profiles', Image::IMAGE_PREFIX_FRONT . $idUser . '.' . $imageNationalFront->extension(), 'public2');
 
         $image = Image::create([
-            'type' => self::IMAGE_TYPE_NATIONAL_FRONT, 'url' => 'uploads/profiles/front-id-image-' . $idUser . '.' . $imageNationalFront->extension()]);
+            'type' => self::IMAGE_TYPE_NATIONAL_FRONT, 'url' => Image::IMAGE_PROFILE_PATH . Image::IMAGE_PREFIX_FRONT . $idUser . '.' . $imageNationalFront->extension()]);
         $user = User::where('idUser', $idUser)->first();
         if ($user->nationalIdentitieFrontImage()->where('type', '=', self::IMAGE_TYPE_NATIONAL_FRONT)->exists()) {
             $user->nationalIdentitieFrontImage()->where('type', '=', self::IMAGE_TYPE_NATIONAL_FRONT)->first()->delete();
@@ -172,9 +174,9 @@ class User extends Authenticatable
     public static function saveNationalBackImage($idUser, $imageNationalBack)
     {
         Image::ValidateImage($imageNationalBack);
-        $imageNationalBack->storeAs('profiles', 'back-id-image-' . $idUser . '.' . $imageNationalBack->extension(), 'public2');
+        $imageNationalBack->storeAs('profiles', Image::IMAGE_PREFIX_BACK . $idUser . '.' . $imageNationalBack->extension(), 'public2');
 
-        $image = Image::create(['type' => self::IMAGE_TYPE_NATIONAL_BACK, 'url' => 'uploads/profiles/back-id-image-' . $idUser . '.' . $imageNationalBack->extension()]);
+        $image = Image::create(['type' => self::IMAGE_TYPE_NATIONAL_BACK, 'url' => Image::IMAGE_PROFILE_PATH . Image::IMAGE_PREFIX_BACK . $idUser . '.' . $imageNationalBack->extension()]);
         $user = User::where('idUser', $idUser)->first();
         if ($user->nationalIdentitieBackImage()->where('type', '=', self::IMAGE_TYPE_NATIONAL_BACK)->exists()) {
             $user->nationalIdentitieBackImage()->where('type', '=', self::IMAGE_TYPE_NATIONAL_BACK)->first()->delete();
@@ -186,9 +188,9 @@ class User extends Authenticatable
     public static function saveInternationalImage($idUser, $imageInternational)
     {
         Image::ValidateImage($imageInternational);
-        $imageInternational->storeAs('profiles', 'international-id-image-' . $idUser . '.' . $imageInternational->extension(), 'public2');
+        $imageInternational->storeAs('profiles', Image::IMAGE_PREFIX_INTERNATIONAL . $idUser . '.' . $imageInternational->extension(), 'public2');
 
-        $image = Image::create(['type' => self::IMAGE_TYPE_INTERNATIONAL, 'url' => 'uploads/profiles/international-id-image-' . $idUser . '.' . $imageInternational->extension()]);
+        $image = Image::create(['type' => self::IMAGE_TYPE_INTERNATIONAL, 'url' => Image::IMAGE_PROFILE_PATH . Image::IMAGE_PREFIX_INTERNATIONAL . $idUser . '.' . $imageInternational->extension()]);
         $user = User::where('idUser', $idUser)->first();
         if ($user->internationalIdentitieImage()->where('type', '=', self::IMAGE_TYPE_INTERNATIONAL)->exists()) {
             $user->internationalIdentitieImage()->where('type', '=', self::IMAGE_TYPE_INTERNATIONAL)->first()->delete();

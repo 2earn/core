@@ -81,10 +81,13 @@ class IdentificationCheck extends Component
             'nationalID' => $this->usermetta_info2['nationalID'],
         ];
         metta_user::where('idUser', $userAuth->idUser)->update($updatedMetaUserParams);
-        $photoFrontValidated = $userAuth->hasFrontImage();
-        $photoBackValidated = $userAuth->hasBackImage();
-        $photoInternationalValidated = $userAuth->hasInternationalIdentity();
-        if (!$photoFrontValidated) {
+
+
+        $photoFrontValidated = User::getNationalFrontImage($userAuth->idUser) != User::DEFAULT_NATIONAL_FRONT_URL;
+        $photoBackValidated = User::getNationalBackImage($userAuth->idUser) != User::DEFAULT_NATIONAL_BACK_URL;
+        $photoInternationalValidated = User::getInternational($userAuth->idUser) != User::DEFAULT_INTERNATIONAL_URL;
+
+        if ($this->photoFront) {
             try {
                 User::saveNationalFrontImage($userAuth->idUser, $this->photoFront);
                 $photoFrontValidated = true;
@@ -95,7 +98,7 @@ class IdentificationCheck extends Component
                 return;
             }
         }
-        if (!$photoBackValidated) {
+        if ($this->photoBack) {
             try {
                 User::saveNationalBackImage($userAuth->idUser, $this->photoBack);
                 $photoBackValidated = true;
@@ -203,8 +206,10 @@ class IdentificationCheck extends Component
 
         $this->notify = $userAuth->iden_notif;
         $hasRequest = $userAuth->hasIdentificationRequest();
-        $hasFrontImage = $userAuth->hasFrontImage();
-        $hasBackImage = $userAuth->hasBackImage();
+
+
+        $hasFrontImage = User::getNationalFrontImage($userAuth->idUser) != User::DEFAULT_NATIONAL_FRONT_URL;
+        $hasBackImage = User::getNationalBackImage($userAuth->idUser) != User::DEFAULT_NATIONAL_BACK_URL;
 
         $requestIdentification = identificationuserrequest::where('idUser', $userAuth->idUser)
             ->where('status', StatusRequest::Rejected->value)
