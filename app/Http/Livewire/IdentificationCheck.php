@@ -87,7 +87,7 @@ class IdentificationCheck extends Component
         $photoBackValidated = User::getNationalBackImage($userAuth->idUser) != User::DEFAULT_NATIONAL_BACK_URL;
         $photoInternationalValidated = User::getInternational($userAuth->idUser) != User::DEFAULT_INTERNATIONAL_URL;
 
-        if (!$photoFrontValidated) {
+        if ($this->photoFront) {
             try {
                 User::saveNationalFrontImage($userAuth->idUser, $this->photoFront);
                 $photoFrontValidated = true;
@@ -98,7 +98,7 @@ class IdentificationCheck extends Component
                 return;
             }
         }
-        if (!$photoBackValidated) {
+        if ($this->photoBack) {
             try {
                 User::saveNationalBackImage($userAuth->idUser, $this->photoBack);
                 $photoBackValidated = true;

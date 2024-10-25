@@ -103,8 +103,7 @@ class Account extends Component
         $this->initSendPasswordChangeOPT($settingManager->getidCountryForSms(auth()->user()->id));
     }
 
-    public
-    function initSendPasswordChangeOPT($userContactActif)
+    public function initSendPasswordChangeOPT($userContactActif)
     {
 
         $paramSendPassword = DB::table('settings')->where("ParameterName", "=", "SEND_PASSWORD_CHANGE_OPT")->first();
@@ -123,8 +122,7 @@ class Account extends Component
         }
     }
 
-    public
-    function SaveChangeEdit()
+    public function SaveChangeEdit()
     {
         $um = metta_user::find($this->usermetta_info['id']);
         $um->enLastName = $this->usermetta_info['enLastName'];
@@ -142,8 +140,7 @@ class Account extends Component
     }
 
 
-    public
-    function ParamSendChanged(settingsManager $settingManager)
+    public function ParamSendChanged(settingsManager $settingManager)
     {
         UserNotificationSettings::where('idUser', $settingManager->getAuthUser()->idUser)
             ->where('idNotification', NotificationSettingEnum::change_pwd_sms->value)
@@ -151,8 +148,7 @@ class Account extends Component
     }
 
 
-    public
-    function CalculPercenteComplete()
+    public function CalculPercenteComplete()
     {
         $this->errors_array = array();
         $this->PercentComplete = 0;
