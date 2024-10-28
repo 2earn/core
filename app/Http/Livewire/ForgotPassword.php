@@ -4,10 +4,10 @@ namespace App\Http\Livewire;
 
 use App\Http\Traits\earnLog;
 use App\Models\User;
+use Core\Enum\StatusRequest;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
 use Core\Services\settingsManager;
-use Exception;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
@@ -29,7 +29,10 @@ class ForgotPassword extends Component
     public function PresendSms($ccode, $fullNumber, settingsManager $settingsManager)
     {
         $user = $settingsManager->getUserByFullNumber($fullNumber);
-
+        if ($user->status == StatusRequest::Registred->value) {
+            $this->earnDebug('Forget password user with not valid status : fullNumber- ' . $fullNumber . ' code pays- ' . $ccode);
+            return redirect()->route("registre", app()->getLocale())->with('danger', Lang::get('Registration operation not completed for this user'));
+        }
         if (!$user) {
             $this->earnDebug('Forget password user not found : fullNumber- ' . $fullNumber . ' code pays- ' . $ccode);
             return redirect()->route("forget_password", app()->getLocale())->with('danger', Lang::get('User not found !'));

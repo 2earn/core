@@ -8,19 +8,22 @@
         <div class="card">
             <div class="card-body">
                 <div class="tab-content text-muted">
-                    <div class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap" id="setting" role="tabpanel">
+                    <div
+                        class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                        id="setting" role="tabpanel">
                         <div wire:ignore class="card-body">
                             <div id="customerList">
                                 <div class="row ">
                                     <div class="col-sm-auto">
 
                                     </div>
-                                    <div class="table-responsive table-card mt-3 mb-1">
+                                    <div class="table-responsive table-card mb-3">
                                         <table
                                             class="table table-bordered dt-responsive nowrap table-striped align-middle"
-                                            id="SettingsTable" style="width: 100%">
+                                            id="SettingsTable">
                                             <thead class="table-light">
                                             <tr>
+                                                <th>{{ __('id') }}</th>
                                                 <th>{{ __('Name of setting') }}</th>
                                                 <th>{{ __('IntegerValue') }}</th>
                                                 <th>{{ __('StringValue') }}</th>
@@ -47,7 +50,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="settingsModalLabel">{{__('Add setting')}}</h5>
+                    <h5 class="modal-title" id="settingsModalLabel">{{__('Update setting')}}</h5>
                     <button type="button" class="btn-close btn-close-setting " data-bs-dismiss="modal"
                             aria-label="Close"></button>
                 </div>
@@ -97,9 +100,10 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
                     <button type="button" wire:click="saveSetting"
                             class="btn btn-primary">{{__('Save changes')}}</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('Close')}}</button>
+
                 </div>
             </div>
         </div>
@@ -120,9 +124,10 @@
                     "fixedHeader": true,
                     search: {return: true},
                     "processing": true,
-                    "aLengthMenu": [[5, 30, 50], [5, 30, 50]],
+                    "aLengthMenu": [[10, 25, 50], [10, 25, 50]],
                     "ajax": "{{route('api_settings',app()->getLocale())}}",
                     "columns": [
+                        {"data": "idSETTINGS"},
                         {"data": "ParameterName"},
                         {"data": "IntegerValue"},
                         {"data": "StringValue"},
@@ -132,6 +137,7 @@
                         {data: 'action', name: 'action', orderable: false, searchable: false},
                     ],
                     "language": {"url": urlLang},
+                    order: [[0, 'desc']],
                     "drawCallback": function (settings, json) {
                         $(".edit-setting-btn").each(function () {
                             $(this).on("click", function () {

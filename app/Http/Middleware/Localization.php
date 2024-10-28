@@ -11,8 +11,8 @@ class Localization
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
@@ -20,6 +20,9 @@ class Localization
         /* Set new lang with the use of session */
         if (session()->has('lang')) {
             App::setLocale(session()->get('lang'));
+        } else {
+            App::setLocale('en');
+
         }
         return $next($request);
     }

@@ -28,7 +28,7 @@ class Account extends Component
     use earnTrait;
     use earnLog;
 
-    const MAX_PHOTO_ALLAWED_SIZE = 2048000;
+
     const SEND_PASSWORD_CHANGE_OPT = false;
 
     public $nbrChild = 9;
@@ -51,6 +51,10 @@ class Account extends Component
     public $disabled;
     public $dispalyedUserCred;
     public $sendPasswordChangeOPT;
+    public $userProfileImage;
+    public $userNationalFrontImage;
+    public $userNationalBackImage;
+    public $userInternationalImage;
 
     protected $listeners = [
         'PreChangePass' => 'PreChangePass',
@@ -81,6 +85,21 @@ class Account extends Component
             $this->sendPassSMS = $notSetings->value;
         }
 
+        if ($this->paramIdUser == null || $this->paramIdUser == "") {
+            $this->userProfileImage = User::getUserProfileImage(auth()->user()->idUser);
+            $this->userNationalFrontImage = User::getNationalFrontImage(auth()->user()->idUser);
+            $this->userNationalBackImage = User::getNationalBackImage(auth()->user()->idUser);
+            $this->userInternationalImage = User::getInternational(auth()->user()->idUser);
+        } else {
+
+            $userAuth = $settingManager->getAuthUserById($this->paramIdUser);
+            $this->userProfileImage = User::getUserProfileImage($userAuth->idUser);
+            $this->userNationalFrontImage = User::getNationalFrontImage($userAuth->idUser);
+            $this->userNationalBackImage = User::getNationalBackImage($userAuth->idUser);
+            $this->userInternationalImage = User::getInternational($userAuth->idUser);
+        }
+
+
         $this->initSendPasswordChangeOPT($settingManager->getidCountryForSms(auth()->user()->id));
     }
 
@@ -96,7 +115,7 @@ class Account extends Component
         }
         if ($this->sendPasswordChangeOPT) {
             if (!is_null($paramInavalidCountry)) {
-                if (in_array($userContactActif->codeP, explode(',',$paramInavalidCountry->StringValue))) {
+                if (in_array($userContactActif->codeP, explode(',', $paramInavalidCountry->StringValue))) {
                     $this->sendPasswordChangeOPT = false;
                 }
             }
@@ -126,44 +145,6 @@ class Account extends Component
         UserNotificationSettings::where('idUser', $settingManager->getAuthUser()->idUser)
             ->where('idNotification', NotificationSettingEnum::change_pwd_sms->value)
             ->update(['value' => $this->sendPassSMS]);
-    }
-
-    public function render(settingsManager $settingsManager, Request $request)
-    {
-        $this->paramIdUser = $request->input('paramIdUser');
-        if ($this->paramIdUser == null) $this->paramIdUser = "";
-        if ($this->paramIdUser == null || $this->paramIdUser == "")
-            $userAuth = $settingsManager->getAuthUser();
-        else {
-            $this->noteReject = Lang::get('Note_rejected');
-            $userAuth = $settingsManager->getAuthUserById($this->paramIdUser);
-        }
-        $this->dispalyedUserCred = getUserDisplayedName($userAuth->idUser);
-
-        if (!$userAuth)
-            dd('not found page');
-        $this->numberActif = $settingsManager->getidCountryForSms($userAuth->id)->fullNumber;
-        $this->genders = DB::table('genders')->get();
-        $this->personaltitles = DB::table('personal_titles')->get()->toArray();
-        $this->languages = DB::table('languages')->get();
-        $usermetta_info = collect(DB::table('metta_users')->where('idUser', $userAuth->idUser)->first());
-        $user = DB::table('users')->where('idUser', $userAuth->idUser)->first();
-        $this->countryUser = $settingsManager->getCountrieById($user->idCountry)->name;
-        $this->countryUser = Lang::get($this->countryUser);
-        $this->usermetta_info = $usermetta_info;
-        $this->user = collect($user);
-        $this->states = $settingsManager->getStatesContrie($user->id_phone);
-        $this->soldeSms = $settingsManager->getSoldeByAmount($userAuth->idUser, AmoutEnum::Sms_Balance);
-        $this->soldeSms = $this->soldeSms == null ? 0 : $this->soldeSms;
-        if ($this->sendPassSMS) {
-            if ($this->soldeSms <= 0) {
-                $this->sendPassSMS = 0;
-            }
-        }
-        $this->CalculPercenteComplete();
-        $hasRequest = $userAuth->hasIdentificationRequest();
-        $this->disabled = in_array($user->status, [StatusRequest::InProgressNational->value, StatusRequest::InProgressInternational->value, StatusRequest::InProgressGlobal->value, StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value]) ? true : false;
-        return view('livewire.account', ['hasRequest' => $hasRequest, 'errors_array' => $this->errors_array])->extends('layouts.master')->section('content');
     }
 
 
@@ -212,7 +193,8 @@ class Account extends Component
     }
 
 
-    public function deleteContact($id, settingsManager $settingsManager)
+    public
+    function deleteContact($id, settingsManager $settingsManager)
     {
         $userC = $settingsManager->getUserContactsById($id);
         if (!$userC) return;
@@ -220,7 +202,8 @@ class Account extends Component
         return redirect()->route('account', app()->getLocale());
     }
 
-    public function saveUser($nbrChild, settingsManager $settingsManager)
+    public
+    function saveUser($nbrChild, settingsManager $settingsManager)
     {
         $canModify = true;
         $us = User::find($this->user['id']);
@@ -266,19 +249,12 @@ class Account extends Component
         $us->save();
         $us = User::find($this->user['id']);
 
-        if (!is_null($this->imageProfil) && gettype($this->imageProfil) == "object") {
-            if ($this->imageProfil->extension() == 'png') {
-                if ($this->imageProfil->getSize() < self::MAX_PHOTO_ALLAWED_SIZE) {
-                    $this->imageProfil->storeAs('profiles', 'profile-image-' . $us->idUser . '.png', 'public2');
-                } else {
-                    $this->dispatchBrowserEvent('profilePhotoError', ['type' => 'warning', 'title' => Lang::get('Profile photo Error'), 'text' => Lang::get('Profile photo big size'),]);
-                    return;
-                }
-            } else {
-                $this->dispatchBrowserEvent('profilePhotoError', ['type' => 'warning', 'title' => Lang::get('Profile photo Error'), 'text' => Lang::get('Profile photo wrong type'),]);
-                return;
-            }
+        try {
+            User::saveProfileImage($us->idUser, $this->imageProfil);
+        } catch (\Exception $e) {
+            return redirect()->route('account', app()->getLocale())->with('success', Lang::get($e->getMessage()));
         }
+
         if ($this->paramIdUser == "")
             return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Edit_profil_succes'));
         else {
@@ -311,7 +287,8 @@ class Account extends Component
         }
     }
 
-    public function sendActivationCodeValue($userAuth, settingsManager $settingManager)
+    public
+    function sendActivationCodeValue($userAuth, settingsManager $settingManager)
     {
         $check_exchange = $settingManager->randomNewCodeOpt();
         User::where('id', $userAuth->id)->update(['activationCodeValue' => $check_exchange]);
@@ -326,7 +303,8 @@ class Account extends Component
         $this->dispatchBrowserEvent('OptChangePass', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'mail' => $fullNumberSend]);
     }
 
-    public function changePasswordWithOPTValidation($code, settingsManager $settingManager)
+    public
+    function changePasswordWithOPTValidation($code, settingsManager $settingManager)
     {
         $userAuth = $settingManager->getAuthUser();
         $user = $settingManager->getUserById($userAuth->id);
@@ -345,7 +323,8 @@ class Account extends Component
 
     }
 
-    public function changePassword($userAuth, settingsManager $settingManager)
+    public
+    function changePassword($userAuth, settingsManager $settingManager)
     {
         $new_pass = Hash::make($this->newPassword);
         DB::table('users')->where('id', auth()->user()->id)->update(['password' => $new_pass]);
@@ -354,7 +333,8 @@ class Account extends Component
         return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Password updated'));
     }
 
-    public function sendVerificationMail($mail, settingsManager $settingsManager)
+    public
+    function sendVerificationMail($mail, settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) abort(404);
@@ -379,12 +359,14 @@ class Account extends Component
         $this->newMail = $mail;
     }
 
-    public function cancelProcess($message)
+    public
+    function cancelProcess($message)
     {
         return redirect()->route('account', app()->getLocale())->with('warning', Lang::get($message));
     }
 
-    public function checkUserEmail($codeOpt, settingsManager $settingsManager)
+    public
+    function checkUserEmail($codeOpt, settingsManager $settingsManager)
     {
         $us = User::find($this->user['id']);
         if ($codeOpt != $us->OptActivation) {
@@ -397,7 +379,8 @@ class Account extends Component
         $this->dispatchBrowserEvent('EmailCheckUser', ['emailValidation' => true, 'title' => trans('Opt code from your email'), 'html' => trans('We sent an opt code to your email') . ' : ' . $this->newMail . ' <br> ' . trans('Please fill it')]);
     }
 
-    public function saveVerifiedMail($codeOpt)
+    public
+    function saveVerifiedMail($codeOpt)
     {
         $us = User::find($this->user['id']);
         if ($codeOpt != $us->OptActivation) {
@@ -410,7 +393,8 @@ class Account extends Component
         return redirect()->route('account', app()->getLocale())->with('success', Lang::get('User email change completed successfully'));
     }
 
-    public function approuve($idUser, settingsManager $settingsManager)
+    public
+    function approuve($idUser, settingsManager $settingsManager)
     {
         $user = User::find($idUser);
         if ($user) {
@@ -419,7 +403,8 @@ class Account extends Component
         }
     }
 
-    public function reject($idUser, settingsManager $settingsManager)
+    public
+    function reject($idUser, settingsManager $settingsManager)
     {
         $user = User::find($idUser);
         if ($user) {
@@ -428,7 +413,8 @@ class Account extends Component
         }
     }
 
-    public function sendIdentificationRequest(settingsManager $settingsManager)
+    public
+    function sendIdentificationRequest(settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
         $hasRequest = $userAuth->hasIdentificationRequest();
@@ -439,4 +425,46 @@ class Account extends Component
             return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Identification_send_succes'));
         }
     }
+
+
+    public
+    function render(settingsManager $settingsManager, Request $request)
+    {
+        $this->paramIdUser = $request->input('paramIdUser');
+        if ($this->paramIdUser == null) $this->paramIdUser = "";
+        if ($this->paramIdUser == null || $this->paramIdUser == "")
+            $userAuth = $settingsManager->getAuthUser();
+        else {
+            $this->noteReject = Lang::get('Note_rejected');
+            $userAuth = $settingsManager->getAuthUserById($this->paramIdUser);
+        }
+        $this->dispalyedUserCred = getUserDisplayedName($userAuth->idUser);
+
+        if (!$userAuth)
+            dd('not found page');
+        $this->numberActif = $settingsManager->getidCountryForSms($userAuth->id)->fullNumber;
+        $this->genders = DB::table('genders')->get();
+        $this->personaltitles = DB::table('personal_titles')->get()->toArray();
+        $this->languages = DB::table('languages')->get();
+        $usermetta_info = collect(DB::table('metta_users')->where('idUser', $userAuth->idUser)->first());
+        $user = DB::table('users')->where('idUser', $userAuth->idUser)->first();
+        $this->countryUser = Lang::get($settingsManager->getCountrieById($user->idCountry)->name);
+        $this->usermetta_info = $usermetta_info;
+        $this->user = collect($user);
+        $this->states = $settingsManager->getStatesContrie($user->id_phone);
+        $this->soldeSms = $settingsManager->getSoldeByAmount($userAuth->idUser, AmoutEnum::Sms_Balance);
+        $this->soldeSms = $this->soldeSms == null ? 0 : $this->soldeSms;
+        if ($this->sendPassSMS) {
+            if ($this->soldeSms <= 0) {
+                $this->sendPassSMS = 0;
+            }
+        }
+        $this->CalculPercenteComplete();
+        $hasRequest = $userAuth->hasIdentificationRequest();
+        $this->disabled = in_array($user->status, [StatusRequest::InProgressNational->value, StatusRequest::InProgressInternational->value, StatusRequest::InProgressGlobal->value, StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value]) ? true : false;
+
+        return view('livewire.account', ['hasRequest' => $hasRequest, 'errors_array' => $this->errors_array])->extends('layouts.master')->section('content');
+    }
+
+
 }

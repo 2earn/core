@@ -54,7 +54,7 @@ left join users user on user.idUser = recharge_requests.idUser";
 
     public function buyAction(Req $request, BalancesManager $balancesManager)
     {
-        $actualActionValue = actualActionValue(getSelledActions(true), false);
+        $actualActionValue = round(actualActionValue(getSelledActions(true), false), 3);
         $validator = Val::make($request->all(), [
             'ammount' => ['required', 'numeric', 'gte:' . $actualActionValue, 'lte:' . $balancesManager->getBalances(Auth()->user()->idUser, -1)->soldeCB],
             'phone' => [Rule::requiredIf($request->me_or_other == "other")],
@@ -71,9 +71,7 @@ left join users user on user.idUser = recharge_requests.idUser";
             return response()->json(['error' => $validator->errors()->all()], 400);
         }
 
-        $number_of_action = intval(($request->ammount) / $actualActionValue);
-
-
+        $number_of_action = intval($request->numberOfActions);
         $gift = getGiftedActions($number_of_action);
         $actual_price = actualActionValue(getSelledActions(true), false);
         $PU = $number_of_action * ($actual_price) / ($number_of_action + $gift);
@@ -316,8 +314,8 @@ left join users user on user.idUser = recharge_requests.idUser";
 
     public function getSharesSolde()
     {
-        $query = DB::table('user_balances')->select('value', 'gifted_shares', 'PU', 'Date')->where('idBalancesOperation', 44)
-            ->where('idUser', Auth()->user()->idUser);
+        $query = DB::table('user_balances')->select('id', 'value', 'gifted_shares', 'PU', 'Date')->where('idBalancesOperation', 44)
+            ->where('idUser', Auth()->user()->idUser)->orderBy('id', 'desc');
         return datatables($query)
             ->addColumn('total_price', function ($user_balance) {
                 return number_format($user_balance->PU * ($user_balance->value + $user_balance->gifted_shares), 2);
@@ -661,7 +659,7 @@ left join users user on user.idUser = recharge_requests.idUser";
     {
         $query = DB::table('user_balances')
             ->select(
-                DB::raw('CAST(SUM(value) OVER (ORDER BY id) AS DECIMAL(10,0))AS x'),
+                DB::raw('CAST(SUM(value ) OVER (ORDER BY id) AS DECIMAL(10,0))AS x'),
                 DB::raw('CAST((value + gifted_shares) * PU / value AS DECIMAL(10,2)) AS y')
             )
             ->where('idBalancesOperation', 44)
@@ -788,7 +786,7 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
 
     public function getActionValues()
     {
-        $limit = getSelledActions() * 1.05;
+        $limit = getSelledActions(true) * 1.05;
         $data = [];
         $setting = Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
         $initial_value = $setting[0];
@@ -929,7 +927,8 @@ class="btn btn-xs btn-primary btn2earnTable"  >
     public function getSettings()
     {
         $settings = DB::table('settings')
-            ->select('idSETTINGS', 'ParameterName', 'IntegerValue', 'StringValue', 'DecimalValue', 'Unit', 'Automatically_calculated');
+            ->select('idSETTINGS', 'ParameterName', 'IntegerValue', 'StringValue', 'DecimalValue', 'Unit', 'Automatically_calculated')
+            ->orderBy('idSETTINGS');
         return datatables($settings)
             ->addColumn('action', function ($settings) {
                 return '<div class="d-flex gap-2">
@@ -937,18 +936,11 @@ class="btn btn-xs btn-primary btn2earnTable"  >
                                     <button  data-id="' . $settings->idSETTINGS . '"   data-bs-toggle="modal" data-bs-target="#settingModal"
  class="btn btn-primary edit-item-btn edit-setting-btn"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Update') . '</button> </div> </div>';
             })
-            ->setRowId('idSETTINGS')
             ->editColumn('Automatically_calculated', function ($settings) {
                 if ($settings->Automatically_calculated == 1)
-                    return '<span class="badge badge-success">' . trans('Yes') . '</span>';
+                    return '<span class="badge bg-success-info text-success">' . trans('Yes') . '</span>';
                 else
-                    return '<span class="badge badge-info">' . trans('No') . '</span>';
-            })
-            ->editColumn('StringValue', function ($settings) {
-                return '***';
-            })
-            ->setRowClass(function ($settings) {
-                return 'testaddclass';
+                    return '<span class="badge bg-danger-info text-info">' . trans('No') . '</span>';
             })
             ->escapeColumns([])
             ->toJson();

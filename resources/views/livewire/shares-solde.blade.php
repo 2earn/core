@@ -64,7 +64,7 @@
                     stroke: {curve: 'straight',},
                     annotations: {
                         points: [{
-                            x: {{getSelledActions() * 1.05/2}},
+                            x: {{getSelledActions(true) * 1.05/2}},
                             y: {{getHalfActionValue()*1.01}},
                             marker: {
                                 size: 0,
@@ -91,18 +91,10 @@
                 var url1 = '{{route('api_share_evolution',['locale'=> app()->getLocale()])}}';
                 var url2 = '{{route('api_action_values',['locale'=> app()->getLocale()])}}';
                 var url3 = '{{route('api_share_evolution_user',['locale'=> app()->getLocale()])}}';
-                $.when(
-                    $.getJSON(url1),
-                    $.getJSON(url2),
-                    $.getJSON(url3)
-                ).then(function (response1, response2, response3) {
-                    var series1 = {
-                        name: 'Sales',
-                        type: 'area',
-                        data: response1[0],
-                    };
-                    var series2 = {name: 'Function', type: 'line', data: response2[0]};
-                    var series3 = {name: 'My Shares', type: 'area', data: response3[0]};
+                $.when($.getJSON(url1), $.getJSON(url2), $.getJSON(url3)).then(function (response1, response2, response3) {
+                    var series1 = {name: '{{__('Sales')}}', type: 'area', data: response1[0]};
+                    var series2 = {name: '{{__('Function')}}', type: 'line', data: response2[0]};
+                    var series3 = {name: '{{__('My Shares')}}', type: 'area', data: response3[0]};
                     chart1.updateSeries([series1, series2, series3]);
                 });
             }

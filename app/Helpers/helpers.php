@@ -192,21 +192,12 @@ if (!function_exists('getSwitchBlock')) {
 if (!function_exists('getHalfActionValue')) {
     function getHalfActionValue()
     {
-        // Call getSelledActions to determine the limit
-        $x = getSelledActions() * 1.05 / 2;
-
-        $data = [];
+        $selledActions = getSelledActions(true) * 1.05 / 2;
         $setting = \Core\Models\Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
         $initial_value = $setting[0];
         $final_value = $initial_value * 5;
         $total_actions = $setting[2];
-
-
-        $val = ($final_value - $initial_value) / ($total_actions - 1) * ($x + 1) + ($initial_value - ($final_value - $initial_value) / ($total_actions - 1));
-
-
-        return $val;
-
+        return ($final_value - $initial_value) / ($total_actions - 1) * ($selledActions + 1) + ($initial_value - ($final_value - $initial_value) / ($total_actions - 1));
     }
 }
 if (!function_exists('getGiftedActions')) {

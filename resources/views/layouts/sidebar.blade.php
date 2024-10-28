@@ -79,7 +79,7 @@
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item cool-link {{$currentRouteName==$sidebarBusinessArray[0]? 'active' : ''}}">
                                     <a href="{{route($sidebarBusinessArray[0], app()->getLocale(),false)}}"
-                                       class="nav-link disabled">{{ __('Trading') }}</a>
+                                       class="nav-link">{{ __('Trading') }}</a>
                                 </li>
 
                                 <li class="nav-item cool-link {{$currentRouteName==$sidebarBusinessArray[1]? 'active' : ''}}">
@@ -96,7 +96,7 @@
 
                                 <li class="nav-item cool-link {{$currentRouteName==$sidebarBusinessArray[3]? 'active' : ''}}">
                                     <a href="{{route($sidebarBusinessArray[3], app()->getLocale(),false)}}"
-                                       class="nav-link disabled">
+                                       class="nav-link">
                                         {{ __('Job Opportunities') }}
                                     </a>
                                 </li>
@@ -119,9 +119,9 @@
                             class="menu-dropdown collapse {{in_array($currentRouteName,$sidebarSavingsArray)? 'show' : ''}}"
                             id="sidebarSavings">
                             <ul class="nav nav-sm flex-column">
-                                <li class="nav-item cool-link {{$currentRouteName==$sidebarSavingsArray[0]? 'active' : ''}} disabled">
+                                <li class="nav-item cool-link {{$currentRouteName==$sidebarSavingsArray[0]? 'active' : ''}}">
                                     <a href="{{route($sidebarSavingsArray[0], app()->getLocale(),false)}}"
-                                       class="nav-link disabled">{{ __('Purchase history') }}</a>
+                                       class="nav-link ">{{ __('Purchase history') }}</a>
                                 </li>
                                 <li class="nav-item cool-link {{$currentRouteName==$sidebarSavingsArray[1]? 'active' : ''}}">
                                     <a href="{{route($sidebarSavingsArray[1], app()->getLocale(),false)}}"
@@ -149,63 +149,63 @@
                             id="sidebarBiography">
 
                             <ul class="nav nav-sm flex-column">
-                                <li class="nav-item cool-link {{$currentRouteName==$sidebarBiographyArray[0]? 'active' : ''}} disabled">
+                                <li class="nav-item cool-link {{$currentRouteName==$sidebarBiographyArray[0]? 'active' : ''}} ">
                                     <a href="{{route($sidebarBiographyArray[0], app()->getLocale(),false)}}"
-                                       class="nav-link disabled">
+                                       class="nav-link ">
                                         {{ __('Academic Background') }}
                                     </a>
                                 </li>
                                 <li class="nav-item cool-link {{$currentRouteName==$sidebarBiographyArray[1]? 'active' : ''}}">
                                     <a href="{{route($sidebarBiographyArray[1], app()->getLocale(),false)}}"
-                                       class="nav-link disabled">
+                                       class="nav-link ">
                                         {{ __('Career Experience') }}
                                     </a>
                                 </li>
                                 <li class="nav-item cool-link {{$currentRouteName==$sidebarBiographyArray[2]? 'active' : ''}}">
                                     <a href="{{route($sidebarBiographyArray[2], app()->getLocale(),false)}}"
-                                       class="nav-link disabled">
+                                       class="nav-link ">
                                         {{ __('Hard Skills') }}
                                     </a>
                                 </li>
                                 <li class="nav-item cool-link {{$currentRouteName==$sidebarBiographyArray[3]? 'active' : ''}}">
                                     <a href="{{route($sidebarBiographyArray[3], app()->getLocale(),false)}}"
-                                       class="nav-link disabled">
+                                       class="nav-link ">
                                         {{ __('Soft Skills') }}
                                     </a>
                                 </li>
                                 <li class="nav-item cool-link {{$currentRouteName==$sidebarBiographyArray[4]? 'active' : ''}}">
                                     <a href="{{route($sidebarBiographyArray[4], app()->getLocale(),false)}}"
-                                       class="nav-link disabled">
+                                       class="nav-link ">
                                         {{ __('Personal Characterization') }}
                                     </a>
                                 </li>
                                 <li class="nav-item cool-link {{$currentRouteName==$sidebarBiographyArray[5]? 'active' : ''}}">
                                     <a href="{{route($sidebarBiographyArray[5], app()->getLocale(),false)}}"
-                                       class="nav-link disabled">
+                                       class="nav-link ">
                                         {{ __('CD Personality') }}
                                     </a>
                                 </li>
                                 <li class="nav-item cool-link {{$currentRouteName==$sidebarBiographyArray[6]? 'active' : ''}}">
                                     <a href="{{route($sidebarBiographyArray[6], app()->getLocale(),false)}}"
-                                       class="nav-link disabled">
+                                       class="nav-link ">
                                         {{ __('Sensory Representation System') }}
                                     </a>
                                 </li>
                                 <li class="nav-item cool-link {{$currentRouteName==$sidebarBiographyArray[7]? 'active' : ''}}">
                                     <a href="{{route($sidebarBiographyArray[7], app()->getLocale(),false)}}"
-                                       class="nav-link disabled">
+                                       class="nav-link ">
                                         {{ __('Myers-Briggs Type Indicator (MBTI)') }}
                                     </a>
                                 </li>
                                 <li class="nav-item cool-link {{$currentRouteName==$sidebarBiographyArray[8]? 'active' : ''}}">
                                     <a href="{{route($sidebarBiographyArray[8], app()->getLocale(),false)}}"
-                                       class="nav-link disabled">
+                                       class="nav-link ">
                                         {{ __('e-Business Card (EBC)') }}
                                     </a>
                                 </li>
                                 <li class="nav-item cool-link {{$currentRouteName==$sidebarBiographyArray[9]? 'active' : ''}}">
                                     <a href="{{route($sidebarBiographyArray[9], app()->getLocale(),false)}}"
-                                       class="nav-link disabled">
+                                       class="nav-link ">
                                         {{ __('Rapport PDF') }}
                                     </a>
                                 </li>
@@ -220,7 +220,7 @@
                             <i class="ri-bank-fill"></i> <span>{{ __('Exchange') }}</span>
                         </a>
                     </li>
-                    <li style="margin-top: -20px" class="nav-item">
+                    <li style="margin-top: -20px" class="nav-item d-none">
                         <a id="NotificationRequest" class="nav-link menu-link">
                         </a>
                     </li>

@@ -8,11 +8,9 @@
             {{ __('Successful Sharing Pool') }}
         @endslot
     @endcomponent
-
     <div class="card">
         <div class="card-body">
-
+            @livewire('page-timer', ['deadline' => 'successful_sharing_pool_cs'])
         </div>
     </div>
-
 </div>

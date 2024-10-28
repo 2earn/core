@@ -122,6 +122,8 @@
         </div>
     </div>
     <script type="module">
+
+
         window.onload = function () {
             if ("{{ getUsertransaction(Auth()->user()->idUser)[0] }}" !== "null") {
                 if ({{ getUsertransaction(Auth()->user()->idUser)[0] }} === 1)
@@ -140,6 +142,9 @@
         };
 
         $(document).on("click", "#validate", function () {
+            if ($('#ammount1').val().length == 0) {
+                $("#ammount1").val(0)
+            }
             const usd = document.getElementById("usd");
             $('#usd').removeClass("text-success");
             $('#usd').removeClass("text-danger");
@@ -149,7 +154,7 @@
 
 
         $("#tran_paytabs").one("click", function () {
-            if ($("#ammount1").val() < 0 && $("#ammount2").val() < 0) {
+            if ($("#ammount1").val() <= 0 || $("#ammount2").val() <= 0) {
                 $('#usd').addClass("text-danger");
                 $('#usd').removeClass("text-success");
                 return;

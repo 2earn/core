@@ -31,9 +31,6 @@ class ConfigurationSetting extends Component
         return view('livewire.configuration-setting')->extends('layouts.master')->section('content');
     }
 
-
-
-
     public function initSettingFunction($id)
     {
         $setting = Setting::find($id);
