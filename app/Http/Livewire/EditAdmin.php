@@ -79,7 +79,7 @@ class EditAdmin extends Component
         $this->platformes = plateforme::all();
         foreach ($this->platformes as $p) {
             $p->selected = 0;
-            if ($p->selected($idUser) == 1) {
+            if ($p->selected($idUser)) {
                 $p->selected = 1;
             }
         }

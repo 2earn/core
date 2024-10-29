@@ -20,7 +20,7 @@ class Hobbies extends Component
         $this->hobbies = $settingsManager->getAllHobbies();
         foreach ($this->hobbies as $p) {
             $p->selected = 0;
-            if ($p->selected() == 1) {
+            if ($p->selected()) {
                 $p->selected = 1;
             }
         }
