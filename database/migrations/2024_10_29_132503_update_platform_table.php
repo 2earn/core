@@ -18,11 +18,12 @@ return new class extends Migration {
         Schema::table(self::TABLE_NAME, function (Blueprint $table) {
             $table->dropColumn('afficherProfil');
             $table->boolean('show_profile')->default(false);
+            $table->boolean('enabled')->default(false);
             $table->tinyInteger('type')->nullable()->default(\Core\Enum\PlatformType::Child->value);
             $table->string('link')->nullable();
             $table->text('description')->nullable();
-            $table->unsignedBigInteger('administrative_manager_id')->foreign('user_id')->references('id')->on('user')->onDelete('cascade');
-            $table->unsignedBigInteger('financial_manager_id')->foreign('user_id')->references('id')->on('user')->onDelete('cascade');
+            $table->unsignedBigInteger('administrative_manager_id')->foreign('user_id')->nullable()->references('id')->on('user')->onDelete('cascade');
+            $table->unsignedBigInteger('financial_manager_id')->foreign('user_id')->nullable()->references('id')->on('user')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -14,6 +14,7 @@ use Core\Enum\TypeNotificationEnum;
 use Core\Models\countrie;
 use Core\Models\detail_financial_request;
 use Core\Models\FinancialRequest;
+use Core\Models\Platform;
 use Core\Models\Setting;
 use Core\Models\user_balance;
 use Core\Services\BalancesManager;
@@ -1180,15 +1181,24 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
 
     public function getHistoryNotificationModerateur()
     {
-        $history = $this->settingsManager->getHistoryForModerateur();
-        return datatables($history)
+        return datatables($this->settingsManager->getHistoryForModerateur())
             ->make(true);
     }
 
     public function getHistoryNotification()
     {
-        $history = $this->settingsManager->getHistory();
-        return datatables($history)
+        return datatables($this->settingsManager->getHistory())
+            ->make(true);
+    }
+
+    public function getPlatforms()
+    {
+        return datatables(Platform::all())
+            ->addColumn('action', function ($platform) {
+                $action = '<a href="' . route('platform_create_update', ['locale' => app()->getLocale(), 'id' => $platform->id]) . '" class="btn btn-xs btn-primary btn2earnTable addCash m-1" >' . Lang::get('Edit') . '</a> ';
+                return $action .= '<a wire:click="delete('.$platform->id.')" class="btn btn-xs btn-danger btn2earnTable addCash m-1" >' . Lang::get('Delete') . '</a> ';
+            })
+            ->rawColumns(['action'])
             ->make(true);
     }
 

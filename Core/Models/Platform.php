@@ -4,13 +4,15 @@ namespace Core\Models;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\DB;
 
 
-class Plateforme extends Model
+class Platform extends Model
 {
     protected $table = 'plateformes';
+    protected $fillable = ['name', 'description', 'enabled', 'type', 'link'];
+    public $timestamps = true;
 
 
     public function administrativeManager(): HasOne
