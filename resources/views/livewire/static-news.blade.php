@@ -10,17 +10,15 @@
 
                     <div class="row">
                         <div class="col-12">
-                            <blockquote class="card-blockquote mb-0">
-                                <p class="text-muted mb-2">
+                                <h6 class="text-muted mb-2">
                                     @if(app()->getLocale()=="en")
-                                        Dear Members,
+                                       Exclusive WhatsApp group
                                     @elseif(app()->getLocale()=="fr")
-                                        Chers adhérents
+                                        Exclusive WhatsApp group
                                     @else
-                                        الأعضاء الأعزاء،
+                                        مجموعة WhatsApp حصرية
                                     @endif
-                                </p>
-                            </blockquote>
+                                </h6>
                         </div>
                     </div>
                     <div class="row">
