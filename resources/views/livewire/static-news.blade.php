@@ -12,7 +12,7 @@
                             <div class="d-flex justify-content-center align-items-center w-100 h-100">
                                 <img src="{{ Vite::asset('resources/images/WhatsApp.jpg') }}"
                                      alt="Description de l'image"
-                                     class="img-fluid w-100 h-100" style="object-fit: cover;">
+                                     class="img-thumbnail img-fluid w-100 h-100" style="object-fit: cover;">
                             </div>
                         </div>
                         <div class="col">
