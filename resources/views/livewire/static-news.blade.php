@@ -7,15 +7,9 @@
                         <i class="ri-flashlight-fill text-white align-bottom float-start me-1"></i> <span
                             class="trending-ribbon-text">{{__('News')}}</span>
                     </div>
+
                     <div class="row">
-                        <div class="col-12 col-md-2 mb-3 mb-md-0">
-                            <div class="d-flex justify-content-center align-items-center w-100 h-100">
-                                <img src="{{ Vite::asset('resources/images/WhatsApp.jpg') }}"
-                                     alt="Description de l'image"
-                                     class="img-thumbnail img-fluid w-100 h-100" style="object-fit: cover;">
-                            </div>
-                        </div>
-                        <div class="col-12 col-md">
+                        <div class="col-12">
                             <blockquote class="card-blockquote mb-0">
                                 <p class="text-muted mb-2">
                                     @if(app()->getLocale()=="en")
@@ -26,15 +20,45 @@
                                         الأعضاء الأعزاء،
                                     @endif
                                 </p>
+                            </blockquote>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-sm-12 col-md-4 col-lg-3">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <img src="{{ Vite::asset('resources/images/WhatsApp.jpg') }}"
+                                     class="img-thumbnail">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-8 col-lg-9">
+                            <blockquote class="card-blockquote mb-0">
                                 <p class="text-muted mb-2">
                                     @if(app()->getLocale()=="en")
-                                        A private and exclusive WhatsApp group has been created for people registered on the
-                                        2earn.cash platform... Thank you to all other members who have not yet joined the group
-                                        to click on <a href="https://chat.whatsapp.com/JRJV7LgsULwGyvIsvvXm9A">this link</a> to send a membership request.
+                                        Dear Members,
                                     @elseif(app()->getLocale()=="fr")
-                                        Un groupe WhatsApp privé et exclusif a été créé pour les personnes inscrites sur la
-                                        plateforme 2earn.cash... Merci à tous les autres membres qui n'ont pas encore rejoint le
-                                        groupe de cliquer sur <a href="https://chat.whatsapp.com/JRJV7LgsULwGyvIsvvXm9A">ce lien</a> pour envoyer une demande d'adhésion.
+                                        Chers adhérents
+                                    @else
+                                        الأعضاء الأعزاء،
+                                    @endif
+                                </p>
+
+                                <p class="text-muted mb-2">
+                                    @if(app()->getLocale()=="en")
+                                        A private and exclusive WhatsApp group has been created for people registered on
+                                        the
+                                        2earn.cash platform... Thank you to all other members who have not yet joined
+                                        the group
+                                        to click on <a href="https://chat.whatsapp.com/JRJV7LgsULwGyvIsvvXm9A">this
+                                            link</a> to send a membership request.
+                                    @elseif(app()->getLocale()=="fr")
+                                        Un groupe WhatsApp privé et exclusif a été créé pour les personnes inscrites sur
+                                        la
+                                        plateforme 2earn.cash... Merci à tous les autres membres qui n'ont pas encore
+                                        rejoint le
+                                        groupe de cliquer sur <a
+                                            href="https://chat.whatsapp.com/JRJV7LgsULwGyvIsvvXm9A">ce lien</a> pour
+                                        envoyer une demande d'adhésion.
                                     @else
                                         تم إنشاء مجموعة واتساب خاصة و حصرية للمسجلين في منصة 2earn.cash ... الرجاء من
                                         كل الأخوة الأعضاء الذين لم يلتحقوا بعد بالمجموعة النقر على
