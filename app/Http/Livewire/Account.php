@@ -212,7 +212,12 @@ class Account extends Component
         if ($this->paramIdUser == "" && $us->hasIdentificationRequest()) {
             $canModify = false;
         }
+
+        if (!$canModify) {
+            return redirect()->route('account', app()->getLocale())->with('info', 'You cant update your profile when you have an identifiaction request in progress');
+        }
         if ($canModify) {
+
             $um->arLastName = $this->usermetta_info['arLastName'];
             $um->arFirstName = $this->usermetta_info['arFirstName'];
             $um->enLastName = $this->usermetta_info['enLastName'];
@@ -250,7 +255,9 @@ class Account extends Component
         $us = User::find($this->user['id']);
 
         try {
-            User::saveProfileImage($us->idUser, $this->imageProfil);
+            if (!is_null($this->imageProfil)) {
+                User::saveProfileImage($us->idUser, $this->imageProfil);
+            }
         } catch (\Exception $e) {
             return redirect()->route('account', app()->getLocale())->with('success', Lang::get($e->getMessage()));
         }
