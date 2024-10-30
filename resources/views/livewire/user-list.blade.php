@@ -245,11 +245,7 @@
                         <th>{{__('Phone')}}</th>
                         <th>{{__('Name')}}</th>
                         <th>{{__('Status')}}</th>
-                        <th>{{__('SoldeCB')}}</th>
-                        <th>{{__('SoldeBFS')}}</th>
-                        <th>{{__('SoldeDB')}}</th>
-                        <th>{{__('SoldeSMS')}}</th>
-                        <th>{{__('SoldeSHARES')}}</th>
+                        <th>{{__('Soldes')}}</th>
                         <th>{{__('Action')}}</th>
                         <th>{{__('VIP')}}</th>
                         <th>{{__('More details')}}</th>
@@ -657,11 +653,7 @@
                     {data: 'formatted_mobile'},
                     {data: 'name'},
                     {data: 'status'},
-                    {data: 'SoldeCB'},
-                    {data: 'SoldeBFS'},
-                    {data: 'SoldeDB'},
-                    {data: 'SoldeSMS'},
-                    {data: 'SoldeSH'},
+                    {data: 'soldes', name: 'action', orderable: false, searchable: false},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                     {data: 'VIP', name: 'action', orderable: false, searchable: false},
                     {data: 'more_details', name: 'action', orderable: false, searchable: false},

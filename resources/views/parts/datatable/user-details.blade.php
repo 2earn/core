@@ -10,6 +10,14 @@
     @if($user->pass)
         <li class="list-group-item">{{__('Password')}}: <span class="float-end">{{$user->pass}}</span></li>
     @endif
-
+    @if($user->idUser)
+        <li class="list-group-item">{{__('idUser')}}: <span class="float-end">{{$user->idUser}}</span></li>
+    @endif
+    @if($user->id)
+        <li class="list-group-item">{{__('Id')}}: <span class="float-end">{{$user->id}}</span></li>
+    @endif
 </ul>
+
+
+
 
