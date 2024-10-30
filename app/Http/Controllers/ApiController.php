@@ -846,7 +846,7 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
                 return Carbon\Carbon::parse($user->created_at)->format('Y-m-d H:i:s');
             })
             ->addColumn('more_details', function ($user) {
-                return view('parts.datatable.user-details', ['user' => $user]) ;
+                return view('parts.datatable.user-details', ['user' => $user]);
             })
             ->addColumn('status', function ($user) {
                 return view('parts.datatable.user-status', ['status' => $user->status]);
@@ -864,22 +864,15 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
                 if ($hasVip->isNotEmpty()) {
                     $dateStart = new \DateTime($hasVip->first()->dateFNS);
                     $dateEnd = $dateStart->modify($hasVip->first()->flashDeadline . ' hour');;
-                    if ($dateEnd > now()) {
-                        $vip = '<a class="btn btn-success m-1" disabled="disabled">' . Lang::get('Acctually is vip') . '</a>';
-                    } else {
-                        $vip = '<a class="btn btn-info m-1" disabled="disabled">' . Lang::get('It was a vip') . '</a>';
-                    }
-                }
-                return $vip . '<a data-bs-toggle="modal" data-bs-target="#vip"   data-phone="' . $settings->mobile . '" data-country="' . $this->getFormatedFlagResourceName($settings->apha2) . '"  data-reciver="' . $settings->idUser . '"
-class="btn btn-xs btn-flash btn2earnTable vip m-1"  >
-<i class="glyphicon glyphicon-add"></i>' . Lang::get('VIP') . '</a> ';
+                    return view('parts.datatable.user-vip', ['mobile' => $settings->mobile, 'isVip' => $dateEnd > now(), 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'reciver' => $settings->idUser]);
 
+                }
             })
             ->addColumn('flag', function ($settings) {
                 return view('parts.datatable.user-flag', ['src' => $this->getFormatedFlagResourceName($settings->apha2), 'title' => strtolower($settings->apha2)]);
             })
             ->addColumn('action', function ($settings) {
-                return view('parts.datatable.user-action', ['phone' => $settings->mobile, 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'reciver' => $settings->idUser]);
+                return view('parts.datatable.user-action', ['phone' => $settings->mobile, 'user' => $settings, 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'reciver' => $settings->idUser]);
             })
             ->removeColumn('OptActivation')
             ->removeColumn('note')
