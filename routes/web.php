@@ -173,6 +173,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::prefix('/platform')->name('platform_')->group(function () {
                 Route::get('/index', \App\Http\Livewire\Platform::class)->name('index');
                 Route::get('/', \App\Http\Livewire\PlatformCreateUpdate::class)->name('create_update');
+                Route::get('/{id}', \App\Http\Livewire\PlatformShow::class)->name('show');
             });
 
         });

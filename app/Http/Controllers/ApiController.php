@@ -1188,8 +1188,7 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
                 return Lang::get(PlatformType::from($platform->type)->name);
             })
             ->addColumn('action', function ($platform) {
-                $action = '<a href="' . route('platform_create_update', ['locale' => app()->getLocale(), 'id' => $platform->id]) . '" class="btn btn-xs btn-primary btn2earnTable addCash m-1" >' . Lang::get('Edit') . '</a> ';
-                return $action .= '<a   data-id="' . $platform->id . '" data-name="' . $platform->name . '" title="' . $platform->name . '" class="btn btn-xs btn-danger btn2earnTable deletePlatform m-1" >' . Lang::get('Delete') . '</a> ';
+                return view('parts.datatable.platform-action', ['platformId' => $platform->id, 'platformName' => $platform->name]);
             })
             ->addColumn('created_at', function ($platform) {
                 return $platform->created_at->format(self::DATE_FORMAT);
