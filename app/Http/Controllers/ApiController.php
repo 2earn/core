@@ -858,15 +858,15 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
                 return view('parts.datatable.user-vip-history', ['user' => $user]);
             })
             ->addColumn('VIP', function ($settings) {
-                $vip = "";
                 $hasVip = vip::Where('idUser', '=', $settings->idUser)
                     ->where('closed', '=', false)->get();
                 if ($hasVip->isNotEmpty()) {
                     $dateStart = new \DateTime($hasVip->first()->dateFNS);
                     $dateEnd = $dateStart->modify($hasVip->first()->flashDeadline . ' hour');;
                     return view('parts.datatable.user-vip', ['mobile' => $settings->mobile, 'isVip' => $dateEnd > now(), 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'reciver' => $settings->idUser]);
-
                 }
+                return view('parts.datatable.user-vip', ['mobile' => $settings->mobile, 'isVip' => null, 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'reciver' => $settings->idUser]);
+
             })
             ->addColumn('flag', function ($settings) {
                 return view('parts.datatable.user-flag', ['src' => $this->getFormatedFlagResourceName($settings->apha2), 'title' => strtolower($settings->apha2)]);
