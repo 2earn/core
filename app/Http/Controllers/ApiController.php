@@ -845,6 +845,15 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
             ->addColumn('formatted_created_at', function ($user) {
                 return Carbon\Carbon::parse($user->created_at)->format('Y-m-d H:i:s');
             })
+            ->addColumn('more_details', function ($user) {
+                return view('parts.datatable.user-details', ['user' => $user]);
+            })
+            ->addColumn('status', function ($user) {
+                return view('parts.datatable.user-status', ['status' => $user->status]);
+            })
+            ->addColumn('vip_history', function ($user) {
+                return view('parts.datatable.user-vip-history', ['user' => $user]);
+            })
             ->addColumn('VIP', function ($settings) {
                 $vip = "";
                 $hasVip = vip::Where('idUser', '=', $settings->idUser)
@@ -895,6 +904,14 @@ class="btn btn-ghost-success waves-effect waves-light sh"  >
                 return '<a data-bs-toggle="modal" data-bs-target="#AddCash"   data-phone="' . $settings->mobile . '" data-country="' . $this->getFormatedFlagResourceName($settings->apha2) . '" data-reciver="' . $settings->idUser . '"
 class="btn btn-xs btn-primary btn2earnTable addCash m-1" >' . Lang::get('Add cash') . '</a> ';
             })
+            ->removeColumn('OptActivation')
+            ->removeColumn('note')
+            ->removeColumn('periode')
+            ->removeColumn('register_upline')
+            ->removeColumn('pass')
+            ->removeColumn('minshares')
+            ->removeColumn('coeff')
+            ->removeColumn('date')
             ->rawColumns(['action', 'flag', 'SoldeCB', 'SoldeBFS', 'SoldeDB', 'SoldeSMS', 'SoldeSH', 'VIP'])
             ->make(true);
     }

@@ -51,6 +51,7 @@
                                    class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
                                 <thead class="table-light">
                                 <tr class="head2earn  tabHeader2earn">
+                                    <th>{{__('Details')}}</th>
                                     <th>{{__('Id')}}</th>
                                     <th>{{__('Name')}}</th>
                                     <th>{{__('Type')}}</th>
@@ -72,8 +73,6 @@
 
     <script type="module">
         $(document).on('turbolinks:load', function () {
-
-
             if (!$.fn.dataTable.isDataTable('#PlatformTable')) {
                 $('#PlatformTable').DataTable({
                     "responsive": true,
@@ -96,6 +95,7 @@
                     search: {return: true},
                     "ajax": "{{route('api_platform',app()->getLocale())}}",
                     "columns": [
+                        datatableControlBtn,
                         {data: 'id'},
                         {data: 'name'},
                         {data: 'type'},
