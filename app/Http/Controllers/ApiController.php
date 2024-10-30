@@ -810,7 +810,7 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
 
     public function getUsersListQuery()
     {
-        return User::select('countries.apha2', 'users.idUser', 'idUplineRegister',
+        return User::select('countries.apha2', 'users.id', 'users.idUser', 'idUplineRegister',
             DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'),
             'users.mobile', 'users.created_at', 'OptActivation', 'pass',
             DB::raw('IFNULL(`vip`.`flashCoefficient`,"##") as coeff'),
@@ -846,10 +846,13 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
                 return Carbon\Carbon::parse($user->created_at)->format('Y-m-d H:i:s');
             })
             ->addColumn('more_details', function ($user) {
-                return view('parts.datatable.user-details', ['user' => $user]);
+                return view('parts.datatable.user-details', ['user' => $user]) ;
             })
             ->addColumn('status', function ($user) {
                 return view('parts.datatable.user-status', ['status' => $user->status]);
+            })
+            ->addColumn('soldes', function ($user) {
+                return view('parts.datatable.user-soldes', ['idUser' => $user->idUser]);
             })
             ->addColumn('vip_history', function ($user) {
                 return view('parts.datatable.user-vip-history', ['user' => $user]);
@@ -873,36 +876,10 @@ class="btn btn-xs btn-flash btn2earnTable vip m-1"  >
 
             })
             ->addColumn('flag', function ($settings) {
-                return '<img src="' . $this->getFormatedFlagResourceName($settings->apha2) . '" alt="' . strtolower($settings->apha2) . '" title="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
-            })
-            ->addColumn('SoldeCB', function ($user_balance) {
-                return '<a data-bs-toggle="modal" data-bs-target="#detail"   data-amount="1" data-reciver="' . $user_balance->idUser . '"
-class="btn btn-ghost-secondary waves-effect waves-light cb"  >
-<i class="glyphicon glyphicon-add"></i>$' . number_format(getUserBalanceSoldes($user_balance->idUser, 1), 2) . '</a> ';
-            })
-            ->addColumn('SoldeBFS', function ($user_balance) {
-                return '<a data-bs-toggle="modal" data-bs-target="#detail"   data-amount="2" data-reciver="' . $user_balance->idUser . '"
-class="btn btn-ghost-danger waves-effect waves-light bfs"  >
-<i class="glyphicon glyphicon-add"></i>$' . number_format(getUserBalanceSoldes($user_balance->idUser, 2), 2) . '</a> ';
-            })
-            ->addColumn('SoldeDB', function ($user_balance) {
-                return '<a data-bs-toggle="modal" data-bs-target="#detail"   data-amount="3" data-reciver="' . $user_balance->idUser . '"
-class="btn btn-ghost-info waves-effect waves-light db"  >
-<i class="glyphicon glyphicon-add"></i>$' . number_format(getUserBalanceSoldes($user_balance->idUser, 3), 2) . '</a> ';
-            })
-            ->addColumn('SoldeSMS', function ($user_balance) {
-                return '<a data-bs-toggle="modal" data-bs-target="#detail"   data-amount="5" data-reciver="' . $user_balance->idUser . '"
-class="btn btn-ghost-warning waves-effect waves-light smsb"  >
-<i class="glyphicon glyphicon-add"></i>' . number_format(getUserBalanceSoldes($user_balance->idUser, 5), 0) . '</a> ';
-            })
-            ->addColumn('SoldeSH', function ($user_balance) {
-                return '<a data-bs-toggle="modal" data-bs-target="#detailsh"   data-amount="6" data-reciver="' . $user_balance->idUser . '"
-class="btn btn-ghost-success waves-effect waves-light sh"  >
-<i class="glyphicon glyphicon-add"></i>' . number_format(getUserSelledActions($user_balance->idUser), 0) . '</a> ';
+                return view('parts.datatable.user-flag', ['src' => $this->getFormatedFlagResourceName($settings->apha2), 'title' => strtolower($settings->apha2)]);
             })
             ->addColumn('action', function ($settings) {
-                return '<a data-bs-toggle="modal" data-bs-target="#AddCash"   data-phone="' . $settings->mobile . '" data-country="' . $this->getFormatedFlagResourceName($settings->apha2) . '" data-reciver="' . $settings->idUser . '"
-class="btn btn-xs btn-primary btn2earnTable addCash m-1" >' . Lang::get('Add cash') . '</a> ';
+                return view('parts.datatable.user-action', ['phone' => $settings->mobile, 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'reciver' => $settings->idUser]);
             })
             ->removeColumn('OptActivation')
             ->removeColumn('note')
@@ -912,7 +889,7 @@ class="btn btn-xs btn-primary btn2earnTable addCash m-1" >' . Lang::get('Add cas
             ->removeColumn('minshares')
             ->removeColumn('coeff')
             ->removeColumn('date')
-            ->rawColumns(['action', 'flag', 'SoldeCB', 'SoldeBFS', 'SoldeDB', 'SoldeSMS', 'SoldeSH', 'VIP'])
+            ->rawColumns(['action', 'flag', 'VIP'])
             ->make(true);
     }
 

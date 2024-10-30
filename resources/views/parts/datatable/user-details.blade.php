@@ -16,6 +16,7 @@
     @if($user->id)
         <li class="list-group-item">{{__('Id')}}: <span class="float-end">{{$user->id}}</span></li>
     @endif
+    <li class="list-group-item">  @include('parts.datatable.user-detail-link',['id' => $user->id])</li>
 </ul>
 
 
