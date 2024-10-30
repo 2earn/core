@@ -5,7 +5,9 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    const TABLE_NAME = 'plateformes';
+
+    const OLD_TABLE_NAME = 'plateformes';
+    const TABLE_NAME = 'platforms';
 
 
     /**
@@ -15,8 +17,10 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::table(self::TABLE_NAME, function (Blueprint $table) {
-            $table->dropColumn('afficherProfil');
+        Schema::dropIfExists(self::OLD_TABLE_NAME);
+        Schema::create(self::TABLE_NAME, function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->nullable();
             $table->boolean('show_profile')->default(false);
             $table->boolean('enabled')->default(false);
             $table->tinyInteger('type')->nullable()->default(\Core\Enum\PlatformType::Child->value);
@@ -35,6 +39,5 @@ return new class extends Migration {
      */
     public function down()
     {
-        //
     }
 };

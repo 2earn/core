@@ -8,13 +8,33 @@
             {{ __('Platform') }}
         @endslot
     @endcomponent
+    <div class="modal fade" id="confirmDeletePlatformModal" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">{{__('Confirm delete Platform')}}</h5>
+                </div>
+                <div class="modal-body">
+                    <span class="text-muted" id="messageDeletePlatform"></span>
+                </div>
+                <div class="modal-footer">
 
+                    <button type="button" id="confirmDeletePlatformConfirm" data-id=""
+                            class="btn btn-danger">{{__('Confirm')}}</button>
+                    <button type="button" class="btn btn-warning" id="confirmDeletePlatformClose"
+                            data-dismiss="modal">{{__('Close')}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row card">
         <div class="card-header border-info">
 
             <div class="row">
                 <div class="col-sm-12 mx-2">
-                    <a href="{{route('platform_create_update', app()->getLocale())}}" class="btn btn-info add-btn float-end"
+                    <a href="{{route('platform_create_update', app()->getLocale())}}"
+                       class="btn btn-info add-btn float-end"
                        id="create-btn">
                         <i class="ri-add-line align-bottom me-1 ml-2"></i>
                         {{__('Create new platform')}}
@@ -52,6 +72,8 @@
 
     <script type="module">
         $(document).on('turbolinks:load', function () {
+
+
             if (!$.fn.dataTable.isDataTable('#PlatformTable')) {
                 $('#PlatformTable').DataTable({
                     "responsive": true,
@@ -85,6 +107,23 @@
                     "language": {"url": urlLang},
                 });
             }
+
+            var confirmDeletePlatformModal = bootstrap.Modal.getOrCreateInstance('#confirmDeletePlatformModal');
+
+            $('body').on('click', '#confirmDeletePlatformConfirm', function () {
+                window.Livewire.emit("delete", $('#confirmDeletePlatformConfirm').attr('data-id'));
+            });
+
+            $('body').on('click', '#confirmDeletePlatformClose', function () {
+                confirmDeletePlatformModal.hide();
+            });
+
+            $('body').on('click', '.deletePlatform', function (event) {
+                $('#messageDeletePlatform').html('{{__('Are you sure to delete this platform')}}?' + ' <h5 class="float-end">' + $(event.target).attr('data-name') + ' </h5>');
+                $('#confirmDeletePlatformConfirm').attr('data-id', $(event.target).attr('data-id'))
+                confirmDeletePlatformModal.show();
+            });
+
         });
     </script>
 

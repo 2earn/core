@@ -8,6 +8,7 @@ use App\Models\vip;
 use App\Services\Sponsorship\SponsorshipFacade;
 use carbon;
 use Core\Enum\AmoutEnum;
+use Core\Enum\PlatformType;
 use Core\Enum\StatusRequest;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
@@ -35,6 +36,8 @@ use Yajra\DataTables\Facades\DataTables;
 
 class ApiController extends BaseController
 {
+    const DATE_FORMAT = 'd/m/Y H:i:s';
+
     private string $reqRequest = "select recharge_requests.Date , user.name user  ,
 recharge_requests.userPhone userphone, recharge_requests.amount  from recharge_requests
 left join users user on user.idUser = recharge_requests.idUser";
@@ -1194,9 +1197,17 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
     public function getPlatforms()
     {
         return datatables(Platform::all())
+            ->addColumn('type', function ($platform) {
+                return Lang::get(PlatformType::from($platform->type)->name);
+            })
             ->addColumn('action', function ($platform) {
                 $action = '<a href="' . route('platform_create_update', ['locale' => app()->getLocale(), 'id' => $platform->id]) . '" class="btn btn-xs btn-primary btn2earnTable addCash m-1" >' . Lang::get('Edit') . '</a> ';
-                return $action .= '<a wire:click="delete('.$platform->id.')" class="btn btn-xs btn-danger btn2earnTable addCash m-1" >' . Lang::get('Delete') . '</a> ';
+                return $action .= '<a   data-id="' . $platform->id . '" data-name="' . $platform->name . '" title="' . $platform->name . '" class="btn btn-xs btn-danger btn2earnTable deletePlatform m-1" >' . Lang::get('Delete') . '</a> ';
+            })
+            ->addColumn('created_at', function ($platform) {
+                return $platform->created_at->format(self::DATE_FORMAT);
+            })->addColumn('updated_at', function ($platform) {
+                return $platform->updated_at->format(self::DATE_FORMAT);
             })
             ->rawColumns(['action'])
             ->make(true);

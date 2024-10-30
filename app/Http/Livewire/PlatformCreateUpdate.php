@@ -5,7 +5,7 @@ namespace App\Http\Livewire;
 use Core\Enum\PlatformType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Route;
+use Core\Models\Platform;
 use Livewire\Component;
 
 class PlatformCreateUpdate extends Component
@@ -14,17 +14,18 @@ class PlatformCreateUpdate extends Component
         $idPlatform,
         $name,
         $description,
-        $link,
-        $type;
+        $type,
+        $link;
+
     public $enabled = false;
 
     protected $rules = ['name' => 'required', 'description' => 'required'];
     public $update = false;
     public $types = [];
 
-    public function mount($id, Request $request)
+    public function mount(Request $request)
     {
-        $this->idPlatform = Route::current()->parameter('id');
+        $this->idPlatform = $request->query('id');
         if (!is_null($this->idPlatform)) {
             $this->edit($this->idPlatform);
         }
@@ -33,6 +34,7 @@ class PlatformCreateUpdate extends Component
             ['name' => PlatformType::Child->name, 'value' => PlatformType::Child->value,],
             ['name' => PlatformType::Partner->name, 'value' => PlatformType::Partner->value,]
         ];
+        $this->type = PlatformType::Child->value;
     }
 
     public function cancel()
@@ -42,6 +44,7 @@ class PlatformCreateUpdate extends Component
 
     public function edit($idPlatform)
     {
+
         $platform = Platform::findOrFail($idPlatform);
         $this->name = $platform->name;
         $this->description = $platform->description;
@@ -85,7 +88,7 @@ class PlatformCreateUpdate extends Component
             ];
             $platform = \Core\Models\Platform::create($params);
         } catch (\Exception $exception) {
-            return redirect()->route('platform_create_update', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while creating Platform!!'). ' ' .$exception->getMessage());
+            return redirect()->route('platform_create_update', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while creating Platform!!') . ' ' . $exception->getMessage());
         }
         return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Platform Created Successfully!!') . ' ' . $platform->name);
     }

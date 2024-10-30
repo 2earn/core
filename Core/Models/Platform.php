@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\DB;
 
 class Platform extends Model
 {
-    protected $table = 'plateformes';
     protected $fillable = ['name', 'description', 'enabled', 'type', 'link'];
     public $timestamps = true;
 
