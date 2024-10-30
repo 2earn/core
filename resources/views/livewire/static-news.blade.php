@@ -14,7 +14,7 @@
                                 @if(app()->getLocale()=="en")
                                     Exclusive WhatsApp group
                                 @elseif(app()->getLocale()=="fr")
-                                    groupe WhatsApp exclusif
+                                    Groupe WhatsApp exclusif
                                 @else
                                     مجموعة واتساب حصرية
                                 @endif
