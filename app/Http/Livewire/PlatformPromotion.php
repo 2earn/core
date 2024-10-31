@@ -2,25 +2,31 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\User;
+use Core\Models\Platform;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
-use Core\Models\Platform;
 
 class PlatformPromotion extends Component
 {
-    public $idUser,$platforms,$platform,$roles,$role;
+    public $userId, $platforms, $platform, $roles, $role,$userProfileImage;
 
-    public function mount()
+    public function mount($userId)
     {
-        $this->idUser =  Route::current()->parameter('idUser');;
+        $this->userId = Route::current()->parameter('userId');
         $this->currentRouteName = Route::currentRouteName();
         $this->platforms = Platform::all();
     }
+
     public function render()
     {
-        $params=[
+        $user = User::find($this->userId);
+        $params = [
             'platforms' => $this->platforms,
+            'user' => $user,
         ];
-        return view('livewire.platform-promotion',$params)->extends('layouts.master')->section('content');
+        $this->userProfileImage = User::getUserProfileImage($user->idUser);
+
+        return view('livewire.platform-promotion', $params)->extends('layouts.master')->section('content');
     }
 }

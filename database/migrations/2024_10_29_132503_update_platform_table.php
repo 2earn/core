@@ -25,6 +25,7 @@ return new class extends Migration {
             $table->boolean('enabled')->default(false);
             $table->tinyInteger('type')->nullable()->default(\Core\Enum\PlatformType::Child->value);
             $table->string('link')->nullable();
+            $table->string('image_link')->nullable();
             $table->text('description')->nullable();
             $table->unsignedBigInteger('administrative_manager_id')->foreign('user_id')->nullable()->references('id')->on('user')->onDelete('cascade');
             $table->unsignedBigInteger('financial_manager_id')->foreign('user_id')->nullable()->references('id')->on('user')->onDelete('cascade');
