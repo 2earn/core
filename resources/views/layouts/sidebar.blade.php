@@ -273,8 +273,16 @@
                                 <a href="{{route('platform_index',['locale'=>request()->route("locale")],false )}}"
                                    class="nav-link menu-link {{$currentRouteName=='platform_index'? 'active' : ''}}"
                                    role="button">
-                                    <i class=" ri-git-repository-private-fill"></i>
+                                    <i class="ri-git-repository-private-fill"></i>
                                     <span>{{__('Platform')}}</span>
+                                </a>
+                            </li>
+                            <li class="nav-item cool-link {{$currentRouteName=='role_index'? 'active' : ''}}">
+                                <a href="{{route('role_index',['locale'=>request()->route("locale")],false )}}"
+                                   class="nav-link menu-link {{$currentRouteName=='role_index'? 'active' : ''}}"
+                                   role="button">
+                                    <i class="ri-shield-user-fill"></i>
+                                    <span>{{__('Roles')}}</span>
                                 </a>
                             </li>
                             <li class="nav-item cool-link {{$currentRouteName=='surveys_index'? 'active' : ''}}">

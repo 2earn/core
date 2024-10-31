@@ -70,6 +70,14 @@
                                     <label class="form-check-label" for="Enabled">{{__('Enabled')}}</label>
                                 </div>
                             </div>
+                            <div class="form-group  col-sm-4 col-md-2">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" role="switch" wire:model="show_profile"
+                                           type="checkbox"
+                                           id="Enabled" placeholder="{{__('show_profile')}}" checked>
+                                    <label class="form-check-label" for="Enabled">{{__('Show profile')}}</label>
+                                </div>
+                            </div>
                             <div class="form-group mb-3">
                                 <label for="Description">{{__('Description')}}</label>
                                 <textarea class="form-control @error('description') is-invalid @enderror"

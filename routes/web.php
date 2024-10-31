@@ -174,6 +174,12 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
                 Route::get('/index', \App\Http\Livewire\Platform::class)->name('index');
                 Route::get('/', \App\Http\Livewire\PlatformCreateUpdate::class)->name('create_update');
                 Route::get('/{id}', \App\Http\Livewire\PlatformShow::class)->name('show');
+                Route::get('/{userId}/promotion', \App\Http\Livewire\PlatformPromotion::class)->name('promotion');
+            });
+
+            Route::prefix('/role')->name('role_')->group(function () {
+                Route::get('/index', \App\Http\Livewire\RoleIndex::class)->name('index');
+                Route::get('/', \App\Http\Livewire\RoleCreateUpdate::class)->name('create_update');
             });
 
         });
@@ -219,6 +225,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/user/admin', 'App\Http\Controllers\ApiController@getUserAdmin')->name('api_user_admin');
         Route::get('/history/notification', 'App\Http\Controllers\ApiController@getHistoryNotification')->name('api_history_notification');
         Route::get('/platforms', 'App\Http\Controllers\ApiController@getPlatforms')->name('api_platform');
+        Route::get('/platforms', 'App\Http\Controllers\ApiController@getRoles')->name('api_role');
         Route::get('/request', 'App\Http\Controllers\ApiController@getRequest')->name('api_request');
         Route::get('/representatives', 'App\Http\Controllers\ApiController@getRepresentatives')->name('api_representatives');
         Route::get('/user/balancesCB', 'App\Http\Controllers\ApiController@getUserBalancesCB')->name('api_user_balances_cb');

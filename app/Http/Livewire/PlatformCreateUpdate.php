@@ -18,6 +18,7 @@ class PlatformCreateUpdate extends Component
         $link;
 
     public $enabled = false;
+    public $show_profile = false;
 
     protected $rules = ['name' => 'required', 'description' => 'required'];
     public $update = false;
@@ -51,6 +52,7 @@ class PlatformCreateUpdate extends Component
         $this->idPlatform = $platform->id;
         $this->type = $platform->type;
         $this->enabled = $platform->enabled;
+        $this->show_profile = $platform->show_profile;
         $this->link = $platform->link;
         $this->update = true;
     }
@@ -63,6 +65,7 @@ class PlatformCreateUpdate extends Component
                 'name' => $this->name,
                 'description' => $this->description,
                 'enabled' => $this->enabled,
+                'show_profile' => $this->show_profile,
                 'type' => $this->type,
                 'link' => $this->link
             ];
@@ -83,6 +86,7 @@ class PlatformCreateUpdate extends Component
                 'name' => $this->name,
                 'description' => $this->description,
                 'enabled' => $this->enabled,
+                'show_profile' => $this->show_profile,
                 'type' => $this->type,
                 'link' => $this->link
             ];

@@ -31,6 +31,7 @@ use Illuminate\Validation\Rule;
 use Paytabscom\Laravel_paytabs\Facades\paypage;
 use phpDocumentor\Reflection\Types\Collection;
 use Propaganistas\LaravelPhone\PhoneNumber;
+use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
 
@@ -872,7 +873,7 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
                 return view('parts.datatable.user-flag', ['src' => $this->getFormatedFlagResourceName($settings->apha2), 'title' => strtolower($settings->apha2)]);
             })
             ->addColumn('action', function ($settings) {
-                return view('parts.datatable.user-action', ['phone' => $settings->mobile, 'user' => $settings, 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'reciver' => $settings->idUser]);
+                return view('parts.datatable.user-action', ['phone' => $settings->mobile, 'user' => $settings, 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'reciver' => $settings->idUser, 'userId' => $settings->id]);
             })
             ->removeColumn('OptActivation')
             ->removeColumn('note')
@@ -1188,12 +1189,27 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
                 return Lang::get(PlatformType::from($platform->type)->name);
             })
             ->addColumn('action', function ($platform) {
-                return view('parts.datatable.platform-action', ['platformId' => $platform->id, 'platformName' => $platform->name]);
+                return view('parts.datatable.platform-action', ['show_profile' => $platform->show_profile, 'platformId' => $platform->id, 'platformName' => $platform->name]);
             })
             ->addColumn('created_at', function ($platform) {
-                return $platform->created_at->format(self::DATE_FORMAT);
+                return $platform->created_at?->format(self::DATE_FORMAT);
             })->addColumn('updated_at', function ($platform) {
-                return $platform->updated_at->format(self::DATE_FORMAT);
+                return $platform->updated_at?->format(self::DATE_FORMAT);
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+    }
+
+    public function getRoles()
+    {
+        return datatables(Role::all())
+            ->addColumn('action', function ($role) {
+                return view('parts.datatable.role-action', ['roleId' => $role->id, 'roleName' => $role->name]);
+            })
+            ->addColumn('created_at', function ($platform) {
+                return $platform->created_at?->format(self::DATE_FORMAT);
+            })->addColumn('updated_at', function ($platform) {
+                return $platform->updated_at?->format(self::DATE_FORMAT);
             })
             ->rawColumns(['action'])
             ->make(true);
