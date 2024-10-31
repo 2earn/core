@@ -55,6 +55,7 @@ class Account extends Component
     public $userNationalFrontImage;
     public $userNationalBackImage;
     public $userInternationalImage;
+    public $optTimerDelay;
 
     protected $listeners = [
         'PreChangePass' => 'PreChangePass',

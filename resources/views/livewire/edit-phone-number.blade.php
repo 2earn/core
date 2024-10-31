@@ -76,7 +76,7 @@
                 title: '{{ __('Your verification code') }}',
                 html: textHtmlSend + '<br> ' + event.detail.FullNumber + '<br>' + '{{__('Your OTP Code')}}',
                 allowOutsideClick: false,
-                timer: '{{ env('timeOPT') }}',
+                timer: '{{ env('timeOPT',180000) }}',
                 timerProgressBar: true,
                 showCancelButton: true,
                 cancelButtonText: '{{trans('canceled !')}}',
