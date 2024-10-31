@@ -1,4 +1,6 @@
 <div>
+
+
     @php
         $justExpired=$lessThanSixMonths = false;
         if (!is_null(auth()->user()->expiryDate)) {
@@ -853,6 +855,7 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade bd-example-modal-lg" tabindex="-1" id="identies-viewer" role="dialog"
          aria-labelledby="myLargeModalLabel"
          aria-hidden="true">
@@ -936,7 +939,7 @@
                     title: '{{trans('Your verification code by email')}}',
                     html: '{{ __('We_will_send') }}' + '<br>' + event.detail.mail + '<br>' + '{{__('Your OTP Code')}}',
                     allowOutsideClick: false,
-                    timer: '{{ env('timeOPT') }}',
+                    timer: '{{ env('timeOPT',180000) }}',
                     timerProgressBar: true,
                     showCancelButton: true,
                     cancelButtonText: '{{trans('canceled !')}}',
@@ -954,7 +957,7 @@
                             } else {
                                 clearInterval(timerInterval);
                             }
-                        }, 100);
+                        }, 1000);
                     },
                     willClose: () => {
                         clearInterval(timerInterval);
@@ -974,7 +977,7 @@
                     title: '{{trans('Your verification code by phone number')}}',
                     html: '{{ __('We_will_send') }}' + '<br>' + event.detail.numberActif + '<br>' + '{{__('Your OTP Code')}}',
                     allowOutsideClick: false,
-                    timer: '{{ env('timeOPT') }}',
+                    timer: '{{ env('timeOPT',180000) }}',
                     timerProgressBar: true,
                     showCancelButton: true,
                     cancelButtonText: '{{trans('canceled !')}}',
@@ -991,7 +994,7 @@
                             } else {
                                 clearInterval(timerInterval);
                             }
-                        }, 100);
+                        }, 1000);
                     },
                     willClose: () => {
                         clearInterval(timerInterval);
@@ -1047,7 +1050,7 @@
                         title: event.detail.title,
                         html: event.detail.html,
                         allowOutsideClick: false,
-                        timer: '{{ env('timeOPT') }}',
+                        timer: '{{ env('timeOPT',180000) }}',
                         timerProgressBar: true,
                         showCancelButton: true,
                         cancelButtonText: '{{trans('canceled !')}}',
@@ -1064,7 +1067,7 @@
                                 } else {
                                     clearInterval(timerInterval);
                                 }
-                            }, 100);
+                            }, 1000);
                         },
                         willClose: () => {
                             clearInterval(timerInterval);
