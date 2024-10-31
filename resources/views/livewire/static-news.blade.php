@@ -10,15 +10,15 @@
 
                     <div class="row">
                         <div class="col-12">
-                                <h6 class="text-muted mb-2">
-                                    @if(app()->getLocale()=="en")
-                                       Exclusive WhatsApp group
-                                    @elseif(app()->getLocale()=="fr")
-                                        Exclusive WhatsApp group
-                                    @else
-                                        مجموعة WhatsApp حصرية
-                                    @endif
-                                </h6>
+                            <h6 class="text-muted mb-2">
+                                @if(app()->getLocale()=="en")
+                                    Exclusive WhatsApp group
+                                @elseif(app()->getLocale()=="fr")
+                                    Groupe WhatsApp exclusif
+                                @else
+                                    مجموعة واتساب حصرية
+                                @endif
+                            </h6>
                         </div>
                     </div>
                     <div class="row">
