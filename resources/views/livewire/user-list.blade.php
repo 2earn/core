@@ -244,6 +244,7 @@
                         <th>{{__('pays')}}</th>
                         <th>{{__('Phone')}}</th>
                         <th>{{__('Name')}}</th>
+                        <th>{{__('Mobile')}}</th>
                         <th>{{__('Status')}}</th>
                         <th>{{__('Soldes')}}</th>
                         <th>{{__('Action')}}</th>
@@ -652,6 +653,7 @@
                     {data: 'flag'},
                     {data: 'formatted_mobile'},
                     {data: 'name'},
+                    {data: 'mobile'},
                     {data: 'status'},
                     {data: 'soldes', name: 'action', orderable: false, searchable: false},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
