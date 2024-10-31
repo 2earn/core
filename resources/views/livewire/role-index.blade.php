@@ -11,26 +11,6 @@
     <div class="row">
         @include('layouts.flash-messages')
     </div>
-    <div class="modal fade" id="confirmDeleteroleModal" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">{{__('Confirm delete role')}}</h5>
-                </div>
-                <div class="modal-body">
-                    <span class="text-muted" id="messageDeleterole"></span>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="confirmDeleteroleConfirm" data-id=""
-                            class="btn btn-danger">{{__('Confirm')}}</button>
-                    <button type="button" class="btn btn-warning" id="confirmDeleteroleClose"
-                            data-dismiss="modal">{{__('Close')}}</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="row card">
         <div class="card-header border-info">
             <div class="row">
@@ -108,21 +88,18 @@
                 });
             }
 
-            var confirmDeleteroleModal = bootstrap.Modal.getOrCreateInstance('#confirmDeleteroleModal');
-
-            $('body').on('click', '#confirmDeleteroleConfirm', function () {
-                console.log('confirmDeleteroleConfirm')
-                window.Livewire.emit("delete", $('#confirmDeleteroleConfirm').attr('data-id'));
-            });
-
-            $('body').on('click', '#confirmDeleteroleClose', function () {
-                confirmDeleteroleModal.hide();
-            });
-
-            $('body').on('click', '.deleterole', function (event) {
-                $('#messageDeleterole').html('{{__('Are you sure to delete this role')}}?' + ' <h5 class="float-end">' + $(event.target).attr('data-name') + ' </h5>');
-                $('#confirmDeleteroleConfirm').attr('data-id', $(event.target).attr('data-id'))
-                confirmDeleteroleModal.show();
+            $('body').on('click', '.deleteRole', function (event) {
+                Swal.fire({
+                    title: '{{__('Are you sure to delete this role')}}? <h5 class="float-end">' + $(event.target).attr('data-name') + ' </h5>',
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: "Delete",
+                    denyButtonText: `Rollback`
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.Livewire.emit("delete", $(event.target).attr('data-id'));
+                    }
+                });
             });
 
         });

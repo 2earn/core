@@ -12,13 +12,16 @@ class RoleIndex extends Component
 
     public function delete($id)
     {
-        if ($id > 4) {
-            Role::findOrFail($id)->delete();
+        try {
+            if ($id > 4) {
+                Role::findOrFail($id)->delete();
 
-            return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Role Deleted Successfully!!'));
+                return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Role Deleted Successfully!!'));
+            }
+            return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('This Role cant be Deleted !'));
+        } catch (\Exception $exception) {
+            return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('error', $exception->getMessage());
         }
-        return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('This Role cant be Deleted !'));
-
     }
 
     public function render()

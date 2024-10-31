@@ -8,29 +8,10 @@
             {{ __('Platform') }}
         @endslot
     @endcomponent
-        <div class="row">
-            @include('layouts.flash-messages')
-        </div>
-    <div class="modal fade" id="confirmDeletePlatformModal" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">{{__('Confirm delete Platform')}}</h5>
-                </div>
-                <div class="modal-body">
-                    <span class="text-muted" id="messageDeletePlatform"></span>
-                </div>
-                <div class="modal-footer">
-
-                    <button type="button" id="confirmDeletePlatformConfirm" data-id=""
-                            class="btn btn-danger">{{__('Confirm')}}</button>
-                    <button type="button" class="btn btn-warning" id="confirmDeletePlatformClose"
-                            data-dismiss="modal">{{__('Close')}}</button>
-                </div>
-            </div>
-        </div>
+    <div class="row">
+        @include('layouts.flash-messages')
     </div>
+
     <div class="row card">
         <div class="card-header border-info">
             <div class="row">
@@ -95,7 +76,7 @@
                     },
                     "processing": true,
                     search: {return: true},
-                    "ajax": "{{route('api_platform',app()->getLocale())}}",
+                    "ajax": "{{route('api_platforms', app()->getLocale())}}",
                     "columns": [
                         datatableControlBtn,
                         {data: 'id'},
@@ -110,22 +91,20 @@
                 });
             }
 
-            var confirmDeletePlatformModal = bootstrap.Modal.getOrCreateInstance('#confirmDeletePlatformModal');
-
-            $('body').on('click', '#confirmDeletePlatformConfirm', function () {
-                window.Livewire.emit("delete", $('#confirmDeletePlatformConfirm').attr('data-id'));
-            });
-
-            $('body').on('click', '#confirmDeletePlatformClose', function () {
-                confirmDeletePlatformModal.hide();
-            });
 
             $('body').on('click', '.deletePlatform', function (event) {
-                $('#messageDeletePlatform').html('{{__('Are you sure to delete this platform')}}?' + ' <h5 class="float-end">' + $(event.target).attr('data-name') + ' </h5>');
-                $('#confirmDeletePlatformConfirm').attr('data-id', $(event.target).attr('data-id'))
-                confirmDeletePlatformModal.show();
+                Swal.fire({
+                    title: '{{__('Are you sure to delete this platform')}}? <h5 class="float-end">' + $(event.target).attr('data-name') + ' </h5>',
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: "Delete",
+                    denyButtonText: `Rollback`
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.Livewire.emit("delete", $(event.target).attr('data-id'));
+                    }
+                });
             });
-
         });
     </script>
 

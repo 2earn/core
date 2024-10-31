@@ -60,7 +60,7 @@ class RoleCreateUpdate extends Component
         $latestRole = Role::orderBy('id', 'desc')->first();
         try {
             $this->validate();
-            DB::insert('insert into roles ( id,name,guard_name,created_at,updated_at) values (?, ?, ?)', [$latestRole->id + 1, $this->name, 'web', now(), now()]);
+            DB::insert('insert into roles ( id,name,guard_name,created_at,updated_at) values (?, ?, ?,?, ?)', [$latestRole->id + 1, $this->name, 'web', now(), now()]);
         } catch (\Exception $exception) {
             dd($exception);
             return redirect()->route('role_create_update', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while creating Role!!') . ' ' . $exception->getMessage());
