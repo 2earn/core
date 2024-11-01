@@ -9,16 +9,18 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-12">
-                            <h6 class="text-muted mb-2">
-                                @if(app()->getLocale()=="en")
-                                    Exclusive WhatsApp group
-                                @elseif(app()->getLocale()=="fr")
-                                    Groupe WhatsApp exclusif
-                                @else
-                                    مجموعة واتساب حصرية
-                                @endif
-                            </h6>
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <blockquote class="card-blockquote mb-0">
+                                <p class="text-muted mb-2">
+                                    @if(app()->getLocale()=="en")
+                                        Dear Members,
+                                    @elseif(app()->getLocale()=="fr")
+                                        Chers adhérents
+                                    @else
+                                        الأعضاء الأعزاء،
+                                    @endif
+                                </p>
+                            </blockquote>
                         </div>
                     </div>
                     <div class="row">
@@ -31,16 +33,6 @@
                         </div>
                         <div class="col-sm-12 col-md-8 col-lg-9">
                             <blockquote class="card-blockquote mb-0">
-                                <p class="text-muted mb-2">
-                                    @if(app()->getLocale()=="en")
-                                        Dear Members,
-                                    @elseif(app()->getLocale()=="fr")
-                                        Chers adhérents
-                                    @else
-                                        الأعضاء الأعزاء،
-                                    @endif
-                                </p>
-
                                 <p class="text-muted mb-2">
                                     @if(app()->getLocale()=="en")
                                         A private and exclusive WhatsApp group has been created for people registered on
@@ -106,6 +98,99 @@
                         <div class="col-12">
                             <h6 class="text-muted mb-2">
                                 @if(app()->getLocale()=="en")
+                                    Training before downloading courses
+                                @elseif(app()->getLocale()=="fr")
+                                    Formation avant téléchargement des cours
+                                @else
+                                    التدريب قبل تنزيل الدورات
+                                @endif
+                            </h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <blockquote class="card-blockquote mb-0">
+                                <p class="text-muted mb-2">
+                                    @if(app()->getLocale()=="en")
+                                        Dear Members,
+                                    @elseif(app()->getLocale()=="fr")
+                                        Chers adhérents
+                                    @else
+                                        الأعضاء الأعزاء،
+                                    @endif
+                                </p>
+                            </blockquote>
+                        </div>
+                        <div class="col-sm-12 col-md-8 col-lg-6">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <img
+                                    src="{{ Vite::asset('resources/images/static-news/l-'.app()->getLocale().'.jpg') }}"
+                                    class="img-thumbnail">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-lg-6">
+
+
+                            <p class="text-muted mb-2">
+                                @if(app()->getLocale()=="en")
+                                    We are pleased to inform you that we are now accepting applications from
+                                    trainers and training centers to start uploading their courses on the
+                                    Learn2earn.cash platform. This will take place following a comprehensive
+                                    training of trainers on how to publish their courses on the platform.
+
+                                @elseif(app()->getLocale()=="fr")
+                                    Nous avons le plaisir de vous informer que nous entamons la réception des
+                                    demandes des formateurs et des centres de formation en vue de publier leurs
+                                    cours sur la plateforme Learn2earn.cash. Cette démarche interviendra suite à une
+                                    formation complète des formateurs sur la méthode de publication de leurs cours.
+                                @else
+                                    يسعدنا أن نعلمكم بأننا بصدد استقبال طلبات من المدربين ومراكز التدريب لبدء تحميل
+                                    دوراتهم على منصة Learn2earn.cash. وسيتم ذلك بعد إجراء تكوين شامل للمدربين حول
+                                    كيفية تنزيل دوراتهم على المنصة
+                                @endif
+                            </p>
+                            <p class="text-muted mb-2">
+                                @if(app()->getLocale()=="en")
+                                    Best regards
+                                @elseif(app()->getLocale()=="fr")
+                                    Cordialement
+                                @else
+                                    أطيب التحيات
+                                @endif
+                            </p>
+                            </blockquote>
+                        </div>
+                    </div>
+
+                    <blockquote class="card-blockquote mb-0 float-end">
+                        <p class="text-info mb-2">
+                            @if(app()->getLocale()=="en")
+                                The Management Team
+                            @elseif(app()->getLocale()=="fr")
+                                L'équipe de direction
+                            @else
+                                فريق الإدارة
+                            @endif.
+                        </p>
+                    </blockquote>
+                </div>
+                <div class="card-footer">
+                    <p class="text-muted mb-0 float-end">01-11-2024</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xxl-12 mb-1">
+            <div class="card ribbon-box right border shadow-none overflow-hidden mb-lg-0 material-shadow">
+                <div class="card-body">
+                    <div class="ribbon ribbon-danger ribbon-shape trending-ribbon">
+                        <i class="ri-flashlight-fill text-white align-bottom float-start me-1"></i> <span
+                            class="trending-ribbon-text">{{__('News')}}</span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <h6 class="text-muted mb-2">
+                                @if(app()->getLocale()=="en")
                                     Expansion of the Cooperation Agreement with International NAGA
                                 @elseif(app()->getLocale()=="fr")
                                     Expansion de l’accord de coopération avec International NAGA
@@ -150,8 +235,8 @@
                                         located in Istanbul, Turkey.
                                     </p>
                                     <p class="text-muted">
-                                        The institution is represented by *Dr. Bilal NAGATI, who serves as the General
-                                        Manager of International NAGA. He is also *a member of the Scientific Committee
+                                        The institution is represented by Dr. Bilal NAGATI, who serves as the General
+                                        Manager of International NAGA. He is also a member of the Scientific Committee
                                         at the KPI British Academy and a faculty member at the BECERT American Academy.
                                         Dr. Bilal NAGATI is considered an international expert in strategic planning and
                                         is the author of several books on institutional development, personal
@@ -184,18 +269,18 @@
                                     <p class="text-muted"> يسعدنا أن نعلن عن توسيع اتفاقية التعاون والشراكة التي كانت
                                         مقتصرة في البداية على
                                         إدارة الاستثمار في مؤسسة NAGA لتصبح الآن شراكة موسّعة تشمل أيضًا إدارة التدريب
-                                        و*قسم الاستشارات الاستراتيجية* داخل المؤسسة نفسها.
+                                        وقسم الاستشارات الاستراتيجية داخل المؤسسة نفسها.
                                     </p>
                                     <p class="text-muted"> يجدر بالذكر أن International NAGA هي مؤسسة تعمل في قطاعات
                                         متعددة، وأهمها
-                                        الاستثمار، الاستشارات، والتدريب، ويقع مقرها الرئيسي في **إسطنبول، تركيا.
+                                        الاستثمار، الاستشارات، والتدريب، ويقع مقرها الرئيسي في إسطنبول، تركيا.
                                     </p>
-                                    <p class="text-muted"> يمثل المؤسسة الدكتور بلال النقاطي، الذي يشغل منصب **المدير
+                                    <p class="text-muted"> يمثل المؤسسة الدكتور بلال النقاطي، الذي يشغل منصب المدير
                                         العام لمؤسسة
-                                        International NAGA. وهو أيضًا **عضو في اللجنة العلمية في أكاديمية KPI
+                                        International NAGA. وهو أيضًا عضو في اللجنة العلمية في أكاديمية KPI
                                         البريطانية، وعضو هيئة التدريس في أكاديمية BECERT الأمريكية. يُعتبر الدكتور بلال
-                                        النقاطي **خبيرًا دوليًا في التخطيط الاستراتيجي، وهو *مؤلف للعديد من الكتب التي
-                                        تتناول **التطوير المؤسسي، التنمية الذاتية، وريادة الأعمال.
+                                        النقاطي خبيرًا دوليًا في التخطيط الاستراتيجي، وهو مؤلف للعديد من الكتب التي
+                                        تتناول التطوير المؤسسي، التنمية الذاتية، وريادة الأعمال.
                                     </p>
                                     @endif
                                     </p>
@@ -391,7 +476,7 @@
                     </blockquote>
                 </div>
                 <div class="card-footer">
-                    <p class="text-muted mb-0 float-end">28-10-2024</p>
+                    <p class="text-muted mb-0 float-end">01-11-2024</p>
                 </div>
             </div>
         </div>
