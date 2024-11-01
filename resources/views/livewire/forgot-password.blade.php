@@ -201,7 +201,7 @@
                     autocapitalize: 'off'
                 },
                 showCancelButton: true,
-                timer: '{{ env('timeOPT') }}',
+                timer: '{{ env('timeOPT',180000) }}',
                 cancelButtonText: '{{__('Cancel')}}',
                 confirmButtonText: '{{__('Confirm')}}',
                 footer: ' <i></i><div class="footerOpt"></div>',
