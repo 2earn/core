@@ -60,7 +60,7 @@ class EditAdmin extends Component
             ->leftjoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->leftjoin('roles', 'model_has_roles.role_id', '=', 'roles.id')
             ->leftjoin('countries', 'users.idCountry', '=', 'countries.id')
-            ->selectRaw('users.id,users.name,users.mobile,users.idCountry,ifnull(model_has_roles.model_id,0) as idrole, ifnull(roles.name,\'sansRole\') role ,countries.name countrie')
+            ->selectRaw('users.id,users.name,users.mobile,users.idCountry,ifnull(model_has_roles.model_id,0) as idrole, ifnull(roles.name,\'sansRole\') role ,countries.name countrie ,countries.apha2 apha2')
             ->where('users.name', 'like', '%' . $this->search . '%')
             ->orWhere('users.mobile', 'like', '%' . $this->search . '%')
             ->orWhere('countries.name', 'like', '%' . $this->search . '%')
