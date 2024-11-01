@@ -8,7 +8,7 @@
             @endif
         @endslot
     @endcomponent
-    <div class="row card">
+    <div class="row">
         @include('layouts.flash-messages')
     </div>
     <div class="row card">
