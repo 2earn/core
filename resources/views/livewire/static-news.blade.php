@@ -9,18 +9,16 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-12 col-md-12 col-lg-12">
-                            <blockquote class="card-blockquote mb-0">
-                                <p class="text-muted mb-2">
-                                    @if(app()->getLocale()=="en")
-                                        Dear Members,
-                                    @elseif(app()->getLocale()=="fr")
-                                        Chers adhérents
-                                    @else
-                                        الأعضاء الأعزاء،
-                                    @endif
-                                </p>
-                            </blockquote>
+                        <div class="col-12">
+                            <h6 class="text-muted mb-2">
+                                @if(app()->getLocale()=="en")
+                                    Exclusive WhatsApp group
+                                @elseif(app()->getLocale()=="fr")
+                                    Groupe WhatsApp exclusif
+                                @else
+                                    مجموعة واتساب حصرية
+                                @endif
+                            </h6>
                         </div>
                     </div>
                     <div class="row">
@@ -34,7 +32,18 @@
                         <div class="col-sm-12 col-md-8 col-lg-9">
                             <blockquote class="card-blockquote mb-0">
                                 <p class="text-muted mb-2">
-                                    @if(app()->getLocale()=="en")
+                                <blockquote class="card-blockquote mb-0">
+                                    <p class="text-muted mb-2">
+                                        @if(app()->getLocale()=="en")
+                                            Dear Members,
+                                        @elseif(app()->getLocale()=="fr")
+                                            Chers adhérents
+                                        @else
+                                            الأعضاء الأعزاء،
+                                        @endif
+                                    </p>
+                                </blockquote>
+                                @if(app()->getLocale()=="en")
                                         A private and exclusive WhatsApp group has been created for people registered on
                                         the
                                         2earn.cash platform... Thank you to all other members who have not yet joined
