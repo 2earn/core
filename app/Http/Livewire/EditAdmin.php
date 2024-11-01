@@ -3,7 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\User;
-use Core\Models\plateforme;
+use Core\Models\Platform;
 use Core\Models\UserPlatforms;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -34,35 +34,37 @@ class EditAdmin extends Component
 
     public function changeRole($idUser)
     {
-        $userPlatforms = DB::table('user_plateforme')
-            ->where('user_id', $idUser)
-            ->delete();
-        foreach ($this->platformes->where('selected', 1) as $platformUser) {
-            UserPlatforms::create(['user_id' => $idUser, 'plateforme_id' => $platformUser->id]);
+        try {
+            DB::table('user_plateforme')->where('user_id', $idUser)->delete();
+            foreach ($this->platformes->where('selected', 1) as $platformUser) {
+                UserPlatforms::create(['user_id' => $idUser, 'plateforme_id' => $platformUser->id]);
+            }
+            if ($this->userRole == "") {
+                dd("pas de role ");
+                return;
+            }
+            $user = User::find($idUser);
+            $user->syncRoles($this->userRole);
+            return redirect()->route('role_assign', app()->getLocale())->with('success', Lang::get('User role updated successfully'));
+        } catch (\Exception $exception) {
+            return redirect()->route('role_assign', app()->getLocale())->with('error', Lang::get('User role update failed'));
+
         }
-        if ($this->userRole == "") {
-            dd("pas de role ");
-            return;
-        }
-        $user = User::find($idUser);
-        $user->syncRoles($this->userRole);
-        return redirect()->route('edit_admin', app()->getLocale())->with('SuccesUpdateRole', Lang::get('user role updated'));
     }
 
     public function render()
     {
 
-        $translate = DB::table('users')
+        $userRoles = DB::table('users')
             ->leftjoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->leftjoin('roles', 'model_has_roles.role_id', '=', 'roles.id')
             ->leftjoin('countries', 'users.idCountry', '=', 'countries.id')
-            ->selectRaw('users.id,users.name,users.mobile,users.idCountry,ifnull(model_has_roles.model_id,0) as idrole,
-            ifnull(roles.name,\'sansRole\') role ,countries.name countrie')
+            ->selectRaw('users.id,users.name,users.mobile,users.idCountry,ifnull(model_has_roles.model_id,0) as idrole, ifnull(roles.name,\'sansRole\') role ,countries.name countrie')
             ->where('users.name', 'like', '%' . $this->search . '%')
             ->orWhere('users.mobile', 'like', '%' . $this->search . '%')
             ->orWhere('countries.name', 'like', '%' . $this->search . '%')
             ->paginate(5);
-        return view('livewire.edit-admin', ['translates' => $translate])->extends('layouts.master')->section('content');
+        return view('livewire.edit-admin', ['userRoles' => $userRoles])->extends('layouts.master')->section('content');
     }
 
     public function edit($idUser)
@@ -76,7 +78,7 @@ class EditAdmin extends Component
         $this->name = $user->name;
         $this->mobile = $user->mobile;
         $this->currentId = $user->id;
-        $this->platformes = plateforme::all();
+        $this->platformes = Platform::all();
         foreach ($this->platformes as $p) {
             $p->selected = 0;
             if ($p->selected($idUser)) {

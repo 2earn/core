@@ -30,6 +30,6 @@ class Platform extends Model
         if (is_null($platforms)) {
             return false;
         }
-        return $platforms->where("plateforme_id", $this->id)->exists() ? true : false;
+        return $platforms->where("plateforme_id", $this->id)->first() ? true : false;
     }
 }
