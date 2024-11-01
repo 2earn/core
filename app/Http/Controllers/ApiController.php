@@ -811,7 +811,7 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
 
     public function getUsersListQuery()
     {
-        return User::select('countries.apha2', 'users.id', 'users.idUser', 'idUplineRegister',
+        return User::select('countries.apha2','countries.name as country', 'users.id', 'users.idUser', 'idUplineRegister',
             DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'),
             'users.mobile', 'users.created_at', 'OptActivation', 'pass',
             DB::raw('IFNULL(`vip`.`flashCoefficient`,"##") as coeff'),
@@ -869,8 +869,8 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
                 return view('parts.datatable.user-vip', ['mobile' => $settings->mobile, 'isVip' => null, 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'reciver' => $settings->idUser]);
 
             })
-            ->addColumn('flag', function ($settings) {
-                return view('parts.datatable.user-flag', ['src' => $this->getFormatedFlagResourceName($settings->apha2), 'title' => strtolower($settings->apha2)]);
+            ->addColumn('flag', function ($user) {
+                return view('parts.datatable.user-flag', ['src' => $this->getFormatedFlagResourceName($user->apha2), 'title' => strtolower($user->apha2),'name' => Lang::get($user->country)]);
             })
             ->addColumn('action', function ($settings) {
                 return view('parts.datatable.user-action', ['phone' => $settings->mobile, 'user' => $settings, 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'reciver' => $settings->idUser, 'userId' => $settings->id]);

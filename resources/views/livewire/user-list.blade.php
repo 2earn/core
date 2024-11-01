@@ -9,16 +9,14 @@
         @endslot
     @endcomponent
     <div class="row">
-        <div class="col-xl-12">
-            <div class="crm-widget">
-                <div class="row card">
+            <div class="card">
                     <div class="card-header border-info">
                         <div class="d-flex align-items-center">
                             <h6 class="card-title mb-0 flex-grow-1">{{__('User statistics')}}</h6>
                         </div>
                     </div>
-                    <div class="card-body row p-0">
-                        <div class="row mx-2 mt-3">
+                    <div class="card-body row ">
+                        <div class="row mt-1">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card border border-muted card-animate">
                                     <div class="card-body">
@@ -223,9 +221,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
-        </div>
     </div>
     <div class="row">
         <div class="card">
