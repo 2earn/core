@@ -16,6 +16,7 @@ class EditAdmin extends Component
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
+
     public $search = '';
     public $mobile;
     public $name;
@@ -63,7 +64,7 @@ class EditAdmin extends Component
             ->where('users.name', 'like', '%' . $this->search . '%')
             ->orWhere('users.mobile', 'like', '%' . $this->search . '%')
             ->orWhere('countries.name', 'like', '%' . $this->search . '%')
-            ->paginate(5);
+            ->paginate(10);
         return view('livewire.edit-admin', ['userRoles' => $userRoles])->extends('layouts.master')->section('content');
     }
 

@@ -11,7 +11,7 @@
         @endslot
     @endcomponent
     <div class="row">
-            @include('layouts.flash-messages')
+        @include('layouts.flash-messages')
     </div>
     <div class="row card">
         <div class="card-header border-info">
@@ -40,14 +40,20 @@
                                     <th scope="Number">{{ __('Mobile Number') }}</th>
                                     <th scope="role">{{ __('Role') }}</th>
                                     <th scope="Countrie">{{ __('Countrie') }}</th>
-                                    <th>{{ __('Actions') }}</th>
+                                    <th>{{ __('Action') }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach ($userRoles as $userRole)
                                     <tr>
                                         <td>{{$userRole->id}}</td>
-                                        <td>{{$userRole->name}}</td>
+                                        <td>
+                                            @if($userRole->name)
+                                                {{$userRole->name}}
+                                            @else
+                                                <span class="text-muted">{{__('Not filled')}}</span>
+                                            @endif
+                                        </td>
                                         <td>{{$userRole->mobile}}</td>
                                         <td>{{__($userRole->role)}}</td>
                                         <td>{{__($userRole->countrie)}}</td>
@@ -75,7 +81,7 @@
         <div class="modal-dialog modal-dialog-centered  modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editAdminModalLabel">{{ __('User_managment') }}</h5>
+                    <h5 class="modal-title" id="editAdminModalLabel">{{ __('Role assign') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -95,14 +101,12 @@
                     <div class="form-group row mt-2">
                         <label>{{ __('Platforms') }}</label>
                         @foreach($platformes   as $key => $platform)
-                            <div class="col-3">
-                                <label>
-                                    <input class="toggle-checkbox" type="checkbox" role="switch"
-                                           id="flexSwitchCheckDefault"
-                                           wire:model.defer="platformes.{{$key}}.selected">
-                                    <div class="toggle-switch"></div>
-                                    <span class="toggle-label"> {{ __( $platform->name ) }}  </span>
-                                </label>
+                            <div class="col-4 form-check form-switch form-switch-custom form-switch-secondary mb-3">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                       id="flexSwitchCheckDefault"
+                                       wire:model.defer="platformes.{{$key}}.selected">
+
+                                <label class="form-check-label"> {{ __( $platform->name ) }}  </label>
                             </div>
                         @endforeach
                     </div>
@@ -110,7 +114,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
                     <button wire:click="changeRole({{$currentId}})" type="button"
-                            class="btn btn-primary">{{ __('Save_changes') }}</button>
+                            class="btn btn-primary">{{ __('Save') }}</button>
                 </div>
             </div>
         </div>
