@@ -59,7 +59,7 @@
                         @else
                             <div class="alert alert-danger material-shadow text-center" role="alert">
                                 {{__('You must hold a minimum of')}} {{formatSolde($beCommitedInvestorMinActions,0)}} {{__('shares to be considered a committed investor')}}
-                                <a href="{{route('home',app()->getLocale() )}}">{{__('Go to home, To buy more actions')}}</a>
+                                <a href="{{route('business_hub_trading',app()->getLocale() )}}">{{__('Go to trading page, To buy more actions')}}</a>
                             </div>
                         @endif
                     @endif
