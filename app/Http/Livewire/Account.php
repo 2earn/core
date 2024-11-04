@@ -176,7 +176,6 @@ class Account extends Component
         } else {
             array_push($this->errors_array, getProfileMsgErreur('nationalID'));
         }
-
         if (User::getNationalFrontImage($this->usermetta_info['idUser'] != User::DEFAULT_NATIONAL_FRONT_URL)
             && User::getNationalBackImage($this->usermetta_info['idUser']) != User::DEFAULT_NATIONAL_BACK_URL) {
 
@@ -203,8 +202,7 @@ class Account extends Component
         return redirect()->route('account', app()->getLocale());
     }
 
-    public
-    function saveUser($nbrChild, settingsManager $settingsManager)
+    public    function saveUser($nbrChild, settingsManager $settingsManager)
     {
         $canModify = true;
         $us = User::find($this->user['id']);
