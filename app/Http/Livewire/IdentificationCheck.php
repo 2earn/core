@@ -110,7 +110,7 @@ class IdentificationCheck extends Component
             }
         }
 
-        if ($this->internationalCard) {
+        if ($this->internationalCard && $this->photoInternational) {
             try {
                 User::saveInternationalImage($userAuth->idUser, $this->photoInternational);
                 $photoInternationalValidated = true;

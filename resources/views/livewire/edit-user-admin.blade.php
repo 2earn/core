@@ -3,15 +3,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
     <script data-turbolinks-eval="false">
         var exist = '{{Session::has('ErrorUpdatePhone')}}';
-        if (exist){
+        if (exist) {
             Swal.fire({
-                title:'{{trans('user_exsit')}}',
+                title: '{{trans('user_exsit')}}',
                 text: '{{Session::get('ErrorUpdatePhone')}}',
                 icon: 'error',
                 confirmButtonText: '{{trans('ok')}}'
             }).then(okay => {
                 if (okay) {
-                    var tabChangePhone= document.querySelector('#pills-telchange-tab');
+                    var tabChangePhone = document.querySelector('#pills-telchange-tab');
                     var tab = new bootstrap.Tab(tabChangePhone);
                     tab.show();
                 }
@@ -36,17 +36,20 @@
                            type="button">{{__('Edit_Profile')}}</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a style="border: solid 1px #3595f6" href="#pills-ident tabBorder" class="nav-link " id="pills-ident-tab" data-bs-toggle="pill"
+                        <a style="border: solid 1px #3595f6" href="#pills-ident tabBorder" class="nav-link "
+                           id="pills-ident-tab" data-bs-toggle="pill"
                            data-bs-target="#pills-ident" type="button"
                         >تحديد الهوية</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a style="border: solid 1px #3595f6" href="#pills-sec tabBorder" class="nav-link " id="pills-sec-tab" data-bs-toggle="pill"
+                        <a style="border: solid 1px #3595f6" href="#pills-sec tabBorder" class="nav-link "
+                           id="pills-sec-tab" data-bs-toggle="pill"
                            data-bs-target="#pills-sec" type="button" role="tab" aria-controls="pills-sec"
                            aria-selected="false">الأمن</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a style="border: solid 1px #3595f6" href="#pills-telchange tabBorder" class="nav-link " id="pills-telchange-tab" data-bs-toggle="pill"
+                        <a style="border: solid 1px #3595f6" href="#pills-telchange tabBorder" class="nav-link "
+                           id="pills-telchange-tab" data-bs-toggle="pill"
                            data-bs-target="#pills-telchange" type="button" role="tab"
                            aria-controls="pills-telchange"
                            aria-selected="false">تحديث رقم الهاتف</a>
@@ -133,7 +136,7 @@
                                                        name="email"
                                                        wire:model.defer="userInfo.Email"
 
-                                                       <?php if(1 == 1){ ?> disabled <?php }?> >
+                                                       <?php if (1 == 1){ ?> disabled <?php } ?> >
                                             </div>
                                             <div class="col-xl-2" style="padding: 0px;margin-top: 2%;">
                                                 <a id="validate" style="cursor: pointer;">
@@ -206,9 +209,9 @@
                                             wire:model.defer="userInfo.Country">
                                         <option value="">Choose</option>
                                         @foreach($countries as $country)
-                                            <?php
-                                            $cn = \Illuminate\Support\Facades\Lang::get($country->name);
-                                            ?>
+                                                <?php
+                                                $cn = \Illuminate\Support\Facades\Lang::get($country->name);
+                                                ?>
                                             <option value="{{$country->id}}">{{$cn}}</option>
                                         @endforeach
                                     </select>
@@ -228,11 +231,12 @@
                                     <select class="form-control" name="personaltitle"
                                             wire:model.defer="userInfo.Personaltitle">
                                         <option value="">-------</option>
-                                        <?php  if(isset($personaltitles)){
-                                        foreach($personaltitles as $personaltitle){
-                                        ?>
+                                        <?php if (isset($personaltitles)){
+                                        foreach ($personaltitles as $personaltitle){
+                                            ?>
                                         <option value="{{$personaltitle->id}}">{{$personaltitle->name}}</option>
-                                        <?php  }} ?>
+                                        <?php }
+                                        } ?>
                                     </select>
                                 </div>
                                 <div class="mb-3 col-xl-6">
@@ -252,11 +256,12 @@
                                     <label class="me-sm-2">{{ __('Gender') }}</label>
                                     <select class="form-control" name="gender" wire:model.defer="userInfo.Gender">
                                         <option value="">-------</option>
-                                        <?php  if(isset($genders)){
-                                        foreach($genders as $gender){
-                                        ?>
+                                        <?php if (isset($genders)){
+                                        foreach ($genders as $gender){
+                                            ?>
                                         <option value="{{$gender->id}}">{{$gender->name}}</option>
-                                        <?php } }?>
+                                        <?php }
+                                        } ?>
                                     </select>
                                 </div>
                                 <div class="mb-3 col-xl-6">
@@ -264,12 +269,13 @@
                                     <select class="form-control" name="language"
                                             wire:model.defer="userInfo.Language">
                                         <option value="" selected>-------</option>
-                                        <?php  if(isset($languages)){?>
-                                        <?php
-                                        foreach($languages as $language){
-                                        ?>
+                                        <?php if (isset($languages)){ ?>
+                                            <?php
+                                        foreach ($languages as $language){
+                                            ?>
                                         <option value="{{$language->name}}">{{$language->name}}</option>
-                                        <?php } }  ?>
+                                        <?php }
+                                        } ?>
                                     </select>
                                 </div>
                                 <div class="mb-3 col-xl-6">
@@ -339,18 +345,18 @@
                                                 <div class="col-6">
                                                     <label class="form-label">{{ __('Front ID') }}</label>
                                                     <div>
-                                                        @if(file_exists(public_path('/uploads/profiles/front-id-image'.$userId.'.png')))
+                                                        @if(\App\Models\User::getNationalFrontImage($userId)==\App\Models\User::DEFAULT_NATIONAL_FRONT_URL                                                           )
                                                             <img width="150" height="100"
-                                                                 src={{asset(('/uploads/profiles/front-id-image'.$userId.'.png'))}} >
+                                                                 src="{{\App\Models\User::getNationalFrontImage($userId)}}">
                                                         @endif
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
                                                     <label class="form-label">{{ __('Back ID') }}</label>
                                                     <div>
-                                                        @if(file_exists(public_path('/uploads/profiles/back-id-image'. $userId.'.png')))
+                                                        @if(\App\Models\User::getNationalBackImage($userId)==\App\Models\User::DEFAULT_NATIONAL_BACK_URL                                                            )
                                                             <img width="150" height="100"
-                                                                 src={{asset(('/uploads/profiles/back-id-image'.$userId.'.png'))}} >
+                                                                 src="{{\App\Models\User::getNationalBackImage($userId)}}">
                                                         @endif
                                                     </div>
                                                 </div>

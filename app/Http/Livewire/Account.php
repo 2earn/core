@@ -176,13 +176,14 @@ class Account extends Component
         } else {
             array_push($this->errors_array, getProfileMsgErreur('nationalID'));
         }
-
-        if (file_exists(public_path('/uploads/profiles/back-id-image' . $this->usermetta_info['idUser'] . '.png')) && file_exists(public_path('/uploads/profiles/front-id-image' . $this->usermetta_info['idUser'] . '.png'))) {
+        if (User::getNationalFrontImage($this->usermetta_info['idUser'] != User::DEFAULT_NATIONAL_FRONT_URL)
+            && User::getNationalBackImage($this->usermetta_info['idUser']) != User::DEFAULT_NATIONAL_BACK_URL) {
 
             $this->PercentComplete += 20;
         } else {
             array_push($this->errors_array, getProfileMsgErreur('photoIdentite'));
         }
+
         if (isset($this->user['email']) && trim($this->user['email']) != "") {
 
             $this->PercentComplete += 20;
@@ -193,8 +194,7 @@ class Account extends Component
     }
 
 
-    public
-    function deleteContact($id, settingsManager $settingsManager)
+    public function deleteContact($id, settingsManager $settingsManager)
     {
         $userC = $settingsManager->getUserContactsById($id);
         if (!$userC) return;
@@ -202,8 +202,7 @@ class Account extends Component
         return redirect()->route('account', app()->getLocale());
     }
 
-    public
-    function saveUser($nbrChild, settingsManager $settingsManager)
+    public    function saveUser($nbrChild, settingsManager $settingsManager)
     {
         $canModify = true;
         $us = User::find($this->user['id']);
@@ -310,8 +309,7 @@ class Account extends Component
         $this->dispatchBrowserEvent('OptChangePass', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'mail' => $fullNumberSend]);
     }
 
-    public
-    function changePasswordWithOPTValidation($code, settingsManager $settingManager)
+    public function changePasswordWithOPTValidation($code, settingsManager $settingManager)
     {
         $userAuth = $settingManager->getAuthUser();
         $user = $settingManager->getUserById($userAuth->id);
@@ -330,8 +328,7 @@ class Account extends Component
 
     }
 
-    public
-    function changePassword($userAuth, settingsManager $settingManager)
+    public function changePassword($userAuth, settingsManager $settingManager)
     {
         $new_pass = Hash::make($this->newPassword);
         DB::table('users')->where('id', auth()->user()->id)->update(['password' => $new_pass]);
@@ -340,8 +337,7 @@ class Account extends Component
         return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Password updated'));
     }
 
-    public
-    function sendVerificationMail($mail, settingsManager $settingsManager)
+    public function sendVerificationMail($mail, settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) abort(404);
@@ -366,14 +362,12 @@ class Account extends Component
         $this->newMail = $mail;
     }
 
-    public
-    function cancelProcess($message)
+    public function cancelProcess($message)
     {
         return redirect()->route('account', app()->getLocale())->with('warning', Lang::get($message));
     }
 
-    public
-    function checkUserEmail($codeOpt, settingsManager $settingsManager)
+    public function checkUserEmail($codeOpt, settingsManager $settingsManager)
     {
         $us = User::find($this->user['id']);
         if ($codeOpt != $us->OptActivation) {
@@ -386,8 +380,7 @@ class Account extends Component
         $this->dispatchBrowserEvent('EmailCheckUser', ['emailValidation' => true, 'title' => trans('Opt code from your email'), 'html' => trans('We sent an opt code to your email') . ' : ' . $this->newMail . ' <br> ' . trans('Please fill it')]);
     }
 
-    public
-    function saveVerifiedMail($codeOpt)
+    public function saveVerifiedMail($codeOpt)
     {
         $us = User::find($this->user['id']);
         if ($codeOpt != $us->OptActivation) {
@@ -400,8 +393,7 @@ class Account extends Component
         return redirect()->route('account', app()->getLocale())->with('success', Lang::get('User email change completed successfully'));
     }
 
-    public
-    function approuve($idUser, settingsManager $settingsManager)
+    public function approuve($idUser, settingsManager $settingsManager)
     {
         $user = User::find($idUser);
         if ($user) {
@@ -410,8 +402,7 @@ class Account extends Component
         }
     }
 
-    public
-    function reject($idUser, settingsManager $settingsManager)
+    public function reject($idUser, settingsManager $settingsManager)
     {
         $user = User::find($idUser);
         if ($user) {
@@ -434,8 +425,7 @@ class Account extends Component
     }
 
 
-    public
-    function render(settingsManager $settingsManager, Request $request)
+    public function render(settingsManager $settingsManager, Request $request)
     {
         $this->paramIdUser = $request->input('paramIdUser');
         if ($this->paramIdUser == null) $this->paramIdUser = "";

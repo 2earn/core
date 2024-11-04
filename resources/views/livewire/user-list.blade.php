@@ -9,219 +9,219 @@
         @endslot
     @endcomponent
     <div class="row">
-            <div class="card">
-                    <div class="card-header border-info">
-                        <div class="d-flex align-items-center">
-                            <h6 class="card-title mb-0 flex-grow-1">{{__('User statistics')}}</h6>
-                        </div>
-                    </div>
-                    <div class="card-body row ">
-                        <div class="row mt-1">
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card border border-muted card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1 overflow-hidden">
-                                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
-                                                    {{__('Cash Balance')}}
-                                                </p>
-                                            </div>
-                                            <p class=" text-info mb-0">
+        <div class="card">
+            <div class="card-header border-info">
+                <div class="d-flex align-items-center">
+                    <h6 class="card-title mb-0 flex-grow-1">{{__('User statistics')}}</h6>
+                </div>
+            </div>
+            <div class="card-body row ">
+                <div class="row mt-1">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card border border-muted card-animate">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1 overflow-hidden">
+                                        <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
+                                            {{__('Cash Balance')}}
+                                        </p>
+                                    </div>
+                                    <p class=" text-info mb-0">
                                                 <span class="ms-2">
                                                     <i
                                                         class="ri-building-line align-bottom"></i>
                                                     {{number_format(getAdminCash()[0],2)}}</span>
-                                                <span class="ms-2"><i class="ri-map-pin-2-line align-bottom"></i>
+                                        <span class="ms-2"><i class="ri-map-pin-2-line align-bottom"></i>
                                                 {{number_format(getUserListCards()[0]-getAdminCash()[0],2)}}
                                             </span>
-                                            </p>
-                                        </div>
-                                        <div class="d-flex align-items-end justify-content-between mt-4">
-                                            <div>
-                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                                    {{ $currency }}
-                                                    <span>
+                                    </p>
+                                </div>
+                                <div class="d-flex align-items-end justify-content-between mt-4">
+                                    <div>
+                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                            {{ $currency }}
+                                            <span>
                                                     {{formatSolde(getUserListCards()[0])}}</span>
-                                                </h4>
+                                        </h4>
 
-                                            </div>
-                                            <div class="avatar-sm flex-shrink-0">
+                                    </div>
+                                    <div class="avatar-sm flex-shrink-0">
                                                         <span class=" bg-info-subtle rounded fs-3">
                                                           <i class="ri-exchange-dollar-line display-6 bx-dollar-circle   text-info"></i>
                                                         </span>
-                                            </div>
-
-                                        </div>
                                     </div>
+
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card border border-muted card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1 overflow-hidden">
-                                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
-                                                    {{__('BFS')}}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-end justify-content-between mt-4">
-                                            <div>
-                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                                    {{ $currency }}
-                                                    <span class="counter-value" data-target="{{getUserListCards()[1]}}">
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card border border-muted card-animate">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1 overflow-hidden">
+                                        <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
+                                            {{__('BFS')}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-end justify-content-between mt-4">
+                                    <div>
+                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                            {{ $currency }}
+                                            <span class="counter-value" data-target="{{getUserListCards()[1]}}">
                                                       {{getUserListCards()[1]}}</span>
-                                                </h4>
-                                            </div>
-                                            <div class="avatar-sm flex-shrink-0">
+                                        </h4>
+                                    </div>
+                                    <div class="avatar-sm flex-shrink-0">
                                                         <span class=" bg-info-subtle rounded fs-3">
                                                            <i class="ri-shopping-cart-2-line display-6  text-info"></i>
                                                         </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card border border-muted card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1 overflow-hidden">
-                                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
-                                                    {{__('Discount Balance')}}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-end justify-content-between mt-4">
-                                            <div>
-                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                                    {{ $currency }}
-                                                    <span class="counter-value" data-target="{{getUserListCards()[2]}}">
-                                                 {{getUserListCards()[2]}}</span>
-                                                </h4>
-                                            </div>
-                                            <div class="avatar-sm flex-shrink-0">
-                                                        <span class=" bg-info-subtle rounded fs-3">
-                                                          <i class=" ri-percent-line display-6  text-info"></i>
-                                                        </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card border border-muted card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1 overflow-hidden">
-                                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
-                                                    {{__('sms balance')}}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-end justify-content-between mt-4">
-                                            <div>
-                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                                <span class="counter-value" data-target="{{getUserListCards()[3]}}">
-                                                   {{getUserListCards()[3]}}</span>
-                                                </h4>
-                                            </div>
-                                            <div class="avatar-sm flex-shrink-0">
-                                                        <span class=" bg-info-subtle rounded fs-3">
-                                                           <i class="ri-message-line display-6  text-info"></i>
-                                                        </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card border border-muted card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1 overflow-hidden">
-                                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
-                                                    {{__('Shares Sold')}}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-end justify-content-between mt-4">
-                                            <div>
-                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                                    {{ $currency }}
-                                                    <span class="counter-value"
-                                                          data-target="   {{getUserListCards()[4]}}">
-                                                       {{getUserListCards()[4]}}</span>
-                                                </h4>
-                                            </div>
-                                            <div class="avatar-sm flex-shrink-0">
-                                                        <span class=" bg-info-subtle rounded fs-3">
-                                                            <i class="ri-stackshare-line display-6  text-info"></i>
-                                                        </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card border border-muted card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1 overflow-hidden">
-                                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
-                                                    {{__('Shares Revenue')}}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-end justify-content-between mt-4">
-                                            <div>
-                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                                    {{ $currency }}
-                                                    <span class="counter-value"
-                                                          data-target=" {{getUserListCards()[5]}}">
-                                                    {{getUserListCards()[5]}}</span>
-                                                </h4>
-                                            </div>
-                                            <div class="avatar-sm flex-shrink-0">
-                                                        <span class=" bg-info-subtle rounded fs-3">
-                                                        <i class="ri-swap-line display-6  text-info"></i>
-                                                        </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card border border-muted card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1 overflow-hidden">
-                                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
-                                                    {{__('Cash Flow')}}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-end justify-content-between mt-4">
-                                            <div>
-                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                                    {{ $currency }}
-                                                    <span class="counter-value"
-                                                          data-target="{{getUserListCards()[5]+getUserListCards()[0]}}">
-                                                    {{getUserListCards()[5]+getUserListCards()[0]}}</span>
-                                                </h4>
-                                            </div>
-                                            <div class="avatar-sm flex-shrink-0">
-                                                        <span class=" rounded fs-3">
-<i class="ri-exchange-funds-line display-6  text-info"></i>
-                                                        </span>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card border border-muted card-animate">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1 overflow-hidden">
+                                        <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
+                                            {{__('Discount Balance')}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-end justify-content-between mt-4">
+                                    <div>
+                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                            {{ $currency }}
+                                            <span class="counter-value" data-target="{{getUserListCards()[2]}}">
+                                                 {{getUserListCards()[2]}}</span>
+                                        </h4>
+                                    </div>
+                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class=" bg-info-subtle rounded fs-3">
+                                                          <i class=" ri-percent-line display-6  text-info"></i>
+                                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card border border-muted card-animate">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1 overflow-hidden">
+                                        <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
+                                            {{__('sms balance')}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-end justify-content-between mt-4">
+                                    <div>
+                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                                <span class="counter-value" data-target="{{getUserListCards()[3]}}">
+                                                   {{getUserListCards()[3]}}</span>
+                                        </h4>
+                                    </div>
+                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class=" bg-info-subtle rounded fs-3">
+                                                           <i class="ri-message-line display-6  text-info"></i>
+                                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card border border-muted card-animate">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1 overflow-hidden">
+                                        <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
+                                            {{__('Shares Sold')}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-end justify-content-between mt-4">
+                                    <div>
+                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                            {{ $currency }}
+                                            <span class="counter-value"
+                                                  data-target="   {{getUserListCards()[4]}}">
+                                                       {{getUserListCards()[4]}}</span>
+                                        </h4>
+                                    </div>
+                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class=" bg-info-subtle rounded fs-3">
+                                                            <i class="ri-stackshare-line display-6  text-info"></i>
+                                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card border border-muted card-animate">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1 overflow-hidden">
+                                        <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
+                                            {{__('Shares Revenue')}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-end justify-content-between mt-4">
+                                    <div>
+                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                            {{ $currency }}
+                                            <span class="counter-value"
+                                                  data-target=" {{getUserListCards()[5]}}">
+                                                    {{getUserListCards()[5]}}</span>
+                                        </h4>
+                                    </div>
+                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class=" bg-info-subtle rounded fs-3">
+                                                        <i class="ri-swap-line display-6  text-info"></i>
+                                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card border border-muted card-animate">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1 overflow-hidden">
+                                        <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
+                                            {{__('Cash Flow')}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-end justify-content-between mt-4">
+                                    <div>
+                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                            {{ $currency }}
+                                            <span class="counter-value"
+                                                  data-target="{{getUserListCards()[5]+getUserListCards()[0]}}">
+                                                    {{getUserListCards()[5]+getUserListCards()[0]}}</span>
+                                        </h4>
+                                    </div>
+                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class=" rounded fs-3">
+<i class="ri-exchange-funds-line display-6  text-info"></i>
+                                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
     </div>
     <div class="row">
         <div class="card">
@@ -247,6 +247,7 @@
                         <th>{{__('VIP')}}</th>
                         <th>{{__('More details')}}</th>
                         <th>{{__('VIP history')}}</th>
+                        <th>{{__('Password')}}</th>
                     </tr>
                     </thead>
                     <tbody class="body2earn">
@@ -656,6 +657,8 @@
                     {data: 'VIP', name: 'action', orderable: false, searchable: false},
                     {data: 'more_details', name: 'action', orderable: false, searchable: false},
                     {data: 'vip_history', name: 'action', orderable: false, searchable: false},
+                    {data: 'pass'},
+
                 ],
                 "columnDefs": [{"targets": [10], searchable: true, visible: false},],
                 "language": {"url": urlLang}

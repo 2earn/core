@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Http\Livewire\Login;
 use Core\Enum\StatusRequest;
 use Core\Models\identificationuserrequest;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Http\Client\Request;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -104,8 +106,14 @@ class User extends Authenticatable
     {
         $accountUser = User::where('idUser', $idUser)->first();
         try {
+            if (is_null($accountUser))
+                throw new \Exception(Lang::get('Not a valid user id'));
+
+            if (is_null($accountUser->profileImage()->first()))
+                throw new \Exception(Lang::get('no profile image'));
             return url($accountUser->profileImage()->first()->url);
         } catch (\Exception $exception) {
+            Log::info($exception->getMessage());
             return self::DEFAULT_PROFILE_URL;
         }
     }
@@ -114,10 +122,15 @@ class User extends Authenticatable
     public static function getNationalFrontImage($idUser)
     {
         $accountUser = User::where('idUser', $idUser)->first();
-        try {
-            return url($accountUser->nationalIdentitieFrontImage()->first()->url);
 
+        try {
+            if (is_null($accountUser))
+                throw new \Exception(Lang::get('Not a valid user id'));
+            if (is_null($accountUser->nationalIdentitieFrontImage()->first()))
+                throw new \Exception(Lang::get('no National front image'));
+            return url($accountUser->nationalIdentitieFrontImage()->first()->url);
         } catch (\Exception $exception) {
+            Log::info($exception->getMessage());
             return self::DEFAULT_NATIONAL_FRONT_URL;
         }
     }
@@ -126,8 +139,13 @@ class User extends Authenticatable
     {
         $accountUser = User::where('idUser', $idUser)->first();
         try {
+            if (is_null($accountUser))
+                throw new \Exception(Lang::get('Not a valid user id'));
+            if (is_null($accountUser->nationalIdentitieBackImage()->first()))
+                throw new \Exception(Lang::get('no National back image'));
             return url($accountUser->nationalIdentitieBackImage()->first()->url);
         } catch (\Exception $exception) {
+            Log::info($exception->getMessage());
             return self::DEFAULT_NATIONAL_BACK_URL;
         }
     }
@@ -136,8 +154,13 @@ class User extends Authenticatable
     {
         $accountUser = User::where('idUser', $idUser)->first();
         try {
+            if (is_null($accountUser))
+                throw new \Exception(Lang::get('Not a valid user id'));
+            if (is_null($accountUser->internationalIdentitieImage()->first()))
+                throw new \Exception(Lang::get('no International image'));
             return url($accountUser->internationalIdentitieImage()->first()->url);
         } catch (\Exception $exception) {
+            Log::info($exception->getMessage());
             return self::DEFAULT_INTERNATIONAL_URL;
         }
     }
