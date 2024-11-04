@@ -811,7 +811,7 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
 
     public function getUsersListQuery()
     {
-        return User::select('countries.apha2','countries.name as country', 'users.id', 'users.idUser', 'idUplineRegister',
+        return User::select('countries.apha2','countries.name as country', 'users.id',  'users.status', 'users.idUser', 'idUplineRegister',
             DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'),
             'users.mobile', 'users.created_at', 'OptActivation', 'pass',
             DB::raw('IFNULL(`vip`.`flashCoefficient`,"##") as coeff'),
