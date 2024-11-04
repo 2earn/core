@@ -6,6 +6,7 @@ use Core\Enum\StatusRequest;
 use Core\Models\identificationuserrequest;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\Client\Request;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
@@ -103,7 +104,7 @@ class User extends Authenticatable
     {
         $accountUser = User::where('idUser', $idUser)->first();
         try {
-            return $accountUser->profileImage()->first()->url;
+            return url($accountUser->profileImage()->first()->url);
         } catch (\Exception $exception) {
             return self::DEFAULT_PROFILE_URL;
         }
@@ -114,8 +115,7 @@ class User extends Authenticatable
     {
         $accountUser = User::where('idUser', $idUser)->first();
         try {
-            return $accountUser->nationalIdentitieFrontImage()->first()->url;
-
+            return url($accountUser->nationalIdentitieFrontImage()->first()->url);
 
         } catch (\Exception $exception) {
             return self::DEFAULT_NATIONAL_FRONT_URL;
@@ -126,7 +126,7 @@ class User extends Authenticatable
     {
         $accountUser = User::where('idUser', $idUser)->first();
         try {
-            return $accountUser->nationalIdentitieBackImage()->first()->url;
+            return url($accountUser->nationalIdentitieBackImage()->first()->url);
         } catch (\Exception $exception) {
             return self::DEFAULT_NATIONAL_BACK_URL;
         }
@@ -136,7 +136,7 @@ class User extends Authenticatable
     {
         $accountUser = User::where('idUser', $idUser)->first();
         try {
-            return $accountUser->internationalIdentitieImage()->first()->url;
+            return url($accountUser->internationalIdentitieImage()->first()->url);
         } catch (\Exception $exception) {
             return self::DEFAULT_INTERNATIONAL_URL;
         }

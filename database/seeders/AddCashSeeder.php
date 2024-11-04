@@ -22,7 +22,7 @@ class AddCashSeeder extends Seeder
 
             $userCurrentBalances = DB::table('usercurrentbalances')->where('idUser', $idUser)->where('idamounts', 1);
 
-            $OldValue = $userCurrentBalances->value;
+            $OldValue = $userCurrentBalances->value ?? 0;
 
 
             DB::table('user_balances')->insert([

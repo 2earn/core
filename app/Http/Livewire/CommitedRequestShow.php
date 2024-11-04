@@ -13,10 +13,13 @@ class CommitedRequestShow extends Component
     public $rejectOpened = false;
     public $note;
     public $note_message;
+    public $userProfileImage;
 
     public function mount()
     {
         $this->CommitedRequestId = Route::current()->parameter('id');
+        $committedInvestorRequest = CommittedInvestorRequest::find($this->CommitedRequestId);
+        $this->userProfileImage = User::getUserProfileImage($committedInvestorRequest->user->idUser);
     }
 
     public function validateRequest()

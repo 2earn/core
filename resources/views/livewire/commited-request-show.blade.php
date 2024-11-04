@@ -17,9 +17,9 @@
             <h6 class="card-title mt-2">{{__('Details')}}</h6>
             <div class="row">
                 <div class="col-sm-6 col-md-6 col-lg-4">
-                    <img
-                            src="@if (file_exists('uploads/profiles/profile-image-' . $commitedInvestorsRequest->user->idUser . '.png')) {{ URL::asset('uploads/profiles/profile-image-'. $commitedInvestorsRequest->user->idUser.'.png') }}@else{{ URL::asset('uploads/profiles/default.png') }} @endif"
-                            class="avatar-sm rounded-circle"/>
+                    <img src="{{ URL::asset($userProfileImage) }}?={{Str::random(16)}}"
+                         class="rounded-circle avatar-xl img-thumbnail user-profile-image"
+                         alt="user-profile-image">
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-8">
                     <ul class="list-group">

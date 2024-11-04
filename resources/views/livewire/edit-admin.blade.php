@@ -56,7 +56,11 @@
                                         </td>
                                         <td>{{$userRole->mobile}}</td>
                                         <td>{{__($userRole->role)}}</td>
-                                        <td>{{__($userRole->countrie)}}</td>
+                                        <td>
+                                            <img class="avatar-xxs me-2"
+                                                 src="{{ Vite::asset("resources/images/flags/" . strtolower($userRole->apha2) . ".svg")}}">
+                                            {{__($userRole->countrie)}}
+                                        </td>
                                         <td>
                                             <button type="button" data-bs-toggle="modal"
                                                     data-bs-target="#editAdminModal"
@@ -98,21 +102,20 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group row mt-2">
+                    <div class="form-group row mt-2 p-2">
                         <label>{{ __('Platforms') }}</label>
                         @foreach($platformes   as $key => $platform)
-                            <div class="col-4 form-check form-switch form-switch-custom form-switch-secondary mb-3">
+                            <div class="col-4 form-check form-switch form-switch-custom form-switch-primary mb-3 ">
                                 <input class="form-check-input" type="checkbox" role="switch"
                                        id="flexSwitchCheckDefault"
                                        wire:model.defer="platformes.{{$key}}.selected">
 
-                                <label class="form-check-label"> {{ __( $platform->name ) }}  </label>
+                                <label class="form-check-label font-weight-bold"> {{ __( $platform->name ) }}  </label>
                             </div>
                         @endforeach
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
                     <button wire:click="changeRole({{$currentId}})" type="button"
                             class="btn btn-primary">{{ __('Save') }}</button>
                 </div>
