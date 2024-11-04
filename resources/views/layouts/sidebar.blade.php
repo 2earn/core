@@ -233,6 +233,14 @@
                             <span>{{__('Hobbies')}}</span>
                         </a>
                     </li>
+                    <li class="nav-item cool-link {{$currentRouteName=='deals_index'? 'active' : ''}}">
+                        <a href="{{route('deals_index',app()->getLocale(),false )}}"
+                           class="nav-link menu-link {{$currentRouteName=='deals_index'? 'active' : ''}}"
+                           role="button">
+                            <i class="ri-honour-line"></i>
+                            <span>{{__('Deals')}}</span>
+                        </a>
+                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link menu-link {{!in_array($currentRouteName, $sidebarArchiveArray)? 'collapsed' : 'active'}}"
