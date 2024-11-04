@@ -5,7 +5,7 @@
     @component('components.breadcrumb')
         @slot('li_1')@endslot
         @slot('title')
-                {{ __('Instructor requests') }}
+            {{ __('Instructor requests') }}
         @endslot
     @endcomponent
 
@@ -17,28 +17,28 @@
             <h6 class="card-title mt-2">{{__('Details')}}</h6>
             <div class="row">
                 <div class="col-sm-6 col-md-6 col-lg-4">
-                    <img
-                            src="@if (file_exists('uploads/profiles/profile-image-' . $instructorRequest->user->idUser . '.png')) {{ URL::asset('uploads/profiles/profile-image-'. $instructorRequest->user->idUser.'.png') }}@else{{ URL::asset('uploads/profiles/default.png') }} @endif"
-                            class="avatar-sm rounded-circle"/>
+                    <img src="{{ URL::asset($userProfileImage) }}?={{Str::random(16)}}"
+                         class="rounded-circle avatar-xl img-thumbnail user-profile-image"
+                         alt="user-profile-image">
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-8">
                     <ul class="list-group">
                         @if($instructorRequest->user->email)
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <strong>{{__('Email')}}</strong><span
-                                        class="text-muted float-end">{{$instructorRequest->user->email}}</span>
+                                    class="text-muted float-end">{{$instructorRequest->user->email}}</span>
                             </li>
                         @endif
                         @if($instructorRequest->user->idUser)
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <strong>{{__('Id User')}}</strong><span
-                                        class="text-muted float-end">{{$instructorRequest->user->idUser}}</span>
+                                    class="text-muted float-end">{{$instructorRequest->user->idUser}}</span>
                             </li>
                         @endif
                         @if($instructorRequest->user->name)
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <strong>{{__('Name')}}</strong><span
-                                        class="text-muted float-end">{{$instructorRequest->user->name}}</span>
+                                    class="text-muted float-end">{{$instructorRequest->user->name}}</span>
                             </li>
                         @endif
                     </ul>
@@ -58,7 +58,7 @@
                     @forelse($instructorRequests as $instructorRequest)
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             {{$instructorRequest->request_date}} <span
-                                    class="badge {{$instructorRequest->status==\Core\Enum\BeInstructorRequestStatus::Rejected->value?'bg-warning':'bg-success'}} ">{{__(\Core\Enum\BeInstructorRequestStatus::tryFrom($instructorRequest->status)->name)}}</span>
+                                class="badge {{$instructorRequest->status==\Core\Enum\BeInstructorRequestStatus::Rejected->value?'bg-warning':'bg-success'}} ">{{__(\Core\Enum\BeInstructorRequestStatus::tryFrom($instructorRequest->status)->name)}}</span>
                         </li>
                     @empty
                     @endforelse

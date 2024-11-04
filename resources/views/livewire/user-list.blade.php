@@ -9,16 +9,14 @@
         @endslot
     @endcomponent
     <div class="row">
-        <div class="col-xl-12">
-            <div class="crm-widget">
-                <div class="row card">
+            <div class="card">
                     <div class="card-header border-info">
                         <div class="d-flex align-items-center">
                             <h6 class="card-title mb-0 flex-grow-1">{{__('User statistics')}}</h6>
                         </div>
                     </div>
-                    <div class="card-body row p-0">
-                        <div class="row mx-2 mt-3">
+                    <div class="card-body row ">
+                        <div class="row mt-1">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card border border-muted card-animate">
                                     <div class="card-body">
@@ -31,7 +29,7 @@
                                             <p class=" text-info mb-0">
                                                 <span class="ms-2">
                                                     <i
-                                                            class="ri-building-line align-bottom"></i>
+                                                        class="ri-building-line align-bottom"></i>
                                                     {{number_format(getAdminCash()[0],2)}}</span>
                                                 <span class="ms-2"><i class="ri-map-pin-2-line align-bottom"></i>
                                                 {{number_format(getUserListCards()[0]-getAdminCash()[0],2)}}
@@ -223,9 +221,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
-        </div>
     </div>
     <div class="row">
         <div class="card">
@@ -244,21 +240,13 @@
                         <th>{{__('pays')}}</th>
                         <th>{{__('Phone')}}</th>
                         <th>{{__('Name')}}</th>
-                        <th>{{__('SoldeCB')}}</th>
-                        <th>{{__('SoldeBFS')}}</th>
-                        <th>{{__('SoldeDB')}}</th>
-                        <th>{{__('SoldeSMS')}}</th>
-                        <th>{{__('SoldeSHARES')}}</th>
+                        <th>{{__('Mobile')}}</th>
+                        <th>{{__('Status')}}</th>
+                        <th>{{__('Soldes')}}</th>
                         <th>{{__('Action')}}</th>
                         <th>{{__('VIP')}}</th>
-                        <th>{{__('otp')}}</th>
-                        <th>{{__('Password')}}</th>
-                        <th>{{__('register_upline')}}</th>
-                        <th>{{__('MinShare')}}</th>
-                        <th>{{__('Periode')}}</th>
-                        <th>{{__('date')}}</th>
-                        <th>{{__('COeff')}}</th>
-                        <th>{{__('Note')}}</th>
+                        <th>{{__('More details')}}</th>
+                        <th>{{__('VIP history')}}</th>
                     </tr>
                     </thead>
                     <tbody class="body2earn">
@@ -344,17 +332,17 @@
                                     <input id="vip-reciver" type="hidden">
                                     <input type="hidden" id="created_at">
                                     <label class="form-label">{{__('Minshares')}}<span
-                                                class="text-danger">*</span></label>
+                                            class="text-danger">*</span></label>
                                     <input type="number" class="form-control-flash" id="minshares">
                                 </div>
                                 <div class="input-group mt-2">
                                     <label class="form-label">{{__('Periode')}}<span
-                                                class="text-danger">*</span></label>
+                                            class="text-danger">*</span></label>
                                     <input type="number" class="form-control-flash" id="periode">
                                 </div>
                                 <div class="input-group mt-2">
                                     <label class="form-label">{{__('Coefficient')}}<span
-                                                class="text-danger">*</span></label>
+                                            class="text-danger">*</span></label>
                                     <input type="number" class="form-control-flash" id="coefficient">
                                 </div>
                                 <div class="input-group mt-2">
@@ -392,8 +380,8 @@
                             <input id="balances-reciver" type="hidden">
                             <input id="balances-amount" type="hidden">
                             <table
-                                    class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                                    id="ub_table_list" style="width: 100%">
+                                class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                                id="ub_table_list" style="width: 100%">
                                 <thead class="table-light">
                                 <tr class="head2earn  tabHeader2earn">
                                     <th>{{ __('ref') }}</th>
@@ -429,8 +417,8 @@
                             <input id="balances-reciversh" type="hidden">
                             <input id="balances-amountsh" type="hidden">
                             <table
-                                    class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                                    id="ub_table_listsh" style="width: 100%">
+                                class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                                id="ub_table_listsh" style="width: 100%">
                                 <thead class="table-light">
                                 <tr class="head2earn  tabHeader2earn">
                                     <th>{{__('date_purchase')}}</th>
@@ -650,7 +638,7 @@
                 "order": [[0, 'desc']],
                 "processing": true,
                 "serverSide": false,
-                "aLengthMenu": [[100, 500, 1000], [100, 500, 1000]],
+                "aLengthMenu": [[20, 100, 500, 1000], [20, 100, 500, 1000]],
                 search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
@@ -661,24 +649,15 @@
                     {data: 'flag'},
                     {data: 'formatted_mobile'},
                     {data: 'name'},
-                    {data: 'SoldeCB'},
-                    {data: 'SoldeBFS'},
-                    {data: 'SoldeDB'},
-                    {data: 'SoldeSMS'},
-                    {data: 'SoldeSH'},
+                    {data: 'mobile'},
+                    {data: 'status'},
+                    {data: 'soldes', name: 'action', orderable: false, searchable: false},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                     {data: 'VIP', name: 'action', orderable: false, searchable: false},
-                    {data: 'OptActivation'},
-                    {data: 'pass'},
-                    {data: 'register_upline'},
-                    {data: 'minshares'},
-                    {data: 'periode'},
-                    {data: 'date'},
-                    {data: 'coeff'},
-                    {data: 'note'},
-                    {data: 'mobile'},
+                    {data: 'more_details', name: 'action', orderable: false, searchable: false},
+                    {data: 'vip_history', name: 'action', orderable: false, searchable: false},
                 ],
-                "columnDefs": [{"targets": [19], searchable: true, visible: false},],
+                "columnDefs": [{"targets": [10], searchable: true, visible: false},],
                 "language": {"url": urlLang}
             });
         });
