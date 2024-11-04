@@ -879,7 +879,6 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
             ->removeColumn('note')
             ->removeColumn('periode')
             ->removeColumn('register_upline')
-            ->removeColumn('pass')
             ->removeColumn('minshares')
             ->removeColumn('coeff')
             ->removeColumn('date')
