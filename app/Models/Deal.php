@@ -10,7 +10,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Deal extends Model
 {
     use HasFactory;
+
     protected $fillable = [
+        'name',
+        'description',
+        'status',
         'objective_turnover',
         'start_date',
         'end_date',
@@ -45,7 +49,8 @@ class Deal extends Model
     public function products()
     {
         return $this->hasMany(Product::class);
-    }    public function platform()
+    }
+    public function platform()
     {
         return $this->hasOne(Platform::class);
     }

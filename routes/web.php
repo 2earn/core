@@ -185,6 +185,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::prefix('/deals')->name('deals_')->group(function () {
                 Route::get('/index', \App\Http\Livewire\DealsIndex::class)->name('index');
                 Route::get('/', \App\Http\Livewire\DealsCreateUpdate::class)->name('create_update');
+                Route::get('/{id}/show', \App\Http\Livewire\DealsShow::class)->name('show');
             });
 
         });

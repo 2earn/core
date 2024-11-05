@@ -23,6 +23,8 @@ return new class extends Migration {
                 DealStatus::Archived->value
             ];
             $table->id();
+            $table->string('name')->nullable();
+            $table->text('description')->nullable();
             $table->enum('status', $status);
             $table->float('objective_turnover')->nullable();
             $table->dateTime('start_date')->nullable();

@@ -35,13 +35,12 @@
                                 <thead class="table-light">
                                 <tr class="head2earn  tabHeader2earn">
                                     <th>{{__('Details')}}</th>
-                                    <th>{{__('reference')}}</th>
-                                    <th>{{__('source')}}</th>
-                                    <th>{{__('receiver')}}</th>
+                                    <th>{{__('id')}}</th>
+                                    <th>{{__('name')}}</th>
+                                    <th>{{__('description')}}</th>
+                                    <th>{{__('status')}}</th>
+                                    <th>{{__('create by')}}</th>
                                     <th>{{__('Actions')}}</th>
-                                    <th>{{__('date')}}</th>
-                                    <th>{{__('Type')}}</th>
-                                    <th>{{__('reponce')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody class="body2earn">
@@ -79,17 +78,31 @@
                     "ajax": "{{route('api_deal',app()->getLocale())}}",
                     "columns": [
                         datatableControlBtn,
-                        {data: 'reference'},
-                        {data: 'send'},
-                        {data: 'receiver'},
+                        {data: 'id'},
+                        {data: 'name'},
+                        {data: 'description'},
+                        {data: 'status'},
+                        {data: 'created_by'},
                         {data: 'action'},
-                        {data: 'date'},
-                        {data: 'type'},
-                        {data: 'responce'},
                     ],
                     "language": {"url": urlLang},
                 });
             }
+
+
+            $('body').on('click', '.deleteDeal', function (event) {
+                Swal.fire({
+                    title: '{{__('Are you sure to delete this Deal')}}? <h5 class="float-end">' + $(event.target).attr('data-name') + ' </h5>',
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: "Delete",
+                    denyButtonText: `Rollback`
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.Livewire.emit("delete", $(event.target).attr('data-id'));
+                    }
+                });
+            });
         });
     </script>
 </div>
