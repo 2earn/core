@@ -33,13 +33,13 @@
                             <table id="dealTable"
                                    class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
                                 <thead class="table-light">
-                                <tr class="head2earn  tabHeader2earn">
+                                <tr class="head2earn tabHeader2earn">
                                     <th>{{__('Details')}}</th>
                                     <th>{{__('id')}}</th>
                                     <th>{{__('name')}}</th>
                                     <th>{{__('description')}}</th>
-                                    <th>{{__('status')}}</th>
-                                    <th>{{__('create by')}}</th>
+                                    <th>{{__('Status')}}</th>
+                                    <th>{{__('Created by')}}</th>
                                     <th>{{__('Actions')}}</th>
                                 </tr>
                                 </thead>

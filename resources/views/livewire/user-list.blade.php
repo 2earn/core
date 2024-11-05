@@ -1,11 +1,11 @@
 <div>
     @section('title')
-        {{ __('history') }}
+        {{ __('Users List') }}
     @endsection
     @component('components.breadcrumb')
         @slot('li_1')@endslot
         @slot('title')
-            {{ __('UsersList') }}
+            {{ __('Users List') }}
         @endslot
     @endcomponent
     <div class="row">
@@ -638,7 +638,7 @@
                 "fixedHeader": true,
                 "order": [[0, 'desc']],
                 "processing": true,
-                "serverSide": false,
+                "serverSide": true,
                 "aLengthMenu": [[20, 100, 500, 1000], [20, 100, 500, 1000]],
                 search: {return: true},
                 autoWidth: false,
@@ -658,7 +658,6 @@
                     {data: 'more_details', name: 'action', orderable: false, searchable: false},
                     {data: 'vip_history', name: 'action', orderable: false, searchable: false},
                     {data: 'pass'},
-
                 ],
                 "columnDefs": [{"targets": [10], searchable: true, visible: false},],
                 "language": {"url": urlLang}
