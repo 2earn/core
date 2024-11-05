@@ -2,15 +2,18 @@
 
 namespace Core\Models;
 
+use App\Models\Deal;
+use App\Models\ProductDealHistory;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
 
 
 class Platform extends Model
 {
-    protected $fillable = ['name', 'description', 'enabled', 'type', 'link','image_link','administrative_manager_id','financial_manager_id'];
+    protected $fillable = ['name', 'description', 'enabled', 'type', 'link', 'image_link', 'administrative_manager_id', 'financial_manager_id'];
     public $timestamps = true;
 
 
@@ -22,6 +25,16 @@ class Platform extends Model
     public function financialManager(): HasOne
     {
         return $this->hasOne(User::class);
+    }
+
+    public function productDealHistory(): HasMany
+    {
+        return $this->hasMany(ProductDealHistory::class);
+    }
+
+    public function deals()
+    {
+        return $this->belongsTo(Deal::class);
     }
 
     public function selected($idUser)

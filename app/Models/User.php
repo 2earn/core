@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Http\Livewire\Login;
 use Core\Enum\StatusRequest;
 use Core\Models\identificationuserrequest;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -80,6 +79,21 @@ class User extends Authenticatable
     public function comment()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function deals()
+    {
+        return $this->hasMany(Deal::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function seller()
+    {
+        return $this->hasMany(Product::class);
     }
 
     public function profileImage()
