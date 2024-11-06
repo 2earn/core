@@ -145,6 +145,12 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/{idSurvey}/question/{idQuestion}/Choice', \App\Http\Livewire\SurveyQuestionChoiceCreateUpdate::class)->name('question_choice_create_update');
         });
 
+        Route::prefix('/deals')->name('deals_')->group(function () {
+            Route::get('/index', \App\Http\Livewire\DealsIndex::class)->name('index');
+            Route::get('/', \App\Http\Livewire\DealsCreateUpdate::class)->name('create_update');
+            Route::get('/{id}/show', \App\Http\Livewire\DealsShow::class)->name('show');
+        });
+
         Route::middleware(['IsSuperAdmin'])->group(function () {
             Route::get('/user/list', \App\Http\Livewire\UsersList::class)->name('user_list');
             Route::get('/user/{idUser}/details', \App\Http\Livewire\UserDetails::class)->name('user_details');
@@ -180,7 +186,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
                 Route::get('/index', \App\Http\Livewire\RoleIndex::class)->name('index');
                 Route::get('/', \App\Http\Livewire\RoleCreateUpdate::class)->name('create_update');
                 Route::get('/assign', \App\Http\Livewire\EditAdmin::class)->name('assign');
-
             });
 
         });
@@ -228,6 +233,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/history/notification', 'App\Http\Controllers\ApiController@getHistoryNotification')->name('api_history_notification');
         Route::get('/platforms', 'App\Http\Controllers\ApiController@getPlatforms')->name('api_platforms');
         Route::get('/roles', 'App\Http\Controllers\ApiController@getRoles')->name('api_role');
+        Route::get('/roles', 'App\Http\Controllers\ApiController@getDeals')->name('api_deal');
         Route::get('/request', 'App\Http\Controllers\ApiController@getRequest')->name('api_request');
         Route::get('/representatives', 'App\Http\Controllers\ApiController@getRepresentatives')->name('api_representatives');
         Route::get('/user/balancesCB', 'App\Http\Controllers\ApiController@getUserBalancesCB')->name('api_user_balances_cb');

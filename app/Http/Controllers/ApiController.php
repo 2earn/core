@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DAL\UserRepository;
+use App\Models\Deal;
 use App\Models\User;
 use App\Models\vip;
 use App\Services\Sponsorship\SponsorshipFacade;
@@ -811,7 +812,7 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
 
     public function getUsersListQuery()
     {
-        return User::select('countries.apha2','countries.name as country', 'users.id',  'users.status', 'users.idUser', 'idUplineRegister',
+        return User::select('countries.apha2', 'countries.name as country', 'users.id', 'users.status', 'users.idUser', 'idUplineRegister',
             DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'),
             'users.mobile', 'users.created_at', 'OptActivation', 'pass',
             DB::raw('IFNULL(`vip`.`flashCoefficient`,"##") as coeff'),
@@ -855,6 +856,14 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
             ->addColumn('soldes', function ($user) {
                 return view('parts.datatable.user-soldes', ['idUser' => $user->idUser]);
             })
+            ->addColumn('uplines', function ($user) {
+
+                $params = [
+                    'uplineRegister' => User::where('idUser', $user->idUplineRegister)->first(),
+                    'upline' => User::where('idUser', $user->idUplineRegister)->first(),
+                ];
+                return view('parts.datatable.user-upline-register', $params);
+            })
             ->addColumn('vip_history', function ($user) {
                 return view('parts.datatable.user-vip-history', ['user' => $user]);
             })
@@ -870,7 +879,7 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
 
             })
             ->addColumn('flag', function ($user) {
-                return view('parts.datatable.user-flag', ['src' => $this->getFormatedFlagResourceName($user->apha2), 'title' => strtolower($user->apha2),'name' => Lang::get($user->country)]);
+                return view('parts.datatable.user-flag', ['src' => $this->getFormatedFlagResourceName($user->apha2), 'title' => strtolower($user->apha2), 'name' => Lang::get($user->country)]);
             })
             ->addColumn('action', function ($settings) {
                 return view('parts.datatable.user-action', ['phone' => $settings->mobile, 'user' => $settings, 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'reciver' => $settings->idUser, 'userId' => $settings->id]);
@@ -1204,6 +1213,42 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
         return datatables(Role::all())
             ->addColumn('action', function ($role) {
                 return view('parts.datatable.role-action', ['roleId' => $role->id, 'roleName' => $role->name]);
+            })
+            ->addColumn('created_at', function ($platform) {
+                return $platform->created_at?->format(self::DATE_FORMAT);
+            })->addColumn('updated_at', function ($platform) {
+                return $platform->updated_at?->format(self::DATE_FORMAT);
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+    }
+
+    public function getDeals()
+    {
+        if (strtoupper(auth()?->user()?->getRoleNames()->first()) == \App\Models\Survey::SUPER_ADMIN_ROLE_NAME) {
+            $deals = Deal::all();
+        } else {
+            $platforms = Platform::where(function ($query) {
+                $query->where('administrative_manager_id', '=', auth()->user()->id)
+                    ->orWhere('financial_manager_id', '=', auth()->user()->id);
+            })->get();
+            $platformsIds = [];
+            foreach ($platforms as $platform) {
+                $platformsIds[] = $platform->id;
+            }
+            $deals = Deal::whereIn('platform_id', $platformsIds)->get();
+
+        }
+
+        return datatables($deals)
+            ->addColumn('action', function ($deal) {
+                return view('parts.datatable.deals-action', ['dealId' => $deal->id, 'dealName' => $deal->name]);
+            })
+            ->addColumn('status', function ($deal) {
+                return view('parts.datatable.deals-status', ['status' => $deal->status]);
+            })
+            ->addColumn('created_by', function ($deal) {
+                return view('parts.datatable.deals-createdBy', ['createdby' => User::find($deal->created_by_id)]);
             })
             ->addColumn('created_at', function ($platform) {
                 return $platform->created_at?->format(self::DATE_FORMAT);

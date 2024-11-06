@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Http\Livewire\Login;
 use Core\Enum\StatusRequest;
 use Core\Models\identificationuserrequest;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -82,6 +81,21 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
+    public function deals()
+    {
+        return $this->hasMany(Deal::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function seller()
+    {
+        return $this->hasMany(Product::class);
+    }
+
     public function profileImage()
     {
         return $this->morphOne(Image::class, 'imageable')->where('type', '=', self::IMAGE_TYPE_PROFILE);
@@ -142,7 +156,7 @@ class User extends Authenticatable
             if (is_null($accountUser))
                 throw new \Exception(Lang::get('Not a valid user id'));
             if (is_null($accountUser->nationalIdentitieBackImage()->first()))
-                throw new \Exception(Lang::get('no National back image'));
+                throw new \Exception(Lang::get('No national back image'));
             return url($accountUser->nationalIdentitieBackImage()->first()->url);
         } catch (\Exception $exception) {
             Log::info($exception->getMessage());
@@ -157,7 +171,7 @@ class User extends Authenticatable
             if (is_null($accountUser))
                 throw new \Exception(Lang::get('Not a valid user id'));
             if (is_null($accountUser->internationalIdentitieImage()->first()))
-                throw new \Exception(Lang::get('no International image'));
+                throw new \Exception(Lang::get('No international image'));
             return url($accountUser->internationalIdentitieImage()->first()->url);
         } catch (\Exception $exception) {
             Log::info($exception->getMessage());

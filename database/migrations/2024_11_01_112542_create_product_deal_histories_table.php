@@ -17,6 +17,9 @@ return new class extends Migration
             $table->id();
             $table->dateTime('start_date')->nullable();
             $table->dateTime('end_date')->nullable();
+            $table->unsignedBigInteger('product_id')->foreign('product_id')->nullable()->references('id')->on('products')->onDelete('cascade');
+            $table->unsignedBigInteger('deal_id')->foreign('deal_id')->nullable()->references('id')->on('deals')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id')->foreign('user_id')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
