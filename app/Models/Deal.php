@@ -33,13 +33,13 @@ class Deal extends Model
         'current_turnover',
         'item_price',
         'current_turnover_index',
-        'created_by',
+        'created_by_id',
     ];
 
 
     public function createdBy()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'created_by_id');
     }
     public function productDealHistory(): HasMany
     {

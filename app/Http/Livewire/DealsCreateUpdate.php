@@ -92,11 +92,10 @@ class DealsCreateUpdate extends Component
             'current_turnover' => $this->current_turnover,
             'item_price' => $this->item_price,
             'current_turnover_index' => $this->current_turnover_index,
-            'created_by' => auth()->user()->id
+            'created_by_id' => auth()->user()->id
         ];
         try {
-            Deal::where('id', $this->idDeal)
-                ->update($params);
+            Deal::where('id', $this->idDeal)->update($params);
         } catch (\Exception $exception) {
             $this->cancel();
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while updating Deal!!'));
@@ -129,7 +128,7 @@ class DealsCreateUpdate extends Component
             'current_turnover' => $this->current_turnover,
             'item_price' => $this->item_price,
             'current_turnover_index' => $this->current_turnover_index,
-            'created_by' => auth()->user()->id,
+            'created_by_id' => auth()->user()->id,
         ];
         try {
             Deal::create($params);

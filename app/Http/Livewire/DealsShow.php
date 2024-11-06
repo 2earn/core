@@ -16,7 +16,11 @@ class DealsShow extends Component
 
     public function render()
     {
-        $params = ['deal' => Deal::find($this->idDeal)];
-        return view('livewire.deals-show',$params)->extends('layouts.master')->section('content');
+        $deal = Deal::find($this->idDeal);
+        if (is_null($deal)) {
+            $this->redirect()->route('deals_index', ['locale' => app()->getLocale()]);
+        }
+        $params = ['deal' => $deal];
+        return view('livewire.deals-show', $params)->extends('layouts.master')->section('content');
     }
 }

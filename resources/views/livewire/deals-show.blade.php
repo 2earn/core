@@ -323,23 +323,13 @@
                             </span>
                         </div>
                     </div>
-                <li class="list-group-item">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <div class="d-flex">
-                                <div class="flex-shrink-0 ms-2">
-                                    <h6 class="fs-14 mb-0">{{__('Created by')}}</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->created_by}}
-                            </span>
-                        </div>
-                    </div>
-                </li>
             </ul>
+        </div>
+        <div class="card-footer">
+      <span class="text-muted float-end">
+          <strong class="fs-14 mb-0">{{__('Created by')}} :</strong> {{getUserDisplayedName($deal->createdBy->idUser)}}
+          {{$deal->createdBy->email}}
+      </span>
         </div>
         <div class="card-header">
             <h6 class="text-info">{{__('Calculated')}}</h6>

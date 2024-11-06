@@ -29,7 +29,6 @@ class PlatformPromotion extends Component
     public function revoqueRole($platformId, $type)
     {
         $platform = Platform::find($platformId);
-
         try {
 
             if ($type == Promotion::Financial->value) {
@@ -38,17 +37,16 @@ class PlatformPromotion extends Component
             }
 
             if ($type == Promotion::Administrative->value) {
-                $platform->financial_manager_id = null;
+                $platform->administrative_manager_id = null;
                 $role = Promotion::Administrative->name;
             }
 
             $platform->save();
-        } catch
-        (\Exception $exception) {
+        } catch (\Exception $exception) {
             return redirect()->route('platform_promotion', $this->rediredtionParams)->with('error', Lang::get($role) . self::SEPARATOR . Lang::get('Role revoque failed') . self::SEPARATOR . $exception->getMessage());
 
         }
-        return redirect()->route('platform_promotion', $this->rediredtionParams)->with('success', Lang::get($role) . self::SEPARATOR . Lang::get('Role revoque to') . self::SEPARATOR);
+        return redirect()->route('platform_promotion', $this->rediredtionParams)->with('success', Lang::get($role) . self::SEPARATOR . Lang::get('Role revoqued'));
     }
 
     public function grantRole($userId, $platformId, $type)
@@ -57,8 +55,6 @@ class PlatformPromotion extends Component
         $platform = Platform::find($platformId);
 
         try {
-
-
             if ($type == Promotion::Financial->value) {
                 $platform->financial_manager_id = $user->id;
                 $role = Promotion::Financial->name;

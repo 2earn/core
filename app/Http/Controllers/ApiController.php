@@ -1248,7 +1248,7 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
                 return view('parts.datatable.deals-status', ['status' => $deal->status]);
             })
             ->addColumn('created_by', function ($deal) {
-                return view('parts.datatable.deals-createdBy', ['createdby' => User::find($deal->created_by)]);
+                return view('parts.datatable.deals-createdBy', ['createdby' => User::find($deal->created_by_id)]);
             })
             ->addColumn('created_at', function ($platform) {
                 return $platform->created_at?->format(self::DATE_FORMAT);
