@@ -29,7 +29,10 @@ class SurveyResult extends Component
         $params ['responses'] = $params ['question']->serveyQuestionChoice()->get();
         $participation = SurveyResponse::where('survey_id', $this->idSurvey)->count();
         $stats = [];
+       $totalChoosen=0;
+       $totalParticipation=0;
         $totalChoiceChoosen = SurveyResponseItem::where('surveyQuestion_id', $params ['survey']->question->id)->count();
+
         foreach ($params ['responses'] as $response) {
             $choosen = SurveyResponseItem::where('surveyQuestion_id', $params ['survey']->question->id)
                 ->where('surveyQuestionChoice_id', $response->id)->count();
@@ -41,8 +44,13 @@ class SurveyResult extends Component
                 'persontage' => $participation > 0 ? (($choosen / $participation) * 100) : 0,
                 'persontageK' => $participation > 0 ? (($choosen / $totalChoiceChoosen) * 100) : 0
             ];
+            $totalChoosen += $choosen;
+            $totalParticipation += $participation;
         }
-        $params ['stats'] = $stats;
+        $params['stats'] = $stats;
+        $params['totalChoosen'] = $totalChoosen;
+        $params['participation'] = $participation;
+
         return view('livewire.survey-result', $params)->extends('layouts.master')->section('content');
     }
 }

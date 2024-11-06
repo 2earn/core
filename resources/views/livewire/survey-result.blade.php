@@ -59,7 +59,6 @@
                                 <th scope="col">{{__('#')}}</th>
                                 <th scope="col">{{__('title')}}</th>
                                 <th scope="col">{{__('Choosen')}}</th>
-                                <th scope="col">{{__('Choosen times')}}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -72,14 +71,19 @@
                                         {{$statsItem['title']}}
                                     </td>
                                     <td>
-                                        {{$statsItem['choosen']}} {{__('times')}} -  {{formatSolde($statsItem['persontage'],2)}}%
-                                    </td>
-                                    <td>
                                         {{$statsItem['choosenK']}} {{__('times')}} -   {{formatSolde($statsItem['persontageK'],2)}}%
                                     </td>
                                 </tr>
                             @endforeach
+                            <tr>
+                                <td colspan="2"><h5 class="float-end">{{__('Total')}} {{__('participations / participants')}}</h5></td>
+                                <td>
+                                    {{ $totalChoosen}} / {{$participation}} {{__('times')}} -
 
+                                    {{ formatSolde(($totalChoosen /$participation)*100,2)}} %
+                                    {{__('soit')}} {{ formatSolde($totalChoosen /$participation,2)}} {{__('choix par participant')}}
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -91,7 +95,7 @@
                             @forelse($survey->surveyResponse as $surveyResponse)
                                 <li class="list-group-item">
                                     {{ getUserDisplayedName($surveyResponse->user->idUser)}} <span
-                                            class="text-muted">{{__('at')}}: {{ $surveyResponse->created_at}} </span>
+                                        class="text-muted">{{__('at')}}: {{ $surveyResponse->created_at}} </span>
                                 </li>
                             @empty
                                 <li class="list-group-item">
