@@ -248,6 +248,7 @@
                         <th>{{__('More details')}}</th>
                         <th>{{__('VIP history')}}</th>
                         <th>{{__('Password')}}</th>
+                        <th>{{__('Uplines')}}</th>
                     </tr>
                     </thead>
                     <tbody class="body2earn">
@@ -658,6 +659,7 @@
                     {data: 'more_details', name: 'action', orderable: false, searchable: false},
                     {data: 'vip_history', name: 'action', orderable: false, searchable: false},
                     {data: 'pass'},
+                    {data: 'uplines'},
                 ],
                 "columnDefs": [{"targets": [10], searchable: true, visible: false},],
                 "language": {"url": urlLang}

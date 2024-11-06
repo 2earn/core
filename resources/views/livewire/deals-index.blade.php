@@ -40,7 +40,7 @@
                                     <th>{{__('description')}}</th>
                                     <th>{{__('Status')}}</th>
                                     <th>{{__('Created by')}}</th>
-                                    <th>{{__('Actions')}}</th>
+                                    <th>{{__('Action')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody class="body2earn">

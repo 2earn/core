@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Core\Enum\DealStatus;
 use Core\Models\Platform;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,7 +19,6 @@ class Deal extends Model
         'objective_turnover',
         'start_date',
         'end_date',
-        'start_date',
         'out_provider_turnover',
         'items_profit_average',
         'initial_commission',

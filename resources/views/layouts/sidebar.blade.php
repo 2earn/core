@@ -258,7 +258,7 @@
                                 <li class="nav-item cool-link {{$currentRouteName==$sidebarArchiveArray[0]? 'active' : ''}}">
                                     <a href="{{route($sidebarArchiveArray[0], app()->getLocale(),false)}}"
                                        class="nav-link"
-                                    >{{ __('Archive') }}</a>
+                                    >{{ __('Survey Archive') }}</a>
                                 </li>
                             </ul>
                         </div>
