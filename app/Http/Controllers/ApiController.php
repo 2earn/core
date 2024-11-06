@@ -858,9 +858,9 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
             })
             ->addColumn('uplines', function ($user) {
 
-                $params=[
-                    'uplineRegister' => User::where('idUser',$user->idUplineRegister)->first(),
-                    'upline' => User::where('idUser',$user->idUplineRegister)->first(),
+                $params = [
+                    'uplineRegister' => User::where('idUser', $user->idUplineRegister)->first(),
+                    'upline' => User::where('idUser', $user->idUplineRegister)->first(),
                 ];
                 return view('parts.datatable.user-upline-register', $params);
             })
@@ -1225,7 +1225,22 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
 
     public function getDeals()
     {
-        return datatables(Deal::all())
+        if (strtoupper(auth()?->user()?->getRoleNames()->first()) == \App\Models\Survey::SUPER_ADMIN_ROLE_NAME) {
+            $deals = Deal::all();
+        } else {
+            $platforms = Platform::where(function ($query) {
+                $query->where('administrative_manager_id', '=', auth()->user()->id)
+                    ->orWhere('financial_manager_id', '=', auth()->user()->id);
+            })->get();
+            $platformsIds = [];
+            foreach ($platforms as $platform) {
+                $platformsIds[] = $platform->id;
+            }
+            $deals = Deal::whereIn('platform_id', $platformsIds)->get();
+
+        }
+
+        return datatables($deals)
             ->addColumn('action', function ($deal) {
                 return view('parts.datatable.deals-action', ['dealId' => $deal->id, 'dealName' => $deal->name]);
             })

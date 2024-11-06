@@ -13,7 +13,7 @@
 
     <div class="card">
         <div class="card-header">
-            <h5>{{__('Inputs')}}</h5>
+            <h6 class="text-info">{{__('Inputs')}}</h6>
         </div>
         <div class="card-body row">
             <ul class="list-group col-3">
@@ -340,6 +340,16 @@
                     </div>
                 </li>
             </ul>
+        </div>
+        <div class="card-header">
+            <h6 class="text-info">{{__('Calculated')}}</h6>
+        </div>
+        <div class="card-body">
+        </div>
+        <div class="card-header">
+            <h6 class="text-info">{{__('Action')}}</h6>
+        </div>
+        <div class="card-body">
         </div>
     </div>
 

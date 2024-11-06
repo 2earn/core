@@ -1,4 +1,5 @@
-<p><strong class="ml-3">{{__('Upline Register')}}</strong>
+<p>
+    <strong class="ml-3">{{__('Upline Register')}}</strong>
     @if(!is_null($uplineRegister))
         <span class="text-muted float-end ml-3">
         {{getUserDisplayedName($uplineRegister->idUser)}}
@@ -9,8 +10,8 @@
    </span>
     @else
         <span class="text-muted float-end ml-3">
-{{__('No register upline')}}
-    </span>
+            {{__('No register upline')}}
+        </span>
     @endif
 </p>
 <p>
@@ -25,7 +26,7 @@
    </span>
     @else
         <span class="text-muted float-end ml-3">
-        {{__('No upline')}}
-    </span>
+            {{__('No upline')}}
+        </span>
     @endif
 </p>

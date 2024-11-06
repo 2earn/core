@@ -145,6 +145,12 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/{idSurvey}/question/{idQuestion}/Choice', \App\Http\Livewire\SurveyQuestionChoiceCreateUpdate::class)->name('question_choice_create_update');
         });
 
+        Route::prefix('/deals')->name('deals_')->group(function () {
+            Route::get('/index', \App\Http\Livewire\DealsIndex::class)->name('index');
+            Route::get('/', \App\Http\Livewire\DealsCreateUpdate::class)->name('create_update');
+            Route::get('/{id}/show', \App\Http\Livewire\DealsShow::class)->name('show');
+        });
+
         Route::middleware(['IsSuperAdmin'])->group(function () {
             Route::get('/user/list', \App\Http\Livewire\UsersList::class)->name('user_list');
             Route::get('/user/{idUser}/details', \App\Http\Livewire\UserDetails::class)->name('user_details');
@@ -180,12 +186,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
                 Route::get('/index', \App\Http\Livewire\RoleIndex::class)->name('index');
                 Route::get('/', \App\Http\Livewire\RoleCreateUpdate::class)->name('create_update');
                 Route::get('/assign', \App\Http\Livewire\EditAdmin::class)->name('assign');
-            });
-
-            Route::prefix('/deals')->name('deals_')->group(function () {
-                Route::get('/index', \App\Http\Livewire\DealsIndex::class)->name('index');
-                Route::get('/', \App\Http\Livewire\DealsCreateUpdate::class)->name('create_update');
-                Route::get('/{id}/show', \App\Http\Livewire\DealsShow::class)->name('show');
             });
 
         });
