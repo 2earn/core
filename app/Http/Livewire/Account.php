@@ -79,26 +79,21 @@ class Account extends Component
 
     public function mount(settingsManager $settingManager)
     {
+        $theId = auth()->user()->idUser;
         if (!is_null(auth()->user())) {
             $notSetings = $settingManager->getNotificationSetting(auth()->user()->idUser)
                 ->where('idNotification', '=', NotificationSettingEnum::change_pwd_sms->value)->first();
             $this->sendPassSMS = $notSetings->value;
         }
 
-        if ($this->paramIdUser == null || $this->paramIdUser == "") {
-            $this->userProfileImage = User::getUserProfileImage(auth()->user()->idUser);
-            $this->userNationalFrontImage = User::getNationalFrontImage(auth()->user()->idUser);
-            $this->userNationalBackImage = User::getNationalBackImage(auth()->user()->idUser);
-            $this->userInternationalImage = User::getInternational(auth()->user()->idUser);
-        } else {
-
+        if ($this->paramIdUser != null && $this->paramIdUser != "") {
             $userAuth = $settingManager->getAuthUserById($this->paramIdUser);
-            $this->userProfileImage = User::getUserProfileImage($userAuth->idUser);
-            $this->userNationalFrontImage = User::getNationalFrontImage($userAuth->idUser);
-            $this->userNationalBackImage = User::getNationalBackImage($userAuth->idUser);
-            $this->userInternationalImage = User::getInternational($userAuth->idUser);
+            $theId = $userAuth->idUser;
         }
-
+        $this->userProfileImage = User::getUserProfileImage($theId);
+        $this->userNationalFrontImage = User::getNationalFrontImage($theId);
+        $this->userNationalBackImage = User::getNationalBackImage($theId);
+        $this->userInternationalImage = User::getInternational($theId);
 
         $this->initSendPasswordChangeOPT($settingManager->getidCountryForSms(auth()->user()->id));
     }
@@ -202,7 +197,7 @@ class Account extends Component
         return redirect()->route('account', app()->getLocale());
     }
 
-    public    function saveUser($nbrChild, settingsManager $settingsManager)
+    public function saveUser($nbrChild, settingsManager $settingsManager)
     {
         $canModify = true;
         $us = User::find($this->user['id']);
