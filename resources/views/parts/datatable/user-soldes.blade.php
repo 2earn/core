@@ -1,4 +1,5 @@
-<ul class="list-group list-group-horizontal">
+<ul class="list-group list-group-flush w-100">
+
     <li class="list-group-item" title="{{__('SoldeCB')}}">
         <a data-bs-toggle="modal" data-bs-target="#detail" data-amount="1"
            data-reciver="{{$idUser}}" class="btn btn-ghost-secondary waves-effect waves-light cb">

@@ -857,7 +857,6 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
                 return view('parts.datatable.user-soldes', ['idUser' => $user->idUser]);
             })
             ->addColumn('uplines', function ($user) {
-
                 $params = [
                     'uplineRegister' => User::where('idUser', $user->idUplineRegister)->first(),
                     'upline' => User::where('idUser', $user->idUplineRegister)->first(),
