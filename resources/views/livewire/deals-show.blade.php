@@ -2,14 +2,17 @@
     @section('title')
         {{ __('Deals') }} > {{$deal->name}}
     @endsection
-    @component('components.breadcrumb')
-        @slot('li_1')@endslot
-        @slot('title')
-            <a class="link-light" href="{{route('deals_index',['locale'=>app()->getLocale()])}}">{{ __('Deals') }}</a>
-            <i class="ri-arrow-right-s-line"></i>
-            {{$deal->name}}
-        @endslot
-    @endcomponent
+    @if(!in_array($currentRouteName,["deals_archive"]))
+        @component('components.breadcrumb')
+            @slot('li_1')@endslot
+            @slot('title')
+                <a class="link-light"
+                   href="{{route('deals_index',['locale'=>app()->getLocale()])}}">{{ __('Deals') }}</a>
+                <i class="ri-arrow-right-s-line"></i>
+                {{$deal->name}}
+            @endslot
+        @endcomponent
+    @endif
 
     <div class="card">
         <div class="card-header">
@@ -327,8 +330,8 @@
         </div>
         <div class="card-footer">
       <span class="text-muted float-end">
-          <strong class="fs-14 mb-0">{{__('Created by')}} :</strong> {{getUserDisplayedName($deal->createdBy->idUser)}}
-          {{$deal->createdBy->email}}
+          <strong class="fs-14 mb-0">{{__('Created by')}} :</strong> {{getUserDisplayedName($deal->createdBy?->idUser)}}
+          {{$deal->createdBy?->email}}
       </span>
         </div>
         <div class="card-header">

@@ -32,7 +32,7 @@
                     $sidebarBusinessArray=['business_hub_trading','business_hub_additional_income','business_hub_be_influencer','business_hub_job_opportunities'];
                     $sidebarSavingsArray=['savings_user_purchase','savings_recuperation_history'];
                     $sidebarBiographyArray=['biography_academic_background','biography_career_experience','biography_hard_skills','biography_soft_skills','biography_personal_characterization','biography_NCDPersonality','biography_sensory_representation_system','biography_MBTI','biography_e_business_card','biography_generating_pdf_report'];
-                    $sidebarArchiveArray=['surveys_archive'];
+                    $sidebarArchiveArray=['surveys_archive','deals_archive'];
                     $sidebarRoleArray=['role_index','role_assign'];
                     $sidebarDashboardsArray=['configuration_setting','configuration_bo','configuration_amounts','configuration_ha'];
                     $sidebarShareSoldArray=['shares_sold_dashboard','shares_sold_market_status','shares_sold_recent_transaction'];
@@ -259,6 +259,11 @@
                                     <a href="{{route($sidebarArchiveArray[0], app()->getLocale(),false)}}"
                                        class="nav-link"
                                     >{{ __('Survey Archive') }}</a>
+                                </li>
+                                <li class="nav-item cool-link {{$currentRouteName==$sidebarArchiveArray[1]? 'active' : ''}}">
+                                    <a href="{{route($sidebarArchiveArray[1], app()->getLocale(),false)}}"
+                                       class="nav-link"
+                                    >{{ __('Deal Archive') }}</a>
                                 </li>
                             </ul>
                         </div>
