@@ -34,6 +34,7 @@ class Deal extends Model
         'item_price',
         'current_turnover_index',
         'created_by_id',
+        'platform_id',
     ];
 
 
@@ -52,7 +53,7 @@ class Deal extends Model
     }
     public function platform()
     {
-        return $this->hasOne(Platform::class);
+        return $this->hasOne(Platform::class, 'id');
     }
 
 

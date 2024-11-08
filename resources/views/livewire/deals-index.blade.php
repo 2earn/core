@@ -47,6 +47,7 @@
                                     <th>{{__('name')}}</th>
                                     <th>{{__('description')}}</th>
                                     <th>{{__('Status')}}</th>
+                                    <th>{{__('Platform')}}</th>
                                     <th>{{__('Created by')}}</th>
                                     <th>{{__('Action')}}</th>
                                 </tr>
@@ -90,6 +91,7 @@
                         {data: 'name'},
                         {data: 'description'},
                         {data: 'status'},
+                        {data: 'platform_id'},
                         {data: 'created_by'},
                         {data: 'action'},
                     ],

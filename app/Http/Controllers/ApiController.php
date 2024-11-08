@@ -1196,7 +1196,7 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
                 return Lang::get(PlatformType::from($platform->type)->name);
             })
             ->addColumn('action', function ($platform) {
-                return view('parts.datatable.platform-action', ['show_profile' => $platform->show_profile, 'platformId' => $platform->id, 'platformName' => $platform->name]);
+                return view('parts.datatable.platform-action', ['platform' => $platform]);
             })
             ->addColumn('created_at', function ($platform) {
                 return $platform->created_at?->format(self::DATE_FORMAT);
@@ -1245,6 +1245,9 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
             })
             ->addColumn('status', function ($deal) {
                 return view('parts.datatable.deals-status', ['status' => $deal->status]);
+            })
+            ->addColumn('platform_id', function ($deal) {
+                return $deal->platform()->first()->name;
             })
             ->addColumn('created_by', function ($deal) {
                 return view('parts.datatable.deals-createdBy', ['createdby' => User::find($deal->created_by_id)]);

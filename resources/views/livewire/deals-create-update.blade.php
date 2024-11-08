@@ -12,6 +12,7 @@
         <div class="card-header border-info">
             <div class="d-flex align-items-center">
                 <h6 class="card-title flex-grow-1">
+                    <p class="text-info float-end">{{__('Platform')}}: {{$platform->name}}</p>
                     @if($update)
                         {{__('Update Deal')}}
                     @else
