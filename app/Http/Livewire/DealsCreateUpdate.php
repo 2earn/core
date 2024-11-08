@@ -12,7 +12,7 @@ use Livewire\Component;
 class DealsCreateUpdate extends Component
 {
     const INDEX_ROUTE_NAME = 'deals_index';
-    public $idDeal, $name, $description, $status, $objective_turnover, $start_date, $end_date, $out_provider_turnover, $items_profit_average, $initial_commission, $final_commission, $precision, $progressive_commission,
+    public $idDeal,$idPlatform, $name, $description, $status, $objective_turnover, $start_date, $end_date, $out_provider_turnover, $items_profit_average, $initial_commission, $final_commission, $precision, $progressive_commission,
         $margin_percentage, $cash_back_margin_percentage, $proactive_consumption_margin_percentage, $shareholder_benefits_margin_percentage, $tree_margin_percentage, $current_turnover, $item_price, $current_turnover_index, $created_by;
     public $update = false;
     public $statusList;
@@ -25,10 +25,10 @@ class DealsCreateUpdate extends Component
     public function mount(Request $request)
     {
         $this->idDeal = $request->input('id');
-        $this->idPlatform = $request->input('idPlatform');
         if (!is_null($this->idDeal)) {
             $this->edit();
         } else {
+            $this->idPlatform = $request->input('idPlatform');
             $this->init();
         }
     }
@@ -61,7 +61,7 @@ class DealsCreateUpdate extends Component
         $this->current_turnover = $deal->current_turnover;
         $this->item_price = $deal->item_price;
         $this->current_turnover_index = $deal->current_turnover_index;
-        $this->idPlatform = $deal->idPlatform;
+        $this->idPlatform = $deal->platform_id;
         $this->update = true;
     }
 
