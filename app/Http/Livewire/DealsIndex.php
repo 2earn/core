@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Deal;
+use Core\Enum\DealStatus;
 use Core\Models\Platform;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
@@ -11,7 +12,10 @@ class DealsIndex extends Component
 {
     const INDEX_ROUTE_NAME = 'deals_index';
 
-    public $listeners = ['delete' => 'delete'];
+    public $listeners = [
+        'delete' => 'delete',
+        'changeStatus' => 'changeStatus',
+    ];
     public $platforms;
 
     public function mount()
@@ -23,6 +27,51 @@ class DealsIndex extends Component
                 $query->where('administrative_manager_id', '=', auth()->user()->id)
                     ->orWhere('financial_manager_id', '=', auth()->user()->id);
             })->get();
+        }
+    }
+
+    public function changeStatus($id, $status)
+    {
+        match (intval($status)) {
+            2 => $this->open($id),
+            3 => $this->close($id),
+            4 => $this->archive($id),
+        };
+    }
+
+    public function open($id)
+    {
+        try {
+            $deal = Deal::findOrFail($id);
+            $deal->status = DealStatus::Opened->value;
+            $deal->save();
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Opened Successfully!!'));
+        } catch (\Exception $exception) {
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Opened !') . " " . $exception->getMessage());
+        }
+    }
+
+    public function close($id)
+    {
+        try {
+            $deal = Deal::findOrFail($id);
+            $deal->status = DealStatus::Closed->value;
+            $deal->save();
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Closed Successfully!!'));
+        } catch (\Exception $exception) {
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Closed !') . " " . $exception->getMessage());
+        }
+    }
+
+    public function archive($id)
+    {
+        try {
+            $deal = Deal::findOrFail($id);
+            $deal->status = DealStatus::Archived->value;
+            $deal->save();
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Archived Successfully!!'));
+        } catch (\Exception $exception) {
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Archived !') . " " . $exception->getMessage());
         }
     }
 

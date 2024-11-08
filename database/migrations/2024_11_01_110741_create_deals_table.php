@@ -18,13 +18,14 @@ return new class extends Migration {
         Schema::create(self::TABLE_NAME, function (Blueprint $table) {
             $status = [
                 DealStatus::New->value,
-                DealStatus::Open->value,
+                DealStatus::Opened->value,
                 DealStatus::Closed->value,
                 DealStatus::Archived->value
             ];
             $table->id();
             $table->string('name')->nullable();
             $table->text('description')->nullable();
+            $table->boolean('validated')->nullable();
             $table->enum('status', $status);
             $table->float('objective_turnover')->nullable();
             $table->dateTime('start_date')->nullable();

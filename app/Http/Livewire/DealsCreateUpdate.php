@@ -12,7 +12,7 @@ use Livewire\Component;
 class DealsCreateUpdate extends Component
 {
     const INDEX_ROUTE_NAME = 'deals_index';
-    public $idDeal,$idPlatform, $name, $description, $status, $objective_turnover, $start_date, $end_date, $out_provider_turnover, $items_profit_average, $initial_commission, $final_commission, $precision, $progressive_commission,
+    public $idDeal, $idPlatform, $name, $description, $status, $objective_turnover, $start_date, $end_date, $out_provider_turnover, $items_profit_average, $initial_commission, $final_commission, $precision, $progressive_commission,
         $margin_percentage, $cash_back_margin_percentage, $proactive_consumption_margin_percentage, $shareholder_benefits_margin_percentage, $tree_margin_percentage, $current_turnover, $item_price, $current_turnover_index, $created_by;
     public $update = false;
     public $statusList;
@@ -36,6 +36,21 @@ class DealsCreateUpdate extends Component
     public function init()
     {
         $this->status = DealStatus::New->value;
+        $this->objective_turnover =
+        $this->start_date = $this->end_date =
+        $this->out_provider_turnover =
+        $this->items_profit_average =
+        $this->initial_commission =
+        $this->final_commission =
+        $this->precision =
+        $this->progressive_commission =
+        $this->margin_percentage =
+        $this->cash_back_margin_percentage =
+        $this->proactive_consumption_margin_percentage =
+        $this->shareholder_benefits_margin_percentage =
+        $this->tree_margin_percentage =
+        $this->current_turnover =
+        $this->item_price = $this->current_turnover_index = 10;
     }
 
     public function edit()
@@ -111,6 +126,7 @@ class DealsCreateUpdate extends Component
         $this->validate();
         $params = [
             'name' => $this->name,
+            'validated' => false,
             'description' => $this->description,
             'status' => $this->status,
             'objective_turnover' => $this->objective_turnover,

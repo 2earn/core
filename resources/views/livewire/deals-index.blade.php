@@ -8,6 +8,11 @@
             {{ __('Deals') }}
         @endslot
     @endcomponent
+    <div class="row">
+        <div class="col-12">
+            @include('layouts.flash-messages')
+        </div>
+    </div>
     <div class="row card">
         <div class="card-header border-info">
             <div class="row p-2">
@@ -56,6 +61,11 @@
         </div>
     </div>
 
+    <script type="module">
+        function openDeal() {
+            console.log('End');
+        }
+    </script>
     <script type="module">
         $(document).on('turbolinks:load', function () {
             if (!$.fn.dataTable.isDataTable('#dealTable')) {
@@ -107,6 +117,29 @@
                     }
                 });
             });
+
+
+            $('body').on('click', '.changeStatus', function (event) {
+                var status = $(event.target).attr('data-status');
+                var id = $(event.target).attr('data-id');
+                var name = $(event.target).attr('data-status-name');
+                var title = '{{__('Are you sure to')}} ' + name + ' ?';
+                var confirmButtonText = name;
+
+                Swal.fire({
+                    title: title,
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: confirmButtonText,
+                    denyButtonText: `Rollback`
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.Livewire.emit("changeStatus", id, status);
+                    }
+                });
+            });
+
+
         });
     </script>
 </div>

@@ -15,6 +15,7 @@ class Deal extends Model
     protected $fillable = [
         'name',
         'description',
+        'validated',
         'status',
         'objective_turnover',
         'start_date',
