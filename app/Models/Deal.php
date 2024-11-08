@@ -53,7 +53,7 @@ class Deal extends Model
     }
     public function platform()
     {
-        return $this->hasOne(Platform::class, 'id');
+        return $this->hasOne(Platform::class, 'id', 'platform_id');
     }
 
 

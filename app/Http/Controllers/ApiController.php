@@ -1241,13 +1241,16 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
 
         return datatables($deals)
             ->addColumn('action', function ($deal) {
-                return view('parts.datatable.deals-action', ['dealId' => $deal->id, 'dealName' => $deal->name]);
+                return view('parts.datatable.deals-action', ['deal' => $deal]);
             })
             ->addColumn('status', function ($deal) {
                 return view('parts.datatable.deals-status', ['status' => $deal->status]);
             })
             ->addColumn('platform_id', function ($deal) {
-                return $deal->platform()->first()->name;
+                if ($deal->platform()->first()) {
+                    return $deal->platform()->first()->id . ' - ' . $deal->platform()->first()->name;
+                }
+                return '**';
             })
             ->addColumn('created_by', function ($deal) {
                 return view('parts.datatable.deals-createdBy', ['createdby' => User::find($deal->created_by_id)]);

@@ -16,20 +16,14 @@
                            class="form-control"
                            placeholder="{{__('Search Deal')}}">
                 </div>
-                <div class="col-4">
+                <div class="col-8">
                     @foreach($platforms as $platform)
                         <a href="{{$platform->link}}">
-                            <span class="text-muted bg-light mx-2">
+                            <span class="text-muted fs-16 mx-2">
                                 {{__($platform->name)}}
                             </span>
                         </a>
                     @endforeach
-                </div>
-                <div class="col-4">
-                    <a href="{{route('deals_create_update', ['locale'=> request()->route("locale")] )}}"
-                       class="btn btn-soft-secondary material-shadow-none mb-2 float-end">
-                        {{__('Create Deal')}}
-                    </a>
                 </div>
             </div>
         </div>
