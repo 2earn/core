@@ -14,7 +14,7 @@ class DealsIndex extends Component
 
     public $listeners = [
         'delete' => 'delete',
-        'changeStatus' => 'changeStatus',
+        'updateDeal' => 'updateDeal',
     ];
     public $platforms;
 
@@ -30,7 +30,7 @@ class DealsIndex extends Component
         }
     }
 
-    public function changeStatus($id, $status)
+    public function updateDeal($id, $status)
     {
         match (intval($status)) {
             0 => $this->validateDeal($id),

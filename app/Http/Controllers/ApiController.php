@@ -1226,7 +1226,7 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
     public function getDeals()
     {
         if (strtoupper(auth()?->user()?->getRoleNames()->first()) == \App\Models\Survey::SUPER_ADMIN_ROLE_NAME) {
-            $deals = Deal::whereNot('status', DealStatus::Archived->value)->orderBy('validated', 'DESC')->get();
+            $deals = Deal::whereNot('status', DealStatus::Archived->value)->orderBy('validated', 'ASC')->get();
         } else {
             $platforms = Platform::whereNot('status', DealStatus::Archived->value)
                 ->where(function ($query) {
@@ -1238,7 +1238,7 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
             foreach ($platforms as $platform) {
                 $platformsIds[] = $platform->id;
             }
-            $deals = Deal::whereIn('platform_id', $platformsIds)->orderBy('validated', 'DESC')->get();
+            $deals = Deal::whereIn('platform_id', $platformsIds)->orderBy('validated', 'ASC')->get();
 
         }
 

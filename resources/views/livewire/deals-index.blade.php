@@ -9,13 +9,11 @@
         @endslot
     @endcomponent
     <div class="row">
-        <div class="col-12">
             @include('layouts.flash-messages')
-        </div>
     </div>
     <div class="row card">
         <div class="card-header border-info">
-            <div class="row p-2">
+            <div class="row">
                 <div class="col-4">
                     <input wire:model.live="search" type="text" id="simple-search"
                            class="form-control"
@@ -121,13 +119,12 @@
             });
 
 
-            $('body').on('click', '.changeStatus', function (event) {
+            $('body').on('click', '.updateDeal', function (event) {
                 var status = $(event.target).attr('data-status');
                 var id = $(event.target).attr('data-id');
                 var name = $(event.target).attr('data-status-name');
                 var title = '{{__('Are you sure to')}} ' + name + ' ?';
                 var confirmButtonText = name;
-
                 Swal.fire({
                     title: title,
                     showDenyButton: true,
@@ -136,7 +133,7 @@
                     denyButtonText: `Rollback`
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.Livewire.emit("changeStatus", id, status);
+                        window.Livewire.emit("updateDeal", id, status);
                     }
                 });
             });

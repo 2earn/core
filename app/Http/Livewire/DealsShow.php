@@ -3,14 +3,16 @@
 namespace App\Http\Livewire;
 
 use App\Models\Deal;
+use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
 class DealsShow extends Component
 {
-    public $idDeal;
+    public $idDeal, $currentRouteName;
 
     public function mount($id)
     {
+        $this->currentRouteName = Route::currentRouteName();
         $this->idDeal = $id;
     }
 
