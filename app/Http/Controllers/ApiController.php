@@ -9,6 +9,7 @@ use App\Models\vip;
 use App\Services\Sponsorship\SponsorshipFacade;
 use carbon;
 use Core\Enum\AmoutEnum;
+use Core\Enum\DealStatus;
 use Core\Enum\PlatformType;
 use Core\Enum\StatusRequest;
 use Core\Enum\TypeEventNotificationEnum;
@@ -1225,17 +1226,19 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
     public function getDeals()
     {
         if (strtoupper(auth()?->user()?->getRoleNames()->first()) == \App\Models\Survey::SUPER_ADMIN_ROLE_NAME) {
-            $deals = Deal::all();
+            $deals = Deal::whereNot('status', DealStatus::Archived->value)->orderBy('validated', 'DESC')->get();
         } else {
-            $platforms = Platform::where(function ($query) {
-                $query->where('administrative_manager_id', '=', auth()->user()->id)
-                    ->orWhere('financial_manager_id', '=', auth()->user()->id);
-            })->get();
+            $platforms = Platform::whereNot('status', DealStatus::Archived->value)
+                ->where(function ($query) {
+                    $query
+                        ->where('administrative_manager_id', '=', auth()->user()->id)
+                        ->orWhere('financial_manager_id', '=', auth()->user()->id);
+                })->get();
             $platformsIds = [];
             foreach ($platforms as $platform) {
                 $platformsIds[] = $platform->id;
             }
-            $deals = Deal::whereIn('platform_id', $platformsIds)->get();
+            $deals = Deal::whereIn('platform_id', $platformsIds)->orderBy('validated', 'DESC')->get();
 
         }
 
@@ -1245,6 +1248,9 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
             })
             ->addColumn('status', function ($deal) {
                 return view('parts.datatable.deals-status', ['status' => $deal->status]);
+            })
+            ->addColumn('validated', function ($deal) {
+                return view('parts.datatable.deals-validated', ['validated' => $deal->validated]);
             })
             ->addColumn('platform_id', function ($deal) {
                 if ($deal->platform()->first()) {

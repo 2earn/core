@@ -33,10 +33,23 @@ class DealsIndex extends Component
     public function changeStatus($id, $status)
     {
         match (intval($status)) {
+            0 => $this->validateDeal($id),
             2 => $this->open($id),
             3 => $this->close($id),
             4 => $this->archive($id),
         };
+    }
+
+    public function validateDeal($id)
+    {
+        try {
+            $deal = Deal::findOrFail($id);
+            $deal->validated = true;
+            $deal->save();
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Validated Successfully!!'));
+        } catch (\Exception $exception) {
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Validated !') . " " . $exception->getMessage());
+        }
     }
 
     public function open($id)
