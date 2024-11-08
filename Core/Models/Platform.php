@@ -45,4 +45,19 @@ class Platform extends Model
         }
         return $platforms->where("plateforme_id", $this->id)->first() ? true : false;
     }
+
+
+    public static function canCheckDeals($id)
+    {
+
+        if (strtoupper(auth()?->user()?->getRoleNames()->first()) == \App\Models\Survey::SUPER_ADMIN_ROLE_NAME) {
+            return true;
+        }
+
+        return Platform::where(function ($query) use ($id) {
+            $query->where('administrative_manager_id', '=', $id)
+                ->orWhere('financial_manager_id', '=', $id);
+        })->exists();
+    }
+
 }

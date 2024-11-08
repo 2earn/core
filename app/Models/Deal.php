@@ -58,7 +58,6 @@ class Deal extends Model
         return $this->hasOne(Platform::class, 'id', 'platform_id');
     }
 
-
     /**
      * Calculate index of current turnover.
      *
