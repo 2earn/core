@@ -19,7 +19,10 @@ class DealsCreateUpdate extends Component
 
 
     protected $rules = [
-        'name' => 'required',
+        'name' => 'required|min:5',
+        'description' => 'required|min:5',
+        'start_date' => ['required', 'after_or_equal:today'],
+        'end_date' => ['required', 'after:start_date'],
     ];
 
     public function mount(Request $request)
