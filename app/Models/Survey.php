@@ -15,7 +15,6 @@ class Survey extends Model
 {
     use HasFactory;
 
-    const SUPER_ADMIN_ROLE_NAME = "SUPER ADMIN";
     const DELAY_AFTER_CLOSED = 10;
     const DELAY_AFTER_ARCHIVED = 100;
 
@@ -202,7 +201,7 @@ class Survey extends Model
             return true;
         }
 
-        if ($survey->{$property} == TargetType::ADMINS->value && strtoupper(auth()?->user()?->getRoleNames()->first()) == self::SUPER_ADMIN_ROLE_NAME) {
+        if ($survey->{$property} == TargetType::ADMINS->value && User::isSuperAdmin()) {
             return true;
         }
 

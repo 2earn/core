@@ -235,7 +235,7 @@
                 </div>
                 <div class="card-body">
                     <div class="d-flex align-items-center pb-2"
-                         @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\User::SUPER_ADMIN_ROLE_NAME)
+                         @if(User::isSuperAdmin())
                              title="{{$selledActions." / ".$totalActions}}"
                         @endif
                     >
@@ -306,7 +306,7 @@
                             <li class="list-group-item text-secondary">
                                 {{__('Action Value')}} : <span
                                     class="float-end">{{$actionValue}}</span></li>
-                            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\User::SUPER_ADMIN_ROLE_NAME)
+                            @if(User::isSuperAdmin())
                                 <li class="list-group-item">{{__('Selled Action Cursor')}} <i
                                         class=" ri-arrow-drop-right-line"></i> {{__('Total number of shares for sale')}}
                                     <span class="badge badge-light text-info float-end">{{$selledActionCursor}} <i

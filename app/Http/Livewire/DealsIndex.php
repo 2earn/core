@@ -21,7 +21,7 @@ class DealsIndex extends Component
 
     public function mount()
     {
-        if (strtoupper(auth()?->user()?->getRoleNames()->first()) == User::SUPER_ADMIN_ROLE_NAME) {
+        if (User::isSuperAdmin()) {
             $this->platforms = Platform::all();
         } else {
             $this->platforms = Platform::where(function ($query) {

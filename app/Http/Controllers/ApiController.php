@@ -1225,7 +1225,7 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
 
     public function getDeals()
     {
-        if (strtoupper(auth()?->user()?->getRoleNames()->first()) == User::SUPER_ADMIN_ROLE_NAME) {
+        if (User::isSuperAdmin()) {
             $deals = Deal::whereNot('status', DealStatus::Archived->value)->orderBy('validated', 'ASC')->get();
         } else {
             $platforms = Platform::where(function ($query) {

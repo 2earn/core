@@ -235,4 +235,11 @@ class User extends Authenticatable
 
         $user->internationalIdentitieImage()->save($image);
     }
+
+    public static function isSuperAdmin()
+    {
+        if (!strtoupper(auth()?->user()?->getRoleNames()->first()) == self::SUPER_ADMIN_ROLE_NAME)
+            dd(strtoupper(auth()?->user()?->getRoleNames()->first()) == self::SUPER_ADMIN_ROLE_NAME);
+        return strtoupper(auth()?->user()?->getRoleNames()->first()) == self::SUPER_ADMIN_ROLE_NAME;
+    }
 }

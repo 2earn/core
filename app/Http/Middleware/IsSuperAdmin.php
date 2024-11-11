@@ -12,7 +12,7 @@ class IsSuperAdmin
 {
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user() && Auth::user()->getRoleNames()->contains(User::SUPER_ADMIN_ROLE_NAME)) {
+        if (Auth::user() && User::isSuperAdmin()) {
             return $next($request);
         }
 
