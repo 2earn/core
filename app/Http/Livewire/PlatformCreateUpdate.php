@@ -31,11 +31,11 @@ class PlatformCreateUpdate extends Component
             $this->edit($this->idPlatform);
         }
         $this->types = [
-            ['name' => PlatformType::Main->name, 'value' => PlatformType::Main->value,],
-            ['name' => PlatformType::Child->name, 'value' => PlatformType::Child->value,],
-            ['name' => PlatformType::Partner->name, 'value' => PlatformType::Partner->value,]
+            ['name' => PlatformType::Full->name, 'value' => PlatformType::Full->value,],
+            ['name' => PlatformType::Hybrid->name, 'value' => PlatformType::Hybrid->value,],
+            ['name' => PlatformType::Paiement->name, 'value' => PlatformType::Paiement->value,]
         ];
-        $this->type = PlatformType::Child->value;
+        $this->type = PlatformType::Hybrid->value;
     }
 
     public function cancel()

@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Deal;
 use Core\Enum\DealStatus;
+use Core\Models\Platform;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
@@ -11,22 +12,26 @@ use Livewire\Component;
 class DealsCreateUpdate extends Component
 {
     const INDEX_ROUTE_NAME = 'deals_index';
-    public $idDeal, $name, $description, $status, $objective_turnover, $start_date, $end_date, $out_provider_turnover, $items_profit_average, $initial_commission, $final_commission, $precision, $progressive_commission,
+    public $idDeal, $idPlatform, $name, $description, $status, $objective_turnover, $start_date, $end_date, $out_provider_turnover, $items_profit_average, $initial_commission, $final_commission, $precision, $progressive_commission,
         $margin_percentage, $cash_back_margin_percentage, $proactive_consumption_margin_percentage, $shareholder_benefits_margin_percentage, $tree_margin_percentage, $current_turnover, $item_price, $current_turnover_index, $created_by;
     public $update = false;
     public $statusList;
 
 
     protected $rules = [
-        'name' => 'required',
+        'name' => 'required|min:5',
+        'description' => 'required|min:5',
+        'start_date' => ['required', 'after_or_equal:today'],
+        'end_date' => ['required', 'after:start_date'],
     ];
 
     public function mount(Request $request)
     {
         $this->idDeal = $request->input('id');
         if (!is_null($this->idDeal)) {
-            $this->edit($this->idDeal);
+            $this->edit();
         } else {
+            $this->idPlatform = $request->input('idPlatform');
             $this->init();
         }
     }
@@ -34,12 +39,26 @@ class DealsCreateUpdate extends Component
     public function init()
     {
         $this->status = DealStatus::New->value;
+        $this->objective_turnover =
+        $this->start_date = $this->end_date =
+        $this->out_provider_turnover =
+        $this->items_profit_average =
+        $this->initial_commission =
+        $this->final_commission =
+        $this->precision =
+        $this->progressive_commission =
+        $this->margin_percentage =
+        $this->cash_back_margin_percentage =
+        $this->proactive_consumption_margin_percentage =
+        $this->shareholder_benefits_margin_percentage =
+        $this->tree_margin_percentage =
+        $this->current_turnover =
+        $this->item_price = $this->current_turnover_index = 10;
     }
 
-    public function edit($idDeal)
+    public function edit()
     {
-        $this->idDeal = $idDeal;
-        $deal = Deal::find($idDeal);
+        $deal = Deal::find($this->idDeal);
         $this->name = $deal->name;
         $this->status = $deal->status;
         $this->description = $deal->description;
@@ -60,6 +79,7 @@ class DealsCreateUpdate extends Component
         $this->current_turnover = $deal->current_turnover;
         $this->item_price = $deal->item_price;
         $this->current_turnover_index = $deal->current_turnover_index;
+        $this->idPlatform = $deal->platform_id;
         $this->update = true;
     }
 
@@ -109,6 +129,7 @@ class DealsCreateUpdate extends Component
         $this->validate();
         $params = [
             'name' => $this->name,
+            'validated' => false,
             'description' => $this->description,
             'status' => $this->status,
             'objective_turnover' => $this->objective_turnover,
@@ -129,6 +150,7 @@ class DealsCreateUpdate extends Component
             'item_price' => $this->item_price,
             'current_turnover_index' => $this->current_turnover_index,
             'created_by_id' => auth()->user()->id,
+            'platform_id' => $this->idPlatform,
         ];
         try {
             Deal::create($params);
@@ -140,6 +162,7 @@ class DealsCreateUpdate extends Component
 
     public function render()
     {
-        return view('livewire.deals-create-update')->extends('layouts.master')->section('content');
+        $platform = Platform::find($this->idPlatform);
+        return view('livewire.deals-create-update', ['platform' => $platform])->extends('layouts.master')->section('content');
     }
 }

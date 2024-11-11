@@ -23,7 +23,7 @@ class PlatformSeeder extends Seeder
                 'description' => "2earn",
                 'enabled' => true,
                 'image_link' => $imageLink,
-                'type' => PlatformType::Main->value,
+                'type' => PlatformType::Full->value,
                 'link' => "2earn.cash"
             ],
             [
@@ -31,7 +31,7 @@ class PlatformSeeder extends Seeder
                 'description' => "learn2earn",
                 'enabled' => true,
                 'image_link' => $imageLink,
-                'type' => PlatformType::Child->value,
+                'type' => PlatformType::Hybrid->value,
                 'link' => "learn2earn.cash"
             ],
             [
@@ -39,14 +39,14 @@ class PlatformSeeder extends Seeder
                 'description' => "move2earn",
                 'enabled' => true,
                 'image_link' => $imageLink,
-                'type' => PlatformType::Child->value,
+                'type' => PlatformType::Hybrid->value,
                 'link' => "move2earn.cash"
             ], [
                 'name' => "travel2earn",
                 'description' => "travel2earn",
                 'enabled' => true,
                 'image_link' => $imageLink,
-                'type' => PlatformType::Child->value,
+                'type' => PlatformType::Hybrid->value,
                 'link' => "travel2earn.cash"
             ],
             [
@@ -54,14 +54,14 @@ class PlatformSeeder extends Seeder
                 'description' => "shop2earn",
                 'enabled' => true,
                 'image_link' => $imageLink,
-                'type' => PlatformType::Child->value,
+                'type' => PlatformType::Hybrid->value,
                 'link' => "shop2earn.cash"
             ], [
                 'name' => "beelegant2earn",
                 'description' => "beelegant2earn",
                 'enabled' => true,
                 'image_link' => $imageLink,
-                'type' => PlatformType::Child->value,
+                'type' => PlatformType::Hybrid->value,
                 'link' => "beelegant2earn.cash"
             ],
             [
@@ -69,10 +69,15 @@ class PlatformSeeder extends Seeder
                 'description' => "Speakenglish2earn",
                 'enabled' => true,
                 'image_link' => $imageLink,
-                'type' => PlatformType::Partner->value,
+                'type' => PlatformType::Hybrid->value,
                 'link' => "Speakenglish2earn.cash"
             ],
         ];
+
+        if (Platform::all()->count()) {
+            Platform::truncate();
+        }
+
         foreach ($Platforms as $Platform) {
             Platform::create($Platform);
         }

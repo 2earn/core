@@ -32,7 +32,7 @@
                     $sidebarBusinessArray=['business_hub_trading','business_hub_additional_income','business_hub_be_influencer','business_hub_job_opportunities'];
                     $sidebarSavingsArray=['savings_user_purchase','savings_recuperation_history'];
                     $sidebarBiographyArray=['biography_academic_background','biography_career_experience','biography_hard_skills','biography_soft_skills','biography_personal_characterization','biography_NCDPersonality','biography_sensory_representation_system','biography_MBTI','biography_e_business_card','biography_generating_pdf_report'];
-                    $sidebarArchiveArray=['surveys_archive'];
+                    $sidebarArchiveArray=['surveys_archive','deals_archive'];
                     $sidebarRoleArray=['role_index','role_assign'];
                     $sidebarDashboardsArray=['configuration_setting','configuration_bo','configuration_amounts','configuration_ha'];
                     $sidebarShareSoldArray=['shares_sold_dashboard','shares_sold_market_status','shares_sold_recent_transaction'];
@@ -233,15 +233,16 @@
                             <span>{{__('Hobbies')}}</span>
                         </a>
                     </li>
-                    <li class="nav-item cool-link {{$currentRouteName=='deals_index'? 'active' : ''}}">
-                        <a href="{{route('deals_index',app()->getLocale(),false )}}"
-                           class="nav-link menu-link {{$currentRouteName=='deals_index'? 'active' : ''}}"
-                           role="button">
-                            <i class="ri-honour-line"></i>
-                            <span>{{__('Deals')}}</span>
-                        </a>
-                    </li>
-
+                    @if(\Core\Models\Platform::canCheckDeals(auth()->user()->id))
+                        <li class="nav-item cool-link {{$currentRouteName=='deals_index'? 'active' : ''}}">
+                            <a href="{{route('deals_index',app()->getLocale(),false )}}"
+                               class="nav-link menu-link {{$currentRouteName=='deals_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-honour-line"></i>
+                                <span>{{__('Deals')}}</span>
+                            </a>
+                        </li>
+                    @endIf
                     <li class="nav-item">
                         <a class="nav-link menu-link {{!in_array($currentRouteName, $sidebarArchiveArray)? 'collapsed' : 'active'}}"
                            href="#sidebarArchive" data-bs-toggle="collapse"
@@ -260,14 +261,19 @@
                                        class="nav-link"
                                     >{{ __('Survey Archive') }}</a>
                                 </li>
+                                <li class="nav-item cool-link {{$currentRouteName==$sidebarArchiveArray[1]? 'active' : ''}}">
+                                    <a href="{{route($sidebarArchiveArray[1], app()->getLocale(),false)}}"
+                                       class="nav-link"
+                                    >{{ __('Deal Archive') }}</a>
+                                </li>
                             </ul>
                         </div>
                     </li>
-                    @if(auth()->user()->getRoleNames()->first() ==User::SUPER_ADMIN_ROLE_NAME)
+                    @if(User::isSuperAdmin())
                         <li class="menu-title">
                             <span data-key="t-menu">{{ __('SUPER ADMIN MENU') }}</span>
                         </li>
-                        @if(auth()->user()->getRoleNames()->first() ==User::SUPER_ADMIN_ROLE_NAME)
+                        @if(User::isSuperAdmin())
                             <li class="nav-item cool-link {{$currentRouteName=='target_index'? 'active' : ''}}">
                                 <a href="{{route('target_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
                                    class="nav-link menu-link {{$currentRouteName=='target_index'? 'active' : ''}}"
@@ -452,7 +458,7 @@
                             </a>
                         </li>
                     @endif
-                    @if(auth()->user()->getRoleNames()->first() ==User::SUPER_ADMIN_ROLE_NAME)
+                    @if(User::isSuperAdmin())
                         <li class="nav-item">
                             <a class="nav-link menu-link {{!in_array($currentRouteName, $sidebarTranslateArray)? 'collapsed' : 'active'}}"
                                href="#sidebarTranslate" data-bs-toggle="collapse"

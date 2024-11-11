@@ -8,28 +8,25 @@
             {{ __('Deals') }}
         @endslot
     @endcomponent
+    <div class="row">
+            @include('layouts.flash-messages')
+    </div>
     <div class="row card">
         <div class="card-header border-info">
-            <div class="row p-2">
+            <div class="row">
                 <div class="col-4">
                     <input wire:model.live="search" type="text" id="simple-search"
                            class="form-control"
                            placeholder="{{__('Search Deal')}}">
                 </div>
-                <div class="col-4">
+                <div class="col-8">
                     @foreach($platforms as $platform)
                         <a href="{{$platform->link}}">
-                            <span class="text-muted bg-light mx-2">
+                            <span class="text-muted fs-16 mx-2">
                                 {{__($platform->name)}}
                             </span>
                         </a>
                     @endforeach
-                </div>
-                <div class="col-4">
-                    <a href="{{route('deals_create_update', ['locale'=> request()->route("locale")] )}}"
-                       class="btn btn-soft-secondary material-shadow-none mb-2 float-end">
-                        {{__('Create Deal')}}
-                    </a>
                 </div>
             </div>
         </div>
@@ -47,6 +44,8 @@
                                     <th>{{__('name')}}</th>
                                     <th>{{__('description')}}</th>
                                     <th>{{__('Status')}}</th>
+                                    <th>{{__('Validated')}}</th>
+                                    <th>{{__('Platform')}}</th>
                                     <th>{{__('Created by')}}</th>
                                     <th>{{__('Action')}}</th>
                                 </tr>
@@ -61,6 +60,11 @@
         </div>
     </div>
 
+    <script type="module">
+        function openDeal() {
+            console.log('End');
+        }
+    </script>
     <script type="module">
         $(document).on('turbolinks:load', function () {
             if (!$.fn.dataTable.isDataTable('#dealTable')) {
@@ -90,6 +94,8 @@
                         {data: 'name'},
                         {data: 'description'},
                         {data: 'status'},
+                        {data: 'validated'},
+                        {data: 'platform_id'},
                         {data: 'created_by'},
                         {data: 'action'},
                     ],
@@ -111,6 +117,28 @@
                     }
                 });
             });
+
+
+            $('body').on('click', '.updateDeal', function (event) {
+                var status = $(event.target).attr('data-status');
+                var id = $(event.target).attr('data-id');
+                var name = $(event.target).attr('data-status-name');
+                var title = '{{__('Are you sure to')}} ' + name + ' ?';
+                var confirmButtonText = name;
+                Swal.fire({
+                    title: title,
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: confirmButtonText,
+                    denyButtonText: `Rollback`
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.Livewire.emit("updateDeal", id, status);
+                    }
+                });
+            });
+
+
         });
     </script>
 </div>

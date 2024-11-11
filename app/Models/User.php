@@ -14,7 +14,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    const SUPER_ADMIN_ROLE_NAME = "Super admin";
+    const SUPER_ADMIN_ROLE_NAME = "SUPER ADMIN";
     const MAX_PHOTO_ALLAWED_SIZE = 2048000;
     const PHOTO_ALLAWED_EXT = ['png', 'jpg', 'jpeg'];
     const IMAGE_TYPE_PROFILE = 'profile';
@@ -234,5 +234,12 @@ class User extends Authenticatable
         }
 
         $user->internationalIdentitieImage()->save($image);
+    }
+
+    public static function isSuperAdmin()
+    {
+        if (!strtoupper(auth()?->user()?->getRoleNames()->first()) == self::SUPER_ADMIN_ROLE_NAME)
+            dd(strtoupper(auth()?->user()?->getRoleNames()->first()) == self::SUPER_ADMIN_ROLE_NAME);
+        return strtoupper(auth()?->user()?->getRoleNames()->first()) == self::SUPER_ADMIN_ROLE_NAME;
     }
 }

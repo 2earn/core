@@ -9,6 +9,7 @@ use App\Models\vip;
 use App\Services\Sponsorship\SponsorshipFacade;
 use carbon;
 use Core\Enum\AmoutEnum;
+use Core\Enum\DealStatus;
 use Core\Enum\PlatformType;
 use Core\Enum\StatusRequest;
 use Core\Enum\TypeEventNotificationEnum;
@@ -1196,7 +1197,7 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
                 return Lang::get(PlatformType::from($platform->type)->name);
             })
             ->addColumn('action', function ($platform) {
-                return view('parts.datatable.platform-action', ['show_profile' => $platform->show_profile, 'platformId' => $platform->id, 'platformName' => $platform->name]);
+                return view('parts.datatable.platform-action', ['platform' => $platform]);
             })
             ->addColumn('created_at', function ($platform) {
                 return $platform->created_at?->format(self::DATE_FORMAT);
@@ -1224,27 +1225,35 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
 
     public function getDeals()
     {
-        if (strtoupper(auth()?->user()?->getRoleNames()->first()) == \App\Models\Survey::SUPER_ADMIN_ROLE_NAME) {
-            $deals = Deal::all();
+        if (User::isSuperAdmin()) {
+            $deals = Deal::whereNot('status', DealStatus::Archived->value)->orderBy('validated', 'ASC')->get();
         } else {
             $platforms = Platform::where(function ($query) {
-                $query->where('administrative_manager_id', '=', auth()->user()->id)
-                    ->orWhere('financial_manager_id', '=', auth()->user()->id);
-            })->get();
+                    $query
+                        ->where('administrative_manager_id', '=', auth()->user()->id)
+                        ->orWhere('financial_manager_id', '=', auth()->user()->id);
+                })->get();
             $platformsIds = [];
             foreach ($platforms as $platform) {
                 $platformsIds[] = $platform->id;
             }
-            $deals = Deal::whereIn('platform_id', $platformsIds)->get();
-
+            $deals = Deal::whereIn('platform_id', $platformsIds)->orderBy('validated', 'ASC')->get();
         }
-
         return datatables($deals)
             ->addColumn('action', function ($deal) {
-                return view('parts.datatable.deals-action', ['dealId' => $deal->id, 'dealName' => $deal->name]);
+                return view('parts.datatable.deals-action', ['deal' => $deal]);
             })
             ->addColumn('status', function ($deal) {
                 return view('parts.datatable.deals-status', ['status' => $deal->status]);
+            })
+            ->addColumn('validated', function ($deal) {
+                return view('parts.datatable.deals-validated', ['validated' => $deal->validated]);
+            })
+            ->addColumn('platform_id', function ($deal) {
+                if ($deal->platform()->first()) {
+                    return $deal->platform()->first()->id . ' - ' . $deal->platform()->first()->name;
+                }
+                return '**';
             })
             ->addColumn('created_by', function ($deal) {
                 return view('parts.datatable.deals-createdBy', ['createdby' => User::find($deal->created_by_id)]);
