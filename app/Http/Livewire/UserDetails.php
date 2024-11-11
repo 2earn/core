@@ -20,11 +20,13 @@ class UserDetails extends Component
 
     public function mount($idUser, Request $request)
     {
-        $this->idUser = Route::current()->parameter('idUser');
-        $this->userProfileImage = User::getUserProfileImage(auth()->user()->idUser);
-        $this->userNationalFrontImage = User::getNationalFrontImage(auth()->user()->idUser);
-        $this->userNationalBackImage = User::getNationalBackImage(auth()->user()->idUser);
-        $this->userInternationalImage = User::getInternational(auth()->user()->idUser);
+        $user = User::find(Route::current()->parameter('idUser'));
+
+        $this->userProfileImage = User::getUserProfileImage($user->idUser);
+        $this->userNationalFrontImage = User::getNationalFrontImage($user->idUser);
+        $this->userNationalBackImage = User::getNationalBackImage($user->idUser);
+        $this->userInternationalImage = User::getInternational($user->idUser);
+        $this->idUser = $user->id;
     }
 
     public function render()

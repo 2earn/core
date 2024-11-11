@@ -43,7 +43,7 @@
                 @endif
             </div>
         </div>
-        @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+        @if(User::isSuperAdmin())
             <div class="card-body row">
                 <div class="col-sm-12 col-md-5 col-lg-5">
                     <div class="btn-group mt-2" role="group">
@@ -77,11 +77,11 @@
                 <div class="col-sm-12 col-md-5 col-lg-5">
                     <div class="btn-group mt-2" role="group">
                         @if($currentRouteName=="target_show")
-                            <a href="{{route('condition_create_update',['locale'=>app()->getLocale(),'idTarget'=>$target->id])}}"
+                            <a href="{{route('target_condition_create_update',['locale'=>app()->getLocale(),'idTarget'=>$target->id])}}"
                                title="{{__('Add Condition')}}" class="btn btn-soft-info material-shadow-none">
                                 {{__('Add Condition')}}
                             </a>
-                            <a href="{{route('group_create_update',['locale'=>app()->getLocale(),'idTarget'=>$target->id])}}"
+                            <a href="{{route('target_group_create_update',['locale'=>app()->getLocale(),'idTarget'=>$target->id])}}"
                                title="{{__('Add Group')}}" class="btn btn-soft-info material-shadow-none">
                                 {{__('Add Group')}}
                             </a>
@@ -115,7 +115,7 @@
                                     </div>
                                     <div class="col-sm-12 col-md-6 col-lg-5 mt-2">
                                         <div class="btn-group" role="group">
-                                            <a href="{{route('condition_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$condition->target_id,'idCondition'=>$condition->id] )}}"
+                                            <a href="{{route('target_condition_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$condition->target_id,'idCondition'=>$condition->id] )}}"
                                                title="{{__('Edit Condition')}}"
                                                class="btn btn-soft-info material-shadow-none">
                                                 {{__('Edit')}}
@@ -160,7 +160,7 @@
                                     @if($currentRouteName=="target_show")
                                         <div class="col-sm-12 col-md-6 col-lg-5">
                                             <div class="btn-group" role="group">
-                                                <a href="{{route('group_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idGroup'=>$group->id] )}}"
+                                                <a href="{{route('target_group_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idGroup'=>$group->id] )}}"
                                                    title="{{__('Edit Group')}}"
                                                    class="btn btn-soft-info material-shadow-none">
                                                     {{__('Edit')}}
@@ -180,7 +180,7 @@
                                                 </a>
                                             </div>
                                             <div class="btn-group" role="group">
-                                                <a href="{{route('condition_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idGroup'=>$group->id] )}}"
+                                                <a href="{{route('target_condition_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idGroup'=>$group->id] )}}"
                                                    title="{{__('Add Condition')}}"
                                                    class="btn btn-soft-info material-shadow-none">
                                                     {{__('Add Condition')}}
@@ -212,7 +212,7 @@
                                                                 <div class="col-sm-12 col-md-6 col-lg-5 mt-2">
                                                                     <div class="btn-group" role="group"
                                                                     >
-                                                                        <a href="{{route('condition_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idGroup'=>$conditionItem->target_group_id,'idCondition'=>$conditionItem->id] )}}"
+                                                                        <a href="{{route('target_condition_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idGroup'=>$conditionItem->target_group_id,'idCondition'=>$conditionItem->id] )}}"
                                                                            title="{{__('Edit Condition')}}"
                                                                            class="btn btn-soft-info material-shadow-none">
                                                                             {{__('Edit')}}

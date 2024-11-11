@@ -2,142 +2,82 @@
     @if($enableStaticNews)
         <div class="col-xxl-12 mb-1">
             <div class="card ribbon-box right border shadow-none overflow-hidden mb-lg-0 material-shadow">
-                <div class="card-header">
-                    <h6 class="card-title text-info mb-0">
-                        @if(app()->getLocale()=="en")
-                            Communication Board
-                        @elseif(app()->getLocale()=="fr")
-                            Communication Board
-                        @else
-                            لوحة التواصل
-                        @endif
-                    </h6>
-                </div>
                 <div class="card-body">
                     <div class="ribbon ribbon-danger ribbon-shape trending-ribbon">
                         <i class="ri-flashlight-fill text-white align-bottom float-start me-1"></i> <span
                             class="trending-ribbon-text">{{__('News')}}</span>
                     </div>
-                    <blockquote class="card-blockquote mb-0">
-                        <p class="text-muted mb-2">
-                            @if(app()->getLocale()=="en")
-                                Dear Members,
-                            @elseif(app()->getLocale()=="fr")
-                                Chers adhérents
-                            @else
-                                الأعضاء الأعزاء،
-                            @endif
-                        </p>
-                        <p class="text-muted mb-2">
-                            @if(app()->getLocale()=="en")
-                                We extend our most distinguished greetings to you.
-                            @elseif(app()->getLocale()=="fr")
-                                Nous vous adressons nos salutations les plus distinguées.
-                            @else
-                                نتقدم إليكم بأطيب التحيات والتقدير.
-                            @endif
-                        </p>
-                        <p class="text-muted mb-2">
-                            @if(app()->getLocale()=="en")
-                                As part of our new communication strategy, we are pleased to inform you
-                                about the development of four communication channels grouped under the name
-                                “Communication
-                                Board” These channels aim to strengthen our interaction with all our members, especially
-                                our
-                                shareholders (stockholders or traders). The modules include:
-                            @elseif(app()->getLocale()=="fr")
-                                Dans le cadre de notre nouvelle stratégie de communication, nous avons le plaisir de
-                                vous
-                                informer du développement de quatre canaux de communication  regroupés sous
-                                l'appellation
-                                “Communication Board”. Ces canaux visent à renforcer notre interaction avec l'ensemble
-                                de
-                                nos membres, en particulier nos actionnaires (acheteurs d'actions ou traders). Les
-                                modules
-                                incluent :
-                            @else
-                                في إطار استراتيجيتنا الجديدة للتواصل، يسعدنا إبلاغكم بتطوير أربع قنوات تواصل مجمعة تحت
-                                مسمى
-                                "لوحة التواصل" (Communication Board). تهدف هذه القنوات إلى تعزيز تفاعلنا مع جميع
-                                أعضائنا،
-                                وبالأخص المساهمين (المشترين للأسهم أو المتداولين). تشمل هذه القنوات:
-                            @endif
-                        </p>
-                        <ul class="text-muted">
-                            <li>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <h6 class="text-muted mb-2">
                                 @if(app()->getLocale()=="en")
-                                    <strong>Surveys:</strong> A tool designed to gather the opinions of our members,
-                                    particularly our shareholders, on certain strategic decisions.
+                                    Exclusive WhatsApp group
                                 @elseif(app()->getLocale()=="fr")
-                                    <strong>Le Sondage :</strong> un outil permettant de recueillir l'avis de nos
-                                    membres,
-                                    en particulier
-                                    celui des actionnaires, sur certaines décisions stratégiques.
+                                    Groupe WhatsApp exclusif
                                 @else
-                                    <strong>الاستبيانات :</strong> أداة مصممة لجمع آراء الأعضاء، وخاصة المساهمين، حول
-                                    بعض
-                                    القرارات الاستراتيجية.
+                                    مجموعة واتساب حصرية
                                 @endif
-                            </li>
-                            <li>
+                            </h6>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-sm-12 col-md-4 col-lg-3">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <img src="{{ Vite::asset('resources/images/WhatsApp.jpg') }}"
+                                     class="img-thumbnail">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-8 col-lg-9">
+                            <blockquote class="card-blockquote mb-0">
+                                <p class="text-muted mb-2">
+                                <blockquote class="card-blockquote mb-0">
+                                    <p class="text-muted mb-2">
+                                        @if(app()->getLocale()=="en")
+                                            Dear Members,
+                                        @elseif(app()->getLocale()=="fr")
+                                            Chers adhérents
+                                        @else
+                                            الأعضاء الأعزاء،
+                                        @endif
+                                    </p>
+                                </blockquote>
                                 @if(app()->getLocale()=="en")
-                                    <strong>News :</strong> A section dedicated to disseminating important updates
-                                    relevant
-                                    to our community.
-                                @elseif(app()->getLocale()=="fr")
-                                    <strong>Les actualités (News) :</strong> une rubrique dédiée à la diffusion de
-                                    nouvelles
-                                    importantes
-                                    concernant notre communauté.
-                                @else
-                                    <strong>المستجدات :</strong> قسم مخصص لنشر الأخبار المهمة المتعلقة بشركتنا.
-                                @endif
-                            </li>
-                            <li>
-                                @if(app()->getLocale()=="en")
-                                    <strong>Event Information:</strong> A feature to inform about event launches,
-                                    collect
-                                    participation intentions, and manage confirmations and reservations.
-                                @elseif(app()->getLocale()=="fr")
-                                    <strong>Informations événementielles :</strong> une fonctionnalité permettant
-                                    d'informer
-                                    sur les
-                                    lancements d'événements, de recueillir les intentions de participation, ainsi que de
-                                    gérer les confirmations et réservations.
-                                @else
-                                    <strong>الفعاليات:</strong> ميزة للإعلان عن إطلاق الفعاليات، وجمع نوايا المشاركة،
-                                    وإدارة
-                                    التأكيدات
-                                    والحجوزات.
-                                @endif
-                            </li>
-                            <li>
-                                @if(app()->getLocale()=="en")
-                                    <strong>ChatBot and AI ChatBot:</strong> Support tools to answer all your inquiries,
-                                    particularly regarding platform features and usage
-                                @elseif(app()->getLocale()=="fr")
-                                    <strong> Le ChatBot et l'AI ChatBot :</strong> des outils de support visant à
-                                    répondre à
-                                    toutes vos
-                                    questions, notamment celles concernant les fonctionnalités et l'utilisation de la
-                                    plateforme.
-                                @else
-                                    <strong>روبوت الدردشة والذكاء الاصطناعي (ChatBot & AI ChatBot):</strong> أدوات دعم
-                                    تهدف
-                                    إلى الإجابة عن
-                                    جميع استفساراتكم، خاصة تلك المتعلقة بميزات واستخدام المنصة.
-                                @endif
-                            </li>
-                        </ul>
-                        <p class="text-muted mb-2">
-                            @if(app()->getLocale()=="en")
-                                Best regards
-                            @elseif(app()->getLocale()=="fr")
-                                Cordialement
-                            @else
-                                أطيب التحيات
-                            @endif</p>
-                    </blockquote>
+                                        A private and exclusive WhatsApp group has been created for people registered on
+                                        the
+                                        2earn.cash platform... Thank you to all other members who have not yet joined
+                                        the group
+                                        to click on <a href="https://chat.whatsapp.com/JRJV7LgsULwGyvIsvvXm9A">this
+                                            link</a> to send a membership request.
+                                    @elseif(app()->getLocale()=="fr")
+                                        Un groupe WhatsApp privé et exclusif a été créé pour les personnes inscrites sur
+                                        la
+                                        plateforme 2earn.cash... Merci à tous les autres membres qui n'ont pas encore
+                                        rejoint le
+                                        groupe de cliquer sur <a
+                                            href="https://chat.whatsapp.com/JRJV7LgsULwGyvIsvvXm9A">ce lien</a> pour
+                                        envoyer une demande d'adhésion.
+                                    @else
+                                        تم إنشاء مجموعة واتساب خاصة و حصرية للمسجلين في منصة 2earn.cash ... الرجاء من
+                                        كل الأخوة الأعضاء الذين لم يلتحقوا بعد بالمجموعة النقر على
+                                        <a href="https://chat.whatsapp.com/JRJV7LgsULwGyvIsvvXm9A">هذا الرابط</a>
+                                        لإرسال طلب إنضمام
+                                    @endif
+                                </p>
+                                <p class="text-muted mb-2">
+                                    @if(app()->getLocale()=="en")
+                                        Best regards
+                                    @elseif(app()->getLocale()=="fr")
+                                        Cordialement
+                                    @else
+                                        أطيب التحيات
+                                    @endif
+                                </p>
+                            </blockquote>
+                        </div>
+                    </div>
+
                     <blockquote class="card-blockquote mb-0 float-end">
                         <p class="text-info mb-2">
                             @if(app()->getLocale()=="en")
@@ -151,166 +91,86 @@
                     </blockquote>
                 </div>
                 <div class="card-footer">
-                    <p class="text-muted mb-0 float-end">02-10-2024</p>
+                    <p class="text-muted mb-0 float-end">28-10-2024</p>
                 </div>
             </div>
         </div>
-        <div class="col-xxl-12 my-2">
+        <div class="col-xxl-12 mb-1">
             <div class="card ribbon-box right border shadow-none overflow-hidden mb-lg-0 material-shadow">
-
-                <div class="card-header">
-                    <h6 class="card-title text-info mb-0">
-                        @if(app()->getLocale()=="en")
-                            The VIP Offer
-                        @elseif(app()->getLocale()=="fr")
-                            L’offre VIP
-                        @else
-                            عرض VIP
-                        @endif
-                    </h6>
-                </div>
                 <div class="card-body">
                     <div class="ribbon ribbon-danger ribbon-shape trending-ribbon">
                         <i class="ri-flashlight-fill text-white align-bottom float-start me-1"></i> <span
                             class="trending-ribbon-text">{{__('News')}}</span>
                     </div>
-                    <img src="{{Vite::asset('resources/images/static-news/VIP ICON.png')}}" alt="VIP ICON"
-                         class="d-block img-fluid img-business-square mx-auto rounded float-left">
-                    <blockquote class="card-blockquote mb-0">
-                        <p class="text-muted mb-2">
-                            @if(app()->getLocale()=="en")
-                                We would like to inform you about a <strong>VIP offer</strong> starting on <strong>October
-                                    3, 2024</strong>, and available for a limited time. If you are eligible, a golden
-                                badge
-                                will appear when you log in to <strong>2earn.cash</strong>, indicating your selection
-                                for
-                                this offer.
 
-                            @elseif(app()->getLocale()=="fr")
-                                Nous souhaitons vous informer d'une <strong>offre VIP</strong> qui débutera le
-                                <stong>03 octobre 2024</stong> et qui sera
-                                limitée dans le temps. Si vous êtes éligible, un badge doré apparaîtra lors de votre
-                                connexion à <strong>2earn.cash</strong>, indiquant votre sélection pour cette offre.
-                            @else
-                                نود إبلاغكم بعرض <strong>عرض VIP</strong> ينطلق بتاريخ <strong>2024/10/03</strong> و
-                                محدود
-                                المدة. إذا كنت مؤهلاً، ستظهر لك
-                                شارة ذهبية عند تسجيل دخولك إلى <strong>2earn.cash</strong>، مما يشير إلى اختيارك ضمن
-                                العرض.
-                            @endif
-                        </p>
-                        <p class="text-muted mb-2">
-                            @if(app()->getLocale()=="en")
-                                Many other exciting updates are on the way. We thank you for your trust
-                                and continued support.
-                            @elseif(app()->getLocale()=="fr")
-                                De nombreuses autres bonnes nouvelles vous attendent. Nous vous remercions pour votre
-                                confiance et votre soutien.
-                            @else
-                                هناك العديد من الأخبار الجيدة الأخرى في انتظاركم. نشكركم على ثقتكم ودعمكم المستمر.
-                            @endif
-
-                        </p>
-                        <p class="text-muted mb-2">     @if(app()->getLocale()=="en")
-                                Best regards
-                            @elseif(app()->getLocale()=="fr")
-                                Cordialement
-                            @else
-                                أطيب التحيات
-                            @endif</p>
-                    </blockquote>
-                    <blockquote class="card-blockquote mb-0 float-end">
-                        <p class="text-info mb-2">       @if(app()->getLocale()=="en")
-                                The Management Team
-                            @elseif(app()->getLocale()=="fr")
-                                L'équipe de direction
-                            @else
-                                فريق الإدارة
-                            @endif.
-                        </p>
-                    </blockquote>
-                </div>
-                <div class="card-footer">
-                    <p class="text-muted mb-0 float-end">02-10-2024</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-xxl-12 my-2">
-            <div class="card ribbon-box right border shadow-none overflow-hidden mb-lg-0 material-shadow">
-
-                <div class="card-header">
-                    <h6 class="card-title text-info mb-0">
-                        @if(app()->getLocale()=="en")
-                            The signing of a strategic partnership
-                        @elseif(app()->getLocale()=="fr")
-                            signature d’un partenariat stratégique
-                        @else
-                            توقيع شراكة
-                        @endif
-
-                    </h6>
-                </div>
-                <div class="card-body">
-                    <div class="ribbon ribbon-danger ribbon-shape trending-ribbon">
-                        <i class="ri-flashlight-fill text-white align-bottom float-start me-1"></i> <span
-                            class="trending-ribbon-text">{{__('News')}}</span>
+                    <div class="row">
+                        <div class="col-12">
+                            <h6 class="text-muted mb-2">
+                                @if(app()->getLocale()=="en")
+                                    Training before downloading courses
+                                @elseif(app()->getLocale()=="fr")
+                                    Formation avant téléchargement des cours
+                                @else
+                                    التدريب قبل تنزيل الدورات
+                                @endif
+                            </h6>
+                        </div>
                     </div>
-                    <blockquote class="card-blockquote mb-0">
-                        <p class="text-muted mb-2">
-                            @if(app()->getLocale()=="en")
-                                We are delighted to announce the signing of a strategic partnership with
-                                the <strong>Egyptian Board Academy (EBA)</strong> .
-                            @elseif(app()->getLocale()=="fr")
-                                Nous sommes heureux d'annoncer la signature d’un partenariat stratégique avec <strong>Egyptian
-                                    Board
-                                    Academy (EBA)</strong>.
-                            @else
-                                يسعدنا أن نعلن عن توقيع شراكة استراتيجية مع <strong>أكاديمية البورد المصري
-                                    (EBA)</strong>.
-                            @endif
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <blockquote class="card-blockquote mb-0">
+                                <p class="text-muted mb-2">
+                                    @if(app()->getLocale()=="en")
+                                        Dear Members,
+                                    @elseif(app()->getLocale()=="fr")
+                                        Chers adhérents
+                                    @else
+                                        الأعضاء الأعزاء،
+                                    @endif
+                                </p>
+                            </blockquote>
+                        </div>
+                        <div class="col-sm-12 col-md-8 col-lg-6">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <img
+                                    src="{{ Vite::asset('resources/images/static-news/l-'.app()->getLocale().'.jpg') }}"
+                                    class="img-thumbnail">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-lg-6">
 
-                        </p>
-                        <img src="{{Vite::asset('resources/images/static-news/EBA.jpg')}}" alt="EBA"
-                             style="width: 484px; height: 299px" class="d-block img-fluid mx-auto rounded float-left">
-                        <p class="text-muted mb-2 mt-4">
-                            @if(app()->getLocale()=="en")
-                                With a network of over 1,200 trainers and 200,000 learners, the Egyptian Board Academy
-                                (EBA), led by Dr. Mahmoud Saleh, welcomes you. It stands out for the quality of its
-                                educational programs, designed to develop skills and enrich knowledge in various fields.
-                            @elseif(app()->getLocale()=="fr")
-                                Avec un réseau de plus de 1200 formateurs et 200000 apprenants, EBA, dirigée par
-                                Dr.Mahmoud
-                                SALEH, vous souhaite la bienvenue, elle se distingue ainsi par la qualité de ses
-                                programmes
-                                éducatifs, conçus pour développer les compétences et enrichir le savoir dans divers
-                                domaines.
-                            @else
-                                مع شبكة تضم أكثر من 1200 مدرب و 200,000 متعلم، ترحب بكم أكاديمية البورد المصري (EBA)
-                                بقيادة
-                                الدكتور محمود صالح، وتتميز بجودة برامجها التعليمية المصممة لتطوير المهارات وإثراء
-                                المعرفة في
-                                مختلف المجالات.
-                            @endif
-                        </p>
-                        <img
-                            src="{{Vite::asset('resources/images/static-news/Dr.Mahmoud Saleh.jpg')}}"
-                            alt="Dr.Mahmoud Saleh" width="250px" height="350px"
-                            class="d-block img-fluid mx-auto rounded float-left mb-2">
 
-                        <video style="height: 300px; width: 600px" controls class=" d-block img-fluid mx-auto rounded">
-                            <source
-                                src="{{Vite::asset('resources/images/static-news/y-ny-yh-tot-z-tkwn-mdrb-hqyqy-wt-ml-flws_video_1080p60.0.mp4')}}"
-                                type="video/mp4">
-                        </video>
+                            <p class="text-muted mb-2">
+                                @if(app()->getLocale()=="en")
+                                    We are pleased to inform you that we are now accepting applications from
+                                    trainers and training centers to start uploading their courses on the
+                                    Learn2earn.cash platform. This will take place following a comprehensive
+                                    training of trainers on how to publish their courses on the platform.
 
-                        <p class="text-muted my-2">     @if(app()->getLocale()=="en")
-                                Best regards
-                            @elseif(app()->getLocale()=="fr")
-                                Cordialement
-                            @else
-                                أطيب التحيات
-                            @endif</p>
-                    </blockquote>
+                                @elseif(app()->getLocale()=="fr")
+                                    Nous avons le plaisir de vous informer que nous entamons la réception des
+                                    demandes des formateurs et des centres de formation en vue de publier leurs
+                                    cours sur la plateforme Learn2earn.cash. Cette démarche interviendra suite à une
+                                    formation complète des formateurs sur la méthode de publication de leurs cours.
+                                @else
+                                    يسعدنا أن نعلمكم بأننا بصدد استقبال طلبات من المدربين ومراكز التدريب لبدء تحميل
+                                    دوراتهم على منصة Learn2earn.cash. وسيتم ذلك بعد إجراء تكوين شامل للمدربين حول
+                                    كيفية تنزيل دوراتهم على المنصة
+                                @endif
+                            </p>
+                            <p class="text-muted mb-2">
+                                @if(app()->getLocale()=="en")
+                                    Best regards
+                                @elseif(app()->getLocale()=="fr")
+                                    Cordialement
+                                @else
+                                    أطيب التحيات
+                                @endif
+                            </p>
+                            </blockquote>
+                        </div>
+                    </div>
+
                     <blockquote class="card-blockquote mb-0 float-end">
                         <p class="text-info mb-2">
                             @if(app()->getLocale()=="en")
@@ -324,82 +184,139 @@
                     </blockquote>
                 </div>
                 <div class="card-footer">
-                    <p class="text-muted mb-0 float-end">02-10-2024</p>
+                    <p class="text-muted mb-0 float-end">01-11-2024</p>
                 </div>
             </div>
         </div>
-        <div class="col-xxl-12 my-2">
+        <div class="col-xxl-12 mb-1">
             <div class="card ribbon-box right border shadow-none overflow-hidden mb-lg-0 material-shadow">
-
-                <div class="card-header">
-                    <h6 class="card-title text-info mb-0">
-                        @if(app()->getLocale()=="en")
-                            The official launch of the Learn<strong>2earn.cash</strong>
-                        @elseif(app()->getLocale()=="fr")
-                            Lancement officiel de la plateforme Learn<strong>2earn.cash</strong>
-                        @else
-                            الإطلاق الرسمي لمنصة Learn<strong>2earn.cash</strong>
-                        @endif
-                    </h6>
-                </div>
                 <div class="card-body">
                     <div class="ribbon ribbon-danger ribbon-shape trending-ribbon">
                         <i class="ri-flashlight-fill text-white align-bottom float-start me-1"></i> <span
                             class="trending-ribbon-text">{{__('News')}}</span>
                     </div>
-                    <blockquote class="card-blockquote mb-0">
-                        <p class="text-muted mb-2">
-                            @if(app()->getLocale()=="en")
-                                We are pleased to announce the official launch of the
-                                <strong>Learn<strong>2earn.cash</strong></strong>
-                                platform, exclusively dedicated to trainers. This event will take place on <strong>October
-                                    19,
-                                    2024</strong>, in Cairo, as part of the third edition of the <strong>TMC (Trainers
-                                    Meetup
-                                    Community)</strong>, organized in partnership with the Egyptian Board Academy (EBA),
-                                the
-                                event's organizer.
-                            @elseif(app()->getLocale()=="fr")
-                                Nous avons le plaisir de vous annoncer le lancement officiel de la plateforme
-                                Learn<strong>2earn.cash</strong>, exclusivement dédiée aux formateurs. Cet événement se
-                                tiendra le 19 octobre
-                                2024 au Caire, dans le cadre de la Conférence Internationale “L'impact de la formation
-                                sur
-                                le développement des entrepreneurs”. organisé en partenariat avec EBA, l'organisateur de
-                                l'événement.
-                            @else
-                                يسعدنا أن نعلن عن الإطلاق الرسمي لمنصة Learn<strong>2earn.cash</strong>، المخصصة حصريًا
-                                للمدربين. سيُقام هذا
-                                الحدث بحول الله تعالى و توفيقا منه في 19 أكتوبر 2024 في القاهرة، ضمن فعالية  دور التدريب
-                                في
-                                صناعة رواد الأعمال، التي تُنظم بالشراكة مع أكاديمية البورد المصري (EBA) منظم الحدث
-                                الرئيسي.
-                            @endif
-                        </p>
-                        <img src="{{Vite::asset('resources/images/static-news/Seminar.png')}}" alt="Seminar"
-                             class="d-block img-fluid img-business-square mx-auto rounded float-left mt-2">
-                        <p class="text-muted mb-2">
-                            @if(app()->getLocale()=="en")
-                                This conference will receive comprehensive media coverage from both the
-                                press and television channels.
-                            @elseif(app()->getLocale()=="fr")
-                                Cette conférence bénéficiera d'une couverture médiatique par la presse et les chaînes de
-                                télévision.
-                            @else
-                                سيحظى هذا المؤتمر بتغطية إعلامية من قبل الصحافة والقنوات التلفزيونية.
-                            @endif
-                        </p>
-                        <p class="text-muted mb-2">
-                            @if(app()->getLocale()=="en")
-                                Best regards
-                            @elseif(app()->getLocale()=="fr")
-                                Cordialement
-                            @else
-                                أطيب التحيات
-                            @endif</p>
-                    </blockquote>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <h6 class="text-muted mb-2">
+                                @if(app()->getLocale()=="en")
+                                    Expansion of the Cooperation Agreement with International NAGA
+                                @elseif(app()->getLocale()=="fr")
+                                    Expansion de l’accord de coopération avec International NAGA
+                                @else
+                                    توسيع اتفاقية التعاون مع  International NAGA
+
+                                @endif
+                            </h6>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-sm-12 col-md-4 col-lg-4">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <img src="{{ Vite::asset('resources/images/static-news/n2.png') }}"
+                                     class="img-thumbnail">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-lg-8">
+                            <blockquote class="card-blockquote mb-0">
+                                <p class="text-muted mb-2">
+                                    @if(app()->getLocale()=="en")
+                                        Dear Members,
+                                    @elseif(app()->getLocale()=="fr")
+                                        Chers adhérents
+                                    @else
+                                        الأعضاء الأعزاء،
+                                    @endif
+                                </p>
+
+                                <p class="text-muted mb-2">
+                                @if(app()->getLocale()=="en")
+                                    <p class="text-muted">
+                                        We are pleased to announce the expansion of the cooperation and partnership
+                                        agreement, which initially focused on investment department at International
+                                        NAGA, to now include an extended partnership covering training department and
+                                        the strategic consulting department within the same institution.
+                                    </p>
+                                    <p class="text-muted">
+                                        It is worth noting that International NAGA is a multi-sector institution,
+                                        primarily active in investment, consulting, and training, with its headquarters
+                                        located in Istanbul, Turkey.
+                                    </p>
+                                    <p class="text-muted">
+                                        The institution is represented by Dr. Bilal NAGATI, who serves as the General
+                                        Manager of International NAGA. He is also a member of the Scientific Committee
+                                        at the KPI British Academy and a faculty member at the BECERT American Academy.
+                                        Dr. Bilal NAGATI is considered an international expert in strategic planning and
+                                        is the author of several books on institutional development, personal
+                                        development, and entrepreneurship.
+                                    </p>
+
+                                @elseif(app()->getLocale()=="fr")
+                                    <p class="text-muted">
+                                        Nous sommes heureux d'annoncer l'extension de l'accord de coopération et de
+                                        partenariat initialement limité à la Direction de l'investissement de
+                                        l'institution NAGA vers un partenariat élargi englobant désormais la Direction
+                                        de la formation et celle des Conseils stratégiques au sein de la même
+                                        institution.
+                                    </p>
+                                    <p class="text-muted">
+                                        À noter que International NAGA est une institution opérant dans divers secteurs,
+                                        principalement l'investissement, le conseil et la formation et dont le siège est
+                                        situé à Istanbul, Turquie,
+                                    </p>
+                                    <p class="text-muted">
+                                        La société est représentée par Dr. Bilal NAGATI , qui occupe le poste de
+                                        Directeur général de International NAGA . Il est également membre du comité
+                                        scientifique de l'Académie KPI en Grande-Bretagne et membre du corps professoral
+                                        de l'Académie BECERT aux États-Unis. Expert international en planification
+                                        stratégique, Dr. Bilal NAGATI est également auteur de plusieurs ouvrages sur le
+                                        développement organisationnel, le développement personnel, et l’entrepreneuriat.
+                                    </p>
+
+                                @else
+                                    <p class="text-muted"> يسعدنا أن نعلن عن توسيع اتفاقية التعاون والشراكة التي كانت
+                                        مقتصرة في البداية على
+                                        إدارة الاستثمار في مؤسسة NAGA لتصبح الآن شراكة موسّعة تشمل أيضًا إدارة التدريب
+                                        وقسم الاستشارات الاستراتيجية داخل المؤسسة نفسها.
+                                    </p>
+                                    <p class="text-muted"> يجدر بالذكر أن International NAGA هي مؤسسة تعمل في قطاعات
+                                        متعددة، وأهمها
+                                        الاستثمار، الاستشارات، والتدريب، ويقع مقرها الرئيسي في إسطنبول، تركيا.
+                                    </p>
+                                    <p class="text-muted"> يمثل المؤسسة الدكتور بلال النقاطي، الذي يشغل منصب المدير
+                                        العام لمؤسسة
+                                        International NAGA. وهو أيضًا عضو في اللجنة العلمية في أكاديمية KPI
+                                        البريطانية، وعضو هيئة التدريس في أكاديمية BECERT الأمريكية. يُعتبر الدكتور بلال
+                                        النقاطي خبيرًا دوليًا في التخطيط الاستراتيجي، وهو مؤلف للعديد من الكتب التي
+                                        تتناول التطوير المؤسسي، التنمية الذاتية، وريادة الأعمال.
+                                    </p>
+                                    @endif
+                                    </p>
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <img src="{{ Vite::asset('resources/images/static-news/n1.png') }}"
+                                             class="img-thumbnail">
+                                    </div>
+
+
+                            </blockquote>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-lg-8">
+                            <p class="text-muted mb-2">
+                                @if(app()->getLocale()=="en")
+                                    Best regards
+                                @elseif(app()->getLocale()=="fr")
+                                    Cordialement
+                                @else
+                                    أطيب التحيات
+                                @endif
+                            </p>
+                        </div>
+                    </div>
+
                     <blockquote class="card-blockquote mb-0 float-end">
-                        <p class="text-info mb-2">       @if(app()->getLocale()=="en")
+                        <p class="text-info mb-2">
+                            @if(app()->getLocale()=="en")
                                 The Management Team
                             @elseif(app()->getLocale()=="fr")
                                 L'équipe de direction
@@ -410,68 +327,151 @@
                     </blockquote>
                 </div>
                 <div class="card-footer">
-                    <p class="text-muted mb-0 float-end">02-10-2024</p>
+                    <p class="text-muted mb-0 float-end">01-11-2024</p>
                 </div>
             </div>
         </div>
-        <div class="col-xxl-12 my-2">
+        <div class="col-xxl-12 mb-1">
             <div class="card ribbon-box right border shadow-none overflow-hidden mb-lg-0 material-shadow">
-
-                <div class="card-header">
-                    <h6 class="card-title text-info mb-0">
-                        @if(app()->getLocale()=="en")
-                            Stock Trading Opening Indicator Between
-                            Investors
-                        @elseif(app()->getLocale()=="fr")
-                            Indicateur d'ouverture des transactions d'actions entre investisseurs
-                        @else
-                            مؤشر افتتاح معاملات الأسهم بين المستثمرين
-                        @endif
-                    </h6>
-                </div>
                 <div class="card-body">
                     <div class="ribbon ribbon-danger ribbon-shape trending-ribbon">
                         <i class="ri-flashlight-fill text-white align-bottom float-start me-1"></i> <span
                             class="trending-ribbon-text">{{__('News')}}</span>
                     </div>
-                    <blockquote class="card-blockquote mb-0">
-                        <p class="text-muted mb-2">
-                            @if(app()->getLocale()=="en")
-                                Good news, dear investors!
-                            @elseif(app()->getLocale()=="fr")
-                                Nous aurons le plaisir de vous communiquer, à partir du 20 octobre 2024, un indicateur
-                                précisant la date approximative de l’ouverture des transactions et la vente  d’actions
-                                entre
-                                investisseurs (trading). Nous vous souhaitons à tous un grand succès.
-                            @else
-                                خبر سار، أيها المستثمرون الأعزاء!
-                        @endif
-                        <p class="text-muted mb-2">
 
-                            @if(app()->getLocale()=="en")
-                                We are pleased to announce that, starting from October 20, 2024, we will
-                                provide you with an indicator specifying the approximate date of the opening of stock
-                                transactions between investors (trading). We wish you all great success.
-                            @elseif(app()->getLocale()=="fr")
-                                Nous aurons le plaisir de vous communiquer, à partir du 20 octobre 2024, un indicateur
-                                précisant la date approximative de l’ouverture des transactions et la vente  d’actions
-                                entre
-                                investisseurs (trading). Nous vous souhaitons à tous un grand succès.
-                            @else
-                                يسعدنا أن نعلن أنه ابتداءً من 20 أكتوبر 2024، سنقوم بتزويدكم بمؤشر يحدد التاريخ التقريبي
-                                لافتتاح معاملات الأسهم بين المستثمرين (التداول). نتمنى لكم جميعاً نجاحاً كبيراً.
-                            @endif
-                        </p>
-                        <p class="text-muted mb-2">
-                            @if(app()->getLocale()=="en")
-                                Best regards
-                            @elseif(app()->getLocale()=="fr")
-                                Cordialement
-                            @else
-                                أطيب التحيات
-                            @endif
-                        </p>
-                    </blockquote>
+                    <div class="row">
+                        <div class="col-12">
+                            <h6 class="text-muted mb-2">
+                                @if(app()->getLocale()=="en")
+                                    The list of winners
+                                @elseif(app()->getLocale()=="fr")
+                                    La liste des gagnants
+                                @else
+                                    قائمة الفائزين
+                                @endif
+                            </h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-4 col-lg-3">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <img src="{{ Vite::asset('resources/images/static-news/n3.png') }}"
+                                     class="img-thumbnail">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-8 col-lg-9">
+                            <blockquote class="card-blockquote mb-0">
+                                <p class="text-muted mb-2">
+                                    @if(app()->getLocale()=="en")
+                                        Dear Members,
+                                    @elseif(app()->getLocale()=="fr")
+                                        Chers adhérents
+                                    @else
+                                        الأعضاء الأعزاء،
+                                    @endif
+                                </p>
+
+                                <p class="text-muted mb-2">
+                                    @if(app()->getLocale()=="en")
+                                        Here is the List of winners who won prizes in the competition held within the
+                                        activities of the Cairo Conference: The Role of Training in Creating
+                                        Entrepreneurs in partnership with the Egyptian Board Academy (EBA)
+                                <ol class="text-muted">
+                                    <li> - Shorouk Fahmy : Identifier: 197604753
+                                    </li>
+                                    <li> - Hajar Osama : Identifier: 197604754
+                                    </li>
+                                    <li> - Muhammad Saeed : Identifier: 197604751
+                                    </li>
+                                    <li> - Dr. Ahmed Darwich: Identifier: 197604756
+                                    </li>
+                                    <li> - Hajar Khalaf : Identifier: 197604761
+                                    </li>
+                                    <li> - Ahmed Imam : Identifier: 197604802
+                                    </li>
+                                    <li> - Samer Tariq : Identifier: 197604853
+                                    </li>
+                                    <li> - Shorouk Muhammad: Identifier 197604958
+                                    </li>
+                                    <li> - Marwa Abdel Rahman : Identifier: 197605073
+                                    </li>
+                                    <li> - Nada Reda : Identifier : 197605185
+                                    </li>
+                                </ol>
+                                <p class="text-muted"> Congratulations on winning a valuable gift set with us.</p>
+
+                                @elseif(app()->getLocale()=="fr")
+                                    Vous trouverez ci-dessous la liste des gagnants dans le cadre de la Conférence du
+                                    Caire, intitulée : Le rôle de la formation dans la création d'entrepreneurs en
+                                    partenariat avec l'Egyptian Board Academy (EBA).
+                                    <ol class="text-muted">
+                                        <li> - Shorouk Fahmy : Identifiant: 197604753
+                                        </li>
+                                        <li> - Hajar Osama : Identifiant: 197604754
+                                        </li>
+                                        <li> - Muhammad Saeed : Identifiant: 197604751
+                                        </li>
+                                        <li> - Dr. Ahmed Darwich: Identifiant: 197604756
+                                        </li>
+                                        <li> - Hajar Khalaf : Identifiant: 197604761
+                                        </li>
+                                        <li> - Ahmed Imam : Identifiant: 197604802
+                                        </li>
+                                        <li> - Samer Tariq : Identifiant: 197604853
+                                        </li>
+                                        <li> - Shorouk Muhammad: Identifiant 197604958
+                                        </li>
+                                        <li> - Marwa Abdel Rahman : Identifiant: 197605073
+                                        </li>
+                                        <li> - Nada Reda : Identifiant : 197605185
+                                        </li>
+                                    </ol>
+                                    <p class="text-muted"> Félicitations pour avoir gagné avec nous un précieux ensemble
+                                        de cadeaux</p>
+
+                                @else
+                                    في ما يلي قائمة الأخوة و الأخوات الفائزين بالجوائز في المسابقة التي أجريت ضمن
+                                    فعاليات مؤتمر القاهرة:دور التدريب في صناعة رواد الأعمال بالشراكة مع أكاديمية البورد
+                                    المصري (EBA)
+                                    <ol class="text-muted">
+                                        <li> - شروق فهمي: المعرّف : 197604753
+                                        </li>
+                                        <li> - هاجر أسامة: المعرّف : 197604754
+                                        </li>
+                                        <li> - محمد سعيد: المعرّف : 197604751
+                                        </li>
+                                        <li> - د. أحمد درويش: المعرّف : 197604756
+                                        </li>
+                                        <li> - هاجر خلف: المعرّف : 197604761
+                                        </li>
+                                        <li> - أحمد إمام: المعرّف : 197604802
+                                        </li>
+                                        <li> - سامر طارق: المعرّف : 197604853
+                                        </li>
+                                        <li> - شروق محمد: المعرّف : 197604958
+                                        </li>
+                                        <li> - مروى عبد الرحمان: المعرّف : 197605073
+                                        </li>
+                                        <li> - ندا رضا: المعرّف : 197605185
+                                        </li>
+                                    </ol>
+                                    <p class="text-muted"> مبروك فوزهم معنا بمجموعة قيمة من الهدايا</p>
+
+                                    @endif
+                                    </p>
+                                    <p class="text-muted mb-2">
+                                        @if(app()->getLocale()=="en")
+                                            Best regards
+                                        @elseif(app()->getLocale()=="fr")
+                                            Cordialement
+                                        @else
+                                            أطيب التحيات
+                                        @endif
+                                    </p>
+                            </blockquote>
+                        </div>
+                    </div>
+
                     <blockquote class="card-blockquote mb-0 float-end">
                         <p class="text-info mb-2">
                             @if(app()->getLocale()=="en")
@@ -480,12 +480,12 @@
                                 L'équipe de direction
                             @else
                                 فريق الإدارة
-                            @endif
+                            @endif.
                         </p>
                     </blockquote>
                 </div>
                 <div class="card-footer">
-                    <p class="text-muted mb-0 float-end">02-10-2024</p>
+                    <p class="text-muted mb-0 float-end">01-11-2024</p>
                 </div>
             </div>
         </div>

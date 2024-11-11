@@ -14,7 +14,7 @@
                     <i class=" ri-home-gear-line"></i>
                 </a>
             @endif
-            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+            @if(\App\Models\User::isSuperAdmin())
                 @if(in_array($currentRouteName,["surveys_show","surveys_participate","surveys_results"]))
                     <a href="{{route('surveys_index', app()->getLocale())}}"
                        class="btn btn-outline-info waves-effect waves-light material-shadow-none mx-1 btn-sm"
@@ -24,11 +24,11 @@
                 @endif
             @endif
 
-            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+            @if(\App\Models\User::isSuperAdmin())
                 {{$survey->id}} -
             @endif
             {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}
-            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+            @if(\App\Models\User::isSuperAdmin())
                 <small class="mx-2">
                     <a class="link-info"
                        href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'name')])}}">{{__('See or update Translation')}}</a>
@@ -46,7 +46,7 @@
         </h5>
 
     </div>
-    @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+    @if(\App\Models\User::isSuperAdmin())
         <div class="card-body row">
             <div class="col-sm-12 col-md-4 col-lg-3  mt-1">
 
@@ -180,14 +180,14 @@
                     @else
                         {{ Str::limit(\App\Models\TranslaleModel::getTranslation($survey,'description',$survey->description),200)}}
                     @endif
-                    @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                    @if(\App\Models\User::isSuperAdmin())
                         <br>  <a class="link-info"
                                  href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'description')])}}">{{__('See or update Translation')}}</a>
                     @endif
                 </p>
             </div>
 
-            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+            @if(\App\Models\User::isSuperAdmin())
                 <div class="col-sm-12 col-md-6 col-lg-6">
                     <h6 class="mt-2 text-info">{{__('Target')}}:</h6>
                     @if($survey->targets->isEmpty())
@@ -208,7 +208,7 @@
         </div>
     </div>
 
-    @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+    @if(\App\Models\User::isSuperAdmin())
         @if(!is_null($survey->disabledResult) or !is_null($survey->disabledComment) or !is_null($survey->disabledLike) or !is_null($survey->disabledBtnDescription))
             <div class="card-body row">
                 <hr class="text-muted">
@@ -222,7 +222,7 @@
                                 {{ Str::limit(\App\Models\TranslaleModel::getTranslation($survey,'disabledBtnDescription',$survey->disabledBtnDescription),200)}}
                             @endif
                         </p>
-                        @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                        @if(\App\Models\User::isSuperAdmin())
                             <br>  <a class="link-info"
                                      href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'disabledBtnDescription')])}}">{{__('See or update Translation')}}</a>
                         @endif
@@ -237,7 +237,7 @@
                             @else
                                 {{ Str::limit(\App\Models\TranslaleModel::getTranslation($survey,'disabledResult',$survey->disabledResult),200)}}
                             @endif
-                            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                            @if(\App\Models\User::isSuperAdmin())
                                 <br>  <a class="link-info"
                                          href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'disabledResult')])}}">{{__('See or update Translation')}}</a>
                             @endif
@@ -253,7 +253,7 @@
                             @else
                                 {{ Str::limit(\App\Models\TranslaleModel::getTranslation($survey,'disabledComment',$survey->disabledComment),200)}}
                             @endif
-                            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                            @if(\App\Models\User::isSuperAdmin())
                                 <br>  <a class="link-info"
                                          href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'disabledComment')])}}">{{__('See or update Translation')}}</a>
                             @endif
@@ -269,7 +269,7 @@
                             @else
                                 {{ Str::limit(\App\Models\TranslaleModel::getTranslation($survey,'disabledLike',$survey->disabledLike),200)}}
                             @endif
-                            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                            @if(\App\Models\User::isSuperAdmin())
                                 <br>  <a class="link-info"
                                          href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'disabledLike')])}}">{{__('See or update Translation')}}</a>
                             @endif
@@ -281,7 +281,7 @@
     @endif
 
     @if($currentRouteName=="surveys_show")
-        @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+        @if(\App\Models\User::isSuperAdmin())
             <div class="card-body">
                 <hr class="text-muted">
                 <h6 class="mt-2 text-info">{{__('Details')}}:</h6>
@@ -387,7 +387,7 @@
                 <a href="{{route('surveys_show', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
                    class="btn btn-soft-info material-shadow-none  mt-1">{{__('Details')}}</a>
             @endif
-            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+            @if(\App\Models\User::isSuperAdmin())
                 @if(intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
                     <a href="{{route('surveys_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
                        class="btn btn-soft-info material-shadow-none mt-1">
@@ -461,7 +461,7 @@
             @endif
 
             @if(intval($survey->status)>\Core\Enum\StatusSurvey::NEW->value)
-                @if( ($survey->canShowResult() && $survey->enabled) ||strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                @if( ($survey->canShowResult() && $survey->enabled) ||\App\Models\User::isSuperAdmin())
                     <a href="{{route('surveys_results', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
                        class="btn btn-soft-info material-shadow-none  mt-1">{{__('Show results')}}</a>
                 @else
@@ -510,14 +510,14 @@
                                     </blockquote>
                                 </figure>
 
-                                @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                                @if(\App\Models\User::isSuperAdmin())
                                     <a class="link-info"
                                        href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey->question,'content')])}}">{{__('See or update Translation')}}</a>
                                 @endif
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-5">
 
-                                @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME && intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
+                                @if(\App\Models\User::isSuperAdmin() && intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
                                     <div class="btn-group  btn-group-sm" role="group" aria-label="Basic example">
                                         <a href="{{route('surveys_question_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id,'IdQuestion'=>$survey->question->id] )}}"
                                            class="btn btn-soft-info material-shadow-none">
@@ -538,12 +538,12 @@
                                                     {{$loop->index+1}}
                                                     - {{\App\Models\TranslaleModel::getTranslation($choice,'title',$choice->title)}}
                                                     <br>
-                                                    @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                                                    @if(\App\Models\User::isSuperAdmin())
                                                         <a class="link-info"
                                                            href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($choice,'title')])}}">{{__('See or update Translation')}}</a>
                                                     @endif
                                                 </div>
-                                                @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME && intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
+                                                @if(\App\Models\User::isSuperAdmin() && intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
                                                     <div class="col-sm-12 col-md-6 col-lg-5">
                                                         <div class="btn-group  btn-group-sm" role="group"
                                                              aria-label="Basic example">
@@ -578,7 +578,7 @@
                     </li>
                 @else
                     <li class="list-group-item">{{__('No questions')}}.
-                        @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                        @if(\App\Models\User::isSuperAdmin())
                             <br>
                             <a href="{{route('surveys_question_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
                                title="{{__('Add Question')}}" class="btn btn-soft-info material-shadow-none mt-2">
@@ -663,7 +663,7 @@
                     <div class="col-sm-12 col-md-12 col-lg-12">
                         <ul class="list-group mb-3">
                             @forelse ($survey->comments as $comment)
-                                @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME ||$comment->validated||$comment->user_id ==auth()->user()->id  )
+                                @if(\App\Models\User::isSuperAdmin() ||$comment->validated||$comment->user_id ==auth()->user()->id  )
                                     <li class="list-group-item mt-2">
 
                                         <blockquote class="blockquote ml-2 mt-2">
@@ -677,7 +677,7 @@
                                                 class="badge badge-soft-warning float-end mx-2">{{ __('Waiting for admin approving')}}</span>
                                         @endif
 
-                                        @if(!$comment->validated && strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                                        @if(!$comment->validated && \App\Models\User::isSuperAdmin())
                                             <br>
                                             <button wire:click="deleteComment('{{$comment->id}}')"
                                                     class="btn btn-soft-danger mt-3 mx-2 float-end">

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Survey;
+use App\Models\User;
 use Core\Enum\StatusSurvey;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
@@ -32,7 +33,7 @@ class SurveyArchive extends Component
         $archivedSurveys = [];
         $surveysQuery = Survey::where('status', '=', StatusSurvey::ARCHIVED->value);
 
-        if (strtoupper(auth()?->user()?->getRoleNames()->first()) == Survey::SUPER_ADMIN_ROLE_NAME) {
+        if (User::isSuperAdmin()) {
 
             if (!is_null($this->search) && !empty($this->search)) {
                 $surveysQuery = $surveysQuery->where('name', 'like', '%' . $this->search . '%');

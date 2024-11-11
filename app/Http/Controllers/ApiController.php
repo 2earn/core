@@ -3,17 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\DAL\UserRepository;
+use App\Models\Deal;
 use App\Models\User;
 use App\Models\vip;
 use App\Services\Sponsorship\SponsorshipFacade;
 use carbon;
 use Core\Enum\AmoutEnum;
+use Core\Enum\DealStatus;
+use Core\Enum\PlatformType;
 use Core\Enum\StatusRequest;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
 use Core\Models\countrie;
 use Core\Models\detail_financial_request;
 use Core\Models\FinancialRequest;
+use Core\Models\Platform;
 use Core\Models\Setting;
 use Core\Models\user_balance;
 use Core\Services\BalancesManager;
@@ -29,11 +33,14 @@ use Illuminate\Validation\Rule;
 use Paytabscom\Laravel_paytabs\Facades\paypage;
 use phpDocumentor\Reflection\Types\Collection;
 use Propaganistas\LaravelPhone\PhoneNumber;
+use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
 
 class ApiController extends BaseController
 {
+    const DATE_FORMAT = 'd/m/Y H:i:s';
+
     private string $reqRequest = "select recharge_requests.Date , user.name user  ,
 recharge_requests.userPhone userphone, recharge_requests.amount  from recharge_requests
 left join users user on user.idUser = recharge_requests.idUser";
@@ -806,7 +813,7 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
 
     public function getUsersListQuery()
     {
-        return User::select('countries.apha2', 'users.idUser', 'idUplineRegister',
+        return User::select('countries.apha2', 'countries.name as country', 'users.id', 'users.status', 'users.idUser', 'idUplineRegister',
             DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'),
             'users.mobile', 'users.created_at', 'OptActivation', 'pass',
             DB::raw('IFNULL(`vip`.`flashCoefficient`,"##") as coeff'),
@@ -841,57 +848,50 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
             ->addColumn('formatted_created_at', function ($user) {
                 return Carbon\Carbon::parse($user->created_at)->format('Y-m-d H:i:s');
             })
+            ->addColumn('more_details', function ($user) {
+                return view('parts.datatable.user-details', ['user' => $user]);
+            })
+            ->addColumn('status', function ($user) {
+                return view('parts.datatable.user-status', ['status' => $user->status]);
+            })
+            ->addColumn('soldes', function ($user) {
+                return view('parts.datatable.user-soldes', ['idUser' => $user->idUser]);
+            })
+            ->addColumn('uplines', function ($user) {
+                $params = [
+                    'uplineRegister' => User::where('idUser', $user->idUplineRegister)->first(),
+                    'upline' => User::where('idUser', $user->idUplineRegister)->first(),
+                ];
+                return view('parts.datatable.user-upline-register', $params);
+            })
+            ->addColumn('vip_history', function ($user) {
+                return view('parts.datatable.user-vip-history', ['user' => $user]);
+            })
             ->addColumn('VIP', function ($settings) {
-                $vip = "";
                 $hasVip = vip::Where('idUser', '=', $settings->idUser)
                     ->where('closed', '=', false)->get();
                 if ($hasVip->isNotEmpty()) {
                     $dateStart = new \DateTime($hasVip->first()->dateFNS);
                     $dateEnd = $dateStart->modify($hasVip->first()->flashDeadline . ' hour');;
-                    if ($dateEnd > now()) {
-                        $vip = '<a class="btn btn-success m-1" disabled="disabled">' . Lang::get('Acctually is vip') . '</a>';
-                    } else {
-                        $vip = '<a class="btn btn-info m-1" disabled="disabled">' . Lang::get('It was a vip') . '</a>';
-                    }
+                    return view('parts.datatable.user-vip', ['mobile' => $settings->mobile, 'isVip' => $dateEnd > now(), 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'reciver' => $settings->idUser]);
                 }
-                return $vip . '<a data-bs-toggle="modal" data-bs-target="#vip"   data-phone="' . $settings->mobile . '" data-country="' . $this->getFormatedFlagResourceName($settings->apha2) . '"  data-reciver="' . $settings->idUser . '"
-class="btn btn-xs btn-flash btn2earnTable vip m-1"  >
-<i class="glyphicon glyphicon-add"></i>' . Lang::get('VIP') . '</a> ';
+                return view('parts.datatable.user-vip', ['mobile' => $settings->mobile, 'isVip' => null, 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'reciver' => $settings->idUser]);
 
             })
-            ->addColumn('flag', function ($settings) {
-                return '<img src="' . $this->getFormatedFlagResourceName($settings->apha2) . '" alt="' . strtolower($settings->apha2) . '" title="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
-            })
-            ->addColumn('SoldeCB', function ($user_balance) {
-                return '<a data-bs-toggle="modal" data-bs-target="#detail"   data-amount="1" data-reciver="' . $user_balance->idUser . '"
-class="btn btn-ghost-secondary waves-effect waves-light cb"  >
-<i class="glyphicon glyphicon-add"></i>$' . number_format(getUserBalanceSoldes($user_balance->idUser, 1), 2) . '</a> ';
-            })
-            ->addColumn('SoldeBFS', function ($user_balance) {
-                return '<a data-bs-toggle="modal" data-bs-target="#detail"   data-amount="2" data-reciver="' . $user_balance->idUser . '"
-class="btn btn-ghost-danger waves-effect waves-light bfs"  >
-<i class="glyphicon glyphicon-add"></i>$' . number_format(getUserBalanceSoldes($user_balance->idUser, 2), 2) . '</a> ';
-            })
-            ->addColumn('SoldeDB', function ($user_balance) {
-                return '<a data-bs-toggle="modal" data-bs-target="#detail"   data-amount="3" data-reciver="' . $user_balance->idUser . '"
-class="btn btn-ghost-info waves-effect waves-light db"  >
-<i class="glyphicon glyphicon-add"></i>$' . number_format(getUserBalanceSoldes($user_balance->idUser, 3), 2) . '</a> ';
-            })
-            ->addColumn('SoldeSMS', function ($user_balance) {
-                return '<a data-bs-toggle="modal" data-bs-target="#detail"   data-amount="5" data-reciver="' . $user_balance->idUser . '"
-class="btn btn-ghost-warning waves-effect waves-light smsb"  >
-<i class="glyphicon glyphicon-add"></i>' . number_format(getUserBalanceSoldes($user_balance->idUser, 5), 0) . '</a> ';
-            })
-            ->addColumn('SoldeSH', function ($user_balance) {
-                return '<a data-bs-toggle="modal" data-bs-target="#detailsh"   data-amount="6" data-reciver="' . $user_balance->idUser . '"
-class="btn btn-ghost-success waves-effect waves-light sh"  >
-<i class="glyphicon glyphicon-add"></i>' . number_format(getUserSelledActions($user_balance->idUser), 0) . '</a> ';
+            ->addColumn('flag', function ($user) {
+                return view('parts.datatable.user-flag', ['src' => $this->getFormatedFlagResourceName($user->apha2), 'title' => strtolower($user->apha2), 'name' => Lang::get($user->country)]);
             })
             ->addColumn('action', function ($settings) {
-                return '<a data-bs-toggle="modal" data-bs-target="#AddCash"   data-phone="' . $settings->mobile . '" data-country="' . $this->getFormatedFlagResourceName($settings->apha2) . '" data-reciver="' . $settings->idUser . '"
-class="btn btn-xs btn-primary btn2earnTable addCash m-1" >' . Lang::get('Add cash') . '</a> ';
+                return view('parts.datatable.user-action', ['phone' => $settings->mobile, 'user' => $settings, 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'reciver' => $settings->idUser, 'userId' => $settings->id]);
             })
-            ->rawColumns(['action', 'flag', 'SoldeCB', 'SoldeBFS', 'SoldeDB', 'SoldeSMS', 'SoldeSH', 'VIP'])
+            ->removeColumn('OptActivation')
+            ->removeColumn('note')
+            ->removeColumn('periode')
+            ->removeColumn('register_upline')
+            ->removeColumn('minshares')
+            ->removeColumn('coeff')
+            ->removeColumn('date')
+            ->rawColumns(['action', 'flag', 'VIP'])
             ->make(true);
     }
 
@@ -1180,15 +1180,90 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
 
     public function getHistoryNotificationModerateur()
     {
-        $history = $this->settingsManager->getHistoryForModerateur();
-        return datatables($history)
+        return datatables($this->settingsManager->getHistoryForModerateur())
             ->make(true);
     }
 
     public function getHistoryNotification()
     {
-        $history = $this->settingsManager->getHistory();
-        return datatables($history)
+        return datatables($this->settingsManager->getHistory())
+            ->make(true);
+    }
+
+    public function getPlatforms()
+    {
+        return datatables(Platform::all())
+            ->addColumn('type', function ($platform) {
+                return Lang::get(PlatformType::from($platform->type)->name);
+            })
+            ->addColumn('action', function ($platform) {
+                return view('parts.datatable.platform-action', ['platform' => $platform]);
+            })
+            ->addColumn('created_at', function ($platform) {
+                return $platform->created_at?->format(self::DATE_FORMAT);
+            })->addColumn('updated_at', function ($platform) {
+                return $platform->updated_at?->format(self::DATE_FORMAT);
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+    }
+
+    public function getRoles()
+    {
+        return datatables(Role::all())
+            ->addColumn('action', function ($role) {
+                return view('parts.datatable.role-action', ['roleId' => $role->id, 'roleName' => $role->name]);
+            })
+            ->addColumn('created_at', function ($platform) {
+                return $platform->created_at?->format(self::DATE_FORMAT);
+            })->addColumn('updated_at', function ($platform) {
+                return $platform->updated_at?->format(self::DATE_FORMAT);
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+    }
+
+    public function getDeals()
+    {
+        if (User::isSuperAdmin()) {
+            $deals = Deal::whereNot('status', DealStatus::Archived->value)->orderBy('validated', 'ASC')->get();
+        } else {
+            $platforms = Platform::where(function ($query) {
+                    $query
+                        ->where('administrative_manager_id', '=', auth()->user()->id)
+                        ->orWhere('financial_manager_id', '=', auth()->user()->id);
+                })->get();
+            $platformsIds = [];
+            foreach ($platforms as $platform) {
+                $platformsIds[] = $platform->id;
+            }
+            $deals = Deal::whereIn('platform_id', $platformsIds)->orderBy('validated', 'ASC')->get();
+        }
+        return datatables($deals)
+            ->addColumn('action', function ($deal) {
+                return view('parts.datatable.deals-action', ['deal' => $deal]);
+            })
+            ->addColumn('status', function ($deal) {
+                return view('parts.datatable.deals-status', ['status' => $deal->status]);
+            })
+            ->addColumn('validated', function ($deal) {
+                return view('parts.datatable.deals-validated', ['validated' => $deal->validated]);
+            })
+            ->addColumn('platform_id', function ($deal) {
+                if ($deal->platform()->first()) {
+                    return $deal->platform()->first()->id . ' - ' . $deal->platform()->first()->name;
+                }
+                return '**';
+            })
+            ->addColumn('created_by', function ($deal) {
+                return view('parts.datatable.deals-createdBy', ['createdby' => User::find($deal->created_by_id)]);
+            })
+            ->addColumn('created_at', function ($platform) {
+                return $platform->created_at?->format(self::DATE_FORMAT);
+            })->addColumn('updated_at', function ($platform) {
+                return $platform->updated_at?->format(self::DATE_FORMAT);
+            })
+            ->rawColumns(['action'])
             ->make(true);
     }
 

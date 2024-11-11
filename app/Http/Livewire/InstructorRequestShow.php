@@ -13,10 +13,13 @@ class InstructorRequestShow extends Component
     public $rejectOpened = false;
     public $note;
     public $note_message;
+    public $instructorRequest;
 
     public function mount()
     {
         $this->InstructorRequestId = Route::current()->parameter('id');
+        $this->instructorRequest = InstructorRequest::find($this->InstructorRequestId);
+        $this->userProfileImage = User::getUserProfileImage($this->instructorRequest->user->idUser);
     }
 
     public function validateRequest()
@@ -62,7 +65,7 @@ class InstructorRequestShow extends Component
     {
         $params = [
             'instructorRequests' => InstructorRequest::where('user_id', auth()->user()->id)->get(),
-            'instructorRequest' => InstructorRequest::find($this->InstructorRequestId)
+            'instructorRequest' => $this->instructorRequest
         ];
         return view('livewire.instructor-show', $params)->extends('layouts.master')->section('content');
     }

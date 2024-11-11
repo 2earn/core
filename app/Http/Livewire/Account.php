@@ -79,15 +79,22 @@ class Account extends Component
 
     public function mount(settingsManager $settingManager)
     {
+        $theId = auth()->user()->idUser;
         if (!is_null(auth()->user())) {
             $notSetings = $settingManager->getNotificationSetting(auth()->user()->idUser)
                 ->where('idNotification', '=', NotificationSettingEnum::change_pwd_sms->value)->first();
             $this->sendPassSMS = $notSetings->value;
         }
-        $this->userProfileImage = User::getUserProfileImage(auth()->user()->idUser);
-        $this->userNationalFrontImage = User::getNationalFrontImage(auth()->user()->idUser);
-        $this->userNationalBackImage = User::getNationalBackImage(auth()->user()->idUser);
-        $this->userInternationalImage = User::getInternational(auth()->user()->idUser);
+
+        if ($this->paramIdUser != null && $this->paramIdUser != "") {
+            $userAuth = $settingManager->getAuthUserById($this->paramIdUser);
+            $theId = $userAuth->idUser;
+        }
+        $this->userProfileImage = User::getUserProfileImage($theId);
+        $this->userNationalFrontImage = User::getNationalFrontImage($theId);
+        $this->userNationalBackImage = User::getNationalBackImage($theId);
+        $this->userInternationalImage = User::getInternational($theId);
+
         $this->initSendPasswordChangeOPT($settingManager->getidCountryForSms(auth()->user()->id));
     }
 
@@ -164,13 +171,14 @@ class Account extends Component
         } else {
             array_push($this->errors_array, getProfileMsgErreur('nationalID'));
         }
-
-        if (file_exists(public_path('/uploads/profiles/back-id-image' . $this->usermetta_info['idUser'] . '.png')) && file_exists(public_path('/uploads/profiles/front-id-image' . $this->usermetta_info['idUser'] . '.png'))) {
+        if (User::getNationalFrontImage($this->usermetta_info['idUser'] != User::DEFAULT_NATIONAL_FRONT_URL)
+            && User::getNationalBackImage($this->usermetta_info['idUser']) != User::DEFAULT_NATIONAL_BACK_URL) {
 
             $this->PercentComplete += 20;
         } else {
             array_push($this->errors_array, getProfileMsgErreur('photoIdentite'));
         }
+
         if (isset($this->user['email']) && trim($this->user['email']) != "") {
 
             $this->PercentComplete += 20;
@@ -198,7 +206,12 @@ class Account extends Component
         if ($this->paramIdUser == "" && $us->hasIdentificationRequest()) {
             $canModify = false;
         }
+
+        if (!$canModify) {
+            return redirect()->route('account', app()->getLocale())->with('info', 'You cant update your profile when you have an identifiaction request in progress');
+        }
         if ($canModify) {
+
             $um->arLastName = $this->usermetta_info['arLastName'];
             $um->arFirstName = $this->usermetta_info['arFirstName'];
             $um->enLastName = $this->usermetta_info['enLastName'];
@@ -236,7 +249,9 @@ class Account extends Component
         $us = User::find($this->user['id']);
 
         try {
-            User::saveProfileImage($us->idUser, $this->imageProfil);
+            if (!is_null($this->imageProfil)) {
+                User::saveProfileImage($us->idUser, $this->imageProfil);
+            }
         } catch (\Exception $e) {
             return redirect()->route('account', app()->getLocale())->with('success', Lang::get($e->getMessage()));
         }
@@ -273,7 +288,8 @@ class Account extends Component
         }
     }
 
-    public function sendActivationCodeValue($userAuth, settingsManager $settingManager)
+    public
+    function sendActivationCodeValue($userAuth, settingsManager $settingManager)
     {
         $check_exchange = $settingManager->randomNewCodeOpt();
         User::where('id', $userAuth->id)->update(['activationCodeValue' => $check_exchange]);
@@ -390,7 +406,8 @@ class Account extends Component
         }
     }
 
-    public function sendIdentificationRequest(settingsManager $settingsManager)
+    public
+    function sendIdentificationRequest(settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
         $hasRequest = $userAuth->hasIdentificationRequest();

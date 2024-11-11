@@ -145,14 +145,20 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/{idSurvey}/question/{idQuestion}/Choice', \App\Http\Livewire\SurveyQuestionChoiceCreateUpdate::class)->name('question_choice_create_update');
         });
 
+        Route::prefix('/deals')->name('deals_')->group(function () {
+            Route::get('/index', \App\Http\Livewire\DealsIndex::class)->name('index');
+            Route::get('/', \App\Http\Livewire\DealsCreateUpdate::class)->name('create_update');
+            Route::get('/{id}/show', \App\Http\Livewire\DealsShow::class)->name('show');
+            Route::get('/archive', \App\Http\Livewire\DealsArchive::class)->name('archive');
+        });
+
         Route::middleware(['IsSuperAdmin'])->group(function () {
-            Route::get('/user_list', \App\Http\Livewire\UsersList::class)->name('user_list');
+            Route::get('/user/list', \App\Http\Livewire\UsersList::class)->name('user_list');
             Route::get('/user/{idUser}/details', \App\Http\Livewire\UserDetails::class)->name('user_details');
             Route::get('/configuration/ha', ConfigurationHA::class)->name('configuration_ha');
             Route::get('/configuration/setting', \App\Http\Livewire\ConfigurationSetting::class)->name('configuration_setting');
             Route::get('/configuration/bo', \App\Http\Livewire\ConfigurationBO::class)->name('configuration_bo');
             Route::get('/configuration/amounts', \App\Http\Livewire\ConfigurationAmounts::class)->name('configuration_amounts');
-            Route::get('/admin/edit', \App\Http\Livewire\EditAdmin::class)->name('edit_admin');
             Route::get('/countries_management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
             Route::get('/requests/identification', identificationRequest::class)->name('requests_identification');
             Route::get('/requests/commited-investors', \App\Http\Livewire\CommitedRequest::class)->name('requests_commited_investors');
@@ -162,11 +168,27 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/translate', TranslateView::class)->name('translate');
             Route::get('/translate/model/data', \App\Http\Livewire\TranslateModelData::class)->name('translate_model_data');
 
-            Route::get('/target/index', \App\Http\Livewire\TargetIndex::class)->name('target_index');
-            Route::get('/target', \App\Http\Livewire\TargetCreateUpdate::class)->name('target_create_update');
-            Route::get('/target/show/{idTarget}', \App\Http\Livewire\TargetShow::class)->name('target_show');
-            Route::get('/target/{idTarget}/group', \App\Http\Livewire\GroupCreateUpdate::class)->name('group_create_update');
-            Route::get('/target/{idTarget}/condition', \App\Http\Livewire\ConditionCreateUpdate::class)->name('condition_create_update');
+            Route::prefix('/target')->name('target_')->group(function () {
+                Route::get('/index', \App\Http\Livewire\TargetIndex::class)->name('index');
+                Route::get('/', \App\Http\Livewire\TargetCreateUpdate::class)->name('create_update');
+                Route::get('/show/{idTarget}', \App\Http\Livewire\TargetShow::class)->name('show');
+                Route::get('/{idTarget}/group', \App\Http\Livewire\GroupCreateUpdate::class)->name('group_create_update');
+                Route::get('/{idTarget}/condition', \App\Http\Livewire\ConditionCreateUpdate::class)->name('condition_create_update');
+            });
+
+            Route::prefix('/platform')->name('platform_')->group(function () {
+                Route::get('/index', \App\Http\Livewire\Platform::class)->name('index');
+                Route::get('/', \App\Http\Livewire\PlatformCreateUpdate::class)->name('create_update');
+                Route::get('/{id}', \App\Http\Livewire\PlatformShow::class)->name('show');
+                Route::get('/{userId}/promotion', \App\Http\Livewire\PlatformPromotion::class)->name('promotion');
+            });
+
+            Route::prefix('/role')->name('role_')->group(function () {
+                Route::get('/index', \App\Http\Livewire\RoleIndex::class)->name('index');
+                Route::get('/', \App\Http\Livewire\RoleCreateUpdate::class)->name('create_update');
+                Route::get('/assign', \App\Http\Livewire\EditAdmin::class)->name('assign');
+            });
+
         });
 
         Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');
@@ -197,6 +219,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
 
     Route::group(['prefix' => 'api/v1'], function () {
+
         Route::get('/countries', 'App\Http\Controllers\ApiController@getCountries')->name('api_countries');
         Route::get('/settings', 'App\Http\Controllers\ApiController@getSettings')->name('api_settings');
         Route::get('/balance/operations', 'App\Http\Controllers\ApiController@getBalanceOperations')->name('api_bal_operations');
@@ -209,6 +232,9 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/shares-solde-list/{idUser}', 'App\Http\Controllers\ApiController@getSharesSoldeList')->name('api_shares_solde_list');
         Route::get('/user/admin', 'App\Http\Controllers\ApiController@getUserAdmin')->name('api_user_admin');
         Route::get('/history/notification', 'App\Http\Controllers\ApiController@getHistoryNotification')->name('api_history_notification');
+        Route::get('/platforms', 'App\Http\Controllers\ApiController@getPlatforms')->name('api_platforms');
+        Route::get('/roles', 'App\Http\Controllers\ApiController@getRoles')->name('api_role');
+        Route::get('/deals', 'App\Http\Controllers\ApiController@getDeals')->name('api_deal');
         Route::get('/request', 'App\Http\Controllers\ApiController@getRequest')->name('api_request');
         Route::get('/representatives', 'App\Http\Controllers\ApiController@getRepresentatives')->name('api_representatives');
         Route::get('/user/balancesCB', 'App\Http\Controllers\ApiController@getUserBalancesCB')->name('api_user_balances_cb');
