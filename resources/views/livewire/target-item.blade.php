@@ -43,7 +43,7 @@
                 @endif
             </div>
         </div>
-        @if(User::isSuperAdmin())
+        @if(\App\Models\User::isSuperAdmin())
             <div class="card-body row">
                 <div class="col-sm-12 col-md-5 col-lg-5">
                     <div class="btn-group mt-2" role="group">
