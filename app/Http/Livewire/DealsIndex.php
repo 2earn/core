@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Deal;
+use App\Models\User;
 use Core\Enum\DealStatus;
 use Core\Models\Platform;
 use Illuminate\Support\Facades\Lang;
@@ -20,7 +21,7 @@ class DealsIndex extends Component
 
     public function mount()
     {
-        if (strtoupper(auth()?->user()?->getRoleNames()->first()) == \App\Models\Survey::SUPER_ADMIN_ROLE_NAME) {
+        if (strtoupper(auth()?->user()?->getRoleNames()->first()) == User::SUPER_ADMIN_ROLE_NAME) {
             $this->platforms = Platform::all();
         } else {
             $this->platforms = Platform::where(function ($query) {

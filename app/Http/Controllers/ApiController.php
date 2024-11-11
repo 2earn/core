@@ -1225,11 +1225,10 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
 
     public function getDeals()
     {
-        if (strtoupper(auth()?->user()?->getRoleNames()->first()) == \App\Models\Survey::SUPER_ADMIN_ROLE_NAME) {
+        if (strtoupper(auth()?->user()?->getRoleNames()->first()) == User::SUPER_ADMIN_ROLE_NAME) {
             $deals = Deal::whereNot('status', DealStatus::Archived->value)->orderBy('validated', 'ASC')->get();
         } else {
-            $platforms = Platform::whereNot('status', DealStatus::Archived->value)
-                ->where(function ($query) {
+            $platforms = Platform::where(function ($query) {
                     $query
                         ->where('administrative_manager_id', '=', auth()->user()->id)
                         ->orWhere('financial_manager_id', '=', auth()->user()->id);

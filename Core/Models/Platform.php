@@ -50,7 +50,7 @@ class Platform extends Model
     public static function canCheckDeals($id)
     {
 
-        if (strtoupper(auth()?->user()?->getRoleNames()->first()) == \App\Models\Survey::SUPER_ADMIN_ROLE_NAME) {
+        if (strtoupper(auth()?->user()?->getRoleNames()->first()) == User::SUPER_ADMIN_ROLE_NAME) {
             return true;
         }
 
