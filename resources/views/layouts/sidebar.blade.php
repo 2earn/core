@@ -269,11 +269,11 @@
                             </ul>
                         </div>
                     </li>
-                    @if(auth()->user()->getRoleNames()->first() ==User::SUPER_ADMIN_ROLE_NAME)
+                    @if(strtoupper(auth()->user()->getRoleNames()->first()) == User::SUPER_ADMIN_ROLE_NAME)
                         <li class="menu-title">
                             <span data-key="t-menu">{{ __('SUPER ADMIN MENU') }}</span>
                         </li>
-                        @if(auth()->user()->getRoleNames()->first() ==User::SUPER_ADMIN_ROLE_NAME)
+                        @if(strtoupper(auth()->user()->getRoleNames()->first()) ==User::SUPER_ADMIN_ROLE_NAME)
                             <li class="nav-item cool-link {{$currentRouteName=='target_index'? 'active' : ''}}">
                                 <a href="{{route('target_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
                                    class="nav-link menu-link {{$currentRouteName=='target_index'? 'active' : ''}}"
@@ -458,7 +458,7 @@
                             </a>
                         </li>
                     @endif
-                    @if(auth()->user()->getRoleNames()->first() ==User::SUPER_ADMIN_ROLE_NAME)
+                    @if(strtoupper(auth()->user()->getRoleNames()->first()) ==User::SUPER_ADMIN_ROLE_NAME)
                         <li class="nav-item">
                             <a class="nav-link menu-link {{!in_array($currentRouteName, $sidebarTranslateArray)? 'collapsed' : 'active'}}"
                                href="#sidebarTranslate" data-bs-toggle="collapse"

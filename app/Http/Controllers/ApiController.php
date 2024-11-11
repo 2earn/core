@@ -1238,9 +1238,7 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
                 $platformsIds[] = $platform->id;
             }
             $deals = Deal::whereIn('platform_id', $platformsIds)->orderBy('validated', 'ASC')->get();
-
         }
-
         return datatables($deals)
             ->addColumn('action', function ($deal) {
                 return view('parts.datatable.deals-action', ['deal' => $deal]);

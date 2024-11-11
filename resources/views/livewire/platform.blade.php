@@ -20,7 +20,7 @@
                        class="btn btn-info add-btn float-end"
                        id="create-btn">
                         <i class="ri-add-line align-bottom me-1 ml-2"></i>
-                        {{__('Create new platform')}}
+                        {{__('Create platform')}}
                     </a>
                 </div>
             </div>
