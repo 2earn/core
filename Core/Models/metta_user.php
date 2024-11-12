@@ -8,7 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 {
     protected $table = 'metta_users';
 
-//    protected $fillable = [ 'name','value','valueFr'];
-
     public $timestamps = false;
 }
