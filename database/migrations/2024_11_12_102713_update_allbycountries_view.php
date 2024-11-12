@@ -1,8 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+
 
 return new class extends Migration
 {
@@ -29,12 +28,12 @@ FROM
     (
         (
             (
-                `2earn`.`user_balances` `u`
-            JOIN `2earn`.`users` `s`
+                `demo_2earn`.`user_balances` `u`
+            JOIN `demo_2earn`.`users` `s`
             )
-        JOIN `2earn`.`countries` `c`
+        JOIN `demo_2earn`.`countries` `c`
         )
-    JOIN `2earn`.`balance_operations` `b`
+    JOIN `demo_2earn`.`balance_operations` `b`
     )
 WHERE
     `u`.`idUser` = `s`.`idUser` AND `s`.`idCountry` = `c`.`id` AND `u`.`idBalancesOperation` = `b`.`id` AND `u`.`idamount` NOT IN(4, 6) AND `s`.`is_representative` <> 1
@@ -60,12 +59,12 @@ FROM
     (
         (
             (
-                `2earn`.`user_balances` `u`
-            JOIN `2earn`.`users` `s`
+                `demo_2earn`.`user_balances` `u`
+            JOIN `demo_2earn`.`users` `s`
             )
-        JOIN `2earn`.`countries` `c`
+        JOIN `demo_2earn`.`countries` `c`
         )
-    JOIN `2earn`.`balance_operations` `b`
+    JOIN `demo_2earn`.`balance_operations` `b`
     )
 WHERE
     `u`.`idUser` = `s`.`idUser` AND `s`.`idCountry` = `c`.`id` AND `u`.`idBalancesOperation` = `b`.`id` AND `u`.`idamount` = 6 AND `u`.`idBalancesOperation` = 44
@@ -88,12 +87,12 @@ FROM
     (
         (
             (
-                `2earn`.`user_balances` `u`
-            JOIN `2earn`.`users` `s`
+                `demo_2earn`.`user_balances` `u`
+            JOIN `demo_2earn`.`users` `s`
             )
-        JOIN `2earn`.`countries` `c`
+        JOIN `demo_2earn`.`countries` `c`
         )
-    JOIN `2earn`.`balance_operations` `b`
+    JOIN `demo_2earn`.`balance_operations` `b`
     )
 WHERE
     `u`.`idUser` = `s`.`idUser` AND `s`.`idCountry` = `c`.`id` AND `u`.`idBalancesOperation` = `b`.`id` AND `u`.`idamount` = 6 AND `u`.`idBalancesOperation` = 44
@@ -116,12 +115,12 @@ FROM
     (
         (
             (
-                `2earn`.`user_balances` `u`
-            JOIN `2earn`.`users` `s`
+                `demo_2earn`.`user_balances` `u`
+            JOIN `demo_2earn`.`users` `s`
             )
-        JOIN `2earn`.`countries` `c`
+        JOIN `demo_2earn`.`countries` `c`
         )
-    JOIN `2earn`.`balance_operations` `b`
+    JOIN `demo_2earn`.`balance_operations` `b`
     )
 WHERE
     `u`.`idUser` = `s`.`idUser` AND `s`.`idCountry` = `c`.`id` AND `u`.`idBalancesOperation` = `b`.`id` AND `u`.`idamount` = 6 AND `u`.`idBalancesOperation` = 44
@@ -144,12 +143,12 @@ FROM
     (
         (
             (
-                `2earn`.`user_balances` `u`
-            JOIN `2earn`.`users` `s`
+                `demo_2earn`.`user_balances` `u`
+            JOIN `demo_2earn`.`users` `s`
             )
-        JOIN `2earn`.`countries` `c`
+        JOIN `demo_2earn`.`countries` `c`
         )
-    JOIN `2earn`.`balance_operations` `b`
+    JOIN `demo_2earn`.`balance_operations` `b`
     )
 WHERE
     `u`.`idUser` = `s`.`idUser` AND `s`.`idCountry` = `c`.`id` AND `u`.`idBalancesOperation` = `b`.`id` AND `u`.`idamount` = 1 AND `u`.`idBalancesOperation` = 48
@@ -172,12 +171,12 @@ FROM
     (
         (
             (
-                `2earn`.`user_balances` `u`
-            JOIN `2earn`.`users` `s`
+                `demo_2earn`.`user_balances` `u`
+            JOIN `demo_2earn`.`users` `s`
             )
-        JOIN `2earn`.`countries` `c`
+        JOIN `demo_2earn`.`countries` `c`
         )
-    JOIN `2earn`.`balance_operations` `b`
+    JOIN `demo_2earn`.`balance_operations` `b`
     )
 WHERE
     `u`.`idUser` = `s`.`idUser` AND `s`.`idCountry` = `c`.`id` AND `u`.`idBalancesOperation` = `b`.`id` AND `u`.`idamount` = 6 AND `u`.`idBalancesOperation` = 44
@@ -198,8 +197,8 @@ SELECT
     COUNT(`s`.`idUser`) AS `value`
 FROM
     (
-        `2earn`.`users` `s`
-    JOIN `2earn`.`countries` `c`
+        `demo_2earn`.`users` `s`
+    JOIN `demo_2earn`.`countries` `c`
     )
 WHERE
     `s`.`idCountry` = `c`.`id`
@@ -221,12 +220,12 @@ FROM
     (
         (
             (
-                `2earn`.`user_balances` `u`
-            JOIN `2earn`.`users` `s`
+                `demo_2earn`.`user_balances` `u`
+            JOIN `demo_2earn`.`users` `s`
             )
-        JOIN `2earn`.`countries` `c`
+        JOIN `demo_2earn`.`countries` `c`
         )
-    JOIN `2earn`.`balance_operations` `b`
+    JOIN `demo_2earn`.`balance_operations` `b`
     )
 WHERE
     `u`.`idUser` = `s`.`idUser` AND `s`.`idCountry` = `c`.`id` AND `u`.`idBalancesOperation` = `b`.`id` AND `u`.`idamount` = 6 AND `u`.`idBalancesOperation` = 44
@@ -249,12 +248,12 @@ FROM
     (
         (
             (
-                `2earn`.`user_balances` `u`
-            JOIN `2earn`.`users` `s`
+                `demo_2earn`.`user_balances` `u`
+            JOIN `demo_2earn`.`users` `s`
             )
-        JOIN `2earn`.`countries` `c`
+        JOIN `demo_2earn`.`countries` `c`
         )
-    JOIN `2earn`.`balance_operations` `b`
+    JOIN `demo_2earn`.`balance_operations` `b`
     )
 WHERE
     `u`.`idUser` = `s`.`idUser` AND `s`.`idCountry` = `c`.`id` AND `u`.`idBalancesOperation` = `b`.`id` AND `u`.`idamount` = 6 AND `u`.`idBalancesOperation` = 44 AND `u`.`Balance` > 0
