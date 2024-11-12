@@ -948,17 +948,17 @@ class="btn btn-xs btn-primary btn2earnTable"  >
 
     public function getBalanceOperations()
     {
-        $balanceOperations = DB::table('balanceoperations')
-            ->join('amounts', 'balanceoperations.idamounts', '=', 'amounts.idamounts')
+        $balanceOperations = DB::table('balance_operations')
+            ->join('amounts', 'balance_operations.amounts_id', '=', 'amounts.idamounts')
             ->select(
-                'balanceoperations.idBalanceOperations',
-                'balanceoperations.Designation',
-                'balanceoperations.IO',
-                'balanceoperations.idSource',
-                'balanceoperations.Mode',
-                'balanceoperations.idamounts',
-                'balanceoperations.Note',
-                'balanceoperations.MODIFY_AMOUNT',
+                'balance_operations.id',
+                'balance_operations.designation',
+                'balance_operations.io',
+                'balance_operations.source',
+                'balance_operations.mode',
+                'balance_operations.amounts_id',
+                'balance_operations.note',
+                'balance_operations.modify_amount',
                 'amounts.amountsshortname');
 
         return datatables($balanceOperations)
@@ -966,7 +966,7 @@ class="btn btn-xs btn-primary btn2earnTable"  >
                 return view('parts.datatable.balances-status', ['balance' => $balance]);
             })
             ->editColumn('MODIFY_AMOUNT', function ($balance) {
-                return view('parts.datatable.balances-modify', ['modify' => $balance->MODIFY_AMOUNT]);
+                return view('parts.datatable.balances-modify', ['modify' => $balance->modify_amount]);
             })
             ->editColumn('amountsshortname', function ($balance) {
                 return view('parts.datatable.balances-short', ['balance' => $balance]);

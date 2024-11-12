@@ -32,11 +32,10 @@ class  UserBalancesRepository implements IUserBalancesRepository
                 END), 0) AS `solde`
         FROM
             (user_balances u
-        JOIN balanceoperations b)
+        JOIN balance_operations b)
         WHERE
-            u.idBalancesOperation = b.idBalanceOperations
-
-                AND b.MODIFY_AMOUNT = '1'
+            u.idBalancesOperation = b.id
+                AND b.modify_amount = '1'
         GROUP BY u.idUser , u.idamount) a ON (b.idamounts = a.idamount
             AND b.idUser = a.idUser))
     ORDER BY b.idUser , b.idamounts) as liste  where  liste.idUser = ?", [$idUser]);
@@ -123,11 +122,11 @@ class  UserBalancesRepository implements IUserBalancesRepository
                 END), 0) AS `solde`
         FROM
             (user_balances u
-        JOIN balanceoperations b)
+        JOIN balance_operations b)
         WHERE
-            u.idBalancesOperation = b.idBalanceOperations
+            u.idBalancesOperation = b.id
                 AND YEAR(u.Date) = YEAR(SYSDATE())
-                AND b.MODIFY_AMOUNT = '1'
+                AND b.modify_amount = '1'
         GROUP BY u.idUser , u.idamount) a ON (b.idamounts = a.idamount
             AND b.idUser = a.idUser))
     ORDER BY b.idUser , b.idamounts) as liste  where  liste.idUser = ? and liste.idamounts = ? ", [$idUser, $idamount]);

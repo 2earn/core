@@ -11,13 +11,13 @@ class Balances extends Component
 {
 
     public $idBalanceOperations;
-    public $DesignationBO;
-    public $IOBO;
-    public $idSourceBO;
-    public $ModeBO;
-    public $idamountsBO;
-    public $NoteBO;
-    public $MODIFY_AMOUNT;
+    public $designation;
+    public $io;
+    public $source;
+    public $mode;
+    public $amounts_id;
+    public $note;
+    public $modify_amount;
 
     public $search = '';
 
@@ -28,24 +28,20 @@ class Balances extends Component
 
     public function initBOFunction($id)
     {
-        try {
-            $balance = BalanceOperation::find($id);
 
-            if (!$balance) {
-                throw new \Exception(Lang::get('No Balances'));
-            }
-            $this->idBalanceOperations = $id;
-            $this->DesignationBO = $balance->Designation;
-            $this->IOBO = $balance->IO;
-            $this->idSourceBO = $balance->idSource;
-            $this->ModeBO = $balance->Mode;
-            $this->idamountsBO = $balance->idamounts;
-            $this->NoteBO = $balance->Note;
-            $this->MODIFY_AMOUNT = $balance->MODIFY_AMOUNT;
-        } catch (\Exception $exception) {
-            return redirect()->route('balances', ['locale' => app()->getLocale()])->with('error', Lang::get('balances init failed'));
-
+        $balance = BalanceOperation::find($id);
+        if (!$balance) {
+            throw new \Exception(Lang::get('No Balances'));
         }
+        $this->idBalanceOperations = $id;
+        $this->designation = $balance->designation;
+        $this->io = $balance->io;
+        $this->source = $balance->source;
+        $this->mode = $balance->mode;
+        $this->amounts_id = $balance->amounts_id;
+        $this->note = $balance->note;
+        $this->modify_amount = $balance->modify_amount;
+
     }
 
     public function saveBO()
@@ -55,13 +51,13 @@ class Balances extends Component
             if (!$balance) {
                 throw new \Exception(Lang::get('No Balances'));
             }
-            $balance->Designation = $this->DesignationBO;
-            $balance->IO = $this->IOBO;
-            $balance->idSource = $this->idSourceBO;
-            $balance->Mode = $this->ModeBO;
-            $balance->idamounts = $this->idamountsBO;
-            $balance->Note = $this->NoteBO;
-            $balance->MODIFY_AMOUNT = $this->MODIFY_AMOUNT;
+            $balance->designation = $this->designation;
+            $balance->io = $this->io;
+            $balance->source = $this->source;
+            $balance->mode = $this->mode;
+            $balance->amounts_id = $this->amounts_id;
+            $balance->note = $this->note;
+            $balance->modify_amount = $this->modify_amount;
             $balance->save();
         } catch (\Exception $exception) {
             return redirect()->route('balances', ['locale' => app()->getLocale()])->with('error', Lang::get('balances update failed'));

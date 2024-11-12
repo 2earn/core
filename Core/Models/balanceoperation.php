@@ -6,9 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class BalanceOperation extends Model
 {
-    public $primaryKey = 'idBalanceOperations';
     protected $table = 'balance_operations';
-    public $timestamps = false;
 
+    protected $fillable = [
+        'designation',
+        'io',
+        'source',
+        'mode',
+        'amounts_id',
+        'note',
+        'modify_amount',
+    ];
 
 }
