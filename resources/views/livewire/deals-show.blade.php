@@ -334,16 +334,19 @@
           {{$deal->createdBy?->email}}
       </span>
         </div>
-        <div class="card-header">
-            <h6 class="text-info">{{__('Calculated')}}</h6>
-        </div>
-        <div class="card-body">
-        </div>
-        <div class="card-header">
-            <h6 class="text-info">{{__('Action')}}</h6>
-        </div>
-        <div class="card-body">
-        </div>
+        @if(!in_array($currentRouteName,["deals_archive"]))
+
+            <div class="card-header">
+                <h6 class="text-info">{{__('Calculated')}}</h6>
+            </div>
+            <div class="card-body">
+            </div>
+            <div class="card-header">
+                <h6 class="text-info">{{__('Action')}}</h6>
+            </div>
+            <div class="card-body">
+            </div>
+        @endif
     </div>
 
 </div>
