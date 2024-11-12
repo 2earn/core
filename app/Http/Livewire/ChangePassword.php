@@ -53,7 +53,7 @@ class ChangePassword extends Component
             $this->earnDebug('update password password updated  : iduser- ' . $this->idUser);
             return redirect()->route('login', app()->getLocale())->with('success', Lang::get('Password successfully updated'));
         } catch (\Exception $exception) {
-            return redirect()->route('login', app()->getLocale())->with('danger', Lang::get('Password  update operation failed') . ' : ' . Lang::get($exception->getMessage()));
+            return redirect()->route('login', app()->getLocale())->with('danger', Lang::get('Password  update operation failed'));
         }
     }
 }
