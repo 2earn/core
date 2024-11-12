@@ -9,15 +9,15 @@ class  BalanceOperationRepositoty implements IBalanceOperationRepositoty
 {
     public function getBalanceOperationById(BalanceOperationsEnum $operation)
     {
-        return DB::table('balanceoperations')
+        return DB::table('balance_operations')
             ->where([
-                ['idBalanceOperations', '=', $operation],
+                ['id', '=', $operation],
             ])
             ->get()->first();
     }
     public function getBalanceOperation()
     {
-        return DB::table('balanceoperations')
+        return DB::table('balance_operations')
             ->get() ;
     }
 }
