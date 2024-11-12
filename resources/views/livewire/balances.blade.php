@@ -8,8 +8,9 @@
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive table-card mt-3 mb-1">
-                    <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                           id="BalanceOperationsTable" style="width: 100%">
+                    <table
+                        class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                        id="BalanceOperationsTable" style="width: 100%">
                         <thead class="table-light">
                         <tr>
                             <th>{{ __('Operation Designation') }}</th>
@@ -33,7 +34,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="BoModalLabel">{{__('Save BO')}}</h5>
-                    <button type="button" class="btn-close btn-close-bo" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-bo" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form action="" method="POST" enctype="multipart/form-data">
@@ -53,14 +55,14 @@
                             <div class="mb-3 col-xl-4">
                                 <label class="me-sm-2">{{ __('I/O') }}</label>
                                 <select wire:model.defer="IOBO" class="form-control" name="IO">
-                                    <option value="I">I</option>
-                                    <option value="O">O</option>
-                                    <option value="IO">IO</option>
+                                    <option value="I">{{__('I')}}</option>
+                                    <option value="O">{{__('O')}}</option>
+                                    <option value="IO">{{__('IO')}}</option>
                                 </select>
                             </div>
                             <div class="mb-3 col-xl-4">
                                 <label class="me-sm-2">{{ __('Amount') }}</label>
-                                <select class="form-control" id="langueCountrie" name=" "
+                                <select class="form-control" id="idamountsBO" name="idamountsBO"
                                         wire:model.defer="idamountsBO">
                                     @foreach($allAmounts as $amount)
                                         <option value="{{$amount->idamounts}}">{{$amount->amountsname}}</option>
@@ -78,8 +80,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" wire:click="saveBO" class="btn btn-primary">Save changes</button>
+                    <button type="button" wire:click="saveBO" class="btn btn-primary">{{__('Save')}}</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
                 </div>
             </div>
         </div>
@@ -134,11 +136,6 @@
                     },
                 }
             );
-
-            window.addEventListener('closeModalBO', event => {
-                $('.btn-close-bo').trigger('click');
-                $('#BalanceOperationsTable').DataTable().ajax.reload();
-            });
         });
     </script>
 </div>

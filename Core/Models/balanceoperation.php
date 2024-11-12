@@ -4,10 +4,10 @@ namespace Core\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class balanceoperation extends Model
+class BalanceOperation extends Model
 {
     public $primaryKey = 'idBalanceOperations';
-    protected $table = 'balanceoperations';
+    protected $table = 'balance_operations';
     public $timestamps = false;
 
 

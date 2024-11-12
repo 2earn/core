@@ -950,27 +950,26 @@ class="btn btn-xs btn-primary btn2earnTable"  >
     {
         $balanceOperations = DB::table('balanceoperations')
             ->join('amounts', 'balanceoperations.idamounts', '=', 'amounts.idamounts')
-            ->select('balanceoperations.idBalanceOperations', 'balanceoperations.Designation', 'balanceoperations.IO', 'balanceoperations.idSource', 'balanceoperations.Mode',
-                'balanceoperations.idamounts', 'balanceoperations.Note', 'balanceoperations.MODIFY_AMOUNT', 'amounts.amountsshortname');
+            ->select(
+                'balanceoperations.idBalanceOperations',
+                'balanceoperations.Designation',
+                'balanceoperations.IO',
+                'balanceoperations.idSource',
+                'balanceoperations.Mode',
+                'balanceoperations.idamounts',
+                'balanceoperations.Note',
+                'balanceoperations.MODIFY_AMOUNT',
+                'amounts.amountsshortname');
+
         return datatables($balanceOperations)
-            ->addColumn('action', function ($settings) {
-                return '<a  data-id="' . $settings->idBalanceOperations . '"   data-bs-toggle="modal" data-bs-target="#BoModal"
-class="btn btn-xs btn-primary btn2earnTable edit-bo-btn"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Update') . '</a> ';
+            ->addColumn('action', function ($balance) {
+                return view('parts.datatable.balances-status', ['balance' => $balance]);
             })
-            ->editColumn('MODIFY_AMOUNT', function ($balanceOperations) {
-                if ($balanceOperations->MODIFY_AMOUNT == 1)
-                    return '<span class="badge badge-success">Yes</span>';
-                else
-                    return '<span class="badge badge-info">No</span>';
+            ->editColumn('MODIFY_AMOUNT', function ($balance) {
+                return view('parts.datatable.balances-modify', ['modify' => $balance->MODIFY_AMOUNT]);
             })
-            ->editColumn('amountsshortname', function ($balanceOperations) {
-
-                if ($balanceOperations->amountsshortname == "BFS") {
-                    return ' <img width="20" height="20" id="imm" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAAEX0lEQVR4nO2az48URRTHP5jZsGA2svw4ADsJFwPyB3jxBwkcMNwMHoCLurp69AQhcOGf8ICEP0CCLAfABNhVXIRsiFd2RUABEw+gsIvKCcfDe0X39lR1Vc9U9ww7/U0qma73qt73va569aMHagw2VnjkrS7b932fr3RgrEaNZYQ6B3RgrEaNAULLUzrBjzn9zVTNc+CTYC/geivdjKqOMfCrgC8AZczXMtAxz17mgGxbV32RPl1w9tkINOAi228ozLPOARXYmKLY3iGte7lEXkA1AVhtqbMlpquBbStFjDV7BDiv+s+AfTm67wP/qO4lYE2FPEvtuAF8qW3+A45ZdL4AnqvOSWCoBzzb5quv46Lz9RCJk18hTg7p75bKDvWS5zVLgx8sejMWvWsBxAH2Av9qm4taWlr3QWAf18viOQKco9z5CvAm8EeK1EPg7QLtS80r2SF50KJzkGQon6DYfDXYAsxq2dJB+yG1XRpPW1IKSWZVo1SeMeZrFSiVZ7fztSqUyrPb+VoVXhaeNfoSebcqy628OIylLxAK7ZmXAdpuibL76QOE7/H7FdOID+mdovOAlBZsAH7T509LJFg2PkN8+BVYr3XeAOwncX6G8HvDEKwFxoGzwDzwt5Z5YBL4GBiNaK+BXLSYIOwnIADpRLExEpFVwFFgwWInW54AR7RNDGzCfipsgxFMIcM+1psfA34i2ZdfQkbBdmAYOZ1tBSZYes6/AWyOxKGB+JTuvw1OQRcYA37Xfm8C7wa0eQe4o20eEC8IBpUFYBXJm/8e+zncZXMUueAwI2E4Iq/KAnBU+7sFvFaUDJIwb6n8cERelQRgLUnCe8si34MMb19i2qn1jyl245SHQgFoAqeBRS2TSMLyYVz7uuiQ25x3Bd8krg8D7IbwDQ5AE/jTQvIvleXhrOp+4pAXGW1mM/ONRy+Ub3AATuvzeSQTN4ELWnfKQ+Zn1XvdIS8SgG2qO+fRC+UbHIBFfU5Hr6l1Cx4ypu2IQ56dAg+A9xy6I6qzGGjTx3eJnyHfBm3RCn17zx31E4jTBmPAcYdu0f8LdMw3OwIm9fkCEskm8K3Wfe3py0yBbSGGLbbTeENl854+QvkGT4GtSALJJpVHyBsLITPu0fOSAj4nLAmG8i28DJ5C5tACEkmf8yCnurxl0LYE3nPomjN96DLo41vZRuiJ9rcjx1ba+d0WvV30eCPUDY6QzF3XGT/P5jrgtspDvhiHorIADCMHmRZwBXsQXDbXkZzhZ3lJD0MgGxKz5v+CfTpksYvkzd9HLjRiwhuAaWT7GetCZDPJSGghl6wTyBL5KrLR2Y5k++mU3izxnG9Y+m9DNjFdjUhgGDnSmsSYVx4jc35lJNubsH/zaIMR7EMuEFvEvxQdBT5C9glzwFMtc8AZZKmLle1BuBvn7yK+BeWA9SRBmIhIqGqYTdRdJLFCgSRorpCnSiRYNr4jGdUGS/wc+E9j6dOg7Z+ayxX99Ff/Gj3F/1ZQl/ObCiogAAAAAElFTkSuQmCC">';
-
-                } else {
-                    return '<span><i class="fa fa-cogs" aria-hidden="true"></i></span>';
-                }
+            ->editColumn('amountsshortname', function ($balance) {
+                return view('parts.datatable.balances-short', ['balance' => $balance]);
             })
             ->escapeColumns([])
             ->toJson();
@@ -1229,10 +1228,10 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
             $deals = Deal::whereNot('status', DealStatus::Archived->value)->orderBy('validated', 'ASC')->get();
         } else {
             $platforms = Platform::where(function ($query) {
-                    $query
-                        ->where('administrative_manager_id', '=', auth()->user()->id)
-                        ->orWhere('financial_manager_id', '=', auth()->user()->id);
-                })->get();
+                $query
+                    ->where('administrative_manager_id', '=', auth()->user()->id)
+                    ->orWhere('financial_manager_id', '=', auth()->user()->id);
+            })->get();
             $platformsIds = [];
             foreach ($platforms as $platform) {
                 $platformsIds[] = $platform->id;
