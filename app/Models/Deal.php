@@ -85,7 +85,7 @@ class Deal extends Model
     /**
      * Calculate provider total net turnover.
      */
-    public function getProviderTotalNetTurnover($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover): float
+    public function getProviderTotalNetTurnover(): float
     {
         $vstep = $this->getCommissionProgressiveStepDuringTheDealExecution();
         $vidx = $this->getIndexOfCurrentTurnover();
@@ -95,7 +95,7 @@ class Deal extends Model
     /**
      * Calculate provider total turnover out of deal.
      */
-    public function getProviderTotalTurnoverOutOfDeal($precision, $objectiveTurnover, $providerTurnover, $currentTurnover): float
+    public function getProviderTotalTurnoverOutOfDeal(): float
     {
         return $this->getProviderUnitTurnoverOutDeal() * $this->getIndexOfCurrentTurnover();
     }
