@@ -33,7 +33,7 @@
                             <p class="card-text text-muted float-end">{{$commitedRequest->request_date}}</p>
                         </div>
                         <div class="card-footer text-muted">
-                            <a href="{{route('requests_commited_investors_show', ['locale' => app()->getLocale(), 'id' => $commitedRequest->user_id]) }}"
+                            <a href="{{route('requests_commited_investors_show', ['locale' => app()->getLocale(), 'id' => $commitedRequest->id]) }}"
                                class="btn btn-soft-primary float-end">
                                 {{__('See Details')}}
                             </a>

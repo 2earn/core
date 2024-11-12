@@ -17,7 +17,7 @@
     </li>
     <li class="list-group-item">
         <i class="mdi mdi-check-bold align-middle lh-1 me-2"></i>
-        <strong class="ml-3">{{__('Upline ')}}</strong>
+        <strong class="ml-3">{{__('Upline')}}</strong>
         @if(!is_null($upline))
             <span class="text-muted float-end ml-3">
         {{getUserDisplayedName($upline->idUser)}}

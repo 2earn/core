@@ -3,9 +3,9 @@
 namespace App\Http\Livewire;
 
 use Core\Enum\PlatformType;
+use Core\Models\Platform;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
-use Core\Models\Platform;
 use Livewire\Component;
 
 class PlatformCreateUpdate extends Component
@@ -20,7 +20,12 @@ class PlatformCreateUpdate extends Component
     public $enabled = false;
     public $show_profile = false;
 
-    protected $rules = ['name' => 'required', 'description' => 'required'];
+    protected $rules = [
+        'name' => 'required',
+        'description' => 'required',
+        'type' => 'required',
+        'link' => 'required',
+    ];
     public $update = false;
     public $types = [];
 
@@ -40,7 +45,7 @@ class PlatformCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('platform_index', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('warning', Lang::get('Platform operation cancelled!!'));
+        return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Platform operation cancelled!!'));
     }
 
     public function edit($idPlatform)
@@ -90,7 +95,7 @@ class PlatformCreateUpdate extends Component
                 'type' => $this->type,
                 'link' => $this->link
             ];
-            $platform = \Core\Models\Platform::create($params);
+            $platform = Platform::create($params);
         } catch (\Exception $exception) {
             return redirect()->route('platform_create_update', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while creating Platform!!') . ' ' . $exception->getMessage());
         }
