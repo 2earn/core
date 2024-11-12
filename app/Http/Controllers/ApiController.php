@@ -951,7 +951,7 @@ class="btn btn-xs btn-primary btn2earnTable"  >
             ->addColumn('action', function ($balance) {
                 return view('parts.datatable.balances-status', ['balance' => $balance]);
             })
-            ->editColumn('MODIFY_AMOUNT', function ($balance) {
+            ->editColumn('modify_amount', function ($balance) {
                 return view('parts.datatable.balances-modify', ['modify' => $balance->modify_amount]);
             })
             ->editColumn('amountsshortname', function ($balance) {
