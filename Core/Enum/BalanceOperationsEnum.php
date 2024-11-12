@@ -40,6 +40,7 @@ enum BalanceOperationsEnum: int
     case SI_SMS = 37;
     case BFS_TO_SMSn_BFS = 38;
     case From_BFS_Balance_SMS = 39;
+    const Achat_SMS_SMS = 40;
 }
 
 
