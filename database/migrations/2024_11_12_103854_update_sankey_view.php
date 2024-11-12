@@ -32,12 +32,12 @@ SUM(`u`.`value`) AS `weight`
 FROM
     (
         (
-            `2earn`.`user_balances` `u`
-        JOIN `2earn`.`users` `s`
+            `demo_2earn`.`user_balances` `u`
+        JOIN `demo_2earn`.`users` `s`
         ON
             (`u`.`idUser` = `s`.`idUser`)
         )
-    JOIN `2earn`.`metta_users` `meta`
+    JOIN `demo_2earn`.`metta_users` `meta`
     ON
         (`u`.`idUser` = `meta`.`idUser`)
     )
@@ -85,28 +85,28 @@ FROM
                 (
                     (
                         (
-                            `2earn`.`user_balances` `u`
-                        JOIN `2earn`.`users` `s`
+                            `demo_2earn`.`user_balances` `u`
+                        JOIN `demo_2earn`.`users` `s`
                         ON
                             (`u`.`idSource` = `s`.`idUser`)
                         )
-                    JOIN `2earn`.`countries` `c`
+                    JOIN `demo_2earn`.`countries` `c`
                     ON
                         (`s`.`idCountry` = `c`.`id`)
                     )
-                JOIN `2earn`.`metta_users` `meta`
+                JOIN `demo_2earn`.`metta_users` `meta`
                 ON
                     (`u`.`idSource` = `meta`.`idUser`)
                 )
-            JOIN `2earn`.`users` `s1`
+            JOIN `demo_2earn`.`users` `s1`
             ON
                 (`u`.`idUser` = `s1`.`idUser`)
             )
-        JOIN `2earn`.`metta_users` `meta1`
+        JOIN `demo_2earn`.`metta_users` `meta1`
         ON
             (`u`.`idUser` = `meta1`.`idUser`)
         )
-    JOIN `2earn`.`countries` `c1`
+    JOIN `demo_2earn`.`countries` `c1`
     ON
         (`s1`.`idCountry` = `c1`.`id`)
     )
@@ -166,28 +166,28 @@ FROM
                 (
                     (
                         (
-                            `2earn`.`user_balances` `u`
-                        JOIN `2earn`.`users` `s`
+                            `demo_2earn`.`user_balances` `u`
+                        JOIN `demo_2earn`.`users` `s`
                         ON
                             (`u`.`idSource` = `s`.`idUser`)
                         )
-                    JOIN `2earn`.`countries` `c`
+                    JOIN `demo_2earn`.`countries` `c`
                     ON
                         (`s`.`idCountry` = `c`.`id`)
                     )
-                JOIN `2earn`.`metta_users` `meta`
+                JOIN `demo_2earn`.`metta_users` `meta`
                 ON
                     (`u`.`idSource` = `meta`.`idUser`)
                 )
-            JOIN `2earn`.`users` `s1`
+            JOIN `demo_2earn`.`users` `s1`
             ON
                 (`u`.`idUser` = `s1`.`idUser`)
             )
-        JOIN `2earn`.`metta_users` `meta1`
+        JOIN `demo_2earn`.`metta_users` `meta1`
         ON
             (`u`.`idUser` = `meta1`.`idUser`)
         )
-    JOIN `2earn`.`countries` `c1`
+    JOIN `demo_2earn`.`countries` `c1`
     ON
         (`s1`.`idCountry` = `c1`.`id`)
     )
@@ -234,28 +234,28 @@ FROM
                 (
                     (
                         (
-                            `2earn`.`user_balances` `u`
-                        JOIN `2earn`.`users` `s`
+                            `demo_2earn`.`user_balances` `u`
+                        JOIN `demo_2earn`.`users` `s`
                         ON
                             (`u`.`idSource` = `s`.`idUser`)
                         )
-                    JOIN `2earn`.`countries` `c`
+                    JOIN `demo_2earn`.`countries` `c`
                     ON
                         (`s`.`idCountry` = `c`.`id`)
                     )
-                JOIN `2earn`.`metta_users` `meta`
+                JOIN `demo_2earn`.`metta_users` `meta`
                 ON
                     (`u`.`idSource` = `meta`.`idUser`)
                 )
-            JOIN `2earn`.`users` `s1`
+            JOIN `demo_2earn`.`users` `s1`
             ON
                 (`u`.`idUser` = `s1`.`idUser`)
             )
-        JOIN `2earn`.`metta_users` `meta1`
+        JOIN `demo_2earn`.`metta_users` `meta1`
         ON
             (`u`.`idUser` = `meta1`.`idUser`)
         )
-    JOIN `2earn`.`countries` `c1`
+    JOIN `demo_2earn`.`countries` `c1`
     ON
         (`s1`.`idCountry` = `c1`.`id`)
     )
@@ -289,28 +289,28 @@ FROM
                 (
                     (
                         (
-                            `2earn`.`user_balances` `u`
-                        JOIN `2earn`.`users` `s`
+                            `demo_2earn`.`user_balances` `u`
+                        JOIN `demo_2earn`.`users` `s`
                         ON
                             (`u`.`idSource` = `s`.`idUser`)
                         )
-                    JOIN `2earn`.`countries` `c`
+                    JOIN `demo_2earn`.`countries` `c`
                     ON
                         (`s`.`idCountry` = `c`.`id`)
                     )
-                JOIN `2earn`.`metta_users` `meta`
+                JOIN `demo_2earn`.`metta_users` `meta`
                 ON
                     (`u`.`idSource` = `meta`.`idUser`)
                 )
-            JOIN `2earn`.`users` `s1`
+            JOIN `demo_2earn`.`users` `s1`
             ON
                 (`u`.`idUser` = `s1`.`idUser`)
             )
-        JOIN `2earn`.`metta_users` `meta1`
+        JOIN `demo_2earn`.`metta_users` `meta1`
         ON
             (`u`.`idUser` = `meta1`.`idUser`)
         )
-    JOIN `2earn`.`countries` `c1`
+    JOIN `demo_2earn`.`countries` `c1`
     ON
         (`s1`.`idCountry` = `c1`.`id`)
     )
@@ -343,28 +343,28 @@ FROM
                 (
                     (
                         (
-                            `2earn`.`user_balances` `u`
-                        JOIN `2earn`.`users` `s`
+                            `demo_2earn`.`user_balances` `u`
+                        JOIN `demo_2earn`.`users` `s`
                         ON
                             (`u`.`idSource` = `s`.`idUser`)
                         )
-                    JOIN `2earn`.`countries` `c`
+                    JOIN `demo_2earn`.`countries` `c`
                     ON
                         (`s`.`idCountry` = `c`.`id`)
                     )
-                JOIN `2earn`.`metta_users` `meta`
+                JOIN `demo_2earn`.`metta_users` `meta`
                 ON
                     (`u`.`idSource` = `meta`.`idUser`)
                 )
-            JOIN `2earn`.`users` `s1`
+            JOIN `demo_2earn`.`users` `s1`
             ON
                 (`u`.`idUser` = `s1`.`idUser`)
             )
-        JOIN `2earn`.`metta_users` `meta1`
+        JOIN `demo_2earn`.`metta_users` `meta1`
         ON
             (`u`.`idUser` = `meta1`.`idUser`)
         )
-    JOIN `2earn`.`countries` `c1`
+    JOIN `demo_2earn`.`countries` `c1`
     ON
         (`s1`.`idCountry` = `c1`.`id`)
     )
@@ -411,20 +411,20 @@ FROM
         (
             (
                 (
-                    `2earn`.`user_balances` `u`
-                JOIN `2earn`.`users` `s1`
+                    `demo_2earn`.`user_balances` `u`
+                JOIN `demo_2earn`.`users` `s1`
                 ON
                     (`u`.`idUser` = `s1`.`idUser`)
                 )
-            JOIN `2earn`.`metta_users` `meta1`
+            JOIN `demo_2earn`.`metta_users` `meta1`
             ON
                 (`u`.`idUser` = `meta1`.`idUser`)
             )
-        JOIN `2earn`.`countries` `c1`
+        JOIN `demo_2earn`.`countries` `c1`
         ON
             (`s1`.`idCountry` = `c1`.`id`)
         )
-    JOIN `2earn`.`balance_operations` `b`
+    JOIN `demo_2earn`.`balance_operations` `b`
     ON
         (`u`.`idBalancesOperation` = `b`.`id`)
     )
@@ -458,20 +458,20 @@ FROM
         (
             (
                 (
-                    `2earn`.`user_balances` `u`
-                JOIN `2earn`.`users` `s1`
+                    `demo_2earn`.`user_balances` `u`
+                JOIN `demo_2earn`.`users` `s1`
                 ON
                     (`u`.`idUser` = `s1`.`idUser`)
                 )
-            JOIN `2earn`.`metta_users` `meta1`
+            JOIN `demo_2earn`.`metta_users` `meta1`
             ON
                 (`u`.`idUser` = `meta1`.`idUser`)
             )
-        JOIN `2earn`.`countries` `c1`
+        JOIN `demo_2earn`.`countries` `c1`
         ON
             (`s1`.`idCountry` = `c1`.`id`)
         )
-    JOIN `2earn`.`balance_operations` `b`
+    JOIN `demo_2earn`.`balance_operations` `b`
     ON
         (`u`.`idBalancesOperation` = `b`.`id`)
     )
@@ -491,28 +491,28 @@ FROM
                 (
                     (
                         (
-                            `2earn`.`user_balances` `u`
-                        JOIN `2earn`.`users` `s`
+                            `demo_2earn`.`user_balances` `u`
+                        JOIN `demo_2earn`.`users` `s`
                         ON
                             (`u`.`idSource` = `s`.`idUser`)
                         )
-                    JOIN `2earn`.`countries` `c`
+                    JOIN `demo_2earn`.`countries` `c`
                     ON
                         (`s`.`idCountry` = `c`.`id`)
                     )
-                JOIN `2earn`.`metta_users` `meta`
+                JOIN `demo_2earn`.`metta_users` `meta`
                 ON
                     (`u`.`idSource` = `meta`.`idUser`)
                 )
-            JOIN `2earn`.`users` `s1`
+            JOIN `demo_2earn`.`users` `s1`
             ON
                 (`u`.`idUser` = `s1`.`idUser`)
             )
-        JOIN `2earn`.`metta_users` `meta1`
+        JOIN `demo_2earn`.`metta_users` `meta1`
         ON
             (`u`.`idUser` = `meta1`.`idUser`)
         )
-    JOIN `2earn`.`countries` `c1`
+    JOIN `demo_2earn`.`countries` `c1`
     ON
         (`s1`.`idCountry` = `c1`.`id`)
     )
@@ -541,12 +541,12 @@ SELECT
 FROM
     (
         (
-            `2earn`.`user_balances` `u`
-        JOIN `2earn`.`users` `s`
+            `demo_2earn`.`user_balances` `u`
+        JOIN `demo_2earn`.`users` `s`
         ON
             (`u`.`idUser` = `s`.`idUser`)
         )
-    JOIN `2earn`.`metta_users` `meta`
+    JOIN `demo_2earn`.`metta_users` `meta`
     ON
         (`u`.`idUser` = `meta`.`idUser`)
     )
@@ -575,12 +575,12 @@ SELECT
 FROM
     (
         (
-            `2earn`.`user_balances` `u`
-        JOIN `2earn`.`users` `s`
+            `demo_2earn`.`user_balances` `u`
+        JOIN `demo_2earn`.`users` `s`
         ON
             (`u`.`idUser` = `s`.`idUser`)
         )
-    JOIN `2earn`.`countries` `c`
+    JOIN `demo_2earn`.`countries` `c`
     ON
         (`s`.`idCountry` = `c`.`id`)
     )
