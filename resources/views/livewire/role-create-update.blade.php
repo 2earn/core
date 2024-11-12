@@ -8,7 +8,7 @@
             @endif
         @endslot
     @endcomponent
-    <div class="row card">
+    <div class="row">
         @include('layouts.flash-messages')
     </div>
     <div class="row card">
@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="card-body row ">
-            <div class="card mb-2 mr-2 ml-2 border border-dashed ">
+            <div class="card mb-2 mr-2 ml-2 border">
                 <div class="card-body">
                     <form>
                         <input type="hidden" wire:model="id">
