@@ -295,21 +295,7 @@ left join users user on user.idUser = recharge_requests.idUser";
 
     public function getCountriStat()
     {
-        $data = DB::select("select name,apha2,continant,
-           CASH_BALANCE,
-    BFS,
-    DISCOUNT_BALANCE,
-    SMS_BALANCE,
-    SOLD_SHARES,
-    GIFTED_SHARES,
-    TOTAL_SHARES,
-    SHARES_REVENUE,
-    TRANSFERT_MADE,
-    COUNT_USERS,
-    COUNT_TRAIDERS,
-    COUNT_REAL_TRAIDERS from tableau_croise");
-
-        return response()->json($data);
+        return response()->json(DB::table('tableau_croise')->select('*')->get());
     }
 
     public function getSankey()
@@ -505,7 +491,7 @@ left join users user on user.idUser = recharge_requests.idUser";
                 ->value('value');
             $value = DB::table('user_balances as u')
                 ->select(DB::raw('SUM(CASE WHEN b.IO = "I" THEN u.value ELSE -u.value END) as value'))
-                ->join('balanceoperations as b', 'u.idBalancesOperation', '=', 'b.idBalanceOperations')
+                ->join('balance_operations as b', 'u.idBalancesOperation', '=', 'b.id')
                 ->join('users as s', 'u.idUser', '=', 's.idUser')
                 ->where('u.idamount', 1)
                 ->where('u.idUser', $user)
@@ -1092,9 +1078,9 @@ end)   OVER(ORDER BY date) ,0) ,' ') when idAmount = 3 then concat( format(  SUM
 when bo.IO ='O' then  format(format(ub.value,3)/format(PrixUnitaire *-1,3) ,3)
 when bo.IO = 'IO' then 'IO'
 end)   OVER(ORDER BY date) ,3) , ' $') else concat( format( ub.balance ,3,'en_EN') ,' $') end  as balance,ub.PrixUnitaire,'d' as sensP
-  FROM user_balances ub inner join balanceoperations bo on
-ub.idBalancesOperation = bo.idBalanceOperations
-where  (bo.idamounts = ? and ub.idUser =  ?)  order by ref desc", [$idAmounts, auth()->user()->idUser]
+  FROM user_balances ub inner join balance_operations bo on
+ub.idBalancesOperation = bo.id
+where  (bo.amounts_id = ? and ub.idUser =  ?)  order by ref desc", [$idAmounts, auth()->user()->idUser]
         );
         return Datatables::of($userData)
             ->addColumn('formatted_date', function ($user) {
@@ -1130,9 +1116,9 @@ end)   OVER(ORDER BY date) ,0) ,' ') when idAmount = 3 then concat('$ ', format(
 when bo.IO ='O' then  format(format(ub.value,3)/format(PrixUnitaire *-1,3) ,3)
 when bo.IO = 'IO' then 'IO'
 end)   OVER(ORDER BY date) ,2) ) else concat( '$ ', format( ub.balance ,3,'en_EN') ) end  as balance,ub.PrixUnitaire, bo.IO as sensP
-  FROM user_balances ub inner join balanceoperations bo on
-ub.idBalancesOperation = bo.idBalanceOperations
-where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [2, $user->idUser]
+  FROM user_balances ub inner join balance_operations bo on
+ub.idBalancesOperation = bo.id
+where  (bo.amounts_id = ? and ub.idUser =  ?)  order by Date   ", [2, $user->idUser]
         );
 
         return datatables($userData)
@@ -1329,9 +1315,9 @@ case when bo.IO = 'I' then  concat('+ ', ub.value )
 when bo.IO ='O' then concat('- ', ub.value )
 when bo.IO = 'IO' then 'IO'
 end as value , ub.Balance as balance
-  FROM user_balances ub inner join balanceoperations bo on
-ub.idBalancesOperation = bo.idBalanceOperations
-where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUser]
+  FROM user_balances ub inner join balance_operations bo on
+ub.idBalancesOperation = bo.id
+where  (bo.amounts_id = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUser]
         );
         return datatables($userData)->make(true);
     }
@@ -1434,7 +1420,7 @@ where  (bo.idamounts = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUs
                             AND ub.id_item = ub2.id_item), 0) AS CashBack_CB
         FROM
             ((user_balances ub
-        JOIN balanceoperations bo ON (ub.idBalancesOperation = bo.idBalanceOperations))
+        JOIN balance_operations bo ON (ub.idBalancesOperation = bo.id))
         JOIN (
     SELECT
         `user_balances`.`idUser` AS `idUser`,
