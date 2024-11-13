@@ -119,37 +119,37 @@ class Deal extends Model
         return $this->getProviderTotalNetTurnover($currentTurnover) * $this->items_profit_average;
     }
 
-    public function getPproviderTotalProfitOutOfDeal( $currentTurnover): float
+    public function getPproviderTotalProfitOutOfDeal($currentTurnover): float
     {
         return $this->getProviderTotalTurnoverOutOfDeal($currentTurnover) * $this->items_profit_average;
     }
 
 
-    public function getCurrentCashBackMargin(): float
+    public function getCurrentCashBackMargin($currentTurnover): float
     {
-        return $this->getCurrentTotal2earnCashMargin() * $this->cashBackMarginPercentage;
+        return $this->getCurrentTotal2earnCashMargin($currentTurnover) * $this->cashBackMarginPercentage;
     }
 
 
-    public function getCurrentFranchisorMargin($franchisorMarginPercentage): float
+    public function getCurrentFranchisorMargin($franchisorMarginPercentage, $currentTurnover): float
     {
-        return $this->getCurrentTotal2earnCashMargin() * $franchisorMarginPercentage;
+        return $this->getCurrentTotal2earnCashMargin($currentTurnover) * $franchisorMarginPercentage;
     }
 
 
-    public function getCurrentInfluencerMargin($influencerMarginPercentage): float
+    public function getCurrentInfluencerMargin($influencerMarginPercentage, $currentTurnover): float
     {
-        return $this->getCurrentTotal2earnCashMargin() * $influencerMarginPercentage;
+        return $this->getCurrentTotal2earnCashMargin($currentTurnover) * $influencerMarginPercentage;
     }
 
-    public function getCurrentProactiveConsumptionMargin(): float
+    public function getCurrentProactiveConsumptionMargin($currentTurnover): float
     {
-        return $this->getCurrentTotal2earnCashMargin() * $this->proactive_consumption_margin_percentage;
+        return $this->getCurrentTotal2earnCashMargin($currentTurnover) * $this->proactive_consumption_margin_percentage;
     }
 
-    public function getCurrentPrescriptorMargin($prescriptorMarginPercentage): float
+    public function getCurrentPrescriptorMargin($prescriptorMarginPercentage, $currentTurnover): float
     {
-        return $this->getCurrentTotal2earnCashMargin() * $prescriptorMarginPercentage;
+        return $this->getCurrentTotal2earnCashMargin($currentTurnover) * $prescriptorMarginPercentage;
     }
 
 
@@ -163,15 +163,15 @@ class Deal extends Model
         return $this->getCurrentTotal2earnCashMargin() * $mtecPercentage;
     }
 
-    public function getProviderProfitDifference(): float
+    public function getProviderProfitDifference($currentTurnover): float
     {
 
-        return $this->getProviderTotalProfit() - $this->getPproviderTotalProfitOutOfDeal();
+        return $this->getProviderTotalProfit($currentTurnover) - $this->getPproviderTotalProfitOutOfDeal($currentTurnover);
     }
 
-    public function getProviderProfitSum(): float
+    public function getProviderProfitSum($currentTurnover): float
     {
-        return $this->getProviderTotalProfit() + $this->getPproviderTotalProfitOutOfDeal();
+        return $this->getProviderTotalProfit($currentTurnover) + $this->getPproviderTotalProfitOutOfDeal($currentTurnover);
     }
 
 }
