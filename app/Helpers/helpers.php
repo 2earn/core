@@ -15,8 +15,8 @@ if (!function_exists('getUserBalanceSoldes')) {
     function getUserBalanceSoldes($idUser, $amount)
     {
         $result = DB::table('user_balances as u')
-            ->select('u.idUser', 'u.idamount', DB::raw('SUM(CASE WHEN b.IO = "I" THEN u.value ELSE -u.value END) as value'))
-            ->join('balanceoperations as b', 'u.idBalancesOperation', '=', 'b.idBalanceOperations')
+            ->select('u.idUser', 'u.idamount', DB::raw('SUM(CASE WHEN b.io = "I" THEN u.value ELSE -u.value END) as value'))
+            ->join('balance_operations as b', 'u.idBalancesOperation', '=', 'b.id')
             ->join('users as s', 'u.idUser', '=', 's.idUser')
             ->where('u.idUser', $idUser)
             ->where('u.idamount', $amount)
@@ -68,9 +68,9 @@ if (!function_exists('getUserListCards')) {
     function getUserListCards()
     {
         $data = DB::table(function ($query) {
-            $query->select('idUser', 'u.idamount', 'Date', 'u.idBalancesOperation', 'b.Designation', DB::raw('CASE WHEN b.IO = "I" THEN value ELSE -value END as value'))
+            $query->select('idUser', 'u.idamount', 'Date', 'u.idBalancesOperation', 'b.designation', DB::raw('CASE WHEN b.io = "I" THEN value ELSE -value END as value'))
                 ->from('user_balances as u')
-                ->join('balanceoperations as b', 'u.idBalancesOperation', '=', 'b.idBalanceOperations')
+                ->join('balance_operations as b', 'u.idBalancesOperation', '=', 'b.id')
                 ->whereNotIn('u.idamount', [4])
                 ->orderBy('idUser')
                 ->orderBy('u.idamount')
@@ -92,8 +92,8 @@ if (!function_exists('getAdminCash')) {
     function getAdminCash()
     {
         $value = DB::table('user_balances as u')
-            ->select(DB::raw('SUM(CASE WHEN b.IO = "I" THEN u.value ELSE -u.value END) as value'))
-            ->join('balanceoperations as b', 'u.idBalancesOperation', '=', 'b.idBalanceOperations')
+            ->select(DB::raw('SUM(CASE WHEN b.io = "I" THEN u.value ELSE -u.value END) as value'))
+            ->join('balance_operations as b', 'u.idBalancesOperation', '=', 'b.id')
             ->join('users as s', 'u.idUser', '=', 's.idUser')
             ->where('u.idamount', 1)
             ->where('s.is_representative', 1)
@@ -106,8 +106,8 @@ if (!function_exists('getUserCash')) {
     function getUserCash($user)
     {
         $value = DB::table('user_balances as u')
-            ->select(DB::raw('SUM(CASE WHEN b.IO = "I" THEN u.value ELSE -u.value END) as value'))
-            ->join('balanceoperations as b', 'u.idBalancesOperation', '=', 'b.idBalanceOperations')
+            ->select(DB::raw('SUM(CASE WHEN b.io = "I" THEN u.value ELSE -u.value END) as value'))
+            ->join('balance_operations as b', 'u.idBalancesOperation', '=', 'b.id')
             ->join('users as s', 'u.idUser', '=', 's.idUser')
             ->where('u.idamount', 1)
             ->where('u.idUser', $user)
@@ -588,3 +588,21 @@ if (!function_exists('getValidCurrentDateTime')) {
         return $datetime->format('Y-m-d H:i:s');
     }
 }
+
+if (!function_exists('formatSqlWithEnv')) {
+    function formatSqlWithEnv($viewSqlCode)
+    {
+
+        match (env('APP_NAME', '2Earn.test')) {
+            '2Earn.test' => $viewSqlCode = str_replace('database_name', '2earn', $viewSqlCode),
+            'dev.2earn.cash' => $viewSqlCode = str_replace('database_name', 'dev_2earn', $viewSqlCode),
+            'demo.2earn.cash' => $viewSqlCode = str_replace('database_name', 'demo_2earn', $viewSqlCode),
+            '2Earn.cash' => $viewSqlCode = str_replace('database_name', 'prod_2earn', $viewSqlCode),
+        };
+        return $viewSqlCode;
+
+    }
+}
+
+
+

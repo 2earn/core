@@ -335,7 +335,6 @@
       </span>
         </div>
         @if(!in_array($currentRouteName,["deals_archive"]))
-
             <div class="card-header">
                 <h6 class="text-info">{{__('Calculated')}}</h6>
             </div>

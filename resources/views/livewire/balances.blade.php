@@ -5,11 +5,18 @@
         @endslot
     @endcomponent
     <div class="row">
+        <div class="col-12">
+            @include('layouts.flash-messages')
+        </div>
+    </div>
+    <div class="row">
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive table-card mt-3 mb-1">
-                    <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                           id="BalanceOperationsTable" style="width: 100%">
+                    <table     wire:ignore
+
+                               class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                        id="BalanceOperationsTable">
                         <thead class="table-light">
                         <tr>
                             <th>{{ __('Operation Designation') }}</th>
@@ -32,8 +39,9 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="BoModalLabel">{{__('Save BO')}}</h5>
-                    <button type="button" class="btn-close btn-close-bo" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="BoModalLabel">{{__('Balance Operation')}}</h5>
+                    <button type="button" class="btn-close btn-close-bo" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form action="" method="POST" enctype="multipart/form-data">
@@ -42,26 +50,26 @@
 
                             <div class="mb-3 col-xl-6">
                                 <label class="me-sm-2">{{ __('Designation') }}</label>
-                                <input wire:model.defer="DesignationBO" type="text" class="form-control"
-                                       placeholder="Designation" name="Designation">
+                                <input wire:model.defer="designation" type="text" class="form-control"
+                                       placeholder="designation" name="designation">
                             </div>
                             <div class="mb-3 col-xl-6">
-                                <label class="me-sm-2">{{ __('idSource') }}</label>
-                                <input wire:model.defer="idSourceBO" type="text" class="form-control"
-                                       placeholder="idSource" name="idSource">
+                                <label class="me-sm-2">{{ __('source') }}</label>
+                                <input wire:model.defer="source" type="text" class="form-control"
+                                       placeholder="source" name="source">
                             </div>
                             <div class="mb-3 col-xl-4">
                                 <label class="me-sm-2">{{ __('I/O') }}</label>
-                                <select wire:model.defer="IOBO" class="form-control" name="IO">
-                                    <option value="I">I</option>
-                                    <option value="O">O</option>
-                                    <option value="IO">IO</option>
+                                <select wire:model.defer="io" class="form-control" name="io">
+                                    <option value="I">{{__('I')}}</option>
+                                    <option value="O">{{__('O')}}</option>
+                                    <option value="IO">{{__('IO')}}</option>
                                 </select>
                             </div>
                             <div class="mb-3 col-xl-4">
                                 <label class="me-sm-2">{{ __('Amount') }}</label>
-                                <select class="form-control" id="langueCountrie" name=" "
-                                        wire:model.defer="idamountsBO">
+                                <select class="form-control" id="amounts_id" name="amounts_id"
+                                        wire:model.defer="amounts_id">
                                     @foreach($allAmounts as $amount)
                                         <option value="{{$amount->idamounts}}">{{$amount->amountsname}}</option>
                                     @endforeach
@@ -69,7 +77,7 @@
                             </div>
                             <div class="mb-3 col-xl-4">
                                 <label class="me-sm-2">{{ __('Modify Amount') }}</label>
-                                <select wire:model.defer="MODIFY_AMOUNT" class="form-control" name="MODIFY_AMOUNT">
+                                <select wire:model.defer="modify_amount" class="form-control" name="modify_amount">
                                     <option value="0">{{ __('No') }}</option>
                                     <option value="1">{{ __('Yes') }}</option>
                                 </select>
@@ -78,14 +86,14 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" wire:click="saveBO" class="btn btn-primary">Save changes</button>
+                    <button type="button" wire:click="saveBO" class="btn btn-primary">{{__('Save')}}</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script type="module">
+    <script type="module" data-turbolinks-eval="false">
 
         function emitBO(idBO) {
             if (idBO) {
@@ -117,11 +125,11 @@
                     search: {return: true},
                     "ajax": "{{route('api_bal_operations' ,app()->getLocale())}}",
                     "columns": [
-                        {"data": "Designation"},
-                        {"data": "IO"},
-                        {"data": "idSource"},
+                        {"data": "designation"},
+                        {"data": "io"},
+                        {"data": "source"},
                         {"data": "amountsshortname"},
-                        {data: 'MODIFY_AMOUNT'},
+                        {data: 'modify_amount'},
                         {data: 'action', name: 'action', orderable: false, searchable: false},
                     ],
                     "language": {"url": urlLang},
@@ -134,11 +142,6 @@
                     },
                 }
             );
-
-            window.addEventListener('closeModalBO', event => {
-                $('.btn-close-bo').trigger('click');
-                $('#BalanceOperationsTable').DataTable().ajax.reload();
-            });
         });
     </script>
 </div>

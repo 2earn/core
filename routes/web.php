@@ -157,7 +157,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/user/{idUser}/details', \App\Http\Livewire\UserDetails::class)->name('user_details');
             Route::get('/configuration/ha', ConfigurationHA::class)->name('configuration_ha');
             Route::get('/configuration/setting', \App\Http\Livewire\ConfigurationSetting::class)->name('configuration_setting');
-            Route::get('/configuration/bo', \App\Http\Livewire\ConfigurationBO::class)->name('configuration_bo');
             Route::get('/configuration/amounts', \App\Http\Livewire\ConfigurationAmounts::class)->name('configuration_amounts');
             Route::get('/countries_management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
             Route::get('/requests/identification', identificationRequest::class)->name('requests_identification');
@@ -188,6 +187,8 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
                 Route::get('/', \App\Http\Livewire\RoleCreateUpdate::class)->name('create_update');
                 Route::get('/assign', \App\Http\Livewire\EditAdmin::class)->name('assign');
             });
+
+            Route::get('/balances', \App\Http\Livewire\Balances::class)->name('balances');
 
         });
 

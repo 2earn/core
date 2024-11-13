@@ -34,7 +34,7 @@
                     $sidebarBiographyArray=['biography_academic_background','biography_career_experience','biography_hard_skills','biography_soft_skills','biography_personal_characterization','biography_NCDPersonality','biography_sensory_representation_system','biography_MBTI','biography_e_business_card','biography_generating_pdf_report'];
                     $sidebarArchiveArray=['surveys_archive','deals_archive'];
                     $sidebarRoleArray=['role_index','role_assign'];
-                    $sidebarDashboardsArray=['configuration_setting','configuration_bo','configuration_amounts','configuration_ha'];
+                    $sidebarDashboardsArray=['configuration_setting','configuration_amounts','configuration_ha'];
                     $sidebarShareSoldArray=['shares_sold_dashboard','shares_sold_market_status','shares_sold_recent_transaction'];
                     $sidebarTranslateArray=['translate','translate_model_data'];
                     $sidebarRequestsArray=['requests_commited_investors','requests_instructor','requests_identification'];
@@ -274,6 +274,14 @@
                             <span data-key="t-menu">{{ __('SUPER ADMIN MENU') }}</span>
                         </li>
                         @if(User::isSuperAdmin())
+                            <li class="nav-item cool-link {{$currentRouteName=='balances'? 'active' : ''}}">
+                                <a href="{{route('balances',['locale'=>request()->route("locale")])}}"
+                                   class="nav-link menu-link {{$currentRouteName=='balances'? 'active' : ''}}"
+                                   role="button">
+                                    <i class="ri-wallet-fill"></i>
+                                    <span>{{__('Balances')}}</span>
+                                </a>
+                            </li>
                             <li class="nav-item cool-link {{$currentRouteName=='target_index'? 'active' : ''}}">
                                 <a href="{{route('target_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
                                    class="nav-link menu-link {{$currentRouteName=='target_index'? 'active' : ''}}"
@@ -282,6 +290,7 @@
                                     <span>{{__('Targets')}}</span>
                                 </a>
                             </li>
+
                             <li class="nav-item cool-link {{$currentRouteName=='platform_index'? 'active' : ''}}">
                                 <a href="{{route('platform_index',['locale'=>request()->route("locale")],false )}}"
                                    class="nav-link menu-link {{$currentRouteName=='platform_index'? 'active' : ''}}"
@@ -351,10 +360,6 @@
                                     </li>
                                     <li class="nav-item cool-link {{$currentRouteName==$sidebarDashboardsArray[2]? 'active' : ''}}">
                                         <a href="{{route($sidebarDashboardsArray[2], app()->getLocale(),false)}}"
-                                           class="nav-link">{{ __('Amounts Settings') }}</a>
-                                    </li>
-                                    <li class="nav-item cool-link {{$currentRouteName==$sidebarDashboardsArray[3]? 'active' : ''}}">
-                                        <a href="{{route($sidebarDashboardsArray[3], app()->getLocale(),false)}}"
                                            class="nav-link">{{ __('HA Settings') }}</a>
                                     </li>
                                 </ul>

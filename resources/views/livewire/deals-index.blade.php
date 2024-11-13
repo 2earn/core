@@ -96,10 +96,8 @@
             $('body').on('click', '.deleteDeal', function (event) {
                 Swal.fire({
                     title: '{{__('Are you sure to delete this Deal')}}? <h5 class="float-end">' + $(event.target).attr('data-name') + ' </h5>',
-                    showDenyButton: true,
                     showCancelButton: true,
                     confirmButtonText: "{{__('Delete')}}",
-                    denyButtonText: "{{__('Rollback')}}"
                 }).then((result) => {
                     if (result.isConfirmed) {
                         window.Livewire.emit("delete", $(event.target).attr('data-id'));
@@ -116,10 +114,8 @@
                 var confirmButtonText = name;
                 Swal.fire({
                     title: title,
-                    showDenyButton: true,
                     showCancelButton: true,
                     confirmButtonText: confirmButtonText,
-                    denyButtonText: "{{__('Rollback')}}"
                 }).then((result) => {
                     if (result.isConfirmed) {
                         window.Livewire.emit("updateDeal", id, status);

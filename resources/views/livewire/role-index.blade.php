@@ -53,7 +53,7 @@
     </div>
 
     <script type="module">
-        $(document).on('turbolinks:load', function () {
+        $(document).on('page:load', function () {
             if (!$.fn.dataTable.isDataTable('#roleTable')) {
                 $('#roleTable').DataTable({
                     "responsive": true,
