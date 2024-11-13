@@ -588,3 +588,21 @@ if (!function_exists('getValidCurrentDateTime')) {
         return $datetime->format('Y-m-d H:i:s');
     }
 }
+
+if (!function_exists('formatSqlWithEnv')) {
+    function formatSqlWithEnv($viewSqlCode)
+    {
+
+        match (env('APP_NAME', '2Earn.test')) {
+            '2Earn.test' => $viewSqlCode = str_replace('database_name', '2earn', $viewSqlCode),
+            'dev.2earn.cash' => $viewSqlCode = str_replace('database_name', 'dev_2earn', $viewSqlCode),
+            'demo.2earn.cash' => $viewSqlCode = str_replace('database_name', 'demo_2earn', $viewSqlCode),
+            '2Earn.cash' => $viewSqlCode = str_replace('database_name', 'prod_2earn', $viewSqlCode),
+        };
+        return $viewSqlCode;
+
+    }
+}
+
+
+

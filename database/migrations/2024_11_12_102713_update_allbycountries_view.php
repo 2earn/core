@@ -28,12 +28,12 @@ FROM
     (
         (
             (
-                `demo_2earn`.`user_balances` `u`
-            JOIN `demo_2earn`.`users` `s`
+                `database_name`.`user_balances` `u`
+            JOIN `database_name`.`users` `s`
             )
-        JOIN `demo_2earn`.`countries` `c`
+        JOIN `database_name`.`countries` `c`
         )
-    JOIN `demo_2earn`.`balance_operations` `b`
+    JOIN `database_name`.`balance_operations` `b`
     )
 WHERE
     `u`.`idUser` = `s`.`idUser` AND `s`.`idCountry` = `c`.`id` AND `u`.`idBalancesOperation` = `b`.`id` AND `u`.`idamount` NOT IN(4, 6) AND `s`.`is_representative` <> 1
@@ -59,12 +59,12 @@ FROM
     (
         (
             (
-                `demo_2earn`.`user_balances` `u`
-            JOIN `demo_2earn`.`users` `s`
+                `database_name`.`user_balances` `u`
+            JOIN `database_name`.`users` `s`
             )
-        JOIN `demo_2earn`.`countries` `c`
+        JOIN `database_name`.`countries` `c`
         )
-    JOIN `demo_2earn`.`balance_operations` `b`
+    JOIN `database_name`.`balance_operations` `b`
     )
 WHERE
     `u`.`idUser` = `s`.`idUser` AND `s`.`idCountry` = `c`.`id` AND `u`.`idBalancesOperation` = `b`.`id` AND `u`.`idamount` = 6 AND `u`.`idBalancesOperation` = 44
@@ -87,12 +87,12 @@ FROM
     (
         (
             (
-                `demo_2earn`.`user_balances` `u`
-            JOIN `demo_2earn`.`users` `s`
+                `database_name`.`user_balances` `u`
+            JOIN `database_name`.`users` `s`
             )
-        JOIN `demo_2earn`.`countries` `c`
+        JOIN `database_name`.`countries` `c`
         )
-    JOIN `demo_2earn`.`balance_operations` `b`
+    JOIN `database_name`.`balance_operations` `b`
     )
 WHERE
     `u`.`idUser` = `s`.`idUser` AND `s`.`idCountry` = `c`.`id` AND `u`.`idBalancesOperation` = `b`.`id` AND `u`.`idamount` = 6 AND `u`.`idBalancesOperation` = 44
@@ -115,12 +115,12 @@ FROM
     (
         (
             (
-                `demo_2earn`.`user_balances` `u`
-            JOIN `demo_2earn`.`users` `s`
+                `database_name`.`user_balances` `u`
+            JOIN `database_name`.`users` `s`
             )
-        JOIN `demo_2earn`.`countries` `c`
+        JOIN `database_name`.`countries` `c`
         )
-    JOIN `demo_2earn`.`balance_operations` `b`
+    JOIN `database_name`.`balance_operations` `b`
     )
 WHERE
     `u`.`idUser` = `s`.`idUser` AND `s`.`idCountry` = `c`.`id` AND `u`.`idBalancesOperation` = `b`.`id` AND `u`.`idamount` = 6 AND `u`.`idBalancesOperation` = 44
@@ -143,12 +143,12 @@ FROM
     (
         (
             (
-                `demo_2earn`.`user_balances` `u`
-            JOIN `demo_2earn`.`users` `s`
+                `database_name`.`user_balances` `u`
+            JOIN `database_name`.`users` `s`
             )
-        JOIN `demo_2earn`.`countries` `c`
+        JOIN `database_name`.`countries` `c`
         )
-    JOIN `demo_2earn`.`balance_operations` `b`
+    JOIN `database_name`.`balance_operations` `b`
     )
 WHERE
     `u`.`idUser` = `s`.`idUser` AND `s`.`idCountry` = `c`.`id` AND `u`.`idBalancesOperation` = `b`.`id` AND `u`.`idamount` = 1 AND `u`.`idBalancesOperation` = 48
@@ -171,12 +171,12 @@ FROM
     (
         (
             (
-                `demo_2earn`.`user_balances` `u`
-            JOIN `demo_2earn`.`users` `s`
+                `database_name`.`user_balances` `u`
+            JOIN `database_name`.`users` `s`
             )
-        JOIN `demo_2earn`.`countries` `c`
+        JOIN `database_name`.`countries` `c`
         )
-    JOIN `demo_2earn`.`balance_operations` `b`
+    JOIN `database_name`.`balance_operations` `b`
     )
 WHERE
     `u`.`idUser` = `s`.`idUser` AND `s`.`idCountry` = `c`.`id` AND `u`.`idBalancesOperation` = `b`.`id` AND `u`.`idamount` = 6 AND `u`.`idBalancesOperation` = 44
@@ -197,8 +197,8 @@ SELECT
     COUNT(`s`.`idUser`) AS `value`
 FROM
     (
-        `demo_2earn`.`users` `s`
-    JOIN `demo_2earn`.`countries` `c`
+        `database_name`.`users` `s`
+    JOIN `database_name`.`countries` `c`
     )
 WHERE
     `s`.`idCountry` = `c`.`id`
@@ -220,12 +220,12 @@ FROM
     (
         (
             (
-                `demo_2earn`.`user_balances` `u`
-            JOIN `demo_2earn`.`users` `s`
+                `database_name`.`user_balances` `u`
+            JOIN `database_name`.`users` `s`
             )
-        JOIN `demo_2earn`.`countries` `c`
+        JOIN `database_name`.`countries` `c`
         )
-    JOIN `demo_2earn`.`balance_operations` `b`
+    JOIN `database_name`.`balance_operations` `b`
     )
 WHERE
     `u`.`idUser` = `s`.`idUser` AND `s`.`idCountry` = `c`.`id` AND `u`.`idBalancesOperation` = `b`.`id` AND `u`.`idamount` = 6 AND `u`.`idBalancesOperation` = 44
@@ -248,12 +248,12 @@ FROM
     (
         (
             (
-                `demo_2earn`.`user_balances` `u`
-            JOIN `demo_2earn`.`users` `s`
+                `database_name`.`user_balances` `u`
+            JOIN `database_name`.`users` `s`
             )
-        JOIN `demo_2earn`.`countries` `c`
+        JOIN `database_name`.`countries` `c`
         )
-    JOIN `demo_2earn`.`balance_operations` `b`
+    JOIN `database_name`.`balance_operations` `b`
     )
 WHERE
     `u`.`idUser` = `s`.`idUser` AND `s`.`idCountry` = `c`.`id` AND `u`.`idBalancesOperation` = `b`.`id` AND `u`.`idamount` = 6 AND `u`.`idBalancesOperation` = 44 AND `u`.`Balance` > 0
@@ -265,7 +265,7 @@ GROUP BY
     `c`.`id`;";
 
         DB::statement('DROP VIEW IF EXISTS allbycountries;');
-        DB::statement($viewSqlCode);
+        DB::statement(formatSqlWithEnv($viewSqlCode));
     }
 
     /**

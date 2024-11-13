@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up()
     {
 
-        $viewSqlCode="CREATE VIEW sankey AS SELECT CASE WHEN
+        $viewSqlCode = "CREATE VIEW sankey AS SELECT CASE WHEN
     `u`.`idSource` = '11111111' THEN '2earn.cash' ELSE `u`.`idSource`
 END AS `from`,
 IFNULL(
@@ -32,12 +32,12 @@ SUM(`u`.`value`) AS `weight`
 FROM
     (
         (
-            `demo_2earn`.`user_balances` `u`
-        JOIN `demo_2earn`.`users` `s`
+            `database_name`.`user_balances` `u`
+        JOIN `database_name`.`users` `s`
         ON
             (`u`.`idUser` = `s`.`idUser`)
         )
-    JOIN `demo_2earn`.`metta_users` `meta`
+    JOIN `database_name`.`metta_users` `meta`
     ON
         (`u`.`idUser` = `meta`.`idUser`)
     )
@@ -85,28 +85,28 @@ FROM
                 (
                     (
                         (
-                            `demo_2earn`.`user_balances` `u`
-                        JOIN `demo_2earn`.`users` `s`
+                            `database_name`.`user_balances` `u`
+                        JOIN `database_name`.`users` `s`
                         ON
                             (`u`.`idSource` = `s`.`idUser`)
                         )
-                    JOIN `demo_2earn`.`countries` `c`
+                    JOIN `database_name`.`countries` `c`
                     ON
                         (`s`.`idCountry` = `c`.`id`)
                     )
-                JOIN `demo_2earn`.`metta_users` `meta`
+                JOIN `database_name`.`metta_users` `meta`
                 ON
                     (`u`.`idSource` = `meta`.`idUser`)
                 )
-            JOIN `demo_2earn`.`users` `s1`
+            JOIN `database_name`.`users` `s1`
             ON
                 (`u`.`idUser` = `s1`.`idUser`)
             )
-        JOIN `demo_2earn`.`metta_users` `meta1`
+        JOIN `database_name`.`metta_users` `meta1`
         ON
             (`u`.`idUser` = `meta1`.`idUser`)
         )
-    JOIN `demo_2earn`.`countries` `c1`
+    JOIN `database_name`.`countries` `c1`
     ON
         (`s1`.`idCountry` = `c1`.`id`)
     )
@@ -166,28 +166,28 @@ FROM
                 (
                     (
                         (
-                            `demo_2earn`.`user_balances` `u`
-                        JOIN `demo_2earn`.`users` `s`
+                            `database_name`.`user_balances` `u`
+                        JOIN `database_name`.`users` `s`
                         ON
                             (`u`.`idSource` = `s`.`idUser`)
                         )
-                    JOIN `demo_2earn`.`countries` `c`
+                    JOIN `database_name`.`countries` `c`
                     ON
                         (`s`.`idCountry` = `c`.`id`)
                     )
-                JOIN `demo_2earn`.`metta_users` `meta`
+                JOIN `database_name`.`metta_users` `meta`
                 ON
                     (`u`.`idSource` = `meta`.`idUser`)
                 )
-            JOIN `demo_2earn`.`users` `s1`
+            JOIN `database_name`.`users` `s1`
             ON
                 (`u`.`idUser` = `s1`.`idUser`)
             )
-        JOIN `demo_2earn`.`metta_users` `meta1`
+        JOIN `database_name`.`metta_users` `meta1`
         ON
             (`u`.`idUser` = `meta1`.`idUser`)
         )
-    JOIN `demo_2earn`.`countries` `c1`
+    JOIN `database_name`.`countries` `c1`
     ON
         (`s1`.`idCountry` = `c1`.`id`)
     )
@@ -234,28 +234,28 @@ FROM
                 (
                     (
                         (
-                            `demo_2earn`.`user_balances` `u`
-                        JOIN `demo_2earn`.`users` `s`
+                            `database_name`.`user_balances` `u`
+                        JOIN `database_name`.`users` `s`
                         ON
                             (`u`.`idSource` = `s`.`idUser`)
                         )
-                    JOIN `demo_2earn`.`countries` `c`
+                    JOIN `database_name`.`countries` `c`
                     ON
                         (`s`.`idCountry` = `c`.`id`)
                     )
-                JOIN `demo_2earn`.`metta_users` `meta`
+                JOIN `database_name`.`metta_users` `meta`
                 ON
                     (`u`.`idSource` = `meta`.`idUser`)
                 )
-            JOIN `demo_2earn`.`users` `s1`
+            JOIN `database_name`.`users` `s1`
             ON
                 (`u`.`idUser` = `s1`.`idUser`)
             )
-        JOIN `demo_2earn`.`metta_users` `meta1`
+        JOIN `database_name`.`metta_users` `meta1`
         ON
             (`u`.`idUser` = `meta1`.`idUser`)
         )
-    JOIN `demo_2earn`.`countries` `c1`
+    JOIN `database_name`.`countries` `c1`
     ON
         (`s1`.`idCountry` = `c1`.`id`)
     )
@@ -289,28 +289,28 @@ FROM
                 (
                     (
                         (
-                            `demo_2earn`.`user_balances` `u`
-                        JOIN `demo_2earn`.`users` `s`
+                            `database_name`.`user_balances` `u`
+                        JOIN `database_name`.`users` `s`
                         ON
                             (`u`.`idSource` = `s`.`idUser`)
                         )
-                    JOIN `demo_2earn`.`countries` `c`
+                    JOIN `database_name`.`countries` `c`
                     ON
                         (`s`.`idCountry` = `c`.`id`)
                     )
-                JOIN `demo_2earn`.`metta_users` `meta`
+                JOIN `database_name`.`metta_users` `meta`
                 ON
                     (`u`.`idSource` = `meta`.`idUser`)
                 )
-            JOIN `demo_2earn`.`users` `s1`
+            JOIN `database_name`.`users` `s1`
             ON
                 (`u`.`idUser` = `s1`.`idUser`)
             )
-        JOIN `demo_2earn`.`metta_users` `meta1`
+        JOIN `database_name`.`metta_users` `meta1`
         ON
             (`u`.`idUser` = `meta1`.`idUser`)
         )
-    JOIN `demo_2earn`.`countries` `c1`
+    JOIN `database_name`.`countries` `c1`
     ON
         (`s1`.`idCountry` = `c1`.`id`)
     )
@@ -343,28 +343,28 @@ FROM
                 (
                     (
                         (
-                            `demo_2earn`.`user_balances` `u`
-                        JOIN `demo_2earn`.`users` `s`
+                            `database_name`.`user_balances` `u`
+                        JOIN `database_name`.`users` `s`
                         ON
                             (`u`.`idSource` = `s`.`idUser`)
                         )
-                    JOIN `demo_2earn`.`countries` `c`
+                    JOIN `database_name`.`countries` `c`
                     ON
                         (`s`.`idCountry` = `c`.`id`)
                     )
-                JOIN `demo_2earn`.`metta_users` `meta`
+                JOIN `database_name`.`metta_users` `meta`
                 ON
                     (`u`.`idSource` = `meta`.`idUser`)
                 )
-            JOIN `demo_2earn`.`users` `s1`
+            JOIN `database_name`.`users` `s1`
             ON
                 (`u`.`idUser` = `s1`.`idUser`)
             )
-        JOIN `demo_2earn`.`metta_users` `meta1`
+        JOIN `database_name`.`metta_users` `meta1`
         ON
             (`u`.`idUser` = `meta1`.`idUser`)
         )
-    JOIN `demo_2earn`.`countries` `c1`
+    JOIN `database_name`.`countries` `c1`
     ON
         (`s1`.`idCountry` = `c1`.`id`)
     )
@@ -411,20 +411,20 @@ FROM
         (
             (
                 (
-                    `demo_2earn`.`user_balances` `u`
-                JOIN `demo_2earn`.`users` `s1`
+                    `database_name`.`user_balances` `u`
+                JOIN `database_name`.`users` `s1`
                 ON
                     (`u`.`idUser` = `s1`.`idUser`)
                 )
-            JOIN `demo_2earn`.`metta_users` `meta1`
+            JOIN `database_name`.`metta_users` `meta1`
             ON
                 (`u`.`idUser` = `meta1`.`idUser`)
             )
-        JOIN `demo_2earn`.`countries` `c1`
+        JOIN `database_name`.`countries` `c1`
         ON
             (`s1`.`idCountry` = `c1`.`id`)
         )
-    JOIN `demo_2earn`.`balance_operations` `b`
+    JOIN `database_name`.`balance_operations` `b`
     ON
         (`u`.`idBalancesOperation` = `b`.`id`)
     )
@@ -458,20 +458,20 @@ FROM
         (
             (
                 (
-                    `demo_2earn`.`user_balances` `u`
-                JOIN `demo_2earn`.`users` `s1`
+                    `database_name`.`user_balances` `u`
+                JOIN `database_name`.`users` `s1`
                 ON
                     (`u`.`idUser` = `s1`.`idUser`)
                 )
-            JOIN `demo_2earn`.`metta_users` `meta1`
+            JOIN `database_name`.`metta_users` `meta1`
             ON
                 (`u`.`idUser` = `meta1`.`idUser`)
             )
-        JOIN `demo_2earn`.`countries` `c1`
+        JOIN `database_name`.`countries` `c1`
         ON
             (`s1`.`idCountry` = `c1`.`id`)
         )
-    JOIN `demo_2earn`.`balance_operations` `b`
+    JOIN `database_name`.`balance_operations` `b`
     ON
         (`u`.`idBalancesOperation` = `b`.`id`)
     )
@@ -491,28 +491,28 @@ FROM
                 (
                     (
                         (
-                            `demo_2earn`.`user_balances` `u`
-                        JOIN `demo_2earn`.`users` `s`
+                            `database_name`.`user_balances` `u`
+                        JOIN `database_name`.`users` `s`
                         ON
                             (`u`.`idSource` = `s`.`idUser`)
                         )
-                    JOIN `demo_2earn`.`countries` `c`
+                    JOIN `database_name`.`countries` `c`
                     ON
                         (`s`.`idCountry` = `c`.`id`)
                     )
-                JOIN `demo_2earn`.`metta_users` `meta`
+                JOIN `database_name`.`metta_users` `meta`
                 ON
                     (`u`.`idSource` = `meta`.`idUser`)
                 )
-            JOIN `demo_2earn`.`users` `s1`
+            JOIN `database_name`.`users` `s1`
             ON
                 (`u`.`idUser` = `s1`.`idUser`)
             )
-        JOIN `demo_2earn`.`metta_users` `meta1`
+        JOIN `database_name`.`metta_users` `meta1`
         ON
             (`u`.`idUser` = `meta1`.`idUser`)
         )
-    JOIN `demo_2earn`.`countries` `c1`
+    JOIN `database_name`.`countries` `c1`
     ON
         (`s1`.`idCountry` = `c1`.`id`)
     )
@@ -541,12 +541,12 @@ SELECT
 FROM
     (
         (
-            `demo_2earn`.`user_balances` `u`
-        JOIN `demo_2earn`.`users` `s`
+            `database_name`.`user_balances` `u`
+        JOIN `database_name`.`users` `s`
         ON
             (`u`.`idUser` = `s`.`idUser`)
         )
-    JOIN `demo_2earn`.`metta_users` `meta`
+    JOIN `database_name`.`metta_users` `meta`
     ON
         (`u`.`idUser` = `meta`.`idUser`)
     )
@@ -575,12 +575,12 @@ SELECT
 FROM
     (
         (
-            `demo_2earn`.`user_balances` `u`
-        JOIN `demo_2earn`.`users` `s`
+            `database_name`.`user_balances` `u`
+        JOIN `database_name`.`users` `s`
         ON
             (`u`.`idUser` = `s`.`idUser`)
         )
-    JOIN `demo_2earn`.`countries` `c`
+    JOIN `database_name`.`countries` `c`
     ON
         (`s`.`idCountry` = `c`.`id`)
     )
@@ -588,9 +588,8 @@ WHERE
     `u`.`idBalancesOperation` = 49 AND `s`.`is_representative` <> 1
 GROUP BY
     `c`.`name`;";
-
         DB::statement('DROP VIEW IF EXISTS sankey;');
-        DB::statement($viewSqlCode);
+        DB::statement(formatSqlWithEnv($viewSqlCode));
     }
 
     /**
