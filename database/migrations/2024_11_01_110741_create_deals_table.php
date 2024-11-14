@@ -31,7 +31,7 @@ return new class extends Migration {
             $table->dateTime('start_date')->nullable();
             $table->dateTime('end_date')->nullable();
             $table->float('items_profit_average')->nullable();
-            $table->float('out_provider_turnover')->nullable();
+            $table->float('provider_turnover')->nullable();
             $table->float('initial_commission')->nullable();
             $table->float('final_commission')->nullable();
             $table->float('precision')->nullable();
@@ -42,7 +42,6 @@ return new class extends Migration {
             $table->float('shareholder_benefits_margin_percentage')->nullable();
             $table->float('tree_margin_percentage')->nullable();
             $table->float('current_turnover')->nullable();
-            $table->float('item_price')->nullable();
             $table->float('current_turnover_index')->nullable();
             $table->unsignedBigInteger('created_by_id')->foreign('user_id')->nullable()->references('id')->on('user')->onDelete('cascade');
             $table->unsignedBigInteger('platform_id')->foreign('platform_id')->nullable()->references('id')->on('platforms')->onDelete('cascade');

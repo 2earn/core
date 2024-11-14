@@ -14,6 +14,7 @@ class Product extends Model
         'ref',
         'price',
         'discount',
+        'photo_link',
         'description',
         'stock',
     ];

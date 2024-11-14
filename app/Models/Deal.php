@@ -19,7 +19,7 @@ class Deal extends Model
         'objective_turnover',
         'start_date',
         'end_date',
-        'out_provider_turnover',
+        'provider_turnover',
         'items_profit_average',
         'initial_commission',
         'final_commission',
@@ -30,9 +30,6 @@ class Deal extends Model
         'proactive_consumption_margin_percentage',
         'shareholder_benefits_margin_percentage',
         'tree_margin_percentage',
-        'current_turnover',
-        'item_price',
-        'current_turnover_index',
         'created_by_id',
         'platform_id',
     ];
@@ -58,197 +55,123 @@ class Deal extends Model
         return $this->hasOne(Platform::class, 'id', 'platform_id');
     }
 
-    /**
-     * Calculate index of current turnover.
-     */
-    public function getIndexOfCurrentTurnover()
+
+    public function getIndexOfcurrentTurnover($currentTurnover)
     {
-        return $this->currentTurnover / $this->precision;
+        return $currentTurnover / $this->precision;
     }
 
-    /**
-     * Calculate provider unit turnover out of deal.
-     */
+
     public function getProviderUnitTurnoverOutDeal(): float
     {
-        return $this->precision * $this->providerTurnover / $this->objectiveTurnover;
+        return $this->precision * $this->provider_turnover / $this->objective_turnover;
     }
 
-    /**
-     * Calculate commission progressive step during the deal execution.
-     */
+
     public function getCommissionProgressiveStepDuringTheDealExecution(): float
     {
-        return (2 * $this->precision * $this->precision * ($this->finalCommission - $this->initialCommission)) / ($this->objectiveTurnover - $this->precision);
+        //step
+        return (2 * pow($this->precision, 2) * ($this->final_commission - $this->initial_commission)) / ($this->objective_turnover - $this->precision);
     }
 
-    /**
-     * Calculate provider total net turnover.
-     */
-    public function getProviderTotalNetTurnover(): float
+
+    public function getProviderTotalNetTurnover($currentTurnover): float
     {
-        $vstep = $this->getCommissionProgressiveStepDuringTheDealExecution();
-        $vidx = $this->getIndexOfCurrentTurnover();
-        return $vidx * ($this->precision - $this->initialCommission * $this->precision) - $vstep * (($vidx * ($vidx - 1)) / 2);
+        return $this->getIndexOfcurrentTurnover($currentTurnover) * ($this->precision - $this->initial_commission * $this->precision) - $this->getCommissionProgressiveStepDuringTheDealExecution() * (($this->getIndexOfcurrentTurnover($currentTurnover) * ($this->getIndexOfcurrentTurnover($currentTurnover) - 1)) / 2);
     }
 
-    /**
-     * Calculate provider total turnover out of deal.
-     */
-    public function getProviderTotalTurnoverOutOfDeal(): float
+
+    public function getProviderTotalTurnoverOutOfDeal($currentTurnover): float
     {
-        return $this->getProviderUnitTurnoverOutDeal() * $this->getIndexOfCurrentTurnover();
+        return $this->getProviderUnitTurnoverOutDeal() * $this->getIndexOfcurrentTurnover($currentTurnover);
     }
 
-    /**
-     * Calculate provider unit net turnover.
-     *
-     */
-    public function getProviderUnitNetTurnover(): float
+    public function getProviderUnitNetTurnover($currentTurnover): float
     {
-        $vstep = $this->getProviderTotalNetTurnover();
-        $vidx = self::idx();
-        return $this->precision - $vstep * ($vidx - 1) - $this->initialCommission * $this->precision;
+        return $this->precision - $this->getProviderTotalNetTurnover($currentTurnover) * ($this->getIndexOfcurrentTurnover($currentTurnover) - 1) - $this->initial_commission * $this->precision;
     }
 
-    /**
-     * Calculate current total 2earn.cash margin.
-     */
-    public  function getCurrentTotal2earnCashMargin(): float
+
+    public function getCurrentTotal2earnCashMargin($currentTurnover): float
     {
-        $vptt = self::getProviderTotalTurnoverOutOfDeal();
-        return $this->currentTurnover - $vptt;
+        return $currentTurnover - $this->getProviderTotalTurnoverOutOfDeal($currentTurnover);
     }
 
-    /**
-     * Calculate current 2earn.cash margin compared to current turnover.
-     */
-    public function getCurrent2earnCashMarginComparedToCurrentTurnover(): float
+    public function getCurrent2earnCashMarginComparedToCurrentTurnover($currentTurnover): float
     {
-        $vmttec = $this->getCurrentTotal2earnCashMargin();
-        return $vmttec / $this->currentTurnover;
+
+        return $this->getCurrentTotal2earnCashMargin($currentTurnover) / $currentTurnover;
     }
 
-    /**
-     * Calculate provider turnover difference.
-     */
-    public  function getProviderTurnoverDifference(): float
+    public function getProviderTurnoverDifference($currentTurnover): float
     {
-        $vpttod = $this->getProviderTotalTurnoverOutOfDeal();
-        $vptt = $this->getProviderTotalNetTurnover();
-        return $vptt - $vpttod;
+        return $this->getProviderTotalNetTurnover($currentTurnover) - $this->getProviderTotalTurnoverOutOfDeal($currentTurnover);
     }
 
-    /**
-     * Calculate provider turnover sum.
-     */
-    public  function getProviderTurnoverSum(): float
+    public function getProviderTurnoverSum($currentTurnover): float
     {
-        $vpttod = $this->getProviderTotalTurnoverOutOfDeal();
-        $vptt = $this->getProviderTotalTurnoverOutOfDeal();
-        return $vptt + $vpttod;
+
+        return $this->getProviderTotalTurnoverOutOfDeal($currentTurnover) + $this->getProviderTotalTurnoverOutOfDeal($currentTurnover);
     }
 
-    /**
-     * Calculate provider total profit.
-     */
-    public function getProviderTotalProfit($profitAverage): float
+    public function getProviderTotalProfit($currentTurnover): float
     {
-        $vptt = $this->getProviderTotalNetTurnover();
-        return $vptt * $profitAverage;
+        return $this->getProviderTotalNetTurnover($currentTurnover) * $this->items_profit_average;
     }
 
-    /**
-     * Calculate provider total profit out of deal.
-     */
-    public function getPproviderTotalProfitOutOfDeal($profitAverage): float
+    public function getProviderTotalProfitOutOfDeal($currentTurnover): float
     {
-        $vpttod = $this->getProviderTotalTurnoverOutOfDeal();
-        return $vpttod * $profitAverage;
+        return $this->getProviderTotalTurnoverOutOfDeal($currentTurnover) * $this->items_profit_average;
     }
 
-    /**
-     * Calculate current cash back margin.
-     */
-    public function getCurrentCashBackMargin(): float
+
+    public function getCurrentCashBackMargin($currentTurnover): float
     {
-        $vmttec = $this->getCurrentTotal2earnCashMargin();
-        return $vmttec * $this->cashBackMarginPercentage;
+        return $this->getCurrentTotal2earnCashMargin($currentTurnover) * $this->cash_back_margin_percentage;
     }
 
-    /**
-     * Calculate current franchisor margin.
-     */
-    public function getCurrentFranchisorMargin($franchisorMarginPercentage): float
+
+    public function getCurrentFranchisorMargin($franchisorMarginPercentage, $currentTurnover): float
     {
-        $vmttec = $this->getCurrentTotal2earnCashMargin();
-        return $vmttec * $franchisorMarginPercentage;
+        return $this->getCurrentTotal2earnCashMargin($currentTurnover) * $franchisorMarginPercentage;
     }
 
-    /**
-     * Calculate current influencer margin.
-     */
-    public function getCurrentInfluencerMargin($influencerMarginPercentage): float
+
+    public function getCurrentInfluencerMargin($influencerMarginPercentage, $currentTurnover): float
     {
-        $vmttec = $this->getCurrentTotal2earnCashMargin();
-        return $vmttec * $influencerMarginPercentage;
+        return $this->getCurrentTotal2earnCashMargin($currentTurnover) * $influencerMarginPercentage;
     }
 
-    /**
-     * Calculate current proactive consumption margin.
-     */
-    public function getCurrentProactiveConsumptionMargin(): float
+    public function getCurrentProactiveConsumptionMargin($currentTurnover): float
     {
-        $vmttec = $this->getCurrentTotal2earnCashMargin();
-        return $vmttec * $this->proactive_consumption_margin_percentage;
+        return $this->getCurrentTotal2earnCashMargin($currentTurnover) * $this->proactive_consumption_margin_percentage;
     }
 
-    /**
-     * Calculate current prescriptor margin.
-     */
-    public function getCurrentPrescriptorMargin($prescriptorMarginPercentage): float
+    public function getCurrentPrescriptorMargin($prescriptorMarginPercentage, $currentTurnover): float
     {
-        $vmttec = $this->getCurrentTotal2earnCashMargin();
-        return $vmttec * $prescriptorMarginPercentage;
+        return $this->getCurrentTotal2earnCashMargin($currentTurnover) * $prescriptorMarginPercentage;
     }
 
-    /**
-     * Calculate current supporter margin.
-     */
+
     public function getCurrentSupporterMargin($supporterMarginPercentage): float
     {
-        $vmttec = $this->getCurrentTotal2earnCashMargin();
-        return $vmttec * $supporterMarginPercentage;
+        return $this->getCurrentTotal2earnCashMargin() * $supporterMarginPercentage;
     }
 
-    /**
-     * Calculate current 2earn.cash net margin.
-     */
-    public function getCurrent2earnCashNetMargin($mtecPercentage): float
+    public function getCurrent2earnCashNetMargin($CashMarginPercentage): float
     {
-        $vmttec = $this->getCurrentTotal2earnCashMargin();
-        return $vmttec * $mtecPercentage;
+        return $this->getCurrentTotal2earnCashMargin() * $CashMarginPercentage;
     }
 
-    /**
-     * Calculate provider profit difference.
-     */
-    public function getProviderProfitDifference(): float
+    public function getProviderProfitDifference($currentTurnover): float
     {
-        $vptpod = $this->getPproviderTotalProfitOutOfDeal();
-        $vptp = $this->getProviderTotalProfit();
-        return $vptp - $vptpod;
+
+        return $this->getProviderTotalProfit($currentTurnover) - $this->getProviderTotalProfitOutOfDeal($currentTurnover);
     }
 
-    /**
-     * Calculate provider profit sum.
-
-     */
-    public function getProviderProfitSum(): float
+    public function getProviderProfitSum($currentTurnover): float
     {
-        $vptpod = $this->getPproviderTotalProfitOutOfDeal();
-        $vptp = $this->getProviderTotalProfit();
-        return $vptp + $vptpod;
+        return $this->getProviderTotalProfit($currentTurnover) + $this->getProviderTotalProfitOutOfDeal($currentTurnover);
     }
 
 }

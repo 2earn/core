@@ -36,19 +36,19 @@ class TargetIndex extends Component
     public function deleteTarget($idTarget)
     {
         Target::findOrFail($idTarget)->delete();
-        return redirect()->route('target_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Target Deleted Successfully!!'));
+        return redirect()->route('target_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Target Deleted Successfully'));
     }
 
     public function removeGroup($idGroup, $idTarget)
     {
         Group::findOrFail($idGroup)->delete();
-        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $idTarget])->with('success', Lang::get('Group Deleted Successfully!!'));
+        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $idTarget])->with('success', Lang::get('Group Deleted Successfully'));
     }
 
     public function removeCondition($idCondition, $idTarget)
     {
         Condition::findOrFail($idCondition)->delete();
-        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $idTarget])->with('success', Lang::get('Condition Deleted Successfully!!'));
+        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $idTarget])->with('success', Lang::get('Condition Deleted Successfully'));
     }
 
 

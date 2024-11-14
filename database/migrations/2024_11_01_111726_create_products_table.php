@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name')->nullable();
             $table->string('ref')->nullable();
+            $table->string('photo_link')->nullable();
             $table->float('price')->nullable();
             $table->float('discount')->nullable();
             $table->text('description')->nullable();

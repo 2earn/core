@@ -27,7 +27,7 @@ class RoleCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Role operation cancelled!!'));
+        return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Role operation cancelled'));
     }
 
     public function edit($idRole)
@@ -49,9 +49,9 @@ class RoleCreateUpdate extends Component
             Role::where('id', $this->idRole)
                 ->update($params);
         } catch (\Exception $exception) {
-            return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while updating Role!!'));
+            return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while updating Role'));
         }
-        return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Role Updated Successfully!!'));
+        return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Role Updated Successfully'));
 
     }
 
@@ -64,7 +64,7 @@ class RoleCreateUpdate extends Component
         } catch (\Exception $exception) {
             return redirect()->route('role_create_update', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while creating Role!!') . ' ' . $exception->getMessage());
         }
-        return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Role Created Successfully!!'));
+        return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Role Created Successfully'));
     }
 
     public function render()
