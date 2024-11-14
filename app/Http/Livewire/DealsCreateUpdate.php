@@ -28,11 +28,13 @@ class DealsCreateUpdate extends Component
         $final_commission,
         $precision,
         $progressive_commission,
+
         $margin_percentage,
         $cash_back_margin_percentage,
         $proactive_consumption_margin_percentage,
         $shareholder_benefits_margin_percentage,
         $tree_margin_percentage,
+
         $current_turnover,
         $item_price,
         $created_by;
