@@ -45,7 +45,7 @@ class PlatformCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Platform operation cancelled!!'));
+        return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Platform operation cancelled'));
     }
 
     public function edit($idPlatform)
@@ -77,9 +77,9 @@ class PlatformCreateUpdate extends Component
             \Core\Models\Platform::where('id', $this->idPlatform)
                 ->update($params);
         } catch (\Exception $exception) {
-            return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while updating Platform!!'));
+            return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while updating Platform'));
         }
-        return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Platform Updated Successfully!!'));
+        return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Platform Updated Successfully'));
 
     }
 

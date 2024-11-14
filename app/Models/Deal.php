@@ -119,7 +119,7 @@ class Deal extends Model
         return $this->getProviderTotalNetTurnover($currentTurnover) * $this->items_profit_average;
     }
 
-    public function getPproviderTotalProfitOutOfDeal($currentTurnover): float
+    public function getProviderTotalProfitOutOfDeal($currentTurnover): float
     {
         return $this->getProviderTotalTurnoverOutOfDeal($currentTurnover) * $this->items_profit_average;
     }
@@ -127,7 +127,7 @@ class Deal extends Model
 
     public function getCurrentCashBackMargin($currentTurnover): float
     {
-        return $this->getCurrentTotal2earnCashMargin($currentTurnover) * $this->cashBackMarginPercentage;
+        return $this->getCurrentTotal2earnCashMargin($currentTurnover) * $this->cash_back_margin_percentage;
     }
 
 
@@ -158,20 +158,20 @@ class Deal extends Model
         return $this->getCurrentTotal2earnCashMargin() * $supporterMarginPercentage;
     }
 
-    public function getCurrent2earnCashNetMargin($mtecPercentage): float
+    public function getCurrent2earnCashNetMargin($CashMarginPercentage): float
     {
-        return $this->getCurrentTotal2earnCashMargin() * $mtecPercentage;
+        return $this->getCurrentTotal2earnCashMargin() * $CashMarginPercentage;
     }
 
     public function getProviderProfitDifference($currentTurnover): float
     {
 
-        return $this->getProviderTotalProfit($currentTurnover) - $this->getPproviderTotalProfitOutOfDeal($currentTurnover);
+        return $this->getProviderTotalProfit($currentTurnover) - $this->getProviderTotalProfitOutOfDeal($currentTurnover);
     }
 
     public function getProviderProfitSum($currentTurnover): float
     {
-        return $this->getProviderTotalProfit($currentTurnover) + $this->getPproviderTotalProfitOutOfDeal($currentTurnover);
+        return $this->getProviderTotalProfit($currentTurnover) + $this->getProviderTotalProfitOutOfDeal($currentTurnover);
     }
 
 }

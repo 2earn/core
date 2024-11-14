@@ -37,21 +37,21 @@ class SurveyIndex extends Component
         } catch (\Exception $exception) {
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while Enabling Survey!!') );
         }
-        return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey Enabled Successfully!!'));
+        return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey Enabled Successfully'));
     }
 
     public function disable($id)
     {
         try {
             if (empty($this->disableNote)) {
-                throw new \Exception(Lang::get('Something goes wrong while Disabling Survey!!'));
+                throw new \Exception(Lang::get('Something goes wrong while Disabling Survey'));
             }
             Survey::disable($id, $this->disableNote);
         } catch (\Exception $exception) {
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while Disabling Survey!!') );
         }
 
-        return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey Disabled Successfully!!'));
+        return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey Disabled Successfully'));
     }
 
     public function open($id)
@@ -63,7 +63,7 @@ class SurveyIndex extends Component
         } catch (\Exception $exception) {
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while opening Survey: ').Lang::get($exception->getMessage()) );
         }
-        return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey Opened Successfully!!'));
+        return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey Opened Successfully'));
     }
 
 
@@ -74,7 +74,7 @@ class SurveyIndex extends Component
         } catch (\Exception $exception) {
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while closing Survey!!') );
         }
-        return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey closed Successfully!!'));
+        return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey closed Successfully'));
 
     }
 
@@ -85,7 +85,7 @@ class SurveyIndex extends Component
         } catch (\Exception $exception) {
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while arciving Survey!!') );
         }
-        return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey arcived Successfully!!'));
+        return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey arcived Successfully'));
 
     }
 
@@ -96,7 +96,7 @@ class SurveyIndex extends Component
         } catch (\Exception $exception) {
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while publishing Survey!!') );
         }
-        return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey published Successfully!!'));
+        return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey published Successfully'));
 
     }
 
@@ -107,7 +107,7 @@ class SurveyIndex extends Component
         } catch (\Exception $exception) {
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while un publishing Survey!!') );
         }
-        return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey un published Successfully!!'));
+        return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey un published Successfully'));
 
     }
 
@@ -119,7 +119,7 @@ class SurveyIndex extends Component
         } catch (\Exception $exception) {
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while updating Survey updatable property!!') );
         }
-        return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey updatedd Successfully!!'));
+        return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey updatedd Successfully'));
     }
 
 

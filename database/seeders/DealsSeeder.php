@@ -24,10 +24,10 @@ class DealsSeeder extends Seeder
         ];
 
         foreach ($settings as $setting) {
-            if (!DB::table('settings')->where("ParameterName", "=", 'DEALS_' . $setting['ParameterName'])->exists()) {
+            if (!DB::table('settings')->where("ParameterName", "=", 'DEALS_' . $setting['name'])->exists()) {
                 DB::table('settings')->insert([
-                    'name' => 'DEALS_' . $setting['ParameterName'],
-                    'value' => $setting['StringValue'],
+                    'ParameterName' => 'DEALS_' . $setting['name'],
+                    'DecimalValue' => $setting['value'],
                 ]);
             }
         }

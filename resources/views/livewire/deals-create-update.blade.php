@@ -68,12 +68,12 @@
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                             <div class="form-group col-3 mb-3">
-                                <label for="out_provider_turnover">{{__('Out provider turnover')}}</label>
-                                <input type="number" class="form-control @error('out_provider_turnover') is-invalid @enderror"
-                                       id="out_provider_turnover"
-                                       wire:model="out_provider_turnover"
+                                <label for="provider_turnover">{{__('Out provider turnover')}}</label>
+                                <input type="number" class="form-control @error('provider_turnover') is-invalid @enderror"
+                                       id="provider_turnover"
+                                       wire:model="provider_turnover"
                                        placeholder="{{__('Enter Out provider turnover')}}"></input>
-                                @error('out_provider_turnover') <span class="text-danger">{{ $message }}</span>@enderror
+                                @error('provider_turnover') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
 
@@ -186,26 +186,6 @@
                                        wire:model="current_turnover"
                                        placeholder="{{__('Enter Current turnover')}}"></input>
                                 @error('current_turnover') <span class="text-danger">{{ $message }}</span>@enderror
-                                <div class="form-text">{{__('Required field')}}</div>
-                            </div>
-                            <div class="form-group col-3 mb-3">
-                                <label for="current_turnover_index">{{__('Current turnover index')}}</label>
-                                <input type="number"
-                                       class="form-control @error('current_turnover_index') is-invalid @enderror"
-                                       id="current_turnover_index"
-                                       wire:model="current_turnover_index"
-                                       placeholder="{{__('Enter Current turnover index')}}"></input>
-                                @error('current_turnover_index') <span class="text-danger">{{ $message }}</span>@enderror
-                                <div class="form-text">{{__('Required field')}}</div>
-                            </div>
-                            <div class="form-group col-3 mb-3">
-                                <label for="item_price">{{__('Item price')}}</label>
-                                <input type="number"
-                                       class="form-control @error('item_price') is-invalid @enderror"
-                                       id="item_price"
-                                       wire:model="item_price"
-                                       placeholder="{{__('Enter Item price')}}"></input>
-                                @error('item_price') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                         </div>

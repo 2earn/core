@@ -14,7 +14,7 @@ class Platform extends Component
     {
         try {
             ModelsPlatform::findOrFail($id)->delete();
-            return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Platform Deleted Successfully!!'));
+            return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Platform Deleted Successfully'));
         }catch (\Exception $exception){
             return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('error', $exception->getMessage());
         }
