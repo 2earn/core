@@ -98,6 +98,21 @@
                             </span>
                         </div>
                     </div>
+                </li>                <li class="list-group-item">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="d-flex">
+                                <div class="flex-shrink-0 ms-2">
+                                    <span class="fs-14 mb-0">{{__('Discount')}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <span class="text-info">
+                                {{$deal->discount}}
+                            </span>
+                        </div>
+                    </div>
                 </li>
             </ul>
             <ul class="list-group col-3">
