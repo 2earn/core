@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
+use Core\Enum\DealStatus;
 use Core\Models\Platform;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Lang;
 
 class Deal extends Model
 {
+    const INDEX_ROUTE_NAME = 'deals_index';
     use HasFactory;
 
     protected $fillable = [
@@ -154,12 +157,12 @@ class Deal extends Model
     }
 
 
-    public function getCurrentSupporterMargin($supporterMarginPercentage,$currentTurnover): float
+    public function getCurrentSupporterMargin($supporterMarginPercentage, $currentTurnover): float
     {
         return $this->getCurrentTotal2earnCashMargin($currentTurnover) * $supporterMarginPercentage;
     }
 
-    public function getCurrent2earnCashNetMargin($CashMarginPercentage,$currentTurnover): float
+    public function getCurrent2earnCashNetMargin($CashMarginPercentage, $currentTurnover): float
     {
         return $this->getCurrentTotal2earnCashMargin($currentTurnover) * $CashMarginPercentage;
     }
@@ -174,5 +177,55 @@ class Deal extends Model
     {
         return $this->getProviderTotalProfit($currentTurnover) + $this->getProviderTotalProfitOutOfDeal($currentTurnover);
     }
+
+
+    public static function validateDeal($id)
+    {
+        try {
+            $deal = Deal::findOrFail($id);
+            $deal->validated = true;
+            $deal->save();
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Validated Successfully'));
+        } catch (\Exception $exception) {
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Validated !') . " " . $exception->getMessage());
+        }
+    }
+
+    public static function open($id)
+    {
+        try {
+            $deal = Deal::findOrFail($id);
+            $deal->status = DealStatus::Opened->value;
+            $deal->save();
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Opened Successfully'));
+        } catch (\Exception $exception) {
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Opened !') . " " . $exception->getMessage());
+        }
+    }
+
+    public static function close($id)
+    {
+        try {
+            $deal = Deal::findOrFail($id);
+            $deal->status = DealStatus::Closed->value;
+            $deal->save();
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Closed Successfully'));
+        } catch (\Exception $exception) {
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Closed !') . " " . $exception->getMessage());
+        }
+    }
+
+    public static function archive($id)
+    {
+        try {
+            $deal = Deal::findOrFail($id);
+            $deal->status = DealStatus::Archived->value;
+            $deal->save();
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Archived Successfully'));
+        } catch (\Exception $exception) {
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Archived !') . " " . $exception->getMessage());
+        }
+    }
+
 
 }

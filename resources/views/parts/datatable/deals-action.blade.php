@@ -1,6 +1,11 @@
 <div>
-    <a href="{{route('deals_show', ['locale' => app()->getLocale(), 'id' => $deal->id])}}"
-       class="btn btn-xs btn-info btn2earnTable  m-1">{{__('Show')}}</a>
+    @if(isset($currentRouteName))
+        @if($currentRouteName!='deals_show')
+            <a href="{{route('deals_show', ['locale' => app()->getLocale(), 'id' => $deal->id])}}"
+               class="btn btn-xs btn-info btn2earnTable  m-1">{{__('Show')}}</a>
+        @endif
+    @endif
+
     @if(!$deal->validated)
         <a href="{{route('deals_create_update', ['locale' => app()->getLocale(), 'id' => $deal->id])}}"
            class="btn btn-xs btn-primary btn2earnTable  m-1">{{__('Edit')}}</a>

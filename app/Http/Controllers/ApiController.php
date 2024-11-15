@@ -27,6 +27,7 @@ use Illuminate\Http\Request as Req;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator as Val;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Validation\Rule;
@@ -1226,7 +1227,7 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
         }
         return datatables($deals)
             ->addColumn('action', function ($deal) {
-                return view('parts.datatable.deals-action', ['deal' => $deal]);
+                return view('parts.datatable.deals-action', ['deal' => $deal, 'currentRouteName' => Route::currentRouteName()]);
             })
             ->addColumn('status', function ($deal) {
                 return view('parts.datatable.deals-status', ['status' => $deal->status]);

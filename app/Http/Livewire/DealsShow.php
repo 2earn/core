@@ -3,11 +3,17 @@
 namespace App\Http\Livewire;
 
 use App\Models\Deal;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
 class DealsShow extends Component
 {
+    public $listeners = [
+        'delete' => 'delete',
+        'updateDeal' => 'updateDeal',
+    ];
+
     public $idDeal,
         $currentRouteName,
         $currentTurnover,
@@ -27,6 +33,27 @@ class DealsShow extends Component
         $this->influencerMarginPercentage = 0;
         $this->supporterMarginPercentage = 0;
         $this->CashMarginPercentage = 0;
+    }
+
+    public function updateDeal($id, $status)
+    {
+        match (intval($status)) {
+            0 => Deal::validateDeal($id),
+            2 => Deal::open($id),
+            3 => Deal::close($id),
+            4 => Deal::archive($id),
+        };
+    }
+
+    public static function remove($id)
+    {
+        try {
+            Deal::findOrFail($id)->delete();
+
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Deleted Successfully'));
+        } catch (\Exception $exception) {
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Deleted !') . " " . $exception->getMessage());
+        }
     }
 
     public function render()
