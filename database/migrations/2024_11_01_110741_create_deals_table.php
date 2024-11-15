@@ -16,12 +16,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::create(self::TABLE_NAME, function (Blueprint $table) {
-            $status = [
-                DealStatus::New->value,
-                DealStatus::Opened->value,
-                DealStatus::Closed->value,
-                DealStatus::Archived->value
-            ];
+            $status = [DealStatus::New->value, DealStatus::Opened->value, DealStatus::Closed->value, DealStatus::Archived->value];
             $table->id();
             $table->string('name')->nullable();
             $table->text('description')->nullable();
@@ -43,6 +38,7 @@ return new class extends Migration {
             $table->float('tree_margin_percentage')->nullable();
             $table->float('current_turnover')->nullable();
             $table->float('current_turnover_index')->nullable();
+            $table->float('discount')->nullable();
             $table->unsignedBigInteger('created_by_id')->foreign('user_id')->nullable()->references('id')->on('user')->onDelete('cascade');
             $table->unsignedBigInteger('platform_id')->foreign('platform_id')->nullable()->references('id')->on('platforms')->onDelete('cascade');
             $table->timestamps();

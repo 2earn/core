@@ -28,13 +28,12 @@ class DealsCreateUpdate extends Component
         $final_commission,
         $precision,
         $progressive_commission,
-
         $margin_percentage,
         $cash_back_margin_percentage,
         $proactive_consumption_margin_percentage,
         $shareholder_benefits_margin_percentage,
         $tree_margin_percentage,
-
+        $discount,
         $current_turnover,
         $item_price,
         $created_by;
@@ -85,6 +84,7 @@ class DealsCreateUpdate extends Component
         $this->final_commission =
         $this->progressive_commission =
         $this->margin_percentage =
+        $this->discount =
         $this->current_turnover = 10;
     }
 
@@ -109,6 +109,7 @@ class DealsCreateUpdate extends Component
         $this->shareholder_benefits_margin_percentage = $deal->shareholder_benefits_margin_percentage;
         $this->tree_margin_percentage = $deal->tree_margin_percentage;
         $this->current_turnover = $deal->current_turnover;
+        $this->discount = $deal->discount;
         $this->idPlatform = $deal->platform_id;
         $this->update = true;
     }
@@ -140,6 +141,7 @@ class DealsCreateUpdate extends Component
             'shareholder_benefits_margin_percentage' => $this->shareholder_benefits_margin_percentage,
             'tree_margin_percentage' => $this->tree_margin_percentage,
             'current_turnover' => $this->current_turnover,
+            'discount' => $this->discount,
             'created_by_id' => auth()->user()->id
         ];
         try {
@@ -174,6 +176,7 @@ class DealsCreateUpdate extends Component
             'proactive_consumption_margin_percentage' => $this->proactive_consumption_margin_percentage,
             'shareholder_benefits_margin_percentage' => $this->shareholder_benefits_margin_percentage,
             'tree_margin_percentage' => $this->tree_margin_percentage,
+            'discount' => $this->discount,
             'current_turnover' => $this->current_turnover,
             'created_by_id' => auth()->user()->id,
             'platform_id' => $this->idPlatform,

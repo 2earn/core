@@ -28,13 +28,12 @@ class Deal extends Model
         'final_commission',
         'precision',
         'progressive_commission',
-
         'margin_percentage',
         'cash_back_margin_percentage',
         'proactive_consumption_margin_percentage',
         'shareholder_benefits_margin_percentage',
         'tree_margin_percentage',
-
+        'discount',
         'created_by_id',
         'platform_id',
     ];
