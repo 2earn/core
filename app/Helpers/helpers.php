@@ -592,12 +592,24 @@ if (!function_exists('getValidCurrentDateTime')) {
 if (!function_exists('formatSqlWithEnv')) {
     function formatSqlWithEnv($viewSqlCode)
     {
+        match (env('APP_NAME', '2Earn.test')) {
+            '2Earn.test' => $viewSqlCode = str_replace('database_earn', '2earn', $viewSqlCode),
+            'dev.2earn.cash' => $viewSqlCode = str_replace('database_earn', 'dev_2earn', $viewSqlCode),
+            'demo.2earn.cash' => $viewSqlCode = str_replace('database_earn', 'demo_2earn', $viewSqlCode),
+            '2Earn.cash' => $viewSqlCode = str_replace('database_earn', 'prod_2earn', $viewSqlCode),
+        };
 
         match (env('APP_NAME', '2Earn.test')) {
             '2Earn.test' => $viewSqlCode = str_replace('database_name', '2earn', $viewSqlCode),
             'dev.2earn.cash' => $viewSqlCode = str_replace('database_name', 'dev_2earn', $viewSqlCode),
             'demo.2earn.cash' => $viewSqlCode = str_replace('database_name', 'demo_2earn', $viewSqlCode),
             '2Earn.cash' => $viewSqlCode = str_replace('database_name', 'prod_2earn', $viewSqlCode),
+        };
+        match (env('APP_NAME', '2Earn.test')) {
+            '2Earn.test' => $viewSqlCode = str_replace('database_learn', 'learn', $viewSqlCode),
+            'dev.2earn.cash' => $viewSqlCode = str_replace('database_learn', 'dev_learn', $viewSqlCode),
+            'demo.2earn.cash' => $viewSqlCode = str_replace('database_learn', 'demo_learn', $viewSqlCode),
+            '2Earn.cash' => $viewSqlCode = str_replace('database_learn', 'prod_learn', $viewSqlCode),
         };
         return $viewSqlCode;
 
