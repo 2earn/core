@@ -72,7 +72,6 @@ class Deal extends Model
 
     public function getCommissionProgressiveStepDuringTheDealExecution(): float
     {
-        //step
         return (2 * pow($this->precision, 2) * ($this->final_commission - $this->initial_commission)) / ($this->objective_turnover - $this->precision);
     }
 
@@ -155,14 +154,14 @@ class Deal extends Model
     }
 
 
-    public function getCurrentSupporterMargin($supporterMarginPercentage): float
+    public function getCurrentSupporterMargin($supporterMarginPercentage,$currentTurnover): float
     {
-        return $this->getCurrentTotal2earnCashMargin() * $supporterMarginPercentage;
+        return $this->getCurrentTotal2earnCashMargin($currentTurnover) * $supporterMarginPercentage;
     }
 
-    public function getCurrent2earnCashNetMargin($CashMarginPercentage): float
+    public function getCurrent2earnCashNetMargin($CashMarginPercentage,$currentTurnover): float
     {
-        return $this->getCurrentTotal2earnCashMargin() * $CashMarginPercentage;
+        return $this->getCurrentTotal2earnCashMargin($currentTurnover) * $CashMarginPercentage;
     }
 
     public function getProviderProfitDifference($currentTurnover): float
