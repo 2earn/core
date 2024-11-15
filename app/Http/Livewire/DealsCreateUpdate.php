@@ -62,7 +62,7 @@ class DealsCreateUpdate extends Component
 
     public function getDealParam($name)
     {
-        $param = DB::table('settings')->where("ParameterName", "=", "DEALS_PRECISION")->first();
+        $param = DB::table('settings')->where("ParameterName", "=", $name)->first();
         if (!is_null($param)) {
             return $param->DecimalValue;
         }
