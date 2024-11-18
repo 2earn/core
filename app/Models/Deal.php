@@ -60,6 +60,12 @@ class Deal extends Model
     }
 
 
+    public function cashBalance(): HasMany
+    {
+        return $this->hasMany(CashBalances::class);
+    }
+
+
     public function getIndexOfcurrentTurnover($currentTurnover)
     {
         return $currentTurnover / $this->precision;
