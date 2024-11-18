@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Core\Models\Amount;
 use Core\Models\BalanceOperation;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
 class Balances extends Component
@@ -21,10 +22,17 @@ class Balances extends Component
 
     public $search = '';
 
+
+    public $currentRouteName;
+
     protected $listeners = [
         'initBOFunction' => 'initBOFunction',
     ];
 
+    public function mount()
+    {
+        $this->currentRouteName = Route::currentRouteName();
+    }
 
     public function initBOFunction($id)
     {
