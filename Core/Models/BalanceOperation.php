@@ -16,7 +16,7 @@ class BalanceOperation extends Model
     protected $table = 'balance_operations';
 
     protected $fillable = [
-        'designation',
+        'operation',
         'io',
         'source',
         'mode',

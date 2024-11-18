@@ -928,7 +928,7 @@ class="btn btn-xs btn-primary btn2earnTable"  >
             ->join('amounts', 'balance_operations.amounts_id', '=', 'amounts.idamounts')
             ->select(
                 'balance_operations.id',
-                'balance_operations.designation',
+                'balance_operations.operation',
                 'balance_operations.io',
                 'balance_operations.source',
                 'balance_operations.amounts_id',
@@ -942,6 +942,9 @@ class="btn btn-xs btn-primary btn2earnTable"  >
             })
             ->editColumn('modify_amount', function ($balance) {
                 return view('parts.datatable.balances-modify', ['modify' => $balance->modify_amount]);
+            })
+            ->editColumn('amounts_id', function ($balance) {
+                return view('parts.datatable.balances-amounts-id', ['ammount' => $balance->amounts_id]);
             })
             ->editColumn('amountsshortname', function ($balance) {
                 return view('parts.datatable.balances-short', ['balance' => $balance]);

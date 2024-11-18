@@ -18,7 +18,8 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('user_id')->foreign('user_id')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->string('idUser')->nullable();
-            $table->float('amount')->nullable();
+            $table->integer('amount')->nullable();
+            $table->float('value')->nullable();
             $table->float('last_value')->nullable();
             $table->timestamps();
         });
