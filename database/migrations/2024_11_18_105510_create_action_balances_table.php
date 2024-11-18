@@ -17,7 +17,6 @@ return new class extends Migration {
     {
         Schema::create(self::TABLE_NAME, function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('deal_id')->nullable()->foreign('deal_id')->nullable()->references('id')->on('deals')->onDelete('cascade');
             $table->unsignedBigInteger('balance_operation_id')->nullable()->foreign('balance_operation_id')->nullable()->references('id')->on('balance_operations')->onDelete('cascade');
             $table->unsignedBigInteger('operator_id')->foreign('operator_id')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('beneficiary_id')->foreign('beneficiary_id')->nullable()->references('id')->on('users')->onDelete('cascade');
@@ -25,6 +24,8 @@ return new class extends Migration {
             $table->float('actual_balance')->nullable();
             $table->string('ref')->nullable();
             $table->text('description')->nullable();
+            $table->float('            $table->float('unit_price')->nullable();
+')->nullable();
             $table->float('win_purchase_amount')->nullable();
             $table->float('gifted_shares')->nullable();
 

@@ -16,6 +16,7 @@ class ActionBalances extends Model
         'ref',
         'win_purchase_amount',
         'gifted_shares',
+        'unit_price',
     ];
 
 

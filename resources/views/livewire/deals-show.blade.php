@@ -113,7 +113,7 @@
                             </div>
                         </div>
                         <div class="flex-shrink-0">
-                            <span class="text-info">
+                            <span class="text-info">33
                                 {{$deal->out_provider_turnover}}
                             </span>
                         </div>
