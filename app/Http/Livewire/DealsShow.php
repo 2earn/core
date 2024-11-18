@@ -9,6 +9,8 @@ use Livewire\Component;
 
 class DealsShow extends Component
 {
+    const INDEX_ROUTE_NAME = 'deals_index';
+
     public $listeners = [
         'delete' => 'delete',
         'updateDeal' => 'updateDeal',
@@ -27,7 +29,7 @@ class DealsShow extends Component
     {
         $this->currentRouteName = Route::currentRouteName();
         $this->idDeal = $id;
-        $this->currentTurnover = 0;
+        $this->currentTurnover = 0; //stocké
         $this->franchisorMarginPercentage = 0;
         $this->prescriptorMarginPercentage = 0;
         $this->influencerMarginPercentage = 0;
