@@ -12,7 +12,7 @@
         <div class="card-header border-info">
             <div class="d-flex align-items-center">
                 <h6 class="card-title flex-grow-1">
-                    <p class="text-info float-end">{{__('Platform')}}: {{$platform->name}}</p>
+                    <span class="text-info float-end">{{__('Platform')}}: {{$platform->name}}</span>
                     @if($update)
                         {{__('Update Deal')}}
                     @else
@@ -32,7 +32,7 @@
                                 <input type="text" class="form-control @error('name') is-invalid @enderror"
                                        id="name"
                                        wire:model="name"
-                                       placeholder="{{__('Enter name')}}"></input>
+                                       placeholder="{{__('Enter name')}}">
                                 @error('name') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
@@ -58,34 +58,41 @@
                                        id="end_date" placeholder="{{__('End Date')}}">
                                 @error('end_date') <span class="text-danger">{{ $message }}</span>@enderror
                             </div>
+                        </div>
+                        <hr class="text-muted">
+                        <div class="row">
                             <div class="form-group col-3 mb-3">
-                                <label for="objective_turnover">{{__('Objective turnover')}}</label>
-                                <input type="number"
-                                       class="form-control @error('objective_turnover') is-invalid @enderror"
-                                       id="objective_turnover"
-                                       wire:model="objective_turnover"
-                                       placeholder="{{__('Enter Objective turnover')}}"></input>
-                                @error('objective_turnover') <span class="text-danger">{{ $message }}</span>@enderror
-                                <div class="form-text">{{__('Required field')}}</div>
-                            </div>
-                            <div class="form-group col-3 mb-3">
-                                <label for="provider_turnover">{{__('Out provider turnover')}}</label>
+                                <label for="provider_turnover">{{__('Out provider turnover')}}</label> <span
+                                    class="text-info float-end">{{__('$')}}</span>
+
                                 <input type="number"
                                        class="form-control @error('provider_turnover') is-invalid @enderror"
                                        id="provider_turnover"
                                        wire:model="provider_turnover"
-                                       placeholder="{{__('Enter Out provider turnover')}}"></input>
+                                       placeholder="{{__('Enter Out provider turnover')}}">
                                 @error('provider_turnover') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
-
+                            <div class="form-group col-3 mb-3">
+                                <label for="objective_turnover">{{__('Objective turnover')}}</label> <span
+                                    class="text-info float-end">{{__('$')}}</span>
+                                <input type="number"
+                                       class="form-control @error('objective_turnover') is-invalid @enderror"
+                                       id="objective_turnover"
+                                       wire:model="objective_turnover"
+                                       placeholder="{{__('Enter Objective turnover')}}">
+                                @error('objective_turnover') <span class="text-danger">{{ $message }}</span>@enderror
+                                <div class="form-text">{{__('Required field')}}</div>
+                            </div>
                             <div class="form-group col-3 mb-3">
                                 <label for="items_profit_average">{{__('Items profit average')}}</label>
+                                <span class="text-info float-end">{{__('$')}}</span>
+
                                 <input type="number"
                                        class="form-control @error('items_profit_average') is-invalid @enderror"
                                        id="items_profit_average"
                                        wire:model="items_profit_average"
-                                       placeholder="{{__('Enter Items profit average')}}"></input>
+                                       placeholder="{{__('Enter Items profit average')}}">
                                 @error('items_profit_average') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
@@ -93,11 +100,13 @@
 
                             <div class="form-group col-3 mb-3">
                                 <label for="initial_commission">{{__('Initial commission')}}</label>
+                                <span class="text-info float-end">{{__('$')}}</span>
+
                                 <input type="number"
                                        class="form-control @error('initial_commission') is-invalid @enderror"
                                        id="initial_commission"
                                        wire:model="initial_commission"
-                                       placeholder="{{__('Enter Initial commission')}}"></input>
+                                       placeholder="{{__('Enter Initial commission')}}">
                                 @error('initial_commission') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
@@ -105,107 +114,93 @@
 
                             <div class="form-group col-3 mb-3">
                                 <label for="final_commission">{{__('Final commission')}}</label>
+                                <span class="text-info float-end">{{__('$')}}</span>
                                 <input type="number"
                                        class="form-control @error('final_commission') is-invalid @enderror"
                                        id="final_commission"
                                        wire:model="final_commission"
-                                       placeholder="{{__('Enter Final commission')}}"></input>
+                                       placeholder="{{__('Enter Final commission')}}">
                                 @error('final_commission') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
 
                             <div class="form-group col-3 mb-3">
-                                <label for="discount">{{__('Final commission')}}</label>
-                                <input type="number" class="form-control @error('Discount') is-invalid @enderror"
-                                       id="discount"
-                                       wire:model="discount"
-                                       placeholder="{{__('Enter discount')}}"></input>
-                                @error('discount') <span class="text-danger">{{ $message }}</span>@enderror
-                                <div class="form-text">{{__('Required field')}}</div>
-                            </div>
-
-
-                            <div class="form-group col-3 mb-3">
                                 <label for="precision">{{__('Precision')}}</label>
+                                <span class="text-info float-end">{{__('0.00001')}}</span>
+
                                 <input type="number" class="form-control @error('precision') is-invalid @enderror"
                                        id="precision"
                                        wire:model="precision"
-                                       placeholder="{{__('Enter Precision')}}"></input>
+                                       placeholder="{{__('Enter Precision')}}">
                                 @error('precision') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
-
+                        </div>
+                        <hr class="text-muted">
+                        <div class="row">
                             <div class="form-group col-3 mb-3">
-                                <label for="margin_percentage">{{__('Margin percentage')}}</label>
+                                <label for="margin_percentage">{{__('Margin percentage')}}</label> <span
+                                    class="text-info float-end">{{__('%')}}</span>
+
                                 <input type="number"
                                        class="form-control @error('margin_percentage') is-invalid @enderror"
                                        id="margin_percentage"
                                        wire:model="margin_percentage"
-                                       placeholder="{{__('Enter Margin percentage')}}"></input>
+                                       placeholder="{{__('Enter Margin percentage')}}">
                                 @error('margin_percentage') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
-
-
                             <div class="form-group col-3 mb-3">
                                 <label for="cash_back_margin_percentage">{{__('Cash back margin percentage')}}</label>
+                                <span class="text-info float-end">{{__('%')}}</span>
+
                                 <input type="number"
                                        class="form-control @error('cash_back_margin_percentage') is-invalid @enderror"
                                        id="cash_back_margin_percentage"
                                        wire:model="cash_back_margin_percentage"
-                                       placeholder="{{__('Enter Cash back margin percentage')}}"></input>
+                                       placeholder="{{__('Enter Cash back margin percentage')}}">
                                 @error('cash_back_margin_percentage') <span
-                                        class="text-danger">{{ $message }}</span>@enderror
+                                    class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
-
-
                             <div class="form-group col-3 mb-3">
                                 <label
-                                        for="proactive_consumption_margin_percentage">{{__('Proactive consumption margin percentage')}}</label>
+                                    for="proactive_consumption_margin_percentage">{{__('Proactive consumption margin percentage')}}</label>
+                                <span class="text-info float-end">{{__('%')}}</span>
                                 <input type="number"
                                        class="form-control @error('proactive_consumption_margin_percentage') is-invalid @enderror"
                                        id="proactive_consumption_margin_percentage"
                                        wire:model="proactive_consumption_margin_percentage"
-                                       placeholder="{{__('Enter Proactive consumption margin percentage')}}"></input>
+                                       placeholder="{{__('Enter Proactive consumption margin percentage')}}">
                                 @error('proactive_consumption_margin_percentage') <span
-                                        class="text-danger">{{ $message }}</span>@enderror
+                                    class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
 
                             <div class="form-group col-3 mb-3">
                                 <label
-                                        for="shareholder_benefits_margin_percentage">{{__('Shareholder benefits margin percentage')}}</label>
+                                    for="shareholder_benefits_margin_percentage">{{__('Shareholder benefits margin percentage')}}</label>
+                                <span class="text-info float-end">{{__('%')}}</span>
                                 <input type="number"
                                        class="form-control @error('shareholder_benefits_margin_percentage') is-invalid @enderror"
                                        id="shareholder_benefits_margin_percentage"
                                        wire:model="shareholder_benefits_margin_percentage"
-                                       placeholder="{{__('Enter Shareholder benefits margin percentage')}}"></input>
+                                       placeholder="{{__('Enter Shareholder benefits margin percentage')}}">
                                 @error('shareholder_benefits_margin_percentage') <span
-                                        class="text-danger">{{ $message }}</span>@enderror
+                                    class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
 
                             <div class="form-group col-3 mb-3">
                                 <label for="tree_margin_percentage">{{__('Tree margin percentage')}}</label>
+                                <span class="text-info float-end">{{__('%')}}</span>
                                 <input type="number"
                                        class="form-control @error('tree_margin_percentage') is-invalid @enderror"
                                        id="tree_margin_percentage"
                                        wire:model="tree_margin_percentage"
-                                       placeholder="{{__('Enter Tree margin percentage')}}"></input>
+                                       placeholder="{{__('Enter Tree margin percentage')}}">
                                 @error('tree_margin_percentage') <span
-                                        class="text-danger">{{ $message }}</span>@enderror
-                                <div class="form-text">{{__('Required field')}}</div>
-                            </div>
-
-                            <div class="form-group col-3 mb-3">
-                                <label for="current_turnover">{{__('Current turnover')}}</label>
-                                <input type="number"
-                                       class="form-control @error('current_turnover') is-invalid @enderror"
-                                       id="current_turnover"
-                                       wire:model="current_turnover"
-                                       placeholder="{{__('Enter Current turnover')}}"></input>
-                                @error('current_turnover') <span class="text-danger">{{ $message }}</span>@enderror
+                                    class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                         </div>

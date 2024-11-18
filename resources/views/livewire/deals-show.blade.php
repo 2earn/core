@@ -288,22 +288,6 @@
                         <div class="flex-grow-1">
                             <div class="text-muted">
                                 <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Current turnover')}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->current_turnover}}
-                            </span>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <div class="text-muted">
-                                <div class="flex-shrink-0 ms-2">
                                     <span class="fs-14 mb-0">{{__('Item price')}}</span>
                                 </div>
                             </div>

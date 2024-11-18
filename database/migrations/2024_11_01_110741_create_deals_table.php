@@ -36,7 +36,6 @@ return new class extends Migration {
             $table->float('proactive_consumption_margin_percentage')->nullable();
             $table->float('shareholder_benefits_margin_percentage')->nullable();
             $table->float('tree_margin_percentage')->nullable();
-            $table->float('current_turnover')->nullable();
             $table->float('current_turnover_index')->nullable();
             $table->float('discount')->nullable();
             $table->unsignedBigInteger('created_by_id')->foreign('user_id')->nullable()->references('id')->on('user')->onDelete('cascade');
