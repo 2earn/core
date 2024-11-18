@@ -556,17 +556,13 @@ left join users user on user.idUser = recharge_requests.idUser";
 
             }
 
-            // Assuming 'id' is the primary key for the 'user_balances' table
             DB::table('user_contacts')
                 ->where('id', $id)
                 ->update(['availablity' => $st, 'reserved_at' => $dt]);
 
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
-            // Log the exception
             \Log::error('Error updating balance status: ' . $e->getMessage());
-
-            // Return an error response
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
@@ -577,17 +573,13 @@ left join users user on user.idUser = recharge_requests.idUser";
             $id = $request->input('id');
             $st = 0;
 
-            // Assuming 'id' is the primary key for the 'user_balances' table
             DB::table('user_balances')
                 ->where('id', $id)
                 ->update(['WinPurchaseAmount' => $st]);
 
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
-            // Log the exception
             \Log::error('Error updating balance status: ' . $e->getMessage());
-
-            // Return an error response
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
@@ -612,10 +604,7 @@ left join users user on user.idUser = recharge_requests.idUser";
 
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
-            // Log the exception
             \Log::error('Error updating balance status: ' . $e->getMessage());
-
-            // Return an error response
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }

@@ -96,6 +96,11 @@ class User extends Authenticatable
         return $this->hasMany(Product::class);
     }
 
+    public function currentBalances()
+    {
+        return $this->hasMany(CashBalances::class);
+    }
+
     public function profileImage()
     {
         return $this->morphOne(Image::class, 'imageable')->where('type', '=', self::IMAGE_TYPE_PROFILE);

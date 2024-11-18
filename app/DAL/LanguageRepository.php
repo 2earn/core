@@ -23,7 +23,7 @@ class  LanguageRepository implements ILanguageRepository
         return DB::select("SELECT * FROM demo.user_balances ub inner join metta_users mu on ub.idUser = mu.idUser ");
     }
 
-    //
+
     public function addLanguage(language $language)
     {
         language::create(
