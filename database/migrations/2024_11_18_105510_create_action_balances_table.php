@@ -24,8 +24,7 @@ return new class extends Migration {
             $table->float('actual_balance')->nullable();
             $table->string('ref')->nullable();
             $table->text('description')->nullable();
-            $table->float('            $table->float('unit_price')->nullable();
-')->nullable();
+            $table->float('unit_price')->nullable();
             $table->float('win_purchase_amount')->nullable();
             $table->float('gifted_shares')->nullable();
 
