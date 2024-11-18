@@ -13,9 +13,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive table-card mt-3 mb-1">
-                    <table     wire:ignore
-
-                               class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                    <table wire:ignore class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
                         id="BalanceOperationsTable">
                         <thead class="table-light">
                         <tr>

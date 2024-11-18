@@ -942,7 +942,6 @@ class="btn btn-xs btn-primary btn2earnTable"  >
                 'balance_operations.designation',
                 'balance_operations.io',
                 'balance_operations.source',
-                'balance_operations.mode',
                 'balance_operations.amounts_id',
                 'balance_operations.note',
                 'balance_operations.modify_amount',
