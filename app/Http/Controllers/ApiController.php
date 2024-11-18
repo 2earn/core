@@ -813,7 +813,7 @@ select CAST(b.x- b.value AS DECIMAL(10,0))as x,case when b.me=1 then b.y else nu
             ->leftJoin('vip', function ($join) {
                 $join->on('vip.idUser', '=', 'users.idUser')
                     ->where('vip.closed', '=', 0);
-            })->orderBy('created_at', 'ASC');
+            })->orderBy('created_at', 'DESC');
     }
 
     public function getUsersList()
