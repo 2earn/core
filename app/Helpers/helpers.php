@@ -68,7 +68,7 @@ if (!function_exists('getUserListCards')) {
     function getUserListCards()
     {
         $data = DB::table(function ($query) {
-            $query->select('idUser', 'u.idamount', 'Date', 'u.idBalancesOperation', 'b.designation', DB::raw('CASE WHEN b.io = "I" THEN value ELSE -value END as value'))
+            $query->select('idUser', 'u.idamount', 'Date', 'u.idBalancesOperation', 'b.operation', DB::raw('CASE WHEN b.io = "I" THEN value ELSE -value END as value'))
                 ->from('user_balances as u')
                 ->join('balance_operations as b', 'u.idBalancesOperation', '=', 'b.id')
                 ->whereNotIn('u.idamount', [4])

@@ -273,67 +273,65 @@
                         <li class="menu-title">
                             <span data-key="t-menu">{{ __('SUPER ADMIN MENU') }}</span>
                         </li>
-                        @if(User::isSuperAdmin())
-                            <li class="nav-item cool-link {{$currentRouteName=='balances'? 'active' : ''}}">
-                                <a href="{{route('balances',['locale'=>request()->route("locale")])}}"
-                                   class="nav-link menu-link {{$currentRouteName=='balances'? 'active' : ''}}"
-                                   role="button">
-                                    <i class="ri-wallet-fill"></i>
-                                    <span>{{__('Balances')}}</span>
-                                </a>
-                            </li>
-                            <li class="nav-item cool-link {{$currentRouteName=='target_index'? 'active' : ''}}">
-                                <a href="{{route('target_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
-                                   class="nav-link menu-link {{$currentRouteName=='target_index'? 'active' : ''}}"
-                                   role="button">
-                                    <i class="ri-pushpin-fill"></i>
-                                    <span>{{__('Targets')}}</span>
-                                </a>
-                            </li>
+                        <li class="nav-item cool-link {{$currentRouteName=='target_index'? 'active' : ''}}">
+                            <a href="{{route('target_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
+                               class="nav-link menu-link {{$currentRouteName=='target_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-pushpin-fill"></i>
+                                <span>{{__('Targets')}}</span>
+                            </a>
+                        </li>
 
-                            <li class="nav-item cool-link {{$currentRouteName=='platform_index'? 'active' : ''}}">
-                                <a href="{{route('platform_index',['locale'=>request()->route("locale")],false )}}"
-                                   class="nav-link menu-link {{$currentRouteName=='platform_index'? 'active' : ''}}"
-                                   role="button">
-                                    <i class="ri-git-repository-private-fill"></i>
-                                    <span>{{__('Platform')}}</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link menu-link {{!in_array($currentRouteName, $sidebarRoleArray)? 'collapsed' : 'active'}}"
-                                   href="#sidebarRole" data-bs-toggle="collapse"
-                                   role="button"
-                                   aria-expanded="{{in_array($currentRouteName, $sidebarRoleArray)? 'true' : 'false'}}"
-                                   aria-controls="sidebarRole">
-                                    <i class="ri-user-settings-fill"></i>
-                                    <span>{{ __('Role') }}</span>
-                                </a>
-                                <div
-                                    class="menu-dropdown collapse {{in_array($currentRouteName,$sidebarRoleArray)? 'show' : ''}}"
-                                    id="sidebarRole">
-                                    <ul class="nav nav-sm flex-column">
-                                        <li class="nav-item cool-link {{$currentRouteName==$sidebarRoleArray[0]? 'active' : ''}}">
-                                            <a href="{{route($sidebarRoleArray[0], app()->getLocale(),false)}}"
-                                               class="nav-link"
-                                            >{{ __('Role') }}</a>
-                                        </li>
-                                        <li class="nav-item cool-link {{$currentRouteName==$sidebarRoleArray[1]? 'active' : ''}}">
-                                            <a href="{{route($sidebarRoleArray[1], app()->getLocale(),false)}}"
-                                               class="nav-link"
-                                            >{{ __('Assign') }}</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="nav-item cool-link {{$currentRouteName=='surveys_index'? 'active' : ''}}">
-                                <a href="{{route('surveys_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
-                                   class="nav-link menu-link {{$currentRouteName=='target_index'? 'active' : ''}}"
-                                   role="button">
-                                    <i class="ri-bookmark-fill"></i>
-                                    <span>{{__('Surveys')}}</span>
-                                </a>
-                            </li>
-                        @endif
+                        <li class="nav-item cool-link {{$currentRouteName=='platform_index'? 'active' : ''}}">
+                            <a href="{{route('platform_index',['locale'=>request()->route("locale")],false )}}"
+                               class="nav-link menu-link {{$currentRouteName=='platform_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-git-repository-private-fill"></i>
+                                <span>{{__('Platform')}}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item cool-link {{$currentRouteName=='balances_index'? 'active' : ''}}">
+                            <a href="{{route('balances_index',['locale'=>request()->route("locale")],false )}}"
+                               class="nav-link menu-link {{$currentRouteName=='balances_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-wallet-fill"></i>
+                                <span>{{__('Balances')}}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link {{!in_array($currentRouteName, $sidebarRoleArray)? 'collapsed' : 'active'}}"
+                               href="#sidebarRole" data-bs-toggle="collapse"
+                               role="button"
+                               aria-expanded="{{in_array($currentRouteName, $sidebarRoleArray)? 'true' : 'false'}}"
+                               aria-controls="sidebarRole">
+                                <i class="ri-user-settings-fill"></i>
+                                <span>{{ __('Role') }}</span>
+                            </a>
+                            <div
+                                class="menu-dropdown collapse {{in_array($currentRouteName,$sidebarRoleArray)? 'show' : ''}}"
+                                id="sidebarRole">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item cool-link {{$currentRouteName==$sidebarRoleArray[0]? 'active' : ''}}">
+                                        <a href="{{route($sidebarRoleArray[0], app()->getLocale(),false)}}"
+                                           class="nav-link"
+                                        >{{ __('Role') }}</a>
+                                    </li>
+                                    <li class="nav-item cool-link {{$currentRouteName==$sidebarRoleArray[1]? 'active' : ''}}">
+                                        <a href="{{route($sidebarRoleArray[1], app()->getLocale(),false)}}"
+                                           class="nav-link"
+                                        >{{ __('Assign') }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item cool-link {{$currentRouteName=='surveys_index'? 'active' : ''}}">
+                            <a href="{{route('surveys_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
+                               class="nav-link menu-link {{$currentRouteName=='target_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-bookmark-fill"></i>
+                                <span>{{__('Surveys')}}</span>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link menu-link {{!in_array($currentRouteName, $sidebarDashboardsArray)? 'collapsed' : 'active'}}"
                                href="#sidebarDashboards"
