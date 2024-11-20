@@ -992,7 +992,7 @@ class="btn btn-xs btn-primary edit-amounts-btn btn2earnTable"  >
 
     public function getUserBalancesList($locale, $idUser, $idamount)
     {
-        $userData = DB::select(getSqlFromPath('get_user_balances_list'), [$idUser, $idamount]        );
+        $userData = DB::select(getSqlFromPath('get_user_balances_list'), [$idUser, $idamount]);
         return response()->json($userData);
     }
 
@@ -1036,30 +1036,8 @@ class="btn btn-xs btn-primary edit-amounts-btn btn2earnTable"  >
     {
         $user = $this->settingsManager->getAuthUser();
         if (!$user) $user->idUser = '';
-
-        $userData = DB::select("SELECT RANK() OVER (
-        ORDER BY ub.Date desc
-    ) as ranks  , ub.idUser, ub.id ,ub.idSource ,ub.Ref , ub.Date, bo.operation ,ub.Description,
-case when ub.idSource = '11111111' then 'system' else
-(select concat( IFNULL(enfirstname,''),' ',  IFNULL( enlastname,''))  from metta_users mu  where mu.idUser = ub.idSource)
-end as source,
-case when bo.IO = 'I' then  concat('+ ','$ ', format(ub.value/PrixUnitaire,3) )
-when bo.IO ='O' then concat('- ', format(ub.value/PrixUnitaire,3),' $' )
-when bo.IO = 'IO' then 'IO'
-end as value , case when idAmount = 5  then  concat( format(  SUM(case when bo.IO = 'I' then   format(format(ub.value,3)/format(PrixUnitaire,3) ,3)
-when bo.IO ='O' then  format(format(ub.value,3)/format(PrixUnitaire *-1,3) ,3)
-when bo.IO = 'IO' then 'IO'
-end)   OVER(ORDER BY date) ,0) ,' ') when idAmount = 3 then concat('$ ', format(  SUM(case when bo.IO = 'I' then   format(format(ub.value,3)/format(PrixUnitaire,3) ,3)
-when bo.IO ='O' then  format(format(ub.value,3)/format(PrixUnitaire *-1,3) ,3)
-when bo.IO = 'IO' then 'IO'
-end)   OVER(ORDER BY date) ,2) ) else concat( '$ ', format( ub.balance ,3,'en_EN') ) end  as balance,ub.PrixUnitaire, bo.IO as sensP
-  FROM user_balances ub inner join balance_operations bo on
-ub.idBalancesOperation = bo.id
-where  (bo.amounts_id = ? and ub.idUser =  ?)  order by Date   ", [2, $user->idUser]
-        );
-
-        return datatables($userData)
-            ->make(true);
+        $userData = DB::select(getSqlFromPath('get_purchase_bfs_user'), [2, $user->idUser]);
+        return datatables($userData)->make(true);
     }
 
     /**
@@ -1224,11 +1202,7 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
 
     public function getIdentificationRequest()
     {
-        $query = DB::select('SELECT  u1.id id, u1.name User ,u1.fullphone_number, ir.created_at DateCreation, u2.name Validator, ir.response, ir.responseDate DateReponce , ir.note from identificationuserrequest ir
-inner join users u1 on ir.IdUser = u1.idUser
-left join users u2 on ir.idUserResponse = u2.idUser
-where ir.status = ?
-', [StatusRequest::EnCours->value]);
+        $query = DB::select(getSqlFromPath('get_identification_request'), [StatusRequest::InProgressNational->value, StatusRequest::InProgressInternational->value]);
 
         return datatables($query)
             ->addColumn('action', function ($query) {
@@ -1244,17 +1218,7 @@ class="btn btn-primary btn2earnTable">' . __("Edit") . '</a> ';
     {
         $user = $this->settingsManager->getAuthUser();
         if (!$user) $user->idUser = '';
-        $userData = DB::select("SELECT ub.idUser, ub.id ,ub.idSource ,ub.Ref , ub.Date, bo.operation,ub.Description,
-case when ub.idSource = '11111111' then 'system' else
-(select concat( IFNULL(enfirstname,''),' ',  IFNULL( enlastname,''))  from metta_users mu  where mu.idUser = ub.idSource)
-end as source,
-case when bo.IO = 'I' then  concat('+ ', ub.value )
-when bo.IO ='O' then concat('- ', ub.value )
-when bo.IO = 'IO' then 'IO'
-end as value , ub.Balance as balance
-  FROM user_balances ub inner join balance_operations bo on
-ub.idBalancesOperation = bo.id
-where  (bo.amounts_id = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idUser]
+        $userData = DB::select(getSqlFromPath('get_user_balances_cb'), [1, $user->idUser]
         );
         return datatables($userData)->make(true);
     }
@@ -1262,130 +1226,7 @@ where  (bo.amounts_id = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idU
     public function getPurchaseUser()
     {
         $user = $this->settingsManager->getAuthUser();
-        $userData = DB::select("
-
-    SELECT
-        list1.DateAchat AS DateAchat,
-        IFNULL(list1.ReferenceAchat, '') AS ReferenceAchat,
-        list1.idUser AS idUser,
-        list1.item_title AS item_title,
-        list1.nbr_achat AS nbrAchat,
-        list1.Amout AS Amout,
-        list1.invitationPurshase AS invitationPurshase,
-        list1.visit AS visit,
-        list1.PRC_BFS AS PRC_BFS,
-        list1.PRC_CB AS PRC_CB,
-        list1.CashBack_BFS AS CashBack_BFS,
-        list1.CashBack_CB AS CashBack_CB,
-        list1.PRC_BFS + list1.PRC_CB + list1.CashBack_BFS + list1.CashBack_CB AS Economy
-    FROM
-        (SELECT
-            ub.idUser AS idUser,
-                ub.item_title AS item_title,
-                (SELECT
-                        ub2.ref
-                    FROM
-                        user_balances ub2
-                    WHERE
-                        ub2.idBalancesOperation = 17
-                            AND ub2.idUser = ub.idUser
-                            AND ub.id_item = ub2.id_item) AS ReferenceAchat,
-                (SELECT
-                        ub2.Date
-                    FROM
-                        user_balances ub2
-                    WHERE
-                        ub2.idBalancesOperation = 17
-                            AND ub2.idUser = ub.idUser
-                            AND ub.id_item = ub2.id_item) AS DateAchat,
-                la.nbr_achat AS nbr_achat,
-                (SELECT
-                        SUM(IFNULL(ub2.value, 0))
-                    FROM
-                        user_balances ub2
-                    WHERE
-                        ub2.idBalancesOperation = 17
-                            AND ub2.idUser = ub.idUser
-                            AND ub.id_item = ub2.id_item) AS Amout,
-                IFNULL((SELECT
-                        SUM(IFNULL(ub2.value, 0))
-                    FROM
-                        user_balances ub2
-                    WHERE
-                        ub2.idBalancesOperation = 10
-                            AND ub2.idUser = ub.idUser
-                            AND ub.id_item = ub2.id_item), 0) AS invitationPurshase,
-                IFNULL((SELECT
-                        SUM(IFNULL(ub2.value, 0))
-                    FROM
-                        user_balances ub2
-                    WHERE
-                        ub2.idBalancesOperation = 8
-                            AND ub2.idUser = ub.idUser
-                            AND ub.id_item = ub2.id_item), 0) AS visit,
-                IFNULL((SELECT
-                        SUM(IFNULL(ub2.value, 0))
-                    FROM
-                        user_balances ub2
-                    WHERE
-                        ub2.idBalancesOperation = 24
-                            AND ub2.idUser = ub.idUser
-                            AND ub.id_item = ub2.id_item), 0) AS PRC_BFS,
-                IFNULL((SELECT
-                        SUM(IFNULL(ub2.value, 0))
-                    FROM
-                        user_balances ub2
-                    WHERE
-                        ub2.idBalancesOperation = 26
-                            AND ub2.idUser = ub.idUser
-                            AND ub.id_item = ub2.id_item), 0) AS PRC_CB,
-                IFNULL((SELECT
-                        SUM(IFNULL(ub2.value, 0))
-                    FROM
-                        user_balances ub2
-                    WHERE
-                        ub2.idBalancesOperation = 23
-                            AND ub2.idUser = ub.idUser
-                            AND ub.id_item = ub2.id_item), 0) AS CashBack_BFS,
-                IFNULL((SELECT
-                        SUM(IFNULL(ub2.value, 0))
-                    FROM
-                        user_balances ub2
-                    WHERE
-                        ub2.idBalancesOperation = 25
-                            AND ub2.idUser = ub.idUser
-                            AND ub.id_item = ub2.id_item), 0) AS CashBack_CB
-        FROM
-            ((user_balances ub
-        JOIN balance_operations bo ON (ub.idBalancesOperation = bo.id))
-        JOIN (
-    SELECT
-        `user_balances`.`idUser` AS `idUser`,
-        `user_balances`.`id_item` AS `id_item`,
-        `user_balances`.`item_title` AS `item_title`,
-        `user_balances`.`id_plateform` AS `id_plateform`,
-        COUNT(0) AS `nbr_achat`
-    FROM
-        `user_balances`
-    WHERE
-        `user_balances`.`idBalancesOperation` = 17
-    GROUP BY `user_balances`.`idUser` , `user_balances`.`id_item` , `user_balances`.`item_title` , `user_balances`.`id_plateform`) la ON (la.id_item = ub.id_item
-            AND ub.idUser = la.idUser))
-        GROUP BY ub.idUser , ub.item_title , ub.id_item , (SELECT
-                ub2.Date
-            FROM
-                user_balances ub2
-            WHERE
-                ub2.idBalancesOperation = 17
-                    AND ub2.idUser = ub.idUser
-                    AND ub.id_item = ub2.id_item) , (SELECT
-                ub2.ref
-            FROM
-                user_balances ub2
-            WHERE
-                ub2.idBalancesOperation = 17
-                    AND ub2.idUser = ub.idUser
-                    AND ub.id_item = ub2.id_item) , la.nbr_achat) list1 where idUser= ? ", [$user->idUser]);
+        $userData = DB::select(getSqlFromPath('get_purchase_user'), [$user->idUser]);
         return datatables($userData)
             ->make(true);
     }
@@ -1393,15 +1234,7 @@ where  (bo.amounts_id = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idU
 
     public function getAllUsers()
     {
-        $userData = DB::select("SELECT RANK() OVER (
-        ORDER BY u.id
-    ) as N , u.idUser ,u.status ,ue.registred_from,u.fullphone_number ,  concat( ifnull(mu.enFirstName,''),' ', ifnull(mu.enLastName,'')) as LatinName ,
-    concat( ifnull(mu.arFirstName,''),' ',ifnull(mu.arLastName,'')) as ArabicName ,
-    (select max(ub.date) from  user_balances ub where ub.idUser = u.idUser ) as lastOperation ,
-    (select  c.name from countries c where c.phonecode = ue.idCountry limit 1 ) as country
-    from users u
-    left join user_earns ue on ue.idUser = u.IdUser
-    left join metta_users mu on mu.idUser = u.idUser");
+        $userData = DB::select(getSqlFromPath('get_all_users'));
 
         return datatables($userData)
             ->addColumn('action', function ($settings) {
@@ -1454,27 +1287,7 @@ where  (bo.amounts_id = ? and ub.idUser =  ?)  order by Date   ", [1, $user->idU
     {
         $user = $this->settingsManager->getAuthUser();
 
-        $userData = DB::select(" select id, name,lastName,fullphone_number,
-       case when
-           fullphone_number in (select users.fullphone_number from users where idUpline != ? and idUpline <> 0)
-           then 'UNAVAILABLE Registred'
-           when
-           fullphone_number in (select users.fullphone_number from users where idUpline = ?)
-           then 'DONE registred'
-           when
-           fullphone_number in (select users.fullphone_number from users where  idUpline = 0)
-           then 'Available registred'
-           when
-           fullphone_number in (select users_invitations.fullNumber from users_invitations where NOW() <= users_invitations.dateFIn and users_invitations.idUser <> ?)
-           then concat('Invited by ','user : ', (select users.name from users_invitations inner join users on users.idUser = users_invitations.idUser  where users_invitations.fullNumber=user_contacts.fullphone_number  ),'  dispo after  ',(select concat( Datediff( users_invitations.datefin, now()),' jours') from users_invitations where users_invitations.fullNumber=user_contacts.fullphone_number ))
-           when
-           fullphone_number in (select users_invitations.fullNumber from users_invitations where NOW() <= users_invitations.dateFIn and users_invitations.idUser = ?)
-           then concat('Invited by ','you  : ', (select users.name from users_invitations inner join users on users.idUser = users_invitations.idUser  where users_invitations.fullNumber=user_contacts.fullphone_number  ),'  dispo after  ',(select concat( Datediff( users_invitations.datefin, now()),' jours') from users_invitations where users_invitations.fullNumber=user_contacts.fullphone_number ))
-           else
-           'Available'
-           end  as status
-    from user_contacts
-    where idUser = ? ", [$user->idUser, $user->idUser, $user->idUser, $user->idUser, $user->idUser]);
+        $userData = DB::select(getSqlFromPath('get_invitations_user'), [$user->idUser, $user->idUser, $user->idUser, $user->idUser, $user->idUser]);
         return datatables($userData)
             ->make(true);
     }
