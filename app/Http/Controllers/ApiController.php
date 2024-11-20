@@ -1017,25 +1017,7 @@ class="btn btn-xs btn-primary edit-amounts-btn btn2earnTable"  >
                 break;
         }
 
-        $userData = DB::select("SELECT RANK() OVER (
-        ORDER BY ub.Date desc
-    ) as ranks  , ub.idUser, ub.id ,ub.idSource ,ub.Ref , ub.Date, bo.Designation,ub.Description,ub.Description,ub.idamount,
-case when ub.idSource = '11111111' then 'system' else
-(select concat( IFNULL(enfirstname,''),' ',  IFNULL( enlastname,''))  from metta_users mu  where mu.idUser = ub.idSource)
-end as source,
-case when bo.IO = 'I' then  concat('+ ', format(ub.value/PrixUnitaire,3),' $' )
-when bo.IO ='O' then concat('- ', format(ub.value/PrixUnitaire,3),' $' )
-when bo.IO = 'IO' then 'IO'
-end as value , case when idAmount = 5  then  concat( format(  SUM(case when bo.IO = 'I' then   format(format(ub.value,3)/format(PrixUnitaire,3) ,3)
-when bo.IO ='O' then  format(format(ub.value,3)/format(PrixUnitaire *-1,3) ,3)
-when bo.IO = 'IO' then 'IO'
-end)   OVER(ORDER BY date) ,0) ,' ') when idAmount = 3 then concat( format(  SUM(case when bo.IO = 'I' then   format(format(ub.value,3)/format(PrixUnitaire,3) ,3)
-when bo.IO ='O' then  format(format(ub.value,3)/format(PrixUnitaire *-1,3) ,3)
-when bo.IO = 'IO' then 'IO'
-end)   OVER(ORDER BY date) ,3) , ' $') else concat( format( ub.balance ,3,'en_EN') ,' $') end  as balance,ub.PrixUnitaire,'d' as sensP
-  FROM user_balances ub inner join balance_operations bo on
-ub.idBalancesOperation = bo.id
-where  (bo.amounts_id = ? and ub.idUser =  ?)  order by ref desc", [$idAmounts, auth()->user()->idUser]
+        $userData = DB::select(getSqlFromPath('get_user_balances'), [$idAmounts, auth()->user()->idUser]
         );
         return Datatables::of($userData)
             ->addColumn('formatted_date', function ($user) {
@@ -1057,7 +1039,7 @@ where  (bo.amounts_id = ? and ub.idUser =  ?)  order by ref desc", [$idAmounts, 
 
         $userData = DB::select("SELECT RANK() OVER (
         ORDER BY ub.Date desc
-    ) as ranks  , ub.idUser, ub.id ,ub.idSource ,ub.Ref , ub.Date, bo.Designation,ub.Description,
+    ) as ranks  , ub.idUser, ub.id ,ub.idSource ,ub.Ref , ub.Date, bo.operation ,ub.Description,
 case when ub.idSource = '11111111' then 'system' else
 (select concat( IFNULL(enfirstname,''),' ',  IFNULL( enlastname,''))  from metta_users mu  where mu.idUser = ub.idSource)
 end as source,
@@ -1262,7 +1244,7 @@ class="btn btn-primary btn2earnTable">' . __("Edit") . '</a> ';
     {
         $user = $this->settingsManager->getAuthUser();
         if (!$user) $user->idUser = '';
-        $userData = DB::select("SELECT ub.idUser, ub.id ,ub.idSource ,ub.Ref , ub.Date, bo.Designation,ub.Description,
+        $userData = DB::select("SELECT ub.idUser, ub.id ,ub.idSource ,ub.Ref , ub.Date, bo.operation,ub.Description,
 case when ub.idSource = '11111111' then 'system' else
 (select concat( IFNULL(enfirstname,''),' ',  IFNULL( enlastname,''))  from metta_users mu  where mu.idUser = ub.idSource)
 end as source,

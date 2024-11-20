@@ -12,7 +12,7 @@ class Balances extends Component
 {
 
     public $idBalanceOperations;
-    public $designation;
+    public $operation;
     public $io;
     public $source;
     public $mode;
@@ -42,7 +42,7 @@ class Balances extends Component
             throw new \Exception(Lang::get('No Balances'));
         }
         $this->idBalanceOperations = $id;
-        $this->designation = $balance->designation;
+        $this->operation = $balance->operation;
         $this->io = $balance->io;
         $this->source = $balance->source;
         $this->mode = $balance->mode;
@@ -59,7 +59,7 @@ class Balances extends Component
             if (!$balance) {
                 throw new \Exception(Lang::get('No Balances'));
             }
-            $balance->designation = $this->designation;
+            $balance->operation = $this->operation;
             $balance->io = $this->io;
             $balance->source = $this->source;
             $balance->mode = $this->mode;
