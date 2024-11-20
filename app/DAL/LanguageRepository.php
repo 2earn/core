@@ -3,11 +3,7 @@
 namespace App\DAL;
 
 use Core\Interfaces\ILanguageRepository;
-use Core\Models\countrie;
-use Core\Models\history;
 use Core\Models\language;
-use Core\Models\user_balance;
-use Core\Models\user_earn;
 use Illuminate\Support\Facades\DB;
 
 class  LanguageRepository implements ILanguageRepository
@@ -20,7 +16,7 @@ class  LanguageRepository implements ILanguageRepository
 
     public function getAllLanguage2()
     {
-        return DB::select("SELECT * FROM demo.user_balances ub inner join metta_users mu on ub.idUser = mu.idUser ");
+        return DB::select(getSqlFromPath('get_all_language2'));
     }
 
 

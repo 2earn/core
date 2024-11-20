@@ -504,7 +504,7 @@
                 "columns": [
                     {data: 'ref'},
                     {data: 'Date'},
-                    {data: 'Designation'},
+                    {data: 'operation'},
                     {data: 'Description'},
                     {data: 'value', className: window.classAl},
                     {data: 'balance', className: window.classAl},
