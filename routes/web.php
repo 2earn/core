@@ -188,8 +188,9 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
                 Route::get('/assign', \App\Http\Livewire\EditAdmin::class)->name('assign');
             });
 
-            Route::get('/balances', \App\Http\Livewire\Balances::class)->name('balances');
-
+            Route::prefix('/balances')->name('balances_')->group(function () {
+                Route::get('/index', \App\Http\Livewire\Balances::class)->name('index');
+            });
         });
 
         Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');

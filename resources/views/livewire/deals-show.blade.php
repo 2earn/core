@@ -15,9 +15,10 @@
     @endif
     <div class="card">
         <div class="card-header">
-            <h6 class="text-info">{{__('Data Inputs')}}
-                <span class="badge btn btn-info float-end">{{__(\Core\Enum\DealStatus::tryFrom($deal->status)?->name)}}</span>
-            </h6>
+            <h4 class="text-info">{{__('Data Inputs')}}
+                <span
+                    class="badge btn btn-info float-end">{{__(\Core\Enum\DealStatus::tryFrom($deal->status)?->name)}}</span>
+            </h4>
         </div>
         <div class="card-body row">
             <ul class="list-group col-sm-12 col-md-6 col-lg-3">
@@ -85,6 +86,8 @@
                         </div>
                     </div>
                 </li>
+            </ul>
+            <ul class="list-group col-sm-12 col-md-6 col-lg-3">
                 <li class="list-group-item">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
@@ -101,8 +104,6 @@
                         </div>
                     </div>
                 </li>
-            </ul>
-            <ul class="list-group col-sm-12 col-md-6 col-lg-3">
                 <li class="list-group-item">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
@@ -151,6 +152,9 @@
                         </div>
                     </div>
                 </li>
+
+            </ul>
+            <ul class="list-group col-sm-12 col-md-6 col-lg-3">
                 <li class="list-group-item">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
@@ -183,8 +187,6 @@
                         </div>
                     </div>
                 </li>
-            </ul>
-            <ul class="list-group col-sm-12 col-md-6 col-lg-3">
                 <li class="list-group-item">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
@@ -217,22 +219,9 @@
                         </div>
                     </div>
                 </li>
-                <li class="list-group-item">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <div class="text-muted">
-                                <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Cash back margin percentage')}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->cash_back_margin_percentage}}
-                            </span>
-                        </div>
-                    </div>
-                </li>
+
+            </ul>
+            <ul class="list-group col-sm-12 col-md-6 col-lg-3">
                 <li class="list-group-item">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
@@ -265,8 +254,22 @@
                         </div>
                     </div>
                 </li>
-            </ul>
-            <ul class="list-group col-sm-12 col-md-6 col-lg-3">
+                <li class="list-group-item">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="text-muted">
+                                <div class="flex-shrink-0 ms-2">
+                                    <span class="fs-14 mb-0">{{__('Cash back margin percentage')}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <span class="text-info">
+                                {{$deal->cash_back_margin_percentage}}
+                            </span>
+                        </div>
+                    </div>
+                </li>
                 <li class="list-group-item">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
@@ -283,38 +286,6 @@
                         </div>
                     </div>
                 </li>
-                <li class="list-group-item">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <div class="text-muted">
-                                <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Item price')}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->item_price}}
-                            </span>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <div class="text-muted">
-                                <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Current turnover index')}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->current_turnover_index}}
-                            </span>
-                        </div>
-                    </div>
-                </li>
             </ul>
         </div>
         <div class="card-footer">
@@ -325,7 +296,7 @@
         </div>
         @if(!in_array($currentRouteName,["deals_archive"]))
             <div class="card-header">
-                <h6 class="text-info">{{__('Calculated')}}</h6>
+                <h4 class="text-info">{{__('Calculated')}}</h4>
             </div>
             <div class="card-body row">
                 <div class="col-sm-12 col-md-6 col-lg-3">
@@ -660,7 +631,7 @@
                 </div>
             </div>
             <div class="card-header">
-                <h6 class="text-info">{{__('Actions')}}</h6>
+                <h4 class="text-info">{{__('Actions')}}</h4>
             </div>
             <div class="card-body">
                 @include('parts.datatable.deals-action', ['deal' => $deal])

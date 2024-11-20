@@ -461,12 +461,10 @@ class settingsManager
                     $this->earnDebugSms("Country is - " . $user->idCountry);
                     switch ($idCountry) {
                         case 216 :
-                            $result = $this->notifyHelper->notifyuser(
-                                TypeNotificationEnum::SMS, OperateurSmsEnum::Tunisie, $typeEventNotification, $param);
+                            $result = $this->notifyHelper->notifyuser(                                TypeNotificationEnum::SMS, OperateurSmsEnum::Tunisie, $typeEventNotification, $param);
                             break;
                         default :
-                            $result = $this->notifyHelper->notifyuser(
-                                TypeNotificationEnum::SMS, OperateurSmsEnum::international, $typeEventNotification, $param);
+                            $result = $this->notifyHelper->notifyuser(                                TypeNotificationEnum::SMS, OperateurSmsEnum::international, $typeEventNotification, $param);
                             break;
                     }
                     break;
@@ -852,10 +850,6 @@ class settingsManager
     public function getConditionalUser($Attribute, $value)
     {
         return $this->userRepository->getConditionalUser($Attribute, $value);
-    }
-
-    public function getIdentificationRequestNombre()
-    {
     }
 
     public function deleteUser($idUser)

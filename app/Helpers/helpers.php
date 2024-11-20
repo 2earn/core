@@ -8,6 +8,7 @@ use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 
@@ -68,7 +69,7 @@ if (!function_exists('getUserListCards')) {
     function getUserListCards()
     {
         $data = DB::table(function ($query) {
-            $query->select('idUser', 'u.idamount', 'Date', 'u.idBalancesOperation', 'b.designation', DB::raw('CASE WHEN b.io = "I" THEN value ELSE -value END as value'))
+            $query->select('idUser', 'u.idamount', 'Date', 'u.idBalancesOperation', 'b.operation', DB::raw('CASE WHEN b.io = "I" THEN value ELSE -value END as value'))
                 ->from('user_balances as u')
                 ->join('balance_operations as b', 'u.idBalancesOperation', '=', 'b.id')
                 ->whereNotIn('u.idamount', [4])
@@ -165,7 +166,7 @@ if (!function_exists('getUserByPhone')) {
 if (!function_exists('getUserByContact')) {
     function getUserByContact($phone)
     {
-        $hours = \Core\Models\Setting::Where('idSETTINGS', '25')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
+        $hours = Setting::Where('idSETTINGS', '25')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
         $user = \Core\Models\UserContact::where('fullphone_number', $phone)->where('availablity', '1')->whereRaw('TIMESTAMPDIFF(HOUR, reserved_at, NOW()) < ?', [$hours])
             ->orderBy('reserved_at')->pluck('idUser')->first();
         return $user ? $user : NULL;
@@ -177,7 +178,7 @@ if (!function_exists('getSwitchBlock')) {
     function getSwitchBlock($id)
     {
 
-        $hours = \Core\Models\Setting::Where('idSETTINGS', '29')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
+        $hours = Setting::Where('idSETTINGS', '29')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
         $user = \Core\Models\UserContact::where('id', $id)
             ->pluck('reserved_at')->first();
         if ($user) {
@@ -193,7 +194,7 @@ if (!function_exists('getHalfActionValue')) {
     function getHalfActionValue()
     {
         $selledActions = getSelledActions(true) * 1.05 / 2;
-        $setting = \Core\Models\Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
+        $setting = Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
         $initial_value = $setting[0];
         $final_value = $initial_value * 5;
         $total_actions = $setting[2];
@@ -246,7 +247,7 @@ if (!function_exists('getFlashGiftedActions')) {
 if (!function_exists('actualActionValue')) {
     function actualActionValue($selled_actions, $formated = true)
     {
-        $setting = \Core\Models\Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
+        $setting = Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
         $initial_value = $setting[0];
         $final_value = $setting[1];
         $total_actions = $setting[2];
@@ -427,8 +428,7 @@ if (!function_exists('earnDebug')) {
 if (!function_exists('usdToSar')) {
     function usdToSar()
     {
-        $k = \Core\Models\Setting::Where('idSETTINGS', '30')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
-        return $k;
+        return Setting::Where('idSETTINGS', '30')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
     }
 
     if (!function_exists('checkUserBalancesInReservation')) {
@@ -613,6 +613,18 @@ if (!function_exists('formatSqlWithEnv')) {
         };
         return $viewSqlCode;
 
+    }
+}
+
+if (!function_exists('getSqlFromPath')) {
+    function getSqlFromPath($fileName)
+    {
+
+        $path = database_path('sql/' . $fileName . '.sql');
+        if (!File::exists($path)) {
+            throw new Exception('Invalid sql Path');
+        }
+        return File::get($path);
     }
 }
 

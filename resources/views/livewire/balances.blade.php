@@ -17,9 +17,11 @@
                         id="BalanceOperationsTable">
                         <thead class="table-light">
                         <tr>
-                            <th>{{ __('Operation Designation') }}</th>
+                            <th>{{ __('id') }}</th>
+                            <th>{{ __('Operation') }}</th>
                             <th>{{ __('I/O') }}</th>
                             <th>{{ __('Source') }}</th>
+                            <th>{{ __('Amount') }}</th>
                             <th>{{ __('Amount') }}</th>
                             <th>{{ __('ModifyAmount') }}</th>
                             <th>{{ __('Actions') }}</th>
@@ -47,9 +49,9 @@
                         <div class="row">
 
                             <div class="mb-3 col-xl-6">
-                                <label class="me-sm-2">{{ __('Designation') }}</label>
-                                <input wire:model.defer="designation" type="text" class="form-control"
-                                       placeholder="designation" name="designation">
+                                <label class="me-sm-2">{{ __('operation') }}</label>
+                                <input wire:model.defer="operation" type="text" class="form-control"
+                                       placeholder="operation" name="operation">
                             </div>
                             <div class="mb-3 col-xl-6">
                                 <label class="me-sm-2">{{ __('source') }}</label>
@@ -123,9 +125,11 @@
                     search: {return: true},
                     "ajax": "{{route('api_bal_operations' ,app()->getLocale())}}",
                     "columns": [
-                        {"data": "designation"},
+                        {"data": "id"},
+                        {"data": "operation"},
                         {"data": "io"},
                         {"data": "source"},
+                        {"data": "amounts_id"},
                         {"data": "amountsshortname"},
                         {data: 'modify_amount'},
                         {data: 'action', name: 'action', orderable: false, searchable: false},

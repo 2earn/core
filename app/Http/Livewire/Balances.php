@@ -5,13 +5,14 @@ namespace App\Http\Livewire;
 use Core\Models\Amount;
 use Core\Models\BalanceOperation;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
 class Balances extends Component
 {
 
     public $idBalanceOperations;
-    public $designation;
+    public $operation;
     public $io;
     public $source;
     public $mode;
@@ -21,10 +22,17 @@ class Balances extends Component
 
     public $search = '';
 
+
+    public $currentRouteName;
+
     protected $listeners = [
         'initBOFunction' => 'initBOFunction',
     ];
 
+    public function mount()
+    {
+        $this->currentRouteName = Route::currentRouteName();
+    }
 
     public function initBOFunction($id)
     {
@@ -34,7 +42,7 @@ class Balances extends Component
             throw new \Exception(Lang::get('No Balances'));
         }
         $this->idBalanceOperations = $id;
-        $this->designation = $balance->designation;
+        $this->operation = $balance->operation;
         $this->io = $balance->io;
         $this->source = $balance->source;
         $this->mode = $balance->mode;
@@ -51,7 +59,7 @@ class Balances extends Component
             if (!$balance) {
                 throw new \Exception(Lang::get('No Balances'));
             }
-            $balance->designation = $this->designation;
+            $balance->operation = $this->operation;
             $balance->io = $this->io;
             $balance->source = $this->source;
             $balance->mode = $this->mode;

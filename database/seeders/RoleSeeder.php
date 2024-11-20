@@ -2,23 +2,22 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 
 class RoleSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
+
     public function run()
     {
-        DB::table('model_has_roles')->insert([
-            'role_id' => '3',
-            'model_type' => 'App\Models\User',
-            'model_id' => '510',
-        ]);
+        $roles = [
+            ['name' => 'admin', 'guard_name' => 'web', 'created_at' => '2021-09-07 12:49:10', 'updated_at' => '2021-09-07 12:49:10'],
+            ['name' => 'Moderateur', 'guard_name' => 'web', 'created_at' => '2021-09-07 12:49:10', 'updated_at' => '2021-09-07 12:49:10'],
+            ['name' => 'Super admin', 'guard_name' => 'web', 'created_at' => '2021-09-07 12:49:10', 'updated_at' => '2021-09-07 12:49:10'],
+            ['name' => 'user', 'guard_name' => 'web', 'created_at' => '2021-09-07 12:49:10', 'updated_at' => '2021-09-07 12:49:10'],
+        ];
+        foreach ($roles as $role) {
+            Role::create($role);
+        }
     }
 }

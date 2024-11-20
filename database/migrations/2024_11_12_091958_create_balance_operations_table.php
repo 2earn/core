@@ -18,7 +18,7 @@ return new class extends Migration {
         Schema::dropIfExists(self::OLD_TABLE_NAME);
         Schema::create(self::TABLE_NAME, function (Blueprint $table) {
             $table->id();
-            $table->string('designation', 90)->nullable();
+            $table->string('operation', 90)->nullable();
             $table->string('io', 2)->nullable();
             $table->string('source', 45)->nullable();
             $table->string('mode', 45)->nullable();

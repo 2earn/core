@@ -44,19 +44,25 @@ class Deal extends Model
         return $this->belongsTo(User::class, 'created_by_id');
     }
 
-    public function productDealHistory(): HasMany
+    public function ItemDealHistory(): HasMany
     {
-        return $this->hasMany(ProductDealHistory::class);
+        return $this->hasMany(ItemDealHistory::class);
     }
 
-    public function products()
+    public function Items()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Item::class);
     }
 
     public function platform()
     {
         return $this->hasOne(Platform::class, 'id', 'platform_id');
+    }
+
+
+    public function cashBalance(): HasMany
+    {
+        return $this->hasMany(CashBalances::class);
     }
 
 

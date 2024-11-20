@@ -249,14 +249,14 @@ class FinancialTransaction extends Component
     public function getRequestIn($settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
-        $reqRequest = "select recharge_requests.Date , user.name user  , recharge_requests.payeePhone userphone, recharge_requests.amount  from recharge_requests left join users user on user.idUser = recharge_requests.idPayee where recharge_requests.idUser = ? ";
+        $reqRequest = getSqlFromPath('get_request_in');
         $request = DB::select($reqRequest, [$userAuth->idUser]);
     }
 
     public function getRequestOut($settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
-        $reqRequest = "select recharge_requests.Date , user.name user  ,recharge_requests.payeePhone userphone, recharge_requests.amount  from recharge_requests left join users user on user.idUser = recharge_requests.idPayee where recharge_requests.idSender = ? ";
+        $reqRequest = getSqlFromPath('get_request_out');
         $request = DB::select($reqRequest, [$userAuth->idUser]);
     }
 

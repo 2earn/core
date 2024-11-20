@@ -5,8 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-
-    const TABLE_NAME = 'products';
+    const TABLE_NAME = 'pool';
 
     /**
      * Run the migrations.
@@ -17,14 +16,10 @@ return new class extends Migration {
     {
         Schema::create(self::TABLE_NAME, function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('ref')->nullable();
-            $table->string('photo_link')->nullable();
-            $table->float('price')->nullable();
-            $table->float('discount')->nullable();
-            $table->text('description')->nullable();
-            $table->float('stock')->nullable();
-            $table->unsignedBigInteger('created_by')->foreign('user_id')->nullable()->references('id')->on('user')->onDelete('cascade');
+            $table->string('name');
+            $table->float('value');
+            $table->float('max');
+            $table->unsignedBigInteger('country_id')->foreign('country_id')->nullable()->references('id')->on('countries')->onDelete('cascade');
             $table->timestamps();
         });
     }
