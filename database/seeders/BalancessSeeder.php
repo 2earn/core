@@ -7,7 +7,6 @@ use App\Models\BFSsBalances;
 use App\Models\CashBalances;
 use App\Models\DiscountBalances;
 use App\Models\SMSBalances;
-use App\Models\TreeBalances;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -19,6 +18,7 @@ class BalancessSeeder extends Seeder
     public $treeCountor = 0;
     public $smsCountor = 0;
     public $actionCountor = 0;
+    public $currentDate;
 
     public function run()
     {
@@ -34,6 +34,7 @@ class BalancessSeeder extends Seeder
                 6 => $this->insertAction($balance),
             };
         }
+        $this->currentDate = new \DateTime('now');
 
         $this->display('cashCountor', $this->cashCountor);
         $this->display('bfsCountor', $this->bfsCountor);
@@ -41,6 +42,20 @@ class BalancessSeeder extends Seeder
         $this->display('treeCountor', $this->treeCountor);
         $this->display('smsCountor', $this->smsCountor);
         $this->display('actionCountor', $this->actionCountor);
+    }
+
+    public function getRef($balance)
+    {
+        if (!is_null($balance->ref)) return $balance->ref;
+        try {
+            if (!is_null($balance->Date)) {
+                $date = new \DateTime($balance->Date);
+                return $balance->idBalancesOperation . $date->format('Ymd') . $balance->id;
+            }
+        } catch (\Exception $exception) {
+        }
+        return $balance->idBalancesOperation . $this->currentDate->format('Ymd') . $balance->id;
+
     }
 
     public function insertCash($balance)
@@ -52,10 +67,10 @@ class BalancessSeeder extends Seeder
             'beneficiary_id' => $balance->idUser,
             'value' => $balance->value,
             'actual_balance' => $balance->Balance,
-            'ref' => $balance->ref,
+            'ref' => $this->getRef($balance),
             'description' => $balance->Description,
-            'created_at' => now(),
-            'updated_at' => now(),
+            'created_at' => $balance->Date,
+            'updated_at' => $balance->Date,
         ];
         CashBalances::create($cash);
         $this->cashCountor++;
@@ -71,10 +86,10 @@ class BalancessSeeder extends Seeder
             'beneficiary_id' => $balance->idUser,
             'value' => $balance->value,
             'actual_balance' => $balance->Balance,
-            'ref' => $balance->ref,
+            'ref' => $this->getRef($balance),
             'description' => $balance->Description,
-            'created_at' => now(),
-            'updated_at' => now(),
+            'created_at' => $balance->Date,
+            'updated_at' => $balance->Date,
         ];
         BFSsBalances::create($bfs);
         $this->bfsCountor++;
@@ -90,10 +105,10 @@ class BalancessSeeder extends Seeder
             'beneficiary_id' => $balance->idUser,
             'value' => $balance->value,
             'actual_balance' => $balance->Balance,
-            'ref' => $balance->ref,
+            'ref' => $this->getRef($balance),
             'description' => $balance->Description,
-            'created_at' => now(),
-            'updated_at' => now(),
+            'created_at' => $balance->Date,
+            'updated_at' => $balance->Date,
         ];
         DiscountBalances::create($discount);
         $this->discountCountor++;
@@ -102,19 +117,7 @@ class BalancessSeeder extends Seeder
 
     public function inserttree($balance)
     {
-        $tree = [
-            'balance_operation_id' => $balance->idBalancesOperation,
-            'operator_id' => $balance->idSource,
-            'beneficiary_id' => $balance->idUser,
-            'value' => $balance->value,
-            'actual_balance' => $balance->Balance,
-            'ref' => $balance->ref,
-            'description' => $balance->Description,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ];
-        $this->treeCountor++;
-        TreeBalances::create($tree);
+
 
     }
 
@@ -126,10 +129,10 @@ class BalancessSeeder extends Seeder
             'beneficiary_id' => $balance->idUser,
             'value' => $balance->value,
             'actual_balance' => $balance->Balance,
-            'ref' => $balance->ref,
+            'ref' => $this->getRef($balance),
             'description' => $balance->Description,
-            'created_at' => now(),
-            'updated_at' => now(),
+            'created_at' => $balance->Date,
+            'updated_at' => $balance->Date,
         ];
         SMSBalances::create($sms);
         $this->smsCountor++;
@@ -144,13 +147,13 @@ class BalancessSeeder extends Seeder
             'beneficiary_id' => $balance->idUser,
             'value' => $balance->value,
             'actual_balance' => $balance->Balance,
-            'ref' => $balance->ref,
+            'ref' => $this->getRef($balance),
             'description' => $balance->Description,
             'win_purchase_amount' => $balance->WinPurchaseAmount,
             'gifted_shares' => $balance->gifted_shares,
             'unit_price' => $balance->PrixUnitaire,
-            'created_at' => now(),
-            'updated_at' => now(),
+            'created_at' => $balance->Date,
+            'updated_at' => $balance->Date,
         ];
         ActionBalances::create($action);
         $this->actionCountor++;
