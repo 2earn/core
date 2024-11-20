@@ -37,6 +37,7 @@ class UserBalanceObserver
             $setting = \Core\Models\Setting::WhereIn('idSETTINGS', ['22', '23'])->orderBy('idSETTINGS')->pluck('IntegerValue');
             $md = $setting[0];
             $rc = $setting[1];
+            // CHECK IN BALANCES
             $Count = DB::table('user_balances')->count();
             $ub = new user_balance([
                 'ref' => $user_balance->ref,
