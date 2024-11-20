@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Item extends Model
 {
     use HasFactory;
 
@@ -34,9 +34,9 @@ class Product extends Model
         return $this->belongsTo(Deal::class);
     }
 
-    public function orderItems()
+    public function OrderDetails()
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(OrderDetail::class);
     }
 
     public function shares()

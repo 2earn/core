@@ -93,7 +93,7 @@ class User extends Authenticatable
 
     public function seller()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Item::class);
     }
 
     public function currentBalances()

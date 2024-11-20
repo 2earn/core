@@ -5,20 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProductDealHistory extends Model
+class ItemDealHistory extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'start_date',
         'end_date',
-        'product_id',
+        'item_id',
         'deal_id'
     ];
 
-    public function product()
+    public function Item()
     {
-        return $this->hasOne(Product::class);
+        return $this->hasOne(Item::class);
     }
 
     public function deal()

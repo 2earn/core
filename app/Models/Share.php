@@ -12,11 +12,11 @@ class Share extends Model
     protected $fillable = [
         'detail',
         'unique_id',
-        'product_id'
+        'item_id'
     ];
 
-    public function product()
+    public function Item()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Item::class);
     }
 }
