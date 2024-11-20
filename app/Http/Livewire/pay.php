@@ -26,6 +26,7 @@ class pay
         $ip='';
 
 
+        // CHECK IN BALANCES
         $cart_id = auth()->user()->idUser.'-'.DB::table('user_balances')->count()+1;
         $cart_amount=$request->amount;
 

@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Log;
 if (!function_exists('getUserBalanceSoldes')) {
     function getUserBalanceSoldes($idUser, $amount)
     {
+        // CHECK IN BALANCES
+
         $result = DB::table('user_balances as u')
             ->select('u.idUser', 'u.idamount', DB::raw('SUM(CASE WHEN b.io = "I" THEN u.value ELSE -u.value END) as value'))
             ->join('balance_operations as b', 'u.idBalancesOperation', '=', 'b.id')
@@ -68,6 +70,8 @@ if (!function_exists('getRegisterUpline')) {
 if (!function_exists('getUserListCards')) {
     function getUserListCards()
     {
+        // CHECK IN BALANCES
+
         $data = DB::table(function ($query) {
             $query->select('idUser', 'u.idamount', 'Date', 'u.idBalancesOperation', 'b.operation', DB::raw('CASE WHEN b.io = "I" THEN value ELSE -value END as value'))
                 ->from('user_balances as u')
@@ -92,6 +96,7 @@ if (!function_exists('getUserListCards')) {
 if (!function_exists('getAdminCash')) {
     function getAdminCash()
     {
+        // CHECK IN BALANCES
         $value = DB::table('user_balances as u')
             ->select(DB::raw('SUM(CASE WHEN b.io = "I" THEN u.value ELSE -u.value END) as value'))
             ->join('balance_operations as b', 'u.idBalancesOperation', '=', 'b.id')
@@ -106,6 +111,7 @@ if (!function_exists('getAdminCash')) {
 if (!function_exists('getUserCash')) {
     function getUserCash($user)
     {
+        // CHECK IN BALANCES
         $value = DB::table('user_balances as u')
             ->select(DB::raw('SUM(CASE WHEN b.io = "I" THEN u.value ELSE -u.value END) as value'))
             ->join('balance_operations as b', 'u.idBalancesOperation', '=', 'b.id')
@@ -438,6 +444,7 @@ if (!function_exists('usdToSar')) {
                 ->orderBy('idSETTINGS')
                 ->pluck('IntegerValue')
                 ->first();
+            // CHECK IN BALANCES
             $result = DB::table('user_balances as u')
                 ->where('idUser', $idUser)
                 ->select(DB::raw('TIMESTAMPDIFF(HOUR, ' . DB::raw('DATE') . ', NOW()))'))

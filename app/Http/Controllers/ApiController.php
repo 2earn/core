@@ -80,6 +80,7 @@ class ApiController extends BaseController
         $gift = getGiftedActions($number_of_action);
         $actual_price = actualActionValue(getSelledActions(true), false);
         $PU = $number_of_action * ($actual_price) / ($number_of_action + $gift);
+        // CHECK IN BALANCES
         $Count = DB::table('user_balances')->count();
         $ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
         $palier = Setting::Where('idSETTINGS', '19')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
@@ -237,6 +238,7 @@ class ApiController extends BaseController
 
         if ($old_value >= $request->amount) {
 
+            // CHECK IN BALANCES
             $Count = DB::table('user_balances')->count();
 
             $user_balance = new user_balance();
@@ -304,6 +306,7 @@ class ApiController extends BaseController
 
     public function getSharesSolde()
     {
+        // CHECK IN BALANCES
         $query = DB::table('user_balances')->select('id', 'value', 'gifted_shares', 'PU', 'Date')->where('idBalancesOperation', 44)
             ->where('idUser', Auth()->user()->idUser)->orderBy('id', 'desc');
         return datatables($query)
@@ -362,6 +365,7 @@ class ApiController extends BaseController
 
     public function getSharesSoldes()
     {
+        // CHECK IN BALANCES
         $query = DB::table('user_balances')
             ->select('Balance', 'WinPurchaseAmount', 'countries.apha2', 'user_balances.id', DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS Name'), 'user.mobile', DB::raw('CAST(value AS DECIMAL(10,0)) AS value'), 'gifted_shares', DB::raw('CAST(PU AS DECIMAL(10,2)) AS PU'), 'Date', 'user_balances.idUser')
             ->join('users as user', 'user.idUser', '=', 'user_balances.idUser')
@@ -486,6 +490,7 @@ class ApiController extends BaseController
                 ->where('idUser', $user)
                 ->where('idamounts', AmoutEnum::CASH_BALANCE)
                 ->value('value');
+            // CHECK IN BALANCES
             $value = DB::table('user_balances as u')
                 ->select(DB::raw('SUM(CASE WHEN b.IO = "I" THEN u.value ELSE -u.value END) as value'))
                 ->join('balance_operations as b', 'u.idBalancesOperation', '=', 'b.id')
@@ -494,6 +499,7 @@ class ApiController extends BaseController
                 ->where('u.idUser', $user)
                 ->first();
 
+            // CHECK IN BALANCES
             $Count = DB::table('user_balances')->count();
             $value = $value->value * 1;
 
@@ -569,6 +575,7 @@ class ApiController extends BaseController
             $id = $request->input('id');
             $st = 0;
 
+            // CHECK IN BALANCES
             DB::table('user_balances')
                 ->where('id', $id)
                 ->update(['WinPurchaseAmount' => $st]);
@@ -594,6 +601,7 @@ class ApiController extends BaseController
                 if ($st < $total) $p = 2;
                 if ($st == $total) $p = 1;
             }
+            // CHECK IN BALANCES
             DB::table('user_balances')
                 ->where('id', $id)
                 ->update(['Balance' => floatval($st), 'WinPurchaseAmount' => $p]);
@@ -607,6 +615,7 @@ class ApiController extends BaseController
 
     public function getTransfert()
     {
+        // CHECK IN BALANCES
         $query = DB::table('user_balances')->select('value', 'Description', 'Date')->where('idBalancesOperation', 42)
             ->where('idUser', Auth()->user()->idUser)
             ->whereNotNull('Description');
@@ -621,6 +630,7 @@ class ApiController extends BaseController
 
     public function getUserCashBalance()
     {
+        // CHECK IN BALANCES
         $query = DB::table('user_balances')
             ->select(DB::raw('DATE_FORMAT(Date, "%Y-%m-%d") AS x'), DB::raw('CAST(Balance AS DECIMAL(10,2)) AS y'))
             ->where('idamount', 1)
@@ -636,6 +646,7 @@ class ApiController extends BaseController
 
     public function getSharePriceEvolution()
     {
+        // CHECK IN BALANCES
         $query = DB::table('user_balances')
             ->select(
                 DB::raw('CAST(SUM(value ) OVER (ORDER BY id) AS DECIMAL(10,0))AS x'),
@@ -654,6 +665,7 @@ class ApiController extends BaseController
 
     public function getSharePriceEvolutionDate()
     {
+        // CHECK IN BALANCES
         $query = DB::table('user_balances')
             ->select(DB::raw('DATE(date) as x'), DB::raw('SUM(value) as y'))
             ->where('idBalancesOperation', 44)
@@ -670,6 +682,7 @@ class ApiController extends BaseController
 
     public function getSharePriceEvolutionWeek()
     {
+        // CHECK IN BALANCES
         $query = DB::table('user_balances')
             ->select(DB::raw(' concat(year(date),\'-\',WEEK(date, 1)) as x'), DB::raw('SUM(value) as y'), DB::raw(' WEEK(date, 1) as z'))
             ->where('idBalancesOperation', 44)
@@ -678,6 +691,7 @@ class ApiController extends BaseController
             ->orderBy('z')
             ->get();
 
+        // CHECK IN BALANCES
         foreach ($query as $record) {
 
             $record->y = (float)$record->y;
@@ -687,6 +701,7 @@ class ApiController extends BaseController
 
     public function getSharePriceEvolutionMonth()
     {
+        // CHECK IN BALANCES
         $query = DB::table('user_balances')
             ->select(DB::raw('DATE_FORMAT(date, \'%Y-%m\') as x'), DB::raw('SUM(value) as y'))
             ->where('idBalancesOperation', 44)
@@ -703,6 +718,7 @@ class ApiController extends BaseController
 
     public function getSharePriceEvolutionDay()
     {
+        // CHECK IN BALANCES
         $query = DB::table('user_balances')
             ->select(DB::raw('DAYNAME(date) as x'), DB::raw('SUM(value) as y'), DB::raw('DAYOFWEEK(date) as z'))
             ->where('idBalancesOperation', 44)

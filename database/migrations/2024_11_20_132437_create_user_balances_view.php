@@ -6,16 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
     public function up()
     {
 
-        DB::statement('DROP TRIGGER IF EXISTS after_update_user_signup;');
-        DB::statement(formatSqlWithEnv(getSqlFromPath('_create_after_update_user_signup_trigger')));
+        DB::statement(formatSqlWithEnv(getSqlFromPath('_create_user_balances_view')));
     }
 
 
     public function down()
     {
-        DB::statement('DROP TRIGGER IF EXISTS after_update_user_signup;');
+        DB::statement('DROP VIEW IF EXISTS user_balances_view;');
     }
 };
