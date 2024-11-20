@@ -84,7 +84,7 @@ class  UserBalancesRepository implements IUserBalancesRepository
     public function getSoldeByAmount($idUser, $idamount)
     {
         $soldeAmount = 0;
-        $solde = DB::select(getSqlFromPath('get_solde_by_amount.sql'), [$idUser, $idamount]);
+        $solde = DB::select(getSqlFromPath('get_solde_by_amount'), [$idUser, $idamount]);
 
         $solde = collect($solde);
         if ($solde->isNotEmpty()) {
