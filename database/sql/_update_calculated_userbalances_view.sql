@@ -1,4 +1,4 @@
-CREATE VIEW calculated_userbalances AS
+CREATE OR REPLACE VIEW  calculated_userbalances AS
 SELECT `b`.`idUser` AS `idUser`, `b`.`idamounts` AS `idamounts`, `a`.`solde` AS `solde`
 FROM (`database_name`.`usercurrentbalances` `b` LEFT JOIN (SELECT `u`.`idUser`   AS `idUser`,
                                                                   `u`.`idamount` AS `idamount`,

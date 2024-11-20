@@ -1,4 +1,4 @@
-CREATE VIEW sankey AS
+CREATE OR REPLACE VIEW sankey AS
 SELECT CASE WHEN `u`.`idSource` = '11111111' THEN '2earn.cash' ELSE `u`.`idSource` END          AS `from`,
        IFNULL(CONCAT(IFNULL(`meta`.`arFirstName`, `meta`.`enFirstName`), ' ',
                      IFNULL(`meta`.`arLastName`, `meta`.`enLastName`)), `s`.`fullphone_number`) AS `to`,

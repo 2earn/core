@@ -6,26 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+
     public function up()
     {
-        Schema::create('user_balances_view', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+
+        DB::statement(formatSqlWithEnv(getSqlFromPath('_create_user_balances_view')));
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+
     public function down()
     {
-        Schema::dropIfExists('user_balances_view');
+        DB::statement('DROP VIEW IF EXISTS user_balances_view;');
     }
 };

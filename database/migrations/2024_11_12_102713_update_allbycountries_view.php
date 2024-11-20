@@ -9,7 +9,6 @@ return new class extends Migration
     public function up()
     {
 
-        DB::statement('DROP VIEW IF EXISTS allbycountries;');
         DB::statement(formatSqlWithEnv(getSqlFromPath('_update_allbycountries_view')));
     }
 

@@ -7,7 +7,6 @@ return new class extends Migration {
     public function up()
     {
 
-        DB::statement('DROP VIEW IF EXISTS sankey;');
         DB::statement(formatSqlWithEnv(getSqlFromPath('_update_sankey_view')));
     }
 
