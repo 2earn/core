@@ -3,9 +3,8 @@
 namespace Core\Services;
 
 use Core\Enum\OperateurSmsEnum;
-use Core\Enum\TypeNotificationEnum;
-
 use Core\Enum\TypeEventNotificationEnum;
+use Core\Enum\TypeNotificationEnum;
 use Core\Interfaces\INotifiable;
 use Core\Interfaces\INotifyEarn;
 use Core\Models\MailOperator\StandardMailOperator;
@@ -15,7 +14,6 @@ use Core\Models\Notification\SmsNotification;
 use Core\Models\SmsOperators\InternationalOperatorSms;
 use Core\Models\SmsOperators\SaSmsOperator;
 use Core\Models\SmsOperators\TunisieOperatorSms;
-use Illuminate\Http\RedirectResponse;
 
 
 class NotifyHelper
@@ -66,8 +64,7 @@ class NotifyHelper
                 );
                 break;
         }
-        $resul = $this->notifyEarn->sendNotify($this->notifiable);
-        return $resul;
+        return $this->notifyEarn->sendNotify($this->notifiable);
     }
 
 }

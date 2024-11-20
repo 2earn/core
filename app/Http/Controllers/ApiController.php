@@ -42,9 +42,6 @@ class ApiController extends BaseController
 {
     const DATE_FORMAT = 'd/m/Y H:i:s';
 
-    private string $reqRequest = "select recharge_requests.Date , user.name user  ,
-recharge_requests.userPhone userphone, recharge_requests.amount  from recharge_requests
-left join users user on user.idUser = recharge_requests.idUser";
 
     public function __construct(private settingsManager $settingsManager, private BalancesManager $balancesManager, private UserRepository $userRepository)
     {
@@ -301,8 +298,7 @@ left join users user on user.idUser = recharge_requests.idUser";
 
     public function getSankey()
     {
-        $data = DB::select("select s.`from`,s.`to`,cast(s.weight as decimal (10,2)) as weight from sankey s");
-
+        $data = DB::select(getSqlFromPath('get_sankey'));
         return response()->json($data);
     }
 
@@ -1188,7 +1184,7 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
             $condition = " where recharge_requests.idUser = ";
         }
 
-        $request = DB::select($this->reqRequest . $condition . "  ? ", [$idUser]);
+        $request = DB::select(getSqlFromPath('get_request') . $condition . "  ? ", [$idUser]);
         return datatables($request)
             ->make(true);
     }
