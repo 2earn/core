@@ -17,7 +17,9 @@ class RoleSeeder extends Seeder
             ['name' => 'user', 'guard_name' => 'web', 'created_at' => '2021-09-07 12:49:10', 'updated_at' => '2021-09-07 12:49:10'],
         ];
         foreach ($roles as $role) {
-            Role::create($role);
+            if(is_null(Role::where('name', $role['name'])->first())) {
+                Role::create($role);
+            }
         }
     }
 }
