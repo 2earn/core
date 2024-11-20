@@ -295,7 +295,7 @@
                                class="nav-link menu-link {{$currentRouteName=='balances_index'? 'active' : ''}}"
                                role="button">
                                 <i class="ri-wallet-fill"></i>
-                                <span>{{__('Balances')}}</span>
+                                <span>{{__('Balance Operations')}}</span>
                             </a>
                         </li>
                         <li class="nav-item">
