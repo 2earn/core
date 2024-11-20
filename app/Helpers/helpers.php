@@ -8,6 +8,7 @@ use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 
@@ -613,6 +614,18 @@ if (!function_exists('formatSqlWithEnv')) {
         };
         return $viewSqlCode;
 
+    }
+}
+
+if (!function_exists('getSqlFromPath')) {
+    function getSqlFromPath($fileName)
+    {
+
+        $path = database_path('sql/' . $fileName . '.sql');
+        if (!File::exists($path)) {
+            throw new Exception('Invalid sql Path');
+        }
+        return File::get($path);
     }
 }
 
