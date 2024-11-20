@@ -1,4 +1,5 @@
-CREATE VIEW allbycountries AS
+CREATE
+OR REPLACE VIEW allbycountries AS
 SELECT `u`.`idamount`                                                        AS `idamount`,
        CASE
            WHEN `u`.`idamount` = 1 THEN 'CASH BALANCE'
