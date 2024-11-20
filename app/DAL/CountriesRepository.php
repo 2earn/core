@@ -21,11 +21,11 @@ class  CountriesRepository implements ICountriesRepository
 
     public function getStates($phoneCode)
     {
-        return DB::select('select * from states where country_id in (select id from countries where phonecode = ?)', [$phoneCode]);
+        return DB::select(getSqlFromPath('get_states'), [$phoneCode]);
     }
 
     public function getCountryByIso($iso)
     {
-        return DB::select('select * from countries where apha2 = ?', [$iso]);
+        return DB::select(getSqlFromPath('get_country_by_iso'), [$iso]);
     }
 }
