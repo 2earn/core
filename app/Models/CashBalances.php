@@ -17,7 +17,10 @@ class CashBalances extends Model
         'actual_balance',
         'reference',
     ];
-
+    public function item()
+    {
+        return $this->hasOne(Item::class);
+    }
     public function deal()
     {
         return $this->hasOne(Deal::class);

@@ -17,6 +17,7 @@ return new class extends Migration {
     {
         Schema::create(self::TABLE_NAME, function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('item_id')->nullable()->foreign('item_id')->nullable()->references('id')->on('items')->onDelete('cascade');
             $table->unsignedBigInteger('platform_id')->nullable()->foreign('platform_id')->nullable()->references('id')->on('platforms')->onDelete('cascade');
             $table->unsignedBigInteger('activity_id')->nullable()->foreign('activity_id')->nullable()->references('id')->on('activities')->onDelete('cascade');
             $table->unsignedBigInteger('balance_operation_id')->nullable()->foreign('balance_operation_id')->nullable()->references('id')->on('balance_operations')->onDelete('cascade');

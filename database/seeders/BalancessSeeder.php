@@ -155,7 +155,7 @@ class BalancessSeeder extends Seeder
             'description' => $balance->Description,
             'amount' => $balance->PU * $balance->value,
             'unit_price' => $balance->PU,
-            'payed' => $balance->PU,
+            'payed' => $balance->WinPurchaseAmount,
             'created_at' => $balance->Date,
             'updated_at' => $balance->Date,
         ];
@@ -174,13 +174,12 @@ class BalancessSeeder extends Seeder
                 'description' => $balance->Description,
                 'amount' => 0,
                 'unit_price' => 0,
-                'payed' => 0,
+                'payed' => $balance->WinPurchaseAmount,
                 'created_at' => $balance->Date,
                 'updated_at' => $balance->Date,
             ];
             $this->actionCountor++;
             SharesBalances::create($giftedShares);
-
         }
     }
 

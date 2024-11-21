@@ -3,13 +3,13 @@
 namespace App\Models;
 
 use App\Http\Livewire\Platform;
-use Core\Models\BalanceOperation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class BFSsBalances extends Model
 {
     use HasFactory;
+
     protected $table = 'bfss_balances';
 
     protected $fillable = [
@@ -19,6 +19,11 @@ class BFSsBalances extends Model
         'reference',
         'percentage',
     ];
+
+    public function item()
+    {
+        return $this->hasOne(Item::class);
+    }
 
     public function deal()
     {
