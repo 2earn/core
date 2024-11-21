@@ -18,6 +18,11 @@ class DiscountBalances extends Model
         'reference',
     ];
 
+    public function item()
+    {
+        return $this->hasOne(Item::class);
+    }
+
     public function deal()
     {
         return $this->hasOne(Deal::class);
