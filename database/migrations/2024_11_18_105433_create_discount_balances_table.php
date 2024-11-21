@@ -18,12 +18,15 @@ return new class extends Migration {
         Schema::create(self::TABLE_NAME, function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('deal_id')->nullable()->foreign('deal_id')->nullable()->references('id')->on('deals')->onDelete('cascade');
+            $table->unsignedBigInteger('order_id')->nullable()->foreign('order_id')->nullable()->references('id')->on('orders')->onDelete('cascade');
+            $table->unsignedBigInteger('platform_id')->nullable()->foreign('platform_id')->nullable()->references('id')->on('platforms')->onDelete('cascade');
+            $table->unsignedBigInteger('order_detail_id')->nullable()->foreign('order_detail_id')->nullable()->references('id')->on('order_details')->onDelete('cascade');
             $table->unsignedBigInteger('balance_operation_id')->nullable()->foreign('balance_operation_id')->nullable()->references('id')->on('balance_operations')->onDelete('cascade');
             $table->unsignedBigInteger('operator_id')->foreign('operator_id')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('beneficiary_id')->foreign('beneficiary_id')->nullable()->references('id')->on('users')->onDelete('cascade');
-            $table->float('value')->nullable();
-            $table->float('actual_balance')->nullable();
-            $table->string('ref')->nullable();
+            $table->double('value')->nullable();
+            $table->double('actual_balance')->nullable();
+            $table->string('reference')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
         });

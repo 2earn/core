@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
 
-    const TABLE_NAME = 'action_balances';
+    const TABLE_NAME = 'shares_balances';
 
     /**
      * Run the migrations.
@@ -20,14 +20,13 @@ return new class extends Migration {
             $table->unsignedBigInteger('balance_operation_id')->nullable()->foreign('balance_operation_id')->nullable()->references('id')->on('balance_operations')->onDelete('cascade');
             $table->unsignedBigInteger('operator_id')->foreign('operator_id')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('beneficiary_id')->foreign('beneficiary_id')->nullable()->references('id')->on('users')->onDelete('cascade');
-            $table->float('value')->nullable();
-            $table->float('actual_balance')->nullable();
-            $table->string('ref')->nullable();
+            $table->double('value')->nullable();
+            $table->double('actual_balance')->nullable();
+            $table->string('reference')->nullable();
             $table->text('description')->nullable();
             $table->float('unit_price')->nullable();
-            $table->float('win_purchase_amount')->nullable();
-            $table->float('gifted_shares')->nullable();
-
+            $table->integer('payed')->nullable();
+            $table->double('amount')->nullable();
             $table->timestamps();
         });
     }

@@ -7,14 +7,12 @@ SELECT `id`,
        `beneficiary_id`,
        `value`,
        `actual_balance`,
-       `ref`,
+       `reference`,
        `description`,
        `unit_price`,
-       `win_purchase_amount`,
-       `gifted_shares`,
        `created_at`,
        `updated_at`
-FROM `action_balances`
+FROM `shares_balances`
 UNION
 SELECT `id`,
        `balance_operation_id`,
@@ -22,14 +20,12 @@ SELECT `id`,
        `beneficiary_id`,
        `value`,
        `actual_balance`,
-       `ref`,
+       `reference`,
        `description`,
        NULL AS `unit_price`,
-       NULL AS `win_purchase_amount`,
-       NULL AS `gifted_shares`,
        `created_at`,
        `updated_at`
-FROM `b_f_ss_balances`
+FROM `bfss_balances`
 UNION ALL
 SELECT `id`,
        `balance_operation_id`,
@@ -37,11 +33,9 @@ SELECT `id`,
        `beneficiary_id`,
        `value`,
        `actual_balance`,
-       `ref`,
+       `reference`,
        `description`,
        NULL AS `unit_price`,
-       NULL AS `win_purchase_amount`,
-       NULL AS `gifted_shares`,
        `created_at`,
        `updated_at`
 FROM `cash_balances`
@@ -52,11 +46,9 @@ SELECT `id`,
        `beneficiary_id`,
        `value`,
        `actual_balance`,
-       `ref`,
+       `reference`,
        `description`,
        NULL AS `unit_price`,
-       NULL AS `win_purchase_amount`,
-       NULL AS `gifted_shares`,
        `created_at`,
        `updated_at`
 FROM `discount_balances`
@@ -67,13 +59,11 @@ SELECT `id`,
        `beneficiary_id`,
        `value`,
        `actual_balance`,
-       `ref`,
+       `reference`,
        `description`,
        NULL AS `unit_price`,
-       NULL AS `win_purchase_amount`,
-       NULL AS `gifted_shares`,
        `created_at`,
        `updated_at`
-FROM `s_m_s_balances`
+FROM `sms_balances`
 
 ORDER BY `created_at` ASC;

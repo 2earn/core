@@ -4,11 +4,9 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
-
-
-    const TABLE_NAME = 'sms_balances';
-
+return new class extends Migration
+{
+    const TABLE_NAME = 'chance_balances';
     /**
      * Run the migrations.
      *
@@ -16,7 +14,7 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create(self::TABLE_NAME, function (Blueprint $table) {
+        Schema::create('chance_balances', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('deal_id')->nullable()->foreign('deal_id')->nullable()->references('id')->on('deals')->onDelete('cascade');
             $table->unsignedBigInteger('order_id')->nullable()->foreign('order_id')->nullable()->references('id')->on('orders')->onDelete('cascade');
@@ -25,10 +23,9 @@ return new class extends Migration {
             $table->unsignedBigInteger('balance_operation_id')->nullable()->foreign('balance_operation_id')->nullable()->references('id')->on('balance_operations')->onDelete('cascade');
             $table->unsignedBigInteger('operator_id')->foreign('operator_id')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('beneficiary_id')->foreign('beneficiary_id')->nullable()->references('id')->on('users')->onDelete('cascade');
-            $table->integer('value')->nullable();
-            $table->integer('actual_balance')->nullable();
+            $table->double('value')->nullable();
+            $table->double('actual_balance')->nullable();
             $table->string('reference')->nullable();
-            $table->double('amount')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
         });
@@ -41,6 +38,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists(self::TABLE_NAME);
+        Schema::dropIfExists('chance_balances');
     }
 };

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Livewire\Platform;
 use Core\Models\BalanceOperation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,16 +10,32 @@ use Illuminate\Database\Eloquent\Model;
 class CashBalances extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'value',
         'description',
         'actual_balance',
-        'ref',
+        'reference',
     ];
 
     public function deal()
     {
         return $this->hasOne(Deal::class);
+    }
+
+    public function order()
+    {
+        return $this->hasOne(Order::class);
+    }
+
+    public function orderDetail()
+    {
+        return $this->hasOne(Order::class);
+    }
+
+    public function platform()
+    {
+        return $this->hasOne(Platform::class);
     }
 
     public function balanceOperation()

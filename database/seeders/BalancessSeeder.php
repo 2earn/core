@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\ActionBalances;
 use App\Models\BFSsBalances;
 use App\Models\CashBalances;
 use App\Models\DiscountBalances;
+use App\Models\SharesBalances;
 use App\Models\SMSBalances;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -64,10 +64,11 @@ class BalancessSeeder extends Seeder
             'deal_id' => null,
             'balance_operation_id' => $balance->idBalancesOperation,
             'operator_id' => $balance->idSource,
+            'platform_id' => 1,
             'beneficiary_id' => $balance->idUser,
             'value' => $balance->value,
             'actual_balance' => $balance->Balance,
-            'ref' => $this->getRef($balance),
+            'reference' => $this->getRef($balance),
             'description' => $balance->Description,
             'created_at' => $balance->Date,
             'updated_at' => $balance->Date,
@@ -83,10 +84,11 @@ class BalancessSeeder extends Seeder
             'deal_id' => null,
             'balance_operation_id' => $balance->idBalancesOperation,
             'operator_id' => $balance->idSource,
+            'platform_id' => 1,
             'beneficiary_id' => $balance->idUser,
             'value' => $balance->value,
             'actual_balance' => $balance->Balance,
-            'ref' => $this->getRef($balance),
+            'reference' => $this->getRef($balance),
             'description' => $balance->Description,
             'created_at' => $balance->Date,
             'updated_at' => $balance->Date,
@@ -102,10 +104,11 @@ class BalancessSeeder extends Seeder
             'deal_id' => null,
             'balance_operation_id' => $balance->idBalancesOperation,
             'operator_id' => $balance->idSource,
+            'platform_id' => 1,
             'beneficiary_id' => $balance->idUser,
             'value' => $balance->value,
             'actual_balance' => $balance->Balance,
-            'ref' => $this->getRef($balance),
+            'reference' => $this->getRef($balance),
             'description' => $balance->Description,
             'created_at' => $balance->Date,
             'updated_at' => $balance->Date,
@@ -126,10 +129,11 @@ class BalancessSeeder extends Seeder
         $sms = [
             'balance_operation_id' => $balance->idBalancesOperation,
             'operator_id' => $balance->idSource,
+            'platform_id' => 1,
             'beneficiary_id' => $balance->idUser,
             'value' => $balance->value,
             'actual_balance' => $balance->Balance,
-            'ref' => $this->getRef($balance),
+            'reference' => $this->getRef($balance),
             'description' => $balance->Description,
             'created_at' => $balance->Date,
             'updated_at' => $balance->Date,
@@ -147,16 +151,37 @@ class BalancessSeeder extends Seeder
             'beneficiary_id' => $balance->idUser,
             'value' => $balance->value,
             'actual_balance' => $balance->Balance,
-            'ref' => $this->getRef($balance),
+            'reference' => $this->getRef($balance),
             'description' => $balance->Description,
-            'win_purchase_amount' => $balance->WinPurchaseAmount,
-            'gifted_shares' => $balance->gifted_shares,
-            'unit_price' => $balance->PrixUnitaire,
+            'amount' => $balance->PU * $balance->value,
+            'unit_price' => $balance->PU,
+            'payed' => $balance->PU,
             'created_at' => $balance->Date,
             'updated_at' => $balance->Date,
         ];
-        ActionBalances::create($action);
+
+        SharesBalances::create($action);
         $this->actionCountor++;
+
+        if ($balance->gifted_shares != 0) {
+            $giftedShares = [
+                'balance_operation_id' => $balance->idBalancesOperation,
+                'operator_id' => $balance->idSource,
+                'beneficiary_id' => $balance->idUser,
+                'value' => $balance->gifted_shares,
+                'actual_balance' => $balance->Balance,
+                'reference' => $this->getRef($balance),
+                'description' => $balance->Description,
+                'amount' => 0,
+                'unit_price' => 0,
+                'payed' => 0,
+                'created_at' => $balance->Date,
+                'updated_at' => $balance->Date,
+            ];
+            $this->actionCountor++;
+            SharesBalances::create($giftedShares);
+
+        }
     }
 
     public function display($type, $number)

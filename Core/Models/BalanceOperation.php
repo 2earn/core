@@ -2,7 +2,7 @@
 
 namespace Core\Models;
 
-use App\Models\ActionBalances;
+use App\Models\SharesBalances;
 use App\Models\BFSsBalances;
 use App\Models\CashBalances;
 use App\Models\DiscountBalances;
@@ -47,7 +47,7 @@ class BalanceOperation extends Model
 
     public function actionBalances(): HasMany
     {
-        return $this->hasMany(ActionBalances::class);
+        return $this->hasMany(SharesBalances::class);
     }
 
     public function treeBalances(): HasMany

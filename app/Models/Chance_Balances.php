@@ -2,30 +2,30 @@
 
 namespace App\Models;
 
-use Core\Models\BalanceOperation;
+use App\Http\Livewire\Platform;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ActionBalances extends Model
+class Chance_Balances extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'value',
         'description',
         'actual_balance',
-        'ref',
-        'win_purchase_amount',
-        'gifted_shares',
-        'unit_price',
+        'reference',
     ];
 
-
-    public function balanceOperation()
+    public function platform()
     {
-        return $this->hasOne(BalanceOperation::class);
+        return $this->hasOne(Platform::class);
     }
 
-
+    public function activity()
+    {
+        return $this->hasOne(Activity::class);
+    }
     public function operator()
     {
         return $this->belongsTo(User::class, 'operator_id');
@@ -35,4 +35,5 @@ class ActionBalances extends Model
     {
         return $this->belongsTo(User::class, 'beneficiary_id');
     }
+
 }

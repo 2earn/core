@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Livewire\Platform;
 use Core\Models\BalanceOperation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,11 +10,14 @@ use Illuminate\Database\Eloquent\Model;
 class BFSsBalances extends Model
 {
     use HasFactory;
+    protected $table = 'bfss_balances';
+
     protected $fillable = [
         'value',
         'description',
         'actual_balance',
-        'ref',
+        'reference',
+        'percentage',
     ];
 
     public function deal()
@@ -21,12 +25,20 @@ class BFSsBalances extends Model
         return $this->hasOne(Deal::class);
     }
 
-    public function balanceOperation()
+    public function order()
     {
-        return $this->hasOne(BalanceOperation::class);
+        return $this->hasOne(Order::class);
     }
 
+    public function orderDetail()
+    {
+        return $this->hasOne(Order::class);
+    }
 
+    public function platform()
+    {
+        return $this->hasOne(Platform::class);
+    }
     public function operator()
     {
         return $this->belongsTo(User::class, 'operator_id');
