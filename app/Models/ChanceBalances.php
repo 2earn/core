@@ -14,7 +14,8 @@ class ChanceBalances extends Model
     protected $fillable = [
         'value',
         'description',
-        'actual_balance',
+        'total_balance',
+        'total_amount',
         'reference',
     ];
 
@@ -31,6 +32,11 @@ class ChanceBalances extends Model
     public function balanceOperation()
     {
         return $this->hasOne(BalanceOperation::class);
+    }
+
+    public function pool()
+    {
+        return $this->hasOne(Pool::class);
     }
 
 
@@ -52,5 +58,11 @@ class ChanceBalances extends Model
     public function activity()
     {
         return $this->hasOne(Activity::class);
+    }
+
+
+    public function chanceable(): MorphTo
+    {
+        return $this->morphTo();
     }
 }

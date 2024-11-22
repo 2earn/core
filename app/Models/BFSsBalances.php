@@ -15,7 +15,8 @@ class BFSsBalances extends Model
     protected $fillable = [
         'value',
         'description',
-        'actual_balance',
+        'total_balance',
+        'total_amount',
         'reference',
         'percentage',
     ];

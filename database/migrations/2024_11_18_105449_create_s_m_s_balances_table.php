@@ -25,11 +25,14 @@ return new class extends Migration {
             $table->unsignedBigInteger('balance_operation_id')->nullable()->foreign('balance_operation_id')->nullable()->references('id')->on('balance_operations')->onDelete('cascade');
             $table->unsignedBigInteger('operator_id')->foreign('operator_id')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('beneficiary_id')->foreign('beneficiary_id')->nullable()->references('id')->on('users')->onDelete('cascade');
-            $table->integer('value')->nullable();
-            $table->integer('actual_balance')->nullable();
+            $table->unsignedBigInteger('sms_id')->foreign('sms_id')->nullable()->references('id')->on('smss')->onDelete('cascade');
+            $table->string('ref')->nullable();
             $table->string('reference')->nullable();
+            $table->integer('value')->nullable();
             $table->double('amount')->nullable();
-            $table->text('description')->nullable();
+            $table->integer('total_balance')->nullable();
+            $table->integer('total_amount')->nullable();
+            $table->string('description',512)->nullable();
             $table->timestamps();
         });
     }

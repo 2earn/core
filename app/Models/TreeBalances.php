@@ -10,20 +10,23 @@ use Illuminate\Database\Eloquent\Model;
 class TreeBalances extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'value',
         'description',
-        'actual_balance',
+        'total_balance',
+        'total_amount',
         'reference',
     ];
+
     public function deal()
     {
         return $this->hasOne(Deal::class);
     }
 
-    public function order()
+    public function item()
     {
-        return $this->hasOne(Order::class);
+        return $this->hasOne(Item::class);
     }
 
     public function orderDetail()

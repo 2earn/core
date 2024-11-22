@@ -4,9 +4,9 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     const TABLE_NAME = 'chance_balances';
+
     /**
      * Run the migrations.
      *
@@ -14,19 +14,22 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('chance_balances', function (Blueprint $table) {
+        Schema::create(self::TABLE_NAME, function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('deal_id')->nullable()->foreign('deal_id')->nullable()->references('id')->on('deals')->onDelete('cascade');
-            $table->unsignedBigInteger('order_id')->nullable()->foreign('order_id')->nullable()->references('id')->on('orders')->onDelete('cascade');
+            $table->morphs('chanceable');
             $table->unsignedBigInteger('platform_id')->nullable()->foreign('platform_id')->nullable()->references('id')->on('platforms')->onDelete('cascade');
-            $table->unsignedBigInteger('order_detail_id')->nullable()->foreign('order_detail_id')->nullable()->references('id')->on('order_details')->onDelete('cascade');
+            $table->unsignedBigInteger('activity_id')->nullable()->foreign('activity_id')->nullable()->references('id')->on('activities')->onDelete('cascade');
             $table->unsignedBigInteger('balance_operation_id')->nullable()->foreign('balance_operation_id')->nullable()->references('id')->on('balance_operations')->onDelete('cascade');
             $table->unsignedBigInteger('operator_id')->foreign('operator_id')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('beneficiary_id')->foreign('beneficiary_id')->nullable()->references('id')->on('users')->onDelete('cascade');
-            $table->double('value')->nullable();
-            $table->double('actual_balance')->nullable();
+            $table->unsignedBigInteger('pool_id')->foreign('pool_id')->nullable()->references('id')->on('pools')->onDelete('cascade');
+            $table->string('description', 512)->nullable();
+            $table->string('ref')->nullable();
             $table->string('reference')->nullable();
-            $table->text('description')->nullable();
+            $table->double('value')->nullable();
+            $table->double('total_balance')->nullable();
+            $table->double('total_amount')->nullable();
+
             $table->timestamps();
         });
     }
@@ -38,6 +41,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('chance_balances');
+        Schema::dropIfExists(self::TABLE_NAME);
     }
 };

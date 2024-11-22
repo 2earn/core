@@ -7,6 +7,7 @@ use App\Models\CashBalances;
 use App\Models\DiscountBalances;
 use App\Models\SharesBalances;
 use App\Models\SMSBalances;
+use App\Models\TreeBalances;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -67,8 +68,9 @@ class BalancessSeeder extends Seeder
             'platform_id' => 1,
             'beneficiary_id' => $balance->idUser,
             'value' => $balance->value,
-            'actual_balance' => $balance->Balance,
-            'reference' => $this->getRef($balance),
+            'total_balance' => $balance->Balance,
+            'total_amount' => $balance->Balance,
+            'ref' => $this->getRef($balance), 'reference' => null,
             'description' => $balance->Description,
             'created_at' => $balance->Date,
             'updated_at' => $balance->Date,
@@ -87,8 +89,9 @@ class BalancessSeeder extends Seeder
             'platform_id' => 1,
             'beneficiary_id' => $balance->idUser,
             'value' => $balance->value,
-            'actual_balance' => $balance->Balance,
-            'reference' => $this->getRef($balance),
+            'total_balance' => $balance->Balance,
+            'total_amount' => $balance->Balance,
+            'ref' => $this->getRef($balance), 'reference' => null,
             'description' => $balance->Description,
             'created_at' => $balance->Date,
             'updated_at' => $balance->Date,
@@ -107,8 +110,9 @@ class BalancessSeeder extends Seeder
             'platform_id' => 1,
             'beneficiary_id' => $balance->idUser,
             'value' => $balance->value,
-            'actual_balance' => $balance->Balance,
-            'reference' => $this->getRef($balance),
+            'total_balance' => $balance->Balance,
+            'total_amount' => $balance->Balance,
+            'ref' => $this->getRef($balance), 'reference' => null,
             'description' => $balance->Description,
             'created_at' => $balance->Date,
             'updated_at' => $balance->Date,
@@ -120,7 +124,21 @@ class BalancessSeeder extends Seeder
 
     public function inserttree($balance)
     {
-
+        $tree = [
+            'balance_operation_id' => $balance->idBalancesOperation,
+            'operator_id' => $balance->idSource,
+            'platform_id' => 1,
+            'beneficiary_id' => $balance->idUser,
+            'value' => $balance->value,
+            'total_balance' => $balance->Balance,
+            'total_amount' => $balance->Balance,
+            'ref' => $this->getRef($balance), 'reference' => null,
+            'description' => $balance->Description,
+            'created_at' => $balance->Date,
+            'updated_at' => $balance->Date,
+        ];
+        TreeBalances::create($tree);
+        $this->smsCountor++;
 
     }
 
@@ -132,8 +150,9 @@ class BalancessSeeder extends Seeder
             'platform_id' => 1,
             'beneficiary_id' => $balance->idUser,
             'value' => $balance->value,
-            'actual_balance' => $balance->Balance,
-            'reference' => $this->getRef($balance),
+            'total_balance' => $balance->Balance,
+            'total_amount' => $balance->Balance,
+            'ref' => $this->getRef($balance), 'reference' => null,
             'description' => $balance->Description,
             'created_at' => $balance->Date,
             'updated_at' => $balance->Date,
@@ -150,8 +169,9 @@ class BalancessSeeder extends Seeder
             'operator_id' => $balance->idSource,
             'beneficiary_id' => $balance->idUser,
             'value' => $balance->value,
-            'actual_balance' => $balance->Balance,
-            'reference' => $this->getRef($balance),
+            'total_balance' => $balance->Balance,
+            'total_amount' => $balance->Balance,
+            'ref' => $this->getRef($balance), 'reference' => null,
             'description' => $balance->Description,
             'amount' => $balance->PU * $balance->value,
             'unit_price' => $balance->PU,
@@ -169,8 +189,9 @@ class BalancessSeeder extends Seeder
                 'operator_id' => $balance->idSource,
                 'beneficiary_id' => $balance->idUser,
                 'value' => $balance->gifted_shares,
-                'actual_balance' => $balance->Balance,
-                'reference' => $this->getRef($balance),
+                'total_balance' => $balance->Balance,
+                'total_amount' => $balance->Balance,
+                'ref' => $this->getRef($balance), 'reference' => null,
                 'description' => $balance->Description,
                 'amount' => 0,
                 'unit_price' => 0,

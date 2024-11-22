@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->string('photo_link')->nullable();
             $table->float('price')->nullable();
             $table->float('discount')->nullable();
-            $table->text('description')->nullable();
+            $table->string('description',512)->nullable();
             $table->float('stock')->nullable();
             $table->unsignedBigInteger('created_by')->foreign('user_id')->nullable()->references('id')->on('user')->onDelete('cascade');
             $table->timestamps();

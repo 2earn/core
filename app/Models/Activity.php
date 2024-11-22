@@ -14,4 +14,9 @@ class Activity extends Model
         'type',
         'chance',
     ];
+
+    public function chance(): MorphOne
+    {
+        return $this->morphOne(ChanceBalances::class, 'chanceable');
+    }
 }

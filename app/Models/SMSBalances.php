@@ -16,7 +16,8 @@ class SMSBalances extends Model
     protected $fillable = [
         'value',
         'description',
-        'actual_balance',
+        'total_balance',
+        'total_amount',
         'reference',
         'amount',
     ];
@@ -44,6 +45,11 @@ class SMSBalances extends Model
     public function balanceOperation()
     {
         return $this->hasOne(BalanceOperation::class);
+    }
+
+    public function sms()
+    {
+        return $this->hasOne(Sms::class);
     }
 
 

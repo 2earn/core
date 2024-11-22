@@ -19,7 +19,7 @@ return new class extends Migration {
             $status = [DealStatus::New->value, DealStatus::Opened->value, DealStatus::Closed->value, DealStatus::Archived->value];
             $table->id();
             $table->string('name')->nullable();
-            $table->text('description')->nullable();
+            $table->string('description',512)->nullable();
             $table->boolean('validated')->nullable();
             $table->enum('status', $status);
             $table->float('objective_turnover')->nullable();

@@ -12,8 +12,9 @@ class SharesBalances extends Model
     protected $fillable = [
         'value',
         'description',
-        'actual_balance',
+        'total_balance',
         'reference',
+        'total_amount',
         'amount',
         'payed',
         'unit_price',
