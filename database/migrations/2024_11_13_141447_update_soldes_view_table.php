@@ -6,7 +6,7 @@ return new class extends Migration {
 
     public function up()
     {
-        DB::statement(formatSqlWithEnv(getSqlFromPath('_update_sankey_view')));
+        DB::statement(formatSqlWithEnv(getSqlFromPath('_update_soldes_view')));
     }
 
 
