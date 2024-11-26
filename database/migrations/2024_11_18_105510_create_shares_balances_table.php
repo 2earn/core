@@ -29,6 +29,7 @@ return new class extends Migration {
             $table->double('unit_price')->nullable();
             $table->integer('payed')->nullable();
             $table->double('amount')->nullable();
+            $table->double('real_amount')->nullable();
             $table->timestamps();
         });
     }

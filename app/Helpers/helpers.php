@@ -599,7 +599,6 @@ if (!function_exists('getValidCurrentDateTime')) {
 if (!function_exists('formatSqlWithEnv')) {
     function formatSqlWithEnv($viewSqlCode)
     {
-        dump(env('APP_NAME', '2Earn.test'));
         match (env('APP_NAME', '2Earn.test')) {
             '2Earn.test' => $viewSqlCode = str_replace('database_earn', '2earn', $viewSqlCode),
             'dev.2earn.cash' => $viewSqlCode = str_replace('database_earn', 'dev_2earn', $viewSqlCode),
