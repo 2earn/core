@@ -12,11 +12,11 @@
                         <div class="col-12">
                             <h6 class="text-muted mb-2">
                                 @if(app()->getLocale()=="en")
-                                    Exclusive WhatsApp group
+                                    Exclusive WhatsApp channel
                                 @elseif(app()->getLocale()=="fr")
-                                    Groupe WhatsApp exclusif
+                                    Chaîne WhatsApp exclusif
                                 @else
-                                    مجموعة واتساب حصرية
+                                    قناة واتساب حصرية
                                 @endif
                             </h6>
                         </div>
@@ -44,36 +44,34 @@
                                     </p>
                                 </blockquote>
                                 @if(app()->getLocale()=="en")
-                                        A private and exclusive WhatsApp group has been created for people registered on
-                                        the
-                                        2earn.cash platform... Thank you to all other members who have not yet joined
-                                        the group
-                                        to click on <a href="https://chat.whatsapp.com/JRJV7LgsULwGyvIsvvXm9A">this
-                                            link</a> to send a membership request.
-                                    @elseif(app()->getLocale()=="fr")
-                                        Un groupe WhatsApp privé et exclusif a été créé pour les personnes inscrites sur
-                                        la
-                                        plateforme 2earn.cash... Merci à tous les autres membres qui n'ont pas encore
-                                        rejoint le
-                                        groupe de cliquer sur <a
-                                            href="https://chat.whatsapp.com/JRJV7LgsULwGyvIsvvXm9A">ce lien</a> pour
-                                        envoyer une demande d'adhésion.
-                                    @else
-                                        تم إنشاء مجموعة واتساب خاصة و حصرية للمسجلين في منصة 2earn.cash ... الرجاء من
-                                        كل الأخوة الأعضاء الذين لم يلتحقوا بعد بالمجموعة النقر على
-                                        <a href="https://chat.whatsapp.com/JRJV7LgsULwGyvIsvvXm9A">هذا الرابط</a>
-                                        لإرسال طلب إنضمام
+                                    A WhatsApp channel has been created for 2earn.cash... To join the channel and
+                                    continue following, please click on <a target="_blank"
+                                                                           href="https://whatsapp.com/channel/0029VasX89ODOQIaa40q9M2k">this
+                                        link</a> to send a membership request.
+                                @elseif(app()->getLocale()=="fr")
+                                    Une chaîne WhatsApp spéciale a été créée pour 2earn.cash... Pour rejoindre la chaîne
+                                    et continuer à suivre, veuillez cliquer sur
+                                    <a
+                                        target="_blank" href="https://whatsapp.com/channel/0029VasX89ODOQIaa40q9M2k">ce
+                                        lien</a> pour
+                                    envoyer une demande d'adhésion.
+                                @else
+                                    تم إنشاء قناة واتساب خاصة ب 2earn.cash ... للإلتحاق بالقناة و استمرار المتابعة,
+                                    الرجاء النقر على
+                                    <a target="_blank" href="https://whatsapp.com/channel/0029VasX89ODOQIaa40q9M2k">هذا
+                                        الرابط</a>
+                                    لإرسال طلب إنضمام
                                     @endif
-                                </p>
-                                <p class="text-muted mb-2">
-                                    @if(app()->getLocale()=="en")
-                                        Best regards
-                                    @elseif(app()->getLocale()=="fr")
-                                        Cordialement
-                                    @else
-                                        أطيب التحيات
-                                    @endif
-                                </p>
+                                    </p>
+                                    <p class="text-muted mb-2">
+                                        @if(app()->getLocale()=="en")
+                                            Best regards
+                                        @elseif(app()->getLocale()=="fr")
+                                            Cordialement
+                                        @else
+                                            أطيب التحيات
+                                        @endif
+                                    </p>
                             </blockquote>
                         </div>
                     </div>
