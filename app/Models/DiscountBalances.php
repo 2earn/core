@@ -15,7 +15,6 @@ class DiscountBalances extends Model
         'value',
         'description',
         'total_balance',
-        'total_amount',
         'reference',
     ];
 

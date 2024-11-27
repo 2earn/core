@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class CurrentBalancessSeeder extends Seeder
+class CurrentBalancesSeeder extends Seeder
 {
     private $countor = 0;
 

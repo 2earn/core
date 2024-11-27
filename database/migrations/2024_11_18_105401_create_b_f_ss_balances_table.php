@@ -28,7 +28,6 @@ return new class extends Migration
             $table->float('percentage')->nullable();
             $table->double('value')->nullable();
             $table->double('total_balance')->nullable();
-            $table->double('total_amount')->nullable();
             $table->string('ref')->nullable();
             $table->string('reference')->nullable();
             $table->string('description',512)->nullable();

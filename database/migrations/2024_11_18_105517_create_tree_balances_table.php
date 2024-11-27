@@ -29,8 +29,6 @@ return new class extends Migration {
             $table->string('ref')->nullable();
             $table->double('value')->nullable();
             $table->double('total_balance')->nullable();
-            $table->double('total_amount')->nullable();
-
             $table->timestamps();
         });
     }
