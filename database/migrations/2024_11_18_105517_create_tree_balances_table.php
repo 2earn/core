@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('deal_id')->nullable()->foreign('deal_id')->nullable()->references('id')->on('deals')->onDelete('cascade');
             $table->unsignedBigInteger('item_id')->nullable()->foreign('item_id')->nullable()->references('id')->on('items')->onDelete('cascade');
-            $table->unsignedBigInteger('platform_id')->nullable()->foreign('platform_id')->nullable()->references('id')->on('platforms')->onDelete('cascade');
+            $table->unsignedBigInteger('platform_id')->nullable()->foreign('platform_id')->default(1)->nullable()->references('id')->on('platforms')->onDelete('cascade');
             $table->unsignedBigInteger('order_detail_id')->nullable()->foreign('order_detail_id')->nullable()->references('id')->on('order_details')->onDelete('cascade');
             $table->unsignedBigInteger('balance_operation_id')->nullable()->foreign('balance_operation_id')->nullable()->references('id')->on('balance_operations')->onDelete('cascade');
             $table->unsignedBigInteger('operator_id')->foreign('operator_id')->nullable()->references('id')->on('users')->onDelete('cascade');
@@ -29,8 +29,6 @@ return new class extends Migration {
             $table->string('ref')->nullable();
             $table->double('value')->nullable();
             $table->double('total_balance')->nullable();
-            $table->double('total_amount')->nullable();
-
             $table->timestamps();
         });
     }

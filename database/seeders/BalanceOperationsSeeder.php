@@ -65,7 +65,11 @@ class BalanceOperationsSeeder extends Seeder
             array('id' => '48', 'operation' => 'SELL SHARES', 'io' => 'O', 'source' => 'IDUSER', 'mode' => NULL, 'amounts_id' => '1', 'note' => 'montant débité de cash balance contre l\'opera', 'modify_amount' => '1'),
             array('id' => '49', 'operation' => 'SPONSORSHIP COMMISSION', 'io' => 'I', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '1', 'note' => 'commission parrin à l\'achat d\'action  dans ca', 'modify_amount' => '1'),
             array('id' => '50', 'operation' => 'SPONSORSHIP COMMISSION', 'io' => 'I', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '2', 'note' => 'commission parrin à l\'achat d\'action  dans bf', 'modify_amount' => '1'),
-            array('id' => '51', 'operation' => 'CASH TOP-UP WITH CARD', 'io' => 'I', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '1', 'note' => 'alimentation de cash balance via carte banqua', 'modify_amount' => '1')
+            array('id' => '51', 'operation' => 'CASH TOP-UP WITH CARD', 'io' => 'I', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '1', 'note' => 'alimentation de cash balance via carte banqua', 'modify_amount' => '1'),
+            array('id' => '52', 'operation' => 'sponsorship commission', 'io' => 'I', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '6', 'note' => 'on stocke les actions achetés', 'modify_amount' => '1'),
+            array('id' => '53', 'operation' => 'price change', 'io' => 'I', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '6', 'note' => 'on stocke les actions achetés', 'modify_amount' => '1'),
+            array('id' => '54', 'operation' => 'Complimentary benefits on purchased shares', 'io' => 'I', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '6', 'note' => 'on stocke les actions achetés', 'modify_amount' => '1'),
+            array('id' => '55', 'operation' => 'vip benefits on purchased shares', 'io' => 'I', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '6', 'note' => 'on stocke les actions achetés', 'modify_amount' => '1')
         );
 
         if (BalanceOperation::all()->count()) {

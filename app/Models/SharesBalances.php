@@ -18,6 +18,7 @@ class SharesBalances extends Model
         'amount',
         'payed',
         'unit_price',
+        'real_amount',
     ];
 
 

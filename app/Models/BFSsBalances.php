@@ -16,7 +16,6 @@ class BFSsBalances extends Model
         'value',
         'description',
         'total_balance',
-        'total_amount',
         'reference',
         'percentage',
     ];
