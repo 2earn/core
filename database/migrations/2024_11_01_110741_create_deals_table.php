@@ -39,7 +39,7 @@ return new class extends Migration {
             $table->float('current_turnover_index')->nullable();
             $table->float('discount')->nullable();
             $table->unsignedBigInteger('created_by_id')->foreign('user_id')->nullable()->references('id')->on('user')->onDelete('cascade');
-            $table->unsignedBigInteger('platform_id')->foreign('platform_id')->nullable()->references('id')->on('platforms')->onDelete('cascade');
+            $table->unsignedBigInteger('platform_id')->nullable()->foreign('platform_id')->default(1)->nullable()->references('id')->on('platforms')->onDelete('cascade');
             $table->timestamps();
         });
     }
