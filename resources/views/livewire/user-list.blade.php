@@ -31,7 +31,7 @@
                                             <p class=" text-info mb-0">
                                                 <span class="ms-2">
                                                     <i
-                                                            class="ri-building-line align-bottom"></i>
+                                                        class="ri-building-line align-bottom"></i>
                                                     {{number_format(getAdminCash()[0],2)}}</span>
                                                 <span class="ms-2"><i class="ri-map-pin-2-line align-bottom"></i>
                                                 {{number_format(getUserListCards()[0]-getAdminCash()[0],2)}}
@@ -344,17 +344,17 @@
                                     <input id="vip-reciver" type="hidden">
                                     <input type="hidden" id="created_at">
                                     <label class="form-label">{{__('Minshares')}}<span
-                                                class="text-danger">*</span></label>
+                                            class="text-danger">*</span></label>
                                     <input type="number" class="form-control-flash" id="minshares">
                                 </div>
                                 <div class="input-group mt-2">
                                     <label class="form-label">{{__('Periode')}}<span
-                                                class="text-danger">*</span></label>
+                                            class="text-danger">*</span></label>
                                     <input type="number" class="form-control-flash" id="periode">
                                 </div>
                                 <div class="input-group mt-2">
                                     <label class="form-label">{{__('Coefficient')}}<span
-                                                class="text-danger">*</span></label>
+                                            class="text-danger">*</span></label>
                                     <input type="number" class="form-control-flash" id="coefficient">
                                 </div>
                                 <div class="input-group mt-2">
@@ -392,8 +392,8 @@
                             <input id="balances-reciver" type="hidden">
                             <input id="balances-amount" type="hidden">
                             <table
-                                    class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                                    id="ub_table_list" style="width: 100%">
+                                class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                                id="ub_table_list" style="width: 100%">
                                 <thead class="table-light">
                                 <tr class="head2earn  tabHeader2earn">
                                     <th>{{ __('ref') }}</th>
@@ -429,8 +429,8 @@
                             <input id="balances-reciversh" type="hidden">
                             <input id="balances-amountsh" type="hidden">
                             <table
-                                    class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                                    id="ub_table_listsh" style="width: 100%">
+                                class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                                id="ub_table_listsh" style="width: 100%">
                                 <thead class="table-light">
                                 <tr class="head2earn  tabHeader2earn">
                                     <th>{{__('date_purchase')}}</th>
@@ -474,22 +474,25 @@
                     url: "{{ route('add_cash', app()->getLocale()) }}",
                     type: "POST",
                     data: {amount: ammount, reciver: reciver, "_token": "{{ csrf_token() }}"},
-                    success: function (data) {
+                    success: function (dataTransfert) {
                         $.ajax({
                             url: "{{ route('send_sms',app()->getLocale()) }}",
                             type: "POST",
                             data: {user: user, msg: msg, "_token": "{{ csrf_token() }}"},
-                            success: function (data) {
-                                fireSwalInformMessage('success', '{{__('Transfer success')}}', msg);
+                            success: function (dataMessage) {
+                                fireSwalInformMessage('success', '{{__('Transfer success')}}', dataTransfert + ' ' + dataMessage);
                             },
                             error: function (xhr, ajaxOptions, thrownError) {
-                                fireSwalInformMessage('error', xhr.status, thrownError);
+                                fireSwalInformMessage('error', xhr.status, dataTransfert + ' ' + xhr.responseJSON);
                             }
                         });
                         $.getJSON(window.url, function (data) {
                             createOrUpdateDataTable(data);
                         });
                         $('.btn-vip-close').trigger('click');
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        fireSwalInformMessage('error', __('error'), xhr.responseJSON);
                     }
                 });
             } else {
