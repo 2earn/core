@@ -113,8 +113,8 @@ class Registre extends Component
         $transactionManager->beginTransaction();
         $settingsManager->createUserContactNumber($newUser, $this->iso2Country);
 
-        $settingsManager->createMettaUser($newUser);
         $usere = $newUser->save();
+        $settingsManager->createMettaUser($newUser);
         $transactionManager->commit();
         if ($usere) {
             $settingsManager->NotifyUser($newUser->id, TypeEventNotificationEnum::Inscri, ['msg' => $newcode, 'type' => TypeNotificationEnum::SMS]);

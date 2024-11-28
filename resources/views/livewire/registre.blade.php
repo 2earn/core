@@ -3,11 +3,9 @@
         .iti {
             width: 100% !important;
         }
-
         .hide {
             display: none;
         }
-
     </style>
     <div class="auth-page-wrapper pt-5">
         <div class="auth-one-bg-position auth-one-bg col-lg-12 d-none d-md-block" id="auth-particles">
