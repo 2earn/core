@@ -358,7 +358,7 @@
                                     </li>
                                     <li class="nav-item cool-link {{$currentRouteName==$sidebarDashboardsArray[2]? 'active' : ''}}">
                                         <a href="{{route($sidebarDashboardsArray[2], app()->getLocale(),false)}}"
-                                           class="nav-link">{{ __('HA Settings') }}</a>
+                                           class="nav-link">{{ __('HA amount Settings') }}</a>
                                     </li>
                                 </ul>
                             </div>

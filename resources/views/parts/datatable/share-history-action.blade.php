@@ -1,5 +1,4 @@
-@if ($amounts->amountswithholding_tax == 1)
-    <span class="badge bg-success-info text-success">{{__('Yes')}}</span>
-@else
-    <span class="badge bg-danger-info text-info">{{__('No')}}</span>
-@endif
+<a data-id="{{$share->id }}" data-bs-toggle="modal" data-bs-target="#HistoryActionModal"
+   class="btn btn-xs btn-primary edit-ha-btn btn2earnTable"><i class="glyphicon glyphicon-edit"></i>
+    {{__('Update')}}
+</a>

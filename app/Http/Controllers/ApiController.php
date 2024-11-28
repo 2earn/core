@@ -931,7 +931,7 @@ class ApiController extends BaseController
                 return view('parts.datatable.amounts-action', ['amounts' => $amounts]);
             })
             ->editColumn('amountswithholding_tax', function ($amounts) {
-                return view('parts.datatable.amounts-action', ['amounts' => $amounts]);
+                return view('parts.datatable.amounts-tax', ['amounts' => $amounts]);
             })
             ->editColumn('amountstransfer', function ($amounts) {
                 return view('parts.datatable.amounts-transfer', ['amounts' => $amounts]);
@@ -955,10 +955,10 @@ class ApiController extends BaseController
             ->select('id', 'title', 'reponce');
         return datatables($actionHistorys)
             ->addColumn('action', function ($share) {
-                return view('parts.datatable.share-history-action.blade', ['amounts' => $share]);
+                return view('parts.datatable.share-history-action', ['share' => $share]);
             })
             ->editColumn('reponce', function ($share) {
-                return view('parts.datatable.share-history-reponce.blade', ['amounts' => $share]);
+                return view('parts.datatable.share-history-reponce', ['share' => $share]);
             })
             ->escapeColumns([])
             ->make(true);
@@ -1228,7 +1228,6 @@ class ApiController extends BaseController
     public function getInvitationsUser()
     {
         $user = $this->settingsManager->getAuthUser();
-
         $userData = DB::select(getSqlFromPath('get_invitations_user'), [$user->idUser, $user->idUser, $user->idUser, $user->idUser, $user->idUser]);
         return datatables($userData)
             ->make(true);
