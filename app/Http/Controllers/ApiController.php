@@ -230,7 +230,6 @@ left join users user on user.idUser = recharge_requests.idUser";
                 ->where('idUser', Auth()->user()->idUser)
                 ->where('idamounts', AmoutEnum::CASH_BALANCE)
                 ->value('value');
-
             if ($old_value < $request->amount && $old_value < 0) {
                 throw new \Exception(Lang::get('Insuffisant cash solde'));
             }
@@ -283,10 +282,10 @@ left join users user on user.idUser = recharge_requests.idUser";
                 ->where('idamounts', AmoutEnum::CASH_BALANCE)
                 ->update(['value' => $new_value, 'dernier_value' => $old_value]);
             $message = $request->amount . ' $ ' . Lang::get('for ') . getUserDisplayedName($request->input('reciver'));
-            return response()->json(Lang::get('Successfully runned operation') . ' ' . $message, 200);
         } catch (\Exception $exception) {
             return response()->json($exception->getMessage(), 500);
         }
+        return response()->json(Lang::get('Successfully runned operation') . ' ' . $message, 200);
     }
 
     public function getCountriStat()

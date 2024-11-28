@@ -486,18 +486,19 @@
                                 fireSwalInformMessage('error', xhr.status, dataTransfert + ' ' + xhr.responseJSON);
                             }
                         });
-                        $.getJSON(window.url, function (data) {
+                        $.getJSON(window.url, function (dataTransfert) {
                             createOrUpdateDataTable(data);
                         });
                         $('.btn-vip-close').trigger('click');
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
-                        fireSwalInformMessage('error', __('error'), xhr.responseJSON);
+                        fireSwalInformMessage('error', '{{__('error')}}', xhr.responseJSON);
                     }
                 });
             } else {
                 fireSwalInformMessage('error', '{{__('wrong amount value')}}', '{{__('wrong amount value')}}')
             }
+
             $(this).prop("disabled", false);
         }
 
