@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\DB;
 class BalancesSeeder extends Seeder
 {
     const DTAEFORMAT = 'dmY';
+    public $refId = 1975;
+
     public $stats = [
         'null' => 0,
         CashBalances::class => 0,
@@ -81,12 +83,8 @@ class BalancesSeeder extends Seeder
     {
         if (!is_null($balance->Date)) {
             $date = new \DateTime($balance->Date);
-            if (!is_null($balance->ref)) {
-                $idRef = substr($balance->ref, 7, strlen($balance->ref) - 1);
-            } else {
-                $idRef = $balance->id;
-            }
-            return '0' . $balance->idBalancesOperation . $date->format(self::DTAEFORMAT) . '00' . $idRef;
+            $this->refId++;
+            return '0' . $balance->idBalancesOperation . $date->format(self::DTAEFORMAT) . '000' . $this->refId;
         }
     }
 
@@ -115,11 +113,11 @@ class BalancesSeeder extends Seeder
 
     public function insertSMS_39()
     {
-
         $user_balances_sms = array(
             array('id' => '1', 'sms_id' => NULL, 'deal_id' => NULL, 'item_id' => NULL, 'platform_id' => NULL, 'balance_operation_id' => '39', 'description' => 'perchase of 25 SMS', 'operator_id' => '11111111', 'beneficiary_id' => '197604342', 'recipient_id' => NULL, 'value' => '25', 'current_balance' => '25', 'amount' => '50', 'reference' => '038130520240003775', 'created_at' => '2024-05-13 08:38:22', 'updated_at' => '2024-11-23 20:46:44'),
             array('id' => '2', 'sms_id' => NULL, 'deal_id' => NULL, 'item_id' => NULL, 'platform_id' => NULL, 'balance_operation_id' => '39', 'description' => 'perchase of 75 SMS', 'operator_id' => '11111111', 'beneficiary_id' => '197604342', 'recipient_id' => NULL, 'value' => '75', 'current_balance' => '100', 'amount' => '100', 'reference' => '038240520240003776', 'created_at' => '2024-05-24 09:14:55', 'updated_at' => '2024-11-23 20:46:44')
         );
+
         foreach ($user_balances_sms as $balance) {
             $sms = [
                 'balance_operation_id' => $balance["balance_operation_id"],
@@ -195,6 +193,9 @@ class BalancesSeeder extends Seeder
         if (in_array($balance->idBalancesOperation, [46, 47, 49, 50]) && $balance->value == 0) {
             return;
         }
+        if ($balance->idUser == 197604171 && in_array($balance->ref, ['442405231585', '442405231589', '442405231593', '442405231597'])) {
+            return;
+        }
         $actionSuite = [
             'balance_operation_id' => $balance->idBalancesOperation,
             'operator_id' => $balance->idSource,
@@ -252,9 +253,6 @@ class BalancesSeeder extends Seeder
 
     public function insertCash_51($balance)
     {
-        if ($balance->value == 0) {
-            return;
-        }
         $cash = [
             'balance_operation_id' => $balance->idBalancesOperation,
             'operator_id' => $balance->idSource,
@@ -295,6 +293,9 @@ class BalancesSeeder extends Seeder
 
     public function insertAction_44_54_55($balance)
     {
+        if ($balance->idUser == 197604171 && in_array($balance->ref, ['442405231585', '442405231589', '442405231593', '442405231597'])) {
+            return;
+        }
         $realAmount = 0;
         if ($balance->WinPurchaseAmount == 2) {
             $realAmount = $balance->Balance;
@@ -324,7 +325,6 @@ class BalancesSeeder extends Seeder
                 'amount' => $balance->PU * $balance->value,
                 'unit_price' => $balance->PU,
                 'payed' => $balance->WinPurchaseAmount,
-                'real_amount' => $realAmount,
                 'created_at' => $balance->Date,
                 'updated_at' => $balance->Date,
             ];
@@ -349,7 +349,6 @@ class BalancesSeeder extends Seeder
                 'amount' => $balance->PU * $balance->value,
                 'unit_price' => $balance->PU,
                 'payed' => $balance->WinPurchaseAmount,
-                'real_amount' => $realAmount,
                 'created_at' => $balance->Date,
                 'updated_at' => $balance->Date,
             ];
@@ -414,7 +413,6 @@ class BalancesSeeder extends Seeder
                 'amount' => 0,
                 'unit_price' => 0,
                 'payed' => $balance->WinPurchaseAmount,
-                'real_amount' => $realAmount,
                 'created_at' => $balance->Date,
                 'updated_at' => $balance->Date,
             ];
@@ -457,7 +455,6 @@ class BalancesSeeder extends Seeder
                 'amount' => 0,
                 'unit_price' => 0,
                 'payed' => $balance->WinPurchaseAmount,
-                'real_amount' => $realAmount,
                 'created_at' => $balance->Date,
                 'updated_at' => $balance->Date,
             ];
@@ -476,7 +473,6 @@ class BalancesSeeder extends Seeder
                 'amount' => 0,
                 'unit_price' => 0,
                 'payed' => $balance->WinPurchaseAmount,
-                'real_amount' => $realAmount,
                 'created_at' => $balance->Date,
                 'updated_at' => $balance->Date,
             ];
