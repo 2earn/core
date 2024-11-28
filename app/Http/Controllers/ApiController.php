@@ -30,6 +30,7 @@ use Paytabscom\Laravel_paytabs\Facades\paypage;
 use phpDocumentor\Reflection\Types\Collection;
 use Propaganistas\LaravelPhone\PhoneNumber;
 use Yajra\DataTables\Facades\DataTables;
+use function PHPUnit\Framework\throwException;
 
 
 class ApiController extends BaseController
@@ -175,7 +176,7 @@ left join users user on user.idUser = recharge_requests.idUser";
         $user_balance->WinPurchaseAmount = "0.000";
         $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeBFS + intval($number_of_action / $palier) * $actual_price * $palier;
         $user_balance->save();
-        return response()->json(['type' => ['success'], 'message' => [trans('Actions purchase transaction completed successfully')]],);
+        return response()->json(['type' => ['success'], 'message' => [trans('Actions purchase transaction completed successfully')]]);
     }
 
     public function giftActionByAmmount(Req $request)
@@ -224,13 +225,15 @@ left join users user on user.idUser = recharge_requests.idUser";
     public function addCash(Req $request, BalancesManager $balancesManager)
     {
 
-        $old_value = DB::table('usercurrentbalances')
-            ->where('idUser', Auth()->user()->idUser)
-            ->where('idamounts', AmoutEnum::CASH_BALANCE)
-            ->value('value');
+        try {
+            $old_value = DB::table('usercurrentbalances')
+                ->where('idUser', Auth()->user()->idUser)
+                ->where('idamounts', AmoutEnum::CASH_BALANCE)
+                ->value('value');
 
-
-        if ($old_value >= $request->amount) {
+            if ($old_value < $request->amount && $old_value < 0) {
+                throw new \Exception(Lang::get('Insuffisant cash solde'));
+            }
 
             $Count = DB::table('user_balances')->count();
 
@@ -279,11 +282,11 @@ left join users user on user.idUser = recharge_requests.idUser";
                 ->where('idUser', $request->all()['reciver'])
                 ->where('idamounts', AmoutEnum::CASH_BALANCE)
                 ->update(['value' => $new_value, 'dernier_value' => $old_value]);
-            return "success";
-        } else {
-            return "error";
+            $message = $request->amount . ' $ ' . Lang::get('for ') . getUserDisplayedName($request->input('reciver'));
+            return response()->json(Lang::get('Successfully runned operation') . ' ' . $message, 200);
+        } catch (\Exception $exception) {
+            return response()->json($exception->getMessage(), 500);
         }
-
     }
 
     public function getCountriStat()
