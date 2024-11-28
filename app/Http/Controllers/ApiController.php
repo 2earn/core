@@ -36,6 +36,7 @@ use phpDocumentor\Reflection\Types\Collection;
 use Propaganistas\LaravelPhone\PhoneNumber;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
+use function PHPUnit\Framework\throwException;
 
 
 class ApiController extends BaseController
@@ -181,7 +182,7 @@ class ApiController extends BaseController
         $user_balance->WinPurchaseAmount = "0.000";
         $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeBFS + intval($number_of_action / $palier) * $actual_price * $palier;
         $user_balance->save();
-        return response()->json(['type' => ['success'], 'message' => [trans('Actions purchase transaction completed successfully')]],);
+        return response()->json(['type' => ['success'], 'message' => [trans('Actions purchase transaction completed successfully')]]);
     }
 
     public function giftActionByAmmount(Req $request)
@@ -230,13 +231,15 @@ class ApiController extends BaseController
     public function addCash(Req $request, BalancesManager $balancesManager)
     {
 
-        $old_value = DB::table('usercurrentbalances')
-            ->where('idUser', Auth()->user()->idUser)
-            ->where('idamounts', AmoutEnum::CASH_BALANCE)
-            ->value('value');
+        try {
+            $old_value = DB::table('usercurrentbalances')
+                ->where('idUser', Auth()->user()->idUser)
+                ->where('idamounts', AmoutEnum::CASH_BALANCE)
+                ->value('value');
 
-
-        if ($old_value >= $request->amount) {
+            if (intval($old_value) < intval($request->amount)) {
+                throw new \Exception(Lang::get('Insuffisant cash solde'));
+            }
 
             // CHECK IN BALANCES
             $Count = DB::table('user_balances')->count();
@@ -286,10 +289,11 @@ class ApiController extends BaseController
                 ->where('idUser', $request->all()['reciver'])
                 ->where('idamounts', AmoutEnum::CASH_BALANCE)
                 ->update(['value' => $new_value, 'dernier_value' => $old_value]);
-            return "success";
-        } else {
-            return "error";
+            $message = $request->amount . ' $ ' . Lang::get('for ') . getUserDisplayedName($request->input('reciver'));
+        } catch (\Exception $exception) {
+            return response()->json($exception->getMessage(), 500);
         }
+        return response()->json(Lang::get('Successfully runned operation') . ' ' . $message, 200);
 
     }
 
