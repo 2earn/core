@@ -464,27 +464,31 @@
                     url: "{{ route('add_cash', app()->getLocale()) }}",
                     type: "POST",
                     data: {amount: ammount, reciver: reciver, "_token": "{{ csrf_token() }}"},
-                    success: function (data) {
+                    success: function (dataTransfert) {
                         $.ajax({
                             url: "{{ route('send_sms',app()->getLocale()) }}",
                             type: "POST",
                             data: {user: user, msg: msg, "_token": "{{ csrf_token() }}"},
-                            success: function (data) {
-                                fireSwalInformMessage('success', '{{__('Transfer success')}}', msg);
+                            success: function (dataMessage) {
+                                fireSwalInformMessage('success', '{{__('Transfer success')}}', dataTransfert + ' ' + dataMessage);
                             },
                             error: function (xhr, ajaxOptions, thrownError) {
-                                fireSwalInformMessage('error', xhr.status, thrownError);
+                                fireSwalInformMessage('error', xhr.status, dataTransfert + ' ' + xhr.responseJSON);
                             }
                         });
-                        $.getJSON(window.url, function (data) {
+                        $.getJSON(window.url, function (dataTransfert) {
                             createOrUpdateDataTable(data);
                         });
                         $('.btn-vip-close').trigger('click');
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        fireSwalInformMessage('error', '{{__('error')}}', xhr.responseJSON);
                     }
                 });
             } else {
                 fireSwalInformMessage('error', '{{__('wrong amount value')}}', '{{__('wrong amount value')}}')
             }
+
             $(this).prop("disabled", false);
         }
 

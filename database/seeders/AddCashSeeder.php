@@ -20,7 +20,9 @@ class AddCashSeeder extends Seeder
 
         foreach ($idUsers as $idUser) {
 
-            $userCurrentBalances = DB::table('usercurrentbalances')->where('idUser', $idUser)->where('idamounts', 1);
+            $userCurrentBalances = DB::table('usercurrentbalances')
+                ->where('idUser', $idUser)
+                ->where('idamounts', 1)->first();
 
             $OldValue = $userCurrentBalances->value ?? 0;
 
