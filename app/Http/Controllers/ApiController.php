@@ -547,16 +547,12 @@ class ApiController extends BaseController
             if ($status == "true") {
                 $st = 1;
                 $dt = now();
-                DB::table('user_contacts')
-                    ->where('id', $id)
-                    ->update(['availablity' => $st, 'reserved_at' => $dt]);
+                DB::table('user_contacts')->where('id', $id)->update(['availablity' => $st, 'reserved_at' => $dt]);
 
                 return response()->json(['success' => true]);
             } else {
                 $st = 0;
-                DB::table('user_contacts')
-                    ->where('id', $id)
-                    ->update(['availablity' => $st]);
+                DB::table('user_contacts')->where('id', $id)->update(['availablity' => $st]);
 
                 return response()->json(['success' => true]);
 
@@ -580,9 +576,7 @@ class ApiController extends BaseController
             $st = 0;
 
             // CHECK IN BALANCES
-            DB::table('user_balances')
-                ->where('id', $id)
-                ->update(['WinPurchaseAmount' => $st]);
+            DB::table('user_balances')->where('id', $id)->update(['WinPurchaseAmount' => $st]);
 
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
@@ -597,7 +591,6 @@ class ApiController extends BaseController
             $id = $request->input('id');
             $st = $request->input('amount');
             $total = $request->input('total');
-
 
             if ($st == 0) {
                 $p = 0;
@@ -628,8 +621,6 @@ class ApiController extends BaseController
                 return Carbon\Carbon::parse($user_balance->Date)->format('Y-m-d H:i:s');
             })
             ->make(true);
-
-
     }
 
     public function getUserCashBalance()
@@ -877,10 +868,8 @@ class ApiController extends BaseController
     {
         $query = countrie::all('id', 'name', 'phonecode', 'langage');
         return datatables($query)
-            ->addColumn('action', function ($settings) {
-                return '<a data-bs-toggle="modal" data-bs-target="#editCountriesModal"  onclick="getEditCountrie(' . $settings->id . ')"
-class="btn btn-xs btn-primary btn2earnTable"  >
-<i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a> ';
+            ->addColumn('action', function ($country) {
+                return view('parts.datatable.countries-action', ['country' => $country]);
             })
             ->make(true);
     }
@@ -892,16 +881,10 @@ class="btn btn-xs btn-primary btn2earnTable"  >
             ->orderBy('idSETTINGS');
         return datatables($settings)
             ->addColumn('action', function ($settings) {
-                return '<div class="d-flex gap-2">
-                             <div class="edit">
-                                    <button  data-id="' . $settings->idSETTINGS . '"   data-bs-toggle="modal" data-bs-target="#settingModal"
- class="btn btn-primary edit-item-btn edit-setting-btn"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Update') . '</button> </div> </div>';
+                return view('parts.datatable.settings-action', ['settings' => $settings]);
             })
             ->editColumn('Automatically_calculated', function ($settings) {
-                if ($settings->Automatically_calculated == 1)
-                    return '<span class="badge bg-success-info text-success">' . trans('Yes') . '</span>';
-                else
-                    return '<span class="badge bg-danger-info text-info">' . trans('No') . '</span>';
+                return view('parts.datatable.settings-auto', ['settings' => $settings]);
             })
             ->escapeColumns([])
             ->toJson();
@@ -944,40 +927,23 @@ class="btn btn-xs btn-primary btn2earnTable"  >
             ->select('idamounts', 'amountsname', 'amountswithholding_tax', 'amountspaymentrequest', 'amountstransfer', 'amountscash', 'amountsactive', 'amountsshortname');
 
         return datatables($amounts)
-            ->addColumn('action', function ($settings) {
-                return '<a data-id="' . $settings->idamounts . '"   data-bs-toggle="modal" data-bs-target="#AmountsModal"
-class="btn btn-xs btn-primary edit-amounts-btn btn2earnTable"  >
-<i class="glyphicon glyphicon-edit""></i>' . Lang::get('Update') . '</a>';
+            ->addColumn('action', function ($amounts) {
+                return view('parts.datatable.amounts-action', ['amounts' => $amounts]);
             })
             ->editColumn('amountswithholding_tax', function ($amounts) {
-                if ($amounts->amountswithholding_tax == 1)
-                    return '<span class="badge badge-success">Yes</span>';
-                else
-                    return '<span class="badge badge-info">No</span>';
+                return view('parts.datatable.amounts-action', ['amounts' => $amounts]);
             })
             ->editColumn('amountstransfer', function ($amounts) {
-                if ($amounts->amountstransfer == 1)
-                    return '<span class="badge badge-success">Yes</span>';
-                else
-                    return '<span class="badge badge-info">No</span>';
+                return view('parts.datatable.amounts-transfer', ['amounts' => $amounts]);
             })
             ->editColumn('amountspaymentrequest', function ($amounts) {
-                if ($amounts->amountspaymentrequest == 1)
-                    return '<span class="badge badge-success">Yes</span>';
-                else
-                    return '<span class="badge badge-info">No</span>';
+                return view('parts.datatable.amounts-payment', ['amounts' => $amounts]);
             })
             ->editColumn('amountscash', function ($amounts) {
-                if ($amounts->amountscash == 1)
-                    return '<span class="badge badge-success">Yes</span>';
-                else
-                    return '<span class="badge badge-info">No</span>';
+                return view('parts.datatable.amounts-cash', ['amounts' => $amounts]);
             })
             ->editColumn('amountsactive', function ($amounts) {
-                if ($amounts->amountsactive == 1)
-                    return '<span class="badge badge-success">Yes</span>';
-                else
-                    return '<span class="badge badge-info">No</span>';
+                return view('parts.datatable.amounts-active', ['amounts' => $amounts]);
             })
             ->escapeColumns([])
             ->make(true);
@@ -988,14 +954,11 @@ class="btn btn-xs btn-primary edit-amounts-btn btn2earnTable"  >
         $actionHistorys = DB::table('action_history')
             ->select('id', 'title', 'reponce');
         return datatables($actionHistorys)
-            ->addColumn('action', function ($settings) {
-                return '<a data-id="' . $settings->id . '"   data-bs-toggle="modal" data-bs-target="#HistoryActionModal"  class="btn btn-xs btn-primary edit-ha-btn btn2earnTable"  ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Update') . '</a>';
+            ->addColumn('action', function ($share) {
+                return view('parts.datatable.share-history-action.blade', ['amounts' => $share]);
             })
-            ->editColumn('reponce', function ($actionHistorys) {
-                if ($actionHistorys->reponce == 1)
-                    return '<span class="badge bg-success-subtle text-success ">' . trans('create reponce') . '</span>';
-                else
-                    return '<span class="badge bg-info-subtle text-info ">' . trans('sans reponce') . '</span>';
+            ->editColumn('reponce', function ($share) {
+                return view('parts.datatable.share-history-reponce.blade', ['amounts' => $share]);
             })
             ->escapeColumns([])
             ->make(true);
@@ -1033,8 +996,7 @@ class="btn btn-xs btn-primary edit-amounts-btn btn2earnTable"  >
                 break;
         }
 
-        $userData = DB::select(getSqlFromPath('get_user_balances'), [$idAmounts, auth()->user()->idUser]
-        );
+        $userData = DB::select(getSqlFromPath('get_user_balances'), [$idAmounts, auth()->user()->idUser]);
         return Datatables::of($userData)
             ->addColumn('formatted_date', function ($user) {
                 return Carbon\Carbon::parse($user->Date)->format('Y-m-d');
@@ -1085,10 +1047,8 @@ class="btn btn-xs btn-primary edit-amounts-btn btn2earnTable"  >
             $admin->plateformes = rtrim($admin->plateformes, ", ");
         }
         return datatables($admins)
-            ->addColumn('action', function ($query) {
-                return "<a data-bs-toggle='modal' data-bs-target='#modalcontact'  onclick='myFunction(" . $query->id . ")'
-class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'></i>" . Lang::get('Edit') . "</a>
-<a  class='btn btn-xs btn-danger btn2earnTable'  ><i></i>" . Lang::get('Delete') . "</a>";
+            ->addColumn('action', function ($admin) {
+                return view('parts.datatable.share-history-action.blade', ['admin' => $admin]);
             })
             ->rawColumns(['action'])
             ->make(true);
@@ -1218,13 +1178,10 @@ class='btn btn-xs btn-primary btn2earnTable'><i class='glyphicon glyphicon-edit'
 
     public function getIdentificationRequest()
     {
-        $query = DB::select(getSqlFromPath('get_identification_request'), [StatusRequest::InProgressNational->value, StatusRequest::InProgressInternational->value]);
-
-        return datatables($query)
-            ->addColumn('action', function ($query) {
-                return '<a data-bs-toggle="" data-bs-target="#modal"
-                href="' . route('validate_account', ['locale' => app()->getLocale(), 'paramIdUser' => $query->id]) . '"
-class="btn btn-primary btn2earnTable">' . __("Edit") . '</a> ';
+        $identifications = DB::select(getSqlFromPath('get_identification_request'), [StatusRequest::InProgressNational->value, StatusRequest::InProgressInternational->value]);
+        return datatables($identifications)
+            ->addColumn('action', function ($identifications) {
+                return view('parts.datatable.identification-action', ['identifications' => $identifications]);
             })
             ->rawColumns(['action'])
             ->make(true);
@@ -1253,46 +1210,15 @@ class="btn btn-primary btn2earnTable">' . __("Edit") . '</a> ';
         $userData = DB::select(getSqlFromPath('get_all_users'));
 
         return datatables($userData)
-            ->addColumn('action', function ($settings) {
-                return '<a  href="' . route('adminUserEdit', ['userId' => $settings->idUser, 'locale' => app()->getLocale()]) . '"   onclick="EditUserByAdmin()" class="btn btn-xs btn-primary btn2earnTable" ><i class="glyphicon glyphicon-edit""></i>' . Lang::get('Edit') . '</a>
-<a onclick="deleteUser(' . $settings->idUser . ')" class="btn btn-xs btn-danger btn2earnTable"   ><i></i>' . Lang::get('Delete') . '</a>';
+            ->addColumn('action', function ($userLine) {
+                return view('parts.datatable.all-users-action', ['userLine' => $userLine]);
             })
             ->editColumn('status', function ($userData) {
-                switch ($userData->status) {
-                    case StatusRequest::OptValidated->value :
-                        return '<span class="badge badge-info">' . trans('Authentied') . '</span>';
-                        break;
-                    case StatusRequest::InProgressNational->value :
-                        return ' <span class="badge badge-success">' . trans('In progress national') . '</span>';
-                        break;
-                    case StatusRequest::InProgressInternational->value :
-                        return ' <span class="badge badge-success">' . trans('In progress international') . '</span>';
-                        break;
-                    case StatusRequest::ValidNational->value :
-                        return '<span class="badge badge-warning">' . trans('National valid') . '</span>';
-                        break;
-                    case StatusRequest::ValidInternational->value:
-                        return '<span class="badge badge-danger">' . trans('International Valid') . '</span>';
-                        break;
-                    default:
-                        return '<span class=" ">' . trans('Erreur') . '</span>';
-                }
+                return view('parts.datatable.all-users-status', ['status' => $userData->status]);
             })
             ->editColumn('registred_from', function ($userData) {
-                switch ($userData->registred_from) {
-                    case 1 :
-                        return '<span class="">Learn2earn</span>';
-                        break;
-                    case 2 :
-                        return '<span class="">Shop2earn</span>';
-                        break;
-                    case 3 :
-                        return '<span class="">2earn</span>';
-                        break;
-                    default :
-                        return '<span class=""> </span>';
-                        break;
-                }
+                $fromArray = [1 => 'Learn2earn', 2 => 'Shop2earn', 1 => '2earn', 4 => 'no',];
+                return view('parts.datatable.all-users-registered-from', ['from' => $fromArray[$userData->registred_from]]);
             })
             ->escapeColumns([])
             ->make(true);
@@ -1330,5 +1256,4 @@ class="btn btn-primary btn2earnTable">' . __("Edit") . '</a> ';
         }
         return json_encode(array('data' => $requestArray));
     }
-
 }
