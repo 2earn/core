@@ -191,6 +191,11 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::prefix('/balances')->name('balances_')->group(function () {
                 Route::get('/index', \App\Http\Livewire\Balances::class)->name('index');
             });
+
+
+            Route::get('/index/test', \App\Http\Livewire\NewBalance::class)->name('index_test');
+
+
         });
 
         Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');
