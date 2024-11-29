@@ -136,7 +136,7 @@ class BalancesSeeder extends Seeder
                 'reference' => $balance["reference"],
                 'description' => $balance["description"] ?? "20$ as welcome gift",
                 'created_at' => $balance["created_at"],
-                'updated_at' => $balance["created_at"],
+                'updated_at' => now(),
             ];
             $this->stats[SMSBalances::class]++;
             $this->insertToBalance($sms, 5);
@@ -159,7 +159,7 @@ class BalancesSeeder extends Seeder
             'reference' => $this->getReference($balance), 'ref' => $balance->ref,
             'description' => $balance->Description ?? "20$ as welcome gift",
             'created_at' => $balance->Date,
-            'updated_at' => $balance->Date,
+            'updated_at' => now(),
         ];
         $this->insertToBalance($insccription, $balance->idamount);
     }
@@ -180,7 +180,7 @@ class BalancesSeeder extends Seeder
             'ref' => $balance->ref,
             'description' => $balance->Description,
             'created_at' => $balance->Date,
-            'updated_at' => $balance->Date,
+            'updated_at' => now(),
         ];
         if ($balance->idamount == 2) {
             if (in_array($balance->id, [126538, 126937, 126939])) {
@@ -213,7 +213,7 @@ class BalancesSeeder extends Seeder
             'reference' => $this->getReference($balance), 'ref' => $balance->ref,
             'description' => $balance->Description,
             'created_at' => $balance->Date,
-            'updated_at' => $balance->Date,
+            'updated_at' => now(),
         ];
         $this->insertToBalance($actionSuite, $balance->idamount);
     }
@@ -233,7 +233,7 @@ class BalancesSeeder extends Seeder
             'reference' => $this->getReference($balance), 'ref' => $balance->ref,
             'description' => $balance->Description,
             'created_at' => $balance->Date,
-            'updated_at' => $balance->Date,
+            'updated_at' => now(),
         ];
         $this->insertToBalance($cash, $balance->idamount);
     }
@@ -253,7 +253,7 @@ class BalancesSeeder extends Seeder
             'reference' => $this->getReference($balance), 'ref' => $balance->ref,
             'description' => $balance->Description,
             'created_at' => $balance->Date,
-            'updated_at' => $balance->Date,
+            'updated_at' => now(),
         ];
         $this->insertToBalance($cash, $balance->idamount);
     }
@@ -270,7 +270,7 @@ class BalancesSeeder extends Seeder
             'reference' => $this->getReference($balance), 'ref' => $balance->ref,
             'description' => $balance->Description,
             'created_at' => $balance->Date,
-            'updated_at' => $balance->Date,
+            'updated_at' => now(),
         ];
         $this->insertToBalance($cash, $balance->idamount);
     }
@@ -291,7 +291,7 @@ class BalancesSeeder extends Seeder
             'reference' => $this->getReference($balance), 'ref' => $balance->ref,
             'description' => $balance->Description,
             'created_at' => $balance->Date,
-            'updated_at' => $balance->Date,
+            'updated_at' => now(),
         ];
 
         $this->insertToBalance($bfs, $balance->idamount);
@@ -333,7 +333,7 @@ class BalancesSeeder extends Seeder
                 'unit_price' => $balance->PU,
                 'payed' => $balance->WinPurchaseAmount,
                 'created_at' => $balance->Date,
-                'updated_at' => $balance->Date,
+                'updated_at' => now(),
             ];
 
             $this->insertToBalance($action, $balance->idamount);
@@ -357,7 +357,7 @@ class BalancesSeeder extends Seeder
                 'unit_price' => $balance->PU,
                 'payed' => $balance->WinPurchaseAmount,
                 'created_at' => $balance->Date,
-                'updated_at' => $balance->Date,
+                'updated_at' => now(),
             ];
 
             $this->insertToBalance($action, $balance->idamount);
@@ -380,7 +380,7 @@ class BalancesSeeder extends Seeder
                 'payed' => $balance->WinPurchaseAmount,
                 'real_amount' => $realAmount,
                 'created_at' => $balance->Date,
-                'updated_at' => $balance->Date,
+                'updated_at' => now(),
             ];
 
             $this->insertToBalance($action, $balance->idamount);
@@ -402,7 +402,7 @@ class BalancesSeeder extends Seeder
                 'payed' => $balance->WinPurchaseAmount,
                 'real_amount' => $realAmount,
                 'created_at' => $balance->Date,
-                'updated_at' => $balance->Date,
+                'updated_at' => now(),
             ];
 
             $this->insertToBalance($action, $balance->idamount);
@@ -421,7 +421,7 @@ class BalancesSeeder extends Seeder
                 'unit_price' => 0,
                 'payed' => $balance->WinPurchaseAmount,
                 'created_at' => $balance->Date,
-                'updated_at' => $balance->Date,
+                'updated_at' => now(),
             ];
 
             $this->insertToBalance($giftedShares, $balance->idamount);
@@ -444,7 +444,7 @@ class BalancesSeeder extends Seeder
                 'payed' => $balance->WinPurchaseAmount,
                 'real_amount' => $realAmount,
                 'created_at' => $balance->Date,
-                'updated_at' => $balance->Date,
+                'updated_at' => now(),
             ];
             $this->insertToBalance($action, $balance->idamount);
             $gf = $balance->gifted_shares - $balance->value;
@@ -463,7 +463,7 @@ class BalancesSeeder extends Seeder
                 'unit_price' => 0,
                 'payed' => $balance->WinPurchaseAmount,
                 'created_at' => $balance->Date,
-                'updated_at' => $balance->Date,
+                'updated_at' => now(),
             ];
 
             $this->insertToBalance($giftedShares, $balance->idamount);
@@ -481,7 +481,7 @@ class BalancesSeeder extends Seeder
                 'unit_price' => 0,
                 'payed' => $balance->WinPurchaseAmount,
                 'created_at' => $balance->Date,
-                'updated_at' => $balance->Date,
+                'updated_at' => now(),
             ];
             $this->insertToBalance($vip, $balance->idamount);
         }
