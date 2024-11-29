@@ -2483,10 +2483,19 @@ class TranslateSeeder extends Seeder
 
     }
 
+    public function remouveSpaces($str)
+    {
+        return str_replace("\r\n", "", $str);
+    }
     public function AddFieldTranslate($item)
     {
-        if (!translatetabs::where(DB::raw('BINARY `name`'), $item['COL 2'])->exists()) {
-            translatetabs::create(['name' => $item['COL 2'], 'value' => $item['COL 4'], 'valueFr' => $item['COL 5'], 'valueEn' => $item['COL 3']]);
+        if (!translatetabs::where(DB::raw('BINARY `name`'), $this->remouveSpaces($item['COL 2']))->exists()) {
+            translatetabs::create([
+                'name' => $this->remouveSpaces($item['COL 2']),
+                'value' => $this->remouveSpaces($item['COL 4']),
+                'valueFr' => $this->remouveSpaces($item['COL 5']),
+                'valueEn' => $this->remouveSpaces($item['COL 3'])
+            ]);
         }
     }
 

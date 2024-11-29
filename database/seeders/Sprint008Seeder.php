@@ -17,5 +17,6 @@ class Sprint008Seeder extends Seeder
         Artisan::call('db:seed', ['--class' => 'Database\Seeders\RoleSeeder']);
         Artisan::call('db:seed', ['--class' => 'Database\Seeders\BalancesSeeder']);
         Artisan::call('db:seed', ['--class' => 'Database\Seeders\UpdateBalancesSeeder']);
+        Artisan::call('db:seed', ['--class' => 'Database\Seeders\TranslateSeeder']);
     }
 }
