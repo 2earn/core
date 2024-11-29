@@ -49,8 +49,15 @@ class BalancesSeeder extends Seeder
         $this->insertSMS_39();
         foreach ($this->stats as $stat => $count) {
             $this->display($stat . ' : ', $count);
-
         }
+
+        if (!DB::table('settings')->where("ParameterName", "=", 'BALANCES_COMPTER')->exists()) {
+            DB::table('settings')->insert([
+                'ParameterName' => 'BALANCES_COMPTER',
+                'IntegerValue' => $this->refId,
+            ]);
+        }
+
     }
 
 
