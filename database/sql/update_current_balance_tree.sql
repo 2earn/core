@@ -1,4 +1,4 @@
-CREATE PROCEDURE IF NOT EXISTS  `UpdateCurrentBalanceshares`()
+CREATE PROCEDURE IF NOT EXISTS  `UpdateCurrentBalancetree`()
 BEGIN
     DECLARE
 done INT DEFAULT FALSE;
@@ -21,8 +21,8 @@ last_balance DOUBLE;
     DECLARE
 cur CURSOR FOR
 SELECT id, balance_operation_id, value, beneficiary_id
-FROM user_balances_shares
-ORDER BY beneficiary_id, created_at, balance_operation_id ASC;
+FROM user_balances_tree
+ORDER BY beneficiary_id, created_at ASC;
 
 -- Gestion de la fin du curseur
 DECLARE
@@ -38,7 +38,7 @@ TEMPORARY TABLE IF NOT EXISTS temp_user_balance (
     -- Initialisation des soldes utilisateurs
 INSERT INTO temp_user_balance (beneficiary_id, current_balance)
 SELECT DISTINCT beneficiary_id, 0
-FROM user_balances_shares;
+FROM user_balances_tree;
 
 -- Parcourir les transactions
 OPEN cur;
@@ -64,7 +64,8 @@ FROM operations
 WHERE idBalanceOperations = op_id;
 
 -- Calculer le nouveau solde provisoire
-IF io_value = 'I' THEN
+IF
+io_value = 'I' THEN
             SET last_balance = ROUND(last_balance + trans_value, 3);
         ELSEIF
 io_value = 'O' THEN
@@ -75,7 +76,7 @@ END IF;
         IF
 last_balance >= 0 THEN
             -- Mise à jour du solde de la transaction
-UPDATE user_balances_shares
+UPDATE user_balances_tree
 SET current_balance = last_balance
 WHERE id = trans_id;
 
