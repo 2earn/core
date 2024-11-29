@@ -44,18 +44,13 @@ class ApiController extends BaseController
     const DATE_FORMAT = 'd/m/Y H:i:s';
 
 
-    public function __construct(private settingsManager $settingsManager, private BalancesManager $balancesManager, private UserRepository $userRepository)
+    public function __construct(private readonly settingsManager $settingsManager, private BalancesManager $balancesManager, private UserRepository $userRepository)
     {
     }
 
     public function SendSMS(Req $request, settingsManager $settingsManager)
     {
-
-        $settingsManager->NotifyUser($request->user, TypeEventNotificationEnum::none, [
-            'msg' => $request->msg,
-            'type' => TypeNotificationEnum::SMS
-        ]);
-
+        $settingsManager->NotifyUser($request->user, TypeEventNotificationEnum::none, ['msg' => $request->msg, 'type' => TypeNotificationEnum::SMS]);
     }
 
     public function buyAction(Req $request, BalancesManager $balancesManager)
