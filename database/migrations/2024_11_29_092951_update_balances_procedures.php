@@ -19,7 +19,6 @@ return new class extends Migration {
             'update_current_balance_shares',
             'update_current_balance_sms',
             'update_current_balance_tree',
-            'update_rectified_balance',
             'update_total_amount_shares',
         ];
         foreach ($procedures as $procedure) {
@@ -41,7 +40,6 @@ return new class extends Migration {
             'UpdateCurrentBalanceshares',
             'UpdateCurrentBalancesms',
             'UpdateCurrentBalancetree',
-            'UpdateRectifiedBalance',
             'UpdateTotalAmountshares',
         ];
         foreach ($procedures as $procedure) {
