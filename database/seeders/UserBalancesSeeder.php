@@ -15,6 +15,7 @@ class UserBalancesSeeder extends Seeder
      */
     public function run()
     {
+        // CHECK IN BALANCES
         DB::table('user_balances')->insert([
             'Date' => now(),
             'idBalancesOperation' => 44,

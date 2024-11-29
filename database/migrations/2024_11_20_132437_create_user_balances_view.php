@@ -9,7 +9,7 @@ return new class extends Migration
 
     public function up()
     {
-
+        // CHECK IN BALANCES
         DB::statement(formatSqlWithEnv(getSqlFromPath('_create_user_balances_view')));
     }
 

@@ -27,6 +27,7 @@ class AddCashSeeder extends Seeder
             $OldValue = $userCurrentBalances->value ?? 0;
 
 
+            // CHECK IN BALANCES
             DB::table('user_balances')->insert([
                 'Date' => now(),
                 'idBalancesOperation' => 18,

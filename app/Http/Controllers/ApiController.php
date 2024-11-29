@@ -961,11 +961,13 @@ class ApiController extends BaseController
 
     public function getUrlList($idUser, $idamount)
     {
+        // CHECK IN BALANCES
         return route('api_user_balances_list', ['locale' => app()->getLocale(), 'idUser' => $idUser, 'idAmounts' => $idamount]);
     }
 
     public function getUserBalancesList($locale, $idUser, $idamount)
     {
+        // CHECK IN BALANCES
         $userData = DB::select(getSqlFromPath('get_user_balances_list'), [$idUser, $idamount]);
         return response()->json($userData);
     }
@@ -991,6 +993,7 @@ class ApiController extends BaseController
                 break;
         }
 
+        // CHECK IN BALANCES
         $userData = DB::select(getSqlFromPath('get_user_balances'), [$idAmounts, auth()->user()->idUser]);
         return Datatables::of($userData)
             ->addColumn('formatted_date', function ($user) {
@@ -1186,6 +1189,7 @@ class ApiController extends BaseController
     {
         $user = $this->settingsManager->getAuthUser();
         if (!$user) $user->idUser = '';
+        // CHECK IN BALANCES
         $userData = DB::select(getSqlFromPath('get_user_balances_cb'), [1, $user->idUser]
         );
         return datatables($userData)->make(true);
