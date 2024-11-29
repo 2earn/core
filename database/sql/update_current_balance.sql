@@ -1,4 +1,4 @@
-CREATE PROCEDURE IF NOT EXISTS  `UpdateCurrentBalanceshares`()
+CREATE PROCEDURE IF NOT EXISTS  `UpdateCurrentBalance`()
 BEGIN
     DECLARE done INT DEFAULT FALSE;
     DECLARE trans_id INT;
@@ -12,8 +12,8 @@ BEGIN
     -- Curseur pour parcourir les transactions par utilisateur
     DECLARE cur CURSOR FOR
 SELECT id, balance_operation_id, value, beneficiary_id
-FROM shares_balances
-ORDER BY beneficiary_id, created_at,balance_operation_id ASC;
+FROM cash_balances
+ORDER BY beneficiary_id, created_at ASC;
 
 -- Gestion de la fin du curseur
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
@@ -27,7 +27,7 @@ DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
     -- Initialisation des soldes utilisateurs
 INSERT INTO temp_user_balance (beneficiary_id, total_balance)
 SELECT DISTINCT beneficiary_id, 0
-FROM shares_balances;
+FROM cash_balances;
 
 -- Parcourir les transactions
 OPEN cur;
@@ -56,7 +56,7 @@ END IF;
         -- Vérifier si le nouveau solde est négatif
         IF last_balance >= 0 THEN
             -- Mise à jour du solde de la transaction
-UPDATE shares_balances
+UPDATE cash_balances
 SET total_balance = last_balance
 WHERE id = trans_id;
 
