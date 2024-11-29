@@ -253,7 +253,7 @@ class Account extends Component
                 User::saveProfileImage($us->idUser, $this->imageProfil);
             }
         } catch (\Exception $e) {
-            return redirect()->route('account', app()->getLocale())->with('success', Lang::get($e->getMessage()));
+            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get($e->getMessage()));
         }
 
         if ($this->paramIdUser == "")
