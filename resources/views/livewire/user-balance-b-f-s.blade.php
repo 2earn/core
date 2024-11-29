@@ -91,7 +91,7 @@
                         {data: 'ranks'},
                         {data: 'Ref'},
                         {data: 'Date'},
-                        {data: 'Designation'},
+                        {data: 'Operation'},
                         {data: 'Description'},
                         {data: 'value', className: classAl},
                         {data: 'balance', className: classAl},

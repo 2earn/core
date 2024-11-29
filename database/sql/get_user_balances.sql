@@ -5,8 +5,7 @@ SELECT RANK()     OVER (
        ub.idSource,
        ub.Ref,
        ub.Date,
-       bo.operation,
-       ub.Description,
+       bo.Operation,
        ub.Description,
        ub.idamount,
        case

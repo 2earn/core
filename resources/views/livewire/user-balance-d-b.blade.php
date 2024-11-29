@@ -75,7 +75,7 @@
                             "columns": [
                                 {data: 'Ref'},
                                 {data: 'Date'},
-                                {data: 'operation'},
+                                {data: 'Operation'},
                                 {data: 'Description'},
                                 {data: 'value', className: classAl},
                                 {data: 'balance', className: classAl},

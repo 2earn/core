@@ -196,7 +196,6 @@ class BalancesSeeder extends Seeder
 
     public function insertActionSuite_46_47_48_49_50($balance)
     {
-        // 48 *********************************
         if (in_array($balance->idBalancesOperation, [46, 47, 49, 50]) && $balance->value == 0) {
             return;
         }

@@ -191,7 +191,7 @@
                     "columns": [
                         {data: 'Ref'},
                         {data: 'Date'},
-                        {data: 'Designation'},
+                        {data: 'Operation'},
                         {data: 'Description'},
                         {data: 'value'},
                         {data: 'balance'},
