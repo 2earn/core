@@ -24,23 +24,20 @@ class  HistoryNotificationRepository implements IHistoryNotificationRepository
 
     public function getHistoryByRole()
     {
-        $userRole = auth()->user()->getRoleNames()->first();
-
-        $idUser = auth()->user()->idUser;
-        $req = "";
-        switch ($userRole) {
+        switch (strtoupper(auth()->user()->getRoleNames()->first())) {
             case  User::SUPER_ADMIN_ROLE_NAME :
-            case "Admin":
-                $req = getSqlFromPath('history_notification_repository_admin');
+                return DB::select(getSqlFromPath('history_notification_repository_admin'));
                 break;
-            case "Moderateur" :
-                $req = getSqlFromPath('history_notification_repository_moderateur');
+            case strtoupper("Admin"):
+                return DB::select(getSqlFromPath('history_notification_repository_admin'));
                 break;
-            case "user" :
-                $req = getSqlFromPath('history_notification_repository_user') . $idUser;
+            case strtoupper("Moderateur") :
+                return DB::select(getSqlFromPath('history_notification_repository_moderateur'));
+                break;
+            case strtoupper("user") :
+                return DB::select(getSqlFromPath('history_notification_repository_user') . auth()->user()->idUser);
                 break;
         }
-        return DB::select($req);
     }
 
 }

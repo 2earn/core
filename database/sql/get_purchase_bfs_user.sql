@@ -5,7 +5,7 @@ SELECT RANK()     OVER (
        ub.idSource,
        ub.Ref,
        ub.Date,
-       bo.operation,
+       bo.Operation,
        ub.Description,
        case
            when ub.idSource = '11111111' then 'system'

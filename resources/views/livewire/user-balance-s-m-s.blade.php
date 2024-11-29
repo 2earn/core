@@ -62,7 +62,7 @@
                         {data: 'ranks', "width": "1%"},
                         {data: 'Ref'},
                         {data: 'Date'},
-                        {data: 'Designation'},
+                        {data: 'Operation'},
                         {data: 'Description'},
                         {data: 'PrixUnitaire'},
                         {data: 'value'},
