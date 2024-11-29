@@ -58,10 +58,10 @@ FROM temp_user_balance
 WHERE beneficiary_id = trans_user_id;
 
 -- Récupérer la valeur de IO (entrée ou sortie) depuis la table operations
-SELECT IO
+SELECT io
 INTO io_value
-FROM operations
-WHERE idBalanceOperations = op_id;
+FROM balance_operations
+WHERE id = op_id;
 
 -- Calculer le nouveau solde provisoire
 IF io_value = 'I' THEN
