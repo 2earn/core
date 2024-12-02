@@ -29,7 +29,7 @@ class BalancesSeeder extends Seeder
 
     public function run()
     {
-        // CHECK IN BALANCES
+        // CHECKED IN BALANCES
         $balances = DB::table('user_balances')->get();
         $this->display('$balances', count($balances));
         foreach ($balances as $balance) {

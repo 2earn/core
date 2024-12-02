@@ -128,7 +128,7 @@ class  UserBalancesHelper
                 $user_balance->save();
                 $BalancesOperation = DB::table('balance_operations')->where("id", "=", BalanceOperationsEnum::By_registering_DB)->first();
                 $seting = DB::table('settings')->where("idSETTINGS", "=", SettingsEnum::token_By_registering->value)->first();
-                // CHECK IN BALANCES
+                // CHECKED IN BALANCES
                 $Count = DB::table('user_balances')->count();
                 $ref = $BalancesOperation->id . date('ymd') . substr((10000 + $Count + 1), 1, 4);
                 $user_balance = new user_balance(

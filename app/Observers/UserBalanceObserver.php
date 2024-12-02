@@ -37,7 +37,7 @@ class UserBalanceObserver
             $setting = \Core\Models\Setting::WhereIn('idSETTINGS', ['22', '23'])->orderBy('idSETTINGS')->pluck('IntegerValue');
             $md = $setting[0];
             $rc = $setting[1];
-            // CHECK IN BALANCES
+            // CHECKED IN BALANCES
             $Count = DB::table('user_balances')->count();
            // BFS contol + add in discount
             $ub = new user_balance([

@@ -651,7 +651,7 @@ class ApiController extends BaseController
 
     public function getUserCashBalance()
     {
-        // CHECK IN BALANCES
+        // CHECKED IN BALANCES
         // --> TO CHECK
         // cash
 
