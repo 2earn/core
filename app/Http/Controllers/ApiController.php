@@ -148,7 +148,7 @@ class ApiController extends BaseController
         $user_balance->Date = now();
         $user_balance->idSource = '11111111';
         $user_balance->idUser = $reciver;
-        $user_balance->idamount = BalanceEnum::Action;
+        $user_balance->idamount = BalanceEnum::SHARE;
         $user_balance->value = $number_of_action;
         $user_balance->gifted_shares = $gift;
         $user_balance->PU = $PU;

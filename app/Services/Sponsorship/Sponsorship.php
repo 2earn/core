@@ -108,7 +108,7 @@ class Sponsorship
             44,
             $this->isSource,
             $reserve,
-            BalanceEnum::Action,
+            BalanceEnum::SHARE,
             0,
             $number_of_action * $this->shares / 100,
             0,
