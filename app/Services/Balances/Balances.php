@@ -27,8 +27,47 @@ class Balances
     public function getReference($balancesOperationId)
     {
         $date = new \DateTime('now');
-        return '0' . $balancesOperationId . $date->format(self::DTAEFORMAT) . $this->getBalanceCompter();
+        return substr((string)pow(10, 3 - strlen($balancesOperationId)), 1) . $balancesOperationId . $date->format(self::DTAEFORMAT) . $this->getBalanceCompter();
     }
+
+    public function getSold($idUser, $balances)
+    {
+        $sold = DB::table($balances . ' as u')
+            ->select('u.beneficiary_id', DB::raw('SUM(CASE WHEN b.io = "I" THEN u.value ELSE -u.value END) as value'))
+            ->join('balance_operations as b', 'u.balance_operation_id', '=', 'b.id')
+            ->join('users as s', 'u.beneficiary_id', '=', 's.idUser')
+            ->where('u.beneficiary_id', $idUser)
+            ->groupBy('u.beneficiary_id')
+            ->first();
+        return $sold->value ?? 0.000;
+    }
+
+    public function getCash($idUser)
+    {
+        return $this->getSold($idUser, 'cash_balances');
+    }
+
+    public function getBfss($idUser)
+    {
+        return $this->getSold($idUser, 'bfss_balances');
+    }
+
+    public function getDiscount($idUser)
+    {
+        return $this->getSold($idUser, 'discount_balances');
+    }
+
+    public function getTree($idUser)
+    {
+        return $this->getSold($idUser, 'tree_balances');
+    }
+    public function getSms($idUser)
+    {
+        return $this->getSold($idUser, 'sms_balances');
+    }
+
+
+
 
 
 }

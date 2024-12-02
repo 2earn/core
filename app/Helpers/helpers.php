@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Services\Balances\BalancesFacade;
 use Carbon\Carbon;
 use Core\Models\Setting;
 use Core\Models\user_balance;
@@ -15,25 +16,19 @@ use Illuminate\Support\Facades\Log;
 if (!function_exists('getUserBalanceSoldes')) {
     function getUserBalanceSoldes($idUser, $amount)
     {
-        // CHECKED IN BALANCES
+        // CONVERTED IN BALANCES
         // from user current balances horizontale
         // remove joins
         // 7 selon solde
+        return match ($amount) {
+            1 => BalancesFacade::getCash($idUser),
+            2 => BalancesFacade::getBfss($idUser),
+            3 => BalancesFacade::getDiscount($idUser),
+            4 => BalancesFacade::getTree($idUser),
+            5 => BalancesFacade::getSms($idUser),
+            default => BalancesFacade::getCash($idUser),
+        };
 
-        $result = DB::table('user_balances as u')
-            ->select('u.idUser', 'u.idamount', DB::raw('SUM(CASE WHEN b.io = "I" THEN u.value ELSE -u.value END) as value'))
-            ->join('balance_operations as b', 'u.idBalancesOperation', '=', 'b.id')
-            ->join('users as s', 'u.idUser', '=', 's.idUser')
-            ->where('u.idUser', $idUser)
-            ->where('u.idamount', $amount)
-            ->groupBy('u.idUser', 'u.idamount')
-            ->first();
-
-        if ($result) {
-            return $result->value;
-        } else {
-            return 0.000;
-        }
     }
 }
 if (!function_exists('validatePhone')) {
