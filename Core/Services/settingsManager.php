@@ -218,8 +218,7 @@ class settingsManager
     public function getAuthUser()
     {
         $user = $this->userRepository->getAuthenticatedUser();
-        $userMetta = $this->getMettaUser()
-            ->where('idUser', '=', $user->idUser)->first();
+        $userMetta = $this->getMettaUser()->where('idUser', '=', $user->idUser)->first();
         $userAuth = new AuthenticatedUser();
         $userAuth->id = $user->id;
         $userAuth->idUser = $user->idUser;
@@ -240,7 +239,6 @@ class settingsManager
         $userAuth->dateFNS = $user->dateFNS;
         $userAuth->internationalID = $user->internationalID;
         $userAuth->expiryDate = $user->expiryDate;
-
         return $userAuth;
     }
 
@@ -336,7 +334,7 @@ class settingsManager
 
     public function createUserContactNumberByProp($idUser, $mobile, $idCountry, $iso, $fullNumber)
     {
-        return $contactNumber = UserContactNumber::create([
+        return UserContactNumber::create([
             'idUser' => $idUser,
             'mobile' => $mobile,
             'codeP' => $idCountry,
@@ -449,10 +447,7 @@ class settingsManager
         }
 
         $this->earnDebugSms("Full number - " . $fullNumber);
-        $param = [
-            'msg' => $msss,
-            'fullNumber' => $fullNumber
-        ];
+        $param = ['msg' => $msss, 'fullNumber' => $fullNumber];
         if (isset($params['type'])) {
             $this->earnDebugSms("Param type existe - " . $params['type']->value);
             switch ($params['type']) {
@@ -558,10 +553,10 @@ class settingsManager
     public function getAuthUserById($id)
     {
         $user = $this->userRepository->getUserById($id);
-        if (!$user)
+        if (!$user) {
             return null;
-        $userMetta = $this->getMettaUser()
-            ->where('idUser', '=', $user->idUser)->first();
+        }
+        $userMetta = $this->getMettaUser()->where('idUser', '=', $user->idUser)->first();
         $userAuth = new AuthenticatedUser();
         $userAuth->id = $user->id;
         $userAuth->idUser = $user->idUser;
