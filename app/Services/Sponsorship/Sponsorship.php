@@ -4,7 +4,7 @@ namespace App\Services\Sponsorship;
 
 use App\DAL\UserRepository;
 use App\Models\User;
-use Core\Enum\AmoutEnum;
+use Core\Enum\BalanceEnum;
 use Core\Models\Setting;
 use Core\Models\user_balance;
 use Core\Services\BalancesManager;
@@ -108,7 +108,7 @@ class Sponsorship
             44,
             $this->isSource,
             $reserve,
-            AmoutEnum::Action,
+            BalanceEnum::Action,
             0,
             $number_of_action * $this->shares / 100,
             0,
@@ -122,7 +122,7 @@ class Sponsorship
             49,
             $this->isSource,
             $reserve,
-            AmoutEnum::CASH_BALANCE,
+            BalanceEnum::CASH_BALANCE,
             $amount * $this->amountCash / 100,
             null,
             0,
@@ -136,7 +136,7 @@ class Sponsorship
             50,
             $this->isSource,
             $reserve,
-            AmoutEnum::BFS,
+            BalanceEnum::BFS,
             $amount * $this->amountBFS / 100,
             null,
             0,

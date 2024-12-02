@@ -4,7 +4,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\User;
-use Core\Enum\AmoutEnum;
+use Core\Enum\BalanceEnum;
 use Core\Enum\EventBalanceOperationEnum;
 use Core\Enum\ExchangeTypeEnum;
 use Core\Enum\TypeEventNotificationEnum;

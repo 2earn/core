@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Models\vip;
 use App\Services\Sponsorship\SponsorshipFacade;
 use carbon;
-use Core\Enum\AmoutEnum;
+use Core\Enum\BalanceEnum;
 use Core\Enum\DealStatus;
 use Core\Enum\PlatformType;
 use Core\Enum\StatusRequest;
@@ -148,7 +148,7 @@ class ApiController extends BaseController
         $user_balance->Date = now();
         $user_balance->idSource = '11111111';
         $user_balance->idUser = $reciver;
-        $user_balance->idamount = AmoutEnum::Action;
+        $user_balance->idamount = BalanceEnum::Action;
         $user_balance->value = $number_of_action;
         $user_balance->gifted_shares = $gift;
         $user_balance->PU = $PU;
@@ -162,7 +162,7 @@ class ApiController extends BaseController
         $user_balance->Date = now();
         $user_balance->idSource = auth()->user()->idUser;
         $user_balance->idUser = auth()->user()->idUser;
-        $user_balance->idamount = AmoutEnum::CASH_BALANCE;
+        $user_balance->idamount = BalanceEnum::CASH_BALANCE;
         $user_balance->value = ($number_of_action + $gift) * $PU;
         $user_balance->WinPurchaseAmount = "0.000";
         $user_balance->Description = "purchase of " . ($number_of_action + $gift) . " shares for " . $a;
@@ -176,7 +176,7 @@ class ApiController extends BaseController
         $user_balance->Date = now();
         $user_balance->idSource = "11111111";
         $user_balance->idUser = $reciver_bfs;
-        $user_balance->idamount = AmoutEnum::BFS;
+        $user_balance->idamount = BalanceEnum::BFS;
         $user_balance->value = intval($number_of_action / $palier) * $actual_price * $palier;
         $user_balance->WinPurchaseAmount = "0.000";
         $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeBFS + intval($number_of_action / $palier) * $actual_price * $palier;
@@ -233,7 +233,7 @@ class ApiController extends BaseController
         try {
             $old_value = DB::table('usercurrentbalances')
                 ->where('idUser', Auth()->user()->idUser)
-                ->where('idamounts', AmoutEnum::CASH_BALANCE)
+                ->where('idamounts', BalanceEnum::CASH_BALANCE)
                 ->value('value');
 
             if (intval($old_value) < intval($request->amount)) {
@@ -251,7 +251,7 @@ class ApiController extends BaseController
             $user_balance->Date = now();
             $user_balance->idSource = auth()->user()->idUser;
             $user_balance->idUser = auth()->user()->idUser;
-            $user_balance->idamount = AmoutEnum::CASH_BALANCE;
+            $user_balance->idamount = BalanceEnum::CASH_BALANCE;
             $user_balance->value = $request->input('amount');
             $user_balance->WinPurchaseAmount = "0.000";
             $user_balance->Description = "Transfered to " . getPhoneByUser($request->input('reciver'));
@@ -266,7 +266,7 @@ class ApiController extends BaseController
             $user_balance->Date = now();
             $user_balance->idSource = Auth()->user()->idUser;
             $user_balance->idUser = $request->input('reciver');
-            $user_balance->idamount = AmoutEnum::CASH_BALANCE;
+            $user_balance->idamount = BalanceEnum::CASH_BALANCE;
             $user_balance->value = $request->input('amount');
             $user_balance->WinPurchaseAmount = "0.000";
             $user_balance->Description = "Transfered from " . getPhoneByUser(Auth()->user()->idUser);
@@ -278,17 +278,17 @@ class ApiController extends BaseController
             $new_value = intval($old_value) - intval($request->amount);
             DB::table('usercurrentbalances')
                 ->where('idUser', Auth()->user()->idUser)
-                ->where('idamounts', AmoutEnum::CASH_BALANCE)
+                ->where('idamounts', BalanceEnum::CASH_BALANCE)
                 ->update(['value' => $new_value, 'dernier_value' => $old_value]);
 
             $old_value = DB::table('usercurrentbalances')
                 ->where('idUser', $request->reciver)
-                ->where('idamounts', AmoutEnum::CASH_BALANCE)
+                ->where('idamounts', BalanceEnum::CASH_BALANCE)
                 ->value('value');
             $new_value = intval($old_value) + intval($request->amount);
             DB::table('usercurrentbalances')
                 ->where('idUser', $request->all()['reciver'])
-                ->where('idamounts', AmoutEnum::CASH_BALANCE)
+                ->where('idamounts', BalanceEnum::CASH_BALANCE)
                 ->update(['value' => $new_value, 'dernier_value' => $old_value]);
             $message = $request->amount . ' $ ' . Lang::get('for ') . getUserDisplayedName($request->input('reciver'));
         } catch (\Exception $exception) {
@@ -502,7 +502,7 @@ class ApiController extends BaseController
             $user = explode('-', $chaine)[0];
             $old_value = DB::table('usercurrentbalances')
                 ->where('idUser', $user)
-                ->where('idamounts', AmoutEnum::CASH_BALANCE)
+                ->where('idamounts', BalanceEnum::CASH_BALANCE)
                 ->value('value');
 
 
@@ -529,7 +529,7 @@ class ApiController extends BaseController
             $user_balance->Date = now();
             $user_balance->idSource = $user;
             $user_balance->idUser = $user;
-            $user_balance->idamount = AmoutEnum::CASH_BALANCE;
+            $user_balance->idamount = BalanceEnum::CASH_BALANCE;
             $user_balance->value = $data->tran_total / $k;
             $user_balance->WinPurchaseAmount = "0.000";
             $user_balance->Description = $data->tran_ref;
@@ -539,7 +539,7 @@ class ApiController extends BaseController
             $new_value = intval($old_value) + $data->tran_total / $k;
             DB::table('usercurrentbalances')
                 ->where('idUser', $user)
-                ->where('idamounts', AmoutEnum::CASH_BALANCE)
+                ->where('idamounts', BalanceEnum::CASH_BALANCE)
                 ->update(['value' => $new_value, 'dernier_value' => $old_value]);
         }
 

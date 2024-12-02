@@ -3,7 +3,7 @@
 namespace Core\Services;
 
 use Core\Enum\ActionEnum;
-use Core\Enum\AmoutEnum;
+use Core\Enum\BalanceEnum;
 use Core\Enum\BalanceOperationsEnum;
 use Core\Enum\EventBalanceOperationEnum;
 use Core\Enum\SettingsEnum;
@@ -85,7 +85,7 @@ class  UserBalancesHelper
                     $ref = $SI->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
 
 
-                    if ($SI->idamounts == AmoutEnum::CASH_BALANCE->value) {
+                    if ($SI->idamounts == BalanceEnum::CASH_BALANCE->value) {
 
                         $user_balance = new user_balance([
                             'ref' => $ref,
@@ -146,7 +146,7 @@ class  UserBalancesHelper
                 //insert in table "usercurrentbalances"
                 $amounts = Amount::all();
                 foreach ($amounts as $amount) {
-                    if ($amount->idamounts == AmoutEnum::CASH_BALANCE->value) {
+                    if ($amount->idamounts == BalanceEnum::CASH_BALANCE->value) {
                         DB::table('usercurrentbalances')->insert([
                             'idUser' => $idUser,
                             'idamounts' => $amount->idamounts,

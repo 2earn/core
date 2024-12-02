@@ -3,7 +3,7 @@ namespace Core\Interfaces;
 
 
 
-use Core\Enum\AmoutEnum;
+use Core\Enum\BalanceEnum;
 use Core\Enum\BalanceOperationsEnum;
 use Core\Models\calculated_userbalances;
 

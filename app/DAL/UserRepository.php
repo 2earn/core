@@ -5,7 +5,7 @@ namespace App\DAL;
 use App\Models\ContactUser;
 use App\Models\User;
 use Carbon\Carbon;
-use Core\Enum\AmoutEnum;
+use Core\Enum\BalanceEnum;
 use Core\Enum\StatusRequest;
 use Core\Interfaces\IUserRepository;
 use Core\Models\metta_user;
@@ -183,7 +183,7 @@ class  UserRepository implements IUserRepository
         $user->save();
     }
 
-    public function getSoldeUserByAmount($idUser, AmoutEnum $amount)
+    public function getSoldeUserByAmount($idUser, BalanceEnum $amount)
     {
         return
             DB::table('calculated_userbalances')

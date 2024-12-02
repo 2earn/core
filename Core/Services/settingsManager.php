@@ -7,7 +7,7 @@ use App\Http\Traits\earnTrait;
 use App\Models\ContactUser;
 use App\Models\User;
 use Carbon\Carbon;
-use Core\Enum\AmoutEnum;
+use Core\Enum\BalanceEnum;
 use Core\Enum\EventBalanceOperationEnum;
 use Core\Enum\ExchangeTypeEnum;
 use Core\Enum\LanguageEnum;
@@ -503,7 +503,7 @@ class settingsManager
                             ->first();
                         $soldeSuf = true;
                         $this->earnDebugSms("Case Can send Sms: ");
-                        $sooldeSms = $this->getSoldeByAmount($user->idUser, AmoutEnum::Sms_Balance);
+                        $sooldeSms = $this->getSoldeByAmount($user->idUser, BalanceEnum::Sms_Balance);
                         $this->earnDebugSms("Solde Sms -: " . $sooldeSms);
                         if ($notifSetting->payer && $sooldeSms <= 0) {
                             $soldeSuf = false;
@@ -574,7 +574,7 @@ class settingsManager
         return $this->notificationRepository->getNotificationSettingByIdUser($idUser);
     }
 
-    public function getSoldeByAmount($idUser, AmoutEnum $amount)
+    public function getSoldeByAmount($idUser, BalanceEnum $amount)
     {
         return $this->userBalanceRepository->getSoldeByAmount($idUser, $amount->value);
     }
@@ -592,10 +592,10 @@ class settingsManager
                     dd("exception solde insuffisant");
                 $newSoldeBFS = floatval($solde->soldeBFS) + floatval($montant);
                 //update usercurrentbalances where amout CASH BALANCE (new CB)
-                DB::table('usercurrentbalances')->where('idUser', $idUser)->where('idamounts', AmoutEnum::CASH_BALANCE)
+                DB::table('usercurrentbalances')->where('idUser', $idUser)->where('idamounts', BalanceEnum::CASH_BALANCE)
                     ->update(['value' => $newSoldeCashBalance]);
                 //update usercurrentbalances where amout BFS (new BFS)
-                DB::table('usercurrentbalances')->where('idUser', $idUser)->where('idamounts', AmoutEnum::BFS)->update(['value' => $newSoldeBFS]);
+                DB::table('usercurrentbalances')->where('idUser', $idUser)->where('idamounts', BalanceEnum::BFS)->update(['value' => $newSoldeBFS]);
                 $param = ['montant' => $montant, 'newSoldeCashBalance' => $newSoldeCashBalance, 'newSoldeBFS' => $newSoldeBFS];
                 $this->userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::ExchangeCashToBFS, $idUser, $param);
                 break;
@@ -608,7 +608,7 @@ class settingsManager
 
                 if ($newSoldeBFS < 0)
                     dd("exception solde insuffisant");
-                $lates = user_balance::latest('id')->where([['idSource', '=', $idUser], ['idUser', '=', $idUser], ['idAmount', '=', AmoutEnum::Sms_Balance]]
+                $lates = user_balance::latest('id')->where([['idSource', '=', $idUser], ['idUser', '=', $idUser], ['idAmount', '=', BalanceEnum::Sms_Balance]]
                 )->first();
                 $balanceEnterieru = 0;
                 if ($lates != null) {
