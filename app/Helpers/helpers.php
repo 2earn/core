@@ -440,10 +440,7 @@ if (!function_exists('usdToSar')) {
     if (!function_exists('checkUserBalancesInReservation')) {
         function checkUserBalancesInReservation($idUser)
         {
-            $reservation = Setting::Where('idSETTINGS', '32')
-                ->orderBy('idSETTINGS')
-                ->pluck('IntegerValue')
-                ->first();
+            $reservation = Setting::Where('idSETTINGS', '32')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
             // CHECK IN BALANCES
             $result = DB::table('user_balances as u')
                 ->where('idUser', $idUser)

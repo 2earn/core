@@ -306,8 +306,12 @@ class ApiController extends BaseController
     public function getSharesSolde()
     {
         // CHECK IN BALANCES
-        $query = DB::table('user_balances')->select('id', 'value', 'gifted_shares', 'PU', 'Date')->where('idBalancesOperation', 44)
-            ->where('idUser', Auth()->user()->idUser)->orderBy('id', 'desc');
+        $query = DB::table('user_balances')
+            ->select('id', 'value', 'gifted_shares', 'PU', 'Date')
+            ->where('idBalancesOperation', 44)
+            ->where('idUser', Auth()->user()->idUser)
+            ->orderBy('id', 'desc');
+
         return datatables($query)
             ->addColumn('total_price', function ($user_balance) {
                 return number_format($user_balance->PU * ($user_balance->value + $user_balance->gifted_shares), 2);
@@ -627,6 +631,7 @@ class ApiController extends BaseController
             ->where('idUser', auth()->user()->idUser)
             ->orderBy('Date', 'asc')
             ->get();
+
         foreach ($query as $record) {
             $record->Balance = (float)$record->y;
         }
@@ -664,9 +669,9 @@ class ApiController extends BaseController
             ->get();
 
         foreach ($query as $record) {
-
             $record->y = (float)$record->y;
         }
+
         return response()->json($query);
     }
 
@@ -683,7 +688,6 @@ class ApiController extends BaseController
 
         // CHECK IN BALANCES
         foreach ($query as $record) {
-
             $record->y = (float)$record->y;
         }
         return response()->json($query);
@@ -700,7 +704,6 @@ class ApiController extends BaseController
             ->get();
 
         foreach ($query as $record) {
-
             $record->y = (float)$record->y;
         }
         return response()->json($query);
@@ -1190,8 +1193,7 @@ class ApiController extends BaseController
         $user = $this->settingsManager->getAuthUser();
         if (!$user) $user->idUser = '';
         // CHECK IN BALANCES
-        $userData = DB::select(getSqlFromPath('get_user_balances_cb'), [1, $user->idUser]
-        );
+        $userData = DB::select(getSqlFromPath('get_user_balances_cb'), [1, $user->idUser]);
         return datatables($userData)->make(true);
     }
 
@@ -1199,8 +1201,7 @@ class ApiController extends BaseController
     {
         $user = $this->settingsManager->getAuthUser();
         $userData = DB::select(getSqlFromPath('get_purchase_user'), [$user->idUser]);
-        return datatables($userData)
-            ->make(true);
+        return datatables($userData)->make(true);
     }
 
 
