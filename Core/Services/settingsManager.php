@@ -849,7 +849,10 @@ class settingsManager
 
     public function deleteUser($idUser)
     {
-        // CHECK IN BALANCES
+        // CHECKED IN BALANCES
+        // To delete
+        // --> TO CHECK
+        // check calls
         DB::delete('delete from  user_balances where idSource = ? or idUser=? ', [$idUser, $idUser]);
         DB::delete('delete from usercurrentbalances where idUser=? ', [$idUser]);
         DB::delete('delete  from user_notification_setting where idUser = ?', [$idUser]);

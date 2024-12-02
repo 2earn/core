@@ -39,6 +39,7 @@ class UserBalanceObserver
             $rc = $setting[1];
             // CHECK IN BALANCES
             $Count = DB::table('user_balances')->count();
+           // BFS contol + add in discount
             $ub = new user_balance([
                 'ref' => $user_balance->ref,
                 'idBalancesOperation' => 47,
@@ -56,7 +57,4 @@ class UserBalanceObserver
         }
     }
 
-    public function updating(user_balance $user_balance)
-    {
-    }
 }

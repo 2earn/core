@@ -46,7 +46,8 @@ class  UserBalancesHelper
                     ->where('idamounts', $operationSMS->idamounts)
                     ->first();
 
-                // CHECK IN BALANCES
+                // CHECKED IN BALANCES
+                // --> TO CHECK
                 DB::table('user_balances')->where('id', $id_balance)
                     ->update(['Balance' => $soldes->solde]);
                 break;
@@ -78,9 +79,12 @@ class  UserBalancesHelper
                 $SIOperation = $this->balanceOperationmanager->getAllBalanceOperation()->where("Designation", "SI");
                 $date = date('Y-m-d H:i:s');
                 foreach ($SIOperation as $SI) {
-                    // CHECK IN BALANCES
+                    // CHECKED IN BALANCES
+                    //ref
                     $Count = DB::table('user_balances')->count();
                     $ref = $SI->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
+
+
                     if ($SI->idamounts == AmoutEnum::CASH_BALANCE->value) {
 
                         $user_balance = new user_balance([

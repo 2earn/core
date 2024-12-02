@@ -15,7 +15,10 @@ use Illuminate\Support\Facades\Log;
 if (!function_exists('getUserBalanceSoldes')) {
     function getUserBalanceSoldes($idUser, $amount)
     {
-        // CHECK IN BALANCES
+        // CHECKED IN BALANCES
+        // from user current balances horizontale
+        // remove joins
+        // 7 selon solde
 
         $result = DB::table('user_balances as u')
             ->select('u.idUser', 'u.idamount', DB::raw('SUM(CASE WHEN b.io = "I" THEN u.value ELSE -u.value END) as value'))
@@ -70,7 +73,9 @@ if (!function_exists('getRegisterUpline')) {
 if (!function_exists('getUserListCards')) {
     function getUserListCards()
     {
-        // CHECK IN BALANCES
+        // CHECKED IN BALANCES
+        // --> TO CHECK
+        // whereNotIn 4 == cash / bfs / discount /action
 
         $data = DB::table(function ($query) {
             $query->select('idUser', 'u.idamount', 'Date', 'u.idBalancesOperation', 'b.operation', DB::raw('CASE WHEN b.io = "I" THEN value ELSE -value END as value'))
@@ -89,14 +94,16 @@ if (!function_exists('getUserListCards')) {
                 ->where('idBalancesOperation', 48))
             ->orderBy('idamount')
             ->get();
-        $dataArray = $data->pluck('value')->toArray();
-        return $dataArray;
+        return $data->pluck('value')->toArray();
+
     }
 }
 if (!function_exists('getAdminCash')) {
     function getAdminCash()
     {
-        // CHECK IN BALANCES
+        // CHECKED IN BALANCES
+        // user_balances -> current userbalances horisontale
+
         $value = DB::table('user_balances as u')
             ->select(DB::raw('SUM(CASE WHEN b.io = "I" THEN u.value ELSE -u.value END) as value'))
             ->join('balance_operations as b', 'u.idBalancesOperation', '=', 'b.id')
@@ -104,14 +111,17 @@ if (!function_exists('getAdminCash')) {
             ->where('u.idamount', 1)
             ->where('s.is_representative', 1)
             ->get();
-        $dataArray = $value->pluck('value')->toArray();
-        return $dataArray;
+        return $value->pluck('value')->toArray();
     }
 }
 if (!function_exists('getUserCash')) {
     function getUserCash($user)
     {
-        // CHECK IN BALANCES
+        // CHECKED IN BALANCES
+
+        // To remove
+
+
         $value = DB::table('user_balances as u')
             ->select(DB::raw('SUM(CASE WHEN b.io = "I" THEN u.value ELSE -u.value END) as value'))
             ->join('balance_operations as b', 'u.idBalancesOperation', '=', 'b.id')
@@ -119,8 +129,7 @@ if (!function_exists('getUserCash')) {
             ->where('u.idamount', 1)
             ->where('u.idUser', $user)
             ->get();
-        $dataArray = $value->pluck('value')->toArray();
-        return $dataArray;
+        return $value->pluck('value')->toArray();
     }
 }
 
@@ -441,14 +450,15 @@ if (!function_exists('usdToSar')) {
         function checkUserBalancesInReservation($idUser)
         {
             $reservation = Setting::Where('idSETTINGS', '32')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
-            // CHECK IN BALANCES
+            // CHECKED IN BALANCES
+            // user_balances -> action
             $result = DB::table('user_balances as u')
                 ->where('idUser', $idUser)
                 ->select(DB::raw('TIMESTAMPDIFF(HOUR, ' . DB::raw('DATE') . ', NOW()))'))
                 ->where('idBalancesOperation', 44)
                 ->whereRaw('TIMESTAMPDIFF(HOUR, ' . DB::raw('DATE') . ', NOW()) < ?', [$reservation])
                 ->count();
-            return $result ? $result : null;
+            return $result ?? null;
         }
     }
 }

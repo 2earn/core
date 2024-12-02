@@ -13,6 +13,7 @@ use Paytabscom\Laravel_paytabs\Facades\paypage;
 class pay
 {
   //??
+    //// --> TO CHECK
     public function test(Req $request)
     {
         $url=  route('notification_from_paytabs',app()->getLocale());
