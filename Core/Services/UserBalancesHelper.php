@@ -42,7 +42,7 @@ class  UserBalancesHelper
                     $operationSMS->idamounts,
                     $value
                 );
-                $soldes = DB::table('user_current_balance_vericals')
+                $soldes = DB::table('user_current_balance_verticals')
                     ->where('user_id', $idUserUpline)
                     ->where('balance_id', $operationSMS->idamounts)
                     ->first();
