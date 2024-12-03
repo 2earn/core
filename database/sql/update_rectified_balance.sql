@@ -16,13 +16,13 @@ ORDER BY created_at;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 drop table IF EXISTS rectified_balances;
 drop table IF EXISTS trait_balances;
-drop table IF EXISTS bfss_balances;
-drop table IF EXISTS shares_balances;
-drop table IF EXISTS 	cash_balances;
-drop table IF EXISTS discount_balances;
-drop table IF EXISTS tree_balances;
-drop table IF EXISTS sms_balances;
-drop table IF EXISTS chance_balances;
+-- drop table IF EXISTS bfss_balances;
+-- drop table IF EXISTS shares_balances;
+-- drop table IF EXISTS cash_balances;
+-- drop table IF EXISTS discount_balances;
+-- drop table IF EXISTS tree_balances;
+-- drop table IF EXISTS sms_balances;
+-- drop table IF EXISTS chance_balances;
 drop table IF EXISTS trait_balances;
 DROP VIEW IF EXISTS filtred_userbalance;
 DROP VIEW IF EXISTS rectified_userbalance;
@@ -30,7 +30,7 @@ DROP VIEW IF EXISTS user_infos;
 create table IF NOT EXISTS bfss_balances
 (
     id                   int auto_increment
-            primary key,
+    primary key,
     item_id              int                                   null,
     order_id             int                                   null,
     order_details_id     int                                   null,
@@ -46,11 +46,11 @@ create table IF NOT EXISTS bfss_balances
     reference            varchar(100)                          not null,
     created_at           timestamp default current_timestamp() not null,
     updated_at           timestamp default current_timestamp() not null on update current_timestamp()
-);
+    );
 create table IF NOT EXISTS	cash_balances
 (
     id                   int auto_increment
-            primary key,
+    primary key,
     item_id              int                                   null,
     order_id             int                                   null,
     order_details_id     int                                   null,
@@ -65,11 +65,11 @@ create table IF NOT EXISTS	cash_balances
     reference            varchar(100)                          not null,
     created_at           timestamp default current_timestamp() not null,
     updated_at           timestamp default current_timestamp() not null on update current_timestamp()
-);
+    );
 create table IF NOT EXISTS chance_balances
 (
     id                   int auto_increment
-            primary key,
+    primary key,
     activity_type_id     int                                   null,
     activity_id          int                                   null,
     platform_id          int                                   null,
@@ -83,11 +83,11 @@ create table IF NOT EXISTS chance_balances
     reference            varchar(100)                          not null,
     created_at           timestamp default current_timestamp() not null,
     updated_at           timestamp default current_timestamp() not null on update current_timestamp()
-);
+    );
 create table IF NOT EXISTS discount_balances
 (
     id                   int auto_increment
-            primary key,
+    primary key,
     item_id              int                                   null,
     order_id             int                                   null,
     order_details_id     int                                   null,
@@ -102,11 +102,11 @@ create table IF NOT EXISTS discount_balances
     reference            varchar(100)                          not null,
     created_at           timestamp default current_timestamp() not null,
     updated_at           timestamp default current_timestamp() not null on update current_timestamp()
-);
+    );
 create table IF NOT EXISTS shares_balances
 (
     id                   int auto_increment
-            primary key,
+    primary key,
     balance_operation_id int                                   not null,
     description          varchar(512)                          not null,
     operator_id          varchar(15)                           not null,
@@ -121,11 +121,11 @@ create table IF NOT EXISTS shares_balances
     created_at           timestamp default current_timestamp() not null,
     updated_at           timestamp default current_timestamp() not null on update current_timestamp(),
     real_amount          double                                null
-);
+    );
 create table IF NOT EXISTS sms_balances
 (
     id                   int auto_increment
-            primary key,
+    primary key,
     sms_id               int                                   null,
     deal_id              int                                   null,
     item_id              int                                   null,
@@ -142,11 +142,11 @@ create table IF NOT EXISTS sms_balances
     created_at           timestamp default current_timestamp() not null,
     updated_at           timestamp default current_timestamp() not null on update current_timestamp(),
     sms_price            double                                null
-);
+    );
 create table IF NOT EXISTS tree_balances
 (
     id                   int auto_increment
-            primary key,
+    primary key,
     item_id              int                                   null,
     order_details_id     int                                   null,
     deal_id              int                                   null,
@@ -161,7 +161,7 @@ create table IF NOT EXISTS tree_balances
     reference            varchar(100)                          not null,
     created_at           timestamp default current_timestamp() not null,
     updated_at           timestamp default current_timestamp() not null on update current_timestamp()
-);
+    );
 CREATE TABLE IF NOT EXISTS rectified_balances
 (
     balance_operation_id INT,
@@ -193,8 +193,8 @@ select `u`.`idUser`           AS `iduser`,
        `m`.`enLastName`       AS `enlastname`,
        `m`.`nationalID`       AS `nationalid`,
        `m`.`adresse`          AS `adresse`
-from `database_earn`.`users` `u`
-         join `database_earn`.`metta_users` `m`
+from `2earn`.`users` `u`
+         join `2earn`.`metta_users` `m`
 where `u`.`idUser` = `m`.`idUser`;
 create or replace view filtred_userbalance as
 select `id`                  AS `id`,
@@ -215,7 +215,7 @@ select `id`                  AS `id`,
        `Block_trait`         AS `Block_trait`,
        `ref`                 AS `ref`,
        `PrixUnitaire`        AS `PrixUnitaire`
-from database_earn.user_balances
+from 2earn.user_balances
 where `value` <> 0
    or `idamount` = 6 and
       `value` + `gifted_shares` > 0;
@@ -250,19 +250,19 @@ select case
            when `f`.`idBalancesOperation` = 18 then `f`.`id`
            when `f`.`ref` is null and `f`.`idBalancesOperation` in (1, 6) then `f`.`id`
            when `f`.`idBalancesOperation` = 13 then (select right(`u`.`ref`, 4)
-from database_earn.user_balances `u`
+from 2earn.user_balances `u`
 where `u`.`Date` = `f`.`Date`
   and `u`.`idUser` = `f`.`idUser`
   and `u`.`idBalancesOperation` = 16)
     when `f`.`ref` is null then NULL
     when `f`.`Description` = 'action5$' then (select right(`u`.`ref`, 4)
-from database_earn.user_balances `u`
+from 2earn.user_balances `u`
 where `u`.`Date` = `f`.`Date`
   and `u`.`idUser` = `f`.`idUser`
   and `u`.`idBalancesOperation` = 44
   and `u`.`value` > 0)
     when `f`.`idBalancesOperation` = 44 and `f`.`value` = 0 then (select right(`u`.`ref`, 4)
-from database_earn.user_balances `u`
+from 2earn.user_balances `u`
 where `u`.`ref` = `f`.`ref`
   and `u`.`idBalancesOperation` = 44
   and `u`.`value` > 0)
@@ -505,13 +505,13 @@ truncate table shares_balances;
 truncate table sms_balances;
 truncate table tree_balances;
 insert into 	cash_balances(balance_operation_id,
-                               description,
-                               operator_id,
-                               beneficiary_id,
-                               value,
-                               reference,
-                               created_at,
-                               updated_at)
+                             description,
+                             operator_id,
+                             beneficiary_id,
+                             value,
+                             reference,
+                             created_at,
+                             updated_at)
 select balance_operation_id,
        description,
        operator_id,
@@ -523,13 +523,13 @@ select balance_operation_id,
 from rectified_balances
 where idamount = 1;
 insert into bfss_balances(percentage, balance_operation_id,
-                               description,
-                               operator_id,
-                               beneficiary_id,
-                               value,
-                               reference,
-                               created_at,
-                               updated_at)
+                          description,
+                          operator_id,
+                          beneficiary_id,
+                          value,
+                          reference,
+                          created_at,
+                          updated_at)
 select case when balance_operation_id = 13 then 100 else 50 end,
        balance_operation_id,
        description,
@@ -542,43 +542,6 @@ select case when balance_operation_id = 13 then 100 else 50 end,
 from rectified_balances
 where idamount = 2;
 insert into discount_balances(balance_operation_id,
-                                   description,
-                                   operator_id,
-                                   beneficiary_id,
-                                   value,
-                                   reference,
-                                   created_at,
-                                   updated_at)
-select balance_operation_id,
-       description,
-       operator_id,
-       beneficiary_id,
-       value,
-       reference,
-       created_at,
-       updated_at
-from rectified_balances
-where idamount = 3;
-insert into tree_balances(tree_id, balance_operation_id,
-                               description,
-                               operator_id,
-                               beneficiary_id,
-                               value,
-                               reference,
-                               created_at,
-                               updated_at)
-select 0,
-       balance_operation_id,
-       description,
-       operator_id,
-       beneficiary_id,
-       value,
-       reference,
-       created_at,
-       updated_at
-from rectified_balances
-where idamount = 4;
-insert into sms_balances(balance_operation_id,
                               description,
                               operator_id,
                               beneficiary_id,
@@ -595,16 +558,53 @@ select balance_operation_id,
        created_at,
        updated_at
 from rectified_balances
+where idamount = 3;
+insert into tree_balances(id, balance_operation_id,
+                          description,
+                          operator_id,
+                          beneficiary_id,
+                          value,
+                          reference,
+                          created_at,
+                          updated_at)
+select 0,
+       balance_operation_id,
+       description,
+       operator_id,
+       beneficiary_id,
+       value,
+       reference,
+       created_at,
+       updated_at
+from rectified_balances
+where idamount = 4;
+insert into sms_balances(balance_operation_id,
+                         description,
+                         operator_id,
+                         beneficiary_id,
+                         value,
+                         reference,
+                         created_at,
+                         updated_at)
+select balance_operation_id,
+       description,
+       operator_id,
+       beneficiary_id,
+       value,
+       reference,
+       created_at,
+       updated_at
+from rectified_balances
 where idamount = 5;
 insert into shares_balances(balance_operation_id,
-                                 description,
-                                 operator_id,
-                                 beneficiary_id,
-                                 value,
-                                 payed,
-                                 reference, current_balance,
-                                 created_at,
-                                 updated_at)
+                            description,
+                            operator_id,
+                            beneficiary_id,
+                            value,
+                            payed,
+                            reference, current_balance,
+                            created_at,
+                            updated_at)
 select balance_operation_id,
        description,
        operator_id,
@@ -652,10 +652,10 @@ truncate table user_current_balance_vericals;
 truncate table user_current_balance_horisontals;
 INSERT INTO user_current_balance_vericals (user_id, amount_id, balance, previous_balance, operation_date, operation_id, operation_value)
 SELECT  iduser, 1,0,0,created_at,0,0
-FROM database_earn.users where status>=0;
+FROM 2earn.users where status>=0;
 INSERT INTO user_current_balance_horisontals (user_id)
 SELECT iduser
-FROM database_earn.users
+FROM 2earn.users
 where status >= 0;
 
 OPEN cur;
@@ -672,7 +672,7 @@ WHERE user_id*1 = trans_user_id*1
   and amount_id=1;
 SELECT IO
 INTO io_value
-FROM database_earn.balance_operations
+FROM 2earn.balance_operations
 WHERE id = op_id;
 IF io_value = 'I' THEN
                 SET last_balance = last_balance + trans_value;
@@ -719,9 +719,9 @@ ORDER BY beneficiary_id, created_at ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 
 INSERT INTO user_current_balance_vericals (user_id, amount_id, balance, previous_balance, operation_date, operation_id,
-                                   operation_value)
+                                           operation_value)
 SELECT iduser, 2, 0, 0, created_at, 0, 0
-FROM database_earn.users
+FROM 2earn.users
 where status >= 0;
 
 
@@ -739,7 +739,7 @@ WHERE user_id * 1 = trans_user_id * 1
   and amount_id = 2;
 SELECT IO
 INTO io_value
-FROM database_earn.balance_operations
+FROM 2earn.balance_operations
 WHERE id = op_id;
 IF io_value = 'I' THEN
                 SET last_balance = ROUND(last_balance + trans_value, 3);
@@ -857,7 +857,7 @@ DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 
 INSERT INTO user_current_balance_vericals (user_id, amount_id, balance, previous_balance, operation_date, operation_id, operation_value)
 SELECT  iduser, 3,0,0,created_at,0,0
-FROM database_earn.users where status>=0;
+FROM 2earn.users where status>=0;
 OPEN cur;
 read_loop:
         LOOP
@@ -872,7 +872,7 @@ WHERE user_id*1 = trans_user_id*1
   and amount_id=3;
 SELECT IO
 INTO io_value
-FROM database_earn.balance_operations
+FROM 2earn.balance_operations
 WHERE id = op_id;
 IF io_value = 'I' THEN
                 SET last_balance = ROUND(last_balance + trans_value, 3);
@@ -915,7 +915,7 @@ ORDER BY beneficiary_id, created_at, balance_operation_id ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 INSERT INTO user_current_balance_vericals (user_id, amount_id, balance, previous_balance, operation_date, operation_id, operation_value)
 SELECT  iduser, 6,0,0,created_at,0,0
-FROM database_earn.users where status>=0;
+FROM 2earn.users where status>=0;
 OPEN cur;
 read_loop:
         LOOP
@@ -930,7 +930,7 @@ WHERE user_id*1 = trans_user_id*1
   and amount_id=6;
 SELECT IO
 INTO io_value
-FROM database_earn.balance_operations
+FROM 2earn.balance_operations
 WHERE id = op_id;
 IF io_value = 'I' THEN
                 SET last_balance = ROUND(last_balance + trans_value, 3);
@@ -973,7 +973,7 @@ ORDER BY beneficiary_id, created_at ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 INSERT INTO user_current_balance_vericals (user_id, amount_id, balance, previous_balance, operation_date, operation_id, operation_value)
 SELECT  iduser, 5,0,0,created_at,0,0
-FROM database_earn.users where status>=0;
+FROM 2earn.users where status>=0;
 OPEN cur;
 read_loop:
         LOOP
@@ -988,7 +988,7 @@ WHERE user_id*1 = trans_user_id*1
   and amount_id=5;
 SELECT IO
 INTO io_value
-FROM database_earn.balance_operations
+FROM 2earn.balance_operations
 WHERE id = op_id;
 IF io_value = 'I' THEN
                 SET last_balance = ROUND(last_balance + trans_value, 3);
@@ -1032,7 +1032,7 @@ ORDER BY beneficiary_id, created_at ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 INSERT INTO user_current_balance_vericals (user_id, amount_id, balance, previous_balance, operation_date, operation_id, operation_value)
 SELECT  iduser, 4,0,0,created_at,0,0
-FROM database_earn.users where status>=0;
+FROM 2earn.users where status>=0;
 OPEN cur;
 read_loop:
         LOOP
@@ -1047,7 +1047,7 @@ WHERE user_id*1 = trans_user_id*1
   and amount_id=4;
 SELECT IO
 INTO io_value
-FROM database_earn.balance_operations
+FROM 2earn.balance_operations
 WHERE id = op_id;
 IF io_value = 'I' THEN
                 SET last_balance = ROUND(last_balance + trans_value, 3);
@@ -1092,7 +1092,7 @@ ORDER BY beneficiary_id, created_at, balance_operation_id ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 INSERT INTO user_current_balance_vericals (user_id, amount_id, balance, previous_balance, operation_date, operation_id, operation_value)
 SELECT  iduser, 7,0,0,created_at,0,0
-FROM database_earn.users where status>=0;
+FROM 2earn.users where status>=0;
 OPEN cur;
 read_loop:
         LOOP
@@ -1107,7 +1107,7 @@ WHERE user_id*1 = trans_user_id*1
   and amount_id=7;
 SELECT IO
 INTO io_value
-FROM database_earn.balance_operations
+FROM 2earn.balance_operations
 WHERE id = op_id;
 IF io_value = 'I' THEN
                 SET last_balance = ROUND(last_balance + trans_value, 3);
@@ -1244,7 +1244,7 @@ WHERE beneficiary_id = trans_user_id;
 
 -- Récupérer la valeur de IO (entrée ou sortie) depuis la table operations
 SELECT IO INTO io_value
-FROM database_earn.balance_operations
+FROM 2earn.balance_operations
 WHERE id = op_id;
 
 -- Calculer le nouveau solde provisoire
@@ -1278,4 +1278,4 @@ drop table trait_balances;
 DROP VIEW IF EXISTS filtred_userbalance;
 DROP VIEW IF EXISTS rectified_userbalance;
 DROP VIEW IF EXISTS user_infos;
-END;
+END
