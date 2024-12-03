@@ -19,7 +19,8 @@ drop table IF EXISTS trait_balances;
 DROP VIEW IF EXISTS filtred_userbalance;
 DROP VIEW IF EXISTS rectified_userbalance;
 DROP VIEW IF EXISTS user_infos;
-
+TRUNCATE TABLE `2earn`.`debug_log`;
+INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, ' line number 23', current_timestamp());
 CREATE TABLE IF NOT EXISTS rectified_balances
 (
     balance_operation_id INT,
@@ -201,6 +202,7 @@ select 39,
        5
 from rectified_balances
 where balance_operation_id = 38;
+INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, ' line number 205', current_timestamp());
 insert into rectified_balances
 select 54,
        description,
@@ -224,6 +226,8 @@ where balance_operation_id = 44
   and value > 0
   and gifted_shares < value
   and gifted_shares > 0;
+INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, ' line number 229', current_timestamp());
+
 insert into rectified_balances
 select 55,
        description,
@@ -247,6 +251,7 @@ where balance_operation_id = 44
   and value > 0
   and gifted_shares >= value
   and gifted_shares > 0;
+INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, ' line number 254', current_timestamp());
 insert into rectified_balances
 select 54,
        description,
@@ -270,6 +275,7 @@ where balance_operation_id = 44
   and value > 0
   and gifted_shares >= value
   and gifted_shares > 0;
+INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, ' line number 278', current_timestamp());
 insert into rectified_balances
 select 52,
        description,
@@ -375,6 +381,7 @@ truncate table discount_balances;
 truncate table shares_balances;
 truncate table sms_balances;
 truncate table tree_balances;
+INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, ' line number 384', current_timestamp());
 insert into cash_balances(balance_operation_id,
                                description,
                                operator_id,
@@ -395,6 +402,7 @@ select balance_operation_id,
        updated_at
 from rectified_balances
 where idamount = 1;
+INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, ' line number 405', current_timestamp());
 insert into bfss_balances(percentage, balance_operation_id,
                                description,
                                operator_id,
@@ -416,6 +424,7 @@ select case when balance_operation_id = 13 then 100 else 50 end,
        updated_at
 from rectified_balances
 where idamount = 2;
+INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, ' line number 427', current_timestamp());
 insert into discount_balances(balance_operation_id,
                                    description,
                                    operator_id,
@@ -436,6 +445,7 @@ select balance_operation_id,
        updated_at
 from rectified_balances
 where idamount = 3;
+INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, ' line number 448', current_timestamp());
 insert into tree_balances(tree_id, balance_operation_id,
                                description,
                                operator_id,
@@ -457,6 +467,7 @@ select 0,
        updated_at
 from rectified_balances
 where idamount = 4;
+INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, ' line number 470', current_timestamp());
 insert into sms_balances(balance_operation_id,
                               description,
                               operator_id,
@@ -477,6 +488,7 @@ select balance_operation_id,
        updated_at
 from rectified_balances
 where idamount = 5;
+INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, ' line number 491', current_timestamp());
 insert into shares_balances(balance_operation_id,
                                  description,
                                  operator_id,
@@ -534,10 +546,14 @@ ORDER BY beneficiary_id, created_at ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 truncate table user_current_balance_vericals;
 truncate table user_current_balance_horisontals;
+INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, CONCAT(' line number 549'), current_timestamp());
+
 INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id, last_operation_value)
 SELECT  idUser,id, 1,0,0,created_at,0,0
 FROM users
 where status >= 0;
+INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, ' line number 554', current_timestamp());
+
 INSERT INTO user_current_balance_horisontals (user_id,user_id_auto)
 SELECT idUser,id
 FROM users
@@ -602,6 +618,7 @@ SELECT id, balance_operation_id, value, beneficiary_id, percentage
 FROM bfss_balances
 ORDER BY beneficiary_id, created_at ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, ' line number 620', current_timestamp());
 
 INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
                                    last_operation_value)
@@ -736,6 +753,7 @@ SELECT id, balance_operation_id, value, beneficiary_id
 FROM discount_balances
 ORDER BY beneficiary_id, created_at ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, ' line number 755', current_timestamp());
 
 INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
                                    last_operation_value)
@@ -797,6 +815,8 @@ SELECT id, balance_operation_id, value, beneficiary_id
 FROM shares_balances
 ORDER BY beneficiary_id, created_at, balance_operation_id ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, ' line number 817', current_timestamp());
+
 INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
                                    last_operation_value)
 SELECT  idUser, id,6,0,0,created_at,0,0
@@ -857,6 +877,8 @@ SELECT id, balance_operation_id, value, beneficiary_id
 FROM sms_balances
 ORDER BY beneficiary_id, created_at ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, ' line number 879', current_timestamp());
+
 INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
                                    last_operation_value)
 SELECT  idUser,id, 5,0,0,created_at,0,0
@@ -918,6 +940,8 @@ SELECT id, balance_operation_id, value, beneficiary_id
 FROM tree_balances
 ORDER BY beneficiary_id, created_at ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, ' line number 942', current_timestamp());
+
 INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
                                    last_operation_value)
 SELECT  idUser, id,4,0,0,created_at,0,0
@@ -1116,6 +1140,8 @@ DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
         );
 
         -- Initialisation des soldes utilisateurs
+INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, ' line number 1142', current_timestamp());
+
 INSERT INTO temp_user_balance (beneficiary_id, current_balance)
 SELECT DISTINCT beneficiary_id, 0
 FROM shares_balances;

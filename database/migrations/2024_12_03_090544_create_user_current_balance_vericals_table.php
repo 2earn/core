@@ -15,11 +15,12 @@ return new class extends Migration
     {
         Schema::create(self::TABLE_NAME, function (Blueprint $table) {
             $table->id();
-            $table->string('	user_id', 180)->nullable();
-            $table->unsignedBigInteger('user_id_auto')->foreign('user_id')->nullable()->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id')->foreign('user_id')->nullable()->references('idUser')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id_auto')->foreign('user_id_auto')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->integer('balance_id')->nullable();
             $table->double('current_balance')->nullable();
             $table->double('previous_balance')->nullable();
+            $table->unsignedBigInteger('last_operation_id')->nullable();
             $table->dateTime('last_operation_date')->nullable();
             $table->double('last_operation_value')->nullable();
             $table->timestamps();
