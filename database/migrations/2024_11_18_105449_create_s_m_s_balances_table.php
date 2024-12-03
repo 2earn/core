@@ -30,6 +30,7 @@ return new class extends Migration {
             $table->string('reference')->nullable();
             $table->integer('value')->nullable();
             $table->double('amount')->nullable();
+            $table->double('sms_price')->nullable();
             $table->integer('total_balance')->nullable();
             $table->integer('total_amount')->nullable();
             $table->string('description',512)->nullable();
