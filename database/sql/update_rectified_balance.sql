@@ -544,11 +544,11 @@ SELECT id, balance_operation_id, value, beneficiary_id,created_at
 FROM cash_balances
 ORDER BY beneficiary_id, created_at ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
-truncate table user_current_balance_vericals;
+truncate table user_current_balance_verticals;
 truncate table user_current_balance_horisontals;
 INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, CONCAT(' line number 549'), current_timestamp());
 
-INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id, last_operation_value)
+INSERT INTO user_current_balance_verticals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id, last_operation_value)
 SELECT  idUser,id, 1,0,0,created_at,0,0
 FROM users
 where status >= 0;
@@ -568,7 +568,7 @@ read_loop:
 END IF;
 SELECT current_balance
 INTO last_balance
-FROM user_current_balance_vericals
+FROM user_current_balance_verticals
 WHERE user_id*1 = trans_user_id*1
   and balance_id=1;
 SELECT IO
@@ -584,7 +584,7 @@ END IF;
 UPDATE cash_balances
 SET current_balance = last_balance
 WHERE id = trans_id;
-UPDATE user_current_balance_vericals
+UPDATE user_current_balance_verticals
 SET previous_balance=current_balance,current_balance = last_balance,last_operation_date=creation_date,
     last_operation_id=op_id,last_operation_value=case
                                                      when io_value = 'I' then trans_value
@@ -620,7 +620,7 @@ ORDER BY beneficiary_id, created_at ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, ' line number 620', current_timestamp());
 
-INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
+INSERT INTO user_current_balance_verticals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
                                    last_operation_value)
 SELECT idUser,id, 2, 0, 0, created_at, 0, 0
 FROM users
@@ -636,7 +636,7 @@ read_loop:
 END IF;
 SELECT current_balance
 INTO last_balance
-FROM user_current_balance_vericals
+FROM user_current_balance_verticals
 WHERE user_id * 1 = trans_user_id * 1
   and balance_id = 2;
 SELECT IO
@@ -652,7 +652,7 @@ END IF;
 UPDATE bfss_balances
 SET current_balance = last_balance
 WHERE id = trans_id;
-UPDATE user_current_balance_vericals
+UPDATE user_current_balance_verticals
 SET previous_balance=current_balance,current_balance = last_balance,last_operation_date=creation_date,
     last_operation_id=op_id,last_operation_value=case
                                                      when io_value = 'I' then trans_value
@@ -755,7 +755,7 @@ ORDER BY beneficiary_id, created_at ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, ' line number 755', current_timestamp());
 
-INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
+INSERT INTO user_current_balance_verticals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
                                    last_operation_value)
 SELECT  idUser,id, 3,0,0,created_at,0,0
 FROM users
@@ -769,7 +769,7 @@ read_loop:
 END IF;
 SELECT current_balance
 INTO last_balance
-FROM user_current_balance_vericals
+FROM user_current_balance_verticals
 WHERE user_id*1 = trans_user_id*1
   and balance_id=3;
 SELECT IO
@@ -785,7 +785,7 @@ END IF;
 UPDATE discount_balances
 SET current_balance = last_balance
 WHERE id = trans_id;
-UPDATE user_current_balance_vericals
+UPDATE user_current_balance_verticals
 SET previous_balance=current_balance,current_balance = last_balance,last_operation_date=creation_date,
     last_operation_id=op_id,last_operation_value=case
                                                      when io_value = 'I' then trans_value
@@ -817,7 +817,7 @@ ORDER BY beneficiary_id, created_at, balance_operation_id ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, ' line number 817', current_timestamp());
 
-INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
+INSERT INTO user_current_balance_verticals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
                                    last_operation_value)
 SELECT  idUser, id,6,0,0,created_at,0,0
 FROM users
@@ -831,7 +831,7 @@ read_loop:
 END IF;
 SELECT current_balance
 INTO last_balance
-FROM user_current_balance_vericals
+FROM user_current_balance_verticals
 WHERE user_id*1 = trans_user_id*1
   and balance_id=6;
 SELECT IO
@@ -847,7 +847,7 @@ END IF;
 UPDATE shares_balances
 SET current_balance = last_balance
 WHERE id = trans_id;
-UPDATE user_current_balance_vericals
+UPDATE user_current_balance_verticals
 SET previous_balance=current_balance,current_balance = last_balance,last_operation_date=creation_date,
     last_operation_id=op_id,last_operation_value=case
                                                      when io_value = 'I' then trans_value
@@ -879,7 +879,7 @@ ORDER BY beneficiary_id, created_at ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, ' line number 879', current_timestamp());
 
-INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
+INSERT INTO user_current_balance_verticals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
                                    last_operation_value)
 SELECT  idUser,id, 5,0,0,created_at,0,0
 FROM users
@@ -893,7 +893,7 @@ read_loop:
 END IF;
 SELECT current_balance
 INTO last_balance
-FROM user_current_balance_vericals
+FROM user_current_balance_verticals
 WHERE user_id*1 = trans_user_id*1
   and balance_id=5;
 SELECT IO
@@ -910,7 +910,7 @@ UPDATE sms_balances
 SET current_balance = last_balance
 WHERE id = trans_id;
 
-UPDATE user_current_balance_vericals
+UPDATE user_current_balance_verticals
 SET previous_balance=current_balance,current_balance = last_balance,last_operation_date=creation_date,
     last_operation_id=op_id,last_operation_value=case
                                                      when io_value = 'I' then trans_value
@@ -942,7 +942,7 @@ ORDER BY beneficiary_id, created_at ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, ' line number 942', current_timestamp());
 
-INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
+INSERT INTO user_current_balance_verticals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
                                    last_operation_value)
 SELECT  idUser, id,4,0,0,created_at,0,0
 FROM users
@@ -956,7 +956,7 @@ read_loop:
 END IF;
 SELECT current_balance
 INTO last_balance
-FROM user_current_balance_vericals
+FROM user_current_balance_verticals
 WHERE user_id*1 = trans_user_id*1
   and balance_id=4;
 SELECT IO
@@ -973,7 +973,7 @@ UPDATE tree_balances
 SET current_balance = last_balance
 WHERE id = trans_id;
 
-UPDATE user_current_balance_vericals
+UPDATE user_current_balance_verticals
 SET previous_balance=current_balance,current_balance = last_balance,last_operation_date=creation_date,
     last_operation_id=op_id,last_operation_value=case
                                                      when io_value = 'I' then trans_value
@@ -1004,7 +1004,7 @@ SELECT id, balance_operation_id, value, beneficiary_id,pool_id
 FROM chance_balances
 ORDER BY beneficiary_id, created_at, balance_operation_id ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
-INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
+INSERT INTO user_current_balance_verticals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
                                    last_operation_value)
 SELECT  idUser, id,7,0,0,created_at,0,0
 FROM users
@@ -1018,7 +1018,7 @@ read_loop:
 END IF;
 SELECT current_balance
 INTO last_balance
-FROM user_current_balance_vericals
+FROM user_current_balance_verticals
 WHERE user_id*1 = trans_user_id*1
   and balance_id=7;
 SELECT IO
@@ -1034,7 +1034,7 @@ END IF;
 UPDATE chance_balances
 SET current_balance = last_balance
 WHERE id = trans_id;
-UPDATE user_current_balance_vericals
+UPDATE user_current_balance_verticals
 SET previous_balance=current_balance,current_balance = last_balance,last_operation_date=creation_date,
     last_operation_id=op_id,last_operation_value=case
                                                      when io_value = 'I' then trans_value

@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
-{    const TABLE_NAME = 'user_current_balance_vericals';
+{    const TABLE_NAME = 'user_current_balance_verticals';
     /**
      * Run the migrations.
      *
