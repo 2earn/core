@@ -37,6 +37,7 @@ use Core\Models\user_earn;
 use Core\Models\UserContact;
 use Core\Models\UserContactNumber;
 use Core\Models\UserNotificationSettings;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 
@@ -217,7 +218,7 @@ class settingsManager
 
     public function getAuthUser()
     {
-        $user = $this->userRepository->getAuthenticatedUser();
+        $user = Auth::user();
         $userMetta = $this->getMettaUser()->where('idUser', '=', $user->idUser)->first();
         $userAuth = new AuthenticatedUser();
         $userAuth->id = $user->id;

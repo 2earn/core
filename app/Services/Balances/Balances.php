@@ -30,44 +30,46 @@ class Balances
         return substr((string)pow(10, 3 - strlen($balancesOperationId)), 1) . $balancesOperationId . $date->format(self::DTAEFORMAT) . $this->getBalanceCompter();
     }
 
-    public function getSoldMainQuery($balances)
+    public static function getSoldMainQuery($balances)
     {
         return DB::table($balances . ' as u')
             ->select('u.beneficiary_id', DB::raw('SUM(CASE WHEN b.io = "I" THEN u.value ELSE -u.value END) as value'))
             ->join('balance_operations as b', 'u.balance_operation_id', '=', 'b.id')
             ->join('users as s', 'u.beneficiary_id', '=', 's.idUser');
     }
-    public function getSold($idUser, $balances)
+
+    public static function getSold($idUser, $balances)
     {
-        $sold = $this->getSoldMainQuery($balances)
+        $sold = self::getSoldMainQuery($balances)
             ->where('u.beneficiary_id', $idUser)
             ->groupBy('u.beneficiary_id')
             ->first();
         return $sold->value ?? 0.000;
     }
 
-    public function getCash($idUser)
+    public static function getCash($idUser)
     {
-        return $this->getSold($idUser, 'cash_balances');
+        return self::getSold($idUser, 'cash_balances');
     }
 
-    public function getBfss($idUser)
+    public static function getBfss($idUser)
     {
-        return $this->getSold($idUser, 'bfss_balances');
+        return self::getSold($idUser, 'bfss_balances');
     }
 
-    public function getDiscount($idUser)
+    public static function getDiscount($idUser)
     {
-        return $this->getSold($idUser, 'discount_balances');
+        return self::getSold($idUser, 'discount_balances');
     }
 
-    public function getTree($idUser)
+    public static function getTree($idUser)
     {
-        return $this->getSold($idUser, 'tree_balances');
+        return self::getSold($idUser, 'tree_balances');
     }
-    public function getSms($idUser)
+
+    public static function getSms($idUser)
     {
-        return $this->getSold($idUser, 'sms_balances');
+        return self::getSold($idUser, 'sms_balances');
     }
 
 

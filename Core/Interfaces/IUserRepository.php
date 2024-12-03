@@ -21,7 +21,6 @@ interface IUserRepository
     public function getUserById($id);
     public function getUserEarnByIdUser($iduser);
     public function getUserByMobile($mobile, $idContry,$pass);
-    public function getAuthenticatedUser();
     public function loginUser($user, $remenber);
     public function logoutUser();
     public function getUserByFullnumber($number);

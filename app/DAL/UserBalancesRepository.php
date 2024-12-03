@@ -3,6 +3,7 @@
 namespace App\DAL;
 
 use App\Models\UserCurrentBalancehorisontal;
+use App\Services\Balances\Balances;
 use Core\Enum\BalanceOperationsEnum;
 use Core\Interfaces\IUserBalancesRepository;
 use Core\Models\calculated_userbalances;
@@ -76,12 +77,12 @@ class  UserBalancesRepository implements IUserBalancesRepository
     {
         // CONVERTED IN BALANCES
         return match ($idamount) {
-            1 => BalancesFacade::getCash($idUser),
-            2 => BalancesFacade::getBfss($idUser),
-            3 => BalancesFacade::getDiscount($idUser),
-            4 => BalancesFacade::getTree($idUser),
-            5 => BalancesFacade::getSms($idUser),
-            default => BalancesFacade::getCash($idUser),
+            1 => Balances::getCash($idUser),
+            2 => Balances::getBfss($idUser),
+            3 => Balances::getDiscount($idUser),
+            4 => Balances::getTree($idUser),
+            5 => Balances::getSms($idUser),
+            default => Balances::getCash($idUser),
         };
     }
 }

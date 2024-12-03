@@ -114,14 +114,6 @@ class  UserRepository implements IUserRepository
         return User::find($id);
     }
 
-    public function getAuthenticatedUser()
-    {
-        //??
-        if (!Auth::user()) {
-            return null;
-        }
-        return Auth::user();
-    }
 
     public function getUserByMobile($mobile, $idContry, $pass)
     {
