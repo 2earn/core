@@ -2,6 +2,7 @@
 
 namespace App\DAL;
 
+use App\Models\UserCurrentBalancehorisontal;
 use Core\Enum\BalanceOperationsEnum;
 use Core\Interfaces\IUserBalancesRepository;
 use Core\Models\calculated_userbalances;
@@ -13,26 +14,18 @@ class  UserBalancesRepository implements IUserBalancesRepository
 {
     const SOLD_INIT = 0;
 
-    public function getBalance($idUser, $decimals = 2): calculated_userbalances
+    public function getBalance($idUser, $decimals = 2)
     {
-        $calculetedUserBalances = new  calculated_userbalances;
-        $solde = DB::select(getSqlFromPath('get_balance'), [$idUser]);
+        $calculetedUserBalances = UserCurrentBalancehorisontal::where('user_id', $idUser)->first();
 
-        $solde = collect($solde);
+        if (!is_null($calculetedUserBalances)) {
+            $calculetedUserBalances->soldeCB = formatSolde($calculetedUserBalances->cash_balance, $decimals);
 
-        if ($solde->isNotEmpty()) {
-            $calculetedUserBalances->soldeCB = $solde->where("idamounts", "=", "1")->first()->solde;
+            $calculetedUserBalances->soldeBFS = formatSolde($calculetedUserBalances->bfss_balance, $decimals);
+            $calculetedUserBalances->soldeDB = formatSolde($calculetedUserBalances->discount_balance, $decimals);
+            $calculetedUserBalances->soldeT = formatSolde($calculetedUserBalances->tree_balance, $decimals);
+            $calculetedUserBalances->soldeSMS = formatSolde($calculetedUserBalances->sms_balance, $decimals);
 
-            $calculetedUserBalances->soldeBFS = $solde->where("idamounts", "=", "2")->first()->solde;
-            $calculetedUserBalances->soldeDB = $solde->where("idamounts", "=", "3")->first()->solde;
-            $calculetedUserBalances->soldeT = $solde->where("idamounts", "4")->first()->solde;
-            $calculetedUserBalances->soldeSMS = $solde->where("idamounts", "5")->first()->solde;
-
-            $calculetedUserBalances->soldeCB = formatSolde($calculetedUserBalances->soldeCB, $decimals);
-            $calculetedUserBalances->soldeBFS = formatSolde($calculetedUserBalances->soldeBFS, $decimals);
-            $calculetedUserBalances->soldeDB = formatSolde($calculetedUserBalances->soldeDB, $decimals);
-            $calculetedUserBalances->soldeT = formatSolde($calculetedUserBalances->soldeT, $decimals);
-            $calculetedUserBalances->soldeSMS = formatSolde($calculetedUserBalances->soldeSMS, $decimals);
         } else {
             $calculetedUserBalances->soldeCB = self::SOLD_INIT;
             $calculetedUserBalances->soldeBFS = self::SOLD_INIT;
@@ -44,16 +37,14 @@ class  UserBalancesRepository implements IUserBalancesRepository
         return $calculetedUserBalances;
     }
 
-    public function getCurrentBalance($idUser): calculated_userbalances
+    public function getCurrentBalance($idUser)
     {
         $calculetedUserBalances = new  calculated_userbalances;
         $solde = DB::table('usercurrentbalances')
             ->where("idUser", "=", $idUser)
             ->select('dernier_value', 'idamounts')->get();
         if ($solde->isNotEmpty()) {
-            $calculetedUserBalances->soldeCB = $solde
-                ->where("idamounts", "=", "1")
-                ->first()->dernier_value;
+            $calculetedUserBalances->soldeCB = $solde->where("idamounts", "=", "1")->first()->dernier_value;
             $calculetedUserBalances->soldeBFS = $solde->where("idamounts", "=", "2")->first()->dernier_value;
             $calculetedUserBalances->soldeDB = $solde->where("idamounts", "=", "3")->first()->dernier_value;
             $calculetedUserBalances->soldeT = $solde->where("idamounts", "4")->first()->dernier_value;
