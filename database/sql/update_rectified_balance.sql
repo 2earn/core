@@ -16,20 +16,14 @@ ORDER BY created_at;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 drop table IF EXISTS rectified_balances;
 drop table IF EXISTS trait_balances;
-drop table IF EXISTS user_balances_bfss;
-drop table IF EXISTS user_balances_shares;
-drop table IF EXISTS user_balances_cash;
-drop table IF EXISTS user_balances_discount;
-drop table IF EXISTS user_balances_tree;
-drop table IF EXISTS user_balances_sms;
-drop table IF EXISTS user_balances_chances;
+
 drop table IF EXISTS trait_balances;
-drop table IF EXISTS user_current_balances_horizontal;
-drop table IF EXISTS user_current_balances;
+drop table IF EXISTS user_current_balance_horisontals;
+drop table IF EXISTS user_current_balance_vericals;
 DROP VIEW IF EXISTS filtred_userbalance;
 DROP VIEW IF EXISTS rectified_userbalance;
 DROP VIEW IF EXISTS user_infos;
-CREATE TABLE `user_current_balances_horizontal` (
+CREATE TABLE `user_current_balance_horisontals` (
                                                     `id` int(11) NOT NULL AUTO_INCREMENT,
                                                     `user_id` varchar(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
                                                     `user_id_auto` int(11) NOT NULL,
@@ -42,7 +36,7 @@ CREATE TABLE `user_current_balances_horizontal` (
                                                     `chances_balance` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '[]',
                                                     PRIMARY KEY (`id`)
 );
-CREATE TABLE `user_current_balances` (
+CREATE TABLE `user_current_balance_vericals` (
                                          `id` int(11) NOT NULL AUTO_INCREMENT,
                                          `user_id` varchar(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
                                          `user_id_auto` int(11) NOT NULL,
@@ -54,148 +48,7 @@ CREATE TABLE `user_current_balances` (
                                          `last_operation_value` double NOT NULL DEFAULT 0,
                                          PRIMARY KEY (`id`)
 );
-create table user_balances_bfss
-(
-    id                   int auto_increment
-            primary key,
-    item_id              int                                   null,
-    order_id             int                                   null,
-    order_details_id     int                                   null,
-    deal_id              int                                   null,
-    platform_id          int                                   null,
-    percentage           decimal(5,2)                                   not null,
-    balance_operation_id int                                   not null,
-    description          varchar(512)                          not null,
-    operator_id          varchar(9)                            not null,
-    beneficiary_id       varchar(9)                            not null,
-    beneficiary_id_auto  int                            not null,
-    value                double                                not null,
-    current_balance      double                                not null DEFAULT 0,
-    reference            varchar(100)                          not null,
-    created_at           timestamp default current_timestamp() not null,
-    updated_at           timestamp default current_timestamp() not null on update current_timestamp()
-);
-create table user_balances_cash
-(
-    id                   int auto_increment
-            primary key,
-    item_id              int                                   null,
-    order_id             int                                   null,
-    order_details_id     int                                   null,
-    deal_id              int                                   null,
-    platform_id          int                                   null,
-    balance_operation_id int                                   not null,
-    description          varchar(512)                          not null,
-    operator_id          varchar(9)                            not null,
-    beneficiary_id       varchar(9)                            not null,
-    beneficiary_id_auto  int                            not null,
-    value                double                                not null,
-    current_balance      double                                not null DEFAULT 0,
-    reference            varchar(100)                          not null,
-    created_at           timestamp default current_timestamp() not null,
-    updated_at           timestamp default current_timestamp() not null on update current_timestamp()
-);
-create table user_balances_chances
-(
-    id                   int auto_increment
-            primary key,
-    activity_type_id     int                                   null,
-    activity_id          int                                   null,
-    platform_id          int                                   null,
-    pool_id              int                                   not null,
-    balance_operation_id int                                   not null,
-    description          varchar(512)                          not null,
-    operator_id          varchar(9)                            not null,
-    beneficiary_id       varchar(9)                            not null,
-    beneficiary_id_auto  int                            not null,
-    value                int                                   not null,
-    current_balance      int                                   not null DEFAULT 0,
-    reference            varchar(100)                          not null,
-    created_at           timestamp default current_timestamp() not null,
-    updated_at           timestamp default current_timestamp() not null on update current_timestamp()
-);
-create table user_balances_discount
-(
-    id                   int auto_increment
-            primary key,
-    item_id              int                                   null,
-    order_id             int                                   null,
-    order_details_id     int                                   null,
-    deal_id              int                                   null,
-    platform_id          int                                   null,
-    balance_operation_id int                                   not null,
-    description          varchar(512)                          not null,
-    operator_id          varchar(9)                            not null,
-    beneficiary_id       varchar(9)                            not null,
-    beneficiary_id_auto  int                            not null,
-    value                double                                not null,
-    current_balance      double                                not null DEFAULT 0,
-    reference            varchar(100)                          not null,
-    created_at           timestamp default current_timestamp() not null,
-    updated_at           timestamp default current_timestamp() not null on update current_timestamp()
-);
-create table user_balances_shares
-(
-    id                   int auto_increment
-            primary key,
-    balance_operation_id int                                   not null,
-    description          varchar(512)                          not null,
-    operator_id          varchar(15)                           not null,
-    beneficiary_id       varchar(9)                            not null,
-    beneficiary_id_auto  int                            not null,
-    value                int                                   not null,
-    current_balance      int                                   not null DEFAULT 0,
-    amount               double                                not null DEFAULT 0,
-    total_amount         double                                not null DEFAULT 0,
-    payed                int                                   not null,
-    share_price          double                                not null DEFAULT 0,
-    reference            varchar(100)                          not null,
-    created_at           timestamp default current_timestamp() not null,
-    updated_at           timestamp default current_timestamp() not null on update current_timestamp(),
-    real_amount          double                                null
-);
-create table user_balances_sms
-(
-    id                   int auto_increment
-            primary key,
-    sms_id               int                                   null,
-    deal_id              int                                   null,
-    item_id              int                                   null,
-    platform_id          int                                   null,
-    balance_operation_id int                                   not null,
-    description          varchar(512)                          not null,
-    operator_id          varchar(9)                            not null,
-    beneficiary_id       varchar(9)                            not null,
-    beneficiary_id_auto  int                            not null,
-    recipient_id         varchar(9)                            null,
-    value                int                                   not null,
-    current_balance      int                                   not null DEFAULT 0,
-    amount               double                                null,
-    reference            varchar(100)                          not null,
-    created_at           timestamp default current_timestamp() not null,
-    updated_at           timestamp default current_timestamp() not null on update current_timestamp(),
-    sms_price            double                                null
-);
-create table user_balances_tree
-(
-    id                   int auto_increment
-            primary key,
-    item_id              int                                   null,
-    order_details_id     int                                   null,
-    deal_id              int                                   null,
-    platform_id          int                                   null,
-    tree_id              int                                   not null,
-    balance_operation_id int                                   not null,
-    description          varchar(512)                          not null,
-    operator_id          varchar(9)                            not null,
-    beneficiary_id       varchar(9)                            not null,
-    beneficiary_id_auto  int                            not null,
-    value                double                                not null,
-    current_balance      double                                not null DEFAULT 0,
-    reference            varchar(100)                          not null,
-    created_at           timestamp default current_timestamp() not null,
-    updated_at           timestamp default current_timestamp() not null on update current_timestamp()
-);
+
 CREATE TABLE IF NOT EXISTS rectified_balances
 (
     balance_operation_id INT,
@@ -544,13 +397,13 @@ set description=concat('Compensation for the purchase of ',
                         where balance_operation_id = 44
                           and reference = r.reference), ' shares')
 where balance_operation_id in (53);
-truncate table user_balances_cash;
-truncate table user_balances_bfss;
-truncate table user_balances_discount;
-truncate table user_balances_shares;
-truncate table user_balances_sms;
-truncate table user_balances_tree;
-insert into user_balances_cash(balance_operation_id,
+truncate table cash_balances;
+truncate table bfss_balances;
+truncate table discount_balances;
+truncate table shares_balances;
+truncate table sms_balances;
+truncate table tree_balances;
+insert into cash_balances(balance_operation_id,
                                description,
                                operator_id,
                                beneficiary_id,
@@ -570,7 +423,7 @@ select balance_operation_id,
        updated_at
 from rectified_balances
 where idamount = 1;
-insert into user_balances_bfss(percentage, balance_operation_id,
+insert into bfss_balances(percentage, balance_operation_id,
                                description,
                                operator_id,
                                beneficiary_id,
@@ -591,7 +444,7 @@ select case when balance_operation_id = 13 then 100 else 50 end,
        updated_at
 from rectified_balances
 where idamount = 2;
-insert into user_balances_discount(balance_operation_id,
+insert into discount_balances(balance_operation_id,
                                    description,
                                    operator_id,
                                    beneficiary_id,
@@ -611,7 +464,7 @@ select balance_operation_id,
        updated_at
 from rectified_balances
 where idamount = 3;
-insert into user_balances_tree(tree_id, balance_operation_id,
+insert into tree_balances(tree_id, balance_operation_id,
                                description,
                                operator_id,
                                beneficiary_id,
@@ -632,7 +485,7 @@ select 0,
        updated_at
 from rectified_balances
 where idamount = 4;
-insert into user_balances_sms(balance_operation_id,
+insert into sms_balances(balance_operation_id,
                               description,
                               operator_id,
                               beneficiary_id,
@@ -652,7 +505,7 @@ select balance_operation_id,
        updated_at
 from rectified_balances
 where idamount = 5;
-insert into user_balances_shares(balance_operation_id,
+insert into shares_balances(balance_operation_id,
                                  description,
                                  operator_id,
                                  beneficiary_id,
@@ -675,17 +528,17 @@ select balance_operation_id,
        updated_at
 from rectified_balances
 where idamount = 6;
-update user_balances_shares s
-set share_price=(select value from user_balances_cash where balance_operation_id = 48 and reference = s.reference) /
+update shares_balances s
+set share_price=(select value from cash_balances where balance_operation_id = 48 and reference = s.reference) /
                 value
-  , amount=(select value from user_balances_cash where balance_operation_id = 48 and reference = s.reference)
+  , amount=(select value from cash_balances where balance_operation_id = 48 and reference = s.reference)
 where balance_operation_id = 44;
-update user_balances_sms s
-set sms_price=(select value from user_balances_bfss where balance_operation_id = 38 and reference = s.reference) /
+update sms_balances s
+set sms_price=(select value from bfss_balances where balance_operation_id = 38 and reference = s.reference) /
               value
-  , amount=(select value from user_balances_bfss where balance_operation_id = 38 and reference = s.reference)
+  , amount=(select value from bfss_balances where balance_operation_id = 38 and reference = s.reference)
 where balance_operation_id = 39;
-update user_balances_shares s
+update shares_balances s
 set real_amount=case
                     when payed = 0 then 0
                     when payed = 1 then amount
@@ -703,15 +556,15 @@ BEGIN
         DECLARE creation_date timestamp;
         DECLARE cur CURSOR FOR
 SELECT id, balance_operation_id, value, beneficiary_id,created_at
-FROM user_balances_cash
+FROM cash_balances
 ORDER BY beneficiary_id, created_at ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
-truncate table user_current_balances;
-truncate table user_current_balances_horizontal;
-INSERT INTO user_current_balances (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id, last_operation_value)
+truncate table user_current_balance_vericals;
+truncate table user_current_balance_horisontals;
+INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id, last_operation_value)
 SELECT  iduser,id, 1,0,0,created_at,0,0
 FROM prod_2earn.users where status>=0;
-INSERT INTO user_current_balances_horizontal (user_id,user_id_auto)
+INSERT INTO user_current_balance_horisontals (user_id,user_id_auto)
 SELECT iduser,id
 FROM prod_2earn.users
 where status >= 0;
@@ -725,7 +578,7 @@ read_loop:
 END IF;
 SELECT current_balance
 INTO last_balance
-FROM user_current_balances
+FROM user_current_balance_vericals
 WHERE user_id*1 = trans_user_id*1
   and balance_id=1;
 SELECT IO
@@ -738,10 +591,10 @@ IF io_value = 'I' THEN
                 SET last_balance = last_balance - trans_value;
 END IF;
             IF last_balance >= 0 THEN
-UPDATE user_balances_cash
+UPDATE cash_balances
 SET current_balance = last_balance
 WHERE id = trans_id;
-UPDATE user_current_balances
+UPDATE user_current_balance_vericals
 SET previous_balance=current_balance,current_balance = last_balance,last_operation_date=creation_date,
     last_operation_id=op_id,last_operation_value=case
                                                      when io_value = 'I' then trans_value
@@ -749,7 +602,7 @@ SET previous_balance=current_balance,current_balance = last_balance,last_operati
     end
 WHERE user_id*1 = trans_user_id*1
   and balance_id=1;
-update user_current_balances_horizontal set cash_balance=last_balance
+update user_current_balance_horisontals set cash_balance=last_balance
 WHERE user_id*1 = trans_user_id*1;
 
 
@@ -772,11 +625,11 @@ BEGIN
         DECLARE prc decimal(5, 2);
         DECLARE cur CURSOR FOR
 SELECT id, balance_operation_id, value, beneficiary_id, percentage
-FROM user_balances_bfss
+FROM bfss_balances
 ORDER BY beneficiary_id, created_at ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 
-INSERT INTO user_current_balances (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
+INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
                                    last_operation_value)
 SELECT iduser,id, 2, 0, 0, created_at, 0, 0
 FROM prod_2earn.users
@@ -792,7 +645,7 @@ read_loop:
 END IF;
 SELECT current_balance
 INTO last_balance
-FROM user_current_balances
+FROM user_current_balance_vericals
 WHERE user_id * 1 = trans_user_id * 1
   and balance_id = 2;
 SELECT IO
@@ -805,10 +658,10 @@ IF io_value = 'I' THEN
                 SET last_balance = ROUND(last_balance - trans_value, 3);
 END IF;
             IF last_balance >= 0 THEN
-UPDATE user_balances_bfss
+UPDATE bfss_balances
 SET current_balance = last_balance
 WHERE id = trans_id;
-UPDATE user_current_balances
+UPDATE user_current_balance_vericals
 SET previous_balance=current_balance,current_balance = last_balance,last_operation_date=creation_date,
     last_operation_id=op_id,last_operation_value=case
                                                      when io_value = 'I' then trans_value
@@ -819,12 +672,12 @@ WHERE user_id * 1 = trans_user_id * 1
 
 -- Vérifier si le 'prc' existe dans bfss_balance
 IF JSON_CONTAINS(
-                        (SELECT bfss_balance FROM user_current_balances_horizontal WHERE user_id * 1 = trans_user_id * 1),
+                        (SELECT bfss_balance FROM user_current_balance_horisontals WHERE user_id * 1 = trans_user_id * 1),
                         JSON_OBJECT('type', prc),
                         '$'
                    ) THEN
                     -- Mettre à jour la valeur existante
-UPDATE user_current_balances_horizontal
+UPDATE user_current_balance_horisontals
 SET bfss_balance = JSON_SET(
     bfss_balance,
     CONCAT(
@@ -875,7 +728,7 @@ WHERE user_id * 1 = trans_user_id * 1;
 
 ELSE
                     -- Ajouter un nouveau prc
-UPDATE user_current_balances_horizontal
+UPDATE user_current_balance_horisontals
 SET bfss_balance = JSON_ARRAY_APPEND(
     bfss_balance,
     '$',
@@ -906,11 +759,11 @@ BEGIN
         DECLARE creation_date timestamp;
         DECLARE cur CURSOR FOR
 SELECT id, balance_operation_id, value, beneficiary_id
-FROM user_balances_discount
+FROM discount_balances
 ORDER BY beneficiary_id, created_at ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 
-INSERT INTO user_current_balances (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
+INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
                                    last_operation_value)
 SELECT  iduser,id, 3,0,0,created_at,0,0
 FROM prod_2earn.users where status>=0;
@@ -923,7 +776,7 @@ read_loop:
 END IF;
 SELECT current_balance
 INTO last_balance
-FROM user_current_balances
+FROM user_current_balance_vericals
 WHERE user_id*1 = trans_user_id*1
   and balance_id=3;
 SELECT IO
@@ -936,10 +789,10 @@ IF io_value = 'I' THEN
                 SET last_balance = ROUND(last_balance - trans_value, 3);
 END IF;
             IF last_balance >= 0 THEN
-UPDATE user_balances_discount
+UPDATE discount_balances
 SET current_balance = last_balance
 WHERE id = trans_id;
-UPDATE user_current_balances
+UPDATE user_current_balance_vericals
 SET previous_balance=current_balance,current_balance = last_balance,last_operation_date=creation_date,
     last_operation_id=op_id,last_operation_value=case
                                                      when io_value = 'I' then trans_value
@@ -947,7 +800,7 @@ SET previous_balance=current_balance,current_balance = last_balance,last_operati
     end
 WHERE user_id*1 = trans_user_id*1
   and balance_id=3;
-update user_current_balances_horizontal set discount_balance=last_balance
+update user_current_balance_horisontals set discount_balance=last_balance
 WHERE user_id*1 = trans_user_id*1;
 END IF;
 END LOOP;
@@ -966,10 +819,10 @@ BEGIN
         DECLARE creation_date timestamp;
         DECLARE cur CURSOR FOR
 SELECT id, balance_operation_id, value, beneficiary_id
-FROM user_balances_shares
+FROM shares_balances
 ORDER BY beneficiary_id, created_at, balance_operation_id ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
-INSERT INTO user_current_balances (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
+INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
                                    last_operation_value)
 SELECT  iduser, id,6,0,0,created_at,0,0
 FROM prod_2earn.users where status>=0;
@@ -982,7 +835,7 @@ read_loop:
 END IF;
 SELECT current_balance
 INTO last_balance
-FROM user_current_balances
+FROM user_current_balance_vericals
 WHERE user_id*1 = trans_user_id*1
   and balance_id=6;
 SELECT IO
@@ -995,10 +848,10 @@ IF io_value = 'I' THEN
                 SET last_balance = ROUND(last_balance - trans_value, 3);
 END IF;
             IF last_balance >= 0 THEN
-UPDATE user_balances_shares
+UPDATE shares_balances
 SET current_balance = last_balance
 WHERE id = trans_id;
-UPDATE user_current_balances
+UPDATE user_current_balance_vericals
 SET previous_balance=current_balance,current_balance = last_balance,last_operation_date=creation_date,
     last_operation_id=op_id,last_operation_value=case
                                                      when io_value = 'I' then trans_value
@@ -1006,7 +859,7 @@ SET previous_balance=current_balance,current_balance = last_balance,last_operati
     end
 WHERE user_id*1 = trans_user_id*1
   and balance_id=6;
-update user_current_balances_horizontal set share_balance=last_balance
+update user_current_balance_horisontals set share_balance=last_balance
 WHERE user_id*1 = trans_user_id*1;
 END IF;
 END LOOP;
@@ -1025,10 +878,10 @@ BEGIN
         DECLARE creation_date timestamp;
         DECLARE cur CURSOR FOR
 SELECT id, balance_operation_id, value, beneficiary_id
-FROM user_balances_sms
+FROM sms_balances
 ORDER BY beneficiary_id, created_at ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
-INSERT INTO user_current_balances (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
+INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
                                    last_operation_value)
 SELECT  iduser,id, 5,0,0,created_at,0,0
 FROM prod_2earn.users where status>=0;
@@ -1041,7 +894,7 @@ read_loop:
 END IF;
 SELECT current_balance
 INTO last_balance
-FROM user_current_balances
+FROM user_current_balance_vericals
 WHERE user_id*1 = trans_user_id*1
   and balance_id=5;
 SELECT IO
@@ -1054,11 +907,11 @@ IF io_value = 'I' THEN
                 SET last_balance = ROUND(last_balance - trans_value, 3);
 END IF;
             IF last_balance >= 0 THEN
-UPDATE user_balances_sms
+UPDATE sms_balances
 SET current_balance = last_balance
 WHERE id = trans_id;
 
-UPDATE user_current_balances
+UPDATE user_current_balance_vericals
 SET previous_balance=current_balance,current_balance = last_balance,last_operation_date=creation_date,
     last_operation_id=op_id,last_operation_value=case
                                                      when io_value = 'I' then trans_value
@@ -1066,7 +919,7 @@ SET previous_balance=current_balance,current_balance = last_balance,last_operati
     end
 WHERE user_id*1 = trans_user_id*1
   and balance_id=5;
-update user_current_balances_horizontal set sms_balance=last_balance
+update user_current_balance_horisontals set sms_balance=last_balance
 WHERE user_id*1 = trans_user_id*1;
 END IF;
 END LOOP;
@@ -1085,10 +938,10 @@ BEGIN
         DECLARE creation_date timestamp;
         DECLARE cur CURSOR FOR
 SELECT id, balance_operation_id, value, beneficiary_id
-FROM user_balances_tree
+FROM tree_balances
 ORDER BY beneficiary_id, created_at ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
-INSERT INTO user_current_balances (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
+INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
                                    last_operation_value)
 SELECT  iduser, id,4,0,0,created_at,0,0
 FROM prod_2earn.users where status>=0;
@@ -1101,7 +954,7 @@ read_loop:
 END IF;
 SELECT current_balance
 INTO last_balance
-FROM user_current_balances
+FROM user_current_balance_vericals
 WHERE user_id*1 = trans_user_id*1
   and balance_id=4;
 SELECT IO
@@ -1114,11 +967,11 @@ IF io_value = 'I' THEN
                 SET last_balance = ROUND(last_balance - trans_value, 3);
 END IF;
             IF last_balance >= 0 THEN
-UPDATE user_balances_tree
+UPDATE tree_balances
 SET current_balance = last_balance
 WHERE id = trans_id;
 
-UPDATE user_current_balances
+UPDATE user_current_balance_vericals
 SET previous_balance=current_balance,current_balance = last_balance,last_operation_date=creation_date,
     last_operation_id=op_id,last_operation_value=case
                                                      when io_value = 'I' then trans_value
@@ -1126,7 +979,7 @@ SET previous_balance=current_balance,current_balance = last_balance,last_operati
     end
 WHERE user_id*1 = trans_user_id*1
   and balance_id=4;
-update user_current_balances_horizontal set tree_balance=last_balance
+update user_current_balance_horisontals set tree_balance=last_balance
 WHERE user_id*1 = trans_user_id*1;
 end if;
 END LOOP;
@@ -1146,10 +999,10 @@ BEGIN
         DECLARE pool int;
         DECLARE cur CURSOR FOR
 SELECT id, balance_operation_id, value, beneficiary_id,pool_id
-FROM user_balances_chances
+FROM chance_balances
 ORDER BY beneficiary_id, created_at, balance_operation_id ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
-INSERT INTO user_current_balances (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
+INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
                                    last_operation_value)
 SELECT  iduser, id,7,0,0,created_at,0,0
 FROM prod_2earn.users where status>=0;
@@ -1162,7 +1015,7 @@ read_loop:
 END IF;
 SELECT current_balance
 INTO last_balance
-FROM user_current_balances
+FROM user_current_balance_vericals
 WHERE user_id*1 = trans_user_id*1
   and balance_id=7;
 SELECT IO
@@ -1175,10 +1028,10 @@ IF io_value = 'I' THEN
                 SET last_balance = ROUND(last_balance - trans_value, 3);
 END IF;
             IF last_balance >= 0 THEN
-UPDATE user_balances_chances
+UPDATE chance_balances
 SET current_balance = last_balance
 WHERE id = trans_id;
-UPDATE user_current_balances
+UPDATE user_current_balance_vericals
 SET previous_balance=current_balance,current_balance = last_balance,last_operation_date=creation_date,
     last_operation_id=op_id,last_operation_value=case
                                                      when io_value = 'I' then trans_value
@@ -1187,12 +1040,12 @@ SET previous_balance=current_balance,current_balance = last_balance,last_operati
 WHERE user_id*1 = trans_user_id*1
   and balance_id=7;
 IF JSON_CONTAINS(
-                        (SELECT chances_balance FROM user_current_balances_horizontal WHERE user_id * 1 = trans_user_id * 1),
+                        (SELECT chances_balance FROM user_current_balance_horisontals WHERE user_id * 1 = trans_user_id * 1),
                         JSON_OBJECT('type', pool),
                         '$'
                    ) THEN
                     -- Mettre à jour la valeur existante
-UPDATE user_current_balances_horizontal
+UPDATE user_current_balance_horisontals
 SET chances_balance = JSON_SET(
     chances_balance,
     CONCAT(
@@ -1243,7 +1096,7 @@ WHERE user_id * 1 = trans_user_id * 1;
 
 ELSE
                     -- Ajouter un nouveau prc
-UPDATE user_current_balances_horizontal
+UPDATE user_current_balance_horisontals
 SET chances_balance = JSON_ARRAY_APPEND(
     chances_balance,
     '$',
@@ -1271,7 +1124,7 @@ BEGIN
         DECLARE last_balance DOUBLE;
         DECLARE cur CURSOR FOR
 SELECT id, balance_operation_id, amount, beneficiary_id
-FROM user_balances_shares
+FROM shares_balances
 ORDER BY beneficiary_id, created_at,balance_operation_id ASC;
 
 -- Gestion de la fin du curseur
@@ -1286,7 +1139,7 @@ DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
         -- Initialisation des soldes utilisateurs
 INSERT INTO temp_user_balance (beneficiary_id, current_balance)
 SELECT DISTINCT beneficiary_id, 0
-FROM user_balances_shares;
+FROM shares_balances;
 
 -- Parcourir les transactions
 OPEN cur;
@@ -1317,7 +1170,7 @@ END IF;
             -- Vérifier si le nouveau solde est négatif
             IF last_balance >= 0 THEN
                 -- Mise à jour du solde de la transaction
-UPDATE user_balances_shares
+UPDATE shares_balances
 SET total_amount = last_balance
 WHERE id = trans_id;
 
