@@ -16,38 +16,9 @@ ORDER BY created_at;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 drop table IF EXISTS rectified_balances;
 drop table IF EXISTS trait_balances;
-
-drop table IF EXISTS trait_balances;
-drop table IF EXISTS user_current_balance_horisontals;
-drop table IF EXISTS user_current_balance_vericals;
 DROP VIEW IF EXISTS filtred_userbalance;
 DROP VIEW IF EXISTS rectified_userbalance;
 DROP VIEW IF EXISTS user_infos;
-CREATE TABLE `user_current_balance_horisontals` (
-                                                    `id` int(11) NOT NULL AUTO_INCREMENT,
-                                                    `user_id` varchar(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-                                                    `user_id_auto` int(11) NOT NULL,
-                                                    `cash_balance` double NOT NULL DEFAULT 0,
-                                                    `bfss_balance` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '[]',
-                                                    `discount_balance` double NOT NULL DEFAULT 0,
-                                                    `tree_balance` double NOT NULL DEFAULT 0,
-                                                    `sms_balance` double NOT NULL DEFAULT 0,
-                                                    `share_balance` double NOT NULL DEFAULT 0,
-                                                    `chances_balance` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '[]',
-                                                    PRIMARY KEY (`id`)
-);
-CREATE TABLE `user_current_balance_vericals` (
-                                         `id` int(11) NOT NULL AUTO_INCREMENT,
-                                         `user_id` varchar(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-                                         `user_id_auto` int(11) NOT NULL,
-                                         `balance_id` int(11) NOT NULL,
-                                         `current_balance` double NOT NULL DEFAULT 0,
-                                         `previous_balance` double NOT NULL DEFAULT 0,
-                                         `last_operation_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-                                         `last_operation_id` int(11) NOT NULL DEFAULT 0,
-                                         `last_operation_value` double NOT NULL DEFAULT 0,
-                                         PRIMARY KEY (`id`)
-);
 
 CREATE TABLE IF NOT EXISTS rectified_balances
 (
@@ -70,7 +41,7 @@ CREATE TABLE IF NOT EXISTS rectified_balances
     idamount             INT
     );
 create or replace view user_infos as
-select `u`.`idUser`           AS `iduser`,
+select `u`.`idUser`           AS `idUser`,
        `u`.`id`           AS `iduser_auto`,
        `u`.`idCountry`        AS `idcountry`,
        `u`.`email`            AS `email`,
@@ -82,8 +53,8 @@ select `u`.`idUser`           AS `iduser`,
        `m`.`enLastName`       AS `enlastname`,
        `m`.`nationalID`       AS `nationalid`,
        `m`.`adresse`          AS `adresse`
-from `prod_2earn`.`users` `u`
-         join `prod_2earn`.`metta_users` `m`
+from `users` `u`
+         join `metta_users` `m`
 where `u`.`idUser` = `m`.`idUser`;
 create or replace view filtred_userbalance as
 select b.`id`                  AS `id`,
@@ -105,7 +76,8 @@ select b.`id`                  AS `id`,
        `Block_trait`         AS `Block_trait`,
        `ref`                 AS `ref`,
        `PrixUnitaire`        AS `PrixUnitaire`
-from prod_2earn.user_balances b,prod_2earn.users u
+from user_balances b,
+     users u
 where u.idUser=b.idUser
   and
     ( `value` <> 0
@@ -143,19 +115,19 @@ select case
            when `f`.`idBalancesOperation` = 18 then `f`.`id`
            when `f`.`ref` is null and `f`.`idBalancesOperation` in (1, 6) then `f`.`id`
            when `f`.`idBalancesOperation` = 13 then (select right(`u`.`ref`, 4)
-from prod_2earn.user_balances `u`
+from user_balances `u`
 where `u`.`Date` = `f`.`Date`
   and `u`.`idUser` = `f`.`idUser`
   and `u`.`idBalancesOperation` = 16)
     when `f`.`ref` is null then NULL
     when `f`.`Description` = 'action5$' then (select right(`u`.`ref`, 4)
-from prod_2earn.user_balances `u`
+from user_balances `u`
 where `u`.`Date` = `f`.`Date`
   and `u`.`idUser` = `f`.`idUser`
   and `u`.`idBalancesOperation` = 44
   and `u`.`value` > 0)
     when `f`.`idBalancesOperation` = 44 and `f`.`value` = 0 then (select right(`u`.`ref`, 4)
-from prod_2earn.user_balances `u`
+from user_balances `u`
 where `u`.`ref` = `f`.`ref`
   and `u`.`idBalancesOperation` = 44
   and `u`.`value` > 0)
@@ -348,7 +320,7 @@ set description=concat(round(`value`, 2), ' Transfered to ', (select ifnull(ifnu
                                                                                 concat(arfirstname, ' ', arlastname)),
                                                                             fullphone_number)
                                                               from user_infos
-                                                              where iduser * 1 = (select beneficiary_id
+                                                              where idUser * 1 = (select beneficiary_id
                                                                                   from rectified_balances
                                                                                   where balance_operation_id = 43
                                                                                     and reference = r.reference) *
@@ -360,7 +332,7 @@ set description=concat(round(`value`, 2), ' Transfered from ', (select ifnull(if
                                                                                   concat(arfirstname, ' ', arlastname)),
                                                                               fullphone_number)
                                                                 from user_infos
-                                                                where iduser * 1 = r.operator_id * 1))
+                                                                where idUser * 1 = r.operator_id * 1))
 where balance_operation_id in (43);
 update rectified_balances r
 set description=concat(round(`value`, 0), 'share(s) purchased',
@@ -375,7 +347,7 @@ set description=concat(round(`value`, 0), 'share(s) purchased',
                                                                      concat(arfirstname, ' ', arlastname)),
                                                               fullphone_number)
                                                 from user_infos
-                                                where iduser * 1 = (select beneficiary_id
+                                                where idUser * 1 = (select beneficiary_id
                                                                     from rectified_balances
                                                                     where balance_operation_id = 48
                                                                       and reference = r.reference) * 1)) end)
@@ -385,7 +357,7 @@ set description=concat('Sponsorship commission from ', (select ifnull(ifnull(con
                                                                              concat(arfirstname, ' ', arlastname)),
                                                                       fullphone_number)
                                                         from user_infos
-                                                        where iduser * 1 = (select beneficiary_id
+                                                        where idUser * 1 = (select beneficiary_id
                                                                             from rectified_balances
                                                                             where balance_operation_id = 44
                                                                               and reference = r.reference) * 1))
@@ -512,7 +484,8 @@ insert into shares_balances(balance_operation_id,
                                  beneficiary_id_auto,
                                  value,
                                  payed,
-                                 reference, current_balance,
+                            reference,
+                            current_balance,
                                  created_at,
                                  updated_at)
 select balance_operation_id,
@@ -529,7 +502,7 @@ select balance_operation_id,
 from rectified_balances
 where idamount = 6;
 update shares_balances s
-set share_price=(select value from cash_balances where balance_operation_id = 48 and reference = s.reference) /
+set unit_price=(select value from cash_balances where balance_operation_id = 48 and reference = s.reference) /
                 value
   , amount=(select value from cash_balances where balance_operation_id = 48 and reference = s.reference)
 where balance_operation_id = 44;
@@ -542,7 +515,7 @@ update shares_balances s
 set real_amount=case
                     when payed = 0 then 0
                     when payed = 1 then amount
-                    when payed = 2 then current_balance end
+                    when payed = 2 then total_amount end
 where balance_operation_id = 44;
 BEGIN
         DECLARE done INT DEFAULT FALSE;
@@ -562,11 +535,12 @@ DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 truncate table user_current_balance_vericals;
 truncate table user_current_balance_horisontals;
 INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id, last_operation_value)
-SELECT  iduser,id, 1,0,0,created_at,0,0
-FROM prod_2earn.users where status>=0;
+SELECT  idUser,id, 1,0,0,created_at,0,0
+FROM users
+where status >= 0;
 INSERT INTO user_current_balance_horisontals (user_id,user_id_auto)
-SELECT iduser,id
-FROM prod_2earn.users
+SELECT idUser,id
+FROM users
 where status >= 0;
 
 OPEN cur;
@@ -583,8 +557,8 @@ WHERE user_id*1 = trans_user_id*1
   and balance_id=1;
 SELECT IO
 INTO io_value
-FROM prod_2earn.balanceoperations
-WHERE idBalanceOperations = op_id;
+FROM balance_operations
+WHERE id = op_id;
 IF io_value = 'I' THEN
                 SET last_balance = last_balance + trans_value;
             ELSEIF io_value = 'O' THEN
@@ -631,8 +605,8 @@ DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 
 INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
                                    last_operation_value)
-SELECT iduser,id, 2, 0, 0, created_at, 0, 0
-FROM prod_2earn.users
+SELECT idUser,id, 2, 0, 0, created_at, 0, 0
+FROM users
 where status >= 0;
 
 
@@ -650,8 +624,8 @@ WHERE user_id * 1 = trans_user_id * 1
   and balance_id = 2;
 SELECT IO
 INTO io_value
-FROM prod_2earn.balanceoperations
-WHERE idBalanceOperations = op_id;
+FROM balance_operations
+WHERE id = op_id;
 IF io_value = 'I' THEN
                 SET last_balance = ROUND(last_balance + trans_value, 3);
             ELSEIF io_value = 'O' THEN
@@ -765,8 +739,9 @@ DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 
 INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
                                    last_operation_value)
-SELECT  iduser,id, 3,0,0,created_at,0,0
-FROM prod_2earn.users where status>=0;
+SELECT  idUser,id, 3,0,0,created_at,0,0
+FROM users
+where status >= 0;
 OPEN cur;
 read_loop:
         LOOP
@@ -781,8 +756,8 @@ WHERE user_id*1 = trans_user_id*1
   and balance_id=3;
 SELECT IO
 INTO io_value
-FROM prod_2earn.balanceoperations
-WHERE idBalanceOperations = op_id;
+FROM balance_operations
+WHERE id = op_id;
 IF io_value = 'I' THEN
                 SET last_balance = ROUND(last_balance + trans_value, 3);
             ELSEIF io_value = 'O' THEN
@@ -824,8 +799,9 @@ ORDER BY beneficiary_id, created_at, balance_operation_id ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
                                    last_operation_value)
-SELECT  iduser, id,6,0,0,created_at,0,0
-FROM prod_2earn.users where status>=0;
+SELECT  idUser, id,6,0,0,created_at,0,0
+FROM users
+where status >= 0;
 OPEN cur;
 read_loop:
         LOOP
@@ -840,8 +816,8 @@ WHERE user_id*1 = trans_user_id*1
   and balance_id=6;
 SELECT IO
 INTO io_value
-FROM prod_2earn.balanceoperations
-WHERE idBalanceOperations = op_id;
+FROM balance_operations
+WHERE id = op_id;
 IF io_value = 'I' THEN
                 SET last_balance = ROUND(last_balance + trans_value, 3);
             ELSEIF io_value = 'O' THEN
@@ -883,8 +859,9 @@ ORDER BY beneficiary_id, created_at ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
                                    last_operation_value)
-SELECT  iduser,id, 5,0,0,created_at,0,0
-FROM prod_2earn.users where status>=0;
+SELECT  idUser,id, 5,0,0,created_at,0,0
+FROM users
+where status >= 0;
 OPEN cur;
 read_loop:
         LOOP
@@ -899,8 +876,8 @@ WHERE user_id*1 = trans_user_id*1
   and balance_id=5;
 SELECT IO
 INTO io_value
-FROM prod_2earn.balanceoperations
-WHERE idBalanceOperations = op_id;
+FROM balance_operations
+WHERE id = op_id;
 IF io_value = 'I' THEN
                 SET last_balance = ROUND(last_balance + trans_value, 3);
             ELSEIF io_value = 'O' THEN
@@ -943,8 +920,9 @@ ORDER BY beneficiary_id, created_at ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
                                    last_operation_value)
-SELECT  iduser, id,4,0,0,created_at,0,0
-FROM prod_2earn.users where status>=0;
+SELECT  idUser, id,4,0,0,created_at,0,0
+FROM users
+where status >= 0;
 OPEN cur;
 read_loop:
         LOOP
@@ -959,8 +937,8 @@ WHERE user_id*1 = trans_user_id*1
   and balance_id=4;
 SELECT IO
 INTO io_value
-FROM prod_2earn.balanceoperations
-WHERE idBalanceOperations = op_id;
+FROM balance_operations
+WHERE id = op_id;
 IF io_value = 'I' THEN
                 SET last_balance = ROUND(last_balance + trans_value, 3);
             ELSEIF io_value = 'O' THEN
@@ -1004,8 +982,9 @@ ORDER BY beneficiary_id, created_at, balance_operation_id ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 INSERT INTO user_current_balance_vericals (user_id,user_id_auto, balance_id, current_balance, previous_balance, last_operation_date, last_operation_id,
                                    last_operation_value)
-SELECT  iduser, id,7,0,0,created_at,0,0
-FROM prod_2earn.users where status>=0;
+SELECT  idUser, id,7,0,0,created_at,0,0
+FROM users
+where status >= 0;
 OPEN cur;
 read_loop:
         LOOP
@@ -1020,8 +999,8 @@ WHERE user_id*1 = trans_user_id*1
   and balance_id=7;
 SELECT IO
 INTO io_value
-FROM prod_2earn.balanceoperations
-WHERE idBalanceOperations = op_id;
+FROM balance_operations
+WHERE id = op_id;
 IF io_value = 'I' THEN
                 SET last_balance = ROUND(last_balance + trans_value, 3);
             ELSEIF io_value = 'O' THEN
@@ -1157,8 +1136,8 @@ WHERE beneficiary_id = trans_user_id;
 
 -- Récupérer la valeur de IO (entrée ou sortie) depuis la table operations
 SELECT IO INTO io_value
-FROM prod_2earn.balanceoperations
-WHERE idBalanceOperations = op_id;
+FROM balance_operations
+WHERE id = op_id;
 
 -- Calculer le nouveau solde provisoire
 IF io_value = 'I' THEN

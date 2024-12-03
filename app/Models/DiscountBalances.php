@@ -14,7 +14,7 @@ class DiscountBalances extends Model
     protected $fillable = [
         'value',
         'description',
-        'total_balance',
+        'current_balance',
         'reference',
     ];
 
@@ -56,6 +56,6 @@ class DiscountBalances extends Model
 
     public function beneficiary()
     {
-        return $this->belongsTo(User::class, 'beneficiary_id');
+        return $this->belongsTo(User::class, 'beneficiary_id_auto');
     }
 }

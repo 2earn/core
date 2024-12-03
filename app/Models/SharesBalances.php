@@ -12,7 +12,7 @@ class SharesBalances extends Model
     protected $fillable = [
         'value',
         'description',
-        'total_balance',
+        'current_balance',
         'reference',
         'total_amount',
         'amount',
@@ -35,6 +35,6 @@ class SharesBalances extends Model
 
     public function beneficiary()
     {
-        return $this->belongsTo(User::class, 'beneficiary_id');
+        return $this->belongsTo(User::class, 'beneficiary_id_auto');
     }
 }

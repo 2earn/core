@@ -16,6 +16,7 @@ class BalancesSQLSeeder extends Seeder
 {
     public function run()
     {
-        DB::statement('CALL UpdateRectifiedBalance()');
+            DB::statement('CALL UpdateRectifiedBalance()');
+
     }
 }
