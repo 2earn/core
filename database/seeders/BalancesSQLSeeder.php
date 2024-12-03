@@ -16,6 +16,6 @@ class BalancesSQLSeeder extends Seeder
 {
     public function run()
     {
-        DB::statement(formatSqlWithEnv(getSqlFromPath('update_rectified_balance')));
+        DB::statement('CALL UpdateRectifiedBalance()');
     }
 }

@@ -193,8 +193,8 @@ select `u`.`idUser`           AS `iduser`,
        `m`.`enLastName`       AS `enlastname`,
        `m`.`nationalID`       AS `nationalid`,
        `m`.`adresse`          AS `adresse`
-from `prod_2earn`.`users` `u`
-         join `prod_2earn`.`metta_users` `m`
+from `database_earn`.`users` `u`
+         join `database_earn`.`metta_users` `m`
 where `u`.`idUser` = `m`.`idUser`;
 create or replace view filtred_userbalance as
 select `id`                  AS `id`,
@@ -215,7 +215,7 @@ select `id`                  AS `id`,
        `Block_trait`         AS `Block_trait`,
        `ref`                 AS `ref`,
        `PrixUnitaire`        AS `PrixUnitaire`
-from prod_2earn.user_balances
+from database_earn.user_balances
 where `value` <> 0
    or `idamount` = 6 and
       `value` + `gifted_shares` > 0;
@@ -250,19 +250,19 @@ select case
            when `f`.`idBalancesOperation` = 18 then `f`.`id`
            when `f`.`ref` is null and `f`.`idBalancesOperation` in (1, 6) then `f`.`id`
            when `f`.`idBalancesOperation` = 13 then (select right(`u`.`ref`, 4)
-from prod_2earn.user_balances `u`
+from database_earn.user_balances `u`
 where `u`.`Date` = `f`.`Date`
   and `u`.`idUser` = `f`.`idUser`
   and `u`.`idBalancesOperation` = 16)
     when `f`.`ref` is null then NULL
     when `f`.`Description` = 'action5$' then (select right(`u`.`ref`, 4)
-from prod_2earn.user_balances `u`
+from database_earn.user_balances `u`
 where `u`.`Date` = `f`.`Date`
   and `u`.`idUser` = `f`.`idUser`
   and `u`.`idBalancesOperation` = 44
   and `u`.`value` > 0)
     when `f`.`idBalancesOperation` = 44 and `f`.`value` = 0 then (select right(`u`.`ref`, 4)
-from prod_2earn.user_balances `u`
+from database_earn.user_balances `u`
 where `u`.`ref` = `f`.`ref`
   and `u`.`idBalancesOperation` = 44
   and `u`.`value` > 0)
@@ -652,10 +652,10 @@ truncate table user_current_balance_vericals;
 truncate table user_current_balance_horisontals;
 INSERT INTO user_current_balance_vericals (user_id, amount_id, balance, previous_balance, operation_date, operation_id, operation_value)
 SELECT  iduser, 1,0,0,created_at,0,0
-FROM prod_2earn.users where status>=0;
+FROM database_earn.users where status>=0;
 INSERT INTO user_current_balance_horisontals (user_id)
 SELECT iduser
-FROM prod_2earn.users
+FROM database_earn.users
 where status >= 0;
 
 OPEN cur;
@@ -672,8 +672,8 @@ WHERE user_id*1 = trans_user_id*1
   and amount_id=1;
 SELECT IO
 INTO io_value
-FROM prod_2earn.balanceoperations
-WHERE idBalanceOperations = op_id;
+FROM database_earn.balance_operations
+WHERE id = op_id;
 IF io_value = 'I' THEN
                 SET last_balance = last_balance + trans_value;
             ELSEIF io_value = 'O' THEN
@@ -721,7 +721,7 @@ DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 INSERT INTO user_current_balance_vericals (user_id, amount_id, balance, previous_balance, operation_date, operation_id,
                                    operation_value)
 SELECT iduser, 2, 0, 0, created_at, 0, 0
-FROM prod_2earn.users
+FROM database_earn.users
 where status >= 0;
 
 
@@ -739,8 +739,8 @@ WHERE user_id * 1 = trans_user_id * 1
   and amount_id = 2;
 SELECT IO
 INTO io_value
-FROM prod_2earn.balanceoperations
-WHERE idBalanceOperations = op_id;
+FROM database_earn.balance_operations
+WHERE id = op_id;
 IF io_value = 'I' THEN
                 SET last_balance = ROUND(last_balance + trans_value, 3);
             ELSEIF io_value = 'O' THEN
@@ -857,7 +857,7 @@ DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 
 INSERT INTO user_current_balance_vericals (user_id, amount_id, balance, previous_balance, operation_date, operation_id, operation_value)
 SELECT  iduser, 3,0,0,created_at,0,0
-FROM prod_2earn.users where status>=0;
+FROM database_earn.users where status>=0;
 OPEN cur;
 read_loop:
         LOOP
@@ -872,8 +872,8 @@ WHERE user_id*1 = trans_user_id*1
   and amount_id=3;
 SELECT IO
 INTO io_value
-FROM prod_2earn.balanceoperations
-WHERE idBalanceOperations = op_id;
+FROM database_earn.balance_operations
+WHERE id = op_id;
 IF io_value = 'I' THEN
                 SET last_balance = ROUND(last_balance + trans_value, 3);
             ELSEIF io_value = 'O' THEN
@@ -915,7 +915,7 @@ ORDER BY beneficiary_id, created_at, balance_operation_id ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 INSERT INTO user_current_balance_vericals (user_id, amount_id, balance, previous_balance, operation_date, operation_id, operation_value)
 SELECT  iduser, 6,0,0,created_at,0,0
-FROM prod_2earn.users where status>=0;
+FROM database_earn.users where status>=0;
 OPEN cur;
 read_loop:
         LOOP
@@ -930,8 +930,8 @@ WHERE user_id*1 = trans_user_id*1
   and amount_id=6;
 SELECT IO
 INTO io_value
-FROM prod_2earn.balanceoperations
-WHERE idBalanceOperations = op_id;
+FROM database_earn.balance_operations
+WHERE id = op_id;
 IF io_value = 'I' THEN
                 SET last_balance = ROUND(last_balance + trans_value, 3);
             ELSEIF io_value = 'O' THEN
@@ -973,7 +973,7 @@ ORDER BY beneficiary_id, created_at ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 INSERT INTO user_current_balance_vericals (user_id, amount_id, balance, previous_balance, operation_date, operation_id, operation_value)
 SELECT  iduser, 5,0,0,created_at,0,0
-FROM prod_2earn.users where status>=0;
+FROM database_earn.users where status>=0;
 OPEN cur;
 read_loop:
         LOOP
@@ -988,8 +988,8 @@ WHERE user_id*1 = trans_user_id*1
   and amount_id=5;
 SELECT IO
 INTO io_value
-FROM prod_2earn.balanceoperations
-WHERE idBalanceOperations = op_id;
+FROM database_earn.balance_operations
+WHERE id = op_id;
 IF io_value = 'I' THEN
                 SET last_balance = ROUND(last_balance + trans_value, 3);
             ELSEIF io_value = 'O' THEN
@@ -1032,7 +1032,7 @@ ORDER BY beneficiary_id, created_at ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 INSERT INTO user_current_balance_vericals (user_id, amount_id, balance, previous_balance, operation_date, operation_id, operation_value)
 SELECT  iduser, 4,0,0,created_at,0,0
-FROM prod_2earn.users where status>=0;
+FROM database_earn.users where status>=0;
 OPEN cur;
 read_loop:
         LOOP
@@ -1047,8 +1047,8 @@ WHERE user_id*1 = trans_user_id*1
   and amount_id=4;
 SELECT IO
 INTO io_value
-FROM prod_2earn.balanceoperations
-WHERE idBalanceOperations = op_id;
+FROM database_earn.balance_operations
+WHERE id = op_id;
 IF io_value = 'I' THEN
                 SET last_balance = ROUND(last_balance + trans_value, 3);
             ELSEIF io_value = 'O' THEN
@@ -1092,7 +1092,7 @@ ORDER BY beneficiary_id, created_at, balance_operation_id ASC;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 INSERT INTO user_current_balance_vericals (user_id, amount_id, balance, previous_balance, operation_date, operation_id, operation_value)
 SELECT  iduser, 7,0,0,created_at,0,0
-FROM prod_2earn.users where status>=0;
+FROM database_earn.users where status>=0;
 OPEN cur;
 read_loop:
         LOOP
@@ -1107,8 +1107,8 @@ WHERE user_id*1 = trans_user_id*1
   and amount_id=7;
 SELECT IO
 INTO io_value
-FROM prod_2earn.balanceoperations
-WHERE idBalanceOperations = op_id;
+FROM database_earn.balance_operations
+WHERE id = op_id;
 IF io_value = 'I' THEN
                 SET last_balance = ROUND(last_balance + trans_value, 3);
             ELSEIF io_value = 'O' THEN
@@ -1244,8 +1244,8 @@ WHERE beneficiary_id = trans_user_id;
 
 -- Récupérer la valeur de IO (entrée ou sortie) depuis la table operations
 SELECT IO INTO io_value
-FROM prod_2earn.balanceoperations
-WHERE idBalanceOperations = op_id;
+FROM database_earn.balance_operations
+WHERE id = op_id;
 
 -- Calculer le nouveau solde provisoire
 IF io_value = 'I' THEN
