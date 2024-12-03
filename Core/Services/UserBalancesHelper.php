@@ -82,7 +82,7 @@ class  UserBalancesHelper
                     $ref = Balances::getReference($SI->idBalanceOperations);
 
 
-                    if ($SI->idamounts == BalanceEnum::CASH_BALANCE->value) {
+                    if ($SI->idamounts == BalanceEnum::CASH->value) {
 
                         $user_balance = new user_balance([
                             'ref' => $ref,
@@ -142,7 +142,7 @@ class  UserBalancesHelper
                 //insert in table "usercurrentbalances"
                 $amounts = Amount::all();
                 foreach ($amounts as $amount) {
-                    if ($amount->idamounts == BalanceEnum::CASH_BALANCE->value) {
+                    if ($amount->idamounts == BalanceEnum::CASH->value) {
                         DB::table('usercurrentbalances')->insert([
                             'idUser' => $idUser,
                             'idamounts' => $amount->idamounts,

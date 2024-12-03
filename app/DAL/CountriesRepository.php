@@ -26,6 +26,6 @@ class  CountriesRepository implements ICountriesRepository
 
     public function getCountryByIso($iso)
     {
-        return DB::select(getSqlFromPath('get_country_by_iso'), [$iso]);
+        return Countrie::where('apha2', $iso)->get();
     }
 }

@@ -74,13 +74,14 @@ class  UserBalancesRepository implements IUserBalancesRepository
 
     public function getSoldeByAmount($idUser, $idamount)
     {
-        $soldeAmount = 0;
-        $solde = DB::select(getSqlFromPath('get_solde_by_amount'), [$idUser, $idamount]);
-
-        $solde = collect($solde);
-        if ($solde->isNotEmpty()) {
-            $soldeAmount = $solde->where("idamounts", "=", $idamount)->first()->solde;
-        }
-        return $soldeAmount;
+        // CONVERTED IN BALANCES
+        return match ($idamount) {
+            1 => BalancesFacade::getCash($idUser),
+            2 => BalancesFacade::getBfss($idUser),
+            3 => BalancesFacade::getDiscount($idUser),
+            4 => BalancesFacade::getTree($idUser),
+            5 => BalancesFacade::getSms($idUser),
+            default => BalancesFacade::getCash($idUser),
+        };
     }
 }

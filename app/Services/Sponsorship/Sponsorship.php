@@ -122,7 +122,7 @@ class Sponsorship
             49,
             $this->isSource,
             $reserve,
-            BalanceEnum::CASH_BALANCE,
+            BalanceEnum::CASH,
             $amount * $this->amountCash / 100,
             null,
             0,

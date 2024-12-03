@@ -270,7 +270,7 @@ class Account extends Component
         if (!$userAuth) return;
 
         if ($this->sendPassSMS) {
-            $settingManager->getSoldeByAmount($userAuth->idUser, BalanceEnum::Sms_Balance);
+            $settingManager->getSoldeByAmount($userAuth->idUser, BalanceEnum::SMS);
         }
 
         if (!Hash::check($this->oldPassword, auth()->user()->password)) {
@@ -444,7 +444,7 @@ class Account extends Component
         $this->usermetta_info = $usermetta_info;
         $this->user = collect($user);
         $this->states = $settingsManager->getStatesContrie($user->id_phone);
-        $this->soldeSms = $settingsManager->getSoldeByAmount($userAuth->idUser, BalanceEnum::Sms_Balance);
+        $this->soldeSms = $settingsManager->getSoldeByAmount($userAuth->idUser, BalanceEnum::SMS);
         $this->soldeSms = $this->soldeSms == null ? 0 : $this->soldeSms;
         if ($this->sendPassSMS) {
             if ($this->soldeSms <= 0) {
