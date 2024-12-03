@@ -20,7 +20,6 @@ class  UserBalancesRepository implements IUserBalancesRepository
 
         if (!is_null($calculetedUserBalances)) {
             $calculetedUserBalances->soldeCB = formatSolde($calculetedUserBalances->cash_balance, $decimals);
-
             $calculetedUserBalances->soldeBFS = formatSolde($calculetedUserBalances->bfss_balance, $decimals);
             $calculetedUserBalances->soldeDB = formatSolde($calculetedUserBalances->discount_balance, $decimals);
             $calculetedUserBalances->soldeT = formatSolde($calculetedUserBalances->tree_balance, $decimals);
@@ -42,7 +41,8 @@ class  UserBalancesRepository implements IUserBalancesRepository
         $calculetedUserBalances = new  calculated_userbalances;
         $solde = DB::table('usercurrentbalances')
             ->where("idUser", "=", $idUser)
-            ->select('dernier_value', 'idamounts')->get();
+            ->select('dernier_value', 'idamounts')
+            ->get();
         if ($solde->isNotEmpty()) {
             $calculetedUserBalances->soldeCB = $solde->where("idamounts", "=", "1")->first()->dernier_value;
             $calculetedUserBalances->soldeBFS = $solde->where("idamounts", "=", "2")->first()->dernier_value;

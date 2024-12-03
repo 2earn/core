@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DAL\UserRepository;
+use App\Models\CashBalances;
 use App\Models\Deal;
 use App\Models\User;
 use App\Models\vip;
