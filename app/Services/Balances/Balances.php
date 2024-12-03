@@ -30,12 +30,16 @@ class Balances
         return substr((string)pow(10, 3 - strlen($balancesOperationId)), 1) . $balancesOperationId . $date->format(self::DTAEFORMAT) . $this->getBalanceCompter();
     }
 
-    public function getSold($idUser, $balances)
+    public function getSoldMainQuery($balances)
     {
-        $sold = DB::table($balances . ' as u')
+        return DB::table($balances . ' as u')
             ->select('u.beneficiary_id', DB::raw('SUM(CASE WHEN b.io = "I" THEN u.value ELSE -u.value END) as value'))
             ->join('balance_operations as b', 'u.balance_operation_id', '=', 'b.id')
-            ->join('users as s', 'u.beneficiary_id', '=', 's.idUser')
+            ->join('users as s', 'u.beneficiary_id', '=', 's.idUser');
+    }
+    public function getSold($idUser, $balances)
+    {
+        $sold = $this->getSoldMainQuery($balances)
             ->where('u.beneficiary_id', $idUser)
             ->groupBy('u.beneficiary_id')
             ->first();

@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use App\Models\UserCurrentBalancehorisontal;
+use App\Services\Balances\Balances;
+use Core\Models\countrie;
+
 if (!function_exists('getUserBalanceSoldes')) {
     function getUserBalanceSoldes($idUser, $amount)
     {
@@ -95,14 +98,8 @@ if (!function_exists('getUserListCards')) {
 if (!function_exists('getAdminCash')) {
     function getAdminCash()
     {
-        // CHECKED IN BALANCES
-        // user_balances -> current userbalances horisontale
-
-        $value = DB::table('user_balances as u')
-            ->select(DB::raw('SUM(CASE WHEN b.io = "I" THEN u.value ELSE -u.value END) as value'))
-            ->join('balance_operations as b', 'u.idBalancesOperation', '=', 'b.id')
-            ->join('users as s', 'u.idUser', '=', 's.idUser')
-            ->where('u.idamount', 1)
+        // CONVERTED IN BALANCES
+        $value = Balances::getSoldMainQuery('cash_balance')
             ->where('s.is_representative', 1)
             ->get();
         return $value->pluck('value')->toArray();
@@ -111,16 +108,8 @@ if (!function_exists('getAdminCash')) {
 if (!function_exists('getUserCash')) {
     function getUserCash($user)
     {
-        // CHECKED IN BALANCES
-
-        // To remove
-
-
-        $value = DB::table('user_balances as u')
-            ->select(DB::raw('SUM(CASE WHEN b.io = "I" THEN u.value ELSE -u.value END) as value'))
-            ->join('balance_operations as b', 'u.idBalancesOperation', '=', 'b.id')
-            ->join('users as s', 'u.idUser', '=', 's.idUser')
-            ->where('u.idamount', 1)
+        // CONVERTED IN BALANCES --> to remove
+        $value = Balances::getSoldMainQuery('cash_balance')
             ->where('u.idUser', $user)
             ->get();
         return $value->pluck('value')->toArray();
@@ -130,25 +119,18 @@ if (!function_exists('getUserCash')) {
 if (!function_exists('getUsertransaction')) {
     function getUsertransaction($user)
     {
-        $count = DB::table('user_transactions')
-            ->where('idUser', $user)
-            ->count('*');
+        $count = DB::table('user_transactions')->where('idUser', $user)->count('*');
         if ($count > 0) {
-            $value = DB::table('user_transactions')
-                ->select('autorised', 'cause', 'mnt')
-                ->where('idUser', $user)
-                ->get();
+            $value = DB::table('user_transactions')->select('autorised', 'cause', 'mnt')->where('idUser', $user)->get();
             $value = [$value[0]->autorised, $value[0]->cause, $value[0]->mnt];
         } else
             $value = ["null", "null", "null"];
-
         return $value;
     }
 }
 if (!function_exists('delUsertransaction')) {
     function delUsertransaction($user)
     {
-
         $del = DB::table('user_transactions')
             ->where('idUser', $user)
             ->delete();
@@ -158,15 +140,15 @@ if (!function_exists('delUsertransaction')) {
 if (!function_exists('getPhoneByUser')) {
     function getPhoneByUser($user)
     {
-        $us = \App\Models\User::where('idUser', $user)->first();
+        $us = User::where('idUser', $user)->first();
         return $us ? $us->fullphone_number : NULL;
     }
 }
 if (!function_exists('getUserByPhone')) {
     function getUserByPhone($phone, $apha2)
     {
-        $id_country = \Core\Models\countrie::where('apha2', strtoupper($apha2))->first()->id;
-        $user = \App\Models\User::where('idCountry', $id_country)->where('mobile', $phone)->first();
+        $id_country = countrie::where('apha2', strtoupper($apha2))->first()->id;
+        $user = User::where('idCountry', $id_country)->where('mobile', $phone)->first();
         return $user ? $user->idUser : NULL;
     }
 }
