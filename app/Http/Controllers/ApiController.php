@@ -6,6 +6,8 @@ use App\DAL\UserRepository;
 use App\Models\Deal;
 use App\Models\User;
 use App\Models\vip;
+use App\Services\Balances\Balances;
+use App\Services\Balances\BalancesFacade;
 use App\Services\Sponsorship\SponsorshipFacade;
 use carbon;
 use Core\Enum\BalanceEnum;
@@ -76,11 +78,8 @@ class ApiController extends BaseController
         $gift = getGiftedActions($number_of_action);
         $actual_price = actualActionValue(getSelledActions(true), false);
         $PU = $number_of_action * ($actual_price) / ($number_of_action + $gift);
-        // CHECKed IN BALANCES
-        // $ref === balances::getReference($id)
-
-        $Count = DB::table('user_balances')->count();
-        $ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
+        // CONVERTED IN BALANCES
+        $ref = BalancesFacade::getRederence(44);
 
 
         $palier = Setting::Where('idSETTINGS', '19')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
@@ -240,13 +239,10 @@ class ApiController extends BaseController
                 throw new \Exception(Lang::get('Insuffisant cash solde'));
             }
 
-            // CHECKED IN BALANCES
-            // $ref === balances::getReference($id)
-
-            $Count = DB::table('user_balances')->count();
+            // CONVERTED IN BALANCES
 
             $user_balance = new user_balance();
-            $user_balance->ref = "42" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
+            $user_balance->ref =         BalancesFacade::getRederence(42);
             $user_balance->idBalancesOperation = 42;
             $user_balance->Date = now();
             $user_balance->idSource = auth()->user()->idUser;
@@ -261,7 +257,7 @@ class ApiController extends BaseController
 
 
             $user_balance = new user_balance();
-            $user_balance->ref = "43" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
+            $user_balance->ref =   BalancesFacade::getRederence(43);
             $user_balance->idBalancesOperation = 43;
             $user_balance->Date = now();
             $user_balance->idSource = Auth()->user()->idUser;
@@ -506,25 +502,14 @@ class ApiController extends BaseController
                 ->value('value');
 
 
-            // CHECKED IN BALANCES
-            // get user cash
+            // CONVERTED IN BALANCES
+            $value = Balances::getCash($user);
+            // CONVERTED IN BALANCES
 
-            $value = DB::table('user_balances as u')
-                ->select(DB::raw('SUM(CASE WHEN b.IO = "I" THEN u.value ELSE -u.value END) as value'))
-                ->join('balance_operations as b', 'u.idBalancesOperation', '=', 'b.id')
-                ->join('users as s', 'u.idUser', '=', 's.idUser')
-                ->where('u.idamount', 1)
-                ->where('u.idUser', $user)
-                ->first();
-
-            // CHECKED IN BALANCES
-            // $ref === balances::getReference($id)
-
-            $Count = DB::table('user_balances')->count();
             $value = $value->value * 1;
 
             $user_balance = new user_balance();
-            $user_balance->ref = "51" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
+            $user_balance->ref = Balances::getReference(51);
             $user_balance->idBalancesOperation = 51;
             $user_balance->Date = now();
             $user_balance->idSource = $user;
@@ -590,11 +575,9 @@ class ApiController extends BaseController
         try {
             $id = $request->input('id');
             $st = 0;
+            // CONVERTED IN BALANCES
 
-            // CHECKED IN BALANCES
-            // shares_balances
-            // WinPurchaseAmount ==>paied
-            DB::table('user_balances')->where('id', $id)->update(['WinPurchaseAmount' => $st]);
+            DB::table('shares_balances')->where('id', $id)->update(['payed' => $st]);
 
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
@@ -616,14 +599,10 @@ class ApiController extends BaseController
                 if ($st < $total) $p = 2;
                 if ($st == $total) $p = 1;
             }
-            // CHECKED IN BALANCES
-            // shares_balances
-            // WinPurchaseAmount ==>paied
-            // Balance ==>current balances
-
-            DB::table('user_balances')
+            // CONVETED IN BALANCES
+            DB::table('shares_balances')
                 ->where('id', $id)
-                ->update(['Balance' => floatval($st), 'WinPurchaseAmount' => $p]);
+                ->update(['current_balance' => floatval($st), 'payed' => $p]);
 
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
@@ -634,11 +613,10 @@ class ApiController extends BaseController
 
     public function getTransfert()
     {
-        // CHECKED IN BALANCES
-       //  cash_balances
+        // CONVERTD IN BALANCES
 
-        $query = DB::table('user_balances')->select('value', 'Description', 'Date')->where('idBalancesOperation', 42)
-            ->where('idUser', Auth()->user()->idUser)
+        $query = DB::table('cash_balances')->select('value', 'Description', 'created_at')->where('balance_operation_id', 42)
+            ->where('beneficiary_id', Auth()->user()->idUser)
             ->whereNotNull('Description');
 
 
@@ -651,15 +629,11 @@ class ApiController extends BaseController
 
     public function getUserCashBalance()
     {
-        // CHECKED IN BALANCES
-        // --> TO CHECK
-        // cash
-
-        $query = DB::table('user_balances')
-            ->select(DB::raw('DATE_FORMAT(Date, "%Y-%m-%d") AS x'), DB::raw('CAST(Balance AS DECIMAL(10,2)) AS y'))
-            ->where('idamount', 1)
-            ->where('idUser', auth()->user()->idUser)
-            ->orderBy('Date', 'asc')
+        // CONVERTED IN BALANCES
+        $query = DB::table('cash_balances')
+            ->select(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") AS x'), DB::raw('CAST(current_balance AS DECIMAL(10,2)) AS y'))
+            ->where('beneficiary_id', auth()->user()->idUser)
+            ->orderBy('created_at', 'asc')
             ->get();
 
         foreach ($query as $record) {
@@ -1001,12 +975,6 @@ class ApiController extends BaseController
             ->make(true);
     }
 
-    public function getUrlList($idUser, $idamount)
-    {
-        // CHECKED IN BALANCES
-        // to remove
-        return route('api_user_balances_list', ['locale' => app()->getLocale(), 'idUser' => $idUser, 'idAmounts' => $idamount]);
-    }
 
     public function getUserBalancesList($locale, $idUser, $idamount)
     {

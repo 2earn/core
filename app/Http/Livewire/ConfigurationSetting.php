@@ -25,11 +25,7 @@ class ConfigurationSetting extends Component
         'initSettingFunction' => 'initSettingFunction',
     ];
 
-    public function render()
-    {
-        $this->allAmounts = Amount::all();
-        return view('livewire.configuration-setting')->extends('layouts.master')->section('content');
-    }
+
 
     public function initSettingFunction($id)
     {
@@ -58,6 +54,12 @@ class ConfigurationSetting extends Component
         $setting->Description = $this->Description;
         $setting->save();
         $this->dispatchBrowserEvent('closeModal');
+    }
+
+    public function render()
+    {
+        $this->allAmounts = Amount::all();
+        return view('livewire.configuration-setting')->extends('layouts.master')->section('content');
     }
 
 }

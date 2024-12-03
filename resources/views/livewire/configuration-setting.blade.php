@@ -4,47 +4,28 @@
             {{ __('Configuration Settings') }}
         @endslot
     @endcomponent
-    <div class="row">
         <div class="card">
             <div class="card-body">
-                <div class="tab-content text-muted">
-                    <div
-                        class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                        id="setting" role="tabpanel">
-                        <div wire:ignore class="card-body">
-                            <div id="customerList">
-                                <div class="row ">
-                                    <div class="col-sm-auto">
-
-                                    </div>
-                                    <div class="table-responsive table-card mb-3">
-                                        <table
-                                            class="table table-bordered dt-responsive nowrap table-striped align-middle"
-                                            id="SettingsTable">
-                                            <thead class="table-light">
-                                            <tr>
-                                                <th>{{ __('id') }}</th>
-                                                <th>{{ __('Name of setting') }}</th>
-                                                <th>{{ __('IntegerValue') }}</th>
-                                                <th>{{ __('StringValue') }}</th>
-                                                <th>{{ __('DecimalValue') }}</th>
-                                                <th>{{ __('Unit') }}</th>
-                                                <th>{{ __('AutoCalculated') }}</th>
-                                                <th>{{ __('Actions') }}</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody class="list form-check-all">
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <table
+                    class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                    id="SettingsTable">
+                    <thead class="table-light">
+                    <tr>
+                        <th>{{ __('id') }}</th>
+                        <th>{{ __('Name of setting') }}</th>
+                        <th>{{ __('IntegerValue') }}</th>
+                        <th>{{ __('StringValue') }}</th>
+                        <th>{{ __('DecimalValue') }}</th>
+                        <th>{{ __('Unit') }}</th>
+                        <th>{{ __('AutoCalculated') }}</th>
+                        <th>{{ __('Actions') }}</th>
+                    </tr>
+                    </thead>
+                    <tbody class="list form-check-all">
+                    </tbody>
+                </table>
             </div>
         </div>
-    </div>
     <div wire:ignore.self class="modal fade" id="settingModal" tabindex="-1" style="z-index: 200000"
          aria-labelledby="settingsModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">

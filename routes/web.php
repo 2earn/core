@@ -231,7 +231,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/settings', 'App\Http\Controllers\ApiController@getSettings')->name('api_settings');
         Route::get('/balance/operations', 'App\Http\Controllers\ApiController@getBalanceOperations')->name('api_bal_operations');
         Route::get('/amounts', 'App\Http\Controllers\ApiController@getAmounts')->name('api_Amounts');
-        Route::get('/url/list/{idUser}/{idamount}', 'App\Http\Controllers\ApiController@getUrlList')->name('url_list');
         Route::get('/action/historys', 'App\Http\Controllers\ApiController@getActionHistorys')->name('api_action_history');
         Route::get('/user/contacts', 'App\Http\Controllers\ApiController@getUserContacts')->name('api_user_contacts');
         Route::get('/user-balances/{idAmounts}', 'App\Http\Controllers\ApiController@getUserBalances')->name('api_user_balances');

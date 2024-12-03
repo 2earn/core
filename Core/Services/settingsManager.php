@@ -847,22 +847,6 @@ class settingsManager
         return $this->userRepository->getConditionalUser($Attribute, $value);
     }
 
-    public function deleteUser($idUser)
-    {
-        // CHECKED IN BALANCES
-        // To delete
-        // --> TO CHECK
-        // check calls
-        DB::delete('delete from  user_balances where idSource = ? or idUser=? ', [$idUser, $idUser]);
-        DB::delete('delete from usercurrentbalances where idUser=? ', [$idUser]);
-        DB::delete('delete  from user_notification_setting where idUser = ?', [$idUser]);
-        DB::delete('delete from metta_users where idUser = ?', [$idUser]);
-        DB::delete('delete   from user_contacts where idUser = ? ', [$idUser]);
-        DB::delete('delete  from usercontactnumber where idUser = ?', [$idUser]);
-        DB::delete('delete from identificationuserrequest where idUser = ?', [$idUser]);
-        DB::delete('delete from users  where idUser = ? ', [$idUser]);
-    }
-
     public function getStatesContrie($CodePhone)
     {
         return $this->countriesRepository->getStates($CodePhone);

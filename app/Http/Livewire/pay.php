@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Livewire;
 
+use App\Services\Balances\BalancesFacade;
 use Illuminate\Http\Request as Req;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -28,8 +29,8 @@ class pay
         $ip='';
 
 
-        // CHECKED IN BALANCES
-        $cart_id = auth()->user()->idUser.'-'.DB::table('user_balances')->count()+1;
+        // CONVERTED IN BALANCES
+        $cart_id = auth()->user()->idUser.'-'.BalancesFacade::getBalanceCompter();
         $cart_amount=$request->amount;
 
         $pay= paypage::sendPaymentCode('all')

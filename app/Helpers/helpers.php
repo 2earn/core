@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
-
+use App\Models\UserCurrentBalancehorisontal;
 if (!function_exists('getUserBalanceSoldes')) {
     function getUserBalanceSoldes($idUser, $amount)
     {
@@ -36,7 +36,6 @@ if (!function_exists('validatePhone')) {
     {
         try {
             $country = DB::table('countries')->where('phonecode', $ccode)->first();
-
             $phone = new PhoneNumber($phone, $country->apha2);
             $phone->formatForCountry($country->apha2);
             return "1";
@@ -440,21 +439,22 @@ if (!function_exists('usdToSar')) {
     {
         return Setting::Where('idSETTINGS', '30')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
     }
+}
 
-    if (!function_exists('checkUserBalancesInReservation')) {
-        function checkUserBalancesInReservation($idUser)
-        {
-            $reservation = Setting::Where('idSETTINGS', '32')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
-            // CHECKED IN BALANCES
-            // user_balances -> action
-            $result = DB::table('user_balances as u')
-                ->where('idUser', $idUser)
-                ->select(DB::raw('TIMESTAMPDIFF(HOUR, ' . DB::raw('DATE') . ', NOW()))'))
-                ->where('idBalancesOperation', 44)
-                ->whereRaw('TIMESTAMPDIFF(HOUR, ' . DB::raw('DATE') . ', NOW()) < ?', [$reservation])
-                ->count();
-            return $result ?? null;
-        }
+if (!function_exists('checkUserBalancesInReservation')) {
+    function checkUserBalancesInReservation($idUser)
+    {
+        $reservation = Setting::Where('idSETTINGS', '32')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
+        // CHECKED IN BALANCES
+        // user_balances -> action
+
+        $result = DB::table('user_balances as u')
+            ->where('idUser', $idUser)
+            ->select(DB::raw('TIMESTAMPDIFF(HOUR, ' . DB::raw('DATE') . ', NOW()))'))
+            ->where('idBalancesOperation', 44)
+            ->whereRaw('TIMESTAMPDIFF(HOUR, ' . DB::raw('DATE') . ', NOW()) < ?', [$reservation])
+            ->count();
+        return $result ?? null;
     }
 }
 
@@ -473,6 +473,7 @@ if (!function_exists('getDecimals')) {
         return substr(number_format($number - intval($number), $decimals, '.', ','), 2);
     }
 }
+
 if (!function_exists('getUserDisplayedName')) {
     function getUserDisplayedName($idUser = null)
     {

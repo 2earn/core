@@ -7,7 +7,7 @@ use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
+use Core\Models\Setting;
 
 class UserBalanceObserver
 {
@@ -34,12 +34,9 @@ class UserBalanceObserver
         $table = [13, 14, 23, 24, 29, 46, 50];
 
         if (in_array($user_balance->idBalancesOperation, $table)) {
-            $setting = \Core\Models\Setting::WhereIn('idSETTINGS', ['22', '23'])->orderBy('idSETTINGS')->pluck('IntegerValue');
+            $setting = Setting::WhereIn('idSETTINGS', ['22', '23'])->orderBy('idSETTINGS')->pluck('IntegerValue');
             $md = $setting[0];
             $rc = $setting[1];
-            // CHECKED IN BALANCES
-            $Count = DB::table('user_balances')->count();
-           // BFS contol + add in discount
             $ub = new user_balance([
                 'ref' => $user_balance->ref,
                 'idBalancesOperation' => 47,
