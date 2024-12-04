@@ -24,12 +24,12 @@ if (!function_exists('getUserBalanceSoldes')) {
         // remove joins
         // 7 selon solde
         return match ($amount) {
-            1 => BalancesFacade::getCash($idUser),
-            2 => BalancesFacade::getBfss($idUser),
-            3 => BalancesFacade::getDiscount($idUser),
-            4 => BalancesFacade::getTree($idUser),
-            5 => BalancesFacade::getSms($idUser),
-            default => BalancesFacade::getCash($idUser),
+            1 =>  BalancesFacade::getCash($idUser),
+            2 =>  BalancesFacade::getBfss($idUser),
+            3 =>  BalancesFacade::getDiscount($idUser),
+            4 =>  BalancesFacade::getTree($idUser),
+            5 =>  BalancesFacade::getSms($idUser),
+            default =>  BalancesFacade::getCash($idUser),
         };
 
     }
@@ -99,7 +99,7 @@ if (!function_exists('getAdminCash')) {
     function getAdminCash()
     {
         // CONVERTED IN BALANCES
-        $value = Balances::getSoldMainQuery('cash_balance')
+        $value =  BalancesFacade::getSoldMainQuery('cash_balance')
             ->where('s.is_representative', 1)
             ->get();
         return $value->pluck('value')->toArray();
@@ -109,7 +109,7 @@ if (!function_exists('getUserCash')) {
     function getUserCash($user)
     {
         // CONVERTED IN BALANCES --> to remove
-        $value = Balances::getSoldMainQuery('cash_balance')
+        $value =  BalancesFacade::getSoldMainQuery('cash_balance')
             ->where('u.idUser', $user)
             ->get();
         return $value->pluck('value')->toArray();

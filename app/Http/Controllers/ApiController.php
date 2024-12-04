@@ -82,7 +82,7 @@ class ApiController extends BaseController
         $actual_price = actualActionValue(getSelledActions(true), false);
         $PU = $number_of_action * ($actual_price) / ($number_of_action + $gift);
         // CONVERTED IN BALANCES
-        $ref = BalancesFacade::getRederence(44);
+        $ref =  BalancesFacade::getRederence(44);
 
 
         $palier = Setting::Where('idSETTINGS', '19')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
@@ -604,13 +604,13 @@ class ApiController extends BaseController
 
 
             // CONVERTED IN BALANCES
-            $value = Balances::getCash($user);
+            $value =  BalancesFacade::getCash($user);
             // CONVERTED IN BALANCES
 
             $value = $value->value * 1;
             // user__balance old
             $user_balance = new user_balance();
-            $user_balance->ref = Balances::getReference(51);
+            $user_balance->ref =  BalancesFacade::getReference(51);
             $user_balance->idBalancesOperation = 51;
             $user_balance->Date = now();
             $user_balance->idSource = $user;
@@ -632,7 +632,7 @@ class ApiController extends BaseController
                 'balance_operation_id' => 51,
                 'operator_id' => $user,
                 'beneficiary_id' => $user,
-                'reference' => Balances::getReference(51),
+                'reference' =>  BalancesFacade::getReference(51),
                 'description' =>$data->tran_ref,
                 'value' =>$data->tran_total / $k,
                 'current_balance' => $value + $data->tran_total / $k

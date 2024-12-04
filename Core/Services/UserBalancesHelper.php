@@ -83,7 +83,7 @@ class  UserBalancesHelper
                 $date = date('Y-m-d H:i:s');
                 foreach ($SIOperation as $SI) {
                     // CONVERTED IN BALANCES
-                    $ref = Balances::getReference($SI->idBalanceOperations);
+                    $ref =  BalancesFacade::getReference($SI->idBalanceOperations);
                     if ($SI->idamounts == BalanceEnum::CASH->value) {
                         // user__balance old
                         $user_balance = new user_balance([
@@ -164,7 +164,7 @@ class  UserBalancesHelper
                 $BalancesOperation = DB::table('balance_operations')->where("id", "=", BalanceOperationsEnum::By_registering_TREE)->first();
                 $seting = DB::table('settings')->where("idSETTINGS", "=", SettingsEnum::discount_By_registering->value)->first();
                 // CONVERTED IN BALANCES
-                $ref = Balances::getReference($BalancesOperation->id);
+                $ref =  BalancesFacade::getReference($BalancesOperation->id);
 
                 $user_balance = new user_balance(
                     [
@@ -182,7 +182,7 @@ class  UserBalancesHelper
                 $BalancesOperation = DB::table('balance_operations')->where("id", "=", BalanceOperationsEnum::By_registering_DB)->first();
                 $seting = DB::table('settings')->where("idSETTINGS", "=", SettingsEnum::token_By_registering->value)->first();
                 // CONVERTED IN BALANCES
-                $ref = Balances::getReference($BalancesOperation->id);
+                $ref =  BalancesFacade::getReference($BalancesOperation->id);
                 $user_balance = new user_balance(
                     [
                         'ref' => $ref,
@@ -221,7 +221,7 @@ class  UserBalancesHelper
                 $date = date('Y-m-d H:i:s');
 
                 // CONVERTED IN BALANCES
-                $ref = Balances::getReference($BalancesOperation->id);
+                $ref =  BalancesFacade::getReference($BalancesOperation->id);
                 // user__balance old
 
                 $user_balance = new user_balance(
@@ -256,7 +256,7 @@ class  UserBalancesHelper
 
                 $BalancesOperation = DB::table('balance_operations')->where("id", BalanceOperationsEnum::From_CASH_Balance_BFS)->first();
                 // CONVERTED IN BALANCES
-                $ref = Balances::getReference($BalancesOperation->id);
+                $ref =  BalancesFacade::getReference($BalancesOperation->id);
                 // user__balance old
                 $user_balance = new user_balance(
                     [
@@ -296,7 +296,7 @@ class  UserBalancesHelper
                     BalanceOperationsEnum::BFS_TO_SMSn_BFS)->first();
                 $date = date('Y-m-d H:i:s');
                 // CONVERTED IN BALANCES
-                $ref = Balances::getReference($BalancesOperation->id);
+                $ref =  BalancesFacade::getReference($BalancesOperation->id);
                 // user__balance old
                 $user_balance = new user_balance(
                     [
@@ -328,7 +328,7 @@ class  UserBalancesHelper
 
                 $BalancesOperation = DB::table('balance_operations')->where("id", BalanceOperationsEnum::From_BFS_Balance_SMS)->first();
                 // CONVERTED IN BALANCES
-                $ref = Balances::getReference($BalancesOperation->id);
+                $ref =  BalancesFacade::getReference($BalancesOperation->id);
                 // user__balance old
                 $user_balance = new user_balance();
                 $user_balance->save(
@@ -369,7 +369,7 @@ class  UserBalancesHelper
                 $prix_sms = $seting->IntegerValue;
                 $date = date('Y-m-d H:i:s');
                 // CONVERTED IN BALANCES
-                $ref = Balances::getReference($BalancesOperation->id);
+                $ref =  BalancesFacade::getReference($BalancesOperation->id);
                 $user_balance = new user_balance([
                     'ref' => $ref,
                     'idBalancesOperation' => $BalancesOperation->id,
@@ -412,7 +412,7 @@ class  UserBalancesHelper
 
                 $BalancesOperation = DB::table('balance_operations')->where("id", BalanceOperationsEnum::to_Other_Users_public_CB)->first();
                 // CONVERTED IN BALANCES
-                $ref = Balances::getReference($BalancesOperation->id);
+                $ref =  BalancesFacade::getReference($BalancesOperation->id);
                 $user_balance = new  user_balance(
                     [
                         'ref' => $ref,
@@ -441,7 +441,7 @@ class  UserBalancesHelper
                 $BalancesOperation = DB::table('balance_operations')->where("id", BalanceOperationsEnum::From_public_User_BFS)->first();
                 $date = date('Y-m-d H:i:s');
                 // CONVERTED IN BALANCES
-                $ref = Balances::getReference($BalancesOperation->id);
+                $ref =  BalancesFacade::getReference($BalancesOperation->id);
                 $user_balance = new user_balance(
                     [
                         'ref' => $ref,
@@ -459,7 +459,7 @@ class  UserBalancesHelper
 
                 $BalancesOperation = DB::table('balance_operations')->where("id", BalanceOperationsEnum::to_Other_Users_public_BFS)->first();
                 // CONVERTED IN BALANCES
-                $ref = Balances::getReference($BalancesOperation->id);
+                $ref =  BalancesFacade::getReference($BalancesOperation->id);
                 $user_balance = new user_balance(
                     [
                         'ref' => $ref,
