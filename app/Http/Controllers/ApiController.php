@@ -161,11 +161,6 @@ class ApiController extends BaseController
         $user_balance->save();
         // user__balance new
         SharesBalances::addLine([
-            'item_id' => null,
-            'deal_id' => null,
-            'order_id' => null,
-            'platform_id' => 1,
-            'order_detail_id' => null,
             'balance_operation_id' => BalanceOperationsEnum::SELLED_SHARES,
             'operator_id' => Balances::SYSTEM_SOURCE_ID,
             'beneficiary_id' => $reciver,
@@ -176,11 +171,6 @@ class ApiController extends BaseController
             'current_balance' => ($number_of_action) * number_format($PU, 2, '.', '')
         ]);
         SharesBalances::addLine([
-            'item_id' => null,
-            'deal_id' => null,
-            'order_id' => null,
-            'platform_id' => 1,
-            'order_detail_id' => null,
             'balance_operation_id' => BalanceOperationsEnum::COMPLIMENTARY_BENEFITS_ON_PURCHASED_SHARES,
             'operator_id' => Balances::SYSTEM_SOURCE_ID,
             'beneficiary_id' => $reciver,
@@ -208,11 +198,6 @@ class ApiController extends BaseController
 
         // user__balance new
         CashBalances::addLine([
-            'item_id' => null,
-            'deal_id' => null,
-            'order_id' => null,
-            'platform_id' => 1,
-            'order_detail_id' => null,
             'balance_operation_id' => BalanceOperationsEnum::SELL_SHARES,
             'operator_id' => auth()->user()->idUser,
             'beneficiary_id' => auth()->user()->idUser,
@@ -238,11 +223,6 @@ class ApiController extends BaseController
 
         // user__balance new
         BFSsBalances::addLine([
-            'item_id' => null,
-            'deal_id' => null,
-            'order_id' => null,
-            'platform_id' => 1,
-            'order_detail_id' => null,
             'balance_operation_id' => BalanceOperationsEnum::BY_ACQUIRING_SHARES,
             'operator_id' => Balances::SYSTEM_SOURCE_ID,
             'beneficiary_id' => $reciver_bfs,
@@ -328,11 +308,6 @@ class ApiController extends BaseController
 
             // user__balance new
             CashBalances::addLine([
-                'item_id' => null,
-                'deal_id' => null,
-                'order_id' => null,
-                'platform_id' => 1,
-                'order_detail_id' => null,
                 'balance_operation_id' => BalanceOperationsEnum::SELL_SHARES,
                 'operator_id' => auth()->user()->idUser,
                 'beneficiary_id' => auth()->user()->idUser,
@@ -359,11 +334,6 @@ class ApiController extends BaseController
 
             // user__balance new
             CashBalances::addLine([
-                'item_id' => null,
-                'deal_id' => null,
-                'order_id' => null,
-                'platform_id' => 1,
-                'order_detail_id' => null,
                 'balance_operation_id' => BalanceOperationsEnum::CASH_TRANSFERT_I,
                 'operator_id' => auth()->user()->idUser,
                 'beneficiary_id' => $request->input('reciver'),
@@ -625,11 +595,6 @@ class ApiController extends BaseController
 
             // user__balance new
             CashBalances::addLine([
-                'item_id' => null,
-                'deal_id' => null,
-                'order_id' => null,
-                'platform_id' => 1,
-                'order_detail_id' => null,
                 'balance_operation_id' => BalanceOperationsEnum::PRICE_CHANGE,
                 'operator_id' => $user,
                 'beneficiary_id' => $user,

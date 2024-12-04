@@ -37,9 +37,9 @@ class SharesBalances extends Model
         return $this->belongsTo(User::class, 'beneficiary_id_auto');
     }
 
-    public function addLine($shareBalances)
+    public function addLine($shareBalances, $item_id = null, $deal_id = null, $order_id = null, $platform_id = null, $order_detail_id = null)
     {
-        $shareBalances = Balances::addAutomatedFields($shareBalances);
+        $shareBalances = Balances::addAutomatedFields($shareBalances, $item_id, $deal_id, $order_id, $platform_id, $order_detail_id);
         self::create($shareBalances);
     }
 }

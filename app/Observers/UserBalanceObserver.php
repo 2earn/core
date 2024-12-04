@@ -57,11 +57,6 @@ class UserBalanceObserver
             // user__balance new
             DiscountBalances::addLine(
                 [
-                    'item_id' => null,
-                    'deal_id' => null,
-                    'order_id' => null,
-                    'platform_id' => 1,
-                    'order_detail_id' => null,
                     'balance_operation_id' => BalanceOperationsEnum::FROM_BFS,
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
                     'beneficiary_id' => $user_balance->idUser,

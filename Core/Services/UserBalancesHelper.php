@@ -100,11 +100,6 @@ class  UserBalancesHelper
                         $user_balance->save();
                         // user__balance new
                         CashBalances::addLine([
-                            'item_id' => null,
-                            'deal_id' => null,
-                            'order_id' => null,
-                            'platform_id' => 1,
-                            'order_detail_id' => null,
                             'balance_operation_id' => $SI->idBalanceOperations,
                             'operator_id' => Balances::SYSTEM_SOURCE_ID,
                             'beneficiary_id' => $idUser,
@@ -131,11 +126,6 @@ class  UserBalancesHelper
                         // user__balance new
                         if ($SI->idamounts == BalanceEnum::BFS->value) {
                             BFSsBalances::addLine([
-                                'item_id' => null,
-                                'deal_id' => null,
-                                'order_id' => null,
-                                'platform_id' => 1,
-                                'order_detail_id' => null,
                                 'balance_operation_id' => $SI->idBalanceOperations,
                                 'operator_id' => Balances::SYSTEM_SOURCE_ID,
                                 'beneficiary_id' => $idUser,
@@ -146,11 +136,6 @@ class  UserBalancesHelper
                         } elseif ($SI->idamounts == BalanceEnum::DB->value) {
                             DiscountBalances::addLine(
                                 [
-                                    'item_id' => null,
-                                    'deal_id' => null,
-                                    'order_id' => null,
-                                    'platform_id' => 1,
-                                    'order_detail_id' => null,
                                     'balance_operation_id' => $SI->idBalanceOperations,
                                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
                                     'beneficiary_id' => $idUser,
@@ -241,11 +226,6 @@ class  UserBalancesHelper
 
                 // user__balance new
                 CashBalances::addLine([
-                    'item_id' => null,
-                    'deal_id' => null,
-                    'order_id' => null,
-                    'platform_id' => 1,
-                    'order_detail_id' => null,
                     'balance_operation_id' => BalanceOperationsEnum::SELL_SHARES,
                     'operator_id' => $idUser,
                     'beneficiary_id' => $idUser,
@@ -275,11 +255,6 @@ class  UserBalancesHelper
                 $user_balance->save();
                 // user__balance new
                 BFSsBalances::addLine([
-                    'item_id' => null,
-                    'deal_id' => null,
-                    'order_id' => null,
-                    'platform_id' => 1,
-                    'order_detail_id' => null,
                     'balance_operation_id' => BalanceOperationsEnum::From_CASH_Balance_BFS,
                     'operator_id' => $idUser,
                     'beneficiary_id' => $idUser,
@@ -313,11 +288,6 @@ class  UserBalancesHelper
                 $user_balance->save();
                 // user__balance new
                 BFSsBalances::addLine([
-                    'item_id' => null,
-                    'deal_id' => null,
-                    'order_id' => null,
-                    'platform_id' => 1,
-                    'order_detail_id' => null,
                     'balance_operation_id' => BalanceOperationsEnum::BFS_TO_SMSn_BFS,
                     'operator_id' => $idUser,
                     'beneficiary_id' => $idUser,
@@ -347,11 +317,6 @@ class  UserBalancesHelper
                 // user__balance new
                 SMSBalances::addLine(
                     [
-                        'item_id' => null,
-                        'deal_id' => null,
-                        'order_id' => null,
-                        'platform_id' => 1,
-                        'order_detail_id' => null,
                         'balance_operation_id' => BalanceOperationsEnum::From_BFS_Balance_SMS,
                         'operator_id' => $idUser,
                         'beneficiary_id' => $idUser,
