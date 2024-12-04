@@ -3,12 +3,9 @@
 namespace App\DAL;
 
 use App\Models\UserCurrentBalancehorisontal;
-use App\Services\Balances\Balances;
 use Core\Enum\BalanceOperationsEnum;
 use Core\Interfaces\IUserBalancesRepository;
-use Core\Models\calculated_userbalances;
 use Core\Models\user_balance;
-use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\Types\Collection;
 
 class  UserBalancesRepository implements IUserBalancesRepository
@@ -17,6 +14,7 @@ class  UserBalancesRepository implements IUserBalancesRepository
 
     public function getBalance($idUser, $decimals = 2)
     {
+        $calculetedUserBalances  = new \stdClass();
         $calculetedUserBalances->soldeCB = $calculetedUserBalances->soldeBFS = $calculetedUserBalances->soldeDB = $calculetedUserBalances->soldeT = $calculetedUserBalances->soldeSMS = self::SOLD_INIT;
         $calculetedUserBalances = UserCurrentBalancehorisontal::where('user_id', $idUser)->first();
         if (!is_null($calculetedUserBalances)) {
