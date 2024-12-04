@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Livewire\Platform;
+use App\Services\Balances\Balances;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -52,5 +53,12 @@ class BFSsBalances extends Model
     public function beneficiary()
     {
         return $this->belongsTo(User::class, 'beneficiary_id_auto');
+    }
+
+
+    public function addLine($bfssBalances)
+    {
+        $bfssBalances = Balances::addAutomatedFields($bfssBalances);
+        self::create($bfssBalances);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Livewire\Platform;
+use App\Services\Balances\Balances;
 use Core\Models\BalanceOperation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -58,4 +59,12 @@ class DiscountBalances extends Model
     {
         return $this->belongsTo(User::class, 'beneficiary_id_auto');
     }
+
+    public function addLine($discountBalances)
+    {
+        $discountBalances = Balances::addAutomatedFields($discountBalances);
+        self::create($discountBalances);
+    }
+
+
 }
