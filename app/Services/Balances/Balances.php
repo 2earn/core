@@ -73,8 +73,27 @@ class Balances
     {
         return self::getSold($idUser, 'sms_balances');
     }
-    public static function addAutomatedFields($balances)
+
+    public static function addAutomatedFields($balances, $item_id, $deal_id, $order_id, $platform_id, $order_detail_id)
     {
+        if (!is_null($item_id)) {
+            $balances['item_id'] = $item_id;
+        }
+        if (!is_null($deal_id)) {
+            $balances['deal_id'] = $deal_id;
+        }
+        if (!is_null($order_id)) {
+            $balances['order_id'] = $order_id;
+        }
+        if (!is_null($platform_id)) {
+            $balances['platform_id'] = $platform_id;
+        } else {
+            $balances['platform_id'] = 1;
+        }
+        if (!is_null($order_detail_id)) {
+            $balances['order_detail_id'] = $order_detail_id;
+        }
+
         if (!array_key_exists('beneficiary_id_auto', $balances) or is_null($balances['beneficiary_id_auto'])) {
             $balances['beneficiary_id_auto'] = User::where('idUser', $balances['beneficiary_id'])->first()->id;
         }
