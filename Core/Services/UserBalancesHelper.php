@@ -246,7 +246,7 @@ class  UserBalancesHelper
                     'order_id' => null,
                     'platform_id' => 1,
                     'order_detail_id' => null,
-                    'balance_operation_id' => 48,
+                    'balance_operation_id' => BalanceOperationsEnum::SELL_SHARES,
                     'operator_id' => $idUser,
                     'beneficiary_id' => $idUser,
                     'reference' => $ref,

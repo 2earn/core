@@ -41,6 +41,20 @@ enum BalanceOperationsEnum: int
     case BFS_TO_SMSn_BFS = 38;
     case From_BFS_Balance_SMS = 39;
     const Achat_SMS_SMS = 40;
+    const ACHAT_SMS = 41;
+    const CASH_TRANSFERT_O = 42;
+    const CASH_TRANSFERT_I = 43;
+    const SELLED_SHARES = 44;
+    const BY_ACQUIRING_SHARES = 46;
+    const FROM_BFS = 47;
+    const SELL_SHARES = 48;
+    const SPONSORSHIP_COMMISSION_CASH = 49;
+    const SPONSORSHIP_COMMISSION_BFS = 50;
+    const CASH_TOP_UP_WITH_CARD = 51;
+    const SPONSORSHIP_COMMISSION_SHARE = 52;
+    const PRICE_CHANGE = 53;
+    const COMPLIMENTARY_BENEFITS_ON_PURCHASED_SHARES = 54;
+    const VIP_BENEFITS_ON_PURCHASED_SHARES = 55;
 }
 
 

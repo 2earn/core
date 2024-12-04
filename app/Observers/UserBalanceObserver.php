@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\DiscountBalances;
 use App\Services\Balances\Balances;
+use Core\Enum\BalanceOperationsEnum;
 use Core\Models\user_balance;
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
@@ -61,7 +62,7 @@ class UserBalanceObserver
                     'order_id' => null,
                     'platform_id' => 1,
                     'order_detail_id' => null,
-                    'balance_operation_id' => 47,
+                    'balance_operation_id' => BalanceOperationsEnum::FROM_BFS,
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
                     'beneficiary_id' => $user_balance->idUser,
                     'reference' => $user_balance->ref,
