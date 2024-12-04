@@ -3,8 +3,13 @@
 namespace App\Services\Sponsorship;
 
 use App\DAL\UserRepository;
+use App\Models\BFSsBalances;
+use App\Models\CashBalances;
+use App\Models\SharesBalances;
 use App\Models\User;
+use App\Services\Balances\Balances;
 use Core\Enum\BalanceEnum;
+use Core\Enum\BalanceOperationsEnum;
 use Core\Models\Setting;
 use Core\Models\user_balance;
 use Core\Services\BalancesManager;
@@ -108,6 +113,7 @@ class Sponsorship
     public function executeProactifSponsorship($reserve, $ref, $number_of_action, $gift, $PU, $fullphone_number)
     {
         $amount = ($number_of_action + $gift) * $PU * $this->amount / 100;
+        // user__balance old
         $this->createUserBalances(
             $ref,
             44,
@@ -121,7 +127,20 @@ class Sponsorship
             'sponsorship commission from ' . $fullphone_number,
             0
         );
+        // user__balance new
+        SharesBalances::addLine([
+            'balance_operation_id' => BalanceOperationsEnum::COMPLIMENTARY_BENEFITS_ON_PURCHASED_SHARES,
+            'operator_id' => $this->isSource,
+            'beneficiary_id' => $reserve,
+            'reference' => $ref,
+            'unit_price' => 0,
+            'payed' => 1,
+            'value' => $number_of_action * $this->shares / 100,
+            'description' => 0,
+            'current_balance' => 0
+        ]);
 
+        // user__balance old
         $this->createUserBalances(
             $ref,
             49,
@@ -135,7 +154,18 @@ class Sponsorship
             'sponsorship commission from ' . $fullphone_number,
             $this->balancesManager->getBalances($reserve, -1)->soldeCB + $amount * $this->amountCash / 100
         );
+        // user__balance new
+        CashBalances::addLine([
+            'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_CASH,
+            'operator_id' => $this->isSource,
+            'beneficiary_id' => $reserve,
+            'reference' => $ref,
+            'description' => 'sponsorship commission from ' . $fullphone_number,
+            'value' => $amount * $this->amountCash / 100,
+            'current_balance' => $this->balancesManager->getBalances($reserve, -1)->soldeCB + $amount * $this->amountCash / 100
+        ]);
 
+        // user__balance old
         $this->createUserBalances(
             $ref,
             50,
@@ -149,6 +179,16 @@ class Sponsorship
             'sponsorship commission from ' . $fullphone_number,
             $this->balancesManager->getBalances($reserve, -1)->soldeBFS + $amount * $this->amountBFS / 100
         );
+        // user__balance new
+        BFSsBalances::addLine([
+            'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_BFS,
+            'operator_id' => $this->isSource,
+            'beneficiary_id' => $reserve,
+            'reference' => $ref,
+            'description' => 'sponsorship commission from ' . $fullphone_number,
+            'value' => $amount * $this->amountBFS / 100,
+            'current_balance' => $this->balancesManager->getBalances($reserve, -1)->soldeBFS + $amount * $this->amountBFS / 100
+        ]);
     }
 
 }

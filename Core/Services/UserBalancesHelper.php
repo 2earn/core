@@ -37,6 +37,7 @@ class  UserBalancesHelper
                 $Count = DB::table('user_balances')->count();
                 $ref = $operationSMS->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
                 $date = date('Y-m-d H:i:s');
+                // user__balance old
                 $id_balance = $this->userBalancesRepository->inserUserBalancestGetId(
                     $ref,
                     BalanceOperationsEnum::Achat_SMS_SMS,
@@ -46,6 +47,20 @@ class  UserBalancesHelper
                     $operationSMS->idamounts,
                     $value
                 );
+                // user__balance new
+                SMSBalances::addLine(
+                    [
+                        'balance_operation_id' =>BalanceOperationsEnum::Achat_SMS_SMS,
+                        'operator_id' => Balances::SYSTEM_SOURCE_ID,
+                        'beneficiary_id' => $idUserUpline,
+                        'reference' => $ref,
+                        'value' => $value,
+                        'sms_price' => null,
+                        'current_balance' => null
+                    ]
+                );
+
+
                 $soldes = DB::table('user_current_balance_verticals')
                     ->where('user_id', $idUserUpline)
                     ->where('balance_id', $operationSMS->idamounts)
