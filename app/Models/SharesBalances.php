@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\Balances\Balances;
 use Core\Models\BalanceOperation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,12 +22,10 @@ class SharesBalances extends Model
         'real_amount',
     ];
 
-
     public function balanceOperation()
     {
         return $this->hasOne(BalanceOperation::class);
     }
-
 
     public function operator()
     {
@@ -36,5 +35,11 @@ class SharesBalances extends Model
     public function beneficiary()
     {
         return $this->belongsTo(User::class, 'beneficiary_id_auto');
+    }
+
+    public function addLine($shareBalances)
+    {
+        $shareBalances = Balances::addAutomatedFields($shareBalances);
+        self::create($shareBalances);
     }
 }

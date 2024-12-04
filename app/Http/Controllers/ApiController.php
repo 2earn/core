@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\DAL\UserRepository;
+use App\Models\BFSsBalances;
 use App\Models\CashBalances;
 use App\Models\Deal;
+use App\Models\SharesBalances;
 use App\Models\User;
 use App\Models\vip;
 use App\Services\Balances\Balances;
@@ -140,6 +142,7 @@ class ApiController extends BaseController
 
         $this->userRepository->increasePurchasesNumber($reciver);
 
+        // user__balance old
         // share sold
         $user_balance = new user_balance();
         // Action
@@ -155,6 +158,39 @@ class ApiController extends BaseController
         $user_balance->WinPurchaseAmount = "1";
         $user_balance->Balance = ($number_of_action + $gift) * number_format($PU, 2, '.', '');
         $user_balance->save();
+        // user__balance new
+        SharesBalances::addLine([
+            'item_id' => null,
+            'deal_id' => null,
+            'order_id' => null,
+            'platform_id' => 1,
+            'order_detail_id' => null,
+            'balance_operation_id' => 44,
+            'operator_id' => Balances::SYSTEM_SOURCE_ID,
+            'beneficiary_id' => $reciver,
+            'reference' => $ref,
+            'unit_price' => $PU,
+            'payed' => 1,
+            'value' => $number_of_action,
+            'current_balance' => ($number_of_action) * number_format($PU, 2, '.', '')
+        ]);
+        SharesBalances::addLine([
+            'item_id' => null,
+            'deal_id' => null,
+            'order_id' => null,
+            'platform_id' => 1,
+            'order_detail_id' => null,
+            'balance_operation_id' => 54,
+            'operator_id' => Balances::SYSTEM_SOURCE_ID,
+            'beneficiary_id' => $reciver,
+            'reference' => $ref,
+            'unit_price' => $PU,
+            'payed' => 1,
+            'value' => $gift,
+            'current_balance' => ($gift) * number_format($PU, 2, '.', '')
+        ]);
+
+        // user__balance old
         // cach
         $user_balance = new user_balance();
         $user_balance->ref = $ref;
@@ -169,6 +205,23 @@ class ApiController extends BaseController
         $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeCB - ($number_of_action + $gift) * $PU;
         $user_balance->save();
 
+        // user__balance new
+        CashBalances::addLine([
+            'item_id' => null,
+            'deal_id' => null,
+            'order_id' => null,
+            'platform_id' => 1,
+            'order_detail_id' => null,
+            'balance_operation_id' => 48,
+            'operator_id' => auth()->user()->idUser,
+            'beneficiary_id' => auth()->user()->idUser,
+            'reference' => $ref,
+            'description' => "purchase of " . ($number_of_action + $gift) . " shares for " . $a,
+            'value' => ($number_of_action + $gift) * $PU,
+            'current_balance' => $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeCB - ($number_of_action + $gift) * $PU
+        ]);
+
+        // user__balance old
         //bfs
         $user_balance = new user_balance();
         $user_balance->ref = $ref;
@@ -181,8 +234,24 @@ class ApiController extends BaseController
         $user_balance->WinPurchaseAmount = "0.000";
         $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeBFS + intval($number_of_action / $palier) * $actual_price * $palier;
         $user_balance->save();
+
+        // user__balance new
+        BFSsBalances::addLine([
+            'item_id' => null,
+            'deal_id' => null,
+            'order_id' => null,
+            'platform_id' => 1,
+            'order_detail_id' => null,
+            'balance_operation_id' => 46,
+            'operator_id' => Balances::SYSTEM_SOURCE_ID,
+            'beneficiary_id' => $reciver_bfs,
+            'reference' => $ref,
+            'value' => intval($number_of_action / $palier) * $actual_price * $palier,
+            'current_balance' => $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeBFS + intval($number_of_action / $palier) * $actual_price * $palier
+        ]);
         return response()->json(['type' => ['success'], 'message' => [trans('Actions purchase transaction completed successfully')]]);
     }
+
 
     public function giftActionByAmmount(Req $request)
     {
@@ -241,6 +310,7 @@ class ApiController extends BaseController
             }
 
             // CONVERTED IN BALANCES
+            // user__balance old
 
             $user_balance = new user_balance();
             $user_balance->ref =         BalancesFacade::getRederence(42);
@@ -253,10 +323,26 @@ class ApiController extends BaseController
             $user_balance->WinPurchaseAmount = "0.000";
             $user_balance->Description = "Transfered to " . getPhoneByUser($request->input('reciver'));
             $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeCB - $request->input('amount');
-
             $user_balance->save();
 
+            // user__balance new
+            CashBalances::addLine([
+                'item_id' => null,
+                'deal_id' => null,
+                'order_id' => null,
+                'platform_id' => 1,
+                'order_detail_id' => null,
+                'balance_operation_id' => 48,
+                'operator_id' => auth()->user()->idUser,
+                'beneficiary_id' => auth()->user()->idUser,
+                'reference' => BalancesFacade::getRederence(42),
+                'description' => "Transfered to " . getPhoneByUser($request->input('reciver')),
+                'value' => $request->input('amount'),
+                'current_balance' => $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeCB - $request->input('amount')
+            ]);
 
+
+            // user__balance old
             $user_balance = new user_balance();
             $user_balance->ref =   BalancesFacade::getRederence(43);
             $user_balance->idBalancesOperation = 43;
@@ -268,9 +354,23 @@ class ApiController extends BaseController
             $user_balance->WinPurchaseAmount = "0.000";
             $user_balance->Description = "Transfered from " . getPhoneByUser(Auth()->user()->idUser);
             $user_balance->Balance = $balancesManager->getBalances($request->input('reciver'), -1)->soldeCB + $request->input('amount');
-
             $user_balance->save();
 
+            // user__balance new
+            CashBalances::addLine([
+                'item_id' => null,
+                'deal_id' => null,
+                'order_id' => null,
+                'platform_id' => 1,
+                'order_detail_id' => null,
+                'balance_operation_id' => 43,
+                'operator_id' => auth()->user()->idUser,
+                'beneficiary_id' => $request->input('reciver'),
+                'reference' => BalancesFacade::getRederence(43),
+                'description' => "Transfered from " . getPhoneByUser(Auth()->user()->idUser),
+                'value' => $request->input('amount'),
+                'current_balance' =>$balancesManager->getBalances($request->input('reciver'), -1)->soldeCB + $request->input('amount')
+            ]);
 
             $new_value = intval($old_value) - intval($request->amount);
             DB::table('usercurrentbalances')
@@ -508,7 +608,7 @@ class ApiController extends BaseController
             // CONVERTED IN BALANCES
 
             $value = $value->value * 1;
-
+            // user__balance old
             $user_balance = new user_balance();
             $user_balance->ref = Balances::getReference(51);
             $user_balance->idBalancesOperation = 51;
@@ -521,8 +621,27 @@ class ApiController extends BaseController
             $user_balance->Description = $data->tran_ref;
             $user_balance->Balance = $value + $data->tran_total / $k;
             $user_balance->save();
+
+            // user__balance new
+            CashBalances::addLine([
+                'item_id' => null,
+                'deal_id' => null,
+                'order_id' => null,
+                'platform_id' => 1,
+                'order_detail_id' => null,
+                'balance_operation_id' => 51,
+                'operator_id' => $user,
+                'beneficiary_id' => $user,
+                'reference' => Balances::getReference(51),
+                'description' =>$data->tran_ref,
+                'value' =>$data->tran_total / $k,
+                'current_balance' => $value + $data->tran_total / $k
+            ]);
+
             $mnt = $data->tran_total / $k;
             $new_value = intval($old_value) + $data->tran_total / $k;
+
+
             DB::table('usercurrentbalances')
                 ->where('idUser', $user)
                 ->where('idamounts', BalanceEnum::CASH)

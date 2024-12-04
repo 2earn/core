@@ -3,12 +3,14 @@
 namespace App\Services\Balances;
 
 use App\DAL\UserRepository;
+use App\Models\User;
 use Core\Services\BalancesManager;
 use Illuminate\Support\Facades\DB;
 
 class Balances
 {
     const DTAEFORMAT = 'dmY';
+    const SYSTEM_SOURCE_ID = '11111111';
 
     public function __construct(private UserRepository $userRepository, private BalancesManager $balancesManager)
     {
@@ -70,6 +72,13 @@ class Balances
     public static function getSms($idUser)
     {
         return self::getSold($idUser, 'sms_balances');
+    }
+    public static function addAutomatedFields($balances)
+    {
+        if (!array_key_exists('beneficiary_id_auto', $balances) or is_null($balances['beneficiary_id_auto'])) {
+            $balances['beneficiary_id_auto'] = User::where('idUser', $balances['beneficiary_id'])->first()->id;
+        }
+        return $balances;
     }
 
 
