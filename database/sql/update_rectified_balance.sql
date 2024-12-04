@@ -19,7 +19,7 @@ drop table IF EXISTS trait_balances;
 DROP VIEW IF EXISTS filtred_userbalance;
 DROP VIEW IF EXISTS rectified_userbalance;
 DROP VIEW IF EXISTS user_infos;
-TRUNCATE TABLE `2earn`.`debug_log`;
+TRUNCATE TABLE `debug_log`;
 INSERT INTO `debug_log` (`id`, `message`, `created_at`) VALUES (NULL, ' line number 23', current_timestamp());
 CREATE TABLE IF NOT EXISTS rectified_balances
 (
