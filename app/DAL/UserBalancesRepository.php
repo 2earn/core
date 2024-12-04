@@ -17,21 +17,14 @@ class  UserBalancesRepository implements IUserBalancesRepository
 
     public function getBalance($idUser, $decimals = 2)
     {
+        $calculetedUserBalances->soldeCB = $calculetedUserBalances->soldeBFS = $calculetedUserBalances->soldeDB = $calculetedUserBalances->soldeT = $calculetedUserBalances->soldeSMS = self::SOLD_INIT;
         $calculetedUserBalances = UserCurrentBalancehorisontal::where('user_id', $idUser)->first();
-
         if (!is_null($calculetedUserBalances)) {
             $calculetedUserBalances->soldeCB = formatSolde($calculetedUserBalances->cash_balance, $decimals);
             $calculetedUserBalances->soldeBFS = formatSolde($calculetedUserBalances->bfss_balance, $decimals);
             $calculetedUserBalances->soldeDB = formatSolde($calculetedUserBalances->discount_balance, $decimals);
             $calculetedUserBalances->soldeT = formatSolde($calculetedUserBalances->tree_balance, $decimals);
             $calculetedUserBalances->soldeSMS = formatSolde($calculetedUserBalances->sms_balance, $decimals);
-
-        } else {
-            $calculetedUserBalances->soldeCB = self::SOLD_INIT;
-            $calculetedUserBalances->soldeBFS = self::SOLD_INIT;
-            $calculetedUserBalances->soldeDB = self::SOLD_INIT;
-            $calculetedUserBalances->soldeT = self::SOLD_INIT;
-            $calculetedUserBalances->soldeSMS = self::SOLD_INIT;
         }
 
         return $calculetedUserBalances;
@@ -39,27 +32,13 @@ class  UserBalancesRepository implements IUserBalancesRepository
 
     public function getCurrentBalance($idUser)
     {
-        $calculetedUserBalances = new  calculated_userbalances;
-        $solde = DB::table('usercurrentbalances')
-            ->where("idUser", "=", $idUser)
-            ->select('dernier_value', 'idamounts')
-            ->get();
-        if ($solde->isNotEmpty()) {
-            $calculetedUserBalances->soldeCB = $solde->where("idamounts", "=", "1")->first()->dernier_value;
-            $calculetedUserBalances->soldeBFS = $solde->where("idamounts", "=", "2")->first()->dernier_value;
-            $calculetedUserBalances->soldeDB = $solde->where("idamounts", "=", "3")->first()->dernier_value;
-            $calculetedUserBalances->soldeT = $solde->where("idamounts", "4")->first()->dernier_value;
-        } else {
-            $calculetedUserBalances->soldeCB = self::SOLD_INIT;
-            $calculetedUserBalances->soldeBFS = self::SOLD_INIT;
-            $calculetedUserBalances->soldeDB = self::SOLD_INIT;
-            $calculetedUserBalances->soldeT = self::SOLD_INIT;
-        }
-        return $calculetedUserBalances;
+        return $this->getBalance($idUser, 2);
     }
 
     public function inserUserBalancestGetId($ref, BalanceOperationsEnum $operation, $date, $idSource, $iduserupline, $amount, $value)
     {
+        // Converted
+        // To be deleted
         $user_balance = new user_balance();
         $user_balance->ref = $ref;
         $user_balance->idBalancesOperation = $operation;

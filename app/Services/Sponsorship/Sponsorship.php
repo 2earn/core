@@ -86,6 +86,7 @@ class Sponsorship
 
     public function createUserBalances($ref, $idBalancesOperation, $idSource, $reserve, $idAmount, $value, $giftedShares, $PU, $winPurchaseAmount, $description, $balance): user_balance
     {
+        // TO be deleted
         $user_balance = new user_balance();
         $user_balance->ref = $ref;
         $user_balance->idBalancesOperation = $idBalancesOperation;
