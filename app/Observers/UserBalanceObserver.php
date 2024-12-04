@@ -57,7 +57,7 @@ class UserBalanceObserver
             // user__balance new
             DiscountBalances::addLine(
                 [
-                    'balance_operation_id' => BalanceOperationsEnum::FROM_BFS,
+                    'balance_operation_id' => BalanceOperationsEnum::FROM_BFS->value,
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
                     'beneficiary_id' => $user_balance->idUser,
                     'reference' => $user_balance->ref,

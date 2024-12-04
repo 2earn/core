@@ -321,7 +321,7 @@ class BalancesSeeder extends Seeder
         }
         if ($balance->Description == 'action5$') {
             $action = [
-                'balance_operation_id' => BalanceOperationsEnum::PRICE_CHANGE,
+                'balance_operation_id' => BalanceOperationsEnum::PRICE_CHANGE->value,
                 'operator_id' => $balance->idSource,
                 'beneficiary_id' => $balance->idUser,
                 'value' => $balance->gifted_shares,
@@ -345,7 +345,7 @@ class BalancesSeeder extends Seeder
                 return;
             }
             $action = [
-                'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_SHARE,
+                'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_SHARE->value,
                 'operator_id' => $balance->idSource,
                 'beneficiary_id' => $balance->idUser,
                 'value' => $balance->gifted_shares,
@@ -367,7 +367,7 @@ class BalancesSeeder extends Seeder
 
         if ($balance->gifted_shares == 0) {
             $action = [
-                'balance_operation_id' => BalanceOperationsEnum::SELLED_SHARES,
+                'balance_operation_id' => BalanceOperationsEnum::SELLED_SHARES->value,
                 'operator_id' => $balance->idSource,
                 'beneficiary_id' => $balance->idUser,
                 'value' => $balance->value,
@@ -389,7 +389,7 @@ class BalancesSeeder extends Seeder
 
         if ($balance->gifted_shares < $balance->value && $balance->gifted_shares > 0) {
             $action = [
-                'balance_operation_id' => BalanceOperationsEnum::SELLED_SHARES,
+                'balance_operation_id' => BalanceOperationsEnum::SELLED_SHARES->value,
                 'operator_id' => $balance->idSource,
                 'beneficiary_id' => $balance->idUser,
                 'value' => $balance->value,
@@ -409,7 +409,7 @@ class BalancesSeeder extends Seeder
             $this->insertToBalance($action, $balance->idamount);
 
             $giftedShares = [
-                'balance_operation_id' => BalanceOperationsEnum::COMPLIMENTARY_BENEFITS_ON_PURCHASED_SHARES,
+                'balance_operation_id' => BalanceOperationsEnum::COMPLIMENTARY_BENEFITS_ON_PURCHASED_SHARES->value,
                 'operator_id' => $balance->idSource,
                 'beneficiary_id' => $balance->idUser,
                 'value' => $balance->gifted_shares,
@@ -431,7 +431,7 @@ class BalancesSeeder extends Seeder
         if ($balance->gifted_shares > $balance->value) {
 
             $action = [
-                'balance_operation_id' => BalanceOperationsEnum::SELLED_SHARES,
+                'balance_operation_id' => BalanceOperationsEnum::SELLED_SHARES->value,
                 'operator_id' => $balance->idSource,
                 'beneficiary_id' => $balance->idUser,
                 'value' => $balance->value,
@@ -451,7 +451,7 @@ class BalancesSeeder extends Seeder
             $gf = $balance->gifted_shares - $balance->value;
 
             $giftedShares = [
-                'balance_operation_id' => BalanceOperationsEnum::COMPLIMENTARY_BENEFITS_ON_PURCHASED_SHARES,
+                'balance_operation_id' => BalanceOperationsEnum::COMPLIMENTARY_BENEFITS_ON_PURCHASED_SHARES->value,
                 'operator_id' => $balance->idSource,
                 'beneficiary_id' => $balance->idUser,
                 'value' => $gf,
@@ -470,7 +470,7 @@ class BalancesSeeder extends Seeder
             $this->insertToBalance($giftedShares, $balance->idamount);
 
             $vip = [
-                'balance_operation_id' => BalanceOperationsEnum::VIP_BENEFITS_ON_PURCHASED_SHARES,
+                'balance_operation_id' => BalanceOperationsEnum::VIP_BENEFITS_ON_PURCHASED_SHARES->value,
                 'operator_id' => $balance->idSource,
                 'beneficiary_id' => $balance->idUser,
                 'value' => $balance->gifted_shares - $gf,

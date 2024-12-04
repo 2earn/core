@@ -129,7 +129,7 @@ class Sponsorship
         );
         // user__balance new
         SharesBalances::addLine([
-            'balance_operation_id' => BalanceOperationsEnum::COMPLIMENTARY_BENEFITS_ON_PURCHASED_SHARES,
+            'balance_operation_id' => BalanceOperationsEnum::COMPLIMENTARY_BENEFITS_ON_PURCHASED_SHARES->value,
             'operator_id' => $this->isSource,
             'beneficiary_id' => $reserve,
             'reference' => $ref,
@@ -156,7 +156,7 @@ class Sponsorship
         );
         // user__balance new
         CashBalances::addLine([
-            'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_CASH,
+            'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_CASH->value,
             'operator_id' => $this->isSource,
             'beneficiary_id' => $reserve,
             'reference' => $ref,
@@ -181,7 +181,7 @@ class Sponsorship
         );
         // user__balance new
         BFSsBalances::addLine([
-            'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_BFS,
+            'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_BFS->value,
             'operator_id' => $this->isSource,
             'beneficiary_id' => $reserve,
             'reference' => $ref,
