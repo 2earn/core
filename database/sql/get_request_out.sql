@@ -1,4 +1,11 @@
-select recharge_requests.Date, user.name user  ,recharge_requests.payeePhone userphone, recharge_requests.amount
-from recharge_requests left join users user
-on user.idUser = recharge_requests.idPayee
-where recharge_requests.idSender = ?
+SELECT recharge_requests.Date,
+       USER.name USER,
+    recharge_requests.payeePhone userphone,
+    recharge_requests.amount
+FROM
+    recharge_requests
+    LEFT JOIN users USER
+ON
+    USER.idUser = recharge_requests.idPayee
+WHERE
+    recharge_requests.idSender =?

@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         DB::statement('DROP PROCEDURE IF EXISTS UpdateRectifiedBalance');
-        DB::statement(formatSqlWithEnv(getSqlFromPath('update_rectified_balance')));
+        DB::statement(formatSqlWithEnv(getSqlFromPath('update_rectified_balance_procedure')));
     }
 
     /**

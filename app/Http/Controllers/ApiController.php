@@ -105,8 +105,7 @@ class ApiController extends BaseController
         }
 
 
-        $vip = vip::Where('idUser', '=', $reciver)
-            ->where('closed', '=', false)->first();
+        $vip = vip::Where('idUser', '=', $reciver)->where('closed', '=', false)->first();
         if ($request->flash) {
             if ($vip->declenched) {
                 if ($number_of_action >= $request->actions) {
@@ -180,6 +179,18 @@ class ApiController extends BaseController
             'value' => $gift,
             'current_balance' => ($gift) * number_format($PU, 2, '.', '')
         ]);
+        if ($vip) {
+            SharesBalances::addLine([
+                'balance_operation_id' => BalanceOperationsEnum::VIP_BENEFITS_ON_PURCHASED_SHARES->value,
+                'operator_id' => Balances::SYSTEM_SOURCE_ID,
+                'beneficiary_id' => $reciver,
+                'reference' => $ref,
+                'unit_price' => $PU,
+                'payed' => 1,
+                'value' => $number_of_action - $gift,
+                'current_balance' => ($number_of_action - $gift) * number_format($PU, 2, '.', '')
+            ]);
+        }
 
         // user__balance old
         // cach
@@ -252,10 +263,7 @@ class ApiController extends BaseController
     {
         vip::where('idUser', $request->reciver)
             ->where('closed', '=', 0)
-            ->update([
-                'closed' => 1,
-                'closedDate' => now(),
-            ]);
+            ->update(['closed' => 1, 'closedDate' => now(),]);
 
         $maxShares = Setting::find(34);
         vip::create(
@@ -270,7 +278,6 @@ class ApiController extends BaseController
                 'solde' => $maxShares->IntegerValue,
                 'declenched' => 0,
                 'closed' => 0,
-
             ]
         );
         return "success";
@@ -616,11 +623,7 @@ class ApiController extends BaseController
 
         DB::table('user_transactions')->updateOrInsert(
             ['idUser' => $user],
-            [
-                'autorised' => $data->success,
-                'cause' => $data->payment_result->response_message,
-                'mnt' => $mnt
-            ]
+            ['autorised' => $data->success, 'cause' => $data->payment_result->response_message, 'mnt' => $mnt]
         );
         return redirect()->route('user_balance_cb', app()->getLocale());
     }
@@ -706,7 +709,6 @@ class ApiController extends BaseController
             ->where('balance_operation_id', BalanceOperationsEnum::CASH_TRANSFERT_O->value)
             ->where('beneficiary_id', Auth()->user()->idUser)
             ->whereNotNull('Description');
-
 
         return datatables($query)
             ->addColumn('formatted_created_at', function ($user_balance) {
@@ -831,7 +833,6 @@ class ApiController extends BaseController
     {
         // CHECKED IN BALANCES
         // --> TO CHECK
-
         $idUser = auth()->user()->idUser;
         $query = DB::select(getSqlFromPath('get_share_price_evolution_user'), [$idUser, $idUser]);
         foreach ($query as $record) {
