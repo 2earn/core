@@ -1330,7 +1330,20 @@ class ApiController extends BaseController
 
     public function getIdentificationRequest()
     {
-        $identifications = DB::select(getSqlFromPath('get_identification_request'), [StatusRequest::InProgressNational->value, StatusRequest::InProgressInternational->value]);
+        $identifications = IdentificationUserRequest::select(
+            'users1.id as id',
+            'users1.name as USER',
+            'users1.fullphone_number',
+            'identificationuserrequest.created_at as DateCreation',
+            'users2.name as Validator',
+            'identificationuserrequest.response',
+            'identificationuserrequest.responseDate as DateReponce',
+            'identificationuserrequest.note')
+            ->join('users as users1', 'identificationuserrequest.IdUser', '=', 'users1.idUser')
+            ->leftJoin('users as users2', 'identificationuserrequest.idUserResponse', '=', 'users2.idUser')
+            ->where('identificationuserrequest.status', StatusRequest::InProgressNational->value)
+            ->orWhere('identificationuserrequest.status', StatusRequest::InProgressInternational->value)
+            ->get();
         return datatables($identifications)
             ->addColumn('action', function ($identifications) {
                 return view('parts.datatable.identification-action', ['identifications' => $identifications]);
