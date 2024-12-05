@@ -1196,4 +1196,5 @@ drop table trait_balances;
 DROP VIEW IF EXISTS filtred_userbalance;
 DROP VIEW IF EXISTS rectified_userbalance;
 DROP VIEW IF EXISTS user_infos;
+UPDATE settings SET IntegerValue = new_code WHERE settings.ParameterName = 'BALANCES_COMPTER';
 END
