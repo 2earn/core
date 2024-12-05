@@ -112,11 +112,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/generating/pdf/report', \App\Http\Livewire\GeneratingPDFReport::class)->name('generating_pdf_report');
         });
 
-
         Route::get('/treeview', \App\Http\Livewire\treeview::class)->name('treeview');
-
-        Route::get('/treeview', \App\Http\Livewire\treeview::class)->name('treeview');
-
         Route::get('/user/balance-sms', UserBalanceSMS::class)->name('user_balance_sms');
         Route::get('/user/balance-cb', UserBalanceCB::class)->name('user_balance_cb');
         Route::get('/user/balance-db', UserBalanceDB::class)->name('user_balance_db');
