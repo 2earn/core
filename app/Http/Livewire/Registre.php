@@ -91,12 +91,6 @@ class Registre extends Component
             return redirect()->route('registre', app()->getLocale())->with('danger', Lang::get('User existe'));
         }
 
-        $contactNumberExist = UserContactNumber::where('mobile', $user->mobile)->where('codeP', $user->idCountry)->exists();
-
-        if ($contactNumberExist) {
-            return redirect()->route('registre', app()->getLocale())->with('danger', Lang::get('Phone number used for other user'));
-        }
-
         if ($user) {
             $newUser = $settingsManager->getUserById($user->id);
         }

@@ -3,6 +3,7 @@
 namespace App\DAL;
 
 use App\Models\UserCurrentBalancehorisontal;
+use App\Services\Balances\BalancesFacade;
 use Core\Enum\BalanceOperationsEnum;
 use Core\Interfaces\IUserBalancesRepository;
 use Core\Models\user_balance;

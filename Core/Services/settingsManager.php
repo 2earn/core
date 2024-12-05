@@ -300,10 +300,6 @@ class settingsManager
 
     public function createUserContactNumber(User $user, $iso)
     {
-        if (!UserContactNumber::where('mobile', $user->mobile)
-            ->where('idUser', $user->idUser)
-            ->where('codeP', $user->idCountry)
-            ->exists()) {
             UserContactNumber::Create([
                 'idUser' => $user->idUser,
                 'mobile' => $user->mobile,
@@ -313,7 +309,6 @@ class settingsManager
                 'isID' => true,
                 'fullNumber' => $user->fullphone_number,
             ]);
-        }
     }
 
     public function updateUserContactNumber(User $user, $iso)
