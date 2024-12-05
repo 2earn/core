@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class Balances
 {
-    const DTAEFORMAT = 'dmY';
+    const DATE_FORMAT = 'dmY';
     const SYSTEM_SOURCE_ID = '11111111';
 
     public function __construct(private UserRepository $userRepository, private BalancesManager $balancesManager)
@@ -29,7 +29,7 @@ class Balances
     public function getReference($balancesOperationId)
     {
         $date = new \DateTime('now');
-        return substr((string)pow(10, 3 - strlen($balancesOperationId)), 1) . $balancesOperationId . $date->format(self::DTAEFORMAT) . $this->getBalanceCompter();
+        return substr((string)pow(10, 3 - strlen($balancesOperationId)), 1) . $balancesOperationId . $date->format(self::DATE_FORMAT) . $this->getBalanceCompter();
     }
 
     public static function getSoldMainQuery($balances)

@@ -945,9 +945,7 @@
         var urlLang = "https://cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
         $('#customerTable2').DataTable({
             order: [[1, 'desc']],
-            "language": {
-                "url": urlLang
-            }
+            "language": {"url": urlLang},
         });
     </script>
 </div>

@@ -414,9 +414,7 @@
                             },
                         },
                     ],
-                "language": {
-                    "url": urlLang
-                }
+                "language": {"url": urlLang},
             });
         });
 
