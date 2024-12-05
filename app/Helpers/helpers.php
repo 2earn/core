@@ -99,7 +99,7 @@ if (!function_exists('getAdminCash')) {
     function getAdminCash()
     {
         // CONVERTED IN BALANCES
-        $value =  BalancesFacade::getSoldMainQuery('cash_balance')
+        $value =  BalancesFacade::getSoldMainQuery('cash_balances')
             ->where('s.is_representative', 1)
             ->get();
         return $value->pluck('value')->toArray();
@@ -109,7 +109,7 @@ if (!function_exists('getUserCash')) {
     function getUserCash($user)
     {
         // CONVERTED IN BALANCES --> to remove
-        $value =  BalancesFacade::getSoldMainQuery('cash_balance')
+        $value =  BalancesFacade::getSoldMainQuery('cash_balances')
             ->where('u.idUser', $user)
             ->get();
         return $value->pluck('value')->toArray();
