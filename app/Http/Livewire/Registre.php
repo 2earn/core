@@ -8,6 +8,7 @@ use App\Models\User;
 use Core\Enum\StatusRequest;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
+use Core\Models\UserContactNumber;
 use Core\Services\settingsManager;
 use Core\Services\TransactionManager;
 use Illuminate\Support\Facades\Crypt;
@@ -87,8 +88,15 @@ class Registre extends Component
             $newUser = $this->initNewUser();
         }
         if ($user && $user->status != -2) {
-            return redirect()->route('registre', app()->getLocale())->with('danger', Lang::get('UserExiste'));
+            return redirect()->route('registre', app()->getLocale())->with('danger', Lang::get('User existe'));
         }
+
+        $contactNumberExist = UserContactNumber::where('mobile', $user->mobile)->where('codeP', $user->idCountry)->exists();
+
+        if ($contactNumberExist) {
+            return redirect()->route('registre', app()->getLocale())->with('danger', Lang::get('Phone number used for other user'));
+        }
+
         if ($user) {
             $newUser = $settingsManager->getUserById($user->id);
         }
