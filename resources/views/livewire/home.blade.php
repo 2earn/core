@@ -43,7 +43,7 @@
         </div>
     @endif
     <div class="row mb-2">
-        <div class="col-xl-3 col-md-6 solde-cash">
+        <div class="col-xl-4 col-md-3 solde-cash">
             <div class="card card-animate">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -110,12 +110,12 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6 solde-bfs">
+        <div class="col-xl-4 col-md-3 solde-bfs">
             <div class="card card-animate">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Balance For Shopping') }}</p>
+                            <p class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Balance for Shopping') }}</p>
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
@@ -172,7 +172,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6 solde-discount">
+        <div class="col-xl-4 col-md-3 solde-discount">
             <div class="card card-animate">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -235,7 +235,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6 solde-sms">
+        <div class="col-xl-3 col-md-6 solde-sms">
             <div class="card card-animate">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -254,6 +254,68 @@
                                 <span class="counter-value" data-target="{{$SMSBalance}}">{{$SMSBalance}}</span>
                             </h4>
                             <a href="{{route('user_balance_sms' , app()->getLocale() )}} "
+                               class="text-decoration-underline">{{ __('see_details') }}</a>
+                        </div>
+                        <div class="avatar-sm flex-shrink-0">
+                            <lord-icon src="{{ URL::asset('build/icons/981-consultation-gradient-edited.json') }}"
+                                       trigger="loop"
+                                       colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
+                            </lord-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 solde-tree">
+            <div class="card card-animate">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1 overflow-hidden">
+                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">{{ __('Tree Solde') }}</p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <h5 class="text-success fs-14 mb-0">
+                                {{$treeBalance}}
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-end justify-content-between mt-4">
+                        <div>
+                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                <span class="counter-value" data-target="{{$treeBalance}}">{{$treeBalance}}</span>
+                            </h4>
+                            <a href="{{route('user_balance_tree' , app()->getLocale() )}} "
+                               class="text-decoration-underline">{{ __('see_details') }}</a>
+                        </div>
+                        <div class="avatar-sm flex-shrink-0">
+                            <lord-icon src="{{ URL::asset('build/icons/981-consultation-gradient-edited.json') }}"
+                                       trigger="loop"
+                                       colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
+                            </lord-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 solde-chance">
+            <div class="card card-animate">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1 overflow-hidden">
+                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">{{ __('Chance Solde') }}</p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <h5 class="text-success fs-14 mb-0">
+                                {{$chanceBalance}}
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-end justify-content-between mt-4">
+                        <div>
+                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                <span class="counter-value" data-target="{{$chanceBalance}}">{{$chanceBalance}}</span>
+                            </h4>
+                            <a href="{{route('user_balance_chance' , app()->getLocale() )}} "
                                class="text-decoration-underline">{{ __('see_details') }}</a>
                         </div>
                         <div class="avatar-sm flex-shrink-0">

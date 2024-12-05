@@ -16,7 +16,10 @@ class  UserBalancesRepository implements IUserBalancesRepository
     public function getBalance($idUser, $decimals = 2)
     {
         $calculetedUserBalances  = new \stdClass();
-        $calculetedUserBalances->soldeCB = $calculetedUserBalances->soldeBFS = $calculetedUserBalances->soldeDB = $calculetedUserBalances->soldeT = $calculetedUserBalances->soldeSMS = self::SOLD_INIT;
+        $calculetedUserBalances->soldeCB = $calculetedUserBalances->soldeBFS =
+        $calculetedUserBalances->soldeDB = $calculetedUserBalances->soldeT =
+        $calculetedUserBalances->soldeSMS = $calculetedUserBalances->soldeChance =
+        $calculetedUserBalances->soldeTree = self::SOLD_INIT;
         $calculetedUserBalances = UserCurrentBalancehorisontal::where('user_id', $idUser)->first();
         if (!is_null($calculetedUserBalances)) {
             $calculetedUserBalances->soldeCB = formatSolde($calculetedUserBalances->cash_balance, $decimals);
@@ -24,6 +27,8 @@ class  UserBalancesRepository implements IUserBalancesRepository
             $calculetedUserBalances->soldeDB = formatSolde($calculetedUserBalances->discount_balance, $decimals);
             $calculetedUserBalances->soldeT = formatSolde($calculetedUserBalances->tree_balance, $decimals);
             $calculetedUserBalances->soldeSMS = formatSolde($calculetedUserBalances->sms_balance, $decimals);
+            $calculetedUserBalances->soldeChance = formatSolde($calculetedUserBalances->chances_balance, $decimals);
+            $calculetedUserBalances->soldeTree = formatSolde($calculetedUserBalances->tree_balance, $decimals);
         }
 
         return $calculetedUserBalances;

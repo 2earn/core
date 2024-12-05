@@ -1108,6 +1108,21 @@ class ApiController extends BaseController
             ->make(true);
     }
 
+    public function getTreeUser()
+    {
+        $user = $this->settingsManager->getAuthUser();
+        if (!$user) $user->idUser = '';
+        $userData = DB::select(getSqlFromPath('get_purchase_bfs_user'), [2, $user->idUser]);
+        return datatables($userData)->make(true);
+    }
+
+    public function getChanceUser()
+    {
+        $user = $this->settingsManager->getAuthUser();
+        if (!$user) $user->idUser = '';
+        $userData = DB::select(getSqlFromPath('get_purchase_bfs_user'), [2, $user->idUser]);
+        return datatables($userData)->make(true);
+    }
     public function getPurchaseBFSUser()
     {
         $user = $this->settingsManager->getAuthUser();

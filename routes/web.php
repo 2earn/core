@@ -121,6 +121,8 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/user/balance-cb', UserBalanceCB::class)->name('user_balance_cb');
         Route::get('/user/balance-db', UserBalanceDB::class)->name('user_balance_db');
         Route::get('/user/balance-bfs', UserBalanceBFS::class)->name('user_balance_bfs');
+        Route::get('/user/balance-tree', \App\Http\Livewire\UserBalanceTree::class)->name('user_balance_tree');
+        Route::get('/user/balance-chance', \App\Http\Livewire\UserBalanceChance::class)->name('user_balance_chance');
         Route::get('/financial/transaction', FinancialTransaction::class)->name('financial_transaction');
         Route::get('/contact-number', ContactNumber::class)->name('contact_number');
         Route::get('/user/edit-contact', EditUserContact::class)->name('user_contact_edit');
@@ -248,6 +250,8 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/user/manager', 'App\Http\Controllers\ApiController@getAllUsers')->name('api_user_manager');
         Route::get('/user/invitations', 'App\Http\Controllers\ApiController@getInvitationsUser')->name('api_user_invitations');
         Route::get('/user/purchaseBFS', 'App\Http\Controllers\ApiController@getPurchaseBFSUser')->name('api_user_bfs_purchase');
+        Route::get('/user/tree', 'App\Http\Controllers\ApiController@getTreeUser')->name('api_user_tree');
+        Route::get('/user/chance', 'App\Http\Controllers\ApiController@getChanceUser')->name('api_user_chance');
         Route::post('/paytabs/notification', 'App\Http\Controllers\ApiController@handlePaymentNotification')->name('notification_from_paytabs')->withoutMiddleware('web');
         Route::get('/target/{idTarget}/data', [\App\Http\Controllers\TargetController::class, 'getTargetData'])->name('api_target_data');
 
