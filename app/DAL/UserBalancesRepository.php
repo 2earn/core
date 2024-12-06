@@ -57,7 +57,6 @@ class  UserBalancesRepository implements IUserBalancesRepository
 
     public function getSoldeByAmount($idUser, $idamount)
     {
-        // CONVERTED IN BALANCES
         return match ($idamount) {
             1 =>  BalancesFacade::getCash($idUser),
             2 =>  BalancesFacade::getBfss($idUser),

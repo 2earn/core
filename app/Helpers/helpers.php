@@ -19,10 +19,6 @@ use Core\Models\countrie;
 if (!function_exists('getUserBalanceSoldes')) {
     function getUserBalanceSoldes($idUser, $amount)
     {
-        // CONVERTED IN BALANCES
-        // from user current balances horizontale
-        // remove joins
-        // 7 selon solde
         return match ($amount) {
             1 =>  BalancesFacade::getCash($idUser),
             2 =>  BalancesFacade::getBfss($idUser),
@@ -98,7 +94,6 @@ if (!function_exists('getUserListCards')) {
 if (!function_exists('getAdminCash')) {
     function getAdminCash()
     {
-        // CONVERTED IN BALANCES
         $value =  BalancesFacade::getSoldMainQuery('cash_balances')
             ->where('s.is_representative', 1)
             ->get();
@@ -108,7 +103,6 @@ if (!function_exists('getAdminCash')) {
 if (!function_exists('getUserCash')) {
     function getUserCash($user)
     {
-        // CONVERTED IN BALANCES --> to remove
         $value =  BalancesFacade::getSoldMainQuery('cash_balances')
             ->where('u.idUser', $user)
             ->get();

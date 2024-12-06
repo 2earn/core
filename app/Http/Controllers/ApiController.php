@@ -602,7 +602,6 @@ class ApiController extends BaseController
 
     public function getUserCashBalance()
     {
-        // CONVERTED IN BALANCES
         $query = DB::table('cash_balances')
             ->select(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") AS x'), DB::raw('CAST(current_balance AS DECIMAL(10,2)) AS y'))
             ->where('beneficiary_id', auth()->user()->idUser)

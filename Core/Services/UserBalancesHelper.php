@@ -63,14 +63,8 @@ class  UserBalancesHelper
                     ]
                 );
 
-
-                $soldes = DB::table('user_current_balance_verticals')
-                    ->where('user_id', $idUserUpline)
-                    ->where('balance_id', $operationSMS->idamounts)
-                    ->first();
-
-                // CONVERTED IN BALANCES
-                DB::table('sms_balances')->where('id', $id_balance)->update(['current_balance' => $soldes->solde]);
+                $soldesLine = DB::table('user_current_balance_horisentals')->where('user_id', $idUserUpline)->first();
+                DB::table('sms_balances')->where('id', $id_balance)->update(['current_balance' => $soldesLine->sms_balance]);
                 break;
         }
     }
