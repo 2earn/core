@@ -232,54 +232,9 @@ class  UserBalancesHelper
                 $soldeRecipient = $this->balanceOperationmanager->getBalances($params['recipient']);
                 $newSoldeBFSRecipient = floatval($soldeRecipient->soldeBFS) + floatval($params['montant']);
                 $newSoldeCashSender = floatval($soldeSender->soldeBFS) - floatval($params['montant']);
-                $BalancesOperation = DB::table('balance_operations')->where("id", BalanceOperationsEnum::FROM_PUBLIC_USER_BFS->value)->first();
-                $date = date('Y-m-d H:i:s');
-                // CONVERTED IN BALANCES
-                $ref =  BalancesFacade::getReference(BalanceOperationsEnum::FROM_PUBLIC_USER_BFS->value);
-                // user__balance OLD
-                $user_balance = new user_balance(
-                    [
-                        'ref' => $ref,
-                        'idBalancesOperation' => BalanceOperationsEnum::FROM_PUBLIC_USER_BFS->value,
-                        'Date' => $date,
-                        'idSource' => $idUser,
-                        'idUser' => $params['recipient'],
-                        'idamount' => $BalancesOperation->amounts_id,
-                        'value' => $params["montant"],
-                        'WinPurchaseAmount' => "0.000",
-                        'Balance' => $newSoldeBFSRecipient
-                    ]
-                );
-                $user_balance->save();
-                // user__balance new
-                BFSsBalances::addLine([
-                    'balance_operation_id' => BalanceOperationsEnum::FROM_PUBLIC_USER_BFS->value,
-                    'operator_id' => $idUser,
-                    'beneficiary_id' => $params['recipient'],
-                    'reference' => $ref,
-                    'value' => $params["montant"],
-                    'current_balance' => $newSoldeBFSRecipient
-                ]);
 
-                $BalancesOperation = DB::table('balance_operations')->where("id", BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_BFS->value)->first();
-                // CONVERTED IN BALANCES
-                $ref =  BalancesFacade::getReference(BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_BFS->value);
-                // user__balance old
-                $user_balance = new user_balance(
-                    [
-                        'ref' => $ref,
-                        'idBalancesOperation' => BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_BFS->value,
-                        'Date' => $date,
-                        'idSource' => $idUser,
-                        'idUser' => $idUser,
-                        'idamount' => $BalancesOperation->amounts_id,
-                        'value' => $params["montant"],
-                        'WinPurchaseAmount' => "0.000",
-                        'Balance' => $newSoldeCashSender
-                    ]
-                );
-                $user_balance->save();
-                // user__balance new
+                $ref = BalancesFacade::getReference(BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_BFS->value);
+
                 BFSsBalances::addLine([
                     'balance_operation_id' => BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_BFS->value,
                     'operator_id' => $idUser,
@@ -288,7 +243,14 @@ class  UserBalancesHelper
                     'value' => $params["montant"],
                     'current_balance' => $newSoldeCashSender
                 ]);
-
+                BFSsBalances::addLine([
+                    'balance_operation_id' => BalanceOperationsEnum::FROM_PUBLIC_USER_BFS->value,
+                    'operator_id' => $idUser,
+                    'beneficiary_id' => $params['recipient'],
+                    'reference' => $ref,
+                    'value' => $params["montant"],
+                    'current_balance' => $newSoldeBFSRecipient
+                ]);
                 break;
         }
     }
