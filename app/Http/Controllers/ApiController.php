@@ -949,9 +949,26 @@ class ApiController extends BaseController
 
     public function getUserBalancesList($locale, $idUser, $idamount)
     {
-        // CHECKED IN BALANCES
-        $userData = DB::select(getSqlFromPath('get_user_balances_list'), [$idUser, $idamount]);
-        return response()->json($userData);
+        $results = DB::table('user_balances as u')
+            ->select(
+                'u.ref',
+                'u.idUser',
+                'u.idamount',
+                'u.Date',
+                'u.idBalancesOperation',
+                'b.operation',
+                'u.Description',
+                DB::raw("CASE WHEN b.IO = 'I' THEN u.value ELSE -u.value END AS value"),
+                'u.balance'
+            )
+            ->join('balance_operations as b', 'u.idBalancesOperation', '=', 'b.id')
+            ->join('users as s', 'u.idUser', '=', 's.idUser')
+            ->where('u.idamount', '!=', 4)
+            ->where('u.idamount', '!=', 6)
+            ->where('u.idUser', $idUser)
+            ->where('u.idamount', $idamount)
+            ->orderBy('u.Date')->get();
+        return response()->json($results);
     }
 
     public function getUserBalances($locale, $typeAmounts)
@@ -1234,14 +1251,6 @@ class ApiController extends BaseController
             ->make(true);
     }
 
-    public function getUserBalancesCB()
-    {
-        $user = $this->settingsManager->getAuthUser();
-        if (!$user) $user->idUser = '';
-        // CHECKED IN BALANCES
-        $userData = DB::select(getSqlFromPath('get_user_balances_cb'), [1, $user->idUser]);
-        return datatables($userData)->make(true);
-    }
 
     public function getPurchaseUser()
     {
