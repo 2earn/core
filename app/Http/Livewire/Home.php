@@ -88,7 +88,6 @@ class Home extends Component
         $this->cashBalance = $solde->soldeCB;
         $this->balanceForSopping = $solde->soldeBFS;
         $this->discountBalance = $solde->soldeDB;
-        $this->discountBalance = $solde->soldeDB;
         $this->treeBalance = $solde->soldeTree;
         $this->chanceBalance = $solde->soldeChance;
         $this->SMSBalance = intval($solde->soldeSMS);

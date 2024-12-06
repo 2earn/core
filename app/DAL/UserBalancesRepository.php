@@ -30,7 +30,6 @@ class  UserBalancesRepository implements IUserBalancesRepository
             $calculetedUserBalances->soldeChance = formatSolde($calculetedUserBalances->chances_balance, $decimals);
             $calculetedUserBalances->soldeTree = formatSolde($calculetedUserBalances->tree_balance, $decimals);
         }
-
         return $calculetedUserBalances;
     }
 

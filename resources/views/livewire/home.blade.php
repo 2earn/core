@@ -288,7 +288,7 @@
                                class="text-decoration-underline">{{ __('see_details') }}</a>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
-                            <lord-icon src="{{ URL::asset('build/icons/981-consultation-gradient-edited.json') }}"
+                            <lord-icon src="{{ URL::asset('build/icons/1855-palmtree.json') }}"
                                        trigger="loop"
                                        colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
                             </lord-icon>
@@ -319,7 +319,7 @@
                                class="text-decoration-underline">{{ __('see_details') }}</a>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
-                            <lord-icon src="{{ URL::asset('build/icons/981-consultation-gradient-edited.json') }}"
+                            <lord-icon src="{{ URL::asset('build/icons/1471-dice-cube.json') }}"
                                        trigger="loop"
                                        colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
                             </lord-icon>
