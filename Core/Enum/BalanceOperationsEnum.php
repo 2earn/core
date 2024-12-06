@@ -55,6 +55,8 @@ enum BalanceOperationsEnum: int
     const PRICE_CHANGE = 53;
     const COMPLIMENTARY_BENEFITS_ON_PURCHASED_SHARES = 54;
     const VIP_BENEFITS_ON_PURCHASED_SHARES = 55;
+    const INITIAL_CHANE = 56;
+
 }
 
 

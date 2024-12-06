@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Livewire\Platform;
+use App\Services\Balances\Balances;
 use Core\Models\BalanceOperation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -63,5 +64,12 @@ class ChanceBalances extends Model
     public function chanceable(): MorphTo
     {
         return $this->morphTo();
+    }
+
+
+    public function addLine($chanceBalances, $item_id = null, $deal_id = null, $order_id = null, $platform_id = null, $order_detail_id = null)
+    {
+        $chanceBalances = Balances::addAutomatedFields($chanceBalances, $item_id, $deal_id, $order_id, $platform_id, $order_detail_id);
+        self::create($chanceBalances);
     }
 }

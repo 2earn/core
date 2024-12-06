@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Livewire\Platform;
+use App\Services\Balances\Balances;
 use Core\Models\BalanceOperation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -52,5 +53,11 @@ class TreeBalances extends Model
     public function beneficiary()
     {
         return $this->belongsTo(User::class, 'beneficiary_id_auto');
+    }
+
+    public function addLine($treeBalances, $item_id = null, $deal_id = null, $order_id = null, $platform_id = null, $order_detail_id = null)
+    {
+        $treeBalances = Balances::addAutomatedFields($treeBalances, $item_id, $deal_id, $order_id, $platform_id, $order_detail_id);
+        self::create($treeBalances);
     }
 }
