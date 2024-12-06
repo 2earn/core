@@ -1250,27 +1250,6 @@ class ApiController extends BaseController
         return datatables($userData)->make(true);
     }
 
-
-    public function getAllUsers()
-    {
-        $userData = DB::select(getSqlFromPath('get_all_users'));
-
-        return datatables($userData)
-            ->addColumn('action', function ($userLine) {
-                return view('parts.datatable.all-users-action', ['userLine' => $userLine]);
-            })
-            ->editColumn('status', function ($userData) {
-                return view('parts.datatable.all-users-status', ['status' => $userData->status]);
-            })
-            ->editColumn('registred_from', function ($userData) {
-                $fromArray = [1 => 'Learn2earn', 2 => 'Shop2earn', 1 => '2earn', 4 => 'no',];
-                return view('parts.datatable.all-users-registered-from', ['from' => $fromArray[$userData->registred_from]]);
-            })
-            ->escapeColumns([])
-            ->make(true);
-    }
-
-
     public function getInvitationsUser()
     {
         $user = $this->settingsManager->getAuthUser();

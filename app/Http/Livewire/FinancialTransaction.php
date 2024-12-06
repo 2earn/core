@@ -246,18 +246,19 @@ class FinancialTransaction extends Component
         return redirect()->route('financial_transaction', app()->getLocale())->with('succesOpttSms', Lang::get(' OPT code'));
     }
 
-    public function getRequestIn($settingsManager)
+    public function getRequestIn()
     {
-        $userAuth = $settingsManager->getAuthUser();
-        $reqRequest = getSqlFromPath('get_request_in');
-        $request = DB::select($reqRequest, [$userAuth->idUser]);
+        $rechargeRequests = DB::table('recharge_requests')->select('recharge_requests.Date', 'users.name as USER', 'recharge_requests.payeePhone as userphone', 'recharge_requests.amount')
+            ->leftJoin('users', 'users.idUser', '=', 'recharge_requests.idPayee')
+            ->where('recharge_requests.idUser', auth()->user()->idUser)->get();
     }
 
-    public function getRequestOut($settingsManager)
+    public function getRequestOut()
     {
-        $userAuth = $settingsManager->getAuthUser();
-        $reqRequest = getSqlFromPath('get_request_out');
-        $request = DB::select($reqRequest, [$userAuth->idUser]);
+        $rechargeRequests = DB::table('recharge_requests')
+            ->select('recharge_requests.Date', 'users.name as USER', 'recharge_requests.payeePhone as userphone', 'recharge_requests.amount')
+            ->leftJoin('users', 'users.idUser', '=', 'recharge_requests.idPayee')
+            ->where('recharge_requests.idSender', auth()->user()->idUser)->get();
     }
 
 
