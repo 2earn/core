@@ -13,8 +13,7 @@ use Paytabscom\Laravel_paytabs\Facades\paypage;
 
 class pay
 {
-  //??
-    //// --> TO CHECK
+
     public function test(Req $request)
     {
         $url=  route('notification_from_paytabs',app()->getLocale());
@@ -33,18 +32,14 @@ class pay
         $cart_id = auth()->user()->idUser.'-'.BalancesFacade::getBalanceCompter();
         $cart_amount=$request->amount;
 
-        $pay= paypage::sendPaymentCode('all')
+        return paypage::sendPaymentCode('all')
             ->sendTransaction('sale','ecom')
             ->sendCart($cart_id, $cart_amount,'E-CASH TOP-UP')
             ->sendLanguage('en')
             ->sendCustomerDetails($name, $email, auth()->user()->fullphone_number, $street1, $city, $state, $country, $zip, $ip)
             ->sendURLs($url, null)
             ->sendHideShipping(true)
-
             ->create_pay_page();
-
-
-        return $pay;
     }
 
 }

@@ -489,32 +489,13 @@ class ApiController extends BaseController
                 ->where('idamounts', BalanceEnum::CASH)
                 ->value('value');
 
-
-            // CONVERTED IN BALANCES
             $value =  BalancesFacade::getCash($user);
-            // CONVERTED IN BALANCES
 
-            $value = $value->value * 1;
-            // user__balance old
-            $user_balance = new user_balance();
-            $user_balance->ref =  BalancesFacade::getReference(51);
-            $user_balance->idBalancesOperation = 51;
-            $user_balance->Date = now();
-            $user_balance->idSource = $user;
-            $user_balance->idUser = $user;
-            $user_balance->idamount = BalanceEnum::CASH;
-            $user_balance->value = $data->tran_total / $k;
-            $user_balance->WinPurchaseAmount = "0.000";
-            $user_balance->Description = $data->tran_ref;
-            $user_balance->Balance = $value + $data->tran_total / $k;
-            $user_balance->save();
-
-            // user__balance new
             CashBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::PRICE_CHANGE->value,
+                'balance_operation_id' => BalanceOperationsEnum::CASH_TOP_UP_WITH_CARD->value,
                 'operator_id' => $user,
                 'beneficiary_id' => $user,
-                'reference' =>  BalancesFacade::getReference(51),
+                'reference' =>  BalancesFacade::getReference(BalanceOperationsEnum::CASH_TOP_UP_WITH_CARD->value),
                 'description' =>$data->tran_ref,
                 'value' =>$data->tran_total / $k,
                 'current_balance' => $value + $data->tran_total / $k
@@ -522,12 +503,7 @@ class ApiController extends BaseController
 
             $mnt = $data->tran_total / $k;
             $new_value = intval($old_value) + $data->tran_total / $k;
-
-
-            DB::table('usercurrentbalances')
-                ->where('idUser', $user)
-                ->where('idamounts', BalanceEnum::CASH)
-                ->update(['value' => $new_value, 'dernier_value' => $old_value]);
+            // OBSERVER CURRENT BALANCES
         }
 
         DB::table('user_transactions')->updateOrInsert(
@@ -573,7 +549,6 @@ class ApiController extends BaseController
         try {
             $id = $request->input('id');
             $st = 0;
-            // CONVERTED IN BALANCES
 
             DB::table('shares_balances')->where('id', $id)->update(['payed' => $st]);
 
@@ -597,10 +572,9 @@ class ApiController extends BaseController
                 if ($st < $total) $p = 2;
                 if ($st == $total) $p = 1;
             }
-            // CONVETED IN BALANCES
             DB::table('shares_balances')
                 ->where('id', $id)
-                ->update(['current_balance' => floatval($st), 'payed' => $p]);
+                ->update(['real_amount' => floatval($st), 'payed' => $p]);
 
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
