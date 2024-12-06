@@ -53,7 +53,7 @@
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
                                 @php
-                                    $cb_asd =$cashBalance - $arraySoldeD[0];
+                                    $cb_asd = floatval($cashBalance) - floatval($arraySoldeD[0]);
                                 @endphp
                                 <p class="@if($cb_asd > 0) text-success @elseif($cb_asd < 0) text-danger @endif"
                                    style="max-height: 5px">@if ($cb_asd > 0)
