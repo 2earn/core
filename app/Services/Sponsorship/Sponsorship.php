@@ -84,8 +84,6 @@ class Sponsorship
         return NULL;
     }
 
-
-
     public function executeProactifSponsorship($reserve, $ref, $number_of_action, $gift, $PU, $fullphone_number)
     {
         $amount = ($number_of_action + $gift) * $PU * $this->amount / 100;
