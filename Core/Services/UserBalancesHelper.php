@@ -152,7 +152,7 @@ class  UserBalancesHelper
                 if (($params) == null) dd('throw exception');
 
                 $ref = BalancesFacade::getReference(BalanceOperationsEnum::BFS_TO_SM_SN_BFS->value);
-//TO FILL
+                // TO FILL
                 $oldSMSSOLD = 0;
                 $seting = DB::table('settings')->where("idSETTINGS", "=", SettingsEnum::Prix_SMS->value)->first();
                 $prix_sms = $seting->IntegerValue;
@@ -178,35 +178,17 @@ class  UserBalancesHelper
 
                 break;
             case EventBalanceOperationEnum::SendSMS:
-                $BalancesOperation = DB::table('balance_operations')->where("id", BalanceOperationsEnum::ENVOYE_SMS->value)->first();
-                $seting = DB::table('settings')->where("idSETTINGS", "=", SettingsEnum::Prix_SMS->value)->first();
-                $prix_sms = $seting->IntegerValue;
-                $date = date('Y-m-d H:i:s');
-                // CONVERTED IN BALANCES
-                $ref = BalancesFacade::getReference(BalanceOperationsEnum::ENVOYE_SMS);
-                // user__balance old
-                $user_balance = new user_balance([
-                    'ref' => $ref,
-                    'idBalancesOperation' => BalanceOperationsEnum::ENVOYE_SMS->value,
-                    'Date' => $date,
-                    'idSource' => $idUser,
-                    'idUser' => $idUser,
-                    'idamount' => $BalancesOperation->amounts_id,
-                    'value' => $prix_sms,
-                    'WinPurchaseAmount' => "0.000",
-                    'PrixUnitaire' => $prix_sms
-                ]);
-                $user_balance->save();
-                // user__balance new
+                $ref = BalancesFacade::getReference(BalanceOperationsEnum::ENVOYE_SMS->value);
+                // TO FILL
+                $oldSMSSOLD = 1;
                 SMSBalances::addLine(
                     [
-                        'balance_operation_id' => $BalancesOperation->id,
+                        'balance_operation_id' => BalanceOperationsEnum::ENVOYE_SMS->value,
                         'operator_id' => $idUser,
                         'beneficiary_id' => $idUser,
                         'reference' => $ref,
-                        'value' => $prix_sms,
-                        'sms_price' => $prix_sms,
-                        'current_balance' => null
+                        'value' => 1,
+                        'current_balance' => $oldSMSSOLD--
                     ]
                 );
                 break;
