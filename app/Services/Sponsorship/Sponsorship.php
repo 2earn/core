@@ -50,7 +50,7 @@ class Sponsorship
 
     public function executeDelayedSponsorship($upLine, $downLine)
     {
-        $userBalancesQuery = user_balance::where('idBalancesOperation', 44)
+        $userBalancesQuery = user_balance::where('idBalancesOperation', BalanceOperationsEnum::SELLED_SHARES->value)
             ->where('idUser', $downLine->idUser)
             ->whereRaw('TIMESTAMPDIFF(HOUR, ' . DB::raw('DATE') . ', NOW()) < ?', [$this->retardatifReservation])
             ->orderBy(DB::raw('DATE'), "ASC")
@@ -84,78 +84,24 @@ class Sponsorship
         return NULL;
     }
 
-    public function createUserBalances($ref, $idBalancesOperation, $idSource, $reserve, $idAmount, $value, $giftedShares, $PU, $winPurchaseAmount, $description, $balance): user_balance
-    {
-        // TO be deleted
-        $user_balance = new user_balance();
-        $user_balance->ref = $ref;
-        $user_balance->idBalancesOperation = $idBalancesOperation;
-        $user_balance->Date = now();
-        $user_balance->idSource = $idSource;
-        $user_balance->idUser = $reserve;
-        $user_balance->idamount = $idAmount;
-        $user_balance->value = $value;
-        if (!is_null($giftedShares)) {
-            $user_balance->gifted_shares = $giftedShares;
-        }
-        $user_balance->PU = $PU;
-        $user_balance->WinPurchaseAmount = $winPurchaseAmount;
-        $user_balance->Description = $description;
-        $user_balance->Balance = $balance;
-        $user_balance->save();
 
-
-
-
-
-        return $user_balance;
-    }
 
     public function executeProactifSponsorship($reserve, $ref, $number_of_action, $gift, $PU, $fullphone_number)
     {
         $amount = ($number_of_action + $gift) * $PU * $this->amount / 100;
-        // user__balance old
-        $this->createUserBalances(
-            $ref,
-            44,
-            $this->isSource,
-            $reserve,
-            BalanceEnum::SHARE,
-            0,
-            $number_of_action * $this->shares / 100,
-            0,
-            "0",
-            'sponsorship commission from ' . $fullphone_number,
-            0
-        );
-        // user__balance new
+
         SharesBalances::addLine([
-            'balance_operation_id' => BalanceOperationsEnum::COMPLIMENTARY_BENEFITS_ON_PURCHASED_SHARES->value,
+            'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_SHARE->value,
             'operator_id' => $this->isSource,
             'beneficiary_id' => $reserve,
             'reference' => $ref,
             'unit_price' => 0,
             'payed' => 1,
             'value' => $number_of_action * $this->shares / 100,
-            'description' => 0,
-            'current_balance' => 0
+            'description' => 'sponsorship commission from ' . $fullphone_number,
+            'current_balance' => null// get old current balance value + > $number_of_action * $this->shares / 100
         ]);
 
-        // user__balance old
-        $this->createUserBalances(
-            $ref,
-            49,
-            $this->isSource,
-            $reserve,
-            BalanceEnum::CASH,
-            $amount * $this->amountCash / 100,
-            null,
-            0,
-            "0.000",
-            'sponsorship commission from ' . $fullphone_number,
-            $this->balancesManager->getBalances($reserve, -1)->soldeCB + $amount * $this->amountCash / 100
-        );
-        // user__balance new
         CashBalances::addLine([
             'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_CASH->value,
             'operator_id' => $this->isSource,
@@ -166,21 +112,6 @@ class Sponsorship
             'current_balance' => $this->balancesManager->getBalances($reserve, -1)->soldeCB + $amount * $this->amountCash / 100
         ]);
 
-        // user__balance old
-        $this->createUserBalances(
-            $ref,
-            50,
-            $this->isSource,
-            $reserve,
-            BalanceEnum::BFS,
-            $amount * $this->amountBFS / 100,
-            null,
-            0,
-            "0.000",
-            'sponsorship commission from ' . $fullphone_number,
-            $this->balancesManager->getBalances($reserve, -1)->soldeBFS + $amount * $this->amountBFS / 100
-        );
-        // user__balance new
         BFSsBalances::addLine([
             'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_BFS->value,
             'operator_id' => $this->isSource,
