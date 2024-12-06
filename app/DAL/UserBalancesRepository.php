@@ -2,6 +2,8 @@
 
 namespace App\DAL;
 
+use App\Models\BFSsBalances;
+use App\Models\ChanceBalances;
 use App\Models\UserCurrentBalancehorisontal;
 use App\Services\Balances\BalancesFacade;
 use Core\Enum\BalanceOperationsEnum;
@@ -23,11 +25,11 @@ class  UserBalancesRepository implements IUserBalancesRepository
         $calculetedUserBalances = UserCurrentBalancehorisontal::where('user_id', $idUser)->first();
         if (!is_null($calculetedUserBalances)) {
             $calculetedUserBalances->soldeCB = formatSolde($calculetedUserBalances->cash_balance, $decimals);
-            $calculetedUserBalances->soldeBFS = formatSolde($calculetedUserBalances->bfss_balance, $decimals);
+            $calculetedUserBalances->soldeBFS = formatSolde(BFSsBalances::getTotal($calculetedUserBalances->bfss_balance), $decimals);
             $calculetedUserBalances->soldeDB = formatSolde($calculetedUserBalances->discount_balance, $decimals);
             $calculetedUserBalances->soldeT = formatSolde($calculetedUserBalances->tree_balance, $decimals);
             $calculetedUserBalances->soldeSMS = formatSolde($calculetedUserBalances->sms_balance, $decimals);
-            $calculetedUserBalances->soldeChance = formatSolde($calculetedUserBalances->chances_balance, $decimals);
+            $calculetedUserBalances->soldeChance = formatSolde(ChanceBalances::getTotal($calculetedUserBalances->chances_balance), $decimals);
             $calculetedUserBalances->soldeTree = formatSolde($calculetedUserBalances->tree_balance, $decimals);
         }
         return $calculetedUserBalances;

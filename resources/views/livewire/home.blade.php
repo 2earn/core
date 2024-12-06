@@ -120,7 +120,7 @@
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
                                 @php
-                                    $bfs_asd = $balanceForSopping - $arraySoldeD[1];
+                                    $bfs_asd = $balanceForSopping -floatval( $arraySoldeD[1]);
                                 @endphp
                                 <p class="@if ($bfs_asd > 0) text-success @elseif ($bfs_asd < 0) text-danger @endif"
                                    style="max-height: 5px">

@@ -55,6 +55,16 @@ class BFSsBalances extends Model
         return $this->belongsTo(User::class, 'beneficiary_id_auto');
     }
 
+    public static function getTotal($bfsFiels)
+    {
+
+        $bfss = json_decode($bfsFiels);
+        $soldeBfs = 0;
+        foreach ($bfss as $bf) {
+            $soldeBfs = $soldeBfs + $bf->value;
+        }
+        return $soldeBfs;
+    }
 
     public function addLine($bfssBalances, $item_id = null, $deal_id = null, $order_id = null, $platform_id = null, $order_detail_id = null)
     {
