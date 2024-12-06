@@ -43,7 +43,7 @@
         </div>
     @endif
     <div class="row mb-2">
-        <div class="col-xl-4 col-md-3 solde-cash">
+        <div class="col-xl-4 col-md-4 solde-cash">
             <div class="card card-animate">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -110,7 +110,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-4 col-md-3 solde-bfs">
+        <div class="col-xl-4 col-md-4 solde-bfs">
             <div class="card card-animate">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -172,7 +172,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-4 col-md-3 solde-discount">
+        <div class="col-xl-4 col-md-4 solde-discount">
             <div class="card card-animate">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
