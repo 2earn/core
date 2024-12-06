@@ -297,74 +297,27 @@ class ApiController extends BaseController
                 throw new \Exception(Lang::get('Insuffisant cash solde'));
             }
 
-            // CONVERTED IN BALANCES
-            // user__balance old
-
-            $user_balance = new user_balance();
-            $user_balance->ref =         BalancesFacade::getRederence(42);
-            $user_balance->idBalancesOperation = 42;
-            $user_balance->Date = now();
-            $user_balance->idSource = auth()->user()->idUser;
-            $user_balance->idUser = auth()->user()->idUser;
-            $user_balance->idamount = BalanceEnum::CASH;
-            $user_balance->value = $request->input('amount');
-            $user_balance->WinPurchaseAmount = "0.000";
-            $user_balance->Description = "Transfered to " . getPhoneByUser($request->input('reciver'));
-            $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeCB - $request->input('amount');
-            $user_balance->save();
-
-            // user__balance new
+            $ref = BalancesFacade::getRederence(BalanceOperationsEnum::CASH_TRANSFERT_O);
             CashBalances::addLine([
                 'balance_operation_id' => BalanceOperationsEnum::SELL_SHARES->value,
                 'operator_id' => auth()->user()->idUser,
                 'beneficiary_id' => auth()->user()->idUser,
-                'reference' => BalancesFacade::getRederence(42),
+                'reference' => $ref,
                 'description' => "Transfered to " . getPhoneByUser($request->input('reciver')),
                 'value' => $request->input('amount'),
                 'current_balance' => $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeCB - $request->input('amount')
             ]);
 
-
-            // user__balance old
-            $user_balance = new user_balance();
-            $user_balance->ref =   BalancesFacade::getRederence(43);
-            $user_balance->idBalancesOperation = 43;
-            $user_balance->Date = now();
-            $user_balance->idSource = Auth()->user()->idUser;
-            $user_balance->idUser = $request->input('reciver');
-            $user_balance->idamount = BalanceEnum::CASH;
-            $user_balance->value = $request->input('amount');
-            $user_balance->WinPurchaseAmount = "0.000";
-            $user_balance->Description = "Transfered from " . getPhoneByUser(Auth()->user()->idUser);
-            $user_balance->Balance = $balancesManager->getBalances($request->input('reciver'), -1)->soldeCB + $request->input('amount');
-            $user_balance->save();
-
-            // user__balance new
             CashBalances::addLine([
                 'balance_operation_id' => BalanceOperationsEnum::CASH_TRANSFERT_I->value,
                 'operator_id' => auth()->user()->idUser,
                 'beneficiary_id' => $request->input('reciver'),
-                'reference' => BalancesFacade::getRederence(BalanceOperationsEnum::CASH_TRANSFERT_I->value),
+                'reference' => $ref,
                 'description' => "Transfered from " . getPhoneByUser(Auth()->user()->idUser),
                 'value' => $request->input('amount'),
                 'current_balance' =>$balancesManager->getBalances($request->input('reciver'), -1)->soldeCB + $request->input('amount')
             ]);
-
-            $new_value = intval($old_value) - intval($request->amount);
-            DB::table('usercurrentbalances')
-                ->where('idUser', Auth()->user()->idUser)
-                ->where('idamounts', BalanceEnum::CASH)
-                ->update(['value' => $new_value, 'dernier_value' => $old_value]);
-
-            $old_value = DB::table('usercurrentbalances')
-                ->where('idUser', $request->reciver)
-                ->where('idamounts', BalanceEnum::CASH)
-                ->value('value');
-            $new_value = intval($old_value) + intval($request->amount);
-            DB::table('usercurrentbalances')
-                ->where('idUser', $request->all()['reciver'])
-                ->where('idamounts', BalanceEnum::CASH)
-                ->update(['value' => $new_value, 'dernier_value' => $old_value]);
+            // OBSERVER CURRENT BALANCES
             $message = $request->amount . ' $ ' . Lang::get('for ') . getUserDisplayedName($request->input('reciver'));
         } catch (\Exception $exception) {
             return response()->json($exception->getMessage(), 500);
