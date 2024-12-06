@@ -81,9 +81,9 @@ class ApiController extends BaseController
         $number_of_action = intval($request->numberOfActions);
         $gift = getGiftedActions($number_of_action);
         $actual_price = actualActionValue(getSelledActions(true), false);
-        $PU = $number_of_action * ($actual_price) / ($number_of_action + $gift);
-        // CONVERTED IN BALANCES
-        $ref =  BalancesFacade::getRederence(44);
+
+
+        $ref = BalancesFacade::getRederence(BalanceOperationsEnum::SELLED_SHARES);
 
 
         $palier = Setting::Where('idSETTINGS', '19')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
@@ -136,103 +136,59 @@ class ApiController extends BaseController
         } else {
             $flashGift = 0;
         }
-        $gift = $gift + $flashGift;
 
-        $PU = $number_of_action * ($actual_price) / ($number_of_action + $gift);
 
         $this->userRepository->increasePurchasesNumber($reciver);
 
-        // user__balance old
-        // share sold
-        $user_balance = new user_balance();
-        // Action
-        $user_balance->ref = $ref;
-        $user_balance->idBalancesOperation = 44;
-        $user_balance->Date = now();
-        $user_balance->idSource = '11111111';
-        $user_balance->idUser = $reciver;
-        $user_balance->idamount = BalanceEnum::SHARE;
-        $user_balance->value = $number_of_action;
-        $user_balance->gifted_shares = $gift;
-        $user_balance->PU = $PU;
-        $user_balance->WinPurchaseAmount = "1";
-        $user_balance->Balance = ($number_of_action + $gift) * number_format($PU, 2, '.', '');
-        $user_balance->save();
-        // user__balance new
         SharesBalances::addLine([
             'balance_operation_id' => BalanceOperationsEnum::SELLED_SHARES->value,
             'operator_id' => Balances::SYSTEM_SOURCE_ID,
             'beneficiary_id' => $reciver,
             'reference' => $ref,
-            'unit_price' => $PU,
+            'unit_price' => $actual_price,
             'payed' => 1,
             'value' => $number_of_action,
-            'current_balance' => ($number_of_action) * number_format($PU, 2, '.', '')
+            'amount' => $number_of_action * $actual_price,
+            'total_amount' => null, // get old value of total amount  + amount ($number_of_action * $actual_price)
+            'real_amount' => $number_of_action * $actual_price,
+            'current_balance' => null // get old value of current balances   +$number_of_action
         ]);
-        SharesBalances::addLine([
+
+        if ($gift > 0) {
+            SharesBalances::addLine([
             'balance_operation_id' => BalanceOperationsEnum::COMPLIMENTARY_BENEFITS_ON_PURCHASED_SHARES->value,
             'operator_id' => Balances::SYSTEM_SOURCE_ID,
             'beneficiary_id' => $reciver,
             'reference' => $ref,
-            'unit_price' => $PU,
+                'unit_price' => 0,
             'payed' => 1,
-            'value' => $gift,
-            'current_balance' => ($gift) * number_format($PU, 2, '.', '')
-        ]);
-        if ($vip) {
+                'value' => $gift,
+                'current_balance' => null // get old value of current balances   +$number_of_action
+            ]);
+        }
+        if ($flashGift > 0) {
             SharesBalances::addLine([
                 'balance_operation_id' => BalanceOperationsEnum::VIP_BENEFITS_ON_PURCHASED_SHARES->value,
                 'operator_id' => Balances::SYSTEM_SOURCE_ID,
                 'beneficiary_id' => $reciver,
                 'reference' => $ref,
-                'unit_price' => $PU,
+                'unit_price' => 0,
                 'payed' => 1,
-                'value' => $number_of_action - $gift,
-                'current_balance' => ($number_of_action - $gift) * number_format($PU, 2, '.', '')
+                'value' => $flashGift,
+                'current_balance' => null // get old value of current balances   +$number_of_action
             ]);
         }
 
-        // user__balance old
-        // cach
-        $user_balance = new user_balance();
-        $user_balance->ref = $ref;
-        $user_balance->idBalancesOperation = BalanceOperationsEnum::SELL_SHARES->value;
-        $user_balance->Date = now();
-        $user_balance->idSource = auth()->user()->idUser;
-        $user_balance->idUser = auth()->user()->idUser;
-        $user_balance->idamount = BalanceEnum::CASH;
-        $user_balance->value = ($number_of_action + $gift) * $PU;
-        $user_balance->WinPurchaseAmount = "0.000";
-        $user_balance->Description = "purchase of " . ($number_of_action + $gift) . " shares for " . $a;
-        $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeCB - ($number_of_action + $gift) * $PU;
-        $user_balance->save();
-
-        // user__balance new
         CashBalances::addLine([
             'balance_operation_id' => BalanceOperationsEnum::SELL_SHARES->value,
             'operator_id' => auth()->user()->idUser,
             'beneficiary_id' => auth()->user()->idUser,
             'reference' => $ref,
             'description' => "purchase of " . ($number_of_action + $gift) . " shares for " . $a,
-            'value' => ($number_of_action + $gift) * $PU,
-            'current_balance' => $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeCB - ($number_of_action + $gift) * $PU
+            'value' => $number_of_action  * $actual_price,
+            'current_balance' => $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeCB - ($number_of_action ) * $actual_price
         ]);
 
-        // user__balance old
-        //bfs
-        $user_balance = new user_balance();
-        $user_balance->ref = $ref;
-        $user_balance->idBalancesOperation = 46;
-        $user_balance->Date = now();
-        $user_balance->idSource = "11111111";
-        $user_balance->idUser = $reciver_bfs;
-        $user_balance->idamount = BalanceEnum::BFS;
-        $user_balance->value = intval($number_of_action / $palier) * $actual_price * $palier;
-        $user_balance->WinPurchaseAmount = "0.000";
-        $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeBFS + intval($number_of_action / $palier) * $actual_price * $palier;
-        $user_balance->save();
-
-        // user__balance new
         BFSsBalances::addLine([
             'balance_operation_id' => BalanceOperationsEnum::BY_ACQUIRING_SHARES->value,
             'operator_id' => Balances::SYSTEM_SOURCE_ID,
