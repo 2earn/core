@@ -33,6 +33,9 @@ class BalancesSeeder extends Seeder
                 ->where("ParameterName", "=", 'discount By registering')
                 ->update(["ParameterName" => 'INITIAL_DISCOUNT']);
         }
+        if (!DB::table('settings')->where("ParameterName", "=", 'TOTAL_TREE')->exists()) {
+            DB::table('settings')->insert(['ParameterName' => 'TOTAL_TREE', 'IntegerValue' => 125,]);
+        }
     }
 
 }

@@ -7,6 +7,7 @@ use App\Services\Balances\Balances;
 use Core\Models\BalanceOperation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class TreeBalances extends Model
 {
@@ -53,6 +54,15 @@ class TreeBalances extends Model
     public function beneficiary()
     {
         return $this->belongsTo(User::class, 'beneficiary_id_auto');
+    }
+
+    public static function getTreesNumber($treeBalances)
+    {
+        if (DB::table('settings')->where("ParameterName", "=", 'TOTAL_TREE')->exists()) {
+            return $treeBalances / DB::table('settings')->where("ParameterName", "=", 'TOTAL_TREE')->first()->pluck('IntegerValue');
+        }
+
+        return 0;
     }
 
     public function addLine($treeBalances, $item_id = null, $deal_id = null, $order_id = null, $platform_id = null, $order_detail_id = null)

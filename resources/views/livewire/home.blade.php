@@ -273,16 +273,11 @@
                         <div class="flex-grow-1 overflow-hidden">
                             <p class="text-uppercase fw-medium text-muted text-truncate mb-0">{{ __('Tree Solde') }}</p>
                         </div>
-                        <div class="flex-shrink-0">
-                            <h5 class="text-success fs-14 mb-0">
-                                {{$treeBalance}}
-                            </h5>
-                        </div>
                     </div>
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
                             <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                <span class="counter-value" data-target="{{$treeBalance}}">{{$treeBalance}}</span>
+                                <span>{{$treeBalance}} %</span>
                             </h4>
                             <a href="{{route('user_balance_tree' , app()->getLocale() )}} "
                                class="text-decoration-underline">{{ __('see_details') }}</a>

@@ -4,6 +4,7 @@ namespace App\DAL;
 
 use App\Models\BFSsBalances;
 use App\Models\ChanceBalances;
+use App\Models\TreeBalances;
 use App\Models\UserCurrentBalancehorisontal;
 use App\Services\Balances\BalancesFacade;
 use Core\Enum\BalanceOperationsEnum;
@@ -30,7 +31,7 @@ class  UserBalancesRepository implements IUserBalancesRepository
             $calculetedUserBalances->soldeT = formatSolde($calculetedUserBalances->tree_balance, $decimals);
             $calculetedUserBalances->soldeSMS = formatSolde($calculetedUserBalances->sms_balance, $decimals);
             $calculetedUserBalances->soldeChance = formatSolde(ChanceBalances::getTotal($calculetedUserBalances->chances_balance), $decimals);
-            $calculetedUserBalances->soldeTree = formatSolde($calculetedUserBalances->tree_balance, $decimals);
+            $calculetedUserBalances->soldeTree = formatSolde(TreeBalances::getTreesNumber($calculetedUserBalances->tree_balance), $decimals);
         }
         return $calculetedUserBalances;
     }
