@@ -40,21 +40,6 @@ class UserBalanceObserver
             $setting = Setting::WhereIn('idSETTINGS', ['22', '23'])->orderBy('idSETTINGS')->pluck('IntegerValue');
             $md = $setting[0];
             $rc = $setting[1];
-            // user__balance old
-            $ub = new user_balance([
-                'ref' => $user_balance->ref,
-                'idBalancesOperation' => 47,
-                'Date' => date('Y-m-d H:i:s'),
-                'idSource' => '11111111',
-                'idUser' => $user_balance->idUser,
-                'idamount' => 3,
-                'value' => min($md, $user_balance->value * (pow(abs($user_balance->value - 10), 1.5) / $rc)),
-                'WinPurchaseAmount' => "0.000",
-                'PrixUnitaire' => 1,
-                'Description' => number_format(100 * min($md, $user_balance->value * (pow(abs($user_balance->value - 10), 1.5) / $rc)) / $md, 2, '.', '') . '%',
-                'Balance' => $this->balancesManager->getBalances($user_balance->idUser, -1)->soldeDB + min($md, $user_balance->value * (pow(abs($user_balance->value - 10), 1.5) / $rc))
-            ]);
-            // user__balance new
             DiscountBalances::addLine(
                 [
                     'balance_operation_id' => BalanceOperationsEnum::FROM_BFS->value,

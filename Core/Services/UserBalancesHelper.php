@@ -36,35 +36,18 @@ class  UserBalancesHelper
     {
         switch ($actionType) {
             case ActionEnum::Signup :
-                $operationSMS = $this->balanceOperationmanager->getBalanceOperation(BalanceOperationsEnum::Achat_SMS_SMS->value);
-                $Count = DB::table('user_balances')->count();
-                $ref = $operationSMS->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-                $date = date('Y-m-d H:i:s');
-                // user__balance old
-                $id_balance = $this->userBalancesRepository->inserUserBalancestGetId(
-                    $ref,
-                    BalanceOperationsEnum::Achat_SMS_SMS->value,
-                    $date,
-                    '11111111',
-                    $idUserUpline,
-                    $operationSMS->idamounts,
-                    $value
-                );
-                // user__balance new
+                $soldesLine = DB::table('user_current_balance_horisentals')->where('user_id', $idUserUpline)->first();
                 SMSBalances::addLine(
                     [
                         'balance_operation_id' =>BalanceOperationsEnum::Achat_SMS_SMS->value,
                         'operator_id' => Balances::SYSTEM_SOURCE_ID,
                         'beneficiary_id' => $idUserUpline,
-                        'reference' => $ref,
+                        'reference' => Balances::getReference(BalanceOperationsEnum::Achat_SMS_SMS->value),
                         'value' => $value,
                         'sms_price' => null,
-                        'current_balance' => null
+                        'current_balance' => $soldesLine->sms_balance
                     ]
                 );
-
-                $soldesLine = DB::table('user_current_balance_horisentals')->where('user_id', $idUserUpline)->first();
-                DB::table('sms_balances')->where('id', $id_balance)->update(['current_balance' => $soldesLine->sms_balance]);
                 break;
         }
     }
@@ -91,9 +74,9 @@ class  UserBalancesHelper
     {
         switch ($event) {
             case EventBalanceOperationEnum::Signup :
-                $initialDiscount = DB::table('settings')->where("ParameterName", "=", 'INITIAL_DISCOUNT')->first();
-                $initialTree = DB::table('settings')->where("ParameterName", "=", 'INITIAL_TREE')->first();
-                $initialChance = DB::table('settings')->where("ParameterName", "=", 'INITIAL_CHANCE')->first();
+                $initialDiscount = DB::table('settings')->where("ParameterName", "=", 'INITIAL_DISCOUNT')->first()->pluck('IntegerValue');
+                $initialTree = DB::table('settings')->where("ParameterName", "=", 'INITIAL_TREE')->first()->pluck('IntegerValue');
+                $initialChance = DB::table('settings')->where("ParameterName", "=", 'INITIAL_CHANCE')->first()->pluck('IntegerValue');
 
                 DiscountBalances::addLine([
                     'balance_operation_id' => BalanceOperationsEnum::BY_REGISTERING_DB,
