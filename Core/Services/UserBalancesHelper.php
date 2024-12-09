@@ -40,6 +40,7 @@ class  UserBalancesHelper
                         'operator_id' => Balances::SYSTEM_SOURCE_ID,
                         'beneficiary_id' => $idUserUpline,
                         'reference' => Balances::getReference(BalanceOperationsEnum::Achat_SMS_SMS->value),
+                        'description' => 'TO DO DESCRIPTION',
                         'value' => $value,
                         'sms_price' => null,
                         'current_balance' => $soldesLine->sms_balance
@@ -80,6 +81,7 @@ class  UserBalancesHelper
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
                     'beneficiary_id' => $idUser,
                     'reference' => BalancesFacade::getReference(BalanceOperationsEnum::BY_REGISTERING_DB->value),
+                    'description' => 'TO DO DESCRIPTION',
                     'value' => $initialDiscount,
                     'current_balance' => $initialDiscount
                 ]);
@@ -88,6 +90,7 @@ class  UserBalancesHelper
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
                     'beneficiary_id' => $idUser,
                     'reference' => BalancesFacade::getReference(BalanceOperationsEnum::BY_REGISTERING_TREE->value),
+                    'description' => 'TO DO DESCRIPTION',
                     'value' => $initialTree,
                     'current_balance' => $initialTree
                 ]);
@@ -96,6 +99,7 @@ class  UserBalancesHelper
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
                     'beneficiary_id' => $idUser,
                     'reference' => BalancesFacade::getReference(BalanceOperationsEnum::INITIAL_CHANE->value),
+                    'description' => 'TO DO DESCRIPTION',
                     'value' => $initialChance,
                     'current_balance' => $initialChance
                 ]);
@@ -109,6 +113,7 @@ class  UserBalancesHelper
                     'operator_id' => $idUser,
                     'beneficiary_id' => $idUser,
                     'reference' => $ref,
+                    'description' => 'TO DO DESCRIPTION',
                     'value' => $params["montant"],
                     'current_balance' => $params["newSoldeCashBalance"]
                 ]);
@@ -117,6 +122,7 @@ class  UserBalancesHelper
                     'operator_id' => $idUser,
                     'beneficiary_id' => $idUser,
                     'reference' => $ref,
+                    'description' => 'TO DO DESCRIPTION',
                     'value' => $params["montant"],
                     'current_balance' => $params["newSoldeBFS"]
                 ]);
@@ -136,6 +142,7 @@ class  UserBalancesHelper
                     'operator_id' => $idUser,
                     'beneficiary_id' => $idUser,
                     'reference' => $ref,
+                    'description' => 'TO DO DESCRIPTION',
                     'value' => $params["montant"],
                     'current_balance' => $params["newSoldeCashBalance"]
                 ]);
@@ -145,6 +152,7 @@ class  UserBalancesHelper
                     'operator_id' => $idUser,
                     'beneficiary_id' => $idUser,
                     'reference' => $ref,
+                    'description' => 'TO DO DESCRIPTION',
                     'value' => intdiv($params["montant"], $prix_sms),
                     'sms_price' => $prix_sms,
                     'current_balance' => $params["montant"] + $oldSMSSOLD
@@ -161,6 +169,7 @@ class  UserBalancesHelper
                         'operator_id' => $idUser,
                         'beneficiary_id' => $idUser,
                         'reference' => $ref,
+                        'description' => 'TO DO DESCRIPTION',
                         'value' => 1,
                         'current_balance' => $oldSMSSOLD--
                     ]
@@ -183,6 +192,7 @@ class  UserBalancesHelper
                     'operator_id' => $idUser,
                     'beneficiary_id' => $idUser,
                     'reference' => $ref,
+                    'description' => 'TO DO DESCRIPTION',
                     'value' => $params["montant"],
                     'current_balance' => $newSoldeCashSender
                 ]);
@@ -192,6 +202,7 @@ class  UserBalancesHelper
                     'operator_id' => $idUser,
                     'beneficiary_id' => $params['recipient'],
                     'reference' => $ref,
+                    'description' => 'TO DO DESCRIPTION',
                     'value' => $params["montant"],
                     'current_balance' => $newSoldeBFSRecipient
                 ]);
@@ -214,6 +225,7 @@ class  UserBalancesHelper
                     'operator_id' => $idUser,
                     'beneficiary_id' => $idUser,
                     'reference' => $ref,
+                    'description' => 'TO DO DESCRIPTION',
                     'value' => $params["montant"],
                     'current_balance' => $newSoldeCashSender
                 ]);
@@ -222,6 +234,7 @@ class  UserBalancesHelper
                     'operator_id' => $idUser,
                     'beneficiary_id' => $params['recipient'],
                     'reference' => $ref,
+                    'description' => 'TO DO DESCRIPTION',
                     'value' => $params["montant"],
                     'current_balance' => $newSoldeBFSRecipient
                 ]);

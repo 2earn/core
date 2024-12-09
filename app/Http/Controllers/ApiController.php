@@ -151,6 +151,7 @@ class ApiController extends BaseController
             'amount' => $number_of_action * $actual_price,
             'total_amount' => null, // get old value of total amount  + amount ($number_of_action * $actual_price)
             'real_amount' => $number_of_action * $actual_price,
+            'description' => 'TO DO DESCRIPTION',
             'current_balance' => null // get old value of current balances   +$number_of_action
         ]);
 
@@ -160,10 +161,11 @@ class ApiController extends BaseController
             'operator_id' => Balances::SYSTEM_SOURCE_ID,
             'beneficiary_id' => $reciver,
             'reference' => $ref,
-                'unit_price' => 0,
+            'unit_price' => 0,
             'payed' => 1,
-                'value' => $gift,
-                'current_balance' => null // get old value of current balances   +$number_of_action
+            'description' => 'TO DO DESCRIPTION',
+            'value' => $gift,
+            'current_balance' => null // get old value of current balances   +$number_of_action
             ]);
         }
         if ($flashGift > 0) {
@@ -175,6 +177,7 @@ class ApiController extends BaseController
                 'unit_price' => 0,
                 'payed' => 1,
                 'value' => $flashGift,
+                'description' => 'TO DO DESCRIPTION',
                 'current_balance' => null // get old value of current balances   +$number_of_action
             ]);
         }
@@ -194,6 +197,7 @@ class ApiController extends BaseController
             'operator_id' => Balances::SYSTEM_SOURCE_ID,
             'beneficiary_id' => $reciver_bfs,
             'reference' => $ref,
+            'description' => 'TO DO DESCRIPTION',
             'value' => intval($number_of_action / $palier) * $actual_price * $palier,
             'current_balance' => $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeBFS + intval($number_of_action / $palier) * $actual_price * $palier
         ]);
