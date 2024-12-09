@@ -29,7 +29,6 @@ enum BalanceOperationsEnum: int
     case PRC_CB = 26;
     case TO_OTHER_USERS_BFS = 28;
     case TOEARN_TO_USER_CC_BFS = 29;
-    case ENVOYE_SMS = 40;
     case DEBLOCK_BFS_BFS = 27;
     case TO_OTHER_USERS_PUBLIC_CB = 31;
     case TO_OTHER_USERS_ADMIN_CB = 32;
@@ -40,22 +39,22 @@ enum BalanceOperationsEnum: int
     case SI_SMS = 37;
     case BFS_TO_SM_SN_BFS = 38;
     case FROM_BFS_BALANCE_SMS = 39;
-    const Achat_SMS_SMS = 40;
-    const ACHAT_SMS = 41;
-    const CASH_TRANSFERT_O = 42;
-    const CASH_TRANSFERT_I = 43;
-    const SELLED_SHARES = 44;
-    const BY_ACQUIRING_SHARES = 46;
-    const FROM_BFS = 47;
-    const SELL_SHARES = 48;
-    const SPONSORSHIP_COMMISSION_CASH = 49;
-    const SPONSORSHIP_COMMISSION_BFS = 50;
-    const CASH_TOP_UP_WITH_CARD = 51;
-    const SPONSORSHIP_COMMISSION_SHARE = 52;
-    const PRICE_CHANGE = 53;
-    const COMPLIMENTARY_BENEFITS_ON_PURCHASED_SHARES = 54;
-    const VIP_BENEFITS_ON_PURCHASED_SHARES = 55;
-    const INITIAL_CHANE = 56;
+    case Achat_SMS_SMS = 40;
+    case ACHAT_SMS = 41;
+    case CASH_TRANSFERT_O = 42;
+    case CASH_TRANSFERT_I = 43;
+    case SELLED_SHARES = 44;
+    case BY_ACQUIRING_SHARES = 46;
+    case FROM_BFS = 47;
+    case SELL_SHARES = 48;
+    case SPONSORSHIP_COMMISSION_CASH = 49;
+    case SPONSORSHIP_COMMISSION_BFS = 50;
+    case CASH_TOP_UP_WITH_CARD = 51;
+    case SPONSORSHIP_COMMISSION_SHARE = 52;
+    case PRICE_CHANGE = 53;
+    case COMPLIMENTARY_BENEFITS_ON_PURCHASED_SHARES = 54;
+    case VIP_BENEFITS_ON_PURCHASED_SHARES = 55;
+    case INITIAL_CHANE = 56;
 
 }
 

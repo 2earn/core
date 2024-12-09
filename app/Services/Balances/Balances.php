@@ -29,7 +29,7 @@ class Balances
     public function getReference($balancesOperationId)
     {
         $date = new \DateTime('now');
-        return substr((string)pow(10, 3 - strlen($balancesOperationId)), 1) . $balancesOperationId . $date->format(self::DATE_FORMAT) . $this->getBalanceCompter();
+        return substr((string)pow(10, 3 - strlen(strval($balancesOperationId))), 1) . $balancesOperationId . $date->format(self::DATE_FORMAT) . $this->getBalanceCompter();
     }
 
     public static function getSoldMainQuery($balances)

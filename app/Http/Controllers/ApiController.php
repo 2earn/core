@@ -255,7 +255,7 @@ class ApiController extends BaseController
 
             $ref = BalancesFacade::getRederence(BalanceOperationsEnum::CASH_TRANSFERT_O->value->value);
             CashBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::SELL_SHARES,
+                'balance_operation_id' => BalanceOperationsEnum::SELL_SHARES->value,
                 'operator_id' => auth()->user()->idUser,
                 'beneficiary_id' => auth()->user()->idUser,
                 'reference' => $ref,
@@ -495,7 +495,7 @@ class ApiController extends BaseController
                 'balance_operation_id' => BalanceOperationsEnum::CASH_TOP_UP_WITH_CARD->value,
                 'operator_id' => $user,
                 'beneficiary_id' => $user,
-                'reference' =>  BalancesFacade::getReference(BalanceOperationsEnum::CASH_TOP_UP_WITH_CARD->value),
+                'reference' =>  BalancesFacade::getReference(BalanceOperationsEnum::CASH_TOP_UP_WITH_CARD),
                 'description' =>$data->tran_ref,
                 'value' =>$data->tran_total / $k,
                 'current_balance' => $value + $data->tran_total / $k

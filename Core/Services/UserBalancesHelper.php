@@ -11,13 +11,10 @@ use App\Models\TreeBalances;
 use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
 use Core\Enum\ActionEnum;
-use Core\Enum\BalanceEnum;
 use Core\Enum\BalanceOperationsEnum;
 use Core\Enum\EventBalanceOperationEnum;
 use Core\Enum\SettingsEnum;
 use Core\Interfaces\IUserBalancesRepository;
-use Core\Models\Amount;
-use Core\Models\user_balance;
 use Illuminate\Support\Facades\DB;
 
 class  UserBalancesHelper
@@ -95,7 +92,7 @@ class  UserBalancesHelper
                     'current_balance' => $initialTree
                 ]);
                 ChanceBalances::addLine([
-                    'balance_operation_id' => BalanceOperationsEnum::INITIAL_CHANE,
+                    'balance_operation_id' => BalanceOperationsEnum::INITIAL_CHANE->value,
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
                     'beneficiary_id' => $idUser,
                     'reference' => BalancesFacade::getReference(BalanceOperationsEnum::INITIAL_CHANE->value),
@@ -128,7 +125,7 @@ class  UserBalancesHelper
 
                 if (($params) == null) dd('throw exception');
 
-                $ref = BalancesFacade::getReference(BalanceOperationsEnum::BFS_TO_SM_SN_BFS->value);
+                $ref = BalancesFacade::getReference(BalanceOperationsEnum::BFS_TO_SM_SN_BFS);
                 // TO FILL
                 $oldSMSSOLD = 0;
                 $seting = DB::table('settings')->where("idSETTINGS", "=", SettingsEnum::Prix_SMS->value)->first();
@@ -155,12 +152,12 @@ class  UserBalancesHelper
 
                 break;
             case EventBalanceOperationEnum::SendSMS:
-                $ref = BalancesFacade::getReference(BalanceOperationsEnum::ENVOYE_SMS->value);
+                $ref = BalancesFacade::getReference(BalanceOperationsEnum::Achat_SMS_SMS->value);
                 // TO FILL
                 $oldSMSSOLD = 1;
                 SMSBalances::addLine(
                     [
-                        'balance_operation_id' => BalanceOperationsEnum::ENVOYE_SMS->value->value,
+                        'balance_operation_id' => BalanceOperationsEnum::Achat_SMS_SMS->value,
                         'operator_id' => $idUser,
                         'beneficiary_id' => $idUser,
                         'reference' => $ref,
@@ -210,7 +207,7 @@ class  UserBalancesHelper
                 $newSoldeBFSRecipient = floatval($soldeRecipient->soldeBFS) + floatval($params['montant']);
                 $newSoldeCashSender = floatval($soldeSender->soldeBFS) - floatval($params['montant']);
 
-                $ref = BalancesFacade::getReference(BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_BFS->value);
+                $ref = BalancesFacade::getReference(BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_BFS);
 
                 BFSsBalances::addLine([
                     'balance_operation_id' => BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_BFS->value,
