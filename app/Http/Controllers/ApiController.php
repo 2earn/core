@@ -83,7 +83,7 @@ class ApiController extends BaseController
         $actual_price = actualActionValue(getSelledActions(true), false);
 
 
-        $ref = BalancesFacade::getRederence(BalanceOperationsEnum::SELLED_SHARES);
+        $ref = BalancesFacade::getRederence(BalanceOperationsEnum::SELLED_SHARES->value);
 
 
         $palier = Setting::Where('idSETTINGS', '19')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
@@ -141,7 +141,7 @@ class ApiController extends BaseController
         $this->userRepository->increasePurchasesNumber($reciver);
 
         SharesBalances::addLine([
-            'balance_operation_id' => BalanceOperationsEnum::SELLED_SHARES,
+            'balance_operation_id' => BalanceOperationsEnum::SELLED_SHARES->value,
             'operator_id' => Balances::SYSTEM_SOURCE_ID,
             'beneficiary_id' => $reciver,
             'reference' => $ref,
@@ -156,7 +156,7 @@ class ApiController extends BaseController
 
         if ($gift > 0) {
             SharesBalances::addLine([
-            'balance_operation_id' => BalanceOperationsEnum::COMPLIMENTARY_BENEFITS_ON_PURCHASED_SHARES,
+            'balance_operation_id' => BalanceOperationsEnum::COMPLIMENTARY_BENEFITS_ON_PURCHASED_SHARES->value,
             'operator_id' => Balances::SYSTEM_SOURCE_ID,
             'beneficiary_id' => $reciver,
             'reference' => $ref,
@@ -168,7 +168,7 @@ class ApiController extends BaseController
         }
         if ($flashGift > 0) {
             SharesBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::VIP_BENEFITS_ON_PURCHASED_SHARES,
+                'balance_operation_id' => BalanceOperationsEnum::VIP_BENEFITS_ON_PURCHASED_SHARES->value,
                 'operator_id' => Balances::SYSTEM_SOURCE_ID,
                 'beneficiary_id' => $reciver,
                 'reference' => $ref,
@@ -180,7 +180,7 @@ class ApiController extends BaseController
         }
 
         CashBalances::addLine([
-            'balance_operation_id' => BalanceOperationsEnum::SELL_SHARES,
+            'balance_operation_id' => BalanceOperationsEnum::SELL_SHARES->value,
             'operator_id' => auth()->user()->idUser,
             'beneficiary_id' => auth()->user()->idUser,
             'reference' => $ref,
@@ -190,7 +190,7 @@ class ApiController extends BaseController
         ]);
 
         BFSsBalances::addLine([
-            'balance_operation_id' => BalanceOperationsEnum::BY_ACQUIRING_SHARES,
+            'balance_operation_id' => BalanceOperationsEnum::BY_ACQUIRING_SHARES->value,
             'operator_id' => Balances::SYSTEM_SOURCE_ID,
             'beneficiary_id' => $reciver_bfs,
             'reference' => $ref,
@@ -253,7 +253,7 @@ class ApiController extends BaseController
                 throw new \Exception(Lang::get('Insuffisant cash solde'));
             }
 
-            $ref = BalancesFacade::getRederence(BalanceOperationsEnum::CASH_TRANSFERT_O);
+            $ref = BalancesFacade::getRederence(BalanceOperationsEnum::CASH_TRANSFERT_O->value->value);
             CashBalances::addLine([
                 'balance_operation_id' => BalanceOperationsEnum::SELL_SHARES,
                 'operator_id' => auth()->user()->idUser,
@@ -265,7 +265,7 @@ class ApiController extends BaseController
             ]);
 
             CashBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::CASH_TRANSFERT_I,
+                'balance_operation_id' => BalanceOperationsEnum::CASH_TRANSFERT_I->value,
                 'operator_id' => auth()->user()->idUser,
                 'beneficiary_id' => $request->input('reciver'),
                 'reference' => $ref,
@@ -492,10 +492,10 @@ class ApiController extends BaseController
             $value =  BalancesFacade::getCash($user);
 
             CashBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::CASH_TOP_UP_WITH_CARD,
+                'balance_operation_id' => BalanceOperationsEnum::CASH_TOP_UP_WITH_CARD->value,
                 'operator_id' => $user,
                 'beneficiary_id' => $user,
-                'reference' =>  BalancesFacade::getReference(BalanceOperationsEnum::CASH_TOP_UP_WITH_CARD),
+                'reference' =>  BalancesFacade::getReference(BalanceOperationsEnum::CASH_TOP_UP_WITH_CARD->value),
                 'description' =>$data->tran_ref,
                 'value' =>$data->tran_total / $k,
                 'current_balance' => $value + $data->tran_total / $k
@@ -589,7 +589,7 @@ class ApiController extends BaseController
 
         $query = DB::table('cash_balances')
             ->select('value', 'Description', 'created_at')
-            ->where('balance_operation_id', BalanceOperationsEnum::CASH_TRANSFERT_O)
+            ->where('balance_operation_id', BalanceOperationsEnum::CASH_TRANSFERT_O->value)
             ->where('beneficiary_id', Auth()->user()->idUser)
             ->whereNotNull('Description');
 

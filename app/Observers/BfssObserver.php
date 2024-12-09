@@ -24,7 +24,7 @@ class BfssObserver
             $rc = $setting[1];
             DiscountBalances::addLine(
                 [
-                    'balance_operation_id' => BalanceOperationsEnum::FROM_BFS,
+                    'balance_operation_id' => BalanceOperationsEnum::FROM_BFS->value,
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
                     'beneficiary_id' => $bFSsBalances->beneficiary_id,
                     'reference' => $bFSsBalances->reference,
