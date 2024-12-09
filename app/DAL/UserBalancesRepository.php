@@ -25,13 +25,13 @@ class  UserBalancesRepository implements IUserBalancesRepository
         $calculetedUserBalances->soldeTree = self::SOLD_INIT;
         $userCurrentBalancehorisontal = UserCurrentBalancehorisontal::where('user_id', $idUser)->first();
         if (!is_null($userCurrentBalancehorisontal)) {
-            $calculetedUserBalances->soldeCB = formatSolde($calculetedUserBalances->cash_balance, $decimals);
-            $calculetedUserBalances->soldeBFS = formatSolde(BFSsBalances::getTotal($calculetedUserBalances->bfss_balance), $decimals);
-            $calculetedUserBalances->soldeDB = formatSolde($calculetedUserBalances->discount_balance, $decimals);
-            $calculetedUserBalances->soldeT = formatSolde($calculetedUserBalances->tree_balance, $decimals);
-            $calculetedUserBalances->soldeSMS = formatSolde($calculetedUserBalances->sms_balance, $decimals);
-            $calculetedUserBalances->soldeChance = formatSolde(ChanceBalances::getTotal($calculetedUserBalances->chances_balance), $decimals);
-            $calculetedUserBalances->soldeTree = formatSolde(TreeBalances::getTreesNumber($calculetedUserBalances->tree_balance), $decimals);
+            $calculetedUserBalances->soldeCB = formatSolde($userCurrentBalancehorisontal->cash_balance, $decimals);
+            $calculetedUserBalances->soldeBFS = formatSolde(BFSsBalances::getTotal($userCurrentBalancehorisontal->bfss_balance), $decimals);
+            $calculetedUserBalances->soldeDB = formatSolde($userCurrentBalancehorisontal->discount_balance, $decimals);
+            $calculetedUserBalances->soldeT = formatSolde($userCurrentBalancehorisontal->tree_balance, $decimals);
+            $calculetedUserBalances->soldeSMS = formatSolde($userCurrentBalancehorisontal->sms_balance, $decimals);
+            $calculetedUserBalances->soldeChance = formatSolde(ChanceBalances::getTotal($userCurrentBalancehorisontal->chances_balance), $decimals);
+            $calculetedUserBalances->soldeTree = formatSolde(TreeBalances::getTreesNumber($userCurrentBalancehorisontal->tree_balance), $decimals);
         }
         return $calculetedUserBalances;
     }
