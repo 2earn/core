@@ -74,9 +74,9 @@ class  UserBalancesHelper
     {
         switch ($event) {
             case EventBalanceOperationEnum::Signup :
-                $initialDiscount = DB::table('settings')->where("ParameterName", "=", 'INITIAL_DISCOUNT')->first()->pluck('IntegerValue');
-                $initialTree = DB::table('settings')->where("ParameterName", "=", 'INITIAL_TREE')->first()->pluck('IntegerValue');
-                $initialChance = DB::table('settings')->where("ParameterName", "=", 'INITIAL_CHANCE')->first()->pluck('IntegerValue');
+                $initialDiscount = DB::table('settings')->where("ParameterName", "=", 'INITIAL_DISCOUNT')->pluck('IntegerValue');
+                $initialTree = DB::table('settings')->where("ParameterName", "=", 'INITIAL_TREE')->pluck('IntegerValue');
+                $initialChance = DB::table('settings')->where("ParameterName", "=", 'INITIAL_CHANCE')->pluck('IntegerValue');
 
                 DiscountBalances::addLine([
                     'balance_operation_id' => BalanceOperationsEnum::BY_REGISTERING_DB,
