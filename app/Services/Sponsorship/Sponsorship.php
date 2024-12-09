@@ -50,7 +50,7 @@ class Sponsorship
 
     public function executeDelayedSponsorship($upLine, $downLine)
     {
-        $userBalancesQuery = user_balance::where('idBalancesOperation', BalanceOperationsEnum::SELLED_SHARES->value)
+        $userBalancesQuery = user_balance::where('idBalancesOperation', BalanceOperationsEnum::SELLED_SHARES)
             ->where('idUser', $downLine->idUser)
             ->whereRaw('TIMESTAMPDIFF(HOUR, ' . DB::raw('DATE') . ', NOW()) < ?', [$this->retardatifReservation])
             ->orderBy(DB::raw('DATE'), "ASC")
@@ -89,7 +89,7 @@ class Sponsorship
         $amount = ($number_of_action + $gift) * $PU * $this->amount / 100;
 
         SharesBalances::addLine([
-            'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_SHARE->value,
+            'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_SHARE,
             'operator_id' => $this->isSource,
             'beneficiary_id' => $reserve,
             'reference' => $ref,
@@ -101,7 +101,7 @@ class Sponsorship
         ]);
 
         CashBalances::addLine([
-            'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_CASH->value,
+            'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_CASH,
             'operator_id' => $this->isSource,
             'beneficiary_id' => $reserve,
             'reference' => $ref,
@@ -111,7 +111,7 @@ class Sponsorship
         ]);
 
         BFSsBalances::addLine([
-            'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_BFS->value,
+            'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_BFS,
             'operator_id' => $this->isSource,
             'beneficiary_id' => $reserve,
             'reference' => $ref,

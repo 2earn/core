@@ -145,7 +145,6 @@ class DealsCreateUpdate extends Component
         try {
             Deal::where('id', $this->idDeal)->update($params);
         } catch (\Exception $exception) {
-            dd($exception);
             $this->cancel();
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while updating Deal'));
         }

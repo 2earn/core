@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\BFSsBalances;
+use App\Observers\BfssObserver;
 use App\Observers\UserBalanceObserver;
 use Core\Models\user_balance;
 use Illuminate\Auth\Events\Registered;
@@ -21,9 +23,11 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
     ];
+
     protected $observers = [
-        user_balance::class => [UserBalanceObserver::class],
+        BFSsBalances::class => [BfssObserver::class],
     ];
+
     /**
      * Register any events for your application.
      *

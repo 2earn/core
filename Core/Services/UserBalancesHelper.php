@@ -39,10 +39,10 @@ class  UserBalancesHelper
                 $soldesLine = DB::table('user_current_balance_horisentals')->where('user_id', $idUserUpline)->first();
                 SMSBalances::addLine(
                     [
-                        'balance_operation_id' =>BalanceOperationsEnum::Achat_SMS_SMS->value,
+                        'balance_operation_id' =>BalanceOperationsEnum::Achat_SMS_SMS,
                         'operator_id' => Balances::SYSTEM_SOURCE_ID,
                         'beneficiary_id' => $idUserUpline,
-                        'reference' => Balances::getReference(BalanceOperationsEnum::Achat_SMS_SMS->value),
+                        'reference' => Balances::getReference(BalanceOperationsEnum::Achat_SMS_SMS),
                         'value' => $value,
                         'sms_price' => null,
                         'current_balance' => $soldesLine->sms_balance
@@ -82,7 +82,7 @@ class  UserBalancesHelper
                     'balance_operation_id' => BalanceOperationsEnum::BY_REGISTERING_DB,
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
                     'beneficiary_id' => $idUser,
-                    'reference' => BalancesFacade::getReference(BalanceOperationsEnum::BY_REGISTERING_DB->value),
+                    'reference' => BalancesFacade::getReference(BalanceOperationsEnum::BY_REGISTERING_DB),
                     'value' => $initialDiscount,
                     'current_balance' => $initialDiscount
                 ]);
@@ -90,7 +90,7 @@ class  UserBalancesHelper
                     'balance_operation_id' => BalanceOperationsEnum::BY_REGISTERING_TREE,
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
                     'beneficiary_id' => $idUser,
-                    'reference' => BalancesFacade::getReference(BalanceOperationsEnum::BY_REGISTERING_TREE->value),
+                    'reference' => BalancesFacade::getReference(BalanceOperationsEnum::BY_REGISTERING_TREE),
                     'value' => $initialTree,
                     'current_balance' => $initialTree
                 ]);
@@ -98,7 +98,7 @@ class  UserBalancesHelper
                     'balance_operation_id' => BalanceOperationsEnum::INITIAL_CHANE,
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
                     'beneficiary_id' => $idUser,
-                    'reference' => BalancesFacade::getReference(BalanceOperationsEnum::INITIAL_CHANE->value),
+                    'reference' => BalancesFacade::getReference(BalanceOperationsEnum::INITIAL_CHANE),
                     'value' => $initialChance,
                     'current_balance' => $initialChance
                 ]);
@@ -106,9 +106,9 @@ class  UserBalancesHelper
                 break;
             case EventBalanceOperationEnum::ExchangeCashToBFS :
                 if (($params) == null) dd('throw exception');
-                $ref = BalancesFacade::getReference(BalanceOperationsEnum::CASH_TO_BFS_CB->value);
+                $ref = BalancesFacade::getReference(BalanceOperationsEnum::CASH_TO_BFS_CB);
                 CashBalances::addLine([
-                    'balance_operation_id' => BalanceOperationsEnum::CASH_TO_BFS_CB->value,
+                    'balance_operation_id' => BalanceOperationsEnum::CASH_TO_BFS_CB,
                     'operator_id' => $idUser,
                     'beneficiary_id' => $idUser,
                     'reference' => $ref,
@@ -116,7 +116,7 @@ class  UserBalancesHelper
                     'current_balance' => $params["newSoldeCashBalance"]
                 ]);
                 BFSsBalances::addLine([
-                    'balance_operation_id' => BalanceOperationsEnum::From_CASH_Balance_BFS->value,
+                    'balance_operation_id' => BalanceOperationsEnum::From_CASH_Balance_BFS,
                     'operator_id' => $idUser,
                     'beneficiary_id' => $idUser,
                     'reference' => $ref,
@@ -128,14 +128,14 @@ class  UserBalancesHelper
 
                 if (($params) == null) dd('throw exception');
 
-                $ref = BalancesFacade::getReference(BalanceOperationsEnum::BFS_TO_SM_SN_BFS->value);
+                $ref = BalancesFacade::getReference(BalanceOperationsEnum::BFS_TO_SM_SN_BFS);
                 // TO FILL
                 $oldSMSSOLD = 0;
                 $seting = DB::table('settings')->where("idSETTINGS", "=", SettingsEnum::Prix_SMS->value)->first();
                 $prix_sms = $seting->IntegerValue;
 
                 BFSsBalances::addLine([
-                    'balance_operation_id' => BalanceOperationsEnum::BFS_TO_SM_SN_BFS->value,
+                    'balance_operation_id' => BalanceOperationsEnum::BFS_TO_SM_SN_BFS,
                     'operator_id' => $idUser,
                     'beneficiary_id' => $idUser,
                     'reference' => $ref,
@@ -144,7 +144,7 @@ class  UserBalancesHelper
                 ]);
 
                 SMSBalances::addLine([
-                    'balance_operation_id' => BalanceOperationsEnum::FROM_BFS_BALANCE_SMS->value,
+                    'balance_operation_id' => BalanceOperationsEnum::FROM_BFS_BALANCE_SMS,
                     'operator_id' => $idUser,
                     'beneficiary_id' => $idUser,
                     'reference' => $ref,
@@ -155,7 +155,7 @@ class  UserBalancesHelper
 
                 break;
             case EventBalanceOperationEnum::SendSMS:
-                $ref = BalancesFacade::getReference(BalanceOperationsEnum::ENVOYE_SMS->value);
+                $ref = BalancesFacade::getReference(BalanceOperationsEnum::ENVOYE_SMS);
                 // TO FILL
                 $oldSMSSOLD = 1;
                 SMSBalances::addLine(
@@ -179,10 +179,10 @@ class  UserBalancesHelper
                 $newSoldeBFSRecipient = floatval($soldeRecipient->soldeBFS) + floatval($params['montant']);
                 $newSoldeCashSender = floatval($soldeSender->soldeCB) - floatval($params['montant']);
 
-                $ref = BalancesFacade::getReference(BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_CB->value);
+                $ref = BalancesFacade::getReference(BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_CB);
 
                 CashBalances::addLine([
-                    'balance_operation_id' => BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_CB->value,
+                    'balance_operation_id' => BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_CB,
                     'operator_id' => $idUser,
                     'beneficiary_id' => $idUser,
                     'reference' => $ref,
@@ -191,7 +191,7 @@ class  UserBalancesHelper
                 ]);
 
                 BFSsBalances::addLine([
-                    'balance_operation_id' => BalanceOperationsEnum::FROM_PUBLIC_USER_BFS->value,
+                    'balance_operation_id' => BalanceOperationsEnum::FROM_PUBLIC_USER_BFS,
                     'operator_id' => $idUser,
                     'beneficiary_id' => $params['recipient'],
                     'reference' => $ref,
@@ -213,7 +213,7 @@ class  UserBalancesHelper
                 $ref = BalancesFacade::getReference(BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_BFS->value);
 
                 BFSsBalances::addLine([
-                    'balance_operation_id' => BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_BFS->value,
+                    'balance_operation_id' => BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_BFS,
                     'operator_id' => $idUser,
                     'beneficiary_id' => $idUser,
                     'reference' => $ref,
@@ -221,7 +221,7 @@ class  UserBalancesHelper
                     'current_balance' => $newSoldeCashSender
                 ]);
                 BFSsBalances::addLine([
-                    'balance_operation_id' => BalanceOperationsEnum::FROM_PUBLIC_USER_BFS->value,
+                    'balance_operation_id' => BalanceOperationsEnum::FROM_PUBLIC_USER_BFS,
                     'operator_id' => $idUser,
                     'beneficiary_id' => $params['recipient'],
                     'reference' => $ref,
