@@ -6,6 +6,7 @@ use App\Models\DiscountBalances;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
 use Core\Enum\BalanceEnum;
+use Core\Models\BalanceOperation;
 use Illuminate\Support\Facades\DB;
 
 class DiscountObserver
@@ -15,20 +16,14 @@ class DiscountObserver
         DB::beginTransaction();
         try {
             $userCurrentBalancehorisontal = UserCurrentBalancehorisontal::where('user_id', $discountBalances->beneficiary_id)->first();
-        // TO DO
-        $newDiscountBalanceHorisental = [];
 
-        $userCurrentBalancehorisontal->update(
-            [
-                'discount_balance' => $newDiscountBalanceHorisental
-            ]);
+            $newDiscountBalanceHorisental = $newDiscountBalanceVertical= $userCurrentBalancehorisontal->discount_balance +BalanceOperation::getMultiplicator($discountBalances->balance_operation_id)* $discountBalances->value;
 
-        $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $discountBalances->beneficiary_id)
+            $userCurrentBalancehorisontal->update(['discount_balance' => $newDiscountBalanceHorisental]);
+
+            $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $discountBalances->beneficiary_id)
             ->where('balance_id', BalanceEnum::CHANCE)
             ->first();
-        // TO DO
-        $newDiscountBalanceVertical = [];
-
         $userCurrentBalanceVertical->update(
             [
                 'current_balance' => $newDiscountBalanceVertical,

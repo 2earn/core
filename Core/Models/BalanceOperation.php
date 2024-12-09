@@ -55,4 +55,9 @@ class BalanceOperation extends Model
         return $this->hasMany(TreeBalances::class);
     }
 
+    public static function getMultiplicator($treeBalances): int
+    {
+        return BalanceOperation::where('id', $treeBalances->balance_operation_id)->pluck('io') == 'I' ? 1 : -1;
+    }
+
 }

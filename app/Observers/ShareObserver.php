@@ -6,6 +6,7 @@ use App\Models\ShareBalances;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
 use Core\Enum\BalanceEnum;
+use Core\Models\BalanceOperation;
 use Illuminate\Support\Facades\DB;
 
 class ShareObserver
@@ -15,21 +16,15 @@ class ShareObserver
         DB::beginTransaction();
         try {
             $userCurrentBalancehorisontal = UserCurrentBalancehorisontal::where('user_id', $shareBalances->beneficiary_id)->first();
-        // TO DO
-        $newShareBalanceHorisental = [];
-
-        $userCurrentBalancehorisontal->update(
-            [
-                'share_balance' => $newShareBalanceHorisental
-            ]);
+            $newShareBalanceHorisental = $newShareBalanceVertical = $userCurrentBalancehorisontal->share_balance + BalanceOperation::getMultiplicator($shareBalances->balance_operation_id) * $shareBalances->value;
+            $userCurrentBalancehorisontal->update(['share_balance' => $newShareBalanceHorisental]);
 
         $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $shareBalances->beneficiary_id)
             ->where('balance_id', BalanceEnum::CHANCE)
             ->first();
-        // TO DO
-        $newShareBalanceVertical = [];
 
-        $userCurrentBalanceVertical->update(
+
+            $userCurrentBalanceVertical->update(
             [
                 'current_balance' => $newShareBalanceVertical,
                 'previous_balance' => $userCurrentBalanceVertical->cash_balance,

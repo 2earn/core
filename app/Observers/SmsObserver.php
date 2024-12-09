@@ -6,6 +6,7 @@ use App\Models\SmsBalances;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
 use Core\Enum\BalanceEnum;
+use Core\Models\BalanceOperation;
 use Illuminate\Support\Facades\DB;
 
 class SmsObserver
@@ -16,24 +17,18 @@ class SmsObserver
         DB::beginTransaction();
         try {
             $userCurrentBalancehorisontal = UserCurrentBalancehorisontal::where('user_id', $smsBalances->beneficiary_id)->first();
-        // TO DO
-        $newSmsBalanceHorisental = [];
+            $newSmsBalanceHorisental = $newSmsBalanceVertical = $userCurrentBalancehorisontal->sms_balance + BalanceOperation::getMultiplicator($smsBalances->balance_operation_id) * $smsBalances->value;
 
-        $userCurrentBalancehorisontal->update(
-            [
-                'sms_balance' => $newSmsBalanceHorisental
-            ]);
+            $userCurrentBalancehorisontal->update(['sms_balance' => $newSmsBalanceHorisental]);
 
         $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $smsBalances->beneficiary_id)
             ->where('balance_id', BalanceEnum::CHANCE)
             ->first();
-        // TO DO
-        $newSmsBalanceVertical = [];
 
         $userCurrentBalanceVertical->update(
             [
-                'current_balance' => $newSmsBalanceVertical,
-                'previous_balance' => $userCurrentBalanceVertical->cash_balance,
+                'current_balance' => $userCurrentBalanceVertical->sms_balance + $newSmsBalanceVertical,
+                'previous_balance' => $userCurrentBalanceVertical->sms_balance,
                 'last_operation_id' => $smsBalances->id,
                 'last_operation_value' => $smsBalances->value,
                 'last_operation_date' => $smsBalances->created_at,

@@ -6,6 +6,7 @@ use App\Models\TreeBalances;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
 use Core\Enum\BalanceEnum;
+use Core\Models\BalanceOperation;
 use Illuminate\Support\Facades\DB;
 
 class TreeObserver
@@ -15,24 +16,18 @@ class TreeObserver
         DB::beginTransaction();
         try {
             $userCurrentBalancehorisontal = UserCurrentBalancehorisontal::where('user_id', $treeBalances->beneficiary_id)->first();
-        // TO DO
-        $newTreeBalanceHorisental = [];
+            $newTreeBalanceHorisental = $newTreeBalanceVertical = $userCurrentBalancehorisontal->treeBalance +  BalanceOperation::getMultiplicator($smsBalances->balance_operation_id)  * $treeBalances->value;
 
-        $userCurrentBalancehorisontal->update(
-            [
-                'tree_balance' => $newTreeBalanceHorisental
-            ]);
+            $userCurrentBalancehorisontal->update(['tree_balance' => $newTreeBalanceHorisental]);
 
         $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $treeBalances->beneficiary_id)
             ->where('balance_id', BalanceEnum::CHANCE)
             ->first();
-        // TO DO
-        $newTreeBalanceVertical = [];
 
         $userCurrentBalanceVertical->update(
             [
-                'current_balance' => $newTreeBalanceVertical,
-                'previous_balance' => $userCurrentBalanceVertical->cash_balance,
+                'current_balance' => $userCurrentBalanceVertical->tree_balance + $newTreeBalanceVertical,
+                'previous_balance' => $userCurrentBalanceVertical->tree_balance,
                 'last_operation_id' => $treeBalances->id,
                 'last_operation_value' => $treeBalances->value,
                 'last_operation_date' => $treeBalances->created_at,

@@ -7,6 +7,7 @@ use App\Models\DiscountBalances;
 use App\Services\Balances\Balances;
 use Core\Enum\BalanceEnum;
 use Core\Enum\BalanceOperationsEnum;
+use Core\Models\BalanceOperation;
 use Core\Models\Setting;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
@@ -29,52 +30,37 @@ class BfssObserver
                     'beneficiary_id' => $bFSsBalances->beneficiary_id,
                     'reference' => $bFSsBalances->reference,
                     'value' => min($md, $bFSsBalances->value * (pow(abs($bFSsBalances->value - 10), 1.5) / $rc)),
-                    'description' =>  number_format(100 * min($md, $bFSsBalances->value * (pow(abs($bFSsBalances->value - 10), 1.5) / $rc)) / $md, 2, '.', '') . '%',
+                    'description' => number_format(100 * min($md, $bFSsBalances->value * (pow(abs($bFSsBalances->value - 10), 1.5) / $rc)) / $md, 2, '.', '') . '%',
                     'current_balance' => $this->balancesManager->getBalances($bFSsBalances->beneficiary_id, -1)->soldeDB + min($md, $bFSsBalances->value * (pow(abs($bFSsBalances->value - 10), 1.5) / $rc))
                 ]
             );
 
         $userCurrentBalancehorisontal = UserCurrentBalancehorisontal::where('user_id', $bFSsBalances->beneficiary_id)->first();
-        // TO DO
-        $newBfsBalanceHorisental = [];
 
-        $userCurrentBalancehorisontal->update(
-            [
-                'bfss_balance' => $newBfsBalanceHorisental,
-                'discount_balance' => $newBfsBalanceHorisental
-            ]);
+            $old = json_decode($bFSsBalances->bfss_balance);
+            if (array_key_exists($bFSsBalances->persontage, $old)) {
+                $old[$bFSsBalances->persontage] = $newBfssBalanceVertical = $old[$bFSsBalances->persontage] + BalanceOperation::getMultiplicator($bFSsBalances->balance_operation_id) * $bFSsBalances->value;
+            } else {
+                $old[$bFSsBalances->persontage] = $newBfssBalanceVertical = BalanceOperation::getMultiplicator($bFSsBalances->balance_operation_id) * $bFSsBalances->value;
+            }
+
+            $newBfsBalanceHorisental = json_encode($old);
+            $userCurrentBalancehorisontal->update(['bfss_balance' => $newBfsBalanceHorisental]);
 
         $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $bFSsBalances->beneficiary_id)
             ->where('balance_id', BalanceEnum::BFS)
             ->first();
-        // TO DO
-        $newBfssBalanceVertical = [];
 
-        $userCurrentBalanceVertical->update(
+            $userCurrentBalanceVertical->update(
             [
-                'current_balance' => $newBfssBalanceVertical,
-                'previous_balance' => $userCurrentBalanceVertical->duscount_balance,
+                'current_balance' => $userCurrentBalanceVertical->current_balance + $newBfssBalanceVertical,
+                'previous_balance' => $userCurrentBalanceVertical->current_balance,
                 'last_operation_id' => $bFSsBalances->id,
                 'last_operation_value' => $bFSsBalances->value,
                 'last_operation_date' => $bFSsBalances->created_at,
             ]
         );
 
-        $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $bFSsBalances->beneficiary_id)
-            ->where('balance_id', BalanceEnum::DB)
-            ->first();
-        // TO DO
-        $newDiscountBalanceVertical = [];
-
-        $userCurrentBalanceVertical->update(
-            [
-                'current_balance' => $newDiscountBalanceVertical,
-                'previous_balance' => $userCurrentBalanceVertical->discount_balance,
-                'last_operation_id' => $bFSsBalances->id,
-                'last_operation_value' => $bFSsBalances->value,
-                'last_operation_date' => $bFSsBalances->created_at,
-            ]
-        );
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
