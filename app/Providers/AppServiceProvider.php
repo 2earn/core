@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->bind('Balances', function ($app) {
-            return new Balances($app->make('App\DAL\UserRepository'), $app->make('Core\Services\BalancesManager'));
+            return new Balances();
         });
 
     }

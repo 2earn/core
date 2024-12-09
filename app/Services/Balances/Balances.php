@@ -12,7 +12,7 @@ class Balances
     const DATE_FORMAT = 'dmY';
     const SYSTEM_SOURCE_ID = '11111111';
 
-    public function __construct(private UserRepository $userRepository, private BalancesManager $balancesManager)
+    public function __construct()
     {
     }
 
@@ -100,7 +100,21 @@ class Balances
         return $balances;
     }
 
-
+    public static function SommeSold($type, $sumColomn = 'value')
+    {
+        $var = false;
+        if ($type == 'shares_balances') {
+            $var = true;
+        }
+        return DB::table(function ($query) use ($type, $sumColomn, $var) {
+            $query->select('beneficiary_id', 'u.created_at', 'u.balance_operation_id', 'b.operation', DB::raw('CASE WHEN b.io = "I" THEN ' . $sumColomn . ' ELSE -' . $sumColomn . ' END as value'))
+                ->from($type . ' as u')
+                ->join('balance_operations as b', 'u.balance_operation_id', '=', 'b.id');
+            if ($var) {
+                $query->where('u.balance_operation_id', 44);
+            }
+        }, 'a')->get(DB::raw('sum(value) as somme'))->pluck('somme')->first();
+    }
 
 
 

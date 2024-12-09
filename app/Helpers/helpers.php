@@ -63,34 +63,6 @@ if (!function_exists('getRegisterUpline')) {
         return $result;
     }
 }
-if (!function_exists('getUserListCards')) {
-    function getUserListCards()
-    {
-        // CHECKED IN BALANCES
-        // --> TO CHECK
-        // whereNotIn 4 == cash / bfs / discount /action
-
-        $data = DB::table(function ($query) {
-            $query->select('idUser', 'u.idamount', 'Date', 'u.idBalancesOperation', 'b.operation', DB::raw('CASE WHEN b.io = "I" THEN value ELSE -value END as value'))
-                ->from('user_balances as u')
-                ->join('balance_operations as b', 'u.idBalancesOperation', '=', 'b.id')
-                ->whereNotIn('u.idamount', [4])
-                ->orderBy('idUser')
-                ->orderBy('u.idamount')
-                ->orderBy('Date');
-        }, 'a')
-            ->select('a.idamount', DB::raw('SUM(a.value) as value'))
-            ->groupBy('a.idamount')
-            ->orderBy('a.idamount')
-            ->union(DB::table('user_balances')
-                ->select(DB::raw('7 as idamount'), DB::raw('SUM(value) as value'))
-                ->where('idBalancesOperation', 48))
-            ->orderBy('idamount')
-            ->get();
-        return $data->pluck('value')->toArray();
-
-    }
-}
 if (!function_exists('getAdminCash')) {
     function getAdminCash()
     {

@@ -32,7 +32,7 @@
                                                         class="ri-building-line align-bottom"></i>
                                                     {{number_format(getAdminCash()[0],2)}}</span>
                                         <span class="ms-2"><i class="ri-map-pin-2-line align-bottom"></i>
-                                                {{number_format(getUserListCards()[0]-getAdminCash()[0],2)}}
+                                                {{number_format(Balances::sommeSold('cash_balances')-floatval(getAdminCash()[0]),2)}}
                                             </span>
                                     </p>
                                 </div>
@@ -41,7 +41,7 @@
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4">
                                             {{ $currency }}
                                             <span>
-                                                    {{formatSolde(getUserListCards()[0])}}</span>
+                                                    {{formatSolde(Balances::sommeSold('cash_balances'))}}</span>
                                         </h4>
 
                                     </div>
@@ -69,8 +69,9 @@
                                     <div>
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4">
                                             {{ $currency }}
-                                            <span class="counter-value" data-target="{{getUserListCards()[1]}}">
-                                                      {{getUserListCards()[1]}}</span>
+                                            <span class="counter-value"
+                                                  data-target="{{Balances::sommeSold('bfss_balances')}}">
+                                                      {{Balances::sommeSold('bfss_balances')}}</span>
                                         </h4>
                                     </div>
                                     <div class="avatar-sm flex-shrink-0">
@@ -96,8 +97,9 @@
                                     <div>
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4">
                                             {{ $currency }}
-                                            <span class="counter-value" data-target="{{getUserListCards()[2]}}">
-                                                 {{getUserListCards()[2]}}</span>
+                                            <span class="counter-value"
+                                                  data-target="{{Balances::sommeSold('discount_balances')}}">
+                                                 {{Balances::sommeSold('discount_balances')}}</span>
                                         </h4>
                                     </div>
                                     <div class="avatar-sm flex-shrink-0">
@@ -122,8 +124,9 @@
                                 <div class="d-flex align-items-end justify-content-between mt-4">
                                     <div>
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                                <span class="counter-value" data-target="{{getUserListCards()[3]}}">
-                                                   {{getUserListCards()[3]}}</span>
+                                                <span class="counter-value"
+                                                      data-target="{{Balances::sommeSold('sms_balances')}}">
+                                                   {{Balances::sommeSold('sms_balances')}}</span>
                                         </h4>
                                     </div>
                                     <div class="avatar-sm flex-shrink-0">
@@ -150,8 +153,8 @@
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4">
                                             {{ $currency }}
                                             <span class="counter-value"
-                                                  data-target="   {{getUserListCards()[4]}}">
-                                                       {{getUserListCards()[4]}}</span>
+                                                  data-target="   {{Balances::sommeSold('shares_balances')}}">
+                                                       {{Balances::sommeSold('shares_balances')}}</span>
                                         </h4>
                                     </div>
                                     <div class="avatar-sm flex-shrink-0">
@@ -178,8 +181,8 @@
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4">
                                             {{ $currency }}
                                             <span class="counter-value"
-                                                  data-target=" {{getUserListCards()[5]}}">
-                                                    {{getUserListCards()[5]}}</span>
+                                                  data-target=" {{Balances::sommeSold('shares_balances','amount')}}">
+                                                    {{Balances::sommeSold('shares_balances','amount')}}</span>
                                         </h4>
                                     </div>
                                     <div class="avatar-sm flex-shrink-0">
@@ -206,8 +209,8 @@
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4">
                                             {{ $currency }}
                                             <span class="counter-value"
-                                                  data-target="{{getUserListCards()[5]+getUserListCards()[0]}}">
-                                                    {{getUserListCards()[5]+getUserListCards()[0]}}</span>
+                                                  data-target="{{Balances::sommeSold('shares_balances','amount')+Balances::sommeSold('cash_balances')}}">
+                                                    {{Balances::sommeSold('shares_balances','amount')+Balances::sommeSold('cash_balances')}}</span>
                                         </h4>
                                     </div>
                                     <div class="avatar-sm flex-shrink-0">
