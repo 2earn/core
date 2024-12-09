@@ -7,7 +7,7 @@
     @endif
 
     @if(!$deal->validated)
-        <a href="{{route('deals_create_update', ['locale' => app()->getLocale(), 'id' => $deal->id])}}"
+        <a href="{{route('deals_create_update', ['locale' => app()->getLocale(), 'id' => $deal->id, 'idPlatform' => $deal->platform_id])}}"
            class="btn btn-xs btn-primary btn2earnTable  m-1">{{__('Edit')}}</a>
         @if($deal->status< \Core\Enum\DealStatus::Opened->value)
             <button class="btn btn-secondary updateDeal" data-status="0"

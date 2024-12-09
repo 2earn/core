@@ -83,7 +83,7 @@ class ApiController extends BaseController
         $actual_price = actualActionValue(getSelledActions(true), false);
 
 
-        $ref = BalancesFacade::getRederence(BalanceOperationsEnum::SELLED_SHARES);
+        $ref = BalancesFacade::getRederence(BalanceOperationsEnum::SELLED_SHARES->value);
 
 
         $palier = Setting::Where('idSETTINGS', '19')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
@@ -253,9 +253,9 @@ class ApiController extends BaseController
                 throw new \Exception(Lang::get('Insuffisant cash solde'));
             }
 
-            $ref = BalancesFacade::getRederence(BalanceOperationsEnum::CASH_TRANSFERT_O);
+            $ref = BalancesFacade::getRederence(BalanceOperationsEnum::CASH_TRANSFERT_O->value->value);
             CashBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::SELL_SHARES->value,
+                'balance_operation_id' => BalanceOperationsEnum::SELL_SHARES,
                 'operator_id' => auth()->user()->idUser,
                 'beneficiary_id' => auth()->user()->idUser,
                 'reference' => $ref,

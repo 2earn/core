@@ -4,11 +4,11 @@
 @endif
 
 
-<a href="{{route('platform_create_update', ['locale' => app()->getLocale(), 'id' => $platform->id])}}"
+<a href="{{route('platform_create_update', ['locale' => app()->getLocale(), 'idPlatform' => $platform->id])}}"
    class="btn btn-xs btn-primary btn2earnTable  m-1">{{__('Edit')}}</a>
 
 @if($platform->enabled)
-    <a href="{{route('deals_create_update', ['locale' => app()->getLocale(), 'idPlatform' => $platform->id])}}"
+    <a href="{{route('deals_create_update', ['locale' => app()->getLocale(),'id'=> null, 'idPlatform' => $platform->id])}}"
        class="btn btn-xs btn-primary btn2earnTable  m-1">{{__('Create deal')}}</a>
 @endif
 
