@@ -60,7 +60,7 @@ class DiscountBalances extends Model
         return $this->belongsTo(User::class, 'beneficiary_id_auto');
     }
 
-    public function addLine($discountBalances, $item_id = null, $deal_id = null, $order_id = null, $platform_id = null, $order_detail_id = null)
+    public static function addLine($discountBalances, $item_id = null, $deal_id = null, $order_id = null, $platform_id = null, $order_detail_id = null)
     {
         $discountBalances = Balances::addAutomatedFields($discountBalances, $item_id, $deal_id, $order_id, $platform_id, $order_detail_id);
         self::create($discountBalances);

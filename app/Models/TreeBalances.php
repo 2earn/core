@@ -65,7 +65,7 @@ class TreeBalances extends Model
         return 0;
     }
 
-    public function addLine($treeBalances, $item_id = null, $deal_id = null, $order_id = null, $platform_id = null, $order_detail_id = null)
+    public static function addLine($treeBalances, $item_id = null, $deal_id = null, $order_id = null, $platform_id = null, $order_detail_id = null)
     {
         $treeBalances = Balances::addAutomatedFields($treeBalances, $item_id, $deal_id, $order_id, $platform_id, $order_detail_id);
         self::create($treeBalances);

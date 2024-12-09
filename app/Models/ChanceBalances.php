@@ -77,7 +77,7 @@ class ChanceBalances extends Model
         return $soldeChance;
     }
 
-    public function addLine($chanceBalances, $item_id = null, $deal_id = null, $order_id = null, $platform_id = null, $order_detail_id = null)
+    public static function addLine($chanceBalances, $item_id = null, $deal_id = null, $order_id = null, $platform_id = null, $order_detail_id = null)
     {
         $chanceBalances = Balances::addAutomatedFields($chanceBalances, $item_id, $deal_id, $order_id, $platform_id, $order_detail_id);
         self::create($chanceBalances);

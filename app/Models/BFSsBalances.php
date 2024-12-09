@@ -66,7 +66,7 @@ class BFSsBalances extends Model
         return $soldeBfs;
     }
 
-    public function addLine($bfssBalances, $item_id = null, $deal_id = null, $order_id = null, $platform_id = null, $order_detail_id = null)
+    public static function addLine($bfssBalances, $item_id = null, $deal_id = null, $order_id = null, $platform_id = null, $order_detail_id = null)
     {
         $bfssBalances = Balances::addAutomatedFields($bfssBalances, $item_id, $deal_id, $order_id, $platform_id, $order_detail_id);
         self::create($bfssBalances);
