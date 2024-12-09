@@ -18,6 +18,7 @@ class BfssObserver
     {
         DB::beginTransaction();
         try {
+
             $setting = Setting::WhereIn('idSETTINGS', ['22', '23'])->orderBy('idSETTINGS')->pluck('IntegerValue');
             $md = $setting[0];
             $rc = $setting[1];
@@ -39,7 +40,8 @@ class BfssObserver
 
         $userCurrentBalancehorisontal->update(
             [
-                'cash_balance' => $newBfsBalanceHorisental
+                'bfss_balance' => $newBfsBalanceHorisental,
+                'discount_balance' => $newBfsBalanceHorisental
             ]);
 
         $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $bFSsBalances->beneficiary_id)
@@ -51,7 +53,23 @@ class BfssObserver
         $userCurrentBalanceVertical->update(
             [
                 'current_balance' => $newBfssBalanceVertical,
-                'previous_balance' => $userCurrentBalanceVertical->cash_balance,
+                'previous_balance' => $userCurrentBalanceVertical->duscount_balance,
+                'last_operation_id' => $bFSsBalances->id,
+                'last_operation_value' => $bFSsBalances->value,
+                'last_operation_date' => $bFSsBalances->created_at,
+            ]
+        );
+
+        $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $bFSsBalances->beneficiary_id)
+            ->where('balance_id', BalanceEnum::DB)
+            ->first();
+        // TO DO
+        $newDiscountBalanceVertical = [];
+
+        $userCurrentBalanceVertical->update(
+            [
+                'current_balance' => $newDiscountBalanceVertical,
+                'previous_balance' => $userCurrentBalanceVertical->discount_balance,
                 'last_operation_id' => $bFSsBalances->id,
                 'last_operation_value' => $bFSsBalances->value,
                 'last_operation_date' => $bFSsBalances->created_at,

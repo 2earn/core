@@ -102,11 +102,11 @@ class ApiController extends BaseController
 
         DB::beginTransaction();
         try {
+
         $userSponsored = SponsorshipFacade::checkProactifSponsorship($this->userRepository->getUserByIdUser($reciver));
         if ($userSponsored) {
             SponsorshipFacade::executeProactifSponsorship($userSponsored->idUser, $ref, $number_of_action, $gift, $PU, $fullphone_number);
         }
-
 
         $vip = vip::Where('idUser', '=', $reciver)->where('closed', '=', false)->first();
         if ($request->flash) {
@@ -204,7 +204,8 @@ class ApiController extends BaseController
             'value' => intval($number_of_action / $palier) * $actual_price * $palier,
             'current_balance' => $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeBFS + intval($number_of_action / $palier) * $actual_price * $palier
         ]);
-            DB::commit(); } catch (\Exception $e){
+            DB::commit();
+        } catch (\Exception $e) {
             DB::rollback();
             return response()->json(['type' => ['error'], 'message' => [trans('Actions purchase transaction failed')]]);
         }
@@ -254,6 +255,7 @@ class ApiController extends BaseController
     public function addCash(Req $request, BalancesManager $balancesManager)
     {
 
+        DB::beginTransaction();
         try {
             $old_value = DB::table('usercurrentbalances')
                 ->where('idUser', Auth()->user()->idUser)
@@ -263,7 +265,6 @@ class ApiController extends BaseController
             if (intval($old_value) < intval($request->amount)) {
                 throw new \Exception(Lang::get('Insuffisant cash solde'));
             }
-
             $ref = BalancesFacade::getRederence(BalanceOperationsEnum::CASH_TRANSFERT_O->value->value);
             CashBalances::addLine([
                 'balance_operation_id' => BalanceOperationsEnum::SELL_SHARES->value,
@@ -284,9 +285,10 @@ class ApiController extends BaseController
                 'value' => $request->input('amount'),
                 'current_balance' =>$balancesManager->getBalances($request->input('reciver'), -1)->soldeCB + $request->input('amount')
             ]);
-            // OBSERVER CURRENT BALANCES
             $message = $request->amount . ' $ ' . Lang::get('for ') . getUserDisplayedName($request->input('reciver'));
+            DB::commit();
         } catch (\Exception $exception) {
+            DB::rollBack();
             return response()->json($exception->getMessage(), 500);
         }
         return response()->json(Lang::get('Successfully runned operation') . ' ' . $message, 200);
