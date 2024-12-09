@@ -6,18 +6,15 @@ use App\Models\TreeBalances;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
 use Core\Enum\BalanceEnum;
+use Illuminate\Support\Facades\DB;
 
 class TreeObserver
 {
-    /**
-     * Handle the TreeBalances "created" event.
-     *
-     * @param  \App\Models\TreeBalances  $treeBalances
-     * @return void
-     */
     public function created(TreeBalances $treeBalances)
     {
-        $userCurrentBalancehorisontal = UserCurrentBalancehorisontal::where('user_id', $treeBalances->beneficiary_id)->first();
+        DB::beginTransaction();
+        try {
+            $userCurrentBalancehorisontal = UserCurrentBalancehorisontal::where('user_id', $treeBalances->beneficiary_id)->first();
         // TO DO
         $newTreeBalanceHorisental = [];
 
@@ -40,49 +37,12 @@ class TreeObserver
                 'last_operation_value' => $treeBalances->value,
                 'last_operation_date' => $treeBalances->created_at,
             ]
-        );    }
-
-    /**
-     * Handle the TreeBalances "updated" event.
-     *
-     * @param  \App\Models\TreeBalances  $treeBalances
-     * @return void
-     */
-    public function updated(TreeBalances $treeBalances)
-    {
-        //
+        );
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
-    /**
-     * Handle the TreeBalances "deleted" event.
-     *
-     * @param  \App\Models\TreeBalances  $treeBalances
-     * @return void
-     */
-    public function deleted(TreeBalances $treeBalances)
-    {
-        //
-    }
-
-    /**
-     * Handle the TreeBalances "restored" event.
-     *
-     * @param  \App\Models\TreeBalances  $treeBalances
-     * @return void
-     */
-    public function restored(TreeBalances $treeBalances)
-    {
-        //
-    }
-
-    /**
-     * Handle the TreeBalances "force deleted" event.
-     *
-     * @param  \App\Models\TreeBalances  $treeBalances
-     * @return void
-     */
-    public function forceDeleted(TreeBalances $treeBalances)
-    {
-        //
-    }
 }

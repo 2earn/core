@@ -88,7 +88,9 @@ class Sponsorship
     {
         $amount = ($number_of_action + $gift) * $PU * $this->amount / 100;
 
-        SharesBalances::addLine([
+        DB::beginTransaction();
+        try {
+            SharesBalances::addLine([
             'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_SHARE->value,
             'operator_id' => $this->isSource,
             'beneficiary_id' => $reserve,
@@ -119,6 +121,11 @@ class Sponsorship
             'value' => $amount * $this->amountBFS / 100,
             'current_balance' => $this->balancesManager->getBalances($reserve, -1)->soldeBFS + $amount * $this->amountBFS / 100
         ]);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
 }

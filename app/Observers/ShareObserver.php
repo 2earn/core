@@ -6,18 +6,15 @@ use App\Models\ShareBalances;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
 use Core\Enum\BalanceEnum;
+use Illuminate\Support\Facades\DB;
 
 class ShareObserver
 {
-    /**
-     * Handle the ShareBalances "created" event.
-     *
-     * @param  \App\Models\ShareBalances  $shareBalances
-     * @return void
-     */
     public function created(ShareBalances $shareBalances)
     {
-        $userCurrentBalancehorisontal = UserCurrentBalancehorisontal::where('user_id', $shareBalances->beneficiary_id)->first();
+        DB::beginTransaction();
+        try {
+            $userCurrentBalancehorisontal = UserCurrentBalancehorisontal::where('user_id', $shareBalances->beneficiary_id)->first();
         // TO DO
         $newShareBalanceHorisental = [];
 
@@ -41,49 +38,11 @@ class ShareObserver
                 'last_operation_date' => $shareBalances->created_at,
             ]
         );
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
-    /**
-     * Handle the ShareBalances "updated" event.
-     *
-     * @param  \App\Models\ShareBalances  $shareBalances
-     * @return void
-     */
-    public function updated(ShareBalances $shareBalances)
-    {
-        //
-    }
-
-    /**
-     * Handle the ShareBalances "deleted" event.
-     *
-     * @param  \App\Models\ShareBalances  $shareBalances
-     * @return void
-     */
-    public function deleted(ShareBalances $shareBalances)
-    {
-        //
-    }
-
-    /**
-     * Handle the ShareBalances "restored" event.
-     *
-     * @param  \App\Models\ShareBalances  $shareBalances
-     * @return void
-     */
-    public function restored(ShareBalances $shareBalances)
-    {
-        //
-    }
-
-    /**
-     * Handle the ShareBalances "force deleted" event.
-     *
-     * @param  \App\Models\ShareBalances  $shareBalances
-     * @return void
-     */
-    public function forceDeleted(ShareBalances $shareBalances)
-    {
-        //
-    }
 }

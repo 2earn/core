@@ -10,18 +10,14 @@ use Core\Enum\BalanceOperationsEnum;
 use Core\Models\Setting;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
+use Illuminate\Support\Facades\DB;
 
 class BfssObserver
 {
-    /**
-     * Handle the BFSsBalances "created" event.
-     *
-     * @param  \App\Models\BFSsBalances  $bFSsBalances
-     * @return void
-     */
     public function created(BFSsBalances $bFSsBalances)
     {
-
+        DB::beginTransaction();
+        try {
             $setting = Setting::WhereIn('idSETTINGS', ['22', '23'])->orderBy('idSETTINGS')->pluck('IntegerValue');
             $md = $setting[0];
             $rc = $setting[1];
@@ -36,8 +32,6 @@ class BfssObserver
                     'current_balance' => $this->balancesManager->getBalances($bFSsBalances->beneficiary_id, -1)->soldeDB + min($md, $bFSsBalances->value * (pow(abs($bFSsBalances->value - 10), 1.5) / $rc))
                 ]
             );
-
-
 
         $userCurrentBalancehorisontal = UserCurrentBalancehorisontal::where('user_id', $bFSsBalances->beneficiary_id)->first();
         // TO DO
@@ -63,49 +57,10 @@ class BfssObserver
                 'last_operation_date' => $bFSsBalances->created_at,
             ]
         );
-    }
-
-    /**
-     * Handle the BFSsBalances "updated" event.
-     *
-     * @param  \App\Models\BFSsBalances  $bFSsBalances
-     * @return void
-     */
-    public function updated(BFSsBalances $bFSsBalances)
-    {
-        //
-    }
-
-    /**
-     * Handle the BFSsBalances "deleted" event.
-     *
-     * @param  \App\Models\BFSsBalances  $bFSsBalances
-     * @return void
-     */
-    public function deleted(BFSsBalances $bFSsBalances)
-    {
-        //
-    }
-
-    /**
-     * Handle the BFSsBalances "restored" event.
-     *
-     * @param  \App\Models\BFSsBalances  $bFSsBalances
-     * @return void
-     */
-    public function restored(BFSsBalances $bFSsBalances)
-    {
-        //
-    }
-
-    /**
-     * Handle the BFSsBalances "force deleted" event.
-     *
-     * @param  \App\Models\BFSsBalances  $bFSsBalances
-     * @return void
-     */
-    public function forceDeleted(BFSsBalances $bFSsBalances)
-    {
-        //
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 }

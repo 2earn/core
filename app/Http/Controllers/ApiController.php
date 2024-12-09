@@ -99,6 +99,9 @@ class ApiController extends BaseController
         }
 
         $fullphone_number = getPhoneByUser($reciver);
+
+        DB::beginTransaction();
+        try {
         $userSponsored = SponsorshipFacade::checkProactifSponsorship($this->userRepository->getUserByIdUser($reciver));
         if ($userSponsored) {
             SponsorshipFacade::executeProactifSponsorship($userSponsored->idUser, $ref, $number_of_action, $gift, $PU, $fullphone_number);
@@ -201,6 +204,10 @@ class ApiController extends BaseController
             'value' => intval($number_of_action / $palier) * $actual_price * $palier,
             'current_balance' => $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeBFS + intval($number_of_action / $palier) * $actual_price * $palier
         ]);
+            DB::commit(); } catch (\Exception $e){
+            DB::rollback();
+            return response()->json(['type' => ['error'], 'message' => [trans('Actions purchase transaction failed')]]);
+        }
         return response()->json(['type' => ['success'], 'message' => [trans('Actions purchase transaction completed successfully')]]);
     }
 

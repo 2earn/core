@@ -6,18 +6,15 @@ use App\Models\CashBalances;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
 use Core\Enum\BalanceEnum;
+use Illuminate\Support\Facades\DB;
 
 class CashObserver
 {
-    /**
-     * Handle the CashBalances "created" event.
-     *
-     * @param  \App\Models\CashBalances  $cashBalances
-     * @return void
-     */
     public function created(CashBalances $cashBalances)
     {
-        $userCurrentBalancehorisontal = UserCurrentBalancehorisontal::where('user_id', $cashBalances->beneficiary_id)->first();
+        DB::beginTransaction();
+        try {
+            $userCurrentBalancehorisontal = UserCurrentBalancehorisontal::where('user_id', $cashBalances->beneficiary_id)->first();
 
         $newCashBalanceHorisental = $userCurrentBalancehorisontal->cash_balance + $cashBalances->value;
         $userCurrentBalancehorisontal->update(
@@ -39,50 +36,11 @@ class CashObserver
                 'last_operation_date' => $cashBalances->created_at,
             ]
         );
-
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
-    /**
-     * Handle the CashBalances "updated" event.
-     *
-     * @param  \App\Models\CashBalances  $cashBalances
-     * @return void
-     */
-    public function updated(CashBalances $cashBalances)
-    {
-        //
-    }
-
-    /**
-     * Handle the CashBalances "deleted" event.
-     *
-     * @param  \App\Models\CashBalances  $cashBalances
-     * @return void
-     */
-    public function deleted(CashBalances $cashBalances)
-    {
-        //
-    }
-
-    /**
-     * Handle the CashBalances "restored" event.
-     *
-     * @param  \App\Models\CashBalances  $cashBalances
-     * @return void
-     */
-    public function restored(CashBalances $cashBalances)
-    {
-        //
-    }
-
-    /**
-     * Handle the CashBalances "force deleted" event.
-     *
-     * @param  \App\Models\CashBalances  $cashBalances
-     * @return void
-     */
-    public function forceDeleted(CashBalances $cashBalances)
-    {
-        //
-    }
 }
