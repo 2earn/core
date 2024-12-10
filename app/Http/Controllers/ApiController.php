@@ -901,21 +901,12 @@ class ApiController extends BaseController
     public function getUsersList()
     {
         return datatables($this->getUsersListQuery())
-            ->addColumn('formatted_mobile', function ($user) {
-                $phone = new PhoneNumber($user->mobile, $user->apha2);
-                try {
-                    return $phone->formatForCountry($user->apha2);
-                } catch (\Exception $e) {
-                    return $phone;
-                }
-                return $phone->formatForCountry($user->apha2);
-            })
             ->addColumn('register_upline', function ($user) {
                 if ($user->idUplineRegister == 11111111) return "system"; else
                     return getRegisterUpline($user->idUplineRegister);
             })
             ->addColumn('formatted_created_at', function ($user) {
-                return Carbon\Carbon::parse($user->created_at)->format('Y-m-d H:i:s');
+                return view('parts.datatable.user-date', ['dateTime' => Carbon\Carbon::parse($user->created_at)]);
             })
             ->addColumn('more_details', function ($user) {
                 return view('parts.datatable.user-details', ['user' => $user]);

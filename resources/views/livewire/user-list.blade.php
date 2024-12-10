@@ -241,7 +241,6 @@
                         <th>{{__('Details')}}</th>
                         <th>{{__('created at')}}</th>
                         <th>{{__('pays')}}</th>
-                        <th>{{__('Phone')}}</th>
                         <th>{{__('Name')}}</th>
                         <th>{{__('Mobile')}}</th>
                         <th>{{__('Status')}}</th>
@@ -656,7 +655,6 @@
                     datatableControlBtn,
                     {data: 'formatted_created_at'},
                     {data: 'flag'},
-                    {data: 'formatted_mobile'},
                     {data: 'name'},
                     {data: 'mobile'},
                     {data: 'status'},
