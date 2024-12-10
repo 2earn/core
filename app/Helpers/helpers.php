@@ -246,7 +246,7 @@ if (!function_exists('getRevenuShares')) {
             ->selectRaw('SUM((value + gifted_shares)*cast(PU as decimal(10,2))) as total_sum')
             ->first()->total_sum;
     }
-    function getRevenuShares()
+    function getRevenuShares_v2()
     {
         return user_balance::where('idBalancesOperation', 44)
             ->selectRaw('SUM((value + gifted_shares)*cast(PU as decimal(10,2))) as total_sum')
@@ -397,7 +397,6 @@ if (!function_exists('getActifNumber')) {
 if (!function_exists('getCountryByIso')) {
     function getCountryByIso($iso)
     {
-
         $s = collect(DB::select('select name from countries where apha2 = ? ', [$iso]))->first();
         return $s->name;
     }
