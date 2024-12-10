@@ -21,7 +21,7 @@
                             <th>{{ __('Operation') }}</th>
                             <th>{{ __('I/O') }}</th>
                             <th>{{ __('Source') }}</th>
-                            <th>{{ __('Amount') }}</th>
+                            <th>{{ __('Balance') }}</th>
                             <th>{{ __('Parent') }}</th>
                             <th>{{ __('Amount') }}</th>
                             <th>{{ __('ModifyAmount') }}</th>
