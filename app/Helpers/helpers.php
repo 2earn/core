@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
-use App\Models\UserCurrentBalancehorisontal;
-use App\Services\Balances\Balances;
+use Core\Models\UserContact;
 use Core\Models\countrie;
+use Illuminate\Support\Facades\Auth;
 
 if (!function_exists('getUserBalanceSoldes')) {
     function getUserBalanceSoldes($idUser, $amount)
@@ -124,9 +124,9 @@ if (!function_exists('getUserByContact')) {
     function getUserByContact($phone)
     {
         $hours = Setting::Where('idSETTINGS', '25')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
-        $user = \Core\Models\UserContact::where('fullphone_number', $phone)->where('availablity', '1')->whereRaw('TIMESTAMPDIFF(HOUR, reserved_at, NOW()) < ?', [$hours])
+        $user = UserContact::where('fullphone_number', $phone)->where('availablity', '1')->whereRaw('TIMESTAMPDIFF(HOUR, reserved_at, NOW()) < ?', [$hours])
             ->orderBy('reserved_at')->pluck('idUser')->first();
-        return $user ? $user : NULL;
+        return $user ?? NULL;
     }
 }
 
@@ -197,8 +197,7 @@ if (!function_exists('find_actions')) {
 if (!function_exists('getFlashGiftedActions')) {
     function getFlashGiftedActions($actions, $times)
     {
-        $result = intval($actions * ($times - 1));
-        return $result;
+        return intval($actions * ($times - 1));
     }
 }
 if (!function_exists('actualActionValue')) {
@@ -221,25 +220,48 @@ if (!function_exists('getSelledActions')) {
         } else {
             return user_balance::where('idBalancesOperation', 44)->sum('value');
         }
+    }    function getSelledActions_v2($withGiftedShares = false)
+    {
+        if ($withGiftedShares) {
+            return user_balance::where('idBalancesOperation', 44)->sum(DB::raw('value + gifted_shares'));
+        } else {
+            return user_balance::where('idBalancesOperation', 44)->sum('value');
+        }
     }
 }
 if (!function_exists('getGiftedShares')) {
     function getGiftedShares()
     {
-        return \Core\Models\user_balance::where('idBalancesOperation', 44)->sum('gifted_shares');
+        return user_balance::where('idBalancesOperation', 44)->sum('gifted_shares');
+    }
+    function getGiftedShares_v2()
+    {
+        return user_balance::where('idBalancesOperation', 44)->sum('gifted_shares');
     }
 }
 if (!function_exists('getRevenuShares')) {
     function getRevenuShares()
     {
-        return \Core\Models\user_balance::where('idBalancesOperation', 44)
-            ->selectRaw('SUM((value + gifted_shares)*cast(PU as decimal(10,2))) as total_sum')->first()->total_sum;
+        return user_balance::where('idBalancesOperation', 44)
+            ->selectRaw('SUM((value + gifted_shares)*cast(PU as decimal(10,2))) as total_sum')
+            ->first()->total_sum;
+    }
+    function getRevenuShares()
+    {
+        return user_balance::where('idBalancesOperation', 44)
+            ->selectRaw('SUM((value + gifted_shares)*cast(PU as decimal(10,2))) as total_sum')
+            ->first()->total_sum;
     }
 }
 if (!function_exists('getRevenuSharesReal')) {
     function getRevenuSharesReal()
     {
-        return \Core\Models\user_balance::where('idBalancesOperation', 44)
+        return user_balance::where('idBalancesOperation', 44)
+            ->selectRaw('SUM(Balance) as total_sum')->first()->total_sum;
+    }
+    function getRevenuSharesReal_v2()
+    {
+        return user_balance::where('idBalancesOperation', 44)
             ->selectRaw('SUM(Balance) as total_sum')->first()->total_sum;
     }
 }
@@ -247,7 +269,14 @@ if (!function_exists('getRevenuSharesReal')) {
 if (!function_exists('getUserSelledActions')) {
     function getUserSelledActions($user)
     {
-        return \Core\Models\user_balance::where('idBalancesOperation', 44)->where('idUser', $user)->selectRaw('SUM(value + gifted_shares) as total_sum')->first()->total_sum;
+        return user_balance::where('idBalancesOperation', 44)
+            ->where('idUser', $user)->selectRaw('SUM(value + gifted_shares) as total_sum')
+            ->first()->total_sum;
+    }    function getUserSelledActions_v2($user)
+    {
+        return user_balance::where('idBalancesOperation', 44)
+            ->where('idUser', $user)->selectRaw('SUM(value + gifted_shares) as total_sum')
+            ->first()->total_sum;
     }
 }
 
@@ -261,15 +290,23 @@ if (!function_exists('getUserActualActionsValue')) {
 if (!function_exists('getUserActualActionsProfit')) {
     function getUserActualActionsProfit($user)
     {
-        $expences = \Core\Models\user_balance::where('idBalancesOperation', 44)->where('idUser', $user)->selectRaw('SUM((value + gifted_shares) * PU) as total_sum')->first()->total_sum;
-        return getUserActualActionsValue($user) - $expences;
+        return getUserActualActionsValue($user) - user_balance::where('idBalancesOperation', 44)->where('idUser', $user)
+                ->selectRaw('SUM((value + gifted_shares) * PU) as total_sum')
+                ->first()
+                ->total_sum;
+    }
+    function getUserActualActionsProfit_v2($user)
+    {
+        return getUserActualActionsValue($user) - user_balance::where('idBalancesOperation', 44)->where('idUser', $user)
+                ->selectRaw('SUM((value + gifted_shares) * PU) as total_sum')
+                ->first()
+                ->total_sum;
     }
 }
 if (!function_exists('getExtraAdmin')) {
     function getExtraAdmin()
     {
-        $user = auth()->user()->fullphone_number;
-        return $user;
+        return  auth()->user()->fullphone_number;
     }
 }
 if (!function_exists('getLangNavigation')) {
@@ -332,15 +369,14 @@ if (!function_exists('getLocationByIP')) {
         $json = file_get_contents("http://ipinfo.io/{$ip}/geo");
         $details = json_decode($json, true);
         $country_code = $details['country'];
-        if (\Illuminate\Support\Facades\Auth::check()) {
-            $authUser = \Illuminate\Support\Facades\Auth::user();
-            $countryAuth = DB::table('countries')->where('id', '=', $authUser->idCountry)->get()->first();
+        if (Auth::check()) {
+            $countryAuth = DB::table('countries')->where('id', '=', auth()->user()->idCountry)->get()->first();
             if (strtolower($country_code) != strtolower($countryAuth->apha2) && strtolower(getActifNumber()->isoP) != strtolower($country_code)) {
                 $samePay = false;
             }
             if (strtolower(getActifNumber()->isoP) != strtolower($country_code) && strtolower($country_code) == strtolower($countryAuth->apha2)) {
-                $num = collect(DB::select('select * from usercontactnumber where idUser = ? and mobile = ?', [Auth::user()->idUser, $authUser->mobile]))->first();
-                DB::update('update usercontactnumber set active = 0 where idUser = ?', [$authUser->idUser]);
+                $num = collect(DB::select('select * from usercontactnumber where idUser = ? and mobile = ?', [Auth::user()->idUser, auth()->user()->mobile]))->first();
+                DB::update('update usercontactnumber set active = 0 where idUser = ?', [auth()->user()->idUser]);
                 DB::update('update usercontactnumber set active = 1 where id = ?', [$num->id]);
             }
         }
@@ -351,9 +387,8 @@ if (!function_exists('getLocationByIP')) {
 if (!function_exists('getActifNumber')) {
     function getActifNumber()
     {
-        if (\Illuminate\Support\Facades\Auth::check()) {
-            $authUser = \Illuminate\Support\Facades\Auth::user();
-            return collect(DB::select('select * from usercontactnumber where idUser = ? and active = 1', [Auth::user()->idUser]))->first();
+        if (Auth::check()) {
+            return collect(DB::select('select * from usercontactnumber where idUser = ? and active = 1', [auth()->user()->idUser]))->first();
         }
         return false;
     }
@@ -393,14 +428,22 @@ if (!function_exists('checkUserBalancesInReservation')) {
     function checkUserBalancesInReservation($idUser)
     {
         $reservation = Setting::Where('idSETTINGS', '32')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
-        // CHECKED IN BALANCES
-        // user_balances -> action
-
         $result = DB::table('user_balances as u')
             ->where('idUser', $idUser)
             ->select(DB::raw('TIMESTAMPDIFF(HOUR, ' . DB::raw('DATE') . ', NOW()))'))
             ->where('idBalancesOperation', 44)
             ->whereRaw('TIMESTAMPDIFF(HOUR, ' . DB::raw('DATE') . ', NOW()) < ?', [$reservation])
+            ->count();
+        return $result ?? null;
+    }
+    function checkUserBalancesInReservation_v2($idUser)
+    {
+        $reservation = Setting::Where('idSETTINGS', '32')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
+        $result = DB::table('shares_balances as u')
+            ->where('beneficiary_id', $idUser)
+            ->select(DB::raw('TIMESTAMPDIFF(HOUR, ' . DB::raw('created_at') . ', NOW()))'))
+            ->where('balance_operation_id', 44)
+            ->whereRaw('TIMESTAMPDIFF(HOUR, ' . DB::raw('created_at') . ', NOW()) < ?', [$reservation])
             ->count();
         return $result ?? null;
     }
@@ -473,12 +516,8 @@ if (!function_exists('formatNotification')) {
             case 'App\Notifications\contact_registred':
                 $notificationText = Lang::get('New contact registred') . ' ' . $notification->data['fullphone_number'];
                 break;
-            case 1:
-                echo "i equals 1";
-                break;
-            case 2:
+            default:
                 echo "i equals 2";
-                break;
         }
         return $notificationText;
     }
@@ -534,7 +573,6 @@ if (!function_exists('checkExpiredSoonInternationalIdentity')) {
 if (!function_exists('getValidCurrentDateTime')) {
     function getValidCurrentDateTime($date)
     {
-
         if (is_null($date)) {
             return null;
         }
@@ -577,7 +615,6 @@ if (!function_exists('formatSqlWithEnv')) {
 if (!function_exists('getSqlFromPath')) {
     function getSqlFromPath($fileName)
     {
-
         $path = database_path('sql/' . $fileName . '.sql');
         if (!File::exists($path)) {
             throw new Exception('Invalid sql Path');
