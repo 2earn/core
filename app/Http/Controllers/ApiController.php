@@ -318,7 +318,6 @@ class ApiController extends BaseController
     {
         return DB::table('shares_balances')
             ->select('id', 'value',  'unit_price as PU', 'created_at as Date')
-            ->where('balance_operation_id', 44)
             ->where('beneficiary_id', Auth()->user()->idUser)
             ->orderBy('id', 'desc');
     }
