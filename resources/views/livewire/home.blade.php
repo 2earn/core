@@ -29,7 +29,8 @@
                                 {{__('actions')}} ,
                                 {{__('et les benefices instentannés seront')}}
                                 <span
-                                    class="col-auto flash-red">{{formatSolde($benefices,2)}}{{$currency}}</span></p>
+                                    class="col-auto flash-red">{{formatSolde($benefices,2)}}                                    <span class="text-muted">{{$currency}}</span>
+</span></p>
                         </div>
                         <div class="row col-12">
                             <div class="discount-time text-center">
@@ -48,7 +49,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Cash balance') }}</p>
+                            <p class="text-uppercase fw-medium text-cash text-truncate   mb-0">{{ __('Cash balance') }}</p>
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
@@ -74,25 +75,25 @@
                         <div>
                             <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
                                 @if(app()->getLocale()!="ar")
-                                    {{$currency}}
-                                    <span class="counter-value"
+                                    <span class="text-muted">{{$currency}}</span>
+                                    <span class="counter-value text-cash"
                                           data-target="{{intval($cashBalance)}}">{{formatSolde($cashBalance,0)}}</span>
-                                    <small class="text-muted fs-13">
+                                    <small class="text-muted fs-13 text-cash">
                                         @if(getDecimals($cashBalance))
                                             {{$decimalSeperator}}
                                             {{getDecimals($cashBalance)}}
                                         @endif
                                     </small>
                                 @else
-                                    <small class="text-muted fs-13">
+                                    <small class="text-muted fs-13  text-cash">
                                         @if(getDecimals($cashBalance))
                                             {{getDecimals($cashBalance)}}
                                             {{$decimalSeperator}}
                                         @endif
                                     </small>
-                                    <span class="counter-value"
+                                    <span class="counter-value text-cash"
                                           data-target="{{intval($cashBalance)}}">{{intval($cashBalance)}}</span>
-                                    {{$currency}}
+                                    <span class="text-muted">{{$currency}}</span>
                                 @endif
                             </h3>
                             <a href="{{route('user_balance_cb' , app()->getLocale() )}} "
@@ -115,7 +116,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Balance for Shopping') }}</p>
+                            <p class="text-uppercase fw-medium text-bfs text-truncate   mb-0">{{ __('Balance for Shopping') }}</p>
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
@@ -137,25 +138,25 @@
                         <div>
                             <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
                                 @if(app()->getLocale()!="ar")
-                                    {{$currency}}
-                                    <span class="counter-value"
+                                    <span class="text-muted">{{$currency}}</span>
+                                    <span class="counter-value  text-bfs"
                                           data-target="{{intval($balanceForSopping)}}">{{formatSolde($balanceForSopping,0)}}</span>
-                                    <small class="text-muted fs-13">
+                                    <small class="text-muted fs-13 text-bfs">
                                         @if(getDecimals($balanceForSopping))
                                             {{$decimalSeperator}}
                                             {{getDecimals($balanceForSopping)}}
                                         @endif
                                     </small>
                                 @else
-                                    <small class="text-muted fs-13">
+                                    <small class="text-muted fs-13 text-bfs">
                                         @if(getDecimals($balanceForSopping))
                                             {{getDecimals($balanceForSopping)}}
                                             {{$decimalSeperator}}
                                         @endif
                                     </small>
-                                    <span class="counter-value"
+                                    <span class="counter-value text-bfs"
                                           data-target="{{intval($balanceForSopping)}}">{{formatSolde($balanceForSopping,0)}}</span>
-                                    {{$currency}}
+                                    <span class="text-muted">{{$currency}}</span>
                                 @endif
                             </h3>
                             <a href="{{route('user_balance_bfs' , app()->getLocale() )}} "
@@ -177,7 +178,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-uppercase fw-medium text-muted text-truncate  mb-0">{{ __('Discounts Balance') }}</p>
+                            <p class="text-uppercase fw-medium text-discount text-truncate  mb-0">{{ __('Discounts Balance') }}</p>
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
@@ -199,25 +200,25 @@
                         <div>
                             <h4 class="mb-4 fs-22 fw-semibold ff-secondary">
                                 @if(app()->getLocale()!="ar")
-                                    {{$currency}}
-                                    <span class="counter-value"
+                                    <span class="text-muted">{{$currency}}</span>
+                                    <span class="counter-value text-discount "
                                           data-target="{{intval($discountBalance)}}">{{intval($discountBalance)}}</span>
-                                    <small class="text-muted fs-13">
+                                    <small class="text-muted fs-13 text-discount">
                                         @if(getDecimals($discountBalance))
                                             {{$decimalSeperator}}
                                             {{getDecimals($discountBalance)}}
                                         @endif
                                     </small>
                                 @else
-                                    <small class="text-muted fs-13">
+                                    <small class="text-muted fs-13 text-discount">
                                         @if(getDecimals($discountBalance))
                                             {{getDecimals($discountBalance)}}
                                             {{$decimalSeperator}}
                                         @endif
                                     </small>
-                                    <span class="counter-value"
+                                    <span class="counter-value text-discount"
                                           data-target="{{intval($discountBalance)}}">{{formatSolde($discountBalance,0)}}</span>
-                                    {{$currency}}
+                                    <span class="text-muted">{{$currency}}</span>
                                 @endif
                             </h4>
                             <a href="{{route('user_balance_db' , app()->getLocale() )}} "
@@ -347,13 +348,15 @@
                                 <span class="counter-value"
                                       data-target="{{$userSelledAction}}">{{formatSolde($userSelledAction,0)}}</span>
                                 <small class="text-muted fs-13">
-                                    ({{$actionsValues}}{{$currency}})
+                                    ({{$actionsValues}}                                    <span class="text-muted">{{$currency}}</span>
+
                                 </small></h3>
                             <a href="{{route('business_hub_trading',app()->getLocale())}}"
                                class="btn btn-sm @if($flash) btn-flash @else btn-secondary  @endif">{{ __('Buy Shares') }}</a>
                             <span class="badge bg-light text-success  ms-2 mb-0"><i
                                     class="ri-arrow-up-line align-middle"></i>
-                                {{$userActualActionsProfit }} {{$currency}}
+                                {{$userActualActionsProfit }}                                     <span class="text-muted">{{$currency}}</span>
+
                             </span>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
@@ -525,7 +528,8 @@
                                     </div>
                                 @endif
                                 <div class="col-6  @if($flash) ribbon-box right overflow-hidden @endif ">
-                                    <label for="ammount" class="col-form-label">{{ __('Amount_pay') }}({{$currency}}
+                                    <label for="ammount" class="col-form-label">{{ __('Amount_pay') }}(                                    <span class="text-muted">{{$currency}}</span>
+
                                         )</label>
                                     <div class="input-group mb-3">
 
@@ -587,7 +591,8 @@
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-6">
                                     <label for="profit" class="col-form-label">{{ __('Profit') }}
-                                        ({{$currency}}) </label>
+                                        (                                    <span class="text-muted">{{$currency}}</span>
+                                        ) </label>
                                     <input type="text" inputmode="numeric" pattern="[-+]?[0-9]*[.,]?[0-9]+" disabled
                                            class="@if($flash) form-control-flash @else form-control  @endif"
                                            id="profit"
