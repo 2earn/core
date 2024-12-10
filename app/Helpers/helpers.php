@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Log;
 use Core\Models\UserContact;
 use Core\Models\countrie;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\SharesBalances;
 if (!function_exists('getUserBalanceSoldes')) {
     function getUserBalanceSoldes($idUser, $amount)
     {
@@ -220,13 +220,11 @@ if (!function_exists('getSelledActions')) {
         } else {
             return user_balance::where('idBalancesOperation', 44)->sum('value');
         }
-    }    function getSelledActions_v2($withGiftedShares = false)
+    }
+
+    function getSelledActions_v2($withGiftedShares = false)
     {
-        if ($withGiftedShares) {
-            return user_balance::where('idBalancesOperation', 44)->sum(DB::raw('value + gifted_shares'));
-        } else {
-            return user_balance::where('idBalancesOperation', 44)->sum('value');
-        }
+        return $withGiftedShares ? user_balance::sum(DB::raw('value')) : \App\Models\SharesBalances::where('balance_operation_id', 44)->sum('value');
     }
 }
 if (!function_exists('getGiftedShares')) {
@@ -236,7 +234,7 @@ if (!function_exists('getGiftedShares')) {
     }
     function getGiftedShares_v2()
     {
-        return user_balance::where('idBalancesOperation', 44)->sum('gifted_shares');
+        return SharesBalances::whereIn('balance_operation_id', [54, 55])->sum('value');
     }
 }
 if (!function_exists('getRevenuShares')) {
@@ -248,8 +246,7 @@ if (!function_exists('getRevenuShares')) {
     }
     function getRevenuShares_v2()
     {
-        return user_balance::where('idBalancesOperation', 44)
-            ->selectRaw('SUM((value + gifted_shares)*cast(PU as decimal(10,2))) as total_sum')
+        return SharesBalances::selectRaw('SUM((value)*cast(PU as decimal(10,2))) as total_sum')
             ->first()->total_sum;
     }
 }
@@ -261,8 +258,8 @@ if (!function_exists('getRevenuSharesReal')) {
     }
     function getRevenuSharesReal_v2()
     {
-        return user_balance::where('idBalancesOperation', 44)
-            ->selectRaw('SUM(Balance) as total_sum')->first()->total_sum;
+        return SharesBalances::where('balance_operation_id', 44)
+            ->selectRaw('SUM(current_balance) as total_sum')->first()->total_sum;
     }
 }
 
@@ -272,10 +269,11 @@ if (!function_exists('getUserSelledActions')) {
         return user_balance::where('idBalancesOperation', 44)
             ->where('idUser', $user)->selectRaw('SUM(value + gifted_shares) as total_sum')
             ->first()->total_sum;
-    }    function getUserSelledActions_v2($user)
+    }
+
+    function getUserSelledActions_v2($user)
     {
-        return user_balance::where('idBalancesOperation', 44)
-            ->where('idUser', $user)->selectRaw('SUM(value + gifted_shares) as total_sum')
+        return SharesBalances::where('beneficiary_id', $user)->selectRaw('SUM(value) as total_sum')
             ->first()->total_sum;
     }
 }
@@ -297,8 +295,8 @@ if (!function_exists('getUserActualActionsProfit')) {
     }
     function getUserActualActionsProfit_v2($user)
     {
-        return getUserActualActionsValue($user) - user_balance::where('idBalancesOperation', 44)->where('idUser', $user)
-                ->selectRaw('SUM((value + gifted_shares) * PU) as total_sum')
+        return getUserActualActionsValue($user) - SharesBalances::where('beneficiary_id', $user)
+                ->selectRaw('SUM((value) * unit_price) as total_sum')
                 ->first()
                 ->total_sum;
     }
