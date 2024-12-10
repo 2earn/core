@@ -1,5 +1,5 @@
-<ul class="list-group list-group-flush w-100">
-
+<!-- Center Alignment -->
+<ul class="list-group list-group-horizontal-md justify-content-center">
     <li class="list-group-item" title="{{__('SoldeCB')}}">
         <a data-bs-toggle="modal" data-bs-target="#detail" data-amount="1"
            data-reciver="{{$idUser}}" class="btn btn-ghost-secondary waves-effect waves-light cb">
@@ -13,11 +13,12 @@
         </a>
     </li>
     <li class="list-group-item" title="{{__('SoldeDB')}}">
-
         <a data-bs-toggle="modal" data-bs-target="#detail" data-amount="3" data-reciver="{{$idUser}}"
            class="btn btn-ghost-info waves-effect waves-light db">
             <i class="glyphicon glyphicon-add"></i>${{number_format(getUserBalanceSoldes($idUser, 3), 2) }}</a>
     </li>
+</ul>
+<ul class="list-group list-group-horizontal-md justify-content-center">
     <li class="list-group-item" title="{{__('SoldeSMS')}}">
         <a data-bs-toggle="modal" data-bs-target="#detail" data-amount="5" data-reciver="' . $idUser . '"
            class="btn btn-ghost-warning waves-effect waves-light smsb">

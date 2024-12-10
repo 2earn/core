@@ -17,7 +17,7 @@
             </div>
             <div class="card-body row ">
                 <div class="row mt-1">
-                    <div class="col-xl-3 col-md-6">
+                    <div class="col-xl-4 col-md-6">
                         <div class="card border border-muted card-animate">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
@@ -55,7 +55,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-md-6">
+                    <div class="col-xl-4 col-md-6">
                         <div class="card border border-muted card-animate">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
@@ -83,7 +83,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-md-6">
+                    <div class="col-xl-4 col-md-6">
                         <div class="card border border-muted card-animate">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
