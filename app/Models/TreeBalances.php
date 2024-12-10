@@ -58,11 +58,13 @@ class TreeBalances extends Model
 
     public static function getTreesNumber($treeBalances)
     {
-        if (DB::table('settings')->where("ParameterName", "=", 'TOTAL_TREE')->exists()) {
-            return $treeBalances / DB::table('settings')->where("ParameterName", "=", 'TOTAL_TREE')->first()->pluck('IntegerValue');
+        try {
+            if (DB::table('settings')->where("ParameterName", "=", 'TOTAL_TREE')->exists()) {
+                return $treeBalances / DB::table('settings')->where("ParameterName", "=", 'TOTAL_TREE')->pluck('IntegerValue')->first();
+            }
+        } catch (\Exception $exception) {
+            return 0;
         }
-
-        return 0;
     }
 
     public static function addLine($treeBalances, $item_id = null, $deal_id = null, $order_id = null, $platform_id = null, $order_detail_id = null)

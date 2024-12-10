@@ -20,6 +20,7 @@ use Core\Enum\PlatformType;
 use Core\Enum\StatusRequest;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
+use Core\Models\BalanceOperation;
 use Core\Models\countrie;
 use Core\Models\detail_financial_request;
 use Core\Models\FinancialRequest;
@@ -1016,6 +1017,7 @@ class ApiController extends BaseController
                 'balance_operations.source',
                 'balance_operations.amounts_id',
                 'balance_operations.note',
+                'balance_operations.parent_id',
                 'balance_operations.modify_amount',
                 'amounts.amountsshortname');
     }
@@ -1027,6 +1029,9 @@ class ApiController extends BaseController
             })
             ->editColumn('modify_amount', function ($balance) {
                 return view('parts.datatable.balances-modify', ['modify' => $balance->modify_amount]);
+            })
+            ->editColumn('parent_id', function ($balance) {
+                return view('parts.datatable.balances-parent', ['balance' => BalanceOperation::find($balance->parent_id)]);
             })
             ->editColumn('amounts_id', function ($balance) {
                 return view('parts.datatable.balances-amounts-id', ['ammount' => $balance->amounts_id]);

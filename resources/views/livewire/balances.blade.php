@@ -22,6 +22,7 @@
                             <th>{{ __('I/O') }}</th>
                             <th>{{ __('Source') }}</th>
                             <th>{{ __('Amount') }}</th>
+                            <th>{{ __('Parent') }}</th>
                             <th>{{ __('Amount') }}</th>
                             <th>{{ __('ModifyAmount') }}</th>
                             <th>{{ __('Actions') }}</th>
@@ -102,7 +103,6 @@
         }
 
         $(document).on('turbolinks:load', function () {
-
             $('#BalanceOperationsTable').DataTable(
                 {
                     retrieve: true,
@@ -130,6 +130,7 @@
                         {"data": "io"},
                         {"data": "source"},
                         {"data": "amounts_id"},
+                        {"data": "parent_id"},
                         {"data": "amountsshortname"},
                         {data: 'modify_amount'},
                         {data: 'action', name: 'action', orderable: false, searchable: false},

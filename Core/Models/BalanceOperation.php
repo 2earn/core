@@ -54,6 +54,10 @@ class BalanceOperation extends Model
     {
         return $this->hasMany(TreeBalances::class);
     }
+    public function parent()
+    {
+        return $this->belongsTo(BalanceOperation::class, 'parent_id');
+    }
 
     public static function getMultiplicator($treeBalances): int
     {
