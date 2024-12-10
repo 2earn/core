@@ -993,9 +993,7 @@ class ApiController extends BaseController
 
     public function getSettings()
     {
-        $settings = DB::table('settings')
-            ->orderBy('idSETTINGS');
-        return datatables($settings)
+        return datatables(Setting::all())
             ->addColumn('action', function ($settings) {
                 return view('parts.datatable.settings-action', ['settings' => $settings]);
             })
@@ -1009,7 +1007,7 @@ class ApiController extends BaseController
     public function getBalanceOperationsQuery()
     {
         return DB::table('balance_operations')
-            ->join('amounts', 'balance_operations.amounts_id', '=', 'amounts.idamounts')
+            ->leftJoin('amounts', 'balance_operations.amounts_id', '=', 'amounts.idamounts')
             ->select(
                 'balance_operations.id',
                 'balance_operations.operation',
