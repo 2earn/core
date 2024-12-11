@@ -19,6 +19,11 @@ class BFSsBalances extends Model
         'current_balance',
         'reference',
         'percentage',
+        'balance_operation_id',
+        'description',
+        'beneficiary_id_auto',
+        'beneficiary_id',
+        'operator_id',
     ];
 
     public function item()

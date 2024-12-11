@@ -17,6 +17,11 @@ class ChanceBalances extends Model
         'description',
         'current_balance',
         'reference',
+        'balance_operation_id',
+        'description',
+        'beneficiary_id_auto',
+        'beneficiary_id',
+        'operator_id',
     ];
 
     public function item()

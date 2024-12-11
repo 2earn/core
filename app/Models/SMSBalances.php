@@ -20,6 +20,11 @@ class SMSBalances extends Model
         'current_balance',
         'reference',
         'amount',
+        'balance_operation_id',
+        'description',
+        'beneficiary_id_auto',
+        'beneficiary_id',
+        'operator_id',
     ];
 
     public function deal()
