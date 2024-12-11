@@ -359,7 +359,6 @@
                             <th>{{__('id')}}</th>
                             <th>{{__('date_purchase')}}</th>
                             <th>{{__('number_of_shares')}}</th>
-                            <th>{{__('gifted_shares')}}</th>
                             <th>{{__('total_shares')}}</th>
                             <th>{{__('total_price')}}</th>
                             <th>{{__('present_value')}}</th>
@@ -535,7 +534,6 @@
                     {data: 'id'},
                     {data: 'formatted_created_at'},
                     {data: 'value_format'},
-                    {data: 'gifted_shares'},
                     {data: 'total_shares'},
                     {data: 'total_price'},
                     {data: 'present_value'},

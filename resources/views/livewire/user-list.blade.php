@@ -17,7 +17,7 @@
             </div>
             <div class="card-body row ">
                 <div class="row mt-1">
-                    <div class="col-xl-3 col-md-6">
+                    <div class="col-xl-4 col-md-6">
                         <div class="card border border-muted card-animate">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
@@ -55,7 +55,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-md-6">
+                    <div class="col-xl-4 col-md-6">
                         <div class="card border border-muted card-animate">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
@@ -83,7 +83,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-md-6">
+                    <div class="col-xl-4 col-md-6">
                         <div class="card border border-muted card-animate">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
@@ -241,7 +241,6 @@
                         <th>{{__('Details')}}</th>
                         <th>{{__('created at')}}</th>
                         <th>{{__('pays')}}</th>
-                        <th>{{__('Phone')}}</th>
                         <th>{{__('Name')}}</th>
                         <th>{{__('Mobile')}}</th>
                         <th>{{__('Status')}}</th>
@@ -428,7 +427,6 @@
                                 <tr class="head2earn  tabHeader2earn">
                                     <th>{{__('date_purchase')}}</th>
                                     <th>{{__('number_of_shares')}}</th>
-                                    <th>{{__('gifted_shares')}}</th>
                                     <th>{{__('total_shares')}}</th>
                                     <th>{{__('total_price')}}</th>
                                     <th>{{__('present_value')}}</th>
@@ -611,9 +609,8 @@
                 "processing": true,
                 "data": data,
                 "columns": [
-                    {data: 'Date'},
+                    {data: 'created_at'},
                     {data: 'value'},
-                    {data: 'gifted_shares'},
                     {data: 'total_shares'},
                     {data: 'total_price'},
                     {data: 'present_value'},
@@ -628,8 +625,9 @@
             let amount = $(this).data('amount');
             $('#balances-amountsh').attr('value', amount);
             $('#balances-reciversh').attr('value', reciver);
-            window.url = "{{ route('api_shares_solde_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1']) }}";
+            window.url = "{{ route('api_shares_solde_list', ['locale'=> app()->getLocale(),'amount' => 'amount1','idUser' => 'idUser1']) }}";
             window.url = window.url.replace('idUser1', reciver);
+            window.url = window.url.replace('amount1', amount);
             $(document).ready(function () {
                 $.getJSON(window.url, function (data) {
                     createOrUpdateDataTablesh(data);
@@ -656,7 +654,6 @@
                     datatableControlBtn,
                     {data: 'formatted_created_at'},
                     {data: 'flag'},
-                    {data: 'formatted_mobile'},
                     {data: 'name'},
                     {data: 'mobile'},
                     {data: 'status'},

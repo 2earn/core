@@ -20,6 +20,11 @@ class SharesBalances extends Model
         'payed',
         'unit_price',
         'real_amount',
+        'balance_operation_id',
+        'description',
+        'beneficiary_id_auto',
+        'beneficiary_id',
+        'operator_id',
     ];
 
     public function balanceOperation()

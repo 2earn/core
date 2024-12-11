@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->string('source', 45)->nullable();
             $table->string('mode', 45)->nullable();
             $table->integer('amounts_id');
+            $table->unsignedBigInteger('parent_id')->foreign('parent_id')->nullable()->references('id')->on(self::TABLE_NAME)->onDelete('cascade');
             $table->string('note', 45)->nullable();
             $table->boolean('modify_amount')->nullable()->default(true);
             $table->timestamps();

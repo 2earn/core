@@ -54,10 +54,14 @@ class BalanceOperation extends Model
     {
         return $this->hasMany(TreeBalances::class);
     }
-
-    public static function getMultiplicator($treeBalances): int
+    public function parent()
     {
-        return BalanceOperation::where('id', $treeBalances->balance_operation_id)->pluck('io') == 'I' ? 1 : -1;
+        return $this->belongsTo(BalanceOperation::class, 'parent_id');
+    }
+
+    public static function getMultiplicator($bai): int
+    {
+        return BalanceOperation::where('id', $bai)->pluck('io') == 'I' ? 1 : -1;
     }
 
 }

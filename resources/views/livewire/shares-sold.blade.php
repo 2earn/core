@@ -426,7 +426,6 @@
                         {data: 'Balance', "className": 'editable'},
                         {data: 'total_price'},
                         {data: 'value'},
-                        {data: 'gifted_shares'},
                         {data: 'PU'},
                         {data: 'share_price'},
                         {data: 'formatted_created_at'},

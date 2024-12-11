@@ -20,6 +20,7 @@ use Core\Enum\PlatformType;
 use Core\Enum\StatusRequest;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
+use Core\Models\BalanceOperation;
 use Core\Models\countrie;
 use Core\Models\detail_financial_request;
 use Core\Models\FinancialRequest;
@@ -42,7 +43,6 @@ use phpDocumentor\Reflection\Types\Collection;
 use Propaganistas\LaravelPhone\PhoneNumber;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
-use function PHPUnit\Framework\throwException;
 
 
 class ApiController extends BaseController
@@ -306,64 +306,47 @@ class ApiController extends BaseController
         return response()->json($data);
     }
 
+
+    public function getSharesSoldeQuery()
+    {
+        return DB::table('shares_balances')
+            ->where('beneficiary_id', Auth()->user()->idUser)
+            ->orderBy('id', 'desc');
+    }
     public function getSharesSolde()
     {
-        // CHECKED IN BALANCES
-        // --> TO CHECK
-        // sharebalances
-        //// remouve where idBalancesOperation
-        $query = DB::table('user_balances')
-            ->select('id', 'value', 'gifted_shares', 'PU', 'Date')
-            ->where('idBalancesOperation', 44)
-            ->where('idUser', Auth()->user()->idUser)
-            ->orderBy('id', 'desc');
-
-        return datatables($query)
+        return datatables($this->getSharesSoldeQuery())
             ->addColumn('total_price', function ($user_balance) {
-                return number_format($user_balance->PU * ($user_balance->value + $user_balance->gifted_shares), 2);
+                return number_format($user_balance->unit_price * ($user_balance->value), 2);
             })
             ->addColumn('share_price', function ($user_balance) {
                 if ($user_balance->value != 0)
-                    return $user_balance->PU * ($user_balance->value + $user_balance->gifted_shares) / $user_balance->value;
+                    return $user_balance->unit_price * ($user_balance->value) / $user_balance->value;
                 else return 0;
             })
             ->addColumn('formatted_created_at', function ($user_balance) {
-                return Carbon\Carbon::parse($user_balance->Date)->format('Y-m-d H:i:s');
+                return Carbon\Carbon::parse($user_balance->created_at)->format('Y-m-d H:i:s');
             })
             ->addColumn('total_shares', function ($user_balance) {
-                return $user_balance->value + $user_balance->gifted_shares;
+                return $user_balance->value ;
             })
             ->addColumn('present_value', function ($user_balance) {
-                return number_format(($user_balance->value + $user_balance->gifted_shares) * actualActionValue(getSelledActions(true)), 2);
+                return number_format(($user_balance->value) * actualActionValue(getSelledActions(true)), 2);
             })
             ->addColumn('current_earnings', function ($user_balance) {
-                return number_format(($user_balance->value + $user_balance->gifted_shares) * actualActionValue(getSelledActions(true)) - $user_balance->PU * ($user_balance->value + $user_balance->gifted_shares), 2);
+                return number_format(($user_balance->value) * actualActionValue(getSelledActions(true)) - $user_balance->unit_price * ($user_balance->value), 2);
             })
             ->addColumn('value_format', function ($user_balance) {
                 return number_format($user_balance->value, 0);
             })
-            ->rawColumns(['total_price', 'share_price'])
+            ->rawColumns(['total_price', 'share_price','formatted_created_at','total_shares','present_value','current_earnings','value_format'])
             ->make(true);
     }
 
-    public function getSharesSoldeList($locale, $idUser)
-    {
-        $actualActionValue = actualActionValue(getSelledActions(true));
 
-        // Effectuer la requête SQL avec le résultat obtenu
-        $userBalances = user_balance::select(
-            'Date',
-            DB::raw('CAST(value AS DECIMAL(10,0)) AS value'),
-            DB::raw('CAST(gifted_shares AS DECIMAL(10,0)) AS gifted_shares'),
-            DB::raw('CAST(gifted_shares + value AS DECIMAL(10,0)) AS total_shares'),
-            DB::raw('CAST((gifted_shares + value) * PU AS DECIMAL(10,2)) AS total_price'),
-            DB::raw('CAST((gifted_shares + value) * ' . $actualActionValue . ' AS DECIMAL(10,2)) AS present_value'),
-            DB::raw('CAST((gifted_shares + value) * ' . $actualActionValue . '- (gifted_shares + value) * PU AS DECIMAL(10,2)) AS current_earnings')
-        )
-            ->where('idBalancesOperation', 44)
-            ->where('idUser', $idUser)
-            ->get();
-        return $userBalances;
+    public function getSharesSoldeList($locale, $idUser, $idamount)
+    {
+        return $this->getUserBalancesList($locale, $idUser, $idamount);
     }
 
     public function getUpdatedCardContent()
@@ -372,26 +355,36 @@ class ApiController extends BaseController
         return response()->json(['value' => $updatedContent]);
     }
 
+    public function getSharesSoldesQuery()
+    {
+        return DB::table('shares_balances')
+            ->select(
+                'current_balance',
+                'payed',
+                'countries.apha2',
+                'shares_balances.id',
+                DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS Name'),
+                'user.mobile',
+                DB::raw('CAST(value AS DECIMAL(10,0)) AS value'),
+                'value',
+                DB::raw('CAST(shares_balances.unit_price AS DECIMAL(10,2)) AS unit_price'),
+                'shares_balances.created_at as Date',
+                'shares_balances.payed as payed',
+                'shares_balances.beneficiary_id'
+            )
+            ->join('users as user', 'user.idUser', '=', 'shares_balances.beneficiary_id')
+            ->join('metta_users as meta', 'meta.idUser', '=', 'user.idUser')
+            ->join('countries', 'countries.id', '=', 'user.idCountry');
+    }
     public function getSharesSoldes()
     {
-        // CHECKED IN BALANCES
-        // --> TO CHECK
-
-        $query = DB::table('user_balances')
-            ->select('Balance', 'WinPurchaseAmount', 'countries.apha2', 'user_balances.id', DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS Name'), 'user.mobile', DB::raw('CAST(value AS DECIMAL(10,0)) AS value'), 'gifted_shares', DB::raw('CAST(PU AS DECIMAL(10,2)) AS PU'), 'Date', 'user_balances.idUser')
-            ->join('users as user', 'user.idUser', '=', 'user_balances.idUser')
-            ->join('metta_users as meta', 'meta.idUser', '=', 'user.idUser')
-            ->join('countries', 'countries.id', '=', 'user.idCountry')
-            ->where('idBalancesOperation', 44);
-
-
-        return datatables($query)
+        return datatables($this->getSharesSoldesQuery())
             ->addColumn('total_price', function ($user_balance) {
-                return number_format($user_balance->PU * ($user_balance->value + $user_balance->gifted_shares), 2);
+                return number_format($user_balance->unit_price * ($user_balance->value), 2);
             })
             ->addColumn('share_price', function ($user_balance) {
                 if ($user_balance->value != 0)
-                    return $user_balance->PU * ($user_balance->value + $user_balance->gifted_shares) / $user_balance->value;
+                    return $user_balance->unit_price * ($user_balance->value) / $user_balance->value;
                 else return 0;
             })
             ->addColumn('formatted_created_at', function ($user_balance) {
@@ -405,21 +398,19 @@ class ApiController extends BaseController
                 return '<img src="' . $this->getFormatedFlagResourceName($settings->apha2) . '" alt="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
             })
             ->addColumn('sell_price_now', function ($user_balance) {
-                return number_format(actualActionValue(getSelledActions(true)) * ($user_balance->value + $user_balance->gifted_shares), 2);
+                return number_format(actualActionValue(getSelledActions(true)) * ($user_balance->value), 2);
             })
             ->addColumn('gain', function ($user_balance) {
-                return number_format(actualActionValue(getSelledActions(true)) * ($user_balance->value + $user_balance->gifted_shares) - $user_balance->PU * ($user_balance->value + $user_balance->gifted_shares), 2);
+                return number_format(actualActionValue(getSelledActions(true)) * ($user_balance->value) - $user_balance->unit_price * ($user_balance->value), 2);
             })
             ->addColumn('total_shares', function ($user_balance) {
-                return number_format($user_balance->value + $user_balance->gifted_shares, 0);
+                return number_format($user_balance->value, 0);
             })
             ->addColumn('asset', function ($settings) {
                 return $this->getFormatedFlagResourceName($settings->apha2);
             })
             ->rawColumns(['flag', 'share_price', 'status'])
             ->make(true);
-
-
     }
 
     public function getFormatedFlagResourceName($flagName)
@@ -516,6 +507,7 @@ class ApiController extends BaseController
 
             $mnt = $data->tran_total / $k;
             $new_value = intval($old_value) + $data->tran_total / $k;
+            // *****************************************
             // OBSERVER CURRENT BALANCES
         }
 
@@ -596,53 +588,57 @@ class ApiController extends BaseController
         }
     }
 
-    public function getTransfert()
+    public function getTransfertQuery()
     {
-        // CONVERTD IN BALANCES
-
-        $query = DB::table('cash_balances')
-            ->select('value', 'Description', 'created_at')
+        return DB::table('cash_balances')
+            ->select('value', 'description', 'created_at')
             ->where('balance_operation_id', BalanceOperationsEnum::CASH_TRANSFERT_O->value)
             ->where('beneficiary_id', Auth()->user()->idUser)
-            ->whereNotNull('Description');
-
-        return datatables($query)
+            ->whereNotNull('description');
+    }
+    public function getTransfert()
+    {
+        return datatables($this->getTransfertQuery())
             ->addColumn('formatted_created_at', function ($user_balance) {
                 return Carbon\Carbon::parse($user_balance->Date)->format('Y-m-d H:i:s');
             })
             ->make(true);
     }
 
-    public function getUserCashBalance()
+
+
+    public function getUserCashBalanceQuery()
     {
-        $query = DB::table('cash_balances')
+        return DB::table('cash_balances')
             ->select(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") AS x'), DB::raw('CAST(current_balance AS DECIMAL(10,2)) AS y'))
             ->where('beneficiary_id', auth()->user()->idUser)
             ->orderBy('created_at', 'asc')
             ->get();
 
+    }
+    public function getUserCashBalance()
+    {
+        $query = $this->getUserCashBalanceQuery();
         foreach ($query as $record) {
             $record->Balance = (float)$record->y;
         }
         return response()->json($query);
     }
 
-
+    public function getSharePriceEvolutionQuery()
+    {
+        return DB::table('shares_balances')
+            ->select(
+                DB::raw('CAST(SUM(value) OVER (ORDER BY id) AS DECIMAL(10,0))AS x'),
+                DB::raw('CAST(unit_price AS DECIMAL(10,2)) AS y')
+            )
+            ->where('balance_operation_id', 44)
+            ->orderBy('created_at')
+            ->get();
+    }
     public function getSharePriceEvolution()
     {
-        // CHECKED IN BALANCES
-        // --> TO CHECK
-        $query = DB::table('user_balances')
-            ->select(
-                DB::raw('CAST(SUM(value ) OVER (ORDER BY id) AS DECIMAL(10,0))AS x'),
-                DB::raw('CAST((value + gifted_shares) * PU / value AS DECIMAL(10,2)) AS y') //                DB::raw('CAST((value) * PU / value AS DECIMAL(10,2)) AS y')
-
-            )
-            ->where('idBalancesOperation', 44) // remove
-            ->where('value', '>', 0)
-            ->orderBy('Date')
-            ->get();
-
+        $query = $this->getSharePriceEvolutionQuery();
         foreach ($query as $record) {
             $record->y = (float)$record->y;
             $record->x = (float)$record->x;
@@ -650,86 +646,83 @@ class ApiController extends BaseController
         return response()->json($query);
     }
 
-    public function getSharePriceEvolutionDate()
+
+    public function getSharePriceEvolutionDateQuery()
     {
-        // CHECKED IN BALANCES
-        // --> TO CHECK
-        $query = DB::table('user_balances')
-            ->select(DB::raw('DATE(date) as x'), DB::raw('SUM(value) as y'))
-            ->where('idBalancesOperation', 44)
-            ->where('value', '>', 0)
+        return DB::table('shares_balances')
+            ->select(DB::raw('DATE(created_at) as x'), DB::raw('SUM(value) as y'))
+            ->where('balance_operation_id', 44)
             ->groupBy('x')
             ->get();
-
+    }
+    public function getSharePriceEvolutionDate()
+    {
+        $query = $this->getSharePriceEvolutionDateQuery();
         foreach ($query as $record) {
             $record->y = (float)$record->y;
         }
-
         return response()->json($query);
+    }
+
+    public function getSharePriceEvolutionWeekQuery()
+    {
+        return DB::table('shares_balances')
+            ->select(DB::raw(' concat(year(created_at),\'-\',WEEK(created_at, 1)) as x'), DB::raw('SUM(value) as y'), DB::raw(' WEEK(created_at, 1) as z'))
+            ->where('balance_operation_id', 44)
+            ->groupBy('x', 'z')
+            ->orderBy('z')
+            ->get();
     }
 
     public function getSharePriceEvolutionWeek()
     {
-        // CHECKED IN BALANCES
-        // --> TO CHECK
-        $query = DB::table('user_balances')
-            ->select(DB::raw(' concat(year(date),\'-\',WEEK(date, 1)) as x'), DB::raw('SUM(value) as y'), DB::raw(' WEEK(date, 1) as z'))
-            ->where('idBalancesOperation', 44)
-            ->where('value', '>', 0)
-            ->groupBy('x', 'z')
-            ->orderBy('z')
-            ->get();
-
+        $query = $this->getSharePriceEvolutionWeekQuery();
         foreach ($query as $record) {
             $record->y = (float)$record->y;
         }
         return response()->json($query);
     }
 
-    public function getSharePriceEvolutionMonth()
+
+    public function getSharePriceEvolutionMonthQuery()
     {
-        // CHECKED IN BALANCES
-        // --> TO CHECK
-        $query = DB::table('user_balances')
-            ->select(DB::raw('DATE_FORMAT(date, \'%Y-%m\') as x'), DB::raw('SUM(value) as y'))
-            ->where('idBalancesOperation', 44)
-            ->where('value', '>', 0)
+        return DB::table('shares_balances')
+            ->select(DB::raw('DATE_FORMAT(created_at, \'%Y-%m\') as x'), DB::raw('SUM(value) as y'))
+            ->where('balance_operation_id', 44)
             ->groupBy('x')
             ->get();
-
+    }
+    public function getSharePriceEvolutionMonth()
+    {
+        $query = $this->getSharePriceEvolutionMonthQuery();
         foreach ($query as $record) {
             $record->y = (float)$record->y;
         }
         return response()->json($query);
     }
 
-    public function getSharePriceEvolutionDay()
+    public function getSharePriceEvolutionDayQuery()
     {
-        // CHECKED IN BALANCES
-        // --> TO CHECK
-
-        $query = DB::table('user_balances')
-            ->select(DB::raw('DAYNAME(date) as x'), DB::raw('SUM(value) as y'), DB::raw('DAYOFWEEK(date) as z'))
-            ->where('idBalancesOperation', 44)
-            ->where('value', '>', 0)
+        return DB::table('shares_balances')
+            ->select(DB::raw('DAYNAME(created_at) as x'), DB::raw('SUM(value) as y'), DB::raw('DAYOFWEEK(created_at) as z'))
+            ->where('balance_operation_id', 44)
             ->groupBy('x', 'z')
             ->orderBy('z')
             ->get();
-
+    }
+    public function getSharePriceEvolutionDay()
+    {
+        $query = $this->getSharePriceEvolutionDayQuery();
         foreach ($query as $record) {
 
             $record->y = (float)$record->y;
         }
         return response()->json($query);
     }
-
 
     public function getSharePriceEvolutionUser()
     {
-        // CHECKED IN BALANCES
-        // --> TO CHECK
-        $idUser = auth()->user()->idUser;
-        $query = DB::select(getSqlFromPath('get_share_price_evolution_user'), [$idUser, $idUser]);
+        $query = DB::select(getSqlFromPath('get_share_price_evolution_user'), [auth()->user()->idUser, auth()->user()->idUser]);
         foreach ($query as $record) {
             if ($record->y) $record->y = (float)$record->y;
             $record->x = (float)$record->x;
@@ -751,7 +744,7 @@ class ApiController extends BaseController
             $val = ($final_value - $initial_value) / ($total_actions - 1) * ($x + 1) + ($initial_value - ($final_value - $initial_value) / ($total_actions - 1));
             $data[] = [
                 'x' => $x,
-                'y' => number_format($val, 2, '.', '') * 1 // Call your helper function
+                'y' => number_format($val, 2, '.', '') * 1
             ];
         }
         return response()->json($data);
@@ -771,29 +764,19 @@ class ApiController extends BaseController
             ->join('metta_users as meta', 'meta.idUser', '=', 'users.idUser')
             ->join('countries', 'countries.id', '=', 'users.idCountry')
             ->leftJoin('vip', function ($join) {
-                $join->on('vip.idUser', '=', 'users.idUser')
-                    ->where('vip.closed', '=', 0);
+                $join->on('vip.idUser', '=', 'users.idUser')->where('vip.closed', '=', 0);
             })->orderBy('created_at', 'DESC');
     }
 
     public function getUsersList()
     {
         return datatables($this->getUsersListQuery())
-            ->addColumn('formatted_mobile', function ($user) {
-                $phone = new PhoneNumber($user->mobile, $user->apha2);
-                try {
-                    return $phone->formatForCountry($user->apha2);
-                } catch (\Exception $e) {
-                    return $phone;
-                }
-                return $phone->formatForCountry($user->apha2);
-            })
             ->addColumn('register_upline', function ($user) {
                 if ($user->idUplineRegister == 11111111) return "system"; else
                     return getRegisterUpline($user->idUplineRegister);
             })
             ->addColumn('formatted_created_at', function ($user) {
-                return Carbon\Carbon::parse($user->created_at)->format('Y-m-d H:i:s');
+                return view('parts.datatable.user-date', ['dateTime' => Carbon\Carbon::parse($user->created_at)]);
             })
             ->addColumn('more_details', function ($user) {
                 return view('parts.datatable.user-details', ['user' => $user]);
@@ -871,10 +854,7 @@ class ApiController extends BaseController
 
     public function getSettings()
     {
-        $settings = DB::table('settings')
-            ->select('idSETTINGS', 'ParameterName', 'IntegerValue', 'StringValue', 'DecimalValue', 'Unit', 'Automatically_calculated')
-            ->orderBy('idSETTINGS');
-        return datatables($settings)
+        return datatables(Setting::all())
             ->addColumn('action', function ($settings) {
                 return view('parts.datatable.settings-action', ['settings' => $settings]);
             })
@@ -885,10 +865,10 @@ class ApiController extends BaseController
             ->toJson();
     }
 
-    public function getBalanceOperations()
+    public function getBalanceOperationsQuery()
     {
-        $balanceOperations = DB::table('balance_operations')
-            ->join('amounts', 'balance_operations.amounts_id', '=', 'amounts.idamounts')
+        return DB::table('balance_operations')
+            ->leftJoin('amounts', 'balance_operations.amounts_id', '=', 'amounts.idamounts')
             ->select(
                 'balance_operations.id',
                 'balance_operations.operation',
@@ -896,15 +876,21 @@ class ApiController extends BaseController
                 'balance_operations.source',
                 'balance_operations.amounts_id',
                 'balance_operations.note',
+                'balance_operations.parent_id',
                 'balance_operations.modify_amount',
                 'amounts.amountsshortname');
-
-        return datatables($balanceOperations)
+    }
+    public function getBalanceOperations()
+    {
+        return datatables($this->getBalanceOperationsQuery())
             ->addColumn('action', function ($balance) {
                 return view('parts.datatable.balances-status', ['balance' => $balance]);
             })
             ->editColumn('modify_amount', function ($balance) {
                 return view('parts.datatable.balances-modify', ['modify' => $balance->modify_amount]);
+            })
+            ->editColumn('parent_id', function ($balance) {
+                return view('parts.datatable.balances-parent', ['balance' => BalanceOperation::find($balance->parent_id)]);
             })
             ->editColumn('amounts_id', function ($balance) {
                 return view('parts.datatable.balances-amounts-id', ['ammount' => $balance->amounts_id]);
@@ -916,12 +902,14 @@ class ApiController extends BaseController
             ->toJson();
     }
 
+    public function getAmountsQuery()
+    {
+        return DB::table('amounts')
+            ->select('idamounts', 'amountsname', 'amountswithholding_tax', 'amountspaymentrequest', 'amountstransfer', 'amountscash', 'amountsactive', 'amountsshortname');
+    }
     public function getAmounts()
     {
-        $amounts = DB::table('amounts')
-            ->select('idamounts', 'amountsname', 'amountswithholding_tax', 'amountspaymentrequest', 'amountstransfer', 'amountscash', 'amountsactive', 'amountsshortname');
-
-        return datatables($amounts)
+        return datatables($this->getAmountsQuery())
             ->addColumn('action', function ($amounts) {
                 return view('parts.datatable.amounts-action', ['amounts' => $amounts]);
             })
@@ -944,11 +932,14 @@ class ApiController extends BaseController
             ->make(true);
     }
 
+    public function getActionHistorysQuery()
+    {
+        return DB::table('action_history')
+            ->select('id', 'title', 'reponce');
+    }
     public function getActionHistorys()
     {
-        $actionHistorys = DB::table('action_history')
-            ->select('id', 'title', 'reponce');
-        return datatables($actionHistorys)
+        return datatables($this->getActionHistorysQuery())
             ->addColumn('action', function ($share) {
                 return view('parts.datatable.share-history-action', ['share' => $share]);
             })
@@ -984,6 +975,11 @@ class ApiController extends BaseController
         return response()->json($results);
     }
 
+    public function getUserBalancesQuery($idAmounts)
+    {
+        return DB::select(getSqlFromPath('get_user_balances'), [$idAmounts, auth()->user()->idUser]);
+
+    }
     public function getUserBalances($locale, $typeAmounts)
     {
         $idAmounts = 0;
@@ -1005,9 +1001,7 @@ class ApiController extends BaseController
                 break;
         }
 
-        // CHECKED IN BALANCES
-        $userData = DB::select(getSqlFromPath('get_user_balances'), [$idAmounts, auth()->user()->idUser]);
-        return Datatables::of($userData)
+        return Datatables::of($this->getUserBalancesQuery($idAmounts))
             ->addColumn('formatted_date', function ($user) {
                 return Carbon\Carbon::parse($user->Date)->format('Y-m-d');
             })
@@ -1120,14 +1114,12 @@ class ApiController extends BaseController
 
     public function getHistoryNotificationModerateur()
     {
-        return datatables($this->settingsManager->getHistoryForModerateur())
-            ->make(true);
+        return datatables($this->settingsManager->getHistoryForModerateur())->make(true);
     }
 
     public function getHistoryNotification()
     {
-        return datatables($this->settingsManager->getHistory())
-            ->make(true);
+        return datatables($this->settingsManager->getHistory())->make(true);
     }
 
     public function getPlatforms()
@@ -1240,9 +1232,9 @@ class ApiController extends BaseController
             ->make(true);
     }
 
-    public function getIdentificationRequest()
+    public function getIdentificationRequestQuery()
     {
-        $identifications = IdentificationUserRequest::select(
+        return IdentificationUserRequest::select(
             'users1.id as id',
             'users1.name as USER',
             'users1.fullphone_number',
@@ -1256,7 +1248,10 @@ class ApiController extends BaseController
             ->where('identificationuserrequest.status', StatusRequest::InProgressNational->value)
             ->orWhere('identificationuserrequest.status', StatusRequest::InProgressInternational->value)
             ->get();
-        return datatables($identifications)
+    }
+    public function getIdentificationRequest()
+    {
+        return datatables($this->getIdentificationRequestQuery())
             ->addColumn('action', function ($identifications) {
                 return view('parts.datatable.identification-action', ['identifications' => $identifications]);
             })

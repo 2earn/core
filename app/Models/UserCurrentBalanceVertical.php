@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class UserCurrentBalanceVertical extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'user_id',
+        'user_id_auto',
+        'current_balance',
+        'previous_balance',
+        'last_operation_id',
+        'last_operation_date',
+        'last_operation_value',
+    ];
 }

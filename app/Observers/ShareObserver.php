@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Models\ShareBalances;
+use App\Models\SharesBalances;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
 use Core\Enum\BalanceEnum;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class ShareObserver
 {
-    public function created(ShareBalances $shareBalances)
+    public function created(SharesBalances $shareBalances)
     {
         DB::beginTransaction();
         try {
