@@ -348,7 +348,7 @@
                                 <span class="counter-value"
                                       data-target="{{$userSelledAction}}">{{formatSolde($userSelledAction,0)}}</span>
                                 <small class="text-muted fs-13">
-                                    ({{$actionsValues}}                                    <span class="text-muted">{{$currency}}</span>
+                                    ({{$actionsValues}})                                    <span class="text-muted">{{$currency}}</span>
 
                                 </small></h3>
                             <a href="{{route('business_hub_trading',app()->getLocale())}}"

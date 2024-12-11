@@ -11,10 +11,15 @@ use Core\Models\BalanceOperation;
 use Core\Models\Setting;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
+use Core\Services\BalancesManager;
 use Illuminate\Support\Facades\DB;
 
 class BfssObserver
 {
+    public function __construct(private BalancesManager $balancesManager)
+    {
+    }
+
     public function created(BFSsBalances $bFSsBalances)
     {
         DB::beginTransaction();
@@ -37,7 +42,7 @@ class BfssObserver
 
         $userCurrentBalancehorisontal = UserCurrentBalancehorisontal::where('user_id', $bFSsBalances->beneficiary_id)->first();
 
-            $old = json_decode($bFSsBalances->bfss_balance);
+            $old = !is_null($bFSsBalances->bfss_balance) ? json_decode($bFSsBalances->bfss_balance) : [];
             if (array_key_exists($bFSsBalances->persontage, $old)) {
                 $old[$bFSsBalances->persontage] = $newBfssBalanceVertical = $old[$bFSsBalances->persontage] + BalanceOperation::getMultiplicator($bFSsBalances->balance_operation_id) * $bFSsBalances->value;
             } else {

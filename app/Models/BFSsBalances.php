@@ -66,7 +66,9 @@ class BFSsBalances extends Model
         $bfss = json_decode($bfsFiels);
         $soldeBfs = 0;
         foreach ($bfss as $bf) {
-            $soldeBfs = $soldeBfs + $bf->value;
+            if (isset($bf->value)) {
+                $soldeBfs = $soldeBfs + $bf->value;
+            }
         }
         return $soldeBfs;
     }

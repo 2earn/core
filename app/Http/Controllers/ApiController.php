@@ -83,7 +83,7 @@ class ApiController extends BaseController
         $actual_price = actualActionValue(getSelledActions(true), false);
 
 
-        $ref = BalancesFacade::getRederence(BalanceOperationsEnum::SELLED_SHARES->value);
+        $ref = BalancesFacade::getReference(BalanceOperationsEnum::SELLED_SHARES->value);
 
 
         $palier = Setting::Where('idSETTINGS', '19')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
@@ -103,11 +103,10 @@ class ApiController extends BaseController
         DB::beginTransaction();
         try {
 
-        $userSponsored = SponsorshipFacade::checkProactifSponsorship($this->userRepository->getUserByIdUser($reciver));
+            $userSponsored = SponsorshipFacade::checkProactifSponsorship($this->userRepository->getUserByIdUser($reciver));
         if ($userSponsored) {
-            SponsorshipFacade::executeProactifSponsorship($userSponsored->idUser, $ref, $number_of_action, $gift, $PU, $fullphone_number);
+            SponsorshipFacade::executeProactifSponsorship($userSponsored->idUser, $ref, $number_of_action, $gift, $actual_price, $fullphone_number);
         }
-
         $vip = vip::Where('idUser', '=', $reciver)->where('closed', '=', false)->first();
         if ($request->flash) {
             if ($vip->declenched) {
@@ -139,7 +138,6 @@ class ApiController extends BaseController
         } else {
             $flashGift = 0;
         }
-
 
         $this->userRepository->increasePurchasesNumber($reciver);
 
@@ -207,6 +205,7 @@ class ApiController extends BaseController
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
+            dd($e);
             return response()->json(['type' => ['error'], 'message' => [trans('Actions purchase transaction failed')]]);
         }
         return response()->json(['type' => ['success'], 'message' => [trans('Actions purchase transaction completed successfully')]]);
@@ -265,7 +264,7 @@ class ApiController extends BaseController
             if (intval($old_value) < intval($request->amount)) {
                 throw new \Exception(Lang::get('Insuffisant cash solde'));
             }
-            $ref = BalancesFacade::getRederence(BalanceOperationsEnum::CASH_TRANSFERT_O->value->value);
+            $ref = BalancesFacade::getReference(BalanceOperationsEnum::CASH_TRANSFERT_O->value->value);
             CashBalances::addLine([
                 'balance_operation_id' => BalanceOperationsEnum::SELL_SHARES->value,
                 'operator_id' => auth()->user()->idUser,

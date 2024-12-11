@@ -67,9 +67,11 @@ class Sponsorship
 
     public function checkProactifSponsorship($sponsor): ?User
     {
+
         if ($sponsor->idUpline == 0) {
-            $date = new \DateTime($sponsor->reserved_at);
+              $date = new \DateTime($sponsor->reserved_at);
             $availability = $date->diff(now())->h + $date->diff(now())->i / 60 + $date->diff(now())->s / 3600;
+
             if ($availability < $this->reservation && $sponsor->availablity == 1) {
                 $this->userRepository->updateUserUpline($sponsor->idUser, $sponsor->reserved_by);
                 return $this->userRepository->getUserByIdUser($sponsor->reserved_by);
@@ -77,11 +79,12 @@ class Sponsorship
                 $this->userRepository->updateUserUpline($sponsor->idUser, $this->isSource);
             }
         } else {
-            if ($sponsor->purchasesNumber < $this->saleCount && $sponsor->idUpline != $this->isSource) {
+        if ($sponsor->purchasesNumber < $this->saleCount && $sponsor->idUpline != $this->isSource) {
                 return $this->userRepository->getUserByIdUser($sponsor->idUpline);
             }
         }
         return NULL;
+
     }
 
     public function executeProactifSponsorship($reserve, $ref, $number_of_action, $gift, $PU, $fullphone_number)
