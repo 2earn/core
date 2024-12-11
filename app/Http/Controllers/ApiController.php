@@ -344,22 +344,10 @@ class ApiController extends BaseController
             ->make(true);
     }
 
-    public function getSharesSoldeList($locale, $idUser)
+
+    public function getSharesSoldeList($locale, $idUser, $idamount)
     {
-        //*************************************************************
-        $actualActionValue = actualActionValue(getSelledActions(true));
-        $userBalances = SharesBalances::select(
-            'created_at AS Date',
-            DB::raw('CAST(value AS DECIMAL(10,0)) AS value'),
-            DB::raw('CAST(value AS DECIMAL(10,0)) AS gifted_shares'),
-            DB::raw('CAST(value AS DECIMAL(10,0)) AS total_shares'),
-            DB::raw('CAST((value) * PU AS DECIMAL(10,2)) AS total_price'),
-            DB::raw('CAST((value) * ' . $actualActionValue . ' AS DECIMAL(10,2)) AS present_value'),
-            DB::raw('CAST(value) * ' . $actualActionValue . '- (value) * unit_price AS DECIMAL(10,2)) AS current_earnings')
-        )
-            ->where('beneficiary_id', $idUser)
-            ->get();
-        return $userBalances;
+        return $this->getUserBalancesList($locale, $idUser, $idamount);
     }
 
     public function getUpdatedCardContent()
