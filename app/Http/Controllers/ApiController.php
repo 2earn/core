@@ -318,11 +318,11 @@ class ApiController extends BaseController
     {
         return datatables($this->getSharesSoldeQuery())
             ->addColumn('total_price', function ($user_balance) {
-                return number_format($user_balance->PU * ($user_balance->value + $user_balance->gifted_shares), 2);
+                return number_format($user_balance->unit_price * ($user_balance->value + $user_balance->gifted_shares), 2);
             })
             ->addColumn('share_price', function ($user_balance) {
                 if ($user_balance->value != 0)
-                    return $user_balance->PU * ($user_balance->value + $user_balance->gifted_shares) / $user_balance->value;
+                    return $user_balance->unit_price * ($user_balance->value + $user_balance->gifted_shares) / $user_balance->value;
                 else return 0;
             })
             ->addColumn('formatted_created_at', function ($user_balance) {
@@ -335,7 +335,7 @@ class ApiController extends BaseController
                 return number_format(($user_balance->value + $user_balance->gifted_shares) * actualActionValue(getSelledActions(true)), 2);
             })
             ->addColumn('current_earnings', function ($user_balance) {
-                return number_format(($user_balance->value + $user_balance->gifted_shares) * actualActionValue(getSelledActions(true)) - $user_balance->PU * ($user_balance->value + $user_balance->gifted_shares), 2);
+                return number_format(($user_balance->value + $user_balance->gifted_shares) * actualActionValue(getSelledActions(true)) - $user_balance->unit_price * ($user_balance->value + $user_balance->gifted_shares), 2);
             })
             ->addColumn('value_format', function ($user_balance) {
                 return number_format($user_balance->value, 0);
@@ -363,13 +363,14 @@ class ApiController extends BaseController
                 'current_balance',
                 'payed',
                 'countries.apha2',
-                'user_balances.id',
+                'shares_balances.id',
                 DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS Name'),
                 'user.mobile',
                 DB::raw('CAST(value AS DECIMAL(10,0)) AS value'),
                 'value',
-                DB::raw('CAST(unit_price AS DECIMAL(10,2)) AS PU'),
-                'Date',
+                DB::raw('CAST(unit_price AS DECIMAL(10,2)) AS unit_price'),
+                'shares_balances.created_at as Date',
+                'shares_balances.payed as payed',
                 'shares_balances.beneficiary_id'
             )
             ->join('users as user', 'user.idUser', '=', 'shares_balances.beneficiary_id')
@@ -380,11 +381,11 @@ class ApiController extends BaseController
     {
         return datatables($this->getSharesSoldesQuery())
             ->addColumn('total_price', function ($user_balance) {
-                return number_format($user_balance->PU * ($user_balance->value + $user_balance->gifted_shares), 2);
+                return number_format($user_balance->unit_price * ($user_balance->value), 2);
             })
             ->addColumn('share_price', function ($user_balance) {
                 if ($user_balance->value != 0)
-                    return $user_balance->PU * ($user_balance->value + $user_balance->gifted_shares) / $user_balance->value;
+                    return $user_balance->unit_price * ($user_balance->value) / $user_balance->value;
                 else return 0;
             })
             ->addColumn('formatted_created_at', function ($user_balance) {
@@ -398,13 +399,13 @@ class ApiController extends BaseController
                 return '<img src="' . $this->getFormatedFlagResourceName($settings->apha2) . '" alt="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
             })
             ->addColumn('sell_price_now', function ($user_balance) {
-                return number_format(actualActionValue(getSelledActions(true)) * ($user_balance->value + $user_balance->gifted_shares), 2);
+                return number_format(actualActionValue(getSelledActions(true)) * ($user_balance->value), 2);
             })
             ->addColumn('gain', function ($user_balance) {
-                return number_format(actualActionValue(getSelledActions(true)) * ($user_balance->value + $user_balance->gifted_shares) - $user_balance->PU * ($user_balance->value + $user_balance->gifted_shares), 2);
+                return number_format(actualActionValue(getSelledActions(true)) * ($user_balance->value) - $user_balance->unit_price * ($user_balance->value), 2);
             })
             ->addColumn('total_shares', function ($user_balance) {
-                return number_format($user_balance->value + $user_balance->gifted_shares, 0);
+                return number_format($user_balance->value, 0);
             })
             ->addColumn('asset', function ($settings) {
                 return $this->getFormatedFlagResourceName($settings->apha2);

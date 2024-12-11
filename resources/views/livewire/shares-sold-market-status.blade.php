@@ -36,8 +36,6 @@
                             <th>{{__('Real_Sold_amount')}}</th>
                             <th>{{__('total_price')}}</th>
                             <th>{{__('number_of_shares')}}</th>
-                            <th>{{__('gifted_shares')}}</th>
-                            <th>{{__('average_price')}}</th>
                             <th>{{__('share_price')}}</th>
                             <th>{{__('heure_purchase')}}</th>
                         </tr>
@@ -129,13 +127,11 @@
                         {data: 'total_shares'},
                         {data: 'sell_price_now'},
                         {data: 'gain'},
-                        {data: 'WinPurchaseAmount'},
-                        {data: 'Balance', "className": 'editable'},
+                        {data: 'payed'},
+                        {data: 'current_balance', "className": 'editable'},
                         {data: 'total_price'},
                         {data: 'value'},
-                        {data: 'gifted_shares'},
-                        {data: 'PU'},
-                        {data: 'share_price'},
+                        {data: 'unit_price'},
                         {data: 'formatted_created_at'},
                     ],
                     "columnDefs":
@@ -143,14 +139,13 @@
                             {
                                 "targets": [7],
                                 render: function (data, type, row) {
-                                    if (Number(row.WinPurchaseAmount) === 1)
+                                    if (Number(row.payed) === 1)
                                         return '<span class="badge bg-success" data-id="' + row.id + '" data-phone="' + row.mobile +
                                             '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >{{__('Transfert Made')}}</span>';
-                                    if (Number(row.WinPurchaseAmount) === 0)
+                                    if (Number(row.payed) === 0)
                                         return '<span class="badge bg-danger" data-id="' + row.id + '" data-phone="' + row.mobile +
                                             '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >{{__('Free')}}</span>';
-
-                                    if (Number(row.WinPurchaseAmount) === 2)
+                                    if (Number(row.payed) === 2)
                                         return '<span class="badge bg-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
                                             '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >{{__('Mixed')}}</span>';
                                 },
