@@ -215,63 +215,31 @@ if (!function_exists('actualActionValue')) {
 if (!function_exists('getSelledActions')) {
     function getSelledActions($withGiftedShares = false)
     {
-        if ($withGiftedShares) {
-            return user_balance::where('idBalancesOperation', 44)->sum(DB::raw('value + gifted_shares'));
-        } else {
-            return user_balance::where('idBalancesOperation', 44)->sum('value');
-        }
-    }
-
-    function getSelledActions_v2($withGiftedShares = false)
-    {
-        return $withGiftedShares ? user_balance::sum(DB::raw('value')) : \App\Models\SharesBalances::where('balance_operation_id', 44)->sum('value');
+        return $withGiftedShares ? SharesBalances::sum(DB::raw('value')) : SharesBalances::where('balance_operation_id', 44)->sum('value');
     }
 }
+
 if (!function_exists('getGiftedShares')) {
     function getGiftedShares()
     {
-        return user_balance::where('idBalancesOperation', 44)->sum('gifted_shares');
-    }
-    function getGiftedShares_v2()
-    {
-        return SharesBalances::whereIn('balance_operation_id', [54, 55])->sum('value');
+        return SharesBalances::whereNotIn('balance_operation_id', 44)->sum('value');
     }
 }
 if (!function_exists('getRevenuShares')) {
     function getRevenuShares()
     {
-        return user_balance::where('idBalancesOperation', 44)
-            ->selectRaw('SUM((value + gifted_shares)*cast(PU as decimal(10,2))) as total_sum')
-            ->first()->total_sum;
-    }
-    function getRevenuShares_v2()
-    {
-        return SharesBalances::selectRaw('SUM((value)*cast(PU as decimal(10,2))) as total_sum')
-            ->first()->total_sum;
+        return SharesBalances::selectRaw('SUM(amount) as total_sum')->first()->total_sum;
     }
 }
 if (!function_exists('getRevenuSharesReal')) {
     function getRevenuSharesReal()
     {
-        return user_balance::where('idBalancesOperation', 44)
-            ->selectRaw('SUM(Balance) as total_sum')->first()->total_sum;
-    }
-    function getRevenuSharesReal_v2()
-    {
-        return SharesBalances::where('balance_operation_id', 44)
-            ->selectRaw('SUM(current_balance) as total_sum')->first()->total_sum;
+        return SharesBalances::selectRaw('SUM(real_amount) as total_sum')->first()->total_sum;
     }
 }
 
 if (!function_exists('getUserSelledActions')) {
     function getUserSelledActions($user)
-    {
-        return user_balance::where('idBalancesOperation', 44)
-            ->where('idUser', $user)->selectRaw('SUM(value + gifted_shares) as total_sum')
-            ->first()->total_sum;
-    }
-
-    function getUserSelledActions_v2($user)
     {
         return SharesBalances::where('beneficiary_id', $user)->selectRaw('SUM(value) as total_sum')
             ->first()->total_sum;
@@ -286,17 +254,11 @@ if (!function_exists('getUserActualActionsValue')) {
 }
 
 if (!function_exists('getUserActualActionsProfit')) {
+
     function getUserActualActionsProfit($user)
     {
-        return getUserActualActionsValue($user) - user_balance::where('idBalancesOperation', 44)->where('idUser', $user)
-                ->selectRaw('SUM((value + gifted_shares) * PU) as total_sum')
-                ->first()
-                ->total_sum;
-    }
-    function getUserActualActionsProfit_v2($user)
-    {
         return getUserActualActionsValue($user) - SharesBalances::where('beneficiary_id', $user)
-                ->selectRaw('SUM((value) * unit_price) as total_sum')
+                ->selectRaw('SUM(amount) as total_sum')
                 ->first()
                 ->total_sum;
     }
@@ -423,17 +385,6 @@ if (!function_exists('usdToSar')) {
 
 if (!function_exists('checkUserBalancesInReservation')) {
     function checkUserBalancesInReservation($idUser)
-    {
-        $reservation = Setting::Where('idSETTINGS', '32')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
-        $result = DB::table('user_balances as u')
-            ->where('idUser', $idUser)
-            ->select(DB::raw('TIMESTAMPDIFF(HOUR, ' . DB::raw('DATE') . ', NOW()))'))
-            ->where('idBalancesOperation', 44)
-            ->whereRaw('TIMESTAMPDIFF(HOUR, ' . DB::raw('DATE') . ', NOW()) < ?', [$reservation])
-            ->count();
-        return $result ?? null;
-    }
-    function checkUserBalancesInReservation_v2($idUser)
     {
         $reservation = Setting::Where('idSETTINGS', '32')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
         $result = DB::table('shares_balances as u')

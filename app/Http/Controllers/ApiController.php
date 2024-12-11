@@ -306,16 +306,8 @@ class ApiController extends BaseController
         return response()->json($data);
     }
 
-    public function getSharesSoldeQuery()
-    {
-        return DB::table('user_balances')
-            ->select('id', 'value', 'gifted_shares', 'PU', 'Date')
-            ->where('idBalancesOperation', 44)
-            ->where('idUser', Auth()->user()->idUser)
-            ->orderBy('id', 'desc');
-    }
 
-    public function getSharesSoldeQuery_v2()
+    public function getSharesSoldeQuery()
     {
         return DB::table('shares_balances')
             ->select('id', 'value',  'unit_price as PU', 'created_at as Date')
@@ -354,29 +346,12 @@ class ApiController extends BaseController
 
     public function getSharesSoldeList($locale, $idUser)
     {
-        $actualActionValue = actualActionValue(getSelledActions(true));
-        $userBalances = user_balance::select(
-            'Date',
-            DB::raw('CAST(value AS DECIMAL(10,0)) AS value'),
-            DB::raw('CAST(gifted_shares AS DECIMAL(10,0)) AS gifted_shares'),
-            DB::raw('CAST(gifted_shares + value AS DECIMAL(10,0)) AS total_shares'),
-            DB::raw('CAST((gifted_shares + value) * PU AS DECIMAL(10,2)) AS total_price'),
-            DB::raw('CAST((gifted_shares + value) * ' . $actualActionValue . ' AS DECIMAL(10,2)) AS present_value'),
-            DB::raw('CAST((gifted_shares + value) * ' . $actualActionValue . '- (gifted_shares + value) * PU AS DECIMAL(10,2)) AS current_earnings')
-        )
-            ->where('idBalancesOperation', 44)
-            ->where('idUser', $idUser)
-            ->get();
-        return $userBalances;
-    }
-
-    public function getSharesSoldeList_v2($locale, $idUser)
-    {
+        //*************************************************************
         $actualActionValue = actualActionValue(getSelledActions(true));
         $userBalances = SharesBalances::select(
             'created_at AS Date',
             DB::raw('CAST(value AS DECIMAL(10,0)) AS value'),
-            DB::raw('CAST(AS DECIMAL(10,0)) AS gifted_shares'),
+            DB::raw('CAST(value AS DECIMAL(10,0)) AS gifted_shares'),
             DB::raw('CAST(value AS DECIMAL(10,0)) AS total_shares'),
             DB::raw('CAST((value) * PU AS DECIMAL(10,2)) AS total_price'),
             DB::raw('CAST((value) * ' . $actualActionValue . ' AS DECIMAL(10,2)) AS present_value'),
@@ -395,16 +370,6 @@ class ApiController extends BaseController
 
     public function getSharesSoldesQuery()
     {
-        return DB::table('user_balances')
-            ->select('Balance', 'WinPurchaseAmount', 'countries.apha2', 'user_balances.id', DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS Name'), 'user.mobile', DB::raw('CAST(value AS DECIMAL(10,0)) AS value'), 'gifted_shares', DB::raw('CAST(PU AS DECIMAL(10,2)) AS PU'), 'Date', 'user_balances.idUser')
-            ->join('users as user', 'user.idUser', '=', 'user_balances.idUser')
-            ->join('metta_users as meta', 'meta.idUser', '=', 'user.idUser')
-            ->join('countries', 'countries.id', '=', 'user.idCountry')
-            ->where('idBalancesOperation', 44);
-    }
-
-    public function getSharesSoldesQuery_v2()
-    {
         return DB::table('shares_balances')
             ->select(
                 'current_balance',
@@ -415,14 +380,13 @@ class ApiController extends BaseController
                 'user.mobile',
                 DB::raw('CAST(value AS DECIMAL(10,0)) AS value'),
                 'value',
-                DB::raw('CAST(PU AS DECIMAL(10,2)) AS PU'),
+                DB::raw('CAST(unit_price AS DECIMAL(10,2)) AS PU'),
                 'Date',
                 'shares_balances.beneficiary_id'
             )
             ->join('users as user', 'user.idUser', '=', 'shares_balances.beneficiary_id')
             ->join('metta_users as meta', 'meta.idUser', '=', 'user.idUser')
-            ->join('countries', 'countries.id', '=', 'user.idCountry')
-            ->where('balance_operation_id', 44);
+            ->join('countries', 'countries.id', '=', 'user.idCountry');
     }
     public function getSharesSoldes()
     {
@@ -644,15 +608,6 @@ class ApiController extends BaseController
             ->where('beneficiary_id', Auth()->user()->idUser)
             ->whereNotNull('description');
     }
-
-    public function getTransfertQuery_v2()
-    {
-        return DB::table('cash_balances')
-            ->select('value', 'description', 'created_at')
-            ->where('balance_operation_id', BalanceOperationsEnum::CASH_TRANSFERT_O->value)
-            ->where('beneficiary_id', Auth()->user()->idUser)
-            ->whereNotNull('description');
-    }
     public function getTransfert()
     {
         return datatables($this->getTransfertQuery())
@@ -662,17 +617,9 @@ class ApiController extends BaseController
             ->make(true);
     }
 
+
+
     public function getUserCashBalanceQuery()
-    {
-        return DB::table('cash_balances')
-            ->select(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") AS x'), DB::raw('CAST(current_balance AS DECIMAL(10,2)) AS y'))
-            ->where('beneficiary_id', auth()->user()->idUser)
-            ->orderBy('created_at', 'asc')
-            ->get();
-
-    }
-
-    public function getUserCashBalanceQuery_v2()
     {
         return DB::table('cash_balances')
             ->select(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") AS x'), DB::raw('CAST(current_balance AS DECIMAL(10,2)) AS y'))
@@ -690,29 +637,15 @@ class ApiController extends BaseController
         return response()->json($query);
     }
 
-
     public function getSharePriceEvolutionQuery()
-    {
-        return DB::table('user_balances')
-            ->select(
-                DB::raw('CAST(SUM(value ) OVER (ORDER BY id) AS DECIMAL(10,0))AS x'),
-                DB::raw('CAST((value + gifted_shares) * PU / value AS DECIMAL(10,2)) AS y')
-            )
-            ->where('idBalancesOperation', 44) // remove
-            ->where('value', '>', 0)
-            ->orderBy('Date')
-            ->get();
-    }
-
-    public function getSharePriceEvolutionQuery_v2()
     {
         return DB::table('shares_balances')
             ->select(
-                DB::raw('CAST(SUM(value ) OVER (ORDER BY id) AS DECIMAL(10,0))AS x'),
-                DB::raw('CAST((value) * PU / value AS DECIMAL(10,2)) AS y')
+                DB::raw('CAST(SUM(value) OVER (ORDER BY id) AS DECIMAL(10,0))AS x'),
+                DB::raw('CAST(unit_price AS DECIMAL(10,2)) AS y')
             )
-            ->where('value', '>', 0)
-            ->orderBy('Date')
+            ->where('balance_operation_id', 44)
+            ->orderBy('created_at')
             ->get();
     }
     public function getSharePriceEvolution()
@@ -725,21 +658,12 @@ class ApiController extends BaseController
         return response()->json($query);
     }
 
-    public function getSharePriceEvolutionDateQuery()
-    {
-        return DB::table('user_balances')
-            ->select(DB::raw('DATE(date) as x'), DB::raw('SUM(value) as y'))
-            ->where('idBalancesOperation', 44)
-            ->where('value', '>', 0)
-            ->groupBy('x')
-            ->get();
-    }
 
-    public function getSharePriceEvolutionDateQuery_v2()
+    public function getSharePriceEvolutionDateQuery()
     {
         return DB::table('shares_balances')
             ->select(DB::raw('DATE(created_at) as x'), DB::raw('SUM(value) as y'))
-            ->where('value', '>', 0)
+            ->where('balance_operation_id', 44)
             ->groupBy('x')
             ->get();
     }
@@ -754,23 +678,14 @@ class ApiController extends BaseController
 
     public function getSharePriceEvolutionWeekQuery()
     {
-        return DB::table('user_balances')
-            ->select(DB::raw(' concat(year(date),\'-\',WEEK(date, 1)) as x'), DB::raw('SUM(value) as y'), DB::raw(' WEEK(created_at, 1) as z'))
-            ->where('idBalancesOperation', 44)
-            ->where('value', '>', 0)
+        return DB::table('shares_balances')
+            ->select(DB::raw(' concat(year(created_at),\'-\',WEEK(created_at, 1)) as x'), DB::raw('SUM(value) as y'), DB::raw(' WEEK(created_at, 1) as z'))
+            ->where('balance_operation_id', 44)
             ->groupBy('x', 'z')
             ->orderBy('z')
             ->get();
     }
 
-    public function getSharePriceEvolutionWeekQuery_v2()
-    {
-        return DB::table('shares_balances')
-            ->select(DB::raw(' concat(year(date),\'-\',WEEK(created_at, 1)) as x'), DB::raw('SUM(value) as y'), DB::raw(' WEEK(created_at, 1) as z'))
-            ->groupBy('x', 'z')
-            ->orderBy('z')
-            ->get();
-    }
     public function getSharePriceEvolutionWeek()
     {
         $query = $this->getSharePriceEvolutionWeekQuery();
@@ -780,20 +695,12 @@ class ApiController extends BaseController
         return response()->json($query);
     }
 
-    public function getSharePriceEvolutionMonthQuery()
-    {
-        return DB::table('user_balances')
-            ->select(DB::raw('DATE_FORMAT(date, \'%Y-%m\') as x'), DB::raw('SUM(value) as y'))
-            ->where('idBalancesOperation', 44)
-            ->where('value', '>', 0)
-            ->groupBy('x')
-            ->get();
-    }
 
-    public function getSharePriceEvolutionMonthQuery_v2()
+    public function getSharePriceEvolutionMonthQuery()
     {
         return DB::table('shares_balances')
             ->select(DB::raw('DATE_FORMAT(created_at, \'%Y-%m\') as x'), DB::raw('SUM(value) as y'))
+            ->where('balance_operation_id', 44)
             ->groupBy('x')
             ->get();
     }
@@ -808,19 +715,9 @@ class ApiController extends BaseController
 
     public function getSharePriceEvolutionDayQuery()
     {
-        return DB::table('user_balances')
-            ->select(DB::raw('DAYNAME(date) as x'), DB::raw('SUM(value) as y'), DB::raw('DAYOFWEEK(date) as z'))
-            ->where('idBalancesOperation', 44)
-            ->where('value', '>', 0)
-            ->groupBy('x', 'z')
-            ->orderBy('z')
-            ->get();
-    }
-
-    public function getSharePriceEvolutionDayQuery_v2()
-    {
         return DB::table('shares_balances')
             ->select(DB::raw('DAYNAME(created_at) as x'), DB::raw('SUM(value) as y'), DB::raw('DAYOFWEEK(created_at) as z'))
+            ->where('balance_operation_id', 44)
             ->groupBy('x', 'z')
             ->orderBy('z')
             ->get();
@@ -836,19 +733,8 @@ class ApiController extends BaseController
     }
 
 
+
     public function getSharePriceEvolutionUser()
-    {
-        $idUser = auth()->user()->idUser;
-        $query = DB::select(getSqlFromPath('get_share_price_evolution_user'), [$idUser, $idUser]);
-        foreach ($query as $record) {
-            if ($record->y) $record->y = (float)$record->y;
-            $record->x = (float)$record->x;
-        }
-
-        return response()->json($query);
-    }
-
-    public function getSharePriceEvolutionUser_v2()
     {
         /***********************************************************************/
         $idUser = auth()->user()->idUser;
