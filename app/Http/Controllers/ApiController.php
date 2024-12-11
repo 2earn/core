@@ -8,6 +8,7 @@ use App\Models\CashBalances;
 use App\Models\Deal;
 use App\Models\SharesBalances;
 use App\Models\User;
+use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\vip;
 use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
@@ -253,18 +254,13 @@ class ApiController extends BaseController
 
     public function addCash(Req $request, BalancesManager $balancesManager)
     {
-
         DB::beginTransaction();
         try {
-            $old_value = DB::table('usercurrentbalances')
-                ->where('idUser', Auth()->user()->idUser)
-                ->where('idamounts', BalanceEnum::CASH)
-                ->value('value');
-
+            $old_value = UserCurrentBalanceHorisontal::where('user_id', Auth()->user()->idUser)->pluck('cash_balance')->first();
             if (intval($old_value) < intval($request->amount)) {
                 throw new \Exception(Lang::get('Insuffisant cash solde'));
             }
-            $ref = BalancesFacade::getReference(BalanceOperationsEnum::CASH_TRANSFERT_O->value->value);
+            $ref = BalancesFacade::getReference(BalanceOperationsEnum::CASH_TRANSFERT_O->value);
             CashBalances::addLine([
                 'balance_operation_id' => BalanceOperationsEnum::SELL_SHARES->value,
                 'operator_id' => auth()->user()->idUser,
