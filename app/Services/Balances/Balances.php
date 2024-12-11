@@ -4,6 +4,9 @@ namespace App\Services\Balances;
 
 use App\DAL\UserRepository;
 use App\Models\User;
+use App\Models\UserCurrentBalanceHorisontal;
+use App\Models\UserCurrentBalanceVertical;
+use Core\Enum\BalanceEnum;
 use Core\Services\BalancesManager;
 use Illuminate\Support\Facades\DB;
 
@@ -113,6 +116,28 @@ class Balances
         }, 'a')->get(DB::raw('sum(value) as somme'))->pluck('somme')->first();
     }
 
+    public static function updateCalculatedHorisental($idUser, $type, $value)
+    {
+        UserCurrentBalanceHorisontal::where('user_id', $idUser)->update([$type => $value]);
+    }
 
+    public static function updateCalculatedVertical($idUser, $type, $value)
+    {
+        UserCurrentBalanceVertical::where('user_id', $idUser)->where('balance_id', $type)->update(['current_balance' => $value]);
+    }
 
+    public static function updateCalculatedSold($idUser, $type = BalanceEnum::CASH, $value)
+    {
+        switch ($type) {
+            case BalanceEnum::CASH:
+                Balances::updateCalculatedHorisental($idUser, 'cash_balance', $value);
+                Balances::updateCalculatedVertical($idUser, $type, $value);
+            case BalanceEnum::BFS:
+                Balances::updateCalculatedHorisental($idUser, 'bfss_balance', $value);
+                Balances::updateCalculatedVertical($idUser, $type, $value);
+            case BalanceEnum::DB:
+                Balances::updateCalculatedHorisental($idUser, 'discount_balance', $value);
+                Balances::updateCalculatedVertical($idUser, $type, $value);
+        }
+    }
 }

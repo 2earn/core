@@ -483,6 +483,10 @@ class ApiController extends BaseController
         if ($data->success) {
             $chaine = $data->cart_id;
             $user = explode('-', $chaine)[0];
+
+
+
+
             $old_value = DB::table('usercurrentbalances')
                 ->where('idUser', $user)
                 ->where('idamounts', BalanceEnum::CASH)

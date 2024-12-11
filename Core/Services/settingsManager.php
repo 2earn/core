@@ -6,6 +6,8 @@ use App\Http\Traits\earnLog;
 use App\Http\Traits\earnTrait;
 use App\Models\ContactUser;
 use App\Models\User;
+use App\Models\UserCurrentBalanceHorisontal;
+use App\Services\Balances\Balances;
 use Carbon\Carbon;
 use Core\Enum\BalanceEnum;
 use Core\Enum\EventBalanceOperationEnum;
@@ -585,11 +587,10 @@ class settingsManager
                 if ($newSoldeCashBalance < 0)
                     dd("exception solde insuffisant");
                 $newSoldeBFS = floatval($solde->soldeBFS) + floatval($montant);
-                //update usercurrentbalances where amout CASH BALANCE (new CB)
-                DB::table('usercurrentbalances')->where('idUser', $idUser)->where('idamounts', BalanceEnum::CASH)
-                    ->update(['value' => $newSoldeCashBalance]);
-                //update usercurrentbalances where amout BFS (new BFS)
-                DB::table('usercurrentbalances')->where('idUser', $idUser)->where('idamounts', BalanceEnum::BFS)->update(['value' => $newSoldeBFS]);
+                //update user current balances where amout CASH BALANCE (new CB)
+                Balances::updateCalculatedSold($idUser,BalanceEnum::CASH, $newSoldeCashBalance);
+                //update user current balances where amout BFS (new BFS)
+                Balances::updateCalculatedSold($idUser,BalanceEnum::BFS, $newSoldeBFS);
                 $param = ['montant' => $montant, 'newSoldeCashBalance' => $newSoldeCashBalance, 'newSoldeBFS' => $newSoldeBFS];
                 $this->userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::ExchangeCashToBFS, $idUser, $param);
                 break;
@@ -609,13 +610,10 @@ class settingsManager
                     $balanceEnterieru = $lates->Balance;
                 }
                 $newBalanceBFS = $balanceEnterieru + ($prix_sms * $montant);
-                if ($lates == null) {
-                    $balanceEnterieru = 0;
-                }
-                DB::table('usercurrentbalances')->where('idUser', $idUser)->where('idamounts', 2)->update(['value' => $newSoldeBFS]);
-                $currentBFS = DB::table('usercurrentbalances')->where('idUser', $idUser)->where('idamounts', 5)->first();
-                $newSMS = floatval($currentBFS->value) + floatval($prix_sms * $montant);
-                DB::table('usercurrentbalances')->where('idUser', $idUser)->where('idamounts', 5)->update(['value' => $newSMS]);
+
+                Balances::updateCalculatedSold($idUser,BalanceEnum::BFS,$newSoldeBFS);
+                $newSMS = floatval( $newSoldeBFS) + floatval($prix_sms * $montant);
+                Balances::updateCalculatedSold($idUser,BalanceEnum::SMS,$newSMS);
                 $param = ['montant' => $prix_sms * $montant, 'newSoldeCashBalance' => $newSoldeBFS, 'newSoldeBFS' => $newBalanceBFS, 'PrixSms' => $prix_sms];
                 $this->userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::ExchangeBFSToSMS, $idUser, $param);
                 break;
