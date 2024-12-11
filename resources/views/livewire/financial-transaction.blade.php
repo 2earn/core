@@ -662,7 +662,7 @@
                 text: '{{trans('operation_irreversible')}}',
                 icon: "warning",
                 showCancelButton: true,
-                cancelButtonText: '{{trans('canceled !')}}',
+                cancelButtonText: '{{trans('canceled')}}',
                 confirmButtonText: '{{trans('ok')}}',
                 denyButtonText: 'No',
                 customClass: {
@@ -762,6 +762,7 @@
             inputsoldeBFSSMS.val(newsolde.toFixed(2));
         });
         $("#submitExchangeSms").prop('disabled', true);
+
         window.addEventListener('OptExBFSCash', event => {
             Swal.fire({
                 title: '{{ __('Your verification code') }}',
@@ -786,7 +787,6 @@
                     clearInterval(timerInterval)
                 },
                 input: 'text',
-                inputAttributes: {autocapitalize: 'off'},
                 inputAttributes: {autocapitalize: 'off'},
             }).then((resultat) => {
                 if (resultat.value) {

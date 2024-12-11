@@ -43,12 +43,13 @@ class BfssObserver
         $userCurrentBalancehorisontal = UserCurrentBalancehorisontal::where('user_id', $bFSsBalances->beneficiary_id)->first();
 
             $old = !is_null($bFSsBalances->bfss_balance) ? json_decode($bFSsBalances->bfss_balance) : [];
-            if (array_key_exists($bFSsBalances->persontage, $old)) {
-                $old[$bFSsBalances->persontage] = $newBfssBalanceVertical = $old[$bFSsBalances->persontage] + BalanceOperation::getMultiplicator($bFSsBalances->balance_operation_id) * $bFSsBalances->value;
+            dump($old);
+            if (array_key_exists($bFSsBalances->percentage, $old)) {
+                $old[$bFSsBalances->percentage] = $newBfssBalanceVertical = $old[$bFSsBalances->percentage] + BalanceOperation::getMultiplicator($bFSsBalances->balance_operation_id) * $bFSsBalances->value;
             } else {
-                $old[$bFSsBalances->persontage] = $newBfssBalanceVertical = BalanceOperation::getMultiplicator($bFSsBalances->balance_operation_id) * $bFSsBalances->value;
+                $old[$bFSsBalances->percentage] = $newBfssBalanceVertical = BalanceOperation::getMultiplicator($bFSsBalances->balance_operation_id) * $bFSsBalances->value;
             }
-
+            dd($bFSsBalances->percentage,$bFSsBalances,$old);
             $newBfsBalanceHorisental = json_encode($old);
             $userCurrentBalancehorisontal->update(['bfss_balance' => $newBfsBalanceHorisental]);
 

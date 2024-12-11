@@ -127,11 +127,13 @@ class  UserBalancesHelper
                     'value' => $params["montant"],
                     'current_balance' => $params["newSoldeCashBalance"]
                 ]);
+
                 BFSsBalances::addLine([
                     'balance_operation_id' => BalanceOperationsEnum::From_CASH_Balance_BFS->value,
                     'operator_id' => $idUser,
                     'beneficiary_id' => $idUser,
                     'reference' => $ref,
+                    'percentage' => "100.00",
                     'description' => 'TO DO DESCRIPTION',
                     'value' => $params["montant"],
                     'current_balance' => $params["newSoldeBFS"]
