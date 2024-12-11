@@ -61,7 +61,7 @@ class BalanceOperation extends Model
 
     public static function getMultiplicator($bai): int
     {
-        return BalanceOperation::where('id', $bai)->pluck('io') == 'I' ? 1 : -1;
+        return strtoupper(BalanceOperation::where('id', $bai)->pluck('io')->first()) == 'I' ? 1 : -1;
     }
 
 }

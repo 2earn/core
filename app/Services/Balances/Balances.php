@@ -12,9 +12,6 @@ class Balances
     const DATE_FORMAT = 'dmY';
     const SYSTEM_SOURCE_ID = '11111111';
 
-    public function __construct()
-    {
-    }
 
     public function getBalanceCompter()
     {
