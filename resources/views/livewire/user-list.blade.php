@@ -627,8 +627,9 @@
             let amount = $(this).data('amount');
             $('#balances-amountsh').attr('value', amount);
             $('#balances-reciversh').attr('value', reciver);
-            window.url = "{{ route('api_shares_solde_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1']) }}";
+            window.url = "{{ route('api_shares_solde_list', ['locale'=> app()->getLocale(),'amount' => 'amount1','idUser' => 'idUser1']) }}";
             window.url = window.url.replace('idUser1', reciver);
+            window.url = window.url.replace('amount1', amount);
             $(document).ready(function () {
                 $.getJSON(window.url, function (data) {
                     createOrUpdateDataTablesh(data);
