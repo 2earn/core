@@ -310,7 +310,6 @@ class ApiController extends BaseController
     public function getSharesSoldeQuery()
     {
         return DB::table('shares_balances')
-            ->select('id', 'value',  'unit_price as PU', 'created_at as Date')
             ->where('beneficiary_id', Auth()->user()->idUser)
             ->orderBy('id', 'desc');
     }
@@ -318,29 +317,29 @@ class ApiController extends BaseController
     {
         return datatables($this->getSharesSoldeQuery())
             ->addColumn('total_price', function ($user_balance) {
-                return number_format($user_balance->unit_price * ($user_balance->value + $user_balance->gifted_shares), 2);
+                return number_format($user_balance->unit_price * ($user_balance->value), 2);
             })
             ->addColumn('share_price', function ($user_balance) {
                 if ($user_balance->value != 0)
-                    return $user_balance->unit_price * ($user_balance->value + $user_balance->gifted_shares) / $user_balance->value;
+                    return $user_balance->unit_price * ($user_balance->value) / $user_balance->value;
                 else return 0;
             })
             ->addColumn('formatted_created_at', function ($user_balance) {
-                return Carbon\Carbon::parse($user_balance->Date)->format('Y-m-d H:i:s');
+                return Carbon\Carbon::parse($user_balance->created_at)->format('Y-m-d H:i:s');
             })
             ->addColumn('total_shares', function ($user_balance) {
-                return $user_balance->value + $user_balance->gifted_shares;
+                return $user_balance->value ;
             })
             ->addColumn('present_value', function ($user_balance) {
-                return number_format(($user_balance->value + $user_balance->gifted_shares) * actualActionValue(getSelledActions(true)), 2);
+                return number_format(($user_balance->value) * actualActionValue(getSelledActions(true)), 2);
             })
             ->addColumn('current_earnings', function ($user_balance) {
-                return number_format(($user_balance->value + $user_balance->gifted_shares) * actualActionValue(getSelledActions(true)) - $user_balance->unit_price * ($user_balance->value + $user_balance->gifted_shares), 2);
+                return number_format(($user_balance->value) * actualActionValue(getSelledActions(true)) - $user_balance->unit_price * ($user_balance->value), 2);
             })
             ->addColumn('value_format', function ($user_balance) {
                 return number_format($user_balance->value, 0);
             })
-            ->rawColumns(['total_price', 'share_price'])
+            ->rawColumns(['total_price', 'share_price','formatted_created_at','total_shares','present_value','current_earnings','value_format'])
             ->make(true);
     }
 
@@ -368,7 +367,7 @@ class ApiController extends BaseController
                 'user.mobile',
                 DB::raw('CAST(value AS DECIMAL(10,0)) AS value'),
                 'value',
-                DB::raw('CAST(unit_price AS DECIMAL(10,2)) AS unit_price'),
+                DB::raw('CAST(shares_balances.unit_price AS DECIMAL(10,2)) AS unit_price'),
                 'shares_balances.created_at as Date',
                 'shares_balances.payed as payed',
                 'shares_balances.beneficiary_id'
@@ -721,13 +720,9 @@ class ApiController extends BaseController
         return response()->json($query);
     }
 
-
-
     public function getSharePriceEvolutionUser()
     {
-        /***********************************************************************/
-        $idUser = auth()->user()->idUser;
-        $query = DB::select(getSqlFromPath('get_share_price_evolution_user'), [$idUser, $idUser]);
+        $query = DB::select(getSqlFromPath('get_share_price_evolution_user'), [auth()->user()->idUser, auth()->user()->idUser]);
         foreach ($query as $record) {
             if ($record->y) $record->y = (float)$record->y;
             $record->x = (float)$record->x;
@@ -749,7 +744,7 @@ class ApiController extends BaseController
             $val = ($final_value - $initial_value) / ($total_actions - 1) * ($x + 1) + ($initial_value - ($final_value - $initial_value) / ($total_actions - 1));
             $data[] = [
                 'x' => $x,
-                'y' => number_format($val, 2, '.', '') * 1 // Call your helper function
+                'y' => number_format($val, 2, '.', '') * 1
             ];
         }
         return response()->json($data);

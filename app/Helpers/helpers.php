@@ -222,6 +222,7 @@ if (!function_exists('getSelledActions')) {
 if (!function_exists('getGiftedShares')) {
     function getGiftedShares()
     {
+
         return SharesBalances::whereNotIn('balance_operation_id', [44])->sum('value');
     }
 }

@@ -427,7 +427,6 @@
                                 <tr class="head2earn  tabHeader2earn">
                                     <th>{{__('date_purchase')}}</th>
                                     <th>{{__('number_of_shares')}}</th>
-                                    <th>{{__('gifted_shares')}}</th>
                                     <th>{{__('total_shares')}}</th>
                                     <th>{{__('total_price')}}</th>
                                     <th>{{__('present_value')}}</th>
@@ -610,9 +609,8 @@
                 "processing": true,
                 "data": data,
                 "columns": [
-                    {data: 'Date'},
+                    {data: 'created_at'},
                     {data: 'value'},
-                    {data: 'gifted_shares'},
                     {data: 'total_shares'},
                     {data: 'total_price'},
                     {data: 'present_value'},
