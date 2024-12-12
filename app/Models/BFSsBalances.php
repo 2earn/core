@@ -60,37 +60,6 @@ class BFSsBalances extends Model
         return $this->belongsTo(User::class, 'beneficiary_id_auto');
     }
 
-    public static function getTotal($bfsFiels)
-    {
-        $bfss = json_decode($bfsFiels);
-        if (!is_array($bfss)) {
-            return 0;
-        }
-        $soldeBfs = 0;
-        foreach ($bfss as $bf) {
-            if (isset($bf->value)) {
-                $soldeBfs = $soldeBfs + $bf->value;
-            }
-        }
-        return $soldeBfs;
-    }
-
-    public static function updateJson($bfsFiels, $type, $value)
-    {
-        $bfss = json_decode($bfsFiels);
-
-        if (!is_array($bfss)) {
-            return json_encode([$type => $value]);
-        }
-        foreach ($bfss as $bf) {
-            if (isset($bf->type) && isset($bf->value) &&
-                $bf->type == $type) {
-                $bf->value = $bf->value + $value;
-            }
-        }
-        return json_encode($bfss);
-    }
-
     public static function addLine($bfssBalances, $item_id = null, $deal_id = null, $order_id = null, $platform_id = null, $order_detail_id = null)
     {
         $bfssBalances = Balances::addAutomatedFields($bfssBalances, $item_id, $deal_id, $order_id, $platform_id, $order_detail_id);

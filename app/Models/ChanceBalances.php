@@ -71,16 +71,6 @@ class ChanceBalances extends Model
         return $this->morphTo();
     }
 
-    public static function getTotal($ChanceFiels)
-    {
-
-        $chance = json_decode($ChanceFiels);
-        $soldeChance = 0;
-        foreach ($chance as $ch) {
-            $soldeChance = $soldeChance + $ch->value;
-        }
-        return $soldeChance;
-    }
 
     public static function addLine($chanceBalances, $item_id = null, $deal_id = null, $order_id = null, $platform_id = null, $order_detail_id = null)
     {

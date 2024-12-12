@@ -81,7 +81,7 @@ class FinancialTransaction extends Component
     {
         $this->showCanceled = $val;
         $this->fromTab = 'fromRequestOut';
-        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'ShowCancel' => $val])->with('tabRequest', 'sdf');
+        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'ShowCancel' => $val])->with('info', 'sdf');
     }
 
     public function redirectToTransfertCash($mnt, $req)
@@ -138,6 +138,73 @@ class FinancialTransaction extends Component
         $fullNumber = $userContactActif->fullNumber;
         $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::OPTVerification, ['msg' => $check_exchange, 'type' => TypeNotificationEnum::SMS]);
         $this->dispatchBrowserEvent('confirmSms', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'FullNumber' => $fullNumber]);
+    }
+
+
+    public function PreExchange(settingsManager $settingsManager)
+    {
+        $userAuth = $settingsManager->getAuthUser();
+        if (!$userAuth) return;
+        $check_exchange = rand(1000, 9999);
+        User::where('id', $userAuth->id)->update(['activationCodeValue' => $check_exchange]);
+        $userContactActif = $settingsManager->getidCountryForSms($userAuth->id);
+        $fullNumber = $userContactActif->fullNumber;
+        $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::OPTVerification, ['msg' => $check_exchange, 'type' => TypeNotificationEnum::SMS]);
+        $this->dispatchBrowserEvent('OptExBFSCash', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'FullNumber' => $fullNumber]);
+    }
+
+    public function ExchangeCashToBFS($code, settingsManager $settingsManager)
+    {
+        $userAuth = $settingsManager->getAuthUser();
+        $user = $settingsManager->getUserById($userAuth->id);
+        if ($code != $user->activationCodeValue)
+            return redirect()->route("financial_transaction", app()->getLocale())->with('danger', Lang::get('Invalid OPT code'));
+        $settingsManager->exchange(ExchangeTypeEnum::CashToBFS, $settingsManager->getAuthUser()->idUser,floatval( $this->soldeExchange));
+        if ($this->FinRequestN != null && $this->FinRequestN != '') {
+            return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $this->FinRequestN]);
+        }
+        return redirect()->route('financial_transaction', app()->getLocale())->with('success', Lang::get('Succes cash to bfs exchange'));
+    }
+
+    public function exchangeSms($code, $numberSms, settingsManager $settingsManager)
+    {
+        $userAuth = $settingsManager->getAuthUser();
+        $user = $settingsManager->getUserById($userAuth->id);
+        if ($code != $user->activationCodeValue)
+            return redirect()->route("financial_transaction", app()->getLocale())->with('danger', Lang::get('Invalid OPT code'));
+        $settingsManager->exchange(
+            ExchangeTypeEnum::BFSToSMS,
+            $settingsManager->getAuthUser()->idUser,
+            $numberSms);
+        return redirect()->route('financial_transaction', app()->getLocale())->with('success', Lang::get(' OPT code'));
+    }
+
+    public function getRequestIn()
+    {
+        $rechargeRequests = DB::table('recharge_requests')->select('recharge_requests.Date', 'users.name as USER', 'recharge_requests.payeePhone as userphone', 'recharge_requests.amount')
+            ->leftJoin('users', 'users.idUser', '=', 'recharge_requests.idPayee')
+            ->where('recharge_requests.idUser', auth()->user()->idUser)->get();
+    }
+
+    public function getRequestOut()
+    {
+        $rechargeRequests = DB::table('recharge_requests')
+            ->select('recharge_requests.Date', 'users.name as USER', 'recharge_requests.payeePhone as userphone', 'recharge_requests.amount')
+            ->leftJoin('users', 'users.idUser', '=', 'recharge_requests.idPayee')
+            ->where('recharge_requests.idSender', auth()->user()->idUser)->get();
+    }
+
+
+    public function DeleteRequest($num, settingsManager $settingsManager)
+    {
+        $userAuth = $settingsManager->getAuthUser();
+        if (!$userAuth) return;
+        $financialRequest = FinancialRequest::where('numeroReq', '=', $num)->first();
+        if (!$financialRequest) abort(404);
+        if ($financialRequest->status != 0) abort(404);
+        FinancialRequest::where('numeroReq', '=', $num)
+            ->update(['status' => 3, 'idUserAccepted' => $userAuth->idUser, 'dateAccepted' => date(self::DATE_FORMAT)]);
+        return redirect()->route('financial_transaction', app()->getLocale())->with('success', 'Delete request accepted');
     }
 
     public function render(settingsManager $settingsManager, BalancesManager $balancesManager)
@@ -205,74 +272,6 @@ class FinancialTransaction extends Component
         return view('livewire.financial-transaction', $params)->extends('layouts.master')->section('content');
     }
 
-    public function PreExchange(settingsManager $settingsManager)
-    {
-        $userAuth = $settingsManager->getAuthUser();
-        if (!$userAuth) return;
-        $check_exchange = rand(1000, 9999);
-        User::where('id', $userAuth->id)->update(['activationCodeValue' => $check_exchange]);
-        $userContactActif = $settingsManager->getidCountryForSms($userAuth->id);
-        $fullNumber = $userContactActif->fullNumber;
-        $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::OPTVerification, ['msg' => $check_exchange, 'type' => TypeNotificationEnum::SMS]);
-        $this->dispatchBrowserEvent('OptExBFSCash', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'FullNumber' => $fullNumber]);
-    }
-
-    public function ExchangeCashToBFS($code, settingsManager $settingsManager)
-    {
-        $userAuth = $settingsManager->getAuthUser();
-        $user = $settingsManager->getUserById($userAuth->id);
-        if ($code != $user->activationCodeValue)
-            return redirect()->route("financial_transaction", app()->getLocale())->with('ErrorOptCodeForget', Lang::get('Invalid OPT code'));
-        $settingsManager->exchange(
-            ExchangeTypeEnum::CashToBFS,
-            $settingsManager->getAuthUser()->idUser,
-            $this->soldeExchange);
-        if ($this->FinRequestN != null && $this->FinRequestN != '') {
-            return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $this->FinRequestN]);
-        }
-        return redirect()->route('financial_transaction', app()->getLocale())->with('SuccesExchange', Lang::get('SuccesExchange'));
-    }
-
-    public function exchangeSms($code, $numberSms, settingsManager $settingsManager)
-    {
-        $userAuth = $settingsManager->getAuthUser();
-        $user = $settingsManager->getUserById($userAuth->id);
-        if ($code != $user->activationCodeValue)
-            return redirect()->route("financial_transaction", app()->getLocale())->with('ErrorOptCodeForget', Lang::get('Invalid OPT code'));
-        $settingsManager->exchange(
-            ExchangeTypeEnum::BFSToSMS,
-            $settingsManager->getAuthUser()->idUser,
-            $numberSms);
-        return redirect()->route('financial_transaction', app()->getLocale())->with('succesOpttSms', Lang::get(' OPT code'));
-    }
-
-    public function getRequestIn()
-    {
-        $rechargeRequests = DB::table('recharge_requests')->select('recharge_requests.Date', 'users.name as USER', 'recharge_requests.payeePhone as userphone', 'recharge_requests.amount')
-            ->leftJoin('users', 'users.idUser', '=', 'recharge_requests.idPayee')
-            ->where('recharge_requests.idUser', auth()->user()->idUser)->get();
-    }
-
-    public function getRequestOut()
-    {
-        $rechargeRequests = DB::table('recharge_requests')
-            ->select('recharge_requests.Date', 'users.name as USER', 'recharge_requests.payeePhone as userphone', 'recharge_requests.amount')
-            ->leftJoin('users', 'users.idUser', '=', 'recharge_requests.idPayee')
-            ->where('recharge_requests.idSender', auth()->user()->idUser)->get();
-    }
-
-
-    public function DeleteRequest($num, settingsManager $settingsManager)
-    {
-        $userAuth = $settingsManager->getAuthUser();
-        if (!$userAuth) return;
-        $financialRequest = FinancialRequest::where('numeroReq', '=', $num)->first();
-        if (!$financialRequest) abort(404);
-        if ($financialRequest->status != 0) abort(404);
-        FinancialRequest::where('numeroReq', '=', $num)
-            ->update(['status' => 3, 'idUserAccepted' => $userAuth->idUser, 'dateAccepted' => date(self::DATE_FORMAT)]);
-        return redirect()->route('financial_transaction', app()->getLocale())->with('SuccesDelteAccepted', '');
-    }
 }
 
 

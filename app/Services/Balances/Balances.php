@@ -126,6 +126,10 @@ class Balances
         UserCurrentBalanceVertical::where('user_id', $idUser)->where('balance_id', $type)->update(['current_balance' => $value]);
     }
 
+    public static function getTotolBfs($userCurrentBalancehorisontal)
+    {
+        return $userCurrentBalancehorisontal->getBfssBalance("100.00") + $userCurrentBalancehorisontal->getBfssBalance("50.00");
+    }
     public static function updateCalculatedSold($idUser, $type = BalanceEnum::CASH, $value)
     {
         switch ($type) {

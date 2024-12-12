@@ -580,18 +580,20 @@ class settingsManager
         switch ($typeEchange) {
             case ExchangeTypeEnum::CashToBFS :
                 if (floatval($montant) <= 0) {
-                    dd("exception invalid montant");
+                    throw new \Exception("exception invalid montant");
                 }
-                $solde = $this->balancesManager->getBalances($idUser, -1);
-                $newSoldeCashBalance = floatval($solde->soldeCB) - floatval($montant);
+
+                $balances = UserCurrentBalanceHorisontal::where('user_id', $idUser)->first();
+                $newSoldeCashBalance = floatval($balances->cash_balance) - floatval($montant);
+
                 if ($newSoldeCashBalance < 0)
-                    dd("exception solde insuffisant");
-                $newSoldeBFS = floatval($solde->soldeBFS) + floatval($montant);
-                //update user current balances where amout CASH BALANCE (new CB)
-                Balances::updateCalculatedSold($idUser,BalanceEnum::CASH, $newSoldeCashBalance);
-                //update user current balances where amout BFS (new BFS)
-                Balances::updateCalculatedSold($idUser,BalanceEnum::BFS, $newSoldeBFS);
-                $param = ['montant' => $montant, 'newSoldeCashBalance' => $newSoldeCashBalance, 'newSoldeBFS' => $newSoldeBFS];
+                    throw new \Exception("exception solde insuffisant");
+
+                $param = [
+                    'montant' => $montant,
+                    'newSoldeCashBalance' => $newSoldeCashBalance,
+                    'newSoldeBFS' => floatval($balances->getBfssBalance("100.00")) + floatval($montant)
+                ];
                 $this->userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::ExchangeCashToBFS, $idUser, $param);
                 break;
             case ExchangeTypeEnum::BFSToSMS :

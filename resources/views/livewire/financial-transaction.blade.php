@@ -178,6 +178,9 @@
         @endslot
     @endcomponent
     <div class="row">
+        @include('layouts.flash-messages')
+    </div>
+    <div class="row">
         <div class="col-xxl-12">
             <div class="card">
                 <div class="card-body">

@@ -21,4 +21,19 @@ class UserCurrentBalanceHorisontal extends Model
     ];
 
     use HasFactory;
+
+    protected $casts = ['bfss_balance' => 'array'];
+
+    public function getBfssBalance($type)
+    {
+        return $this->bfss_balance[$type] ?? null;
+    }
+
+    public function setBfssBalance($type, $amount)
+    {
+        $BfssBalances = $this->bfss_balance;
+        $BfssBalances[$type] = $amount;
+        $this->bfss_balance = $BfssBalances;
+        return $this->save();
+    }
 }

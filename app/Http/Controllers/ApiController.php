@@ -199,6 +199,7 @@ class ApiController extends BaseController
             'operator_id' => Balances::SYSTEM_SOURCE_ID,
             'beneficiary_id' => $reciver_bfs,
             'reference' => $ref,
+            'percentage' => "50.00",
             'description' => 'TO DO DESCRIPTION',
             'value' => intval($number_of_action / $palier) * $actual_price * $palier,
             'current_balance' => $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeBFS + intval($number_of_action / $palier) * $actual_price * $palier
