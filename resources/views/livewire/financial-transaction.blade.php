@@ -77,29 +77,6 @@
         }
     </style>
     <script data-turbolinks-eval="false">
-        var SuccesExchange = '{{Session::has('SuccesExchange')}}';
-        if (SuccesExchange) {
-            toastr.success('{{Session::get('SuccesExchange')}}');
-        }
-
-        var exist = '{{Session::has('ErrorOptCodeForget')}}';
-        var msg = "your Opt code is incorrect !";
-        if (exist) {
-            var local = '{{Session::has('locale')}}';
-            if (local == 'ar') {
-                msg = "هاتفك أو كلمة المرور الخاصة بك غير صحيحة !";
-            }
-            Swal.fire({
-                title: ' ',
-                text: msg,
-                icon: 'error',
-                confirmButtonText: {{trans('ok')}}
-            }).then(okay => {
-                if (okay) {
-                    window.location.reload();
-                }
-            });
-        }
         var existvalide = '{{Session::has('succesOpttSms')}}';
         if (existvalide) {
             var someTabTriggerEl = document.querySelector('#pills-UpdatePhone-tab');
@@ -168,7 +145,6 @@
             var someTabTriggerEl = document.querySelector('#pills-profile-tab');
             var tab = new bootstrap.Tab(someTabTriggerEl);
             tab.show();
-
         }
     </script>
 
@@ -246,7 +222,7 @@
                         <div class="tab-pane active show" id="cash_bfs" role="tabpanel">
                             <div class="card">
                                 <div class="card-header align-items-center d-flex">
-                                    <h4 class="card-title mb-0 flex-grow-1">{{ __('BFS_Transaction') }}</h4>
+                                    <h4 class="card-title mb-0 flex-grow-1">{{ __('BFS Transaction') }}</h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="row gy-4">
@@ -300,7 +276,7 @@
                         <div class="tab-pane" id="bfs_funding" role="tabpanel">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">{{ __('backand_BFS_Account_Funding') }}</h4>
+                                    <h4 class="card-title">{{ __('BFS account funding') }}</h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="row gy-4">
@@ -321,7 +297,7 @@
                                                 <input class="form-check-input" type="radio" name="inlineRadioOptions"
                                                        value="paypal" id="paypal" onclick="setPaymentFormTarget(0)">
                                                 <label class="form-check-label fs-5 text-primary"
-                                                       for="flexSwitchCheckChecked">
+                                                       for="paypal">
                                                     <i class="ri-paypal-fill me-2 "></i>
                                                     {{__('Paypal')}}</label>
                                             </div>
@@ -330,7 +306,7 @@
                                                        value="creditCard" id="creditCard"
                                                        onclick="setPaymentFormTarget(1)">
                                                 <label class="form-check-label fs-5 text-success "
-                                                       for="flexSwitchCheckChecked">
+                                                       for="creditCard">
                                                     <i class="ri-bank-card-fill me-2 "></i>
                                                     {{__('Creditcard')}}
                                                 </label>
@@ -340,7 +316,7 @@
                                                        value="publicUser" id="publicUser"
                                                        onclick="setPaymentFormTarget(3)">
                                                 <label class="form-check-label fs-5 text-danger "
-                                                       for="flexSwitchCheckChecked">
+                                                       for="publicUser">
                                                     <i class="ri-team-fill me-2"></i>
                                                     {{__('PublicUsers')}}
                                                 </label>
@@ -349,7 +325,7 @@
                                                 <input class="form-check-input" type="radio" name="inlineRadioOptions"
                                                        value="upline" id="upline" onclick="setPaymentFormTarget(2)">
                                                 <label class="form-check-label fs-5 text-warning"
-                                                       for="flexSwitchCheckChecked">
+                                                       for="upline">
                                                     <i class="ri-user-2-fill me-2 "></i>
                                                     {{__('requstAdmin')}}
                                                 </label>
@@ -586,6 +562,18 @@
         </div>
     </div>
     <script>
+        var theUrl = '';
+        function setPaymentFormTarget(gate) {
+            if (gate == 0) {
+                theUrl = "paymentpaypal";
+            } else if (gate == 1) {
+                theUrl = "paymentcreditcard";
+            } else if (gate == 2) {
+                theUrl = "paymentviaadmin";
+            } else if (gate == 3) {
+                theUrl = "req_public_user";
+            }
+        }
 
         function ConfirmExchange() {
             var soldecashB = {{ $soldecashB}};
@@ -835,19 +823,7 @@
             })
         })
 
-        var theUrl = '';
 
-        function setPaymentFormTarget(gate) {
-            if (gate == 0) {
-                theUrl = "paymentpaypal";
-            } else if (gate == 1) {
-                theUrl = "paymentcreditcard";
-            } else if (gate == 2) {
-                theUrl = "paymentviaadmin";
-            } else if (gate == 3) {
-                theUrl = "req_public_user";
-            }
-        }
 
         function acceptRequst(numeroRequest) {
             window.Livewire.emit('AcceptRequest', numeroRequest);
@@ -870,6 +846,9 @@
     </script>
     <script data-turbolinks-eval="false" type="module">
         $(document).on('turbolinks:load', function () {
+
+
+
             var triggerTabList = [].slice.call(document.querySelectorAll('#pills-tab a'))
             triggerTabList.forEach(function (triggerEl) {
                 var tabTrigger = new bootstrap.Tab(triggerEl)
@@ -942,6 +921,7 @@
                 });
                 return;
             }
+            console.log('redirectPay')
             window.Livewire.emit('redirectPay', theUrl, amount);
         });
         var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";
