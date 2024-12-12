@@ -14,7 +14,7 @@ class AddCashSeeder extends Seeder
     public function run()
     {
         $value = 10000;
-        $idUsers = [197604395,197604239,197604342];
+        $idUsers = ["197604395","197604239","197604342"];
 
         foreach ($idUsers as $idUser) {
             $userCurrentBalancehorisontal = UserCurrentBalanceHorisontal::where('user_id', $idUser)->first();
@@ -25,7 +25,7 @@ class AddCashSeeder extends Seeder
                 'reference' => Balances::getReference(BalanceOperationsEnum::SI_CB->value),
                 'description' => "Add cash balance from AddCashSeeder",
                 'value' => $value,
-                'current_balance' => $userCurrentBalancehorisontal->soldeCB + $value
+                'current_balance' => $userCurrentBalancehorisontal->cash_balance + $value
             ]);
         }
     }
