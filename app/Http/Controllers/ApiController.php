@@ -27,7 +27,6 @@ use Core\Models\detail_financial_request;
 use Core\Models\FinancialRequest;
 use Core\Models\Platform;
 use Core\Models\Setting;
-use Core\Models\user_balance;
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
 use Illuminate\Http\JsonResponse;
@@ -313,28 +312,28 @@ class ApiController extends BaseController
     public function getSharesSolde()
     {
         return datatables($this->getSharesSoldeQuery())
-            ->addColumn('total_price', function ($user_balance) {
-                return number_format($user_balance->unit_price * ($user_balance->value), 2);
+            ->addColumn('total_price', function ($sharesBalances) {
+                return number_format($sharesBalances->unit_price * ($sharesBalances->value), 2);
             })
-            ->addColumn('share_price', function ($user_balance) {
-                if ($user_balance->value != 0)
-                    return $user_balance->unit_price * ($user_balance->value) / $user_balance->value;
+            ->addColumn('share_price', function ($sharesBalances) {
+                if ($sharesBalances->value != 0)
+                    return $sharesBalances->unit_price * ($sharesBalances->value) / $sharesBalances->value;
                 else return 0;
             })
-            ->addColumn('formatted_created_at', function ($user_balance) {
-                return Carbon\Carbon::parse($user_balance->created_at)->format('Y-m-d H:i:s');
+            ->addColumn('formatted_created_at', function ($sharesBalances) {
+                return Carbon\Carbon::parse($sharesBalances->created_at)->format('Y-m-d H:i:s');
             })
-            ->addColumn('total_shares', function ($user_balance) {
-                return $user_balance->value ;
+            ->addColumn('total_shares', function ($sharesBalances) {
+                return $sharesBalances->value ;
             })
-            ->addColumn('present_value', function ($user_balance) {
-                return number_format(($user_balance->value) * actualActionValue(getSelledActions(true)), 2);
+            ->addColumn('present_value', function ($sharesBalances) {
+                return number_format(($sharesBalances->value) * actualActionValue(getSelledActions(true)), 2);
             })
-            ->addColumn('current_earnings', function ($user_balance) {
-                return number_format(($user_balance->value) * actualActionValue(getSelledActions(true)) - $user_balance->unit_price * ($user_balance->value), 2);
+            ->addColumn('current_earnings', function ($sharesBalances) {
+                return number_format(($sharesBalances->value) * actualActionValue(getSelledActions(true)) - $sharesBalances->unit_price * ($sharesBalances->value), 2);
             })
-            ->addColumn('value_format', function ($user_balance) {
-                return number_format($user_balance->value, 0);
+            ->addColumn('value_format', function ($sharesBalances) {
+                return number_format($sharesBalances->value, 0);
             })
             ->rawColumns(['total_price', 'share_price','formatted_created_at','total_shares','present_value','current_earnings','value_format'])
             ->make(true);
@@ -376,32 +375,32 @@ class ApiController extends BaseController
     public function getSharesSoldes()
     {
         return datatables($this->getSharesSoldesQuery())
-            ->addColumn('total_price', function ($user_balance) {
-                return number_format($user_balance->unit_price * ($user_balance->value), 2);
+            ->addColumn('total_price', function ($sharesBalances) {
+                return number_format($sharesBalances->unit_price * ($sharesBalances->value), 2);
             })
-            ->addColumn('share_price', function ($user_balance) {
-                if ($user_balance->value != 0)
-                    return $user_balance->unit_price * ($user_balance->value) / $user_balance->value;
+            ->addColumn('share_price', function ($sharesBalances) {
+                if ($sharesBalances->value != 0)
+                    return $sharesBalances->unit_price * ($sharesBalances->value) / $sharesBalances->value;
                 else return 0;
             })
-            ->addColumn('formatted_created_at', function ($user_balance) {
-                return Carbon\Carbon::parse($user_balance->Date)->format('Y-m-d H:i:s');
+            ->addColumn('formatted_created_at', function ($sharesBalances) {
+                return Carbon\Carbon::parse($sharesBalances->Date)->format('Y-m-d H:i:s');
             })
-            ->addColumn('formatted_created_at_date', function ($user_balance) {
-                return Carbon\Carbon::parse($user_balance->Date)->format('Y-m-d');
+            ->addColumn('formatted_created_at_date', function ($sharesBalances) {
+                return Carbon\Carbon::parse($sharesBalances->Date)->format('Y-m-d');
             })
             ->addColumn('flag', function ($settings) {
 
                 return '<img src="' . $this->getFormatedFlagResourceName($settings->apha2) . '" alt="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
             })
-            ->addColumn('sell_price_now', function ($user_balance) {
-                return number_format(actualActionValue(getSelledActions(true)) * ($user_balance->value), 2);
+            ->addColumn('sell_price_now', function ($sharesBalances) {
+                return number_format(actualActionValue(getSelledActions(true)) * ($sharesBalances->value), 2);
             })
-            ->addColumn('gain', function ($user_balance) {
-                return number_format(actualActionValue(getSelledActions(true)) * ($user_balance->value) - $user_balance->unit_price * ($user_balance->value), 2);
+            ->addColumn('gain', function ($sharesBalances) {
+                return number_format(actualActionValue(getSelledActions(true)) * ($sharesBalances->value) - $sharesBalances->unit_price * ($sharesBalances->value), 2);
             })
-            ->addColumn('total_shares', function ($user_balance) {
-                return number_format($user_balance->value, 0);
+            ->addColumn('total_shares', function ($sharesBalances) {
+                return number_format($sharesBalances->value, 0);
             })
             ->addColumn('asset', function ($settings) {
                 return $this->getFormatedFlagResourceName($settings->apha2);
@@ -600,8 +599,8 @@ class ApiController extends BaseController
     public function getTransfert()
     {
         return datatables($this->getTransfertQuery())
-            ->addColumn('formatted_created_at', function ($user_balance) {
-                return Carbon\Carbon::parse($user_balance->Date)->format('Y-m-d H:i:s');
+            ->addColumn('formatted_created_at', function ($cashBalances) {
+                return Carbon\Carbon::parse($cashBalances->Date)->format('Y-m-d H:i:s');
             })
             ->make(true);
     }
