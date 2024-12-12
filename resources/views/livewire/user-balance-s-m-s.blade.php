@@ -23,14 +23,12 @@
                            id="userBalanceSMS_table" style="width: 100%">
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">
-                            <th>{{__('numero')}}</th>
-                            <th>{{ __('ref') }}</th>
-                            <th>{{ __('date') }}</th>
+                            <th>{{__('reference')}}</th>
+                            <th>{{ __('created_at') }}</th>
                             <th>{{ __('Operation Designation') }}</th>
                             <th>{{ __('description') }}</th>
-                            <th>{{__('Prix')}}</th>
                             <th>{{ __('Value') }}</th>
-                            <th>{{ __('Balance') }}</th>
+                            <th>{{ __('Current balance') }}</th>
                         </tr>
                         </thead>
                         <tbody class="body2earn">
@@ -57,27 +55,28 @@
                     search: {return: true},
                     autoWidth: false,
                     bAutoWidth: false,
-                    "ajax": "<?php echo e(route('api_user_balances', ['locale' => app()->getLocale(), 'idAmounts' => 'SMS-Balance'])); ?>",
+                    "ajax": "<?php echo e(route('api_user_sms', ['locale' => app()->getLocale()])); ?>",
                     "columns": [
-                        {data: 'ranks', "width": "1%"},
-                        {data: 'Ref'},
-                        {data: 'Date'},
-                        {data: 'Operation'},
-                        {data: 'Description'},
-                        {data: 'PrixUnitaire'},
-                        {data: 'value'},
-                        {data: 'balance'},
+                        {data: 'reference'},
+                        {data: 'created_at'},
+                        {data: 'operation'},
+                        {data: 'description'},
+                        {data: 'value', className: classAl},
+                        {data: 'current_balance', className: classAl},
                     ],
                     "columnDefs":
                         [
                             {
-                                "targets": [6],
+                                "targets": [5],
                                 render: function (data, type, row) {
-                                    if (data.indexOf('+') == -1)
-                                        return '<span class="badge bg-danger">' + data + '</span>';
-                                    else
-                                        return '<span class="badge bg-success">' + data + '</span>';
+                                    return '<span class="badge bg-danger con">' + data + '</span>';
 
+                                }
+                            },
+                            {
+                                "targets": [3],
+                                render: function (data, type, row) {
+                                    return data;
                                 }
                             }],
                     "language": {"url": urlLang}
