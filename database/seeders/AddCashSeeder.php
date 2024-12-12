@@ -13,7 +13,7 @@ class AddCashSeeder extends Seeder
     public function run()
     {
         $value = 10000;
-        $idUsers = [197604395];
+        $idUsers = [197604395,197604239,197604342];
 
         foreach ($idUsers as $idUser) {
             $userCurrentBalancehorisontal = UserCurrentBalancehorisontal::where('user_id', $idUser)->first();
