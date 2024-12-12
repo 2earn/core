@@ -16,7 +16,7 @@ class CashObserver
         DB::beginTransaction();
         try {
 
-            $userCurrentBalancehorisontal = UserCurrentBalancehorisontal::where('user_id', $cashBalances->beneficiary_id)->first();
+            $userCurrentBalancehorisontal = UserCurrentBalanceHorisontal::where('user_id', $cashBalances->beneficiary_id)->first();
             $newCashBalanceHorisental = $newCashBalanceVertical= $userCurrentBalancehorisontal->cash_balance + BalanceOperation::getMultiplicator($cashBalances->balance_operation_id)* $cashBalances->value;
             $userCurrentBalancehorisontal->update(['cash_balance' => $newCashBalanceHorisental]);
 

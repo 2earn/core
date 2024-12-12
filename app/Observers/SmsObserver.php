@@ -16,7 +16,7 @@ class SmsObserver
     {
         DB::beginTransaction();
         try {
-            $userCurrentBalancehorisontal = UserCurrentBalancehorisontal::where('user_id', $smsBalances->beneficiary_id)->first();
+            $userCurrentBalancehorisontal = UserCurrentBalanceHorisontal::where('user_id', $smsBalances->beneficiary_id)->first();
             $newSmsBalanceHorisental = $newSmsBalanceVertical = $userCurrentBalancehorisontal->sms_balance + BalanceOperation::getMultiplicator($smsBalances->balance_operation_id) * $smsBalances->value;
 
             $userCurrentBalancehorisontal->update(['sms_balance' => $newSmsBalanceHorisental]);

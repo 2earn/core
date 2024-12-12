@@ -15,7 +15,7 @@ class ChanceObserver
     {
         DB::beginTransaction();
         try {
-            $userCurrentBalancehorisontal = UserCurrentBalancehorisontal::where('user_id', $chanceBalances->beneficiary_id)->first();
+            $userCurrentBalancehorisontal = UserCurrentBalanceHorisontal::where('user_id', $chanceBalances->beneficiary_id)->first();
             $old = json_decode($chanceBalances->chance_balance);
             if (array_key_exists($chanceBalances->persontage, $old)) {
                 $old[$chanceBalances->persontage] = $newChanceBalanceVertical = $old[$chanceBalances->persontage] + BalanceOperation::getMultiplicator($chanceBalances->balance_operation_id) * $chanceBalances->value;

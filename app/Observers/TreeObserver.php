@@ -15,7 +15,7 @@ class TreeObserver
     {
         DB::beginTransaction();
         try {
-            $userCurrentBalancehorisontal = UserCurrentBalancehorisontal::where('user_id', $treeBalances->beneficiary_id)->first();
+            $userCurrentBalancehorisontal = UserCurrentBalanceHorisontal::where('user_id', $treeBalances->beneficiary_id)->first();
             $newTreeBalanceHorisental = $newTreeBalanceVertical = $userCurrentBalancehorisontal->treeBalance +  BalanceOperation::getMultiplicator($treeBalances->balance_operation_id)  * $treeBalances->value;
 
             $userCurrentBalancehorisontal->update(['tree_balance' => $newTreeBalanceHorisental]);

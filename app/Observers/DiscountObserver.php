@@ -15,7 +15,7 @@ class DiscountObserver
     {
         DB::beginTransaction();
         try {
-            $userCurrentBalancehorisontal = UserCurrentBalancehorisontal::where('user_id', $discountBalances->beneficiary_id)->first();
+            $userCurrentBalancehorisontal = UserCurrentBalanceHorisontal::where('user_id', $discountBalances->beneficiary_id)->first();
 
             $newDiscountBalanceHorisental = $newDiscountBalanceVertical= $userCurrentBalancehorisontal->discount_balance +BalanceOperation::getMultiplicator($discountBalances->balance_operation_id)* $discountBalances->value;
 

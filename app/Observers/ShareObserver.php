@@ -15,7 +15,7 @@ class ShareObserver
     {
         DB::beginTransaction();
         try {
-            $userCurrentBalancehorisontal = UserCurrentBalancehorisontal::where('user_id', $shareBalances->beneficiary_id)->first();
+            $userCurrentBalancehorisontal = UserCurrentBalanceHorisontal::where('user_id', $shareBalances->beneficiary_id)->first();
             $newShareBalanceHorisental = $newShareBalanceVertical = $userCurrentBalancehorisontal->share_balance + BalanceOperation::getMultiplicator($shareBalances->balance_operation_id) * $shareBalances->value;
             $userCurrentBalancehorisontal->update(['share_balance' => $newShareBalanceHorisental]);
 
