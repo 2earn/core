@@ -7,9 +7,11 @@ use App\Models\BFSsBalances;
 use App\Models\CashBalances;
 use App\Models\SharesBalances;
 use App\Models\User;
+use App\Models\UserCurrentBalanceHorisontal;
 use App\Services\Balances\Balances;
 use Core\Enum\BalanceEnum;
 use Core\Enum\BalanceOperationsEnum;
+use Core\Models\BalanceOperation;
 use Core\Models\Setting;
 use Core\Models\user_balance;
 use Core\Services\BalancesManager;
@@ -114,15 +116,16 @@ class Sponsorship
             'value' => $amount * $this->amountCash / 100,
             'current_balance' => $this->balancesManager->getBalances($reserve, -1)->soldeCB + $amount * $this->amountCash / 100
         ]);
-
+            $balances = UserCurrentBalanceHorisontal::where('user_id', $reserve)->first();
         BFSsBalances::addLine([
             'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_BFS->value,
             'operator_id' => $this->isSource,
             'beneficiary_id' => $reserve,
             'reference' => $ref,
+            'percentage' => "50.00",
             'description' => 'sponsorship commission from ' . $fullphone_number,
             'value' => $amount * $this->amountBFS / 100,
-            'current_balance' => $this->balancesManager->getBalances($reserve, -1)->soldeBFS + $amount * $this->amountBFS / 100
+            'current_balance' => $balances->getBfssBalance("50.00") +BalanceOperation::getMultiplicator(BalanceOperationsEnum::SPONSORSHIP_COMMISSION_BFS->value)* $amount * $this->amountBFS / 100
         ]);
             DB::commit();
         } catch (\Exception $e) {

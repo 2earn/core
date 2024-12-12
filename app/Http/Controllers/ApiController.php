@@ -193,7 +193,7 @@ class ApiController extends BaseController
             'value' => $number_of_action  * $actual_price,
             'current_balance' => $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeCB - ($number_of_action ) * $actual_price
         ]);
-
+        $balances = UserCurrentBalanceHorisontal::where('user_id', $reciver)->first();
         BFSsBalances::addLine([
             'balance_operation_id' => BalanceOperationsEnum::BY_ACQUIRING_SHARES->value,
             'operator_id' => Balances::SYSTEM_SOURCE_ID,
@@ -202,8 +202,9 @@ class ApiController extends BaseController
             'percentage' => "50.00",
             'description' => 'TO DO DESCRIPTION',
             'value' => intval($number_of_action / $palier) * $actual_price * $palier,
-            'current_balance' => $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeBFS + intval($number_of_action / $palier) * $actual_price * $palier
+            'current_balance' => $balances->getBfssBalance("50.00") + BalanceOperation::getMultiplicator(BalanceOperationsEnum::BY_ACQUIRING_SHARES->value)* intval($number_of_action / $palier) * $actual_price * $palier
         ]);
+
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
