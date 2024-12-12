@@ -597,26 +597,17 @@ class settingsManager
                 $this->userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::ExchangeCashToBFS, $idUser, $param);
                 break;
             case ExchangeTypeEnum::BFSToSMS :
-                $solde = $this->balancesManager->getBalances($idUser, -1);
-                $soldeBfs = $solde->soldeBFS;
+                $balances = UserCurrentBalanceHorisontal::where('user_id', $idUser)->first();
+                $soldeBfs = $balances->getBfssBalance("100.00");
                 $seting = DB::table('settings')->where("idSETTINGS", "=", "13")->first();
                 $prix_sms = $seting->IntegerValue;
                 $newSoldeBFS = $soldeBfs - ($prix_sms * $montant);
 
-                if ($newSoldeBFS < 0)
-                    dd("exception solde insuffisant");
-                $lates = user_balance::latest('id')->where([['idSource', '=', $idUser], ['idUser', '=', $idUser], ['idAmount', '=', BalanceEnum::SMS]]
-                )->first();
-                $balanceEnterieru = 0;
-                if ($lates != null) {
-                    $balanceEnterieru = $lates->Balance;
+                if ($newSoldeBFS < 0) {
+                    throw new \Exception("exception solde insuffisant");
                 }
-                $newBalanceBFS = $balanceEnterieru + ($prix_sms * $montant);
 
-                Balances::updateCalculatedSold($idUser,BalanceEnum::BFS,$newSoldeBFS);
-                $newSMS = floatval( $newSoldeBFS) + floatval($prix_sms * $montant);
-                Balances::updateCalculatedSold($idUser,BalanceEnum::SMS,$newSMS);
-                $param = ['montant' => $prix_sms * $montant, 'newSoldeCashBalance' => $newSoldeBFS, 'newSoldeBFS' => $newBalanceBFS, 'PrixSms' => $prix_sms];
+                $param = ['montant' => $prix_sms * $montant, 'newSoldeCashBalance' => $newSoldeBFS, 'newSoldeBFS' => $newSoldeBFS, 'PrixSms' => $prix_sms];
                 $this->userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::ExchangeBFSToSMS, $idUser, $param);
                 break;
         }

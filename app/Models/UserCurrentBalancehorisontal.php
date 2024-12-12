@@ -31,9 +31,14 @@ class UserCurrentBalanceHorisontal extends Model
 
     public function setBfssBalance($type, $amount)
     {
-        $BfssBalances = $this->bfss_balance;
-        $BfssBalances[$type] = $amount;
-        $this->bfss_balance = $BfssBalances;
-        return $this->save();
+        try {
+
+            $BfssBalances = $this->bfss_balance;
+            $BfssBalances[$type] = $amount;
+            $this->bfss_balance = $BfssBalances;
+            return $this->save();
+        } catch (\Exception $exception) {
+            dd($type, $amount);
+        }
     }
 }

@@ -9,7 +9,6 @@ use App\Models\DiscountBalances;
 use App\Models\SMSBalances;
 use App\Models\TreeBalances;
 use App\Models\UserCurrentBalanceHorisontal;
-use App\Models\UserCurrentBalanceVertical;
 use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
 use Core\Enum\ActionEnum;
@@ -152,14 +151,10 @@ class  UserBalancesHelper
 
                 DB::beginTransaction();
                 try {
-                    $ref = BalancesFacade::getReference(BalanceOperationsEnum::BFS_TO_SM_SN_BFS);
-
-                // TO FILL
-                $oldSMSSOLD = UserCurrentBalanceHorisontal::where('user_id',$idUser)->pluck('sms_solde');
-
-
-                $seting = DB::table('settings')->where("idSETTINGS", "=", SettingsEnum::Prix_SMS->value)->first();
-                $prix_sms = $seting->IntegerValue;
+                    $ref = BalancesFacade::getReference(BalanceOperationsEnum::BFS_TO_SM_SN_BFS->value);
+                    $oldSMSSOLD = UserCurrentBalanceHorisontal::where('user_id', $idUser)->pluck('sms_balance')->first();
+                    $seting = DB::table('settings')->where("idSETTINGS", "=", SettingsEnum::Prix_SMS->value)->first();
+                    $prix_sms = $seting->IntegerValue;
                     $balances = UserCurrentBalanceHorisontal::where('user_id', $idUser)->first();
 
                     BFSsBalances::addLine([
@@ -170,7 +165,7 @@ class  UserBalancesHelper
                         'percentage' => "100.00",
                         'description' => 'TO DO DESCRIPTION',
                     'value' => $params["montant"],
-                        'current_balance' => $balances->getBfssBalance("50.00") + BalanceOperation::getMultiplicator(BalanceOperationsEnum::BFS_TO_SM_SN_BFS->value) * $params["newSoldeCashBalance"]
+                        'current_balance' => $balances->getBfssBalance("100.00") + BalanceOperation::getMultiplicator(BalanceOperationsEnum::BFS_TO_SM_SN_BFS->value) * $params["newSoldeCashBalance"]
                 ]);
 
                 SMSBalances::addLine([
@@ -192,11 +187,7 @@ class  UserBalancesHelper
                 break;
             case EventBalanceOperationEnum::SendSMS:
                 $ref = BalancesFacade::getReference(BalanceOperationsEnum::Achat_SMS_SMS->value);
-
-                // TO FILL
-                $oldSMSSOLD = UserCurrentBalanceHorisontal::where('user_id',$idUser)->pluck('sms_solde');
-
-
+                $oldSMSSOLD = UserCurrentBalanceHorisontal::where('user_id', $idUser)->pluck('sms_balance');
                 SMSBalances::addLine(
                     [
                         'balance_operation_id' => BalanceOperationsEnum::Achat_SMS_SMS->value,

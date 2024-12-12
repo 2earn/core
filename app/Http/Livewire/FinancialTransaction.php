@@ -172,11 +172,8 @@ class FinancialTransaction extends Component
         $user = $settingsManager->getUserById($userAuth->id);
         if ($code != $user->activationCodeValue)
             return redirect()->route("financial_transaction", app()->getLocale())->with('danger', Lang::get('Invalid OPT code'));
-        $settingsManager->exchange(
-            ExchangeTypeEnum::BFSToSMS,
-            $settingsManager->getAuthUser()->idUser,
-            $numberSms);
-        return redirect()->route('financial_transaction', app()->getLocale())->with('success', Lang::get(' OPT code'));
+        $settingsManager->exchange(ExchangeTypeEnum::BFSToSMS, $settingsManager->getAuthUser()->idUser, intval($numberSms));
+        return redirect()->route('financial_transaction', app()->getLocale())->with('success', Lang::get('BFS to sms exchange operation seceded'));
     }
 
     public function getRequestIn()
