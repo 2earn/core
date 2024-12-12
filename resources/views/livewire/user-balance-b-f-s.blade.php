@@ -89,12 +89,12 @@
                     "ajax": "{{route('api_user_bfs_purchase',app()->getLocale())}}",
                     "columns": [
                         {data: 'ranks'},
-                        {data: 'Ref'},
-                        {data: 'Date'},
-                        {data: 'Operation'},
-                        {data: 'Description'},
+                        {data: 'reference'},
+                        {data: 'created_at'},
+                        {data: 'operation'},
+                        {data: 'description'},
                         {data: 'value', className: classAl},
-                        {data: 'balance', className: classAl},
+                        {data: 'current_balance', className: classAl},
                     ],
                     "columnDefs":
                         [

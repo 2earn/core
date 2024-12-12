@@ -976,42 +976,73 @@ class ApiController extends BaseController
         return response()->json($results);
     }
 
-    public function getUserBalancesQuery($idAmounts)
+    public function getUserBalancesQuery($balance)
     {
-        return DB::select(getSqlFromPath('get_user_balances'), [$idAmounts, auth()->user()->idUser]);
+        return DB::table($balance . ' as ub')
+            ->join('balance_operations as bo', 'ub.balance_operation_id', '=', 'bo.id')
+            ->selectRaw('
+        RANK() OVER (ORDER BY ub.created_at desc) as ranks,
+        ub.beneficiary_id,
+        ub.id,
+        ub.operator_id,
+        ub.reference,
+        ub.created_at,
+        bo.operation,
+        ub.description,
+        ub.current_balance,
+        CASE
+            WHEN ub.operator_id = "11111111" THEN "system"
+            ELSE (SELECT CONCAT(IFNULL(enfirstname, ""), " ", IFNULL(enlastname, ""))
+                  FROM metta_users mu
+                  WHERE mu.idUser = ub.operator_id)
+        END as source,
+        CASE
+            WHEN bo.IO = "I" THEN CONCAT("+ ", FORMAT(ub.value, 3), " $")
+            WHEN bo.IO = "O" THEN CONCAT("- ", FORMAT(ub.value, 3), " $")
+            WHEN bo.IO = "IO" THEN "IO"
+        END as value
+    ')
+            ->where('ub.beneficiary_id', auth()->user()->idUser)
+            ->orderBy('reference', 'desc');
+
 
     }
     public function getUserBalances($locale, $typeAmounts)
     {
         $idAmounts = 0;
+        $balance = null;
         switch ($typeAmounts) {
             case 'cash-Balance':
                 $idAmounts = 1;
+                $balance = "cash_balances";
                 break;
             case 'Balance-For-Shopping':
                 $idAmounts = 2;
+                $balance = "bfss_balances";
                 break;
             case 'Discounts-Balance':
                 $idAmounts = 3;
+                $balance = "discount_balances";
                 break;
             case 'SMS-Balance':
                 $idAmounts = 5;
+                $balance = "sms_balances";
                 break;
             default :
                 $idAmounts = 0;
+                $balance = "cash_balances";
                 break;
         }
-
-        return Datatables::of($this->getUserBalancesQuery($idAmounts))
+        return datatables($this->getUserBalancesQuery($balance))
             ->addColumn('formatted_date', function ($user) {
-                return Carbon\Carbon::parse($user->Date)->format('Y-m-d');
+                return Carbon\Carbon::parse($user->created_at)->format('Y-m-d');
             })
-            ->editColumn('Description', function ($row) use ($idAmounts) {
+            ->editColumn('description', function ($row) use ($idAmounts) {
                 if ($idAmounts == 3)
-                    return '<div style="text-align:right;">' . htmlspecialchars($row->Description) . '</div>';
-                else return $row->Description;
+                    return '<div style="text-align:right;">' . htmlspecialchars($row->description) . '</div>';
+                else return $row->description;
             })
-            ->rawColumns(['Description', 'formatted_date'])
+            ->rawColumns(['description', 'formatted_date'])
             ->make(true);
     }
 
@@ -1022,7 +1053,7 @@ class ApiController extends BaseController
         $userData = DB::table('user_balances as ub')
             ->select(
                 DB::raw('RANK() OVER (ORDER BY ub.Date DESC) as ranks'),
-                'ub.idUser', 'ub.id', 'ub.idSource', 'ub.Ref', 'ub.Date', 'bo.Operation', 'ub.Description',
+                'ub.idUser', 'ub.id', 'ub.idSource', 'ub.Ref', 'ub.Date', 'bo.operation', 'ub.Description',
                 DB::raw(" CASE WHEN ub.idSource = '11111111' THEN 'system' ELSE (SELECT CONCAT(IFNULL(enfirstname, ''), ' ', IFNULL(enlastname, '')) FROM metta_users mu WHERE mu.idUser = ub.idSource) END AS source "),
                 DB::raw(" CASE WHEN bo.IO = 'I' THEN CONCAT('+ ', '$ ', FORMAT(ub.value / PrixUnitaire, 3)) WHEN bo.IO = 'O' THEN CONCAT('- ', FORMAT(ub.value / PrixUnitaire, 3), ' $') WHEN bo.IO = 'IO' THEN 'IO' END AS value "),
                 DB::raw(" CASE WHEN idAmount = 5 THEN CONCAT(FORMAT(SUM(CASE WHEN bo.IO = 'I' THEN FORMAT(FORMAT(ub.value, 3) / FORMAT(PrixUnitaire, 3), 3) WHEN bo.IO = 'O' THEN FORMAT(FORMAT(ub.value, 3) / (FORMAT(PrixUnitaire, 3) * -1), 3) WHEN bo.IO = 'IO' THEN 'IO' END) OVER (ORDER BY date), 0), ' ') WHEN idAmount = 3 THEN CONCAT('$ ', FORMAT(SUM(CASE WHEN bo.IO = 'I' THEN FORMAT(FORMAT(ub.value, 3) / FORMAT(PrixUnitaire, 3), 3) WHEN bo.IO = 'O' THEN FORMAT(FORMAT(ub.value, 3) / (FORMAT(PrixUnitaire, 3) * -1), 3) WHEN bo.IO = 'IO' THEN 'IO' END) OVER (ORDER BY date), 2)) ELSE CONCAT('$ ', FORMAT(ub.balance, 3, 'en_EN')) END AS balance "),
@@ -1060,20 +1091,18 @@ class ApiController extends BaseController
     {
         $user = $this->settingsManager->getAuthUser();
         if (!$user) $user->idUser = '';
-        $userData = DB::table('user_balances as ub')
+        $userData = DB::table('bfss_balances as ub')
             ->select(
-                DB::raw('RANK() OVER (ORDER BY ub.Date DESC) as ranks'),
-                'ub.idUser', 'ub.id', 'ub.idSource', 'ub.Ref', 'ub.Date', 'bo.Operation', 'ub.Description',
-                DB::raw(" CASE WHEN ub.idSource = '11111111' THEN 'system' ELSE (SELECT CONCAT(IFNULL(enfirstname, ''), ' ', IFNULL(enlastname, '')) FROM metta_users mu WHERE mu.idUser = ub.idSource) END AS source "),
-                DB::raw(" CASE WHEN bo.IO = 'I' THEN CONCAT('+ ', '$ ', FORMAT(ub.value / PrixUnitaire, 3)) WHEN bo.IO = 'O' THEN CONCAT('- ', FORMAT(ub.value / PrixUnitaire, 3), ' $') WHEN bo.IO = 'IO' THEN 'IO' END AS value "),
-                DB::raw(" CASE WHEN idAmount = 5 THEN CONCAT(FORMAT(SUM(CASE WHEN bo.IO = 'I' THEN FORMAT(FORMAT(ub.value, 3) / FORMAT(PrixUnitaire, 3), 3) WHEN bo.IO = 'O' THEN FORMAT(FORMAT(ub.value, 3) / (FORMAT(PrixUnitaire, 3) * -1), 3) WHEN bo.IO = 'IO' THEN 'IO' END) OVER (ORDER BY date), 0), ' ') WHEN idAmount = 3 THEN CONCAT('$ ', FORMAT(SUM(CASE WHEN bo.IO = 'I' THEN FORMAT(FORMAT(ub.value, 3) / FORMAT(PrixUnitaire, 3), 3) WHEN bo.IO = 'O' THEN FORMAT(FORMAT(ub.value, 3) / (FORMAT(PrixUnitaire, 3) * -1), 3) WHEN bo.IO = 'IO' THEN 'IO' END) OVER (ORDER BY date), 2)) ELSE CONCAT('$ ', FORMAT(ub.balance, 3, 'en_EN')) END AS balance "),
-                'ub.PrixUnitaire',
-                'bo.IO as sensP'
+                DB::raw('RANK() OVER (ORDER BY ub.created_at DESC) as ranks'),
+                'ub.beneficiary_id', 'ub.id', 'ub.operator_id', 'ub.reference', 'ub.created_at', 'bo.operation', 'ub.description',
+                DB::raw(" CASE WHEN ub.operator_id = '11111111' THEN 'system' ELSE (SELECT CONCAT(IFNULL(enfirstname, ''), ' ', IFNULL(enlastname, '')) FROM metta_users mu WHERE mu.idUser = ub.beneficiary_id) END AS source "),
+                DB::raw(" CASE WHEN bo.IO = 'I' THEN CONCAT('+ ', '$ ', FORMAT(ub.value, 3)) WHEN bo.IO = 'O' THEN CONCAT('- ', FORMAT(ub.value , 3), ' $') WHEN bo.IO = 'IO' THEN 'IO' END AS value "),
+                'bo.IO as sensP',
+                'ub.current_balance'
             )
-            ->join('balance_operations as bo', 'ub.idBalancesOperation', '=', 'bo.id')
-            ->where('bo.amounts_id', 2)
-            ->where('ub.idUser', $user->idUser)
-            ->orderBy('Date')->get();
+            ->join('balance_operations as bo', 'ub.balance_operation_id', '=', 'bo.id')
+            ->where('ub.beneficiary_id', $user->idUser)
+            ->orderBy('created_at')->get();
         return datatables($userData)->make(true);
     }
 

@@ -73,14 +73,13 @@
                             },
                             "ajax": "{{route('api_user_balances',['locale'=> app()->getLocale(), 'idAmounts'=>'Discounts-Balance'])}}",
                             "columns": [
-                                {data: 'Ref'},
-                                {data: 'Date'},
-                                {data: 'Operation'},
-                                {data: 'Description'},
-                                {data: 'value', className: classAl},
-                                {data: 'balance', className: classAl},
                                 {data: 'ranks'},
-                                {data: 'idamount'},
+                                {data: 'reference'},
+                                {data: 'created_at'},
+                                {data: 'operation'},
+                                {data: 'description'},
+                                {data: 'value', className: classAl},
+                                {data: 'current_balance', className: classAl},
                             ],
                             "columnDefs":
                                 [
@@ -108,7 +107,7 @@
                                         }
                                     },
                                     {
-                                        "targets": [6, 7],
+                                        "targets": [6],
                                         searchable: false,
                                         visible: false
                                     },

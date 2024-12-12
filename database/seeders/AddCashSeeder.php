@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\CashBalances;
 use App\Models\UserCurrentBalanceHorisontal;
+use App\Services\Balances\Balances;
 use Core\Enum\BalanceOperationsEnum;
 use Illuminate\Database\Seeder;
 
@@ -21,8 +22,8 @@ class AddCashSeeder extends Seeder
                 'balance_operation_id' => BalanceOperationsEnum::SI_CB->value,
                 'operator_id' => $idUser,
                 'beneficiary_id' => $idUser,
-                'reference' => BalanceOperationsEnum::SI_CB->value,
-                'description' => "add cash balance",
+                'reference' => Balances::getReference(BalanceOperationsEnum::SI_CB->value),
+                'description' => "Add cash balance from AddCashSeeder",
                 'value' => $value,
                 'current_balance' => $userCurrentBalancehorisontal->soldeCB + $value
             ]);

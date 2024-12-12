@@ -189,14 +189,13 @@
                     search: {return: false},
                     "ajax": "{{route('api_user_balances',['locale'=> app()->getLocale(), 'idAmounts'=>'cash-Balance'])}}",
                     "columns": [
-                        {data: 'Ref'},
-                        {data: 'Date'},
-                        {data: 'Operation'},
-                        {data: 'Description'},
-                        {data: 'value'},
-                        {data: 'balance'},
                         {data: 'ranks'},
-                        {data: 'idamount'},
+                        {data: 'reference'},
+                        {data: 'created_at'},
+                        {data: 'operation'},
+                        {data: 'description'},
+                        {data: 'value'},
+                        {data: 'current_balance'},
                     ],
                     "columnDefs":
                         [
@@ -223,7 +222,7 @@
 
                                 }
                             },
-                            {"targets": [6, 7], searchable: false, visible: false},
+                            {"targets": [6], searchable: false, visible: false},
                             {"targets": [5], className: classAl},
                         ],
                     "language": {"url": urlLang}
