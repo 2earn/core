@@ -968,7 +968,7 @@ class ApiController extends BaseController
     }
 
 
-    public function getUserBalancesList($locale, $idUser, $idamount)
+    public function getUserBalancesList($locale, $idUser, $idamount, $json = true)
     {
         $balances = null;
         match ($idamount) {
@@ -995,6 +995,9 @@ class ApiController extends BaseController
             ->join('users as s', 'u.beneficiary_id', '=', 's.idUser')
             ->where('u.beneficiary_id', $idUser)
             ->orderBy('u.created_at')->get();
+        if (!$json) {
+            return $results;
+        }
         return response()->json($results);
     }
 
@@ -1068,25 +1071,14 @@ class ApiController extends BaseController
             ->make(true);
     }
 
-    public function getTreeUser()
+    public function getTreeUser($locale)
     {
-        $user = $this->settingsManager->getAuthUser();
-        if (!$user) $user->idUser = '';
-        $userData = DB::table('user_balances as ub')
-            ->select(
-                DB::raw('RANK() OVER (ORDER BY ub.Date DESC) as ranks'),
-                'ub.idUser', 'ub.id', 'ub.idSource', 'ub.Ref', 'ub.Date', 'bo.operation', 'ub.Description',
-                DB::raw(" CASE WHEN ub.idSource = '11111111' THEN 'system' ELSE (SELECT CONCAT(IFNULL(enfirstname, ''), ' ', IFNULL(enlastname, '')) FROM metta_users mu WHERE mu.idUser = ub.idSource) END AS source "),
-                DB::raw(" CASE WHEN bo.IO = 'I' THEN CONCAT('+ ', '$ ', FORMAT(ub.value / PrixUnitaire, 3)) WHEN bo.IO = 'O' THEN CONCAT('- ', FORMAT(ub.value / PrixUnitaire, 3), ' $') WHEN bo.IO = 'IO' THEN 'IO' END AS value "),
-                DB::raw(" CASE WHEN idAmount = 5 THEN CONCAT(FORMAT(SUM(CASE WHEN bo.IO = 'I' THEN FORMAT(FORMAT(ub.value, 3) / FORMAT(PrixUnitaire, 3), 3) WHEN bo.IO = 'O' THEN FORMAT(FORMAT(ub.value, 3) / (FORMAT(PrixUnitaire, 3) * -1), 3) WHEN bo.IO = 'IO' THEN 'IO' END) OVER (ORDER BY date), 0), ' ') WHEN idAmount = 3 THEN CONCAT('$ ', FORMAT(SUM(CASE WHEN bo.IO = 'I' THEN FORMAT(FORMAT(ub.value, 3) / FORMAT(PrixUnitaire, 3), 3) WHEN bo.IO = 'O' THEN FORMAT(FORMAT(ub.value, 3) / (FORMAT(PrixUnitaire, 3) * -1), 3) WHEN bo.IO = 'IO' THEN 'IO' END) OVER (ORDER BY date), 2)) ELSE CONCAT('$ ', FORMAT(ub.balance, 3, 'en_EN')) END AS balance "),
-                'ub.PrixUnitaire',
-                'bo.IO as sensP'
-            )
-            ->join('balance_operations as bo', 'ub.idBalancesOperation', '=', 'bo.id')
-            ->where('bo.amounts_id', 4)
-            ->where('ub.idUser', $user->idUser)
-            ->orderBy('Date')->get();
-        return datatables($userData)->make(true);
+        return datatables($this->getUserBalancesList($locale, auth()->user()->idUser, BalanceEnum::TREE->value, false))->make(true);
+    }
+
+    public function getSmsUser($locale)
+    {
+        return datatables($this->getUserBalancesList($locale, auth()->user()->idUser, BalanceEnum::SMS->value, false))->make(true);
     }
 
     public function getChanceUser()

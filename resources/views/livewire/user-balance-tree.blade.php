@@ -29,13 +29,12 @@
                                id="ub_table_tree" style="width: 100%">
                             <thead class="table-light">
                             <tr class=" tabHeader2earn">
-                                <th>{{__('Num')}}</th>
-                                <th>{{ __('ref') }}</th>
-                                <th>{{ __('date') }}</th>
+                                <th>{{__('reference')}}</th>
+                                <th>{{ __('created_at') }}</th>
                                 <th>{{ __('Operation Designation') }}</th>
                                 <th>{{ __('description') }}</th>
                                 <th>{{ __('Value') }}</th>
-                                <th>{{ __('Balance') }}</th>
+                                <th>{{ __('Current balance') }}</th>
                             </tr>
                             </thead>
                             <tbody class="body2earn">
@@ -79,42 +78,25 @@
                     search: {return: true},
                     "ajax": "{{route('api_user_tree',app()->getLocale())}}",
                     "columns": [
-                        {data: 'ranks'},
-                        {data: 'Ref'},
-                        {data: 'Date'},
-                        {data: 'Operation'},
-                        {data: 'Description'},
+                        {data: 'reference'},
+                        {data: 'created_at'},
+                        {data: 'operation'},
+                        {data: 'description'},
                         {data: 'value', className: classAl},
-                        {data: 'balance', className: classAl},
+                        {data: 'current_balance', className: classAl},
                     ],
                     "columnDefs":
                         [
                             {
                                 "targets": [5],
                                 render: function (data, type, row) {
-                                    if (data.indexOf('+') == -1)
-                                        return '<span class="badge bg-danger con">' + data + '</span>';
-                                    else
-                                        return '<span class="badge bg-success con">' + data + '</span>';
+                                    return '<span class="badge bg-danger con">' + data + '</span>';
 
-                                }
-                            },
-                            {
-                                "targets": [6],
-                                render: function (data, type, row) {
-                                    if (row.ranks == 1)
-                                        return '<div class="logoTopBFSLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
-                                    else
-                                        return data;
                                 }
                             },
                             {
                                 "targets": [3],
                                 render: function (data, type, row) {
-                                    if (select2_array.indexOf(data) == -1) {
-                                        select2_array.push(data);
-                                        $('.bfs_operation_multiple').append(('<option value="' + data + '">' + data + '</option>'));
-                                    }
                                     return data;
                                 }
                             }],
