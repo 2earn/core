@@ -189,7 +189,6 @@
                     search: {return: false},
                     "ajax": "{{route('api_user_balances',['locale'=> app()->getLocale(), 'idAmounts'=>'cash-Balance'])}}",
                     "columns": [
-                        {data: 'ranks'},
                         {data: 'reference'},
                         {data: 'created_at'},
                         {data: 'operation'},
@@ -212,17 +211,11 @@
                             {
                                 "targets": [5],
                                 render: function (data, type, row) {
-                                    if (row.ranks == 1)
-                                        if (row.idamount == 1)
-                                            return '<div class="logoTopCashLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
-                                        else
-                                            return '<div class="logoTopDBLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
-                                    else
+
                                         return data;
 
                                 }
                             },
-                            {"targets": [6], searchable: false, visible: false},
                             {"targets": [5], className: classAl},
                         ],
                     "language": {"url": urlLang}

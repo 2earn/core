@@ -970,7 +970,6 @@ class ApiController extends BaseController
 
     public function getUserBalancesList($locale, $idUser, $idamount, $json = true)
     {
-        $balances = null;
         match ($idamount) {
             BalanceEnum::CASH->value => $balances = "cash_balances",
             BalanceEnum::BFS->value => $balances = "bfss_balances",
@@ -994,7 +993,7 @@ class ApiController extends BaseController
             ->join('balance_operations as b', 'u.balance_operation_id', '=', 'b.id')
             ->join('users as s', 'u.beneficiary_id', '=', 's.idUser')
             ->where('u.beneficiary_id', $idUser)
-            ->orderBy('u.created_at')->get();
+            ->orderBy('u.created_at', 'DESC')->get();
         if (!$json) {
             return $results;
         }
@@ -1028,9 +1027,7 @@ class ApiController extends BaseController
         END as value
     ')
             ->where('ub.beneficiary_id', auth()->user()->idUser)
-            ->orderBy('reference', 'desc');
-
-
+            ->orderBy('ub.created_at', 'desc');
     }
     public function getUserBalances($locale, $typeAmounts)
     {

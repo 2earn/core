@@ -30,7 +30,7 @@
                             <thead class="table-light">
                             <tr class=" tabHeader2earn">
                                 <th>{{__('reference')}}</th>
-                                <th>{{ __('created_at') }}</th>
+                                <th>{{ __('Created at') }}</th>
                                 <th>{{ __('Operation Designation') }}</th>
                                 <th>{{ __('description') }}</th>
                                 <th>{{ __('Value') }}</th>
