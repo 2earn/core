@@ -425,12 +425,13 @@
                                 id="ub_table_listsh" style="width: 100%">
                                 <thead class="table-light">
                                 <tr class="head2earn  tabHeader2earn">
-                                    <th>{{__('date_purchase')}}</th>
-                                    <th>{{__('number_of_shares')}}</th>
-                                    <th>{{__('total_shares')}}</th>
-                                    <th>{{__('total_price')}}</th>
-                                    <th>{{__('present_value')}}</th>
-                                    <th>{{__('current_earnings')}}</th>
+                                    <th>{{__('Reference')}}</th>
+                                    <th>{{__('Created_at')}}</th>
+                                    <th>{{__('Value')}}</th>
+                                    <th>{{__('Real amount')}}</th>
+                                    <th>{{__('Current balance')}}</th>
+                                    <th>{{__('Unit price')}}</th>
+                                    <th>{{__('Total amount')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody class="body2earn">
@@ -507,12 +508,12 @@
                 "processing": true,
                 "data": data,
                 "columns": [
-                    {data: 'ref'},
-                    {data: 'Date'},
+                    {data: 'reference'},
+                    {data: 'created_at'},
                     {data: 'operation'},
-                    {data: 'Description'},
+                    {data: 'description'},
                     {data: 'value', className: window.classAl},
-                    {data: 'balance', className: window.classAl},
+                    {data: 'current_balance', className: window.classAl},
                 ],
                 "columnDefs": [
                     {
@@ -609,12 +610,13 @@
                 "processing": true,
                 "data": data,
                 "columns": [
+                    {data: 'reference'},
                     {data: 'created_at'},
                     {data: 'value'},
-                    {data: 'total_shares'},
-                    {data: 'total_price'},
-                    {data: 'present_value'},
-                    {data: 'current_earnings'},
+                    {data: 'real_amount'},
+                    {data: 'current_balance'},
+                    {data: 'unit_price'},
+                    {data: 'total_amount'},
                 ],
                 "columnDefs": [],
             });
@@ -628,6 +630,7 @@
             window.url = "{{ route('api_shares_solde_list', ['locale'=> app()->getLocale(),'amount' => 'amount1','idUser' => 'idUser1']) }}";
             window.url = window.url.replace('idUser1', reciver);
             window.url = window.url.replace('amount1', amount);
+            console.log(window.url)
             $(document).ready(function () {
                 $.getJSON(window.url, function (data) {
                     createOrUpdateDataTablesh(data);

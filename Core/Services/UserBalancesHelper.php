@@ -57,7 +57,7 @@ class  UserBalancesHelper
      * @param $idUser
      * @param array|null $params
      * @return void
-     * add balance operation in table user_balances according to the type event
+     * add balance operation in table user _balances according to the type event
      * 1 - type event Signup :
      * 11 - insert when balance operation designation id SI
      * 12 - insert when  balance operation is BY_REGISTERING_TREE

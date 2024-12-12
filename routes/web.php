@@ -226,7 +226,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
 
     Route::group(['prefix' => 'api/v1'], function () {
-
         Route::get('/countries', 'App\Http\Controllers\ApiController@getCountries')->name('api_countries');
         Route::get('/settings', 'App\Http\Controllers\ApiController@getSettings')->name('api_settings');
         Route::get('/balance/operations', 'App\Http\Controllers\ApiController@getBalanceOperations')->name('api_bal_operations');

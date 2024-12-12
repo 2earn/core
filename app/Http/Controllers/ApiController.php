@@ -340,9 +340,26 @@ class ApiController extends BaseController
     }
 
 
-    public function getSharesSoldeList($locale, $idUser, $idamount)
+    public function getSharesSoldeList($locale, $idUser)
     {
-        return $this->getUserBalancesList($locale, $idUser, $idamount);
+
+        $results = DB::table(  'shares_balances as u')
+            ->select(
+                'u.reference',
+                'u.created_at',
+                DB::raw("CASE WHEN b.IO = 'I' THEN u.value ELSE -u.value END AS value"),
+                'u.beneficiary_id',
+                'u.balance_operation_id',
+                'u.real_amount',
+                'u.current_balance',
+                'u.unit_price',
+                'u.total_amount'
+            )
+            ->join('balance_operations as b', 'u.balance_operation_id', '=', 'b.id')
+            ->join('users as s', 'u.beneficiary_id', '=', 's.idUser')
+            ->where('u.beneficiary_id', $idUser)
+            ->orderBy('u.created_at')->get();
+        return response()->json($results);
     }
 
     public function getUpdatedCardContent()
@@ -953,25 +970,31 @@ class ApiController extends BaseController
 
     public function getUserBalancesList($locale, $idUser, $idamount)
     {
-        $results = DB::table('user_balances as u')
+        $balances = null;
+        match ($idamount) {
+            BalanceEnum::CASH->value => $balances = "cash_balances",
+            BalanceEnum::BFS->value => $balances = "bfss_balances",
+            BalanceEnum::DB->value => $balances = "discount_balances",
+            BalanceEnum::SMS->value => $balances = "sms_balances",
+            BalanceEnum::TREE->value => $balances = "tree_balances",
+            BalanceEnum::SHARE->value => $balances = "shares_balances",
+            default => $balances = "cash_balances",
+        };
+        $results = DB::table($balances . ' as u')
             ->select(
-                'u.ref',
-                'u.idUser',
-                'u.idamount',
-                'u.Date',
-                'u.idBalancesOperation',
+                'u.reference',
+                'u.beneficiary_id',
+                'u.created_at',
+                'u.balance_operation_id',
                 'b.operation',
-                'u.Description',
+                'u.description',
                 DB::raw("CASE WHEN b.IO = 'I' THEN u.value ELSE -u.value END AS value"),
-                'u.balance'
+                'u.current_balance'
             )
-            ->join('balance_operations as b', 'u.idBalancesOperation', '=', 'b.id')
-            ->join('users as s', 'u.idUser', '=', 's.idUser')
-            ->where('u.idamount', '!=', 4)
-            ->where('u.idamount', '!=', 6)
-            ->where('u.idUser', $idUser)
-            ->where('u.idamount', $idamount)
-            ->orderBy('u.Date')->get();
+            ->join('balance_operations as b', 'u.balance_operation_id', '=', 'b.id')
+            ->join('users as s', 'u.beneficiary_id', '=', 's.idUser')
+            ->where('u.beneficiary_id', $idUser)
+            ->orderBy('u.created_at')->get();
         return response()->json($results);
     }
 
