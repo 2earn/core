@@ -75,8 +75,8 @@
                         <div>
                             <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
                                 @if(app()->getLocale()!="ar")
-                                    <span class="text-muted">{{$currency}}</span>
-                                    <span class="counter-value text-muted"
+                                    <span>{{$currency}}</span>
+                                    <span class="counter-value "
                                           data-target="{{intval($cashBalance)}}">{{formatSolde($cashBalance,0)}}</span>
                                     <small class="text-muted fs-13 text-muted">
                                         @if(getDecimals($cashBalance))
@@ -91,7 +91,7 @@
                                             {{$decimalSeperator}}
                                         @endif
                                     </small>
-                                    <span class="counter-value text-muted"
+                                    <span class="counter-value"
                                           data-target="{{intval($cashBalance)}}">{{intval($cashBalance)}}</span>
                                     <span class="text-muted">{{$currency}}</span>
                                 @endif
@@ -138,8 +138,8 @@
                         <div>
                             <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
                                 @if(app()->getLocale()!="ar")
-                                    <span class="text-muted">{{$currency}}</span>
-                                    <span class="counter-value  text-muted"
+                                    <span >{{$currency}}</span>
+                                    <span class="counter-value"
                                           data-target="{{intval($balanceForSopping)}}">{{formatSolde($balanceForSopping,0)}}</span>
                                     <small class="text-muted fs-13 text-muted">
                                         @if(getDecimals($balanceForSopping))
@@ -200,8 +200,8 @@
                         <div>
                             <h4 class="mb-4 fs-22 fw-semibold ff-secondary">
                                 @if(app()->getLocale()!="ar")
-                                    <span class="text-muted">{{$currency}}</span>
-                                    <span class="counter-value text-muted "
+                                    <span>{{$currency}}</span>
+                                    <span class="counter-value "
                                           data-target="{{intval($discountBalance)}}">{{intval($discountBalance)}}</span>
                                     <small class="text-muted fs-13 text-muted">
                                         @if(getDecimals($discountBalance))
