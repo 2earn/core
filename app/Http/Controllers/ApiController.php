@@ -139,8 +139,9 @@ class ApiController extends BaseController
         } else {
             $flashGift = 0;
         }
-
+            $balances = UserCurrentBalanceHorisontal::where('user_id', $reciver)->first();
         $this->userRepository->increasePurchasesNumber($reciver);
+            $oldTotalAmount = SharesBalances::where('user_id', $reciver)->orderBy(DB::raw('created_at'), "DESC")->pluck('total_amount')->first();
 
         SharesBalances::addLine([
             'balance_operation_id' => BalanceOperationsEnum::SELLED_SHARES->value,
@@ -151,13 +152,14 @@ class ApiController extends BaseController
             'payed' => 1,
             'value' => $number_of_action,
             'amount' => $number_of_action * $actual_price,
-            'total_amount' => null, // get old value of total amount  + amount ($number_of_action * $actual_price)
+            'total_amount' => $oldTotalAmount + ($number_of_action * $actual_price),
             'real_amount' => $number_of_action * $actual_price,
             'description' => 'TO DO DESCRIPTION',
-            'current_balance' => null // get old value of current balances   +$number_of_action
+            'current_balance' => $balances->share_balance + $number_of_action
         ]);
 
         if ($gift > 0) {
+            $balances = UserCurrentBalanceHorisontal::where('user_id', $reciver)->first();
             SharesBalances::addLine([
             'balance_operation_id' => BalanceOperationsEnum::COMPLIMENTARY_BENEFITS_ON_PURCHASED_SHARES->value,
             'operator_id' => Balances::SYSTEM_SOURCE_ID,
@@ -167,10 +169,11 @@ class ApiController extends BaseController
             'payed' => 1,
             'description' => 'TO DO DESCRIPTION',
             'value' => $gift,
-            'current_balance' => null // get old value of current balances   +$number_of_action
+                'current_balance' => $balances->share_balance + $number_of_action
             ]);
         }
         if ($flashGift > 0) {
+            $balances = UserCurrentBalanceHorisontal::where('user_id', $reciver)->first();
             SharesBalances::addLine([
                 'balance_operation_id' => BalanceOperationsEnum::VIP_BENEFITS_ON_PURCHASED_SHARES->value,
                 'operator_id' => Balances::SYSTEM_SOURCE_ID,
@@ -180,9 +183,10 @@ class ApiController extends BaseController
                 'payed' => 1,
                 'value' => $flashGift,
                 'description' => 'TO DO DESCRIPTION',
-                'current_balance' => null // get old value of current balances   +$number_of_action
+                'current_balance' => $balances->share_balance + $number_of_action
             ]);
         }
+            $balances = UserCurrentBalanceHorisontal::where('user_id', $reciver)->first();
 
         CashBalances::addLine([
             'balance_operation_id' => BalanceOperationsEnum::SELL_SHARES->value,
@@ -191,7 +195,7 @@ class ApiController extends BaseController
             'reference' => $ref,
             'description' => "purchase of " . ($number_of_action + $gift) . " shares for " . $a,
             'value' => $number_of_action  * $actual_price,
-            'current_balance' => $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeCB - ($number_of_action ) * $actual_price
+            'current_balance' => $balances->cash_balance - ($number_of_action) * $actual_price
         ]);
         $balances = UserCurrentBalanceHorisontal::where('user_id', $reciver)->first();
         BFSsBalances::addLine([
@@ -204,7 +208,6 @@ class ApiController extends BaseController
             'value' => intval($number_of_action / $palier) * $actual_price * $palier,
             'current_balance' => $balances->getBfssBalance("50.00") + BalanceOperation::getMultiplicator(BalanceOperationsEnum::BY_ACQUIRING_SHARES->value)* intval($number_of_action / $palier) * $actual_price * $palier
         ]);
-
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollback();
@@ -344,7 +347,6 @@ class ApiController extends BaseController
 
     public function getSharesSoldeList($locale, $idUser)
     {
-
         $results = DB::table(  'shares_balances as u')
             ->select(
                 'u.reference',
@@ -505,12 +507,7 @@ class ApiController extends BaseController
             $user = explode('-', $chaine)[0];
 
 
-
-
-            $old_value = DB::table('usercurrentbalances')
-                ->where('idUser', $user)
-                ->where('idamounts', BalanceEnum::CASH)
-                ->value('value');
+            $old_value = UserCurrentBalanceHorisontal::where('user_id', $user)->pluck('cash_balance')->first();
 
             $value =  BalancesFacade::getCash($user);
 
