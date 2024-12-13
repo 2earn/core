@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Carbon\Carbon;
 use Closure;
-use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
@@ -28,8 +27,6 @@ class CloseAuth
         $value = Session::get($ses);
         try {
             $dt = Carbon::now()->diff($value);
-            dd($dt,$dt->invert);
-
             if ($dt->invert == 1) {
                 Auth::logout();
                 Cache::flush();

@@ -6,32 +6,46 @@
             Swal.fire({
                 icon: 'error',
 
-                title:'{{trans('désolé')}}',
+                title: '{{trans('désolé')}}',
                 text: '{{Session::get('ErrorSecurityCodeRequest')}}',
                 confirmButtonText: '{{trans('Yes')}}',
             })
         }
 
     </script>
-    <div class="col-3 card">
+    <div class="col-12 card">
         <div class="card-header">
-            {{__('fiche_crédit')}}
+            <h5 class="card-title">{{__('Credit Transfert')}}</h5>
         </div>
         <div class="card-body">
-            <h5 class="card-title">{{__('Transfert_crédit')}}</h5>
-            <p><strong>{{__('Solde')}}:</strong> {{$soldeUser->soldeBFS}} $</p>
-            <div class="col-12">
-                <div><strong><span>{{__('Opération')}}:</span> </strong><span>{{__('BFS to BFS')}}</span></div>
-                <div><strong><span>{{__('vers')}}:</span> </strong><span>  {{$financialRequest->name}}  </span></div>
-                <div><strong><span>{{__('Mobile Number')}}:</span></strong> <span>  {{$financialRequest->mobile}}  </span></div>
-            </div>
-            <p class="card-text"><strong>{{__('Montant_envoyer')}}</strong> {{$financialRequest->amount}} $</p>
-            <button  onclick="ConfirmTransacction()" class=" btn btn-primary btn2earn  ">{{__('Confirmer')}}</button>
-            <a style="padding: 5px;border-radius: 5px;text-decoration: none!important;color: #f02602!important;"
-               href="{{route('financial_transaction',app()->getLocale())}}" class="btn-danger">{{__('Cancel')}}</a>
+            <ul class="list-group mt-2">
+                <li class="list-group-item">
+                    <strong>{{__('Solde')}}:</strong>
+                    <span class="float-end">{{$soldeUser->soldeBFS}} $</span>
+                </li>
+                <li class="list-group-item">
+                    <strong>{{__('Opération')}}: </strong>
+                    <span class="float-end">{{__('BFS to BFS')}}</span>
+                </li>
+                <li class="list-group-item">
+                    <strong>{{__('vers')}}: </strong>
+                    <span class="float-end">  {{$financialRequest->name}}</span>
+                </li>
+                <li class="list-group-item">
+                    <strong>{{__('Mobile Number')}}:</strong>
+                    <span class="float-end">   {{$financialRequest->mobile}}  </span>
+                </li>
+                <li class="list-group-item">
+                    <strong>{{__('Montant_envoyer')}}</strong>
+                    <span class="float-end">  {{$financialRequest->amount}} $</span>
+                </li>
+            </ul>
         </div>
         <div class="card-footer text-muted">
-
+            <button onclick="ConfirmTransacction()"
+                    class=" btn btn-primary btn2earn  float-end ">{{__('Confirm')}}</button>
+            <a class="btn btn-danger float-end"
+               href="{{route('financial_transaction',app()->getLocale())}}" class="btn-danger">{{__('Cancel')}}</a>
         </div>
     </div>
     <script>

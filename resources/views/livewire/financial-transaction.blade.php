@@ -575,6 +575,23 @@
             }
         }
 
+        function acceptRequst(numeroRequest) {
+            window.Livewire.emit('AcceptRequest', numeroRequest);
+        }
+
+        function rejectRequst(numeroRequest) {
+            Swal.fire({
+                title: `{{trans('reject_request')}}`,
+                confirmButtonText: '{{trans('Yes')}}',
+                showCancelButton: true,
+                cancelButtonText: '{{trans('No')}}',
+                customClass: {actions: 'my-actions', confirmButton: 'order-2', denyButton: 'order-3',}
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.Livewire.emit('RejectRequest', numeroRequest);
+                }
+            })
+        }
         function ConfirmExchange() {
             var soldecashB = {{ $soldecashB}};
             var soldeExchange = document.getElementById('montantExchange').value
@@ -822,27 +839,6 @@
                 }
             })
         })
-
-
-
-        function acceptRequst(numeroRequest) {
-            window.Livewire.emit('AcceptRequest', numeroRequest);
-        }
-
-        function rejectRequst(numeroRequest) {
-            Swal.fire({
-                title: `{{trans('reject_request')}}`,
-                confirmButtonText: '{{trans('Yes')}}',
-                showCancelButton: true,
-                cancelButtonText: '{{trans('No')}}',
-                customClass: {actions: 'my-actions', confirmButton: 'order-2', denyButton: 'order-3',}
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.Livewire.emit('RejectRequest', numeroRequest);
-                }
-            })
-        }
-
     </script>
     <script data-turbolinks-eval="false" type="module">
         $(document).on('turbolinks:load', function () {

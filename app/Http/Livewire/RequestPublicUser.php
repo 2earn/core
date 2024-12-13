@@ -3,6 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Models\User;
+use Core\Enum\RequestStatus;
+use Core\Enum\StatusRequest;
 use Core\Models\detail_financial_request;
 use Core\Services\settingsManager;
 use Illuminate\Http\Request;
@@ -90,11 +92,11 @@ class RequestPublicUser extends Component
         $users = User::where('is_public', 1)
             ->where('idUser', '<>', $userAuth->idUser)
             ->where('idCountry', $userAuth->idCountry)
-            ->where('status', 1)
+            ->where('status', '>=',StatusRequest::ValidNational)
             ->get();
 
         return view('livewire.request-public-user', [
             'pub_users' => $users
-        ])->extends('layouts.master')->section('content');;
+        ])->extends('layouts.master')->section('content');
     }
 }
