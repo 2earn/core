@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Spatie\Permission\Models\Role;
 
@@ -49,6 +50,7 @@ class RoleCreateUpdate extends Component
             Role::where('id', $this->idRole)
                 ->update($params);
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while updating Role'));
         }
         return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Role Updated Successfully'));
@@ -62,6 +64,7 @@ class RoleCreateUpdate extends Component
             $this->validate();
             DB::insert('insert into roles ( id,name,guard_name,created_at,updated_at) values (?, ?, ?,?, ?)', [$latestRole->id + 1, $this->name, 'web', now(), now()]);
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route('role_create_update', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while creating Role!!') . ' ' . $exception->getMessage());
         }
         return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Role Created Successfully'));

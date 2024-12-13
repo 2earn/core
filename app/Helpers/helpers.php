@@ -38,8 +38,9 @@ if (!function_exists('validatePhone')) {
             $phone = new PhoneNumber($phone, $country->apha2);
             $phone->formatForCountry($country->apha2);
             return "1";
-        } catch (\Exception $exp) {
-            return $exp->getMessage();
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return $exception->getMessage();
         }
     }
 }
@@ -278,14 +279,16 @@ if (!function_exists('getLangNavigation')) {
             $lang = Cookie::get('PreferedLangue');
             try {
                 $lang = Crypt::decrypt(Cookie::get('PreferedLangue'), false);
-            } catch (DecryptException $e) {
+            } catch (DecryptException $exception) {
+                Log::error($exception->getMessage());
             }
 
             $lang = substr($lang, -2);
         } else {
             try {
                 $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
-            } catch (Exception $ex) {
+            } catch (Exception $exception) {
+                Log::error($exception->getMessage());
             }
         }
         if ($lang == "") {
@@ -369,7 +372,8 @@ if (!function_exists('earnDebug')) {
         $clientIP = "";
         try {
             $clientIP = request()->ip() . "   " . request()->server->get('HTTP_SEC_CH_UA');
-        } catch (err) {
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
         }
 
         Log::channel('earnDebug')->debug('Client IP : ' . $clientIP . 'Details-Log : ' . $message);

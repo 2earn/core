@@ -18,6 +18,7 @@ use Core\Enum\SettingsEnum;
 use Core\Interfaces\IUserBalancesRepository;
 use Core\Models\BalanceOperation;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class  UserBalancesHelper
 {
@@ -108,9 +109,9 @@ class  UserBalancesHelper
                     'current_balance' => $initialChance
                 ]);
                     DB::commit();
-                } catch (\Exception $e) {
+                } catch (\Exception $exception) {
                     DB::rollBack();
-                    throw $e;
+                    Log::error($exception->getMessage());
                 }
                 break;
             case EventBalanceOperationEnum::ExchangeCashToBFS :
@@ -140,9 +141,9 @@ class  UserBalancesHelper
                     'current_balance' => $balances->getBfssBalance("100.00") + BalanceOperation::getMultiplicator(BalanceOperationsEnum::From_CASH_Balance_BFS->value) * $params["newSoldeBFS"]
                 ]);
                     DB::commit();
-                } catch (\Exception $e) {
+                } catch (\Exception $exception) {
                     DB::rollBack();
-                    throw $e;
+                    Log::error($exception->getMessage());
                 }
                 break;
             case EventBalanceOperationEnum::ExchangeBFSToSMS :
@@ -180,9 +181,9 @@ class  UserBalancesHelper
                 ]);
 
                     DB::commit();
-                } catch (\Exception $e) {
+                } catch (\Exception $exception) {
                     DB::rollBack();
-                    throw $e;
+                    Log::error($exception->getMessage());
                 }
                 break;
             case EventBalanceOperationEnum::SendSMS:
@@ -237,9 +238,9 @@ class  UserBalancesHelper
                 ]);
 
                 DB::commit();
-                } catch (\Exception $e) {
+                } catch (\Exception $exception) {
                     DB::rollBack();
-                    throw $e;
+                    Log::error($exception->getMessage());
                 }
                 break;
             case EventBalanceOperationEnum::SendToPublicFromBFS:
@@ -280,9 +281,9 @@ class  UserBalancesHelper
                         'current_balance' => $balances->getBfssBalance("100.00") + BalanceOperation::getMultiplicator(BalanceOperationsEnum::FROM_PUBLIC_USER_BFS->value) * $newSoldeBFSRecipient
                 ]);
                     DB::commit();
-                } catch (\Exception $e) {
+                } catch (\Exception $exception) {
                     DB::rollBack();
-                    throw $e;
+                    Log::error($exception->getMessage());
                 }
                 break;
         }

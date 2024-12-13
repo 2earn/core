@@ -42,23 +42,6 @@ class  UserBalancesRepository implements IUserBalancesRepository
         return $this->getBalance($idUser, 2);
     }
 
-    public function inserUserBalancestGetId($ref, BalanceOperationsEnum $operation, $date, $idSource, $iduserupline, $amount, $value)
-    {
-        // Converted
-        // To be deleted
-        $user_balance = new user_balance();
-        $user_balance->ref = $ref;
-        $user_balance->idBalancesOperation = $operation;
-        $user_balance->Date = $date;
-        $user_balance->idSource = $idSource;
-        $user_balance->idUser = $iduserupline;
-        $user_balance->idamount = $amount;
-        $user_balance->value = $value;
-        $user_balance->WinPurchaseAmount = "0.000";
-
-        return $user_balance->save();
-    }
-
     public function getSoldeByAmount($idUser, $idamount)
     {
         return match ($idamount) {

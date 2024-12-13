@@ -34,6 +34,7 @@ use Illuminate\Http\Request as Req;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator as Val;
 use Illuminate\Support\Facades\Vite;
@@ -205,9 +206,9 @@ class ApiController extends BaseController
         ]);
 
             DB::commit();
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             DB::rollback();
-            dd($e);
+            Log::error($exception->getMessage());
             return response()->json(['type' => ['error'], 'message' => [trans('Actions purchase transaction failed')]]);
         }
         return response()->json(['type' => ['success'], 'message' => [trans('Actions purchase transaction completed successfully')]]);
@@ -285,6 +286,7 @@ class ApiController extends BaseController
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
+            Log::error($exception->getMessage());
             return response()->json($exception->getMessage(), 500);
         }
         return response()->json(Lang::get('Successfully runned operation') . ' ' . $message, 200);
@@ -560,8 +562,8 @@ class ApiController extends BaseController
                 ->update(['availablity' => $st, 'reserved_at' => $dt]);
 
             return response()->json(['success' => true]);
-        } catch (\Exception $e) {
-            \Log::error('Error updating balance status: ' . $e->getMessage());
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
@@ -575,8 +577,8 @@ class ApiController extends BaseController
             DB::table('shares_balances')->where('id', $id)->update(['payed' => $st]);
 
             return response()->json(['success' => true]);
-        } catch (\Exception $e) {
-            \Log::error('Error updating balance status: ' . $e->getMessage());
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
@@ -599,8 +601,8 @@ class ApiController extends BaseController
                 ->update(['real_amount' => floatval($st), 'payed' => $p]);
 
             return response()->json(['success' => true]);
-        } catch (\Exception $e) {
-            \Log::error('Error updating balance status: ' . $e->getMessage());
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
@@ -854,8 +856,9 @@ class ApiController extends BaseController
             $phone = new PhoneNumber($phoneNumber, $country->apha2);
             $phone->formatForCountry($country->apha2);
             return new JsonResponse(['message' => ''], 200);
-        } catch (\Exception $exp) {
-            return new JsonResponse(['message' => Lang::get($exp->getMessage())], 200);
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return new JsonResponse(['message' => Lang::get($exception->getMessage())], 200);
         }
     }
 

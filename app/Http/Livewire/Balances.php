@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Core\Models\Amount;
 use Core\Models\BalanceOperation;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
@@ -68,8 +69,8 @@ class Balances extends Component
             $balance->modify_amount = $this->modify_amount;
             $balance->save();
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route('balances', ['locale' => app()->getLocale()])->with('error', Lang::get('balances update failed'));
-
         }
         return redirect()->route('balances', ['locale' => app()->getLocale()])->with('success', Lang::get('balances updated successfully'));
     }

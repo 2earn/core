@@ -7,6 +7,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class addContactUserSeeder extends Seeder
 {
@@ -23,8 +24,8 @@ class addContactUserSeeder extends Seeder
             {
                 try {
                     $this->insertContactUser($faker);
-                } catch (\Exception $e) {
-                    echo 'Caught exception: ', $e->getMessage(), "\n";
+                } catch (\Exception $exception) {
+                    Log::error($exception->getMessage());
                 }
             }
         }

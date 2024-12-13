@@ -9,7 +9,6 @@
                 title:'{{trans('désolé')}}',
                 text: '{{Session::get('ErrorSecurityCodeRequest')}}',
                 confirmButtonText: '{{trans('Yes')}}',
-                // footer: '<a href="">Why do I have this issue?</a>'
             })
         }
 
@@ -48,27 +47,11 @@
                     cancelButtonText: '{{trans('canceled !')}}',
                     confirmButtonText: '{{trans('ok')}}',
                     denyButtonText: 'No',
-                    // preConfirm: (login) => {
-                    //     return fetch(`//api.github.com/users/${login}`)
-                    //         .then(response => {
-                    //             if (!response.ok) {
-                    //                 throw new Error(response.statusText)
-                    //             }
-                    //             return response.json()
-                    //         })
-                    //         .catch(error => {
-                    //             Swal.showValidationMessage(
-                    //                 `Request failed: ${error}`
-                    //             )
-                    //         })
-                    // },
-                    // allowOutsideClick: () => !Swal.isLoading()
                 }).then((result) => {
                     if (result.isConfirmed) {
                         window.livewire.emit('Confirmrequest', 2, {{$financialRequest->numeroReq}}, result.value);
                     }
                 })
-                {{--window.livewire.emit('Confirmrequest',2,{{$financialRequest->numeroReq}})--}}
             }
         }
     </script>

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 
@@ -30,6 +31,7 @@ class ChangePassword extends Component
         try {
             $this->idUser = Crypt::decryptString($idUser);
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route('login', app()->getLocale())->with('danger', Lang::get('Invalid User'));
         }
     }
@@ -53,6 +55,7 @@ class ChangePassword extends Component
             $this->earnDebug('update password password updated  : iduser- ' . $this->idUser);
             return redirect()->route('login', app()->getLocale())->with('success', Lang::get('Password successfully updated'));
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route('login', app()->getLocale())->with('danger', Lang::get('Password  update operation failed'));
         }
     }

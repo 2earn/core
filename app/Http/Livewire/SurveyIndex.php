@@ -6,6 +6,7 @@ use App\Models\Survey;
 use App\Models\User;
 use Core\Enum\StatusSurvey;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -35,6 +36,7 @@ class SurveyIndex extends Component
         try {
             Survey::enable($id);
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while Enabling Survey!!') );
         }
         return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey Enabled Successfully'));
@@ -48,6 +50,7 @@ class SurveyIndex extends Component
             }
             Survey::disable($id, $this->disableNote);
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while Disabling Survey!!') );
         }
 
@@ -61,6 +64,7 @@ class SurveyIndex extends Component
             Survey::open($id);
 
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while opening Survey: ').Lang::get($exception->getMessage()) );
         }
         return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey Opened Successfully'));
@@ -72,6 +76,7 @@ class SurveyIndex extends Component
         try {
             Survey::close($id);
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while closing Survey!!') );
         }
         return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey closed Successfully'));
@@ -83,6 +88,7 @@ class SurveyIndex extends Component
         try {
             Survey::archive($id);
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while arciving Survey!!') );
         }
         return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey arcived Successfully'));
@@ -94,6 +100,7 @@ class SurveyIndex extends Component
         try {
             Survey::publish($id);
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while publishing Survey!!') );
         }
         return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey published Successfully'));
@@ -105,6 +112,7 @@ class SurveyIndex extends Component
         try {
             Survey::unpublish($id);
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while un publishing Survey!!') );
         }
         return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey un published Successfully'));
@@ -117,6 +125,7 @@ class SurveyIndex extends Component
             $survey = Survey::find($id);
             Survey::changeUpdatable($id, !$survey->updatable);
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while updating Survey updatable property!!') );
         }
         return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey updatedd Successfully'));

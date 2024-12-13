@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class UserCurrentBalanceHorisontal extends Model
 {
@@ -38,7 +39,7 @@ class UserCurrentBalanceHorisontal extends Model
             $this->bfss_balance = $BfssBalances;
             return $this->save();
         } catch (\Exception $exception) {
-            dd($type, $amount);
+            Log::error($exception->getMessage());
         }
     }
 }
