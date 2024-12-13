@@ -49,7 +49,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-uppercase fw-medium text-cash text-truncate   mb-0">{{ __('Cash balance') }}</p>
+                            <p class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Cash balance') }}</p>
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
@@ -76,22 +76,22 @@
                             <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
                                 @if(app()->getLocale()!="ar")
                                     <span class="text-muted">{{$currency}}</span>
-                                    <span class="counter-value text-cash"
+                                    <span class="counter-value text-muted"
                                           data-target="{{intval($cashBalance)}}">{{formatSolde($cashBalance,0)}}</span>
-                                    <small class="text-muted fs-13 text-cash">
+                                    <small class="text-muted fs-13 text-muted">
                                         @if(getDecimals($cashBalance))
                                             {{$decimalSeperator}}
                                             {{getDecimals($cashBalance)}}
                                         @endif
                                     </small>
                                 @else
-                                    <small class="text-muted fs-13  text-cash">
+                                    <small class="text-muted fs-13  text-muted">
                                         @if(getDecimals($cashBalance))
                                             {{getDecimals($cashBalance)}}
                                             {{$decimalSeperator}}
                                         @endif
                                     </small>
-                                    <span class="counter-value text-cash"
+                                    <span class="counter-value text-muted"
                                           data-target="{{intval($cashBalance)}}">{{intval($cashBalance)}}</span>
                                     <span class="text-muted">{{$currency}}</span>
                                 @endif
@@ -116,7 +116,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-uppercase fw-medium text-bfs text-truncate   mb-0">{{ __('Balance for Shopping') }}</p>
+                            <p class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Balance for Shopping') }}</p>
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
@@ -139,22 +139,22 @@
                             <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
                                 @if(app()->getLocale()!="ar")
                                     <span class="text-muted">{{$currency}}</span>
-                                    <span class="counter-value  text-bfs"
+                                    <span class="counter-value  text-muted"
                                           data-target="{{intval($balanceForSopping)}}">{{formatSolde($balanceForSopping,0)}}</span>
-                                    <small class="text-muted fs-13 text-bfs">
+                                    <small class="text-muted fs-13 text-muted">
                                         @if(getDecimals($balanceForSopping))
                                             {{$decimalSeperator}}
                                             {{getDecimals($balanceForSopping)}}
                                         @endif
                                     </small>
                                 @else
-                                    <small class="text-muted fs-13 text-bfs">
+                                    <small class="text-muted fs-13 text-muted">
                                         @if(getDecimals($balanceForSopping))
                                             {{getDecimals($balanceForSopping)}}
                                             {{$decimalSeperator}}
                                         @endif
                                     </small>
-                                    <span class="counter-value text-bfs"
+                                    <span class="counter-value text-muted"
                                           data-target="{{intval($balanceForSopping)}}">{{formatSolde($balanceForSopping,0)}}</span>
                                     <span class="text-muted">{{$currency}}</span>
                                 @endif
@@ -178,7 +178,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-uppercase fw-medium text-discount text-truncate  mb-0">{{ __('Discounts Balance') }}</p>
+                            <p class="text-uppercase fw-medium text-muted text-truncate  mb-0">{{ __('Discounts Balance') }}</p>
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
@@ -201,22 +201,22 @@
                             <h4 class="mb-4 fs-22 fw-semibold ff-secondary">
                                 @if(app()->getLocale()!="ar")
                                     <span class="text-muted">{{$currency}}</span>
-                                    <span class="counter-value text-discount "
+                                    <span class="counter-value text-muted "
                                           data-target="{{intval($discountBalance)}}">{{intval($discountBalance)}}</span>
-                                    <small class="text-muted fs-13 text-discount">
+                                    <small class="text-muted fs-13 text-muted">
                                         @if(getDecimals($discountBalance))
                                             {{$decimalSeperator}}
                                             {{getDecimals($discountBalance)}}
                                         @endif
                                     </small>
                                 @else
-                                    <small class="text-muted fs-13 text-discount">
+                                    <small class="text-muted fs-13 text-muted">
                                         @if(getDecimals($discountBalance))
                                             {{getDecimals($discountBalance)}}
                                             {{$decimalSeperator}}
                                         @endif
                                     </small>
-                                    <span class="counter-value text-discount"
+                                    <span class="counter-value text-muted"
                                           data-target="{{intval($discountBalance)}}">{{formatSolde($discountBalance,0)}}</span>
                                     <span class="text-muted">{{$currency}}</span>
                                 @endif
@@ -352,7 +352,7 @@
 
                                 </small></h3>
                             <a href="{{route('business_hub_trading',app()->getLocale())}}"
-                               class="btn btn-sm @if($flash) btn-flash @else btn-secondary  @endif">{{ __('Buy Shares') }}</a>
+                               class="btn btn-sm @if($flash) btn-flash @else btn-soft-secondary  @endif">{{ __('Buy Shares') }}</a>
                             <span class="badge bg-light text-success  ms-2 mb-0"><i
                                     class="ri-arrow-up-line align-middle"></i>
                                 {{$userActualActionsProfit }}                                     <span class="text-muted">{{$currency}}</span>
