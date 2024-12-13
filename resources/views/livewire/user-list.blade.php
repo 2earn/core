@@ -321,7 +321,7 @@
                 <div class="modal-body">
                     <form action="javascript:void(0);">
                         <div class="row g-3">
-                            <div class="col-xxl-12">
+                            <div class="col-sm-12 col-md-12">
                                 <div class="input-group">
                                         <span class="input-group-text">
                                             <img id="vip-country" class="avatar-xxs me-2"/></span>
@@ -329,9 +329,7 @@
                                            aria-describedby="basic-addon1">
                                 </div>
                             </div>
-                        </div>
-                        <div class="row g-3">
-                            <div class="col-xxl-12">
+                            <div class="col-sm-12 col-md-6">
                                 <div class="input-group mt-2">
                                     <input id="vip-reciver" type="hidden">
                                     <input type="hidden" id="created_at">
@@ -339,19 +337,25 @@
                                             class="text-danger">*</span></label>
                                     <input type="number" class="form-control-flash" id="minshares">
                                 </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
                                 <div class="input-group mt-2">
                                     <label class="form-label">{{__('Periode')}}<span
                                             class="text-danger">*</span></label>
                                     <input type="number" class="form-control-flash" id="periode">
                                 </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12">
                                 <div class="input-group mt-2">
                                     <label class="form-label">{{__('Coefficient')}}<span
                                             class="text-danger">*</span></label>
                                     <input type="number" class="form-control-flash" id="coefficient">
                                 </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12">
                                 <div class="input-group mt-2">
                                     <label class="form-label">{{__('Note')}}</label>
-                                    <input type="text" class="form-control-flash" id="note">
+                                    <textarea type="text" class="form-control-flash" id="note"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -373,14 +377,11 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Transfert Cash') }}</h5>
+                    <h4 class="modal-title text-info" id="modalTitle">{{ __('Transfert Cash') }}</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="card">
-                        <div class="card-header">
-                        </div>
-                        <div class="card-body table-responsive">
+                    <div class=" table-responsive">
                             <input id="balances-reciver" type="hidden">
                             <input id="balances-amount" type="hidden">
                             <table
@@ -400,7 +401,6 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -410,13 +410,11 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalgridLabelsh">{{ __('Transfert Cash') }}</h5>
+                    <h5 class="modal-title" id="exampleModalgridLabelsh">{{ __('Shares balances') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="card">
-                        <div class="card-header">
-                        </div>
+
                         <div class="card-body table-responsive">
                             <input id="balances-reciversh" type="hidden">
                             <input id="balances-amountsh" type="hidden">
@@ -438,7 +436,6 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -544,6 +541,7 @@
 
             $(document).ready(function () {
                 $.getJSON(window.url, function (data) {
+                    $('#modalTitle').html('{{__('Cash balance')}}');
                     createOrUpdateDataTable(data);
                 });
             });
@@ -560,6 +558,7 @@
 
             $(document).ready(function () {
                 $.getJSON(window.url, function (data) {
+                    $('#modalTitle').html('{{__('BFSs balance')}}');
                     createOrUpdateDataTable(data);
                 });
             });
@@ -574,6 +573,7 @@
             window.url = window.url.replace('idamount1', amount);
             $(document).ready(function () {
                 $.getJSON(window.url, function (data) {
+                    $('#modalTitle').html('{{__('Discount balance')}}');
                     createOrUpdateDataTable(data);
                 });
             });
@@ -590,6 +590,7 @@
 
             $(document).ready(function () {
                 $.getJSON(window.url, function (data) {
+                    $('#modalTitle').html('{{__('Sms balance')}}');
                     createOrUpdateDataTable(data);
                 });
             });
