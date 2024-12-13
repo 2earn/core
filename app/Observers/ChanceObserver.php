@@ -14,8 +14,6 @@ class ChanceObserver
 {
     public function created(ChanceBalances $chanceBalances)
     {
-        DB::beginTransaction();
-        try {
             $userCurrentBalancehorisontal = UserCurrentBalanceHorisontal::where('user_id', $chanceBalances->beneficiary_id)->first();
             $old = json_decode($chanceBalances->chance_balance);
             if (array_key_exists($chanceBalances->persontage, $old)) {
@@ -39,11 +37,6 @@ class ChanceObserver
                 'last_operation_date' => $chanceBalances->created_at,
             ]
         );
-            DB::commit();
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            Log::error($exception->getMessage());
-        }
     }
 
 

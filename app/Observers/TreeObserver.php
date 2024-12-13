@@ -14,8 +14,7 @@ class TreeObserver
 {
     public function created(TreeBalances $treeBalances)
     {
-        DB::beginTransaction();
-        try {
+
             $userCurrentBalancehorisontal = UserCurrentBalanceHorisontal::where('user_id', $treeBalances->beneficiary_id)->first();
             $newTreeBalanceHorisental = $newTreeBalanceVertical = $userCurrentBalancehorisontal->treeBalance +  BalanceOperation::getMultiplicator($treeBalances->balance_operation_id)  * $treeBalances->value;
 
@@ -34,11 +33,6 @@ class TreeObserver
                 'last_operation_date' => $treeBalances->created_at,
             ]
         );
-            DB::commit();
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            Log::error($exception->getMessage());
-        }
     }
 
 }

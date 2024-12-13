@@ -15,8 +15,6 @@ class SmsObserver
 
     public function created(SmsBalances $smsBalances)
     {
-        DB::beginTransaction();
-        try {
             $userCurrentBalancehorisontal = UserCurrentBalanceHorisontal::where('user_id', $smsBalances->beneficiary_id)->first();
             $newSmsBalanceHorisental = $newSmsBalanceVertical = $userCurrentBalancehorisontal->sms_balance + BalanceOperation::getMultiplicator($smsBalances->balance_operation_id) * $smsBalances->value;
 
@@ -35,11 +33,6 @@ class SmsObserver
                 'last_operation_date' => $smsBalances->created_at,
             ]
         );
-            DB::commit();
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            Log::error($exception->getMessage());
-        }
     }
 
 }

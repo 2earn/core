@@ -14,12 +14,10 @@ class ShareObserver
 {
     public function created(SharesBalances $shareBalances)
     {
-        DB::beginTransaction();
-        try {
-            $userCurrentBalancehorisontal = UserCurrentBalanceHorisontal::where('user_id', $shareBalances->beneficiary_id)->first();
+
+        $userCurrentBalancehorisontal = UserCurrentBalanceHorisontal::where('user_id', $shareBalances->beneficiary_id)->first();
             $newShareBalanceHorisental = $newShareBalanceVertical = $userCurrentBalancehorisontal->share_balance + BalanceOperation::getMultiplicator($shareBalances->balance_operation_id) * $shareBalances->value;
             $userCurrentBalancehorisontal->update(['share_balance' => $newShareBalanceHorisental]);
-
         $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $shareBalances->beneficiary_id)
             ->where('balance_id', BalanceEnum::CHANCE)
             ->first();
@@ -34,11 +32,6 @@ class ShareObserver
                 'last_operation_date' => $shareBalances->created_at,
             ]
         );
-            DB::commit();
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            Log::error($exception->getMessage());
-        }
     }
 
 }

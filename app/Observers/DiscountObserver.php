@@ -14,8 +14,6 @@ class DiscountObserver
 {
     public function created(DiscountBalances $discountBalances)
     {
-        DB::beginTransaction();
-        try {
             $userCurrentBalancehorisontal = UserCurrentBalanceHorisontal::where('user_id', $discountBalances->beneficiary_id)->first();
 
             $newDiscountBalanceHorisental = $newDiscountBalanceVertical= $userCurrentBalancehorisontal->discount_balance +BalanceOperation::getMultiplicator($discountBalances->balance_operation_id)* $discountBalances->value;
@@ -34,11 +32,6 @@ class DiscountObserver
                 'last_operation_date' => $discountBalances->created_at,
             ]
         );
-            DB::commit();
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            Log::error($exception->getMessage());
-        }
     }
 
 }

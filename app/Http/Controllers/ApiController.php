@@ -141,7 +141,7 @@ class ApiController extends BaseController
         }
             $balances = UserCurrentBalanceHorisontal::where('user_id', $reciver)->first();
         $this->userRepository->increasePurchasesNumber($reciver);
-            $oldTotalAmount = SharesBalances::where('user_id', $reciver)->orderBy(DB::raw('created_at'), "DESC")->pluck('total_amount')->first();
+            $oldTotalAmount = SharesBalances::where('beneficiary_id', $reciver)->orderBy(DB::raw('created_at'), "DESC")->pluck('total_amount')->first();
 
         SharesBalances::addLine([
             'balance_operation_id' => BalanceOperationsEnum::SELLED_SHARES->value,

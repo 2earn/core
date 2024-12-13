@@ -23,8 +23,6 @@ class BfssObserver
 
     public function created(BFSsBalances $bFSsBalances)
     {
-        DB::beginTransaction();
-        try {
 
             $setting = Setting::WhereIn('idSETTINGS', ['22', '23'])->orderBy('idSETTINGS')->pluck('IntegerValue');
             $md = $setting[0];
@@ -61,11 +59,5 @@ class BfssObserver
                 'last_operation_date' => $bFSsBalances->created_at,
             ]
         );
-
-            DB::commit();
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            Log::error($exception->getMessage());
-        }
     }
 }

@@ -14,9 +14,6 @@ class CashObserver
 {
     public function created(CashBalances $cashBalances)
     {
-        DB::beginTransaction();
-        try {
-
             $userCurrentBalancehorisontal = UserCurrentBalanceHorisontal::where('user_id', $cashBalances->beneficiary_id)->first();
             $newCashBalanceHorisental = $newCashBalanceVertical= $userCurrentBalancehorisontal->cash_balance + BalanceOperation::getMultiplicator($cashBalances->balance_operation_id)* $cashBalances->value;
             $userCurrentBalancehorisontal->update(['cash_balance' => $newCashBalanceHorisental]);
@@ -34,11 +31,7 @@ class CashObserver
                 'last_operation_date' => $cashBalances->created_at,
             ]
         );
-            DB::commit();
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            Log::error($exception->getMessage());
-        }
+
     }
 
 }
