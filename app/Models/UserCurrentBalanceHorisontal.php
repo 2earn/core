@@ -27,7 +27,10 @@ class UserCurrentBalanceHorisontal extends Model
 
     public function getBfssBalance($type)
     {
-        return $this->bfss_balance[$type] ?? null;
+        if (isset($this->bfss_balance[$type])) {
+            return floatval($this->bfss_balance[$type]) ?? null;
+        }
+        return 0;
     }
 
     public function setBfssBalance($type, $amount)

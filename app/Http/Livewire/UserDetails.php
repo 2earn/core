@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\SoldesView;
 use App\Models\User;
+use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\vip;
 use Core\Models\metta_user;
 use Illuminate\Http\Request;
@@ -35,7 +36,12 @@ class UserDetails extends Component
         $params['metta'] = metta_user::where('idUser', $params['user']->idUser)->first();
         $params['dispalyedUserCred'] = getUserDisplayedName($params['user']->idUser);
 
-        $params['soldes'] = SoldesView::Where('id', '=', $params['user']->id)->first();
+        $params['soldes'] =UserCurrentBalanceHorisontal::where('user_id', $params['user']->idUser)->first();
+
+
+
+
+
         $hasVip = vip::Where('idUser', '=', $params['user']->idUser)
             ->where('closed', '=', false)->get();
         if ($hasVip->isNotEmpty()) {
