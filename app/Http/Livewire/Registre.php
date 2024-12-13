@@ -111,11 +111,9 @@ class Registre extends Component
         $newUser->registred_from = 3;
         $newUser->id_phone = $this->ccode;
         $newUser->email_verified = 0;
-
+        $usere = $newUser->save();
         $transactionManager->beginTransaction();
         $settingsManager->createUserContactNumber($newUser, $this->iso2Country);
-
-        $usere = $newUser->save();
         $settingsManager->createMettaUser($newUser);
         $transactionManager->commit();
         if ($usere) {
