@@ -8,6 +8,7 @@ use Core\Models\Platform;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
@@ -146,6 +147,7 @@ class DealsCreateUpdate extends Component
             Deal::where('id', $this->idDeal)->update($params);
         } catch (\Exception $exception) {
             $this->cancel();
+            Log::error($exception->getMessage());
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while updating Deal'));
         }
         return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Updated Successfully'));
@@ -181,6 +183,7 @@ class DealsCreateUpdate extends Component
         try {
             Deal::create($params);
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale(),])->with('danger', Lang::get('Something goes wrong while creating Deal'));
         }
         return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Created Successfully'));

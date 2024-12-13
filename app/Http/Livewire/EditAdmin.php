@@ -7,6 +7,7 @@ use Core\Models\Platform;
 use Core\Models\UserPlatforms;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
@@ -48,8 +49,8 @@ class EditAdmin extends Component
             $user->syncRoles($this->userRole);
             return redirect()->route('role_assign', app()->getLocale())->with('success', Lang::get('User role updated successfully'));
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route('role_assign', app()->getLocale())->with('error', Lang::get('User role update failed'));
-
         }
     }
 

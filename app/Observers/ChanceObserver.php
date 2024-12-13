@@ -8,6 +8,7 @@ use App\Models\UserCurrentBalanceVertical;
 use Core\Enum\BalanceEnum;
 use Core\Models\BalanceOperation;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ChanceObserver
 {
@@ -39,9 +40,9 @@ class ChanceObserver
             ]
         );
             DB::commit();
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             DB::rollBack();
-            throw $e;
+            Log::error($exception->getMessage());
         }
     }
 

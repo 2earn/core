@@ -8,6 +8,7 @@ use Core\Models\BalanceOperation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class TreeBalances extends Model
 {
@@ -68,6 +69,7 @@ class TreeBalances extends Model
                 return $treeBalances / DB::table('settings')->where("ParameterName", "=", 'TOTAL_TREE')->pluck('IntegerValue')->first();
             }
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return 0;
         }
     }

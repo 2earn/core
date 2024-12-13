@@ -13,6 +13,7 @@ use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
 use Core\Services\BalancesManager;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class BfssObserver
 {
@@ -62,9 +63,9 @@ class BfssObserver
         );
 
             DB::commit();
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             DB::rollBack();
-            throw $e;
+            Log::error($exception->getMessage());
         }
     }
 }

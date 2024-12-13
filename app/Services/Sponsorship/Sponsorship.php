@@ -16,6 +16,7 @@ use Core\Models\Setting;
 use Core\Models\user_balance;
 use Core\Services\BalancesManager;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Sponsorship
 {
@@ -128,9 +129,9 @@ class Sponsorship
             'current_balance' => $balances->getBfssBalance("50.00") +BalanceOperation::getMultiplicator(BalanceOperationsEnum::SPONSORSHIP_COMMISSION_BFS->value)* $amount * $this->amountBFS / 100
         ]);
             DB::commit();
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             DB::rollBack();
-            throw $e;
+            Log::error($exception->getMessage());
         }
     }
 

@@ -9,6 +9,7 @@ use Core\Services\TransactionManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Propaganistas\LaravelPhone\PhoneNumber;
@@ -92,8 +93,9 @@ class EditUserContact extends Component
                 $phone = new PhoneNumber($fullnumber, $country->apha2);
                 $phone->formatForCountry($country->apha2);
                 $validatedPhone = true;
-            } catch (\Exception $exp) {
-                return redirect()->route('user_contact_edit', ['locale' => app()->getLocale(), "UserContact" => $this->idContact])->with('danger', Lang::get($exp->getMessage()));
+            } catch (\Exception $exception) {
+                Log::error($exception->getMessage());
+                return redirect()->route('user_contact_edit', ['locale' => app()->getLocale(), "UserContact" => $this->idContact])->with('danger', Lang::get($exception->getMessage()));
             }
             if ($validatedPhone) {
                 $user = $settingsManager->getUserByFullNumber($fullphone_number);
@@ -122,7 +124,8 @@ class EditUserContact extends Component
                         $settingsManager->updateUserContactV2($this->idContact, $contact_user);
                         $transactionManager->commit();
                         return redirect()->route('contacts', app()->getLocale())->with('success', Lang::get('User updated') . ' : ' . $contact_user->name . ' ' . $contact_user->lastName . ' : ' . $contact_user->mobile);
-                    } catch (\Exception $exp) {
+                    } catch (\Exception $exception) {
+                        Log::error($exception->getMessage());
                         $transactionManager->rollback();
                         Session::flash('message', 'failed');
                     }

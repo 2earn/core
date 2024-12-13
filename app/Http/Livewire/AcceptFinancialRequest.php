@@ -63,7 +63,6 @@ class AcceptFinancialRequest extends Component
         $userAuth = $settingsManager->getAuthUser();
         $soldeUser = $balancesManager->getBalances($userAuth->idUser, -1);
 
-//        $financialRequest = FinancialRequest::where('numeroReq', '=', $this->numeroReq)->first();
         $financialRequest = FinancialRequest::join('users', 'financial_request.idSender', '=', 'users.idUser')
             ->where('numeroReq', '=', $this->numeroReq)
             ->get(['financial_request.numeroReq', 'financial_request.date', 'users.name', 'users.mobile', 'financial_request.amount', 'financial_request.status'])

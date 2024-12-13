@@ -11,6 +11,7 @@ use Core\Services\settingsManager;
 use Core\Services\TransactionManager;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Propaganistas\LaravelPhone\PhoneNumber;
@@ -213,9 +214,10 @@ class Contacts extends Component
             $this->dispatchBrowserEvent('close-modal');
             return redirect()->route('contacts', app()->getLocale())->with('success', Lang::get('User created successfully') . ' : ' . $contact_user->name . ' ' . $contact_user->lastName . ' : ' . $contact_user->mobile);
 
-        } catch (\Exception $exp) {
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             $this->transactionManager->rollback();
-            if ($exp->getMessage() == "Number does not match the provided country.") {
+            if ($exception->getMessage() == "Number does not match the provided country.") {
                 return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('Phone Number does not match the provided country.'));
             } else {
                 return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('User creation failed'));

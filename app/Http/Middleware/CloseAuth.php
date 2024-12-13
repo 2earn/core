@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,7 +35,8 @@ class CloseAuth
                 Cache::flush();
                 return redirect()->route('login', getLangNavigation());
             }
-        } catch (\Exception $ex) {
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             Auth::logout();
             Cache::flush();
             return redirect()->route('login', getLangNavigation());

@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -252,8 +253,9 @@ class Account extends Component
             if (!is_null($this->imageProfil)) {
                 User::saveProfileImage($us->idUser, $this->imageProfil);
             }
-        } catch (\Exception $e) {
-            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get($e->getMessage()));
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get($exception->getMessage()));
         }
 
         if ($this->paramIdUser == "")

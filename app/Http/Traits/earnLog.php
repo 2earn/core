@@ -12,7 +12,8 @@ trait earnLog
         $clientIP = "";
         try {
             $clientIP = request()->ip() . "   " . request()->server->get('HTTP_SEC_CH_UA');
-        } catch (err) {
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
         }
 
         Log::channel('earnDebug')->debug('Client IP : ' . $clientIP . 'Details-Log : ' . $message);
@@ -24,7 +25,8 @@ trait earnLog
         $clientIP = "";
         try {
             $clientIP = request()->ip() . "   " . request()->server->get('HTTP_SEC_CH_UA');
-        } catch (err) {
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
         }
         Log::channel('earnException')->debug('Client IP : ' . $clientIP . 'Ex : ' . $message);
     }
@@ -34,7 +36,8 @@ trait earnLog
         $clientIP = "";
         try {
             $clientIP = request()->ip() . "   " . request()->server->get('HTTP_SEC_CH_UA');
-        } catch (err) {
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
         }
         Log::channel('earnDebugSms')->debug('Client IP : ' . $clientIP . 'Ex : ' . $message);
     }

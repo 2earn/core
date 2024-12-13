@@ -10,6 +10,7 @@ use Core\Models\metta_user;
 use Core\Services\settingsManager;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -91,10 +92,11 @@ class IdentificationCheck extends Component
             try {
                 User::saveNationalFrontImage($userAuth->idUser, $this->photoFront);
                 $photoFrontValidated = true;
-            } catch (\Exception $e) {
+            } catch (\Exception $exception) {
+                Log::error($exception->getMessage());
                 $photoFrontValidated = false;
                 $this->messageVerif = Lang::get('Identification request missing information');;
-                $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request wrong information'), 'text' => Lang::get('Front id image') . ' : ' . Lang::get($e->getMessage())]);
+                $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request wrong information'), 'text' => Lang::get('Front id image') . ' : ' . Lang::get($exception->getMessage())]);
                 return;
             }
         }
@@ -102,10 +104,11 @@ class IdentificationCheck extends Component
             try {
                 User::saveNationalBackImage($userAuth->idUser, $this->photoBack);
                 $photoBackValidated = true;
-            } catch (\Exception $e) {
+            } catch (\Exception $exception) {
+                Log::error($exception->getMessage());
                 $photoBackValidated = false;
                 $this->messageVerif = Lang::get('Identification request missing information');;
-                $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request wrong information'), 'text' => Lang::get('Back id image') . ' : ' . Lang::get($e->getMessage())]);
+                $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request wrong information'), 'text' => Lang::get('Back id image') . ' : ' . Lang::get($exception->getMessage())]);
                 return;
             }
         }
@@ -114,10 +117,11 @@ class IdentificationCheck extends Component
             try {
                 User::saveInternationalImage($userAuth->idUser, $this->photoInternational);
                 $photoInternationalValidated = true;
-            } catch (\Exception $e) {
+            } catch (\Exception $exception) {
+                Log::error($exception->getMessage());
                 $photoInternationalValidated = false;
                 $this->messageVerif = Lang::get('Identification request missing information');;
-                $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request wrong information'), 'text' => Lang::get('International id image') . ' : ' . Lang::get($e->getMessage())]);
+                $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request wrong information'), 'text' => Lang::get('International id image') . ' : ' . Lang::get($exception->getMessage())]);
                 return;
             }
         }

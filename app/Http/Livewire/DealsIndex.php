@@ -6,6 +6,7 @@ use App\Models\Deal;
 use App\Models\User;
 use Core\Models\Platform;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
@@ -49,6 +50,7 @@ class DealsIndex extends Component
 
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Deleted Successfully'));
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Deleted !') . " " . $exception->getMessage());
         }
     }
