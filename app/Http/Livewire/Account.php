@@ -209,7 +209,7 @@ class Account extends Component
         }
 
         if (!$canModify) {
-            return redirect()->route('account', app()->getLocale())->with('info', 'You cant update your profile when you have an identifiaction request in progress');
+            return redirect()->route('account', app()->getLocale())->with('info', Lang::get('You cant update your profile when you have an identifiaction request in progress'));
         }
         if ($canModify) {
 

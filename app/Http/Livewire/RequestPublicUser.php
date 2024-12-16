@@ -54,7 +54,7 @@ class RequestPublicUser extends Component
                 'status' => '0',
                 'securityCode' => $securityCode
             ]);
-        return redirect()->route('financial_transaction', app()->getLocale())->with('SuccesSendPublicRequest', $securityCode);
+        return redirect()->route('financial_transaction', app()->getLocale())->with('success', $securityCode);
     }
 
     public function send($idUser, settingsManager $settingsManager)
@@ -76,7 +76,7 @@ class RequestPublicUser extends Component
                 'validated' => 0,
                 'type_user' => 2
             ]);
-        return redirect()->route('financial_transaction', app()->getLocale())->with('SuccesSendReqPublicUser', Lang::get('SuccesSendReqPublicUser'));
+        return redirect()->route('financial_transaction', app()->getLocale())->with('success', Lang::get('SuccesSendReqPublicUser'));
     }
 
     public function mount(Request $request)

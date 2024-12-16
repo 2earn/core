@@ -50,7 +50,7 @@ class EditAdmin extends Component
             return redirect()->route('role_assign', app()->getLocale())->with('success', Lang::get('User role updated successfully'));
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect()->route('role_assign', app()->getLocale())->with('error', Lang::get('User role update failed'));
+            return redirect()->route('role_assign', app()->getLocale())->with('danger', Lang::get('User role update failed'));
         }
     }
 

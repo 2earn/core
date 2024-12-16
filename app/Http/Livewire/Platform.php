@@ -18,7 +18,7 @@ class Platform extends Component
             return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Platform Deleted Successfully'));
         }catch (\Exception $exception){
             Log::error($exception->getMessage());
-            return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('error', $exception->getMessage());
+            return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('danger', $exception->getMessage());
         }
     }
 

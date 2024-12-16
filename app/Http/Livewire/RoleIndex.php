@@ -22,7 +22,7 @@ class RoleIndex extends Component
             return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('This Role cant be Deleted !'));
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('error', $exception->getMessage());
+            return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('danger', $exception->getMessage());
         }
     }
 

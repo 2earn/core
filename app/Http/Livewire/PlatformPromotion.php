@@ -45,7 +45,7 @@ class PlatformPromotion extends Component
             $platform->save();
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect()->route('platform_promotion', $this->rediredtionParams)->with('error', Lang::get($role) . self::SEPARATOR . Lang::get('Role revoque failed') . self::SEPARATOR . $exception->getMessage());
+            return redirect()->route('platform_promotion', $this->rediredtionParams)->with('danger', Lang::get($role) . self::SEPARATOR . Lang::get('Role revoque failed') . self::SEPARATOR . $exception->getMessage());
         }
         return redirect()->route('platform_promotion', $this->rediredtionParams)->with('success', Lang::get($role) . self::SEPARATOR . Lang::get('Role revoqued'));
     }
@@ -70,7 +70,7 @@ class PlatformPromotion extends Component
         } catch
         (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect()->route('platform_promotion', $this->rediredtionParams)->with('error', Lang::get($role) . self::SEPARATOR . Lang::get('manager promotion failed') . self::SEPARATOR . $exception->getMessage());
+            return redirect()->route('platform_promotion', $this->rediredtionParams)->with('danger', Lang::get($role) . self::SEPARATOR . Lang::get('manager promotion failed') . self::SEPARATOR . $exception->getMessage());
         }
         return redirect()->route('platform_promotion', $this->rediredtionParams)->with('success', Lang::get($role) . self::SEPARATOR . Lang::get('manager promotion to') . self::SEPARATOR . getUserDisplayedName($user->idUser));
     }

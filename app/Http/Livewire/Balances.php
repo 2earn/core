@@ -70,7 +70,7 @@ class Balances extends Component
             $balance->save();
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect()->route('balances', ['locale' => app()->getLocale()])->with('error', Lang::get('balances update failed'));
+            return redirect()->route('balances', ['locale' => app()->getLocale()])->with('danger', Lang::get('balances update failed'));
         }
         return redirect()->route('balances', ['locale' => app()->getLocale()])->with('success', Lang::get('balances updated successfully'));
     }

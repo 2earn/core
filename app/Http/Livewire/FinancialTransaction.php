@@ -201,7 +201,7 @@ class FinancialTransaction extends Component
         if ($financialRequest->status != 0) abort(404);
         FinancialRequest::where('numeroReq', '=', $num)
             ->update(['status' => 3, 'idUserAccepted' => $userAuth->idUser, 'dateAccepted' => date(self::DATE_FORMAT)]);
-        return redirect()->route('financial_transaction', app()->getLocale())->with('success', 'Delete request accepted');
+        return redirect()->route('financial_transaction', app()->getLocale())->with('success', Lang::get('Delete request accepted'));
     }
 
     public function render(settingsManager $settingsManager, BalancesManager $balancesManager)
