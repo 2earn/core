@@ -1,76 +1,60 @@
-<div>
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12 col-md-8">
-                <div class="row">
-                    <div class="card" id="funding_form" style="margin-left:1rem;">
+@section('title')
+    {{ __('BFS funding request') }}
+@endsection
+@component('components.breadcrumb')
+    @slot('li_1')@endslot
+    @slot('title')
+        {{ __('BFS funding request') }}
+    @endslot
+@endcomponent
+<div class="row">
+    <div class="col">
+        <div class="card" id="funding_form">
                         <div class="card-header">
-                            <h4 class="card-title"></h4>
+                            <h4 class="card-title">{{ __('Demande_alimentation_BFS') }}</h4>
                         </div>
                         <div class="card-body">
                             <table class="table table-striped table-bordered  tableEditAdmin">
-                                <div>
-                                    <div style="color: black" class="col-sm"><label
-                                            class="me-sm-2">{{ __('Demande_alimentation_BFS') }}</label>
-                                    </div>
                                     <thead>
                                     <tr>
-                                        <th scope="Id">{{__('idUser')}}</th>
-                                        <th scope="Name">{{__('Name')}}</th>
-                                        <th scope="Francais">{{__('Email')}}</th>
-                                        <th scope="Arabe">{{__('Mobile Number')}}</th>
-                                        <th scope="Francais">{{__('idCountry')}}</th>
-                                        <th scope=" "></th>
+                                        <th>{{__('idUser')}}</th>
+                                        <th>{{__('Name')}}</th>
+                                        <th>{{__('Email')}}</th>
+                                        <th>{{__('Mobile Number')}}</th>
+                                        <th>{{__('idCountry')}}</th>
+                                        <th></th>
                                     </tr>
-
                                     </thead>
                                     <tbody>
-                                    {{--                            @foreach ($translate as $s)--}}
-                                    {{--                                <tr>--}}
-                                    {{--                                    <td><span> {{$s->id}}</span></td>--}}
-                                    {{--                                    <td><span>{{$s->name}}</span></td>--}}
-                                    {{--                                    <td><input wire:model.defer="translate.{{ $key }}.value"/></td>--}}
-                                    {{--                                    <td><input wire:model.defer="translate.{{ $key }}.valueFr"/></td>--}}
-                                    {{--                                </tr>--}}
-                                    {{--                            @endforeach--}}
                                     @foreach ($pub_users as $value)
                                         <tr>
-                                            <td><span> {{$value->idUser}}</span></td>
-                                            <td><span>{{$value->name}}</span></td>
-                                            <td><span>{{$value->email}}</span></td>
-                                            <td><span> {{$value->mobile}}</span></td>
-                                            <td><span>{{$value->idCountry}}</span></td>
-                                            <td>
-                                                <input type="checkbox" wire:model="selectedUsers"
-                                                       value="{{$value->idUser}}">
-
-                                            </td>
-
+                                            <td>{{$value->idUser}}</td>
+                                            <td>{{$value->name}}</td>
+                                            <td>{{$value->email}}</td>
+                                            <td>{{$value->mobile}}</td>
+                                            <td>{{$value->idCountry}}</td>
+                                            <td><input type="checkbox" wire:model="selectedUsers"
+                                                       value="{{$value->idUser}}"></td>
                                         </tr>
                                     @endforeach
                                     </tbody>
-                                </div>
                             </table>
-
-                            <div class="text-center mb-4" style="margin-top: 20px;">
-
+                            <div class="text-center mb-4 mt-3 float-end">
                                 <button type="button" onclick="sendReq()" id="pay"
                                         class="btn btn-success pl-5 pr-5">{{ __('backand.Fund')}}</button>
                             </div>
                             <div class="label">
-                                <div style="color: red" class="col-sm"><label
-                                        class="me-sm-2">{{ __('vous devez cocher ou mois un utilisateur') }}</label>
+                                <div class="col-sm text-danger"><strong>{{__('Note')}}
+                                        :</strong>{{ __('You must check or less a user') }}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <script>
+<script>
             function sendReq() {
-                window.Livewire.emit('sendReques');
+                window.Livewire.emit('sendFinancialRequest');
             }
         </script>
-    </div>
 </div>

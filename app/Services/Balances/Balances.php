@@ -83,14 +83,14 @@ class Balances
     }
     public static function getStoredCash($idUser)
     {
-        return UserCurrentBalanceHorisontal::getStoredUserBalances($idUser, 'cash_balances');
+        return Balances::getStoredUserBalances($idUser, 'cash_balances');
 
     }
 
     public static function getStoredBfss($idUser, $type)
     {
 
-        $userCurrentBalanceHorisontal = UserCurrentBalanceHorisontal::getStoredUserBalances($idUser);
+        $userCurrentBalanceHorisontal = Balances::getStoredUserBalances($idUser);
         return $userCurrentBalanceHorisontal->getBfssBalance($type);
 
 
@@ -98,17 +98,17 @@ class Balances
 
     public static function getStoredDiscount($idUser)
     {
-        return UserCurrentBalanceHorisontal::getStoredUserBalances($idUser, 'discount_balances');
+        return Balances::getStoredUserBalances($idUser, 'discount_balances');
     }
 
     public static function getStoredTree($idUser)
     {
-        return UserCurrentBalanceHorisontal::getStoredUserBalances($idUser, 'tree_balances');
+        return Balances::getStoredUserBalances($idUser, 'tree_balances');
     }
 
     public static function getStoredSms($idUser)
     {
-        return UserCurrentBalanceHorisontal::getStoredUserBalances($idUser, 'sms_balances');
+        return Balances::getStoredUserBalances($idUser, 'sms_balances');
     }
 
     public static function addAutomatedFields($balances, $item_id, $deal_id, $order_id, $platform_id, $order_detail_id)

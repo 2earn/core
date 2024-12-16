@@ -597,7 +597,7 @@ class settingsManager
                 $this->userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::ExchangeCashToBFS, $idUser, $param);
                 break;
             case ExchangeTypeEnum::BFSToSMS :
-                $balances = Balances::getStoredUserBalances($idUser);;
+                $balances = Balances::getStoredUserBalances($idUser);
                 $soldeBfs = $balances->getBfssBalance("100.00");
                 $seting = DB::table('settings')->where("idSETTINGS", "=", "13")->first();
                 $prix_sms = $seting->IntegerValue;

@@ -18,10 +18,10 @@ class RequestPublicUser extends Component
     public $selectedUsers = [];
     protected $listeners = [
         'send' => 'send',
-        'sendReques' => 'sendReques'
+        'sendFinancialRequest' => 'sendFinancialRequest'
     ];
 
-    public function sendReques(settingsManager $settingsManager)
+    public function sendFinancialRequest(settingsManager $settingsManager)
     {
         if (!count($this->selectedUsers) > 0) return;
         $userAuth = $settingsManager->getAuthUser();
@@ -95,8 +95,6 @@ class RequestPublicUser extends Component
             ->where('status', '>=',StatusRequest::ValidNational)
             ->get();
 
-        return view('livewire.request-public-user', [
-            'pub_users' => $users
-        ])->extends('layouts.master')->section('content');
+        return view('livewire.request-public-user', ['pub_users' => $users])->extends('layouts.master')->section('content');
     }
 }

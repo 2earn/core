@@ -15,7 +15,7 @@ use Core\Models\user_balance;
 use Core\Models\user_earn;
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
-use Core\Services\UserBalancesHelper;
+use App\Services\Balances\Balances;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -210,13 +210,10 @@ class FinancialTransaction extends Component
             $this->showCanceled = 0;
         }
         $this->getRequestIn($settingsManager);
-
         $userAuth = $settingsManager->getAuthUser();
-
         $this->mobile = $userAuth->fullNumber;
-        $solde = $balancesManager->getBalances($userAuth->idUser, -1);
-        $this->soldecashB = floatval($solde->soldeCB) - floatval($this->soldeExchange);
-        $this->soldeBFS = floatval($solde->soldeBFS) - floatval($this->numberSmsExchange);
+        $this->soldecashB = floatval(Balances::getStoredUserBalances(auth()->user()->idUser,'cash_balance')) - floatval($this->soldeExchange);
+        $this->soldeBFS = floatval(Balances::getStoredBfss(auth()->user()->idUser,'100.00')) - floatval($this->numberSmsExchange);
 
         $seting = DB::table('settings')->where("idSETTINGS", "=", "13")->first();
 
