@@ -2,9 +2,7 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\SoldesView;
 use App\Models\User;
-use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\vip;
 use App\Services\Balances\Balances;
 use Core\Models\metta_user;

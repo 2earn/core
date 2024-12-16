@@ -1304,13 +1304,6 @@ class ApiController extends BaseController
     }
 
 
-    public function getPurchaseUser()
-    {
-        $user = $this->settingsManager->getAuthUser();
-        $userData = DB::select(getSqlFromPath('get_purchase_user'), [$user->idUser]);
-        return datatables($userData)->make(true);
-    }
-
     public function getInvitationsUser()
     {
         $user = $this->settingsManager->getAuthUser();
