@@ -23,7 +23,9 @@ class RequestPublicUser extends Component
 
     public function sendFinancialRequest(settingsManager $settingsManager)
     {
-        if (!count($this->selectedUsers) > 0) return;
+        if (!count($this->selectedUsers) > 0) {
+            return redirect()->route('financial_transaction', app()->getLocale())->with('danger', Lang::get('No selected users'));
+        };
         $userAuth = $settingsManager->getAuthUser();
         $lastnumero = 0;
         $lastRequest = DB::table('financial_request')
@@ -54,7 +56,7 @@ class RequestPublicUser extends Component
                 'status' => '0',
                 'securityCode' => $securityCode
             ]);
-        return redirect()->route('financial_transaction', app()->getLocale())->with('success', $securityCode);
+        return redirect()->route('financial_transaction', app()->getLocale())->with('success', Lang::get('Financial request sended successfully ,This is your security code') . ' : ' . $securityCode);
     }
 
     public function send($idUser, settingsManager $settingsManager)
@@ -94,7 +96,6 @@ class RequestPublicUser extends Component
             ->where('idCountry', $userAuth->idCountry)
             ->where('status', '>=',StatusRequest::ValidNational)
             ->get();
-
         return view('livewire.request-public-user', ['pub_users' => $users])->extends('layouts.master')->section('content');
     }
 }
