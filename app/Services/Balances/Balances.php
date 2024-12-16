@@ -54,7 +54,7 @@ class Balances
         return self::getSold($idUser, 'cash_balances');
     }
 
-    public static function getBfss($idUser)
+    public static function getBfss($idUser, $type = "100.00")
     {
         return self::getSold($idUser, 'bfss_balances');
     }
@@ -72,6 +72,36 @@ class Balances
     public static function getSms($idUser)
     {
         return self::getSold($idUser, 'sms_balances');
+    }
+
+    public static function getStoredCash($idUser)
+    {
+        return UserCurrentBalanceHorisontal::where('user_id', $idUser)->pluck('cash_balances');
+
+    }
+
+    public static function getStoredBfss($idUser, $type)
+    {
+
+        $userCurrentBalanceHorisontal = UserCurrentBalanceHorisontal::where('user_id', $idUser)->first('bfss_balances');
+        return $userCurrentBalanceHorisontal->getBfssBalance($type);
+
+
+    }
+
+    public static function getStoredDiscount($idUser)
+    {
+        return UserCurrentBalanceHorisontal::where('user_id', $idUser)->pluck('discount_balances');
+    }
+
+    public static function getStoredTree($idUser)
+    {
+        return UserCurrentBalanceHorisontal::where('user_id', $idUser)->pluck('tree_balances');
+    }
+
+    public static function getStoredSms($idUser)
+    {
+        return UserCurrentBalanceHorisontal::where('user_id', $idUser)->pluck('sms_balances');
     }
 
     public static function addAutomatedFields($balances, $item_id, $deal_id, $order_id, $platform_id, $order_detail_id)
