@@ -158,7 +158,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/configuration/ha', ConfigurationHA::class)->name('configuration_ha');
             Route::get('/configuration/setting', \App\Http\Livewire\ConfigurationSetting::class)->name('configuration_setting');
             Route::get('/configuration/amounts', \App\Http\Livewire\ConfigurationAmounts::class)->name('configuration_amounts');
-            Route::get('/countries_management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
+            Route::get('/countries/management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
             Route::get('/requests/identification', identificationRequest::class)->name('requests_identification');
             Route::get('/requests/commited-investors', \App\Http\Livewire\CommitedRequest::class)->name('requests_commited_investors');
             Route::get('/requests/commited-investors/{id}/show', \App\Http\Livewire\CommitedRequestShow::class)->name('requests_commited_investors_show');

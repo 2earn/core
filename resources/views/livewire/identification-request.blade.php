@@ -10,7 +10,6 @@
             {{__('Identification requests')}}
         @endslot
     @endcomponent
-    <div class="container-fluid">
         <div class="row">
             @include('layouts.flash-messages')
         </div>
@@ -60,5 +59,4 @@
                 </div>
             @endforelse
         </div>
-    </div>
 </div>

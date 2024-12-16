@@ -13,7 +13,6 @@ class CountriesManagement extends Component
     public $discountBalance;
     protected $paginationTheme = 'bootstrap';
     public $allLanguage;
-
     public int $idL = -1;
     public $name;
     public $phonecode;
@@ -39,11 +38,6 @@ class CountriesManagement extends Component
         $this->ISO = $countrie->apha2;
     }
 
-    public function render(settingsManager $settingsManager)
-    {
-        $this->allLanguage = $settingsManager->getlanguages();
-        return view('livewire.countries-management')->extends('layouts.master')->section('content');
-    }
 
     public function save(settingsManager $settingsManager)
     {
@@ -52,10 +46,14 @@ class CountriesManagement extends Component
         $countrie->langage = $this->langue;
         $countrie->lang = LanguageEnum:: fromName($this->langue);
         $countrie->save();
-        $this->dispatchBrowserEvent('toastr:info', [
-            'message' => 'succes'
-        ]);
+        $this->dispatchBrowserEvent('toastr:info', ['message' => 'succes']);
         $this->dispatchBrowserEvent('close-modal');
         return redirect()->route('countries_management', app()->getLocale());
+    }
+
+    public function render(settingsManager $settingsManager)
+    {
+        $this->allLanguage = $settingsManager->getlanguages();
+        return view('livewire.countries-management')->extends('layouts.master')->section('content');
     }
 }

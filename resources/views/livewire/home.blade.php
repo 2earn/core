@@ -43,7 +43,7 @@
             </div>
         </div>
     @endif
-    <div class="row mb-2">
+    <div class="row" title="{{__('Soldes calculated at')}} : {{Carbon\Carbon::now()->toDateTimeString()}}">
         <div class="col-xl-4 col-md-4 solde-cash">
             <div class="card card-animate">
                 <div class="card-body">
@@ -369,10 +369,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-xl-12  text-muted">
-            <span class="float-end">{{__('Soldes calculated at')}} : <cite
-                    title="Source Title">{{Carbon\Carbon::now()->toDateTimeString()}}</cite></span>
         </div>
     </div>
     <div class="row">

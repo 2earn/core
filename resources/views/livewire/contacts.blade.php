@@ -3,14 +3,6 @@
         .iti {
             width: 100% !important;
         }
-
-        .hide {
-            display: none;
-        }
-
-        #error-msg {
-            color: red;
-        }
     </style>
     @component('components.breadcrumb')
         @slot('title')
@@ -22,26 +14,12 @@
             @include('layouts.flash-messages')
         </div>
         <div class="row card">
-            <div class="card-header border-info">
-                <div class="d-flex align-items-center">
-                    <h6 class="card-title mb-0 flex-grow-1">{{ __('You Contacts') }}</h6>
-                </div>
-            </div>
             <div class="card-body">
-                <div class="row  mr-2 ml-2">
-                    <div class="d-inline-flex flex-row-reverse">
-                        <button type="button" class="btn btn-secondary add-btn btn2earn"
-                                data-bs-toggle="modal"
-                                id="create-btn" data-bs-target="#addModal"><i
-                                class="ri-add-line align-bottom me-1 "></i> {{ __('Add a contact') }}
-                        </button>
-                    </div>
-                </div>
-                <div class="row mr-2 ml-2 mt-2 mb-2">
-                    <div class="col-6 col-sm-12 col-md-12 col-lg-3">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-2">
                         <label class="col-form-label">{{ __('Item per page') }}</label>
                     </div>
-                    <div class="col-6 col-sm-12 col-md-12 col-lg-3">
+                    <div class="col-sm-12 col-md-6 col-lg-3 mt-1">
                         <select wire:model="pageCount" class="form-select livewire-param"
                                 aria-label="Default select example">
                             <option @if($pageCount=="10") selected @endif value="10">10</option>
@@ -49,22 +27,29 @@
                             <option @if($pageCount=="100") selected @endif value="100">100</option>
                         </select>
                     </div>
-                    <div class="col-6 col-sm-12 col-md-12 col-lg-3">
+                    <div class="col-sm-12 col-md-6 col-lg-2">
                         <label class="col-form-label">{{ __('Search') }}</label>
                     </div>
-                    <div class="col-6 col-sm-12 col-md-12 col-lg-3">
+
+                    <div class="col-sm-12 col-md-6 col-lg-3 mt-1">
                         <input wire:model="search" type="search"
                                class="form-control rounded  mr-2 ml-2"
                                placeholder="{{ __('Search') }}" aria-label="Search"
                                aria-describedby="search-addon"/>
                     </div>
+                    <div class="col-sm-12 col-md-12 col-lg-2 mt-2">
+                        <button type="button" class="btn btn-secondary add-btn btn2earn float-end"
+                                data-bs-toggle="modal"
+                                id="create-btn" data-bs-target="#addModal"><i
+                                class="ri-add-line align-bottom me-1 "></i> {{ __('Add a contact') }}
+                        </button>
+                    </div>
                 </div>
             </div>
-            <div class="card">
 
-                <div class="card-body table-responsive">
-                    <table
-                        class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
+            <div class=" table-responsive">
+                <table
+                    class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
                         <thead class="table-light">
                         <tr class="tabHeader2earn">
                             <th>{{ __('FirstName') }}</th>
@@ -161,11 +146,8 @@
                         @endforelse
                         </tbody>
                     </table>
-                </div>
             </div>
         </div>
-
-
         <div wire:ignore.self class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModal"
              aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -239,7 +221,7 @@
                                         <input type='hidden' name='fullnumber' id='outputAdd2Contact'
                                                class='form-control'>
                                         <input type='hidden' name='ccodeAdd2Contact' id='ccodeAdd2Contact'>
-                                        <span id="error-msg"></span>
+                                        <span class="text-danger" id="error-msg"></span>
                                     </div>
                                 </div>
                             </div>
@@ -285,10 +267,10 @@
                         if (response.message == "") {
                             window.Livewire.emit('save', phoneNumber, inputname.value.trim(), out);
                             errorMsg.innerHTML = "";
-                            errorMsg.classList.add("hide");
+                            errorMsg.classList.add("d-none");
                         } else {
                             errorMsg.innerHTML = response.message;
-                            errorMsg.classList.remove("hide");
+                            errorMsg.classList.remove("d-none");
                         }
                     }
                 });
