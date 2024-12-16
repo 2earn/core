@@ -1,18 +1,4 @@
 <div>
-
-    <script>
-        var ErrorSecurityCodeRequest= '{{Session::has('ErrorSecurityCodeRequest')}}';
-        if (ErrorSecurityCodeRequest) {
-            Swal.fire({
-                icon: 'error',
-
-                title: '{{trans('désolé')}}',
-                text: '{{Session::get('ErrorSecurityCodeRequest')}}',
-                confirmButtonText: '{{trans('Yes')}}',
-            })
-        }
-
-    </script>
     <div class="col-12 card">
         <div class="card-header">
             <h5 class="card-title">{{__('Credit Transfert')}}</h5>

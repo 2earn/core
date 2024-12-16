@@ -813,22 +813,25 @@ class ApiController extends BaseController
             ->addColumn('vip_history', function ($user) {
                 return view('parts.datatable.user-vip-history', ['user' => $user]);
             })
-            ->addColumn('VIP', function ($settings) {
-                $hasVip = vip::Where('idUser', '=', $settings->idUser)
-                    ->where('closed', '=', false)->get();
-                if ($hasVip->isNotEmpty()) {
-                    $dateStart = new \DateTime($hasVip->first()->dateFNS);
-                    $dateEnd = $dateStart->modify($hasVip->first()->flashDeadline . ' hour');;
-                    return view('parts.datatable.user-vip', ['mobile' => $settings->mobile, 'isVip' => $dateEnd > now(), 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'reciver' => $settings->idUser]);
-                }
-                return view('parts.datatable.user-vip', ['mobile' => $settings->mobile, 'isVip' => null, 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'reciver' => $settings->idUser]);
-
-            })
             ->addColumn('flag', function ($user) {
                 return view('parts.datatable.user-flag', ['src' => $this->getFormatedFlagResourceName($user->apha2), 'title' => strtolower($user->apha2), 'name' => Lang::get($user->country)]);
             })
             ->addColumn('action', function ($settings) {
-                return view('parts.datatable.user-action', ['phone' => $settings->mobile, 'user' => $settings, 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'reciver' => $settings->idUser, 'userId' => $settings->id]);
+                $hasVip = vip::Where('idUser', '=', $settings->idUser)                    ->where('closed', '=', false)->get();
+                $params = [
+                    'phone' => $settings->mobile,
+                    'user' => $settings,
+                    'country' => $this->getFormatedFlagResourceName($settings->apha2),
+                    'reciver' => $settings->idUser,
+                    'userId' => $settings->id,
+                    'isVip' => null
+                ];
+                if ($hasVip->isNotEmpty()) {
+                    $dateStart = new \DateTime($hasVip->first()->dateFNS);
+                    $dateEnd = $dateStart->modify($hasVip->first()->flashDeadline . ' hour');;
+                    $params['isVip'] = $dateEnd > now();
+                }
+                return view('parts.datatable.user-action', $params);
             })
             ->removeColumn('OptActivation')
             ->removeColumn('note')

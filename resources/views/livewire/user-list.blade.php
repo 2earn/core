@@ -246,7 +246,6 @@
                         <th>{{__('Status')}}</th>
                         <th>{{__('Soldes')}}</th>
                         <th>{{__('Action')}}</th>
-                        <th>{{__('VIP')}}</th>
                         <th>{{__('More details')}}</th>
                         <th>{{__('VIP history')}}</th>
                         <th>{{__('Password')}}</th>
@@ -663,7 +662,6 @@
                     {data: 'status'},
                     {data: 'soldes', name: 'action', orderable: false, searchable: false},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
-                    {data: 'VIP', name: 'action', orderable: false, searchable: false},
                     {data: 'more_details', name: 'action', orderable: false, searchable: false},
                     {data: 'vip_history', name: 'action', orderable: false, searchable: false},
                     {data: 'pass'},
