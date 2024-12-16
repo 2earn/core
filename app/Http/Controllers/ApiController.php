@@ -139,7 +139,7 @@ class ApiController extends BaseController
         } else {
             $flashGift = 0;
         }
-            $balances = UserCurrentBalanceHorisontal::where('user_id', $reciver)->first();
+            $balances = Balances::getStoredUserBalances($reciver);
         $this->userRepository->increasePurchasesNumber($reciver);
             $oldTotalAmount = SharesBalances::where('beneficiary_id', $reciver)->orderBy(DB::raw('created_at'), "DESC")->pluck('total_amount')->first();
 
@@ -159,7 +159,7 @@ class ApiController extends BaseController
         ]);
 
         if ($gift > 0) {
-            $balances = UserCurrentBalanceHorisontal::where('user_id', $reciver)->first();
+            $balances = Balances::getStoredUserBalances($reciver);
             SharesBalances::addLine([
             'balance_operation_id' => BalanceOperationsEnum::COMPLIMENTARY_BENEFITS_ON_PURCHASED_SHARES->value,
             'operator_id' => Balances::SYSTEM_SOURCE_ID,
@@ -173,7 +173,7 @@ class ApiController extends BaseController
             ]);
         }
         if ($flashGift > 0) {
-            $balances = UserCurrentBalanceHorisontal::where('user_id', $reciver)->first();
+            $balances = Balances::getStoredUserBalances($reciver);
             SharesBalances::addLine([
                 'balance_operation_id' => BalanceOperationsEnum::VIP_BENEFITS_ON_PURCHASED_SHARES->value,
                 'operator_id' => Balances::SYSTEM_SOURCE_ID,
@@ -186,7 +186,7 @@ class ApiController extends BaseController
                 'current_balance' => $balances->share_balance + $number_of_action
             ]);
         }
-            $balances = UserCurrentBalanceHorisontal::where('user_id', $reciver)->first();
+            $balances =Balances::getStoredUserBalances($reciver);
 
         CashBalances::addLine([
             'balance_operation_id' => BalanceOperationsEnum::SELL_SHARES->value,
@@ -197,7 +197,7 @@ class ApiController extends BaseController
             'value' => $number_of_action  * $actual_price,
             'current_balance' => $balances->cash_balance - ($number_of_action) * $actual_price
         ]);
-        $balances = UserCurrentBalanceHorisontal::where('user_id', $reciver)->first();
+        $balances = Balances::getStoredUserBalances($reciver);
         BFSsBalances::addLine([
             'balance_operation_id' => BalanceOperationsEnum::BY_ACQUIRING_SHARES->value,
             'operator_id' => Balances::SYSTEM_SOURCE_ID,
@@ -261,7 +261,7 @@ class ApiController extends BaseController
     {
         DB::beginTransaction();
         try {
-            $old_value = UserCurrentBalanceHorisontal::where('user_id', Auth()->user()->idUser)->pluck('cash_balance')->first();
+            $old_value =  Balances::getStoredUserBalances( Auth()->user()->idUser,'cash_balance');
             if (intval($old_value) < intval($request->amount)) {
                 throw new \Exception(Lang::get('Insuffisant cash solde'));
             }
@@ -507,7 +507,7 @@ class ApiController extends BaseController
             $user = explode('-', $chaine)[0];
 
 
-            $old_value = UserCurrentBalanceHorisontal::where('user_id', $user)->pluck('cash_balance')->first();
+            $old_value = Balances::getStoredUserBalances($user,'cash_balance');
 
             $value =  BalancesFacade::getCash($user);
 

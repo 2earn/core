@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Models\TreeBalances;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
+use App\Services\Balances\Balances;
 use Core\Enum\BalanceEnum;
 use Core\Models\BalanceOperation;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +16,7 @@ class TreeObserver
     public function created(TreeBalances $treeBalances)
     {
 
-            $userCurrentBalancehorisontal = UserCurrentBalanceHorisontal::where('user_id', $treeBalances->beneficiary_id)->first();
+            $userCurrentBalancehorisontal = Balances::getStoredUserBalances($treeBalances->beneficiary_id);
             $newTreeBalanceHorisental = $newTreeBalanceVertical = $userCurrentBalancehorisontal->treeBalance +  BalanceOperation::getMultiplicator($treeBalances->balance_operation_id)  * $treeBalances->value;
 
             $userCurrentBalancehorisontal->update(['tree_balance' => $newTreeBalanceHorisental]);

@@ -17,7 +17,7 @@ class AddCashSeeder extends Seeder
         $idUsers = [197604395,197604239,197604342];
         $balances=  new Balances();
         foreach ($idUsers as $idUser) {
-            $userCurrentBalancehorisontal = UserCurrentBalanceHorisontal::where('user_id', $idUser)->first();
+            $userCurrentBalancehorisontal = Balances::getStoredUserBalances($idUser);
             CashBalances::addLine([
                 'balance_operation_id' => BalanceOperationsEnum::SI_CB->value,
                 'operator_id' => $idUser,

@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Models\ChanceBalances;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
+use App\Services\Balances\Balances;
 use Core\Enum\BalanceEnum;
 use Core\Models\BalanceOperation;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +15,7 @@ class ChanceObserver
 {
     public function created(ChanceBalances $chanceBalances)
     {
-            $userCurrentBalancehorisontal = UserCurrentBalanceHorisontal::where('user_id', $chanceBalances->beneficiary_id)->first();
+            $userCurrentBalancehorisontal = Balances::getStoredUserBalances($chanceBalances->beneficiary_id);
             $old = json_decode($chanceBalances->chance_balance);
             if (array_key_exists($chanceBalances->persontage, $old)) {
                 $old[$chanceBalances->persontage] = $newChanceBalanceVertical = $old[$chanceBalances->persontage] + BalanceOperation::getMultiplicator($chanceBalances->balance_operation_id) * $chanceBalances->value;

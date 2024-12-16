@@ -117,7 +117,7 @@ class Sponsorship
             'value' => $amount * $this->amountCash / 100,
             'current_balance' => $this->balancesManager->getBalances($reserve, -1)->soldeCB + $amount * $this->amountCash / 100
         ]);
-            $balances = UserCurrentBalanceHorisontal::where('user_id', $reserve)->first();
+            $balances = Balances::getStoredUserBalances($reserve);
         BFSsBalances::addLine([
             'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_BFS->value,
             'operator_id' => $this->isSource,

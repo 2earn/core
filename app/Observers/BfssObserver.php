@@ -27,9 +27,7 @@ class BfssObserver
             $setting = Setting::WhereIn('idSETTINGS', ['22', '23'])->orderBy('idSETTINGS')->pluck('IntegerValue');
             $md = $setting[0];
             $rc = $setting[1];
-            $balances = UserCurrentBalanceHorisontal::where('user_id', $bFSsBalances->beneficiary_id)->first();
-
-
+            $balances = Balances::getStoredUserBalances($bFSsBalances->beneficiary_id);
             DiscountBalances::addLine(
                 [
                     'balance_operation_id' => BalanceOperationsEnum::FROM_BFS->value,
@@ -42,8 +40,7 @@ class BfssObserver
                 ]
             );
 
-            $userCurrentBalancehorisontal = UserCurrentBalanceHorisontal::where('user_id', $bFSsBalances->beneficiary_id)->first();
-
+            $userCurrentBalancehorisontal = Balances::getStoredUserBalances($bFSsBalances->beneficiary_id);;
             $newBfssBalanceVertical = floatval($userCurrentBalancehorisontal->getBfssBalance($bFSsBalances->percentage)) + BalanceOperation::getMultiplicator($bFSsBalances->balance_operation_id) * $bFSsBalances->value;
             $userCurrentBalancehorisontal->setBfssBalance($bFSsBalances->percentage, $newBfssBalanceVertical);
             $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $bFSsBalances->beneficiary_id)

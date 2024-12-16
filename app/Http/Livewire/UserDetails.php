@@ -6,6 +6,7 @@ use App\Models\SoldesView;
 use App\Models\User;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\vip;
+use App\Services\Balances\Balances;
 use Core\Models\metta_user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
@@ -35,13 +36,7 @@ class UserDetails extends Component
         $params['user'] = User::find($this->idUser);
         $params['metta'] = metta_user::where('idUser', $params['user']->idUser)->first();
         $params['dispalyedUserCred'] = getUserDisplayedName($params['user']->idUser);
-
-        $params['soldes'] =UserCurrentBalanceHorisontal::where('user_id', $params['user']->idUser)->first();
-
-
-
-
-
+        $params['soldes'] = Balances::getStoredUserBalances($params['user']->idUser);
         $hasVip = vip::Where('idUser', '=', $params['user']->idUser)
             ->where('closed', '=', false)->get();
         if ($hasVip->isNotEmpty()) {

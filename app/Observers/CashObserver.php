@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Models\CashBalances;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
+use App\Services\Balances\Balances;
 use Core\Enum\BalanceEnum;
 use Core\Models\BalanceOperation;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +15,7 @@ class CashObserver
 {
     public function created(CashBalances $cashBalances)
     {
-            $userCurrentBalancehorisontal = UserCurrentBalanceHorisontal::where('user_id', $cashBalances->beneficiary_id)->first();
+            $userCurrentBalancehorisontal = Balances::getStoredUserBalances($cashBalances->beneficiary_id);
             $newCashBalanceHorisental = $newCashBalanceVertical= $userCurrentBalancehorisontal->cash_balance + BalanceOperation::getMultiplicator($cashBalances->balance_operation_id)* $cashBalances->value;
             $userCurrentBalancehorisontal->update(['cash_balance' => $newCashBalanceHorisental]);
 

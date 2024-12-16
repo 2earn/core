@@ -128,7 +128,7 @@ class  UserBalancesHelper
                     'value' => $params["montant"],
                     'current_balance' => $params["newSoldeCashBalance"]
                 ]);
-                    $balances = UserCurrentBalanceHorisontal::where('user_id', $idUser)->first();
+                    $balances = Balances::getStoredUserBalances($idUser);;
 
                 BFSsBalances::addLine([
                     'balance_operation_id' => BalanceOperationsEnum::From_CASH_Balance_BFS->value,
@@ -153,10 +153,10 @@ class  UserBalancesHelper
                 DB::beginTransaction();
                 try {
                     $ref = BalancesFacade::getReference(BalanceOperationsEnum::BFS_TO_SM_SN_BFS->value);
-                    $oldSMSSOLD = UserCurrentBalanceHorisontal::where('user_id', $idUser)->pluck('sms_balance')->first();
+                    $oldSMSSOLD = Balances::getStoredUserBalances($idUser, "sms_balance");
                     $seting = DB::table('settings')->where("idSETTINGS", "=", SettingsEnum::Prix_SMS->value)->first();
                     $prix_sms = $seting->IntegerValue;
-                    $balances = UserCurrentBalanceHorisontal::where('user_id', $idUser)->first();
+                    $balances = Balances::getStoredUserBalances($idUser);;
 
                     BFSsBalances::addLine([
                     'balance_operation_id' => BalanceOperationsEnum::BFS_TO_SM_SN_BFS->value,
@@ -188,7 +188,7 @@ class  UserBalancesHelper
                 break;
             case EventBalanceOperationEnum::SendSMS:
                 $ref = BalancesFacade::getReference(BalanceOperationsEnum::Achat_SMS_SMS->value);
-                $oldSMSSOLD = UserCurrentBalanceHorisontal::where('user_id', $idUser)->pluck('sms_balance');
+                $oldSMSSOLD = Balances::getStoredUserBalances($idUser, "sms_balance");
                 SMSBalances::addLine(
                     [
                         'balance_operation_id' => BalanceOperationsEnum::Achat_SMS_SMS->value,
@@ -225,7 +225,7 @@ class  UserBalancesHelper
                     'current_balance' => $newSoldeCashSender
                 ]);
 
-                    $balances = UserCurrentBalanceHorisontal::where('user_id', $params['recipient'])->first();
+                    $balances = Balances::getStoredUserBalances($params['recipient']);
                     BFSsBalances::addLine([
                     'balance_operation_id' => BalanceOperationsEnum::FROM_PUBLIC_USER_BFS->value,
                     'operator_id' => $idUser,
@@ -256,7 +256,7 @@ class  UserBalancesHelper
                 DB::beginTransaction();
                 try {
                 $ref = BalancesFacade::getReference(BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_BFS);
-                    $balances = UserCurrentBalanceHorisontal::where('user_id', $idUser)->first();
+                    $balances = Balances::getStoredUserBalances($idUser);
 
                 BFSsBalances::addLine([
                     'balance_operation_id' => BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_BFS->value,
@@ -268,17 +268,16 @@ class  UserBalancesHelper
                     'value' => $params["montant"],
                     'current_balance' => $balances->getBfssBalance("100.00") + BalanceOperation::getMultiplicator(BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_BFS->value) * $newSoldeCashSender
                 ]);
-                    $balances = UserCurrentBalanceHorisontal::where('user_id', $params['recipient'])->first();
-
+                    $balances = Balances::getStoredUserBalances($params['recipient']);
                     BFSsBalances::addLine([
                     'balance_operation_id' => BalanceOperationsEnum::FROM_PUBLIC_USER_BFS->value,
                     'operator_id' => $idUser,
                     'beneficiary_id' => $params['recipient'],
-                        'percentage' => "100.00",
+                    'percentage' => "100.00",
                     'reference' => $ref,
                     'description' => 'TO DO DESCRIPTION',
                     'value' => $params["montant"],
-                        'current_balance' => $balances->getBfssBalance("100.00") + BalanceOperation::getMultiplicator(BalanceOperationsEnum::FROM_PUBLIC_USER_BFS->value) * $newSoldeBFSRecipient
+                    'current_balance' => $balances->getBfssBalance("100.00") + BalanceOperation::getMultiplicator(BalanceOperationsEnum::FROM_PUBLIC_USER_BFS->value) * $newSoldeBFSRecipient
                 ]);
                     DB::commit();
                 } catch (\Exception $exception) {

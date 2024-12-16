@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Models\DiscountBalances;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
+use App\Services\Balances\Balances;
 use Core\Enum\BalanceEnum;
 use Core\Models\BalanceOperation;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +15,7 @@ class DiscountObserver
 {
     public function created(DiscountBalances $discountBalances)
     {
-            $userCurrentBalancehorisontal = UserCurrentBalanceHorisontal::where('user_id', $discountBalances->beneficiary_id)->first();
+            $userCurrentBalancehorisontal = Balances::getStoredUserBalances($discountBalances->beneficiary_id);
 
             $newDiscountBalanceHorisental = $newDiscountBalanceVertical= $userCurrentBalancehorisontal->discount_balance +BalanceOperation::getMultiplicator($discountBalances->balance_operation_id)* $discountBalances->value;
 

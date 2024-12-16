@@ -74,16 +74,23 @@ class Balances
         return self::getSold($idUser, 'sms_balances');
     }
 
+    public static function getStoredUserBalances($idUser, $balances = null)
+    {
+        if (is_null($balances)) {
+            return UserCurrentBalanceHorisontal::where('user_id', $idUser)->first();
+        }
+        return UserCurrentBalanceHorisontal::where('user_id', $idUser)->pluck($balances)->first();
+    }
     public static function getStoredCash($idUser)
     {
-        return UserCurrentBalanceHorisontal::where('user_id', $idUser)->pluck('cash_balances');
+        return UserCurrentBalanceHorisontal::getStoredUserBalances($idUser, 'cash_balances');
 
     }
 
     public static function getStoredBfss($idUser, $type)
     {
 
-        $userCurrentBalanceHorisontal = UserCurrentBalanceHorisontal::where('user_id', $idUser)->first('bfss_balances');
+        $userCurrentBalanceHorisontal = UserCurrentBalanceHorisontal::getStoredUserBalances($idUser);
         return $userCurrentBalanceHorisontal->getBfssBalance($type);
 
 
@@ -91,17 +98,17 @@ class Balances
 
     public static function getStoredDiscount($idUser)
     {
-        return UserCurrentBalanceHorisontal::where('user_id', $idUser)->pluck('discount_balances');
+        return UserCurrentBalanceHorisontal::getStoredUserBalances($idUser, 'discount_balances');
     }
 
     public static function getStoredTree($idUser)
     {
-        return UserCurrentBalanceHorisontal::where('user_id', $idUser)->pluck('tree_balances');
+        return UserCurrentBalanceHorisontal::getStoredUserBalances($idUser, 'tree_balances');
     }
 
     public static function getStoredSms($idUser)
     {
-        return UserCurrentBalanceHorisontal::where('user_id', $idUser)->pluck('sms_balances');
+        return UserCurrentBalanceHorisontal::getStoredUserBalances($idUser, 'sms_balances');
     }
 
     public static function addAutomatedFields($balances, $item_id, $deal_id, $order_id, $platform_id, $order_detail_id)

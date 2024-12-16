@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Models\SmsBalances;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
+use App\Services\Balances\Balances;
 use Core\Enum\BalanceEnum;
 use Core\Models\BalanceOperation;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +16,7 @@ class SmsObserver
 
     public function created(SmsBalances $smsBalances)
     {
-            $userCurrentBalancehorisontal = UserCurrentBalanceHorisontal::where('user_id', $smsBalances->beneficiary_id)->first();
+            $userCurrentBalancehorisontal = Balances::getStoredUserBalances($smsBalances->beneficiary_id);
             $newSmsBalanceHorisental = $newSmsBalanceVertical = $userCurrentBalancehorisontal->sms_balance + BalanceOperation::getMultiplicator($smsBalances->balance_operation_id) * $smsBalances->value;
 
             $userCurrentBalancehorisontal->update(['sms_balance' => $newSmsBalanceHorisental]);

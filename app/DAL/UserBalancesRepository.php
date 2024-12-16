@@ -24,7 +24,7 @@ class  UserBalancesRepository implements IUserBalancesRepository
         $calculetedUserBalances->soldeDB = $calculetedUserBalances->soldeT =
         $calculetedUserBalances->soldeSMS = $calculetedUserBalances->soldeChance =
         $calculetedUserBalances->soldeTree = self::SOLD_INIT;
-        $userCurrentBalancehorisontal = UserCurrentBalanceHorisontal::where('user_id', $idUser)->first();
+        $userCurrentBalancehorisontal = Balances::getStoredUserBalances($idUser);
         if (!is_null($userCurrentBalancehorisontal)) {
             $calculetedUserBalances->soldeCB = formatSolde($userCurrentBalancehorisontal->cash_balance, $decimals);
             $calculetedUserBalances->soldeBFS = formatSolde(Balances::getTotolBfs($userCurrentBalancehorisontal), $decimals);

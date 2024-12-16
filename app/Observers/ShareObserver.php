@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Models\SharesBalances;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
+use App\Services\Balances\Balances;
 use Core\Enum\BalanceEnum;
 use Core\Models\BalanceOperation;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +16,7 @@ class ShareObserver
     public function created(SharesBalances $shareBalances)
     {
 
-        $userCurrentBalancehorisontal = UserCurrentBalanceHorisontal::where('user_id', $shareBalances->beneficiary_id)->first();
+        $userCurrentBalancehorisontal = Balances::getStoredUserBalances($shareBalances->beneficiary_id);
             $newShareBalanceHorisental = $newShareBalanceVertical = $userCurrentBalancehorisontal->share_balance + BalanceOperation::getMultiplicator($shareBalances->balance_operation_id) * $shareBalances->value;
             $userCurrentBalancehorisontal->update(['share_balance' => $newShareBalanceHorisental]);
         $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $shareBalances->beneficiary_id)
