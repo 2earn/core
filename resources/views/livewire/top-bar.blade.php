@@ -355,7 +355,6 @@
                             <a class="dropdown-item" href="{{route('notification_history',app()->getLocale())}}">
                                 <span class=""> {{ __('Notification history') }}</span>
                             </a>
-
                             <a class="dropdown-item" href="{{route('notification_settings',app()->getLocale())}}">
                                 <span class=""> {{ __('Notification Settings') }}</span>
                             </a>
