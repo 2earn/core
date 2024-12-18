@@ -203,7 +203,7 @@ class ApiController extends BaseController
             'operator_id' => Balances::SYSTEM_SOURCE_ID,
             'beneficiary_id' => $reciver_bfs,
             'reference' => $ref,
-            'percentage' => "50.00",
+            'percentage' => BFSsBalances::BFS_50,
             'description' => 'TO DO DESCRIPTION',
             'value' => intval($number_of_action / $palier) * $actual_price * $palier,
             'current_balance' => $balances->getBfssBalance("50.00") + BalanceOperation::getMultiplicator(BalanceOperationsEnum::BY_ACQUIRING_SHARES->value)* intval($number_of_action / $palier) * $actual_price * $palier
@@ -1112,11 +1112,14 @@ class ApiController extends BaseController
                 DB::raw(" CASE WHEN ub.operator_id = '11111111' THEN 'system' ELSE (SELECT CONCAT(IFNULL(enfirstname, ''), ' ', IFNULL(enlastname, '')) FROM metta_users mu WHERE mu.idUser = ub.beneficiary_id) END AS source "),
                 DB::raw(" CASE WHEN bo.IO = 'I' THEN CONCAT('+ ', '$ ', FORMAT(ub.value, 3)) WHEN bo.IO = 'O' THEN CONCAT('- ', FORMAT(ub.value , 3), ' $') WHEN bo.IO = 'IO' THEN 'IO' END AS value "),
                 'bo.IO as sensP',
+                'ub.percentage as percentage',
                 'ub.current_balance'
             )
             ->join('balance_operations as bo', 'ub.balance_operation_id', '=', 'bo.id')
             ->where('ub.beneficiary_id', $user->idUser)
-            ->orderBy('created_at')->get();
+            ->orderBy('percentage')
+            ->orderBy('created_at')
+            ->get();
         return datatables($userData)->make(true);
     }
 

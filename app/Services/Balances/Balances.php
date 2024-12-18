@@ -3,6 +3,7 @@
 namespace App\Services\Balances;
 
 use App\DAL\UserRepository;
+use App\Models\BFSsBalances;
 use App\Models\User;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
@@ -54,7 +55,7 @@ class Balances
         return self::getSold($idUser, 'cash_balances');
     }
 
-    public static function getBfss($idUser, $type = "100.00")
+    public static function getBfss($idUser, $type = BFSsBalances::BFS_100)
     {
         return self::getSold($idUser, 'bfss_balances');
     }
@@ -165,7 +166,7 @@ class Balances
 
     public static function getTotolBfs($userCurrentBalancehorisontal)
     {
-        return $userCurrentBalancehorisontal->getBfssBalance("100.00") + $userCurrentBalancehorisontal->getBfssBalance("50.00");
+        return $userCurrentBalancehorisontal->getBfssBalance(BFSsBalances::BFS_100) + $userCurrentBalancehorisontal->getBfssBalance(BFSsBalances::BFS_50);
     }
     public static function updateCalculatedSold($idUser, $type = BalanceEnum::CASH, $value)
     {

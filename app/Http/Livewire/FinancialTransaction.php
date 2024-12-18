@@ -3,6 +3,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\BFSsBalances;
 use App\Models\User;
 use Core\Enum\BalanceEnum;
 use Core\Enum\EventBalanceOperationEnum;
@@ -213,7 +214,7 @@ class FinancialTransaction extends Component
         $userAuth = $settingsManager->getAuthUser();
         $this->mobile = $userAuth->fullNumber;
         $this->soldecashB = floatval(Balances::getStoredUserBalances(auth()->user()->idUser,'cash_balance')) - floatval($this->soldeExchange);
-        $this->soldeBFS = floatval(Balances::getStoredBfss(auth()->user()->idUser,'100.00')) - floatval($this->numberSmsExchange);
+        $this->soldeBFS = floatval(Balances::getStoredBfss(auth()->user()->idUser,BFSsBalances::BFS_100)) - floatval($this->numberSmsExchange);
 
         $seting = DB::table('settings')->where("idSETTINGS", "=", "13")->first();
 

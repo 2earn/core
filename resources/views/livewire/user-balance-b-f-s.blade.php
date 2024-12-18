@@ -43,6 +43,7 @@
                             <th>{{ __('date') }}</th>
                             <th>{{ __('Operation Designation') }}</th>
                             <th>{{ __('description') }}</th>
+                            <th>{{ __('Percentage') }}</th>
                             <th>{{ __('Value') }}</th>
                             <th>{{ __('Balance') }}</th>
                         </tr>
@@ -93,23 +94,23 @@
                         {data: 'created_at'},
                         {data: 'operation'},
                         {data: 'description'},
+                        {data: 'percentage'},
                         {data: 'value', className: classAl},
                         {data: 'current_balance', className: classAl},
                     ],
                     "columnDefs":
                         [
                             {
-                                "targets": [5],
+                                "targets": [6],
                                 render: function (data, type, row) {
                                     if (data.indexOf('+') == -1)
                                         return '<span class="badge bg-danger con">' + data + '</span>';
                                     else
                                         return '<span class="badge bg-success con">' + data + '</span>';
-
                                 }
                             },
                             {
-                                "targets": [6],
+                                "targets": [7],
                                 render: function (data, type, row) {
                                     if (row.ranks == 1)
                                         return '<div class="logoTopBFSLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';

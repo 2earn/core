@@ -4,6 +4,7 @@ namespace Core\Services;
 
 use App\Http\Traits\earnLog;
 use App\Http\Traits\earnTrait;
+use App\Models\BFSsBalances;
 use App\Models\ContactUser;
 use App\Models\User;
 use App\Models\UserCurrentBalanceHorisontal;
@@ -592,13 +593,13 @@ class settingsManager
                 $param = [
                     'montant' => $montant,
                     'newSoldeCashBalance' => $newSoldeCashBalance,
-                    'newSoldeBFS' => floatval($balances->getBfssBalance("100.00")) + floatval($montant)
+                    'newSoldeBFS' => floatval($balances->getBfssBalance(BFSsBalances::BFS_100)) + floatval($montant)
                 ];
                 $this->userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::ExchangeCashToBFS, $idUser, $param);
                 break;
             case ExchangeTypeEnum::BFSToSMS :
                 $balances = Balances::getStoredUserBalances($idUser);
-                $soldeBfs = $balances->getBfssBalance("100.00");
+                $soldeBfs = $balances->getBfssBalance(BFSsBalances::BFS_100);
                 $seting = DB::table('settings')->where("idSETTINGS", "=", "13")->first();
                 $prix_sms = $seting->IntegerValue;
                 $newSoldeBFS = $soldeBfs - ($prix_sms * $montant);

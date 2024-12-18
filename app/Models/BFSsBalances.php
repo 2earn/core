@@ -13,6 +13,9 @@ class BFSsBalances extends Model
 
     protected $table = 'bfss_balances';
 
+    const BFS_100 = "100.00";
+    const BFS_50 = "50.00";
+
     protected $fillable = [
         'value',
         'description',
