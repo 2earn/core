@@ -500,7 +500,6 @@
                 searching: false,
                 "orderCellsTop": true,
                 "fixedHeader": true,
-                "order": [[1, 'asc']],
                 "processing": true,
                 "data": data,
                 "columns": [

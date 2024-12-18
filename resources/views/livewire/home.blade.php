@@ -183,7 +183,7 @@
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
                                 @php
-                                    $db_asd = $discountBalance - $arraySoldeD[2];
+                                    $db_asd = $discountBalance - floatval($arraySoldeD[2]);
                                 @endphp
                                 <p class="@if ( $db_asd > 0) text-success @elseif( $db_asd < 0) text-danger @endif"
                                    style="max-height: 5px">
