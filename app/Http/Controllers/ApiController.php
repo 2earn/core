@@ -198,6 +198,7 @@ class ApiController extends BaseController
             'current_balance' => $balances->cash_balance - ($number_of_action) * $actual_price
         ]);
         $balances = Balances::getStoredUserBalances($reciver);
+        $value=intval($number_of_action / $palier) * $actual_price * $palier;
         BFSsBalances::addLine([
             'balance_operation_id' => BalanceOperationsEnum::BY_ACQUIRING_SHARES->value,
             'operator_id' => Balances::SYSTEM_SOURCE_ID,
@@ -205,8 +206,8 @@ class ApiController extends BaseController
             'reference' => $ref,
             'percentage' => BFSsBalances::BFS_50,
             'description' =>  BalanceOperationsEnum::BY_ACQUIRING_SHARES->name,
-            'value' => intval($number_of_action / $palier) * $actual_price * $palier,
-            'current_balance' => $balances->getBfssBalance("50.00") + BalanceOperation::getMultiplicator(BalanceOperationsEnum::BY_ACQUIRING_SHARES->value)* intval($number_of_action / $palier) * $actual_price * $palier
+            'value' =>$value,
+            'current_balance' => $balances->getBfssBalance("50.00") + BalanceOperation::getMultiplicator(BalanceOperationsEnum::BY_ACQUIRING_SHARES->value)* $value
         ]);
             DB::commit();
         } catch (\Exception $exception) {

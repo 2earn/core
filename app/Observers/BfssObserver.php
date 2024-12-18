@@ -40,9 +40,12 @@ class BfssObserver
                 ]
             );
 
-            $userCurrentBalancehorisontal = Balances::getStoredUserBalances($bFSsBalances->beneficiary_id);;
-            $newBfssBalanceVertical = floatval($userCurrentBalancehorisontal->getBfssBalance($bFSsBalances->percentage)) + BalanceOperation::getMultiplicator($bFSsBalances->balance_operation_id) * $bFSsBalances->value;
+            $userCurrentBalancehorisontal = Balances::getStoredUserBalances($bFSsBalances->beneficiary_id);
+
+            $newBfssBalanceVertical = floatval($userCurrentBalancehorisontal->getBfssBalance($bFSsBalances->percentage)) + ( BalanceOperation::getMultiplicator($bFSsBalances->balance_operation_id) * $bFSsBalances->value);
+
             $userCurrentBalancehorisontal->setBfssBalance($bFSsBalances->percentage, $newBfssBalanceVertical);
+
             $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $bFSsBalances->beneficiary_id)
             ->where('balance_id', BalanceEnum::BFS)
             ->first();

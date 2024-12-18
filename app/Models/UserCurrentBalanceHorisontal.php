@@ -27,32 +27,36 @@ class UserCurrentBalanceHorisontal extends Model
 
     public function getBfssBalance($type)
     {
-        foreach ($this->bfss_balance as $key => $item) {
+        foreach ($this->bfss_balance as $item) {
             if ($type == $item['type']) {
                 return $item['value'];
             }
         }
+
+
+
         return 0;
     }
 
     public function setBfssBalance($type, $amount)
     {
-
-        $BfssBalances = [];
-        foreach ($this->bfss_balance as $item) {
-            if (is_array($item)) {
-                $Bfss['type'] = $item['type'];
-                if ($type == $item['type']) {
-                    $Bfss['value'] = $item['value'] + $amount;
-
+        $bfss_balance = $this->bfss_balance;
+        $changed = false;
+        foreach ($bfss_balance as  &$item) {
+            if ($type === $item['type']) {
+                $item['value'] =  $amount;
+                $changed = true;
                 } else {
-                    $Bfss['value'] = $item['value'];
+                $item['value'] = $item['value'];
                 }
-                $BfssBalances[] = $Bfss;
-            }
-        }
-        $this->bfss_balance = $BfssBalances;
-        $this->save();
 
+        }
+        if (!$changed) {
+            $bfss_balance[] = ['type' => $type, 'value' => $amount];
+        }
+        $this->bfss_balance = $bfss_balance;
+        if ($this->isDirty('bfss_balance')) {
+            $this->save();
+        }
     }
 }

@@ -24,7 +24,6 @@ class DeleteTriggers extends Seeder
         ];
         if (!App::isProduction()) {
             foreach ($triggers as $trigger) {
-                dump("DROP TRIGGER IF EXISTS `" . $trigger . "`;");
                 DB::statement("DROP TRIGGER IF EXISTS `" . $trigger . "`;");
             }
         }

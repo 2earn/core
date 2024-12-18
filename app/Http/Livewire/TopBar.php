@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\User;
+use App\Services\Balances\Balances;
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
 use Livewire\Component;
@@ -56,8 +57,11 @@ class TopBar extends Component
         $this->locales = config('app.available_locales');
         if (!$authUser)
             dd('not found page');
+        $balances = Balances::getStoredUserBalances($authUser->idUser);
         $params = [
-            'balances' => $balancesManager->getBalances($authUser->idUser, -1),
+            'cash' => $balances->cash_balance,
+            'bfs' => Balances::getTotolBfs($balances),
+            'db' => $balances->discount_balance,
             'user' => $authUser,
             'userStatus' => $user->status,
             'userRole' => $user->getRoleNames()->first()
