@@ -9,7 +9,7 @@ select `u`.`balance_id`                                     AS `idamount`,
        `c`.`continant`                                      AS `continant`,
        `c`.`id`                                             AS `id`,
        sum(`u`.`current_balance`)                           AS `value`
-from ((`dev_2earn`.`user_current_balance_verticals` `u` join `dev_2earn`.`users` `s`) join `dev_2earn`.`countries` `c`)
+from ((`user_current_balance_verticals` `u` join `users` `s`) join `countries` `c`)
 where `u`.`user_id` = `s`.`idUser`
   and `s`.`idCountry` = `c`.`id`
   and `u`.`balance_id` not in (4, 6, 7)
@@ -23,7 +23,7 @@ select 4                AS `4`,
        `c`.`continant`  AS `continant`,
        `c`.`id`         AS `id`,
        sum(`u`.`value`) AS `value`
-from ((`dev_2earn`.`shares_balances` `u` join `dev_2earn`.`users` `s`) join `dev_2earn`.`countries` `c`)
+from ((`shares_balances` `u` join `users` `s`) join `countries` `c`)
 where `u`.`beneficiary_id` = `s`.`idUser`
   and `s`.`idCountry` = `c`.`id`
   and `u`.`balance_operation_id` = 44
@@ -36,7 +36,7 @@ select 6                AS `6`,
        `c`.`continant`  AS `continant`,
        `c`.`id`         AS `id`,
        sum(`u`.`value`) AS `value`
-from ((`dev_2earn`.`shares_balances` `u` join `dev_2earn`.`users` `s`) join `dev_2earn`.`countries` `c`)
+from ((`shares_balances` `u` join `users` `s`) join `countries` `c`)
 where `u`.`beneficiary_id` = `s`.`idUser`
   and `s`.`idCountry` = `c`.`id`
   and `u`.`balance_operation_id` in (52, 53, 54, 55)
@@ -49,7 +49,7 @@ select 7                          AS `idamount`,
        `c`.`continant`            AS `continant`,
        `c`.`id`                   AS `id`,
        sum(`u`.`current_balance`) AS `value`
-from ((`dev_2earn`.`user_current_balance_verticals` `u` join `dev_2earn`.`users` `s`) join `dev_2earn`.`countries` `c`)
+from ((`user_current_balance_verticals` `u` join `users` `s`) join `countries` `c`)
 where `u`.`user_id` = `s`.`idUser`
   and `s`.`idCountry` = `c`.`id`
   and `u`.`balance_id` = 6
@@ -62,7 +62,7 @@ select 8                AS `8`,
        `c`.`continant`  AS `continant`,
        `c`.`id`         AS `id`,
        sum(`u`.`value`) AS `value`
-from ((`dev_2earn`.`cash_balances` `u` join `dev_2earn`.`users` `s`) join `dev_2earn`.`countries` `c`)
+from ((`cash_balances` `u` join `users` `s`) join `countries` `c`)
 where `u`.`beneficiary_id` = `s`.`idUser`
   and `s`.`idCountry` = `c`.`id`
   and `u`.`balance_operation_id` = 48
@@ -75,7 +75,7 @@ select 9                      AS `9`,
        `c`.`continant`        AS `continant`,
        `c`.`id`               AS `id`,
        sum(`u`.`real_amount`) AS `value`
-from ((`dev_2earn`.`shares_balances` `u` join `dev_2earn`.`users` `s`) join `dev_2earn`.`countries` `c`)
+from ((`shares_balances` `u` join `users` `s`) join `countries` `c`)
 where `u`.`beneficiary_id` = `s`.`idUser`
   and `s`.`idCountry` = `c`.`id`
   and `u`.`balance_operation_id` = 44
@@ -88,7 +88,7 @@ select 10                  AS `10`,
        `c`.`continant`     AS `continant`,
        `c`.`id`            AS `id`,
        count(`s`.`idUser`) AS `value`
-from (`dev_2earn`.`users` `s` join `dev_2earn`.`countries` `c`)
+from (`users` `s` join `countries` `c`)
 where `s`.`idCountry` = `c`.`id`
 group by `c`.`continant`, `c`.`name`, `c`.`apha2`, `c`.`id`
 union
@@ -99,7 +99,7 @@ select 11               AS `idamount`,
        `c`.`continant`  AS `continant`,
        `c`.`id`         AS `id`,
        count(`u`.`id`)  AS `value`
-from ((`dev_2earn`.`user_current_balance_verticals` `u` join `dev_2earn`.`users` `s`) join `dev_2earn`.`countries` `c`)
+from ((`user_current_balance_verticals` `u` join `users` `s`) join `countries` `c`)
 where `u`.`user_id` = `s`.`idUser`
   and `s`.`idCountry` = `c`.`id`
   and `u`.`balance_id` = 6
@@ -113,7 +113,7 @@ select 12                                   AS `12`,
        `c`.`continant`                      AS `continant`,
        `c`.`id`                             AS `id`,
        count(distinct `u`.`beneficiary_id`) AS `value`
-from ((`dev_2earn`.`shares_balances` `u` join `dev_2earn`.`users` `s`) join `dev_2earn`.`countries` `c`)
+from ((`shares_balances` `u` join `users` `s`) join `countries` `c`)
 where `u`.`beneficiary_id` = `s`.`idUser`
   and `s`.`idCountry` = `c`.`id`
   and `u`.`balance_operation_id` = 44
