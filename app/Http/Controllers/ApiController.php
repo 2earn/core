@@ -154,7 +154,7 @@ class ApiController extends BaseController
             'amount' => $number_of_action * $actual_price,
             'total_amount' => $oldTotalAmount + ($number_of_action * $actual_price),
             'real_amount' => $number_of_action * $actual_price,
-            'description' => 'TO DO DESCRIPTION',
+            'description' => BalanceOperationsEnum::SELLED_SHARES->value,
             'current_balance' => $balances->share_balance + $number_of_action
         ]);
 
@@ -167,7 +167,7 @@ class ApiController extends BaseController
             'reference' => $ref,
             'unit_price' => 0,
             'payed' => 1,
-            'description' => 'TO DO DESCRIPTION',
+                'description' => BalanceOperationsEnum::COMPLIMENTARY_BENEFITS_ON_PURCHASED_SHARES->name,
             'value' => $gift,
                 'current_balance' => $balances->share_balance + $number_of_action
             ]);
@@ -182,7 +182,7 @@ class ApiController extends BaseController
                 'unit_price' => 0,
                 'payed' => 1,
                 'value' => $flashGift,
-                'description' => 'TO DO DESCRIPTION',
+                'description' => BalanceOperationsEnum::VIP_BENEFITS_ON_PURCHASED_SHARES->name,
                 'current_balance' => $balances->share_balance + $number_of_action
             ]);
         }
@@ -204,7 +204,7 @@ class ApiController extends BaseController
             'beneficiary_id' => $reciver_bfs,
             'reference' => $ref,
             'percentage' => BFSsBalances::BFS_50,
-            'description' => 'TO DO DESCRIPTION',
+            'description' =>  BalanceOperationsEnum::BY_ACQUIRING_SHARES->name,
             'value' => intval($number_of_action / $palier) * $actual_price * $palier,
             'current_balance' => $balances->getBfssBalance("50.00") + BalanceOperation::getMultiplicator(BalanceOperationsEnum::BY_ACQUIRING_SHARES->value)* intval($number_of_action / $palier) * $actual_price * $palier
         ]);
@@ -1117,8 +1117,8 @@ class ApiController extends BaseController
             )
             ->join('balance_operations as bo', 'ub.balance_operation_id', '=', 'bo.id')
             ->where('ub.beneficiary_id', $user->idUser)
-            ->orderBy('percentage')
             ->orderBy('created_at')
+            ->orderBy('percentage')
             ->get();
         return datatables($userData)->make(true);
     }
