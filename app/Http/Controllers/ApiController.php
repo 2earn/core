@@ -154,7 +154,7 @@ class ApiController extends BaseController
             'amount' => $number_of_action * $actual_price,
             'total_amount' => $oldTotalAmount + ($number_of_action * $actual_price),
             'real_amount' => $number_of_action * $actual_price,
-            'description' => BalanceOperationsEnum::SELLED_SHARES->value,
+            'description' => $number_of_action . 'share(s) purchased',
             'current_balance' => $balances->share_balance + $number_of_action
         ]);
 
@@ -167,7 +167,7 @@ class ApiController extends BaseController
             'reference' => $ref,
             'unit_price' => 0,
             'payed' => 1,
-                'description' => BalanceOperationsEnum::COMPLIMENTARY_BENEFITS_ON_PURCHASED_SHARES->name,
+                'description' => $gift . 'share(s) purchased',
             'value' => $gift,
                 'current_balance' => $balances->share_balance + $number_of_action
             ]);
@@ -182,7 +182,7 @@ class ApiController extends BaseController
                 'unit_price' => 0,
                 'payed' => 1,
                 'value' => $flashGift,
-                'description' => BalanceOperationsEnum::VIP_BENEFITS_ON_PURCHASED_SHARES->name,
+                'description' => $flashGift . 'share(s) purchased',
                 'current_balance' => $balances->share_balance + $number_of_action
             ]);
         }
@@ -193,7 +193,7 @@ class ApiController extends BaseController
             'operator_id' => auth()->user()->idUser,
             'beneficiary_id' => auth()->user()->idUser,
             'reference' => $ref,
-            'description' => "purchase of " . ($number_of_action + $gift) . " shares for " . $a,
+           'description' => $number_of_action . 'share(s) purchased',
             'value' => $number_of_action  * $actual_price,
             'current_balance' => $balances->cash_balance - ($number_of_action) * $actual_price
         ]);
@@ -205,7 +205,7 @@ class ApiController extends BaseController
             'beneficiary_id' => $reciver_bfs,
             'reference' => $ref,
             'percentage' => BFSsBalances::BFS_50,
-            'description' =>  BalanceOperationsEnum::BY_ACQUIRING_SHARES->name,
+            'description' =>  $number_of_action . 'share(s) purchased',
             'value' =>$value,
             'current_balance' => $balances->getBfssBalance("50.00") + BalanceOperation::getMultiplicator(BalanceOperationsEnum::BY_ACQUIRING_SHARES->value)* $value
         ]);

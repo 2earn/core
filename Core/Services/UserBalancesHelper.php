@@ -86,7 +86,7 @@ class  UserBalancesHelper
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
                     'beneficiary_id' => $idUser,
                     'reference' => BalancesFacade::getReference(BalanceOperationsEnum::BY_REGISTERING_DB->value),
-                    'description' => BalanceOperationsEnum::BY_REGISTERING_DB->name,
+                    'description' => $initialDiscount . '$ as welcome gift',
                     'value' => $initialDiscount,
                     'current_balance' => $initialDiscount
                 ]);
@@ -96,7 +96,7 @@ class  UserBalancesHelper
                     'beneficiary_id' => $idUser,
                     'reference' => BalancesFacade::getReference(BalanceOperationsEnum::BY_REGISTERING_TREE->value),
                     'description' =>BalanceOperationsEnum::BY_REGISTERING_TREE->name,
-                    'value' => $initialTree,
+                    'value' => $initialTree . '$ as welcome gift',
                     'current_balance' => $initialTree
                 ]);
                 ChanceBalances::addLine([
@@ -105,7 +105,7 @@ class  UserBalancesHelper
                     'beneficiary_id' => $idUser,
                     'reference' => BalancesFacade::getReference(BalanceOperationsEnum::INITIAL_CHANE->value),
                     'description' =>  BalanceOperationsEnum::INITIAL_CHANE->name,
-                    'value' => $initialChance,
+                    'value' => $initialChance . '$ as welcome gift',
                     'current_balance' => $initialChance
                 ]);
                     DB::commit();
@@ -124,7 +124,7 @@ class  UserBalancesHelper
                     'operator_id' => $idUser,
                     'beneficiary_id' => $idUser,
                     'reference' => $ref,
-                    'description' => BalanceOperationsEnum::CASH_TO_BFS_CB->name,
+                        'description' => $params["montant"] . 'Transfered to my BFS',
                     'value' => $params["montant"],
                     'current_balance' => $params["newSoldeCashBalance"]
                 ]);
@@ -136,7 +136,7 @@ class  UserBalancesHelper
                     'beneficiary_id' => $idUser,
                     'reference' => $ref,
                     'percentage' => BFSsBalances::BFS_100,
-                    'description' => BalanceOperationsEnum::CASH_TO_BFS_CB->name,
+                    'description' => $params["newSoldeBFS"] . 'Transfered from my CB',
                     'value' => $params["newSoldeBFS"],
                     'current_balance' => $balances->getBfssBalance(BFSsBalances::BFS_100) + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::From_CASH_Balance_BFS->value) * $params["newSoldeBFS"])
                 ]);
@@ -164,20 +164,20 @@ class  UserBalancesHelper
                     'beneficiary_id' => $idUser,
                     'reference' => $ref,
                         'percentage' => BFSsBalances::BFS_100,
-                        'description' =>  BalanceOperationsEnum::BFS_TO_SM_SN_BFS->name,
+                        'description' => 'perchase of ' . $params["montant"] . ' SMS',
                     'value' => $params["montant"],
                         'current_balance' => $balances->getBfssBalance(BFSsBalances::BFS_100) + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::BFS_TO_SM_SN_BFS->value) * $params["montant"])
                 ]);
-
+                    $value = intdiv($params["montant"], $prix_sms);
                 SMSBalances::addLine([
                     'balance_operation_id' => BalanceOperationsEnum::FROM_BFS_BALANCE_SMS->value,
                     'operator_id' => $idUser,
                     'beneficiary_id' => $idUser,
                     'reference' => $ref,
-                    'description' => BalanceOperationsEnum::FROM_BFS_BALANCE_SMS->name,
-                    'value' => intdiv($params["montant"], $prix_sms),
+                    'description' => 'perchase of ' . $value . ' SMS',
+                    'value' => $value,
                     'sms_price' => $prix_sms,
-                    'current_balance' => $oldSMSSOLD + intdiv($params["montant"], $prix_sms)
+                    'current_balance' => $oldSMSSOLD + $value
                 ]);
 
                     DB::commit();
@@ -232,7 +232,7 @@ class  UserBalancesHelper
                     'beneficiary_id' => $params['recipient'],
                     'reference' => $ref,
                         'percentage' => BFSsBalances::BFS_100,
-                    'description' =>BalanceOperationsEnum::FROM_PUBLIC_USER_BFS->name,
+                    'description' => BalanceOperationsEnum::FROM_PUBLIC_USER_BFS->name,
                     'value' => $params["montant"],
                         'current_balance' => $balances->getBfssBalance(BFSsBalances::BFS_100) + BalanceOperation::getMultiplicator(BalanceOperationsEnum::FROM_PUBLIC_USER_BFS->value) * $newSoldeBFSRecipient
                 ]);
