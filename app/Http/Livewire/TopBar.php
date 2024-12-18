@@ -33,26 +33,7 @@ class TopBar extends Component
         $this->userProfileImage = User::getUserProfileImage(auth()->user()->idUser);
     }
 
-    public function render(settingsManager $settingsManager, BalancesManager $balancesManager)
-    {
-        $authUser = auth()->user();
-        $user = $settingsManager->getUserById($authUser->id);
-        $this->count = auth()->user()->unreadNotifications()->count();
-        $this->notifications = auth()->user()->unreadNotifications()->get();
-        $this->locales = config('app.available_locales');
-        if (!$authUser)
-            dd('not found page');
-        $params = [
-            'solde' => $balancesManager->getBalances($authUser->idUser, 0),
-            'user' => $authUser,
-            'userStatus' => $user->status,
-            'userRole' => $user->getRoleNames()->first()
-        ];
-        return view('livewire.top-bar', $params);
-    }
-
-
-    public function markAsRead($idNotification, settingsManager $settingsManager)
+      public function markAsRead($idNotification, settingsManager $settingsManager)
     {
         auth()->user()->unreadNotifications->where('id', $idNotification)->first()?->markAsRead();
         $this->count = \auth()->user()->unreadNotifications()->count();
@@ -64,5 +45,23 @@ class TopBar extends Component
     {
         $settingsManager->logoutUser();
         return redirect()->route('login', ['locale' => app()->getLocale()]);
+    }
+
+    public function render(settingsManager $settingsManager, BalancesManager $balancesManager)
+    {
+        $authUser = auth()->user();
+        $user = $settingsManager->getUserById($authUser->id);
+        $this->count = auth()->user()->unreadNotifications()->count();
+        $this->notifications = auth()->user()->unreadNotifications()->get();
+        $this->locales = config('app.available_locales');
+        if (!$authUser)
+            dd('not found page');
+        $params = [
+            'balances' => $balancesManager->getBalances($authUser->idUser, -1),
+            'user' => $authUser,
+            'userStatus' => $user->status,
+            'userRole' => $user->getRoleNames()->first()
+        ];
+        return view('livewire.top-bar', $params);
     }
 }
