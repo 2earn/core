@@ -9,15 +9,8 @@
         @endslot
     @endcomponent
         <div class="row card">
-            <div class="card-header border-info">
-                <div class="d-flex align-items-center">
-                    <h6 class="card-title mb-0 flex-grow-1">{{ __('Discounts Balance') }}</h6>
-                </div>
-            </div>
             <div class="card-body">
-                <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body table-responsive">
+                <div class="table-responsive">
                     <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
                     id="userBalanceDB_table" style="width: 100%">
                         <thead class="table-light">
@@ -34,8 +27,6 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
         </div>
     </div>
         <script type="module">
