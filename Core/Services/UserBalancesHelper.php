@@ -166,7 +166,7 @@ class  UserBalancesHelper
                         'percentage' => BFSsBalances::BFS_100,
                         'description' =>  BalanceOperationsEnum::BFS_TO_SM_SN_BFS->name,
                     'value' => $params["montant"],
-                        'current_balance' => $balances->getBfssBalance(BFSsBalances::BFS_100) + BalanceOperation::getMultiplicator(BalanceOperationsEnum::BFS_TO_SM_SN_BFS->value) * $params["newSoldeCashBalance"]
+                        'current_balance' => $balances->getBfssBalance(BFSsBalances::BFS_100) + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::BFS_TO_SM_SN_BFS->value) * $params["montant"])
                 ]);
 
                 SMSBalances::addLine([
@@ -177,7 +177,7 @@ class  UserBalancesHelper
                     'description' => BalanceOperationsEnum::FROM_BFS_BALANCE_SMS->name,
                     'value' => intdiv($params["montant"], $prix_sms),
                     'sms_price' => $prix_sms,
-                    'current_balance' => $params["montant"] + $oldSMSSOLD
+                    'current_balance' => $oldSMSSOLD + intdiv($params["montant"], $prix_sms)
                 ]);
 
                     DB::commit();
