@@ -93,7 +93,8 @@ class Sponsorship
     public function executeProactifSponsorship($reserve, $ref, $number_of_action, $gift, $PU, $fullphone_number)
     {
         $amount = ($number_of_action + $gift) * $PU * $this->amount / 100;
-
+        $balances = Balances::getStoredUserBalances($reserve);
+        $value = intdiv($number_of_action * $this->shares, 100);
         DB::beginTransaction();
         try {
             SharesBalances::addLine([
@@ -103,19 +104,19 @@ class Sponsorship
             'reference' => $ref,
             'unit_price' => 0,
             'payed' => 1,
-            'value' => intdiv($number_of_action * $this->shares, 100),
+                'value' => $value,
             'description' => 'sponsorship commission from ' . $fullphone_number,
-            'current_balance' => null// get old current balance value + > $number_of_action * $this->shares / 100
+                'current_balance' => $balances->share_balance + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::SPONSORSHIP_COMMISSION_SHARE->value) * $value)
         ]);
-
+            $value = $amount * $this->amountCash / 100;
         CashBalances::addLine([
             'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_CASH->value,
             'operator_id' => $this->isSource,
             'beneficiary_id' => $reserve,
             'reference' => $ref,
             'description' => 'sponsorship commission from ' . $fullphone_number,
-            'value' => $amount * $this->amountCash / 100,
-            'current_balance' => $this->balancesManager->getBalances($reserve, -1)->soldeCB + $amount * $this->amountCash / 100
+            'value' => $value,
+            'current_balance' => $balances->cash_balance + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::SPONSORSHIP_COMMISSION_CASH->value) * $value)
         ]);
             $balances = Balances::getStoredUserBalances($reserve);
         BFSsBalances::addLine([
