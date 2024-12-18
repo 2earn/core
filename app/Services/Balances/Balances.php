@@ -90,11 +90,8 @@ class Balances
 
     public static function getStoredBfss($idUser, $type)
     {
-
         $userCurrentBalanceHorisontal = Balances::getStoredUserBalances($idUser);
         return $userCurrentBalanceHorisontal->getBfssBalance($type);
-
-
     }
 
     public static function getStoredDiscount($idUser)
