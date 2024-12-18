@@ -103,7 +103,7 @@ class Sponsorship
             'reference' => $ref,
             'unit_price' => 0,
             'payed' => 1,
-            'value' => $number_of_action * $this->shares / 100,
+            'value' => intdiv($number_of_action * $this->shares, 100),
             'description' => 'sponsorship commission from ' . $fullphone_number,
             'current_balance' => null// get old current balance value + > $number_of_action * $this->shares / 100
         ]);
