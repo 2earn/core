@@ -13,7 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::statement(formatSqlWithEnv(getSqlFromPath('tableau_croise_view')));
+        DB::statement('DROP VIEW IF EXISTS tableau_croise;');
+        DB::statement('CREATE VIEW `tableau_croise` AS ' .formatSqlWithEnv(getSqlFromPath('tableau_croise_view')));
     }
 
     /**
@@ -23,6 +24,6 @@ return new class extends Migration
      */
     public function down()
     {
-        DB::statement('DROP VIEW IF EXISTS tableau_croise_view;');
+        DB::statement('DROP VIEW IF EXISTS tableau_croise;');
     }
 };
