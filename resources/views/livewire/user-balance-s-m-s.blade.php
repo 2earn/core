@@ -9,16 +9,8 @@
         @endslot
     @endcomponent
         <div class="row card">
-            <div class="card-header border-info">
-                <div class="d-flex align-items-center">
-                    <h6 class="card-title mb-0 flex-grow-1">{{ __('SMS balance') }}</h6>
-                </div>
-            </div>
-            <div class="card-body">         <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                </div>
-                <div class="card-body table-responsive">
+            <div class="card-body">
+                <div class="table-responsive">
                     <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
                            id="userBalanceSMS_table" style="width: 100%">
                         <thead class="table-light">
@@ -36,7 +28,6 @@
                     </table>
                 </div>
             </div>
-        </div>
         </div>
     </div>
     <script type="module">
