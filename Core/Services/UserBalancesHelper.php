@@ -202,8 +202,6 @@ class  UserBalancesHelper
                 );
                 break;
             case EventBalanceOperationEnum::SendToPublicFromCash:
-                ///idSource is the sender
-                /// idUser is the recipient : we will retrieve it from the table params
                 if (($params) == null) dd('throw exception');
                 $soldeSender = $this->balanceOperationmanager->getBalances($idUser);
                 if (floatval($soldeSender->soldeCB) < floatval($params['montant'])) return;
@@ -244,8 +242,6 @@ class  UserBalancesHelper
                 }
                 break;
             case EventBalanceOperationEnum::SendToPublicFromBFS:
-                ///idSource is the sender
-                /// idUser is the recipient : we will retrieve it from the table params
                 if (($params) == null) dd('throw exception');
                 $soldeSender = $this->balanceOperationmanager->getBalances($idUser);
                 if (floatval($soldeSender->soldeBFS) < floatval($params['montant'])) return;

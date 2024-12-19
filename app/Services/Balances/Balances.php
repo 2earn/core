@@ -85,7 +85,6 @@ class Balances
     public static function getStoredCash($idUser)
     {
         return Balances::getStoredUserBalances($idUser, 'cash_balances');
-
     }
 
     public static function getStoredBfss($idUser, $type)
