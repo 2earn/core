@@ -522,10 +522,6 @@ class ApiController extends BaseController
                 'current_balance' => $value + $data->tran_total / $k
             ]);
 
-            $mnt = $data->tran_total / $k;
-            $new_value = intval($old_value) + $data->tran_total / $k;
-            // *****************************************
-            // OBSERVER CURRENT BALANCES
         }
 
         DB::table('user_transactions')->updateOrInsert(
