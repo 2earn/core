@@ -53,17 +53,18 @@ class Sponsorship
 
     public function executeDelayedSponsorship($upLine, $downLine)
     {
-        $userBalancesQuery = user_balance::where('idBalancesOperation', BalanceOperationsEnum::SELLED_SHARES->value)
-            ->where('idUser', $downLine->idUser)
-            ->whereRaw('TIMESTAMPDIFF(HOUR, ' . DB::raw('DATE') . ', NOW()) < ?', [$this->retardatifReservation])
-            ->orderBy(DB::raw('DATE'), "ASC")
+        $userBalancesQuery = SharesBalances::where('balance_operation_id', BalanceOperationsEnum::SELLED_SHARES->value)
+            ->where('beneficiary_id', $downLine->idUser)
+            ->whereRaw('TIMESTAMPDIFF(HOUR, ' . DB::raw('created_at') . ', NOW()) < ?', [$this->retardatifReservation])
+            ->orderBy(DB::raw('created_at'), "ASC")
             ->limit($this->saleCount);
+
 
         $userBalances = $userBalancesQuery->get();
 
         foreach ($userBalances as $userBalance) {
             $this->executeProactifSponsorship(
-                $upLine->idUser, $userBalance->ref, $userBalance->value, $userBalance->gifted_shares, $userBalance->PU, $downLine->fullphone_number
+                $upLine->idUser, $userBalance->reference, $userBalance->value, $userBalance->unit_price, $downLine->idUser
             );
         }
     }
@@ -90,9 +91,9 @@ class Sponsorship
 
     }
 
-    public function executeProactifSponsorship($reserve, $ref, $number_of_action, $gift, $PU, $fullphone_number)
+    public function executeProactifSponsorship($reserve, $ref, $number_of_action, $actual_price, $resiver)
     {
-        $amount = ($number_of_action + $gift) * $PU * $this->amount / 100;
+        $amount = $number_of_action * $actual_price * $this->amount / 100;
         $balances = Balances::getStoredUserBalances($reserve);
         $value = intdiv($number_of_action * $this->shares, 100);
         DB::beginTransaction();
@@ -105,7 +106,7 @@ class Sponsorship
             'unit_price' => 0,
             'payed' => 1,
                 'value' => $value,
-            'description' => 'sponsorship commission from ' . $fullphone_number,
+                'description' => 'sponsorship commission from ' . getUserDisplayedName($resiver),
                 'current_balance' => $balances->share_balance + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::SPONSORSHIP_COMMISSION_SHARE->value) * $value)
         ]);
             $value = $amount * $this->amountCash / 100;
@@ -114,7 +115,7 @@ class Sponsorship
             'operator_id' => $this->isSource,
             'beneficiary_id' => $reserve,
             'reference' => $ref,
-            'description' => 'sponsorship commission from ' . $fullphone_number,
+            'description' => 'sponsorship commission from ' . getUserDisplayedName($resiver),
             'value' => $value,
             'current_balance' => $balances->cash_balance + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::SPONSORSHIP_COMMISSION_CASH->value) * $value)
         ]);
@@ -125,7 +126,7 @@ class Sponsorship
             'beneficiary_id' => $reserve,
             'reference' => $ref,
             'percentage' => BFSsBalances::BFS_50,
-            'description' => 'sponsorship commission from ' . $fullphone_number,
+            'description' => 'sponsorship commission from ' . getUserDisplayedName($resiver),
             'value' => $amount * $this->amountBFS / 100,
             'current_balance' => $balances->getBfssBalance(BFSsBalances::BFS_50) + BalanceOperation::getMultiplicator(BalanceOperationsEnum::SPONSORSHIP_COMMISSION_BFS->value)* $amount * $this->amountBFS / 100
         ]);

@@ -103,10 +103,9 @@ class ApiController extends BaseController
 
         DB::beginTransaction();
         try {
-
             $userSponsored = SponsorshipFacade::checkProactifSponsorship($this->userRepository->getUserByIdUser($reciver));
         if ($userSponsored) {
-            SponsorshipFacade::executeProactifSponsorship($userSponsored->idUser, $ref, $number_of_action, $gift, $actual_price, $fullphone_number);
+            SponsorshipFacade::executeProactifSponsorship($userSponsored->idUser, $ref, $number_of_action, $actual_price, $reciver);
         }
         $vip = vip::Where('idUser', '=', $reciver)->where('closed', '=', false)->first();
         if ($request->flash) {
