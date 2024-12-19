@@ -165,7 +165,6 @@ class ApiController extends BaseController
             'beneficiary_id' => $reciver,
             'reference' => $ref,
             'unit_price' => 0,
-            'payed' => 1,
                 'description' => $gift . 'share(s) purchased',
             'value' => $gift,
                 'current_balance' => $balances->share_balance + $number_of_action
@@ -179,7 +178,6 @@ class ApiController extends BaseController
                 'beneficiary_id' => $reciver,
                 'reference' => $ref,
                 'unit_price' => 0,
-                'payed' => 1,
                 'value' => $flashGift,
                 'description' => $flashGift . 'share(s) purchased',
                 'current_balance' => $balances->share_balance + $number_of_action

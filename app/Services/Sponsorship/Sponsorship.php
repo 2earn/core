@@ -104,7 +104,6 @@ class Sponsorship
             'beneficiary_id' => $reserve,
             'reference' => $ref,
             'unit_price' => 0,
-            'payed' => 1,
                 'value' => $value,
                 'description' => 'sponsorship commission from ' . getUserDisplayedName($resiver),
                 'current_balance' => $balances->share_balance + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::SPONSORSHIP_COMMISSION_SHARE->value) * $value)
