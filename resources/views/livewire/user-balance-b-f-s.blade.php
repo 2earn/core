@@ -48,7 +48,6 @@
                 </div>
             </div>
         </div>
-    </div>
     <script type="module">
         $(document).on('ready ', function () {
                 $('#page-title-box').addClass('page-title-box-bfs');
@@ -56,7 +55,7 @@
         );
         $(document).on('turbolinks:load', function () {
             var select2_array = [];
-
+            console.log('turbolinks load');
             $('#ub_table_bfs').DataTable(
                 {
                     retrieve: true,
