@@ -604,7 +604,8 @@ class ApiController extends BaseController
             ->select('value', 'description', 'created_at')
             ->where('balance_operation_id', BalanceOperationsEnum::CASH_TRANSFERT_O->value)
             ->where('beneficiary_id', Auth()->user()->idUser)
-            ->whereNotNull('description');
+            ->whereNotNull('description')
+            ->orderBy('created_at', 'DESC');
     }
     public function getTransfert()
     {
@@ -622,9 +623,8 @@ class ApiController extends BaseController
         return DB::table('cash_balances')
             ->select(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") AS x'), DB::raw('CAST(current_balance AS DECIMAL(10,2)) AS y'))
             ->where('beneficiary_id', auth()->user()->idUser)
-            ->orderBy('created_at', 'asc')
+            ->orderBy('created_at', 'DESC')
             ->get();
-
     }
     public function getUserCashBalance()
     {
