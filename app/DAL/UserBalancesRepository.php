@@ -2,15 +2,10 @@
 
 namespace App\DAL;
 
-use App\Models\BFSsBalances;
-use App\Models\ChanceBalances;
 use App\Models\TreeBalances;
-use App\Models\UserCurrentBalanceHorisontal;
 use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
-use Core\Enum\BalanceOperationsEnum;
 use Core\Interfaces\IUserBalancesRepository;
-use Core\Models\user_balance;
 use phpDocumentor\Reflection\Types\Collection;
 
 class  UserBalancesRepository implements IUserBalancesRepository

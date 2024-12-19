@@ -35,7 +35,6 @@ use Core\Models\identificationuserrequest;
 use Core\Models\language;
 use Core\Models\metta_user;
 use Core\Models\Setting;
-use Core\Models\user_balance;
 use Core\Models\user_earn;
 use Core\Models\UserContact;
 use Core\Models\UserContactNumber;

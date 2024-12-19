@@ -4,7 +4,6 @@ use App\Models\User;
 use App\Services\Balances\BalancesFacade;
 use Carbon\Carbon;
 use Core\Models\Setting;
-use Core\Models\user_balance;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Crypt;

@@ -1079,20 +1079,23 @@ class ApiController extends BaseController
     {
         $user = $this->settingsManager->getAuthUser();
         if (!$user) $user->idUser = '';
-        $userData = DB::table('user_balances as ub')
+        $userData = DB::table('chance_balances as ub')
             ->select(
-                DB::raw('RANK() OVER (ORDER BY ub.Date DESC) as ranks'),
-                'ub.idUser', 'ub.id', 'ub.idSource', 'ub.Ref', 'ub.Date', 'bo.Operation', 'ub.Description',
-                DB::raw(" CASE WHEN ub.idSource = '11111111' THEN 'system' ELSE (SELECT CONCAT(IFNULL(enfirstname, ''), ' ', IFNULL(enlastname, '')) FROM metta_users mu WHERE mu.idUser = ub.idSource) END AS source "),
-                DB::raw(" CASE WHEN bo.IO = 'I' THEN CONCAT('+ ', '$ ', FORMAT(ub.value / PrixUnitaire, 3)) WHEN bo.IO = 'O' THEN CONCAT('- ', FORMAT(ub.value / PrixUnitaire, 3), ' $') WHEN bo.IO = 'IO' THEN 'IO' END AS value "),
-                DB::raw(" CASE WHEN idAmount = 5 THEN CONCAT(FORMAT(SUM(CASE WHEN bo.IO = 'I' THEN FORMAT(FORMAT(ub.value, 3) / FORMAT(PrixUnitaire, 3), 3) WHEN bo.IO = 'O' THEN FORMAT(FORMAT(ub.value, 3) / (FORMAT(PrixUnitaire, 3) * -1), 3) WHEN bo.IO = 'IO' THEN 'IO' END) OVER (ORDER BY date), 0), ' ') WHEN idAmount = 3 THEN CONCAT('$ ', FORMAT(SUM(CASE WHEN bo.IO = 'I' THEN FORMAT(FORMAT(ub.value, 3) / FORMAT(PrixUnitaire, 3), 3) WHEN bo.IO = 'O' THEN FORMAT(FORMAT(ub.value, 3) / (FORMAT(PrixUnitaire, 3) * -1), 3) WHEN bo.IO = 'IO' THEN 'IO' END) OVER (ORDER BY date), 2)) ELSE CONCAT('$ ', FORMAT(ub.balance, 3, 'en_EN')) END AS balance "),
-                'ub.PrixUnitaire',
+                DB::raw('RANK() OVER (ORDER BY ub.created_at DESC) as ranks'),
+                'ub.beneficiary_id',
+                'ub.id',
+                'ub.operator_id',
+                'ub.reference',
+                'ub.created_at',
+                'bo.operation',
+                'ub.description',
+                'ub.current_balance',
+                DB::raw(" CASE WHEN ub.beneficiary_id = '11111111' THEN 'system' ELSE (SELECT CONCAT(IFNULL(enfirstname, ''), ' ', IFNULL(enlastname, '')) FROM metta_users mu WHERE mu.idUser = ub.beneficiary_id) END AS source "),
                 'bo.IO as sensP'
             )
-            ->join('balance_operations as bo', 'ub.idBalancesOperation', '=', 'bo.id')
-            ->where('bo.amounts_id', 7)
-            ->where('ub.idUser', $user->idUser)
-            ->orderBy('Date')->get();
+            ->join('balance_operations as bo', 'ub.balance_operation_id', '=', 'bo.id')
+            ->where('ub.beneficiary_id', $user->idUser)
+            ->orderBy('created_at')->get();
         return datatables($userData)->make(true);
     }
     public function getPurchaseBFSUser()

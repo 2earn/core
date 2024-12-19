@@ -5,15 +5,11 @@ namespace App\Http\Livewire;
 
 use App\Models\BFSsBalances;
 use App\Models\User;
-use Core\Enum\BalanceEnum;
-use Core\Enum\EventBalanceOperationEnum;
 use Core\Enum\ExchangeTypeEnum;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
 use Core\Models\detail_financial_request;
 use Core\Models\FinancialRequest;
-use Core\Models\user_balance;
-use Core\Models\user_earn;
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
 use App\Services\Balances\Balances;
