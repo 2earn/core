@@ -85,7 +85,7 @@ class  UserBalancesHelper
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
                     'beneficiary_id' => $idUser,
                     'reference' => BalancesFacade::getReference(BalanceOperationsEnum::BY_REGISTERING_DB->value),
-                    'description' => $initialDiscount . '$ as welcome gift',
+                    'description' => $initialDiscount . ' $ as welcome gift',
                     'value' => $initialDiscount,
                     'current_balance' => $initialDiscount
                 ]);
@@ -104,7 +104,7 @@ class  UserBalancesHelper
                     'beneficiary_id' => $idUser,
                     'reference' => BalancesFacade::getReference(BalanceOperationsEnum::INITIAL_CHANE->value),
                     'description' =>  BalanceOperationsEnum::INITIAL_CHANE->name,
-                    'value' => $initialChance . '$ as welcome gift',
+                    'value' => $initialChance . ' $ as welcome gift',
                     'current_balance' => $initialChance
                 ]);
                     DB::commit();
@@ -123,7 +123,7 @@ class  UserBalancesHelper
                     'operator_id' => $idUser,
                     'beneficiary_id' => $idUser,
                     'reference' => $ref,
-                        'description' => $params["montant"] . 'Transfered to my BFS',
+                        'description' => $params["montant"] . ' Transfered to my BFS',
                     'value' => $params["montant"],
                     'current_balance' => $params["newSoldeCashBalance"]
                 ]);
@@ -135,7 +135,7 @@ class  UserBalancesHelper
                     'beneficiary_id' => $idUser,
                     'reference' => $ref,
                     'percentage' => BFSsBalances::BFS_100,
-                    'description' => $params["montant"] . 'Transfered from my CB',
+                    'description' => $params["montant"] . ' Transfered from my CB',
                     'value' => $params["montant"],
                     'current_balance' => $balances->getBfssBalance(BFSsBalances::BFS_100) + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::From_CASH_Balance_BFS->value) * $params["montant"])
                 ]);
