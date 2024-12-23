@@ -28,7 +28,7 @@ return new class extends Migration
             $table->unsignedBigInteger('beneficiary_id_auto')->foreign('beneficiary_id_auto')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->float('percentage')->nullable();
             $table->double('value')->nullable();
-            $table->double('current_balance')->nullable();
+            $table->double('current_balance')->default(0);
             $table->string('ref')->nullable();
             $table->string('reference')->nullable();
             $table->string('description',512)->nullable();

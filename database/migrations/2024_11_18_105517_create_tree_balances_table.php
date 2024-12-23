@@ -30,7 +30,7 @@ return new class extends Migration {
             $table->string('reference')->nullable();
             $table->string('ref')->nullable();
             $table->double('value')->nullable();
-            $table->double('current_balance')->nullable();
+            $table->double('current_balance')->default(0);
             $table->timestamps();
         });
     }

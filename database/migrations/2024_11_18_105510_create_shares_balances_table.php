@@ -25,7 +25,7 @@ return new class extends Migration {
             $table->string('ref')->nullable();
             $table->string('reference')->nullable();
             $table->double('value')->nullable();
-            $table->double('current_balance')->nullable();
+            $table->double('current_balance')->default(0);
             $table->double('total_amount')->nullable();
             $table->double('unit_price')->nullable();
             $table->integer('payed')->nullable();

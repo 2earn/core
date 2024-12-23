@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->foreign('user_id')->nullable()->references('idUser')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('user_id_auto')->foreign('user_id_auto')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->integer('balance_id')->nullable();
-            $table->double('current_balance')->nullable();
+            $table->double('current_balance')->default(0);
             $table->double('previous_balance')->nullable();
             $table->unsignedBigInteger('last_operation_id')->nullable();
             $table->dateTime('last_operation_date')->nullable();
