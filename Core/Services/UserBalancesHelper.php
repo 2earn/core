@@ -135,9 +135,9 @@ class  UserBalancesHelper
                     'beneficiary_id' => $idUser,
                     'reference' => $ref,
                     'percentage' => BFSsBalances::BFS_100,
-                    'description' => $params["newSoldeBFS"] . 'Transfered from my CB',
-                    'value' => $params["newSoldeBFS"],
-                    'current_balance' => $balances->getBfssBalance(BFSsBalances::BFS_100) + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::From_CASH_Balance_BFS->value) * $params["newSoldeBFS"])
+                    'description' => $params["montant"] . 'Transfered from my CB',
+                    'value' => $params["montant"],
+                    'current_balance' => $balances->getBfssBalance(BFSsBalances::BFS_100) + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::From_CASH_Balance_BFS->value) * $params["montant"])
                 ]);
                     DB::commit();
                 } catch (\Exception $exception) {

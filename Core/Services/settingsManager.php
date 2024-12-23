@@ -591,8 +591,10 @@ class settingsManager
                 $param = [
                     'montant' => $montant,
                     'newSoldeCashBalance' => $newSoldeCashBalance,
-                    'newSoldeBFS' => floatval($balances->getBfssBalance(BFSsBalances::BFS_100)) + floatval($montant)
+                    'newSoldeBFS' => floatval($balances->getBfssBalance(BFSsBalances::BFS_100)) + floatval($montant),
+                    'oldSoldeBFS' => floatval($balances->getBfssBalance(BFSsBalances::BFS_100)),
                 ];
+
                 $this->userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::ExchangeCashToBFS, $idUser, $param);
                 break;
             case ExchangeTypeEnum::BFSToSMS :

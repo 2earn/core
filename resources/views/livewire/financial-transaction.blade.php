@@ -617,8 +617,7 @@
         var newmntBFS = soldeBFS + Mymnt;
         inputsoldeBFS.val(newmntBFS.toFixed(2));
         $("#montantExchange").keyup(function () {
-            var tt = parseFloat(soldeBFS) + parseFloat($(this).val());
-            inputsoldeBFS.val(tt);
+            inputsoldeBFS.val(parseFloat($(this).val()));
         })
         inputSms.val(mnt);
         var mntSms = mnt * prixSms;
