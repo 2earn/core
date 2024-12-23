@@ -47,6 +47,7 @@ use Spatie\Permission\Models\Role;
 class ApiController extends BaseController
 {
     const DATE_FORMAT = 'd/m/Y H:i:s';
+    const CURRENCY = '$';
 
 
     public function __construct(private readonly settingsManager $settingsManager, private BalancesManager $balancesManager, private UserRepository $userRepository)
@@ -1007,8 +1008,8 @@ class ApiController extends BaseController
                   WHERE mu.idUser = ub.operator_id)
         END as source,
         CASE
-            WHEN bo.IO = "I" THEN CONCAT("+ ", FORMAT(ub.value, 3), " $")
-            WHEN bo.IO = "O" THEN CONCAT("- ", FORMAT(ub.value, 3), " $")
+            WHEN bo.IO = "I" THEN CONCAT("+", "$", FORMAT(ub.value, 3))
+            WHEN bo.IO = "O" THEN CONCAT("-", "$", FORMAT(ub.value, 3))
             WHEN bo.IO = "IO" THEN "IO"
         END as value
     ')
@@ -1044,6 +1045,9 @@ class ApiController extends BaseController
         return datatables($this->getUserBalancesQuery($balance))
             ->addColumn('formatted_date', function ($user) {
                 return Carbon\Carbon::parse($user->created_at)->format('Y-m-d');
+            })
+            ->editColumn('current_balance', function ($balance) {
+                return self::CURRENCY . formatSolde($balance->current_balance, 2);
             })
             ->editColumn('description', function ($row) use ($idAmounts) {
                 if ($idAmounts == 3)
@@ -1096,7 +1100,7 @@ class ApiController extends BaseController
                 DB::raw('RANK() OVER (ORDER BY ub.created_at DESC) as ranks'),
                 'ub.beneficiary_id', 'ub.id', 'ub.operator_id', 'ub.reference', 'ub.created_at', 'bo.operation', 'ub.description',
                 DB::raw(" CASE WHEN ub.operator_id = '11111111' THEN 'system' ELSE (SELECT CONCAT(IFNULL(enfirstname, ''), ' ', IFNULL(enlastname, '')) FROM metta_users mu WHERE mu.idUser = ub.beneficiary_id) END AS source "),
-                DB::raw(" CASE WHEN bo.IO = 'I' THEN CONCAT('+ ', '$ ', FORMAT(ub.value, 3)) WHEN bo.IO = 'O' THEN CONCAT('- ', FORMAT(ub.value , 3), ' $') WHEN bo.IO = 'IO' THEN 'IO' END AS value "),
+                DB::raw(" CASE WHEN bo.IO = 'I' THEN CONCAT('+', '$', FORMAT(ub.value, 2)) WHEN bo.IO = 'O' THEN CONCAT('-', '$', FORMAT(ub.value , 2)) WHEN bo.IO = 'IO' THEN 'IO' END AS value "),
                 'bo.IO as sensP',
                 'ub.percentage as percentage',
                 'ub.current_balance'
@@ -1106,7 +1110,11 @@ class ApiController extends BaseController
             ->orderBy('created_at')
             ->orderBy('percentage')
             ->get();
-        return datatables($userData)->make(true);
+        return datatables($userData)
+            ->editColumn('current_balance', function ($balance) {
+                return self::CURRENCY . formatSolde($balance->current_balance, 2);
+            })
+            ->make(true);
     }
 
     /**
