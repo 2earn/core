@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\DB;
 class SettingsRepository implements  ISettingsRepository{
     public function getSetting(SettingsEnum $settings)
     {
-       return
-           $seting = DB::table('settings')
+       return DB::table('settings')
                ->where("idSETTINGS", "=", $settings)
                ->first();
     }

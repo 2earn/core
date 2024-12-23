@@ -154,7 +154,7 @@ class  UserBalancesHelper
                     $ref = BalancesFacade::getReference(BalanceOperationsEnum::BFS_TO_SM_SN_BFS->value);
                     $oldSMSSOLD = Balances::getStoredUserBalances($idUser, "sms_balance");
                     $seting = DB::table('settings')->where("idSETTINGS", "=", SettingsEnum::Prix_SMS->value)->first();
-                    $prix_sms = $seting->IntegerValue;
+                    $prix_sms = $seting->DecimalValue ?? 1.5;
                     $balances = Balances::getStoredUserBalances($idUser);;
 
                     BFSsBalances::addLine([

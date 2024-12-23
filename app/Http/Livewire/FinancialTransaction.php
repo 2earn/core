@@ -214,7 +214,8 @@ class FinancialTransaction extends Component
 
         $seting = DB::table('settings')->where("idSETTINGS", "=", "13")->first();
 
-        $this->prix_sms = $seting->IntegerValue;
+        $this->prix_sms = $seting->DecimalValue ?? 1.5;
+
         $this->montantSms = $this->prix_sms * $this->numberSmsExchange;
 
         number_format($this->soldecashB, 2, '.', ',');

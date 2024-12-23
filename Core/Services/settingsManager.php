@@ -601,7 +601,7 @@ class settingsManager
                 $balances = Balances::getStoredUserBalances($idUser);
                 $soldeBfs = $balances->getBfssBalance(BFSsBalances::BFS_100);
                 $seting = DB::table('settings')->where("idSETTINGS", "=", "13")->first();
-                $prix_sms = $seting->IntegerValue;
+                $prix_sms = $seting->DecimalValue ?? 1.5;
                 $newSoldeBFS = $soldeBfs - ($prix_sms * $montant);
 
                 if ($newSoldeBFS < 0) {

@@ -25,8 +25,6 @@ class ConfigurationSetting extends Component
         'initSettingFunction' => 'initSettingFunction',
     ];
 
-
-
     public function initSettingFunction($id)
     {
         $setting = Setting::find($id);

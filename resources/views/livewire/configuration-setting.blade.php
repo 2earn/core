@@ -31,7 +31,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="settingsModalLabel">{{__('Update setting')}}</h5>
+                    <h5 class="modal-title" id="settingsModalLabel">{{__('Update param')}}</h5>
                     <button type="button" class="btn-close btn-close-setting " data-bs-dismiss="modal"
                             aria-label="Close"></button>
                 </div>
@@ -41,7 +41,7 @@
                         <div class="row">
                             <div class="mb-3 col-xl-6">
                                 <label class="me-sm-2">{{ __('Name') }}</label>
-                                <input type="text" class="form-control" wire:model="parameterName"
+                                <input type="text" class="form-control" disabled wire:model="parameterName"
                                        placeholder="{{ __('Name') }}">
                             </div>
                             <div class="mb-3 col-xl-6">
