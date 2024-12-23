@@ -4,18 +4,19 @@
             {{ __('Configuration Settings') }}
         @endslot
     @endcomponent
+        <div class="row">
+            @include('layouts.flash-messages')
+        </div>
         <div class="card">
             <div class="card-body">
-                <table
-                    class="table table-bordered dt-responsive nowrap table-striped align-middle"
-                    id="SettingsTable">
+                <table data-turbolinks="false"
+                       class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                       id="SettingsTable">
                     <thead class="table-light">
                     <tr>
                         <th>{{ __('id') }}</th>
-                        <th>{{ __('Name of setting') }}</th>
-                        <th>{{ __('IntegerValue') }}</th>
-                        <th>{{ __('StringValue') }}</th>
-                        <th>{{ __('DecimalValue') }}</th>
+                        <th>{{ __('Name') }}</th>
+                        <th>{{ __('Value') }}</th>
                         <th>{{ __('Unit') }}</th>
                         <th>{{ __('AutoCalculated') }}</th>
                         <th>{{ __('Actions') }}</th>
@@ -44,21 +45,27 @@
                                 <input type="text" class="form-control" disabled wire:model="parameterName"
                                        placeholder="{{ __('Name') }}">
                             </div>
-                            <div class="mb-3 col-xl-6">
-                                <label class="me-sm-2">{{ __('IntegerValue') }}</label>
-                                <input type="number" class="form-control" wire:model="IntegerValue"
-                                       placeholder="{{ __('IntegerValue') }}" name="IntegerValue">
-                            </div>
-                            <div class="mb-3 col-xl-6">
-                                <label class="me-sm-2">{{ __('StringValue') }}</label>
-                                <input type="text" class="form-control" wire:model="StringValue"
-                                       placeholder="{{ __('StringValue') }}" name="StringValue">
-                            </div>
-                            <div class="mb-3 col-xl-6">
-                                <label class="me-sm-2"> {{ __('DecimalValue') }}</label>
-                                <input type="number" class="form-control" wire:model="DecimalValue"
-                                       placeholder="{{ __('DecimalValue') }}" name="DecimalValue">
-                            </div>
+                            @if(!is_null($IntegerValue))
+                                <div class="mb-3 col-xl-6">
+                                    <label class="me-sm-2">{{ __('IntegerValue') }}</label>
+                                    <input type="number" class="form-control" wire:model="IntegerValue"
+                                           placeholder="{{ __('IntegerValue') }}" name="IntegerValue">
+                                </div>
+                            @endif
+                            @if(!is_null($StringValue))
+                                <div class="mb-3 col-xl-6">
+                                    <label class="me-sm-2">{{ __('StringValue') }}</label>
+                                    <input type="text" class="form-control" wire:model="StringValue"
+                                           placeholder="{{ __('StringValue') }}" name="StringValue">
+                                </div>
+                            @endif
+                            @if(!is_null($DecimalValue))
+                                <div class="mb-3 col-xl-6">
+                                    <label class="me-sm-2"> {{ __('DecimalValue') }}</label>
+                                    <input type="number" class="form-control" wire:model="DecimalValue"
+                                           placeholder="{{ __('DecimalValue') }}" name="DecimalValue">
+                                </div>
+                            @endif
                             <div class="mb-3 col-xl-6">
                                 <label class="me-sm-2">{{ __('Unit') }}</label>
                                 <input maxlength="5" type="text" class="form-control" wire:model="Unit"
@@ -83,8 +90,7 @@
                 <div class="modal-footer">
                     <button type="button" wire:click="saveSetting"
                             class="btn btn-primary">{{__('Save changes')}}</button>
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{__('Close')}}</button>
-
+                    <button type="button" class="btn btn-light btn-close-setting" data-bs-dismiss="modal">{{__('Close')}}</button>
                 </div>
             </div>
         </div>
@@ -110,9 +116,7 @@
                     "columns": [
                         {"data": "idSETTINGS"},
                         {"data": "ParameterName"},
-                        {"data": "IntegerValue"},
-                        {"data": "StringValue"},
-                        {"data": "DecimalValue"},
+                        {"data": "value"},
                         {"data": "Unit"},
                         {"data": "Automatically_calculated"},
                         {data: 'action', name: 'action', orderable: false, searchable: false},
@@ -128,10 +132,8 @@
                     },
                 }
             );
-
-            window.addEventListener('closeModal', event => {
-                $('.btn-close-setting').trigger('click');
-                $('#SettingsTable').DataTable().ajax.reload();
+            $(".btn-close-setting").click(function () {
+                location.reload();
             });
         });
     </script>

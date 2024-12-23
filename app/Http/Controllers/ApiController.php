@@ -48,6 +48,7 @@ class ApiController extends BaseController
 {
     const DATE_FORMAT = 'd/m/Y H:i:s';
     const CURRENCY = '$';
+    const SEPARATOR = ' : ';
 
 
     public function __construct(private readonly settingsManager $settingsManager, private BalancesManager $balancesManager, private UserRepository $userRepository)
@@ -862,10 +863,16 @@ class ApiController extends BaseController
             ->addColumn('action', function ($settings) {
                 return view('parts.datatable.settings-action', ['settings' => $settings]);
             })
+            ->addColumn('value', function ($settings) {
+                if (!is_null($settings->IntegerValue)) return Lang::get('Integer') . self::SEPARATOR . $settings->IntegerValue;
+                if (!is_null($settings->StringValue)) return Lang::get('String') . self::SEPARATOR . $settings->StringValue;
+                if (!is_null($settings->DecimalValue)) return Lang::get('Decimal') . self::SEPARATOR . $settings->DecimalValue;
+                return 0;
+            })
             ->editColumn('Automatically_calculated', function ($settings) {
                 return view('parts.datatable.settings-auto', ['settings' => $settings]);
             })
-            ->escapeColumns([])
+            ->rawColumns(['value', 'action'])
             ->toJson();
     }
 

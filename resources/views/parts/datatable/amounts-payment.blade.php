@@ -1,5 +1,5 @@
 @if ($amounts->amountspaymentrequest == 1)
-    <span class="badge bg-success-info text-success">{{__('Yes')}}</span>
+    <span class="badge bg-success">{{__('Yes')}}</span>
 @else
-    <span class="badge bg-danger-info text-info">{{__('No')}}</span>
+    <span class="badge bg-danger">{{__('No')}}</span>
 @endif

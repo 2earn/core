@@ -295,7 +295,7 @@
                                class="nav-link menu-link {{$currentRouteName=='balances_index'? 'active' : ''}}"
                                role="button">
                                 <i class="ri-wallet-fill"></i>
-                                <span>{{__('Balance Operations')}}</span>
+                                <span>{{__('Balance operations')}}</span>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -354,7 +354,7 @@
                                     <li class="nav-item cool-link {{$currentRouteName==$sidebarDashboardsArray[1]? 'active' : ''}}">
                                         <a href="{{route($sidebarDashboardsArray[1], app()->getLocale(),false)}}"
                                            class="nav-link"
-                                        >{{ __('BO Settings') }}</a>
+                                        >{{ __('Amounts Settings') }}</a>
                                     </li>
                                     <li class="nav-item cool-link {{$currentRouteName==$sidebarDashboardsArray[2]? 'active' : ''}}">
                                         <a href="{{route($sidebarDashboardsArray[2], app()->getLocale(),false)}}"

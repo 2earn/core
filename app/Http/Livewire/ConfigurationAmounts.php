@@ -7,6 +7,7 @@ use Core\Models\Amount;
 use Core\Models\balanceoperation;
 use Core\Models\Setting;
 use Core\Services\settingsManager;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class ConfigurationAmounts extends Component
@@ -51,17 +52,22 @@ class ConfigurationAmounts extends Component
 
     public function saveAmounts()
     {
-        $amount = Amount::find($this->idamountsAm);
-        if (!$amount) return;
-        $amount->amountsname = $this->amountsnameAm;
-        $amount->amountswithholding_tax = $this->amountswithholding_taxAm;
-        $amount->amountspaymentrequest = $this->amountspaymentrequestAm;
-        $amount->amountstransfer = $this->amountstransferAm;
-        $amount->amountscash = $this->amountscashAm;
-        $amount->amountsactive = $this->amountsactiveAm;
-        $amount->amountsshortname = $this->amountsshortnameAm;
-        $amount->save();
-        $this->dispatchBrowserEvent('closeModalAmounts');
+        try {
+            $amount = Amount::find($this->idamountsAm);
+            if (!$amount) return;
+            $amount->amountsname = $this->amountsnameAm;
+            $amount->amountswithholding_tax = $this->amountswithholding_taxAm;
+            $amount->amountspaymentrequest = $this->amountspaymentrequestAm;
+            $amount->amountstransfer = $this->amountstransferAm;
+            $amount->amountscash = $this->amountscashAm;
+            $amount->amountsactive = $this->amountsactiveAm;
+            $amount->amountsshortname = $this->amountsshortnameAm;
+            $amount->save();
+        }catch (\Exception $exception){
+            Log::error($exception->getMessage());
+            return redirect()->route('configuration_amounts', app()->getLocale())->with('danger', trans('Setting param updating failed'));
+        }
+        return redirect()->route('configuration_amounts', app()->getLocale())->with('success', trans('Setting param updated successfully'));
     }
 
 

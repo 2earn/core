@@ -7,6 +7,7 @@ use Core\Models\Amount;
 use Core\Models\balanceoperation;
 use Core\Models\Setting;
 use Core\Services\settingsManager;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class ConfigurationHA extends Component
@@ -42,14 +43,19 @@ class ConfigurationHA extends Component
     }
     public function saveHA($list)
     {
-        $lis = [];
-        $lists = "";
-        $this->list_reponceHA = $list;
-        foreach (json_decode($this->list_reponceHA) as $l) {
-            $lists = $lists . "," . $l->value;
-            $lis[] = $l->value;
+        try {
+            $lis = [];
+            $lists = "";
+            $this->list_reponceHA = $list;
+            foreach (json_decode($this->list_reponceHA) as $l) {
+                $lists = $lists . "," . $l->value;
+                $lis[] = $l->value;
+            }
+        }catch (\Exception $exception){
+            Log::error($exception->getMessage());
+            return redirect()->route('configuration_ha', app()->getLocale())->with('danger', trans('Setting param updating failed'));
         }
-        $this->dispatchBrowserEvent('closeModalHA');
+        return redirect()->route('configuration_ha', app()->getLocale())->with('success', trans('Setting param updated successfully'));
     }
 
     public function render()
