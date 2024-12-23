@@ -278,7 +278,7 @@
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
                             <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                <span>{{$treeBalance}} %</span>
+                                % <span>{{ (int)$chanceBalance}} <small class="text-muted fs-13 text-muted">.{{$chanceBalance - (int)$chanceBalance}}</small></span>
                             </h4>
                             <a href="{{route('user_balance_tree' , app()->getLocale() )}} "
                                class="text-decoration-underline">{{ __('see_details') }}</a>

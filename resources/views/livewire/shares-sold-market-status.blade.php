@@ -11,21 +11,12 @@
     <div class="row">
         <div class="col-12">
             <div class="card" id="marketList">
-                <div class="card-header border-bottom-dashed d-flex align-items-center">
-                    <h4 class="card-title mb-0 flex-grow-1">{{__('Market Status')}}</h4>
-                    <div class="flex-shrink-0">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-primary btn-sm">{{__('Today')}}</button>
-                            <button type="button" class="btn btn-outline-primary btn-sm">{{__('Overall')}}</button>
-                        </div>
-                    </div>
-                </div>
                 <div class="card-body table-responsive">
                     <table id="shares-sold"
                            class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">
-                            <th>{{__('date_purchase')}}</th>
+                            <th>{{__('Date transaction')}}</th>
                             <th>{{__('countrie')}}</th>
                             <th>{{__('mobile')}}</th>
                             <th>{{__('Name')}}</th>
@@ -37,7 +28,6 @@
                             <th>{{__('total_price')}}</th>
                             <th>{{__('number_of_shares')}}</th>
                             <th>{{__('share_price')}}</th>
-                            <th>{{__('heure_purchase')}}</th>
                         </tr>
                         </thead>
                         <tfoot>
@@ -98,9 +88,8 @@
         $(document).on('turbolinks:load', function () {
             $('#shares-sold').DataTable(
                 {
-                    "ordering": true,
+                    "order": [[0, "desc"]],
                     retrieve: true,
-                    "colReorder": false,
                     dom: 'Bfrtip',
                     buttons: [
                         {extend: 'copyHtml5', text: '<i class="ri-file-copy-2-line"></i>', titleAttr: 'Copy'},
@@ -108,9 +97,7 @@
                         {extend: 'csvHtml5', text: '<i class="ri-file-text-line"></i>', titleAttr: 'CSV'},
                         {extend: 'pdfHtml5', text: '<i class="ri-file-pdf-line"></i>', titleAttr: 'PDF'}
                     ],
-                    "orderCellsTop": true,
                     "fixedHeader": true,
-                    "order": [[14, 'desc']],
                     "processing": true,
                     "serverSide": false,
                     "pageLength": 1000,
@@ -120,7 +107,7 @@
                     bAutoWidth: false,
                     "ajax": "{{route('api_shares_soldes',['locale'=> app()->getLocale()])}}",
                     "columns": [
-                        {data: 'formatted_created_at_date'},
+                        {data: 'created_at'},
                         {data: 'flag'},
                         {data: 'mobile'},
                         {data: 'Name'},
@@ -132,7 +119,6 @@
                         {data: 'total_price'},
                         {data: 'value'},
                         {data: 'unit_price'},
-                        {data: 'formatted_created_at'},
                     ],
                     "columnDefs":
                         [

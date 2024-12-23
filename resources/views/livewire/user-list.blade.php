@@ -8,15 +8,8 @@
             {{ __('Users List') }}
         @endslot
     @endcomponent
-    <div class="row">
         <div class="card">
-            <div class="card-header border-info">
-                <div class="d-flex align-items-center">
-                    <h6 class="card-title mb-0 flex-grow-1">{{__('User statistics')}}</h6>
-                </div>
-            </div>
-            <div class="card-body row ">
-                <div class="row mt-1">
+            <div class="card-body row">
                     <div class="col-xl-4 col-md-6">
                         <div class="card border border-muted card-animate">
                             <div class="card-body">
@@ -222,16 +215,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="card">
-            <div class="card-header border-info">
-                <div class="d-flex align-items-center">
-                    <h6 class="card-title mb-0 flex-grow-1">{{__('User List')}}</h6>
-                </div>
             </div>
             <div class="card-body table-responsive">
                 <table id="users-list"
@@ -257,7 +240,6 @@
                 </table>
             </div>
         </div>
-    </div>
     <div class="modal fade" id="AddCash" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
         <div class="modal-dialog">
             <div class="modal-content">

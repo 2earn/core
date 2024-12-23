@@ -383,13 +383,15 @@ class ApiController extends BaseController
                 DB::raw('CAST(value AS DECIMAL(10,0)) AS value'),
                 'value',
                 DB::raw('CAST(shares_balances.unit_price AS DECIMAL(10,2)) AS unit_price'),
-                'shares_balances.created_at as Date',
+                'shares_balances.created_at',
                 'shares_balances.payed as payed',
                 'shares_balances.beneficiary_id'
             )
             ->join('users as user', 'user.idUser', '=', 'shares_balances.beneficiary_id')
             ->join('metta_users as meta', 'meta.idUser', '=', 'user.idUser')
-            ->join('countries', 'countries.id', '=', 'user.idCountry');
+            ->join('countries', 'countries.id', '=', 'user.idCountry')
+            ->orderBy('created_at')
+            ->get();
     }
     public function getSharesSoldes()
     {
@@ -402,15 +404,8 @@ class ApiController extends BaseController
                     return $sharesBalances->unit_price * ($sharesBalances->value) / $sharesBalances->value;
                 else return 0;
             })
-            ->addColumn('formatted_created_at', function ($sharesBalances) {
-                return Carbon\Carbon::parse($sharesBalances->Date)->format('Y-m-d H:i:s');
-            })
-            ->addColumn('formatted_created_at_date', function ($sharesBalances) {
-                return Carbon\Carbon::parse($sharesBalances->Date)->format('Y-m-d');
-            })
-            ->addColumn('flag', function ($settings) {
-
-                return '<img src="' . $this->getFormatedFlagResourceName($settings->apha2) . '" alt="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
+            ->addColumn('flag', function ($sharesBalances) {
+                return '<img src="' . $this->getFormatedFlagResourceName($sharesBalances->apha2) . '" alt="' . strtolower($sharesBalances->apha2) . '" class="avatar-xxs me-2">';
             })
             ->addColumn('sell_price_now', function ($sharesBalances) {
                 return number_format(actualActionValue(getSelledActions(true)) * ($sharesBalances->value), 2);
@@ -421,8 +416,8 @@ class ApiController extends BaseController
             ->addColumn('total_shares', function ($sharesBalances) {
                 return number_format($sharesBalances->value, 0);
             })
-            ->addColumn('asset', function ($settings) {
-                return $this->getFormatedFlagResourceName($settings->apha2);
+            ->addColumn('asset', function ($sharesBalances) {
+                return $this->getFormatedFlagResourceName($sharesBalances->apha2);
             })
             ->rawColumns(['flag', 'share_price', 'status'])
             ->make(true);
@@ -609,11 +604,7 @@ class ApiController extends BaseController
     }
     public function getTransfert()
     {
-        return datatables($this->getTransfertQuery())
-            ->addColumn('formatted_created_at', function ($cashBalances) {
-                return Carbon\Carbon::parse($cashBalances->Date)->format('Y-m-d H:i:s');
-            })
-            ->make(true);
+        return datatables($this->getTransfertQuery())->make(true);
     }
 
 

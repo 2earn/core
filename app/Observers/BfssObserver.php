@@ -23,7 +23,6 @@ class BfssObserver
 
     public function created(BFSsBalances $bFSsBalances)
     {
-
             $setting = Setting::WhereIn('idSETTINGS', ['22', '23'])->orderBy('idSETTINGS')->pluck('IntegerValue');
             $md = $setting[0];
             $rc = $setting[1];
