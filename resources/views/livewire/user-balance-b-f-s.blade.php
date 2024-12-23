@@ -33,13 +33,13 @@
                         <thead class="table-light">
                         <tr class=" tabHeader2earn">
                             <th>{{__('Num')}}</th>
-                            <th>{{ __('ref') }}</th>
-                            <th>{{ __('date') }}</th>
-                            <th>{{ __('Operation Designation') }}</th>
-                            <th>{{ __('description') }}</th>
-                            <th>{{ __('Percentage') }}</th>
-                            <th>{{ __('Value') }}</th>
-                            <th>{{ __('Balance') }}</th>
+                            <th>{{ __('ref')}}</th>
+                            <th>{{ __('date')}}</th>
+                            <th>{{ __('Operation Designation')}}</th>
+                            <th>{{ __('description')}}</th>
+                            <th>{{ __('Percentage')}}</th>
+                            <th>{{ __('Value')}}</th>
+                            <th>{{ __('Balance')}}</th>
                         </tr>
                         </thead>
                         <tbody class="body2earn">
