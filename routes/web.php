@@ -155,17 +155,27 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::middleware(['IsSuperAdmin'])->group(function () {
             Route::get('/user/list', \App\Http\Livewire\UsersList::class)->name('user_list');
             Route::get('/user/{idUser}/details', \App\Http\Livewire\UserDetails::class)->name('user_details');
-            Route::get('/configuration/ha', ConfigurationHA::class)->name('configuration_ha');
-            Route::get('/configuration/setting', \App\Http\Livewire\ConfigurationSetting::class)->name('configuration_setting');
-            Route::get('/configuration/amounts', \App\Http\Livewire\ConfigurationAmounts::class)->name('configuration_amounts');
+
+            Route::prefix('/configuration')->group(function () {
+                Route::get('/ha', ConfigurationHA::class)->name('configuration_ha');
+                Route::get('/setting', \App\Http\Livewire\ConfigurationSetting::class)->name('configuration_setting');
+                Route::get('/amounts', \App\Http\Livewire\ConfigurationAmounts::class)->name('configuration_amounts');
+            });
+
             Route::get('/countries/management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
-            Route::get('/requests/identification', identificationRequest::class)->name('requests_identification');
-            Route::get('/requests/commited-investors', \App\Http\Livewire\CommitedRequest::class)->name('requests_commited_investors');
-            Route::get('/requests/commited-investors/{id}/show', \App\Http\Livewire\CommitedRequestShow::class)->name('requests_commited_investors_show');
-            Route::get('/requests/instructor', \App\Http\Livewire\InstructorRequest::class)->name('requests_instructor');
-            Route::get('/requests/instructor/{id}/show', \App\Http\Livewire\InstructorRequestShow::class)->name('requests_instructor_show');
-            Route::get('/translate', TranslateView::class)->name('translate');
-            Route::get('/translate/model/data', \App\Http\Livewire\TranslateModelData::class)->name('translate_model_data');
+
+            Route::prefix('/requests')->group(function () {
+                Route::get('/identification', identificationRequest::class)->name('requests_identification');
+                Route::get('/commited-investors', \App\Http\Livewire\CommitedRequest::class)->name('requests_commited_investors');
+                Route::get('/commited-investors/{id}/show', \App\Http\Livewire\CommitedRequestShow::class)->name('requests_commited_investors_show');
+                Route::get('/instructor', \App\Http\Livewire\InstructorRequest::class)->name('requests_instructor');
+                Route::get('/instructor/{id}/show', \App\Http\Livewire\InstructorRequestShow::class)->name('requests_instructor_show');
+            });
+
+            Route::prefix('/translate')->group(function () {
+                Route::get('/', TranslateView::class)->name('translate');
+                Route::get('/model/data', \App\Http\Livewire\TranslateModelData::class)->name('translate_model_data');
+            });
 
             Route::prefix('/target')->name('target_')->group(function () {
                 Route::get('/index', \App\Http\Livewire\TargetIndex::class)->name('index');
@@ -192,10 +202,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
                 Route::get('/index', \App\Http\Livewire\Balances::class)->name('index');
             });
 
-
             Route::get('/index/test', \App\Http\Livewire\NewBalance::class)->name('index_test');
-
-
         });
 
         Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');

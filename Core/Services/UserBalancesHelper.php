@@ -8,7 +8,6 @@ use App\Models\ChanceBalances;
 use App\Models\DiscountBalances;
 use App\Models\SMSBalances;
 use App\Models\TreeBalances;
-use App\Models\UserCurrentBalanceHorisontal;
 use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
 use Core\Enum\ActionEnum;

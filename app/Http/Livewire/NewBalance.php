@@ -4,10 +4,6 @@ namespace App\Http\Livewire;
 
 use App\Models\BFSsBalances;
 use App\Models\UserCurrentBalanceHorisontal;
-use App\Services\Balances\BalancesFacade;
-use Core\Models\Setting;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class NewBalance extends Component

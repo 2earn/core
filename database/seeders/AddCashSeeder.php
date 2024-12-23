@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\CashBalances;
-use App\Models\UserCurrentBalanceHorisontal;
 use App\Services\Balances\Balances;
 use Core\Enum\BalanceOperationsEnum;
 use Illuminate\Database\Seeder;

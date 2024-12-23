@@ -7,7 +7,6 @@ use App\Http\Traits\earnTrait;
 use App\Models\BFSsBalances;
 use App\Models\ContactUser;
 use App\Models\User;
-use App\Models\UserCurrentBalanceHorisontal;
 use App\Services\Balances\Balances;
 use Carbon\Carbon;
 use Core\Enum\BalanceEnum;

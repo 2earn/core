@@ -2,13 +2,11 @@
 
 namespace App\Services\Balances;
 
-use App\DAL\UserRepository;
 use App\Models\BFSsBalances;
 use App\Models\User;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
 use Core\Enum\BalanceEnum;
-use Core\Services\BalancesManager;
 use Illuminate\Support\Facades\DB;
 
 class Balances

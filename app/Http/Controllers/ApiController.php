@@ -8,7 +8,6 @@ use App\Models\CashBalances;
 use App\Models\Deal;
 use App\Models\SharesBalances;
 use App\Models\User;
-use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\vip;
 use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
@@ -43,7 +42,6 @@ use Paytabscom\Laravel_paytabs\Facades\paypage;
 use phpDocumentor\Reflection\Types\Collection;
 use Propaganistas\LaravelPhone\PhoneNumber;
 use Spatie\Permission\Models\Role;
-use Yajra\DataTables\Facades\DataTables;
 
 
 class ApiController extends BaseController
