@@ -20,7 +20,7 @@
 </ul>
 <ul class="list-group list-group-horizontal-md justify-content-center">
     <li class="list-group-item" title="{{__('SoldeSMS')}}">
-        <a data-bs-toggle="modal" data-bs-target="#detail" data-amount="5" data-reciver="' . $idUser . '"
+        <a data-bs-toggle="modal" data-bs-target="#detail" data-amount="5" data-reciver="{{$idUser}}"
            class="btn btn-ghost-warning waves-effect waves-light smsb">
             <i class="glyphicon glyphicon-add"></i>{{number_format(getUserBalanceSoldes($idUser, 5), 0)}}</a>
     </li>

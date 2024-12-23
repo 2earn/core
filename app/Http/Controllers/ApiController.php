@@ -964,7 +964,7 @@ class ApiController extends BaseController
 
     public function getUserBalancesList($locale, $idUser, $idamount, $json = true)
     {
-        match ($idamount) {
+        match (intval($idamount)) {
             BalanceEnum::CASH->value => $balances = "cash_balances",
             BalanceEnum::BFS->value => $balances = "bfss_balances",
             BalanceEnum::DB->value => $balances = "discount_balances",

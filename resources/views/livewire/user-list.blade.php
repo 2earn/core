@@ -509,7 +509,8 @@
             });
         }
 
-        $(document).on("click", ".cb", function () {
+        $(document).on('turbolinks:load', function () {
+            $(document).on("click", ".cb", function () {
             let reciver = $(this).data('reciver');
             let amount = $(this).data('amount');
             $('#balances-amount').attr('value', amount);
@@ -535,7 +536,10 @@
             window.url = "{{ route('api_user_balances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
             window.url = window.url.replace('idUser1', reciver);
             window.url = window.url.replace('idamount1', amount);
+            console.log(amount);
+            console.log(reciver);
 
+            console.log(window.url);
             $(document).ready(function () {
                 $.getJSON(window.url, function (data) {
                     $('#modalTitle').html('{{__('BFSs balance')}}');
@@ -575,6 +579,7 @@
                 });
             });
         });
+        });
 
         function createOrUpdateDataTablesh(data) {
             if ($.fn.DataTable.isDataTable('#ub_table_listsh')) {
@@ -603,7 +608,8 @@
             });
         }
 
-        $(document).on("click", ".sh", function () {
+        $(document).on('turbolinks:load', function () {
+            $(document).on("click", ".sh", function () {
             let reciver = $(this).data('reciver');
             let amount = $(this).data('amount');
             $('#balances-amountsh').attr('value', amount);
@@ -611,12 +617,13 @@
             window.url = "{{ route('api_shares_solde_list', ['locale'=> app()->getLocale(),'amount' => 'amount1','idUser' => 'idUser1']) }}";
             window.url = window.url.replace('idUser1', reciver);
             window.url = window.url.replace('amount1', amount);
-            console.log(window.url)
+
             $(document).ready(function () {
                 $.getJSON(window.url, function (data) {
                     createOrUpdateDataTablesh(data);
                 });
             });
+        });
         });
         $(document).on('turbolinks:load', function () {
             $('#users-list').DataTable({
