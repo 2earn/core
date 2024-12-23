@@ -250,7 +250,7 @@ class  UserBalancesHelper
 
                 DB::beginTransaction();
                 try {
-                $ref = BalancesFacade::getReference(BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_BFS);
+                $ref = BalancesFacade::getReference(BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_BFS->value);
                     $balances = Balances::getStoredUserBalances($idUser);
 
                 BFSsBalances::addLine([

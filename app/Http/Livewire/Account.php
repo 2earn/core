@@ -290,8 +290,7 @@ class Account extends Component
         }
     }
 
-    public
-    function sendActivationCodeValue($userAuth, settingsManager $settingManager)
+    public function sendActivationCodeValue($userAuth, settingsManager $settingManager)
     {
         $check_exchange = $settingManager->randomNewCodeOpt();
         User::where('id', $userAuth->id)->update(['activationCodeValue' => $check_exchange]);

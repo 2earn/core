@@ -259,7 +259,7 @@
                                 <div class="col-xxl-8 mx-auto text-center ">
                                     <div class="input-group">
                                                 <span class="input-group-text"
-                                                      id="inputGroup-sizing-default">{{ __('Balance For Shopping') }} : (100.00)</span>
+                                                      id="inputGroup-sizing-default">{{ __('Balance For Shopping') }} : (100.00%)</span>
                                         <input type="number" name="soldeBFSSMS" id="soldeBFSSMS"
                                                class="form-control text-center" disabled>
                                     </div>

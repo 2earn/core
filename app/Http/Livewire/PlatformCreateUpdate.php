@@ -53,7 +53,7 @@ class PlatformCreateUpdate extends Component
     {
 
         $platform = Platform::findOrFail($idPlatform);
-        $this->name = $platform->name;
+        $this->name = $platform?->name;
         $this->description = $platform->description;
         $this->idPlatform = $platform->id;
         $this->type = $platform->type;

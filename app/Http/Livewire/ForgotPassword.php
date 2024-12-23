@@ -33,7 +33,7 @@ class ForgotPassword extends Component
             $this->earnDebug('Forget password user not found : fullNumber- ' . $fullNumber . ' code pays- ' . $ccode);
             return redirect()->route("forget_password", app()->getLocale())->with('danger', Lang::get('User not found !'));
         }
-        if ($user->status == StatusRequest::Registred->value) {
+        if ($user?->status == StatusRequest::Registred->value) {
             $this->earnDebug('Forget password user with not valid status : fullNumber- ' . $fullNumber . ' code pays- ' . $ccode);
             return redirect()->route("registre", app()->getLocale())->with('danger', Lang::get('Registration operation not completed for this user'));
         }
