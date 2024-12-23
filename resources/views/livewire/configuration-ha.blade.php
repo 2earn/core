@@ -8,10 +8,10 @@
             @include('layouts.flash-messages')
         </div>
         <div class="row">
-        <div class="card">
+            <div class="card" data-turbolinks="false" wire:ignore>
             <div class="card-body">
-                <table data-turbolinks="false"
-                       class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                <table
+                    class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
                        id="ActionHistorysTable">
                     <thead class="table-light">
                     <tr>
