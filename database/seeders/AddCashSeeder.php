@@ -7,13 +7,15 @@ use App\Models\UserCurrentBalanceHorisontal;
 use App\Services\Balances\Balances;
 use Core\Enum\BalanceOperationsEnum;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\App;
 
 class AddCashSeeder extends Seeder
 {
 
     public function run()
     {
-        $value = 10000;
+        if (!App::isProduction()) {
+            $value = 10000;
         $idUsers = [197604395,197604239,197604342];
         $balances=  new Balances();
         foreach ($idUsers as $idUser) {
@@ -27,6 +29,7 @@ class AddCashSeeder extends Seeder
                 'value' => $value,
                 'current_balance' => $userCurrentBalancehorisontal->cash_balance + $value
             ]);
+        }
         }
     }
 }
