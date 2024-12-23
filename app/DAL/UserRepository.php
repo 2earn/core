@@ -5,7 +5,7 @@ namespace App\DAL;
 use App\Models\ContactUser;
 use App\Models\User;
 use Carbon\Carbon;
-use Core\Enum\AmoutEnum;
+use Core\Enum\BalanceEnum;
 use Core\Enum\StatusRequest;
 use Core\Interfaces\IUserRepository;
 use Core\Models\metta_user;
@@ -21,26 +21,22 @@ class  UserRepository implements IUserRepository
 {
     public function getAllMettaUser()
     {
-        return DB::table('metta_users')
-            ->get();
+        return DB::table('metta_users')->get();
     }
 
     public function getAllUsersErans()
     {
-        return DB::table('user_earns')
-            ->get();
+        return DB::table('user_earns')->get();
     }
 
     public function getAllUsers()
     {
-        return DB::table('users')
-            ->get();
+        return DB::table('users')->get();
     }
 
     public function getUserContacts($idUser)
     {
-        return DB::table('user_contacts')
-            ->where('idUser', $idUser)->get();
+        return DB::table('user_contacts')->where('idUser', $idUser)->get();
     }
 
     public function addUserContact(UserContact $userContact)
@@ -115,17 +111,9 @@ class  UserRepository implements IUserRepository
 
     public function getUserById($id)
     {
-        $result = User::find($id);
-        return $result;
+        return User::find($id);
     }
 
-    public function getAuthenticatedUser()
-    {
-        if (!Auth::user()) {
-            return null;
-        }
-        return Auth::user();
-    }
 
     public function getUserByMobile($mobile, $idContry, $pass)
     {
@@ -179,9 +167,7 @@ class  UserRepository implements IUserRepository
 
     public function getUserByFullnumber($number)
     {
-        $f = DB::table('users')
-            ->where('fullphone_number', '=', $number)->get()->first();
-        return $f;
+        return DB::table('users')->where('fullphone_number', '=', $number)->get()->first();
     }
 
     public function createuser(User $user)
@@ -189,7 +175,7 @@ class  UserRepository implements IUserRepository
         $user->save();
     }
 
-    public function getSoldeUserByAmount($idUser, AmoutEnum $amount)
+    public function getSoldeUserByAmount($idUser, BalanceEnum $amount)
     {
         return
             DB::table('calculated_userbalances')
@@ -227,9 +213,7 @@ class  UserRepository implements IUserRepository
     {
 
         $user = DB::table('metta_users')
-            ->where([
-                [$attribute, '=', $value]
-            ])
+            ->where([                [$attribute, '=', $value]])
             ->get()->first();
         if (!$user)
             return null;
@@ -239,9 +223,7 @@ class  UserRepository implements IUserRepository
     public function getConditionalUser($attribute, $value)
     {
         $user = DB::table('users')
-            ->where([
-                [$attribute, '=', $value]
-            ])
+            ->where([    [$attribute, '=', $value]])
             ->get()->first();
         if (!$user)
             return null;

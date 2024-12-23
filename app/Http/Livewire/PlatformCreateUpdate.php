@@ -6,6 +6,7 @@ use Core\Enum\PlatformType;
 use Core\Models\Platform;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class PlatformCreateUpdate extends Component
@@ -77,6 +78,7 @@ class PlatformCreateUpdate extends Component
             \Core\Models\Platform::where('id', $this->idPlatform)
                 ->update($params);
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while updating Platform'));
         }
         return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Platform Updated Successfully'));
@@ -97,6 +99,7 @@ class PlatformCreateUpdate extends Component
             ];
             $platform = Platform::create($params);
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route('platform_create_update', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while creating Platform!!') . ' ' . $exception->getMessage());
         }
         return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Platform Created Successfully!!') . ' ' . $platform->name);

@@ -50,15 +50,11 @@ class Targeting
             $queryString = $queryString->leftJoin('model_has_roles', 'u.id', '=', 'model_has_roles.model_id');
         }
 
-        if (in_array("role", $tablesAleas)) {
-            $queryString = $queryString->leftJoin('roles as role', 'role.id', '=', 'model_has_roles.role_id');
-        }
-
         if (in_array("vip", $tablesAleas)) {
             $queryString = $queryString->leftJoin('vip as vip', 'vip.idUser', '=', 'u.idUser');
         }
-        if (in_array("soldes_view", $tablesAleas)) {
-            $queryString = $queryString->leftJoin('soldes_view as soldes_view', 'soldes_view.id', '=', 'u.id');
+        if (in_array("user_current_balance_horisontals", $tablesAleas)) {
+            $queryString = $queryString->leftJoin('user_current_balance_horisontals as user_current_balance_horisontals', 'user_current_balance_horisontals.user_id_auto', '=', 'u.id');
         }
         return $queryString;
     }

@@ -2,94 +2,50 @@
 
 namespace App\DAL;
 
-use Core\Enum\BalanceOperationsEnum;
+use App\Models\TreeBalances;
+use App\Services\Balances\Balances;
+use App\Services\Balances\BalancesFacade;
 use Core\Interfaces\IUserBalancesRepository;
-use Core\Models\calculated_userbalances;
-use Core\Models\user_balance;
-use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\Types\Collection;
 
 class  UserBalancesRepository implements IUserBalancesRepository
 {
     const SOLD_INIT = 0;
 
-    public function getBalance($idUser, $decimals = 2): calculated_userbalances
+    public function getBalance($idUser, $decimals = 2)
     {
-        $calculetedUserBalances = new  calculated_userbalances;
-        $solde = DB::select(getSqlFromPath('get_balance'), [$idUser]);
-
-        $solde = collect($solde);
-
-        if ($solde->isNotEmpty()) {
-            $calculetedUserBalances->soldeCB = $solde->where("idamounts", "=", "1")->first()->solde;
-
-            $calculetedUserBalances->soldeBFS = $solde->where("idamounts", "=", "2")->first()->solde;
-            $calculetedUserBalances->soldeDB = $solde->where("idamounts", "=", "3")->first()->solde;
-            $calculetedUserBalances->soldeT = $solde->where("idamounts", "4")->first()->solde;
-            $calculetedUserBalances->soldeSMS = $solde->where("idamounts", "5")->first()->solde;
-
-            $calculetedUserBalances->soldeCB = formatSolde($calculetedUserBalances->soldeCB, $decimals);
-            $calculetedUserBalances->soldeBFS = formatSolde($calculetedUserBalances->soldeBFS, $decimals);
-            $calculetedUserBalances->soldeDB = formatSolde($calculetedUserBalances->soldeDB, $decimals);
-            $calculetedUserBalances->soldeT = formatSolde($calculetedUserBalances->soldeT, $decimals);
-            $calculetedUserBalances->soldeSMS = formatSolde($calculetedUserBalances->soldeSMS, $decimals);
-        } else {
-            $calculetedUserBalances->soldeCB = self::SOLD_INIT;
-            $calculetedUserBalances->soldeBFS = self::SOLD_INIT;
-            $calculetedUserBalances->soldeDB = self::SOLD_INIT;
-            $calculetedUserBalances->soldeT = self::SOLD_INIT;
-            $calculetedUserBalances->soldeSMS = self::SOLD_INIT;
-        }
-
-        return $calculetedUserBalances;
-    }
-
-    public function getCurrentBalance($idUser): calculated_userbalances
-    {
-        $calculetedUserBalances = new  calculated_userbalances;
-        $solde = DB::table('usercurrentbalances')
-            ->where("idUser", "=", $idUser)
-            ->select('dernier_value', 'idamounts')->get();
-        if ($solde->isNotEmpty()) {
-            $calculetedUserBalances->soldeCB = $solde
-                ->where("idamounts", "=", "1")
-                ->first()->dernier_value;
-            $calculetedUserBalances->soldeBFS = $solde->where("idamounts", "=", "2")->first()->dernier_value;
-            $calculetedUserBalances->soldeDB = $solde->where("idamounts", "=", "3")->first()->dernier_value;
-            $calculetedUserBalances->soldeT = $solde->where("idamounts", "4")->first()->dernier_value;
-        } else {
-            $calculetedUserBalances->soldeCB = self::SOLD_INIT;
-            $calculetedUserBalances->soldeBFS = self::SOLD_INIT;
-            $calculetedUserBalances->soldeDB = self::SOLD_INIT;
-            $calculetedUserBalances->soldeT = self::SOLD_INIT;
+        $calculetedUserBalances  = new \stdClass();
+        $calculetedUserBalances->soldeCB = $calculetedUserBalances->soldeBFS =
+        $calculetedUserBalances->soldeDB = $calculetedUserBalances->soldeT =
+        $calculetedUserBalances->soldeSMS = $calculetedUserBalances->soldeChance =
+        $calculetedUserBalances->soldeTree = self::SOLD_INIT;
+        $userCurrentBalancehorisontal = Balances::getStoredUserBalances($idUser);
+        if (!is_null($userCurrentBalancehorisontal)) {
+            $calculetedUserBalances->soldeCB = formatSolde($userCurrentBalancehorisontal->cash_balance, $decimals);
+            $calculetedUserBalances->soldeBFS = formatSolde(Balances::getTotolBfs($userCurrentBalancehorisontal), $decimals);
+            $calculetedUserBalances->soldeDB = formatSolde($userCurrentBalancehorisontal->discount_balance, $decimals);
+            $calculetedUserBalances->soldeT = formatSolde($userCurrentBalancehorisontal->tree_balance, $decimals);
+            $calculetedUserBalances->soldeSMS = formatSolde($userCurrentBalancehorisontal->sms_balance, $decimals);
+            $calculetedUserBalances->soldeChance = 0;
+            $calculetedUserBalances->soldeTree = formatSolde(TreeBalances::getTreesNumber($userCurrentBalancehorisontal->tree_balance), $decimals);
         }
         return $calculetedUserBalances;
     }
 
-    public function inserUserBalancestGetId($ref, BalanceOperationsEnum $operation, $date, $idSource, $iduserupline, $amount, $value)
+    public function getCurrentBalance($idUser)
     {
-        $user_balance = new user_balance();
-        $user_balance->ref = $ref;
-        $user_balance->idBalancesOperation = $operation;
-        $user_balance->Date = $date;
-        $user_balance->idSource = $idSource;
-        $user_balance->idUser = $iduserupline;
-        $user_balance->idamount = $amount;
-        $user_balance->value = $value;
-        $user_balance->WinPurchaseAmount = "0.000";
-
-        return $user_balance->save();
+        return $this->getBalance($idUser, 2);
     }
 
     public function getSoldeByAmount($idUser, $idamount)
     {
-        $soldeAmount = 0;
-        $solde = DB::select(getSqlFromPath('get_solde_by_amount'), [$idUser, $idamount]);
-
-        $solde = collect($solde);
-        if ($solde->isNotEmpty()) {
-            $soldeAmount = $solde->where("idamounts", "=", $idamount)->first()->solde;
-        }
-        return $soldeAmount;
+        return match ($idamount) {
+            1 =>  BalancesFacade::getCash($idUser),
+            2 =>  BalancesFacade::getBfss($idUser),
+            3 =>  BalancesFacade::getDiscount($idUser),
+            4 =>  BalancesFacade::getTree($idUser),
+            5 =>  BalancesFacade::getSms($idUser),
+            default =>  BalancesFacade::getCash($idUser),
+        };
     }
 }

@@ -11,13 +11,8 @@ class hobbie extends Model
 
     public function selected()
     {
-        $idUser = auth()->user()->idUser;
-        $usermetta_info = DB::table('metta_users')->where('idUser', $idUser)->first();
-        if (in_array($this->id, json_decode(stripslashes($usermetta_info->interests)))) {
-            return 1;
-        } else {
-            return 0;
-        }
+        $usermetta_info = DB::table('metta_users')->where('idUser', auth()->user()->idUser)->first();
+        return (in_array($this->id, json_decode(stripslashes($usermetta_info->interests)))) ? true : false;
     }
 
 }

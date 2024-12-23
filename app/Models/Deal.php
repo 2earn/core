@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 
 class Deal extends Model
 {
@@ -192,6 +193,7 @@ class Deal extends Model
             $deal->save();
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Validated Successfully'));
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Validated !') . " " . $exception->getMessage());
         }
     }
@@ -204,6 +206,7 @@ class Deal extends Model
             $deal->save();
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Opened Successfully'));
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Opened !') . " " . $exception->getMessage());
         }
     }
@@ -216,6 +219,7 @@ class Deal extends Model
             $deal->save();
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Closed Successfully'));
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Closed !') . " " . $exception->getMessage());
         }
     }
@@ -228,6 +232,7 @@ class Deal extends Model
             $deal->save();
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Archived Successfully'));
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Archived !') . " " . $exception->getMessage());
         }
     }

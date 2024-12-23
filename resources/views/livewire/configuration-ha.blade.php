@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-body">
                 <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                       id="ActionHistorysTable" style="width: 100%">
+                       id="ActionHistorysTable">
                     <thead class="table-light">
                     <tr>
                         <th>{{ __('Name of setting') }}</th>

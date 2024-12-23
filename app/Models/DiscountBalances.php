@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Livewire\Platform;
+use App\Services\Balances\Balances;
 use Core\Models\BalanceOperation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,8 +15,13 @@ class DiscountBalances extends Model
     protected $fillable = [
         'value',
         'description',
-        'total_balance',
+        'current_balance',
         'reference',
+        'balance_operation_id',
+        'description',
+        'beneficiary_id_auto',
+        'beneficiary_id',
+        'operator_id',
     ];
 
     public function item()
@@ -56,6 +62,14 @@ class DiscountBalances extends Model
 
     public function beneficiary()
     {
-        return $this->belongsTo(User::class, 'beneficiary_id');
+        return $this->belongsTo(User::class, 'beneficiary_id_auto');
     }
+
+    public static function addLine($discountBalances, $item_id = null, $deal_id = null, $order_id = null, $platform_id = null, $order_detail_id = null)
+    {
+        $discountBalances = Balances::addAutomatedFields($discountBalances, $item_id, $deal_id, $order_id, $platform_id, $order_detail_id);
+        self::create($discountBalances);
+    }
+
+
 }

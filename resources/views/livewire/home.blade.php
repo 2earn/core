@@ -29,7 +29,8 @@
                                 {{__('actions')}} ,
                                 {{__('et les benefices instentannés seront')}}
                                 <span
-                                    class="col-auto flash-red">{{formatSolde($benefices,2)}}{{$currency}}</span></p>
+                                    class="col-auto flash-red">{{formatSolde($benefices,2)}}                                    <span class="text-muted">{{$currency}}</span>
+</span></p>
                         </div>
                         <div class="row col-12">
                             <div class="discount-time text-center">
@@ -42,18 +43,18 @@
             </div>
         </div>
     @endif
-    <div class="row mb-2">
-        <div class="col-xl-3 col-md-6 solde-cash">
+    <div class="row" title="{{__('Soldes calculated at')}} : {{Carbon\Carbon::now()->toDateTimeString()}}">
+        <div class="col-xl-4 col-md-4 solde-cash">
             <div class="card card-animate">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Cash Balance') }}</p>
+                            <p class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Cash balance') }}</p>
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
                                 @php
-                                    $cb_asd =$cashBalance - $arraySoldeD[0];
+                                    $cb_asd = floatval($cashBalance) - floatval($arraySoldeD[0]);
                                 @endphp
                                 <p class="@if($cb_asd > 0) text-success @elseif($cb_asd < 0) text-danger @endif"
                                    style="max-height: 5px">@if ($cb_asd > 0)
@@ -74,17 +75,17 @@
                         <div>
                             <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
                                 @if(app()->getLocale()!="ar")
-                                    {{$currency}}
-                                    <span class="counter-value"
+                                    <span>{{$currency}}</span>
+                                    <span class="counter-value "
                                           data-target="{{intval($cashBalance)}}">{{formatSolde($cashBalance,0)}}</span>
-                                    <small class="text-muted fs-13">
+                                    <small class="text-muted fs-13 text-muted">
                                         @if(getDecimals($cashBalance))
                                             {{$decimalSeperator}}
                                             {{getDecimals($cashBalance)}}
                                         @endif
                                     </small>
                                 @else
-                                    <small class="text-muted fs-13">
+                                    <small class="text-muted fs-13  text-muted">
                                         @if(getDecimals($cashBalance))
                                             {{getDecimals($cashBalance)}}
                                             {{$decimalSeperator}}
@@ -92,7 +93,7 @@
                                     </small>
                                     <span class="counter-value"
                                           data-target="{{intval($cashBalance)}}">{{intval($cashBalance)}}</span>
-                                    {{$currency}}
+                                    <span class="text-muted">{{$currency}}</span>
                                 @endif
                             </h3>
                             <a href="{{route('user_balance_cb' , app()->getLocale() )}} "
@@ -110,17 +111,17 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6 solde-bfs">
+        <div class="col-xl-4 col-md-4 solde-bfs">
             <div class="card card-animate">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Balance For Shopping') }}</p>
+                            <p class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Balance for Shopping') }}</p>
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
                                 @php
-                                    $bfs_asd = $balanceForSopping - $arraySoldeD[1];
+                                    $bfs_asd = $balanceForSopping -floatval( $arraySoldeD[1]);
                                 @endphp
                                 <p class="@if ($bfs_asd > 0) text-success @elseif ($bfs_asd < 0) text-danger @endif"
                                    style="max-height: 5px">
@@ -137,25 +138,25 @@
                         <div>
                             <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
                                 @if(app()->getLocale()!="ar")
-                                    {{$currency}}
+                                    <span >{{$currency}}</span>
                                     <span class="counter-value"
                                           data-target="{{intval($balanceForSopping)}}">{{formatSolde($balanceForSopping,0)}}</span>
-                                    <small class="text-muted fs-13">
+                                    <small class="text-muted fs-13 text-muted">
                                         @if(getDecimals($balanceForSopping))
                                             {{$decimalSeperator}}
                                             {{getDecimals($balanceForSopping)}}
                                         @endif
                                     </small>
                                 @else
-                                    <small class="text-muted fs-13">
+                                    <small class="text-muted fs-13 text-muted">
                                         @if(getDecimals($balanceForSopping))
                                             {{getDecimals($balanceForSopping)}}
                                             {{$decimalSeperator}}
                                         @endif
                                     </small>
-                                    <span class="counter-value"
+                                    <span class="counter-value text-muted"
                                           data-target="{{intval($balanceForSopping)}}">{{formatSolde($balanceForSopping,0)}}</span>
-                                    {{$currency}}
+                                    <span class="text-muted">{{$currency}}</span>
                                 @endif
                             </h3>
                             <a href="{{route('user_balance_bfs' , app()->getLocale() )}} "
@@ -172,7 +173,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6 solde-discount">
+        <div class="col-xl-4 col-md-4 solde-discount">
             <div class="card card-animate">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -182,7 +183,7 @@
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
                                 @php
-                                    $db_asd = $discountBalance - $arraySoldeD[2];
+                                    $db_asd = $discountBalance - floatval($arraySoldeD[2]);
                                 @endphp
                                 <p class="@if ( $db_asd > 0) text-success @elseif( $db_asd < 0) text-danger @endif"
                                    style="max-height: 5px">
@@ -199,25 +200,25 @@
                         <div>
                             <h4 class="mb-4 fs-22 fw-semibold ff-secondary">
                                 @if(app()->getLocale()!="ar")
-                                    {{$currency}}
-                                    <span class="counter-value"
+                                    <span>{{$currency}}</span>
+                                    <span class="counter-value "
                                           data-target="{{intval($discountBalance)}}">{{intval($discountBalance)}}</span>
-                                    <small class="text-muted fs-13">
+                                    <small class="text-muted fs-13 text-muted">
                                         @if(getDecimals($discountBalance))
                                             {{$decimalSeperator}}
                                             {{getDecimals($discountBalance)}}
                                         @endif
                                     </small>
                                 @else
-                                    <small class="text-muted fs-13">
+                                    <small class="text-muted fs-13 text-muted">
                                         @if(getDecimals($discountBalance))
                                             {{getDecimals($discountBalance)}}
                                             {{$decimalSeperator}}
                                         @endif
                                     </small>
-                                    <span class="counter-value"
+                                    <span class="counter-value text-muted"
                                           data-target="{{intval($discountBalance)}}">{{formatSolde($discountBalance,0)}}</span>
-                                    {{$currency}}
+                                    <span class="text-muted">{{$currency}}</span>
                                 @endif
                             </h4>
                             <a href="{{route('user_balance_db' , app()->getLocale() )}} "
@@ -235,7 +236,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6 solde-sms">
+        <div class="col-xl-3 col-md-6 solde-sms">
             <div class="card card-animate">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -258,6 +259,63 @@
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <lord-icon src="{{ URL::asset('build/icons/981-consultation-gradient-edited.json') }}"
+                                       trigger="loop"
+                                       colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
+                            </lord-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 solde-tree">
+            <div class="card card-animate">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1 overflow-hidden">
+                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">{{ __('Tree Solde') }}</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-end justify-content-between mt-4">
+                        <div>
+                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                % <span>{{ (int)$chanceBalance}} <small class="text-muted fs-13 text-muted">.{{$chanceBalance - (int)$chanceBalance}}</small></span>
+                            </h4>
+                            <a href="{{route('user_balance_tree' , app()->getLocale() )}} "
+                               class="text-decoration-underline">{{ __('see_details') }}</a>
+                        </div>
+                        <div class="avatar-sm flex-shrink-0">
+                            <lord-icon src="{{ URL::asset('build/icons/1855-palmtree.json') }}"
+                                       trigger="loop"
+                                       colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
+                            </lord-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 solde-chance">
+            <div class="card card-animate">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1 overflow-hidden">
+                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">{{ __('Chance Solde') }}</p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <h5 class="text-success fs-14 mb-0">
+                                {{$chanceBalance}}
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-end justify-content-between mt-4">
+                        <div>
+                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                <span class="counter-value" data-target="{{$chanceBalance}}">{{$chanceBalance}}</span>
+                            </h4>
+                            <a href="{{route('user_balance_chance' , app()->getLocale() )}} "
+                               class="text-decoration-underline">{{ __('see_details') }}</a>
+                        </div>
+                        <div class="avatar-sm flex-shrink-0">
+                            <lord-icon src="{{ URL::asset('build/icons/1471-dice-cube.json') }}"
                                        trigger="loop"
                                        colors="primary:#464fed,secondary:#bc34b6" style="width:55px;height:55px">
                             </lord-icon>
@@ -290,13 +348,15 @@
                                 <span class="counter-value"
                                       data-target="{{$userSelledAction}}">{{formatSolde($userSelledAction,0)}}</span>
                                 <small class="text-muted fs-13">
-                                    ({{$actionsValues}}{{$currency}})
+                                    ({{$actionsValues}})                                    <span class="text-muted">{{$currency}}</span>
+
                                 </small></h3>
                             <a href="{{route('business_hub_trading',app()->getLocale())}}"
-                               class="btn btn-sm @if($flash) btn-flash @else btn-secondary  @endif">{{ __('Buy Shares') }}</a>
+                               class="btn btn-sm @if($flash) btn-flash @else btn-soft-secondary  @endif">{{ __('Buy Shares') }}</a>
                             <span class="badge bg-light text-success  ms-2 mb-0"><i
                                     class="ri-arrow-up-line align-middle"></i>
-                                {{$userActualActionsProfit }} {{$currency}}
+                                {{$userActualActionsProfit }}                                     <span class="text-muted">{{$currency}}</span>
+
                             </span>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
@@ -309,10 +369,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-xl-12  text-muted">
-            <span class="float-end">{{__('Soldes calculated at')}} : <cite
-                    title="Source Title">{{Carbon\Carbon::now()->toDateTimeString()}}</cite></span>
         </div>
     </div>
     <div class="row">
@@ -468,7 +524,8 @@
                                     </div>
                                 @endif
                                 <div class="col-6  @if($flash) ribbon-box right overflow-hidden @endif ">
-                                    <label for="ammount" class="col-form-label">{{ __('Amount_pay') }}({{$currency}}
+                                    <label for="ammount" class="col-form-label">{{ __('Amount_pay') }}(                                    <span class="text-muted">{{$currency}}</span>
+
                                         )</label>
                                     <div class="input-group mb-3">
 
@@ -530,7 +587,8 @@
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-6">
                                     <label for="profit" class="col-form-label">{{ __('Profit') }}
-                                        ({{$currency}}) </label>
+                                        (                                    <span class="text-muted">{{$currency}}</span>
+                                        ) </label>
                                     <input type="text" inputmode="numeric" pattern="[-+]?[0-9]*[.,]?[0-9]+" disabled
                                            class="@if($flash) form-control-flash @else form-control  @endif"
                                            id="profit"

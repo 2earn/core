@@ -3,6 +3,7 @@
 namespace App\DAL;
 
 use Core\Interfaces\IUserContactNumberRepository;
+use Core\Models\UserContactNumber;
 use Illuminate\Support\Facades\DB;
 
 class UserContactNumberRepository implements IUserContactNumberRepository
@@ -10,11 +11,11 @@ class UserContactNumberRepository implements IUserContactNumberRepository
 
     public function getActifNumber($idUser)
     {
-        return collect(DB::select(getSqlFromPath('get_actif_number'), [$idUser]))->first();
+        return  UserContactNumber::where("idUser", $idUser)->where("active", 1)->first();
     }
 
     public function getIDNumber($idUser)
     {
-        return collect(DB::select(getSqlFromPath('get_id_number'), [$idUser]))->first();
+        return  UserContactNumber::where("idUser", $idUser)->where("isID", 1)->first();
     }
 }

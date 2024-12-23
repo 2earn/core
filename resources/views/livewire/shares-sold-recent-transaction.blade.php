@@ -11,9 +11,6 @@
     <div class="row">
         <div class="col-xxl-12">
             <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">{{__('Recent Transaction')}}</h5>
-                </div>
                 <div class="card-body table-responsive">
                     <table id="transfert" class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
                         <thead class="table-light">
@@ -47,7 +44,7 @@
                     autoWidth: false,
                     bAutoWidth: false,
                     "ajax": "{{route('api_transfert',['locale'=> app()->getLocale()])}}",
-                    "columns": [{data: 'value'}, {data: 'Description'}, {data: 'formatted_created_at'},],
+                    "columns": [{data: 'value'}, {data: 'Description'}, {data: 'created_at'},],
                     "language": {"url": urlLang}
                 }
             );

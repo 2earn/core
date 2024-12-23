@@ -3,23 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\DAL\UserRepository;
+use App\Models\BFSsBalances;
+use App\Models\CashBalances;
 use App\Models\Deal;
+use App\Models\SharesBalances;
 use App\Models\User;
+use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\vip;
+use App\Services\Balances\Balances;
+use App\Services\Balances\BalancesFacade;
 use App\Services\Sponsorship\SponsorshipFacade;
 use carbon;
-use Core\Enum\AmoutEnum;
+use Core\Enum\BalanceEnum;
+use Core\Enum\BalanceOperationsEnum;
 use Core\Enum\DealStatus;
 use Core\Enum\PlatformType;
 use Core\Enum\StatusRequest;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
+use Core\Models\BalanceOperation;
 use Core\Models\countrie;
 use Core\Models\detail_financial_request;
 use Core\Models\FinancialRequest;
 use Core\Models\Platform;
 use Core\Models\Setting;
-use Core\Models\user_balance;
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
 use Illuminate\Http\JsonResponse;
@@ -27,6 +34,7 @@ use Illuminate\Http\Request as Req;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator as Val;
 use Illuminate\Support\Facades\Vite;
@@ -36,7 +44,6 @@ use phpDocumentor\Reflection\Types\Collection;
 use Propaganistas\LaravelPhone\PhoneNumber;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
-use function PHPUnit\Framework\throwException;
 
 
 class ApiController extends BaseController
@@ -75,10 +82,11 @@ class ApiController extends BaseController
         $number_of_action = intval($request->numberOfActions);
         $gift = getGiftedActions($number_of_action);
         $actual_price = actualActionValue(getSelledActions(true), false);
-        $PU = $number_of_action * ($actual_price) / ($number_of_action + $gift);
-        // CHECK IN BALANCES
-        $Count = DB::table('user_balances')->count();
-        $ref = "44" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
+
+
+        $ref = BalancesFacade::getReference(BalanceOperationsEnum::SELLED_SHARES->value);
+
+
         $palier = Setting::Where('idSETTINGS', '19')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
         $reciver = Auth()->user()->idUser;
         $reciver_bfs = Auth()->user()->idUser;
@@ -92,14 +100,14 @@ class ApiController extends BaseController
         }
 
         $fullphone_number = getPhoneByUser($reciver);
-        $userSponsored = SponsorshipFacade::checkProactifSponsorship($this->userRepository->getUserByIdUser($reciver));
+
+        DB::beginTransaction();
+        try {
+            $userSponsored = SponsorshipFacade::checkProactifSponsorship($this->userRepository->getUserByIdUser($reciver));
         if ($userSponsored) {
-            SponsorshipFacade::executeProactifSponsorship($userSponsored->idUser, $ref, $number_of_action, $gift, $PU, $fullphone_number);
+            SponsorshipFacade::executeProactifSponsorship($userSponsored->idUser, $ref, $number_of_action, $actual_price, $reciver);
         }
-
-
-        $vip = vip::Where('idUser', '=', $reciver)
-            ->where('closed', '=', false)->first();
+        $vip = vip::Where('idUser', '=', $reciver)->where('closed', '=', false)->first();
         if ($request->flash) {
             if ($vip->declenched) {
                 if ($number_of_action >= $request->actions) {
@@ -130,55 +138,83 @@ class ApiController extends BaseController
         } else {
             $flashGift = 0;
         }
-        $gift = $gift + $flashGift;
-
-        $PU = $number_of_action * ($actual_price) / ($number_of_action + $gift);
-
+            $balances = Balances::getStoredUserBalances($reciver);
         $this->userRepository->increasePurchasesNumber($reciver);
+            $oldTotalAmount = SharesBalances::where('beneficiary_id', $reciver)->orderBy(DB::raw('created_at'), "DESC")->pluck('total_amount')->first();
 
-        // share sold
-        $user_balance = new user_balance();
-        // Action
-        $user_balance->ref = $ref;
-        $user_balance->idBalancesOperation = 44;
-        $user_balance->Date = now();
-        $user_balance->idSource = '11111111';
-        $user_balance->idUser = $reciver;
-        $user_balance->idamount = AmoutEnum::Action;
-        $user_balance->value = $number_of_action;
-        $user_balance->gifted_shares = $gift;
-        $user_balance->PU = $PU;
-        $user_balance->WinPurchaseAmount = "1";
-        $user_balance->Balance = ($number_of_action + $gift) * number_format($PU, 2, '.', '');
-        $user_balance->save();
-        // cach
-        $user_balance = new user_balance();
-        $user_balance->ref = $ref;
-        $user_balance->idBalancesOperation = 48;
-        $user_balance->Date = now();
-        $user_balance->idSource = auth()->user()->idUser;
-        $user_balance->idUser = auth()->user()->idUser;
-        $user_balance->idamount = AmoutEnum::CASH_BALANCE;
-        $user_balance->value = ($number_of_action + $gift) * $PU;
-        $user_balance->WinPurchaseAmount = "0.000";
-        $user_balance->Description = "purchase of " . ($number_of_action + $gift) . " shares for " . $a;
-        $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeCB - ($number_of_action + $gift) * $PU;
-        $user_balance->save();
+        SharesBalances::addLine([
+            'balance_operation_id' => BalanceOperationsEnum::SELLED_SHARES->value,
+            'operator_id' => Balances::SYSTEM_SOURCE_ID,
+            'beneficiary_id' => $reciver,
+            'reference' => $ref,
+            'unit_price' => $actual_price,
+            'payed' => 1,
+            'value' => $number_of_action,
+            'amount' => $number_of_action * $actual_price,
+            'total_amount' => $oldTotalAmount + ($number_of_action * $actual_price),
+            'real_amount' => $number_of_action * $actual_price,
+            'description' => $number_of_action . 'share(s) purchased',
+            'current_balance' => $balances->share_balance + $number_of_action
+        ]);
 
-        //bfs
-        $user_balance = new user_balance();
-        $user_balance->ref = $ref;
-        $user_balance->idBalancesOperation = 46;
-        $user_balance->Date = now();
-        $user_balance->idSource = "11111111";
-        $user_balance->idUser = $reciver_bfs;
-        $user_balance->idamount = AmoutEnum::BFS;
-        $user_balance->value = intval($number_of_action / $palier) * $actual_price * $palier;
-        $user_balance->WinPurchaseAmount = "0.000";
-        $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeBFS + intval($number_of_action / $palier) * $actual_price * $palier;
-        $user_balance->save();
+        if ($gift > 0) {
+            $balances = Balances::getStoredUserBalances($reciver);
+            SharesBalances::addLine([
+            'balance_operation_id' => BalanceOperationsEnum::COMPLIMENTARY_BENEFITS_ON_PURCHASED_SHARES->value,
+            'operator_id' => Balances::SYSTEM_SOURCE_ID,
+            'beneficiary_id' => $reciver,
+            'reference' => $ref,
+            'unit_price' => 0,
+                'description' => $gift . 'share(s) purchased',
+            'value' => $gift,
+                'current_balance' => $balances->share_balance + $number_of_action
+            ]);
+        }
+        if ($flashGift > 0) {
+            $balances = Balances::getStoredUserBalances($reciver);
+            SharesBalances::addLine([
+                'balance_operation_id' => BalanceOperationsEnum::VIP_BENEFITS_ON_PURCHASED_SHARES->value,
+                'operator_id' => Balances::SYSTEM_SOURCE_ID,
+                'beneficiary_id' => $reciver,
+                'reference' => $ref,
+                'unit_price' => 0,
+                'value' => $flashGift,
+                'description' => $flashGift . 'share(s) purchased',
+                'current_balance' => $balances->share_balance + $number_of_action
+            ]);
+        }
+            $balances =Balances::getStoredUserBalances($reciver);
+
+        CashBalances::addLine([
+            'balance_operation_id' => BalanceOperationsEnum::SELL_SHARES->value,
+            'operator_id' => auth()->user()->idUser,
+            'beneficiary_id' => auth()->user()->idUser,
+            'reference' => $ref,
+           'description' => $number_of_action . 'share(s) purchased',
+            'value' => $number_of_action  * $actual_price,
+            'current_balance' => $balances->cash_balance - ($number_of_action) * $actual_price
+        ]);
+        $balances = Balances::getStoredUserBalances($reciver);
+        $value=intval($number_of_action / $palier) * $actual_price * $palier;
+        BFSsBalances::addLine([
+            'balance_operation_id' => BalanceOperationsEnum::BY_ACQUIRING_SHARES->value,
+            'operator_id' => Balances::SYSTEM_SOURCE_ID,
+            'beneficiary_id' => $reciver_bfs,
+            'reference' => $ref,
+            'percentage' => BFSsBalances::BFS_50,
+            'description' =>  $number_of_action . 'share(s) purchased',
+            'value' =>$value,
+            'current_balance' => $balances->getBfssBalance("50.00") + BalanceOperation::getMultiplicator(BalanceOperationsEnum::BY_ACQUIRING_SHARES->value)* $value
+        ]);
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollback();
+            Log::error($exception->getMessage());
+            return response()->json(['type' => ['error'], 'message' => [trans('Actions purchase transaction failed')]]);
+        }
         return response()->json(['type' => ['success'], 'message' => [trans('Actions purchase transaction completed successfully')]]);
     }
+
 
     public function giftActionByAmmount(Req $request)
     {
@@ -198,10 +234,7 @@ class ApiController extends BaseController
     {
         vip::where('idUser', $request->reciver)
             ->where('closed', '=', 0)
-            ->update([
-                'closed' => 1,
-                'closedDate' => now(),
-            ]);
+            ->update(['closed' => 1, 'closedDate' => now(),]);
 
         $maxShares = Setting::find(34);
         vip::create(
@@ -216,7 +249,6 @@ class ApiController extends BaseController
                 'solde' => $maxShares->IntegerValue,
                 'declenched' => 0,
                 'closed' => 0,
-
             ]
         );
         return "success";
@@ -225,67 +257,37 @@ class ApiController extends BaseController
 
     public function addCash(Req $request, BalancesManager $balancesManager)
     {
-
+        DB::beginTransaction();
         try {
-            $old_value = DB::table('usercurrentbalances')
-                ->where('idUser', Auth()->user()->idUser)
-                ->where('idamounts', AmoutEnum::CASH_BALANCE)
-                ->value('value');
-
+            $old_value =  Balances::getStoredUserBalances( Auth()->user()->idUser,'cash_balance');
             if (intval($old_value) < intval($request->amount)) {
                 throw new \Exception(Lang::get('Insuffisant cash solde'));
             }
+            $ref = BalancesFacade::getReference(BalanceOperationsEnum::CASH_TRANSFERT_O->value);
+            CashBalances::addLine([
+                'balance_operation_id' => BalanceOperationsEnum::SELL_SHARES->value,
+                'operator_id' => auth()->user()->idUser,
+                'beneficiary_id' => auth()->user()->idUser,
+                'reference' => $ref,
+                'description' => "Transfered to " . getPhoneByUser($request->input('reciver')),
+                'value' => $request->input('amount'),
+                'current_balance' => $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeCB - $request->input('amount')
+            ]);
 
-            // CHECK IN BALANCES
-            $Count = DB::table('user_balances')->count();
-
-            $user_balance = new user_balance();
-            $user_balance->ref = "42" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-            $user_balance->idBalancesOperation = 42;
-            $user_balance->Date = now();
-            $user_balance->idSource = auth()->user()->idUser;
-            $user_balance->idUser = auth()->user()->idUser;
-            $user_balance->idamount = AmoutEnum::CASH_BALANCE;
-            $user_balance->value = $request->input('amount');
-            $user_balance->WinPurchaseAmount = "0.000";
-            $user_balance->Description = "Transfered to " . getPhoneByUser($request->input('reciver'));
-            $user_balance->Balance = $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeCB - $request->input('amount');
-
-            $user_balance->save();
-
-
-            $user_balance = new user_balance();
-            $user_balance->ref = "43" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-            $user_balance->idBalancesOperation = 43;
-            $user_balance->Date = now();
-            $user_balance->idSource = Auth()->user()->idUser;
-            $user_balance->idUser = $request->input('reciver');
-            $user_balance->idamount = AmoutEnum::CASH_BALANCE;
-            $user_balance->value = $request->input('amount');
-            $user_balance->WinPurchaseAmount = "0.000";
-            $user_balance->Description = "Transfered from " . getPhoneByUser(Auth()->user()->idUser);
-            $user_balance->Balance = $balancesManager->getBalances($request->input('reciver'), -1)->soldeCB + $request->input('amount');
-
-            $user_balance->save();
-
-
-            $new_value = intval($old_value) - intval($request->amount);
-            DB::table('usercurrentbalances')
-                ->where('idUser', Auth()->user()->idUser)
-                ->where('idamounts', AmoutEnum::CASH_BALANCE)
-                ->update(['value' => $new_value, 'dernier_value' => $old_value]);
-
-            $old_value = DB::table('usercurrentbalances')
-                ->where('idUser', $request->reciver)
-                ->where('idamounts', AmoutEnum::CASH_BALANCE)
-                ->value('value');
-            $new_value = intval($old_value) + intval($request->amount);
-            DB::table('usercurrentbalances')
-                ->where('idUser', $request->all()['reciver'])
-                ->where('idamounts', AmoutEnum::CASH_BALANCE)
-                ->update(['value' => $new_value, 'dernier_value' => $old_value]);
+            CashBalances::addLine([
+                'balance_operation_id' => BalanceOperationsEnum::CASH_TRANSFERT_I->value,
+                'operator_id' => auth()->user()->idUser,
+                'beneficiary_id' => $request->input('reciver'),
+                'reference' => $ref,
+                'description' => "Transfered from " . getPhoneByUser(Auth()->user()->idUser),
+                'value' => $request->input('amount'),
+                'current_balance' =>$balancesManager->getBalances($request->input('reciver'), -1)->soldeCB + $request->input('amount')
+            ]);
             $message = $request->amount . ' $ ' . Lang::get('for ') . getUserDisplayedName($request->input('reciver'));
+            DB::commit();
         } catch (\Exception $exception) {
+            DB::rollBack();
+            Log::error($exception->getMessage());
             return response()->json($exception->getMessage(), 500);
         }
         return response()->json(Lang::get('Successfully runned operation') . ' ' . $message, 200);
@@ -303,57 +305,63 @@ class ApiController extends BaseController
         return response()->json($data);
     }
 
+
+    public function getSharesSoldeQuery()
+    {
+        return DB::table('shares_balances')
+            ->where('beneficiary_id', Auth()->user()->idUser)
+            ->orderBy('id', 'desc');
+    }
     public function getSharesSolde()
     {
-        // CHECK IN BALANCES
-        $query = DB::table('user_balances')->select('id', 'value', 'gifted_shares', 'PU', 'Date')->where('idBalancesOperation', 44)
-            ->where('idUser', Auth()->user()->idUser)->orderBy('id', 'desc');
-        return datatables($query)
-            ->addColumn('total_price', function ($user_balance) {
-                return number_format($user_balance->PU * ($user_balance->value + $user_balance->gifted_shares), 2);
+        return datatables($this->getSharesSoldeQuery())
+            ->addColumn('total_price', function ($sharesBalances) {
+                return number_format($sharesBalances->unit_price * ($sharesBalances->value), 2);
             })
-            ->addColumn('share_price', function ($user_balance) {
-                if ($user_balance->value != 0)
-                    return $user_balance->PU * ($user_balance->value + $user_balance->gifted_shares) / $user_balance->value;
+            ->addColumn('share_price', function ($sharesBalances) {
+                if ($sharesBalances->value != 0)
+                    return $sharesBalances->unit_price * ($sharesBalances->value) / $sharesBalances->value;
                 else return 0;
             })
-            ->addColumn('formatted_created_at', function ($user_balance) {
-                return Carbon\Carbon::parse($user_balance->Date)->format('Y-m-d H:i:s');
+            ->addColumn('formatted_created_at', function ($sharesBalances) {
+                return Carbon\Carbon::parse($sharesBalances->created_at)->format('Y-m-d H:i:s');
             })
-            ->addColumn('total_shares', function ($user_balance) {
-                return $user_balance->value + $user_balance->gifted_shares;
+            ->addColumn('total_shares', function ($sharesBalances) {
+                return $sharesBalances->value ;
             })
-            ->addColumn('present_value', function ($user_balance) {
-                return number_format(($user_balance->value + $user_balance->gifted_shares) * actualActionValue(getSelledActions(true)), 2);
+            ->addColumn('present_value', function ($sharesBalances) {
+                return number_format(($sharesBalances->value) * actualActionValue(getSelledActions(true)), 2);
             })
-            ->addColumn('current_earnings', function ($user_balance) {
-                return number_format(($user_balance->value + $user_balance->gifted_shares) * actualActionValue(getSelledActions(true)) - $user_balance->PU * ($user_balance->value + $user_balance->gifted_shares), 2);
+            ->addColumn('current_earnings', function ($sharesBalances) {
+                return number_format(($sharesBalances->value) * actualActionValue(getSelledActions(true)) - $sharesBalances->unit_price * ($sharesBalances->value), 2);
             })
-            ->addColumn('value_format', function ($user_balance) {
-                return number_format($user_balance->value, 0);
+            ->addColumn('value_format', function ($sharesBalances) {
+                return number_format($sharesBalances->value, 0);
             })
-            ->rawColumns(['total_price', 'share_price'])
+            ->rawColumns(['total_price', 'share_price','formatted_created_at','total_shares','present_value','current_earnings','value_format'])
             ->make(true);
     }
 
+
     public function getSharesSoldeList($locale, $idUser)
     {
-        $actualActionValue = actualActionValue(getSelledActions(true));
-
-        // Effectuer la requête SQL avec le résultat obtenu
-        $userBalances = user_balance::select(
-            'Date',
-            DB::raw('CAST(value AS DECIMAL(10,0)) AS value'),
-            DB::raw('CAST(gifted_shares AS DECIMAL(10,0)) AS gifted_shares'),
-            DB::raw('CAST(gifted_shares + value AS DECIMAL(10,0)) AS total_shares'),
-            DB::raw('CAST((gifted_shares + value) * PU AS DECIMAL(10,2)) AS total_price'),
-            DB::raw('CAST((gifted_shares + value) * ' . $actualActionValue . ' AS DECIMAL(10,2)) AS present_value'),
-            DB::raw('CAST((gifted_shares + value) * ' . $actualActionValue . '- (gifted_shares + value) * PU AS DECIMAL(10,2)) AS current_earnings')
-        )
-            ->where('idBalancesOperation', 44)
-            ->where('idUser', $idUser)
-            ->get();
-        return $userBalances;
+        $results = DB::table(  'shares_balances as u')
+            ->select(
+                'u.reference',
+                'u.created_at',
+                DB::raw("CASE WHEN b.IO = 'I' THEN u.value ELSE -u.value END AS value"),
+                'u.beneficiary_id',
+                'u.balance_operation_id',
+                'u.real_amount',
+                'u.current_balance',
+                'u.unit_price',
+                'u.total_amount'
+            )
+            ->join('balance_operations as b', 'u.balance_operation_id', '=', 'b.id')
+            ->join('users as s', 'u.beneficiary_id', '=', 's.idUser')
+            ->where('u.beneficiary_id', $idUser)
+            ->orderBy('u.created_at')->get();
+        return response()->json($results);
     }
 
     public function getUpdatedCardContent()
@@ -362,52 +370,57 @@ class ApiController extends BaseController
         return response()->json(['value' => $updatedContent]);
     }
 
-    public function getSharesSoldes()
+    public function getSharesSoldesQuery()
     {
-        // CHECK IN BALANCES
-        $query = DB::table('user_balances')
-            ->select('Balance', 'WinPurchaseAmount', 'countries.apha2', 'user_balances.id', DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS Name'), 'user.mobile', DB::raw('CAST(value AS DECIMAL(10,0)) AS value'), 'gifted_shares', DB::raw('CAST(PU AS DECIMAL(10,2)) AS PU'), 'Date', 'user_balances.idUser')
-            ->join('users as user', 'user.idUser', '=', 'user_balances.idUser')
+        return DB::table('shares_balances')
+            ->select(
+                'current_balance',
+                'payed',
+                'countries.apha2',
+                'shares_balances.id',
+                DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS Name'),
+                'user.mobile',
+                DB::raw('CAST(value AS DECIMAL(10,0)) AS value'),
+                'value',
+                DB::raw('CAST(shares_balances.unit_price AS DECIMAL(10,2)) AS unit_price'),
+                'shares_balances.created_at',
+                'shares_balances.payed as payed',
+                'shares_balances.beneficiary_id'
+            )
+            ->join('users as user', 'user.idUser', '=', 'shares_balances.beneficiary_id')
             ->join('metta_users as meta', 'meta.idUser', '=', 'user.idUser')
             ->join('countries', 'countries.id', '=', 'user.idCountry')
-            ->where('idBalancesOperation', 44);
-
-
-        return datatables($query)
-            ->addColumn('total_price', function ($user_balance) {
-                return number_format($user_balance->PU * ($user_balance->value + $user_balance->gifted_shares), 2);
+            ->orderBy('created_at')
+            ->get();
+    }
+    public function getSharesSoldes()
+    {
+        return datatables($this->getSharesSoldesQuery())
+            ->addColumn('total_price', function ($sharesBalances) {
+                return number_format($sharesBalances->unit_price * ($sharesBalances->value), 2);
             })
-            ->addColumn('share_price', function ($user_balance) {
-                if ($user_balance->value != 0)
-                    return $user_balance->PU * ($user_balance->value + $user_balance->gifted_shares) / $user_balance->value;
+            ->addColumn('share_price', function ($sharesBalances) {
+                if ($sharesBalances->value != 0)
+                    return $sharesBalances->unit_price * ($sharesBalances->value) / $sharesBalances->value;
                 else return 0;
             })
-            ->addColumn('formatted_created_at', function ($user_balance) {
-                return Carbon\Carbon::parse($user_balance->Date)->format('Y-m-d H:i:s');
+            ->addColumn('flag', function ($sharesBalances) {
+                return '<img src="' . $this->getFormatedFlagResourceName($sharesBalances->apha2) . '" alt="' . strtolower($sharesBalances->apha2) . '" class="avatar-xxs me-2">';
             })
-            ->addColumn('formatted_created_at_date', function ($user_balance) {
-                return Carbon\Carbon::parse($user_balance->Date)->format('Y-m-d');
+            ->addColumn('sell_price_now', function ($sharesBalances) {
+                return number_format(actualActionValue(getSelledActions(true)) * ($sharesBalances->value), 2);
             })
-            ->addColumn('flag', function ($settings) {
-
-                return '<img src="' . $this->getFormatedFlagResourceName($settings->apha2) . '" alt="' . strtolower($settings->apha2) . '" class="avatar-xxs me-2">';
+            ->addColumn('gain', function ($sharesBalances) {
+                return number_format(actualActionValue(getSelledActions(true)) * ($sharesBalances->value) - $sharesBalances->unit_price * ($sharesBalances->value), 2);
             })
-            ->addColumn('sell_price_now', function ($user_balance) {
-                return number_format(actualActionValue(getSelledActions(true)) * ($user_balance->value + $user_balance->gifted_shares), 2);
+            ->addColumn('total_shares', function ($sharesBalances) {
+                return number_format($sharesBalances->value, 0);
             })
-            ->addColumn('gain', function ($user_balance) {
-                return number_format(actualActionValue(getSelledActions(true)) * ($user_balance->value + $user_balance->gifted_shares) - $user_balance->PU * ($user_balance->value + $user_balance->gifted_shares), 2);
-            })
-            ->addColumn('total_shares', function ($user_balance) {
-                return number_format($user_balance->value + $user_balance->gifted_shares, 0);
-            })
-            ->addColumn('asset', function ($settings) {
-                return $this->getFormatedFlagResourceName($settings->apha2);
+            ->addColumn('asset', function ($sharesBalances) {
+                return $this->getFormatedFlagResourceName($sharesBalances->apha2);
             })
             ->rawColumns(['flag', 'share_price', 'status'])
             ->make(true);
-
-
     }
 
     public function getFormatedFlagResourceName($flagName)
@@ -485,50 +498,27 @@ class ApiController extends BaseController
         if ($data->success) {
             $chaine = $data->cart_id;
             $user = explode('-', $chaine)[0];
-            $old_value = DB::table('usercurrentbalances')
-                ->where('idUser', $user)
-                ->where('idamounts', AmoutEnum::CASH_BALANCE)
-                ->value('value');
-            // CHECK IN BALANCES
-            $value = DB::table('user_balances as u')
-                ->select(DB::raw('SUM(CASE WHEN b.IO = "I" THEN u.value ELSE -u.value END) as value'))
-                ->join('balance_operations as b', 'u.idBalancesOperation', '=', 'b.id')
-                ->join('users as s', 'u.idUser', '=', 's.idUser')
-                ->where('u.idamount', 1)
-                ->where('u.idUser', $user)
-                ->first();
 
-            // CHECK IN BALANCES
-            $Count = DB::table('user_balances')->count();
-            $value = $value->value * 1;
 
-            $user_balance = new user_balance();
-            $user_balance->ref = "51" . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-            $user_balance->idBalancesOperation = 51;
-            $user_balance->Date = now();
-            $user_balance->idSource = $user;
-            $user_balance->idUser = $user;
-            $user_balance->idamount = AmoutEnum::CASH_BALANCE;
-            $user_balance->value = $data->tran_total / $k;
-            $user_balance->WinPurchaseAmount = "0.000";
-            $user_balance->Description = $data->tran_ref;
-            $user_balance->Balance = $value + $data->tran_total / $k;
-            $user_balance->save();
-            $mnt = $data->tran_total / $k;
-            $new_value = intval($old_value) + $data->tran_total / $k;
-            DB::table('usercurrentbalances')
-                ->where('idUser', $user)
-                ->where('idamounts', AmoutEnum::CASH_BALANCE)
-                ->update(['value' => $new_value, 'dernier_value' => $old_value]);
+            $old_value = Balances::getStoredUserBalances($user,'cash_balance');
+
+            $value =  BalancesFacade::getCash($user);
+
+            CashBalances::addLine([
+                'balance_operation_id' => BalanceOperationsEnum::CASH_TOP_UP_WITH_CARD->value,
+                'operator_id' => $user,
+                'beneficiary_id' => $user,
+                'reference' =>  BalancesFacade::getReference(BalanceOperationsEnum::CASH_TOP_UP_WITH_CARD),
+                'description' =>$data->tran_ref,
+                'value' =>$data->tran_total / $k,
+                'current_balance' => $value + $data->tran_total / $k
+            ]);
+
         }
 
         DB::table('user_transactions')->updateOrInsert(
             ['idUser' => $user],
-            [
-                'autorised' => $data->success,
-                'cause' => $data->payment_result->response_message,
-                'mnt' => $mnt
-            ]
+            ['autorised' => $data->success, 'cause' => $data->payment_result->response_message, 'mnt' => $mnt]
         );
         return redirect()->route('user_balance_cb', app()->getLocale());
     }
@@ -558,8 +548,8 @@ class ApiController extends BaseController
                 ->update(['availablity' => $st, 'reserved_at' => $dt]);
 
             return response()->json(['success' => true]);
-        } catch (\Exception $e) {
-            \Log::error('Error updating balance status: ' . $e->getMessage());
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
@@ -570,12 +560,11 @@ class ApiController extends BaseController
             $id = $request->input('id');
             $st = 0;
 
-            // CHECK IN BALANCES
-            DB::table('user_balances')->where('id', $id)->update(['WinPurchaseAmount' => $st]);
+            DB::table('shares_balances')->where('id', $id)->update(['payed' => $st]);
 
             return response()->json(['success' => true]);
-        } catch (\Exception $e) {
-            \Log::error('Error updating balance status: ' . $e->getMessage());
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
@@ -593,59 +582,64 @@ class ApiController extends BaseController
                 if ($st < $total) $p = 2;
                 if ($st == $total) $p = 1;
             }
-            // CHECK IN BALANCES
-            DB::table('user_balances')
+            DB::table('shares_balances')
                 ->where('id', $id)
-                ->update(['Balance' => floatval($st), 'WinPurchaseAmount' => $p]);
+                ->update(['real_amount' => floatval($st), 'payed' => $p]);
 
             return response()->json(['success' => true]);
-        } catch (\Exception $e) {
-            \Log::error('Error updating balance status: ' . $e->getMessage());
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
 
+    public function getTransfertQuery()
+    {
+        return DB::table('cash_balances')
+            ->select('value', 'description', 'created_at')
+            ->where('balance_operation_id', BalanceOperationsEnum::CASH_TRANSFERT_O->value)
+            ->where('beneficiary_id', Auth()->user()->idUser)
+            ->whereNotNull('description')
+            ->orderBy('created_at', 'DESC');
+    }
     public function getTransfert()
     {
-        // CHECK IN BALANCES
-        $query = DB::table('user_balances')->select('value', 'Description', 'Date')->where('idBalancesOperation', 42)
-            ->where('idUser', Auth()->user()->idUser)
-            ->whereNotNull('Description');
-        return datatables($query)
-            ->addColumn('formatted_created_at', function ($user_balance) {
-                return Carbon\Carbon::parse($user_balance->Date)->format('Y-m-d H:i:s');
-            })
-            ->make(true);
+        return datatables($this->getTransfertQuery())->make(true);
     }
 
+
+
+    public function getUserCashBalanceQuery()
+    {
+        return DB::table('cash_balances')
+            ->select(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") AS x'), DB::raw('CAST(current_balance AS DECIMAL(10,2)) AS y'))
+            ->where('beneficiary_id', auth()->user()->idUser)
+            ->orderBy('created_at', 'DESC')
+            ->get();
+    }
     public function getUserCashBalance()
     {
-        // CHECK IN BALANCES
-        $query = DB::table('user_balances')
-            ->select(DB::raw('DATE_FORMAT(Date, "%Y-%m-%d") AS x'), DB::raw('CAST(Balance AS DECIMAL(10,2)) AS y'))
-            ->where('idamount', 1)
-            ->where('idUser', auth()->user()->idUser)
-            ->orderBy('Date', 'asc')
-            ->get();
+        $query = $this->getUserCashBalanceQuery();
         foreach ($query as $record) {
             $record->Balance = (float)$record->y;
         }
         return response()->json($query);
     }
 
-
+    public function getSharePriceEvolutionQuery()
+    {
+        return DB::table('shares_balances')
+            ->select(
+                DB::raw('CAST(SUM(value) OVER (ORDER BY id) AS DECIMAL(10,0))AS x'),
+                DB::raw('CAST(unit_price AS DECIMAL(10,2)) AS y')
+            )
+            ->where('balance_operation_id', 44)
+            ->orderBy('created_at')
+            ->get();
+    }
     public function getSharePriceEvolution()
     {
-        // CHECK IN BALANCES
-        $query = DB::table('user_balances')
-            ->select(
-                DB::raw('CAST(SUM(value ) OVER (ORDER BY id) AS DECIMAL(10,0))AS x'),
-                DB::raw('CAST((value + gifted_shares) * PU / value AS DECIMAL(10,2)) AS y')
-            )
-            ->where('idBalancesOperation', 44)
-            ->where('value', '>', 0)
-            ->orderBy('Date')
-            ->get();
+        $query = $this->getSharePriceEvolutionQuery();
         foreach ($query as $record) {
             $record->y = (float)$record->y;
             $record->x = (float)$record->x;
@@ -653,83 +647,83 @@ class ApiController extends BaseController
         return response()->json($query);
     }
 
-    public function getSharePriceEvolutionDate()
+
+    public function getSharePriceEvolutionDateQuery()
     {
-        // CHECK IN BALANCES
-        $query = DB::table('user_balances')
-            ->select(DB::raw('DATE(date) as x'), DB::raw('SUM(value) as y'))
-            ->where('idBalancesOperation', 44)
-            ->where('value', '>', 0)
+        return DB::table('shares_balances')
+            ->select(DB::raw('DATE(created_at) as x'), DB::raw('SUM(value) as y'))
+            ->where('balance_operation_id', 44)
             ->groupBy('x')
             ->get();
-
+    }
+    public function getSharePriceEvolutionDate()
+    {
+        $query = $this->getSharePriceEvolutionDateQuery();
         foreach ($query as $record) {
-
             $record->y = (float)$record->y;
         }
         return response()->json($query);
+    }
+
+    public function getSharePriceEvolutionWeekQuery()
+    {
+        return DB::table('shares_balances')
+            ->select(DB::raw(' concat(year(created_at),\'-\',WEEK(created_at, 1)) as x'), DB::raw('SUM(value) as y'), DB::raw(' WEEK(created_at, 1) as z'))
+            ->where('balance_operation_id', 44)
+            ->groupBy('x', 'z')
+            ->orderBy('z')
+            ->get();
     }
 
     public function getSharePriceEvolutionWeek()
     {
-        // CHECK IN BALANCES
-        $query = DB::table('user_balances')
-            ->select(DB::raw(' concat(year(date),\'-\',WEEK(date, 1)) as x'), DB::raw('SUM(value) as y'), DB::raw(' WEEK(date, 1) as z'))
-            ->where('idBalancesOperation', 44)
-            ->where('value', '>', 0)
-            ->groupBy('x', 'z')
-            ->orderBy('z')
-            ->get();
-
-        // CHECK IN BALANCES
+        $query = $this->getSharePriceEvolutionWeekQuery();
         foreach ($query as $record) {
-
             $record->y = (float)$record->y;
         }
         return response()->json($query);
     }
 
-    public function getSharePriceEvolutionMonth()
+
+    public function getSharePriceEvolutionMonthQuery()
     {
-        // CHECK IN BALANCES
-        $query = DB::table('user_balances')
-            ->select(DB::raw('DATE_FORMAT(date, \'%Y-%m\') as x'), DB::raw('SUM(value) as y'))
-            ->where('idBalancesOperation', 44)
-            ->where('value', '>', 0)
+        return DB::table('shares_balances')
+            ->select(DB::raw('DATE_FORMAT(created_at, \'%Y-%m\') as x'), DB::raw('SUM(value) as y'))
+            ->where('balance_operation_id', 44)
             ->groupBy('x')
             ->get();
-
+    }
+    public function getSharePriceEvolutionMonth()
+    {
+        $query = $this->getSharePriceEvolutionMonthQuery();
         foreach ($query as $record) {
-
             $record->y = (float)$record->y;
         }
         return response()->json($query);
     }
 
-    public function getSharePriceEvolutionDay()
+    public function getSharePriceEvolutionDayQuery()
     {
-        // CHECK IN BALANCES
-        $query = DB::table('user_balances')
-            ->select(DB::raw('DAYNAME(date) as x'), DB::raw('SUM(value) as y'), DB::raw('DAYOFWEEK(date) as z'))
-            ->where('idBalancesOperation', 44)
-            ->where('value', '>', 0)
+        return DB::table('shares_balances')
+            ->select(DB::raw('DAYNAME(created_at) as x'), DB::raw('SUM(value) as y'), DB::raw('DAYOFWEEK(created_at) as z'))
+            ->where('balance_operation_id', 44)
             ->groupBy('x', 'z')
             ->orderBy('z')
             ->get();
-
+    }
+    public function getSharePriceEvolutionDay()
+    {
+        $query = $this->getSharePriceEvolutionDayQuery();
         foreach ($query as $record) {
 
             $record->y = (float)$record->y;
         }
         return response()->json($query);
     }
-
 
     public function getSharePriceEvolutionUser()
     {
-
-        $idUser = auth()->user()->idUser;
-        $query = DB::select(getSqlFromPath('get_share_price_evolution_user'), [$idUser, $idUser]);
+        $query = DB::select(getSqlFromPath('get_share_price_evolution_user'), [auth()->user()->idUser, auth()->user()->idUser]);
         foreach ($query as $record) {
             if ($record->y) $record->y = (float)$record->y;
             $record->x = (float)$record->x;
@@ -751,7 +745,7 @@ class ApiController extends BaseController
             $val = ($final_value - $initial_value) / ($total_actions - 1) * ($x + 1) + ($initial_value - ($final_value - $initial_value) / ($total_actions - 1));
             $data[] = [
                 'x' => $x,
-                'y' => number_format($val, 2, '.', '') * 1 // Call your helper function
+                'y' => number_format($val, 2, '.', '') * 1
             ];
         }
         return response()->json($data);
@@ -771,29 +765,19 @@ class ApiController extends BaseController
             ->join('metta_users as meta', 'meta.idUser', '=', 'users.idUser')
             ->join('countries', 'countries.id', '=', 'users.idCountry')
             ->leftJoin('vip', function ($join) {
-                $join->on('vip.idUser', '=', 'users.idUser')
-                    ->where('vip.closed', '=', 0);
+                $join->on('vip.idUser', '=', 'users.idUser')->where('vip.closed', '=', 0);
             })->orderBy('created_at', 'DESC');
     }
 
     public function getUsersList()
     {
         return datatables($this->getUsersListQuery())
-            ->addColumn('formatted_mobile', function ($user) {
-                $phone = new PhoneNumber($user->mobile, $user->apha2);
-                try {
-                    return $phone->formatForCountry($user->apha2);
-                } catch (\Exception $e) {
-                    return $phone;
-                }
-                return $phone->formatForCountry($user->apha2);
-            })
             ->addColumn('register_upline', function ($user) {
                 if ($user->idUplineRegister == 11111111) return "system"; else
                     return getRegisterUpline($user->idUplineRegister);
             })
             ->addColumn('formatted_created_at', function ($user) {
-                return Carbon\Carbon::parse($user->created_at)->format('Y-m-d H:i:s');
+                return view('parts.datatable.user-date', ['dateTime' => Carbon\Carbon::parse($user->created_at)]);
             })
             ->addColumn('more_details', function ($user) {
                 return view('parts.datatable.user-details', ['user' => $user]);
@@ -814,22 +798,25 @@ class ApiController extends BaseController
             ->addColumn('vip_history', function ($user) {
                 return view('parts.datatable.user-vip-history', ['user' => $user]);
             })
-            ->addColumn('VIP', function ($settings) {
-                $hasVip = vip::Where('idUser', '=', $settings->idUser)
-                    ->where('closed', '=', false)->get();
-                if ($hasVip->isNotEmpty()) {
-                    $dateStart = new \DateTime($hasVip->first()->dateFNS);
-                    $dateEnd = $dateStart->modify($hasVip->first()->flashDeadline . ' hour');;
-                    return view('parts.datatable.user-vip', ['mobile' => $settings->mobile, 'isVip' => $dateEnd > now(), 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'reciver' => $settings->idUser]);
-                }
-                return view('parts.datatable.user-vip', ['mobile' => $settings->mobile, 'isVip' => null, 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'reciver' => $settings->idUser]);
-
-            })
             ->addColumn('flag', function ($user) {
                 return view('parts.datatable.user-flag', ['src' => $this->getFormatedFlagResourceName($user->apha2), 'title' => strtolower($user->apha2), 'name' => Lang::get($user->country)]);
             })
             ->addColumn('action', function ($settings) {
-                return view('parts.datatable.user-action', ['phone' => $settings->mobile, 'user' => $settings, 'country' => $this->getFormatedFlagResourceName($settings->apha2), 'reciver' => $settings->idUser, 'userId' => $settings->id]);
+                $hasVip = vip::Where('idUser', '=', $settings->idUser)                    ->where('closed', '=', false)->get();
+                $params = [
+                    'phone' => $settings->mobile,
+                    'user' => $settings,
+                    'country' => $this->getFormatedFlagResourceName($settings->apha2),
+                    'reciver' => $settings->idUser,
+                    'userId' => $settings->id,
+                    'isVip' => null
+                ];
+                if ($hasVip->isNotEmpty()) {
+                    $dateStart = new \DateTime($hasVip->first()->dateFNS);
+                    $dateEnd = $dateStart->modify($hasVip->first()->flashDeadline . ' hour');;
+                    $params['isVip'] = $dateEnd > now();
+                }
+                return view('parts.datatable.user-action', $params);
             })
             ->removeColumn('OptActivation')
             ->removeColumn('note')
@@ -854,8 +841,9 @@ class ApiController extends BaseController
             $phone = new PhoneNumber($phoneNumber, $country->apha2);
             $phone->formatForCountry($country->apha2);
             return new JsonResponse(['message' => ''], 200);
-        } catch (\Exception $exp) {
-            return new JsonResponse(['message' => Lang::get($exp->getMessage())], 200);
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return new JsonResponse(['message' => Lang::get($exception->getMessage())], 200);
         }
     }
 
@@ -871,10 +859,7 @@ class ApiController extends BaseController
 
     public function getSettings()
     {
-        $settings = DB::table('settings')
-            ->select('idSETTINGS', 'ParameterName', 'IntegerValue', 'StringValue', 'DecimalValue', 'Unit', 'Automatically_calculated')
-            ->orderBy('idSETTINGS');
-        return datatables($settings)
+        return datatables(Setting::all())
             ->addColumn('action', function ($settings) {
                 return view('parts.datatable.settings-action', ['settings' => $settings]);
             })
@@ -885,10 +870,10 @@ class ApiController extends BaseController
             ->toJson();
     }
 
-    public function getBalanceOperations()
+    public function getBalanceOperationsQuery()
     {
-        $balanceOperations = DB::table('balance_operations')
-            ->join('amounts', 'balance_operations.amounts_id', '=', 'amounts.idamounts')
+        return DB::table('balance_operations')
+            ->leftJoin('amounts', 'balance_operations.amounts_id', '=', 'amounts.idamounts')
             ->select(
                 'balance_operations.id',
                 'balance_operations.operation',
@@ -896,15 +881,21 @@ class ApiController extends BaseController
                 'balance_operations.source',
                 'balance_operations.amounts_id',
                 'balance_operations.note',
+                'balance_operations.parent_id',
                 'balance_operations.modify_amount',
                 'amounts.amountsshortname');
-
-        return datatables($balanceOperations)
+    }
+    public function getBalanceOperations()
+    {
+        return datatables($this->getBalanceOperationsQuery())
             ->addColumn('action', function ($balance) {
                 return view('parts.datatable.balances-status', ['balance' => $balance]);
             })
             ->editColumn('modify_amount', function ($balance) {
                 return view('parts.datatable.balances-modify', ['modify' => $balance->modify_amount]);
+            })
+            ->editColumn('parent_id', function ($balance) {
+                return view('parts.datatable.balances-parent', ['balance' => BalanceOperation::find($balance->parent_id)]);
             })
             ->editColumn('amounts_id', function ($balance) {
                 return view('parts.datatable.balances-amounts-id', ['ammount' => $balance->amounts_id]);
@@ -916,12 +907,14 @@ class ApiController extends BaseController
             ->toJson();
     }
 
+    public function getAmountsQuery()
+    {
+        return DB::table('amounts')
+            ->select('idamounts', 'amountsname', 'amountswithholding_tax', 'amountspaymentrequest', 'amountstransfer', 'amountscash', 'amountsactive', 'amountsshortname');
+    }
     public function getAmounts()
     {
-        $amounts = DB::table('amounts')
-            ->select('idamounts', 'amountsname', 'amountswithholding_tax', 'amountspaymentrequest', 'amountstransfer', 'amountscash', 'amountsactive', 'amountsshortname');
-
-        return datatables($amounts)
+        return datatables($this->getAmountsQuery())
             ->addColumn('action', function ($amounts) {
                 return view('parts.datatable.amounts-action', ['amounts' => $amounts]);
             })
@@ -944,11 +937,14 @@ class ApiController extends BaseController
             ->make(true);
     }
 
+    public function getActionHistorysQuery()
+    {
+        return DB::table('action_history')
+            ->select('id', 'title', 'reponce');
+    }
     public function getActionHistorys()
     {
-        $actionHistorys = DB::table('action_history')
-            ->select('id', 'title', 'reponce');
-        return datatables($actionHistorys)
+        return datatables($this->getActionHistorysQuery())
             ->addColumn('action', function ($share) {
                 return view('parts.datatable.share-history-action', ['share' => $share]);
             })
@@ -959,60 +955,159 @@ class ApiController extends BaseController
             ->make(true);
     }
 
-    public function getUrlList($idUser, $idamount)
+
+    public function getUserBalancesList($locale, $idUser, $idamount, $json = true)
     {
-        // CHECK IN BALANCES
-        return route('api_user_balances_list', ['locale' => app()->getLocale(), 'idUser' => $idUser, 'idAmounts' => $idamount]);
+        match ($idamount) {
+            BalanceEnum::CASH->value => $balances = "cash_balances",
+            BalanceEnum::BFS->value => $balances = "bfss_balances",
+            BalanceEnum::DB->value => $balances = "discount_balances",
+            BalanceEnum::SMS->value => $balances = "sms_balances",
+            BalanceEnum::TREE->value => $balances = "tree_balances",
+            BalanceEnum::SHARE->value => $balances = "shares_balances",
+            default => $balances = "cash_balances",
+        };
+        $results = DB::table($balances . ' as u')
+            ->select(
+                'u.reference',
+                'u.beneficiary_id',
+                'u.created_at',
+                'u.balance_operation_id',
+                'b.operation',
+                'u.description',
+                DB::raw("CASE WHEN b.IO = 'I' THEN u.value ELSE -u.value END AS value"),
+                'u.current_balance'
+            )
+            ->join('balance_operations as b', 'u.balance_operation_id', '=', 'b.id')
+            ->join('users as s', 'u.beneficiary_id', '=', 's.idUser')
+            ->where('u.beneficiary_id', $idUser)
+            ->orderBy('u.created_at', 'DESC')->get();
+        if (!$json) {
+            return $results;
+        }
+        return response()->json($results);
     }
 
-    public function getUserBalancesList($locale, $idUser, $idamount)
+    public function getUserBalancesQuery($balance)
     {
-        // CHECK IN BALANCES
-        $userData = DB::select(getSqlFromPath('get_user_balances_list'), [$idUser, $idamount]);
-        return response()->json($userData);
+        return DB::table($balance . ' as ub')
+            ->join('balance_operations as bo', 'ub.balance_operation_id', '=', 'bo.id')
+            ->selectRaw('
+        RANK() OVER (ORDER BY ub.created_at desc) as ranks,
+        ub.beneficiary_id,
+        ub.id,
+        ub.operator_id,
+        ub.reference,
+        ub.created_at,
+        bo.operation,
+        ub.description,
+        ub.current_balance,
+        CASE
+            WHEN ub.operator_id = "11111111" THEN "system"
+            ELSE (SELECT CONCAT(IFNULL(enfirstname, ""), " ", IFNULL(enlastname, ""))
+                  FROM metta_users mu
+                  WHERE mu.idUser = ub.operator_id)
+        END as source,
+        CASE
+            WHEN bo.IO = "I" THEN CONCAT("+ ", FORMAT(ub.value, 3), " $")
+            WHEN bo.IO = "O" THEN CONCAT("- ", FORMAT(ub.value, 3), " $")
+            WHEN bo.IO = "IO" THEN "IO"
+        END as value
+    ')
+            ->where('ub.beneficiary_id', auth()->user()->idUser)
+            ->orderBy('ub.created_at', 'desc');
     }
-
     public function getUserBalances($locale, $typeAmounts)
     {
         $idAmounts = 0;
+        $balance = null;
         switch ($typeAmounts) {
             case 'cash-Balance':
                 $idAmounts = 1;
+                $balance = "cash_balances";
                 break;
             case 'Balance-For-Shopping':
                 $idAmounts = 2;
+                $balance = "bfss_balances";
                 break;
             case 'Discounts-Balance':
                 $idAmounts = 3;
+                $balance = "discount_balances";
                 break;
             case 'SMS-Balance':
                 $idAmounts = 5;
+                $balance = "sms_balances";
                 break;
             default :
                 $idAmounts = 0;
+                $balance = "cash_balances";
                 break;
         }
-
-        // CHECK IN BALANCES
-        $userData = DB::select(getSqlFromPath('get_user_balances'), [$idAmounts, auth()->user()->idUser]);
-        return Datatables::of($userData)
+        return datatables($this->getUserBalancesQuery($balance))
             ->addColumn('formatted_date', function ($user) {
-                return Carbon\Carbon::parse($user->Date)->format('Y-m-d');
+                return Carbon\Carbon::parse($user->created_at)->format('Y-m-d');
             })
-            ->editColumn('Description', function ($row) use ($idAmounts) {
+            ->editColumn('description', function ($row) use ($idAmounts) {
                 if ($idAmounts == 3)
-                    return '<div style="text-align:right;">' . htmlspecialchars($row->Description) . '</div>';
-                else return $row->Description;
+                    return '<div style="text-align:right;">' . htmlspecialchars($row->description) . '</div>';
+                else return $row->description;
             })
-            ->rawColumns(['Description', 'formatted_date'])
+            ->rawColumns(['description', 'formatted_date'])
             ->make(true);
     }
 
+    public function getTreeUser($locale)
+    {
+        return datatables($this->getUserBalancesList($locale, auth()->user()->idUser, BalanceEnum::TREE->value, false))->make(true);
+    }
+
+    public function getSmsUser($locale)
+    {
+        return datatables($this->getUserBalancesList($locale, auth()->user()->idUser, BalanceEnum::SMS->value, false))->make(true);
+    }
+
+    public function getChanceUser()
+    {
+        $user = $this->settingsManager->getAuthUser();
+        if (!$user) $user->idUser = '';
+        $userData = DB::table('chance_balances as ub')
+            ->select(
+                DB::raw('RANK() OVER (ORDER BY ub.created_at DESC) as ranks'),
+                'ub.beneficiary_id',
+                'ub.id',
+                'ub.operator_id',
+                'ub.reference',
+                'ub.created_at',
+                'bo.operation',
+                'ub.description',
+                'ub.current_balance',
+                DB::raw(" CASE WHEN ub.beneficiary_id = '11111111' THEN 'system' ELSE (SELECT CONCAT(IFNULL(enfirstname, ''), ' ', IFNULL(enlastname, '')) FROM metta_users mu WHERE mu.idUser = ub.beneficiary_id) END AS source "),
+                'bo.IO as sensP'
+            )
+            ->join('balance_operations as bo', 'ub.balance_operation_id', '=', 'bo.id')
+            ->where('ub.beneficiary_id', $user->idUser)
+            ->orderBy('created_at')->get();
+        return datatables($userData)->make(true);
+    }
     public function getPurchaseBFSUser()
     {
         $user = $this->settingsManager->getAuthUser();
         if (!$user) $user->idUser = '';
-        $userData = DB::select(getSqlFromPath('get_purchase_bfs_user'), [2, $user->idUser]);
+        $userData = DB::table('bfss_balances as ub')
+            ->select(
+                DB::raw('RANK() OVER (ORDER BY ub.created_at DESC) as ranks'),
+                'ub.beneficiary_id', 'ub.id', 'ub.operator_id', 'ub.reference', 'ub.created_at', 'bo.operation', 'ub.description',
+                DB::raw(" CASE WHEN ub.operator_id = '11111111' THEN 'system' ELSE (SELECT CONCAT(IFNULL(enfirstname, ''), ' ', IFNULL(enlastname, '')) FROM metta_users mu WHERE mu.idUser = ub.beneficiary_id) END AS source "),
+                DB::raw(" CASE WHEN bo.IO = 'I' THEN CONCAT('+ ', '$ ', FORMAT(ub.value, 3)) WHEN bo.IO = 'O' THEN CONCAT('- ', FORMAT(ub.value , 3), ' $') WHEN bo.IO = 'IO' THEN 'IO' END AS value "),
+                'bo.IO as sensP',
+                'ub.percentage as percentage',
+                'ub.current_balance'
+            )
+            ->join('balance_operations as bo', 'ub.balance_operation_id', '=', 'bo.id')
+            ->where('ub.beneficiary_id', $user->idUser)
+            ->orderBy('created_at')
+            ->orderBy('percentage')
+            ->get();
         return datatables($userData)->make(true);
     }
 
@@ -1054,14 +1149,12 @@ class ApiController extends BaseController
 
     public function getHistoryNotificationModerateur()
     {
-        return datatables($this->settingsManager->getHistoryForModerateur())
-            ->make(true);
+        return datatables($this->settingsManager->getHistoryForModerateur())->make(true);
     }
 
     public function getHistoryNotification()
     {
-        return datatables($this->settingsManager->getHistory())
-            ->make(true);
+        return datatables($this->settingsManager->getHistory())->make(true);
     }
 
     public function getPlatforms()
@@ -1174,52 +1267,30 @@ class ApiController extends BaseController
             ->make(true);
     }
 
+    public function getIdentificationRequestQuery()
+    {
+        return IdentificationUserRequest::select(
+            'users1.id as id',
+            'users1.name as USER',
+            'users1.fullphone_number',
+            'identificationuserrequest.created_at as DateCreation',
+            'users2.name as Validator',
+            'identificationuserrequest.response',
+            'identificationuserrequest.responseDate as DateReponce',
+            'identificationuserrequest.note')
+            ->join('users as users1', 'identificationuserrequest.IdUser', '=', 'users1.idUser')
+            ->leftJoin('users as users2', 'identificationuserrequest.idUserResponse', '=', 'users2.idUser')
+            ->where('identificationuserrequest.status', StatusRequest::InProgressNational->value)
+            ->orWhere('identificationuserrequest.status', StatusRequest::InProgressInternational->value)
+            ->get();
+    }
     public function getIdentificationRequest()
     {
-        $identifications = DB::select(getSqlFromPath('get_identification_request'), [StatusRequest::InProgressNational->value, StatusRequest::InProgressInternational->value]);
-        return datatables($identifications)
+        return datatables($this->getIdentificationRequestQuery())
             ->addColumn('action', function ($identifications) {
                 return view('parts.datatable.identification-action', ['identifications' => $identifications]);
             })
             ->rawColumns(['action'])
-            ->make(true);
-    }
-
-    public function getUserBalancesCB()
-    {
-        $user = $this->settingsManager->getAuthUser();
-        if (!$user) $user->idUser = '';
-        // CHECK IN BALANCES
-        $userData = DB::select(getSqlFromPath('get_user_balances_cb'), [1, $user->idUser]
-        );
-        return datatables($userData)->make(true);
-    }
-
-    public function getPurchaseUser()
-    {
-        $user = $this->settingsManager->getAuthUser();
-        $userData = DB::select(getSqlFromPath('get_purchase_user'), [$user->idUser]);
-        return datatables($userData)
-            ->make(true);
-    }
-
-
-    public function getAllUsers()
-    {
-        $userData = DB::select(getSqlFromPath('get_all_users'));
-
-        return datatables($userData)
-            ->addColumn('action', function ($userLine) {
-                return view('parts.datatable.all-users-action', ['userLine' => $userLine]);
-            })
-            ->editColumn('status', function ($userData) {
-                return view('parts.datatable.all-users-status', ['status' => $userData->status]);
-            })
-            ->editColumn('registred_from', function ($userData) {
-                $fromArray = [1 => 'Learn2earn', 2 => 'Shop2earn', 1 => '2earn', 4 => 'no',];
-                return view('parts.datatable.all-users-registered-from', ['from' => $fromArray[$userData->registred_from]]);
-            })
-            ->escapeColumns([])
             ->make(true);
     }
 

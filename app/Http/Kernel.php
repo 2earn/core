@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'setlocale' => \App\Http\Middleware\SetLocale::class,
         'setLocalLogin' => \App\Http\Middleware\setLocalLogin::class,
         'IsSuperAdmin' => IsSuperAdmin::class,
+        'CloseAuth' => CloseAuth::class,
     ];
 }

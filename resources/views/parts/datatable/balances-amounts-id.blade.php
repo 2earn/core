@@ -1,3 +1,3 @@
 <span class="badge badge-gradient-info">
-    {{__(Core\Enum\AmoutEnum::tryFrom($ammount)?->name)}}
+    {{__(Core\Enum\BalanceEnum::tryFrom($ammount)?->name)}}
 </span>

@@ -1,137 +1,121 @@
-CREATE
-OR REPLACE VIEW allbycountries AS
-SELECT `u`.`idamount`                                                        AS `idamount`,
-       CASE
-           WHEN `u`.`idamount` = 1 THEN 'CASH BALANCE'
-           WHEN `u`.`idamount` = 2 THEN 'BFS'
-           WHEN `u`.`idamount` = 3 THEN 'DISCOUNT BALANCE'
-           WHEN `u`.`idamount` = 5 THEN 'SMS BALANCE' END                    AS `lib`,
-       `c`.`name`                                                            AS `name`,
-       `c`.`apha2`                                                           AS `apha2`,
-       `c`.`continant`                                                       AS `continant`,
-       `c`.`id`                                                              AS `id`,
-       SUM(CASE WHEN `b`.`io` = 'I' THEN `u`.`value` ELSE - `u`.`value` END) AS `value`
-FROM (((`database_name`.`user_balances` `u` JOIN `database_name`.`users` `s`) JOIN `database_name`.`countries` `c`) JOIN `database_name`.`balance_operations` `b`)
-WHERE `u`.`idUser` = `s`.`idUser`
-  AND `s`.`idCountry` = `c`.`id`
-  AND `u`.`idBalancesOperation` = `b`.`id`
-  AND `u`.`idamount` NOT IN (4, 6)
-  AND `s`.`is_representative` <> 1
-GROUP BY `c`.`continant`, `u`.`idamount`, `c`.`name`, `c`.`apha2`, `c`.`id`
-UNION
-SELECT 4                                                                     AS `4`,
-       'SOLD SHARES'                                                         AS `SOLD SHARES`,
-       `c`.`name`                                                            AS `name`,
-       `c`.`apha2`                                                           AS `apha2`,
-       `c`.`continant`                                                       AS `continant`,
-       `c`.`id`                                                              AS `id`,
-       SUM(CASE WHEN `b`.`io` = 'I' THEN `u`.`value` ELSE - `u`.`value` END) AS `value`
-FROM (((`database_name`.`user_balances` `u` JOIN `database_name`.`users` `s`) JOIN `database_name`.`countries` `c`) JOIN `database_name`.`balance_operations` `b`)
-WHERE `u`.`idUser` = `s`.`idUser`
-  AND `s`.`idCountry` = `c`.`id`
-  AND `u`.`idBalancesOperation` = `b`.`id`
-  AND `u`.`idamount` = 6
-  AND `u`.`idBalancesOperation` = 44
-GROUP BY `c`.`continant`, `u`.`idamount`, `c`.`name`, `c`.`apha2`, `c`.`id`
-UNION
-SELECT 6                        AS `6`,
-       'GIFTED SHARES'          AS `GIFTED SHARES`,
-       `c`.`name`               AS `name`,
-       `c`.`apha2`              AS `apha2`,
-       `c`.`continant`          AS `continant`,
-       `c`.`id`                 AS `id`,
-       SUM(`u`.`gifted_shares`) AS `value`
-FROM (((`database_name`.`user_balances` `u` JOIN `database_name`.`users` `s`) JOIN `database_name`.`countries` `c`) JOIN `database_name`.`balance_operations` `b`)
-WHERE `u`.`idUser` = `s`.`idUser`
-  AND `s`.`idCountry` = `c`.`id`
-  AND `u`.`idBalancesOperation` = `b`.`id`
-  AND `u`.`idamount` = 6
-  AND `u`.`idBalancesOperation` = 44
-GROUP BY `c`.`continant`, `u`.`idamount`, `c`.`name`, `c`.`apha2`, `c`.`id`
-UNION
-SELECT 7                                      AS `7`,
-       'TOTAL SHARES'                         AS `TOTAL SHARES`,
-       `c`.`name`                             AS `name`,
-       `c`.`apha2`                            AS `apha2`,
-       `c`.`continant`                        AS `continant`,
-       `c`.`id`                               AS `id`,
-       SUM(`u`.`gifted_shares` + `u`.`value`) AS `value`
-FROM (((`database_name`.`user_balances` `u` JOIN `database_name`.`users` `s`) JOIN `database_name`.`countries` `c`) JOIN `database_name`.`balance_operations` `b`)
-WHERE `u`.`idUser` = `s`.`idUser`
-  AND `s`.`idCountry` = `c`.`id`
-  AND `u`.`idBalancesOperation` = `b`.`id`
-  AND `u`.`idamount` = 6
-  AND `u`.`idBalancesOperation` = 44
-GROUP BY `c`.`continant`, `u`.`idamount`, `c`.`name`, `c`.`apha2`, `c`.`id`
-UNION
-SELECT 8                AS `8`,
-       'SHARES REVENUE' AS `SHARES REVENUE`,
+select `u`.`balance_id`                                     AS `idamount`,
+       case
+           when `u`.`balance_id` = 1 then 'CASH BALANCE'
+           when `u`.`balance_id` = 2 then 'BFS'
+           when `u`.`balance_id` = 3 then 'DISCOUNT BALANCE'
+           when `u`.`balance_id` = 5 then 'SMS BALANCE' end AS `lib`,
+       `c`.`name`                                           AS `name`,
+       `c`.`apha2`                                          AS `apha2`,
+       `c`.`continant`                                      AS `continant`,
+       `c`.`id`                                             AS `id`,
+       sum(`u`.`current_balance`)                           AS `value`
+from ((`user_current_balance_verticals` `u` join `users` `s`) join `countries` `c`)
+where `u`.`user_id` = `s`.`idUser`
+  and `s`.`idCountry` = `c`.`id`
+  and `u`.`balance_id` not in (4, 6, 7)
+  and `s`.`is_representative` <> 1
+group by `c`.`continant`, `u`.`balance_id`, `c`.`name`, `c`.`apha2`, `c`.`id`
+union
+select 4                AS `4`,
+       'SOLD SHARES'    AS `lib`,
        `c`.`name`       AS `name`,
        `c`.`apha2`      AS `apha2`,
        `c`.`continant`  AS `continant`,
        `c`.`id`         AS `id`,
-       SUM(`u`.`value`) AS `value`
-FROM (((`database_name`.`user_balances` `u` JOIN `database_name`.`users` `s`) JOIN `database_name`.`countries` `c`) JOIN `database_name`.`balance_operations` `b`)
-WHERE `u`.`idUser` = `s`.`idUser`
-  AND `s`.`idCountry` = `c`.`id`
-  AND `u`.`idBalancesOperation` = `b`.`id`
-  AND `u`.`idamount` = 1
-  AND `u`.`idBalancesOperation` = 48
-GROUP BY `c`.`continant`, `u`.`idamount`, `c`.`name`, `c`.`apha2`, `c`.`id`
-UNION
-SELECT 9                  AS `9`,
-       'TRANSFERT MADE'   AS `TRANSFERT MADE`,
-       `c`.`name`         AS `name`,
-       `c`.`apha2`        AS `apha2`,
-       `c`.`continant`    AS `continant`,
-       `c`.`id`           AS `id`,
-       SUM(`u`.`Balance`) AS `value`
-FROM (((`database_name`.`user_balances` `u` JOIN `database_name`.`users` `s`) JOIN `database_name`.`countries` `c`) JOIN `database_name`.`balance_operations` `b`)
-WHERE `u`.`idUser` = `s`.`idUser`
-  AND `s`.`idCountry` = `c`.`id`
-  AND `u`.`idBalancesOperation` = `b`.`id`
-  AND `u`.`idamount` = 6
-  AND `u`.`idBalancesOperation` = 44
-GROUP BY `c`.`continant`, `u`.`idamount`, `c`.`name`, `c`.`apha2`, `c`.`id`
-UNION
-SELECT 10                  AS `10`,
+       sum(`u`.`value`) AS `value`
+from ((`shares_balances` `u` join `users` `s`) join `countries` `c`)
+where `u`.`beneficiary_id` = `s`.`idUser`
+  and `s`.`idCountry` = `c`.`id`
+  and `u`.`balance_operation_id` = 44
+group by `c`.`continant`, `c`.`name`, `c`.`apha2`, `c`.`id`
+union
+select 6                AS `6`,
+       'GIFTED SHARES'  AS `lib`,
+       `c`.`name`       AS `name`,
+       `c`.`apha2`      AS `apha2`,
+       `c`.`continant`  AS `continant`,
+       `c`.`id`         AS `id`,
+       sum(`u`.`value`) AS `value`
+from ((`shares_balances` `u` join `users` `s`) join `countries` `c`)
+where `u`.`beneficiary_id` = `s`.`idUser`
+  and `s`.`idCountry` = `c`.`id`
+  and `u`.`balance_operation_id` in (52, 53, 54, 55)
+group by `c`.`continant`, `c`.`name`, `c`.`apha2`, `c`.`id`
+union
+select 7                          AS `idamount`,
+       'TOTAL SHARES'             AS `lib`,
+       `c`.`name`                 AS `name`,
+       `c`.`apha2`                AS `apha2`,
+       `c`.`continant`            AS `continant`,
+       `c`.`id`                   AS `id`,
+       sum(`u`.`current_balance`) AS `value`
+from ((`user_current_balance_verticals` `u` join `users` `s`) join `countries` `c`)
+where `u`.`user_id` = `s`.`idUser`
+  and `s`.`idCountry` = `c`.`id`
+  and `u`.`balance_id` = 6
+group by `c`.`continant`, `u`.`balance_id`, `c`.`name`, `c`.`apha2`, `c`.`id`
+union
+select 8                AS `8`,
+       'SHARES REVENUE' AS `lib`,
+       `c`.`name`       AS `name`,
+       `c`.`apha2`      AS `apha2`,
+       `c`.`continant`  AS `continant`,
+       `c`.`id`         AS `id`,
+       sum(`u`.`value`) AS `value`
+from ((`cash_balances` `u` join `users` `s`) join `countries` `c`)
+where `u`.`beneficiary_id` = `s`.`idUser`
+  and `s`.`idCountry` = `c`.`id`
+  and `u`.`balance_operation_id` = 48
+group by `c`.`continant`, `c`.`name`, `c`.`apha2`, `c`.`id`
+union
+select 9                      AS `9`,
+       'TRANSFERT MADE'       AS `lib`,
+       `c`.`name`             AS `name`,
+       `c`.`apha2`            AS `apha2`,
+       `c`.`continant`        AS `continant`,
+       `c`.`id`               AS `id`,
+       sum(`u`.`real_amount`) AS `value`
+from ((`shares_balances` `u` join `users` `s`) join `countries` `c`)
+where `u`.`beneficiary_id` = `s`.`idUser`
+  and `s`.`idCountry` = `c`.`id`
+  and `u`.`balance_operation_id` = 44
+group by `c`.`continant`, `c`.`name`, `c`.`apha2`, `c`.`id`
+union
+select 10                  AS `10`,
        'COUNT USERS'       AS `COUNT USERS`,
        `c`.`name`          AS `name`,
        `c`.`apha2`         AS `apha2`,
        `c`.`continant`     AS `continant`,
        `c`.`id`            AS `id`,
-       COUNT(`s`.`idUser`) AS `value`
-FROM (`database_name`.`users` `s` JOIN `database_name`.`countries` `c`)
-WHERE `s`.`idCountry` = `c`.`id`
-GROUP BY `c`.`continant`, `c`.`name`, `c`.`apha2`, `c`.`id`
-UNION
-SELECT 11                           AS `11`,
-       'COUNT TRAIDERS'             AS `COUNT TRAIDERS`,
-       `c`.`name`                   AS `name`,
-       `c`.`apha2`                  AS `apha2`,
-       `c`.`continant`              AS `continant`,
-       `c`.`id`                     AS `id`,
-       COUNT(DISTINCT `u`.`idUser`) AS `value`
-FROM (((`database_name`.`user_balances` `u` JOIN `database_name`.`users` `s`) JOIN `database_name`.`countries` `c`) JOIN `database_name`.`balance_operations` `b`)
-WHERE `u`.`idUser` = `s`.`idUser`
-  AND `s`.`idCountry` = `c`.`id`
-  AND `u`.`idBalancesOperation` = `b`.`id`
-  AND `u`.`idamount` = 6
-  AND `u`.`idBalancesOperation` = 44
-GROUP BY `c`.`continant`, `u`.`idamount`, `c`.`name`, `c`.`apha2`, `c`.`id`
-UNION
-SELECT 12                           AS `12`,
-       'COUNT REAL TRAIDERS'        AS `COUNT REAL TRAIDERS`,
-       `c`.`name`                   AS `name`,
-       `c`.`apha2`                  AS `apha2`,
-       `c`.`continant`              AS `continant`,
-       `c`.`id`                     AS `id`,
-       COUNT(DISTINCT `u`.`idUser`) AS `value`
-FROM (((`database_name`.`user_balances` `u` JOIN `database_name`.`users` `s`) JOIN `database_name`.`countries` `c`) JOIN `database_name`.`balance_operations` `b`)
-WHERE `u`.`idUser` = `s`.`idUser`
-  AND `s`.`idCountry` = `c`.`id`
-  AND `u`.`idBalancesOperation` = `b`.`id`
-  AND `u`.`idamount` = 6
-  AND `u`.`idBalancesOperation` = 44
-  AND `u`.`Balance` > 0
-GROUP BY `c`.`continant`, `u`.`idamount`, `c`.`name`, `c`.`apha2`, `c`.`id`;
+       count(`s`.`idUser`) AS `value`
+from (`users` `s` join `countries` `c`)
+where `s`.`idCountry` = `c`.`id`
+group by `c`.`continant`, `c`.`name`, `c`.`apha2`, `c`.`id`
+union
+select 11               AS `idamount`,
+       'COUNT TRAIDERS' AS `lib`,
+       `c`.`name`       AS `name`,
+       `c`.`apha2`      AS `apha2`,
+       `c`.`continant`  AS `continant`,
+       `c`.`id`         AS `id`,
+       count(`u`.`id`)  AS `value`
+from ((`user_current_balance_verticals` `u` join `users` `s`) join `countries` `c`)
+where `u`.`user_id` = `s`.`idUser`
+  and `s`.`idCountry` = `c`.`id`
+  and `u`.`balance_id` = 6
+  and `u`.`current_balance` > 0
+group by `c`.`continant`, `u`.`balance_id`, `c`.`name`, `c`.`apha2`, `c`.`id`
+union
+select 12                                   AS `12`,
+       'COUNT REAL TRAIDERS'                AS `lib`,
+       `c`.`name`                           AS `name`,
+       `c`.`apha2`                          AS `apha2`,
+       `c`.`continant`                      AS `continant`,
+       `c`.`id`                             AS `id`,
+       count(distinct `u`.`beneficiary_id`) AS `value`
+from ((`shares_balances` `u` join `users` `s`) join `countries` `c`)
+where `u`.`beneficiary_id` = `s`.`idUser`
+  and `s`.`idCountry` = `c`.`id`
+  and `u`.`balance_operation_id` = 44
+  and `u`.`real_amount` > 0
+group by `c`.`continant`, `c`.`name`, `c`.`apha2`, `c`.`id`

@@ -6,7 +6,7 @@ use App\Http\Traits\earnLog;
 use App\Http\Traits\earnTrait;
 use App\Models\User;
 use Carbon\Carbon;
-use Core\Enum\AmoutEnum;
+use Core\Enum\BalanceEnum;
 use Core\Enum\NotificationSettingEnum;
 use Core\Enum\StatusRequest;
 use Core\Enum\TypeEventNotificationEnum;
@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -208,7 +209,7 @@ class Account extends Component
         }
 
         if (!$canModify) {
-            return redirect()->route('account', app()->getLocale())->with('info', 'You cant update your profile when you have an identifiaction request in progress');
+            return redirect()->route('account', app()->getLocale())->with('info', Lang::get('You cant update your profile when you have an identifiaction request in progress'));
         }
         if ($canModify) {
 
@@ -252,8 +253,9 @@ class Account extends Component
             if (!is_null($this->imageProfil)) {
                 User::saveProfileImage($us->idUser, $this->imageProfil);
             }
-        } catch (\Exception $e) {
-            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get($e->getMessage()));
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get($exception->getMessage()));
         }
 
         if ($this->paramIdUser == "")
@@ -270,7 +272,7 @@ class Account extends Component
         if (!$userAuth) return;
 
         if ($this->sendPassSMS) {
-            $settingManager->getSoldeByAmount($userAuth->idUser, AmoutEnum::Sms_Balance);
+            $settingManager->getSoldeByAmount($userAuth->idUser, BalanceEnum::SMS);
         }
 
         if (!Hash::check($this->oldPassword, auth()->user()->password)) {
@@ -444,7 +446,7 @@ class Account extends Component
         $this->usermetta_info = $usermetta_info;
         $this->user = collect($user);
         $this->states = $settingsManager->getStatesContrie($user->id_phone);
-        $this->soldeSms = $settingsManager->getSoldeByAmount($userAuth->idUser, AmoutEnum::Sms_Balance);
+        $this->soldeSms = $settingsManager->getSoldeByAmount($userAuth->idUser, BalanceEnum::SMS);
         $this->soldeSms = $this->soldeSms == null ? 0 : $this->soldeSms;
         if ($this->sendPassSMS) {
             if ($this->soldeSms <= 0) {

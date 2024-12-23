@@ -2,54 +2,31 @@
 
 namespace Database\Seeders;
 
+use App\Models\CashBalances;
+use App\Models\UserCurrentBalanceHorisontal;
+use App\Services\Balances\Balances;
+use Core\Enum\BalanceOperationsEnum;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class AddCashSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
+
     public function run()
     {
-        $idUsers = [197604550, 197604395, 197604239, 197604342];
-
         $value = 10000;
-
+        $idUsers = [197604395,197604239,197604342];
+        $balances=  new Balances();
         foreach ($idUsers as $idUser) {
-
-            $userCurrentBalances = DB::table('usercurrentbalances')
-                ->where('idUser', $idUser)
-                ->where('idamounts', 1)->first();
-
-            $OldValue = $userCurrentBalances->value ?? 0;
-
-
-            // CHECK IN BALANCES
-            DB::table('user_balances')->insert([
-                'Date' => now(),
-                'idBalancesOperation' => 18,
-                'Description' => 'cash add from system : and update usercurrentbalances',
-                'idSource' => '11111111',
-                'idUser' => $idUser,
-                'idamount' => '1',
+            $userCurrentBalancehorisontal = Balances::getStoredUserBalances($idUser);
+            CashBalances::addLine([
+                'balance_operation_id' => BalanceOperationsEnum::SI_CB->value,
+                'operator_id' => $idUser,
+                'beneficiary_id' => $idUser,
+                'reference' => $balances->getReference(BalanceOperationsEnum::SI_CB->value),
+                'description' => "Add cash balance from AddCashSeeder",
                 'value' => $value,
-                'Balance' => $OldValue + $value,
-                'WinPurchaseAmount' => '0',
-                'Block_trait' => '0',
-                'ref' => '182400000082',
-                'PrixUnitaire' => '1',
+                'current_balance' => $userCurrentBalancehorisontal->cash_balance + $value
             ]);
-
-            DB::table('usercurrentbalances')->where('idUser', $idUser)->where('idamounts', 1)->update(
-                [
-                    'value' => $OldValue + $value,
-                    'dernier_value' => $OldValue,
-                ]
-            );
         }
-
     }
 }

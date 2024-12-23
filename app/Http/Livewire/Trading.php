@@ -2,9 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\SharesBalances;
 use App\Models\vip;
 use Core\Models\Setting;
-use Core\Models\user_balance;
 use Core\Services\BalancesManager;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -61,10 +61,10 @@ class Trading extends Component
 
         $this->numberSharesSale = $this->totalActions - $this->giftedShares;
         $this->precentageOfSharesSale = round($this->selledActions / $this->numberSharesSale, 3) * 100;
-        $this->userSelledActionNumber = round(user_balance::where('idBalancesOperation', 44)->where('idUser', Auth()->user()->idUser)->selectRaw('SUM(value) as total_sum')->first()->total_sum);
+        $this->userSelledActionNumber = round(SharesBalances::where('balance_operation_id', 44)->where('beneficiary_id', Auth()->user()->idUser)->selectRaw('SUM(value) as total_sum')->first()->total_sum);
 
         $this->selledActionCursor = $this->selledActions;
-        $this->totalPaied = round(user_balance::where('idBalancesOperation', 44)->where('idUser', Auth()->user()->idUser)->selectRaw('SUM((value + gifted_shares) * PU) as total_sum')->first()->total_sum, 3);
+        $this->totalPaied = round(SharesBalances::where('balance_operation_id', 44)->where('beneficiary_id', Auth()->user()->idUser)->selectRaw('SUM(total_amount) as total_sum')->first()->total_sum, 3);
 
         $this->simulateGain();
 

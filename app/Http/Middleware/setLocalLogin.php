@@ -21,11 +21,6 @@ class setLocalLogin
         {
             app()->setLocale($request->locale);
         }
-//            dd($request->locale);
-//        app()->setLocale($request->segment(1));
-//        if (count($request->route()->parameters())> 1)
-//            dd($request->route()->parameters());
-
         return $next($request);
     }
 }

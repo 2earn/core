@@ -1,3 +1,3 @@
 SELECT *
-FROM demo.user_balances ub
+FROM user_balances ub
          inner join metta_users mu on ub.idUser = mu.idUser

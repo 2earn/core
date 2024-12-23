@@ -112,15 +112,13 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/generating/pdf/report', \App\Http\Livewire\GeneratingPDFReport::class)->name('generating_pdf_report');
         });
 
-
         Route::get('/treeview', \App\Http\Livewire\treeview::class)->name('treeview');
-
-        Route::get('/treeview', \App\Http\Livewire\treeview::class)->name('treeview');
-
         Route::get('/user/balance-sms', UserBalanceSMS::class)->name('user_balance_sms');
         Route::get('/user/balance-cb', UserBalanceCB::class)->name('user_balance_cb');
         Route::get('/user/balance-db', UserBalanceDB::class)->name('user_balance_db');
         Route::get('/user/balance-bfs', UserBalanceBFS::class)->name('user_balance_bfs');
+        Route::get('/user/balance-tree', \App\Http\Livewire\UserBalanceTree::class)->name('user_balance_tree');
+        Route::get('/user/balance-chance', \App\Http\Livewire\UserBalanceChance::class)->name('user_balance_chance');
         Route::get('/financial/transaction', FinancialTransaction::class)->name('financial_transaction');
         Route::get('/contact-number', ContactNumber::class)->name('contact_number');
         Route::get('/user/edit-contact', EditUserContact::class)->name('user_contact_edit');
@@ -147,7 +145,9 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         Route::prefix('/deals')->name('deals_')->group(function () {
             Route::get('/index', \App\Http\Livewire\DealsIndex::class)->name('index');
-            Route::get('/', \App\Http\Livewire\DealsCreateUpdate::class)->name('create_update');
+            Route::middleware(['IsSuperAdmin'])->group(function () {
+                Route::get('/{idPlatform}/UpdateCreate', \App\Http\Livewire\DealsCreateUpdate::class)->name('create_update');
+            });
             Route::get('/{id}/show', \App\Http\Livewire\DealsShow::class)->name('show');
             Route::get('/archive', \App\Http\Livewire\DealsArchive::class)->name('archive');
         });
@@ -158,7 +158,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/configuration/ha', ConfigurationHA::class)->name('configuration_ha');
             Route::get('/configuration/setting', \App\Http\Livewire\ConfigurationSetting::class)->name('configuration_setting');
             Route::get('/configuration/amounts', \App\Http\Livewire\ConfigurationAmounts::class)->name('configuration_amounts');
-            Route::get('/countries_management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
+            Route::get('/countries/management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
             Route::get('/requests/identification', identificationRequest::class)->name('requests_identification');
             Route::get('/requests/commited-investors', \App\Http\Livewire\CommitedRequest::class)->name('requests_commited_investors');
             Route::get('/requests/commited-investors/{id}/show', \App\Http\Livewire\CommitedRequestShow::class)->name('requests_commited_investors_show');
@@ -226,12 +226,10 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
 
     Route::group(['prefix' => 'api/v1'], function () {
-
         Route::get('/countries', 'App\Http\Controllers\ApiController@getCountries')->name('api_countries');
         Route::get('/settings', 'App\Http\Controllers\ApiController@getSettings')->name('api_settings');
         Route::get('/balance/operations', 'App\Http\Controllers\ApiController@getBalanceOperations')->name('api_bal_operations');
         Route::get('/amounts', 'App\Http\Controllers\ApiController@getAmounts')->name('api_Amounts');
-        Route::get('/url/list/{idUser}/{idamount}', 'App\Http\Controllers\ApiController@getUrlList')->name('url_list');
         Route::get('/action/historys', 'App\Http\Controllers\ApiController@getActionHistorys')->name('api_action_history');
         Route::get('/user/contacts', 'App\Http\Controllers\ApiController@getUserContacts')->name('api_user_contacts');
         Route::get('/user-balances/{idAmounts}', 'App\Http\Controllers\ApiController@getUserBalances')->name('api_user_balances');
@@ -245,10 +243,11 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/request', 'App\Http\Controllers\ApiController@getRequest')->name('api_request');
         Route::get('/representatives', 'App\Http\Controllers\ApiController@getRepresentatives')->name('api_representatives');
         Route::get('/user/balancesCB', 'App\Http\Controllers\ApiController@getUserBalancesCB')->name('api_user_balances_cb');
-        Route::get('/user/purchase', 'App\Http\Controllers\ApiController@getPurchaseUser')->name('api_user_purchase');
-        Route::get('/user/manager', 'App\Http\Controllers\ApiController@getAllUsers')->name('api_user_manager');
         Route::get('/user/invitations', 'App\Http\Controllers\ApiController@getInvitationsUser')->name('api_user_invitations');
         Route::get('/user/purchaseBFS', 'App\Http\Controllers\ApiController@getPurchaseBFSUser')->name('api_user_bfs_purchase');
+        Route::get('/user/tree', 'App\Http\Controllers\ApiController@getTreeUser')->name('api_user_tree');
+        Route::get('/user/sms', 'App\Http\Controllers\ApiController@getSmsUser')->name('api_user_sms');
+        Route::get('/user/chance', 'App\Http\Controllers\ApiController@getChanceUser')->name('api_user_chance');
         Route::post('/paytabs/notification', 'App\Http\Controllers\ApiController@handlePaymentNotification')->name('notification_from_paytabs')->withoutMiddleware('web');
         Route::get('/target/{idTarget}/data', [\App\Http\Controllers\TargetController::class, 'getTargetData'])->name('api_target_data');
 

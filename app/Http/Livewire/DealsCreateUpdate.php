@@ -8,6 +8,8 @@ use Core\Models\Platform;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
 class DealsCreateUpdate extends Component
@@ -20,7 +22,6 @@ class DealsCreateUpdate extends Component
         $description,
         $status,
         $objective_turnover,
-        $out_provider_turnover,
         $start_date,
         $end_date,
         $provider_turnover,
@@ -50,11 +51,12 @@ class DealsCreateUpdate extends Component
 
     public function mount(Request $request)
     {
+
         $this->idDeal = $request->input('id');
         if (!is_null($this->idDeal)) {
             $this->edit();
         } else {
-            $this->idPlatform = $request->input('idPlatform');
+            $this->idPlatform = Route::current()->parameter('idPlatform');
             $this->init();
         }
     }
@@ -79,7 +81,6 @@ class DealsCreateUpdate extends Component
         $this->objective_turnover =
         $this->start_date = $this->end_date =
         $this->provider_turnover =
-        $this->out_provider_turnover =
         $this->items_profit_average =
         $this->initial_commission =
         $this->final_commission =
@@ -98,7 +99,6 @@ class DealsCreateUpdate extends Component
         $this->start_date = $deal->start_date;
         $this->end_date = $deal->end_date;
         $this->provider_turnover = $deal->provider_turnover;
-        $this->out_provider_turnover = $deal->out_provider_turnover;
         $this->items_profit_average = $deal->items_profit_average;
         $this->initial_commission = $deal->initial_commission;
         $this->final_commission = $deal->final_commission;
@@ -130,7 +130,6 @@ class DealsCreateUpdate extends Component
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'provider_turnover' => $this->provider_turnover,
-            'out_provider_turnover' => $this->out_provider_turnover,
             'items_profit_average' => $this->items_profit_average,
             'initial_commission' => $this->initial_commission,
             'final_commission' => $this->final_commission,
@@ -148,6 +147,7 @@ class DealsCreateUpdate extends Component
             Deal::where('id', $this->idDeal)->update($params);
         } catch (\Exception $exception) {
             $this->cancel();
+            Log::error($exception->getMessage());
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while updating Deal'));
         }
         return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Updated Successfully'));
@@ -166,7 +166,6 @@ class DealsCreateUpdate extends Component
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'provider_turnover' => $this->provider_turnover,
-            'out_provider_turnover' => $this->out_provider_turnover,
             'items_profit_average' => $this->items_profit_average,
             'initial_commission' => $this->initial_commission,
             'final_commission' => $this->final_commission,
@@ -184,6 +183,7 @@ class DealsCreateUpdate extends Component
         try {
             Deal::create($params);
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale(),])->with('danger', Lang::get('Something goes wrong while creating Deal'));
         }
         return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Created Successfully'));

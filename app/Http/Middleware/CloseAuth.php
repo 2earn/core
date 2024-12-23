@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Carbon\Carbon;
 use Closure;
-use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,14 +27,13 @@ class CloseAuth
         $value = Session::get($ses);
         try {
             $dt = Carbon::now()->diff($value);
-            dd($dt,$dt->invert);
-
             if ($dt->invert == 1) {
                 Auth::logout();
                 Cache::flush();
                 return redirect()->route('login', getLangNavigation());
             }
-        } catch (\Exception $ex) {
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             Auth::logout();
             Cache::flush();
             return redirect()->route('login', getLangNavigation());

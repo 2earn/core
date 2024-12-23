@@ -4,10 +4,13 @@ namespace Core\Services;
 
 use App\Http\Traits\earnLog;
 use App\Http\Traits\earnTrait;
+use App\Models\BFSsBalances;
 use App\Models\ContactUser;
 use App\Models\User;
+use App\Models\UserCurrentBalanceHorisontal;
+use App\Services\Balances\Balances;
 use Carbon\Carbon;
-use Core\Enum\AmoutEnum;
+use Core\Enum\BalanceEnum;
 use Core\Enum\EventBalanceOperationEnum;
 use Core\Enum\ExchangeTypeEnum;
 use Core\Enum\LanguageEnum;
@@ -32,11 +35,11 @@ use Core\Models\identificationuserrequest;
 use Core\Models\language;
 use Core\Models\metta_user;
 use Core\Models\Setting;
-use Core\Models\user_balance;
 use Core\Models\user_earn;
 use Core\Models\UserContact;
 use Core\Models\UserContactNumber;
 use Core\Models\UserNotificationSettings;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 
@@ -217,9 +220,8 @@ class settingsManager
 
     public function getAuthUser()
     {
-        $user = $this->userRepository->getAuthenticatedUser();
-        $userMetta = $this->getMettaUser()
-            ->where('idUser', '=', $user->idUser)->first();
+        $user = Auth::user();
+        $userMetta = $this->getMettaUser()->where('idUser', '=', $user->idUser)->first();
         $userAuth = new AuthenticatedUser();
         $userAuth->id = $user->id;
         $userAuth->idUser = $user->idUser;
@@ -240,7 +242,6 @@ class settingsManager
         $userAuth->dateFNS = $user->dateFNS;
         $userAuth->internationalID = $user->internationalID;
         $userAuth->expiryDate = $user->expiryDate;
-
         return $userAuth;
     }
 
@@ -301,10 +302,6 @@ class settingsManager
 
     public function createUserContactNumber(User $user, $iso)
     {
-        if (!UserContactNumber::where('mobile', $user->mobile)
-            ->where('idUser', $user->idUser)
-            ->where('codeP', $user->idCountry)
-            ->exists()) {
             UserContactNumber::Create([
                 'idUser' => $user->idUser,
                 'mobile' => $user->mobile,
@@ -314,7 +311,6 @@ class settingsManager
                 'isID' => true,
                 'fullNumber' => $user->fullphone_number,
             ]);
-        }
     }
 
     public function updateUserContactNumber(User $user, $iso)
@@ -336,7 +332,7 @@ class settingsManager
 
     public function createUserContactNumberByProp($idUser, $mobile, $idCountry, $iso, $fullNumber)
     {
-        return $contactNumber = UserContactNumber::create([
+        return UserContactNumber::create([
             'idUser' => $idUser,
             'mobile' => $mobile,
             'codeP' => $idCountry,
@@ -449,10 +445,7 @@ class settingsManager
         }
 
         $this->earnDebugSms("Full number - " . $fullNumber);
-        $param = [
-            'msg' => $msss,
-            'fullNumber' => $fullNumber
-        ];
+        $param = ['msg' => $msss, 'fullNumber' => $fullNumber];
         if (isset($params['type'])) {
             $this->earnDebugSms("Param type existe - " . $params['type']->value);
             switch ($params['type']) {
@@ -461,10 +454,10 @@ class settingsManager
                     $this->earnDebugSms("Country is - " . $user->idCountry);
                     switch ($idCountry) {
                         case 216 :
-                            $result = $this->notifyHelper->notifyuser(                                TypeNotificationEnum::SMS, OperateurSmsEnum::Tunisie, $typeEventNotification, $param);
+                            $result = $this->notifyHelper->notifyuser(TypeNotificationEnum::SMS, OperateurSmsEnum::Tunisie, $typeEventNotification, $param);
                             break;
                         default :
-                            $result = $this->notifyHelper->notifyuser(                                TypeNotificationEnum::SMS, OperateurSmsEnum::international, $typeEventNotification, $param);
+                            $result = $this->notifyHelper->notifyuser(TypeNotificationEnum::SMS, OperateurSmsEnum::international, $typeEventNotification, $param);
                             break;
                     }
                     break;
@@ -508,7 +501,7 @@ class settingsManager
                             ->first();
                         $soldeSuf = true;
                         $this->earnDebugSms("Case Can send Sms: ");
-                        $sooldeSms = $this->getSoldeByAmount($user->idUser, AmoutEnum::Sms_Balance);
+                        $sooldeSms = $this->getSoldeByAmount($user->idUser, BalanceEnum::SMS);
                         $this->earnDebugSms("Solde Sms -: " . $sooldeSms);
                         if ($notifSetting->payer && $sooldeSms <= 0) {
                             $soldeSuf = false;
@@ -517,12 +510,10 @@ class settingsManager
                             $this->earnDebugSms("Country is  -: " . $user->idCountry);
                             switch ($idCountry) {
                                 case 216 :
-                                    $result = $this->notifyHelper->notifyuser(
-                                        TypeNotificationEnum::SMS, OperateurSmsEnum::Tunisie, $typeEventNotification, $param);
+                                    $result = $this->notifyHelper->notifyuser(TypeNotificationEnum::SMS, OperateurSmsEnum::Tunisie, $typeEventNotification, $param);
                                     break;
                                 default:
-                                    $result = $this->notifyHelper->notifyuser(
-                                        TypeNotificationEnum::SMS, OperateurSmsEnum::international, $typeEventNotification, $param);
+                                    $result = $this->notifyHelper->notifyuser( TypeNotificationEnum::SMS, OperateurSmsEnum::international, $typeEventNotification, $param);
                                     break;
                             }
                             if ($notifSetting && $notifSetting->payer) {
@@ -558,10 +549,10 @@ class settingsManager
     public function getAuthUserById($id)
     {
         $user = $this->userRepository->getUserById($id);
-        if (!$user)
+        if (!$user) {
             return null;
-        $userMetta = $this->getMettaUser()
-            ->where('idUser', '=', $user->idUser)->first();
+        }
+        $userMetta = $this->getMettaUser()->where('idUser', '=', $user->idUser)->first();
         $userAuth = new AuthenticatedUser();
         $userAuth->id = $user->id;
         $userAuth->idUser = $user->idUser;
@@ -579,7 +570,7 @@ class settingsManager
         return $this->notificationRepository->getNotificationSettingByIdUser($idUser);
     }
 
-    public function getSoldeByAmount($idUser, AmoutEnum $amount)
+    public function getSoldeByAmount($idUser, BalanceEnum $amount)
     {
         return $this->userBalanceRepository->getSoldeByAmount($idUser, $amount->value);
     }
@@ -589,45 +580,34 @@ class settingsManager
         switch ($typeEchange) {
             case ExchangeTypeEnum::CashToBFS :
                 if (floatval($montant) <= 0) {
-                    dd("exception invalid montant");
+                    throw new \Exception("exception invalid montant");
                 }
-                $solde = $this->balancesManager->getBalances($idUser, -1);
-                $newSoldeCashBalance = floatval($solde->soldeCB) - floatval($montant);
+
+                $balances = Balances::getStoredUserBalances($idUser);;
+                $newSoldeCashBalance = floatval($balances->cash_balance) - floatval($montant);
+
                 if ($newSoldeCashBalance < 0)
-                    dd("exception solde insuffisant");
-                $newSoldeBFS = floatval($solde->soldeBFS) + floatval($montant);
-                //update usercurrentbalances where amout CASH BALANCE (new CB)
-                DB::table('usercurrentbalances')->where('idUser', $idUser)->where('idamounts', AmoutEnum::CASH_BALANCE)
-                    ->update(['value' => $newSoldeCashBalance]);
-                //update usercurrentbalances where amout BFS (new BFS)
-                DB::table('usercurrentbalances')->where('idUser', $idUser)->where('idamounts', AmoutEnum::BFS)->update(['value' => $newSoldeBFS]);
-                $param = ['montant' => $montant, 'newSoldeCashBalance' => $newSoldeCashBalance, 'newSoldeBFS' => $newSoldeBFS];
+                    throw new \Exception("exception solde insuffisant");
+
+                $param = [
+                    'montant' => $montant,
+                    'newSoldeCashBalance' => $newSoldeCashBalance,
+                    'newSoldeBFS' => floatval($balances->getBfssBalance(BFSsBalances::BFS_100)) + floatval($montant)
+                ];
                 $this->userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::ExchangeCashToBFS, $idUser, $param);
                 break;
             case ExchangeTypeEnum::BFSToSMS :
-                $solde = $this->balancesManager->getBalances($idUser, -1);
-                $soldeBfs = $solde->soldeBFS;
+                $balances = Balances::getStoredUserBalances($idUser);
+                $soldeBfs = $balances->getBfssBalance(BFSsBalances::BFS_100);
                 $seting = DB::table('settings')->where("idSETTINGS", "=", "13")->first();
                 $prix_sms = $seting->IntegerValue;
                 $newSoldeBFS = $soldeBfs - ($prix_sms * $montant);
 
-                if ($newSoldeBFS < 0)
-                    dd("exception solde insuffisant");
-                $lates = user_balance::latest('id')->where([['idSource', '=', $idUser], ['idUser', '=', $idUser], ['idAmount', '=', AmoutEnum::Sms_Balance]]
-                )->first();
-                $balanceEnterieru = 0;
-                if ($lates != null) {
-                    $balanceEnterieru = $lates->Balance;
+                if ($newSoldeBFS < 0) {
+                    throw new \Exception("exception solde insuffisant");
                 }
-                $newBalanceBFS = $balanceEnterieru + ($prix_sms * $montant);
-                if ($lates == null) {
-                    $balanceEnterieru = 0;
-                }
-                DB::table('usercurrentbalances')->where('idUser', $idUser)->where('idamounts', 2)->update(['value' => $newSoldeBFS]);
-                $currentBFS = DB::table('usercurrentbalances')->where('idUser', $idUser)->where('idamounts', 5)->first();
-                $newSMS = floatval($currentBFS->value) + floatval($prix_sms * $montant);
-                DB::table('usercurrentbalances')->where('idUser', $idUser)->where('idamounts', 5)->update(['value' => $newSMS]);
-                $param = ['montant' => $prix_sms * $montant, 'newSoldeCashBalance' => $newSoldeBFS, 'newSoldeBFS' => $newBalanceBFS, 'PrixSms' => $prix_sms];
+
+                $param = ['montant' => $prix_sms * $montant, 'newSoldeCashBalance' => $newSoldeBFS, 'newSoldeBFS' => $newSoldeBFS, 'PrixSms' => $prix_sms];
                 $this->userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::ExchangeBFSToSMS, $idUser, $param);
                 break;
         }
@@ -850,19 +830,6 @@ class settingsManager
     public function getConditionalUser($Attribute, $value)
     {
         return $this->userRepository->getConditionalUser($Attribute, $value);
-    }
-
-    public function deleteUser($idUser)
-    {
-        // CHECK IN BALANCES
-        DB::delete('delete from  user_balances where idSource = ? or idUser=? ', [$idUser, $idUser]);
-        DB::delete('delete from usercurrentbalances where idUser=? ', [$idUser]);
-        DB::delete('delete  from user_notification_setting where idUser = ?', [$idUser]);
-        DB::delete('delete from metta_users where idUser = ?', [$idUser]);
-        DB::delete('delete   from user_contacts where idUser = ? ', [$idUser]);
-        DB::delete('delete  from usercontactnumber where idUser = ?', [$idUser]);
-        DB::delete('delete from identificationuserrequest where idUser = ?', [$idUser]);
-        DB::delete('delete from users  where idUser = ? ', [$idUser]);
     }
 
     public function getStatesContrie($CodePhone)

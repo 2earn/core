@@ -444,3 +444,14 @@ div.dt-processing {
     height: 180px;
 }
 
+.text-cash {
+    color: #464fed !important;
+}
+
+.text-bfs {
+    color: #bc34b6 !important;
+}
+
+.text-discount {
+    color: #009fe3 !important;
+}

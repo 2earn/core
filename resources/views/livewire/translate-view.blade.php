@@ -73,14 +73,9 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
         </div>
     </div>
     <div class="row card">
-        <div class="card-header border-info">
-            <div class="d-flex align-items-center">
-                <h6 class="card-title mb-0 flex-grow-1">{{ __('Translate') }}</h6>
-            </div>
-        </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-12 mt-2 mb-2">
+                <div class="col-12">
                     @include('layouts.flash-messages')
                 </div>
             </div>

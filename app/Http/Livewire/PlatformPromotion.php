@@ -6,6 +6,7 @@ use App\Models\User;
 use Core\Enum\Promotion;
 use Core\Models\Platform;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
@@ -43,8 +44,8 @@ class PlatformPromotion extends Component
 
             $platform->save();
         } catch (\Exception $exception) {
-            return redirect()->route('platform_promotion', $this->rediredtionParams)->with('error', Lang::get($role) . self::SEPARATOR . Lang::get('Role revoque failed') . self::SEPARATOR . $exception->getMessage());
-
+            Log::error($exception->getMessage());
+            return redirect()->route('platform_promotion', $this->rediredtionParams)->with('danger', Lang::get($role) . self::SEPARATOR . Lang::get('Role revoque failed') . self::SEPARATOR . $exception->getMessage());
         }
         return redirect()->route('platform_promotion', $this->rediredtionParams)->with('success', Lang::get($role) . self::SEPARATOR . Lang::get('Role revoqued'));
     }
@@ -68,8 +69,8 @@ class PlatformPromotion extends Component
             $platform->save();
         } catch
         (\Exception $exception) {
-            return redirect()->route('platform_promotion', $this->rediredtionParams)->with('error', Lang::get($role) . self::SEPARATOR . Lang::get('manager promotion failed') . self::SEPARATOR . $exception->getMessage());
-
+            Log::error($exception->getMessage());
+            return redirect()->route('platform_promotion', $this->rediredtionParams)->with('danger', Lang::get($role) . self::SEPARATOR . Lang::get('manager promotion failed') . self::SEPARATOR . $exception->getMessage());
         }
         return redirect()->route('platform_promotion', $this->rediredtionParams)->with('success', Lang::get($role) . self::SEPARATOR . Lang::get('manager promotion to') . self::SEPARATOR . getUserDisplayedName($user->idUser));
     }

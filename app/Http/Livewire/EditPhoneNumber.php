@@ -34,7 +34,7 @@ class EditPhoneNumber extends Component
         if (!$user) return;
 
         if ($code != $user->activationCodeValue)
-            return redirect()->route("account", app()->getLocale())->with('ErrorSamePhone', Lang::get('Invalid OPT code'));
+            return redirect()->route("account", app()->getLocale())->with('danger', Lang::get('Invalid OPT code'));
 
         $country = $settingsManager->getCountryByIso($iso);
         User::where('idUser', auth()->user()->idUser)->update(['mobile' => $phonenumber, 'fullphone_number' => $fullNumber, 'idCountry' => $country->id, 'activationCodeValue' => $code, 'id_phone' => $codeP]);
@@ -61,10 +61,10 @@ class EditPhoneNumber extends Component
         $user = $settingsManager->getUserById($userAuth->id);
         if (!$user) return;
         if ($user->fullphone_number == $fullNumber)
-            return redirect()->route("account", app()->getLocale())->with('ErrorSamePhone', Lang::get('Same_phone_number'));
+            return redirect()->route("account", app()->getLocale())->with('danger', Lang::get('Same_phone_number'));
         $userExiste = $settingsManager->getUserByFullNumber($fullNumber);
         if ($userExiste && $userExiste->id != $userAuth->id)
-            return redirect()->route("account", app()->getLocale())->with('ErrorSamePhone', Lang::get('Phone_number_used'));
+            return redirect()->route("account", app()->getLocale())->with('danger', Lang::get('Phone_number_used'));
         if ($user->email == null || $user->email == "") {
             abort(404);
         }

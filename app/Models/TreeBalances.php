@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use App\Http\Livewire\Platform;
+use App\Services\Balances\Balances;
 use Core\Models\BalanceOperation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class TreeBalances extends Model
 {
@@ -14,8 +17,13 @@ class TreeBalances extends Model
     protected $fillable = [
         'value',
         'description',
-        'total_balance',
+        'current_balance',
         'reference',
+        'balance_operation_id',
+        'description',
+        'beneficiary_id_auto',
+        'beneficiary_id',
+        'operator_id',
     ];
 
     public function deal()
@@ -51,6 +59,24 @@ class TreeBalances extends Model
 
     public function beneficiary()
     {
-        return $this->belongsTo(User::class, 'beneficiary_id');
+        return $this->belongsTo(User::class, 'beneficiary_id_auto');
+    }
+
+    public static function getTreesNumber($treeBalances)
+    {
+        try {
+            if (DB::table('settings')->where("ParameterName", "=", 'TOTAL_TREE')->exists()) {
+                return $treeBalances / DB::table('settings')->where("ParameterName", "=", 'TOTAL_TREE')->pluck('IntegerValue')->first();
+            }
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return 0;
+        }
+    }
+
+    public static function addLine($treeBalances, $item_id = null, $deal_id = null, $order_id = null, $platform_id = null, $order_detail_id = null)
+    {
+        $treeBalances = Balances::addAutomatedFields($treeBalances, $item_id, $deal_id, $order_id, $platform_id, $order_detail_id);
+        self::create($treeBalances);
     }
 }

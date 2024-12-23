@@ -8,6 +8,7 @@ use App\Models\SurveyQuestionChoice;
 use App\Models\TranslaleModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
@@ -70,6 +71,7 @@ class SurveyQuestionChoiceCreateUpdate extends Component
             }
 
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while updating Choice'));
         }
         return redirect()->route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Choice Updated Successfully'));
@@ -94,6 +96,7 @@ class SurveyQuestionChoiceCreateUpdate extends Component
                 ]);
 
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while creating Choice'));
         }
         return redirect()->route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Choice Created Successfully'));
