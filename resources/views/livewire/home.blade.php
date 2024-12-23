@@ -101,7 +101,7 @@
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <lord-icon
-                                src="https://cdn.lordicon.com/nlmjynuq.json"
+                                src="{{ URL::asset('build/icons/nlmjynuq.json') }}"
                                 trigger="loop"
                                 style="width:55px;height:55px">
                             </lord-icon>
@@ -226,7 +226,7 @@
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <lord-icon
-                                src="https://cdn.lordicon.com/qrbokoyz.json"
+                                src="{{ URL::asset('build/icons/qrbokoyz.json') }}"
                                 trigger="loop"
                                 colors="primary:#464fed,secondary:#bc34b6"
                                 style="width:55px;height:55px">
