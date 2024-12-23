@@ -11,21 +11,13 @@ use Livewire\Component;
 
 class ConfigurationHA extends Component
 {
-
-
     public $allAmounts;
     public int $idSetting;
     public string $parameterName;
     public $IntegerValue;
-
     public $Unit;
     public string $Description;
-
     public $idBalanceOperations;
-
-
-
-
     public $idHA;
     public $titleHA;
     public $list_reponceHA;
@@ -38,11 +30,7 @@ class ConfigurationHA extends Component
         'saveHA' => 'saveHA'
     ];
 
-    public function render()
-    {
-        $this->allAmounts = Amount::all();
-        return view('livewire.configuration-ha')->extends('layouts.master')->section('content');
-    }
+
     public function initHAFunction($id)
     {
         $action = action_historys::find($id);
@@ -64,4 +52,9 @@ class ConfigurationHA extends Component
         $this->dispatchBrowserEvent('closeModalHA');
     }
 
+    public function render()
+    {
+        $this->allAmounts = Amount::all();
+        return view('livewire.configuration-ha')->extends('layouts.master')->section('content');
+    }
 }

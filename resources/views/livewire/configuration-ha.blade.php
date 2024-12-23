@@ -34,7 +34,6 @@
                     <form action="" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
-
                             <div class="mb-3 col-xl-6">
                                 <label class="me-sm-2">{{ __('backand.Name') }}</label>
                                 <input type="text" class="form-control" placeholder="name" name="ParameterName"
