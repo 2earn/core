@@ -7,38 +7,45 @@
     <div wire:ignore.self class="modal fade" id="editTranslationModal" tabindex="-1"
          aria-labelledby="editTranslationModalLabel"
          aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editTranslationModalLabel">{{__('Edit field')}} : </h5>
+                    <h5 class="modal-title" id="editTranslationModalLabel"><p class="text-primary">{{__('Edit field')}} :  {{$name}}</p></h5>
                     <button type="button" id="editTranslationModalClose" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="text-primary">
-                        {{$name}}
-                    </p>
-                    <span class="text-warning">
-                        {{ __('Max char is 190! every translation item will be shrinked to 190 char.') }}
-                    </span>
 
-                    <form>
-                        <div class="mb-3">
+                    <form class="row">
+                        <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
                             <label for="recipient-name" class="col-form-label">{{__('Arabe')}}</label>
                             <textarea rows="4" class="form-control" wire:model.defer="arabicValue" maxlength="190"
                                       required>
                             </textarea>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
                             <label for="message-text" class="col-form-label">{{__('Francais')}}</label>
                             <textarea rows="4" class="form-control" wire:model.defer="frenchValue" maxlength="190"
                                       required>
                             </textarea>
 
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
                             <label for="message-text" class="col-form-label">{{__('English')}}</label>
                             <textarea rows="4" class="form-control" wire:model.defer="englishValue" maxlength="190"
+                                      required>
+                            </textarea>
+
+                        </div>
+                        <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
+                            <label for="message-text" class="col-form-label">{{__('Turkish')}}</label>
+                            <textarea rows="4" class="form-control" wire:model.defer="turkishValue" maxlength="190"
+                                      required>
+                            </textarea>
+                        </div>
+                        <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
+                            <label for="message-text" class="col-form-label">{{__('Spanish')}}</label>
+                            <textarea rows="4" class="form-control" wire:model.defer="spanishValue" maxlength="190"
                                       required>
                             </textarea>
 
@@ -46,6 +53,9 @@
                     </form>
                 </div>
                 <div class="modal-footer">
+                                        <span class="text-warning">
+                        {{ __('Max char is 190! every translation item will be shrinked to 190 char.') }}
+                    </span>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
                     <button type="button" wire:click="saveTranslate"
                             class="btn btn-success">
@@ -181,7 +191,16 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                             <li class="list-group-item">  {{__('Francais')}}:<span
                                                                     class="text-muted mx-1">{{ Str::limit($value->valueFr,200)}}</span>
                                                             </li>
+                                                            <li class="list-group-item">
+                                                                {{__('Turkish')}}:<span
+                                                                    class="text-muted mx-1">{{ Str::limit($value->valueTr,200)}}</span>
+                                                            </li>
+                                                            <li class="list-group-item">
+                                                                {{__('Spanish')}}:<span
+                                                                    class="text-muted mx-1">{{ Str::limit($value->valueEs,200)}}</span>
+                                                            </li>
                                                         </ul>
+
                                                     </td>
                                                     <td>
                                                         <a type="btn" wire:click="initTranslate({{$value->id}})"
@@ -191,6 +210,14 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                         <a type="btn" onclick="confirmDelete({{$value->id}})"
                                                            class="btn btn-danger mt-1">{{__('Delete')}}
                                                         </a>
+                                                        <br>
+                                                        <span class="text-muted mt-2">
+                                                    <i class="fa-solid fa-plus mx-2"></i>{{$value->created_at}}
+                                                </span>
+                                                        <br>
+                                                        <span class="text-muted mt-2">
+                                                    <i class="fa-solid fa-pen-to-square mx-2"></i>{{$value->updated_at}}
+                                                </span>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -262,6 +289,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
             Swal.fire({
                 title: '{{__('Enter field name')}}',
                 input: 'text',
+                allowOutsideClick: false,
                 inputAttributes: {autocapitalize: 'off'},
                 showCancelButton: true,
                 cancelButtonText: '{{__('Cancel')}}',

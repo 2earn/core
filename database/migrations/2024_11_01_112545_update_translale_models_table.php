@@ -13,12 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('targetables', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('target_id');
-            $table->unsignedBigInteger('targetable_id');
-            $table->string('targetable_type');
-            $table->timestamps();
+        Schema::table('translale_models', function (Blueprint $table) {
+            $table->longText('valueEs');
+            $table->longText('valueTr');
         });
     }
 
@@ -29,6 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('targetables');
+        Schema::table('translale_models', function (Blueprint $table) {
+            //
+        });
     }
 };

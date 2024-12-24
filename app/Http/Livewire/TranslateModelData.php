@@ -17,12 +17,16 @@ class TranslateModelData extends Component
     public $arabicValue = "";
     public $frenchValue = "";
     public $englishValue = "";
+    public $spanishValue = "";
+    public $turkishValue = "";
     public $name;
     public $idTranslate;
     public $tab = [];
     public $tabfin = [];
     public $tabfinFr = [];
     public $tabfinEn = [];
+    public $tabfinTr = [];
+    public $tabfinEs = [];
 
     public $search = '';
     public $nbrPagibation = 10;
@@ -46,7 +50,15 @@ class TranslateModelData extends Component
     public function AddFieldTranslate($val)
     {
         if (TranslaleModel::where(DB::raw('upper(name)'), strtoupper($val))->get()->count() == 0) {
-            TranslaleModel::create(['name' => $val, 'value' => $val . ' AR', 'valueFr' => $val . ' FR', 'valueEn' => $val . ' EN']);
+            $translateTab = [
+                'name' => $val,
+                'value' => $val . ' AR',
+                'valueFr' => $val . ' FR',
+                'valueEn' => $val . ' EN',
+                'valueTr' => $val . ' TR',
+                'valueEs' => $val . ' ES'
+            ];
+            TranslaleModel::create($translateTab);
             return redirect()->route('translate_model_data', app()->getLocale())->with('success', trans('key added successfully') . ' : ' . $val);
         } else {
             return redirect()->route('translate_model_data', app()->getLocale())->with('danger', trans('key exist!'));
@@ -67,10 +79,20 @@ class TranslateModelData extends Component
 
     public function save()
     {
-        foreach ($this->translate as $key => $value) {
-            TranslaleModel::where('id', $value->id)->update(['value' => $value->value, 'valueFr' => $value->valueFr]);
+        foreach ($this->translate as $value) {
+            $params = [
+                'value' => $value->value,
+                'valueFr' => $value->valueFr,
+                'valueEn' => $value->valueEn,
+                'valueTr' => $value->valueTr,
+                'valueEs' => $value->valueEs,
+            ];
+            TranslaleModel::where('id', $value->id)->update($params);
             $this->tabfin[$value->name] = $value->value;
             $this->tabfinFr[$value->name] = $value->valueFr;
+            $this->tabfinEn[$value->name] = $value->valueEn;
+            $this->tabfinTr[$value->name] = $value->valueTr;
+            $this->tabfinEs[$value->name] = $value->valueEs;
         }
         return redirect()->route('translate_model_data', app()->getLocale())->with('success', trans('Keys to files added successfully'));
     }
@@ -82,12 +104,15 @@ class TranslateModelData extends Component
 
     public function saveTranslate()
     {
-        TranslaleModel::where('id', $this->idTranslate)->update(['value' => $this->arabicValue, 'valueFr' => $this->frenchValue, 'valueEn' => $this->englishValue]);
+        $params = ['value' => $this->arabicValue, 'valueFr' => $this->frenchValue, 'valueEn' => $this->englishValue, 'valueTr' => $this->turkishValue, 'valueEs' => $this->spanishValue];
+        TranslaleModel::where('id', $this->idTranslate)->update($params);
         $all = TranslaleModel::all();
-        foreach ($all as $key => $value) {
+        foreach ($all as $value) {
             $this->tabfin[$value->name] = $value->value;
             $this->tabfinFr[$value->name] = $value->valueFr;
             $this->tabfinEn[$value->name] = $value->valueEn;
+            $this->tabfinTr[$value->name] = $value->valueTr;
+            $this->tabfinEs[$value->name] = $value->valueEs;
         }
         return redirect()->route('translate_model_data', app()->getLocale())->with('success', trans('Edit translation succeeded'));
     }
@@ -101,6 +126,8 @@ class TranslateModelData extends Component
             $this->arabicValue = $trans->value;
             $this->frenchValue = $trans->valueFr;
             $this->englishValue = $trans->valueEn;
+            $this->spanishValue = $trans->valueEs;
+            $this->turkishValue = $trans->valueTr;
         }
     }
 
@@ -108,7 +135,10 @@ class TranslateModelData extends Component
     {
         $translate = TranslaleModel::where(DB::raw('upper(name)'), 'like', '%' . strtoupper($this->search) . '%')
             ->orWhere(DB::raw('upper(valueFr)'), 'like', '%' . strtoupper($this->search) . '%')
+            ->orWhere(DB::raw('upper(valueFr)'), 'like', '%' . strtoupper($this->search) . '%')
             ->orWhere(DB::raw('upper(valueEn)'), 'like', '%' . strtoupper($this->search) . '%')
+            ->orWhere(DB::raw('upper(valueEs)'), 'like', '%' . strtoupper($this->search) . '%')
+            ->orWhere(DB::raw('upper(valueTr)'), 'like', '%' . strtoupper($this->search) . '%')
             ->orWhere(DB::raw('upper(value)'), 'like', '%' . strtoupper($this->search) . '%')
             ->orderBy('id', 'desc')
             ->paginate($this->nbrPagibation);

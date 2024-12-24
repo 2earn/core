@@ -2,27 +2,20 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\BFSsBalances;
-use App\Models\UserCurrentBalanceHorisontal;
+use App\Jobs\TranslationFilesToDatabase;
 use Livewire\Component;
 
 class NewBalance extends Component
 {
     public function render()
     {
-        $userId = 197604342;
-        $balances = UserCurrentBalanceHorisontal::where('user_id', $userId)->first();
-        dump($balances->getBfssBalance(BFSsBalances::BFS_100));
-        dump($balances->getBfssBalance(BFSsBalances::BFS_50));
-        $balances->setBfssBalance(BFSsBalances::BFS_100, 100);
-        $balances->setBfssBalance(BFSsBalances::BFS_50, 100);
-        dump($balances->getBfssBalance(BFSsBalances::BFS_100));
-        dump($balances->getBfssBalance(BFSsBalances::BFS_50));
-        dump($balances->getBfssBalance(BFSsBalances::BFS_50));
+        $start_time = microtime(true);
+        $job= new TranslationFilesToDatabase();
+        $job->handle();
+        $end_time = microtime(true);
+        $execution_time = ($end_time - $start_time);
+        dd("Script Execution Time = " . $execution_time . " sec");
 
-        dump(\App\Services\Balances\Balances::getTotolBfs($balances));
-        $balances = UserCurrentBalanceHorisontal::where('user_id', $userId)->first();
-        dd($balances);
         return view('livewire.new-balance')->extends('layouts.master')->section('content');
     }
 }
