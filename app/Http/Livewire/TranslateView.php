@@ -109,6 +109,7 @@ class TranslateView extends Component
             $job->handle();
             $end_time = microtime(true);
             $execution_time = ($end_time - $start_time);
+            Log::error(TranslationFilesToDatabase::class. self::SEPARATION . $execution_time);
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -178,14 +179,12 @@ class TranslateView extends Component
             if (empty($pass) or $pass != $this->defRandomNumber) {
                 throw new \Exception(trans('Key not confirmed'));
             }
-
-
             $start_time = microtime(true);
             $job = new TranslationDatabaseToFiles();
             $job->handle();
             $end_time = microtime(true);
             $execution_time = ($end_time - $start_time);
-
+            Log::error(TranslationDatabaseToFiles::class. self::SEPARATION . $execution_time);
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
