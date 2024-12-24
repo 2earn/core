@@ -10,6 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 class TranslationFilesToDatabase implements ShouldQueue
 {
@@ -35,7 +36,7 @@ class TranslationFilesToDatabase implements ShouldQueue
         $json = collect(json_decode($contents));
         foreach ($json as $key => $value) {
             $keyLang = 'value' . ($lang == 'ar' ? '' : ucfirst($lang));
-            $this->paramsToUpdate[$key][$keyLang] = $value;
+            $this->paramsToUpdate[$key][$keyLang] = is_null($value) ? '' : $value;
         }
     }
 
@@ -75,21 +76,20 @@ class TranslationFilesToDatabase implements ShouldQueue
         $this->mergeFile('es', 'valueEs');
         $this->mergeFile('tr', 'valueTr');
 
+        $start_time = microtime(true);
         foreach ($this->paramsToAdd as $item) {
             translatetabs::create($item);
         }
+        $end_time = microtime(true);
+        Log::info('Translation update time: ' . ($end_time - $start_time));
+        $start_time = microtime(true);
         foreach ($this->paramsToUpdate as $key => $item) {
-            if (translatetabs::where('name', $key)->exists()) {
-                DB::table('translatetab')->where('name', $key)
-                    ->update(
-                        [
-                            'value' => $item['value'],
-                            'valueFr' => $item['valueFr'],
-                            'valueEs' => isset($item['valueEs']) ? $item['valueEs'] : '',
-                            'valueTr' => isset($item['valueTr']) ? $item['valueTr'] : ''
-                        ]
-                    );
+            $line = translatetabs::where('name', $key)->first();
+            if (!is_null($line)) {
+                $line->update($item);
             }
         }
+        $end_time = microtime(true);
+        Log::info('Translation update time: ' . ($end_time - $start_time));
     }
 }
