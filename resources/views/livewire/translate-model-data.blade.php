@@ -12,7 +12,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="editTranslationModalLabel">
                         <p class="text-primary">
-                            {{__('Edit field')}} :    {{$name}}
+                            {{__('Edit field')}} : {{$name}}
                         </p>
                     </h5>
                     <button type="button" id="editTranslationModalClose" class="btn-close" data-bs-dismiss="modal"
@@ -120,8 +120,8 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                         <i class="ri-file-add-fill label-icon align-middle fs-16 ms-2"></i>
                                         {{__('Add a new')}}
                                     </a>
-                                    </div>
                                 </div>
+                            </div>
                             <div class="table-responsive-sm mt-3">
                                 <table
                                     class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
@@ -167,15 +167,19 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                             class="text-muted mx-1">{{ Str::limit($value->value,100)}}</span>
                                                     </li>
                                                     <li class="list-group-item">
-
                                                         {{__('Francais')}}:<span
                                                             class="text-muted mx-1">{{ Str::limit($value->valueFr,100)}}</span>
                                                     </li>
                                                     <li class="list-group-item">
-                                                  <span class="text-muted"><i class="fa-solid fa-plus mx-2"></i>{{$value->created_at}}<br><i
-                                                          class="fa-solid fa-pen-to-square mx-2"></i>{{$value->updated_at}}</span>
+                                                        {{__('Turkish')}}:<span
+                                                            class="text-muted mx-1">{{ Str::limit($value->valueTr,100)}}</span>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        {{__('Spanish')}}:<span
+                                                            class="text-muted mx-1">{{ Str::limit($value->valueEs,100)}}</span>
                                                     </li>
                                                 </ul>
+
                                             </td>
 
                                             <td>
@@ -186,6 +190,14 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                 <a type="btn" onclick="confirmDelete({{$value->id}})"
                                                    class="btn btn-danger mt-1">{{__('Delete')}}
                                                 </a>
+                                                <br>
+                                                <span class="text-muted mt-2">
+                                                    <i class="fa-solid fa-plus mx-2"></i>{{$value->created_at}}
+                                                </span>
+                                                <br>
+                                                <span class="text-muted mt-2">
+                                                    <i class="fa-solid fa-pen-to-square mx-2"></i>{{$value->updated_at}}
+                                                </span>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -193,7 +205,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                 </table>
                             </div>
                             {{$translates->links()}}
-                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -200,6 +200,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                                     class="text-muted mx-1">{{ Str::limit($value->valueEs,200)}}</span>
                                                             </li>
                                                         </ul>
+
                                                     </td>
                                                     <td>
                                                         <a type="btn" wire:click="initTranslate({{$value->id}})"
@@ -209,6 +210,14 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                         <a type="btn" onclick="confirmDelete({{$value->id}})"
                                                            class="btn btn-danger mt-1">{{__('Delete')}}
                                                         </a>
+                                                        <br>
+                                                        <span class="text-muted mt-2">
+                                                    <i class="fa-solid fa-plus mx-2"></i>{{$value->created_at}}
+                                                </span>
+                                                        <br>
+                                                        <span class="text-muted mt-2">
+                                                    <i class="fa-solid fa-pen-to-square mx-2"></i>{{$value->updated_at}}
+                                                </span>
                                                     </td>
                                                 </tr>
                                             @endforeach

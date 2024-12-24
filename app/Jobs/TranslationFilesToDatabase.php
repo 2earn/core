@@ -29,9 +29,11 @@ class TranslationFilesToDatabase implements ShouldQueue
         $contents = File::get($pathFile);
         $json = collect(json_decode($contents));
         foreach ($json as $key => $value) {
-            $keyLang = 'value' . ($lang == 'ar' ? '' : ucfirst($lang));
-            $this->paramsToUpdate[$key]['name'] = is_null($value) ? '' : $value;
-            $this->paramsToUpdate[$key][$keyLang] = is_null($value) ? '' : $value;
+            if ($key) {
+                $keyLang = 'value' . ($lang == 'ar' ? '' : ucfirst($lang));
+                $this->paramsToUpdate[$key]['name'] = is_null($value) ? '' : $value;
+                $this->paramsToUpdate[$key][$keyLang] = is_null($value) ? '' : $value;
+            }
         }
     }
 
@@ -43,7 +45,7 @@ class TranslationFilesToDatabase implements ShouldQueue
         $json = collect(json_decode($contents));
 
         foreach ($json as $key => $value) {
-            if ($value) {
+            if ($value && $key) {
                 if (!translatetabs::where(DB::raw('BINARY `name`'), $key)->exists()) {
                     $params = [
                         'name' => $key,
