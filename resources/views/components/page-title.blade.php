@@ -1,13 +1,14 @@
-<div class="row page-title-box" @if (!is_null($bg)) style="background-color: {{$bg}} !important;" @endif >
+<div class="row page-title-box px-3 pt-2" @if (!is_null($bg)) style="background-color: {{$bg}} !important;" @endif >
     <div class="col-auto">
         <a href="{{route('home', app()->getLocale())}}"
            title="{{__('To Home')}}">
-            <i class=" ri-home-gear-line btn btn-outline-light waves-effect waves-light material-shadow-none btn-sm"
-            ></i>
+            <h6 class="breadcrumb-item text-white"><i class="ri-home-7-line"></i> </h6>
         </a>
     </div>
-    <div class="col-auto page-title-right mt-1">
-        <h6 class="breadcrumb-item text-white font-weight-bolder font-size-20">{!! $pageTitle !!}</h6>
-    </div>
+    @if($pageTitle!='Home')
+        <div class="col-auto">
+            <h6 class="breadcrumb-item text-white">{!! $pageTitle !!}</h6>
+        </div>
+    @endif
 </div>
 

@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    const TABLE_NAME = 'targetables';
+
     /**
      * Run the migrations.
      *
@@ -13,13 +15,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('targetables', function (Blueprint $table) {
+        if (!Schema::hasTable(self::TABLE_NAME)) {
+            Schema::create(self::TABLE_NAME, function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('target_id');
             $table->unsignedBigInteger('targetable_id');
             $table->string('targetable_type');
             $table->timestamps();
         });
+    }
     }
 
     /**
@@ -29,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('targetables');
+        Schema::dropIfExists(self::TABLE_NAME);
     }
 };

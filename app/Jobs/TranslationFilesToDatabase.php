@@ -15,6 +15,9 @@ class TranslationFilesToDatabase implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    private $paramsToAdd = [];
+    private $paramsToUpdate = [];
+
     /**
      * Create a new job instance.
      *
@@ -22,10 +25,32 @@ class TranslationFilesToDatabase implements ShouldQueue
      */
     public function __construct()
     {
+
+    }
+
+    public function mergeFile($lang, $field)
+    {
+        $pathFile = resource_path() . '/lang/' . $lang . '.json';
+        $contents = File::get($pathFile);
+        $json = collect(json_decode($contents));
+        foreach ($json as $key => $value) {
+            $keyLang = 'value' . ($lang == 'ar' ? '' : ucfirst($lang));
+            $this->paramsToUpdate[$key][$keyLang] = $value;
+        }
+    }
+
+    /**
+     * Execute the job.
+     *
+     * @return void
+     */
+    public function handle()
+    {
         translatetabs::truncate();
         $pathFile = resource_path() . '/lang/en.json';
         $contents = File::get($pathFile);
         $json = collect(json_decode($contents));
+
         foreach ($json as $key => $value) {
             if ($value) {
                 if (!translatetabs::where(DB::raw('BINARY `name`'), $key)->exists()) {
@@ -37,37 +62,34 @@ class TranslationFilesToDatabase implements ShouldQueue
                         'valueEs' => '',
                         'valueTr' => '',
                     ];
-                    translatetabs::create($params);
+                    $this->paramsToAdd[$key] = $params;
                 } else {
-                    translatetabs::where('name', $key)->update(['valueEn' => $value]);
+                    $this->paramsToUpdate['name'] = ['valueEn' => $value];
                 }
             }
         }
+
 
         $this->mergeFile('ar', 'value');
         $this->mergeFile('fr', 'valueFr');
         $this->mergeFile('es', 'valueEs');
         $this->mergeFile('tr', 'valueTr');
-    }
 
-    public function mergeFile($lang, $field)
-    {
-
-        $pathFile = resource_path() . '/lang/' . $lang . '.json';
-        $contents = File::get($pathFile);
-        $json = collect(json_decode($contents));
-        foreach ($json as $key => $value) {
-            translatetabs::where('name', $key)->update([$field => $value]);
+        foreach ($this->paramsToAdd as $item) {
+            translatetabs::create($item);
         }
-    }
-
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
-    public function handle()
-    {
-        //
+        foreach ($this->paramsToUpdate as $key => $item) {
+            if (translatetabs::where('name', $key)->exists()) {
+                DB::table('translatetab')->where('name', $key)
+                    ->update(
+                        [
+                            'value' => $item['value'],
+                            'valueFr' => $item['valueFr'],
+                            'valueEs' => isset($item['valueEs']) ? $item['valueEs'] : '',
+                            'valueTr' => isset($item['valueTr']) ? $item['valueTr'] : ''
+                        ]
+                    );
+            }
+        }
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Jobs\TranslationDatabaseToFiles;
-use App\Jobs\TranslationFilesToDatabe;
+use App\Jobs\TranslationFilesToDatabase;
 use Carbon\Carbon;
 use Core\Models\translatearabes;
 use Core\Models\translateenglishs;
@@ -104,7 +104,11 @@ class TranslateView extends Component
             if (empty($pass) or $pass != $this->defRandomNumber) {
                 throw new \Exception(trans('Key not confirmed'));
             }
-            TranslationFilesToDatabase::dispatch();
+            $start_time = microtime(true);
+            $job = new TranslationFilesToDatabase();
+            $job->handle();
+            $end_time = microtime(true);
+            $execution_time = ($end_time - $start_time);
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -112,7 +116,7 @@ class TranslateView extends Component
             return redirect()->route('translate', app()->getLocale())->with('danger', trans('Translation merge operation failed') . self::SEPARATION . Lang::get($exception->getMessage()));
         }
         $this->dispatchBrowserEvent('closeModal');
-        return redirect()->route('translate', app()->getLocale())->with('success', trans('Translation merge operation started successfully'));
+        return redirect()->route('translate', app()->getLocale())->with('success', trans('Translation merge operation started successfully') . " " . self::SEPARATION . trans('Execution time') . " " . $execution_time . " " . trans('seconds'));
     }
 
 
@@ -174,12 +178,20 @@ class TranslateView extends Component
             if (empty($pass) or $pass != $this->defRandomNumber) {
                 throw new \Exception(trans('Key not confirmed'));
             }
-         TranslationDatabaseToFiles::dispatch();
+
+
+            $start_time = microtime(true);
+            $job = new TranslationDatabaseToFiles();
+            $job->handle();
+            $end_time = microtime(true);
+            $execution_time = ($end_time - $start_time);
+
+
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('translate', app()->getLocale())->with('danger', trans('Keys to database  failed') . self::SEPARATION . Lang::get($exception->getMessage()));
         }
-        return redirect()->route('translate', app()->getLocale())->with('success', trans('Keys to database operation started successfully'));
+        return redirect()->route('translate', app()->getLocale())->with('success', trans('Keys to database operation started successfully') . self::SEPARATION . trans('Execution time') . " " . $execution_time . " " . trans('seconds'));
     }
 
 
