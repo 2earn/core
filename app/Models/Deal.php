@@ -2,13 +2,17 @@
 
 namespace App\Models;
 
+use Core\Enum\DealStatus;
 use Core\Models\Platform;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 
 class Deal extends Model
 {
+    const INDEX_ROUTE_NAME = 'deals_index';
     use HasFactory;
 
     protected $fillable = [
@@ -19,7 +23,7 @@ class Deal extends Model
         'objective_turnover',
         'start_date',
         'end_date',
-        'out_provider_turnover',
+        'provider_turnover',
         'items_profit_average',
         'initial_commission',
         'final_commission',
@@ -30,9 +34,7 @@ class Deal extends Model
         'proactive_consumption_margin_percentage',
         'shareholder_benefits_margin_percentage',
         'tree_margin_percentage',
-        'current_turnover',
-        'item_price',
-        'current_turnover_index',
+        'discount',
         'created_by_id',
         'platform_id',
     ];
@@ -43,14 +45,14 @@ class Deal extends Model
         return $this->belongsTo(User::class, 'created_by_id');
     }
 
-    public function productDealHistory(): HasMany
+    public function ItemDealHistory(): HasMany
     {
-        return $this->hasMany(ProductDealHistory::class);
+        return $this->hasMany(ItemDealHistory::class);
     }
 
-    public function products()
+    public function Items()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Item::class);
     }
 
     public function platform()
@@ -58,349 +60,181 @@ class Deal extends Model
         return $this->hasOne(Platform::class, 'id', 'platform_id');
     }
 
-    /**
-     * Calculate index of current turnover.
-     *
-     * @param int $precision
-     * @param int $currentTurnover
-     * @return float
-     */
-    public static function idx($precision, $currentTurnover)
+
+    public function cashBalance(): HasMany
     {
-        return $currentTurnover / $precision;
+        return $this->hasMany(CashBalances::class);
     }
 
-    /**
-     * Calculate provider unit turnover out of deal.
-     *
-     * @param float $precision
-     * @param float $objectiveTurnover
-     * @param float $providerTurnover
-     * @return float
-     */
-    public static function putod($precision, $objectiveTurnover, $providerTurnover)
+
+    public function getIndexOfcurrentTurnover($currentTurnover)
     {
-        return $precision * $providerTurnover / $objectiveTurnover;
+        return $currentTurnover / $this->precision;
     }
 
-    /**
-     * Calculate commission progressive step during the deal execution.
-     *
-     * @param float $precision
-     * @param float $initialCommission
-     * @param float $finalCommission
-     * @param float $objectiveTurnover
-     * @return float
-     */
-    public static function step($precision, $initialCommission, $finalCommission, $objectiveTurnover)
+
+    public function getProviderUnitTurnoverOutDeal(): float
     {
-        return (2 * $precision * $precision * ($finalCommission - $initialCommission)) / ($objectiveTurnover - $precision);
+        return $this->precision * $this->provider_turnover / $this->objective_turnover;
     }
 
-    /**
-     * Calculate provider total net turnover.
-     *
-     * @param float $precision
-     * @param float $initialCommission
-     * @param float $finalCommission
-     * @param float $objectiveTurnover
-     * @param float $currentTurnover
-     * @return float
-     */
-    public static function ptt($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover)
+
+    public function getCommissionProgressiveStepDuringTheDealExecution(): float
     {
-        $vstep = self::step($precision, $finalCommission, $initialCommission, $objectiveTurnover);
-        $vidx = self::idx($precision, $currentTurnover);
-        return $vidx * ($precision - $initialCommission * $precision) - $vstep * (($vidx * ($vidx - 1)) / 2);
+        return (2 * pow($this->precision, 2) * ($this->final_commission - $this->initial_commission)) / ($this->objective_turnover - $this->precision);
     }
 
-    /**
-     * Calculate provider total turnover out of deal.
-     *
-     * @param float $precision
-     * @param float $objectiveTurnover
-     * @param float $providerTurnover
-     * @param float $currentTurnover
-     * @return float
-     */
-    public static function pttod($precision, $objectiveTurnover, $providerTurnover, $currentTurnover)
+
+    public function getProviderTotalNetTurnover($currentTurnover): float
     {
-        return self::putod($precision, $objectiveTurnover, $providerTurnover) * self::idx($precision, $currentTurnover);
+        return $this->getIndexOfcurrentTurnover($currentTurnover) * ($this->precision - $this->initial_commission * $this->precision) - $this->getCommissionProgressiveStepDuringTheDealExecution() * (($this->getIndexOfcurrentTurnover($currentTurnover) * ($this->getIndexOfcurrentTurnover($currentTurnover) - 1)) / 2);
     }
 
-    /**
-     * Calculate provider unit net turnover.
-     *
-     * @param float $precision
-     * @param float $initialCommission
-     * @param float $finalCommission
-     * @param float $objectiveTurnover
-     * @param float $currentTurnover
-     * @return float
-     */
-    public static function put($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover)
+
+    public function getProviderTotalTurnoverOutOfDeal($currentTurnover): float
     {
-        $vstep = self::step($precision, $finalCommission, $initialCommission, $objectiveTurnover);
-        $vidx = self::idx($precision, $currentTurnover);
-        return $precision - $vstep * ($vidx - 1) - $initialCommission * $precision;
+        return $this->getProviderUnitTurnoverOutDeal() * $this->getIndexOfcurrentTurnover($currentTurnover);
     }
 
-    /**
-     * Calculate current total 2earn.cash margin.
-     *
-     * @param float $precision
-     * @param float $initialCommission
-     * @param float $finalCommission
-     * @param float $objectiveTurnover
-     * @param float $currentTurnover
-     * @return float
-     */
-    public static function mttec($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover)
+    public function getProviderUnitNetTurnover($currentTurnover): float
     {
-        $vptt = self::ptt($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover);
-        return $currentTurnover - $vptt;
+        return $this->precision - $this->getProviderTotalNetTurnover($currentTurnover) * ($this->getIndexOfcurrentTurnover($currentTurnover) - 1) - $this->initial_commission * $this->precision;
     }
 
-    /**
-     * Calculate current 2earn.cash margin compared to current turnover.
-     *
-     * @param float $precision
-     * @param float $initialCommission
-     * @param float $finalCommission
-     * @param float $objectiveTurnover
-     * @param float $currentTurnover
-     * @return float
-     */
-    public static function mttecprc($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover)
+
+    public function getCurrentTotal2earnCashMargin($currentTurnover): float
     {
-        $vmttec = self::mttec($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover);
-        return $vmttec / $currentTurnover;
+        return $currentTurnover - $this->getProviderTotalTurnoverOutOfDeal($currentTurnover);
     }
 
-    /**
-     * Calculate provider turnover difference.
-     *
-     * @param float $precision
-     * @param float $objectiveTurnover
-     * @param float $providerTurnover
-     * @param float $currentTurnover
-     * @param float $finalCommission
-     * @param float $initialCommission
-     * @return float
-     */
-    public static function pdt($precision, $objectiveTurnover, $providerTurnover, $currentTurnover, $finalCommission, $initialCommission)
+    public function getCurrent2earnCashMarginComparedToCurrentTurnover($currentTurnover): float
     {
-        $vpttod = self::pttod($precision, $objectiveTurnover, $providerTurnover, $currentTurnover);
-        $vptt = self::ptt($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover);
-        return $vptt - $vpttod;
+
+        return $this->getCurrentTotal2earnCashMargin($currentTurnover) / $currentTurnover;
     }
 
-    /**
-     * Calculate provider turnover sum.
-     *
-     * @param float $precision
-     * @param float $objectiveTurnover
-     * @param float $providerTurnover
-     * @param float $currentTurnover
-     * @param float $finalCommission
-     * @param float $initialCommission
-     * @return float
-     */
-    public static function pst($precision, $objectiveTurnover, $providerTurnover, $currentTurnover, $finalCommission, $initialCommission)
+    public function getProviderTurnoverDifference($currentTurnover): float
     {
-        $vpttod = self::pttod($precision, $objectiveTurnover, $providerTurnover, $currentTurnover);
-        $vptt = self::ptt($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover);
-        return $vptt + $vpttod;
+        return $this->getProviderTotalNetTurnover($currentTurnover) - $this->getProviderTotalTurnoverOutOfDeal($currentTurnover);
     }
 
-    /**
-     * Calculate provider total profit.
-     *
-     * @param float $precision
-     * @param float $initialCommission
-     * @param float $finalCommission
-     * @param float $objectiveTurnover
-     * @param float $currentTurnover
-     * @param float $profitAverage
-     * @return float
-     */
-    public static function ptp($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover, $profitAverage)
+    public function getProviderTurnoverSum($currentTurnover): float
     {
-        $vptt = self::ptt($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover);
-        return $vptt * $profitAverage;
+
+        return $this->getProviderTotalTurnoverOutOfDeal($currentTurnover) + $this->getProviderTotalTurnoverOutOfDeal($currentTurnover);
     }
 
-    /**
-     * Calculate provider total profit out of deal.
-     *
-     * @param float $precision
-     * @param float $objectiveTurnover
-     * @param float $providerTurnover
-     * @param float $currentTurnover
-     * @param float $profitAverage
-     * @return float
-     */
-    public static function ptpod($precision, $objectiveTurnover, $providerTurnover, $currentTurnover, $profitAverage)
+    public function getProviderTotalProfit($currentTurnover): float
     {
-        $vpttod = self::pttod($precision, $objectiveTurnover, $providerTurnover, $currentTurnover);
-        return $vpttod * $profitAverage;
+        return $this->getProviderTotalNetTurnover($currentTurnover) * $this->items_profit_average;
     }
 
-    /**
-     * Calculate current cash back margin.
-     *
-     * @param float $precision
-     * @param float $initialCommission
-     * @param float $finalCommission
-     * @param float $objectiveTurnover
-     * @param float $currentTurnover
-     * @param float $cashBackMarginPercentage
-     * @return float
-     */
-    public static function mcb($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover, $cashBackMarginPercentage)
+    public function getProviderTotalProfitOutOfDeal($currentTurnover): float
     {
-        $vmttec = self::mttec($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover);
-        return $vmttec * $cashBackMarginPercentage;
+        return $this->getProviderTotalTurnoverOutOfDeal($currentTurnover) * $this->items_profit_average;
     }
 
-    /**
-     * Calculate current franchisor margin.
-     *
-     * @param float $precision
-     * @param float $initialCommission
-     * @param float $finalCommission
-     * @param float $objectiveTurnover
-     * @param float $currentTurnover
-     * @param float $franchisorMarginPercentage
-     * @return float
-     */
-    public static function mfran($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover, $franchisorMarginPercentage)
+
+    public function getCurrentCashBackMargin($currentTurnover): float
     {
-        $vmttec = self::mttec($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover);
-        return $vmttec * $franchisorMarginPercentage;
+        return $this->getCurrentTotal2earnCashMargin($currentTurnover) * $this->cash_back_margin_percentage;
     }
 
-    /**
-     * Calculate current influencer margin.
-     *
-     * @param float $precision
-     * @param float $initialCommission
-     * @param float $finalCommission
-     * @param float $objectiveTurnover
-     * @param float $currentTurnover
-     * @param float $influencerMarginPercentage
-     * @return float
-     */
-    public static function minf($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover, $influencerMarginPercentage)
+
+    public function getCurrentFranchisorMargin($franchisorMarginPercentage, $currentTurnover): float
     {
-        $vmttec = self::mttec($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover);
-        return $vmttec * $influencerMarginPercentage;
+        return $this->getCurrentTotal2earnCashMargin($currentTurnover) * $franchisorMarginPercentage;
     }
 
-    /**
-     * Calculate current proactive consumption margin.
-     *
-     * @param float $precision
-     * @param float $initialCommission
-     * @param float $finalCommission
-     * @param float $objectiveTurnover
-     * @param float $currentTurnover
-     * @param float $proactiveConsumptionMarginPercentage
-     * @return float
-     */
-    public static function mpc($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover, $proactiveConsumptionMarginPercentage)
+
+    public function getCurrentInfluencerMargin($influencerMarginPercentage, $currentTurnover): float
     {
-        $vmttec = self::mttec($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover);
-        return $vmttec * $proactiveConsumptionMarginPercentage;
+        return $this->getCurrentTotal2earnCashMargin($currentTurnover) * $influencerMarginPercentage;
     }
 
-    /**
-     * Calculate current prescriptor margin.
-     *
-     * @param float $precision
-     * @param float $initialCommission
-     * @param float $finalCommission
-     * @param float $objectiveTurnover
-     * @param float $currentTurnover
-     * @param float $prescriptorMarginPercentage
-     * @return float
-     */
-    public static function mpres($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover, $prescriptorMarginPercentage)
+    public function getCurrentProactiveConsumptionMargin($currentTurnover): float
     {
-        $vmttec = self::mttec($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover);
-        return $vmttec * $prescriptorMarginPercentage;
+        return $this->getCurrentTotal2earnCashMargin($currentTurnover) * $this->proactive_consumption_margin_percentage;
     }
 
-    /**
-     * Calculate current supporter margin.
-     *
-     * @param float $precision
-     * @param float $initialCommission
-     * @param float $finalCommission
-     * @param float $objectiveTurnover
-     * @param float $currentTurnover
-     * @param float $supporterMarginPercentage
-     * @return float
-     */
-    public static function msup($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover, $supporterMarginPercentage)
+    public function getCurrentPrescriptorMargin($prescriptorMarginPercentage, $currentTurnover): float
     {
-        $vmttec = self::mttec($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover);
-        return $vmttec * $supporterMarginPercentage;
+        return $this->getCurrentTotal2earnCashMargin($currentTurnover) * $prescriptorMarginPercentage;
     }
 
-    /**
-     * Calculate current 2earn.cash net margin.
-     *
-     * @param float $precision
-     * @param float $initialCommission
-     * @param float $finalCommission
-     * @param float $objectiveTurnover
-     * @param float $currentTurnover
-     * @param float $mtecPercentage
-     * @return float
-     */
-    public static function mtec($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover, $mtecPercentage)
+
+    public function getCurrentSupporterMargin($supporterMarginPercentage, $currentTurnover): float
     {
-        $vmttec = self::mttec($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover);
-        return $vmttec * $mtecPercentage;
+        return $this->getCurrentTotal2earnCashMargin($currentTurnover) * $supporterMarginPercentage;
     }
 
-    /**
-     * Calculate provider profit difference.
-     *
-     * @param float $precision
-     * @param float $objectiveTurnover
-     * @param float $providerTurnoverOutOfDeal
-     * @param float $currentTurnover
-     * @param float $finalCommission
-     * @param float $initialCommission
-     * @param float $profitAverageInItems
-     * @return float
-     */
-    public static function pdp($precision, $objectiveTurnover, $providerTurnoverOutOfDeal, $currentTurnover, $finalCommission, $initialCommission, $profitAverageInItems)
+    public function getCurrent2earnCashNetMargin($CashMarginPercentage, $currentTurnover): float
     {
-        $vptpod = self::ptpod($precision, $objectiveTurnover, $providerTurnoverOutOfDeal, $currentTurnover, $profitAverageInItems);
-        $vptp = self::ptp($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover, $profitAverageInItems);
-        return $vptp - $vptpod;
+        return $this->getCurrentTotal2earnCashMargin($currentTurnover) * $CashMarginPercentage;
     }
 
-    /**
-     * Calculate provider profit sum.
-     *
-     * @param float $precision
-     * @param float $objectiveTurnover
-     * @param float $providerTurnoverOutOfDeal
-     * @param float $currentTurnover
-     * @param float $finalCommission
-     * @param float $initialCommission
-     * @param float $profitAverageInItems
-     * @return float
-     */
-    public static function psp($precision, $objectiveTurnover, $providerTurnoverOutOfDeal, $currentTurnover, $finalCommission, $initialCommission, $profitAverageInItems)
+    public function getProviderProfitDifference($currentTurnover): float
     {
-        $vptpod = self::ptpod($precision, $objectiveTurnover, $providerTurnoverOutOfDeal, $currentTurnover, $profitAverageInItems);
-        $vptp = self::ptp($precision, $initialCommission, $finalCommission, $objectiveTurnover, $currentTurnover, $profitAverageInItems);
-        return $vptp + $vptpod;
+
+        return $this->getProviderTotalProfit($currentTurnover) - $this->getProviderTotalProfitOutOfDeal($currentTurnover);
+    }
+
+    public function getProviderProfitSum($currentTurnover): float
+    {
+        return $this->getProviderTotalProfit($currentTurnover) + $this->getProviderTotalProfitOutOfDeal($currentTurnover);
+    }
+
+
+    public static function validateDeal($id)
+    {
+        try {
+            $deal = Deal::findOrFail($id);
+            $deal->validated = true;
+            $deal->save();
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Validated Successfully'));
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Validated !') . " " . $exception->getMessage());
+        }
+    }
+
+    public static function open($id)
+    {
+        try {
+            $deal = Deal::findOrFail($id);
+            $deal->status = DealStatus::Opened->value;
+            $deal->save();
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Opened Successfully'));
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Opened !') . " " . $exception->getMessage());
+        }
+    }
+
+    public static function close($id)
+    {
+        try {
+            $deal = Deal::findOrFail($id);
+            $deal->status = DealStatus::Closed->value;
+            $deal->save();
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Closed Successfully'));
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Closed !') . " " . $exception->getMessage());
+        }
+    }
+
+    public static function archive($id)
+    {
+        try {
+            $deal = Deal::findOrFail($id);
+            $deal->status = DealStatus::Archived->value;
+            $deal->save();
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Archived Successfully'));
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Archived !') . " " . $exception->getMessage());
+        }
     }
 
 

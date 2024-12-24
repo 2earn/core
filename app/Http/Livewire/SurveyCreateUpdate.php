@@ -8,6 +8,7 @@ use App\Models\TranslaleModel;
 use Core\Enum\TargetType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class SurveyCreateUpdate extends Component
@@ -144,9 +145,10 @@ class SurveyCreateUpdate extends Component
             }
 
         } catch (\Exception $exception) {
-            return redirect()->route('surveys_create_update', app()->getLocale())->with('danger', Lang::get('Something goes wrong while creating Survey!!'));
+            Log::error($exception->getMessage());
+            return redirect()->route('surveys_create_update', app()->getLocale())->with('danger', Lang::get('Something goes wrong while creating Survey'));
         }
-        return redirect()->route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $survey->id])->with('success', Lang::get('Survey Created Successfully!!'));
+        return redirect()->route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $survey->id])->with('success', Lang::get('Survey Created Successfully'));
     }
 
     public function edit($id)
@@ -180,7 +182,7 @@ class SurveyCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('surveys_index', app()->getLocale())->with('warning', Lang::get('Survey operation cancelled!!'));
+        return redirect()->route('surveys_index', app()->getLocale())->with('warning', Lang::get('Survey operation cancelled'));
     }
 
     public function update()
@@ -239,9 +241,10 @@ class SurveyCreateUpdate extends Component
 
 
         } catch (\Exception $exception) {
-            return redirect()->route('surveys_create_update', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while updating Survey!!'));
+            Log::error($exception->getMessage());
+            return redirect()->route('surveys_create_update', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while updating Survey'));
         }
-        return redirect()->route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Survey Updated Successfully!!'));
+        return redirect()->route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Survey Updated Successfully'));
 
     }
 

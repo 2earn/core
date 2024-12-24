@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Spatie\Permission\Models\Role;
 
@@ -16,11 +17,12 @@ class RoleIndex extends Component
             if ($id > 4) {
                 Role::findOrFail($id)->delete();
 
-                return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Role Deleted Successfully!!'));
+                return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Role Deleted Successfully'));
             }
             return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('This Role cant be Deleted !'));
         } catch (\Exception $exception) {
-            return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('error', $exception->getMessage());
+            Log::error($exception->getMessage());
+            return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('danger', $exception->getMessage());
         }
     }
 

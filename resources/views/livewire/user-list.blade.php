@@ -8,16 +8,9 @@
             {{ __('Users List') }}
         @endslot
     @endcomponent
-    <div class="row">
         <div class="card">
-            <div class="card-header border-info">
-                <div class="d-flex align-items-center">
-                    <h6 class="card-title mb-0 flex-grow-1">{{__('User statistics')}}</h6>
-                </div>
-            </div>
-            <div class="card-body row ">
-                <div class="row mt-1">
-                    <div class="col-xl-3 col-md-6">
+            <div class="card-body row">
+                    <div class="col-xl-4 col-md-6">
                         <div class="card border border-muted card-animate">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
@@ -32,7 +25,7 @@
                                                         class="ri-building-line align-bottom"></i>
                                                     {{number_format(getAdminCash()[0],2)}}</span>
                                         <span class="ms-2"><i class="ri-map-pin-2-line align-bottom"></i>
-                                                {{number_format(getUserListCards()[0]-getAdminCash()[0],2)}}
+                                                {{number_format(Balances::sommeSold('cash_balances')-floatval(getAdminCash()[0]),2)}}
                                             </span>
                                     </p>
                                 </div>
@@ -41,7 +34,7 @@
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4">
                                             {{ $currency }}
                                             <span>
-                                                    {{formatSolde(getUserListCards()[0])}}</span>
+                                                    {{formatSolde(Balances::sommeSold('cash_balances'))}}</span>
                                         </h4>
 
                                     </div>
@@ -55,7 +48,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-md-6">
+                    <div class="col-xl-4 col-md-6">
                         <div class="card border border-muted card-animate">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
@@ -69,8 +62,9 @@
                                     <div>
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4">
                                             {{ $currency }}
-                                            <span class="counter-value" data-target="{{getUserListCards()[1]}}">
-                                                      {{getUserListCards()[1]}}</span>
+                                            <span class="counter-value"
+                                                  data-target="{{Balances::sommeSold('bfss_balances')}}">
+                                                      {{Balances::sommeSold('bfss_balances')}}</span>
                                         </h4>
                                     </div>
                                     <div class="avatar-sm flex-shrink-0">
@@ -82,7 +76,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-md-6">
+                    <div class="col-xl-4 col-md-6">
                         <div class="card border border-muted card-animate">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
@@ -96,8 +90,9 @@
                                     <div>
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4">
                                             {{ $currency }}
-                                            <span class="counter-value" data-target="{{getUserListCards()[2]}}">
-                                                 {{getUserListCards()[2]}}</span>
+                                            <span class="counter-value"
+                                                  data-target="{{Balances::sommeSold('discount_balances')}}">
+                                                 {{Balances::sommeSold('discount_balances')}}</span>
                                         </h4>
                                     </div>
                                     <div class="avatar-sm flex-shrink-0">
@@ -122,8 +117,9 @@
                                 <div class="d-flex align-items-end justify-content-between mt-4">
                                     <div>
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                                <span class="counter-value" data-target="{{getUserListCards()[3]}}">
-                                                   {{getUserListCards()[3]}}</span>
+                                                <span class="counter-value"
+                                                      data-target="{{Balances::sommeSold('sms_balances')}}">
+                                                   {{Balances::sommeSold('sms_balances')}}</span>
                                         </h4>
                                     </div>
                                     <div class="avatar-sm flex-shrink-0">
@@ -150,8 +146,8 @@
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4">
                                             {{ $currency }}
                                             <span class="counter-value"
-                                                  data-target="   {{getUserListCards()[4]}}">
-                                                       {{getUserListCards()[4]}}</span>
+                                                  data-target="   {{Balances::sommeSold('shares_balances')}}">
+                                                       {{Balances::sommeSold('shares_balances')}}</span>
                                         </h4>
                                     </div>
                                     <div class="avatar-sm flex-shrink-0">
@@ -178,8 +174,8 @@
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4">
                                             {{ $currency }}
                                             <span class="counter-value"
-                                                  data-target=" {{getUserListCards()[5]}}">
-                                                    {{getUserListCards()[5]}}</span>
+                                                  data-target=" {{Balances::sommeSold('shares_balances','amount')}}">
+                                                    {{Balances::sommeSold('shares_balances','amount')}}</span>
                                         </h4>
                                     </div>
                                     <div class="avatar-sm flex-shrink-0">
@@ -206,8 +202,8 @@
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4">
                                             {{ $currency }}
                                             <span class="counter-value"
-                                                  data-target="{{getUserListCards()[5]+getUserListCards()[0]}}">
-                                                    {{getUserListCards()[5]+getUserListCards()[0]}}</span>
+                                                  data-target="{{Balances::sommeSold('shares_balances','amount')+Balances::sommeSold('cash_balances')}}">
+                                                    {{Balances::sommeSold('shares_balances','amount')+Balances::sommeSold('cash_balances')}}</span>
                                         </h4>
                                     </div>
                                     <div class="avatar-sm flex-shrink-0">
@@ -219,16 +215,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="card">
-            <div class="card-header border-info">
-                <div class="d-flex align-items-center">
-                    <h6 class="card-title mb-0 flex-grow-1">{{__('User List')}}</h6>
-                </div>
             </div>
             <div class="card-body table-responsive">
                 <table id="users-list"
@@ -238,13 +224,11 @@
                         <th>{{__('Details')}}</th>
                         <th>{{__('created at')}}</th>
                         <th>{{__('pays')}}</th>
-                        <th>{{__('Phone')}}</th>
                         <th>{{__('Name')}}</th>
                         <th>{{__('Mobile')}}</th>
                         <th>{{__('Status')}}</th>
                         <th>{{__('Soldes')}}</th>
                         <th>{{__('Action')}}</th>
-                        <th>{{__('VIP')}}</th>
                         <th>{{__('More details')}}</th>
                         <th>{{__('VIP history')}}</th>
                         <th>{{__('Password')}}</th>
@@ -256,7 +240,6 @@
                 </table>
             </div>
         </div>
-    </div>
     <div class="modal fade" id="AddCash" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -319,7 +302,7 @@
                 <div class="modal-body">
                     <form action="javascript:void(0);">
                         <div class="row g-3">
-                            <div class="col-xxl-12">
+                            <div class="col-sm-12 col-md-12">
                                 <div class="input-group">
                                         <span class="input-group-text">
                                             <img id="vip-country" class="avatar-xxs me-2"/></span>
@@ -327,9 +310,7 @@
                                            aria-describedby="basic-addon1">
                                 </div>
                             </div>
-                        </div>
-                        <div class="row g-3">
-                            <div class="col-xxl-12">
+                            <div class="col-sm-12 col-md-6">
                                 <div class="input-group mt-2">
                                     <input id="vip-reciver" type="hidden">
                                     <input type="hidden" id="created_at">
@@ -337,19 +318,25 @@
                                             class="text-danger">*</span></label>
                                     <input type="number" class="form-control-flash" id="minshares">
                                 </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
                                 <div class="input-group mt-2">
                                     <label class="form-label">{{__('Periode')}}<span
                                             class="text-danger">*</span></label>
                                     <input type="number" class="form-control-flash" id="periode">
                                 </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12">
                                 <div class="input-group mt-2">
                                     <label class="form-label">{{__('Coefficient')}}<span
                                             class="text-danger">*</span></label>
                                     <input type="number" class="form-control-flash" id="coefficient">
                                 </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12">
                                 <div class="input-group mt-2">
                                     <label class="form-label">{{__('Note')}}</label>
-                                    <input type="text" class="form-control-flash" id="note">
+                                    <textarea type="text" class="form-control-flash" id="note"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -371,14 +358,11 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Transfert Cash') }}</h5>
+                    <h4 class="modal-title text-info" id="modalTitle">{{ __('Transfert Cash') }}</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="card">
-                        <div class="card-header">
-                        </div>
-                        <div class="card-body table-responsive">
+                    <div class=" table-responsive">
                             <input id="balances-reciver" type="hidden">
                             <input id="balances-amount" type="hidden">
                             <table
@@ -398,7 +382,6 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -408,13 +391,11 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalgridLabelsh">{{ __('Transfert Cash') }}</h5>
+                    <h5 class="modal-title" id="exampleModalgridLabelsh">{{ __('Shares balances') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="card">
-                        <div class="card-header">
-                        </div>
+
                         <div class="card-body table-responsive">
                             <input id="balances-reciversh" type="hidden">
                             <input id="balances-amountsh" type="hidden">
@@ -423,20 +404,19 @@
                                 id="ub_table_listsh" style="width: 100%">
                                 <thead class="table-light">
                                 <tr class="head2earn  tabHeader2earn">
-                                    <th>{{__('date_purchase')}}</th>
-                                    <th>{{__('number_of_shares')}}</th>
-                                    <th>{{__('gifted_shares')}}</th>
-                                    <th>{{__('total_shares')}}</th>
-                                    <th>{{__('total_price')}}</th>
-                                    <th>{{__('present_value')}}</th>
-                                    <th>{{__('current_earnings')}}</th>
+                                    <th>{{__('Reference')}}</th>
+                                    <th>{{__('Created_at')}}</th>
+                                    <th>{{__('Value')}}</th>
+                                    <th>{{__('Real amount')}}</th>
+                                    <th>{{__('Current balance')}}</th>
+                                    <th>{{__('Unit price')}}</th>
+                                    <th>{{__('Total amount')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody class="body2earn">
                                 </tbody>
                             </table>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -464,27 +444,31 @@
                     url: "{{ route('add_cash', app()->getLocale()) }}",
                     type: "POST",
                     data: {amount: ammount, reciver: reciver, "_token": "{{ csrf_token() }}"},
-                    success: function (data) {
+                    success: function (dataTransfert) {
                         $.ajax({
                             url: "{{ route('send_sms',app()->getLocale()) }}",
                             type: "POST",
                             data: {user: user, msg: msg, "_token": "{{ csrf_token() }}"},
-                            success: function (data) {
-                                fireSwalInformMessage('success', '{{__('Transfer success')}}', msg);
+                            success: function (dataMessage) {
+                                fireSwalInformMessage('success', '{{__('Transfer success')}}', dataTransfert + ' ' + dataMessage);
                             },
                             error: function (xhr, ajaxOptions, thrownError) {
-                                fireSwalInformMessage('error', xhr.status, thrownError);
+                                fireSwalInformMessage('error', xhr.status, dataTransfert + ' ' + xhr.responseJSON);
                             }
                         });
-                        $.getJSON(window.url, function (data) {
+                        $.getJSON(window.url, function (dataTransfert) {
                             createOrUpdateDataTable(data);
                         });
                         $('.btn-vip-close').trigger('click');
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        fireSwalInformMessage('error', '{{__('error')}}', xhr.responseJSON);
                     }
                 });
             } else {
                 fireSwalInformMessage('error', '{{__('wrong amount value')}}', '{{__('wrong amount value')}}')
             }
+
             $(this).prop("disabled", false);
         }
 
@@ -498,16 +482,15 @@
                 searching: false,
                 "orderCellsTop": true,
                 "fixedHeader": true,
-                "order": [[1, 'asc']],
                 "processing": true,
                 "data": data,
                 "columns": [
-                    {data: 'ref'},
-                    {data: 'Date'},
-                    {data: 'Designation'},
-                    {data: 'Description'},
+                    {data: 'reference'},
+                    {data: 'created_at'},
+                    {data: 'operation'},
+                    {data: 'description'},
                     {data: 'value', className: window.classAl},
-                    {data: 'balance', className: window.classAl},
+                    {data: 'current_balance', className: window.classAl},
                 ],
                 "columnDefs": [
                     {
@@ -526,7 +509,8 @@
             });
         }
 
-        $(document).on("click", ".cb", function () {
+        $(document).on('turbolinks:load', function () {
+            $(document).on("click", ".cb", function () {
             let reciver = $(this).data('reciver');
             let amount = $(this).data('amount');
             $('#balances-amount').attr('value', amount);
@@ -538,6 +522,7 @@
 
             $(document).ready(function () {
                 $.getJSON(window.url, function (data) {
+                    $('#modalTitle').html('{{__('Cash balance')}}');
                     createOrUpdateDataTable(data);
                 });
             });
@@ -551,9 +536,13 @@
             window.url = "{{ route('api_user_balances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
             window.url = window.url.replace('idUser1', reciver);
             window.url = window.url.replace('idamount1', amount);
+            console.log(amount);
+            console.log(reciver);
 
+            console.log(window.url);
             $(document).ready(function () {
                 $.getJSON(window.url, function (data) {
+                    $('#modalTitle').html('{{__('BFSs balance')}}');
                     createOrUpdateDataTable(data);
                 });
             });
@@ -568,6 +557,7 @@
             window.url = window.url.replace('idamount1', amount);
             $(document).ready(function () {
                 $.getJSON(window.url, function (data) {
+                    $('#modalTitle').html('{{__('Discount balance')}}');
                     createOrUpdateDataTable(data);
                 });
             });
@@ -584,9 +574,11 @@
 
             $(document).ready(function () {
                 $.getJSON(window.url, function (data) {
+                    $('#modalTitle').html('{{__('Sms balance')}}');
                     createOrUpdateDataTable(data);
                 });
             });
+        });
         });
 
         function createOrUpdateDataTablesh(data) {
@@ -604,30 +596,34 @@
                 "processing": true,
                 "data": data,
                 "columns": [
-                    {data: 'Date'},
+                    {data: 'reference'},
+                    {data: 'created_at'},
                     {data: 'value'},
-                    {data: 'gifted_shares'},
-                    {data: 'total_shares'},
-                    {data: 'total_price'},
-                    {data: 'present_value'},
-                    {data: 'current_earnings'},
+                    {data: 'real_amount'},
+                    {data: 'current_balance'},
+                    {data: 'unit_price'},
+                    {data: 'total_amount'},
                 ],
                 "columnDefs": [],
             });
         }
 
-        $(document).on("click", ".sh", function () {
+        $(document).on('turbolinks:load', function () {
+            $(document).on("click", ".sh", function () {
             let reciver = $(this).data('reciver');
             let amount = $(this).data('amount');
             $('#balances-amountsh').attr('value', amount);
             $('#balances-reciversh').attr('value', reciver);
-            window.url = "{{ route('api_shares_solde_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1']) }}";
+            window.url = "{{ route('api_shares_solde_list', ['locale'=> app()->getLocale(),'amount' => 'amount1','idUser' => 'idUser1']) }}";
             window.url = window.url.replace('idUser1', reciver);
+            window.url = window.url.replace('amount1', amount);
+
             $(document).ready(function () {
                 $.getJSON(window.url, function (data) {
                     createOrUpdateDataTablesh(data);
                 });
             });
+        });
         });
         $(document).on('turbolinks:load', function () {
             $('#users-list').DataTable({
@@ -649,13 +645,11 @@
                     datatableControlBtn,
                     {data: 'formatted_created_at'},
                     {data: 'flag'},
-                    {data: 'formatted_mobile'},
                     {data: 'name'},
                     {data: 'mobile'},
                     {data: 'status'},
                     {data: 'soldes', name: 'action', orderable: false, searchable: false},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
-                    {data: 'VIP', name: 'action', orderable: false, searchable: false},
                     {data: 'more_details', name: 'action', orderable: false, searchable: false},
                     {data: 'vip_history', name: 'action', orderable: false, searchable: false},
                     {data: 'pass'},

@@ -235,7 +235,7 @@
                 </div>
                 <div class="card-body">
                     <div class="d-flex align-items-center pb-2"
-                         @if(User::isSuperAdmin())
+                         @if(\App\Models\User::isSuperAdmin())
                              title="{{$selledActions." / ".$totalActions}}"
                         @endif
                     >
@@ -306,7 +306,7 @@
                             <li class="list-group-item text-secondary">
                                 {{__('Action Value')}} : <span
                                     class="float-end">{{$actionValue}}</span></li>
-                            @if(User::isSuperAdmin())
+                            @if(\App\Models\User::isSuperAdmin())
                                 <li class="list-group-item">{{__('Selled Action Cursor')}} <i
                                         class=" ri-arrow-drop-right-line"></i> {{__('Total number of shares for sale')}}
                                     <span class="badge badge-light text-info float-end">{{$selledActionCursor}} <i
@@ -359,7 +359,6 @@
                             <th>{{__('id')}}</th>
                             <th>{{__('date_purchase')}}</th>
                             <th>{{__('number_of_shares')}}</th>
-                            <th>{{__('gifted_shares')}}</th>
                             <th>{{__('total_shares')}}</th>
                             <th>{{__('total_price')}}</th>
                             <th>{{__('present_value')}}</th>
@@ -535,7 +534,6 @@
                     {data: 'id'},
                     {data: 'formatted_created_at'},
                     {data: 'value_format'},
-                    {data: 'gifted_shares'},
                     {data: 'total_shares'},
                     {data: 'total_price'},
                     {data: 'present_value'},

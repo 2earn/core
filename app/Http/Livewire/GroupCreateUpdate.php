@@ -6,6 +6,7 @@ use App\Models\Group;
 use App\Models\Target;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
@@ -32,7 +33,7 @@ class GroupCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('warning', Lang::get('Group operation cancelled!!'));
+        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('warning', Lang::get('Group operation cancelled'));
     }
 
     public function edit($idGroup)
@@ -51,9 +52,10 @@ class GroupCreateUpdate extends Component
             Group::where('id', $this->idGroup)
                 ->update(['operator' => $this->operator, 'target_id' => $this->idTarget]);
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('danger', Lang::get('Something goes wrong while updating Group!!') );
         }
-        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Group Updated Successfully!!'));
+        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Group Updated Successfully'));
 
     }
 
@@ -63,6 +65,7 @@ class GroupCreateUpdate extends Component
         try {
             $condition = Group::create(['operator' => $this->operator, 'target_id' => $this->idTarget]);
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('danger', Lang::get('Something goes wrong while creating Group!!') );
         }
         return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Group Created Successfully!!') . ' ' . $condition->content);

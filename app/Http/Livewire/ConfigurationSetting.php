@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Core\Models\Amount;
 use Core\Models\Setting;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class ConfigurationSetting extends Component
@@ -25,12 +26,6 @@ class ConfigurationSetting extends Component
         'initSettingFunction' => 'initSettingFunction',
     ];
 
-    public function render()
-    {
-        $this->allAmounts = Amount::all();
-        return view('livewire.configuration-setting')->extends('layouts.master')->section('content');
-    }
-
     public function initSettingFunction($id)
     {
         $setting = Setting::find($id);
@@ -47,17 +42,29 @@ class ConfigurationSetting extends Component
 
     public function saveSetting()
     {
-        $setting = Setting::find($this->idSetting);
-        if (!$setting) return;
-        $setting->ParameterName = $this->parameterName;
-        $setting->IntegerValue = $this->IntegerValue;
-        $setting->StringValue = $this->StringValue;
-        $setting->DecimalValue = $this->DecimalValue;
-        $setting->Unit = $this->Unit;
-        $setting->Automatically_calculated = $this->Automatically_calculated;
-        $setting->Description = $this->Description;
-        $setting->save();
-        $this->dispatchBrowserEvent('closeModal');
+        try {
+            $setting = Setting::find($this->idSetting);
+            if (!$setting) return;
+            $setting->ParameterName = $this->parameterName;
+            $setting->IntegerValue = $this->IntegerValue;
+            $setting->StringValue = $this->StringValue;
+            $setting->DecimalValue = $this->DecimalValue;
+            $setting->Unit = $this->Unit;
+            $setting->Automatically_calculated = $this->Automatically_calculated;
+            $setting->Description = $this->Description;
+            $setting->save();
+        }catch (\Exception $exception){
+            Log::error($exception->getMessage());
+            return redirect()->route('configuration_setting', app()->getLocale())->with('danger', trans('Setting param updating failed'));
+        }
+        return redirect()->route('configuration_setting', app()->getLocale())->with('success', trans('Setting param updated successfully'));
+
+    }
+
+    public function render()
+    {
+        $this->allAmounts = Amount::all();
+        return view('livewire.configuration-setting')->extends('layouts.master')->section('content');
     }
 
 }

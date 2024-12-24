@@ -9,14 +9,7 @@
         @endslot
     @endcomponent
     <div class="row card">
-        <div class="card-header border-info">
-            <div class="d-flex align-items-center">
-                <h6 class="card-title mb-0 flex-grow-1">{{ __('Countries management') }}</h6>
-            </div>
-        </div>
         <div class="card-body">
-            <div class="card">
-                <div class="card-body">
                     <div class="table-responsive ">
                         <table
                             class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
@@ -35,8 +28,6 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-            </div>
         </div>
     </div>
     <div wire:ignore.self class="modal fade" id="editCountriesModal" tabindex="" role="dialog"

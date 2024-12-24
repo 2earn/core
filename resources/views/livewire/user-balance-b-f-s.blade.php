@@ -9,15 +9,8 @@
         @endslot
     @endcomponent
         <div class="row card">
-            <div class="card-header border-info">
-                <div class="d-flex align-items-center">
-                    <h6 class="card-title mb-0 flex-grow-1">{{ __('Balance For Shopping') }}</h6>
-                </div>
-            </div>
+
             <div class="card-body">
-                <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
                     <div class="row g-4">
                         <div class="col-sm">
                             <div class="justify-content-sm-end">
@@ -27,24 +20,26 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
+            </div>
+            <div class="card-body">
+                <div class="col-lg-4">
                         <select class="select2-hidden-accessible bfs_operation_multiple" name="states[]"
                                 id="select2bfs" multiple="multiple">
                         </select>
                     </div>
-                </div>
-                <div class="card-body table-responsive">
+                <div class="table-responsive">
                     <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
                            id="ub_table_bfs" style="width: 100%">
                         <thead class="table-light">
                         <tr class=" tabHeader2earn">
                             <th>{{__('Num')}}</th>
-                            <th>{{ __('ref') }}</th>
-                            <th>{{ __('date') }}</th>
-                            <th>{{ __('Operation Designation') }}</th>
-                            <th>{{ __('description') }}</th>
-                            <th>{{ __('Value') }}</th>
-                            <th>{{ __('Balance') }}</th>
+                            <th>{{ __('ref')}}</th>
+                            <th>{{ __('date')}}</th>
+                            <th>{{ __('Operation Designation')}}</th>
+                            <th>{{ __('description')}}</th>
+                            <th>{{ __('Percentage')}}</th>
+                            <th>{{ __('Value')}}</th>
+                            <th>{{ __('Balance')}}</th>
                         </tr>
                         </thead>
                         <tbody class="body2earn">
@@ -52,9 +47,7 @@
                     </table>
                 </div>
             </div>
-            </div>
         </div>
-    </div>
     <script type="module">
         $(document).on('ready ', function () {
                 $('#page-title-box').addClass('page-title-box-bfs');
@@ -62,7 +55,7 @@
         );
         $(document).on('turbolinks:load', function () {
             var select2_array = [];
-
+            console.log('turbolinks load');
             $('#ub_table_bfs').DataTable(
                 {
                     retrieve: true,
@@ -89,27 +82,27 @@
                     "ajax": "{{route('api_user_bfs_purchase',app()->getLocale())}}",
                     "columns": [
                         {data: 'ranks'},
-                        {data: 'Ref'},
-                        {data: 'Date'},
-                        {data: 'Designation'},
-                        {data: 'Description'},
+                        {data: 'reference'},
+                        {data: 'created_at'},
+                        {data: 'operation'},
+                        {data: 'description'},
+                        {data: 'percentage'},
                         {data: 'value', className: classAl},
-                        {data: 'balance', className: classAl},
+                        {data: 'current_balance', className: classAl},
                     ],
                     "columnDefs":
                         [
                             {
-                                "targets": [5],
+                                "targets": [6],
                                 render: function (data, type, row) {
                                     if (data.indexOf('+') == -1)
                                         return '<span class="badge bg-danger con">' + data + '</span>';
                                     else
                                         return '<span class="badge bg-success con">' + data + '</span>';
-
                                 }
                             },
                             {
-                                "targets": [6],
+                                "targets": [7],
                                 render: function (data, type, row) {
                                     if (row.ranks == 1)
                                         return '<div class="logoTopBFSLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';

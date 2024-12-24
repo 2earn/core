@@ -14,7 +14,7 @@
                         <div class="w-full">
                             <input wire:model.live="search" type="text" id="simple-search"
                                    class="form-control"
-                                   placeholder="{{__('Search Deals')}}">
+                                   placeholder="{{__('Search in archived Deals')}}">
                         </div>
                     </form>
                 </div>

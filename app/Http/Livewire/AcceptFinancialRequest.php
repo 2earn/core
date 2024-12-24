@@ -30,7 +30,7 @@ class AcceptFinancialRequest extends Component
         if ($financialRequest->status != 0) abort(404);
         if ($financialRequest->securityCode == "") abort(404);
         if ($financialRequest->securityCode != $secCode) {
-            return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $num])->with('ErrorSecurityCodeRequest', Lang::get('Failed_Security_Code'));
+            return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $num])->with('danger', Lang::get('Failed security code'));
         }
         $param = ['montant' => $financialRequest->amount, 'recipient' => $financialRequest->idSender];
         $soldeUser = $balancesManager->getBalances($userAuth->idUser, -1);
@@ -38,7 +38,7 @@ class AcceptFinancialRequest extends Component
             if ($soldeUser->soldeBFS < $financialRequest->amount) {
                 $montant = $financialRequest->amount - $soldeUser->soldeBFS;
                 if ($soldeUser->soldeCB > $montant)
-                    return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'FinRequestN' => $financialRequest->numeroReq])->with('ErreurSoldeReqBFS2', $montant);
+                    return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'FinRequestN' => $financialRequest->numeroReq])->with('danger', $montant);
             }
             $userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::SendToPublicFromBFS, $userAuth->idUser, $param);
         }
@@ -50,7 +50,7 @@ class AcceptFinancialRequest extends Component
             ->update(['response' => 1, 'dateResponse' => date('Y-m-d H:i:s')]);
         FinancialRequest::where('numeroReq', '=', $num)
             ->update(['status' => 1, 'idUserAccepted' => $userAuth->idUser, 'dateAccepted' => date('Y-m-d H:i:s')]);
-        return redirect()->route('financial_transaction', app()->getLocale())->with('SuccesRequstAccepted', '');
+        return redirect()->route('financial_transaction', app()->getLocale())->with('success', Lang::get('accepted Request'));
     }
 
     public function mount(Request $request)
@@ -63,7 +63,6 @@ class AcceptFinancialRequest extends Component
         $userAuth = $settingsManager->getAuthUser();
         $soldeUser = $balancesManager->getBalances($userAuth->idUser, -1);
 
-//        $financialRequest = FinancialRequest::where('numeroReq', '=', $this->numeroReq)->first();
         $financialRequest = FinancialRequest::join('users', 'financial_request.idSender', '=', 'users.idUser')
             ->where('numeroReq', '=', $this->numeroReq)
             ->get(['financial_request.numeroReq', 'financial_request.date', 'users.name', 'users.mobile', 'financial_request.amount', 'financial_request.status'])

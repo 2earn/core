@@ -9,15 +9,8 @@
         @endslot
     @endcomponent
         <div class="row card">
-            <div class="card-header border-info">
-                <div class="d-flex align-items-center">
-                    <h6 class="card-title mb-0 flex-grow-1">{{ __('Discounts Balance') }}</h6>
-                </div>
-            </div>
             <div class="card-body">
-                <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body table-responsive">
+                <div class="table-responsive">
                     <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
                     id="userBalanceDB_table" style="width: 100%">
                         <thead class="table-light">
@@ -34,8 +27,6 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
         </div>
     </div>
         <script type="module">
@@ -73,14 +64,12 @@
                             },
                             "ajax": "{{route('api_user_balances',['locale'=> app()->getLocale(), 'idAmounts'=>'Discounts-Balance'])}}",
                             "columns": [
-                                {data: 'Ref'},
-                                {data: 'Date'},
-                                {data: 'Designation'},
-                                {data: 'Description'},
+                                {data: 'reference'},
+                                {data: 'created_at'},
+                                {data: 'operation'},
+                                {data: 'description'},
                                 {data: 'value', className: classAl},
-                                {data: 'balance', className: classAl},
-                                {data: 'ranks'},
-                                {data: 'idamount'},
+                                {data: 'current_balance', className: classAl},
                             ],
                             "columnDefs":
                                 [
@@ -98,29 +87,15 @@
                                     {
                                         "targets": [5],
                                         render: function (data, type, row) {
-                                            if (row.ranks == 1)
-                                                if (row.idamount == 1)
-                                                    return '<div class="logoTopCashLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
-                                                else
-                                                    return '<div class="logoTopDBLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
-                                            else
                                                 return data;
                                         }
                                     },
                                     {
-                                        "targets": [6, 7],
-                                        searchable: false,
-                                        visible: false
-                                    },
-                                    {
-                                        "targets": [5],
-                                        className: classAl,
+                                        "targets": [5],                                        className: classAl,
                                     },
 
                                 ],
-                            "language": {
-                                "url": urlLang
-                            }
+                            "language": {"url": urlLang},
                         }
                     );
                 }

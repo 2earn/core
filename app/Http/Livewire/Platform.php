@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Core\Models\Platform as ModelsPlatform;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class Platform extends Component
@@ -14,9 +15,10 @@ class Platform extends Component
     {
         try {
             ModelsPlatform::findOrFail($id)->delete();
-            return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Platform Deleted Successfully!!'));
+            return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Platform Deleted Successfully'));
         }catch (\Exception $exception){
-            return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('error', $exception->getMessage());
+            Log::error($exception->getMessage());
+            return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('danger', $exception->getMessage());
         }
     }
 

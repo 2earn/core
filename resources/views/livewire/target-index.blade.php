@@ -12,19 +12,19 @@
     <div class="row card">
         <div class="card-header border-info">
                 <div class="row">
-                    <div class="col-sm-12 col-md-3  col-lg-6  mx-2">
+                    <div class="col-sm-12 col-md-3  col-lg-6">
                         <a href="{{route('target_create_update', app()->getLocale())}}" class="btn btn-info add-btn"
                            id="create-btn">
                             <i class="ri-add-line align-bottom me-1 ml-2"></i>
                             {{__('Create new target')}}
                         </a>
                     </div>
-                    <div class="float-end mt-1 col-sm-12 col-md-6  col-lg-5  mx-2">
+                    <div class="float-end mt-1 col-sm-12 col-md-6  col-lg-6">
                         <form class="items-center">
                             <label for="simple-search" class="sr-only">{{__('Search')}}</label>
                             <div class="w-full">
                                 <input wire:model.live="search" type="text" id="simple-search"
-                                       class="form-control"
+                                       class="form-control float-end"
                                        placeholder="{{__('Search target')}}">
                             </div>
                         </form>

@@ -9,25 +9,20 @@
         @endslot
     @endcomponent
     <div class="row">
-            @include('layouts.flash-messages')
+        @include('layouts.flash-messages')
     </div>
     <div class="row card">
         <div class="card-header border-info">
             <div class="row">
-                <div class="col-4">
-                    <input wire:model.live="search" type="text" id="simple-search"
-                           class="form-control"
-                           placeholder="{{__('Search Deal')}}">
-                </div>
-                <div class="col-8">
-                    @foreach($platforms as $platform)
-                        <a href="{{$platform->link}}">
-                            <span class="text-muted fs-16 mx-2">
+                @foreach($platforms as $platform)
+                    <div class="col-auto">
+                        <h3 class="fs-14 my-1"><a href="{{$platform->link}}">
                                 {{__($platform->name)}}
-                            </span>
-                        </a>
-                    @endforeach
-                </div>
+                            </a>
+                        </h3>
+                    </div>
+
+                @endforeach
             </div>
         </div>
         <div class="card-body">
@@ -59,12 +54,6 @@
             </div>
         </div>
     </div>
-
-    <script type="module">
-        function openDeal() {
-            console.log('End');
-        }
-    </script>
     <script type="module">
         $(document).on('turbolinks:load', function () {
             if (!$.fn.dataTable.isDataTable('#dealTable')) {
@@ -107,10 +96,8 @@
             $('body').on('click', '.deleteDeal', function (event) {
                 Swal.fire({
                     title: '{{__('Are you sure to delete this Deal')}}? <h5 class="float-end">' + $(event.target).attr('data-name') + ' </h5>',
-                    showDenyButton: true,
                     showCancelButton: true,
-                    confirmButtonText: "Delete",
-                    denyButtonText: `Rollback`
+                    confirmButtonText: "{{__('Delete')}}",
                 }).then((result) => {
                     if (result.isConfirmed) {
                         window.Livewire.emit("delete", $(event.target).attr('data-id'));
@@ -127,10 +114,8 @@
                 var confirmButtonText = name;
                 Swal.fire({
                     title: title,
-                    showDenyButton: true,
                     showCancelButton: true,
                     confirmButtonText: confirmButtonText,
-                    denyButtonText: `Rollback`
                 }).then((result) => {
                     if (result.isConfirmed) {
                         window.Livewire.emit("updateDeal", id, status);

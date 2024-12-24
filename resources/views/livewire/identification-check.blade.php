@@ -8,60 +8,56 @@
     @endphp
     <div class="row">
         <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-12">
-                            <h4 class="mt-4 fw-semibold">{{__('KYC_Verification')}}</h4>
-                            <p class="text-muted mt-3">
-                                {{__('Txt_KYC_Verification')}}
-                            </p>
-                            <div class="mt-4">
-                                <button type="button"
-                                        id="identificationModalbtn"
-                                        class="btn btn-primary"
-                                        data-bs-toggle="modal"
-                                        @if(!$usermetta_info2['enFirstName'] || !$usermetta_info2['enLastName'] || !$usermetta_info2['birthday'] || !$usermetta_info2['nationalID'] || !$userF['email'])
-                                            disabled
-                                        title="missing infos"
-                                        @endif
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <h4 class="mt-4 fw-semibold">{{__('KYC_Verification')}}</h4>
+                    <p class="text-muted mt-3">
+                        {{__('Txt_KYC_Verification')}}
+                    </p>
+                    <div class="mt-4">
+                        <button type="button"
+                                id="identificationModalbtn"
+                                class="btn btn-primary"
+                                data-bs-toggle="modal"
+                                @if(!$usermetta_info2['enFirstName'] || !$usermetta_info2['enLastName'] || !$usermetta_info2['birthday'] || !$usermetta_info2['nationalID'] || !$userF['email'])
+                                    disabled
+                                title="missing infos"
+                                @endif
 
-                                        @if($userAuth->status== 4 && $moreThanSixMonths)
-                                            disabled
-                                        title="Status 4 + moreThanSixMonths"
-                                        @endif
-                                        @if($hasRequest) data-bs-target="#accountValidationModal"
-                                        @else data-bs-target="#identificationModal" @endif
+                                @if($userAuth->status== 4 && $moreThanSixMonths)
+                                    disabled
+                                title="Status 4 + moreThanSixMonths"
+                                @endif
+                                @if($hasRequest) data-bs-target="#accountValidationModal"
+                                @else data-bs-target="#identificationModal" @endif
 
-                                >
-                                    {{__('Click_here_for_Verification')}}
-                                </button>
+                        >
+                            {{__('Click_here_for_Verification')}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            @if(!empty($errors_array))
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="alert alert-warning material-shadow mt-2" role="alert">
+                            <h4 class="alert-heading"> {{ __('Please fill in the missing fields identification') }}
+                                :</h4>
+                            <div class="mx-4">
+                                <ul class="list-group list-group-flush">
+                                    @foreach ($errors_array as $error)
+                                        <li>{{ $error }}.</li>
+                                    @endforeach
+                                </ul>
                             </div>
                         </div>
                     </div>
-                    @if(!empty($errors_array))
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="alert alert-warning material-shadow mt-2" role="alert">
-                                    <h4 class="alert-heading"> {{ __('Please fill in the missing fields identification') }}
-                                        :</h4>
-                                    <div class="mx-4">
-                                        <ul class="list-group list-group-flush">
-                                            @foreach ($errors_array as $error)
-                                                <li>{{ $error }}.</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                    <div class="row justify-content-center mt-5 mb-2">
-                        <div class="col-sm-7 col-8">
-                            <img src="{{ Vite::asset('resources/images/verification-img.png') }}" alt=""
-                                 class="img-fluid"/>
-                        </div>
-                    </div>
+                </div>
+            @endif
+            <div class="row justify-content-center mt-5 mb-2">
+                <div class="col-sm-7 col-8">
+                    <img src="{{ Vite::asset('resources/images/verification-img.png') }}" alt=""
+                         class="img-fluid"/>
                 </div>
             </div>
         </div>

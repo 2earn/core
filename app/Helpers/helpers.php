@@ -1,34 +1,32 @@
 <?php
 
 use App\Models\User;
+use App\Services\Balances\BalancesFacade;
 use Carbon\Carbon;
 use Core\Models\Setting;
-use Core\Models\user_balance;
-use Core\Models\UserContact;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
-
+use Core\Models\UserContact;
+use Core\Models\countrie;
+use Illuminate\Support\Facades\Auth;
+use App\Models\SharesBalances;
 if (!function_exists('getUserBalanceSoldes')) {
     function getUserBalanceSoldes($idUser, $amount)
     {
-        $result = DB::table('user_balances as u')
-            ->select('u.idUser', 'u.idamount', DB::raw('SUM(CASE WHEN b.IO = "I" THEN u.value ELSE -u.value END) as value'))
-            ->join('balanceoperations as b', 'u.idBalancesOperation', '=', 'b.idBalanceOperations')
-            ->join('users as s', 'u.idUser', '=', 's.idUser')
-            ->where('u.idUser', $idUser)
-            ->where('u.idamount', $amount)
-            ->groupBy('u.idUser', 'u.idamount')
-            ->first();
+        return match ($amount) {
+            1 =>  BalancesFacade::getCash($idUser),
+            2 =>  BalancesFacade::getBfss($idUser),
+            3 =>  BalancesFacade::getDiscount($idUser),
+            4 =>  BalancesFacade::getTree($idUser),
+            5 =>  BalancesFacade::getSms($idUser),
+            default =>  BalancesFacade::getCash($idUser),
+        };
 
-        if ($result) {
-            return $result->value;
-        } else {
-            return 0.000;
-        }
     }
 }
 if (!function_exists('validatePhone')) {
@@ -36,12 +34,12 @@ if (!function_exists('validatePhone')) {
     {
         try {
             $country = DB::table('countries')->where('phonecode', $ccode)->first();
-
             $phone = new PhoneNumber($phone, $country->apha2);
             $phone->formatForCountry($country->apha2);
             return "1";
-        } catch (\Exception $exp) {
-            return $exp->getMessage();
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return $exception->getMessage();
         }
     }
 }
@@ -65,81 +63,40 @@ if (!function_exists('getRegisterUpline')) {
         return $result;
     }
 }
-if (!function_exists('getUserListCards')) {
-    function getUserListCards()
-    {
-        $data = DB::table(function ($query) {
-            $query->select('idUser', 'u.idamount', 'Date', 'u.idBalancesOperation', 'b.Designation', DB::raw('CASE WHEN b.IO = "I" THEN value ELSE -value END as value'))
-                ->from('user_balances as u')
-                ->join('balanceoperations as b', 'u.idBalancesOperation', '=', 'b.idBalanceOperations')
-                ->whereNotIn('u.idamount', [4])
-                ->orderBy('idUser')
-                ->orderBy('u.idamount')
-                ->orderBy('Date');
-        }, 'a')
-            ->select('a.idamount', DB::raw('SUM(a.value) as value'))
-            ->groupBy('a.idamount')
-            ->orderBy('a.idamount')
-            ->union(DB::table('user_balances')
-                ->select(DB::raw('7 as idamount'), DB::raw('SUM(value) as value'))
-                ->where('idBalancesOperation', 48))
-            ->orderBy('idamount')
-            ->get();
-        $dataArray = $data->pluck('value')->toArray();
-        return $dataArray;
-    }
-}
 if (!function_exists('getAdminCash')) {
     function getAdminCash()
     {
-        $value = DB::table('user_balances as u')
-            ->select(DB::raw('SUM(CASE WHEN b.IO = "I" THEN u.value ELSE -u.value END) as value'))
-            ->join('balanceoperations as b', 'u.idBalancesOperation', '=', 'b.idBalanceOperations')
-            ->join('users as s', 'u.idUser', '=', 's.idUser')
-            ->where('u.idamount', 1)
+        $value =  BalancesFacade::getSoldMainQuery('cash_balances')
             ->where('s.is_representative', 1)
             ->get();
-        $dataArray = $value->pluck('value')->toArray();
-        return $dataArray;
+        return $value->pluck('value')->toArray();
     }
 }
 if (!function_exists('getUserCash')) {
     function getUserCash($user)
     {
-        $value = DB::table('user_balances as u')
-            ->select(DB::raw('SUM(CASE WHEN b.IO = "I" THEN u.value ELSE -u.value END) as value'))
-            ->join('balanceoperations as b', 'u.idBalancesOperation', '=', 'b.idBalanceOperations')
-            ->join('users as s', 'u.idUser', '=', 's.idUser')
-            ->where('u.idamount', 1)
+        $value =  BalancesFacade::getSoldMainQuery('cash_balances')
             ->where('u.idUser', $user)
             ->get();
-        $dataArray = $value->pluck('value')->toArray();
-        return $dataArray;
+        return $value->pluck('value')->toArray();
     }
 }
 
 if (!function_exists('getUsertransaction')) {
     function getUsertransaction($user)
     {
-        $count = DB::table('user_transactions')
-            ->where('idUser', $user)
-            ->count('*');
+        $count = DB::table('user_transactions')->where('idUser', $user)->count('*');
         if ($count > 0) {
-            $value = DB::table('user_transactions')
-                ->select('autorised', 'cause', 'mnt')
-                ->where('idUser', $user)
-                ->get();
+            $value = DB::table('user_transactions')->select('autorised', 'cause', 'mnt')->where('idUser', $user)->get();
             $value = [$value[0]->autorised, $value[0]->cause, $value[0]->mnt];
         } else
             $value = ["null", "null", "null"];
-
         return $value;
     }
 }
 if (!function_exists('delUsertransaction')) {
     function delUsertransaction($user)
     {
-
         $del = DB::table('user_transactions')
             ->where('idUser', $user)
             ->delete();
@@ -149,15 +106,15 @@ if (!function_exists('delUsertransaction')) {
 if (!function_exists('getPhoneByUser')) {
     function getPhoneByUser($user)
     {
-        $us = \App\Models\User::where('idUser', $user)->first();
+        $us = User::where('idUser', $user)->first();
         return $us ? $us->fullphone_number : NULL;
     }
 }
 if (!function_exists('getUserByPhone')) {
     function getUserByPhone($phone, $apha2)
     {
-        $id_country = \Core\Models\countrie::where('apha2', strtoupper($apha2))->first()->id;
-        $user = \App\Models\User::where('idCountry', $id_country)->where('mobile', $phone)->first();
+        $id_country = countrie::where('apha2', strtoupper($apha2))->first()->id;
+        $user = User::where('idCountry', $id_country)->where('mobile', $phone)->first();
         return $user ? $user->idUser : NULL;
     }
 }
@@ -169,7 +126,7 @@ if (!function_exists('getUserByContact')) {
         $hours = Setting::Where('idSETTINGS', '25')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
         $user = UserContact::where('fullphone_number', $phone)->where('availablity', '1')->whereRaw('TIMESTAMPDIFF(HOUR, reserved_at, NOW()) < ?', [$hours])
             ->orderBy('reserved_at')->pluck('idUser')->first();
-        return $user ? $user : NULL;
+        return $user ?? NULL;
     }
 }
 
@@ -179,7 +136,7 @@ if (!function_exists('getSwitchBlock')) {
     {
 
         $hours = Setting::Where('idSETTINGS', '29')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
-        $user = UserContact::where('id', $id)
+        $user = \Core\Models\UserContact::where('id', $id)
             ->pluck('reserved_at')->first();
         if ($user) {
             $user = Carbon::parse($user);
@@ -240,8 +197,7 @@ if (!function_exists('find_actions')) {
 if (!function_exists('getFlashGiftedActions')) {
     function getFlashGiftedActions($actions, $times)
     {
-        $result = intval($actions * ($times - 1));
-        return $result;
+        return intval($actions * ($times - 1));
     }
 }
 if (!function_exists('actualActionValue')) {
@@ -259,38 +215,35 @@ if (!function_exists('actualActionValue')) {
 if (!function_exists('getSelledActions')) {
     function getSelledActions($withGiftedShares = false)
     {
-        if ($withGiftedShares) {
-            return user_balance::where('idBalancesOperation', 44)->sum(DB::raw('value + gifted_shares'));
-        } else {
-            return user_balance::where('idBalancesOperation', 44)->sum('value');
-        }
+        return $withGiftedShares ? SharesBalances::sum(DB::raw('value')) : SharesBalances::where('balance_operation_id', 44)->sum('value');
     }
 }
+
 if (!function_exists('getGiftedShares')) {
     function getGiftedShares()
     {
-        return \Core\Models\user_balance::where('idBalancesOperation', 44)->sum('gifted_shares');
+
+        return SharesBalances::whereNotIn('balance_operation_id', [44])->sum('value');
     }
 }
 if (!function_exists('getRevenuShares')) {
     function getRevenuShares()
     {
-        return \Core\Models\user_balance::where('idBalancesOperation', 44)
-            ->selectRaw('SUM((value + gifted_shares)*cast(PU as decimal(10,2))) as total_sum')->first()->total_sum;
+        return SharesBalances::selectRaw('SUM(amount) as total_sum')->first()->total_sum;
     }
 }
 if (!function_exists('getRevenuSharesReal')) {
     function getRevenuSharesReal()
     {
-        return \Core\Models\user_balance::where('idBalancesOperation', 44)
-            ->selectRaw('SUM(Balance) as total_sum')->first()->total_sum;
+        return SharesBalances::selectRaw('SUM(real_amount) as total_sum')->first()->total_sum;
     }
 }
 
 if (!function_exists('getUserSelledActions')) {
     function getUserSelledActions($user)
     {
-        return \Core\Models\user_balance::where('idBalancesOperation', 44)->where('idUser', $user)->selectRaw('SUM(value + gifted_shares) as total_sum')->first()->total_sum;
+        return SharesBalances::where('beneficiary_id', $user)->selectRaw('SUM(value) as total_sum')
+            ->first()->total_sum;
     }
 }
 
@@ -302,17 +255,19 @@ if (!function_exists('getUserActualActionsValue')) {
 }
 
 if (!function_exists('getUserActualActionsProfit')) {
+
     function getUserActualActionsProfit($user)
     {
-        $expences = \Core\Models\user_balance::where('idBalancesOperation', 44)->where('idUser', $user)->selectRaw('SUM((value + gifted_shares) * PU) as total_sum')->first()->total_sum;
-        return getUserActualActionsValue($user) - $expences;
+        return getUserActualActionsValue($user) - SharesBalances::where('beneficiary_id', $user)
+                ->selectRaw('SUM(amount) as total_sum')
+                ->first()
+                ->total_sum;
     }
 }
 if (!function_exists('getExtraAdmin')) {
     function getExtraAdmin()
     {
-        $user = auth()->user()->fullphone_number;
-        return $user;
+        return  auth()->user()->fullphone_number;
     }
 }
 if (!function_exists('getLangNavigation')) {
@@ -323,14 +278,16 @@ if (!function_exists('getLangNavigation')) {
             $lang = Cookie::get('PreferedLangue');
             try {
                 $lang = Crypt::decrypt(Cookie::get('PreferedLangue'), false);
-            } catch (DecryptException $e) {
+            } catch (DecryptException $exception) {
+                Log::error($exception->getMessage());
             }
 
             $lang = substr($lang, -2);
         } else {
             try {
                 $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
-            } catch (Exception $ex) {
+            } catch (Exception $exception) {
+                Log::error($exception->getMessage());
             }
         }
         if ($lang == "") {
@@ -375,15 +332,14 @@ if (!function_exists('getLocationByIP')) {
         $json = file_get_contents("http://ipinfo.io/{$ip}/geo");
         $details = json_decode($json, true);
         $country_code = $details['country'];
-        if (\Illuminate\Support\Facades\Auth::check()) {
-            $authUser = \Illuminate\Support\Facades\Auth::user();
-            $countryAuth = DB::table('countries')->where('id', '=', $authUser->idCountry)->get()->first();
+        if (Auth::check()) {
+            $countryAuth = DB::table('countries')->where('id', '=', auth()->user()->idCountry)->get()->first();
             if (strtolower($country_code) != strtolower($countryAuth->apha2) && strtolower(getActifNumber()->isoP) != strtolower($country_code)) {
                 $samePay = false;
             }
             if (strtolower(getActifNumber()->isoP) != strtolower($country_code) && strtolower($country_code) == strtolower($countryAuth->apha2)) {
-                $num = collect(DB::select('select * from usercontactnumber where idUser = ? and mobile = ?', [Auth::user()->idUser, $authUser->mobile]))->first();
-                DB::update('update usercontactnumber set active = 0 where idUser = ?', [$authUser->idUser]);
+                $num = collect(DB::select('select * from usercontactnumber where idUser = ? and mobile = ?', [Auth::user()->idUser, auth()->user()->mobile]))->first();
+                DB::update('update usercontactnumber set active = 0 where idUser = ?', [auth()->user()->idUser]);
                 DB::update('update usercontactnumber set active = 1 where id = ?', [$num->id]);
             }
         }
@@ -394,9 +350,8 @@ if (!function_exists('getLocationByIP')) {
 if (!function_exists('getActifNumber')) {
     function getActifNumber()
     {
-        if (\Illuminate\Support\Facades\Auth::check()) {
-            $authUser = \Illuminate\Support\Facades\Auth::user();
-            return collect(DB::select('select * from usercontactnumber where idUser = ? and active = 1', [Auth::user()->idUser]))->first();
+        if (Auth::check()) {
+            return collect(DB::select('select * from usercontactnumber where idUser = ? and active = 1', [auth()->user()->idUser]))->first();
         }
         return false;
     }
@@ -405,7 +360,6 @@ if (!function_exists('getActifNumber')) {
 if (!function_exists('getCountryByIso')) {
     function getCountryByIso($iso)
     {
-
         $s = collect(DB::select('select name from countries where apha2 = ? ', [$iso]))->first();
         return $s->name;
     }
@@ -417,7 +371,8 @@ if (!function_exists('earnDebug')) {
         $clientIP = "";
         try {
             $clientIP = request()->ip() . "   " . request()->server->get('HTTP_SEC_CH_UA');
-        } catch (err) {
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
         }
 
         Log::channel('earnDebug')->debug('Client IP : ' . $clientIP . 'Details-Log : ' . $message);
@@ -430,22 +385,19 @@ if (!function_exists('usdToSar')) {
     {
         return Setting::Where('idSETTINGS', '30')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
     }
+}
 
-    if (!function_exists('checkUserBalancesInReservation')) {
-        function checkUserBalancesInReservation($idUser)
-        {
-            $reservation = Setting::Where('idSETTINGS', '32')
-                ->orderBy('idSETTINGS')
-                ->pluck('IntegerValue')
-                ->first();
-            $result = DB::table('user_balances as u')
-                ->where('idUser', $idUser)
-                ->select(DB::raw('TIMESTAMPDIFF(HOUR, ' . DB::raw('DATE') . ', NOW()))'))
-                ->where('idBalancesOperation', 44)
-                ->whereRaw('TIMESTAMPDIFF(HOUR, ' . DB::raw('DATE') . ', NOW()) < ?', [$reservation])
-                ->count();
-            return $result ? $result : null;
-        }
+if (!function_exists('checkUserBalancesInReservation')) {
+    function checkUserBalancesInReservation($idUser)
+    {
+        $reservation = Setting::Where('idSETTINGS', '32')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
+        $result = DB::table('shares_balances as u')
+            ->where('beneficiary_id', $idUser)
+            ->select(DB::raw('TIMESTAMPDIFF(HOUR, ' . DB::raw('created_at') . ', NOW()))'))
+            ->where('balance_operation_id', 44)
+            ->whereRaw('TIMESTAMPDIFF(HOUR, ' . DB::raw('created_at') . ', NOW()) < ?', [$reservation])
+            ->count();
+        return $result ?? null;
     }
 }
 
@@ -464,6 +416,7 @@ if (!function_exists('getDecimals')) {
         return substr(number_format($number - intval($number), $decimals, '.', ','), 2);
     }
 }
+
 if (!function_exists('getUserDisplayedName')) {
     function getUserDisplayedName($idUser = null)
     {
@@ -515,12 +468,8 @@ if (!function_exists('formatNotification')) {
             case 'App\Notifications\contact_registred':
                 $notificationText = Lang::get('New contact registred') . ' ' . $notification->data['fullphone_number'];
                 break;
-            case 1:
-                echo "i equals 1";
-                break;
-            case 2:
+            default:
                 echo "i equals 2";
-                break;
         }
         return $notificationText;
     }
@@ -576,7 +525,6 @@ if (!function_exists('checkExpiredSoonInternationalIdentity')) {
 if (!function_exists('getValidCurrentDateTime')) {
     function getValidCurrentDateTime($date)
     {
-
         if (is_null($date)) {
             return null;
         }
@@ -588,3 +536,44 @@ if (!function_exists('getValidCurrentDateTime')) {
         return $datetime->format('Y-m-d H:i:s');
     }
 }
+
+if (!function_exists('formatSqlWithEnv')) {
+    function formatSqlWithEnv($viewSqlCode)
+    {
+        match (env('APP_NAME', '2Earn.test')) {
+            '2Earn.test' => $viewSqlCode = str_replace('database_earn', '2earn', $viewSqlCode),
+            'dev.2earn.cash' => $viewSqlCode = str_replace('database_earn', 'dev_2earn', $viewSqlCode),
+            'demo.2earn.cash' => $viewSqlCode = str_replace('database_earn', 'demo_2earn', $viewSqlCode),
+            '2Earn.cash' => $viewSqlCode = str_replace('database_earn', 'prod_2earn', $viewSqlCode),
+        };
+
+        match (env('APP_NAME', '2Earn.test')) {
+            '2Earn.test' => $viewSqlCode = str_replace('database_name', '2earn', $viewSqlCode),
+            'dev.2earn.cash' => $viewSqlCode = str_replace('database_name', 'dev_2earn', $viewSqlCode),
+            'demo.2earn.cash' => $viewSqlCode = str_replace('database_name', 'demo_2earn', $viewSqlCode),
+            '2Earn.cash' => $viewSqlCode = str_replace('database_name', 'prod_2earn', $viewSqlCode),
+        };
+        match (env('APP_NAME', '2Earn.test')) {
+            '2Earn.test' => $viewSqlCode = str_replace('database_learn', 'learn', $viewSqlCode),
+            'dev.2earn.cash' => $viewSqlCode = str_replace('database_learn', 'dev_learn', $viewSqlCode),
+            'demo.2earn.cash' => $viewSqlCode = str_replace('database_learn', 'demo_learn', $viewSqlCode),
+            '2Earn.cash' => $viewSqlCode = str_replace('database_learn', 'prod_learn', $viewSqlCode),
+        };
+        return $viewSqlCode;
+
+    }
+}
+
+if (!function_exists('getSqlFromPath')) {
+    function getSqlFromPath($fileName)
+    {
+        $path = database_path('sql/' . $fileName . '.sql');
+        if (!File::exists($path)) {
+            throw new Exception('Invalid sql Path');
+        }
+        return File::get($path);
+    }
+}
+
+
+

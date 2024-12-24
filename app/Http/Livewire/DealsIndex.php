@@ -4,9 +4,10 @@ namespace App\Http\Livewire;
 
 use App\Models\Deal;
 use App\Models\User;
-use Core\Enum\DealStatus;
 use Core\Models\Platform;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
 class DealsIndex extends Component
@@ -17,10 +18,11 @@ class DealsIndex extends Component
         'delete' => 'delete',
         'updateDeal' => 'updateDeal',
     ];
-    public $platforms;
+    public $platforms,$currentRouteName;
 
     public function mount()
     {
+        $this->currentRouteName = Route::currentRouteName();
         if (User::isSuperAdmin()) {
             $this->platforms = Platform::all();
         } else {
@@ -34,68 +36,21 @@ class DealsIndex extends Component
     public function updateDeal($id, $status)
     {
         match (intval($status)) {
-            0 => $this->validateDeal($id),
-            2 => $this->open($id),
-            3 => $this->close($id),
-            4 => $this->archive($id),
+            0 => Deal::validateDeal($id),
+            2 => Deal::open($id),
+            3 => Deal::close($id),
+            4 => Deal::archive($id),
         };
     }
 
-    public function validateDeal($id)
-    {
-        try {
-            $deal = Deal::findOrFail($id);
-            $deal->validated = true;
-            $deal->save();
-            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Validated Successfully!!'));
-        } catch (\Exception $exception) {
-            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Validated !') . " " . $exception->getMessage());
-        }
-    }
-
-    public function open($id)
-    {
-        try {
-            $deal = Deal::findOrFail($id);
-            $deal->status = DealStatus::Opened->value;
-            $deal->save();
-            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Opened Successfully!!'));
-        } catch (\Exception $exception) {
-            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Opened !') . " " . $exception->getMessage());
-        }
-    }
-
-    public function close($id)
-    {
-        try {
-            $deal = Deal::findOrFail($id);
-            $deal->status = DealStatus::Closed->value;
-            $deal->save();
-            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Closed Successfully!!'));
-        } catch (\Exception $exception) {
-            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Closed !') . " " . $exception->getMessage());
-        }
-    }
-
-    public function archive($id)
-    {
-        try {
-            $deal = Deal::findOrFail($id);
-            $deal->status = DealStatus::Archived->value;
-            $deal->save();
-            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Archived Successfully!!'));
-        } catch (\Exception $exception) {
-            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Archived !') . " " . $exception->getMessage());
-        }
-    }
-
-    public function delete($id)
+    public static function remove($id)
     {
         try {
             Deal::findOrFail($id)->delete();
 
-            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Deleted Successfully!!'));
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Deleted Successfully'));
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Deleted !') . " " . $exception->getMessage());
         }
     }

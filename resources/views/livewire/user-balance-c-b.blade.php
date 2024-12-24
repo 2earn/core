@@ -8,15 +8,8 @@
         @endslot
     @endcomponent
     <div class="row card">
-        <div class="card-header border-info">
-            <div class="d-flex align-items-center">
-                <h6 class="card-title mb-0 flex-grow-1">{{ __('Cash Balance') }}</h6>
-            </div>
-        </div>
         <div class="card-body">
             <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-header">
                         <div class="row g-4">
                             <div class="col-sm-12 col-md-4 col-lg-2 col-xl-2">
                                 <img src=" {{ Vite::asset('resources/images/qr_code.jpg') }}"
@@ -65,8 +58,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
                 <div class="card-body table-responsive">
                     <table
                         class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
@@ -189,14 +180,12 @@
                     search: {return: false},
                     "ajax": "{{route('api_user_balances',['locale'=> app()->getLocale(), 'idAmounts'=>'cash-Balance'])}}",
                     "columns": [
-                        {data: 'Ref'},
-                        {data: 'Date'},
-                        {data: 'Designation'},
-                        {data: 'Description'},
+                        {data: 'reference'},
+                        {data: 'created_at'},
+                        {data: 'operation'},
+                        {data: 'description'},
                         {data: 'value'},
-                        {data: 'balance'},
-                        {data: 'ranks'},
-                        {data: 'idamount'},
+                        {data: 'current_balance'},
                     ],
                     "columnDefs":
                         [
@@ -213,17 +202,11 @@
                             {
                                 "targets": [5],
                                 render: function (data, type, row) {
-                                    if (row.ranks == 1)
-                                        if (row.idamount == 1)
-                                            return '<div class="logoTopCashLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
-                                        else
-                                            return '<div class="logoTopDBLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
-                                    else
+
                                         return data;
 
                                 }
                             },
-                            {"targets": [6, 7], searchable: false, visible: false},
                             {"targets": [5], className: classAl},
                         ],
                     "language": {"url": urlLang}

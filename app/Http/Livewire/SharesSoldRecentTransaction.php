@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 
+use App\Models\CashBalances;
 use Carbon\Carbon;
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
@@ -73,12 +74,12 @@ class SharesSoldRecentTransaction extends Component
         array_push($arraySoldeD, $soldeDBd);
         $usermetta_info = collect(DB::table('metta_users')->where('idUser', $user->idUser)->first());
         $dateAujourdhui = Carbon::now()->format('Y-m-d');
-        $vente_jour = \Core\Models\user_balance::where('idBalancesOperation', 42)
-            ->where('idUser', $user->idUser)
-            ->whereDate('Date', '=', $dateAujourdhui)
+        $vente_jour = CashBalances::where('balance_operation_id', 42)
+            ->where('beneficiary_id', $user->idUser)
+            ->whereDate('created_at', '=', $dateAujourdhui)
             ->selectRaw('SUM(value) as total_sum')->first()->total_sum;
-        $vente_total = \Core\Models\user_balance::where('idBalancesOperation', 42)
-            ->where('idUser', $user->idUser)
+        $vente_total = CashBalances::where('balance_operation_id', 42)
+            ->where('beneficiary_id', $user->idUser)
             ->selectRaw('SUM(value) as total_sum')->first()->total_sum;
 
         $params = [

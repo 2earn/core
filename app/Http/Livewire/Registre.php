@@ -8,6 +8,7 @@ use App\Models\User;
 use Core\Enum\StatusRequest;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
+use Core\Models\UserContactNumber;
 use Core\Services\settingsManager;
 use Core\Services\TransactionManager;
 use Illuminate\Support\Facades\Crypt;
@@ -87,8 +88,9 @@ class Registre extends Component
             $newUser = $this->initNewUser();
         }
         if ($user && $user->status != -2) {
-            return redirect()->route('registre', app()->getLocale())->with('danger', Lang::get('UserExiste'));
+            return redirect()->route('registre', app()->getLocale())->with('danger', Lang::get('User existe'));
         }
+
         if ($user) {
             $newUser = $settingsManager->getUserById($user->id);
         }
@@ -109,12 +111,10 @@ class Registre extends Component
         $newUser->registred_from = 3;
         $newUser->id_phone = $this->ccode;
         $newUser->email_verified = 0;
-
+        $usere = $newUser->save();
         $transactionManager->beginTransaction();
         $settingsManager->createUserContactNumber($newUser, $this->iso2Country);
-
         $settingsManager->createMettaUser($newUser);
-        $usere = $newUser->save();
         $transactionManager->commit();
         if ($usere) {
             $settingsManager->NotifyUser($newUser->id, TypeEventNotificationEnum::Inscri, ['msg' => $newcode, 'type' => TypeNotificationEnum::SMS]);

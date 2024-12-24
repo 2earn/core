@@ -18,9 +18,9 @@ class Order extends Model
         'note',
     ];
 
-    public function orderItems(): HasMany
+    public function OrderDetails(): HasMany
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(OrderDetail::class);
     }
 
     public function user()

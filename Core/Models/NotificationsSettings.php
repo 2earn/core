@@ -8,6 +8,5 @@ class NotificationsSettings extends Model
 {
     protected $table = 'notifications_settings';
     public $timestamps = false ;
-//    protected $fillable = ['idUser','name','lastName','mobile','availablity','disponible'];
 
 }

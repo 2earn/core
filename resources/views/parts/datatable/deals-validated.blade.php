@@ -1,8 +1,8 @@
 @if($validated)
-    <span class="btn btn-soft-success"> {{('Validated')}}</span>
+    <span class="btn btn-soft-success"> {{__('Validated')}}</span>
 
 @else
-    <span class="btn btn-soft-warning"> {{('Not validated')}}</span>
+    <span class="btn btn-soft-warning"> {{__('Not validated')}}</span>
 
 @endif
 

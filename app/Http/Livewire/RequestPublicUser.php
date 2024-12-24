@@ -3,6 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Models\User;
+use Core\Enum\RequestStatus;
+use Core\Enum\StatusRequest;
 use Core\Models\detail_financial_request;
 use Core\Services\settingsManager;
 use Illuminate\Http\Request;
@@ -16,12 +18,14 @@ class RequestPublicUser extends Component
     public $selectedUsers = [];
     protected $listeners = [
         'send' => 'send',
-        'sendReques' => 'sendReques'
+        'sendFinancialRequest' => 'sendFinancialRequest'
     ];
 
-    public function sendReques(settingsManager $settingsManager)
+    public function sendFinancialRequest(settingsManager $settingsManager)
     {
-        if (!count($this->selectedUsers) > 0) return;
+        if (!count($this->selectedUsers) > 0) {
+            return redirect()->route('financial_transaction', app()->getLocale())->with('danger', Lang::get('No selected users'));
+        };
         $userAuth = $settingsManager->getAuthUser();
         $lastnumero = 0;
         $lastRequest = DB::table('financial_request')
@@ -52,7 +56,7 @@ class RequestPublicUser extends Component
                 'status' => '0',
                 'securityCode' => $securityCode
             ]);
-        return redirect()->route('financial_transaction', app()->getLocale())->with('SuccesSendPublicRequest', $securityCode);
+        return redirect()->route('financial_transaction', app()->getLocale())->with('success', Lang::get('Financial request sended successfully ,This is your security code') . ' : ' . $securityCode);
     }
 
     public function send($idUser, settingsManager $settingsManager)
@@ -64,9 +68,17 @@ class RequestPublicUser extends Component
         if (!$userAuth) return;
         $date = date('Y-m-d H:i:s');
         DB::table('recharge_requests')
-            ->insert(['Date' => $date, 'idUser' => $user->idUser, 'idPayee' => $userAuth->idUser, 'userPhone' => $user->fullphone_number,
-                'payeePhone' => $userAuth->fullNumber, 'amount' => $this->amount, 'validated' => 0, 'type_user' => 2]);
-        return redirect()->route('financial_transaction', app()->getLocale())->with('SuccesSendReqPublicUser', Lang::get('SuccesSendReqPublicUser'));
+            ->insert([
+                'Date' => $date,
+                'idUser' => $user->idUser,
+                'idPayee' => $userAuth->idUser,
+                'userPhone' => $user->fullphone_number,
+                'payeePhone' => $userAuth->fullNumber,
+                'amount' => $this->amount,
+                'validated' => 0,
+                'type_user' => 2
+            ]);
+        return redirect()->route('financial_transaction', app()->getLocale())->with('success', Lang::get('SuccesSendReqPublicUser'));
     }
 
     public function mount(Request $request)
@@ -82,11 +94,8 @@ class RequestPublicUser extends Component
         $users = User::where('is_public', 1)
             ->where('idUser', '<>', $userAuth->idUser)
             ->where('idCountry', $userAuth->idCountry)
-            ->where('status', 1)
+            ->where('status', '>=',StatusRequest::ValidNational)
             ->get();
-
-        return view('livewire.request-public-user', [
-            'pub_users' => $users
-        ])->extends('layouts.master')->section('content');;
+        return view('livewire.request-public-user', ['pub_users' => $users])->extends('layouts.master')->section('content');
     }
 }

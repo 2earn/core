@@ -240,7 +240,6 @@
             inputlog = document.querySelector("#ipAdd2Contact");
             var itiLog = window.intlTelInput(inputlog, {
                 initialCountry: "auto",
-                // showSelectedDialCode: true,
                 useFullscreenPopup: false,
                 geoIpLookup: function (callback) {
                     $.get('https://ipinfo.io', function () {

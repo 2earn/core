@@ -9,7 +9,7 @@
                     <div>
                         <button data-bs-toggle="modal"
                                 data-bs-target="#AddContactNumberModel" type="button"
-                                class="btn btn-secondary add-btn btn2earn">{{ __('Add_contact-number') }}
+                                class="btn btn-secondary add-btn btn2earn float-end">{{ __('Add_contact-number') }}
                         </button>
                     </div>
                 </div>
@@ -17,11 +17,11 @@
                     <table id="example" class="table table-striped table-bordered  display nowrap">
                         <thead class="table-light">
                         <tr class="tabHeader2earn">
-                            <th scope="mobile">{{__('ID_Number')}}</th>
-                            <th scope="mobile">{{__('Mobile Number')}}</th>
-                            <th scope="Active">{{__('Active')}}</th>
+                            <th>{{__('ID_Number')}}</th>
+                            <th>{{__('Mobile Number')}}</th>
+                            <th>{{__('Active')}}</th>
                             <th>{{__('Country')}}</th>
-                            <th scope="">{{__('Actions')}}</th>
+                            <th>{{__('Actions')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -196,16 +196,12 @@
     </script>
     <script type="module">
         $(document).on('turbolinks:load', function () {
-            var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";
-            var urlLang = "https://cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
             $('#example').DataTable({
                 retrieve: true,
                 "colReorder": true,
                 "orderCellsTop": true,
                 "fixedHeader": true,
-                "language": {
-                    "url": urlLang
-                }
+                "language": {"url": urlLang},
             });
         });
     </script>

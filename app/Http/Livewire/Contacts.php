@@ -11,6 +11,7 @@ use Core\Services\settingsManager;
 use Core\Services\TransactionManager;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Propaganistas\LaravelPhone\PhoneNumber;
@@ -63,35 +64,6 @@ class Contacts extends Component
     private settingsManager $settingsManager;
     private TransactionManager $transactionManager;
 
-    public function render(settingsManager $settingsManager)
-    {
-        $userAuth = $settingsManager->getAuthUser();
-        $reservation = Setting::find(25);
-        $switchBlock = Setting::find(29);
-        if (!$userAuth) abort(404);
-        $contactUserQuery = DB::table('contact_users as contact_users')
-            ->join('users as u', 'contact_users.idContact', '=', 'u.idUser')
-            ->join('countries as c', 'u.idCountry', '=', 'c.id')
-            ->where('contact_users.idUser', $userAuth->idUser);
-        if ($this->search != "") {
-            $contactUserQuery = $contactUserQuery->where(function ($contactUserQuery) {
-                $contactUserQuery->orWhere('contact_users.lastName', 'like', '%' . $this->search . '%')
-                    ->orWhere('contact_users.name', 'like', '%' . $this->search . '%')
-                    ->orWhere('contact_users.fullphone_number', 'like', '%' . $this->search . '%')
-                    ->orWhere('contact_users.mobile', 'like', '%' . $this->search . '%');
-            });
-        }
-        $contactUserQuery = $contactUserQuery->select('contact_users.id', 'contact_users.name', 'contact_users.lastName', 'contact_users.idUser', 'contact_users.idContact', 'contact_users.updated_at', 'u.reserved_by', 'u.mobile', 'u.availablity', 'c.apha2', 'u.idUpline', 'u.reserved_at',
-            DB::raw("CASE WHEN u.status = -2 THEN 'warning' ELSE 'success' END AS color"),
-            DB::raw("CASE WHEN u.status = -2 THEN 'Pending' ELSE 'User' END AS status"))
-            ->orderBy('contact_users.updated_at', 'DESC');
-        $contactUsers = $contactUserQuery->paginate($this->pageCount);
-        $params = [
-            'contactUsers' => $this->updateUsersContactList($settingsManager, $contactUsers, $reservation->IntegerValue, $switchBlock->IntegerValue),
-        ];
-        $this->resetPage();
-        return view('livewire.contacts', $params)->extends('layouts.master')->section('content');
-    }
 
     public function updateUsersContactList($settingsManager, $contactUsers, $reservation, $switchBlock)
     {
@@ -213,9 +185,10 @@ class Contacts extends Component
             $this->dispatchBrowserEvent('close-modal');
             return redirect()->route('contacts', app()->getLocale())->with('success', Lang::get('User created successfully') . ' : ' . $contact_user->name . ' ' . $contact_user->lastName . ' : ' . $contact_user->mobile);
 
-        } catch (\Exception $exp) {
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             $this->transactionManager->rollback();
-            if ($exp->getMessage() == "Number does not match the provided country.") {
+            if ($exception->getMessage() == "Number does not match the provided country.") {
                 return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('Phone Number does not match the provided country.'));
             } else {
                 return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('User creation failed'));
@@ -268,4 +241,35 @@ class Contacts extends Component
         $this->dispatchBrowserEvent('close-modal');
         return redirect()->route('contacts', app()->getLocale());
     }
+
+    public function render(settingsManager $settingsManager)
+    {
+        $userAuth = $settingsManager->getAuthUser();
+        $reservation = Setting::find(25);
+        $switchBlock = Setting::find(29);
+        if (!$userAuth) abort(404);
+        $contactUserQuery = DB::table('contact_users as contact_users')
+            ->join('users as u', 'contact_users.idContact', '=', 'u.idUser')
+            ->join('countries as c', 'u.idCountry', '=', 'c.id')
+            ->where('contact_users.idUser', $userAuth->idUser);
+        if ($this->search != "") {
+            $contactUserQuery = $contactUserQuery->where(function ($contactUserQuery) {
+                $contactUserQuery->orWhere('contact_users.lastName', 'like', '%' . $this->search . '%')
+                    ->orWhere('contact_users.name', 'like', '%' . $this->search . '%')
+                    ->orWhere('contact_users.fullphone_number', 'like', '%' . $this->search . '%')
+                    ->orWhere('contact_users.mobile', 'like', '%' . $this->search . '%');
+            });
+        }
+        $contactUserQuery = $contactUserQuery->select('contact_users.id', 'contact_users.name', 'contact_users.lastName', 'contact_users.idUser', 'contact_users.idContact', 'contact_users.updated_at', 'u.reserved_by', 'u.mobile', 'u.availablity', 'c.apha2', 'u.idUpline', 'u.reserved_at',
+            DB::raw("CASE WHEN u.status = -2 THEN 'warning' ELSE 'success' END AS color"),
+            DB::raw("CASE WHEN u.status = -2 THEN 'Pending' ELSE 'User' END AS status"))
+            ->orderBy('contact_users.updated_at', 'DESC');
+        $contactUsers = $contactUserQuery->paginate($this->pageCount);
+        $params = [
+            'contactUsers' => $this->updateUsersContactList($settingsManager, $contactUsers, $reservation->IntegerValue, $switchBlock->IntegerValue),
+        ];
+        $this->resetPage();
+        return view('livewire.contacts', $params)->extends('layouts.master')->section('content');
+    }
+
 }

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class SetLocale
 {
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         app()->setLocale($request->segment(1));
         return $next($request);

@@ -4,7 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\CommittedInvestorRequest;
 use App\Models\InstructorRequest;
-use App\Models\SoldesView;
+use App\Services\Balances\Balances;
 use App\Models\User;
 use Core\Enum\RequestStatus;
 use Core\Enum\BeInstructorRequestStatus;
@@ -81,8 +81,8 @@ class AdditionalIncome extends Component
 
     public function render()
     {
-        $soldes = SoldesView::where('id', auth()->user()->id)->first();
-        $soldesAction = is_null($soldes->action) ? 0 : $soldes->action;
+
+        $soldesAction = is_null(Balances::getStoredUserBalances(auth()->user()->id, 'share_balance')) ? 0 : Balances::getStoredUserBalances(auth()->user()->id, 'share_balance');
         $beCommitedInvestorMinActions = $this->getBeCommitedInvestorMinActions();
 
         $lastCommittedInvestorRequest = CommittedInvestorRequest::where('user_id', auth()->user()->id)->orderBy('created_at', 'DESC')->first();

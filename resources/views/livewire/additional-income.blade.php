@@ -9,7 +9,7 @@
         @endslot
     @endcomponent
     <div class="row">
-        <div class="col-12 mt-2 mb-2">
+        <div class="col-12">
             @include('layouts.flash-messages')
         </div>
     </div>

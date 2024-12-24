@@ -16,22 +16,17 @@ return new class extends Migration {
     public function up()
     {
         Schema::create(self::TABLE_NAME, function (Blueprint $table) {
-            $status = [
-                DealStatus::New->value,
-                DealStatus::Opened->value,
-                DealStatus::Closed->value,
-                DealStatus::Archived->value
-            ];
+            $status = [DealStatus::New->value, DealStatus::Opened->value, DealStatus::Closed->value, DealStatus::Archived->value];
             $table->id();
             $table->string('name')->nullable();
-            $table->text('description')->nullable();
+            $table->string('description',512)->nullable();
             $table->boolean('validated')->nullable();
             $table->enum('status', $status);
             $table->float('objective_turnover')->nullable();
             $table->dateTime('start_date')->nullable();
             $table->dateTime('end_date')->nullable();
             $table->float('items_profit_average')->nullable();
-            $table->float('out_provider_turnover')->nullable();
+            $table->float('provider_turnover')->nullable();
             $table->float('initial_commission')->nullable();
             $table->float('final_commission')->nullable();
             $table->float('precision')->nullable();
@@ -41,11 +36,10 @@ return new class extends Migration {
             $table->float('proactive_consumption_margin_percentage')->nullable();
             $table->float('shareholder_benefits_margin_percentage')->nullable();
             $table->float('tree_margin_percentage')->nullable();
-            $table->float('current_turnover')->nullable();
-            $table->float('item_price')->nullable();
             $table->float('current_turnover_index')->nullable();
+            $table->float('discount')->nullable();
             $table->unsignedBigInteger('created_by_id')->foreign('user_id')->nullable()->references('id')->on('user')->onDelete('cascade');
-            $table->unsignedBigInteger('platform_id')->foreign('platform_id')->nullable()->references('id')->on('platforms')->onDelete('cascade');
+            $table->unsignedBigInteger('platform_id')->nullable()->foreign('platform_id')->default(1)->nullable()->references('id')->on('platforms')->onDelete('cascade');
             $table->timestamps();
         });
     }

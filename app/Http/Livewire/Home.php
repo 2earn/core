@@ -18,6 +18,9 @@ class Home extends Component
     const MAX_AMOUNT = 99999999;
     const MAX_ACTIONS = 9999999;
     public $cashBalance;
+    public $treeBalance;
+    public $chanceBalance;
+
     public $balanceForSopping;
     public $discountBalance;
     public $SMSBalance;
@@ -85,6 +88,8 @@ class Home extends Component
         $this->cashBalance = $solde->soldeCB;
         $this->balanceForSopping = $solde->soldeBFS;
         $this->discountBalance = $solde->soldeDB;
+        $this->treeBalance = $solde->soldeTree;
+        $this->chanceBalance = $solde->soldeChance;
         $this->SMSBalance = intval($solde->soldeSMS);
 
         $this->maxActions = intval($solde->soldeCB / actualActionValue(getSelledActions(true), false));
@@ -113,7 +118,6 @@ class Home extends Component
             $setting = Setting::WhereIn('idSETTINGS', ['20', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
             $max_bonus = $setting[0];
             $total_actions = $setting[1];
-
             $k = Setting::Where('idSETTINGS', '21')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
             $this->actions = find_actions($this->vip->solde, $total_actions, $max_bonus, $k, $this->vip->flashCoefficient);
             $this->benefices = ($this->vip->solde - find_actions($this->vip->solde, $total_actions, $max_bonus, $k, $this->vip->flashCoefficient)) * $actualActionValue;

@@ -21,7 +21,6 @@ class InternationalOperatorSms implements IOperateurSms
     public function send()
     {
         $userSender = "2earn.cash" ;
-//        $userSender = "2earn-AD";
         $numberFinal = ltrim($this->destination, "0");
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://www.msegat.com/gw/sendsms.php");
