@@ -57,7 +57,6 @@ class TranslationFilesToDatabase implements ShouldQueue
         }
 
         $this->mergeFile('ar');
-
         $this->mergeFile('fr');
         $this->mergeFile('es');
         $this->mergeFile('tr');
