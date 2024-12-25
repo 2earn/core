@@ -81,7 +81,7 @@
                                                     <input type="tel" name="mobile" id="phone"
                                                            class="form-control @error('email') is-invalid @enderror"
                                                            value=""
-                                                           placeholder="{{ __('PH_MobileNumber') }}">
+                                                           placeholder="{{ __('Mobile number') }}">
                                                     @error('email')
                                                     <span class="invalid-feedback" role="alert">
                                                                                             <strong>{{ $message }}</strong>
@@ -104,7 +104,7 @@
                                                     <div class="position-relative auth-pass-inputgroup mb-3">
                                                         <input type="password"
                                                                class="form-control pe-5 @error('password') is-invalid @enderror"
-                                                               name="password" placeholder="{{ __('PH_Password') }}"
+                                                               name="password" placeholder="{{ __('Password') }}"
                                                                id="password-input">
                                                         <button
                                                             class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"

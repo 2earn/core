@@ -55,7 +55,7 @@
                                             <input wire:model.defer="phoneNumber" type="tel" name="mobile" id="phonereg"
                                                    class="form-control @error('mobile') is-invalid @enderror"
                                                    value=" "
-                                                   placeholder="{{ __('PH_MobileNumber') }}" required>
+                                                   placeholder="{{ __('Mobile number') }}" required>
                                             @error('email')
                                             <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>

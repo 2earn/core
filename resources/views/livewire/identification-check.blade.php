@@ -32,7 +32,7 @@
                                 @else data-bs-target="#identificationModal" @endif
 
                         >
-                            {{__('Click_here_for_Verification')}}
+                            {{__('Click here for verification')}}
                         </button>
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                 <div class="modal-body">
                     <button class="btn btn-outline-warning" type="button" disabled>
                         <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-                        {{__('voter_demande_déja_en_cours')}}...
+                        {{__('your request already in progress')}}...
                     </button>
                 </div>
                 <div class="modal-footer">
@@ -89,7 +89,7 @@
             <div class="modal-content">
                 <div class="modal-header p-3">
                     <h5 class="modal-title text-uppercase" id="identificationModalLabel">
-                        {{__('Verify_your_Account')}}
+                        {{__('Verify your account')}}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -101,7 +101,7 @@
                                     <button class="nav-link p-3 active" id="pills-bill-info-tab" data-bs-toggle="pill"
                                             data-bs-target="#pills-bill-info" type="button" role="tab"
                                             aria-controls="pills-bill-info" aria-selected="true">
-                                        {{__('Personal_Info')}}
+                                        {{__('Personal info')}}
                                     </button>
                                 </li>
                                 <li class="nav-item" role="presentation">

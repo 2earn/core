@@ -416,7 +416,7 @@ class Account extends Component
             return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Identification request exist'));
         } else {
             identificationuserrequest::create(['idUser' => $userAuth->idUser, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(), 'response' => 0, 'note' => '', 'status' => 1]);
-            return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Identification_send_succes'));
+            return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Identification send request success'));
         }
     }
 

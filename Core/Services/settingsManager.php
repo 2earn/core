@@ -731,10 +731,10 @@ class settingsManager
                 $PrefixMsg = Lang::get('Prefix_SMSNewPass');
                 break;
             case TypeEventNotificationEnum::RequestAccepted  :
-                $PrefixMsg = Lang::get('Prefix_SmsRequestAccepted');
+                $PrefixMsg = Lang::get('Prefix sms request accepted');
                 break;
             case TypeEventNotificationEnum::NewContactNumber  :
-                $PrefixMsg = Lang::get('Prefix_MailNewContactNumber');
+                $PrefixMsg = Lang::get('Prefix mail new contact number');
                 break;
             case TypeEventNotificationEnum::none  :
                 $PrefixMsg = "";
@@ -771,16 +771,16 @@ class settingsManager
                 $PrefixMsg = Lang::get('Prefix_SmsOPTVerification');
                 break;
             case TypeEventNotificationEnum::VerifMail  :
-                $PrefixMsg = Lang::get('Prefix_MailVerifMail');
+                $PrefixMsg = Lang::get('prefix mail verif mail');
                 break;
             case TypeEventNotificationEnum::SendNewSMS  :
-                $PrefixMsg = Lang::get('Prefix_SMSNewPass');
+                $PrefixMsg = Lang::get('Prefix SMS new pass');
                 break;
             case TypeEventNotificationEnum::RequestAccepted  :
-                $PrefixMsg = Lang::get('Prefix_SmsRequestAccepted');
+                $PrefixMsg = Lang::get('Prefix sms request accepted');
                 break;
             case TypeEventNotificationEnum::NewContactNumber  :
-                $PrefixMsg = Lang::get('Prefix_MailNewContactNumber');
+                $PrefixMsg = Lang::get('Prefix mail new contact number');
                 break;
         }
         app()->setLocale($ancLang);

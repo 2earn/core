@@ -107,7 +107,7 @@
         <div class="col-xl-6">
             <div class="card">
                 <div class="card-header align-items-center d-flex">
-                    <h4 class="card-title mb-0 flex-grow-1">{{__('sms_notification')}}</h4>
+                    <h4 class="card-title mb-0 flex-grow-1">{{__('sms notification')}}</h4>
                     <div class="flex-shrink-0">
                         <img class="me-3 rounded-circle me-0 me-sm-3"
                              src="{{ Vite::asset('resources/images/SMSIcon.png') }}"
@@ -116,7 +116,7 @@
                 </div>
                  <div class="card-body">
                     <div class="row">
-                        <h4 class="mb-3 fs-15">{{ __( 'Je souhaite recevoir un SMS :' ) }}</h4>
+                        <h4 class="mb-3 fs-15">{{ __( 'I would like to receive an SMS' ) }}</h4>
                             @foreach($setting_notif->where('type','b')  as $key => $setting)
 
                                 @if($setting->typeNotification=='s')
@@ -130,7 +130,7 @@
                             @endforeach
                     </div>
                     <div class="d-flex flex-row" style="margin-top: 30px;gap: 10px;">
-                        <div><label for="">{{__('accepte_recevoir')}}</label></div>
+                        <div><label for="">{{__('accepts to receive')}}</label></div>
                         <div>
                             <select style="width: 60px" id="nbrSms" wire:model.defer="nbrSms">
                                 @for($i=0; $i<= $nbrSmsPossible ;$i++)
@@ -138,7 +138,7 @@
                                 @endfor
                             </select>
                         </div>
-                        <div><label for="">{{__('SMS_by_week')}}</label></div>
+                        <div><label for="">{{__('SMS by week')}}</label></div>
                     </div>
                 </div>
             </div>

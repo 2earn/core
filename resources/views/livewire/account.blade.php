@@ -295,7 +295,7 @@
                             <a class="nav-link active" data-bs-toggle="tab"
                                href="#personalDetails" role="tab">
                                 <i class="fas fa-home-user"></i>
-                                {{__('Edit_Profile')}}
+                                {{__('Edit profile')}}
                             </a>
                         </li>
                         <li id="identificationsTab"
@@ -309,13 +309,13 @@
                             <a class="nav-link" data-bs-toggle="tab" href="#changePassword" role="tab"
                                id="tabEditPass">
                                 <i class="fas fa-user"></i>
-                                {{__('ChangePassword')}}
+                                {{__('Change password')}}
                             </a>
                         </li>
                         <li class="nav-item  @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif d-none ">
                             <a class="nav-link disabled" data-bs-toggle="tab" href="#privacy" role="tab">
                                 <i class="far fa-envelope"></i>
-                                {{__('UpdatePhoneNumber')}}
+                                {{__('Update phone number')}}
                             </a>
                         </li>
                     </ul>

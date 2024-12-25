@@ -141,7 +141,7 @@ class IdentificationCheck extends Component
             $this->sendIdentificationRequest($newStatus, $settingsManager);
             User::where('idUser', $userAuth->idUser)->update(['status' => $newStatus, 'asked_at' => date('Y-m-d H:i:s'), 'iden_notif' => $this->notify]);
             $this->messageVerif = Lang::get('demande_creer');
-            return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Identification_send_succes'));
+            return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Identification send request success'));
         } else {
             $this->messageVerif = Lang::get('Identification request missing information');
             $this->dispatchBrowserEvent('IdentificationRequestMissingInformation', ['type' => 'warning', 'title' => Lang::get('Identification request missing information'), 'text' => Lang::get('Identification request missing information'),]);
@@ -154,7 +154,7 @@ class IdentificationCheck extends Component
         if (!$userAuth)
             dd('not found page');
         User::where('idUser', $userAuth->idUser)->update(['status' => -1, 'asked_at' => date('Y-m-d H:i:s'), 'iden_notif' => $this->notify]);
-        return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Identification_send_succes'));
+        return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Identification send request success'));
     }
 
 

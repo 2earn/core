@@ -81,9 +81,9 @@
                                     <button type="button"
                                             class="btn btn-outline-{{$value->color}}">
                                         @if($value->status == 'User')
-                                            {{ __('User_contact') }}
+                                            {{ __('User contact') }}
                                         @else
-                                            {{ __('Pending_contact') }}
+                                            {{ __('Pending contact') }}
                                         @endif
                                     </button>
                                 </td>
@@ -216,7 +216,7 @@
                                             id="ipAdd2Contact"
                                             class="form-control"
                                             value=""
-                                            placeholder="{{ __('PH_MobileNumber') }}"
+                                            placeholder="{{ __('Mobile number') }}"
                                         >
                                         <input type='hidden' name='fullnumber' id='outputAdd2Contact'
                                                class='form-control'>

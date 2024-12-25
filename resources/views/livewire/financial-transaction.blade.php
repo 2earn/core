@@ -38,7 +38,7 @@
 
     @component('components.breadcrumb')
         @slot('title')
-            {{ __('Financial_Transaction') }}
+            {{ __('Financial transaction') }}
         @endslot
     @endcomponent
     <div class="row">

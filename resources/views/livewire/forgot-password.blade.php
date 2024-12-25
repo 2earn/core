@@ -48,7 +48,7 @@
                                                    class="form-label">{{ __('Your phone number') }}</label>
                                             <input type="tel" name="mobile" id="phoneforget"
                                                    class="form-control @error('mobile') is-invalid @enderror"
-                                                   placeholder="{{ __('PH_MobileNumber') }}"
+                                                   placeholder="{{ __('Mobile number') }}"
                                                    value="">
                                             @error('email')
                                             <span class="invalid-feedback" role="alert">

@@ -68,9 +68,9 @@
         }
 
         window.addEventListener('PreChPhone', event => {
-            var textHtmlSend = '{{ __('We_will_send') }}';
+            var textHtmlSend = '{{ __('We will send') }}';
             if (event.detail.methodeVerification === 'mail') {
-                textHtmlSend = '{{ __('We_will_send_mail') }}'
+                textHtmlSend = '{{ __('We will send mail') }}'
             }
             Swal.fire({
                 title: '{{ __('Your verification code') }}',
