@@ -1021,7 +1021,8 @@ class ApiController extends BaseController
         END as value
     ')
             ->where('ub.beneficiary_id', auth()->user()->idUser)
-            ->orderBy('ub.created_at', 'desc');
+            ->orderBy('ub.created_at', 'desc')
+            ->orderBy('ub.reference', 'desc');
     }
     public function getUserBalances($locale, $typeAmounts)
     {
