@@ -9,7 +9,6 @@
         @endslot
     @endcomponent
         <div class="row card">
-
             <div class="card-body">
                     <div class="row g-4">
                         <div class="col-sm">
