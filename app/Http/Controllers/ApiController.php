@@ -999,7 +999,7 @@ class ApiController extends BaseController
         return DB::table($balance . ' as ub')
             ->join('balance_operations as bo', 'ub.balance_operation_id', '=', 'bo.id')
             ->selectRaw('
-        RANK() OVER (ORDER BY ub.created_at desc) as ranks,
+        RANK() OVER (ORDER BY ub.created_at desc, ub.reference desc) as ranks,
         ub.beneficiary_id,
         ub.id,
         ub.operator_id,
