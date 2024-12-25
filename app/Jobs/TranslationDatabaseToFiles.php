@@ -15,41 +15,29 @@ class TranslationDatabaseToFiles implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
+    public $all;
     public function __construct()
     {
-        $all = translatetabs::all();
-        foreach ($all as $key => $value) {
-            $this->tabfin[$value->name] = $value->value;
-            $this->tabfinFr[$value->name] = $value->valueFr;
-            $this->tabfinEn[$value->name] = $value->valueEn;
-            $this->tabfinTr[$value->name] = $value->valueTr;
-            $this->tabfinEs[$value->name] = $value->valueEs;
-        }
-        $pathFile = resource_path() . '/lang/ar.json';
-        $pathFileFr = resource_path() . '/lang/fr.json';
-        $pathFileEn = resource_path() . '/lang/en.json';
-        $pathFileTr = resource_path() . '/lang/tr.json';
-        $pathFileEs = resource_path() . '/lang/es.json';
-
-        File::put($pathFile, json_encode($this->tabfin, JSON_UNESCAPED_UNICODE));
-        File::put($pathFileFr, json_encode($this->tabfinFr, JSON_UNESCAPED_UNICODE));
-        File::put($pathFileEn, json_encode($this->tabfinEn, JSON_UNESCAPED_UNICODE));
-        File::put($pathFileTr, json_encode($this->tabfinTr, JSON_UNESCAPED_UNICODE));
-        File::put($pathFileEs, json_encode($this->tabfinEs, JSON_UNESCAPED_UNICODE));
+        $this->all = translatetabs::all();
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
+
+    public function languageToFile($lang, $index_key)
+    {
+        File::put(resource_path() . '/lang/' . $lang . '.json', json_encode(array_column($this->all->toArray(), 'name', $index_key), JSON_UNESCAPED_UNICODE));
+
+    }
     public function handle()
     {
-        //
+        $langs = [
+            ['ar', 'value'],
+            ['fr', 'valueFr'],
+            ['en', 'valueEn'],
+            ['tr', 'valueTr'],
+            ['es', 'valueEs'],
+        ];
+        foreach ($langs as $lang) {
+            $this->languageToFile($lang[0], $lang[1]);
+        }
     }
 }

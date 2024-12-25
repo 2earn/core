@@ -23,7 +23,7 @@ class TranslationFilesToDatabase implements ShouldQueue
 
     }
 
-    public function mergeFile($lang, $field)
+    public function mergeFile($lang)
     {
         $pathFile = resource_path() . '/lang/' . $lang . '.json';
         $contents = File::get($pathFile);
@@ -43,10 +43,7 @@ class TranslationFilesToDatabase implements ShouldQueue
         $pathFile = resource_path() . '/lang/en.json';
         $contents = File::get($pathFile);
         $json = collect(json_decode($contents));
-
         foreach ($json as $key => $value) {
-            if ($value && $key) {
-                if (!translatetabs::where(DB::raw('BINARY `name`'), $key)->exists()) {
                     $params = [
                         'name' => $key,
                         'valueEn' => $value,
@@ -56,17 +53,14 @@ class TranslationFilesToDatabase implements ShouldQueue
                         'valueTr' => '',
                     ];
                     $this->paramsToUpdate[$key] = $params;
-                } else {
-                    $this->paramsToUpdate['name'] = ['valueEn' => $value];
-                }
-            }
+
         }
 
-        $this->mergeFile('ar', 'value');
-        $this->mergeFile('fr', 'valueFr');
-        $this->mergeFile('es', 'valueEs');
-        $this->mergeFile('tr', 'valueTr');
+        $this->mergeFile('ar');
 
+        $this->mergeFile('fr');
+        $this->mergeFile('es');
+        $this->mergeFile('tr');
         $start_time = microtime(true);
         translatetabs::insert($this->paramsToUpdate);
         $end_time = microtime(true);
