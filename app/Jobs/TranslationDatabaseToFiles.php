@@ -24,8 +24,23 @@ class TranslationDatabaseToFiles implements ShouldQueue
 
     public function languageToFile($lang, $index_key)
     {
-        File::put(resource_path() . '/lang/' . $lang . '.json', json_encode(array_column($this->all->toArray(), 'name', $index_key), JSON_UNESCAPED_UNICODE));
+        $mergedArray = [];
+        $originalArray = array_map(function ($value) use ($index_key) {
+            return [$value['name'] => $value[$index_key]];
+        }, $this->all->toArray());
 
+        $index = 0;
+        foreach ($originalArray as $item) {
+            foreach ($item as $key => $value) {
+                if (array_key_exists($key, $mergedArray)) {
+                    $index++;
+                    $mergedArray[$key . ' ___' . $index] = $value;
+                } else {
+                    $mergedArray[$key] = $value;
+                }
+            }
+        }
+        File::put(resource_path() . '/lang/' . $lang . '.json', json_encode($mergedArray, JSON_UNESCAPED_UNICODE));
     }
     public function handle()
     {
