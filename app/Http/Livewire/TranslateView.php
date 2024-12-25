@@ -108,7 +108,7 @@ class TranslateView extends Component
             $job = new TranslationFilesToDatabase();
             $job->handle();
             $end_time = microtime(true);
-            $execution_time = ($end_time - $start_time);
+            $execution_time = formatSolde(($end_time - $start_time),3);
             Log::error(TranslationFilesToDatabase::class. self::SEPARATION . $execution_time);
 
         } catch (\Exception $exception) {
@@ -183,7 +183,7 @@ class TranslateView extends Component
             $job = new TranslationDatabaseToFiles();
             $job->handle();
             $end_time = microtime(true);
-            $execution_time = ($end_time - $start_time);
+            $execution_time = formatSolde(($end_time - $start_time),3);
             Log::error(TranslationDatabaseToFiles::class. self::SEPARATION . $execution_time);
 
         } catch (\Exception $exception) {

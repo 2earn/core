@@ -18,10 +18,6 @@ class TranslationFilesToDatabase implements ShouldQueue
 
     private $paramsToUpdate = [];
 
-    public function __construct()
-    {
-
-    }
 
     public function mergeFile($lang)
     {
@@ -30,13 +26,11 @@ class TranslationFilesToDatabase implements ShouldQueue
         $json = collect(json_decode($contents));
         foreach ($json as $key => $value) {
             $keyLang = 'value' . ($lang == 'ar' ? '' : ucfirst($lang));
-            if (array_key_exists($key, $this->paramsToUpdate)) {
-                $this->paramsToUpdate[$key][$keyLang] = is_null($value) ? '' : $value;
-            } else {
+            if (!array_key_exists($key, $this->paramsToUpdate)) {
                 $this->paramsToUpdate[$key]['name'] = is_null($value) ? '' : $value;
                 $this->paramsToUpdate[$key][$keyLang] = is_null($value) ? '' : $value;
             }
-
+            $this->paramsToUpdate[$key][$keyLang] = is_null($value) ? '' : $value;
         }
     }
 
@@ -47,15 +41,7 @@ class TranslationFilesToDatabase implements ShouldQueue
         $contents = File::get($pathFile);
         $json = collect(json_decode($contents));
         foreach ($json as $key => $value) {
-                    $params = [
-                        'name' => $key,
-                        'valueEn' => $value,
-                        'value' => '',
-                        'valueFr' => '',
-                        'valueEs' => '',
-                        'valueTr' => '',
-                    ];
-                    $this->paramsToUpdate[$key] = $params;
+            $this->paramsToUpdate[$key] = ['name' => $key, 'valueEn' => $value, 'value' => '', 'valueFr' => '', 'valueEs' => '', 'valueTr' => ''];
 
         }
         $this->mergeFile('ar');
@@ -63,8 +49,7 @@ class TranslationFilesToDatabase implements ShouldQueue
         $this->mergeFile('es');
         $this->mergeFile('tr');
         $start_time = microtime(true);
-
-        $a = translatetabs::insert($this->paramsToUpdate);
+        translatetabs::insert($this->paramsToUpdate);
         $end_time = microtime(true);
         Log::info('Translation update time: ' . ($end_time - $start_time));
     }

@@ -16,11 +16,6 @@ class TranslationDatabaseToFiles implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $all;
-    public function __construct()
-    {
-        $this->all = translatetabs::all();
-    }
-
 
     public function languageToFile($lang, $index_key)
     {
@@ -37,7 +32,8 @@ class TranslationDatabaseToFiles implements ShouldQueue
         File::put(resource_path() . '/lang/' . $lang . '.json', json_encode($mergedArray, JSON_UNESCAPED_UNICODE));
     }
     public function handle()
-    {
+    {        $this->all = translatetabs::all();
+
         $langs = [
             ['ar', 'value'],
             ['fr', 'valueFr'],
