@@ -61,6 +61,7 @@ class TranslateView extends Component
     public function mount()
     {
         $this->defRandomNumber = mt_rand(999, 10000);
+        $this->page = request()->query('page', 1);
     }
 
 
@@ -229,6 +230,10 @@ class TranslateView extends Component
         $this->dispatchBrowserEvent('PreAjoutTrans', ['type' => 'warning', 'title' => "Opt", 'text' => '']);
     }
 
+    public function getCurrentPage()
+    {
+        return $this->pageNumber();
+    }
     public function saveTranslate()
     {
         $params = [
@@ -260,9 +265,9 @@ class TranslateView extends Component
             File::put($pathFileEs, json_encode($this->tabfinEs, JSON_UNESCAPED_UNICODE));
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect()->route('translate', app()->getLocale())->with('danger', trans('Edit translation failed') . " " . Lang::get($exception->getMessage()));
+            return redirect()->route('translate', ['locale' => app()->getLocale(), 'page' => $this->page])->with('danger', trans('Edit translation failed') . " " . Lang::get($exception->getMessage()));
         }
-        return redirect()->route('translate', app()->getLocale())->with('success', trans('Edit translation succeeded'));
+        return redirect()->route('translate', ['locale' => app()->getLocale(), 'page' => $this->page])->with('success', trans('Edit translation succeeded'));
     }
 
     public function initTranslate($idTranslate)
