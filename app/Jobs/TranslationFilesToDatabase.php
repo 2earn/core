@@ -29,11 +29,14 @@ class TranslationFilesToDatabase implements ShouldQueue
         $contents = File::get($pathFile);
         $json = collect(json_decode($contents));
         foreach ($json as $key => $value) {
-            if ($key) {
-                $keyLang = 'value' . ($lang == 'ar' ? '' : ucfirst($lang));
+            $keyLang = 'value' . ($lang == 'ar' ? '' : ucfirst($lang));
+            if (array_key_exists($key, $this->paramsToUpdate)) {
+                $this->paramsToUpdate[$key][$keyLang] = is_null($value) ? '' : $value;
+            } else {
                 $this->paramsToUpdate[$key]['name'] = is_null($value) ? '' : $value;
                 $this->paramsToUpdate[$key][$keyLang] = is_null($value) ? '' : $value;
             }
+
         }
     }
 
@@ -55,13 +58,13 @@ class TranslationFilesToDatabase implements ShouldQueue
                     $this->paramsToUpdate[$key] = $params;
 
         }
-
         $this->mergeFile('ar');
         $this->mergeFile('fr');
         $this->mergeFile('es');
         $this->mergeFile('tr');
         $start_time = microtime(true);
-        translatetabs::insert($this->paramsToUpdate);
+
+        $a = translatetabs::insert($this->paramsToUpdate);
         $end_time = microtime(true);
         Log::info('Translation update time: ' . ($end_time - $start_time));
     }
