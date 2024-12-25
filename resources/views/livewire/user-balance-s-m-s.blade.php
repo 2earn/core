@@ -60,7 +60,7 @@
                             {
                                 "targets": [5],
                                 render: function (data, type, row) {
-                                    return '<span class="badge bg-danger con">' + data + '</span>';
+                                    return '<span class="badge bg-danger con fs-14">' + data + '</span>';
 
                                 }
                             },

@@ -360,7 +360,7 @@
                                 var delai = (Date.now() - givenDate) / (1000 * 60 * 60);
                                 if (Number(row.idUpline) !== 0) {
                                     if (row.idUpline == row.idUser)
-                                        return '<span class="badge bg-info-subtle text-info" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                        return '<span class="badge bg-info-subtle text-info fs-14" data-id="' + row.id + '" data-phone="' + row.mobile +
                                             '">{{__('i am his sponsor')}}</span>';
                                     else
                                         return '<span class="badge bg-danger-subtle text-danger" data-id="' + row.id + '" data-phone="' + row.mobile +

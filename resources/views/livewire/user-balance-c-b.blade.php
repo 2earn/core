@@ -193,9 +193,9 @@
                                 "targets": [4],
                                 render: function (data, type, row) {
                                     if (data.indexOf('+') == -1)
-                                        return '<span class="badge bg-danger text-end">' + data + '</span>';
+                                        return '<span class="badge bg-danger text-end fs-14">' + data + '</span>';
                                     else
-                                        return '<span class="badge bg-success text-end">' + data + '</span>';
+                                        return '<span class="badge bg-success text-end fs-14">' + data + '</span>';
                                 },
                                 className: classAl,
                             },

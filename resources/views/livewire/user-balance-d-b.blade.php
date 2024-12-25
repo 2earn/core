@@ -77,9 +77,9 @@
                                         "targets": [4],
                                         render: function (data, type, row) {
                                             if (data.indexOf('+') == -1)
-                                                return '<span class="badge bg-danger text-end">' + data + '</span>';
+                                                return '<span class="badge bg-danger text-end  fs-14">' + data + '</span>';
                                             else
-                                                return '<span class="badge bg-success text-end">' + data + '</span>';
+                                                return '<span class="badge bg-success text-end  fs-14">' + data + '</span>';
 
                                         },
                                         className: classAl,
@@ -88,7 +88,9 @@
                                         "targets": [5],
                                         render: function (data, type, row) {
                                             if (row.ranks == 1)
-                                                return '<div class="logoTopDBLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
+                                                return '<div class="' +
+                                                    '' +
+                                                    'logoTopDBLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
                                             else
                                                 return data;
                                         }

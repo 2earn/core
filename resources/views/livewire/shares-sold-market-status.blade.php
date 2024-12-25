@@ -126,13 +126,13 @@
                                 "targets": [7],
                                 render: function (data, type, row) {
                                     if (Number(row.payed) === 1)
-                                        return '<span class="badge bg-success" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                        return '<span class="badge bg-success fs-14" data-id="' + row.id + '" data-phone="' + row.mobile +
                                             '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >{{__('Transfert Made')}}</span>';
                                     if (Number(row.payed) === 0)
-                                        return '<span class="badge bg-danger" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                        return '<span class="badge bg-danger fs-14" data-id="' + row.id + '" data-phone="' + row.mobile +
                                             '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >{{__('Free')}}</span>';
                                     if (Number(row.payed) === 2)
-                                        return '<span class="badge bg-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                        return '<span class="badge bg-warning fs-14" data-id="' + row.id + '" data-phone="' + row.mobile +
                                             '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >{{__('Mixed')}}</span>';
                                 },
                             },
