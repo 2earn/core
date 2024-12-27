@@ -33,7 +33,7 @@ class InternationalOperatorSms implements IOperateurSms
             "Content-Type: application/json"
         ));
         $response = curl_exec($ch);
-        $info = curl_getinfo($ch);
+        curl_getinfo($ch);
 
         curl_close($ch);
         return $response ;

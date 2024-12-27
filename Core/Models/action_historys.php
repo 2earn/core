@@ -8,6 +8,4 @@ class action_historys extends Model
 {
     protected $table = 'action_history';
     public $timestamps = false;
-
-
 }

@@ -21,14 +21,9 @@ use Illuminate\Support\Facades\Log;
 
 class  UserBalancesHelper
 {
-    private IUserBalancesRepository $userBalancesRepository;
-    private BalancesManager $balanceOperationmanager;
 
-    public function __construct(IUserBalancesRepository $userBalancesRepository, BalancesManager $balanceOperationmanager,)
+    public function __construct(private IUserBalancesRepository $userBalancesRepository, private BalancesManager $balanceOperationmanager)
     {
-        $this->userBalancesRepository = $userBalancesRepository;
-        $this->balanceOperationmanager = $balanceOperationmanager;
-
     }
 
     public function RegistreUserbalances(ActionEnum $actionType, $idUserUpline, $value)
@@ -95,7 +90,7 @@ class  UserBalancesHelper
                     'beneficiary_id' => $idUser,
                     'reference' => BalancesFacade::getReference(BalanceOperationsEnum::BY_REGISTERING_TREE->value),
                     'description' =>BalanceOperationsEnum::BY_REGISTERING_TREE->name,
-                    'value' => $initialTree . '$ as welcome gift',
+                    'value' => $initialTree . ' $ as welcome gift',
                     'current_balance' => $initialTree
                 ]);
                 ChanceBalances::addLine([

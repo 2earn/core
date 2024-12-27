@@ -48,55 +48,25 @@ class settingsManager
     use earnTrait;
     use earnLog;
 
-    private ILanguageRepository $languageRepository;
-    private INotificationRepository $notificationRepository;
-    private IUserRepository $userRepository;
-    private ICountriesRepository $countriesRepository;
-    private IHobbiesRepository $hobbiesRepository;
-    private IHistoryNotificationRepository $historyNotificationRepository;
-    private IUserContactRepository $userContactRepository;
-    private ISettingsRepository $settingsRepository;
-    private NotifyHelper $notifyHelper;
-    private BalancesManager $balancesManager;
-    private UserBalancesHelper $userBalancesHelper;
-    private IUserBalancesRepository $userBalanceRepository;
-    private IUserContactNumberRepository $userContactNumberRepository;
-
     public function __construct(
-        ILanguageRepository            $languageRepository,
-        INotificationRepository        $notificationRepository,
-        IUserRepository                $userRepository,
-        ICountriesRepository           $countriesRepository,
-        IHobbiesRepository             $hobbiesRepository,
-        IHistoryNotificationRepository $historyNotificationRepository,
-        IUserContactRepository         $userContactRepository,
-        ISettingsRepository            $settingsRepository,
-        NotifyHelper                   $notifyHelper,
-        BalancesManager                $balancesManager,
-        UserBalancesHelper             $userBalancesHelper,
-        IUserBalancesRepository        $userBalanceRepository,
-        IUserContactNumberRepository   $userContactNumberRepository
+        private ILanguageRepository            $languageRepository,
+        private INotificationRepository        $notificationRepository,
+        private IUserRepository                $userRepository,
+        private ICountriesRepository           $countriesRepository,
+        private IHobbiesRepository             $hobbiesRepository,
+        private IHistoryNotificationRepository $historyNotificationRepository,
+        private IUserContactRepository         $userContactRepository,
+        private ISettingsRepository            $settingsRepository,
+        private NotifyHelper                   $notifyHelper,
+        private BalancesManager                $balancesManager,
+        private UserBalancesHelper             $userBalancesHelper,
+        private IUserBalancesRepository        $userBalanceRepository,
+        private IUserContactNumberRepository   $userContactNumberRepository
     )
     {
-        $this->languageRepository = $languageRepository;
-        $this->notificationRepository = $notificationRepository;
-        $this->userRepository = $userRepository;
-        $this->countriesRepository = $countriesRepository;
-        $this->hobbiesRepository = $hobbiesRepository;
-        $this->historyNotificationRepository = $historyNotificationRepository;
-        $this->userContactRepository = $userContactRepository;
-        $this->settingsRepository = $settingsRepository;
-        $this->notifyHelper = $notifyHelper;
-        $this->balancesManager = $balancesManager;
-        $this->userBalancesHelper = $userBalancesHelper;
-        $this->userBalanceRepository = $userBalanceRepository;
-        $this->userContactNumberRepository = $userContactNumberRepository;
+
     }
 
-    public function geeeeeeet()
-    {
-        $lan = language::all();
-    }
 
     public function getlanguages()
     {

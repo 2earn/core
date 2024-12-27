@@ -3,7 +3,6 @@
 namespace Core\Models\Notification;
 
 
-use Core\Enum\OperateurSmsEnum;
 use Core\Interfaces\INotifiable;
 use Core\Interfaces\IOperateurSms;
 
@@ -16,7 +15,7 @@ class SmsNotification implements INotifiable
     }
     public function send()
     {
-         $res =  $this->operateurSms->send();
-        return $res ;
+        return $this->operateurSms->send();
+
     }
 }

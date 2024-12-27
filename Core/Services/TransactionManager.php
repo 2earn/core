@@ -5,13 +5,7 @@ use Core\Interfaces\ITransaction;
 
 class TransactionManager
 {
-    private ITransaction $transaction;
-
-    public function __construct(
-        ITransaction $transaction
-    )
-    {
-        $this->transaction = $transaction;
+    public function __construct(private ITransaction $transaction)    {
     }
     public function beginTransaction()
     {

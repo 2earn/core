@@ -3,7 +3,6 @@
 namespace Core\Services;
 
 use Core\Enum\TypeEventNotificationEnum;
-use Core\Services\settingsManager;
 
 
 class SmsHelper
@@ -178,6 +177,4 @@ class SmsHelper
 
         }
     }
-
-
 }

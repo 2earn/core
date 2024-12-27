@@ -10,15 +10,9 @@ use Core\Interfaces\IUserBalancesRepository;
 
 class BalancesManager
 {
-    private IUserBalancesRepository $userBalancesRepository;
-    private IBalanceOperationRepositoty $balanceOperationRepositoty;
-
-    public function __construct(
-        IUserBalancesRepository     $userBalancesRepository,
-        IBalanceOperationRepositoty $balanceOperationRepositoty)
+    public function __construct(private IUserBalancesRepository $userBalancesRepository, private IBalanceOperationRepositoty $balanceOperationRepositoty)
     {
-        $this->userBalancesRepository = $userBalancesRepository;
-        $this->balanceOperationRepositoty = $balanceOperationRepositoty;
+
     }
 
     public function getBalances($IdUser, $decimals = 2)

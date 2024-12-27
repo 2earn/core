@@ -8,15 +8,13 @@ use Illuminate\Support\Facades\DB;
 class  AuthenticatedUser
 {
 
-
     protected $casts = [
         'iden_notif' => 'boolean',
     ];
 
     public function hasIdentificationRequest()
     {
-        $identificationRequest = DB::table('identificationuserrequest')
-            ->where('idUser', $this->idUser);
+        $identificationRequest = DB::table('identificationuserrequest')            ->where('idUser', $this->idUser);
 
         $identificationRequest = $identificationRequest->where(function ($query) {
             $query->where('status', '=', StatusRequest::InProgressNational->value)

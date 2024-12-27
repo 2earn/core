@@ -18,12 +18,10 @@ use Core\Models\SmsOperators\TunisieOperatorSms;
 
 class NotifyHelper
 {
-    private INotifyEarn $notifyEarn;
     private INotifiable $notifiable;
 
-    public function __construct(INotifyEarn $notifyEarn)
+    public function __construct(private INotifyEarn $notifyEarn)
     {
-        $this->notifyEarn = $notifyEarn;
     }
 
     /**
