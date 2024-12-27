@@ -14,7 +14,7 @@ class CashObserver
     {
             $userCurrentBalancehorisontal = Balances::getStoredUserBalances($cashBalances->beneficiary_id);
             $newCashBalanceHorisental = $newCashBalanceVertical= $userCurrentBalancehorisontal->cash_balance + BalanceOperation::getMultiplicator($cashBalances->balance_operation_id)* $cashBalances->value;
-            $userCurrentBalancehorisontal->update(['cash_balance' => $newCashBalanceHorisental]);
+            $userCurrentBalancehorisontal->update([Balances::CASH_BALANCE => $newCashBalanceHorisental]);
 
             $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $cashBalances->beneficiary_id)
             ->where('balance_id', BalanceEnum::CASH)

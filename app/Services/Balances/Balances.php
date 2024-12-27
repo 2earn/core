@@ -13,6 +13,10 @@ class Balances
 {
     const DATE_FORMAT = 'dmY';
     const SYSTEM_SOURCE_ID = '11111111';
+    const SHARE_BALANCE = 'share_balance';
+    const CASH_BALANCE = 'cash_balance';
+    const BFSS_BALANCE = 'bfss_balance';
+    const DISCOUNT_BALANCE = 'discount_balance';
 
 
     public function getBalanceCompter()
@@ -166,13 +170,13 @@ class Balances
     {
         switch ($type) {
             case BalanceEnum::CASH:
-                Balances::updateCalculatedHorisental($idUser, 'cash_balance', $value);
+                Balances::updateCalculatedHorisental($idUser, Balances::CASH_BALANCE, $value);
                 Balances::updateCalculatedVertical($idUser, $type, $value);
             case BalanceEnum::BFS:
-                Balances::updateCalculatedHorisental($idUser, 'bfss_balance', $value);
+                Balances::updateCalculatedHorisental($idUser, Balances::BFSS_BALANCE, $value);
                 Balances::updateCalculatedVertical($idUser, $type, $value);
             case BalanceEnum::DB:
-                Balances::updateCalculatedHorisental($idUser, 'discount_balance', $value);
+                Balances::updateCalculatedHorisental($idUser, Balances::DISCOUNT_BALANCE, $value);
                 Balances::updateCalculatedVertical($idUser, $type, $value);
         }
     }

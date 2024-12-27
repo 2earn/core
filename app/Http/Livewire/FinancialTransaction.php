@@ -209,7 +209,7 @@ class FinancialTransaction extends Component
         $this->getRequestIn($settingsManager);
         $userAuth = $settingsManager->getAuthUser();
         $this->mobile = $userAuth->fullNumber;
-        $this->soldecashB = floatval(Balances::getStoredUserBalances(auth()->user()->idUser,'cash_balance')) - floatval($this->soldeExchange);
+        $this->soldecashB = floatval(Balances::getStoredUserBalances(auth()->user()->idUser,Balances::CASH_BALANCE)) - floatval($this->soldeExchange);
         $this->soldeBFS = floatval(Balances::getStoredBfss(auth()->user()->idUser,BFSsBalances::BFS_100)) - floatval($this->numberSmsExchange);
 
         $seting = DB::table('settings')->where("idSETTINGS", "=", "13")->first();

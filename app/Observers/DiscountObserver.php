@@ -16,7 +16,7 @@ class DiscountObserver
 
             $newDiscountBalanceHorisental = $newDiscountBalanceVertical= $userCurrentBalancehorisontal->discount_balance +BalanceOperation::getMultiplicator($discountBalances->balance_operation_id)* $discountBalances->value;
 
-            $userCurrentBalancehorisontal->update(['discount_balance' => $newDiscountBalanceHorisental]);
+            $userCurrentBalancehorisontal->update([Balances::DISCOUNT_BALANCE => $newDiscountBalanceHorisental]);
 
             $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $discountBalances->beneficiary_id)
             ->where('balance_id', BalanceEnum::CHANCE)

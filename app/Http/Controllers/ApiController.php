@@ -259,7 +259,7 @@ class ApiController extends BaseController
     {
         DB::beginTransaction();
         try {
-            $old_value =  Balances::getStoredUserBalances( Auth()->user()->idUser,'cash_balance');
+            $old_value =  Balances::getStoredUserBalances( Auth()->user()->idUser,Balances::CASH_BALANCE);
             if (intval($old_value) < intval($request->amount)) {
                 throw new \Exception(Lang::get('Insuffisant cash solde'));
             }
@@ -500,7 +500,7 @@ class ApiController extends BaseController
             $user = explode('-', $chaine)[0];
 
 
-            $old_value = Balances::getStoredUserBalances($user,'cash_balance');
+            $old_value = Balances::getStoredUserBalances($user,Balances::CASH_BALANCE);
 
             $value =  BalancesFacade::getCash($user);
 
