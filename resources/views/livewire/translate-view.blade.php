@@ -224,11 +224,11 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                            class="btn btn-danger mt-1">{{__('Delete')}}
                                         </a>
                                         <br>
-                                        <span class="text-muted mt-2">
+                                        <span class="text-muted mt-4">
                                                     <i class="fa-solid fa-plus mx-2"></i>{{$value->created_at}}
                                                 </span>
                                         <br>
-                                        <span class="text-muted mt-2">
+                                        <span class="text-muted mt-4">
                                                     <i class="fa-solid fa-pen-to-square mx-2"></i>{{$value->updated_at}}
                                                 </span>
                                     </td>

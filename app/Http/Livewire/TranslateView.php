@@ -51,8 +51,6 @@ class TranslateView extends Component
     ];
     protected $listeners = [
         'AddFieldTranslate' => 'AddFieldTranslate',
-        'addArabicField' => 'addArabicField',
-        'addEnglishField' => 'addEnglishField',
         'mergeTransaction' => 'mergeTransaction',
         'databaseToFile' => 'databaseToFile',
         'deleteTranslate' => 'deleteTranslate'
@@ -122,58 +120,6 @@ class TranslateView extends Component
     }
 
 
-    public function addEnglishField($pass)
-    {
-        try {
-            if (empty($pass) or $pass != $this->defRandomNumber) {
-                throw new \Exception(trans('Key not confirmed'));
-            }
-            $pathFile = resource_path() . '/lang/en.json';
-            $contents = File::get($pathFile);
-            $json = collect(json_decode($contents));
-            foreach ($json as $key => $value) {
-                if ($value) {
-                    if (translateenglishs::where('name', $key)->get()->count() != 0) {
-                        translateenglishs::where('name', $key)->update(['value' => $value, 'updated_at' => Carbon::now()]);
-                    } else {
-                        translateenglishs::create(['name' => $key, 'value' => $value, 'created_at' => Carbon::now()]);
-                    }
-                }
-            }
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            $this->dispatchBrowserEvent('closeModal');
-            return redirect()->route('translate', app()->getLocale())->with('danger', trans('English fields add failed') . self::SEPARATION . Lang::get($exception->getMessage()));
-        }
-        $this->dispatchBrowserEvent('closeModal');
-        return redirect()->route('translate', app()->getLocale())->with('success', trans('English fields added successfully'));
-    }
-
-    public function addArabicField($pass)
-    {
-        try {
-            if (empty($pass) or $pass != $this->defRandomNumber) {
-                throw new \Exception(trans('Key not confirmed'));
-            }
-            $pathFile = resource_path() . '/lang/ar.json';
-            $contents = File::get($pathFile);
-            $json = collect(json_decode($contents));
-            foreach ($json as $key => $value) {
-                if ($value) {
-                    if (translatearabes::where('name', $key)->get()->count() != 0) {
-                        translatearabes::where('name', $key)->update(['value' => $value, 'updated_at' => Carbon::now()]);
-                    } else {
-                        translatearabes::create(['name' => $key, 'value' => $value, 'created_at' => Carbon::now()]);
-                    }
-                }
-            }
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return redirect()->route('translate', app()->getLocale())->with('danger', trans('Arabic fields add failed') . self::SEPARATION . Lang::get($exception->getMessage()));
-        }
-        return redirect()->route('translate', app()->getLocale())->with('success', trans('Arabic fields added successfully'));
-    }
-
     public function databaseToFile($pass)
     {
         try {
@@ -192,37 +138,6 @@ class TranslateView extends Component
             return redirect()->route('translate', app()->getLocale())->with('danger', trans('Keys to database  failed') . self::SEPARATION . Lang::get($exception->getMessage()));
         }
         return redirect()->route('translate', app()->getLocale())->with('success', trans('Keys to database operation started successfully') . self::SEPARATION . trans('Execution time') . " " . $execution_time . " " . trans('seconds'));
-    }
-
-
-    public function save()
-    {
-        foreach ($this->translate as $key => $value) {
-            translatetabs::where('id', $value->id)->update(['value' => $value->value]);
-            translatetabs::where('id', $value->id)->update(['valueFr' => $value->valueFr]);
-            translatetabs::where('id', $value->id)->update(['valueTr' => $value->valueTr]);
-            translatetabs::where('id', $value->id)->update(['valueEs' => $value->valueEs]);
-            $this->tabfin[$value->name] = $value->value;
-            $this->tabfinFr[$value->name] = $value->valueFr;
-            $this->tabfinTr[$value->name] = $value->valueTr;
-            $this->tabfinEs[$value->name] = $value->valueEs;
-        }
-        try {
-            $pathFile = resource_path() . '/lang/ar.json';
-            $pathFileFr = resource_path() . '/lang/fr.json';
-            $pathFileEn = resource_path() . '/lang/en.json';
-            $pathFileTr = resource_path() . '/lang/tr.json';
-            $pathFileEs = resource_path() . '/lang/es.json';
-            File::put($pathFile, json_encode($this->tabfin, JSON_UNESCAPED_UNICODE));
-            File::put($pathFileFr, json_encode($this->tabfinFr, JSON_UNESCAPED_UNICODE));
-            File::put($pathFileEn, json_encode($this->tabfinEn, JSON_UNESCAPED_UNICODE));
-            File::put($pathFileTr, json_encode($this->tabfinTr, JSON_UNESCAPED_UNICODE));
-            File::put($pathFileEs, json_encode($this->tabfinEs, JSON_UNESCAPED_UNICODE));
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return redirect()->route('translate', app()->getLocale())->with('danger', trans('Keys to files  failed') . self::SEPARATION . Lang::get($exception->getMessage()));
-        }
-        return redirect()->route('translate', app()->getLocale())->with('success', trans('Keys to files added successfully'));
     }
 
     public function PreAjout()

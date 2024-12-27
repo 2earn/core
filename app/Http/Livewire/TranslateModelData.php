@@ -76,27 +76,6 @@ class TranslateModelData extends Component
         $this->resetPage();
     }
 
-
-    public function save()
-    {
-        foreach ($this->translate as $value) {
-            $params = [
-                'value' => $value->value,
-                'valueFr' => $value->valueFr,
-                'valueEn' => $value->valueEn,
-                'valueTr' => $value->valueTr,
-                'valueEs' => $value->valueEs,
-            ];
-            TranslaleModel::where('id', $value->id)->update($params);
-            $this->tabfin[$value->name] = $value->value;
-            $this->tabfinFr[$value->name] = $value->valueFr;
-            $this->tabfinEn[$value->name] = $value->valueEn;
-            $this->tabfinTr[$value->name] = $value->valueTr;
-            $this->tabfinEs[$value->name] = $value->valueEs;
-        }
-        return redirect()->route('translate_model_data', app()->getLocale())->with('success', trans('Keys to files added successfully'));
-    }
-
     public function PreAjout()
     {
         $this->dispatchBrowserEvent('PreAjoutTrans', ['type' => 'warning', 'title' => "Opt", 'text' => '']);
