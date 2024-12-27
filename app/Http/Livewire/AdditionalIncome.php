@@ -49,7 +49,6 @@ class AdditionalIncome extends Component
 
     public function sendCommitedInvestorRequest()
     {
-
         if ($this->isCommitedInvestor) {
             $lastCommittedInvestorRequest = CommittedInvestorRequest::where('user_id', auth()->user()->id)
                 ->where('status', RequestStatus::InProgress->value)
@@ -82,7 +81,7 @@ class AdditionalIncome extends Component
     public function render()
     {
 
-        $soldesAction = is_null(Balances::getStoredUserBalances(auth()->user()->id, 'share_balance')) ? 0 : Balances::getStoredUserBalances(auth()->user()->id, 'share_balance');
+        $soldesAction = is_null(Balances::getStoredUserBalances(auth()->user()->idUser, 'share_balance')) ? 0 : Balances::getStoredUserBalances(auth()->user()->idUser, 'share_balance');
         $beCommitedInvestorMinActions = $this->getBeCommitedInvestorMinActions();
 
         $lastCommittedInvestorRequest = CommittedInvestorRequest::where('user_id', auth()->user()->id)->orderBy('created_at', 'DESC')->first();
