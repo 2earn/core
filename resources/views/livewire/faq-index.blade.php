@@ -1,19 +1,24 @@
 <div>
 
     @section('title')
-        {{ __('Faqs') }}
+        {{ __('Frequently asked questions') }}
     @endsection
     @component('components.breadcrumb')
         @slot('li_1')@endslot
         @slot('title')
-                {{ __('Faqs') }}
+                {{ __('Frequently asked questions') }}
         @endslot
     @endcomponent
-    <div class="card">
+        <div class="row">
+            <div class="col-12">
+                @include('layouts.flash-messages')
+            </div>
+        </div>
+        <div class="card">
         <div class="card-body">
             <div class="card-header border-info">
                 <div class="row">
-                    <div class="float-end mt-1 col-sm-12 col-md-6  col-lg-6">
+                    <div class="float-end col-sm-12 col-md-6 col-lg-6">
                         <form class="items-center">
                             <label for="simple-search" class="sr-only">{{__('Search')}}</label>
                             <div class="w-full">
@@ -35,7 +40,8 @@
                     @endif
                 </div>
             </div>
-            <div class="card-body row m-1">
+
+            <div class="card-body row">
                 @forelse($faqs as $faq)
                     <div class="col-sm-12 col-lg-12">
                         <div class="card border card-border-light">
@@ -52,9 +58,11 @@
                                 @endif
                             </div>
                             <div class="card-body">
-                                <p class="card-text">
-                                    {{\App\Models\TranslaleModel::getTranslation($faq,'answer',$faq->answer)}}
-                                </p>
+                                <blockquote class="blockquote">
+                                    <p class="card-text">
+                                        {{\App\Models\TranslaleModel::getTranslation($faq,'answer',$faq->answer)}}
+                                    </p>
+                                </blockquote>
                                 @if(\App\Models\User::isSuperAdmin())
                                     <small class="mx-2">
                                         <a class="link-info"
@@ -82,14 +90,14 @@
                             <div class="card-footer">
                                 <div class="row">
                                     <div class="col">
-                                        <p class="card-text">{{__('Created at')}}:<small
-                                                class="text-muted float-end">{{$faq->created_at}}</small>
+                                        <p class="card-text float-end">{{__('Created at')}}: <small
+                                                class="text-muted">{{$faq->created_at}}</small>
                                         </p>
                                     </div>
                                     <div class="col">
                                         @if(\App\Models\User::isSuperAdmin())
-                                            <p class="card-text">{{__('Updated at')}}:<small
-                                                    class="text-muted float-end">{{$faq->updated_at}}</small></p>
+                                            <p class="card-text  float-end">{{__('Updated at')}}: <small
+                                                    class="text-muted">{{$faq->updated_at}}</small></p>
                                         @endif
                                     </div>
                                 </div>

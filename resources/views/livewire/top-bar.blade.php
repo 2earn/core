@@ -359,7 +359,7 @@
                                 <span class=""> {{ __('Notification Settings') }}</span>
                             </a>
                             <a class="dropdown-item" href="{{route('faq_index',app()->getLocale())}}">
-                                <span class=""> {{ __('FAQ') }}</span>
+                                <span class=""> {{ __('Frequently asked questions') }}</span>
                             </a>
                             <div class="dropdown-divider">
                             </div>
