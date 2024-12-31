@@ -3,7 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Faq;
-use App\Models\Target;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -31,6 +31,13 @@ class FaqIndex extends Component
     {
         $this->resetPage();
     }
+
+    public function deleteFaq($idFaq)
+    {
+        Faq::findOrFail($idFaq)->delete();
+        return redirect()->route('faq_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Faq Deleted Successfully'));
+    }
+
     public function render()
     {
         if (!is_null($this->search) && !empty($this->search)) {
