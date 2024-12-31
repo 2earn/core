@@ -70,7 +70,8 @@ class BalanceOperationsSeeder extends Seeder
             array('id' => '53', 'operation' => 'price change', 'io' => 'I', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '6', 'parent_id' => 44, 'note' => 'on stocke les actions achetés', 'modify_amount' => '1'),
             array('id' => '54', 'operation' => 'Complimentary benefits on purchased shares', 'io' => 'I', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '6', 'parent_id' => 44, 'note' => 'on stocke les actions achetés', 'modify_amount' => '1'),
             array('id' => '55', 'operation' => 'vip benefits on purchased shares', 'io' => 'I', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '6', 'parent_id' => 44, 'note' => 'on stocke les actions achetés', 'modify_amount' => '1'),
-            array('id' => '56', 'operation' => 'INITIAL CHANE', 'io' => 'I', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '7', 'parent_id' => null, 'note' => 'INITIAL_CHANE', 'modify_amount' => '1')
+            array('id' => '56', 'operation' => 'INITIAL CHANE', 'io' => 'I', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '7', 'parent_id' => null, 'note' => 'INITIAL_CHANE', 'modify_amount' => '1'),
+            array('id' => '57', 'operation' => 'GIFT', 'io' => 'I', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '1', 'parent_id' => null, 'note' => 'GIFT', 'modify_amount' => '1')
         );
 
         if (BalanceOperation::all()->count()) {
