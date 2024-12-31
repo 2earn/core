@@ -130,7 +130,11 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/paytabs', '\App\Http\Livewire\pay@test')->name('paytabs');
         Route::get('/hobbies', Hobbies::class)->name('hobbies');
 
-        Route::get('/description', Description::class)->name('description');
+        Route::prefix('/faq')->name('faq_')->group(function () {
+            Route::get('/index', \App\Http\Livewire\FaqIndex::class)->name('index');
+            Route::get('/', \App\Http\Livewire\FaqCreateUpdate::class)->name('create_update');
+        });
+
         Route::get('/accept/request', AcceptFinancialRequest::class)->name('accept_financial_request')->middleware('CloseAuth');
 
         Route::prefix('/surveys')->name('surveys_')->group(function () {

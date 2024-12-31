@@ -92,7 +92,9 @@ class SurveyQuestionChoiceCreateUpdate extends Component
                     'name' => TranslaleModel::getTranslateName($surveyQuestionChoice, 'title'),
                     'value' => $this->title . ' AR',
                     'valueFr' => $this->title . ' FR',
-                    'valueEn' => $this->title . ' EN'
+                    'valueEn' => $this->title . ' EN',
+                    'valueEs' => $this->title . ' ES',
+                    'valueTr' => $this->title . ' Tr',
                 ]);
 
         } catch (\Exception $exception) {
