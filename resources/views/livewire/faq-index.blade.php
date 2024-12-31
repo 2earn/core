@@ -39,10 +39,14 @@
                     <div class="col-sm-12 col-lg-12">
                         <div class="card border card-border-info">
                             <div class="card-header">
-                                <h5 class="card-title mb-1">{{$faq->question}}</h5>
+                                <h5 class="card-title mb-1">
+                                    {{\App\Models\TranslaleModel::getTranslation($faq,'question',$faq->question)}}
+                                </h5>
                             </div>
                             <div class="card-body">
-                                <p class="card-text">{{$faq->answer}}</p>
+                                <p class="card-text">
+                                    {{\App\Models\TranslaleModel::getTranslation($faq,'answer',$faq->answer)}}
+                                </p>
                                 <p class="card-text">{{__('Created at')}}:<small
                                         class="text-muted float-end">{{$faq->created_at}}</small>
                                 </p>

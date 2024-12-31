@@ -121,7 +121,9 @@ class SurveyQuestionCreateUpdate extends Component
                     'name' => TranslaleModel::getTranslateName($surveyQuestion, 'content'),
                     'value' => $this->content . ' AR',
                     'valueFr' => $this->content . ' FR',
-                    'valueEn' => $this->content . ' EN'
+                    'valueEn' => $this->content . ' EN',
+                    'valueEs' => $this->content . ' ES',
+                    'valueTr' => $this->content . ' Tr',
                 ]);
 
         } catch (\Exception $exception) {

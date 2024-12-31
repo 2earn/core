@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Condition;
 use App\Models\Faq;
 use App\Models\Target;
+use App\Models\TranslaleModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -75,9 +76,22 @@ class FaqCreateUpdate extends Component
             'answer' => $this->answer
         ];
         try {
-            Faq::create($faq);
+           $createdSurvey= Faq::create($faq);
+
+            $translations = ['question', 'answer'];
+            foreach ($translations as $translation) {
+                TranslaleModel::create(
+                    [
+                        'name' => TranslaleModel::getTranslateName($createdSurvey, $translation),
+                        'value' => $this->{$translation} . ' AR',
+                        'valueFr' => $this->{$translation} . ' FR',
+                        'valueEn' => $this->{$translation} . ' EN',
+                        'valueTr' => $this->{$translation} . ' TR',
+                        'valueEs' => $this->{$translation} . ' ES'
+                    ]);
+            }
+
         } catch (\Exception $exception) {
-            dd($exception);
             Log::error($exception->getMessage());
             return redirect()->route('faq_index', ['locale' => app()->getLocale(), 'idFaq' => $this->idFaq])->with('danger', Lang::get('Something goes wrong while creating Faq'));
         }
