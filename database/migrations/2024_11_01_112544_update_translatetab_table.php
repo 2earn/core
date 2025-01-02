@@ -13,11 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('translatetab', function (Blueprint $table) {
             Schema::table('translatetab', function (Blueprint $table) {
                 $table->longText('valueEs');
                 $table->longText('valueTr');
-            });
         });
     }
 
