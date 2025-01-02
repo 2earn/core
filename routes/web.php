@@ -134,6 +134,9 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/index', \App\Http\Livewire\FaqIndex::class)->name('index');
             Route::get('/', \App\Http\Livewire\FaqCreateUpdate::class)->name('create_update');
         });
+        Route::prefix('/orders')->name('orders_')->group(function () {
+            Route::get('/index', \App\Http\Livewire\Orders::class)->name('index');
+        });
 
         Route::get('/accept/request', AcceptFinancialRequest::class)->name('accept_financial_request')->middleware('CloseAuth');
 
