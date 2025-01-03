@@ -6,6 +6,7 @@ use App\DAL\UserRepository;
 use App\Models\BFSsBalances;
 use App\Models\CashBalances;
 use App\Models\Deal;
+use App\Models\News;
 use App\Models\SharesBalances;
 use App\Models\User;
 use App\Models\vip;
@@ -1169,6 +1170,28 @@ class ApiController extends BaseController
     public function getHistoryNotification()
     {
         return datatables($this->settingsManager->getHistory())->make(true);
+    }
+
+    public function getNews()
+    {
+        return datatables(News::all())
+            ->editColumn('enabled', function ($news) {
+                return view('parts.datatable.news-enabled', ['news' => $news]);
+            })
+            ->addColumn('action', function ($news) {
+                return view('parts.datatable.news-action', ['newsId' => $news->id, 'newstitle' => $news->title]);
+            })
+            ->addColumn('published_at', function ($news) {
+                return $news->published_at?->format(self::DATE_FORMAT);
+            })
+            ->addColumn('created_at', function ($news) {
+                return $news->created_at?->format(self::DATE_FORMAT);
+            })
+            ->addColumn('updated_at', function ($news) {
+                return $news->updated_at?->format(self::DATE_FORMAT);
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
 
     public function getPlatforms()
