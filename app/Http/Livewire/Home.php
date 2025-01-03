@@ -12,11 +12,13 @@ use DateInterval;
 use DateTime;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use App\Models\News as NewsModel;
 
 class Home extends Component
 {
     const MAX_AMOUNT = 99999999;
     const MAX_ACTIONS = 9999999;
+    public $news = [];
     public $cashBalance;
     public $treeBalance;
     public $chanceBalance;
@@ -79,6 +81,7 @@ class Home extends Component
 
     public function render(settingsManager $settingsManager, BalancesManager $balancesManager)
     {
+
         $user = $settingsManager->getAuthUser();
         delUsertransaction($user->idUser);
         if (!$user) {
@@ -99,6 +102,9 @@ class Home extends Component
         $this->userActualActionsProfit = number_format(getUserActualActionsProfit(Auth()->user()->idUser), 2);
         $this->userSelledAction = getUserSelledActions(Auth()->user()->idUser);
         $actualActionValue = actualActionValue(getSelledActions(true), false);
+
+        $this->news = NewsModel::where('enabled', 1)->orderBy('id', 'desc')->get();
+
         $params = [
             "soldeBuyShares" => $balancesManager->getBalances($user->idUser, 2),
             'arraySoldeD' => [$solde->soldeCB, $solde->soldeBFS, $solde->soldeDB],

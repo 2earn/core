@@ -42,20 +42,25 @@ class NewsCreateUpdate extends Component
         $this->title = $news->title;
         $this->enabled = $news->enabled;
         $this->content = $news->content;
+        $this->published_at = $news->published_at;
         $this->update = true;
     }
 
     public function update()
     {
         $this->validate();
-
         try {
+            $params = [
+                'title' => $this->title,
+                'enabled' => $this->enabled == 1 ? true : false,
+                'content' => $this->content
+            ];
+            if ($this->enabled == 1 && is_null($this->published_at)) {
+                $params['published_at'] = now();
+            }
             News::where('id', $this->idNews)
-                ->update([
-                    'title' => $this->title,
-                    'enabled' => $this->enabled,
-                    'content' => $this->content
-                ]);
+                ->update($params);
+
         } catch (\Exception $exception) {
             $this->cancel();
             Log::error($exception->getMessage());

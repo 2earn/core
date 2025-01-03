@@ -1,4 +1,4 @@
-<a href="{{route('news_create_update', ['locale' => app()->getLocale(), 'id' => $newsId])}}"
+<a href="{{route('news_create_update', ['locale' => app()->getLocale(), 'idNews' => $newsId])}}"
    class="btn btn-xs btn-primary btn2earnTable  m-1">{{__('Edit')}}</a>
 
 <a data-id="{{$newsId}}" data-name="{{$newstitle }}" title="{{$newstitle }}"
