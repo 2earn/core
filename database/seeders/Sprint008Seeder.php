@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Artisan;
 class Sprint008Seeder extends Seeder
 {
 
-    public function run($dataTranslation = false, $dataMoney = true)
+    public function run($dataTranslation = false, $dataMoney = true, $dataDeal = true)
     {
         Artisan::call('db:seed', ['--class' => 'Database\Seeders\PlatformSeeder']);
         Artisan::call('db:seed', ['--class' => 'Database\Seeders\BalanceOperationsSeeder']);
@@ -20,6 +20,9 @@ class Sprint008Seeder extends Seeder
         if ($dataMoney) {
             Artisan::call('db:seed', ['--class' => 'Database\Seeders\AddCashSeeder']);
             Artisan::call('db:seed', ['--class' => 'Database\Seeders\AddCashSeeder']);
+        }
+        if ($dataDeal) {
+            Artisan::call('db:seed', ['--class' => 'Database\Seeders\DealsInsertSeeder']);
         }
         if ($dataTranslation) {
             Artisan::call('db:seed', ['--class' => 'Database\Seeders\TranslateSeeder']);

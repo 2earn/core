@@ -23,7 +23,7 @@ class OrderingSimulation
         $discount = mt_rand(100, 200) / 100;
         $itemName = $faker->name();
         $description = $faker->name();
-        $reference = $faker->randomNumber();
+        $reference = $faker->randomNumber(4);
         if (Item::where('ref', $reference)->exists()) {
             $item = Item::where('ref', $reference)->first()->update([
                 'name' => $itemName,
