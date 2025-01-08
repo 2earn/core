@@ -28,7 +28,6 @@ class OrderDetail extends Model
         'final_discount',
         'final_discount_percentage',
         'missed_discount',
-
     ];
 
     public function Item()
