@@ -25,6 +25,7 @@ class Order extends Model
         'commission_2_earn',
         'deal_amount_for_partner',
         'commission_for_camembert',
+        'missed_discount',
         'note',
         'status',
     ];

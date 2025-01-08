@@ -18,7 +18,6 @@ return new class extends Migration
             $table->text('note')->nullable();
             $table->integer('status')->nullable()->default(OrderEnum::New->value);
             $table->unsignedBigInteger('user_id')->foreign('user_id')->nullable()->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('order_detail_id')->foreign('order_detail_id')->nullable()->references('id')->on('order_details')->onDelete('cascade');
             $table->timestamps();
         });
     }

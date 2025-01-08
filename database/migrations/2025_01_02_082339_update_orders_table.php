@@ -25,6 +25,7 @@ return new class extends Migration {
             $table->float('commission_2_earn');
             $table->float('deal_amount_for_partner');
             $table->float('commission_for_camembert');
+            $table->float('missed_discount');
         });
     }
 
@@ -44,6 +45,7 @@ return new class extends Migration {
             $table->dropColumn('commission_2_earn');
             $table->dropColumn('deal_amount_for_partner');
             $table->dropColumn('commission_for_camembert');
+            $table->dropColumn('missed_discount');
         });
     }
 };
