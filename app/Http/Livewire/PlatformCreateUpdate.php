@@ -32,7 +32,7 @@ class PlatformCreateUpdate extends Component
 
     public function mount(Request $request)
     {
-        $this->idPlatform = $request->query('id');
+        $this->idPlatform = $request->query('idPlatform');
         if (!is_null($this->idPlatform)) {
             $this->edit($this->idPlatform);
         }
