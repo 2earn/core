@@ -2,12 +2,12 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Faq;
+use App\Models\Order;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class Orders extends Component
+class OrdersIndex extends Component
 {
     use WithPagination;
 
@@ -31,9 +31,9 @@ class Orders extends Component
     public function render()
     {
         if (!is_null($this->search) && !empty($this->search)) {
-            $params['orders'] = Faq::orderBy('created_at', 'desc')->paginate(self::PAGE_SIZE);
+            $params['orders'] = Order::orderBy('created_at', 'desc')->paginate(self::PAGE_SIZE);
         } else {
-            $params['orders'] = Faq::orderBy('created_at', 'desc')->paginate(self::PAGE_SIZE);
+            $params['orders'] = Order::orderBy('created_at', 'desc')->paginate(self::PAGE_SIZE);
         }
         return view('livewire.orders', $params)->extends('layouts.master')->section('content');
     }
