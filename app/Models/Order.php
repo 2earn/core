@@ -26,18 +26,19 @@ class Order extends Model
         'deal_amount_for_partner',
         'commission_for_camembert',
         'missed_discount',
+        'user_id',
         'note',
         'status',
     ];
     protected $casts = ['status' => OrderEnum::class];
     public function OrderDetails(): HasMany
     {
-        return $this->hasMany(OrderDetail::class);
+        return $this->hasMany(OrderDetail::class, 'order_id', 'id');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function updateStatus(OrderEnum $newStatus)

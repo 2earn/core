@@ -28,14 +28,16 @@ class OrderDetail extends Model
         'final_discount',
         'final_discount_percentage',
         'missed_discount',
+        'order_id',
+        'item_id',
     ];
 
-    public function Item()
+    public function item()
     {
-        return $this->belongsTo(Item::class);
+        return $this->belongsTo(Item::class,'item_id','id');
     }
     public function order()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Order::class, 'order_id','id');
     }
 }
