@@ -10,14 +10,13 @@ use Illuminate\Support\Facades\App;
 
 class AddCashSeeder extends Seeder
 {
-
+    const USERS_IDS = [197604395, 197604239, 197604342];
     public function run()
     {
         if (!App::isProduction()) {
             $value = 10000;
-        $idUsers = [197604395,197604239,197604342];
         $balances=  new Balances();
-        foreach ($idUsers as $idUser) {
+            foreach (self::USERS_IDS as $idUser) {
             $userCurrentBalancehorisontal = Balances::getStoredUserBalances($idUser);
             CashBalances::addLine([
                 'balance_operation_id' => BalanceOperationsEnum::SI_CB->value,
