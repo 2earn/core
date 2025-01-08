@@ -4,10 +4,10 @@ namespace App\Services\Orders;
 
 use Illuminate\Support\Facades\Facade;
 
-class OrderingFacade extends Facade
+class OrderingSimulationFacade extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'Ordering';
+        return 'OrderingSimulation';
     }
 }
