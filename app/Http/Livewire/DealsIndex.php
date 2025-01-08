@@ -43,7 +43,7 @@ class DealsIndex extends Component
         };
     }
 
-    public static function remove($id)
+    public static function delete($id)
     {
         try {
             Deal::findOrFail($id)->delete();
