@@ -12,37 +12,38 @@ return new class extends Migration {
     public function up()
     {
         Schema::table(self::TABLE_NAME, function (Blueprint $table) {
-            $table->dropColumn('tax');
-            $table->float('additional_tax')->nullable();
-            $table->dropColumn('shipping');
-            $table->float('total_shipping')->nullable();
-            $table->dropColumn('total');
-            $table->float('total_price')->nullable();
-            $table->float('total_price_after_discount')->nullable();
-            $table->float('total_price_after_bfss')->nullable();
-            $table->float('total_discount_gain')->nullable();
-            $table->float('total_bfs_paid')->nullable();
-            $table->float('total_supplement')->nullable();
-            $table->float('total_supplement_after_bfs')->nullable();
-            $table->float('total_supplement_paid')->nullable();
-            $table->integer('status')->default(OrderEnum::New->value);
+            $table->float('out_of_deal_amount')->nullable();
+            $table->float('deal_amount_before_discount')->nullable();
+            $table->float('amount_before_discount')->nullable();
+            $table->float('deal_amount_after_partner_discount')->nullable();
+            $table->float('deal_amount_after_deal_discount')->nullable();
+            $table->float('lost_discount_amount')->nullable();
+            $table->float('final_discount_value')->nullable();
+            $table->float('final_discount_percentage')->nullable();
+            $table->float('deal_amount_after_discounts');
+            $table->float('paid_cash');
+            $table->float('commission_2_earn');
+            $table->float('deal_amount_for_partner');
+            $table->float('commission_for_camembert');
         });
     }
 
     public function down()
     {
         Schema::table(self::TABLE_NAME, function (Blueprint $table) {
-            $table->renameColumn('additional_tax', 'tax');
-            $table->renameColumn('total_shipping', 'shipping');
-            $table->renameColumn('total_price', 'price');
-            $table->dropColumn('total_price_after_discount');
-            $table->dropColumn('total_price_after_bfss');
-            $table->dropColumn('total_discount_gain');
-            $table->dropColumn('total_bfs_paid');
-            $table->dropColumn('total_supplement');
-            $table->dropColumn('total_supplement_after_bfs');
-            $table->dropColumn('total_supplement_paid');
-            $table->dropColumn('status');
+            $table->dropColumn('out_of_deal_amount');
+            $table->dropColumn('deal_amount_before_discount');
+            $table->dropColumn('amount_before_discount');
+            $table->dropColumn('deal_amount_after_partner_discount');
+            $table->dropColumn('deal_amount_after_deal_discount');
+            $table->dropColumn('lost_discount_amount');
+            $table->dropColumn('final_discount_value');
+            $table->dropColumn('final_discount_percentage');
+            $table->dropColumn('deal_amount_after_discounts');
+            $table->dropColumn('paid_cash');
+            $table->dropColumn('commission_2_earn');
+            $table->dropColumn('deal_amount_for_partner');
+            $table->dropColumn('commission_for_camembert');
         });
     }
 };

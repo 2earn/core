@@ -12,23 +12,31 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
-        'additional_tax',
-        'total_shipping',
-        'total_price',
-        'total_price_after_discount',
+        'out_of_deal_amount',
+        'deal_amount_before_discount',
+        'amount_before_discount',
+        'deal_amount_after_partner_discount',
+        'deal_amount_after_deal_discount',
+        'lost_discount_amount',
+        'final_discount_value',
+        'final_discount_percentage',
+        'deal_amount_after_discounts',
+        'paid_cash',
+        'commission_2_earn',
+        'deal_amount_for_partner',
+        'commission_for_camembert',
         'note',
-        'total_price_after_bfss',
-        'total_discount_gain',
-        'total_bfs_paid',
-        'total_supplement',
-        'total_supplement_after_bfs',
-        'total_supplement_paid',
         'status',
     ];
     protected $casts = ['status' => OrderEnum::class];
     public function OrderDetails(): HasMany
     {
         return $this->hasMany(OrderDetail::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function updateStatus(OrderEnum $newStatus)
@@ -39,10 +47,5 @@ class Order extends Model
             $this->status = $newStatus->value;
         }
         $this->save();
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
     }
 }
