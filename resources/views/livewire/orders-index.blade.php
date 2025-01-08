@@ -6,7 +6,7 @@
     @component('components.breadcrumb')
         @slot('li_1')@endslot
         @slot('title')
-            {{ __('Frequently asked questions') }}
+            {{ __('Orders') }}
         @endslot
     @endcomponent
     <div class="row">
