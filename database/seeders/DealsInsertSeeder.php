@@ -32,7 +32,7 @@ class DealsInsertSeeder extends Seeder
             foreach ($platforms as $platform) {
                 for ($i = 1; $i <= $dealNumber; $i++) {
                     $platform->deals()->create([
-                        'name' => $faker->name(),
+                        'name' => $platform->name . ' - ' . $faker->name(),
                         'description' => $faker->text() . ' RANDOM',
                         'validated' => TRUE,
                         'status' => DealStatus::Opened->value,
@@ -51,6 +51,7 @@ class DealsInsertSeeder extends Seeder
                         'margin_percentage' => rand(1, 100),
                         'discount' => rand(1, 100),
                         'objective_turnover' => rand(1, 100),
+                        'platform_id' => $platform->id,
                     ]);
                 }
             }

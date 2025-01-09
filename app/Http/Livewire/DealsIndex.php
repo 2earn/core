@@ -47,7 +47,6 @@ class DealsIndex extends Component
     {
         try {
             Deal::findOrFail($id)->delete();
-
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Deleted Successfully'));
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
