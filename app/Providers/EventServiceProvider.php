@@ -39,7 +39,6 @@ class EventServiceProvider extends ServiceProvider
         TreeBalances::class => [TreeObserver::class],
         SMSBalances::class => [SmsObserver::class],
         SharesBalances::class => [ShareObserver::class],
-        Order::class => [OrderObserver::class],
     ];
 
     /**

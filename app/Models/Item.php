@@ -17,6 +17,7 @@ class Item extends Model
         'photo_link',
         'description',
         'stock',
+        'deal_id',
     ];
 
     public function createdBy()

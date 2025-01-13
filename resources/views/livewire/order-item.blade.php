@@ -20,6 +20,8 @@
                 <strong>{{__('Note')}}: </strong><br>{{$order->note}}
             </blockquote>
         @endif
+    </div>
+    <div class="card-body">
         @if($order->orderDetails()->count())
             <table class="table table-striped">
                 <thead>
@@ -37,17 +39,25 @@
                     <tr>
                         <th scope="row">{{$key + 1}}</th>
                         <td>
-                            <ul class="list-group">
+                            <ul class="list-group
+  ">
                                 <li class="list-group-item"><strong>{{__('Name')}}</strong><span
                                         class="float-end">{{$orderDetail->item()->first()->name}}</span></li>
                                 <li class="list-group-item"><strong>{{__('Reference')}}</strong><span
                                         class="float-end">{{$orderDetail->item()->first()->ref}}</span></li>
                                 <li class="list-group-item">
                                     <strong>{{__('Price')}}</strong><span
-                                        class="float-end">{{$orderDetail->item()->first()->price}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span></li>
+                                        class="float-end">{{$orderDetail->item()->first()->price}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                </li>
                                 <li class="list-group-item"><strong>{{__('Discount')}}</strong><span
                                         class="float-end">{{$orderDetail->item()->first()->discount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
                                 </li>
+                                @if($orderDetail->item()->first()->deal()->exists())
+                                    <li class="list-group-item list-group-item-info "><strong>{{__('Deal')}}</strong><span
+                                            class="float-end">{{$orderDetail->item()->first()->deal()->first()->name}}</span>
+                                    </li>
+                                @endif
+
                             </ul>
                         </td>
                         <td>{{$orderDetail->qty}}</td>
@@ -59,6 +69,23 @@
                 </tbody>
             </table>
         @endif
+    </div>
+    <div class="card-body">
+        <ul class="list-group list-group-horizontal">
+            @if($order->out_of_deal_amount)
+                <li class="list-group-item"><strong>{{__('Out of deal amount')}}</strong> <i
+                        class="ri-arrow-right-fill"></i> <span
+                        class="float-end">{{$order->out_of_deal_amount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                </li>
+            @endif
+            @if($order->deal_amount_before_discount)
+                <li class="list-group-item"><strong>{{__('Deal amount before discount')}}</strong> <i
+                        class="ri-arrow-right-fill"></i> <span
+                        class="float-end">{{$order->deal_amount_before_discount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                </li>
+            @endif
+        </ul>
+
     </div>
     <div class="card-footer">
         @if($order->status == \Core\Enum\OrderEnum::New)

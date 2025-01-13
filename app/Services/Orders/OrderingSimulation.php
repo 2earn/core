@@ -2,9 +2,10 @@
 
 namespace App\Services\Orders;
 
+use App\Models\Deal;
+use Core\Models\Platform;
 use App\Models\Item;
 use App\Models\Order;
-use App\Models\OrderDetail;
 use App\Models\User;
 use Core\Enum\OrderEnum;
 use Core\Services\BalancesManager;
@@ -18,36 +19,41 @@ class OrderingSimulation
     {
     }
 
-    public static function createItem($faker)
+    public static function createItem($platformId, $faker)
     {
         $unit_price = mt_rand(200, 500) / 100;
         $discount = mt_rand(100, 200) / 100;
         $itemName = $faker->name();
         $description = $faker->name();
         $reference = $faker->randomNumber(4);
+
+        $hasDeal = (bool)rand(0, 1);
+        $dealsIds = Deal::where('platform_id', $platformId)->pluck('id')->toArray();
+        $dealsId = $dealsIds[array_rand($dealsIds)];
+
+        $params = [
+            'name' => $itemName,
+            'price' => $unit_price,
+            'discount' => $discount,
+            'description' => $description,
+        ];
+
+        if ($hasDeal) {
+            $params['deal_id'] = $dealsId;
+        }
         if (Item::where('ref', $reference)->exists()) {
-            $item = Item::where('ref', $reference)->first()->update([
-                'name' => $itemName,
-                'price' => $unit_price,
-                'discount' => $discount,
-                'description' => $description,
-            ]);
+            $item = Item::where('ref', $reference)->first()->update($params);
         } else {
-            $item = Item::create([
-                'name' => $itemName,
-                'price' => $unit_price,
-                'description' => $description,
-                'ref' => $reference,
-                'discount' => $discount,
-            ]);
+            $params['ref'] = $reference;
+            $item = Item::create($params);
         }
         return $item;
     }
 
-    public static function createOrderItems(Order $order, $orderItemsNumber, $faker)
+    public static function createOrderItems(Order $order, $orderItemsNumber, $platformId, $faker)
     {
         for ($i = 1; $i <= $orderItemsNumber; $i++) {
-            $item = OrderingSimulation::createItem($faker);
+            $item = OrderingSimulation::createItem($platformId, $faker);
             $shipping = mt_rand(50, 120) / 100;
             $qty = rand(1, 5);
             $order->orderDetails()->create([
@@ -65,6 +71,7 @@ class OrderingSimulation
         try {
             $order = Order::find($orderId);
             $order->updateStatus(OrderEnum::Ready);
+            Ordering::simulate($order->user, $order);
             return OrderEnum::Ready->name;
         } catch (\Exception $exception) {
             Log::alert($exception->getMessage());
@@ -77,13 +84,14 @@ class OrderingSimulation
             $BuyerId = AddCashSeeder::USERS_IDS[array_rand(AddCashSeeder::USERS_IDS)];
             $Buyer = User::where('idUser', $BuyerId)->first();
             $orderItemsNumber = rand(1, 5);
-
+            $platformsIds = Platform::all()->pluck('id')->toArray();
+            $platformId = $platformsIds[array_rand($platformsIds)];
             $faker = Factory::create();
             $order = Order::create([
                 'user_id' => $Buyer->id,
                 'note' => $faker->text(),
             ]);
-            OrderingSimulation::createOrderItems($order, $orderItemsNumber, $faker);
+            OrderingSimulation::createOrderItems($order, $orderItemsNumber, $platformId, $faker);
             return true;
         } catch (\Exception $exception) {
             Log::alert($exception->getMessage());

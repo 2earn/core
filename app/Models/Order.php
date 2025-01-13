@@ -49,4 +49,5 @@ class Order extends Model
         $this->status = $newStatus;
         $this->save();
     }
+
 }
