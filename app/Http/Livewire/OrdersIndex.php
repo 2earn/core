@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Order;
 use App\Services\Orders\OrderingSimulation;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -24,7 +25,12 @@ class OrdersIndex extends Component
     ];
     public function validateOrderCreation($orderId)
     {
-        dd(OrderingSimulation::validate($orderId));
+        $status = OrderingSimulation::validate($orderId);
+        if ($status) {
+            return redirect()->route('orders_index', ['locale' => app()->getLocale(), 'page' => $this->page])->with('success', Lang::get('Status update succeeded') . ' : ' . Lang::get($status));
+        } else {
+            return redirect()->route('orders_index', ['locale' => app()->getLocale(), 'page' => $this->page])->with('warning', Lang::get('Status update failed') . ' : ' . Lang::get($status));
+        }
     }
     public function simulateOrderCreation()
     {
@@ -38,6 +44,7 @@ class OrdersIndex extends Component
 
     public function mount()
     {
+        $this->page = request()->query('page', 1);
         $this->currentRouteName = Route::currentRouteName();
     }
 

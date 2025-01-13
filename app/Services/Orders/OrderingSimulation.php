@@ -60,12 +60,12 @@ class OrderingSimulation
         }
     }
 
-    public static function validate($orderId): bool
+    public static function validate($orderId)
     {
         try {
-            $order = Order::where('idOrder', $orderId)->first();
-            $order->update(['validated' => OrderEnum::Ready->value]);
-            return true;
+            $order = Order::find($orderId);
+            $order->updateStatus(OrderEnum::Ready);
+            return OrderEnum::Ready->name;
         } catch (\Exception $exception) {
             Log::alert($exception->getMessage());
         }

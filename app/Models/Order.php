@@ -43,11 +43,10 @@ class Order extends Model
 
     public function updateStatus(OrderEnum $newStatus)
     {
-        if ($this->status === OrderEnum::Paid->value && $newStatus === OrderEnum::Dispatched) {
-            $this->status = $newStatus->value;
-        } elseif ($this->status !== OrderEnum::Failed->value && $this->status !== OrderEnum::Dispatched->value) {
-            $this->status = $newStatus->value;
+        if (!OrderEnum::tryFrom($newStatus->value)) {
+            throw new InvalidArgumentException("Invalid status provided.");
         }
+        $this->status = $newStatus;
         $this->save();
     }
 }

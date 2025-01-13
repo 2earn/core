@@ -1,7 +1,16 @@
 <div class="card border card-border-light">
     <div class="card-header">
             <span class="badge rounded-pill bg-primary">{{$order->id}}</span>
-        <span class="badge border border-primary text-primary float-end m-1">{{__($order->status->name)}}</span>
+        <span class="m-2"> <strong>{{__('Created at')}}: </strong>  {{$order->created_at}}</span>
+        <span class="m-2"><strong>{{__('Updated at')}}: </strong>  {{$order->updated_at}}</span>
+        @if($order->status == \Core\Enum\OrderEnum::New)
+            <button class="btn btn-success" wire:click="validateOrderCreation({{$order->id}})">
+                {{__('Validate')}} {{$order->id}}
+            </button>
+        @endif
+        <span class="badge border border-primary text-primary float-end m-1">
+            {{__($order->status->name)}}
+        </span>
         <span
             class="badge border border-info text-info float-end m-1">{{getUserDisplayedName($order->user()->first()->idUser)}}</span>
     </div>
@@ -48,14 +57,12 @@
                 </tbody>
             </table>
         @endif
-
-        <span class="float-end m-2"> <strong>{{__('Created at')}}: </strong>  {{$order->created_at}}</span>
-        <span class="float-end m-2"><strong>{{__('Updated at')}}: </strong>  {{$order->updated_at}}</span>
     </div>
     <div class="card-footer">
         @if($order->status == \Core\Enum\OrderEnum::New)
-            <button class="btn btn-success" wire:click="validateOrderCreation({{$order->id}})">{{__('Validate')}}</button>
+            <button class="btn btn-success" wire:click="validateOrderCreation({{$order->id}})">
+                {{__('Validate')}} {{$order->id}}
+            </button>
         @endif
-
     </div>
 </div>
