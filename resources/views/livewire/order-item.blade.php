@@ -42,16 +42,18 @@
                                         class="float-end">{{$orderDetail->item()->first()->name}}</span></li>
                                 <li class="list-group-item"><strong>{{__('Reference')}}</strong><span
                                         class="float-end">{{$orderDetail->item()->first()->ref}}</span></li>
-                                <li class="list-group-item"><strong>{{__('Price')}}</strong><span
-                                        class="float-end">{{$orderDetail->item()->first()->price}}</span></li>
+                                <li class="list-group-item">
+                                    <strong>{{__('Price')}}</strong><span
+                                        class="float-end">{{$orderDetail->item()->first()->price}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span></li>
                                 <li class="list-group-item"><strong>{{__('Discount')}}</strong><span
-                                        class="float-end">{{$orderDetail->item()->first()->discount}}</span></li>
+                                        class="float-end">{{$orderDetail->item()->first()->discount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                </li>
                             </ul>
                         </td>
                         <td>{{$orderDetail->qty}}</td>
-                        <td>{{$orderDetail->unit_price}}</td>
-                        <td>{{$orderDetail->shipping}}</td>
-                        <td>{{$orderDetail->total_amount}}</td>
+                        <td>{{$orderDetail->unit_price}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</td>
+                        <td>{{$orderDetail->shipping}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</td>
+                        <td>{{$orderDetail->total_amount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</td>
                     </tr>
                 @endforeach
                 </tbody>

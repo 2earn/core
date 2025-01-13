@@ -2,12 +2,11 @@
 
 namespace App\Http\Livewire;
 
-use App\Services\Orders\OrderingSimulation;
 use Livewire\Component;
 
 class OrderItem extends Component
 {
-
+    const CURRENCY = '$';
     public function render()
     {
         return view('livewire.order-item');
