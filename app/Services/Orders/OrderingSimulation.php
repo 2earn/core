@@ -6,6 +6,7 @@ use App\Models\Item;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\User;
+use Core\Enum\OrderEnum;
 use Core\Services\BalancesManager;
 use Database\Seeders\AddCashSeeder;
 use Faker\Factory;
@@ -55,6 +56,18 @@ class OrderingSimulation
                 'item_id' => $item->id,
             ]);
         }
+    }
+
+    public static function validate($orderId): bool
+    {
+        try {
+            $order = Order::where('idOrder', $orderId)->first();
+            $order->update(['validated' => OrderEnum::Ready->value]);
+            return true;
+        } catch (\Exception $exception) {
+            Log::alert($exception->getMessage());
+        }
+        return false;
     }
     public static function simulate(): bool
     {

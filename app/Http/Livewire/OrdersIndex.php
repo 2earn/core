@@ -19,13 +19,18 @@ class OrdersIndex extends Component
     public $currentRouteName;
     protected $paginationTheme = 'bootstrap';
     protected $listeners = [
-        'simulateOrderCreation' => 'simulateOrderCreation'
+        'simulateOrderCreation' => 'simulateOrderCreation',
+        'validateOrderCreation' => 'validateOrderCreation'
     ];
-
+    public function validateOrderCreation($orderId)
+    {
+        dd(OrderingSimulation::validate($orderId));
+    }
     public function simulateOrderCreation()
     {
         OrderingSimulation::simulate();
     }
+
     public function updatingSearch(): void
     {
         $this->resetPage();

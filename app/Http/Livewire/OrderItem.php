@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire;
 
-use App\Services\Balances\OrderingSimulation;
+use App\Services\Orders\OrderingSimulation;
 use Livewire\Component;
 
 class OrderItem extends Component
