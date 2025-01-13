@@ -22,7 +22,7 @@ class OrderingSimulation
     public static function createItem($platformId, $faker)
     {
         $unit_price = mt_rand(200, 500) / 100;
-        $discount = mt_rand(100, 200) / 100;
+        $discount = mt_rand(1, 20);
         $itemName = $faker->name();
         $description = $faker->name();
         $reference = $faker->randomNumber(4);

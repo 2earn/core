@@ -50,14 +50,14 @@
                                         class="float-end">{{$orderDetail->item()->first()->price}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
                                 </li>
                                 <li class="list-group-item"><strong>{{__('Discount')}}</strong><span
-                                        class="float-end">{{$orderDetail->item()->first()->discount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                        class="float-end">{{$orderDetail->item()->first()->discount}} %</span>
                                 </li>
                                 @if($orderDetail->item()->first()->deal()->exists())
-                                    <li class="list-group-item list-group-item-info "><strong>{{__('Deal')}}</strong><span
+                                    <li class="list-group-item list-group-item-info ">
+                                        <strong>{{__('Deal')}}</strong><span
                                             class="float-end">{{$orderDetail->item()->first()->deal()->first()->name}}</span>
                                     </li>
                                 @endif
-
                             </ul>
                         </td>
                         <td>{{$orderDetail->qty}}</td>
@@ -84,6 +84,12 @@
                         class="float-end">{{$order->deal_amount_before_discount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
                 </li>
             @endif
+                @if($order->out_of_deal_amount || $order->deal_amount_before_discount)
+                    <li class="list-group-item"><strong>{{__('Total Order')}}</strong> <i
+                            class="ri-arrow-right-fill"></i> <span
+                            class="float-end">{{$order->out_of_deal_amount+$order->deal_amount_before_discount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                    </li>
+                @endif
         </ul>
 
     </div>

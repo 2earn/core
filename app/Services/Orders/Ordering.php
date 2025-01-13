@@ -16,22 +16,21 @@ class Ordering
     {
     }
 
-    public static function runChecks(User $user, $order): bool
+    public static function runChecks(User $user, Order $order): bool
     {
         Log::info('simulating runChecks ' . $order->id);
         $shippingSum = 0;
         $price_of_products_out_of_deal = 0;
         $balances = Balances::getStoredUserBalances($user->idUser);
-        // to review
+        $deal_amount_before_discount = 0;
         foreach ($order->orderDetails as $orderDetail) {
             $shippingSum = $shippingSum + $orderDetail->shipping;
             if ($orderDetail->item->deal()->exists()) {
-                $deal_amount_before_discount = $orderDetail->unit_price * $orderDetail->qty;
+                $deal_amount_before_discount = $deal_amount_before_discount + ($orderDetail->unit_price * $orderDetail->qty);
             } else {
-                $price_of_products_out_of_deal = $orderDetail->unit_price * $orderDetail->qty;
+                $price_of_products_out_of_deal = $price_of_products_out_of_deal + ($orderDetail->unit_price * $orderDetail->qty);
             }
         }
-        // to review
 
         $out_of_deal_amount = $shippingSum + $price_of_products_out_of_deal;
 
@@ -42,13 +41,33 @@ class Ordering
             'out_of_deal_amount' => $out_of_deal_amount,
             'deal_amount_before_discount' => $deal_amount_before_discount
         ]);
-
-        return true;
+        $orderTotal = $out_of_deal_amount + $deal_amount_before_discount;
+        if ($orderTotal <= $balances->cash_balance + $balances->discount_balance + Balances::getTotolBfs($balances)) {
+            return true;
+        }
+        return false;
     }
 
     public static function simulateDiscount(User $user, Order $order): bool
     {
         Log::info('simulating discount');
+        $itemsDeals = [];
+        foreach ($order->orderDetails as $orderDetail) {
+            if ($orderDetail->item->deal()->exists()) {
+                $itemDeal = [
+                    'deal' => $orderDetail->item->deal->id,
+                    'itemName' => $orderDetail->item->name,
+                    'unitPrice' => $orderDetail->unit_price,
+                    'qty' => $orderDetail->qty,
+                    'totalAmount' => $orderDetail->total_amount,
+                    'partnerDiscountPercentage' => $orderDetail->item->discount,
+                    'partnerDiscount' => $orderDetail->total_amount / 100 * $orderDetail->item->discount,
+                    'amount_after_partner_discount' => $orderDetail->total_amount- ($orderDetail->total_amount / 100 * $orderDetail->item->discount),
+                ];
+                array_push($itemsDeals, $itemDeal);
+            }
+        }
+        Log::info(json_encode($itemsDeals));
         return true;
     }
 
