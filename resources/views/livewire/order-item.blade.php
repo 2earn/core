@@ -19,6 +19,7 @@
                     <th scope="col">{{__('Item')}}</th>
                     <th scope="col">{{__('Qty')}}</th>
                     <th scope="col">{{__('Unit price')}}</th>
+                    <th scope="col">{{__('Shipping')}}</th>
                     <th scope="col">{{__('Total amount')}}</th>
                 </tr>
                 </thead>
@@ -40,6 +41,7 @@
                         </td>
                         <td>{{$orderDetail->qty}}</td>
                         <td>{{$orderDetail->unit_price}}</td>
+                        <td>{{$orderDetail->shipping}}</td>
                         <td>{{$orderDetail->total_amount}}</td>
                     </tr>
                 @endforeach

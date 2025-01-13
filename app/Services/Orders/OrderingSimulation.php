@@ -48,10 +48,12 @@ class OrderingSimulation
     {
         for ($i = 1; $i <= $orderItemsNumber; $i++) {
             $item = OrderingSimulation::createItem($faker);
+            $shipping = mt_rand(50, 120) / 100;
             $qty = rand(1, 5);
             $order->orderDetails()->create([
                 'qty' => $qty,
                 'unit_price' => $item->price,
+                'shipping' => $shipping,
                 'total_amount' => $qty * $item->price,
                 'item_id' => $item->id,
             ]);

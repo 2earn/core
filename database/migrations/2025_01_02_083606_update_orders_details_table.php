@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::table(self::TABLE_NAME, function (Blueprint $table) {
 
             $table->float('qty')->nullable();
+            $table->float('shipping')->nullable();
             $table->float('unit_price')->nullable();
             $table->float('total_amount')->nullable();
             $table->float('partner_discount_percentage')->nullable();

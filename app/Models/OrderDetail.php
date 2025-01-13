@@ -11,6 +11,7 @@ class OrderDetail extends Model
 
     protected $fillable = [
         'qty',
+        'shipping',
         'unit_price',
         'total_amount',
         'partner_discount_percentage',
