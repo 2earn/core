@@ -5,7 +5,7 @@
         <span class="m-2"><strong>{{__('Updated at')}}: </strong>  {{$order->updated_at}}</span>
         @if($order->status == \Core\Enum\OrderEnum::New)
             <button class="btn btn-success" wire:click="validateOrderCreation({{$order->id}})">
-                {{__('Validate')}} {{$order->id}}
+                {{__('Validate')}}
             </button>
         @endif
         <span class="badge border border-primary text-primary float-end m-1">
@@ -63,7 +63,7 @@
     <div class="card-footer">
         @if($order->status == \Core\Enum\OrderEnum::New)
             <button class="btn btn-success" wire:click="validateOrderCreation({{$order->id}})">
-                {{__('Validate')}} {{$order->id}}
+                {{__('Validate')}}
             </button>
         @endif
     </div>

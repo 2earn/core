@@ -12,27 +12,40 @@ class Ordering
     {
     }
 
-    public function runChecks(int $userId, int $orderId): bool
+    public static function runChecks(int $userId, int $orderId): bool
     {
+        Log::info('simulating runChecks');
+        return true;
     }
 
-    public function simulateDiscount(int $userId, int $orderId): bool
+    public static function simulateDiscount(int $userId, int $orderId): bool
     {
+        Log::info('simulating discount');
+        return true;
     }
 
-    public function simulateBFSs(int $userId, int $orderId): bool
+    public static function simulateBFSs(int $userId, int $orderId): bool
     {
+        Log::info('simulating bfs');
+        return true;
     }
 
-    public function simulateCash(int $userId, int $orderId): bool
+    public static function simulateCash(int $userId, int $orderId): bool
     {
+        Log::info('simulating cash');
+        return true;
     }
 
-    public function simulate(int $userId, int $orderId): bool
+    public static function simulate(int $userId, int $orderId): bool
     {
-        $this->simulateDiscount($userId, $orderId);
-        $this->simulateBFSs($userId, $orderId);
-        $this->simulateCash($userId, $orderId);
+        Log::info('simulating');
+        if (self::runChecks($userId, $orderId)) {
+            self::simulateDiscount($userId, $orderId);
+            self::simulateBFSs($userId, $orderId);
+            self::simulateCash($userId, $orderId);
+            return true;
+        }
+        return false;
     }
 
     public function run()
