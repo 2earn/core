@@ -14,6 +14,7 @@ return new class extends Migration {
         Schema::table(self::TABLE_NAME, function (Blueprint $table) {
             $table->float('out_of_deal_amount')->nullable();
             $table->float('deal_amount_before_discount')->nullable();
+            $table->float('total_order_quantity')->nullable();
             $table->float('amount_before_discount')->nullable();
             $table->float('deal_amount_after_partner_discount')->nullable();
             $table->float('deal_amount_after_deal_discount')->nullable();

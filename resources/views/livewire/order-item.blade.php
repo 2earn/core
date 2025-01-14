@@ -70,28 +70,39 @@
             </table>
         @endif
     </div>
-    <div class="card-body">
-        <ul class="list-group list-group-horizontal">
+    <div class="card-body row">
+        <div class="col-md-6">
+            <ul class="list-group">
             @if($order->out_of_deal_amount)
-                <li class="list-group-item"><strong>{{__('Out of deal amount')}}</strong> <i
-                        class="ri-arrow-right-fill"></i> <span
-                        class="float-end">{{$order->out_of_deal_amount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                <li class="list-group-item"><strong>{{__('Out of deal amount')}}</strong><span
+                        class="float-end text-muted">{{$order->out_of_deal_amount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
                 </li>
             @endif
             @if($order->deal_amount_before_discount)
-                <li class="list-group-item"><strong>{{__('Deal amount before discount')}}</strong> <i
-                        class="ri-arrow-right-fill"></i> <span
-                        class="float-end">{{$order->deal_amount_before_discount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                <li class="list-group-item"><strong>{{__('Deal amount before discount')}}</strong>  <span
+                        class="float-end text-muted">{{$order->deal_amount_before_discount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
                 </li>
             @endif
                 @if($order->out_of_deal_amount || $order->deal_amount_before_discount)
-                    <li class="list-group-item"><strong>{{__('Total Order')}}</strong> <i
-                            class="ri-arrow-right-fill"></i> <span
-                            class="float-end">{{$order->out_of_deal_amount+$order->deal_amount_before_discount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                    <li class="list-group-item"><strong>{{__('Total Order')}}</strong>  <span
+                            class="float-end text-muted">{{$order->out_of_deal_amount+$order->deal_amount_before_discount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                    </li>
+                @endif
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <ul class="list-group">
+                @if($order->final_discount_percentage)
+                    <li class="list-group-item"><strong>{{__('Final discount value percentage')}}</strong><span
+                            class="float-end text-muted">{{$order->final_discount_percentage}} %</span>
+                    </li>
+                @endif                @if($order->final_discount_value)
+                    <li class="list-group-item"><strong>{{__('Final discount value')}}</strong> <span
+                            class="float-end text-muted">{{$order->final_discount_value}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
                     </li>
                 @endif
         </ul>
-
+        </div>
     </div>
     <div class="card-footer">
         @if($order->status == \Core\Enum\OrderEnum::New)

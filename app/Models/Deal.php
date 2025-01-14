@@ -34,6 +34,7 @@ class Deal extends Model
         'proactive_consumption_margin_percentage',
         'shareholder_benefits_margin_percentage',
         'tree_margin_percentage',
+        'discount2earn',
         'discount',
         'created_by_id',
         'platform_id',

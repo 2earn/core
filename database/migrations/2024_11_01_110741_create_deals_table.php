@@ -37,6 +37,7 @@ return new class extends Migration {
             $table->float('shareholder_benefits_margin_percentage')->nullable();
             $table->float('tree_margin_percentage')->nullable();
             $table->float('current_turnover_index')->nullable();
+            $table->float('discount2earn')->nullable();
             $table->float('discount')->nullable();
             $table->unsignedBigInteger('created_by_id')->foreign('user_id')->nullable()->references('id')->on('user')->onDelete('cascade');
             $table->unsignedBigInteger('platform_id')->nullable()->foreign('platform_id')->default(1)->nullable()->references('id')->on('platforms')->onDelete('cascade');
