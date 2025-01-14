@@ -16,13 +16,15 @@ return new class extends Migration {
             $table->float('shipping')->nullable();
             $table->float('unit_price')->nullable();
             $table->float('total_amount')->nullable();
+            $table->float('partner_discount')->nullable();
             $table->float('partner_discount_percentage')->nullable();
             $table->float('amount_after_partner_discount')->nullable();
-            $table->float('2_earn_discount_percentage')->nullable();
-            $table->float('2_earn_discount')->nullable();
-            $table->float('amount_after_2_earn_discount')->nullable();
+            $table->float('earn_discount_percentage')->nullable();
+            $table->float('earn_discount')->nullable();
+            $table->float('amount_after_earn_discount')->nullable();
             $table->float('deal_discount_percentage')->nullable();
             $table->float('deal_discount')->nullable();
+            $table->float('amount_after_deal_discount')->nullable();
             $table->float('total_discount')->nullable();
             $table->float('total_discount_percentage')->nullable();
             $table->float('refund_dispatching')->nullable();
@@ -46,6 +48,7 @@ return new class extends Migration {
             $table->dropColumn('amount_after_2_earn_discount');
             $table->dropColumn('deal_discount_percentage');
             $table->dropColumn('deal_discount');
+            $table->dropColumn('amount_after_deal_discount');
             $table->dropColumn('total_discount');
             $table->dropColumn('total_discount_percentage');
             $table->dropColumn('refund_dispatching');

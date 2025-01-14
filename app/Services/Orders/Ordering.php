@@ -3,6 +3,7 @@
 namespace App\Services\Orders;
 
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\User;
 use App\Services\Balances\Balances;
 use Core\Enum\OrderEnum;
@@ -36,13 +37,11 @@ class Ordering
 
         $out_of_deal_amount = $shippingSum + $price_of_products_out_of_deal;
 
-        Log::info('shippingSum : ' . $shippingSum);
-        Log::info('$deal_amount_before_discount : ' . $deal_amount_before_discount);
-        Log::info('$price_of_products_out_of_deal : ' . $price_of_products_out_of_deal);
         $order->update([
             'out_of_deal_amount' => $out_of_deal_amount,
             'deal_amount_before_discount' => $deal_amount_before_discount,
-            'total_order_quantity' => $totalOrderQuantity
+            'total_order_quantity' => $totalOrderQuantity,
+            'amount_before_discount' => $out_of_deal_amount + $deal_amount_before_discount
         ]);
         $orderTotal = $out_of_deal_amount + $deal_amount_before_discount;
         if ($orderTotal <= $balances->cash_balance + $balances->discount_balance + Balances::getTotolBfs($balances)) {
@@ -55,7 +54,11 @@ class Ordering
     {
         Log::info('simulating discount');
         $finalDiscountValue = 0;
+        $dealAmountAfterPartnerDiscount = 0;
+        $dealAmountAfter2earnDiscount = 0;
+        $dealAmountAfterDealDiscount = 0;
         $itemsDeals = [];
+        $balances = Balances::getStoredUserBalances($user->idUser);
         foreach ($order->orderDetails as $orderDetail) {
             if ($orderDetail->item->deal()->exists()) {
 
@@ -74,7 +77,15 @@ class Ordering
                 $totalDiscount = $partnerDiscount + $earnDiscount + $dealDiscount;
 
                 $finalDiscountValue = $finalDiscountValue + $totalDiscount;
+                $dealAmountAfterPartnerDiscount = $dealAmountAfterPartnerDiscount + $amountAfterPartnerDiscount;
+                $dealAmountAfter2earnDiscount = $dealAmountAfter2earnDiscount + $amountAfter2EarnDiscount;
+
+
+                $dealAmountAfterDealDiscount = $dealAmountAfterDealDiscount + $amountAfterDealDiscount;
+                $totalDiscount = $partnerDiscount + $earnDiscount + $dealDiscount;
+
                 $itemDeal = [
+                    'id' => $orderDetail->id,
                     'deal' => $orderDetail->item->deal->id,
                     'itemName' => $orderDetail->item->name,
                     'unitPrice' => $orderDetail->unit_price,
@@ -89,17 +100,52 @@ class Ordering
                     'dealDiscountPercentage' => $hasDealDiscount ? $orderDetail->item->deal->discount : 0,
                     'dealDiscount' => $dealDiscount,
                     'amountAfterDealDiscount' => $amountAfterDealDiscount,
-                    'totalDiscount' => $partnerDiscount + $earnDiscount + $dealDiscount,
+                    'totalDiscount' => $totalDiscount,
                 ];
                 array_push($itemsDeals, $itemDeal);
             }
         }
+        $hasLostedDiscount = $balances->discount_balance < $finalDiscountValue;
         $finalDiscountPersontage = $order->deal_amount_before_discount != 0 ? $finalDiscountValue / $order->deal_amount_before_discount * 100 : 0;
         $order->update([
             'final_discount_value' => $finalDiscountValue,
+            'lost_discount_amount' => !$hasLostedDiscount ? 0 : $finalDiscountValue - $balances->discount_balance,
             'final_discount_percentage' => $finalDiscountPersontage,
+            'deal_amount_after_partner_discount' => $dealAmountAfterPartnerDiscount,
+            'deal_amount_after_2earn_discount' => $dealAmountAfter2earnDiscount,
+            'deal_amount_after_deal_discount' => $dealAmountAfterDealDiscount,
         ]);
+
         Log::info(json_encode($itemsDeals));
+        foreach ($itemsDeals as &$itemDeal) {
+            $itemDeal['finalDiscountPercentage'] = $itemDeal['totalAmount'] * $itemDeal['totalDiscount'] / $finalDiscountValue;
+            $itemDeal['refundDispatching'] = $hasLostedDiscount ? $itemDeal['finalDiscountPercentage'] * $itemDeal['totalDiscount'] * $finalDiscountValue : 0;
+            $itemDeal['finalAmount'] = $itemDeal['amountAfterDealDiscount'] + $itemDeal['refundDispatching'];
+            $itemDeal['finalDiscount'] = $itemDeal['totalDiscount'] - $itemDeal['refundDispatching'];
+            $itemDeal['finalDiscountPercentage1'] = $itemDeal['totalDiscount'] - $itemDeal['refundDispatching'];
+        }
+
+        foreach ($itemsDeals as $itemDeal) {
+            OrderDetail::find($itemDeal['id'])->update([
+                'partner_discount_percentage' => $itemDeal['partnerDiscountPercentage'],
+                'partner_discount' => $itemDeal['partnerDiscount'],
+                'amount_after_partner_discount' => $itemDeal['amountAfterPartnerDiscount'],
+                'earn_discount_percentage' => $itemDeal['2earnDiscountPercentage'],
+                'earn_discount' => $itemDeal['2earnDiscount'],
+                'amount_after_earn_discount' => $itemDeal['amountAfter2EarnDiscount'],
+                'deal_discount_percentage' => $itemDeal['dealDiscountPercentage'],
+                'deal_discount' => $itemDeal['dealDiscount'],
+                'amount_after_deal_discount' => $itemDeal['finalDiscountPercentage'],
+            ]);
+        }
+        $dealAmountAfterDiscounts = array_sum(array_column($itemsDeals, 'finalAmount'));
+        $order->update([
+            'deal_amount_after_discounts' => $dealAmountAfterDiscounts,
+            'amount_after_discount' => $order->out_of_deal_amount + $dealAmountAfterDiscounts,
+        ]);
+
+        Log::info(json_encode($itemsDeals));
+        Log::info(json_encode($order));
         return true;
     }
 

@@ -72,7 +72,8 @@ class OrderingSimulation
             $order = Order::find($orderId);
             $order->updateStatus(OrderEnum::Ready);
             Ordering::simulate($order->user, $order);
-            return OrderEnum::Ready->name;
+            $order = Order::find($orderId);
+            return OrderEnum::tryFrom($order->status->value)->name;
         } catch (\Exception $exception) {
             Log::alert($exception->getMessage());
         }
@@ -87,10 +88,7 @@ class OrderingSimulation
             $platformsIds = Platform::all()->pluck('id')->toArray();
             $platformId = $platformsIds[array_rand($platformsIds)];
             $faker = Factory::create();
-            $order = Order::create([
-                'user_id' => $Buyer->id,
-                'note' => $faker->text(),
-            ]);
+            $order = Order::create(['user_id' => $Buyer->id, 'note' => $faker->text()]);
             OrderingSimulation::createOrderItems($order, $orderItemsNumber, $platformId, $faker);
             return true;
         } catch (\Exception $exception) {
