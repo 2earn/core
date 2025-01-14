@@ -78,7 +78,8 @@
                             <td>{{$orderDetail->unit_price}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</td>
                             <td>{{$orderDetail->shipping}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</td>
                             <td>{{$orderDetail->total_amount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</td>
-                            @if($order->status <= \Core\Enum\OrderEnum::Simulated)
+                            @if($order->status <= \Core\Enum\OrderEnum::Simulated )
+                                @if($orderDetail->item->deal()->exists())
                                 <td>
                                     <ul class="list-group">
                                         <li class="list-group-item">{{__('Percentage')}}
@@ -126,6 +127,11 @@
                                         </li>
                                     </ul>
                                 </td>
+                                @else
+                                    <td colspan="3" class="text-center mt-2">
+                                        <span class="alert alert-info">{{__('No deal in this order details')}}</span>
+                                    </td>
+                                @endif
                             @endif
 
                         </tr>
