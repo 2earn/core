@@ -27,7 +27,7 @@ class OrderingSimulation
         $description = $faker->name();
         $reference = $faker->randomNumber(4);
 
-        $hasDeal = (bool)rand(0, 1);
+        $hasDeal = (bool)rand(0, 2);
         $dealsIds = Deal::where('platform_id', $platformId)->pluck('id')->toArray();
         $dealsId = $dealsIds[array_rand($dealsIds)];
 
@@ -55,7 +55,7 @@ class OrderingSimulation
         for ($i = 1; $i <= $orderItemsNumber; $i++) {
             $item = OrderingSimulation::createItem($platformId, $faker);
             $shipping = mt_rand(50, 120) / 100;
-            $qty = rand(1, 5);
+            $qty = rand(1, 3);
             $order->orderDetails()->create([
                 'qty' => $qty,
                 'unit_price' => $item->price,
