@@ -18,12 +18,11 @@ class Ordering
     {
     }
 
-    public static function runChecks(User $user, Order $order): bool
+    public static function runChecks(Order $order): bool
     {
-        Log::info('simulating runChecks ' . $order->id);
         $shippingSum = 0;
         $price_of_products_out_of_deal = 0;
-        $balances = Balances::getStoredUserBalances($user->idUser);
+        $balances = Balances::getStoredUserBalances($order->user()->first()->idUser);
         $deal_amount_before_discount = 0;
         $totalOrderQuantity = 0;
         foreach ($order->orderDetails as $orderDetail) {
@@ -51,22 +50,19 @@ class Ordering
         return false;
     }
 
-    public static function simulateDiscount(User $user, Order $order): bool
+    public static function simulateDiscount(Order $order): bool
     {
-        Log::info('simulating discount');
         $finalDiscountValue = 0;
         $dealAmountAfterPartnerDiscount = 0;
         $dealAmountAfter2earnDiscount = 0;
         $dealAmountAfterDealDiscount = 0;
         $itemsDeals = [];
-        $balances = Balances::getStoredUserBalances($user->idUser);
+        $balances = Balances::getStoredUserBalances($order->user()->first()->idUser);
         foreach ($order->orderDetails as $orderDetail) {
-            Log::warning(json_encode([$orderDetail->item->id]));
             if ($orderDetail->item->deal()->exists()) {
                 $hasPartnerDiscount = (!is_null($orderDetail->item->discount) || $orderDetail->item->discount != 0);
                 $has2EarnDiscount = (!is_null($orderDetail->item->deal->discount2earn) || $orderDetail->item->deal->discount2earn != 0);
                 $hasDealDiscount = (!is_null($orderDetail->item->deal->discount) || $orderDetail->item->deal->discount != 0);
-                Log::warning(json_encode([$hasPartnerDiscount, $has2EarnDiscount, $hasDealDiscount]));
 
                 $partnerDiscount = $hasPartnerDiscount ? $orderDetail->total_amount / 100 * $orderDetail->item->discount : 0;
                 $amountAfterPartnerDiscount = $hasPartnerDiscount ? $orderDetail->total_amount - $partnerDiscount : $orderDetail->total_amount;
@@ -77,14 +73,12 @@ class Ordering
                 $dealDiscount = $hasDealDiscount ? $amountAfter2EarnDiscount / 100 * $orderDetail->item->deal->discount : 0;
                 $amountAfterDealDiscount = $hasDealDiscount ? $amountAfter2EarnDiscount - $dealDiscount : $amountAfter2EarnDiscount;
 
-                $totalDiscount = $partnerDiscount + $earnDiscount + $dealDiscount;
-
-                $finalDiscountValue = $finalDiscountValue + $totalDiscount;
                 $dealAmountAfterPartnerDiscount = $dealAmountAfterPartnerDiscount + $amountAfterPartnerDiscount;
                 $dealAmountAfter2earnDiscount = $dealAmountAfter2earnDiscount + $amountAfter2EarnDiscount;
-
                 $dealAmountAfterDealDiscount = $dealAmountAfterDealDiscount + $amountAfterDealDiscount;
+
                 $totalDiscount = $partnerDiscount + $earnDiscount + $dealDiscount;
+                $finalDiscountValue = $finalDiscountValue + $totalDiscount;
 
                 $itemDeal = [
                     'id' => $orderDetail->id,
@@ -118,7 +112,6 @@ class Ordering
             'deal_amount_after_deal_discount' => $dealAmountAfterDealDiscount,
         ]);
 
-        Log::info(json_encode($itemsDeals));
         foreach ($itemsDeals as $key => $itemDeal) {
             $itemDeal['finalDiscountPercentage'] = $itemDeal['totalAmount'] * $itemDeal['totalDiscount'] / $finalDiscountValue;
             $itemDeal['refundDispatching'] = $hasLostedDiscount ? $itemDeal['finalDiscountPercentage'] * $itemDeal['totalDiscount'] * $finalDiscountValue : 0;
@@ -142,9 +135,6 @@ class Ordering
             ]);
         }
         $dealAmountAfterDiscounts = array_sum(array_column($itemsDeals, 'finalAmount'));
-        Log::info(json_encode($itemsDeals));
-        Log::info(json_encode(array_column($itemsDeals, 'finalAmount')));
-        Log::info(json_encode($dealAmountAfterDiscounts));
         $order->update([
             'deal_amount_after_discounts' => $dealAmountAfterDiscounts,
             'amount_after_discount' => $order->out_of_deal_amount + $dealAmountAfterDiscounts,
@@ -152,69 +142,61 @@ class Ordering
         return true;
     }
 
-    public static function simulateBFSs(User $user, Order $order): bool
+    public static function simulateBFSs(Order $order)
     {
-        Log::info('simulating bfs');
         $bfssTables = [
             BFSsBalances::BFS_100 => [
-                'available' => Balances::getStoredBfss($user->idUser, BFSsBalances::BFS_100),
+                'available' => Balances::getStoredBfss($order->user()->first()->idUser, BFSsBalances::BFS_100),
             ],
             BFSsBalances::BFS_50 => [
-                'available' => Balances::getStoredBfss($user->idUser, BFSsBalances::BFS_50),
+                'available' => Balances::getStoredBfss($order->user()->first()->idUser, BFSsBalances::BFS_50),
             ],
         ];
         $amount_after_discount = $order->amount_after_discount;
-        Log::alert(json_encode($user->idUser));
-        Log::alert(json_encode($bfssTables));
         foreach ($bfssTables as $key => $bfs) {
-            $available = $bfs['available'] * $key / 100;
-            Log::warning($bfs['available']);
-            Log::warning($available);
+            $available = floatval($bfs['available']) * $key / 100;
             $bfs['toSubstruct'] = min($available, $amount_after_discount);
-            $amount_after_discount = $amount_after_discount - min($available, $amount_after_discount);
+            $bfs['balance'] = $available - $amount_after_discount;
             $bfs['amount'] = $amount_after_discount;
+            $amount_after_discount = $amount_after_discount - min($available, $amount_after_discount);
             $bfssTables[$key] = $bfs;
             if ($amount_after_discount <= 0) {
                 break;
             }
         }
 
-        Log::warning($amount_after_discount);
-        Log::warning(json_encode($bfssTables));
-        return true;
+        return $amount_after_discount;
     }
 
-    public static function simulateCash(User $user, Order $order): bool
+    public static function simulateCash(Order $order, $amount_after_discount)
     {
-        Log::info('simulating cash');
-        return true;
+        return $order->update([
+            'paid_cash' => $amount_after_discount,
+        ]);
     }
 
-    public static function simulate(User $user, Order $order): bool
+    public static function simulate(Order $order): bool
     {
-        Log::info('simulating ' . $order->id);
-
-        if (self::runChecks($user, $order)) {
-            self::simulateDiscount($user, $order);
-            self::simulateBFSs($user, $order);
-            self::simulateCash($user, $order);
-            $order->updateStatus(OrderEnum::Simulated);
-
-            return true;
+        if (self::runChecks($order)) {
+            self::simulateDiscount($order);
+            $amount_after_discount = self::simulateBFSs($order);
+            self::simulateCash($order, $amount_after_discount);
+            return $order->updateStatus(OrderEnum::Simulated);
         }
         return false;
     }
 
-    public function run()
+    public static function run($order)
     {
         DB::beginTransaction();
         try {
 
             DB::commit();
+            return $order->updateStatus(OrderEnum::Paid);
         } catch (Exception $exception) {
             DB::rollBack();
+            $order->updateStatus(OrderEnum::Failed);
             Log::error($exception->getMessage());
         }
     }
-
 }

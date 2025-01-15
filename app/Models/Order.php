@@ -50,7 +50,7 @@ class Order extends Model
             throw new InvalidArgumentException("Invalid status provided.");
         }
         $this->status = $newStatus;
-        $this->save();
+        return $this->save();
     }
 
 }

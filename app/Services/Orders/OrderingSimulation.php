@@ -71,7 +71,9 @@ class OrderingSimulation
         try {
             $order = Order::find($orderId);
             $order->updateStatus(OrderEnum::Ready);
-            Ordering::simulate($order->user, $order);
+            if (Ordering::simulate($order)) {
+                Ordering::run($order);
+            }
             $order = Order::find($orderId);
             return OrderEnum::tryFrom($order->status->value)->name;
         } catch (\Exception $exception) {
@@ -83,8 +85,9 @@ class OrderingSimulation
     {
         try {
             $BuyerId = AddCashSeeder::USERS_IDS[array_rand(AddCashSeeder::USERS_IDS)];
+            $BuyerId = 197604395;
             $Buyer = User::where('idUser', $BuyerId)->first();
-            $orderItemsNumber = rand(1, 5);
+            $orderItemsNumber = rand(1, 3);
             $platformsIds = Platform::all()->pluck('id')->toArray();
             $platformId = $platformsIds[array_rand($platformsIds)];
             $faker = Factory::create();

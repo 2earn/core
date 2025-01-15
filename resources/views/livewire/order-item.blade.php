@@ -21,16 +21,11 @@
         </button>
     </div>
     <div class="card-body">
-        @if($order->note)
-            <blockquote class="text-muted">
-                <strong>{{__('Note')}}: </strong><br>{{$order->note}}
-            </blockquote>
-        @endif
-    </div>
-    <div class="card-body">
-        <div class="col-md-12">
-            <h5 class="text-info">{{__('Order simulation summary')}}</h5>
-        </div>
+        <div class="card mt-2">
+            <div class="card-header">
+                <h6 class="card-title mb-0">{{__('Order details summary')}}</h6>
+            </div>
+            <div class="card-body">
         <div class="col-md-12">
             @if($order->orderDetails()->count())
                 <table class="table table-striped">
@@ -160,13 +155,22 @@
                 </table>
             @endif
         </div>
-    </div>
-    @if($order->status <= \Core\Enum\OrderEnum::Simulated)
-        <div class="card-body row">
-            <div class="col-md-12">
-                <h4 class="text-info">{{__('Order simulation summary')}}</h4>
             </div>
-            <div class="col-md-4">
+        </div>
+        @if($order->note)
+            <blockquote class="text-muted mt-2">
+                <strong>{{__('Note')}}: </strong><br>{{$order->note}}
+            </blockquote>
+        @endif
+    @if($order->status <= \Core\Enum\OrderEnum::Simulated)
+            <div class="col-md-12">
+                <div class="card mt-2">
+                    <div class="card-header">
+                        <h6 class="card-title mb-0">{{__('Order simulation summary')}}</h6>
+            </div>
+                    <div class="card-body row">
+
+                        <div class="col-md-4">
                 <h5 class="text-info">{{__('Order totals')}}</h5>
                 <ul class="list-group">
                     @if($order->out_of_deal_amount)
@@ -188,70 +192,97 @@
                     @endif
                 </ul>
             </div>
-            <div class="col-md-4">
-                <h5 class="text-info">{{__('Deal amounts')}}</h5>
-                <ul class="list-group">
-                    @if($order->deal_amount_after_partner_discount)
-                        <li class="list-group-item"><strong>{{__('After partner discount')}}</strong><span
-                                class="float-end text-muted">{{$order->deal_amount_after_partner_discount}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
-                        </li>
-                    @endif
-                    @if($order->deal_amount_after_2earn_discount)
-                        <li class="list-group-item"><strong>{{__('After 2earn discount')}}</strong><span
-                                class="float-end text-muted">{{$order->deal_amount_after_2earn_discount}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
-                        </li>
-                    @endif
-                    @if($order->deal_amount_after_deal_discount)
-                        <li class="list-group-item"><strong>{{__('After deal discount')}}</strong><span
-                                class="float-end text-muted">{{$order->deal_amount_after_deal_discount}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
-                        </li>
-                    @endif
-                    @if($order->deal_amount_after_discounts)
-                        <li class="list-group-item"><strong>{{__('After discounts')}}</strong><span
-                                class="float-end text-muted">{{$order->deal_amount_after_discounts}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
-                        </li>
-                    @endif
-                </ul>
+                        @if($order->deal_amount_after_partner_discount)
+                            <div class="col-md-4">
+                                <h5 class="text-info">{{__('Deal amounts')}}</h5>
+                                <ul class="list-group">
+                                    @if($order->deal_amount_after_partner_discount)
+                                        <li class="list-group-item">
+                                            <strong>{{__('After partner discount')}}</strong><span
+                                                class="float-end text-muted">{{$order->deal_amount_after_partner_discount}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                        </li>
+                                    @endif
+                                    @if($order->deal_amount_after_2earn_discount)
+                                        <li class="list-group-item"><strong>{{__('After 2earn discount')}}</strong><span
+                                                class="float-end text-muted">{{$order->deal_amount_after_2earn_discount}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                        </li>
+                                    @endif
+                                    @if($order->deal_amount_after_deal_discount)
+                                        <li class="list-group-item"><strong>{{__('After deal discount')}}</strong><span
+                                                class="float-end text-muted">{{$order->deal_amount_after_deal_discount}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                        </li>
+                                    @endif
+                                    @if($order->deal_amount_after_discounts)
+                                        <li class="list-group-item"><strong>{{__('After discounts')}}</strong><span
+                                                class="float-end text-muted">{{$order->deal_amount_after_discounts}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </div>
+                            <div class="col-md-4">
+                                <h5 class="text-info">{{__('Order discounts')}}</h5>
+                                <ul class="list-group">
+                                    @if($order->final_discount_percentage)
+                                        <li class="list-group-item">
+                                            <strong>{{__('Final discount percentage')}}</strong>
+                                            <span
+                                                class="float-end text-muted">{{$order->final_discount_percentage}} %</span>
+                                        </li>
+                                    @endif
+                                    @if($order->final_discount_value)
+                                        <li class="list-group-item">
+                                            <strong>{{__('Final discount value')}}</strong>
+                                            <span
+                                                class="badge float-end border  border-success text-success">{{$order->final_discount_value}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                        </li>
+                                    @endif
+                                    <li class="list-group-item">
+                                        <strong>{{__('Lost discount value')}}</strong>
+                                        <span
+                                            class="badge float-end border  border-danger text-danger">{{$order->lost_discount_amount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        @endif
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4">
-                <h5 class="text-info">{{__('Order discounts')}}</h5>
-                <ul class="list-group">
-                    @if($order->final_discount_percentage)
-                        <li class="list-group-item">
-                            <strong>{{__('Final discount percentage')}}</strong>
-                            <span
-                                class="float-end text-muted">{{$order->final_discount_percentage}} %</span>
-                        </li>
-                    @endif
-                    @if($order->final_discount_value)
-                        <li class="list-group-item">
-                            <strong>{{__('Final discount value')}}</strong>
-                            <span
-                                class="badge float-end border  border-success text-success">{{$order->final_discount_value}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
-                        </li>
-                    @endif
-                    <li class="list-group-item">
-                        <strong>{{__('Lost discount value')}}</strong>
-                        <span
-                            class="badge float-end border  border-danger text-danger">{{$order->lost_discount_amount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
-                    </li>
-                </ul>
-            </div>
+
             @if($order->amount_after_discount)
                 <div class="col-md-12">
-                    <ul class="list-group mt-2">
-                        <li class="list-group-item">
-                            <span class="text-info">{{__('Amount after discount')}}</span>
-                            <span
-                        class="float-end text-muted">{{$order->amount_after_discount}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
-                        </li>
-                    </ul>
+                    <div class="card mt-2">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">{{__('Order mains amounts')}}</h6>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group mt-2">
+                                <li class="list-group-item  text-bg-light">
+                                                <span
+                                                    class="text-info text-xl-start">{{__('Amount after discount')}}</span>
+                                    <span
+                                        class="badge border border-success text-success float-end text-muted">
+                                            {{$order->amount_after_discount}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                </li>
+                                <li class="list-group-item list-group-item-action list-group-item-secondary">
+                                                <span
+                                                    class="text-info text-xl-start">{{__('Gain from BFSs soldes')}}</span>
+                                    <span
+                                        class="badge border border-success text-success float-end text-muted">
+                                            {{$order->amount_after_discount-$order->paid_cash}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                </li>
+                                <li class="list-group-item list-group-item-success">
+                                    <span class="text-info text-xl-start">{{__('Paid cash')}}</span>
+                                    <span
+                                        class="badge border border-danger text-light float-end text-muted">
+                                            {{$order->paid_cash}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             @endif
-
         </div>
     @endif
-
     <div class="card-footer">
         @if($order->status == \Core\Enum\OrderEnum::New)
             <button class="btn btn-success btn-sm" wire:click="validateOrderCreation({{$order->id}})">
