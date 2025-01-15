@@ -265,7 +265,6 @@
                 </div>
             </div>
         @endif
-
             @if($order->amount_after_discount)
                 <div class="col-md-12">
                     <div class="card mt-2">
