@@ -26,12 +26,12 @@ return new class extends Migration {
             $table->float('deal_discount')->nullable();
             $table->float('amount_after_deal_discount')->nullable();
             $table->float('total_discount')->nullable();
+            $table->float('ponderation')->nullable();
             $table->float('total_discount_percentage')->nullable();
             $table->float('refund_dispatching')->nullable();
             $table->float('final_amount')->nullable();
             $table->float('final_discount')->nullable();
             $table->float('final_discount_percentage')->nullable();
-            $table->float('missed_discount')->nullable();
         });
     }
 
@@ -55,8 +55,6 @@ return new class extends Migration {
             $table->dropColumn('final_amount');
             $table->dropColumn('final_discount');
             $table->dropColumn('final_discount_percentage');
-            $table->dropColumn('missed_discount');
-
         });
     }
 };

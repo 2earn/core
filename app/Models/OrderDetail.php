@@ -24,12 +24,12 @@ class OrderDetail extends Model
         'deal_discount',
         'amount_after_deal_discount',
         'total_discount',
+        'ponderation',
         'total_discount_percentage',
         'refund_dispatching',
         'final_amount',
         'final_discount',
         'final_discount_percentage',
-        'missed_discount',
         'order_id',
         'item_id',
     ];

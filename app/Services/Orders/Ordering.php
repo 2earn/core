@@ -56,6 +56,7 @@ class Ordering
         $dealAmountAfterPartnerDiscount = 0;
         $dealAmountAfter2earnDiscount = 0;
         $dealAmountAfterDealDiscount = 0;
+        $totalponderation = 0;
         $itemsDeals = [];
         $balances = Balances::getStoredUserBalances($order->user()->first()->idUser);
         foreach ($order->orderDetails as $orderDetail) {
@@ -97,7 +98,9 @@ class Ordering
                     'dealDiscount' => $dealDiscount,
                     'amountAfterDealDiscount' => $amountAfterDealDiscount,
                     'totalDiscount' => $totalDiscount,
+                    'ponderation' => $orderDetail->total_amount * $totalDiscount,
                 ];
+                $totalponderation= $totalponderation + $orderDetail->total_amount * $totalDiscount;
                 $itemsDeals[] = $itemDeal;
             }
         }
@@ -113,11 +116,10 @@ class Ordering
         ]);
 
         foreach ($itemsDeals as $key => $itemDeal) {
-            $itemDeal['finalDiscountPercentage'] = $itemDeal['totalAmount'] * $itemDeal['totalDiscount'] / $finalDiscountValue;
-            $itemDeal['refundDispatching'] = $hasLostedDiscount ? $itemDeal['finalDiscountPercentage'] * $itemDeal['totalDiscount'] * $finalDiscountValue : 0;
+            $itemDeal['finalDiscountPercentage'] = $itemDeal['ponderation'] * $itemDeal['totalDiscount'] / $totalponderation;
+            $itemDeal['refundDispatching'] = $hasLostedDiscount ? $itemDeal['finalDiscountPercentage'] * $itemDeal['lost_discount_amount'] / 100 :0;
             $itemDeal['finalAmount'] = $itemDeal['amountAfterDealDiscount'] + $itemDeal['refundDispatching'];
             $itemDeal['finalDiscount'] = $itemDeal['totalDiscount'] - $itemDeal['refundDispatching'];
-            $itemDeal['finalDiscountPercentage1'] = $itemDeal['totalDiscount'] - $itemDeal['refundDispatching'];
             $itemsDeals[$key] = $itemDeal;
         }
 
