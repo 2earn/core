@@ -60,7 +60,7 @@ class TopBar extends Component
         $balances = Balances::getStoredUserBalances($authUser->idUser);
         $params = [
             'cash' => $balances->cash_balance,
-            'bfs' => Balances::getTotolBfs($balances),
+            'bfs' => Balances::getTotalBfs($balances),
             'db' => $balances->discount_balance,
             'user' => $authUser,
             'userStatus' => $user->status,

@@ -188,7 +188,7 @@
                         <li class="list-group-item">
                             <strong>{{__('Balance For Shopping')}}</strong>
                             <span
-                                class="float-end">{{formatSolde(\App\Services\Balances\Balances::getTotolBfs($soldes),3)}}</span>
+                                class="float-end">{{formatSolde(\App\Services\Balances\Balances::getTotalBfs($soldes),3)}}</span>
                         </li>
                         <li class="list-group-item">
                             <strong>{{__('Discounts Balance')}}</strong>

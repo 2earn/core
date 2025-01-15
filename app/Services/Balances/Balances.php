@@ -162,7 +162,7 @@ class Balances
         UserCurrentBalanceVertical::where('user_id', $idUser)->where('balance_id', $type)->update(['current_balance' => $value]);
     }
 
-    public static function getTotolBfs($userCurrentBalancehorisontal)
+    public static function getTotalBfs($userCurrentBalancehorisontal)
     {
        return $userCurrentBalancehorisontal->getBfssBalance(BFSsBalances::BFS_100) + $userCurrentBalancehorisontal->getBfssBalance(BFSsBalances::BFS_50);
     }

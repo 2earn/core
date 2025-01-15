@@ -2,6 +2,7 @@
 
 namespace App\Services\Orders;
 
+use App\Models\BFSsBalances;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\User;
@@ -44,7 +45,7 @@ class Ordering
             'amount_before_discount' => $out_of_deal_amount + $deal_amount_before_discount
         ]);
         $orderTotal = $out_of_deal_amount + $deal_amount_before_discount;
-        if ($orderTotal <= $balances->cash_balance + $balances->discount_balance + Balances::getTotolBfs($balances)) {
+        if ($orderTotal <= $balances->cash_balance + $balances->discount_balance + Balances::getTotalBfs($balances)) {
             return true;
         }
         return false;
@@ -82,7 +83,6 @@ class Ordering
                 $dealAmountAfterPartnerDiscount = $dealAmountAfterPartnerDiscount + $amountAfterPartnerDiscount;
                 $dealAmountAfter2earnDiscount = $dealAmountAfter2earnDiscount + $amountAfter2EarnDiscount;
 
-
                 $dealAmountAfterDealDiscount = $dealAmountAfterDealDiscount + $amountAfterDealDiscount;
                 $totalDiscount = $partnerDiscount + $earnDiscount + $dealDiscount;
 
@@ -119,17 +119,17 @@ class Ordering
         ]);
 
         Log::info(json_encode($itemsDeals));
-        foreach ($itemsDeals as $itemDeal) {
+        foreach ($itemsDeals as $key => $itemDeal) {
             $itemDeal['finalDiscountPercentage'] = $itemDeal['totalAmount'] * $itemDeal['totalDiscount'] / $finalDiscountValue;
             $itemDeal['refundDispatching'] = $hasLostedDiscount ? $itemDeal['finalDiscountPercentage'] * $itemDeal['totalDiscount'] * $finalDiscountValue : 0;
             $itemDeal['finalAmount'] = $itemDeal['amountAfterDealDiscount'] + $itemDeal['refundDispatching'];
             $itemDeal['finalDiscount'] = $itemDeal['totalDiscount'] - $itemDeal['refundDispatching'];
             $itemDeal['finalDiscountPercentage1'] = $itemDeal['totalDiscount'] - $itemDeal['refundDispatching'];
+            $itemsDeals[$key] = $itemDeal;
         }
 
         foreach ($itemsDeals as $itemDeal) {
-            Log::info(' -- -- --- ' . json_encode([$itemDeal['id'], $itemDeal['partnerDiscountPercentage'], $itemDeal['2earnDiscountPercentage'], $itemDeal['dealDiscountPercentage']]));
-            $save = OrderDetail::find($itemDeal['id'])->update([
+            OrderDetail::find($itemDeal['id'])->update([
                 'partner_discount_percentage' => $itemDeal['partnerDiscountPercentage'],
                 'partner_discount' => $itemDeal['partnerDiscount'],
                 'amount_after_partner_discount' => $itemDeal['amountAfterPartnerDiscount'],
@@ -140,23 +140,47 @@ class Ordering
                 'deal_discount' => $itemDeal['dealDiscount'],
                 'amount_after_deal_discount' => $itemDeal['amountAfterDealDiscount'],
             ]);
-            Log::info($save);
-
         }
         $dealAmountAfterDiscounts = array_sum(array_column($itemsDeals, 'finalAmount'));
+        Log::info(json_encode($itemsDeals));
+        Log::info(json_encode(array_column($itemsDeals, 'finalAmount')));
+        Log::info(json_encode($dealAmountAfterDiscounts));
         $order->update([
             'deal_amount_after_discounts' => $dealAmountAfterDiscounts,
             'amount_after_discount' => $order->out_of_deal_amount + $dealAmountAfterDiscounts,
         ]);
-
-        Log::info(json_encode($itemsDeals));
-        Log::info(json_encode($order));
         return true;
     }
 
     public static function simulateBFSs(User $user, Order $order): bool
     {
         Log::info('simulating bfs');
+        $bfssTables = [
+            BFSsBalances::BFS_100 => [
+                'available' => Balances::getStoredBfss($user->idUser, BFSsBalances::BFS_100),
+            ],
+            BFSsBalances::BFS_50 => [
+                'available' => Balances::getStoredBfss($user->idUser, BFSsBalances::BFS_50),
+            ],
+        ];
+        $amount_after_discount = $order->amount_after_discount;
+        Log::alert(json_encode($user->idUser));
+        Log::alert(json_encode($bfssTables));
+        foreach ($bfssTables as $key => $bfs) {
+            $available = $bfs['available'] * $key / 100;
+            Log::warning($bfs['available']);
+            Log::warning($available);
+            $bfs['toSubstruct'] = min($available, $amount_after_discount);
+            $amount_after_discount = $amount_after_discount - min($available, $amount_after_discount);
+            $bfs['amount'] = $amount_after_discount;
+            $bfssTables[$key] = $bfs;
+            if ($amount_after_discount <= 0) {
+                break;
+            }
+        }
+
+        Log::warning($amount_after_discount);
+        Log::warning(json_encode($bfssTables));
         return true;
     }
 
