@@ -1,12 +1,13 @@
 <div class="card border card-border-light">
     <div class="card-header">
+        @if($currentRouteName=="orders_detail")
+            <button type="button" class="btn btn-sm btn-outline-info m-1">
+                {{__('Order id')}} <span
+                    class="badge bg-info ms-1">{{$order->id}}</span>
+            </button>
+        @endif
 
-        <button type="button" class="btn btn-sm btn-outline-info m-1">
-            {{__('Order id')}} <span
-                class="badge bg-info ms-1">{{$order->id}}</span>
-        </button>
-
-        @if($order->total_order_quantity)
+        @if($order->total_order_quantity && $currentRouteName=="orders_detail")
             <button type="button" class="btn btn-sm btn-outline-info  float-end m-1">
                 {{__('Total order quantity')}} <span
                     class="badge bg-info ms-1">{{$order->total_order_quantity}}</span>
@@ -26,172 +27,188 @@
                 <h6 class="card-title mb-0">{{__('Order details summary')}}</h6>
             </div>
             <div class="card-body">
-        <div class="col-md-12">
-            @if($order->orderDetails()->count())
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">{{__('Item')}}</th>
-                        <th scope="col">{{__('Qty')}}</th>
-                        <th scope="col">{{__('Unit price')}}</th>
-                        <th scope="col">{{__('Shipping')}}</th>
-                        <th scope="col">{{__('Total amount')}}</th>
-                        @if($order->status <= \Core\Enum\OrderEnum::Simulated)
-                            <th scope="col">{{__('Partner Discount')}}</th>
-                            <th scope="col">{{__('2earn Discount')}}</th>
-                            <th scope="col">{{__('Deal Discount')}}</th>
-                        @endif
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($order->orderDetails()->get() as $key => $orderDetail)
-                        <tr>
-                            <th scope="row">{{$key + 1}}</th>
-                            <td>
-                                <ul class="list-group">
-                                    <li class="list-group-item"><strong>{{__('Name')}}</strong><span
-                                            class="float-end">{{$orderDetail->item()->first()->name}}</span></li>
-                                    <li class="list-group-item"><strong>{{__('Reference')}}</strong><span
-                                            class="float-end">{{$orderDetail->item()->first()->ref}}</span></li>
-                                    <li class="list-group-item">
-                                        <strong>{{__('Price')}}</strong><span
-                                            class="float-end">{{$orderDetail->item()->first()->price}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
-                                    </li>
-                                    <li class="list-group-item"><strong>{{__('Discount')}}</strong><span
-                                            class="float-end">{{$orderDetail->item()->first()->discount}} %</span>
-                                    </li>
-                                    @if($orderDetail->item()->first()->deal()->exists())
-                                        <li class="list-group-item list-group-item-info ">
-                                            <strong>{{__('Deal')}}</strong><span
-                                                class="float-end">{{$orderDetail->item()->first()->deal()->first()->name}}</span>
-                                        </li>
-                                    @endif
-                                </ul>
-                            </td>
-                            <td>{{$orderDetail->qty}}</td>
-                            <td>{{$orderDetail->unit_price}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</td>
-                            <td>{{$orderDetail->shipping}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</td>
-                            <td>{{$orderDetail->total_amount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</td>
-                            @if($order->status <= \Core\Enum\OrderEnum::Simulated )
-                                @if($orderDetail->item->deal()->exists())
+                <div class="col-md-12">
+                    @if($order->orderDetails()->count())
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">{{__('Item')}}</th>
+                                <th scope="col">{{__('Qty')}}</th>
+                                <th scope="col">{{__('Unit price')}}</th>
+                                <th scope="col">{{__('Shipping')}}</th>
+                                <th scope="col">{{__('Total amount')}}</th>
+                                @if($order->status <= \Core\Enum\OrderEnum::Simulated && $currentRouteName=="orders_detail")
+                                    <th scope="col">{{__('Partner Discount')}}</th>
+                                    <th scope="col">{{__('2earn Discount')}}</th>
+                                    <th scope="col">{{__('Deal Discount')}}</th>
+                                @endif
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($order->orderDetails()->get() as $key => $orderDetail)
+                                <tr>
+                                    <th scope="row">{{$key + 1}}</th>
                                     <td>
-                                        <ul class="list-group">
-                                            <li class="list-group-item text-muted" title="{{__('Percentage')}}">
-                                                <i class="ri-percent-fill"></i>
-                                                <span class="float-end">
+
+                                        @if($currentRouteName=="orders_detail")
+                                            <ul class="list-group">
+                                                <li class="list-group-item"><strong>{{__('Name')}}</strong><span
+                                                        class="float-end">{{$orderDetail->item()->first()->name}}</span>
+                                                </li>
+                                                <li class="list-group-item"><strong>{{__('Reference')}}</strong><span
+                                                        class="float-end">{{$orderDetail->item()->first()->ref}}</span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <strong>{{__('Price')}}</strong><span
+                                                        class="float-end">{{$orderDetail->item()->first()->price}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                                </li>
+                                                <li class="list-group-item"><strong>{{__('Discount')}}</strong><span
+                                                        class="float-end">{{$orderDetail->item()->first()->discount}} %</span>
+                                                </li>
+                                                @if($orderDetail->item()->first()->deal()->exists())
+                                                    <li class="list-group-item list-group-item-info ">
+                                                        <strong>{{__('Deal')}}</strong><span
+                                                            class="float-end">{{$orderDetail->item()->first()->deal()->first()->name}}</span>
+                                                    </li>
+                                                @endif
+                                            </ul>
+                                        @else
+                                            <strong>
+                                                <span class="text-muted">
+                                                    {{$orderDetail->item()->first()->ref}} -
+                                                </span>
+                                            </strong>
+                                            <span class="text-muted">
+                                                {{$orderDetail->item()->first()->name}}
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td>{{$orderDetail->qty}}</td>
+                                    <td>{{$orderDetail->unit_price}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</td>
+                                    <td>{{$orderDetail->shipping}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</td>
+                                    <td>{{$orderDetail->total_amount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</td>
+                                    @if($order->status <= \Core\Enum\OrderEnum::Simulated && $currentRouteName=="orders_detail")
+                                        @if($orderDetail->item->deal()->exists())
+                                            <td>
+                                                <ul class="list-group">
+                                                    <li class="list-group-item text-muted" title="{{__('Percentage')}}">
+                                                        <i class="ri-percent-fill"></i>
+                                                        <span class="float-end">
                                                 {{$orderDetail->partner_discount_percentage}}
                                             </span>
-                                            </li>
-                                            <li class="list-group-item text-muted" title="{{__('value')}}">
-                                                <i class="ri-increase-decrease-fill"></i>
-                                                <span class="float-end">
+                                                    </li>
+                                                    <li class="list-group-item text-muted" title="{{__('value')}}">
+                                                        <i class="ri-increase-decrease-fill"></i>
+                                                        <span class="float-end">
                                                 {{$orderDetail->partner_discount}}
                                             </span>
-                                            </li>
-                                            <li class="list-group-item text-muted" title="{{__('Amount')}}">
-                                                <i class="ri-money-dollar-box-fill"></i>
-                                                <span class="float-end">
+                                                    </li>
+                                                    <li class="list-group-item text-muted" title="{{__('Amount')}}">
+                                                        <i class="ri-money-dollar-box-fill"></i>
+                                                        <span class="float-end">
                                                 {{$orderDetail->amount_after_partner_discount}}
                                             </span>
-                                            </li>
-                                        </ul>
-                                    </td>
+                                                    </li>
+                                                </ul>
+                                            </td>
 
-                                    <td>
-                                        <ul class="list-group">
-                                            <li class="list-group-item text-muted" title="{{__('Percentage')}}">
-                                                <i class="ri-percent-fill"></i>
-                                                <span class="float-end">
+                                            <td>
+                                                <ul class="list-group">
+                                                    <li class="list-group-item text-muted" title="{{__('Percentage')}}">
+                                                        <i class="ri-percent-fill"></i>
+                                                        <span class="float-end">
                                                 {{$orderDetail->earn_discount_percentage}}
                                             </span>
-                                            </li>
-                                            <li class="list-group-item text-muted" title="{{__('value')}}">
-                                                <i class="ri-increase-decrease-fill"></i>
-                                                <span class="float-end">
+                                                    </li>
+                                                    <li class="list-group-item text-muted" title="{{__('value')}}">
+                                                        <i class="ri-increase-decrease-fill"></i>
+                                                        <span class="float-end">
                                                 {{$orderDetail->earn_discount}}
                                             </span>
-                                            </li>
-                                            <li class="list-group-item text-muted" title="{{__('Amount')}}">
-                                                <i class="ri-money-dollar-box-fill"></i>
-                                                <span class="float-end">
+                                                    </li>
+                                                    <li class="list-group-item text-muted" title="{{__('Amount')}}">
+                                                        <i class="ri-money-dollar-box-fill"></i>
+                                                        <span class="float-end">
                                                 {{$orderDetail->amount_after_earn_discount}}
                                             </span>
-                                            </li>
-                                        </ul>
-                                    </td>
-                                    <td>
-                                        <ul class="list-group">
-                                            <li class="list-group-item text-muted" title="{{__('Percentage')}}">
-                                                <i class="ri-percent-fill"></i>
-                                                : <span class="float-end">
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <ul class="list-group">
+                                                    <li class="list-group-item text-muted" title="{{__('Percentage')}}">
+                                                        <i class="ri-percent-fill"></i>
+                                                        : <span class="float-end">
                                                 {{$orderDetail->deal_discount_percentage}}
                                             </span>
-                                            </li>
-                                            <li class="list-group-item text-muted" title="{{__('value')}}">
-                                                <i class="ri-increase-decrease-fill"></i>
-                                                <span class="float-end">
+                                                    </li>
+                                                    <li class="list-group-item text-muted" title="{{__('value')}}">
+                                                        <i class="ri-increase-decrease-fill"></i>
+                                                        <span class="float-end">
                                                 {{$orderDetail->deal_discount}}
                                             </span>
-                                            </li>
-                                            <li class="list-group-item text-muted" title="{{__('Amount')}}">
-                                                <i class="ri-money-dollar-box-fill"></i>
-                                                <span class="float-end">
+                                                    </li>
+                                                    <li class="list-group-item text-muted" title="{{__('Amount')}}">
+                                                        <i class="ri-money-dollar-box-fill"></i>
+                                                        <span class="float-end">
                                                 {{$orderDetail->amount_after_deal_discount}}
                                             </span>
-                                            </li>
-                                        </ul>
-                                    </td>
-                                @else
-                                    <td colspan="3" class="text-center mt-2">
-                                        <span class="alert alert-info">{{__('No deal in this order details')}}</span>
-                                    </td>
-                                @endif
-                            @endif
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        @else
+                                            <td colspan="3" class="text-center mt-2">
+                                                <span
+                                                    class="alert alert-info">{{__('No deal in this order details')}}</span>
+                                            </td>
+                                        @endif
+                                    @endif
 
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            @endif
-        </div>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    @endif
+                </div>
             </div>
         </div>
-        @if($order->note)
+        @if($order->note && $currentRouteName=="orders_detail")
             <blockquote class="text-muted mt-2">
                 <strong>{{__('Note')}}: </strong><br>{{$order->note}}
             </blockquote>
         @endif
-    @if($order->status <= \Core\Enum\OrderEnum::Simulated)
+        @if($order->status <= \Core\Enum\OrderEnum::Simulated  && $currentRouteName=="orders_detail")
             <div class="col-md-12">
                 <div class="card mt-2">
                     <div class="card-header">
                         <h6 class="card-title mb-0">{{__('Order simulation summary')}}</h6>
-            </div>
+                    </div>
                     <div class="card-body row">
 
                         <div class="col-md-4">
-                <h5 class="text-info">{{__('Order totals')}}</h5>
-                <ul class="list-group">
-                    @if($order->out_of_deal_amount)
-                        <li class="list-group-item"><strong>{{__('Out of deal amount')}}</strong><span
-                                class="float-end text-muted">{{$order->out_of_deal_amount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
-                        </li>
-                    @endif
-                    @if($order->deal_amount_before_discount)
-                        <li class="list-group-item"><strong>{{__('Deal amount before discount')}}</strong> <span
-                                class="float-end text-muted">{{$order->deal_amount_before_discount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
-                        </li>
-                    @endif
-                    @if($order->amount_before_discount)
-                        <li class="list-group-item"><strong>{{__('Amount before discount')}}</strong>
-                            <span class="badge border border-success text-success float-end text-muted">
+                            <h5 class="text-info">{{__('Order totals')}}</h5>
+                            <ul class="list-group">
+                                @if($order->out_of_deal_amount)
+                                    <li class="list-group-item"><strong>{{__('Out of deal amount')}}</strong><span
+                                            class="float-end text-muted">{{$order->out_of_deal_amount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                    </li>
+                                @endif
+                                @if($order->deal_amount_before_discount)
+                                    <li class="list-group-item"><strong>{{__('Deal amount before discount')}}</strong>
+                                        <span
+                                            class="float-end text-muted">{{$order->deal_amount_before_discount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                    </li>
+                                @endif
+                                @if($order->amount_before_discount)
+                                    <li class="list-group-item"><strong>{{__('Amount before discount')}}</strong>
+                                        <span class="badge border border-success text-success float-end text-muted">
                             {{$order->amount_before_discount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}
                         </span>
-                        </li>
-                    @endif
-                </ul>
-            </div>
+                                    </li>
+                                @endif
+                            </ul>
+                        </div>
                         @if($order->deal_amount_after_partner_discount)
                             <div class="col-md-4">
                                 <h5 class="text-info">{{__('Deal amounts')}}</h5>
@@ -247,6 +264,7 @@
                     </div>
                 </div>
             </div>
+        @endif
 
             @if($order->amount_after_discount)
                 <div class="col-md-12">
@@ -281,17 +299,24 @@
                     </div>
                 </div>
             @endif
-        </div>
-    @endif
+    </div>
     <div class="card-footer">
         @if($order->status == \Core\Enum\OrderEnum::New)
             <button class="btn btn-success btn-sm" wire:click="validateOrderCreation({{$order->id}})">
                 {{__('Validate order')}}
             </button>
         @endif
-        <span
-            class="badge bg-info-subtle text-info badge-border float-end">{{__('Updated at')}} : {{$order->updated_at}}</span>
-        <span
-            class="badge bg-info-subtle text-info badge-border float-end">{{__('Created at')}} : {{$order->created_at}}</span>
+            <span class="badge bg-info-subtle text-info badge-border">
+            {{__('Updated at')}} : {{$order->updated_at}}</span>
+            @if($currentRouteName=="orders_detail")
+                <span class="badge bg-info-subtle text-info badge-border">
+                {{__('Created at')}} : {{$order->created_at}}</span>
+            @endif
+            @if($currentRouteName=="orders_index")
+                {{$order->id}}
+                <a href="{{route('orders_detail', ['locale'=>app()->getLocale(),'id'=>$order->id])}}"
+                   class=float-end">{{__('More details')}}</a>
+            @endif
+
     </div>
 </div>

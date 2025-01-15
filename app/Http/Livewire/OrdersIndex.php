@@ -23,6 +23,13 @@ class OrdersIndex extends Component
         'simulateOrderCreation' => 'simulateOrderCreation',
         'validateOrderCreation' => 'validateOrderCreation'
     ];
+
+    public function mount()
+    {
+        $this->page = request()->query('page', 1);
+        $this->currentRouteName = Route::currentRouteName();
+    }
+
     public function validateOrderCreation($orderId)
     {
         $status = OrderingSimulation::validate($orderId);
@@ -42,11 +49,6 @@ class OrdersIndex extends Component
         $this->resetPage();
     }
 
-    public function mount()
-    {
-        $this->page = request()->query('page', 1);
-        $this->currentRouteName = Route::currentRouteName();
-    }
 
     public function render()
     {
