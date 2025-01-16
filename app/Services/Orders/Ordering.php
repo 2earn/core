@@ -166,6 +166,7 @@ class Ordering
                 break;
             }
         }
+        Log::info(json_encode($bfssTables));
 
         return $amount_after_discount;
     }
