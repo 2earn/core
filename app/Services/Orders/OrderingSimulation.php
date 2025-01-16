@@ -85,9 +85,8 @@ class OrderingSimulation
     {
         try {
             $BuyerId = AddCashSeeder::USERS_IDS[array_rand(AddCashSeeder::USERS_IDS)];
-            $BuyerId = 197604395;
             $Buyer = User::where('idUser', $BuyerId)->first();
-            $orderItemsNumber = rand(1, 3);
+            $orderItemsNumber = rand(1, 5);
             $platformsIds = Platform::all()->pluck('id')->toArray();
             $platformId = $platformsIds[array_rand($platformsIds)];
             $faker = Factory::create();

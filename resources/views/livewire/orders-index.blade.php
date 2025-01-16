@@ -1,5 +1,4 @@
 <div>
-
     @section('title')
         {{ __('Orders') }}
     @endsection
