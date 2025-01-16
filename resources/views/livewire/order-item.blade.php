@@ -46,11 +46,11 @@
                 <div class="card-body">
                     <div class="col-md-12">
                         @if($order->orderDetails()->count())
-                            <table class="table table-striped">
+                            <table class="table table-striped border border-light">
                                 <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">{{__('Item')}}</th>
+                                    <th scope="col">{{__('Order details')}}</th>
                                     <th scope="col">{{__('Qty')}}</th>
                                     <th scope="col">{{__('Unit price')}}</th>
                                     <th scope="col">{{__('Shipping')}}</th>
@@ -64,7 +64,8 @@
                                 </thead>
                                 <tbody>
                                 @foreach($order->orderDetails()->get() as $key => $orderDetail)
-                                    <tr>
+                                    <tr @if($orderDetail->item()->first()->deal()->exists()) class="table-info" @endif
+                                    >
                                         <th scope="row">{{$key + 1}}</th>
                                         <td>
 
@@ -85,9 +86,9 @@
                                                             class="float-end">{{$orderDetail->item()->first()->discount}} %</span>
                                                     </li>
                                                     @if($orderDetail->item()->first()->deal()->exists())
-                                                        <li class="list-group-item list-group-item-info ">
+                                                        <li class="list-group-item list-group-item-success">
                                                             <strong>{{__('Deal')}}</strong><span
-                                                                class="float-end">{{$orderDetail->item()->first()->deal()->first()->name}}</span>
+                                                                class="float-end"> {{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}</span>
                                                         </li>
                                                     @endif
                                                 </ul>
@@ -100,6 +101,9 @@
                                                 <span class="text-muted">
                                                 {{$orderDetail->item()->first()->name}}
                                             </span>
+                                                @if($orderDetail->item()->first()->deal()->exists())
+                                                    <span class="text-info"> : {{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}</span>
+                                                @endif
                                             @endif
                                         </td>
                                         <td>{{$orderDetail->qty}}</td>

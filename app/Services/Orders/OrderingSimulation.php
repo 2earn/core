@@ -71,12 +71,15 @@ class OrderingSimulation
         try {
             $order = Order::find($orderId);
             $order->updateStatus(OrderEnum::Ready);
-            if (Ordering::simulate($order)) {
-                Ordering::run($order);
+            $simulation = Ordering::simulate($order);
+            if ($simulation) {
+                Ordering::run($simulation);
             }
+
             $order = Order::find($orderId);
-            return OrderEnum::tryFrom($order->status->value)->name;
+            return $order->status->name;
         } catch (\Exception $exception) {
+            dd($exception);
             Log::alert($exception->getMessage());
         }
         return false;
