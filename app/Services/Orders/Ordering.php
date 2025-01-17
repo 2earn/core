@@ -114,8 +114,8 @@ class Ordering
                     'dealDiscountPercentage' => $hasDealDiscount ? $orderDetail->item->deal->discount : 0,
                     'dealDiscount' => $dealDiscount,
                     'amountAfterDealDiscount' => $amountAfterDealDiscount,
-                    'totalDiscount' => $totalDiscount,
-                    'ponderation' => $ponderation,
+                    'totalDiscountWithDiscountPartner' => $totalDiscount,
+                    'ponderationWithDiscountPartner' => $ponderation,
                 ];
                 $totalponderation= $totalponderation + $orderDetail->total_amount * $totalDiscount;
                 $itemsDeals[] = $itemDeal;
@@ -133,10 +133,18 @@ class Ordering
         ]);
 
         foreach ($itemsDeals as $key => $itemDeal) {
-            $itemDeal['finalDiscountPercentage'] = $itemDeal['ponderation'] * $itemDeal['totalDiscount'] / $totalponderation;
-            $itemDeal['refundDispatching'] = $hasLostedDiscount ? $itemDeal['finalDiscountPercentage'] * $itemDeal['lost_discount_amount'] / 100 :0;
+            $itemDeal['totalDiscountPercentageWithDiscountPartner'] = $itemDeal['ponderationWithDiscountPartner'] * $itemDeal['totalDiscountWithDiscountPartner'] / $totalponderation;
+            $itemDeal['refundDispatching'] = $hasLostedDiscount ? $itemDeal['totalDiscountPercentageWithDiscountPartner'] * $itemDeal['lost_discount_amount'] / 100 : 0;
             $itemDeal['finalAmount'] = $itemDeal['amountAfterDealDiscount'] + $itemDeal['refundDispatching'];
-            $itemDeal['finalDiscount'] = $itemDeal['totalDiscount'] - $itemDeal['refundDispatching'];
+            $itemDeal['finalDiscount'] = $itemDeal['totalDiscountWithDiscountPartner'] - $itemDeal['refundDispatching'];
+            $itemDeal['finalDiscountWithoutDiscountPartner'] = $itemDeal['dealDiscount'] - $itemDeal['2earnDiscount'];
+            $itemDeal['discountValueWithoutDiscountPartner'] = $itemDeal['finalDiscountWithoutDiscountPartner'] * $itemDeal['amountAfterPartnerDiscount'];
+            $itemsDeals[$key] = $itemDeal;
+        }
+        $sumDiscountWithoutDiscountPartner = array_sum(array_column($itemsDeals, 'discountValueWithoutDiscountPartner'));
+
+        foreach ($itemsDeals as $key => $itemDeal) {
+            $itemDeal['discountPercentageWithoutDiscountPartner'] = $itemDeal['discountValueWithoutDiscountPartner'] / $sumDiscountWithoutDiscountPartner;
             $itemsDeals[$key] = $itemDeal;
         }
 

@@ -14,22 +14,31 @@ class OrderDetail extends Model
         'shipping',
         'unit_price',
         'total_amount',
-        'partner_discount',
+
         'partner_discount_percentage',
+        'partner_discount',
         'amount_after_partner_discount',
+
         'earn_discount_percentage',
         'earn_discount',
         'amount_after_earn_discount',
+
         'deal_discount_percentage',
         'deal_discount',
         'amount_after_deal_discount',
-        'total_discount',
-        'ponderation',
-        'total_discount_percentage',
+
+        'total_discount_with_discount_partner',
+        'ponderation_with_discount_partner',
+        'total_discount_percentage_with_discount_partner',
+
         'refund_dispatching',
         'final_amount',
         'final_discount',
-        'final_discount_percentage',
+
+        'finalDiscountWithoutDiscountPartner',
+        'discountValueWithoutDiscountPartner',
+        'discountPercentageWithoutDiscountPartner',
+
         'order_id',
         'item_id',
     ];

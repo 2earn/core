@@ -16,22 +16,30 @@ return new class extends Migration {
             $table->float('shipping')->nullable();
             $table->float('unit_price')->nullable();
             $table->float('total_amount')->nullable();
-            $table->float('partner_discount')->nullable();
+
             $table->float('partner_discount_percentage')->nullable();
+            $table->float('partner_discount')->nullable();
             $table->float('amount_after_partner_discount')->nullable();
+
             $table->float('earn_discount_percentage')->nullable();
             $table->float('earn_discount')->nullable();
             $table->float('amount_after_earn_discount')->nullable();
+
             $table->float('deal_discount_percentage')->nullable();
             $table->float('deal_discount')->nullable();
             $table->float('amount_after_deal_discount')->nullable();
-            $table->float('total_discount')->nullable();
-            $table->float('ponderation')->nullable();
-            $table->float('total_discount_percentage')->nullable();
+
+            $table->float('total_discount_with_discount_partner')->nullable();
+            $table->float('ponderation_with_discount_partner')->nullable();
+            $table->float('total_discount_percentage_with_discount_partner')->nullable();
+
             $table->float('refund_dispatching')->nullable();
             $table->float('final_amount')->nullable();
             $table->float('final_discount')->nullable();
-            $table->float('final_discount_percentage')->nullable();
+
+            $table->float('finalDiscountWithoutDiscountPartner')->nullable();
+            $table->float('discountValueWithoutDiscountPartner')->nullable();
+            $table->float('discountPercentageWithoutDiscountPartner')->nullable();
         });
     }
 
@@ -41,20 +49,30 @@ return new class extends Migration {
             $table->dropColumn('qty');
             $table->dropColumn('unit_price');
             $table->dropColumn('total_amount');
+
             $table->dropColumn('partner_discount_percentage');
+            $table->dropColumn('partner_discount');
             $table->dropColumn('amount_after_partner_discount');
+
             $table->dropColumn('2_earn_discount_percentage');
             $table->dropColumn('2_earn_discount');
             $table->dropColumn('amount_after_2_earn_discount');
+
             $table->dropColumn('deal_discount_percentage');
             $table->dropColumn('deal_discount');
             $table->dropColumn('amount_after_deal_discount');
-            $table->dropColumn('total_discount');
-            $table->dropColumn('total_discount_percentage');
+
+            $table->dropColumn('total_discount_with_discount_partner');
+            $table->dropColumn('ponderation_with_discount_partner');
+            $table->dropColumn('total_discount_percentage_with_discount_partner');
+
             $table->dropColumn('refund_dispatching');
             $table->dropColumn('final_amount');
             $table->dropColumn('final_discount');
-            $table->dropColumn('final_discount_percentage');
+
+            $table->dropColumn('finalDiscountWithoutDiscountPartner');
+            $table->dropColumn('discountValueWithoutDiscountPartner');
+            $table->dropColumn('discountPercentageWithoutDiscountPartner');
         });
     }
 };
