@@ -23,6 +23,7 @@ class OrderingSimulation
     {
         $unit_price = mt_rand(200, 500) / 100;
         $discount = mt_rand(1, 20);
+        $discount2earn = mt_rand(1, 20);
         $itemName = $faker->name();
         $description = $faker->name();
         $reference = $faker->randomNumber(4);
@@ -35,6 +36,7 @@ class OrderingSimulation
             'name' => $itemName,
             'price' => $unit_price,
             'discount' => $discount,
+            'discount_2earn' => $discount2earn,
             'description' => $description,
         ];
 
@@ -79,7 +81,6 @@ class OrderingSimulation
             $order = Order::find($orderId);
             return $order->status->name;
         } catch (\Exception $exception) {
-            dd($exception);
             Log::alert($exception->getMessage());
         }
         return false;
@@ -100,6 +101,5 @@ class OrderingSimulation
             Log::alert($exception->getMessage());
         }
         return false;
-
     }
 }

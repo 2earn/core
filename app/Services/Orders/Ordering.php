@@ -70,14 +70,14 @@ class Ordering
         foreach ($order->orderDetails as $orderDetail) {
             if ($orderDetail->item->deal()->exists()) {
                 $hasPartnerDiscount = (!is_null($orderDetail->item->discount) || $orderDetail->item->discount != 0);
-                $has2EarnDiscount = (!is_null($orderDetail->item->deal->discount2earn) || $orderDetail->item->deal->discount2earn != 0);
+                $has2EarnDiscount = (!is_null($orderDetail->item->discount_2earn) || $orderDetail->item->discount_2earn != 0);
                 $hasDealDiscount = (!is_null($orderDetail->item->deal->discount) || $orderDetail->item->deal->discount != 0);
 
                 $partnerDiscount = $hasPartnerDiscount ? $orderDetail->total_amount / 100 * $orderDetail->item->discount : 0;
                 $amountAfterPartnerDiscount = $hasPartnerDiscount ? $orderDetail->total_amount - $partnerDiscount : $orderDetail->total_amount;
 
 
-                $earnDiscount = $has2EarnDiscount ? $amountAfterPartnerDiscount / 100 * $orderDetail->item->deal->discount2earn : 0;
+                $earnDiscount = $has2EarnDiscount ? $amountAfterPartnerDiscount / 100 * $orderDetail->item->discount_2earn : 0;
                 $amountAfter2EarnDiscount = $has2EarnDiscount ? $amountAfterPartnerDiscount - $earnDiscount : $amountAfterPartnerDiscount;
 
                 $dealDiscount = $hasDealDiscount ? $amountAfter2EarnDiscount / 100 * $orderDetail->item->deal->discount : 0;
@@ -108,7 +108,7 @@ class Ordering
                     'partnerDiscountPercentage' => $orderDetail->item->discount,
                     'partnerDiscount' => $partnerDiscount,
                     'amountAfterPartnerDiscount' => $amountAfterPartnerDiscount,
-                    '2earnDiscountPercentage' => $has2EarnDiscount ? $orderDetail->item->deal->discount2earn : 0,
+                    '2earnDiscountPercentage' => $has2EarnDiscount ? $orderDetail->item->discount_2earn : 0,
                     '2earnDiscount' => $earnDiscount,
                     'amountAfter2EarnDiscount' => $amountAfter2EarnDiscount,
                     'dealDiscountPercentage' => $hasDealDiscount ? $orderDetail->item->deal->discount : 0,

@@ -14,6 +14,7 @@ class Item extends Model
         'ref',
         'price',
         'discount',
+        'discount_2earn',
         'photo_link',
         'description',
         'stock',

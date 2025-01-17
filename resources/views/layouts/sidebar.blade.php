@@ -281,6 +281,14 @@
                                 <span>{{__('Orders')}}</span>
                             </a>
                         </li>
+                        <li class="nav-item cool-link {{$currentRouteName=='items_index'? 'active' : ''}}">
+                            <a href="{{route('items_index',['locale'=>request()->route("locale")],false )}}"
+                               class="nav-link menu-link {{$currentRouteName=='items_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-shopping-bag-fill"></i>
+                                <span>{{__('items')}}</span>
+                            </a>
+                        </li>
                         <li class="nav-item cool-link {{$currentRouteName=='target_index'? 'active' : ''}}">
                             <a href="{{route('target_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
                                class="nav-link menu-link {{$currentRouteName=='target_index'? 'active' : ''}}"

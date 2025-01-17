@@ -1,5 +1,4 @@
 <div>
-
     @section('title')
         {{ __('Frequently asked questions') }}
     @endsection
@@ -111,5 +110,4 @@
             </div>
         </div>
         </div>
-    </div>
 </div>

@@ -50,7 +50,6 @@ class DealsInsertSeeder extends Seeder
                         'progressive_commission' => rand(1, 100),
                         'margin_percentage' => rand(1, 100),
                         'discount' => rand(1, 20),
-                        'discount2earn' => rand(1, 20),
                         'objective_turnover' => rand(1, 100),
                         'platform_id' => $platform->id,
                     ]);
