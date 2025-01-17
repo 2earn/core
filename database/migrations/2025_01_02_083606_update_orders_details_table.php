@@ -37,9 +37,9 @@ return new class extends Migration {
             $table->float('final_amount')->nullable();
             $table->float('final_discount')->nullable();
 
-            $table->float('finalDiscountWithoutDiscountPartner')->nullable();
-            $table->float('discountValueWithoutDiscountPartner')->nullable();
-            $table->float('discountPercentageWithoutDiscountPartner')->nullable();
+            $table->float('final_discount_without_discount_partner')->nullable();
+            $table->float('discount_value_without_discount_partner')->nullable();
+            $table->float('discount_percentage_without_discount_partner')->nullable();
         });
     }
 

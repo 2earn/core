@@ -46,7 +46,7 @@
                 <div class="card-body">
                     <div class="col-md-12">
                         @if($order->orderDetails()->count())
-                            <table class="table table-striped border border-light">
+                            <table class="table table-striped table-bordered border-dark table-nowrap">
                                 <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -59,6 +59,8 @@
                                         <th scope="col">{{__('Partner Discount')}}</th>
                                         <th scope="col">{{__('2earn Discount')}}</th>
                                         <th scope="col">{{__('Deal Discount')}}</th>
+                                        <th scope="col">{{__('Final amount')}}</th>
+                                        <th scope="col">{{__('Final discount')}}</th>
                                     @endif
                                 </tr>
                                 </thead>
@@ -68,7 +70,6 @@
                                     >
                                         <th scope="row">{{$key + 1}}</th>
                                         <td>
-
                                             @if($currentRouteName=="orders_detail")
                                                 <ul class="list-group">
                                                     <li class="list-group-item"><strong>{{__('Name')}}</strong><span
@@ -135,7 +136,6 @@
                                                         </li>
                                                     </ul>
                                                 </td>
-
                                                 <td>
                                                     <ul class="list-group">
                                                         <li class="list-group-item text-muted"
@@ -164,7 +164,7 @@
                                                         <li class="list-group-item text-muted"
                                                             title="{{__('Percentage')}}">
                                                             <i class="ri-percent-fill"></i>
-                                                            : <span class="float-end">
+                                                             <span class="float-end">
                                                 {{$orderDetail->deal_discount_percentage}}
                                             </span>
                                                         </li>
@@ -181,6 +181,18 @@
                                             </span>
                                                         </li>
                                                     </ul>
+                                                </td>
+                                                <td>
+                                                      <span
+                                                          class="badge bg-danger text-end fs-14">
+                                                    {{$orderDetail->final_discount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}                                                            </span>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                            <span
+                                                                class="badge bg-success text-end fs-14">
+                                                    {{$orderDetail->final_amount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}
+                                                            </span>
                                                 </td>
                                             @else
                                                 <td colspan="3" class="text-center mt-2">
@@ -328,22 +340,22 @@
                             <ul class="list-group mt-2">
                                 <li class="list-group-item  text-bg-light">
                                                 <span
-                                                    class="text-info text-xl-start">{{__('Amount after discount')}}</span>
+                                                    class="text-dark text-xl-start">{{__('Amount after discount')}}</span>
                                     <span
-                                        class="badge border border-success text-success float-end text-muted">
+                                        class="badge bg-success text-end fs-14 float-end">
                                             {{$order->amount_after_discount}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
                                 </li>
                                 <li class="list-group-item list-group-item-action list-group-item-secondary">
                                                 <span
-                                                    class="text-info text-xl-start">{{__('Gain from BFSs soldes')}}</span>
+                                                    class="text-dark text-xl-start">{{__('Gain from BFSs soldes')}}</span>
                                     <span
-                                        class="badge border border-success text-success float-end text-muted">
+                                        class="badge bg-success text-end fs-14 float-end">
                                             {{$order->amount_after_discount-$order->paid_cash}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
                                 </li>
                                 <li class="list-group-item list-group-item-success">
-                                    <span class="text-info text-xl-start">{{__('Paid cash')}}</span>
+                                    <span class="text-dark text-xl-start">{{__('Paid cash')}}</span>
                                     <span
-                                        class="badge border border-danger text-light float-end text-muted">
+                                        class="badge bg-success text-end fs-14 float-end">
                                             {{$order->paid_cash}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
                                 </li>
                             </ul>

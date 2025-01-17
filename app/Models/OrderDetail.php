@@ -35,9 +35,9 @@ class OrderDetail extends Model
         'final_amount',
         'final_discount',
 
-        'finalDiscountWithoutDiscountPartner',
-        'discountValueWithoutDiscountPartner',
-        'discountPercentageWithoutDiscountPartner',
+        'final_discount_without_discount_partner',
+        'discount_value_without_discount_partner',
+        'discount_percentage_without_discount_partner',
 
         'order_id',
         'item_id',

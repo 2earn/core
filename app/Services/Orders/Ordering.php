@@ -159,6 +159,15 @@ class Ordering
                 'deal_discount_percentage' => $itemDeal['dealDiscountPercentage'],
                 'deal_discount' => $itemDeal['dealDiscount'],
                 'amount_after_deal_discount' => $itemDeal['amountAfterDealDiscount'],
+                'total_discount_with_discount_partner' => $itemDeal['totalDiscountWithDiscountPartner'],
+                'ponderation_with_discount_partner' => $itemDeal['ponderationWithDiscountPartner'],
+                'total_discount_percentage_with_discount_partner' => $itemDeal['totalDiscountPercentageWithDiscountPartner'],
+                'refund_dispatching' => $itemDeal['refundDispatching'],
+                'final_amount' => $itemDeal['finalAmount'],
+                'final_discount' => $itemDeal['finalDiscount'],
+                'final_discount_without_discount_partner' => $itemDeal['finalDiscountWithoutDiscountPartner'],
+                'discount_value_without_discount_partner' => $itemDeal['discountValueWithoutDiscountPartner'],
+                'discount_percentage_without_discount_partner' => $itemDeal['discountPercentageWithoutDiscountPartner'],
             ]);
         }
         $dealAmountAfterDiscounts = array_sum(array_column($itemsDeals, 'finalAmount'));
