@@ -4,6 +4,7 @@ namespace App\Services\Orders;
 
 use App\Models\BFSsBalances;
 use App\Models\CashBalances;
+use App\Models\CommissionBreakDown;
 use App\Models\Deal;
 use App\Models\DiscountBalances;
 use App\Models\Order;
@@ -207,8 +208,6 @@ class Ordering
                 $toCover = $amount_after_discount * floatval($key) / 100;
                 $toSubstruct = min($available, $toCover);
                 $amount_after_discount = $amount_after_discount - $toSubstruct;
-
-                $bfs = self::getF($toCover, $bfs);
                 $bfs['toSubstruct'] = $toSubstruct;
                 $bfs['balance'] = $toCover - $available;
                 $bfs['amount'] = $amount_after_discount;
@@ -311,8 +310,22 @@ class Ordering
         Log::info('runPartition');
         foreach ($dealsTurnOver as $dealId => $turnOver) {
             $deal = Deal::find($dealId);
-            $deal->update([
-                'objective_turnover' => $deal->objective_turnover + $turnOver['total']
+            $newTurnOver = $deal->objective_turnover + $turnOver['total'];
+            $deal->update(['objective_turnover' => $newTurnOver]);
+            $commissionPercentage = Deal::getCommissionPercentage($newTurnOver);
+            $camembert = 0;
+            CommissionBreakDown::create([
+                'order_id' => $order->id,
+                'deal_id' => $dealId,
+                'amount' => $turnOver['total'],
+                'percentage' => $commissionPercentage,
+                'value' => $turnOver['total'] / 100 * $commissionPercentage,
+                'additional' => 0,
+                'camembert' => $camembert / 100 * $deal->margin_percentage,
+                'earn' => $camembert / 100 * $deal->shareholder_benefits_margin_percentage,
+                'pool' => $camembert / 100 * $deal->shareholder_benefits_margin_percentage,
+                'cashback_proactif' => $turnOver['total'] / 100 * $deal->cash_back_margin_percentage,
+                'tree' => $turnOver['total'] / 100 * $deal->tree_margin_percentage,
             ]);
         }
     }
@@ -338,14 +351,4 @@ class Ordering
         }
     }
 
-    /**
-     * @param float|int $toCover
-     * @param mixed $bfs
-     * @return mixed
-     */
-    public static function getF(float|int $toCover, mixed $bfs): mixed
-    {
-        $bfs['toCover'] = $toCover;
-        return $bfs;
-    }
 }
