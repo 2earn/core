@@ -11,31 +11,68 @@ return new class extends Migration {
     public function up()
     {
         Schema::table(self::TABLE_NAME, function (Blueprint $table) {
-            $table->dropColumn('number');
-            $table->float('qte')->nullable();
-            $table->float('unit_price')->nullable();
+
+            $table->float('qty')->nullable();
             $table->float('shipping')->nullable();
-            $table->dropColumn('total');
-            $table->float('price')->nullable();
-            $table->float('price_after_discount')->nullable();
-            $table->float('price_after_bfs')->nullable();
-            $table->float('discount_gain')->nullable();
-            $table->float('bfs_paid')->nullable();
-            $table->float('cash_paid')->nullable();
-            $table->boolean('solded_item')->nullable();
+            $table->float('unit_price')->nullable();
+            $table->float('total_amount')->nullable();
+
+            $table->float('partner_discount_percentage')->nullable();
+            $table->float('partner_discount')->nullable();
+            $table->float('amount_after_partner_discount')->nullable();
+
+            $table->float('earn_discount_percentage')->nullable();
+            $table->float('earn_discount')->nullable();
+            $table->float('amount_after_earn_discount')->nullable();
+
+            $table->float('deal_discount_percentage')->nullable();
+            $table->float('deal_discount')->nullable();
+            $table->float('amount_after_deal_discount')->nullable();
+
+            $table->float('total_discount_with_discount_partner')->nullable();
+            $table->float('ponderation_with_discount_partner')->nullable();
+            $table->float('total_discount_percentage_with_discount_partner')->nullable();
+
+            $table->float('refund_dispatching')->nullable();
+            $table->float('final_amount')->nullable();
+            $table->float('final_discount')->nullable();
+
+            $table->float('final_discount_without_discount_partner')->nullable();
+            $table->float('discount_value_without_discount_partner')->nullable();
+            $table->float('discount_percentage_without_discount_partner')->nullable();
         });
     }
 
     public function down()
     {
         Schema::table(self::TABLE_NAME, function (Blueprint $table) {
+            $table->dropColumn('qty');
             $table->dropColumn('unit_price');
-            $table->dropColumn('shipping');
-            $table->dropColumn('price_after_discount');
-            $table->dropColumn('discount_gain');
-            $table->dropColumn('bfs_paid');
-            $table->dropColumn('cash_paid');
-            $table->dropColumn('solded_item');
+            $table->dropColumn('total_amount');
+
+            $table->dropColumn('partner_discount_percentage');
+            $table->dropColumn('partner_discount');
+            $table->dropColumn('amount_after_partner_discount');
+
+            $table->dropColumn('2_earn_discount_percentage');
+            $table->dropColumn('2_earn_discount');
+            $table->dropColumn('amount_after_2_earn_discount');
+
+            $table->dropColumn('deal_discount_percentage');
+            $table->dropColumn('deal_discount');
+            $table->dropColumn('amount_after_deal_discount');
+
+            $table->dropColumn('total_discount_with_discount_partner');
+            $table->dropColumn('ponderation_with_discount_partner');
+            $table->dropColumn('total_discount_percentage_with_discount_partner');
+
+            $table->dropColumn('refund_dispatching');
+            $table->dropColumn('final_amount');
+            $table->dropColumn('final_discount');
+
+            $table->dropColumn('finalDiscountWithoutDiscountPartner');
+            $table->dropColumn('discountValueWithoutDiscountPartner');
+            $table->dropColumn('discountPercentageWithoutDiscountPartner');
         });
     }
 };

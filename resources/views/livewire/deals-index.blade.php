@@ -37,11 +37,11 @@
                                     <th>{{__('Details')}}</th>
                                     <th>{{__('id')}}</th>
                                     <th>{{__('name')}}</th>
-                                    <th>{{__('description')}}</th>
                                     <th>{{__('Status')}}</th>
                                     <th>{{__('Validated')}}</th>
                                     <th>{{__('Platform')}}</th>
                                     <th>{{__('Created by')}}</th>
+                                    <th>{{__('description')}}</th>
                                     <th>{{__('Action')}}</th>
                                 </tr>
                                 </thead>
@@ -81,11 +81,11 @@
                         datatableControlBtn,
                         {data: 'id'},
                         {data: 'name'},
-                        {data: 'description'},
                         {data: 'status'},
                         {data: 'validated'},
                         {data: 'platform_id'},
                         {data: 'created_by'},
+                        {data: 'description'},
                         {data: 'action'},
                     ],
                     "language": {"url": urlLang},

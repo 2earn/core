@@ -4,11 +4,9 @@
     @endsection
     @if(!in_array($currentRouteName,["deals_archive"]))
         @component('components.breadcrumb')
-            @slot('li_1')@endslot
-            @slot('title')
-                <a class="link-light"
-                   href="{{route('deals_index',['locale'=>app()->getLocale()])}}">{{ __('Deals') }}</a>
-                <i class="ri-arrow-right-s-line"></i>
+                @slot('title')                    <a class="link-light"
+                       href="{{route('deals_index',['locale'=>app()->getLocale()])}}">{{ __('Deals') }}</a>
+                    <i class="ri-arrow-right-s-line"></i>
                 {{$deal->name}}
             @endslot
         @endcomponent
@@ -299,7 +297,7 @@
                 <h4 class="text-info">{{__('Calculated')}}</h4>
             </div>
             <div class="card-body row">
-                <div class="col-sm-12 col-md-6 col-lg-3">
+                <div class="col-sm-12 col-md-6 col-lg-4">
                     <h5 class="text-secondary">{{__('General')}}</h5>
                     <ul class="list-group">
                         <li class="list-group-item">
@@ -337,7 +335,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-6">
+                <div class="col-sm-12 col-md-6 col-lg-8">
                     <h5 class="text-secondary">{{__('Provider stats')}}</h5>
                     <div class="row">
                         <ul class="list-group col">
@@ -353,39 +351,6 @@
                                     <div class="flex-shrink-0">
                             <span class="text-info">
                                 {{$deal->getProviderTotalNetTurnover($currentTurnover)}}
-                            </span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-grow-1">
-                                        <div class="text-muted">
-                                            <div class="flex-shrink-0 ms-2">
-                                                <span class="fs-14 mb-0">{{__('Provider total net turnover')}}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->getProviderTotalNetTurnover($currentTurnover)}}
-                            </span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-grow-1">
-                                        <div class="text-muted">
-                                            <div class="flex-shrink-0 ms-2">
-                                            <span
-                                                class="fs-14 mb-0">{{__('Provider total turnover out of deal')}}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->getProviderTotalTurnoverOutOfDeal($currentTurnover)}}
                             </span>
                                     </div>
                                 </div>
@@ -423,8 +388,6 @@
                                     </div>
                                 </div>
                             </li>
-                        </ul>
-                        <ul class="list-group col">
                             <li class="list-group-item">
                                 <div class="d-flex align-items-center">
                                     <div class="flex-grow-1">
@@ -442,6 +405,8 @@
                                     </div>
                                 </div>
                             </li>
+                        </ul>
+                        <ul class="list-group col">
                             <li class="list-group-item">
                                 <div class="d-flex align-items-center">
                                     <div class="flex-grow-1">
@@ -510,9 +475,10 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-3">
+                <div class="col-sm-12 col-md-6 col-lg-12 row">
                     <h5 class="text-secondary">{{__('Margins')}}</h5>
-                    <ul class="list-group">
+                    <div class="row m-2">
+                    <ul class="list-group col-md-4">
                         <li class="list-group-item">
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-1">
@@ -523,7 +489,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-shrink-0">
-                            <span class="text-info">
+                            <span class="text-info float-end">
                                 {{$deal->getCurrentFranchisorMargin($franchisorMarginPercentage,$currentTurnover)}}
                             </span>
                                 </div>
@@ -539,13 +505,15 @@
                                     </div>
                                 </div>
                                 <div class="flex-shrink-0">
-                            <span class="text-info">
+                            <span class="text-info float-end">
                                 {{$deal->getCurrentInfluencerMargin($influencerMarginPercentage,$currentTurnover)}}
                             </span>
                                 </div>
                             </div>
                         </li>
-                        <li class="list-group-item">
+                    </ul>
+                    <ul class="list-group col-md-4">
+                    <li class="list-group-item">
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-1">
                                     <div class="text-muted">
@@ -556,7 +524,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-shrink-0">
-                            <span class="text-info">
+                            <span class="text-info float-end">
                                 {{$deal->getCurrentProactiveConsumptionMargin($currentTurnover)}}
                             </span>
                                 </div>
@@ -578,6 +546,8 @@
                                 </div>
                             </div>
                         </li>
+                    </ul>
+                    <ul class="list-group col-md-4">
                         <li class="list-group-item">
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-1">
@@ -604,13 +574,15 @@
                                     </div>
                                 </div>
                                 <div class="flex-shrink-0">
-                            <span class="text-info">
+                            <span class="text-info float-end">
                                 {{$deal->getCurrent2earnCashNetMargin($CashMarginPercentage,$currentTurnover)}}
                             </span>
                                 </div>
                             </div>
                         </li>
-                        <li class="list-group-item">
+                    </ul>
+                    <ul class="list-group col-md-12 mt-2">
+                    <li class="list-group-item">
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-1">
                                     <div class="text-muted">
@@ -621,13 +593,14 @@
                                     </div>
                                 </div>
                                 <div class="flex-shrink-0">
-                            <span class="text-info">
+                            <span class="text-info float-end">
                                 {{$deal->getCurrentTotal2earnCashMargin($currentTurnover)}}
                             </span>
                                 </div>
                             </div>
                         </li>
                     </ul>
+                </div>
                 </div>
             </div>
             <div class="card-header">

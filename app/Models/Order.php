@@ -12,37 +12,45 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
-        'additional_tax',
-        'total_shipping',
-        'total_price',
-        'total_price_after_discount',
+        'out_of_deal_amount',
+        'deal_amount_before_discount',
+        'total_order_quantity',
+        'amount_before_discount',
+        'deal_amount_after_partner_discount',
+        'deal_amount_after_2earn_discount',
+        'deal_amount_after_deal_discount',
+        'lost_discount_amount',
+        'final_discount_value',
+        'final_discount_percentage',
+        'deal_amount_after_discounts',
+        'amount_after_discount',
+        'paid_cash',
+        'commission_2_earn',
+        'deal_amount_for_partner',
+        'commission_for_camembert',
+        'missed_discount',
+        'user_id',
         'note',
-        'total_price_after_bfss',
-        'total_discount_gain',
-        'total_bfs_paid',
-        'total_supplement',
-        'total_supplement_after_bfs',
-        'total_supplement_paid',
         'status',
     ];
     protected $casts = ['status' => OrderEnum::class];
     public function OrderDetails(): HasMany
     {
-        return $this->hasMany(OrderDetail::class);
-    }
-
-    public function updateStatus(OrderEnum $newStatus)
-    {
-        if ($this->status === OrderEnum::Paid->value && $newStatus === OrderEnum::Dispatched) {
-            $this->status = $newStatus->value;
-        } elseif ($this->status !== OrderEnum::Failed->value && $this->status !== OrderEnum::Dispatched->value) {
-            $this->status = $newStatus->value;
-        }
-        $this->save();
+        return $this->hasMany(OrderDetail::class, 'order_id', 'id');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function updateStatus(OrderEnum $newStatus)
+    {
+        if (!OrderEnum::tryFrom($newStatus->value)) {
+            throw new InvalidArgumentException("Invalid status provided.");
+        }
+        $this->status = $newStatus;
+        return $this->save();
+    }
+
 }

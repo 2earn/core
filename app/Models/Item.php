@@ -14,9 +14,11 @@ class Item extends Model
         'ref',
         'price',
         'discount',
+        'discount_2earn',
         'photo_link',
         'description',
         'stock',
+        'deal_id',
     ];
 
     public function createdBy()
@@ -31,7 +33,7 @@ class Item extends Model
 
     public function deal()
     {
-        return $this->belongsTo(Deal::class);
+        return $this->belongsTo(Deal::class, 'deal_id', 'id');
     }
 
     public function OrderDetails()

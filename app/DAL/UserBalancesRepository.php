@@ -22,7 +22,7 @@ class  UserBalancesRepository implements IUserBalancesRepository
         $userCurrentBalancehorisontal = Balances::getStoredUserBalances($idUser);
         if (!is_null($userCurrentBalancehorisontal)) {
             $calculetedUserBalances->soldeCB = formatSolde($userCurrentBalancehorisontal->cash_balance, $decimals);
-            $calculetedUserBalances->soldeBFS = formatSolde(Balances::getTotolBfs($userCurrentBalancehorisontal), $decimals);
+            $calculetedUserBalances->soldeBFS = formatSolde(Balances::getTotalBfs($userCurrentBalancehorisontal), $decimals);
             $calculetedUserBalances->soldeDB = formatSolde($userCurrentBalancehorisontal->discount_balance, $decimals);
             $calculetedUserBalances->soldeT = formatSolde($userCurrentBalancehorisontal->tree_balance, $decimals);
             $calculetedUserBalances->soldeSMS = formatSolde($userCurrentBalancehorisontal->sms_balance, $decimals);

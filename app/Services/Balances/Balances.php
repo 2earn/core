@@ -8,6 +8,7 @@ use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
 use Core\Enum\BalanceEnum;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Balances
 {
@@ -133,6 +134,8 @@ class Balances
         if (!array_key_exists('beneficiary_id_auto', $balances) or is_null($balances['beneficiary_id_auto'])) {
             $balances['beneficiary_id_auto'] = User::where('idUser', $balances['beneficiary_id'])->first()->id;
         }
+        Log::info(json_encode($balances));
+
         return $balances;
     }
 
@@ -162,7 +165,7 @@ class Balances
         UserCurrentBalanceVertical::where('user_id', $idUser)->where('balance_id', $type)->update(['current_balance' => $value]);
     }
 
-    public static function getTotolBfs($userCurrentBalancehorisontal)
+    public static function getTotalBfs($userCurrentBalancehorisontal)
     {
        return $userCurrentBalancehorisontal->getBfssBalance(BFSsBalances::BFS_100) + $userCurrentBalancehorisontal->getBfssBalance(BFSsBalances::BFS_50);
     }

@@ -228,7 +228,8 @@ return [
         'LaravelPwa' => \Ladumor\LaravelPwa\LaravelPwa::class,
         'Sponsorship' => \App\Services\Sponsorship\SponsorshipFacade::class,
         'Targeting' => \App\Services\Targeting\TargetingFacade::class,
-        'Balances' => \App\Services\Balances\Balances::class,
+        'Ordering' => \App\Services\Orders\OrderingFacade::class,
+        'OrderingSimulation' => \App\Services\Orders\OrderingSimulationFacade::class,
         'Vite' => \Illuminate\Support\Facades\Vite::class,
     ],
     'available_locales' => [

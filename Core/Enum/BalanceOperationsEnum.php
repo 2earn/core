@@ -55,7 +55,10 @@ enum BalanceOperationsEnum: int
     case COMPLIMENTARY_BENEFITS_ON_PURCHASED_SHARES = 54;
     case VIP_BENEFITS_ON_PURCHASED_SHARES = 55;
     case INITIAL_CHANE = 56;
-
+    case GIFT = 57;
+    case ORDER_DISCOUNT = 58;
+    case ORDER_BFS = 59;
+    case ORDER_CASH = 60;
 }
 
 
