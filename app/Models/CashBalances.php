@@ -18,7 +18,6 @@ class CashBalances extends Model
         'current_balance',
         'reference',
         'balance_operation_id',
-        'description',
         'beneficiary_id_auto',
         'beneficiary_id',
         'operator_id',
@@ -68,7 +67,6 @@ class CashBalances extends Model
 
     public static function addLine($cashBalances, $item_id = null, $deal_id = null, $order_id = null, $platform_id = null, $order_detail_id = null)
     {
-        $cashBalances = Balances::addAutomatedFields($cashBalances, $item_id, $deal_id, $order_id, $platform_id, $order_detail_id);
-        self::create($cashBalances);
+        self::create( Balances::addAutomatedFields($cashBalances, $item_id, $deal_id, $order_id, $platform_id, $order_detail_id));
     }
 }

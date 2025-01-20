@@ -180,32 +180,48 @@ class Ordering
         return $dealsTurnOver;
     }
 
+    public static function initBfssTable($user)
+    {
+        $bfssTables = [];
+        $bfsValue = Balances::getStoredBfss($user->idUser, BFSsBalances::BFS_100);
+        if ($bfsValue > 0) {
+            $bfssTables[BFSsBalances::BFS_100] = ['available' => Balances::getStoredBfss($user->idUser, BFSsBalances::BFS_100)];
+        }
+        $bfsValue = Balances::getStoredBfss($user->idUser, BFSsBalances::BFS_50);
+        if ($bfsValue > 0) {
+            $bfssTables[BFSsBalances::BFS_50] = ['available' => Balances::getStoredBfss($user->idUser, BFSsBalances::BFS_50)];
+        }
+        return $bfssTables;
+    }
     public static function simulateBFSs(Order $order)
     {
         // to review
-        Log::info('simulateBFSs');
-
-        $bfssTables = [
-            BFSsBalances::BFS_100 => [
-                'available' => Balances::getStoredBfss($order->user()->first()->idUser, BFSsBalances::BFS_100),
-            ],
-            BFSsBalances::BFS_50 => [
-                'available' => Balances::getStoredBfss($order->user()->first()->idUser, BFSsBalances::BFS_50),
-            ],
-        ];
+        Log::alert('simulateBFSs');
+        $bfssTables = Ordering::initBfssTable($order->user()->first());
+        Log::alert(json_encode($bfssTables));
         $amount_after_discount = $order->amount_after_discount;
-        foreach ($bfssTables as $key => $bfs) {
-            $available = floatval($bfs['available']) * $key / 100;
-            $bfs['toSubstruct'] = min($available, $amount_after_discount);
-            $bfs['balance'] = $available - $amount_after_discount;
-            $bfs['amount'] = $amount_after_discount;
-            $amount_after_discount = $amount_after_discount - min($available, $amount_after_discount);
-            $bfssTables[$key] = $bfs;
-            if ($amount_after_discount <= 0) {
-                break;
+        Log::alert('amount_after_discount' . $amount_after_discount);
+        if (!empty($bfssTables)) {
+            foreach ($bfssTables as $key => $bfs) {
+                $available = floatval($bfs['available']);
+                $toCover = $amount_after_discount * floatval($key) / 100;
+                $toSubstruct = min($available, $toCover);
+                $amount_after_discount = $amount_after_discount - $toSubstruct;
+
+                $bfs = self::getF($toCover, $bfs);
+                $bfs['toSubstruct'] = $toSubstruct;
+                $bfs['balance'] = $toCover - $available;
+                $bfs['amount'] = $amount_after_discount;
+
+                $bfssTables[$key] = $bfs;
+
+                if ($amount_after_discount == 0) {
+                    Log::alert('++++++' . json_encode($bfssTables));
+                    return array_splice($bfssTables, 0, $key);
+                }
             }
         }
-
+        Log::alert(json_encode($bfssTables));
         return $bfssTables;
     }
 
@@ -215,6 +231,7 @@ class Ordering
         return $order->update([
             'paid_cash' => $amount_after_discount,
         ]);
+        return false;
     }
 
     public static function simulate(Order $order)
@@ -223,7 +240,13 @@ class Ordering
         if (self::runChecks($order)) {
             $dealsTurnOver = self::simulateDiscount($order);
             $bfssTables = self::simulateBFSs($order);
-            self::simulateCash($order, array_last($bfssTables)['amount']);
+            $amount = 0;
+            if (!empty($bfssTables)) {
+                $amount = array_last($bfssTables)['amount'];
+            }else{
+                $amount=  $order->amount_after_discount;
+            }
+            self::simulateCash($order, $amount);
             return ['order' => $order, 'dealsTurnOver' => $dealsTurnOver, 'bfssTables' => $bfssTables];
         }
         return false;
@@ -237,7 +260,7 @@ class Ordering
             'operator_id' => Balances::SYSTEM_SOURCE_ID,
             'beneficiary_id' => $order->user()->first()->idUser,
             'reference' => BalancesFacade::getReference(BalanceOperationsEnum::ORDER_DISCOUNT->value),
-            'description' => $order->final_discount_value . ' from ordering ' . $order->id,
+            'description' => $order->final_discount_value . ' from ordering (id) ' . $order->id . ' / Discount : ' . $balances->discount_balance,
             'value' => $order->final_discount_value,
             'current_balance' => $balances->discount_balance + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::ORDER_BFS->value) * $order->final_discount_value)
         ];
@@ -254,8 +277,8 @@ class Ordering
                 'operator_id' => Balances::SYSTEM_SOURCE_ID,
                 'beneficiary_id' => $order->user()->first()->idUser,
                 'reference' => BalancesFacade::getReference(BalanceOperationsEnum::ORDER_BFS->value),
-                'percentage' => BFSsBalances::BFS_100,
-                'description' => $bfs['amount'] . ' from ordering ' . $order->id,
+                'percentage' => $key,
+                'description' => $bfs['amount'] . ' from ordering (id) ' . $order->id . ' / BFSs (' . $key . ') : ' . $balances->getBfssBalance($key),
                 'value' => $bfs['amount'],
                 'current_balance' => $balances->getBfssBalance($key) + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::ORDER_BFS->value) * $bfs['amount'])
             ];
@@ -266,16 +289,18 @@ class Ordering
     public static function runCASH($order, $balances)
     {
         Log::info('runCASH');
-        $cashData = [
-            'balance_operation_id' => BalanceOperationsEnum::ORDER_CASH->value,
-            'operator_id' => Balances::SYSTEM_SOURCE_ID,
-            'beneficiary_id' => $order->user()->first()->idUser,
-            'reference' => BalancesFacade::getReference(BalanceOperationsEnum::ORDER_CASH->value),
-            'description' => $order->paid_cash . ' from ordering ' . $order->id,
-            'value' => $order->paid_cash,
-            'current_balance' => $balances->cash_balance + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::ORDER_CASH->value) * $order->paid_cash)
-        ];
-        CashBalances::addLine($cashData, null, null, $order->id, null, null);
+        if ($order->paid_cash) {
+            $cashData = [
+                'balance_operation_id' => BalanceOperationsEnum::ORDER_CASH->value,
+                'operator_id' => Balances::SYSTEM_SOURCE_ID,
+                'beneficiary_id' => $order->user()->first()->idUser,
+                'reference' => BalancesFacade::getReference(BalanceOperationsEnum::ORDER_CASH->value),
+                'description' => $order->paid_cash . ' from ordering (id) ' . $order->id . ' / Cash : ' . $balances->cash_balance,
+                'value' => $order->paid_cash,
+                'current_balance' => $balances->cash_balance + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::ORDER_CASH->value) * $order->paid_cash)
+            ];
+            CashBalances::addLine($cashData, null, null, $order->id, null, null);
+        }
     }
 
     public static function runPartition($order, $dealsTurnOver)
@@ -296,7 +321,9 @@ class Ordering
         try {
             $balances = Balances::getStoredUserBalances($simulation['order']->user()->first()->idUser);
             Ordering::runDiscount($simulation['order'], $balances);
+            $balances = Balances::getStoredUserBalances($simulation['order']->user()->first()->idUser);
             Ordering::runBFS($simulation['order'], $simulation['bfssTables'], $balances);
+            $balances = Balances::getStoredUserBalances($simulation['order']->user()->first()->idUser);
             Ordering::runCASH($simulation['order'], $balances);
             Ordering::runPartition($simulation['order'], $simulation['dealsTurnOver']);
             DB::commit();
@@ -306,5 +333,16 @@ class Ordering
             $simulation['order']->updateStatus(OrderEnum::Failed);
             Log::error($exception->getMessage());
         }
+    }
+
+    /**
+     * @param float|int $toCover
+     * @param mixed $bfs
+     * @return mixed
+     */
+    public static function getF(float|int $toCover, mixed $bfs): mixed
+    {
+        $bfs['toCover'] = $toCover;
+        return $bfs;
     }
 }

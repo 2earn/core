@@ -34,7 +34,7 @@ class OrdersIndex extends Component
     {
         $status = OrderingSimulation::validate($orderId);
         if ($status) {
-            return redirect()->route('orders_index', ['locale' => app()->getLocale(), 'page' => $this->page])->with('success', Lang::get('Status update succeeded') . ' : ' . Lang::get($status));
+            return redirect()->route('orders_detail', ['locale' => app()->getLocale(), 'id' => $orderId])->with('success', Lang::get('Status update succeeded') . ' : ' . Lang::get($status));
         } else {
             return redirect()->route('orders_index', ['locale' => app()->getLocale(), 'page' => $this->page])->with('warning', Lang::get('Status update failed') . ' : ' . Lang::get($status));
         }

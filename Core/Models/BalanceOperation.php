@@ -59,9 +59,9 @@ class BalanceOperation extends Model
         return $this->belongsTo(BalanceOperation::class, 'parent_id');
     }
 
-    public static function getMultiplicator($bai): int
+    public static function getMultiplicator($balanceOperationID): int
     {
-        return strtoupper(BalanceOperation::where('id', $bai)->pluck('io')->first()) == 'I' ? 1 : -1;
+        return strtoupper(BalanceOperation::where('id', $balanceOperationID)->pluck('io')->first()) == 'I' ? 1 : -1;
     }
 
 }

@@ -4,9 +4,10 @@
             {{ __('Order details') }} : {{__('Order id')}} : {{$order->id}}
         @endsection
         @component('components.breadcrumb')
-            @slot('li_1')@endslot
             @slot('title')
-                {{ __('Order details') }} : {{__('Order id')}} : {{$order->id}}
+                    <a href="{{route('orders_index',['locale'=> app()->getLocale()])}}" class="text-white mx-1"><i
+                            class="ri-shopping-cart-fill"></i> </a>   {{ __('Order details') }} : {{__('Order id')}}
+                    : {{$order->id}}
             @endslot
         @endcomponent
         <div class="row">
@@ -368,7 +369,7 @@
                 </div>
             @endif
 
-            @if($order->status->value >= \Core\Enum\OrderEnum::Paid->value &&(isset($discount) ||!isset($bfss)||isset($cash)))
+            @if($currentRouteName=="orders_detail" && $order->status->value >= \Core\Enum\OrderEnum::Paid->value &&(isset($discount) ||isset($bfss)||isset($cash)))
                 <div class="col-md-12">
                     <div class="card mt-2">
                         <div class="card-header">
@@ -379,10 +380,12 @@
                                 @if(isset($discount))
                                     <li class="list-group-item">
                                         <strong>{{__('Discount')}}</strong>
-                                        <table class="table table-striped table-striped-columns ">
+                                        <table class="table table-striped border">
                                             <thead>
                                             <td>{{__('Reference')}}</td>
                                             <td>{{__('Value')}}</td>
+                                            <td>{{__('Current balance')}}</td>
+                                            <td>{{__('Description')}}</td>
                                             <td>{{__('Created at')}}</td>
                                             </thead>
                                             <tr>
@@ -393,20 +396,28 @@
                                                     {{$discount->value}}
                                                 </td>
                                                 <td>
+                                                    {{$discount->current_balance}}
+                                                </td>
+                                                <td>
+                                                    {{$discount->description}}
+                                                </td>
+                                                <td>
                                                     {{$discount->created_at}}
                                                 </td>
                                             </tr>
                                         </table>
                                     </li>
                                 @endif
-                                @if(!empty($bfss))
+                                @if(isset($bfss) && $bfss->isNotEmpty())
                                     <li class="list-group-item">
                                         <strong>{{__('BFSS')}}</strong>
-                                        <table class="table table-striped table-striped-columns ">
+                                        <table class="table table-striped border">
                                             <thead>
                                             <td>{{__('Reference')}}</td>
-                                            <td>{{__('Percentage')}}</td>
                                             <td>{{__('Value')}}</td>
+                                            <td>{{__('Current balance')}}</td>
+                                            <td>{{__('Description')}}</td>
+                                            <td>{{__('Percentage')}}</td>
                                             <td>{{__('Created at')}}</td>
                                             </thead>
                                             @foreach($bfss as $bfs)
@@ -414,11 +425,18 @@
                                                     <td>
                                                         {{$bfs->reference}}
                                                     </td>
-                                                    <td>
-                                                        {{$bfs->percentage}}
-                                                    </td>
+
                                                     <td>
                                                         {{$bfs->value}}
+                                                    </td>
+                                                    <td>
+                                                        {{$bfs->current_balance}}
+                                                    </td>
+                                                    <td>
+                                                        {{$bfs->description}}
+                                                    </td>
+                                                    <td>
+                                                        {{$bfs->percentage}}
                                                     </td>
                                                     <td>
                                                         {{$bfs->created_at}}
@@ -431,11 +449,13 @@
                                 @endif
                                 @if(isset($cash))
                                     <li class="list-group-item">
-                                        <strong>{{__('Discount')}}</strong>
-                                        <table class="table table-striped table-striped-columns ">
+                                        <strong>{{__('Cash')}}</strong>
+                                        <table class="table table-striped border">
                                             <thead>
                                             <td>{{__('Reference')}}</td>
                                             <td>{{__('Value')}}</td>
+                                            <td>{{__('Current balance')}}</td>
+                                            <td>{{__('Description')}}</td>
                                             <td>{{__('Created at')}}</td>
                                             </thead>
                                             <tr>
@@ -444,6 +464,12 @@
                                                 </td>
                                                 <td>
                                                     {{$cash->value}}
+                                                </td>
+                                                <td>
+                                                    {{$cash->current_balance}}
+                                                </td>
+                                                <td>
+                                                    {{$cash->description}}
                                                 </td>
                                                 <td>
                                                     {{$cash->created_at}}
