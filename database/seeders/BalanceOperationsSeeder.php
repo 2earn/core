@@ -72,9 +72,9 @@ class BalanceOperationsSeeder extends Seeder
             array('id' => '55', 'operation' => 'vip benefits on purchased shares', 'io' => 'I', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '6', 'parent_id' => 44, 'note' => 'on stocke les actions achetés', 'modify_amount' => '1'),
             array('id' => '56', 'operation' => 'INITIAL CHANE', 'io' => 'I', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '7', 'parent_id' => null, 'note' => 'INITIAL_CHANE', 'modify_amount' => '1'),
             array('id' => '57', 'operation' => 'GIFT', 'io' => 'I', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '1', 'parent_id' => null, 'note' => 'GIFT', 'modify_amount' => '1'),
-            array('id' => '58', 'operation' => 'ORDER DISCOUNT', 'io' => 'I', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '3', 'parent_id' => null, 'note' => 'DISCOUNT ORDER', 'modify_amount' => '1'),
-            array('id' => '59', 'operation' => 'ORDER BFS', 'io' => 'I', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '2', 'parent_id' => null, 'note' => 'BFS ORDER', 'modify_amount' => '1'),
-            array('id' => '60', 'operation' => 'ORDER CASH', 'io' => 'I', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '1', 'parent_id' => null, 'note' => 'CASH ORDER', 'modify_amount' => '1'),
+            array('id' => '58', 'operation' => 'ORDER DISCOUNT', 'io' => 'O', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '3', 'parent_id' => null, 'note' => 'DISCOUNT ORDER', 'modify_amount' => '1'),
+            array('id' => '59', 'operation' => 'ORDER BFS', 'io' => 'O', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '2', 'parent_id' => null, 'note' => 'BFS ORDER', 'modify_amount' => '1'),
+            array('id' => '60', 'operation' => 'ORDER CASH', 'io' => 'O', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '1', 'parent_id' => null, 'note' => 'CASH ORDER', 'modify_amount' => '1'),
         );
 
         if (BalanceOperation::all()->count()) {

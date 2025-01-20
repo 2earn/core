@@ -255,14 +255,15 @@ class Ordering
     public static function runDiscount($order, $balances)
     {
         Log::info('runDiscount');
+        $currentBalance = $balances->discount_balance + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::ORDER_BFS->value) * $order->final_discount_value);
         $discountData = [
             'balance_operation_id' => BalanceOperationsEnum::ORDER_DISCOUNT->value,
             'operator_id' => Balances::SYSTEM_SOURCE_ID,
             'beneficiary_id' => $order->user()->first()->idUser,
             'reference' => BalancesFacade::getReference(BalanceOperationsEnum::ORDER_DISCOUNT->value),
-            'description' => $order->final_discount_value . ' from ordering (id) ' . $order->id . ' / Discount : ' . $balances->discount_balance,
+            'description' => $order->final_discount_value . ' from ordering (id) ' . $order->id . ' / Discount : ' . $balances->discount_balance . ' ==> ' . $currentBalance,
             'value' => $order->final_discount_value,
-            'current_balance' => $balances->discount_balance + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::ORDER_BFS->value) * $order->final_discount_value)
+            'current_balance' => $currentBalance
         ];
 
         DiscountBalances::addLine($discountData, null, null, $order->id, null, null);
@@ -272,15 +273,16 @@ class Ordering
     {
         Log::info('runBFS');
         foreach ($bfssTables as $key => $bfs) {
+            $currentBalance = $balances->getBfssBalance($key) + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::ORDER_BFS->value) * $bfs['amount']);
             $bfsData = [
                 'balance_operation_id' => BalanceOperationsEnum::ORDER_BFS->value,
                 'operator_id' => Balances::SYSTEM_SOURCE_ID,
                 'beneficiary_id' => $order->user()->first()->idUser,
                 'reference' => BalancesFacade::getReference(BalanceOperationsEnum::ORDER_BFS->value),
                 'percentage' => $key,
-                'description' => $bfs['amount'] . ' from ordering (id) ' . $order->id . ' / BFSs (' . $key . ') : ' . $balances->getBfssBalance($key),
+                'description' => $bfs['amount'] . ' from ordering (id) ' . $order->id . ' / BFSs (' . $key . ') : ' . $balances->getBfssBalance($key) . ' ==> ' . $currentBalance,
                 'value' => $bfs['amount'],
-                'current_balance' => $balances->getBfssBalance($key) + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::ORDER_BFS->value) * $bfs['amount'])
+                'current_balance' => $currentBalance
             ];
             BFSsBalances::addLine($bfsData, null, null, $order->id, null, null);
         }
@@ -290,14 +292,15 @@ class Ordering
     {
         Log::info('runCASH');
         if ($order->paid_cash) {
+            $currentBalance = $balances->cash_balance + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::ORDER_CASH->value) * $order->paid_cash);
             $cashData = [
                 'balance_operation_id' => BalanceOperationsEnum::ORDER_CASH->value,
                 'operator_id' => Balances::SYSTEM_SOURCE_ID,
                 'beneficiary_id' => $order->user()->first()->idUser,
                 'reference' => BalancesFacade::getReference(BalanceOperationsEnum::ORDER_CASH->value),
-                'description' => $order->paid_cash . ' from ordering (id) ' . $order->id . ' / Cash : ' . $balances->cash_balance,
+                'description' => $order->paid_cash . ' from ordering (id) ' . $order->id . ' / Cash : ' . $balances->cash_balance . ' ==> ' . $currentBalance,
                 'value' => $order->paid_cash,
-                'current_balance' => $balances->cash_balance + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::ORDER_CASH->value) * $order->paid_cash)
+                'current_balance' => $currentBalance
             ];
             CashBalances::addLine($cashData, null, null, $order->id, null, null);
         }

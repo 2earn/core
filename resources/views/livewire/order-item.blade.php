@@ -5,7 +5,7 @@
         @endsection
         @component('components.breadcrumb')
             @slot('title')
-                    <a href="{{route('orders_index',['locale'=> app()->getLocale()])}}" class="text-white mx-1"><i
+                    <a href="{{route('orders_previous',['locale'=> app()->getLocale()])}}" class="text-white mx-1"><i
                             class="ri-shopping-cart-fill"></i> </a>   {{ __('Order details') }} : {{__('Order id')}}
                     : {{$order->id}}
             @endslot
@@ -491,7 +491,7 @@
                 <span class="badge bg-info-subtle text-info badge-border">
                 {{__('Created at')}} : {{$order->created_at}}</span>
             @endif
-            @if($currentRouteName=="orders_index")
+            @if($currentRouteName=="orders_index" || $currentRouteName=="orders_previous" )
                 <a href="{{route('orders_detail', ['locale'=>app()->getLocale(),'id'=>$order->id])}}"
                    class=float-end">{{__('More details')}}</a>
             @endif
