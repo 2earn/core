@@ -22,6 +22,7 @@ class DiscountBalances extends Model
         'beneficiary_id_auto',
         'beneficiary_id',
         'operator_id',
+        'order_id',
     ];
 
     public function item()

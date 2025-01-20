@@ -58,6 +58,8 @@ class Ordering
 
     public static function simulateDiscount(Order $order)
     {
+        // to review
+
         Log::info('simulateDiscount');
         $finalDiscountValue = 0;
         $dealAmountAfterPartnerDiscount = 0;
@@ -180,6 +182,7 @@ class Ordering
 
     public static function simulateBFSs(Order $order)
     {
+        // to review
         Log::info('simulateBFSs');
 
         $bfssTables = [
@@ -238,7 +241,8 @@ class Ordering
             'value' => $order->final_discount_value,
             'current_balance' => $balances->discount_balance + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::ORDER_BFS->value) * $order->final_discount_value)
         ];
-        return DiscountBalances::addLine($discountData, null, null, $order->id, null, null);
+
+        DiscountBalances::addLine($discountData, null, null, $order->id, null, null);
     }
 
     public static function runBFS($order, $bfssTables, $balances)
@@ -255,7 +259,7 @@ class Ordering
                 'value' => $bfs['amount'],
                 'current_balance' => $balances->getBfssBalance($key) + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::ORDER_BFS->value) * $bfs['amount'])
             ];
-            return BFSsBalances::addLine($bfsData, null, null, $order->id, null, null);
+            BFSsBalances::addLine($bfsData, null, null, $order->id, null, null);
         }
     }
 
@@ -271,7 +275,7 @@ class Ordering
             'value' => $order->paid_cash,
             'current_balance' => $balances->cash_balance + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::ORDER_CASH->value) * $order->paid_cash)
         ];
-        return CashBalances::addLine($cashData, null, null, $order->id, null, null);
+        CashBalances::addLine($cashData, null, null, $order->id, null, null);
     }
 
     public static function runPartition($order, $dealsTurnOver)

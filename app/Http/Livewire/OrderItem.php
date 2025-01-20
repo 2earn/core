@@ -2,8 +2,10 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\BFSsBalances;
+use App\Models\CashBalances;
+use App\Models\DiscountBalances;
 use App\Models\Order;
-use App\Models\Target;
 use App\Services\Orders\OrderingSimulation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
@@ -36,9 +38,14 @@ class OrderItem extends Component
     public function render()
     {
         $params = ['order' => Order::find($this->idOrder)];
-        if (!is_null($this->idOrder)) {
-            return view('livewire.order-item', $params)->extends('layouts.master')->section('content');
 
+        if (!is_null($this->idOrder)) {
+            if ($params['order']) {
+                $params['discount'] = DiscountBalances::where('order_id', $params['order']->id)->first();
+                $params['bfss'] = BFSsBalances::where('order_id', $params['order']->id)->get();
+                $params['cash'] = CashBalances::where('order_id', $params['order']->id)->first();
+            }
+            return view('livewire.order-item', $params)->extends('layouts.master')->section('content');
         }
         return view('livewire.order-item');
     }
