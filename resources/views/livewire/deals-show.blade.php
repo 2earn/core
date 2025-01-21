@@ -4,7 +4,8 @@
     @endsection
     @if(!in_array($currentRouteName,["deals_archive"]))
         @component('components.breadcrumb')
-                @slot('title')                    <a class="link-light"
+                @slot('title')
+                    <a class="link-light"
                        href="{{route('deals_index',['locale'=>app()->getLocale()])}}">{{ __('Deals') }}</a>
                     <i class="ri-arrow-right-s-line"></i>
                 {{$deal->name}}
@@ -13,29 +14,45 @@
     @endif
     <div class="card">
         <div class="card-header">
-            <h4 class="text-info">{{__('Data Inputs')}}
+            <h4 class="text-info">{{__('Details')}}
                 <span
                     class="badge btn btn-info float-end">{{__(\Core\Enum\DealStatus::tryFrom($deal->status)?->name)}}</span>
             </h4>
         </div>
         <div class="card-body row">
-            <ul class="list-group col-sm-12 col-md-6 col-lg-3">
-                <li class="list-group-item">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <div class="text-muted">
-                                <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Description')}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->description}}
-                            </span>
+            <div class="d-flex align-items-center">
+                <div class="flex-grow-1">
+                    <div class="text-muted">
+                        <div class="flex-shrink-0 ms-2">
+                            <strong class="fs-14 font-weight-bold mb-0">{{__('Current turnover')}}</strong>
                         </div>
                     </div>
-                </li>
+                </div>
+                <div class="flex-shrink-0">
+                            <span class="badge badge-success text-muted">
+                                {{$deal->current_turnover}}
+                            </span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body row">
+            <div class="d-flex align-items-center">
+                <div class="flex-grow-1">
+                    <div class="text-muted">
+                        <div class="flex-shrink-0 ms-2">
+                            <strong class="fs-14 mb-0">{{__('Description')}}</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-shrink-0">
+                            <span class="text-muted">
+                                {{$deal->description}}
+                            </span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body row">
+            <ul class="list-group col-sm-12 col-md-6 col-lg-3">
                 <li class="list-group-item">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
@@ -84,8 +101,6 @@
                         </div>
                     </div>
                 </li>
-            </ul>
-            <ul class="list-group col-sm-12 col-md-6 col-lg-3">
                 <li class="list-group-item">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
@@ -102,6 +117,9 @@
                         </div>
                     </div>
                 </li>
+            </ul>
+            <ul class="list-group col-sm-12 col-md-6 col-lg-3">
+
                 <li class="list-group-item">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
@@ -150,9 +168,6 @@
                         </div>
                     </div>
                 </li>
-
-            </ul>
-            <ul class="list-group col-sm-12 col-md-6 col-lg-3">
                 <li class="list-group-item">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
@@ -169,7 +184,10 @@
                         </div>
                     </div>
                 </li>
-                <li class="list-group-item">
+            </ul>
+            <ul class="list-group col-sm-12 col-md-6 col-lg-3">
+
+            <li class="list-group-item">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
                             <div class="text-muted">
@@ -292,324 +310,6 @@
 
       </span>
         </div>
-        @if(!in_array($currentRouteName,["deals_archive"]))
-            <div class="card-header">
-                <h4 class="text-info">{{__('Calculated')}}</h4>
-            </div>
-            <div class="card-body row">
-                <div class="col-sm-12 col-md-6 col-lg-4">
-                    <h5 class="text-secondary">{{__('General')}}</h5>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <div class="d-flex align-items-center">
-                                <div class="flex-grow-1">
-                                    <div class="text-muted">
-                                        <div class="flex-shrink-0 ms-2">
-                                            <span class="fs-14 mb-0">{{__('Index of current turnover')}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->getIndexOfcurrentTurnover($currentTurnover)}}
-                            </span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="d-flex align-items-center">
-                                <div class="flex-grow-1">
-                                    <div class="text-muted">
-                                        <div class="flex-shrink-0 ms-2">
-                                        <span
-                                            class="fs-14 mb-0">{{__('Commission progressive step during The deal execution')}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->getCommissionProgressiveStepDuringTheDealExecution()}}
-                            </span>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-8">
-                    <h5 class="text-secondary">{{__('Provider stats')}}</h5>
-                    <div class="row">
-                        <ul class="list-group col">
-                            <li class="list-group-item">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-grow-1">
-                                        <div class="text-muted">
-                                            <div class="flex-shrink-0 ms-2">
-                                                <span class="fs-14 mb-0">{{__('Provider total net turnover')}}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->getProviderTotalNetTurnover($currentTurnover)}}
-                            </span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-grow-1">
-                                        <div class="text-muted">
-                                            <div class="flex-shrink-0 ms-2">
-                                                <span
-                                                    class="fs-14 mb-0">{{__('Provider unit turnover out of Deal')}}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->getProviderUnitTurnoverOutDeal()}}
-                            </span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-grow-1">
-                                        <div class="text-muted">
-                                            <div class="flex-shrink-0 ms-2">
-                                                <span class="fs-14 mb-0">{{__('Provider Turnover Difference')}}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->getProviderTurnoverDifference($currentTurnover)}}
-                            </span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-grow-1">
-                                        <div class="text-muted">
-                                            <div class="flex-shrink-0 ms-2">
-                                            <span
-                                                class="fs-14 mb-0">{{__('Provider total turnover out of deal')}}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->getProviderTotalTurnoverOutOfDeal($currentTurnover)}}
-                            </span>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                        <ul class="list-group col">
-                            <li class="list-group-item">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-grow-1">
-                                        <div class="text-muted">
-                                            <div class="flex-shrink-0 ms-2">
-                                                <span class="fs-14 mb-0">{{__('Provider total profit')}}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->getProviderTotalProfit($currentTurnover)}}
-                            </span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-grow-1">
-                                        <div class="text-muted">
-                                            <div class="flex-shrink-0 ms-2">
-                                                <span
-                                                    class="fs-14 mb-0">{{__('Provider total profit out of deal')}}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->getProviderTotalProfitOutOfDeal($currentTurnover)}}
-                            </span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-grow-1">
-                                        <div class="text-muted">
-                                            <div class="flex-shrink-0 ms-2">
-                                                <span class="fs-14 mb-0">{{__('Provider profit difference')}}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->getProviderProfitDifference($currentTurnover)}}
-                            </span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-grow-1">
-                                        <div class="text-muted">
-                                            <div class="flex-shrink-0 ms-2">
-                                                <span class="fs-14 mb-0">{{__('Provider profit sum')}}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->getProviderProfitSum($currentTurnover)}}
-                            </span>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-12 row">
-                    <h5 class="text-secondary">{{__('Margins')}}</h5>
-                    <div class="row m-2">
-                    <ul class="list-group col-md-4">
-                        <li class="list-group-item">
-                            <div class="d-flex align-items-center">
-                                <div class="flex-grow-1">
-                                    <div class="text-muted">
-                                        <div class="flex-shrink-0 ms-2">
-                                            <span class="fs-14 mb-0">{{__('Current franchisor margin')}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex-shrink-0">
-                            <span class="text-info float-end">
-                                {{$deal->getCurrentFranchisorMargin($franchisorMarginPercentage,$currentTurnover)}}
-                            </span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="d-flex align-items-center">
-                                <div class="flex-grow-1">
-                                    <div class="text-muted">
-                                        <div class="flex-shrink-0 ms-2">
-                                            <span class="fs-14 mb-0">{{__('Current influencer margin')}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex-shrink-0">
-                            <span class="text-info float-end">
-                                {{$deal->getCurrentInfluencerMargin($influencerMarginPercentage,$currentTurnover)}}
-                            </span>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                    <ul class="list-group col-md-4">
-                    <li class="list-group-item">
-                            <div class="d-flex align-items-center">
-                                <div class="flex-grow-1">
-                                    <div class="text-muted">
-                                        <div class="flex-shrink-0 ms-2">
-                                            <span
-                                                class="fs-14 mb-0">{{__('Current proactive consumption margin')}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex-shrink-0">
-                            <span class="text-info float-end">
-                                {{$deal->getCurrentProactiveConsumptionMargin($currentTurnover)}}
-                            </span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="d-flex align-items-center">
-                                <div class="flex-grow-1">
-                                    <div class="text-muted">
-                                        <div class="flex-shrink-0 ms-2">
-                                            <span class="fs-14 mb-0">{{__('Current prescriptor margin')}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->getCurrentPrescriptorMargin($prescriptorMarginPercentage,$currentTurnover)}}
-                            </span>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                    <ul class="list-group col-md-4">
-                        <li class="list-group-item">
-                            <div class="d-flex align-items-center">
-                                <div class="flex-grow-1">
-                                    <div class="text-muted">
-                                        <div class="flex-shrink-0 ms-2">
-                                            <span class="fs-14 mb-0">{{__('Current supporter margin')}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->getCurrentSupporterMargin($supporterMarginPercentage,$currentTurnover)}}
-                            </span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="d-flex align-items-center">
-                                <div class="flex-grow-1">
-                                    <div class="text-muted">
-                                        <div class="flex-shrink-0 ms-2">
-                                            <span class="fs-14 mb-0">{{__('Current 2earn cash net margin')}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex-shrink-0">
-                            <span class="text-info float-end">
-                                {{$deal->getCurrent2earnCashNetMargin($CashMarginPercentage,$currentTurnover)}}
-                            </span>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                    <ul class="list-group col-md-12 mt-2">
-                    <li class="list-group-item">
-                            <div class="d-flex align-items-center">
-                                <div class="flex-grow-1">
-                                    <div class="text-muted">
-                                        <div class="flex-shrink-0 ms-2">
-                                                <span
-                                                    class="fs-14 mb-0">{{__('Current total 2earn cash margin')}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex-shrink-0">
-                            <span class="text-info float-end">
-                                {{$deal->getCurrentTotal2earnCashMargin($currentTurnover)}}
-                            </span>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                </div>
-            </div>
-            <div class="card-header">
-                <h4 class="text-info">{{__('Actions')}}</h4>
-            </div>
-            <div class="card-body">
-                @include('parts.datatable.deals-action', ['deal' => $deal])
-            </div>
-        @endif
     </div>
     <script type="module">
         $(document).on('turbolinks:load', function () {

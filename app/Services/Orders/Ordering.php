@@ -209,7 +209,7 @@ class Ordering
                 $toSubstruct = min($available, $toCover);
                 $amount_after_discount = $amount_after_discount - $toSubstruct;
                 $bfs['toSubstruct'] = $toSubstruct;
-                $bfs['balance'] = $toCover - $available;
+                $bfs['balance'] = $available - $toSubstruct;
                 $bfs['amount'] = $amount_after_discount;
 
                 $bfssTables[$key] = $bfs;
