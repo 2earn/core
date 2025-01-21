@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Core\Enum\CommissionTypeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,6 +12,7 @@ class CommissionBreakDown extends Model
 
     protected $fillable = [
         'trigger',
+        'type',
         'amount',
         'percentage',
         'value',
@@ -23,6 +25,8 @@ class CommissionBreakDown extends Model
         'order_id',
         'deal_id',
     ];
+    protected $casts = ['type' => CommissionTypeEnum::class];
+
 
     public function order()
     {

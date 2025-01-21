@@ -12,6 +12,7 @@ use App\Models\OrderDetail;
 use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
 use Core\Enum\BalanceOperationsEnum;
+use Core\Enum\CommissionTypeEnum;
 use Core\Enum\OrderEnum;
 use Core\Models\BalanceOperation;
 use Core\Services\BalancesManager;
@@ -305,7 +306,7 @@ class Ordering
         }
     }
 
-    public static function runPartition($order, $dealsTurnOver)
+    public static function runPartition(Order $order, array $dealsTurnOver)
     {
         Log::info('runPartition');
         foreach ($dealsTurnOver as $dealId => $turnOver) {
@@ -315,6 +316,8 @@ class Ordering
             $commissionPercentage = Deal::getCommissionPercentage($newTurnOver);
             $camembert = 0;
             CommissionBreakDown::create([
+                'trigger' => 0,
+                'type' => CommissionTypeEnum::IN->value,
                 'order_id' => $order->id,
                 'deal_id' => $dealId,
                 'amount' => $turnOver['total'],
@@ -328,7 +331,22 @@ class Ordering
                 'tree' => $turnOver['total'] / 100 * $deal->tree_margin_percentage,
             ]);
         }
+        $param = DB::table('settings')->where("ParameterName", "=", 'GATEWAY_PAYMENT_FEE')->first();
+        if (!is_null($param)) {
+            $SettingCommissionPercentage = $param->DecimalValue;
+        } else {
+            $SettingCommissionPercentage = 2;
+        }
+        CommissionBreakDown::create([
+            'trigger' => 0,
+            'type' => CommissionTypeEnum::OUT->value,
+            'order_id' => $order->id,
+            'amount' => $order->out_of_deal_amount,
+            'percentage' => $SettingCommissionPercentage,
+            'value' => $order->out_of_deal_amount / 100 * $SettingCommissionPercentage,
+        ]);
     }
+
 
     public static function run($simulation)
     {

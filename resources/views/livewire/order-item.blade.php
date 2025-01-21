@@ -270,25 +270,25 @@
                                                             class="badge border border-danger text-light float-end text-muted">{{$order->deal_amount_before_discount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
                                                     </li>
                                                 @endif
-                                                    @if($order->deal_amount_after_partner_discount)
-                                                        <li class="list-group-item">
-                                                            <strong>{{__('After partner discount')}}</strong><span
+                                                @if($order->deal_amount_after_partner_discount)
+                                                    <li class="list-group-item">
+                                                        <strong>{{__('After partner discount')}}</strong><span
                                                                 class="float-end text-muted">{{$order->deal_amount_after_partner_discount}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
-                                                        </li>
-                                                    @endif
-                                                    @if($order->deal_amount_after_2earn_discount)
-                                                        <li class="list-group-item">
-                                                            <strong>{{__('After 2earn discount')}}</strong><span
+                                                    </li>
+                                                @endif
+                                                @if($order->deal_amount_after_2earn_discount)
+                                                    <li class="list-group-item">
+                                                        <strong>{{__('After 2earn discount')}}</strong><span
                                                                 class="float-end text-muted">{{$order->deal_amount_after_2earn_discount}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
-                                                        </li>
-                                                    @endif
-                                                    @if($order->deal_amount_after_deal_discount)
+                                                    </li>
+                                                @endif
+                                                @if($order->deal_amount_after_deal_discount)
                                                     <li class="list-group-item  text-bg-light">
                                                         <strong>{{__('After deal discount')}}</strong>
                                                         <span
                                                             class="badge border border-success text-light float-end text-muted">{{$order->deal_amount_after_deal_discount}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
                                                     </li>
-                                                    @endif
+                                                @endif
 
                                             </ul>
                                         </div>
@@ -483,6 +483,45 @@
                     </div>
                 </div>
             @endif
+
+            @if($currentRouteName=="orders_detail" && $order->status->value >= \Core\Enum\OrderEnum::Paid->value &&(isset($discount) ||isset($bfss)||isset($cash)))
+                <div class="col-md-12">
+                    <div class="card mt-2">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">{{__('Commission break down')}}</h6>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-border table-card table-nowrap">
+                                <thead>
+                                <tr>
+                                    <th scope="col">{{__('Order')}}</th>
+                                    <th scope="col">{{__('Trigger')}}</th>
+                                    <th scope="col">{{__('Amount')}}</th>
+                                    <th scope="col">{{__('Percentage')}}</th>
+                                    <th scope="col">{{__('Value')}}</th>
+                                    <th scope="col">{{__('Created at')}}</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($commissions as $key => $commission)
+                                    <tr>
+                                        <th scope="row">{{$key+1}}</th>
+                                        <td>{{$commission->trigger}}</td>
+                                        <td>{{$commission->amount}}</td>
+                                        <td>{{$commission->percentage}}</td>
+                                        <td>{{$commission->value}}</td>
+                                        <td>{{$commission->created_at}}</td>
+                                    </tr>
+                                @endforeach
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
         </div>
         <div class="card-footer">
             <span class="badge bg-info-subtle text-info badge-border">

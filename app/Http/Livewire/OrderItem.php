@@ -4,9 +4,11 @@ namespace App\Http\Livewire;
 
 use App\Models\BFSsBalances;
 use App\Models\CashBalances;
+use App\Models\CommissionBreakDown;
 use App\Models\DiscountBalances;
 use App\Models\Order;
 use App\Services\Orders\OrderingSimulation;
+use Core\Enum\CommissionTypeEnum;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +46,7 @@ class OrderItem extends Component
                 $params['discount'] = DiscountBalances::where('order_id', $params['order']->id)->first();
                 $params['bfss'] = BFSsBalances::where('order_id', $params['order']->id)->get();
                 $params['cash'] = CashBalances::where('order_id', $params['order']->id)->first();
+                $params['commissions'] = CommissionBreakDown::where('order_id', $params['order']->id)->where('type', CommissionTypeEnum::RECOVERED)->get();
             }
             return view('livewire.order-item', $params)->extends('layouts.master')->section('content');
         }

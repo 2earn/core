@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Core\Enum\CommissionTypeEnum;
 
 return new class extends Migration {
     const TABLE_NAME = 'commission_break_downs';
@@ -11,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create(self::TABLE_NAME, function (Blueprint $table) {
             $table->id();
+            $table->integer('type')->nullable()->default(CommissionTypeEnum::OUT->value);
             $table->unsignedBigInteger('trigger')->nullable();
             $table->float('amount')->nullable();
             $table->float('percentage')->nullable();
