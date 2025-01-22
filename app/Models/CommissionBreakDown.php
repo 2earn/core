@@ -14,14 +14,26 @@ class CommissionBreakDown extends Model
         'trigger',
         'type',
         'amount',
+        'total_amount',
         'percentage',
         'value',
-        'additional',
-        'camembert',
+        'additionnal',
+        'cumulative',
+        'cumulative_percentage',
+
         'earn',
         'pool',
         'cashback_proactif',
         'tree',
+
+        'cumulative_cashback',
+        'cashback_allocation',
+        'earned_cashback',
+        'max_cashback_percentage',
+        'max_cashback',
+        'final_cashback',
+        'final_cashback_percentage',
+
         'order_id',
         'deal_id',
     ];

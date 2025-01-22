@@ -315,20 +315,33 @@ class Ordering
             $deal->update(['objective_turnover' => $newTurnOver]);
             $commissionPercentage = Deal::getCommissionPercentage($newTurnOver);
             $camembert = 0;
+            $totalAmount = 0;
             CommissionBreakDown::create([
                 'trigger' => 0,
                 'type' => CommissionTypeEnum::IN->value,
-                'order_id' => $order->id,
-                'deal_id' => $dealId,
+
                 'amount' => $turnOver['total'],
+                'total_amount' => $totalAmount,
                 'percentage' => $commissionPercentage,
                 'value' => $turnOver['total'] / 100 * $commissionPercentage,
-                'additional' => 0,
-                'camembert' => $camembert / 100 * $deal->margin_percentage,
-                'earn' => $camembert / 100 * $deal->shareholder_benefits_margin_percentage,
-                'pool' => $camembert / 100 * $deal->shareholder_benefits_margin_percentage,
-                'cashback_proactif' => $turnOver['total'] / 100 * $deal->cash_back_margin_percentage,
-                'tree' => $turnOver['total'] / 100 * $deal->tree_margin_percentage,
+                'cumulative' => 0,
+                'cumulative_percentage' => 0,
+
+                'earn' => $camembert / 100 * $deal->earn_profit,
+                'jackpot' => $camembert / 100 * $deal->jackpot,
+                'cashback_proactif' => $turnOver['total'] / 100 * $deal->proactive_cashback,
+                'tree' => $turnOver['total'] / 100 * $deal->tree_remuneration,
+
+                'cumulative_cashback' => 0,
+                'cashback_allocation' => 0,
+                'earned_cashback' => 0,
+                'max_cashback_percentage' => 0,
+                'max_cashback' => 0,
+                'final_cashback' => 0,
+                'final_cashback_percentage' => 0,
+
+                'order_id' => $order->id,
+                'deal_id' => $dealId,
             ]);
         }
         $param = DB::table('settings')->where("ParameterName", "=", 'GATEWAY_PAYMENT_FEE')->first();
