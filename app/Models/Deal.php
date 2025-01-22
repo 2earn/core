@@ -21,21 +21,21 @@ class Deal extends Model
         'validated',
         'status',
         'current_turnover',
-        'objective_turnover',
+        'target_turnover',
+        'is_turnover',
+        'discount',
         'start_date',
         'end_date',
-        'provider_turnover',
-        'items_profit_average',
         'initial_commission',
         'final_commission',
-        'precision',
-        'progressive_commission',
-        'margin_percentage',
-        'cash_back_margin_percentage',
-        'proactive_consumption_margin_percentage',
-        'shareholder_benefits_margin_percentage',
-        'tree_margin_percentage',
-        'discount',
+        'earn_profit',
+        'jackpot',
+        'tree_remuneration',
+        'proactive_cashback',
+        'min_percentage_cashback',
+        'max_percentage_cashback',
+        'total_commission_value',
+        'total_unused_cashback_value',
         'created_by_id',
         'platform_id',
     ];
@@ -123,6 +123,4 @@ class Deal extends Model
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Archived !') . " " . $exception->getMessage());
         }
     }
-
-
 }

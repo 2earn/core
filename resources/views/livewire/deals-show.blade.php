@@ -17,6 +17,16 @@
             <h4 class="text-info">{{__('Details')}}
                 <span
                     class="badge btn btn-info float-end">{{__(\Core\Enum\DealStatus::tryFrom($deal->status)?->name)}}</span>
+
+                <p class="float-end mx-1"> <span class="badge bg-success text-end fs-14" title="{{__('Current turnover')}}">
+                                {{$deal->current_turnover}}
+                            </span>
+                    /
+                    <span class="badge bg-danger text-end fs-14" title="{{__('Target turnover')}}">
+                                {{$deal->target_turnover}}
+                            </span>
+                </p>
+
             </h4>
         </div>
         <div class="card-body row">
@@ -53,22 +63,6 @@
         </div>
         <div class="card-body row">
             <ul class="list-group col-sm-12 col-md-6 col-lg-3">
-                <li class="list-group-item">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <div class="text-muted">
-                                <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Objective turnover')}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->objective_turnover}}
-                            </span>
-                        </div>
-                    </div>
-                </li>
                 <li class="list-group-item">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
@@ -119,39 +113,6 @@
                 </li>
             </ul>
             <ul class="list-group col-sm-12 col-md-6 col-lg-3">
-
-                <li class="list-group-item">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <div class="text-muted">
-                                <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Out provider turnover')}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->out_provider_turnover}}
-                            </span>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <div class="text-muted">
-                                <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Items profit average')}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->items_profit_average}}
-                            </span>
-                        </div>
-                    </div>
-                </li>
                 <li class="list-group-item">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
@@ -186,19 +147,18 @@
                 </li>
             </ul>
             <ul class="list-group col-sm-12 col-md-6 col-lg-3">
-
                 <li class="list-group-item">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
                             <div class="text-muted">
                                 <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Precision')}}</span>
+                                    <span class="fs-14 mb-0">{{__('Min percentage cashback')}}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->precision}}
+                                {{$deal->min_percentage_cashback}}
                             </span>
                         </div>
                     </div>
@@ -208,13 +168,13 @@
                         <div class="flex-grow-1">
                             <div class="text-muted">
                                 <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Progressive commission')}}</span>
+                                    <span class="fs-14 mb-0">{{__('Max percentage cashback')}}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->progressive_commission}}
+                                {{$deal->max_percentage_cashback}}
                             </span>
                         </div>
                     </div>
@@ -224,13 +184,29 @@
                         <div class="flex-grow-1">
                             <div class="text-muted">
                                 <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Margin percentage')}}</span>
+                                    <span class="fs-14 mb-0">{{__('Total commission value')}}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->margin_percentage}}
+                                {{$deal->total_commission_value}}
+                            </span>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="text-muted">
+                                <div class="flex-shrink-0 ms-2">
+                                    <span class="fs-14 mb-0">{{__('Total unused cashback value')}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <span class="text-info">
+                                {{$deal->total_unused_cashback_value}}
                             </span>
                         </div>
                     </div>
@@ -243,13 +219,13 @@
                         <div class="flex-grow-1">
                             <div class="text-muted">
                                 <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Proactive consumption margin percentage')}}</span>
+                                    <span class="fs-14 mb-0">{{__('2 Earn profit')}}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->proactive_consumption_margin_percentage}}
+                                {{$deal->earn_profit}}
                             </span>
                         </div>
                     </div>
@@ -259,13 +235,13 @@
                         <div class="flex-grow-1">
                             <div class="text-muted">
                                 <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Shareholder benefits margin percentage')}}</span>
+                                    <span class="fs-14 mb-0">{{__('Jackpot')}}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->shareholder_benefits_margin_percentage}}
+                                {{$deal->jackpot}}
                             </span>
                         </div>
                     </div>
@@ -275,13 +251,13 @@
                         <div class="flex-grow-1">
                             <div class="text-muted">
                                 <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Cash back margin percentage')}}</span>
+                                    <span class="fs-14 mb-0">{{__('Tree remuneration')}}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->cash_back_margin_percentage}}
+                                {{$deal->tree_remuneration}}
                             </span>
                         </div>
                     </div>
@@ -291,25 +267,22 @@
                         <div class="flex-grow-1">
                             <div class="text-muted">
                                 <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Tree margin percentage')}}</span>
+                                    <span class="fs-14 mb-0">{{__('Proactive cashback')}}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->tree_margin_percentage}}
+                                {{$deal->proactive_cashback}}
                             </span>
                         </div>
                     </div>
                 </li>
             </ul>
         </div>
-
-
         <div class="card-footer">
       <span class="text-muted float-end">
           <strong class="fs-14 mb-0">{{__('Created by')}} :</strong> {{getUserDisplayedName($deal->createdBy?->idUser)}} -   {{$deal->createdBy?->email}} / <strong>{{__('Created at')}}</strong> {{$deal->created_at}}
-
       </span>
         </div>
     </div>

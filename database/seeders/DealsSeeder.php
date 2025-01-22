@@ -15,12 +15,10 @@ class DealsSeeder extends Seeder
     public function run()
     {
         $settings = [
-            ['name' => 'PRECISION', 'value' => 0.01],
-            ['name' => '2EARN_CASH_MARGIN_PERCENTAGE', 'value' => 35],
-            ['name' => 'CASH_BACK_MARGIN_PERCENTAGE', 'value' => 30],
-            ['name' => 'PROACTIVE_CONSUMPTION_MARGIN_PERCENTAGE', 'value' => 10],
-            ['name' => 'SHAREHOLDER_BENEFITS_MARGIN_PERCENTAGE', 'value' => 15],
-            ['name' => 'TREE_MARGIN_PERCENTAGE', 'value' => 10],
+            ['name' => 'EARN_PROFIT_PERCENTAGE', 'value' => 50],
+            ['name' => 'JACKPOT_PERCENTAGE', 'value' => 15],
+            ['name' => 'TREE_REMUNERATION_PERCENTAGE', 'value' => 10],
+            ['name' => 'PROACTIVE_CASHBACK_PERCENTAGE', 'value' => 25],
         ];
 
         foreach ($settings as $setting) {
