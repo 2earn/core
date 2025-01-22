@@ -187,7 +187,7 @@
             </ul>
             <ul class="list-group col-sm-12 col-md-6 col-lg-3">
 
-            <li class="list-group-item">
+                <li class="list-group-item">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
                             <div class="text-muted">
@@ -304,6 +304,8 @@
                 </li>
             </ul>
         </div>
+
+
         <div class="card-footer">
       <span class="text-muted float-end">
           <strong class="fs-14 mb-0">{{__('Created by')}} :</strong> {{getUserDisplayedName($deal->createdBy?->idUser)}} -   {{$deal->createdBy?->email}} / <strong>{{__('Created at')}}</strong> {{$deal->created_at}}
@@ -311,7 +313,41 @@
       </span>
         </div>
     </div>
-    <script type="module">
+        @if(!empty($commissions))
+            <div class="card mt-2">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">{{__('Commission break down')}}</h6>
+                </div>
+                <div class="card-body">
+                    <table class="table table-border table-card table-nowrap">
+                        <thead>
+                        <tr>
+                            <th scope="col">{{__('Order')}}</th>
+                            <th scope="col">{{__('Trigger')}}</th>
+                            <th scope="col">{{__('Amount')}}</th>
+                            <th scope="col">{{__('Percentage')}}</th>
+                            <th scope="col">{{__('Value')}}</th>
+                            <th scope="col">{{__('Created at')}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($commissions as $key => $commission)
+                            <tr>
+                                <th scope="row">{{$key+1}}</th>
+                                <td>{{$commission->trigger}}</td>
+                                <td>{{$commission->amount}}</td>
+                                <td>{{$commission->percentage}}</td>
+                                <td>{{$commission->value}}</td>
+                                <td>{{$commission->created_at}}</td>
+                            </tr>
+                        @endforeach
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        @endif
+        <script type="module">
         $(document).on('turbolinks:load', function () {
             $('body').on('click', '.deleteDeal', function (event) {
                 Swal.fire({
@@ -324,7 +360,6 @@
                     }
                 });
             });
-
 
             $('body').on('click', '.updateDeal', function (event) {
                 var status = $(event.target).attr('data-status');
