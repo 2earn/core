@@ -67,7 +67,6 @@
                                         <a class="link-info"
                                            href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($faq,'answer')])}}">{{__('See or update Translation')}}</a>
                                     </small>
-                                @endif
                                 <a wire:click="deleteFaq('{{$faq->id}}')"
                                    title="{{__('Delete Faq')}}"
                                    class="btn btn-soft-danger material-shadow-none float-end">
@@ -85,6 +84,7 @@
                                     {{__('Edit')}}
 
                                 </a>
+                                @endif
                             </div>
                             <div class="card-footer">
                                 <div class="row">
