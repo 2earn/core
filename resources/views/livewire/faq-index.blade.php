@@ -3,7 +3,6 @@
         {{ __('Frequently asked questions') }}
     @endsection
     @component('components.breadcrumb')
-        @slot('li_1')@endslot
         @slot('title')
                 {{ __('Frequently asked questions') }}
         @endslot
@@ -50,10 +49,10 @@
                                     - {{\App\Models\TranslaleModel::getTranslation($faq,'question',$faq->question)}}
                                 </h5>
                                 @if(\App\Models\User::isSuperAdmin())
-                                    <small class="mx-2">
+                                    <p class="mx-2 float-end">
                                         <a class="link-info"
                                            href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($faq,'question')])}}">{{__('See or update Translation')}}</a>
-                                    </small>
+                                    </p>
                                 @endif
                             </div>
                             <div class="card-body">
@@ -63,10 +62,7 @@
                                     </p>
                                 </blockquote>
                                 @if(\App\Models\User::isSuperAdmin())
-                                    <small class="mx-2">
-                                        <a class="link-info"
-                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($faq,'answer')])}}">{{__('See or update Translation')}}</a>
-                                    </small>
+
                                 <a wire:click="deleteFaq('{{$faq->id}}')"
                                    title="{{__('Delete Faq')}}"
                                    class="btn btn-soft-danger material-shadow-none float-end">
@@ -84,6 +80,10 @@
                                     {{__('Edit')}}
 
                                 </a>
+                                    <p class="mx-2 float-end">
+                                        <a class="link-info"
+                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($faq,'answer')])}}">{{__('See or update Translation')}}</a>
+                                    </p>
                                 @endif
                             </div>
                             <div class="card-footer">
