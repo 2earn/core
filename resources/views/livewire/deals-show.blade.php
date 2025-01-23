@@ -19,11 +19,11 @@
                     class="badge btn btn-info float-end">{{__(\Core\Enum\DealStatus::tryFrom($deal->status)?->name)}}</span>
 
                 <p class="float-end mx-1"> <span class="badge bg-success text-end fs-14" title="{{__('Current turnover')}}">
-                                {{$deal->current_turnover}}
+                                {{$deal->current_turnover}} {{\App\Http\Livewire\DealsShow::CURRENCY}}
                             </span>
                     /
                     <span class="badge bg-danger text-end fs-14" title="{{__('Target turnover')}}">
-                                {{$deal->target_turnover}}
+                                {{$deal->target_turnover}} {{\App\Http\Livewire\DealsShow::CURRENCY}}
                             </span>
                 </p>
 
@@ -40,7 +40,7 @@
                 </div>
                 <div class="flex-shrink-0">
                             <span class="badge badge-success text-muted">
-                                {{$deal->current_turnover}}
+                                {{$deal->current_turnover}} {{\App\Http\Livewire\DealsShow::CURRENCY}}
                             </span>
                 </div>
             </div>
@@ -106,7 +106,7 @@
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->discount}}
+                                {{$deal->discount}} {{\App\Http\Livewire\DealsShow::CURRENCY}}
                             </span>
                         </div>
                     </div>
@@ -124,7 +124,7 @@
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->initial_commission}}
+                                {{$deal->initial_commission}} {{\App\Http\Livewire\DealsShow::CURRENCY}}
                             </span>
                         </div>
                     </div>
@@ -140,7 +140,7 @@
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->final_commission}}
+                                {{$deal->final_commission}}{{\App\Http\Livewire\DealsShow::CURRENCY}}
                             </span>
                         </div>
                     </div>
@@ -190,7 +190,7 @@
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->total_commission_value}}
+                                {{$deal->total_commission_value}} {{\App\Http\Livewire\DealsShow::CURRENCY}}
                             </span>
                         </div>
                     </div>
@@ -206,7 +206,7 @@
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->total_unused_cashback_value}}
+                                {{$deal->total_unused_cashback_value}} {{\App\Http\Livewire\DealsShow::CURRENCY}}
                             </span>
                         </div>
                     </div>
@@ -308,9 +308,9 @@
                             <tr>
                                 <th scope="row">{{$key+1}}</th>
                                 <td>{{$commission->trigger}}</td>
-                                <td>{{$commission->amount}}</td>
-                                <td>{{$commission->percentage}}</td>
-                                <td>{{$commission->value}}</td>
+                                <td> <span class="badge bg-success text-end fs-14">{{$commission->amount}} {{\App\Http\Livewire\DealsShow::CURRENCY}}</span></td>
+                                <td>{{$commission->percentage}} %</td>
+                                <td><span class="badge bg-success text-end fs-14">{{$commission->value}} {{\App\Http\Livewire\DealsShow::CURRENCY}}</span></td>
                                 <td>{{$commission->created_at}}</td>
                             </tr>
                         @endforeach

@@ -89,8 +89,10 @@
                                                     </li>
                                                     @if($orderDetail->item()->first()->deal()->exists())
                                                         <li class="list-group-item list-group-item-success">
-                                                            <strong>{{__('Deal')}}</strong><span
+                                                            <strong>{{__('Deal')}}</strong>
+                                                            <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$orderDetail->item()->first()->deal()->first()->id])}}"><span
                                                                 class="float-end"> {{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}</span>
+                                                            </a>
                                                         </li>
                                                     @endif
                                                 </ul>

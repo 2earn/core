@@ -13,6 +13,7 @@ use Livewire\Component;
 class DealsShow extends Component
 {
     const INDEX_ROUTE_NAME = 'deals_index';
+    const CURRENCY = '$';
 
     public $listeners = [
         'delete' => 'delete',

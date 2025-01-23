@@ -311,11 +311,13 @@ class Ordering
         Log::info('runPartition');
         foreach ($dealsTurnOver as $dealId => $turnOver) {
             $deal = Deal::find($dealId);
-            $newTurnOver = $deal->objective_turnover + $turnOver['total'];
-            $deal->update(['objective_turnover' => $newTurnOver]);
+            $newTurnOver = $deal->current_turnover + $turnOver['total'];
+            $deal->update(['current_turnover' => $newTurnOver]);
             $commissionPercentage = Deal::getCommissionPercentage($newTurnOver);
             $camembert = 0;
-            $totalAmount = 0;
+            $totalAmount = $deal->current_turnover;
+            $cumulative = CommissionBreakDown::sum('value');
+            $cumulativeCashback = CommissionBreakDown::sum('cumulative_cashback');
             CommissionBreakDown::create([
                 'trigger' => 0,
                 'type' => CommissionTypeEnum::IN->value,
@@ -324,18 +326,18 @@ class Ordering
                 'total_amount' => $totalAmount,
                 'percentage' => $commissionPercentage,
                 'value' => $turnOver['total'] / 100 * $commissionPercentage,
-                'cumulative' => 0,
-                'cumulative_percentage' => 0,
+                'cumulative' => $cumulative,
+                'cumulative_percentage' => $totalAmount > 0 ? $cumulative / $totalAmount : 0,
 
                 'earn' => $camembert / 100 * $deal->earn_profit,
                 'jackpot' => $camembert / 100 * $deal->jackpot,
                 'cashback_proactif' => $turnOver['total'] / 100 * $deal->proactive_cashback,
                 'tree' => $turnOver['total'] / 100 * $deal->tree_remuneration,
 
-                'cumulative_cashback' => 0,
+                'cumulative_cashback' => $cumulativeCashback,
                 'cashback_allocation' => 0,
                 'earned_cashback' => 0,
-                'max_cashback_percentage' => 0,
+                'max_cashback_percentage' => $deal->max_percentage_cashback,
                 'max_cashback' => 0,
                 'final_cashback' => 0,
                 'final_cashback_percentage' => 0,

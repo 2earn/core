@@ -11,8 +11,9 @@ class CommissionBreakDownObserver
     public function created(CommissionBreakDown $commissionBreakDown)
     {
         Log::info('Commission BreakDown CommissionBreakDownObserver : ' . $commissionBreakDown->id);
-        if ($commissionBreakDown->type->value == CommissionTypeEnum::IN->value) {
-            $oldCommissionBreakDowns = CommissionBreakDown::where('deal_id', $commissionBreakDown->deal_id)->get();
+        if ($commissionBreakDown->wasRecentlyCreated) {
+            if ($commissionBreakDown->type->value == CommissionTypeEnum::IN->value) {
+            $oldCommissionBreakDowns = CommissionBreakDown::where('deal_id', $commissionBreakDown->deal_id)->where('type', CommissionTypeEnum::IN)->get();
             Log::info('Commission BreakDown A : ' . $commissionBreakDown->id);
             if (!empty($oldCommissionBreakDowns)) {
                 Log::info('Commission BreakDown B : ' . $commissionBreakDown->id);
@@ -26,8 +27,16 @@ class CommissionBreakDownObserver
                         'amount' => $oldCommissionBreakDown->amount,
                         'percentage' => $percentage,
                         'value' => $oldCommissionBreakDown->amount / 100 * $percentage,
+                        'additional' =>0,
+                        'cumulative' =>0,
+                        'cumulative_percentage' =>0,
+                        'earn' =>0,
+                        'pool' =>0,
+                        'cashback_proactif' =>0,
+                        'tree' =>0,
                     ]);
                 }
+            }
             }
         }
     }

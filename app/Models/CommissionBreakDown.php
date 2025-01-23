@@ -17,7 +17,7 @@ class CommissionBreakDown extends Model
         'total_amount',
         'percentage',
         'value',
-        'additionnal',
+        'additional',
         'cumulative',
         'cumulative_percentage',
 
