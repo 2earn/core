@@ -8,16 +8,16 @@
 
             <div class="row">
                 <div class="col-12">
-                    <h6 class="text-muted mb-2">
+                    <h5 class="mb-2">
                         {{$news->title}}
-                        {{\App\Models\TranslaleModel::getTranslation($news,'title',$news->content)}}
-                        @if(\App\Models\User::isSuperAdmin())
-                          <small class="mx-2">
-                                <a class="link-info float-end"
-                                   href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($news,'title')])}}">{{__('See or update Translation')}}</a>
-                            </small>
-                        @endif
-                    </h6>
+                        {{\App\Models\TranslaleModel::getTranslation($news,'title',$news->title)}}
+                    </h5>
+                    @if(\App\Models\User::isSuperAdmin())
+                        <p class="mx-2">
+                            <a class="link-info float-end"
+                               href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($news,'title')])}}">{{__('See or update Translation')}}</a>
+                        </p>
+                    @endif
                 </div>
             </div>
             <div class="row">
@@ -29,7 +29,7 @@
                         </div>
                     </div>
                 @endif
-                <div class="col-sm-12 col-md-8 col-lg-9">
+                <div class="col-sm-12 col-md-8 col-lg-12">
                     <blockquote class="card-blockquote mb-0">
                         <p class="text-muted mb-2">
                             {{__('Dear Members')}}
@@ -37,13 +37,13 @@
                         <blockquote class="card-blockquote mb-0">
                             {{$news->content}}
                             {{\App\Models\TranslaleModel::getTranslation($news,'content',$news->content)}}
-                            @if(\App\Models\User::isSuperAdmin())
-                                 <small class="mx-2">
-                                    <a class="link-info float-end"
-                                       href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($news,'content')])}}">{{__('See or update Translation')}}</a>
-                                </small>
-                            @endif
                         </blockquote>
+                        @if(\App\Models\User::isSuperAdmin())
+                            <p class="mx-2">
+                                <a class="link-info float-end"
+                                   href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($news,'content')])}}">{{__('See or update Translation')}}</a>
+                            </p>
+                        @endif
                         <p class="text-muted mb-2">
                             {{__('Best regards')}}
                         </p>

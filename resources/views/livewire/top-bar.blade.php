@@ -346,13 +346,12 @@
                             <div class="dropdown-divider">
                             </div>
                             <a class="dropdown-item" href="{{route('user_balance_cb',app()->getLocale())}}"><i
-                                    class="mdi mdi-wallet text-muted fs-16 align-middle me-1"></i> <span
-                                    class=""> {{ __('Cash Balance') }} : <b>  {{__('DPC')}}  {{formatSolde($cash,3)}}</b>
+                                    class="mdi mdi-wallet text-muted fs-16 align-middle me-1"></i> <span>  <b> {{ __('Cash Balance') }} : {{__('DPC')}}  {{formatSolde($cash,3)}}</b>
                                 </span>
                             </a>
                             <div class="dropdown-divider">
                             </div>
-                            <a class="dropdown-item" href="{{route('orders_previous',app()->getLocale())}}">
+                            <a class="dropdown-item d-none" href="{{route('orders_previous',app()->getLocale())}}">
                                 <span class=""> {{ __('Previous orders') }}</span>
                             </a>
                             <a class="dropdown-item" href="{{route('notification_history',app()->getLocale())}}">
@@ -366,9 +365,11 @@
                             </a>
                             <div class="dropdown-divider">
                             </div>
-                            <a class="dropdown-item" wire:click="logout">
-                                <i class="bx bx-power-off font-size-16 align-middle me-1"></i>
-                                <span key="t-logout">{{ __('Logout') }}</span>
+                            <a class="dropdown-item " wire:click="logout">
+                                <span class="font-size-16 me-1 text-dark" key="t-logout">
+                                    <i class="bx bx-power-off"></i>
+                                    {{ __('Logout') }}
+                                </span>
                             </a>
                         </div>
                     </div>
