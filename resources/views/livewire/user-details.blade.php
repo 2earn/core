@@ -183,7 +183,7 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
                             <strong>{{__('Cash Balance')}}</strong>
-                            <span class="float-end">{{formatSolde($soldes->cash_balance,3)}}</span>
+                            <span class="float-end">{{formatSolde($soldes?->cash_balance,3)}}</span>
                         </li>
                         <li class="list-group-item">
                             <strong>{{__('Balance For Shopping')}}</strong>
@@ -192,7 +192,7 @@
                         </li>
                         <li class="list-group-item">
                             <strong>{{__('Discounts Balance')}}</strong>
-                            <span class="float-end">{{formatSolde($soldes->discount_balance,3)}}</span>
+                            <span class="float-end">{{formatSolde($soldes?->discount_balance,3)}}</span>
                         </li>
                     </ul>
                 </div>
@@ -207,15 +207,15 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
                                 <strong>{{__('SMS Solde')}}</strong>
-                                <span class="float-end">{{formatSolde($soldes->sms_balance,0)}}</span>
+                                <span class="float-end">{{formatSolde($soldes?->sms_balance,0)}}</span>
                             </li>
                             <li class="list-group-item">
                                 <strong>{{__('Tree Solde')}}</strong>
-                                <span class="float-end">{{formatSolde($soldes->tree_balance,0)}}</span>
+                                <span class="float-end">{{formatSolde($soldes?->tree_balance,0)}}</span>
                             </li>
                             <li class="list-group-item">
                                 <strong>{{__('Actions (Shares)')}}</strong>
-                                <span class="float-end">{{formatSolde($soldes->share_balance,0)}}</span>
+                                <span class="float-end">{{formatSolde($soldes?->share_balance,0)}}</span>
                             </li>
                             <li class="list-group-item disabled">
                                 <strong>{{__('Chances')}}</strong>
