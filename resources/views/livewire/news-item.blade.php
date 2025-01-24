@@ -35,7 +35,6 @@
                             {{__('Dear Members')}}
                         </p>
                         <blockquote class="card-blockquote mb-0">
-                            {{$news->content}}
                             {{\App\Models\TranslaleModel::getTranslation($news,'content',$news->content)}}
                         </blockquote>
                         @if(\App\Models\User::isSuperAdmin())
