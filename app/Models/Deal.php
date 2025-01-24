@@ -61,16 +61,14 @@ class Deal extends Model
         return $this->hasOne(Platform::class, 'id', 'platform_id');
     }
 
-
     public function cashBalance(): HasMany
     {
         return $this->hasMany(CashBalances::class);
     }
 
-
-    public static function getCommissionPercentage($newTurnOver)
+    public static function getCommissionPercentage($deal, $newTurnOver)
     {
-        return 20.00;
+        return (($deal->final_commission - $deal->initial_commission) / $deal->target_turnover) * $newTurnOver + $deal->initial_commission - $deal->discount;
     }
     public static function validateDeal($id)
     {

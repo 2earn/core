@@ -20,6 +20,7 @@ class CommissionBreakDownObserver
                 $first = $oldCommissionBreakDowns->first();
                 $percentage = $commissionBreakDown->percentage - $first->percentage;
                 foreach ($oldCommissionBreakDowns as $oldCommissionBreakDown) {
+                    // TO DO waiting for formulas
                     CommissionBreakDown::create([
                         'trigger' => $oldCommissionBreakDown->id,
                         'type' => CommissionTypeEnum::RECOVERED->value,

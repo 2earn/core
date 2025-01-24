@@ -313,12 +313,15 @@ class Ordering
             $deal = Deal::find($dealId);
             $newTurnOver = $deal->current_turnover + $turnOver['total'];
             $deal->update(['current_turnover' => $newTurnOver]);
-            $commissionPercentage = Deal::getCommissionPercentage($newTurnOver);
+            $commissionPercentage = Deal::getCommissionPercentage($deal,$newTurnOver);
             $camembert = 0;
             $totalAmount = $deal->current_turnover;
             $cumulative = CommissionBreakDown::sum('value');
             $cumulativeCashback = CommissionBreakDown::sum('cumulative_cashback');
             CommissionBreakDown::create([
+                'order_id' => $order->id,
+                'deal_id' => $dealId,
+
                 'trigger' => 0,
                 'type' => CommissionTypeEnum::IN->value,
 
@@ -333,17 +336,14 @@ class Ordering
                 'jackpot' => $camembert / 100 * $deal->jackpot,
                 'cashback_proactif' => $turnOver['total'] / 100 * $deal->proactive_cashback,
                 'tree' => $turnOver['total'] / 100 * $deal->tree_remuneration,
-
+                // TO DO waiting for formulas
                 'cumulative_cashback' => $cumulativeCashback,
                 'cashback_allocation' => 0,
                 'earned_cashback' => 0,
                 'max_cashback_percentage' => $deal->max_percentage_cashback,
                 'max_cashback' => 0,
                 'final_cashback' => 0,
-                'final_cashback_percentage' => 0,
-
-                'order_id' => $order->id,
-                'deal_id' => $dealId,
+                'final_cashback_percentage' => 0
             ]);
         }
         $param = DB::table('settings')->where("ParameterName", "=", 'GATEWAY_PAYMENT_FEE')->first();
