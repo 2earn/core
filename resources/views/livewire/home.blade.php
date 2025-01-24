@@ -29,7 +29,8 @@
                                 {{__('actions')}} ,
                                 {{__('et les benefices instentannés seront')}}
                                 <span
-                                    class="col-auto flash-red">{{formatSolde($benefices,2)}}                                    <span class="text-muted">{{$currency}}</span>
+                                    class="col-auto flash-red">{{formatSolde($benefices,2)}}                                    <span
+                                        class="text-muted">{{$currency}}</span>
 </span></p>
                         </div>
                         <div class="row col-12">
@@ -138,7 +139,7 @@
                         <div>
                             <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
                                 @if(app()->getLocale()!="ar")
-                                    <span >{{$currency}}</span>
+                                    <span>{{$currency}}</span>
                                     <span class="counter-value"
                                           data-target="{{intval($balanceForSopping)}}">{{formatSolde($balanceForSopping,0)}}</span>
                                     <small class="text-muted fs-13 text-muted">
@@ -278,7 +279,8 @@
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
                             <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                % <span>{{ (int)$chanceBalance}} <small class="text-muted fs-13 text-muted">.{{$chanceBalance - (int)$chanceBalance}}</small></span>
+                                % <span>{{ (int)$chanceBalance}} <small
+                                        class="text-muted fs-13 text-muted">.{{$chanceBalance - (int)$chanceBalance}}</small></span>
                             </h4>
                             <a href="{{route('user_balance_tree' , app()->getLocale() )}} "
                                class="text-decoration-underline">{{ __('see_details') }}</a>
@@ -348,14 +350,15 @@
                                 <span class="counter-value"
                                       data-target="{{$userSelledAction}}">{{formatSolde($userSelledAction,0)}}</span>
                                 <small class="text-muted fs-13">
-                                    ({{$actionsValues}})                                    <span class="text-muted">{{$currency}}</span>
+                                    ({{$actionsValues}}) <span class="text-muted">{{$currency}}</span>
 
                                 </small></h3>
                             <a href="{{route('business_hub_trading',app()->getLocale())}}"
                                class="btn btn-sm @if($flash) btn-flash @else btn-soft-secondary  @endif">{{ __('Buy Shares') }}</a>
                             <span class="badge bg-light text-success  ms-2 mb-0"><i
                                     class="ri-arrow-up-line align-middle"></i>
-                                {{$userActualActionsProfit }}                                     <span class="text-muted">{{$currency}}</span>
+                                {{$userActualActionsProfit }}                                     <span
+                                    class="text-muted">{{$currency}}</span>
 
                             </span>
                         </div>
@@ -373,9 +376,17 @@
     </div>
     <div class="row">
         <div class="col">
+            @foreach($news as $newsItem)
+                @include('livewire.news-item', ['news' => $newsItem])
+            @endforeach
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
             <livewire:static-news/>
         </div>
     </div>
+
     <div class="row">
         <div class="col">
             <livewire:survey-index/>
@@ -524,7 +535,8 @@
                                     </div>
                                 @endif
                                 <div class="col-6  @if($flash) ribbon-box right overflow-hidden @endif ">
-                                    <label for="ammount" class="col-form-label">{{ __('Amount_pay') }}(                                    <span class="text-muted">{{$currency}}</span>
+                                    <label for="ammount" class="col-form-label">{{ __('Amount_pay') }}( <span
+                                            class="text-muted">{{$currency}}</span>
 
                                         )</label>
                                     <div class="input-group mb-3">
@@ -587,7 +599,7 @@
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-6">
                                     <label for="profit" class="col-form-label">{{ __('Profit') }}
-                                        (                                    <span class="text-muted">{{$currency}}</span>
+                                        ( <span class="text-muted">{{$currency}}</span>
                                         ) </label>
                                     <input type="text" inputmode="numeric" pattern="[-+]?[0-9]*[.,]?[0-9]+" disabled
                                            class="@if($flash) form-control-flash @else form-control  @endif"

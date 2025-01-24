@@ -162,7 +162,6 @@ class  UserRepository implements IUserRepository
     {
         Auth::logout();
         Cache::flush();
-        Session::invalidate();
     }
 
     public function getUserByFullnumber($number)

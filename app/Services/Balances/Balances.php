@@ -167,7 +167,7 @@ class Balances
 
     public static function getTotalBfs($userCurrentBalancehorisontal)
     {
-       return $userCurrentBalancehorisontal->getBfssBalance(BFSsBalances::BFS_100) + $userCurrentBalancehorisontal->getBfssBalance(BFSsBalances::BFS_50);
+       return $userCurrentBalancehorisontal?->getBfssBalance(BFSsBalances::BFS_100) + $userCurrentBalancehorisontal?->getBfssBalance(BFSsBalances::BFS_50);
     }
     public static function updateCalculatedSold($idUser, $type = BalanceEnum::CASH, $value)
     {

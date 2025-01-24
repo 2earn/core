@@ -143,6 +143,11 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/index', \App\Http\Livewire\ItemsIndex::class)->name('index');
         });
 
+        Route::prefix('/news')->name('news_')->group(function () {
+            Route::get('/index', \App\Http\Livewire\News::class)->name('index');
+             Route::get('/', \App\Http\Livewire\NewsCreateUpdate::class)->name('create_update');
+        });
+
         Route::get('/accept/request', AcceptFinancialRequest::class)->name('accept_financial_request')->middleware('CloseAuth');
 
         Route::prefix('/surveys')->name('surveys_')->group(function () {
@@ -257,6 +262,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/shares-solde-list/{idUser}', 'App\Http\Controllers\ApiController@getSharesSoldeList')->name('api_shares_solde_list');
         Route::get('/user/admin', 'App\Http\Controllers\ApiController@getUserAdmin')->name('api_user_admin');
         Route::get('/history/notification', 'App\Http\Controllers\ApiController@getHistoryNotification')->name('api_history_notification');
+        Route::get('/news', 'App\Http\Controllers\ApiController@getNews')->name('api_news');
         Route::get('/platforms', 'App\Http\Controllers\ApiController@getPlatforms')->name('api_platforms');
         Route::get('/roles', 'App\Http\Controllers\ApiController@getRoles')->name('api_role');
         Route::get('/deals', 'App\Http\Controllers\ApiController@getDeals')->name('api_deal');

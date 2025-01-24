@@ -233,6 +233,14 @@
                             <span>{{__('Hobbies')}}</span>
                         </a>
                     </li>
+                    <li class="nav-item cool-link {{$currentRouteName=='news_index'? 'active' : ''}}">
+                        <a href="{{route('news_index',app()->getLocale(),false )}}"
+                           class="nav-link menu-link {{$currentRouteName=='news_index'? 'active' : ''}}"
+                           role="button">
+                            <i class="ri-newspaper-fill"></i>
+                            <span>{{__('News')}}</span>
+                        </a>
+                    </li>
                     @if(\Core\Models\Platform::canCheckDeals(auth()->user()->id))
                         <li class="nav-item cool-link {{$currentRouteName=='deals_index'? 'active' : ''}}">
                             <a href="{{route('deals_index',app()->getLocale(),false )}}"
