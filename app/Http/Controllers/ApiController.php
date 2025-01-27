@@ -1178,6 +1178,9 @@ class ApiController extends BaseController
             ->editColumn('enabled', function ($news) {
                 return view('parts.datatable.news-enabled', ['news' => $news]);
             })
+            ->editColumn('content', function ($news) {
+                return view('parts.datatable.news-content', ['news' => $news]);
+            })
             ->addColumn('action', function ($news) {
                 return view('parts.datatable.news-action', ['newsId' => $news->id, 'newstitle' => $news->title]);
             })

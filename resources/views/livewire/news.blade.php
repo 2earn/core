@@ -5,12 +5,15 @@
         @endslot
     @endcomponent
     <div class="row m-1">
-        <div class="col-10">        @include('layouts.flash-messages')
+        <div class="col-10">
+            @include('layouts.flash-messages')
         </div>
+        @if(\App\Models\User::isSuperAdmin())
         <div class="col-2">
             <a href="{{route('news_create_update',app()->getLocale())}}"
                class="btn btn-soft-primary float-end">{{__('Add news')}}</a>
         </div>
+        @endif
     </div>
     <div class="row card">
         <div class="card-body">
@@ -25,9 +28,9 @@
                                 <th>{{__('id')}}</th>
                                 <th>{{__('title')}}</th>
                                 <th>{{__('enabled')}}</th>
-                                <th>{{__('content')}}</th>
                                 <th>{{__('published_at')}}</th>
                                 <th>{{__('Actions')}}</th>
+                                <th>{{__('content')}}</th>
                             </tr>
                             </thead>
                             <tbody class="body2earn">
@@ -67,9 +70,9 @@
                         {data: 'id'},
                         {data: 'title'},
                         {data: 'enabled'},
-                        {data: 'content'},
                         {data: 'published_at'},
                         {data: 'action'},
+                        {data: 'content'},
                     ],
                     "language": {"url": urlLang},
                 });
