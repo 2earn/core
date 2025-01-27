@@ -30,7 +30,7 @@
                                 {{__('et les benefices instentannés seront')}}
                                 <span
                                     class="col-auto flash-red">{{formatSolde($benefices,2)}}                                    <span
-                                        class="text-muted">{{$currency}}</span>
+                                        class="text-muted"> {{config('app.currency')}}</span>
 </span></p>
                         </div>
                         <div class="row col-12">
@@ -76,7 +76,7 @@
                         <div>
                             <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
                                 @if(app()->getLocale()!="ar")
-                                    <span>{{$currency}}</span>
+                                    <span> {{config('app.currency')}}</span>
                                     <span class="counter-value "
                                           data-target="{{intval($cashBalance)}}">{{formatSolde($cashBalance,0)}}</span>
                                     <small class="text-muted fs-13 text-muted">
@@ -94,7 +94,7 @@
                                     </small>
                                     <span class="counter-value"
                                           data-target="{{intval($cashBalance)}}">{{intval($cashBalance)}}</span>
-                                    <span class="text-muted">{{$currency}}</span>
+                                    <span class="text-muted"> {{config('app.currency')}}</span>
                                 @endif
                             </h3>
                             <a href="{{route('user_balance_cb' , app()->getLocale() )}} "
@@ -139,7 +139,7 @@
                         <div>
                             <h3 class="mb-4 fs-22 fw-semibold ff-secondary">
                                 @if(app()->getLocale()!="ar")
-                                    <span>{{$currency}}</span>
+                                    <span> {{config('app.currency')}}</span>
                                     <span class="counter-value"
                                           data-target="{{intval($balanceForSopping)}}">{{formatSolde($balanceForSopping,0)}}</span>
                                     <small class="text-muted fs-13 text-muted">
@@ -157,7 +157,7 @@
                                     </small>
                                     <span class="counter-value text-muted"
                                           data-target="{{intval($balanceForSopping)}}">{{formatSolde($balanceForSopping,0)}}</span>
-                                    <span class="text-muted">{{$currency}}</span>
+                                    <span class="text-muted"> {{config('app.currency')}}</span>
                                 @endif
                             </h3>
                             <a href="{{route('user_balance_bfs' , app()->getLocale() )}} "
@@ -201,7 +201,7 @@
                         <div>
                             <h4 class="mb-4 fs-22 fw-semibold ff-secondary">
                                 @if(app()->getLocale()!="ar")
-                                    <span>{{$currency}}</span>
+                                    <span> {{config('app.currency')}}</span>
                                     <span class="counter-value "
                                           data-target="{{intval($discountBalance)}}">{{intval($discountBalance)}}</span>
                                     <small class="text-muted fs-13 text-muted">
@@ -219,7 +219,7 @@
                                     </small>
                                     <span class="counter-value text-muted"
                                           data-target="{{intval($discountBalance)}}">{{formatSolde($discountBalance,0)}}</span>
-                                    <span class="text-muted">{{$currency}}</span>
+                                    <span class="text-muted"> {{config('app.currency')}}</span>
                                 @endif
                             </h4>
                             <a href="{{route('user_balance_db' , app()->getLocale() )}} "
@@ -350,7 +350,7 @@
                                 <span class="counter-value"
                                       data-target="{{$userSelledAction}}">{{formatSolde($userSelledAction,0)}}</span>
                                 <small class="text-muted fs-13">
-                                    ({{$actionsValues}}) <span class="text-muted">{{$currency}}</span>
+                                    ({{$actionsValues}}) <span class="text-muted"> {{config('app.currency')}}</span>
 
                                 </small></h3>
                             <a href="{{route('business_hub_trading',app()->getLocale())}}"
@@ -358,7 +358,7 @@
                             <span class="badge bg-light text-success  ms-2 mb-0"><i
                                     class="ri-arrow-up-line align-middle"></i>
                                 {{$userActualActionsProfit }}                                     <span
-                                    class="text-muted">{{$currency}}</span>
+                                    class="text-muted"> {{config('app.currency')}}</span>
 
                             </span>
                         </div>
@@ -536,7 +536,7 @@
                                 @endif
                                 <div class="col-6  @if($flash) ribbon-box right overflow-hidden @endif ">
                                     <label for="ammount" class="col-form-label">{{ __('Amount_pay') }}( <span
-                                            class="text-muted">{{$currency}}</span>
+                                            class="text-muted"> {{config('app.currency')}}</span>
 
                                         )</label>
                                     <div class="input-group mb-3">
@@ -599,7 +599,7 @@
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-6">
                                     <label for="profit" class="col-form-label">{{ __('Profit') }}
-                                        ( <span class="text-muted">{{$currency}}</span>
+                                        ( <span class="text-muted"> {{config('app.currency')}}</span>
                                         ) </label>
                                     <input type="text" inputmode="numeric" pattern="[-+]?[0-9]*[.,]?[0-9]+" disabled
                                            class="@if($flash) form-control-flash @else form-control  @endif"

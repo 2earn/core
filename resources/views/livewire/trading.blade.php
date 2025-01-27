@@ -126,7 +126,7 @@
                                     @endif
                                     <div class="col-6  @if($flash) ribbon-box right overflow-hidden @endif ">
                                         <label for="ammount" class="col-form-label">{{ __('Amount_pay') }}
-                                            ({{$currency}}
+                                            ( {{config('app.currency')}}
                                             )</label>
                                         <div class="input-group mb-3">
                                             <input aria-describedby="simulateAmmount" type="number"
@@ -184,7 +184,7 @@
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                         <label for="profit" class="col-form-label">{{ __('Profit') }}
-                                            ({{$currency}}) </label>
+                                            ( {{config('app.currency')}}) </label>
                                         <input type="text" inputmode="numeric" pattern="[-+]?[0-9]*[.,]?[0-9]+"
                                                disabled
                                                class="@if($flash) form-control-flash @else form-control  @endif"

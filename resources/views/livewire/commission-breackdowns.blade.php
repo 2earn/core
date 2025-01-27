@@ -30,25 +30,25 @@
                                 {{__(\Core\Enum\CommissionTypeEnum::tryFrom($commission->type->value)->name)}}
                             </span>
                         </td>
-                        <td>{{$commission->old_turnover}}</td>
-                        <td>{{$commission->new_turnover}}</td>
+                        <td>{{$commission->old_turnover}} {{config('app.currency')}}</td>
+                        <td>{{$commission->new_turnover}}  {{config('app.currency')}}</td>
                         <td>{{$commission->purchase_value}}</td>
                         <td>
-                            {{$commission->commission_percentage}} %
+                            {{$commission->commission_value}} {{config('app.currency')}}
                             <hr>
-                            {{$commission->commission_value}} %
+                            {{$commission->commission_percentage}} %
                         </td>
                         <td>
-                            {{$commission->cumulative_commission}}
+                            {{$commission->cumulative_commission}} {{config('app.currency')}}
                             <hr>
                             {{$commission->cumulative_commission_percentage}} %
                         </td>
                         <td>
                             <ul class="list-group">
-                                <li class="list-group-item list-group-item-primary"> {{$commission->cash_company_profit}}</li>
-                                <li class="list-group-item list-group-item-secondary"> {{$commission->cashback_proactif}}</li>
-                                <li class="list-group-item list-group-item-info"> {{$commission->cash_jackpot}}</li>
-                                <li class="list-group-item list-group-item-light"> {{$commission->cash_tree}}</li>
+                                <li class="list-group-item list-group-item-primary"> {{$commission->cash_company_profit}}  {{config('app.currency')}}</li>
+                                <li class="list-group-item list-group-item-secondary"> {{$commission->cash_cashback}}  {{config('app.currency')}}</li>
+                                <li class="list-group-item list-group-item-info"> {{$commission->cash_jackpot}}  {{config('app.currency')}}</li>
+                                <li class="list-group-item list-group-item-light"> {{$commission->cash_tree}}  {{config('app.currency')}}</li>
                             </ul>
                         </td>
                         <td>
@@ -56,25 +56,24 @@
                             <ul class="list-group">
                                 <li class="list-group-item">
                                     <strong>{{__('Earned cashback')}}</strong> <span
-                                        class="badge badge-outline-info float-end">{{$commission->earned_cashback}}</span>
+                                        class="badge badge-outline-info float-end">{{$commission->earned_cashback}}  {{config('app.currency')}}</span>
                                 </li>
                                 <li class="list-group-item">
                                     <strong>{{__('Commission_difference')}}</strong> <span
-                                        class="badge badge-outline-info float-end">{{$commission->commission_difference}}</span>
+                                        class="badge badge-outline-info float-end">{{$commission->commission_difference}}  {{config('app.currency')}}</span>
                                 </li>
                                 <li class="list-group-item">
                                     <strong>{{__('Additional commission value')}}</strong> <span
-                                        class="badge badge-outline-info float-end">{{$commission->additional_commission_value}}</span>
+                                        class="badge badge-outline-info float-end">{{$commission->additional_commission_value}}  {{config('app.currency')}}</span>
                                 </li>
                                 <li class="list-group-item">
-                                    <strong>{{__('Final cashback')}}</strong> <span class="badge badge-outline-info float-end">
-                                        {{$commission->final_cashback}}
+                                    <strong>{{__('Final cashback')}}</strong> <span
+                                        class="badge badge-outline-info float-end">
+                                        {{$commission->final_cashback}} {{config('app.currency')}}
                             <hr>
                             {{$commission->final_cashback_percentage}} %</span>
                                 </li>
                             </ul>
-
-
                         </td>
                         <td>{{$commission->created_at}}</td>
                     </tr>

@@ -15,18 +15,9 @@
     <div class="card">
         <div class="card-header">
             <h4 class="text-info">{{__('Details')}}
-                <span
-                    class="badge btn btn-info float-end">{{__(\Core\Enum\DealStatus::tryFrom($deal->status)?->name)}}</span>
-
-                <p class="float-end mx-1"> <span class="badge bg-success text-end fs-14" title="{{__('Current turnover')}}">
-                                {{$deal->current_turnover}} {{\App\Http\Livewire\DealsShow::CURRENCY}}
-                            </span>
-                    /
-                    <span class="badge bg-danger text-end fs-14" title="{{__('Target turnover')}}">
-                                {{$deal->target_turnover}} {{\App\Http\Livewire\DealsShow::CURRENCY}}
-                            </span>
-                </p>
-
+                <span class="badge btn btn-info float-end">
+                    {{__(\Core\Enum\DealStatus::tryFrom($deal->status)?->name)}}
+                </span>
             </h4>
         </div>
         <div class="card-body row">
@@ -34,13 +25,45 @@
                 <div class="flex-grow-1">
                     <div class="text-muted">
                         <div class="flex-shrink-0 ms-2">
-                            <strong class="fs-14 font-weight-bold mb-0">{{__('Current turnover')}}</strong>
+                            <strong class="fs-14 font-weight-bold mb-0">{{__('Current turnover')}}
+                                / {{__('Target turnover')}}</strong>
                         </div>
                     </div>
                 </div>
                 <div class="flex-shrink-0">
                             <span class="badge badge-success text-muted">
-                                {{$deal->current_turnover}} {{\App\Http\Livewire\DealsShow::CURRENCY}}
+                                              <p class="float-end mx-1"> <span class="badge bg-success text-end fs-14"
+                                                                               title="{{__('Current turnover')}}">
+                                {{$deal->current_turnover}}  {{config('app.currency')}}
+                            </span>
+                    /
+                    <span class="badge bg-danger text-end fs-14" title="{{__('Target turnover')}}">
+                                {{$deal->target_turnover}}  {{config('app.currency')}}
+                            </span>
+                </p>
+                            </span>
+                </div>
+            </div>
+            <div class="d-flex align-items-center">
+                <div class="flex-grow-1">
+                    <div class="text-muted">
+                        <div class="flex-shrink-0 ms-2">
+                            <strong class="fs-14 font-weight-bold mb-0">{{__('Start Date')}}
+                                / {{__('End date')}}</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-shrink-0">
+                            <span class="badge badge-success text-muted">
+                                              <p class="float-end mx-1"> <span class="badge bg-success text-end fs-14"
+                                                                               title="{{__('Start Date')}}">
+                                {{$deal->start_date}}
+                            </span>
+                    ==>
+                    <span class="badge bg-danger text-end fs-14" title="{{__('End date')}}">
+                                {{$deal->end_date}}
+                            </span>
+                </p>
                             </span>
                 </div>
             </div>
@@ -62,39 +85,7 @@
             </div>
         </div>
         <div class="card-body row">
-            <ul class="list-group col-sm-12 col-md-6 col-lg-3">
-                <li class="list-group-item">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <div class="text-muted">
-                                <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Start date')}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->start_date}}
-                            </span>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <div class="text-muted">
-                                <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('End date')}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->end_date}}
-                            </span>
-                        </div>
-                    </div>
-                </li>
+            <ul class="list-group col-sm-12 col-md-6 col-lg-4">
                 <li class="list-group-item">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
@@ -106,13 +97,11 @@
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->discount}} {{\App\Http\Livewire\DealsShow::CURRENCY}}
+                                {{$deal->discount}}  {{config('app.currency')}}
                             </span>
                         </div>
                     </div>
                 </li>
-            </ul>
-            <ul class="list-group col-sm-12 col-md-6 col-lg-3">
                 <li class="list-group-item">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
@@ -124,7 +113,7 @@
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->initial_commission}} {{\App\Http\Livewire\DealsShow::CURRENCY}}
+                                {{$deal->initial_commission}}  {{config('app.currency')}}
                             </span>
                         </div>
                     </div>
@@ -140,13 +129,13 @@
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->final_commission}}{{\App\Http\Livewire\DealsShow::CURRENCY}}
+                                {{$deal->final_commission}} {{config('app.currency')}}
                             </span>
                         </div>
                     </div>
                 </li>
             </ul>
-            <ul class="list-group col-sm-12 col-md-6 col-lg-3">
+            <ul class="list-group col-sm-12 col-md-6 col-lg-4">
                 <li class="list-group-item">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
@@ -190,7 +179,7 @@
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->total_commission_value}} {{\App\Http\Livewire\DealsShow::CURRENCY}}
+                                {{$deal->total_commission_value}}  {{config('app.currency')}}
                             </span>
                         </div>
                     </div>
@@ -206,14 +195,14 @@
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->total_unused_cashback_value}} {{\App\Http\Livewire\DealsShow::CURRENCY}}
+                                {{$deal->total_unused_cashback_value}}  {{config('app.currency')}}
                             </span>
                         </div>
                     </div>
                 </li>
 
             </ul>
-            <ul class="list-group col-sm-12 col-md-6 col-lg-3">
+            <ul class="list-group col-sm-12 col-md-6 col-lg-4">
                 <li class="list-group-item">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
