@@ -4,7 +4,7 @@
             <h6 class="card-title mb-0">{{__('Commission break down')}}</h6>
         </div>
         <div class="card-body">
-            <table class="table table-border table-card table-nowrap">
+            <table class="table table-border table-striped table-card table-nowrap">
                 <thead>
                 <tr>
                     <th scope="col">{{__('Order')}}</th>
@@ -45,10 +45,30 @@
                         </td>
                         <td>
                             <ul class="list-group">
-                                <li class="list-group-item list-group-item-primary"> {{$commission->cash_company_profit}}  {{config('app.currency')}}</li>
-                                <li class="list-group-item list-group-item-secondary"> {{$commission->cash_cashback}}  {{config('app.currency')}}</li>
-                                <li class="list-group-item list-group-item-info"> {{$commission->cash_jackpot}}  {{config('app.currency')}}</li>
-                                <li class="list-group-item list-group-item-light"> {{$commission->cash_tree}}  {{config('app.currency')}}</li>
+                                <li class="list-group-item list-group-item-primary"
+                                    title="{{__('Cash company profit')}}">
+                                    <strong>{{__('Cash company profit')}}</strong>
+                                    <span
+                                        class="badge badge-outline-info float-end">    {{$commission->cash_company_profit}}  {{config('app.currency')}}
+                                    </span>
+                                </li>
+                                <li class="list-group-item list-group-item-secondary" title="{{__('Cash cashback')}}">
+                                    <strong>{{__('Cash cashback')}}</strong>
+                                    <span
+                                        class="badge badge-outline-info float-end">  {{$commission->cash_cashback}}  {{config('app.currency')}}                                    </span>
+                                </li>
+                                <li class="list-group-item list-group-item-info" title="{{__('Cash jackpot')}}">
+                                    <strong>{{__('Cash jackpot')}}</strong>
+
+                                    <span
+                                        class="badge badge-outline-info float-end"> {{$commission->cash_jackpot}}  {{config('app.currency')}}
+                                                                  </span>
+                                </li>
+                                <li class="list-group-item list-group-item-light" title="{{__('Cash tree')}}">
+                                    <strong>{{__('Cash tree')}}</strong>
+                                    <span
+                                        class="badge badge-outline-info float-end">     {{$commission->cash_tree}}  {{config('app.currency')}}                                    </span>
+                                </li>
                             </ul>
                         </td>
                         <td>
@@ -66,12 +86,11 @@
                                     <strong>{{__('Additional commission value')}}</strong> <span
                                         class="badge badge-outline-info float-end">{{$commission->additional_commission_value}}  {{config('app.currency')}}</span>
                                 </li>
-                                <li class="list-group-item">
+                                <li class="list-group-item" title=" {{$commission->final_cashback_percentage}} %">
                                     <strong>{{__('Final cashback')}}</strong> <span
                                         class="badge badge-outline-info float-end">
                                         {{$commission->final_cashback}} {{config('app.currency')}}
-                            <hr>
-                            {{$commission->final_cashback_percentage}} %</span>
+                           </span>
                                 </li>
                             </ul>
                         </td>

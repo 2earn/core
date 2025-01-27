@@ -11,12 +11,11 @@ class CommissionBreakDownObserver
 {
     public function created(CommissionBreakDown $commissionBreakDown)
     {
-        Log::info('Commission BreakDown CommissionBreakDownObserver : ' . $commissionBreakDown->id);
+        Log::info('Commission BreakDown CommissionBreakDownObserver ');
         if ($commissionBreakDown->wasRecentlyCreated) {
             if ($commissionBreakDown->type->value == CommissionTypeEnum::IN->value) {
             $oldCommissionBreakDowns = CommissionBreakDown::where('deal_id', $commissionBreakDown->deal_id)->where('type', CommissionTypeEnum::IN)->get();
-            Log::info('Commission BreakDown: ' . count($oldCommissionBreakDowns));
-            if (!empty($oldCommissionBreakDowns)) {
+                if (count($oldCommissionBreakDowns) > 1) {
                 $first = $oldCommissionBreakDowns->first();
                 $percentage = $commissionBreakDown->percentage - $first->percentage;
                 $deal = Deal::find($commissionBreakDown->deal_id);
