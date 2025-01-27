@@ -15,9 +15,8 @@ class CommissionBreakDownObserver
         if ($commissionBreakDown->wasRecentlyCreated) {
             if ($commissionBreakDown->type->value == CommissionTypeEnum::IN->value) {
             $oldCommissionBreakDowns = CommissionBreakDown::where('deal_id', $commissionBreakDown->deal_id)->where('type', CommissionTypeEnum::IN)->get();
-            Log::info('Commission BreakDown A : ' . $commissionBreakDown->id);
+            Log::info('Commission BreakDown: ' . count($oldCommissionBreakDowns));
             if (!empty($oldCommissionBreakDowns)) {
-                Log::info('Commission BreakDown B : ' . $commissionBreakDown->id);
                 $first = $oldCommissionBreakDowns->first();
                 $percentage = $commissionBreakDown->percentage - $first->percentage;
                 $deal = Deal::find($commissionBreakDown->deal_id);
@@ -26,6 +25,7 @@ class CommissionBreakDownObserver
                     $cumulativeCashback = CommissionBreakDown::where('deal_id', $commissionBreakDown->deal_id)->sum('cumulative_cashback');
                     $cbData = [
                         'trigger' => $oldCommissionBreakDown->id,
+                        'deal_id' => $commissionBreakDown->deal_id,
                         'type' => CommissionTypeEnum::RECOVERED->value,
                         'order_id' => $oldCommissionBreakDown->order_id,
                         'amount' => $oldCommissionBreakDown->amount,

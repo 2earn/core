@@ -1,4 +1,4 @@
-<div class="col-md-12">
+<div class="col-md-12 text-muted">
     <div class="card mt-2">
         <div class="card-header">
             <h6 class="card-title mb-0">{{__('Commission break down')}}</h6>
@@ -59,7 +59,7 @@
                                         class="badge badge-outline-info float-end">{{$commission->earned_cashback}}  {{config('app.currency')}}</span>
                                 </li>
                                 <li class="list-group-item">
-                                    <strong>{{__('Commission_difference')}}</strong> <span
+                                    <strong>{{__('Commission difference')}}</strong> <span
                                         class="badge badge-outline-info float-end">{{$commission->commission_difference}}  {{config('app.currency')}}</span>
                                 </li>
                                 <li class="list-group-item">

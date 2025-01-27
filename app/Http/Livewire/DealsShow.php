@@ -33,7 +33,7 @@ class DealsShow extends Component
     {
         $this->currentRouteName = Route::currentRouteName();
         $this->idDeal = $id;
-        $this->currentTurnover = 0; //stocké
+        $this->currentTurnover = 0;
         $this->franchisorMarginPercentage = 0;
         $this->prescriptorMarginPercentage = 0;
         $this->influencerMarginPercentage = 0;

@@ -147,7 +147,7 @@
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->min_percentage_cashback}}
+                                {{$deal->min_percentage_cashback}} %
                             </span>
                         </div>
                     </div>
@@ -163,7 +163,7 @@
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->max_percentage_cashback}}
+                                {{$deal->max_percentage_cashback}} %
                             </span>
                         </div>
                     </div>
@@ -214,7 +214,7 @@
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->earn_profit}}
+                                {{$deal->earn_profit}} %
                             </span>
                         </div>
                     </div>
@@ -230,7 +230,7 @@
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->jackpot}}
+                                {{$deal->jackpot}} %
                             </span>
                         </div>
                     </div>
@@ -246,7 +246,7 @@
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->tree_remuneration}}
+                                {{$deal->tree_remuneration}} %
                             </span>
                         </div>
                     </div>
@@ -262,7 +262,7 @@
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->proactive_cashback}}
+                                {{$deal->proactive_cashback}} %
                             </span>
                         </div>
                     </div>

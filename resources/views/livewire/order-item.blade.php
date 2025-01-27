@@ -90,6 +90,7 @@
                                                     @if($orderDetail->item()->first()->deal()->exists())
                                                         <li class="list-group-item list-group-item-success">
                                                             <strong>{{__('Deal')}}</strong>
+                                                            {{$orderDetail->item()->first()->deal()->first()->id}}
                                                             <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$orderDetail->item()->first()->deal()->first()->id])}}"><span
                                                                     class="float-end"> {{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}</span>
                                                             </a>
@@ -98,15 +99,17 @@
                                                 </ul>
                                             @else
                                                 <strong>
-                                                <span class="text-muted">
-                                                    {{$orderDetail->item()->first()->ref}} -
-                                                </span>
-                                                </strong>
-                                                <span class="text-muted">
-                                                {{$orderDetail->item()->first()->name}}
+                                                    <strong>{{__('Item')}}:</strong> <span class="text-info float-end">
+                                                    {{$orderDetail->item()->first()->ref}} - {{$orderDetail->item()->first()->name}}
                                             </span>
+                                                </strong>
+
+                                                <hr>
                                                 @if($orderDetail->item()->first()->deal()->exists())
-                                                    <span class="text-info"> : {{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}</span>
+                                                    <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$orderDetail->item()->first()->deal()->first()->id])}}">
+                                                        <strong>{{__('Deal')}}:</strong> <span
+                                                            class="text-info float-end">{{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}</span>
+                                                    </a>
                                                 @endif
                                             @endif
                                         </td>
@@ -199,9 +202,9 @@
                                                 </td>
                                             @else
                                                 <td colspan="3" class="text-center">
-                                             <br>
+                                                    <br>
                                                     <span
-                                                    class="alert alert-light mt-2">{{__('No deal in this order details')}}</span>
+                                                        class="alert alert-light mt-2">{{__('No deal in this order details')}}</span>
                                                 </td>
                                             @endif
                                         @endif
