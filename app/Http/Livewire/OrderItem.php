@@ -39,12 +39,17 @@ class OrderItem extends Component
     }
     public function render()
     {
-        $params = ['order' => Order::find($this->idOrder)];
+        $params = [
+            'order' => Order::find($this->idOrder),
+            'discount' => null,
+            'bfss' => null,
+            'cash' => null,
+        ];
 
         if (!is_null($this->idOrder)) {
             if ($params['order']) {
                 $params['discount'] = DiscountBalances::where('order_id', $params['order']->id)->first();
-                $params['bfss'] = BFSsBalances::where('order_id', $params['order']->id)->get();
+                $params['bfss'] = BFSsBalances::where('order_id', $params['order']->id)->exists() ? BFSsBalances::where('order_id', $params['order']->id)->get() : null;
                 $params['cash'] = CashBalances::where('order_id', $params['order']->id)->first();
                 $params['commissions'] = CommissionBreakDown::where('order_id', $params['order']->id)->where('type', CommissionTypeEnum::RECOVERED)->get();
             }

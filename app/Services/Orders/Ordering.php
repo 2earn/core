@@ -311,40 +311,48 @@ class Ordering
         Log::info('runPartition');
         foreach ($dealsTurnOver as $dealId => $turnOver) {
             $deal = Deal::find($dealId);
+            $oldTurnOver = $deal->current_turnover;
             $newTurnOver = $deal->current_turnover + $turnOver['total'];
             $deal->update(['current_turnover' => $newTurnOver]);
+
+
+            if (CommissionBreakDown::where('deal_id', $dealId)->orderBy('created_at', 'DESC')->exists()) {
+                $oldCommissionPercentage = 0;
+            } else {
+                $lastCommission = CommissionBreakDown::where('deal_id', $dealId)->orderBy('created_at', 'DESC')->first();
+                $oldCommissionPercentage = $lastCommission?->pluck('commission_percentage') ?? 0;
+            }
+
             $commissionPercentage = Deal::getCommissionPercentage($deal,$newTurnOver);
-            $camembert = 0;
-            $totalAmount = $deal->current_turnover;
-            $cumulative = CommissionBreakDown::sum('value');
-            $cumulativeCashback = CommissionBreakDown::sum('cumulative_cashback');
-            CommissionBreakDown::create([
+            $cumulative = CommissionBreakDown::where('deal_id', $dealId)->sum('cumulative_commission');
+            $cumulativeCashback = CommissionBreakDown::where('deal_id', $dealId)->sum('cumulative_cashback');
+            $cbData = [
                 'order_id' => $order->id,
                 'deal_id' => $dealId,
-
                 'trigger' => 0,
-                'type' => CommissionTypeEnum::IN->value,
+                'type' => CommissionTypeEnum::IN->value
+            ];
+            $cbData['new_turnover'] = $newTurnOver;
+            $cbData['old_turnover'] = $oldTurnOver;
+            $cbData['purchase_value'] = $turnOver['total'];
+            $cbData['commission_percentage'] = $commissionPercentage;
+            $cbData['commission_value'] = $turnOver['total'] * $commissionPercentage / 100;
+            $cbData['cumulative_commission'] = $cumulative + $cbData['commission_value'];
+            $cbData['cumulative_commission_percentage'] = $cbData['cumulative_commission'] / $cbData['new_turnover'] * 100;
+            $cbData['cash_company_profit'] = $cbData['commission_value'] * $deal->earn_profit / 100;
+            $cbData['cash_jackpot'] = $cbData['commission_value'] * $deal->jackpot / 100;
+            $cbData['cash_tree'] = $cbData['commission_value'] * $deal->tree_remuneration / 100;
+            $cbData['cash_cashback'] = $cbData['commission_value'] * $deal->proactive_cashback / 100;
+            $cbData['cumulative_cashback'] = $cumulativeCashback + $cbData['cash_cashback'];
 
-                'amount' => $turnOver['total'],
-                'total_amount' => $totalAmount,
-                'percentage' => $commissionPercentage,
-                'value' => $turnOver['total'] / 100 * $commissionPercentage,
-                'cumulative' => $cumulative,
-                'cumulative_percentage' => $totalAmount > 0 ? $cumulative / $totalAmount : 0,
-
-                'earn' => $camembert / 100 * $deal->earn_profit,
-                'jackpot' => $camembert / 100 * $deal->jackpot,
-                'cashback_proactif' => $turnOver['total'] / 100 * $deal->proactive_cashback,
-                'tree' => $turnOver['total'] / 100 * $deal->tree_remuneration,
-                // TO DO waiting for formulas
-                'cumulative_cashback' => $cumulativeCashback,
-                'cashback_allocation' => 0,
-                'earned_cashback' => 0,
-                'max_cashback_percentage' => $deal->max_percentage_cashback,
-                'max_cashback' => 0,
-                'final_cashback' => 0,
-                'final_cashback_percentage' => 0
-            ]);
+            $cbData['commission_difference'] = $commissionPercentage + $oldCommissionPercentage;
+            $cbData['additional_commission_value'] = $oldCommissionPercentage * ($cbData['commission_difference'] / 100);
+            $cbData['cumulative_commission'] =  $cbData['cumulative_commission'] + $cbData['additional_commission_value'];
+            $cbData['cashback_allocation'] = $cbData['cumulative_cashback'] != 0 ? $cbData['cash_cashback'] / $cbData['cumulative_cashback'] * 100 : 0;
+            $cbData['earned_cashback'] = $cbData['cumulative_cashback'] * $cbData['cashback_allocation'] / 100;
+            $cbData['final_cashback'] = min($cbData['purchase_value'], $cbData['earned_cashback']);
+            $cbData['final_cashback_percentage'] = $cbData['final_cashback'] / $cbData['purchase_value'] * 100;
+            CommissionBreakDown::create($cbData);
         }
         $param = DB::table('settings')->where("ParameterName", "=", 'GATEWAY_PAYMENT_FEE')->first();
         if (!is_null($param)) {

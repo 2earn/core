@@ -5,9 +5,9 @@
         @endsection
         @component('components.breadcrumb')
             @slot('title')
-                    <a href="{{route('orders_previous',['locale'=> app()->getLocale()])}}" class="text-white mx-1"><i
-                            class="ri-shopping-cart-fill"></i> </a>   {{ __('Order details') }} : {{__('Order id')}}
-                    : {{$order->id}}
+                <a href="{{route('orders_previous',['locale'=> app()->getLocale()])}}" class="text-white mx-1"><i
+                        class="ri-shopping-cart-fill"></i> </a>   {{ __('Order details') }} : {{__('Order id')}}
+                : {{$order->id}}
             @endslot
         @endcomponent
         <div class="row">
@@ -91,7 +91,7 @@
                                                         <li class="list-group-item list-group-item-success">
                                                             <strong>{{__('Deal')}}</strong>
                                                             <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$orderDetail->item()->first()->deal()->first()->id])}}"><span
-                                                                class="float-end"> {{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}</span>
+                                                                    class="float-end"> {{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}</span>
                                                             </a>
                                                         </li>
                                                     @endif
@@ -275,13 +275,13 @@
                                                 @if($order->deal_amount_after_partner_discount)
                                                     <li class="list-group-item">
                                                         <strong>{{__('After partner discount')}}</strong><span
-                                                                class="float-end text-muted">{{$order->deal_amount_after_partner_discount}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                                            class="float-end text-muted">{{$order->deal_amount_after_partner_discount}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
                                                     </li>
                                                 @endif
                                                 @if($order->deal_amount_after_2earn_discount)
                                                     <li class="list-group-item">
                                                         <strong>{{__('After 2earn discount')}}</strong><span
-                                                                class="float-end text-muted">{{$order->deal_amount_after_2earn_discount}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                                            class="float-end text-muted">{{$order->deal_amount_after_2earn_discount}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
                                                     </li>
                                                 @endif
                                                 @if($order->deal_amount_after_deal_discount)
@@ -370,8 +370,7 @@
                     </div>
                 </div>
             @endif
-
-            @if($currentRouteName=="orders_detail" && $order->status->value >= \Core\Enum\OrderEnum::Paid->value &&(isset($discount) ||isset($bfss)||isset($cash)))
+            @if($currentRouteName=="orders_detail" && $order->status->value >= \Core\Enum\OrderEnum::Paid->value &&(!is_null($discount) ||!is_null($bfss)||!is_null($cash)))
                 <div class="col-md-12">
                     <div class="card mt-2">
                         <div class="card-header">
@@ -485,8 +484,7 @@
                     </div>
                 </div>
             @endif
-
-            @if($currentRouteName=="orders_detail" && $order->status->value >= \Core\Enum\OrderEnum::Paid->value &&(isset($discount) ||isset($bfss)||isset($cash)))
+            @if($currentRouteName=="orders_detail" && $order->status->value >= \Core\Enum\OrderEnum::Paid->value && $commissions->isNotEmpty() &&(isset($discount) ||isset($bfss)||isset($cash)))
                 <div class="col-md-12">
                     <div class="card mt-2">
                         <div class="card-header">

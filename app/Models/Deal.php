@@ -68,7 +68,12 @@ class Deal extends Model
 
     public static function getCommissionPercentage($deal, $newTurnOver)
     {
-        return (($deal->final_commission - $deal->initial_commission) / $deal->target_turnover) * $newTurnOver + $deal->initial_commission - $deal->discount;
+        if ($newTurnOver > $deal->target_turnover) {
+            return $deal->final_commission - $deal->discount;
+        }
+        $a = ($deal->final_commission - $deal->initial_commission) / $deal->target_turnover;
+        $b = $deal->initial_commission - $deal->discount;
+        return max(0, min(100, $a * $newTurnOver + $b));
     }
     public static function validateDeal($id)
     {
