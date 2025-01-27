@@ -198,13 +198,13 @@
                                                             </span>
                                                 </td>
                                             @else
-                                                <td colspan="3" class="text-center mt-2">
-                                                <span
-                                                    class="alert alert-info">{{__('No deal in this order details')}}</span>
+                                                <td colspan="3" class="text-center">
+                                             <br>
+                                                    <span
+                                                    class="alert alert-light mt-2">{{__('No deal in this order details')}}</span>
                                                 </td>
                                             @endif
                                         @endif
-
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -485,43 +485,8 @@
                 </div>
             @endif
             @if($currentRouteName=="orders_detail" && $order->status->value >= \Core\Enum\OrderEnum::Paid->value && $commissions->isNotEmpty() &&(isset($discount) ||isset($bfss)||isset($cash)))
-                <div class="col-md-12">
-                    <div class="card mt-2">
-                        <div class="card-header">
-                            <h6 class="card-title mb-0">{{__('Commission break down')}}</h6>
-                        </div>
-                        <div class="card-body">
-                            <table class="table table-border table-card table-nowrap">
-                                <thead>
-                                <tr>
-                                    <th scope="col">{{__('Order')}}</th>
-                                    <th scope="col">{{__('Trigger')}}</th>
-                                    <th scope="col">{{__('Amount')}}</th>
-                                    <th scope="col">{{__('Percentage')}}</th>
-                                    <th scope="col">{{__('Value')}}</th>
-                                    <th scope="col">{{__('Created at')}}</th>
-
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($commissions as $key => $commission)
-                                    <tr>
-                                        <th scope="row">{{$key+1}}</th>
-                                        <td>{{$commission->trigger}}</td>
-                                        <td>{{$commission->amount}}</td>
-                                        <td>{{$commission->percentage}}</td>
-                                        <td>{{$commission->value}}</td>
-                                        <td>{{$commission->created_at}}</td>
-                                    </tr>
-                                @endforeach
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+                @include('livewire.commission-breackdowns', ['commissions' => $commissions])
             @endif
-
         </div>
         <div class="card-footer">
             <span class="badge bg-info-subtle text-info badge-border">

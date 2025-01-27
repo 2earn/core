@@ -68,11 +68,20 @@ class Deal extends Model
 
     public static function getCommissionPercentage($deal, $newTurnOver)
     {
+        Log::alert($deal->target_turnover);
         if ($newTurnOver > $deal->target_turnover) {
             return $deal->final_commission - $deal->discount;
         }
+        Log::alert($deal->initial_commission);
+        Log::alert($deal->final_commission);
+        Log::alert($deal->target_turnover);
+        Log::alert($deal->discount);
         $a = ($deal->final_commission - $deal->initial_commission) / $deal->target_turnover;
         $b = $deal->initial_commission - $deal->discount;
+        Log::alert($a);
+        Log::alert($b);
+        Log::info($a * $newTurnOver + $b);
+
         return max(0, min(100, $a * $newTurnOver + $b));
     }
     public static function validateDeal($id)

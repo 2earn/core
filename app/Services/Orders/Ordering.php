@@ -96,11 +96,9 @@ class Ordering
 
                 $ponderation = $orderDetail->total_amount * $totalDiscount;
                 if (!isset($dealsTurnOver[$orderDetail->item->deal->id])) {
-                    $dealsTurnOver[$orderDetail->item->deal->id]['total'] = $amountAfterPartnerDiscount;
-                    $dealsTurnOver[$orderDetail->item->deal->id]['dispatching'] = $ponderation;
+                    $dealsTurnOver[$orderDetail->item->deal->id] = $amountAfterPartnerDiscount;
                 } else {
-                    $dealsTurnOver[$orderDetail->item->deal->id]['total'] = $dealsTurnOver[$orderDetail->item->deal->id]['total'] + $amountAfterPartnerDiscount;
-                    $dealsTurnOver[$orderDetail->item->deal->id]['dispatching'] = $dealsTurnOver[$orderDetail->item->deal->id]['dispatching'] + $ponderation;
+                    $dealsTurnOver[$orderDetail->item->deal->id] = $dealsTurnOver[$orderDetail->item->deal->id] + $amountAfterPartnerDiscount;
                 }
                 $itemDeal = [
                     'id' => $orderDetail->id,
@@ -308,12 +306,14 @@ class Ordering
 
     public static function runPartition(Order $order, array $dealsTurnOver)
     {
-        Log::info('runPartition');
+        Log::info('runPartition ------------------');
+
         foreach ($dealsTurnOver as $dealId => $turnOver) {
             $deal = Deal::find($dealId);
             $oldTurnOver = $deal->current_turnover;
-            $newTurnOver = $deal->current_turnover + $turnOver['total'];
+            $newTurnOver = $deal->current_turnover + $turnOver;
             $deal->update(['current_turnover' => $newTurnOver]);
+            Log::info($turnOver);
 
 
             if (CommissionBreakDown::where('deal_id', $dealId)->orderBy('created_at', 'DESC')->exists()) {
@@ -324,6 +324,8 @@ class Ordering
             }
 
             $commissionPercentage = Deal::getCommissionPercentage($deal,$newTurnOver);
+            Log::info('commissionPercentage : '. $commissionPercentage);
+
             $cumulative = CommissionBreakDown::where('deal_id', $dealId)->sum('cumulative_commission');
             $cumulativeCashback = CommissionBreakDown::where('deal_id', $dealId)->sum('cumulative_cashback');
             $cbData = [
@@ -334,9 +336,9 @@ class Ordering
             ];
             $cbData['new_turnover'] = $newTurnOver;
             $cbData['old_turnover'] = $oldTurnOver;
-            $cbData['purchase_value'] = $turnOver['total'];
+            $cbData['purchase_value'] = $turnOver;
             $cbData['commission_percentage'] = $commissionPercentage;
-            $cbData['commission_value'] = $turnOver['total'] * $commissionPercentage / 100;
+            $cbData['commission_value'] = $turnOver * $commissionPercentage / 100;
             $cbData['cumulative_commission'] = $cumulative + $cbData['commission_value'];
             $cbData['cumulative_commission_percentage'] = $cbData['cumulative_commission'] / $cbData['new_turnover'] * 100;
             $cbData['cash_company_profit'] = $cbData['commission_value'] * $deal->earn_profit / 100;
@@ -369,6 +371,7 @@ class Ordering
             'value' => $order->out_of_deal_amount / 100 * $SettingCommissionPercentage,
         ]);
     }
+
 
 
     public static function run($simulation)

@@ -287,38 +287,7 @@
         </div>
     </div>
         @if(!empty($commissions))
-            <div class="card mt-2">
-                <div class="card-header">
-                    <h6 class="card-title mb-0">{{__('Commission break down')}}</h6>
-                </div>
-                <div class="card-body">
-                    <table class="table table-border table-card table-nowrap">
-                        <thead>
-                        <tr>
-                            <th scope="col">{{__('Order')}}</th>
-                            <th scope="col">{{__('Trigger')}}</th>
-                            <th scope="col">{{__('Amount')}}</th>
-                            <th scope="col">{{__('Percentage')}}</th>
-                            <th scope="col">{{__('Value')}}</th>
-                            <th scope="col">{{__('Created at')}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($commissions as $key => $commission)
-                            <tr>
-                                <th scope="row">{{$key+1}}</th>
-                                <td>{{$commission->trigger}}</td>
-                                <td> <span class="badge bg-success text-end fs-14">{{$commission->amount}} {{\App\Http\Livewire\DealsShow::CURRENCY}}</span></td>
-                                <td>{{$commission->percentage}} %</td>
-                                <td><span class="badge bg-success text-end fs-14">{{$commission->value}} {{\App\Http\Livewire\DealsShow::CURRENCY}}</span></td>
-                                <td>{{$commission->created_at}}</td>
-                            </tr>
-                        @endforeach
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            @include('livewire.commission-breackdowns', ['commissions' => $commissions])
         @endif
         <script type="module">
         $(document).on('turbolinks:load', function () {
