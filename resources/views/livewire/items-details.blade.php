@@ -12,9 +12,7 @@
             @include('layouts.flash-messages')
         </div>
     </div>
-    <div class="card">
-        <div class="card-body">
-            <div class="card-body row">
+    <div class="row">
                 <div class="col-sm-12 col-lg-12">
                     <div class="card border card-border-light">
                         <div class="card-header">
@@ -61,9 +59,11 @@
                                 </tbody>
                             </table>
                             <h5>{{__('Description')}}</h5>
-                            <p class="text-muted">
-                                {{$item->description}}
-                            </p>
+                            <blockquote>
+                                <p class="text-muted">
+                                    {{$item->description}}
+                                </p>
+                            </blockquote>
                         </div>
                         <div class="card-footer">
                             <div class="row">
@@ -83,6 +83,4 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 </div>

@@ -16,9 +16,8 @@ use PhpParser\Node\Expr\Isset_;
 
 class OrderingSimulation
 {
-    public function __construct(private BalancesManager $balancesManager)
+    public function __construct()
     {
-
     }
 
     public static function createOrGetItem($platformId, $faker)
@@ -26,20 +25,17 @@ class OrderingSimulation
         $dealsIds = Deal::where('platform_id', $platformId)->pluck('id')->toArray();
         $dealsId = $dealsIds[array_rand($dealsIds)];
         $itemsIds = Item::where('deal_id', $dealsId)->pluck('id')->toArray();
-
         $getFromItems = (bool)rand(0, 1);
         if ($getFromItems && !empty($itemsIds)) {
-            $itemId = $dealsIds[array_rand($itemsIds)];
-            return Item::find($itemId);
-        } else {
-            return OrderingSimulation::createItem($platformId, $faker);
+            return Item::find($itemsIds[array_rand($itemsIds)]);
         }
+        return self::getItem($platformId, $faker);
     }
     public static function createItem($platformId, $faker)
     {
-        $unit_price = mt_rand(200, 500) / 100;
-        $discount = mt_rand(1, 20);
-        $discount2earn = mt_rand(1, 20);
+        $unit_price = mt_rand(500, 2000) / 100;
+        $discount = mt_rand(0, 15);
+        $discount2earn = mt_rand(0, 15);
         $itemName = $faker->name();
         $description = $faker->name();
         $reference = $faker->randomNumber(4);
@@ -74,7 +70,7 @@ class OrderingSimulation
         for ($i = 1; $i <= $orderItemsNumber; $i++) {
             $item = OrderingSimulation::createOrGetItem($platformId, $faker);
             $shipping = mt_rand(50, 120) / 100;
-            $qty = rand(1, 3);
+            $qty = rand(1, 5);
             if (!isset($orderItems[$item->id])) {
                 $orderItems[$item->id] = [
                 'qty' => $qty,
@@ -87,6 +83,7 @@ class OrderingSimulation
                 $orderItems[$item->id]['qty'] += $qty;
             }
         }
+        Log::info("orderItems " . json_encode($orderItems));
         foreach ($orderItems as $orderItem) {
             $order->orderDetails()->create($orderItem);
         }
@@ -117,14 +114,24 @@ class OrderingSimulation
             $orderItemsNumber = rand(1, 5);
             $platformsIds = Platform::all()->pluck('id')->toArray();
             $platformId = $platformsIds[array_rand($platformsIds)];
-            $platformId = 3;
             $faker = Factory::create();
             $order = Order::create(['user_id' => $Buyer->id, 'note' => $faker->text()]);
             OrderingSimulation::createOrderItems($order, $orderItemsNumber, $platformId, $faker);
             return true;
         } catch (\Exception $exception) {
+            dd($exception);
             Log::alert($exception->getMessage());
         }
         return false;
+    }
+
+    /**
+     * @param $platformId
+     * @param $faker
+     * @return Item|bool
+     */
+    public static function getItem($platformId, $faker): bool|Item
+    {
+        return OrderingSimulation::createItem($platformId, $faker);
     }
 }
