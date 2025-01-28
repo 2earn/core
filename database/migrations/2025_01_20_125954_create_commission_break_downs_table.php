@@ -16,7 +16,6 @@ return new class extends Migration {
             $table->unsignedBigInteger('trigger')->nullable();
             $table->float('new_turnover')->nullable();
             $table->float('old_turnover')->nullable();
-            $table->float('percentage')->nullable();
             $table->float('purchase_value')->nullable();
             $table->float('commission_percentage')->nullable();
             $table->float('commission_value')->nullable();

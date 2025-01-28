@@ -307,14 +307,10 @@ class Ordering
     public static function runPartition(Order $order, array $dealsTurnOver)
     {
         Log::info('runPartition ------------------');
-
         foreach ($dealsTurnOver as $dealId => $turnOver) {
             $deal = Deal::find($dealId);
             $oldTurnOver = $deal->current_turnover;
-            $newTurnOver = $deal->current_turnover + $turnOver;
-            $deal->update(['current_turnover' => $newTurnOver]);
-            Log::info($turnOver);
-
+            $newTurnOver = $deal->updateTurnover($turnOver);
 
             if (CommissionBreakDown::where('deal_id', $dealId)->orderBy('created_at', 'DESC')->exists()) {
                 $oldCommissionPercentage = 0;

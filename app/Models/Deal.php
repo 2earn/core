@@ -69,10 +69,10 @@ class Deal extends Model
     public static function getCommissionPercentage($deal, $newTurnOver)
     {
         if ($newTurnOver > $deal->target_turnover) {
-            return $deal->final_commission - $deal->discount;
+            return $deal->final_commission;
         }
         $a = ($deal->final_commission - $deal->initial_commission) / $deal->target_turnover;
-        $b = $deal->initial_commission - $deal->discount;
+        $b = $deal->initial_commission;
         return max(0, min(100, $a * $newTurnOver + $b));
     }
     public static function validateDeal($id)
@@ -125,5 +125,12 @@ class Deal extends Model
             Log::error($exception->getMessage());
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Archived !') . " " . $exception->getMessage());
         }
+    }
+
+    public function updateTurnover($pushase)
+    {
+        $this->current_turnover = $this->current_turnover + $pushase;
+        $this->save();
+        return $this->current_turnover;
     }
 }

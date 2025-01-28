@@ -10,8 +10,7 @@
                     <th scope="col">{{__('Order')}}</th>
                     <th scope="col">{{__('Trigger')}}</th>
                     <th scope="col">{{__('Type')}}</th>
-                    <th scope="col">{{__('Old turnover')}}</th>
-                    <th scope="col">{{__('New turnover')}}</th>
+                    <th scope="col">{{__('Turnover')}}</th>
                     <th scope="col">{{__('Purchase value')}}</th>
                     <th scope="col">{{__('Commission')}}</th>
                     <th scope="col">{{__('Cumulative commission')}}</th>
@@ -30,8 +29,22 @@
                                 {{__(\Core\Enum\CommissionTypeEnum::tryFrom($commission->type->value)->name)}}
                             </span>
                         </td>
-                        <td>{{$commission->old_turnover}} {{config('app.currency')}}</td>
-                        <td>{{$commission->new_turnover}}  {{config('app.currency')}}</td>
+                        <td>
+
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <strong>{{__('Old')}} : </strong>
+                                    <span
+                                        class="badge badge-outline-info float-end"> {{$commission->old_turnover}} {{config('app.currency')}}</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>{{__('New')}} : </strong>
+                                    <span
+                                        class="badge badge-outline-info float-end"> {{$commission->new_turnover}} {{config('app.currency')}}</span>
+                                </li>
+                            </ul>
+
+                        </td>
                         <td>{{$commission->purchase_value}}</td>
                         <td>
                             {{$commission->commission_value}} {{config('app.currency')}}
@@ -52,19 +65,19 @@
                                         class="badge badge-outline-info float-end">    {{$commission->cash_company_profit}}  {{config('app.currency')}}
                                     </span>
                                 </li>
-                                <li class="list-group-item list-group-item-secondary" title="{{__('Cash cashback')}}">
+                                <li class="list-group-item" title="{{__('Cash cashback')}}">
                                     <strong>{{__('Cash cashback')}}</strong>
                                     <span
                                         class="badge badge-outline-info float-end">  {{$commission->cash_cashback}}  {{config('app.currency')}}                                    </span>
                                 </li>
-                                <li class="list-group-item list-group-item-info" title="{{__('Cash jackpot')}}">
+                                <li class="list-group-item" title="{{__('Cash jackpot')}}">
                                     <strong>{{__('Cash jackpot')}}</strong>
 
                                     <span
                                         class="badge badge-outline-info float-end"> {{$commission->cash_jackpot}}  {{config('app.currency')}}
                                                                   </span>
                                 </li>
-                                <li class="list-group-item list-group-item-light" title="{{__('Cash tree')}}">
+                                <li class="list-group-item" title="{{__('Cash tree')}}">
                                     <strong>{{__('Cash tree')}}</strong>
                                     <span
                                         class="badge badge-outline-info float-end">     {{$commission->cash_tree}}  {{config('app.currency')}}                                    </span>

@@ -46,4 +46,16 @@ class CommissionBreakDown extends Model
     {
         return $this->hasOne(Deal::class, 'deal_id', 'id');
     }
+
+    public function getRecoveredPercentage()
+    {
+
+        $lastTwoRecords = CommissionBreakDown::where('deal_id', $this->deal_id)
+            ->where('type', CommissionTypeEnum::IN)
+            ->orderBy('id', 'desc')
+            ->take(2)
+            ->get();
+
+        return  $lastTwoRecords[0]->commission_percentage - $lastTwoRecords[1]->commission_percentage;
+    }
 }
