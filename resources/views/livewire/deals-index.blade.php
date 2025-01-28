@@ -40,8 +40,6 @@
                                     <th>{{__('Status')}}</th>
                                     <th>{{__('Validated')}}</th>
                                     <th>{{__('Platform')}}</th>
-                                    <th>{{__('Created by')}}</th>
-                                    <th>{{__('description')}}</th>
                                     <th>{{__('Action')}}</th>
                                 </tr>
                                 </thead>
@@ -84,8 +82,6 @@
                         {data: 'status'},
                         {data: 'validated'},
                         {data: 'platform_id'},
-                        {data: 'created_by'},
-                        {data: 'description'},
                         {data: 'action'},
                     ],
                     "language": {"url": urlLang},

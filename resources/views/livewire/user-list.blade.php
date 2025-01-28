@@ -32,7 +32,7 @@
                                 <div class="d-flex align-items-end justify-content-between mt-4">
                                     <div>
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                            {{ $currency }}
+                                             {{config('app.currency')}}
                                             <span>
                                                     {{formatSolde(\App\Services\Balances\Balances::sommeSold('cash_balances'))}}</span>
                                         </h4>
@@ -61,7 +61,7 @@
                                 <div class="d-flex align-items-end justify-content-between mt-4">
                                     <div>
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                            {{ $currency }}
+                                             {{config('app.currency')}}
                                             <span class="counter-value"
                                                   data-target="{{\App\Services\Balances\Balances::sommeSold('bfss_balances')}}">
                                                       {{\App\Services\Balances\Balances::sommeSold('bfss_balances')}}</span>
@@ -89,7 +89,7 @@
                                 <div class="d-flex align-items-end justify-content-between mt-4">
                                     <div>
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                            {{ $currency }}
+                                             {{config('app.currency')}}
                                             <span class="counter-value"
                                                   data-target="{{\App\Services\Balances\Balances::sommeSold('discount_balances')}}">
                                                  {{\App\Services\Balances\Balances::sommeSold('discount_balances')}}</span>
@@ -144,7 +144,7 @@
                                 <div class="d-flex align-items-end justify-content-between mt-4">
                                     <div>
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                            {{ $currency }}
+                                             {{config('app.currency')}}
                                             <span class="counter-value"
                                                   data-target="   {{\App\Services\Balances\Balances::sommeSold('shares_balances')}}">
                                                        {{\App\Services\Balances\Balances::sommeSold('shares_balances')}}</span>
@@ -172,7 +172,7 @@
                                 <div class="d-flex align-items-end justify-content-between mt-4">
                                     <div>
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                            {{ $currency }}
+                                             {{config('app.currency')}}
                                             <span class="counter-value"
                                                   data-target=" {{\App\Services\Balances\Balances::sommeSold('shares_balances','amount')}}">
                                                     {{\App\Services\Balances\Balances::sommeSold('shares_balances','amount')}}</span>
@@ -200,7 +200,7 @@
                                 <div class="d-flex align-items-end justify-content-between mt-4">
                                     <div>
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                            {{ $currency }}
+                                             {{config('app.currency')}}
                                             <span class="counter-value"
                                                   data-target="{{\App\Services\Balances\Balances::sommeSold('shares_balances','amount')+\App\Services\Balances\Balances::sommeSold('cash_balances')}}">
                                                     {{\App\Services\Balances\Balances::sommeSold('shares_balances','amount')+\App\Services\Balances\Balances::sommeSold('cash_balances')}}</span>
@@ -271,7 +271,7 @@
                                     </label>
                                     <div class="input-group">
                                         <input type="number" class="form-control" id="ammount">
-                                        <span class="input-group-text">{{ $currency }}</span>
+                                        <span class="input-group-text"> {{config('app.currency')}}</span>
                                     </div>
                                 </div>
                             </div>

@@ -281,7 +281,7 @@
                         <li class="menu-title">
                             <span data-key="t-menu">{{ __('SUPER ADMIN MENU') }}</span>
                         </li>
-                        <li class="nav-item  d-none cool-link {{$currentRouteName=='orders_index'? 'active' : ''}}">
+                        <li class="nav-item cool-link {{$currentRouteName=='orders_index'? 'active' : ''}}">
                             <a href="{{route('orders_index',['locale'=>request()->route("locale")],false )}}"
                                class="nav-link menu-link {{$currentRouteName=='orders_index'? 'active' : ''}}"
                                role="button">
@@ -289,7 +289,7 @@
                                 <span>{{__('Orders')}}</span>
                             </a>
                         </li>
-                        <li class="nav-item d-none cool-link {{$currentRouteName=='items_index'? 'active' : ''}}">
+                        <li class="nav-item cool-link {{$currentRouteName=='items_index'? 'active' : ''}}">
                             <a href="{{route('items_index',['locale'=>request()->route("locale")],false )}}"
                                class="nav-link menu-link {{$currentRouteName=='items_index'? 'active' : ''}}"
                                role="button">

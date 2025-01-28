@@ -5,9 +5,9 @@
         @endsection
         @component('components.breadcrumb')
             @slot('title')
-                    <a href="{{route('orders_previous',['locale'=> app()->getLocale()])}}" class="text-white mx-1"><i
-                            class="ri-shopping-cart-fill"></i> </a>   {{ __('Order details') }} : {{__('Order id')}}
-                    : {{$order->id}}
+                <a href="{{route('orders_previous',['locale'=> app()->getLocale()])}}" class="text-white mx-1"><i
+                        class="ri-shopping-cart-fill"></i> </a>   {{ __('Order details') }} : {{__('Order id')}}
+                : {{$order->id}}
             @endslot
         @endcomponent
         <div class="row">
@@ -82,36 +82,41 @@
                                                     </li>
                                                     <li class="list-group-item">
                                                         <strong>{{__('Price')}}</strong><span
-                                                            class="float-end">{{$orderDetail->item()->first()->price}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                                            class="float-end">{{$orderDetail->item()->first()->price}}  {{config('app.currency')}}</span>
                                                     </li>
                                                     <li class="list-group-item"><strong>{{__('Discount')}}</strong><span
                                                             class="float-end">{{$orderDetail->item()->first()->discount}} %</span>
                                                     </li>
                                                     @if($orderDetail->item()->first()->deal()->exists())
                                                         <li class="list-group-item list-group-item-success">
-                                                            <strong>{{__('Deal')}}</strong><span
-                                                                class="float-end"> {{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}</span>
+                                                            <strong>{{__('Deal')}}</strong>
+                                                            {{$orderDetail->item()->first()->deal()->first()->id}}
+                                                            <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$orderDetail->item()->first()->deal()->first()->id])}}"><span
+                                                                    class="float-end"> {{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}</span>
+                                                            </a>
                                                         </li>
                                                     @endif
                                                 </ul>
                                             @else
                                                 <strong>
-                                                <span class="text-muted">
-                                                    {{$orderDetail->item()->first()->ref}} -
-                                                </span>
-                                                </strong>
-                                                <span class="text-muted">
-                                                {{$orderDetail->item()->first()->name}}
+                                                    <strong>{{__('Item')}}:</strong> <span class="text-info float-end">
+                                                    {{$orderDetail->item()->first()->ref}} - {{$orderDetail->item()->first()->name}}
                                             </span>
+                                                </strong>
+
+                                                <hr>
                                                 @if($orderDetail->item()->first()->deal()->exists())
-                                                    <span class="text-info"> : {{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}</span>
+                                                    <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$orderDetail->item()->first()->deal()->first()->id])}}">
+                                                        <strong>{{__('Deal')}}:</strong> <span
+                                                            class="text-info float-end">{{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}</span>
+                                                    </a>
                                                 @endif
                                             @endif
                                         </td>
                                         <td>{{$orderDetail->qty}}</td>
-                                        <td>{{$orderDetail->unit_price}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</td>
-                                        <td>{{$orderDetail->shipping}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</td>
-                                        <td>{{$orderDetail->total_amount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</td>
+                                        <td>{{$orderDetail->unit_price}}  {{config('app.currency')}}</td>
+                                        <td>{{$orderDetail->shipping}}  {{config('app.currency')}}</td>
+                                        <td>{{$orderDetail->total_amount}}  {{config('app.currency')}}</td>
                                         @if($order->status->value >= \Core\Enum\OrderEnum::Simulated->value && $currentRouteName=="orders_detail")
                                             @if($orderDetail->item->deal()->exists())
                                                 <td>
@@ -186,23 +191,23 @@
                                                 <td>
                                                       <span
                                                           class="badge bg-danger text-end fs-14">
-                                                    {{$orderDetail->final_discount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}                                                            </span>
+                                                    {{$orderDetail->final_discount}}  {{config('app.currency')}}                                                            </span>
                                                     </span>
                                                 </td>
                                                 <td>
                                                             <span
                                                                 class="badge bg-success text-end fs-14">
-                                                    {{$orderDetail->final_amount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}
+                                                    {{$orderDetail->final_amount}}  {{config('app.currency')}}
                                                             </span>
                                                 </td>
                                             @else
-                                                <td colspan="3" class="text-center mt-2">
-                                                <span
-                                                    class="alert alert-info">{{__('No deal in this order details')}}</span>
+                                                <td colspan="3" class="text-center">
+                                                    <br>
+                                                    <span
+                                                        class="alert alert-light mt-2">{{__('No deal in this order details')}}</span>
                                                 </td>
                                             @endif
                                         @endif
-
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -240,7 +245,7 @@
                                             @if($order->out_of_deal_amount)
                                                 <li class="list-group-item">
                                                     <strong>{{__('Out of deal amount')}}</strong><span
-                                                        class="float-end text-muted">{{$order->out_of_deal_amount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                                        class="float-end text-muted">{{$order->out_of_deal_amount}}  {{config('app.currency')}}</span>
                                                 </li>
                                             @endif
                                             @if($order->amount_before_discount)
@@ -248,7 +253,7 @@
                                                     <strong>{{__('Amount before discount')}}</strong>
                                                     <span
                                                         class="badge border border-success text-success float-end text-muted">
-                            {{$order->amount_before_discount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                            {{$order->amount_before_discount}}  {{config('app.currency')}}</span>
                                                 </li>
                                             @endif
                                         </ul>
@@ -267,28 +272,28 @@
                                                     <li class="list-group-item">
                                                         <strong>{{__('Deal amount before discount')}}</strong>
                                                         <span
-                                                            class="badge border border-danger text-light float-end text-muted">{{$order->deal_amount_before_discount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                                            class="badge border border-danger text-light float-end text-muted">{{$order->deal_amount_before_discount}}  {{config('app.currency')}}</span>
                                                     </li>
                                                 @endif
-                                                    @if($order->deal_amount_after_partner_discount)
-                                                        <li class="list-group-item">
-                                                            <strong>{{__('After partner discount')}}</strong><span
-                                                                class="float-end text-muted">{{$order->deal_amount_after_partner_discount}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
-                                                        </li>
-                                                    @endif
-                                                    @if($order->deal_amount_after_2earn_discount)
-                                                        <li class="list-group-item">
-                                                            <strong>{{__('After 2earn discount')}}</strong><span
-                                                                class="float-end text-muted">{{$order->deal_amount_after_2earn_discount}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
-                                                        </li>
-                                                    @endif
-                                                    @if($order->deal_amount_after_deal_discount)
+                                                @if($order->deal_amount_after_partner_discount)
+                                                    <li class="list-group-item">
+                                                        <strong>{{__('After partner discount')}}</strong><span
+                                                            class="float-end text-muted">{{$order->deal_amount_after_partner_discount}}   {{config('app.currency')}}</span>
+                                                    </li>
+                                                @endif
+                                                @if($order->deal_amount_after_2earn_discount)
+                                                    <li class="list-group-item">
+                                                        <strong>{{__('After 2earn discount')}}</strong><span
+                                                            class="float-end text-muted">{{$order->deal_amount_after_2earn_discount}}   {{config('app.currency')}}</span>
+                                                    </li>
+                                                @endif
+                                                @if($order->deal_amount_after_deal_discount)
                                                     <li class="list-group-item  text-bg-light">
                                                         <strong>{{__('After deal discount')}}</strong>
                                                         <span
-                                                            class="badge border border-success text-light float-end text-muted">{{$order->deal_amount_after_deal_discount}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                                            class="badge border border-success text-light float-end text-muted">{{$order->deal_amount_after_deal_discount}}   {{config('app.currency')}}</span>
                                                     </li>
-                                                    @endif
+                                                @endif
 
                                             </ul>
                                         </div>
@@ -304,7 +309,7 @@
                                                 @if($order->deal_amount_after_discounts)
                                                     <li class="list-group-item">
                                                         <strong>{{__('After discounts')}}</strong><span
-                                                            class="float-end text-muted">{{$order->deal_amount_after_discounts}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                                            class="float-end text-muted">{{$order->deal_amount_after_discounts}}   {{config('app.currency')}}</span>
                                                     </li>
                                                 @endif
                                                 @if($order->final_discount_percentage)
@@ -318,13 +323,13 @@
                                                     <li class="list-group-item">
                                                         <strong>{{__('Final discount value')}}</strong>
                                                         <span
-                                                            class="badge float-end border  border-success text-success">{{$order->final_discount_value}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                                            class="badge float-end border  border-success text-success">{{$order->final_discount_value}}  {{config('app.currency')}}</span>
                                                     </li>
                                                 @endif
                                                 <li class="list-group-item">
                                                     <strong>{{__('Lost discount value')}}</strong>
                                                     <span
-                                                        class="badge float-end border  border-danger text-danger">{{$order->lost_discount_amount}} {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                                        class="badge float-end border  border-danger text-danger">{{$order->lost_discount_amount}}  {{config('app.currency')}}</span>
                                                 </li>
                                             </ul>
                                         </div>
@@ -348,28 +353,27 @@
                                                     class="text-dark text-xl-start">{{__('Amount after discount')}}</span>
                                     <span
                                         class="badge bg-success text-end fs-14 float-end">
-                                            {{$order->amount_after_discount}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                            {{$order->amount_after_discount}}   {{config('app.currency')}}</span>
                                 </li>
                                 <li class="list-group-item list-group-item-action list-group-item-secondary">
                                                 <span
                                                     class="text-dark text-xl-start">{{__('Gain from BFSs soldes')}}</span>
                                     <span
                                         class="badge bg-success text-end fs-14 float-end">
-                                            {{$order->amount_after_discount-$order->paid_cash}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                            {{$order->amount_after_discount-$order->paid_cash}}   {{config('app.currency')}}</span>
                                 </li>
                                 <li class="list-group-item list-group-item-success">
                                     <span class="text-dark text-xl-start">{{__('Paid cash')}}</span>
                                     <span
                                         class="badge bg-success text-end fs-14 float-end">
-                                            {{$order->paid_cash}}  {{\App\Http\Livewire\OrderItem::CURRENCY}}</span>
+                                            {{$order->paid_cash}}   {{config('app.currency')}}</span>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
             @endif
-
-            @if($currentRouteName=="orders_detail" && $order->status->value >= \Core\Enum\OrderEnum::Paid->value &&(isset($discount) ||isset($bfss)||isset($cash)))
+            @if($currentRouteName=="orders_detail" && $order->status->value >= \Core\Enum\OrderEnum::Paid->value &&(!is_null($discount) ||!is_null($bfss)||!is_null($cash)))
                 <div class="col-md-12">
                     <div class="card mt-2">
                         <div class="card-header">
@@ -482,6 +486,9 @@
                         </div>
                     </div>
                 </div>
+            @endif
+            @if($currentRouteName=="orders_detail" && $order->status->value >= \Core\Enum\OrderEnum::Paid->value && $commissions->isNotEmpty() &&(isset($discount) ||isset($bfss)||isset($cash)))
+                @include('livewire.commission-breackdowns', ['commissions' => $commissions])
             @endif
         </div>
         <div class="card-footer">

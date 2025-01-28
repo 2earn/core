@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\CommissionBreakDown;
 use App\Models\Deal;
+use Core\Enum\CommissionTypeEnum;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +13,7 @@ use Livewire\Component;
 class DealsShow extends Component
 {
     const INDEX_ROUTE_NAME = 'deals_index';
+    const CURRENCY = '$';
 
     public $listeners = [
         'delete' => 'delete',
@@ -30,7 +33,7 @@ class DealsShow extends Component
     {
         $this->currentRouteName = Route::currentRouteName();
         $this->idDeal = $id;
-        $this->currentTurnover = 0; //stocké
+        $this->currentTurnover = 0;
         $this->franchisorMarginPercentage = 0;
         $this->prescriptorMarginPercentage = 0;
         $this->influencerMarginPercentage = 0;
@@ -52,7 +55,6 @@ class DealsShow extends Component
     {
         try {
             Deal::findOrFail($id)->delete();
-
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Deleted Successfully'));
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -66,7 +68,11 @@ class DealsShow extends Component
         if (is_null($deal)) {
             $this->redirect()->route('deals_index', ['locale' => app()->getLocale()]);
         }
-        $params = ['deal' => $deal];
+        $commissions = CommissionBreakDown::where('deal_id', $this->idDeal)->get();
+        $params = [
+            'deal' => $deal,
+            'commissions' => $commissions
+        ];
         return view('livewire.deals-show', $params)->extends('layouts.master')->section('content');
     }
 }

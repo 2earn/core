@@ -1262,9 +1262,6 @@ class ApiController extends BaseController
                 }
                 return '**';
             })
-            ->addColumn('created_by', function ($deal) {
-                return view('parts.datatable.deals-createdBy', ['createdby' => User::find($deal->created_by_id)]);
-            })
             ->addColumn('created_at', function ($platform) {
                 return $platform->created_at?->format(self::DATE_FORMAT);
             })->addColumn('updated_at', function ($platform) {

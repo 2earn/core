@@ -6,13 +6,9 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
+
     const TABLE_NAME = 'deals';
 
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create(self::TABLE_NAME, function (Blueprint $table) {
@@ -22,21 +18,22 @@ return new class extends Migration {
             $table->string('description',512)->nullable();
             $table->boolean('validated')->nullable();
             $table->enum('status', $status);
-            $table->float('objective_turnover')->nullable();
+            $table->float('current_turnover')->nullable();
+            $table->float('target_turnover')->nullable();
+            $table->boolean('is_turnover')->nullable();
             $table->dateTime('start_date')->nullable();
             $table->dateTime('end_date')->nullable();
             $table->float('items_profit_average')->nullable();
-            $table->float('provider_turnover')->nullable();
             $table->float('initial_commission')->nullable();
             $table->float('final_commission')->nullable();
-            $table->float('precision')->nullable();
-            $table->float('progressive_commission')->nullable();
-            $table->float('margin_percentage')->nullable();
-            $table->float('cash_back_margin_percentage')->nullable();
-            $table->float('proactive_consumption_margin_percentage')->nullable();
-            $table->float('shareholder_benefits_margin_percentage')->nullable();
-            $table->float('tree_margin_percentage')->nullable();
-            $table->float('current_turnover_index')->nullable();
+            $table->float('earn_profit')->nullable();
+            $table->float('jackpot')->nullable();
+            $table->float('tree_remuneration')->nullable();
+            $table->float('proactive_cashback')->nullable();
+            $table->float('min_percentage_cashback')->nullable();
+            $table->float('max_percentage_cashback')->nullable();
+            $table->float('total_commission_value')->nullable();
+            $table->float('total_unused_cashback_value')->nullable();
             $table->float('discount')->nullable();
             $table->unsignedBigInteger('created_by_id')->foreign('user_id')->nullable()->references('id')->on('user')->onDelete('cascade');
             $table->unsignedBigInteger('platform_id')->nullable()->foreign('platform_id')->default(1)->nullable()->references('id')->on('platforms')->onDelete('cascade');
@@ -44,11 +41,6 @@ return new class extends Migration {
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists(self::TABLE_NAME);

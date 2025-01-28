@@ -81,7 +81,6 @@ class OrderingSimulation
             $order = Order::find($orderId);
             return $order->status->name;
         } catch (\Exception $exception) {
-            dd($exception);
             Log::alert($exception->getMessage());
         }
         return false;
@@ -94,6 +93,7 @@ class OrderingSimulation
             $orderItemsNumber = rand(1, 5);
             $platformsIds = Platform::all()->pluck('id')->toArray();
             $platformId = $platformsIds[array_rand($platformsIds)];
+            $platformId = 3;
             $faker = Factory::create();
             $order = Order::create(['user_id' => $Buyer->id, 'note' => $faker->text()]);
             OrderingSimulation::createOrderItems($order, $orderItemsNumber, $platformId, $faker);

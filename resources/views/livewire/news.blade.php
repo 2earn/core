@@ -24,13 +24,13 @@
                                class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
                             <thead class="table-light">
                             <tr class="head2earn  tabHeader2earn">
-                                <th>{{__('details')}}</th>
-                                <th>{{__('id')}}</th>
-                                <th>{{__('title')}}</th>
-                                <th>{{__('enabled')}}</th>
-                                <th>{{__('published_at')}}</th>
+                                <th>{{__('Details')}}</th>
+                                <th>{{__('Id')}}</th>
+                                <th>{{__('Title')}}</th>
+                                <th>{{__('Enabled')}}</th>
+                                <th>{{__('Published at')}}</th>
                                 <th>{{__('Actions')}}</th>
-                                <th>{{__('content')}}</th>
+                                <th>{{__('Content')}}</th>
                             </tr>
                             </thead>
                             <tbody class="body2earn">
