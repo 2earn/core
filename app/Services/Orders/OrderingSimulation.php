@@ -12,13 +12,29 @@ use Core\Services\BalancesManager;
 use Database\Seeders\AddCashSeeder;
 use Faker\Factory;
 use Illuminate\Support\Facades\Log;
+use PhpParser\Node\Expr\Isset_;
 
 class OrderingSimulation
 {
     public function __construct(private BalancesManager $balancesManager)
     {
+
     }
 
+    public static function createOrGetItem($platformId, $faker)
+    {
+        $dealsIds = Deal::where('platform_id', $platformId)->pluck('id')->toArray();
+        $dealsId = $dealsIds[array_rand($dealsIds)];
+        $itemsIds = Item::where('deal_id', $dealsId)->pluck('id')->toArray();
+
+        $getFromItems = (bool)rand(0, 1);
+        if ($getFromItems && !empty($itemsIds)) {
+            $itemId = $dealsIds[array_rand($itemsIds)];
+            return Item::find($itemId);
+        } else {
+            return OrderingSimulation::createItem($platformId, $faker);
+        }
+    }
     public static function createItem($platformId, $faker)
     {
         $unit_price = mt_rand(200, 500) / 100;
@@ -54,17 +70,25 @@ class OrderingSimulation
 
     public static function createOrderItems(Order $order, $orderItemsNumber, $platformId, $faker)
     {
+        $orderItems = [];
         for ($i = 1; $i <= $orderItemsNumber; $i++) {
-            $item = OrderingSimulation::createItem($platformId, $faker);
+            $item = OrderingSimulation::createOrGetItem($platformId, $faker);
             $shipping = mt_rand(50, 120) / 100;
             $qty = rand(1, 3);
-            $order->orderDetails()->create([
+            if (!isset($orderItems[$item->id])) {
+                $orderItems[$item->id] = [
                 'qty' => $qty,
                 'unit_price' => $item->price,
                 'shipping' => $shipping,
                 'total_amount' => $qty * $item->price,
                 'item_id' => $item->id,
-            ]);
+                ];
+            } else {
+                $orderItems[$item->id]['qty'] += $qty;
+            }
+        }
+        foreach ($orderItems as $orderItem) {
+            $order->orderDetails()->create($orderItem);
         }
     }
 

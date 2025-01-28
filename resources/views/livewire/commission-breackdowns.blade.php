@@ -7,7 +7,7 @@
             <table class="table table-border table-striped table-card table-nowrap">
                 <thead>
                 <tr>
-                    <th scope="col">{{__('Order')}}</th>
+                    <th scope="col">#</th>
                     <th scope="col">{{__('Trigger')}}</th>
                     <th scope="col">{{__('Type')}}</th>
                     <th scope="col">{{__('Turnover')}}</th>
