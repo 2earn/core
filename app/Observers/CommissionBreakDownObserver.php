@@ -19,8 +19,8 @@ class CommissionBreakDownObserver
                     $percentage = $commissionBreakDown->getRecoveredPercentage();
                     $deal = Deal::find($commissionBreakDown->deal_id);
                 foreach ($oldCommissionBreakDowns as $oldCommissionBreakDown) {
-                    $cumulative = CommissionBreakDown::sum('cumulative_commission');
-                    $cumulativeCashback = CommissionBreakDown::where('deal_id', $commissionBreakDown->deal_id)->sum('cumulative_cashback');
+                    $cumulative = CommissionBreakDown::getSum($commissionBreakDown->deal_id, 'cumulative_commission');
+                    $cumulativeCashback = CommissionBreakDown::getSum($commissionBreakDown->deal_id, 'cumulative_cashback');
 
                     $cbData = [
                         'trigger' => $oldCommissionBreakDown->id,

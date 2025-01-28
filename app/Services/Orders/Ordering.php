@@ -322,8 +322,9 @@ class Ordering
             $commissionPercentage = Deal::getCommissionPercentage($deal,$newTurnOver);
             Log::info('commissionPercentage : '. $commissionPercentage);
 
-            $cumulative = CommissionBreakDown::where('deal_id', $dealId)->sum('cumulative_commission');
-            $cumulativeCashback = CommissionBreakDown::where('deal_id', $dealId)->sum('cumulative_cashback');
+            $cumulative = CommissionBreakDown::getSum($dealId, 'cumulative_commission');
+            $cumulativeCashback = CommissionBreakDown::getSum($dealId, 'cumulative_cashback');
+
             $cbData = [
                 'order_id' => $order->id,
                 'deal_id' => $dealId,

@@ -49,7 +49,6 @@ class CommissionBreakDown extends Model
 
     public function getRecoveredPercentage()
     {
-
         $lastTwoRecords = CommissionBreakDown::where('deal_id', $this->deal_id)
             ->where('type', CommissionTypeEnum::IN)
             ->orderBy('id', 'desc')
@@ -57,5 +56,9 @@ class CommissionBreakDown extends Model
             ->get();
 
         return  $lastTwoRecords[0]->commission_percentage - $lastTwoRecords[1]->commission_percentage;
+    }
+    public static function getSum($dealId,$column)
+    {
+      return  CommissionBreakDown::where('deal_id', $dealId)->where('type', CommissionTypeEnum::IN)->sum($column);
     }
 }

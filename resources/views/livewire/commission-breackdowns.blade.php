@@ -33,19 +33,19 @@
 
                             <ul class="list-group">
                                 <li class="list-group-item">
-                                    <strong>{{__('Old')}} : </strong>
+                                    <strong>{{__('Old')}}</strong>
                                     <span
                                         class="badge badge-outline-info float-end"> {{$commission->old_turnover}} {{config('app.currency')}}</span>
                                 </li>
                                 <li class="list-group-item">
-                                    <strong>{{__('New')}} : </strong>
+                                    <strong>{{__('New')}}</strong>
                                     <span
                                         class="badge badge-outline-info float-end"> {{$commission->new_turnover}} {{config('app.currency')}}</span>
                                 </li>
                             </ul>
 
                         </td>
-                        <td>{{$commission->purchase_value}}</td>
+                        <td>{{$commission->purchase_value}}  {{config('app.currency')}}</td>
                         <td>
                             {{$commission->commission_value}} {{config('app.currency')}}
                             <hr>
