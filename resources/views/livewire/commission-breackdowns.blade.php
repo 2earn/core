@@ -25,7 +25,15 @@
                         <th scope="row">{{$key+1}}</th>
                         <td>{{$commission->trigger}}</td>
                         <td>
-                            <span class="badge badge-gradient-info">
+                            <span class="badge
+                             @if($commission->type->value==\Core\Enum\CommissionTypeEnum::IN->value)
+                             badge-outline-primary
+                             @elseif($commission->type->value==\Core\Enum\CommissionTypeEnum::OUT->value)
+                          badge-outline-secondary
+                             @else
+                          badge-outline-warning
+                             @endif
+                             ">
                                 {{__(\Core\Enum\CommissionTypeEnum::tryFrom($commission->type->value)->name)}}
                             </span>
                         </td>
