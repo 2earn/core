@@ -49,7 +49,6 @@ class Ordering
             'out_of_deal_amount' => $out_of_deal_amount,
             'deal_amount_before_discount' => $deal_amount_before_discount,
             'total_order_quantity' => $totalOrderQuantity,
-            'amount_before_discount' => $out_of_deal_amount + $deal_amount_before_discount
         ]);
         $orderTotal = $out_of_deal_amount + $deal_amount_before_discount;
         if ($orderTotal <= $balances->cash_balance + $balances->discount_balance + Balances::getTotalBfs($balances)) {
@@ -58,98 +57,143 @@ class Ordering
         return false;
     }
 
+    public static function initDealItem(OrderDetail $orderDetail)
+    {
+        return [
+            'id' => $orderDetail->id,
+            'deal' => $orderDetail->item->deal->id,
+            'itemName' => $orderDetail->item->name,
+            'unitPrice' => $orderDetail->unit_price,
+            'qty' => $orderDetail->qty,
+            'totalAmount' => $orderDetail->total_amount,
+        ];
+    }
+
+    public static function fillPartnerDiscount(OrderDetail $orderDetail, array $itemDeal)
+    {
+        $hasPartnerDiscount = (!is_null($orderDetail->item->discount) || $orderDetail->item->discount != 0);
+        $partnerDiscount = $hasPartnerDiscount ? $orderDetail->total_amount / 100 * $orderDetail->item->discount : 0;
+        $amountAfterPartnerDiscount = $hasPartnerDiscount ? $orderDetail->total_amount - $partnerDiscount : $orderDetail->total_amount;
+        $partnerDiscountData = [
+            'partnerDiscountPercentage' => $orderDetail->item->discount,
+            'partnerDiscount' => $partnerDiscount,
+            'amountAfterPartnerDiscount' => $amountAfterPartnerDiscount
+        ];
+        return array_merge($itemDeal, $partnerDiscountData);
+    }
+
+    public static function fillEarnDiscount(OrderDetail $orderDetail, array $itemDeal)
+    {
+        $has2EarnDiscount = (!is_null($orderDetail->item->discount_2earn) || $orderDetail->item->discount_2earn != 0);
+        $earnDiscount = $has2EarnDiscount ? $itemDeal['amountAfterPartnerDiscount'] / 100 * $orderDetail->item->discount_2earn : 0;
+        $amountAfter2EarnDiscount = $has2EarnDiscount ? $itemDeal['amountAfterPartnerDiscount'] - $earnDiscount : $itemDeal['amountAfterPartnerDiscount'];
+        $earnDiscountData = [
+            '2earnDiscountPercentage' => $has2EarnDiscount ? $orderDetail->item->discount_2earn : 0,
+            '2earnDiscount' => $earnDiscount,
+            'amountAfter2EarnDiscount' => $amountAfter2EarnDiscount,
+        ];
+        return array_merge($itemDeal, $earnDiscountData);
+    }
+
+    public static function fillDealDiscount(OrderDetail $orderDetail, array $itemDeal)
+    {
+        $hasDealDiscount = (!is_null($orderDetail->item->deal->discount) || $orderDetail->item->deal->discount != 0);
+        $dealDiscount = $hasDealDiscount ? $itemDeal['amountAfter2EarnDiscount'] / 100 * $orderDetail->item->deal->discount : 0;
+        $amountAfterDealDiscount = $hasDealDiscount ? $itemDeal['amountAfter2EarnDiscount'] - $dealDiscount : $itemDeal['amountAfter2EarnDiscount'];
+        $dealDiscountData = [
+            'dealDiscountPercentage' => $hasDealDiscount ? $orderDetail->item->deal->discount : 0,
+            'dealDiscount' => $dealDiscount,
+            'amountAfterDealDiscount' => $amountAfterDealDiscount,
+        ];
+        return array_merge($itemDeal, $dealDiscountData);
+    }
+
     public static function simulateDiscount(Order $order)
     {
-        // to review
-
-        Log::info('simulateDiscount');
-        $finalDiscountValue = 0;
-        $dealAmountAfterPartnerDiscount = 0;
-        $dealAmountAfter2earnDiscount = 0;
-        $dealAmountAfterDealDiscount = 0;
-        $totalponderation = 0;
+        Log::info('simulate  *-*-*-*');
+        $balances = Balances::getStoredUserBalances($order->user()->first()->idUser);
         $itemsDeals = [];
         $dealsTurnOver = [];
-        $balances = Balances::getStoredUserBalances($order->user()->first()->idUser);
         foreach ($order->orderDetails as $orderDetail) {
             if ($orderDetail->item->deal()->exists()) {
-                $hasPartnerDiscount = (!is_null($orderDetail->item->discount) || $orderDetail->item->discount != 0);
-                $has2EarnDiscount = (!is_null($orderDetail->item->discount_2earn) || $orderDetail->item->discount_2earn != 0);
-                $hasDealDiscount = (!is_null($orderDetail->item->deal->discount) || $orderDetail->item->deal->discount != 0);
+                $itemDeal = Ordering::initDealItem($orderDetail);
+                $itemDeal = Ordering::fillPartnerDiscount($orderDetail, $itemDeal);
+                $itemDeal = Ordering::fillEarnDiscount($orderDetail, $itemDeal);
+                $itemDeal = Ordering::fillDealDiscount($orderDetail, $itemDeal);
 
-                $partnerDiscount = $hasPartnerDiscount ? $orderDetail->total_amount / 100 * $orderDetail->item->discount : 0;
-                $amountAfterPartnerDiscount = $hasPartnerDiscount ? $orderDetail->total_amount - $partnerDiscount : $orderDetail->total_amount;
-
-
-                $earnDiscount = $has2EarnDiscount ? $amountAfterPartnerDiscount / 100 * $orderDetail->item->discount_2earn : 0;
-                $amountAfter2EarnDiscount = $has2EarnDiscount ? $amountAfterPartnerDiscount - $earnDiscount : $amountAfterPartnerDiscount;
-
-                $dealDiscount = $hasDealDiscount ? $amountAfter2EarnDiscount / 100 * $orderDetail->item->deal->discount : 0;
-                $amountAfterDealDiscount = $hasDealDiscount ? $amountAfter2EarnDiscount - $dealDiscount : $amountAfter2EarnDiscount;
-
-                $dealAmountAfterPartnerDiscount = $dealAmountAfterPartnerDiscount + $amountAfterPartnerDiscount;
-                $dealAmountAfter2earnDiscount = $dealAmountAfter2earnDiscount + $amountAfter2EarnDiscount;
-                $dealAmountAfterDealDiscount = $dealAmountAfterDealDiscount + $amountAfterDealDiscount;
-
-                $totalDiscount = $partnerDiscount + $earnDiscount + $dealDiscount;
-                $finalDiscountValue = $finalDiscountValue + $totalDiscount;
-
-                $ponderation = $orderDetail->total_amount * $totalDiscount;
                 if (!isset($dealsTurnOver[$orderDetail->item->deal->id])) {
-                    $dealsTurnOver[$orderDetail->item->deal->id] = $amountAfterPartnerDiscount;
+                    $dealsTurnOver[$orderDetail->item->deal->id] = $itemDeal['amountAfterPartnerDiscount'];
                 } else {
-                    $dealsTurnOver[$orderDetail->item->deal->id] = $dealsTurnOver[$orderDetail->item->deal->id] + $amountAfterPartnerDiscount;
+                    $dealsTurnOver[$orderDetail->item->deal->id] = $dealsTurnOver[$orderDetail->item->deal->id] + $itemDeal['amountAfterPartnerDiscount'];
                 }
-                $itemDeal = [
-                    'id' => $orderDetail->id,
-                    'deal' => $orderDetail->item->deal->id,
-                    'itemName' => $orderDetail->item->name,
-                    'unitPrice' => $orderDetail->unit_price,
-                    'qty' => $orderDetail->qty,
-                    'totalAmount' => $orderDetail->total_amount,
-                    'partnerDiscountPercentage' => $orderDetail->item->discount,
-                    'partnerDiscount' => $partnerDiscount,
-                    'amountAfterPartnerDiscount' => $amountAfterPartnerDiscount,
-                    '2earnDiscountPercentage' => $has2EarnDiscount ? $orderDetail->item->discount_2earn : 0,
-                    '2earnDiscount' => $earnDiscount,
-                    'amountAfter2EarnDiscount' => $amountAfter2EarnDiscount,
-                    'dealDiscountPercentage' => $hasDealDiscount ? $orderDetail->item->deal->discount : 0,
-                    'dealDiscount' => $dealDiscount,
-                    'amountAfterDealDiscount' => $amountAfterDealDiscount,
-                    'totalDiscountWithDiscountPartner' => $totalDiscount,
-                    'ponderationWithDiscountPartner' => $ponderation,
-                ];
-                $totalponderation= $totalponderation + $orderDetail->total_amount * $totalDiscount;
+
+                $totalDiscount = $itemDeal['partnerDiscount'] + $itemDeal['2earnDiscount'] + $itemDeal['dealDiscount'];
+                $ponderation = $orderDetail->total_amount * $totalDiscount;
+
+                $itemDeal = array_merge($itemDeal, ['totalDiscountWithDiscountPartner' => $totalDiscount, 'ponderationWithDiscountPartner' => $ponderation]);
                 $itemsDeals[] = $itemDeal;
             }
         }
-        $hasLostedDiscount = $balances->discount_balance < $finalDiscountValue;
-        $finalDiscountPersontage = $order->deal_amount_before_discount != 0 ? $finalDiscountValue / $order->deal_amount_before_discount * 100 : 0;
-        $order->update([
-            'final_discount_value' => $finalDiscountValue,
-            'lost_discount_amount' => !$hasLostedDiscount ? 0 : $finalDiscountValue - $balances->discount_balance,
-            'final_discount_percentage' => $finalDiscountPersontage,
-            'deal_amount_after_partner_discount' => $dealAmountAfterPartnerDiscount,
-            'deal_amount_after_2earn_discount' => $dealAmountAfter2earnDiscount,
-            'deal_amount_after_deal_discount' => $dealAmountAfterDealDiscount,
-        ]);
+        $dealAmountAfterPartnerDiscount = array_sum(array_column($itemsDeals, 'amountAfterPartnerDiscount'));
+        $dealAmountAfter2earnDiscount = array_sum(array_column($itemsDeals, 'amountAfter2EarnDiscount'));
+        $dealAmountAfterDealDiscount = array_sum(array_column($itemsDeals, 'amountAfterDealDiscount'));
+        $totalPonderation = array_sum(array_column($itemsDeals, 'ponderationWithDiscountPartner'));
+        $finalDiscountValue = array_sum(array_column($itemsDeals, 'totalDiscountWithDiscountPartner'));
+        $lostDiscountAmount = $finalDiscountValue < $balances->discount_balance ? 0 : $finalDiscountValue - $balances->discount_balance;
 
         foreach ($itemsDeals as $key => $itemDeal) {
-            $itemDeal['totalDiscountPercentageWithDiscountPartner'] = $itemDeal['ponderationWithDiscountPartner'] * $itemDeal['totalDiscountWithDiscountPartner'] / $totalponderation;
-            $itemDeal['refundDispatching'] = $hasLostedDiscount ? $itemDeal['totalDiscountPercentageWithDiscountPartner'] * ($totalDiscount - $finalDiscountValue) / 100 : 0;
+            $itemDeal['totalDiscountPercentageWithDiscountPartner'] = $itemDeal['ponderationWithDiscountPartner'] / $totalPonderation;
+            $itemDeal['refundDispatching'] = $itemDeal['totalDiscountPercentageWithDiscountPartner'] * $lostDiscountAmount / 100;
+
             $itemDeal['finalAmount'] = $itemDeal['amountAfterDealDiscount'] + $itemDeal['refundDispatching'];
             $itemDeal['finalDiscount'] = $itemDeal['totalDiscountWithDiscountPartner'] - $itemDeal['refundDispatching'];
-            $itemDeal['finalDiscountWithoutDiscountPartner'] = $itemDeal['dealDiscount'] - $itemDeal['2earnDiscount'];
-            $itemDeal['discountValueWithoutDiscountPartner'] = $itemDeal['finalDiscountWithoutDiscountPartner'] * $itemDeal['amountAfterPartnerDiscount'];
+
+            $itemDeal['finalDiscountWithoutDiscountPartner'] = $itemDeal['2earnDiscount'] + $itemDeal['dealDiscount'];
+            $itemDeal['valueDiscountPartner'] = $itemDeal['finalDiscountWithoutDiscountPartner'] * $itemDeal['amountAfterPartnerDiscount'];
+            $itemsDeals[$key] = $itemDeal;
+        }
+
+        $totalValueDiscountPartner = array_sum(array_column($itemsDeals, 'valueDiscountPartner'));
+        foreach ($itemsDeals as $key => $itemDeal) {
+            $itemDeal['discountValueWithoutDiscountPartner'] = $itemDeal['valueDiscountPartner'] / $totalValueDiscountPartner;
             $itemsDeals[$key] = $itemDeal;
         }
         $sumDiscountWithoutDiscountPartner = array_sum(array_column($itemsDeals, 'discountValueWithoutDiscountPartner'));
+
+        Ordering::updateOrderDeals(
+            $order,
+            $finalDiscountValue,
+            $lostDiscountAmount,
+            $dealAmountAfterPartnerDiscount,
+            $dealAmountAfter2earnDiscount,
+            $dealAmountAfterDealDiscount
+        );
 
         foreach ($itemsDeals as $key => $itemDeal) {
             $itemDeal['discountPercentageWithoutDiscountPartner'] = $itemDeal['discountValueWithoutDiscountPartner'] / $sumDiscountWithoutDiscountPartner;
             $itemsDeals[$key] = $itemDeal;
         }
 
+        Ordering::updateItemDeals($itemsDeals);
+        $totalFinalAmount = array_sum(array_column($itemsDeals, 'finalAmount'));
+        $dealAmountAfterDiscounts = $totalFinalAmount-($finalDiscountValue-$lostDiscountAmount);
+        $order->update(['deal_amount_after_discounts' => $dealAmountAfterDiscounts, 'amount_after_discount' => $order->out_of_deal_amount + $dealAmountAfterDiscounts]);
+        return $dealsTurnOver;
+    }
+
+    public static function updateOrderDeals($orderDeal, $finalDiscountValue, $lostDiscountAmount, $dealAmountAfterPartnerDiscount, $dealAmountAfter2earnDiscount, $dealAmountAfterDealDiscount)
+    {
+        $orderDeal->update([
+            'final_discount_value' => $finalDiscountValue,
+            'lost_discount_amount' => $lostDiscountAmount,
+            'deal_amount_after_partner_discount' => $dealAmountAfterPartnerDiscount,
+            'deal_amount_after_2earn_discount' => $dealAmountAfter2earnDiscount,
+            'deal_amount_after_deal_discount' => $dealAmountAfterDealDiscount,
+        ]);
+    }
+
+    public static function updateItemDeals($itemsDeals)
+    {
         foreach ($itemsDeals as $itemDeal) {
             OrderDetail::find($itemDeal['id'])->update([
                 'partner_discount_percentage' => $itemDeal['partnerDiscountPercentage'],
@@ -172,14 +216,7 @@ class Ordering
                 'discount_percentage_without_discount_partner' => $itemDeal['discountPercentageWithoutDiscountPartner'],
             ]);
         }
-        $dealAmountAfterDiscounts = array_sum(array_column($itemsDeals, 'finalAmount'));
-        $order->update([
-            'deal_amount_after_discounts' => $dealAmountAfterDiscounts,
-            'amount_after_discount' => $order->out_of_deal_amount + $dealAmountAfterDiscounts,
-        ]);
-        return $dealsTurnOver;
     }
-
     public static function initBfssTable($user)
     {
         $bfssTables = [];
@@ -195,7 +232,6 @@ class Ordering
     }
     public static function simulateBFSs(Order $order)
     {
-        // to review
         Log::alert('simulateBFSs');
         $bfssTables = Ordering::initBfssTable($order->user()->first());
         Log::alert(json_encode($bfssTables));
@@ -253,18 +289,20 @@ class Ordering
     public static function runDiscount($order, $balances)
     {
         Log::info('runDiscount');
-        $currentBalance = $balances->discount_balance + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::ORDER_BFS->value) * $order->final_discount_value);
-        $discountData = [
-            'balance_operation_id' => BalanceOperationsEnum::ORDER_DISCOUNT->value,
-            'operator_id' => Balances::SYSTEM_SOURCE_ID,
-            'beneficiary_id' => $order->user()->first()->idUser,
-            'reference' => BalancesFacade::getReference(BalanceOperationsEnum::ORDER_DISCOUNT->value),
-            'description' => $order->final_discount_value . ' from ordering (id) ' . $order->id . ' / Discount : ' . $balances->discount_balance . ' ==> ' . $currentBalance,
-            'value' => $order->final_discount_value,
-            'current_balance' => $currentBalance
-        ];
-
-        DiscountBalances::addLine($discountData, null, null, $order->id, null, null);
+        $countedDiscount = $order->final_discount_value - $order->lost_discount_amount;
+        if ($countedDiscount > 0) {
+            $currentBalance = $balances->discount_balance + BalanceOperation::getMultiplicator(BalanceOperationsEnum::ORDER_BFS->value) * $countedDiscount;
+            $discountData = [
+                'balance_operation_id' => BalanceOperationsEnum::ORDER_DISCOUNT->value,
+                'operator_id' => Balances::SYSTEM_SOURCE_ID,
+                'beneficiary_id' => $order->user()->first()->idUser,
+                'reference' => BalancesFacade::getReference(BalanceOperationsEnum::ORDER_DISCOUNT->value),
+                'description' => $countedDiscount . ' from ordering (id) ' . $order->id . ' / Discount : ' . $balances->discount_balance . ' ==> ' . $currentBalance,
+                'value' => $countedDiscount,
+                'current_balance' => $currentBalance
+            ];
+            DiscountBalances::addLine($discountData, null, null, $order->id, null, null);
+        }
     }
 
     public static function runBFS($order, $bfssTables, $balances)
