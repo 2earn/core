@@ -337,15 +337,12 @@
                                                         <span
                                                             class="badge float-end border  border-success text-success">{{$order->final_discount_value}}  {{config('app.currency')}}</span>
                                                     </li>
-                                                @endif
-                                                @if($order->lost_discount_amount)
                                                     <li class="list-group-item">
                                                         <strong>{{__('Lost discount value')}}</strong>
                                                         <span
                                                             class="badge float-end border  border-danger text-danger">{{$order->lost_discount_amount}}  {{config('app.currency')}}</span>
                                                     </li>
-                                                @endif
-
+                                                    @endif
                                                 @if($order->deal_amount_after_discounts)
                                                     <li class="list-group-item">
                                                         <strong>{{__('Deal amount after discounts')}}</strong> <span

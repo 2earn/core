@@ -175,8 +175,9 @@ class Ordering
         }
 
         Ordering::updateItemDeals($itemsDeals);
-        $totalFinalAmount = array_sum(array_column($itemsDeals, 'finalAmount'));
-        $dealAmountAfterDiscounts = $totalFinalAmount-($finalDiscountValue-$lostDiscountAmount);
+        $dealAmountAfterDiscounts = array_sum(array_column($itemsDeals, 'finalAmount'));
+        $dealAmountAfterDiscounts = $order->deal_amount_before_discount - ($finalDiscountValue - $lostDiscountAmount);
+
         $order->update(['deal_amount_after_discounts' => $dealAmountAfterDiscounts, 'amount_after_discount' => $order->out_of_deal_amount + $dealAmountAfterDiscounts]);
         return $dealsTurnOver;
     }
