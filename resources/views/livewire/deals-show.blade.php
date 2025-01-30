@@ -36,7 +36,7 @@
                                                                                title="{{__('Current turnover')}}">
                                 {{$deal->current_turnover}}  {{config('app.currency')}}
                             </span>
-                    /
+                  <i class="ri-arrow-right-fill"></i>
                     <span class="badge bg-danger text-end fs-14" title="{{__('Target turnover')}}">
                                 {{$deal->target_turnover}}  {{config('app.currency')}}
                             </span>
@@ -49,7 +49,7 @@
                     <div class="text-muted">
                         <div class="flex-shrink-0 ms-2">
                             <strong class="fs-14 font-weight-bold mb-0">{{__('Start Date')}}
-                                / {{__('End date')}}</strong>
+                                <i class="ri-arrow-right-fill"></i> {{__('End date')}}</strong>
                         </div>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
                                                                                title="{{__('Start Date')}}">
                                 {{$deal->start_date}}
                             </span>
-                    ==>
+                   <i class="ri-arrow-right-fill"></i>
                     <span class="badge bg-danger text-end fs-14" title="{{__('End date')}}">
                                 {{$deal->end_date}}
                             </span>

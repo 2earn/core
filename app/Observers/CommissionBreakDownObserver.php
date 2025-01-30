@@ -25,10 +25,10 @@ class CommissionBreakDownObserver
                     $cumulativeCashback = CommissionBreakDown::getSum($commissionBreakDown->deal_id, 'cumulative_cashback');
 
                     $cbData = [
-                        'trigger' => $commissionBreakDown->id,
+                        'trigger' => $oldCommissionBreakDown->id,
                         'deal_id' => $commissionBreakDown->deal_id,
                         'type' => CommissionTypeEnum::RECOVERED->value,
-                        'order_id' => $oldCommissionBreakDown->order_id,
+                        'order_id' => $commissionBreakDown->order_id,
                     ];
 
                     $cbData['new_turnover'] = $oldCommissionBreakDown->new_turnover;

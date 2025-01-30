@@ -136,7 +136,7 @@ class Ordering
 
         foreach ($itemsDeals as $key => $itemDeal) {
             $itemDeal['totalDiscountPercentageWithDiscountPartner'] = $itemDeal['ponderationWithDiscountPartner'] * $itemDeal['totalDiscountWithDiscountPartner'] / $totalponderation;
-            $itemDeal['refundDispatching'] = $hasLostedDiscount ? $itemDeal['totalDiscountPercentageWithDiscountPartner'] * $itemDeal['lost_discount_amount'] / 100 : 0;
+            $itemDeal['refundDispatching'] = $hasLostedDiscount ? $itemDeal['totalDiscountPercentageWithDiscountPartner'] * ($totalDiscount - $finalDiscountValue) / 100 : 0;
             $itemDeal['finalAmount'] = $itemDeal['amountAfterDealDiscount'] + $itemDeal['refundDispatching'];
             $itemDeal['finalDiscount'] = $itemDeal['totalDiscountWithDiscountPartner'] - $itemDeal['refundDispatching'];
             $itemDeal['finalDiscountWithoutDiscountPartner'] = $itemDeal['dealDiscount'] - $itemDeal['2earnDiscount'];
@@ -359,13 +359,14 @@ class Ordering
         } else {
             $SettingCommissionPercentage = 2;
         }
+
         CommissionBreakDown::create([
             'trigger' => 0,
             'type' => CommissionTypeEnum::OUT->value,
             'order_id' => $order->id,
-            'amount' => $order->out_of_deal_amount,
-            'percentage' => $SettingCommissionPercentage,
-            'value' => $order->out_of_deal_amount / 100 * $SettingCommissionPercentage,
+            'purchase_value' => $order->out_of_deal_amount,
+            'commission_percentage' => $SettingCommissionPercentage,
+            'commission_value' => $order->out_of_deal_amount / 100 * $SettingCommissionPercentage,
         ]);
     }
 

@@ -8,8 +8,7 @@
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">{{__('Trigger')}}</th>
-                    <th scope="col">{{__('Type')}}</th>
+                    <th scope="col">{{__('Generals')}}</th>
                     <th scope="col">{{__('Turnover')}}</th>
                     <th scope="col">{{__('Purchase value')}}</th>
                     <th scope="col">{{__('Commission')}}</th>
@@ -23,9 +22,8 @@
                 @foreach($commissions as $key => $commission)
                     <tr>
                         <th scope="row">{{$key+1}}</th>
-                        <td>{{$commission->trigger}}</td>
                         <td>
-                            <span class="badge
+                            <span title="{{__('Commission brackdown Status')}}" class="badge
                              @if($commission->type->value==\Core\Enum\CommissionTypeEnum::IN->value)
                              badge-outline-primary
                              @elseif($commission->type->value==\Core\Enum\CommissionTypeEnum::OUT->value)
@@ -36,9 +34,14 @@
                              ">
                                 {{__(\Core\Enum\CommissionTypeEnum::tryFrom($commission->type->value)->name)}}
                             </span>
+                            @if($commission->trigger)
+                                <hr>
+                                <span class="badge badge-outline-danger"
+                                      title="{{__('Order trigger')}}">{{$commission->trigger}}</span>
+                            @endif
                         </td>
                         <td>
-
+                            @if($commission->type->value!==\Core\Enum\CommissionTypeEnum::OUT->value)
                             <ul class="list-group">
                                 <li class="list-group-item">
                                     <strong>{{__('Old')}}</strong>
@@ -51,20 +54,34 @@
                                         class="badge badge-outline-info float-end"> {{$commission->new_turnover}} {{config('app.currency')}}</span>
                                 </li>
                             </ul>
-
+                            @else
+                                <div class="alert alert-light material-shadow" role="alert">
+                                    {{__('No data')}}
+                                </div>
+                            @endif
                         </td>
-                        <td>{{$commission->purchase_value}}  {{config('app.currency')}}</td>
+                        <td>
+                                {{$commission->purchase_value}}  {{config('app.currency')}}
+                        </td>
                         <td>
                             {{$commission->commission_value}} {{config('app.currency')}}
                             <hr>
                             {{$commission->commission_percentage}} %
                         </td>
                         <td>
+                            @if($commission->type->value!==\Core\Enum\CommissionTypeEnum::OUT->value)
                             {{$commission->cumulative_commission}} {{config('app.currency')}}
                             <hr>
                             {{$commission->cumulative_commission_percentage}} %
+                            @else
+                                <div class="alert alert-light material-shadow" role="alert">
+                                    {{__('No data')}}
+                                </div>
+                            @endif
+
                         </td>
                         <td>
+                            @if($commission->type->value!==\Core\Enum\CommissionTypeEnum::OUT->value)
                             <ul class="list-group">
                                 <li class="list-group-item list-group-item-primary"
                                     title="{{__('Cash company profit')}}">
@@ -91,9 +108,15 @@
                                         class="badge badge-outline-info float-end">     {{$commission->cash_tree}}  {{config('app.currency')}}                                    </span>
                                 </li>
                             </ul>
+                            @else
+                                <div class="alert alert-light material-shadow" role="alert">
+                                    {{__('No data')}}
+                                </div>
+                            @endif
                         </td>
                         <td>
 
+                            @if($commission->type->value!==\Core\Enum\CommissionTypeEnum::OUT->value)
                             <ul class="list-group">
                                 <li class="list-group-item">
                                     <strong>{{__('Earned cashback')}}</strong> <span
@@ -114,6 +137,11 @@
                            </span>
                                 </li>
                             </ul>
+                            @else
+                                <div class="alert alert-light material-shadow" role="alert">
+                                    {{__('No data')}}
+                                </div>
+                            @endif
                         </td>
                         <td>{{$commission->created_at}}</td>
                     </tr>

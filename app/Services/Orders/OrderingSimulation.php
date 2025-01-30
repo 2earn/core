@@ -69,7 +69,7 @@ class OrderingSimulation
         $orderItems = [];
         for ($i = 1; $i <= $orderItemsNumber; $i++) {
             $item = OrderingSimulation::createOrGetItem($platformId, $faker);
-            $shipping = mt_rand(50, 120) / 100;
+            $shipping = mt_rand(500, 2000) / 100;
             $qty = rand(1, 5);
             if (!isset($orderItems[$item->id])) {
                 $orderItems[$item->id] = [
