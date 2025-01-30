@@ -175,6 +175,7 @@ class Ordering
         }
 
         Ordering::updateItemDeals($itemsDeals);
+        // CHECK WITH KHALIL
         $dealAmountAfterDiscounts = array_sum(array_column($itemsDeals, 'finalAmount'));
         $dealAmountAfterDiscounts = $order->deal_amount_before_discount - ($finalDiscountValue - $lostDiscountAmount);
 
