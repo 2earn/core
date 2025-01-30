@@ -81,6 +81,7 @@ class OrderingSimulation
                 ];
             } else {
                 $orderItems[$item->id]['qty'] += $qty;
+                $orderItems[$item->id]['total_amount'] += $qty * $item->price;
             }
         }
         Log::info("orderItems " . json_encode($orderItems));
@@ -110,11 +111,16 @@ class OrderingSimulation
     {
         try {
             $BuyerId = AddCashSeeder::USERS_IDS[array_rand(AddCashSeeder::USERS_IDS)];
+            $BuyerId = 197604395;
+
             $Buyer = User::where('idUser', $BuyerId)->first();
+
             $orderItemsNumber = rand(1, 5);
+
             $platformsIds = Platform::all()->pluck('id')->toArray();
             $platformId = $platformsIds[array_rand($platformsIds)];
             $platformId = 5;
+
             $faker = Factory::create();
             $order = Order::create(['user_id' => $Buyer->id, 'note' => $faker->text()]);
             OrderingSimulation::createOrderItems($order, $orderItemsNumber, $platformId, $faker);

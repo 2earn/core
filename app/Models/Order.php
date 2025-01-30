@@ -15,7 +15,6 @@ class Order extends Model
         'out_of_deal_amount',
         'deal_amount_before_discount',
         'total_order_quantity',
-        'amount_before_discount',
         'deal_amount_after_partner_discount',
         'deal_amount_after_2earn_discount',
         'deal_amount_after_deal_discount',
