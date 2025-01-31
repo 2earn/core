@@ -16,9 +16,6 @@ use PhpParser\Node\Expr\Isset_;
 
 class OrderingSimulation
 {
-    public function __construct()
-    {
-    }
 
     public static function createOrGetItem($platformId, $faker)
     {
@@ -31,6 +28,7 @@ class OrderingSimulation
         }
         return self::getItem($platformId, $faker);
     }
+
     public static function createItem($platformId, $faker)
     {
         $unit_price = mt_rand(500, 2000) / 100;
@@ -107,6 +105,7 @@ class OrderingSimulation
         }
         return false;
     }
+
     public static function simulate(): bool
     {
         try {
@@ -129,11 +128,7 @@ class OrderingSimulation
         return false;
     }
 
-    /**
-     * @param $platformId
-     * @param $faker
-     * @return Item|bool
-     */
+
     public static function getItem($platformId, $faker): bool|Item
     {
         return OrderingSimulation::createItem($platformId, $faker);

@@ -21,9 +21,6 @@ use Illuminate\Support\Facades\Log;
 use Exception;
 class Ordering
 {
-    public function __construct(private BalancesManager $balancesManager)
-    {
-    }
 
     public static function runChecks(Order $order): bool
     {
@@ -50,7 +47,9 @@ class Ordering
             'deal_amount_before_discount' => $deal_amount_before_discount,
             'total_order_quantity' => $totalOrderQuantity,
         ]);
+
         $orderTotal = $out_of_deal_amount + $deal_amount_before_discount;
+
         if ($orderTotal <= $balances->cash_balance + $balances->discount_balance + Balances::getTotalBfs($balances)) {
             return true;
         }
@@ -176,7 +175,7 @@ class Ordering
 
         Ordering::updateItemDeals($itemsDeals);
         // CHECK WITH KHALIL
-        $dealAmountAfterDiscounts = array_sum(array_column($itemsDeals, 'finalAmount'));
+        // $dealAmountAfterDiscounts = array_sum(array_column($itemsDeals, 'finalAmount'));
         $dealAmountAfterDiscounts = $order->deal_amount_before_discount - ($finalDiscountValue - $lostDiscountAmount);
 
         $order->update(['deal_amount_after_discounts' => $dealAmountAfterDiscounts, 'amount_after_discount' => $order->out_of_deal_amount + $dealAmountAfterDiscounts]);
@@ -232,6 +231,7 @@ class Ordering
         }
         return $bfssTables;
     }
+
     public static function simulateBFSs(Order $order)
     {
         Log::alert('simulateBFSs');
@@ -264,10 +264,7 @@ class Ordering
     public static function simulateCash(Order $order, $amount_after_discount)
     {
         Log::info('simulateCash');
-        return $order->update([
-            'paid_cash' => $amount_after_discount,
-        ]);
-        return false;
+        return $order->update(['paid_cash' => $amount_after_discount]);
     }
 
     public static function simulate(Order $order)
@@ -276,7 +273,6 @@ class Ordering
         if (self::runChecks($order)) {
             $dealsTurnOver = self::simulateDiscount($order);
             $bfssTables = self::simulateBFSs($order);
-            $amount = 0;
             if (!empty($bfssTables)) {
                 $amount = array_last($bfssTables)['amount'];
             }else{
@@ -288,7 +284,7 @@ class Ordering
         return false;
     }
 
-    public static function runDiscount($order, $balances)
+    public static function runDiscount(Order $order, $balances)
     {
         Log::info('runDiscount');
         $countedDiscount = $order->final_discount_value - $order->lost_discount_amount;
@@ -307,7 +303,7 @@ class Ordering
         }
     }
 
-    public static function runBFS($order, $bfssTables, $balances)
+    public static function runBFS(Order $order, $bfssTables, $balances)
     {
         Log::info('runBFS');
         foreach ($bfssTables as $key => $bfs) {
@@ -326,7 +322,7 @@ class Ordering
         }
     }
 
-    public static function runCASH($order, $balances)
+    public static function runCASH(Order $order, $balances)
     {
         Log::info('runCASH');
         if ($order->paid_cash) {
@@ -410,8 +406,6 @@ class Ordering
         ]);
     }
 
-
-
     public static function run($simulation)
     {
         Log::info('running order');
@@ -423,9 +417,10 @@ class Ordering
             Ordering::runBFS($simulation['order'], $simulation['bfssTables'], $balances);
             $balances = Balances::getStoredUserBalances($simulation['order']->user()->first()->idUser);
             Ordering::runCASH($simulation['order'], $balances);
+            $simulation['order']->updateStatus(OrderEnum::Paid);
             Ordering::runPartition($simulation['order'], $simulation['dealsTurnOver']);
             DB::commit();
-            return $simulation['order']->updateStatus(OrderEnum::Paid);
+            return $simulation['order']->updateStatus(OrderEnum::Dispatched);
         } catch (Exception $exception) {
             DB::rollBack();
             $simulation['order']->updateStatus(OrderEnum::Failed);

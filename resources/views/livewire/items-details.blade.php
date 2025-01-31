@@ -22,7 +22,7 @@
                             </h4>
                             <button type="button" class="btn btn-sm btn-outline-info  float-end m-1">
                                 {{__('Total ordered quantity')}} <span
-                                    class="badge bg-info ms-1">{{$sumOfItemIds}}</span>
+                                    class="badge bg-info text-end fs-14 mx-2">{{$sumOfItemIds}}</span>
                             </button>
                         </div>
                         <div class="card-body">
