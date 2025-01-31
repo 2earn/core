@@ -294,7 +294,7 @@
                                class="nav-link menu-link {{$currentRouteName=='items_index'? 'active' : ''}}"
                                role="button">
                                 <i class="ri-shopping-bag-fill"></i>
-                                <span>{{__('items')}}</span>
+                                <span>{{__('Items')}}</span>
                             </a>
                         </li>
                         <li class="nav-item cool-link {{$currentRouteName=='target_index'? 'active' : ''}}">

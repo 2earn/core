@@ -51,7 +51,7 @@ class OrderItem extends Component
                 $params['discount'] = DiscountBalances::where('order_id', $params['order']->id)->first();
                 $params['bfss'] = BFSsBalances::where('order_id', $params['order']->id)->exists() ? BFSsBalances::where('order_id', $params['order']->id)->get() : null;
                 $params['cash'] = CashBalances::where('order_id', $params['order']->id)->first();
-                $params['commissions'] = CommissionBreakDown::where('order_id', $params['order']->id)->where('type', CommissionTypeEnum::IN)->get();
+                $params['commissions'] = CommissionBreakDown::where('order_id', $params['order']->id)->whereNot('type', CommissionTypeEnum::RECOVERED)->get();
             }
             return view('livewire.order-item', $params)->extends('layouts.master')->section('content');
         }

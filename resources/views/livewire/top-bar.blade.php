@@ -351,7 +351,7 @@
                             </a>
                             <div class="dropdown-divider">
                             </div>
-                            <a class="dropdown-item d-none" href="{{route('orders_previous',app()->getLocale())}}">
+                            <a class="dropdown-item" href="{{route('orders_previous',app()->getLocale())}}">
                                 <span class=""> {{ __('Previous orders') }}</span>
                             </a>
                             <a class="dropdown-item" href="{{route('notification_history',app()->getLocale())}}">

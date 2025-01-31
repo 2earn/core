@@ -15,10 +15,12 @@ class CommissionBreakDownObserver
         if ($commissionBreakDown->wasRecentlyCreated) {
             if ($commissionBreakDown->type->value == CommissionTypeEnum::IN->value) {
             $oldCommissionBreakDowns = CommissionBreakDown::where('deal_id', $commissionBreakDown->deal_id)->where('type', CommissionTypeEnum::IN)->get();
-                if (count($oldCommissionBreakDowns) > 1) {
+                if (count($oldCommissionBreakDowns) >= 2) {
                     $percentage = $commissionBreakDown->getRecoveredPercentage();
                     $deal = Deal::find($commissionBreakDown->deal_id);
-                foreach ($oldCommissionBreakDowns as $oldCommissionBreakDown) {
+
+                    foreach ($oldCommissionBreakDowns as $key => $oldCommissionBreakDown) {
+                        if ($key > 0) {
                     $cumulative = CommissionBreakDown::getSum($commissionBreakDown->deal_id, 'cumulative_commission');
                     $cumulativeCashback = CommissionBreakDown::getSum($commissionBreakDown->deal_id, 'cumulative_cashback');
 
@@ -26,12 +28,12 @@ class CommissionBreakDownObserver
                         'trigger' => $oldCommissionBreakDown->id,
                         'deal_id' => $commissionBreakDown->deal_id,
                         'type' => CommissionTypeEnum::RECOVERED->value,
-                        'order_id' => $oldCommissionBreakDown->order_id,
+                        'order_id' => $commissionBreakDown->order_id,
                     ];
 
-                    $cbData['new_turnover'] = $commissionBreakDown->new_turnover;
-                    $cbData['old_turnover'] = $commissionBreakDown->old_turnover;
-                    $cbData['purchase_value'] = $commissionBreakDown->purchase_value;
+                    $cbData['new_turnover'] = $oldCommissionBreakDown->new_turnover;
+                    $cbData['old_turnover'] = $oldCommissionBreakDown->old_turnover;
+                    $cbData['purchase_value'] = $oldCommissionBreakDown->purchase_value;
                     $cbData['commission_percentage'] = $percentage;
                     $cbData['commission_value'] = $cbData['purchase_value'] * $cbData['commission_percentage'] / 100;
                     $cbData['cumulative_commission'] = $cumulative + $cbData['commission_value'];
@@ -41,8 +43,10 @@ class CommissionBreakDownObserver
                     $cbData['cash_tree'] = $cbData['commission_value'] * $deal->tree_remuneration / 100;
                     $cbData['cash_cashback'] = $cbData['commission_value'] * $deal->proactive_cashback / 100;
                     $cbData['cumulative_cashback'] = $cumulativeCashback + $cbData['cash_cashback'];
-                    CommissionBreakDown::create($cbData);
+                            Log::notice(json_encode($cbData));
+                            CommissionBreakDown::create($cbData);
                 }
+                    }
             }
             }
         }

@@ -48,27 +48,27 @@
                                         <th scope="col">{{__('Ref')}}</th>
                                         <th scope="col">{{__('Price')}}</th>
                                         <th scope="col">{{__('Discount')}}</th>
+                                        <th scope="col">{{__('Discount 2earn')}}</th>
                                         @if ($item->deal()->exists())
                                             <th scope="col">{{__('Deal')}}</th>
                                         @endif
                                         @if ($item->stock)
                                             <th scope="col">{{__('Deal')}}</th>
                                         @endif
-                                        <th scope="col">{{__('Description')}}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr>
                                         <th scope="row"><a href="#" class="fw-semibold">#{{$item->ref}}</a></th>
-                                        <td>{{$item->price}}</td>
-                                        <td>{{$item->discount}}</td>
+                                        <td>{{$item->price}} {{config('app.currency')}}</td>
+                                        <td>{{$item->discount}} {{config('app.percentage')}}</td>
+                                        <td>{{$item->discount_2earn}} {{config('app.percentage')}}</td>
                                         @if ($item->deal()->exists())
                                             <td>{{$item->deal->id}} - {{$item->deal->name}}</td>
                                         @endif
                                         @if ($item->stock)
                                             <td>{{$item->stock}}</td>
                                         @endif
-                                        <td>{{$item->description}}</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -86,6 +86,12 @@
                                         @if(\App\Models\User::isSuperAdmin())
                                             <p class="card-text  float-end">{{__('Updated at')}}: <small
                                                     class="text-muted">{{$item->updated_at}}</small></p>
+                                        @endif
+                                    </div>
+                                    <div class="col">
+                                        @if(\App\Models\User::isSuperAdmin())
+                                            <a href="{{route('items_detail',['locale'=>app()->getLocale(),'id'=>$item->id])}}"
+                                               class="card-text  float-end">{{__('More details')}}</a>
                                         @endif
                                     </div>
                                 </div>

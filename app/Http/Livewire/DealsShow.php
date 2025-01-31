@@ -53,12 +53,13 @@ class DealsShow extends Component
 
     public static function remove($id)
     {
+        $paramRedirect = ['locale' => app()->getLocale()];
         try {
             Deal::findOrFail($id)->delete();
-            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Deleted Successfully'));
+            return redirect()->route(self::INDEX_ROUTE_NAME, $paramRedirect)->with('success', Lang::get('Deal Deleted Successfully'));
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Deleted !') . " " . $exception->getMessage());
+            return redirect()->route(self::INDEX_ROUTE_NAME, $paramRedirect)->with('warning', Lang::get('This Deal cant be Deleted !') . " " . $exception->getMessage());
         }
     }
 
@@ -68,7 +69,9 @@ class DealsShow extends Component
         if (is_null($deal)) {
             $this->redirect()->route('deals_index', ['locale' => app()->getLocale()]);
         }
-        $commissions = CommissionBreakDown::where('deal_id', $this->idDeal)->get();
+        $commissions = CommissionBreakDown::where('deal_id', $this->idDeal)
+            ->orderBy('id', 'ASC')
+            ->get();
         $params = [
             'deal' => $deal,
             'commissions' => $commissions
