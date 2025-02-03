@@ -68,7 +68,7 @@
                                 </thead>
                                 <tbody>
                                 @foreach($order->orderDetails()->get() as $key => $orderDetail)
-                                    <tr @if($orderDetail->item()->first()->deal()->exists()) class="table-info" @endif
+                                    <tr @if($orderDetail->item()->first()->deal()->exists()) class="table-primary" @else class="table-warning" @endif
                                     >
                                         <th scope="row">{{$key + 1}}</th>
                                         <td>
@@ -104,9 +104,8 @@
                                                     {{$orderDetail->item()->first()->ref}} - {{$orderDetail->item()->first()->name}}
                                             </span>
                                                 </strong>
-
-                                                <hr>
                                                 @if($orderDetail->item()->first()->deal()->exists())
+                                                    <hr>
                                                     <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$orderDetail->item()->first()->deal()->first()->id])}}">
                                                         <strong>{{__('Deal')}}:</strong> <span
                                                             class="text-info float-end">{{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}</span>
