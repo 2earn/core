@@ -30,8 +30,6 @@ return new class extends Migration {
             $table->float('jackpot')->nullable();
             $table->float('tree_remuneration')->nullable();
             $table->float('proactive_cashback')->nullable();
-            $table->float('min_percentage_cashback')->nullable();
-            $table->float('max_percentage_cashback')->nullable();
             $table->float('total_commission_value')->nullable();
             $table->float('total_unused_cashback_value')->nullable();
             $table->float('discount')->nullable();

@@ -32,8 +32,6 @@ class Deal extends Model
         'jackpot',
         'tree_remuneration',
         'proactive_cashback',
-        'min_percentage_cashback',
-        'max_percentage_cashback',
         'total_commission_value',
         'total_unused_cashback_value',
         'created_by_id',
@@ -123,9 +121,7 @@ class Deal extends Model
         if ($newTurnOver > $deal->target_turnover) {
             return $deal->final_commission;
         }
-        $a = ($deal->final_commission - $deal->initial_commission) / $deal->target_turnover;
-        $b = $deal->initial_commission;
-        return max(0, min(100, $a * $newTurnOver + $b));
+        return max(0, min(100, (($deal->final_commission - $deal->initial_commission) / $deal->target_turnover) * $newTurnOver + $deal->initial_commission));
     }
 
     public function updateTurnover($pushase)

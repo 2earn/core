@@ -49,8 +49,6 @@ class DealsInsertSeeder extends Seeder
                         'jackpot' => $this->getDealParam('DEALS_JACKPOT_PERCENTAGE'),
                         'tree_remuneration' => $this->getDealParam('DEALS_TREE_REMUNERATION_PERCENTAGE'),
                         'proactive_cashback' => $this->getDealParam('DEALS_PROACTIVE_CASHBACK_PERCENTAGE'),
-                        'min_percentage_cashback' => rand(5, 10),
-                        'max_percentage_cashback' => rand(20, 50),
                         'total_commission_value' => 0,
                         'total_unused_cashback_value' => 0,
                         'platform_id' => $platform->id,

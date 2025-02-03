@@ -137,6 +137,7 @@ class Ordering
         $dealAmountAfter2earnDiscount = array_sum(array_column($itemsDeals, 'amountAfter2EarnDiscount'));
         $dealAmountAfterDealDiscount = array_sum(array_column($itemsDeals, 'amountAfterDealDiscount'));
         $totalPonderation = array_sum(array_column($itemsDeals, 'ponderationWithDiscountPartner'));
+
         $finalDiscountValue = array_sum(array_column($itemsDeals, 'totalDiscountWithDiscountPartner'));
         $lostDiscountAmount = $finalDiscountValue < $balances->discount_balance ? 0 : $finalDiscountValue - $balances->discount_balance;
 
@@ -370,6 +371,7 @@ class Ordering
             $cbData['new_turnover'] = $newTurnOver;
             $cbData['old_turnover'] = $oldTurnOver;
             $cbData['purchase_value'] = $turnOver;
+
             $cbData['commission_percentage'] = $commissionPercentage;
             $cbData['commission_value'] = $turnOver * $commissionPercentage / 100;
             $cbData['cumulative_commission'] = $cumulative + $cbData['commission_value'];

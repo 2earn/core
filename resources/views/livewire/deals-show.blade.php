@@ -141,38 +141,6 @@
                         <div class="flex-grow-1">
                             <div class="text-muted">
                                 <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Min percentage cashback')}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->min_percentage_cashback}} %
-                            </span>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <div class="text-muted">
-                                <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Max percentage cashback')}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->max_percentage_cashback}} %
-                            </span>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <div class="text-muted">
-                                <div class="flex-shrink-0 ms-2">
                                     <span class="fs-14 mb-0">{{__('Total commission value')}}</span>
                                 </div>
                             </div>
