@@ -109,7 +109,6 @@ class Ordering
 
     public static function simulateDiscount(Order $order)
     {
-        Log::info('simulate  *-*-*-*');
         $balances = Balances::getStoredUserBalances($order->user()->first()->idUser);
         $itemsDeals = [];
         $dealsTurnOver = [];
@@ -150,7 +149,7 @@ class Ordering
         $lostDiscountAmount = $finalDiscountValue < $balances->discount_balance ? 0 : $finalDiscountValue - $balances->discount_balance;
 
         foreach ($itemsDeals as $key => $itemDeal) {
-            $itemDeal['totalDiscountPercentageWithDiscountPartner'] = $itemDeal['ponderationWithDiscountPartner'] / $totalPonderation;
+            $itemDeal['totalDiscountPercentageWithDiscountPartner'] = $itemDeal['ponderationWithDiscountPartner'] / $totalPonderation * 100;
             $itemDeal['refundDispatching'] = $itemDeal['totalDiscountPercentageWithDiscountPartner'] * $lostDiscountAmount / 100;
 
             $itemDeal['finalAmount'] = $itemDeal['amountAfterDealDiscount'] + $itemDeal['refundDispatching'];
@@ -178,7 +177,7 @@ class Ordering
         );
 
         foreach ($itemsDeals as $key => $itemDeal) {
-            $itemDeal['discountPercentageWithoutDiscountPartner'] = $itemDeal['discountValueWithoutDiscountPartner'] / $sumDiscountWithoutDiscountPartner;
+            $itemDeal['discountPercentageWithoutDiscountPartner'] = $itemDeal['discountValueWithoutDiscountPartner'] / $sumDiscountWithoutDiscountPartner * 100;
             $itemsDeals[$key] = $itemDeal;
         }
 

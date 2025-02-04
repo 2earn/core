@@ -32,7 +32,7 @@ class addContactUserSeeder extends Seeder
 
     public function insertContactUser($faker)
     {
-        $name = $faker->name();
+        $name = $faker->word();
         $names = explode(" ", $name);
         $num = $faker->randomNumber(5, true);
         $phone = 22900000 + $num;

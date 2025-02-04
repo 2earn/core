@@ -30,7 +30,7 @@ class DealsInsertSeeder extends Seeder
             foreach ($platforms as $platform) {
                 for ($i = 1; $i <= $dealNumber; $i++) {
                     $platform->deals()->create([
-                        'name' => $platform->name . ' - ' . $faker->name(),
+                        'name' => $platform->name . ' - ' . $faker->word(),
                         'description' => $faker->text() . ' RANDOM',
                         'validated' => TRUE,
                         'status' => DealStatus::Opened->value,

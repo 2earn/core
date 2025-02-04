@@ -32,8 +32,8 @@ class OrderingSimulation
         $unit_price = mt_rand(500, 2000) / 100;
         $discount = mt_rand(0, 15);
         $discount2earn = mt_rand(0, 15);
-        $itemName = $faker->name();
-        $description = $faker->name();
+        $itemName = $faker->word();
+        $description = $faker->text();
         $reference = $faker->randomNumber(4);
 
         $hasDeal = (bool)rand(0, 2);
