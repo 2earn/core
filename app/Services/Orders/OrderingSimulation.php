@@ -86,6 +86,13 @@ class OrderingSimulation
         }
     }
 
+
+
+    public static function getItem($platformId, $faker): bool|Item
+    {
+        return OrderingSimulation::createItem($platformId, $faker);
+    }
+
     public static function validate($orderId)
     {
         try {
@@ -99,6 +106,7 @@ class OrderingSimulation
             $order = Order::find($orderId);
             return $order->status->name;
         } catch (\Exception $exception) {
+            dd($exception);
             Log::alert($exception->getMessage());
         }
         return false;
@@ -125,9 +133,4 @@ class OrderingSimulation
         return false;
     }
 
-
-    public static function getItem($platformId, $faker): bool|Item
-    {
-        return OrderingSimulation::createItem($platformId, $faker);
-    }
 }
