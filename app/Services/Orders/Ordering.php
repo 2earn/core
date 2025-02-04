@@ -24,7 +24,6 @@ class Ordering
 
     public static function runChecks(Order $order): bool
     {
-        Log::info('runChecks');
         $shippingSum = 0;
         $price_of_products_out_of_deal = 0;
         $balances = Balances::getStoredUserBalances($order->user()->first()->idUser);
@@ -113,7 +112,6 @@ class Ordering
         $itemsDeals = [];
         $dealsTurnOver = [];
         $dealTotals = 0;
-        $x = 0; // 21.42 in image
         foreach ($order->orderDetails as $orderDetail) {
             if ($orderDetail->item->deal()->exists()) {
                 $itemDeal = Ordering::initDealItem($orderDetail);
@@ -135,11 +133,7 @@ class Ordering
                 $itemsDeals[] = $itemDeal;
             }
         }
-        foreach ($dealsTurnOver as $key => $turnOver) {
-            $turnOver['dispatching'] = $turnOver['total'] / $dealTotals * 100;
-            $turnOver['additional'] = $turnOver['dispatching'] * $x;
-            $dealsTurnOver[$key] = $turnOver;
-        }
+
         $dealAmountAfterPartnerDiscount = array_sum(array_column($itemsDeals, 'amountAfterPartnerDiscount'));
         $dealAmountAfter2earnDiscount = array_sum(array_column($itemsDeals, 'amountAfter2EarnDiscount'));
         $dealAmountAfterDealDiscount = array_sum(array_column($itemsDeals, 'amountAfterDealDiscount'));
@@ -147,6 +141,13 @@ class Ordering
 
         $finalDiscountValue = array_sum(array_column($itemsDeals, 'totalDiscountWithDiscountPartner'));
         $lostDiscountAmount = $finalDiscountValue < $balances->discount_balance ? 0 : $finalDiscountValue - $balances->discount_balance;
+
+        foreach ($dealsTurnOver as $key => $turnOver) {
+            $turnOver['dispatching'] = $turnOver['total'] / $dealTotals * 100;
+            $turnOver['additional'] = $turnOver['dispatching'] * $lostDiscountAmount;
+            $turnOver['deal_paid_amount'] = 0;
+            $dealsTurnOver[$key] = $turnOver;
+        }
 
         foreach ($itemsDeals as $key => $itemDeal) {
             $itemDeal['totalDiscountPercentageWithDiscountPartner'] = $itemDeal['ponderationWithDiscountPartner'] / $totalPonderation * 100;
@@ -157,7 +158,11 @@ class Ordering
 
             $itemDeal['finalDiscountWithoutDiscountPartner'] = $itemDeal['2earnDiscount'] + $itemDeal['dealDiscount'];
             $itemDeal['valueDiscountPartner'] = $itemDeal['finalDiscountWithoutDiscountPartner'] * $itemDeal['amountAfterPartnerDiscount'];
+
             $itemsDeals[$key] = $itemDeal;
+
+            $turnOver[$key]['deal_paid_amount'] = $turnOver[$key]['deal_paid_amount'] + $itemDeal['finalAmount'];
+
         }
 
         $totalValueDiscountPartner = array_sum(array_column($itemsDeals, 'valueDiscountPartner'));
@@ -376,6 +381,7 @@ class Ordering
                 'old_turnover' => $oldTurnOver,
                 'purchase_value' => $turnOver['total'],
                 'additional_amount' => $turnOver['additional'],
+                'deal_paid_amount' => $turnOver['deal_paid_amount'],
                 'commission_percentage' =>  $commissionPercentage,
             ];
 
@@ -395,8 +401,8 @@ class Ordering
 
             $cbData['cashback_allocation'] = $cbData['cumulative_cashback'] != 0 ? $cbData['cash_cashback'] / $cbData['cumulative_cashback'] * 100 : 0;
             $cbData['earned_cashback'] = $cbData['cumulative_cashback'] * $cbData['cashback_allocation'] / 100;
-            $cbData['final_cashback'] = min($cbData['purchase_value'], $cbData['earned_cashback']);
-            $cbData['final_cashback_percentage'] = $cbData['final_cashback'] / $cbData['purchase_value'] * 100;
+            $cbData['final_cashback'] = min($cbData['deal_paid_amount'], $cbData['earned_cashback']);
+            $cbData['final_cashback_percentage'] = $cbData['final_cashback'] / $cbData['deal_paid_amount'] * 100;
             CommissionBreakDown::create($cbData);
         }
         $param = DB::table('settings')->where("ParameterName", "=", 'GATEWAY_PAYMENT_FEE')->first();

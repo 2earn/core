@@ -32,6 +32,7 @@ return new class extends Migration {
             $table->float('earned_cashback')->nullable();
             $table->float('commission_difference')->nullable();
             $table->float('additional_commission_value')->nullable();
+            $table->float('deal_paid_amount')->nullable();
             $table->float('final_cashback')->nullable();
             $table->float('final_cashback_percentage')->nullable();
             $table->unsignedBigInteger('deal_id')->nullable()->foreign('deal_id')->nullable()->references('id')->on('deals')->onDelete('cascade');
