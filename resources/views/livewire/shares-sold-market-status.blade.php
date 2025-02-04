@@ -17,7 +17,7 @@
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">
                             <th>{{__('Date transaction')}}</th>
-                            <th>{{__('countrie')}}</th>
+                            <th>{{__('Country')}}</th>
                             <th>{{__('mobile')}}</th>
                             <th>{{__('Name')}}</th>
                             <th>{{__('total_shares')}}</th>

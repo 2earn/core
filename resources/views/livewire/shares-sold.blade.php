@@ -386,7 +386,11 @@
                     autoWidth: false,
                     bAutoWidth: false,
                     "ajax": "{{route('api_transfert',['locale'=> app()->getLocale()])}}",
-                    "columns": [{data: 'value'}, {data: 'Description'}, {data: 'formatted_created_at'},],
+                    "columns": [
+                        {data: 'value'},
+                        {data: 'description'},
+                        {data: 'created_at'}
+                    ],
                     "language": {"url": urlLang}
                 }
             );

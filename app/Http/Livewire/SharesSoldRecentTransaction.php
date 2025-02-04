@@ -12,7 +12,6 @@ use Livewire\Component;
 
 class SharesSoldRecentTransaction extends Component
 {
-
     public $cashBalance;
     public $balanceForSopping;
     public $discountBalance;
