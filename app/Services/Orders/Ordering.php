@@ -161,10 +161,9 @@ class Ordering
 
             $itemsDeals[$key] = $itemDeal;
 
-            $turnOver[$key]['deal_paid_amount'] = $turnOver[$key]['deal_paid_amount'] + $itemDeal['finalAmount'];
+            $dealsTurnOver[$itemDeal['deal']]['deal_paid_amount'] = $dealsTurnOver[$itemDeal['deal']]['deal_paid_amount'] + $itemDeal['finalAmount'];
 
         }
-
         $totalValueDiscountPartner = array_sum(array_column($itemsDeals, 'valueDiscountPartner'));
         foreach ($itemsDeals as $key => $itemDeal) {
             $itemDeal['discountValueWithoutDiscountPartner'] = $itemDeal['valueDiscountPartner'] / $totalValueDiscountPartner;
