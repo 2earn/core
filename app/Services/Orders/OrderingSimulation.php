@@ -8,11 +8,9 @@ use App\Models\Item;
 use App\Models\Order;
 use App\Models\User;
 use Core\Enum\OrderEnum;
-use Core\Services\BalancesManager;
 use Database\Seeders\AddCashSeeder;
-use Faker\Factory;
+use Faker\Factory as FakerFactory;
 use Illuminate\Support\Facades\Log;
-use PhpParser\Node\Expr\Isset_;
 
 class OrderingSimulation
 {
@@ -117,8 +115,7 @@ class OrderingSimulation
             $platformsIds = Platform::all()->pluck('id')->toArray();
             $platformId = $platformsIds[array_rand($platformsIds)];
 
-
-            $faker = Factory::create();
+            $faker = FakerFactory::create();
             $order = Order::create(['user_id' => $Buyer->id, 'note' => $faker->text()]);
             OrderingSimulation::createOrderItems($order, $orderItemsNumber, $platformId, $faker);
             return true;
