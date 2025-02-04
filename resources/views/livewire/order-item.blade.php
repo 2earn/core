@@ -32,10 +32,13 @@
                 </button>
             @endif
 
-            <button type="button" class="btn btn-sm btn-outline-info  float-end m-1">
+                @if(\App\Models\User::isSuperAdmin())
+                    <button type="button" class="btn btn-sm btn-outline-info  float-end m-1">
                 {{__($order->status->name)}}
             </button>
-            <button type="button" class="btn btn-sm btn-outline-info  float-end m-1">
+                @endif
+
+                <button type="button" class="btn btn-sm btn-outline-info  float-end m-1">
                 {{getUserDisplayedName($order->user()->first()->idUser)}}
             </button>
         </div>
@@ -68,7 +71,8 @@
                                 </thead>
                                 <tbody>
                                 @foreach($order->orderDetails()->get() as $key => $orderDetail)
-                                    <tr @if($orderDetail->item()->first()->deal()->exists()) class="table-primary" @else class="table-warning" @endif
+                                    <tr @if($orderDetail->item()->first()->deal()->exists()) class="table-primary"
+                                        @else class="table-warning" @endif
                                     >
                                         <th scope="row">{{$key + 1}}</th>
                                         <td>
@@ -91,25 +95,47 @@
                                                     @if($orderDetail->item()->first()->deal()->exists())
                                                         <li class="list-group-item list-group-item-success">
                                                             <strong>{{__('Deal')}}</strong>
-                                                            {{$orderDetail->item()->first()->deal()->first()->id}}
+                                                            @if(\App\Models\User::isSuperAdmin())
                                                             <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$orderDetail->item()->first()->deal()->first()->id])}}"><span
                                                                     class="float-end"> {{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}</span>
                                                             </a>
+                                                            @else
+                                                                <span
+                                                                    class="float-end"> {{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}</span>
+                                                            @endif
+
                                                         </li>
                                                     @endif
                                                 </ul>
                                             @else
                                                 <strong>
-                                                    <strong>{{__('Item')}}:</strong> <span class="text-info float-end">
-                                                    {{$orderDetail->item()->first()->ref}} - {{$orderDetail->item()->first()->name}}
+                                                    <strong>{{__('Item')}}:</strong>
+                                                    <span class="text-info float-end">
+                                                        @if(\App\Models\User::isSuperAdmin())
+                                                            <a href="{{route('items_detail',['locale'=>app()->getLocale(),'id'=>$orderDetail->item()->first()->id])}}">
+                                                                {{$orderDetail->item()->first()->ref}}
+                                                                - {{$orderDetail->item()->first()->name}}
+                                                            </a>
+                                                        @else
+                                                            {{$orderDetail->item()->first()->ref}}
+                                                            - {{$orderDetail->item()->first()->name}}
+                                                        @endif
                                             </span>
                                                 </strong>
                                                 @if($orderDetail->item()->first()->deal()->exists())
                                                     <hr>
-                                                    <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$orderDetail->item()->first()->deal()->first()->id])}}">
-                                                        <strong>{{__('Deal')}}:</strong> <span
-                                                            class="text-info float-end">{{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}</span>
-                                                    </a>
+                                                    @if(\App\Models\User::isSuperAdmin())
+                                                        <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$orderDetail->item()->first()->deal()->first()->id])}}">
+                                                            <strong>{{__('Deal')}}:</strong>
+                                                            <span class="text-info float-end">
+                                                                {{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}
+                                                            </span>
+                                                        </a>
+                                                    @else
+                                                        <span class="text-info float-end">
+                                                            {{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}
+                                                        </span>
+                                                    @endif
                                                 @endif
                                             @endif
                                         </td>
@@ -176,7 +202,8 @@
                                                         </li>
                                                         <li class="list-group-item text-muted" title="{{__('value')}}">
                                                             <i class="ri-increase-decrease-fill"></i>
-                                                            <span class="float-end"> {{$orderDetail->deal_discount}}</span>
+                                                            <span
+                                                                class="float-end"> {{$orderDetail->deal_discount}}</span>
                                                         </li>
                                                         <li class="list-group-item text-muted" title="{{__('Amount')}}">
                                                             <i class="ri-money-dollar-box-fill"></i>
@@ -203,7 +230,8 @@
                                             @else
                                                 <td colspan="6" class="text-center">
                                                     <br>
-                                                    <span class="alert alert-light mt-2">{{__('No deal in this order details')}}</span>
+                                                    <span
+                                                        class="alert alert-light mt-2">{{__('No deal in this order details')}}</span>
                                                 </td>
                                             @endif
                                         @endif
@@ -413,13 +441,15 @@
                                                     {{$discount->reference}}
                                                 </td>
                                                 <td>
-                                                    {{$discount->value}}
+                                                    <span
+                                                        class="badge bg-success text-end fs-14 float-end"> {{$discount->value}}  {{config('app.currency')}}</span>
                                                 </td>
                                                 <td>
-                                                    {{$discount->current_balance}}
+                                                    <span
+                                                        class="badge bg-info text-end fs-14 float-end"> {{$discount->current_balance}} {{config('app.currency')}}</span>
                                                 </td>
                                                 <td>
-                                                    {{$discount->description}}
+                                                    <p>  {{$discount->description}}</p>
                                                 </td>
                                                 <td>
                                                     {{$discount->created_at}}
@@ -447,16 +477,19 @@
                                                     </td>
 
                                                     <td>
-                                                        {{$bfs->value}}
+                                                        <span
+                                                            class="badge bg-success text-end fs-14 float-end"> {{$bfs->value}}  {{config('app.currency')}}</span>
                                                     </td>
                                                     <td>
-                                                        {{$bfs->current_balance}}
+                                                        <span
+                                                            class="badge bg-info text-end fs-14 float-end"> {{$bfs->current_balance}}  {{config('app.currency')}}</span>
                                                     </td>
                                                     <td>
-                                                        {{$bfs->description}}
+                                                        <p>{{$bfs->description}}</p>
                                                     </td>
                                                     <td>
-                                                        {{$bfs->percentage}}
+                                                        <span
+                                                            class="badge bg-warning text-end fs-14 float-end">   {{$bfs->percentage}}</span>
                                                     </td>
                                                     <td>
                                                         {{$bfs->created_at}}
@@ -483,13 +516,17 @@
                                                     {{$cash->reference}}
                                                 </td>
                                                 <td>
-                                                    {{$cash->value}}
+                                                    <span
+                                                        class="badge bg-success text-end fs-14 float-end"> {{$cash->value}}  {{config('app.currency')}}</span>
                                                 </td>
                                                 <td>
-                                                    {{$cash->current_balance}}
+                                                    <span
+                                                        class="badge bg-info text-end fs-14 float-end">     {{$cash->current_balance}}  {{config('app.currency')}}</span>
                                                 </td>
                                                 <td>
-                                                    {{$cash->description}}
+                                                    <p>
+                                                        {{$cash->description}}
+                                                    </p>
                                                 </td>
                                                 <td>
                                                     {{$cash->created_at}}
@@ -503,8 +540,10 @@
                     </div>
                 </div>
             @endif
+            @if(\App\Models\User::isSuperAdmin())
             @if($currentRouteName=="orders_detail" && $order->status->value >= \Core\Enum\OrderEnum::Paid->value && $commissions->isNotEmpty() &&(isset($discount) ||isset($bfss)||isset($cash)))
                 @include('livewire.commission-breackdowns', ['commissions' => $commissions])
+            @endif
             @endif
         </div>
         <div class="card-footer">
