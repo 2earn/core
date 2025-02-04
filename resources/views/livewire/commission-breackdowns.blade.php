@@ -128,7 +128,7 @@
                                 </li>
                                 <li class="list-group-item">
                                     <strong>{{__('Additional commission value')}}</strong> <span
-                                        class="badge badge-outline-info float-end">{{$commission->additional_commission_value}}  {{config('app.currency')}}</span>
+                                        class="badge badge-outline-info float-end">{{$commission->additional_amount}}  {{config('app.currency')}}</span>
                                 </li>
                                 <li class="list-group-item" title=" {{$commission->final_cashback_percentage}} %">
                                     <strong>{{__('Final cashback')}}</strong> <span

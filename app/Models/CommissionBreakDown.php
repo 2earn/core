@@ -28,6 +28,7 @@ class CommissionBreakDown extends Model
         'cash_cashback',
         'cumulative_cashback',
         'cashback_allocation',
+        'additional_amount',
         'earned_cashback',
         'commission_difference',
         'additional_commission_value',

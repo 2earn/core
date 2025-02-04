@@ -113,6 +113,8 @@ class Ordering
         $balances = Balances::getStoredUserBalances($order->user()->first()->idUser);
         $itemsDeals = [];
         $dealsTurnOver = [];
+        $dealTotals = 0;
+        $x = 0; // 21.42 in image
         foreach ($order->orderDetails as $orderDetail) {
             if ($orderDetail->item->deal()->exists()) {
                 $itemDeal = Ordering::initDealItem($orderDetail);
@@ -121,10 +123,11 @@ class Ordering
                 $itemDeal = Ordering::fillDealDiscount($orderDetail, $itemDeal);
 
                 if (!isset($dealsTurnOver[$orderDetail->item->deal->id])) {
-                    $dealsTurnOver[$orderDetail->item->deal->id] = $itemDeal['amountAfterPartnerDiscount'];
+                    $dealsTurnOver[$orderDetail->item->deal->id]['total'] = $itemDeal['amountAfterPartnerDiscount'];
                 } else {
-                    $dealsTurnOver[$orderDetail->item->deal->id] = $dealsTurnOver[$orderDetail->item->deal->id] + $itemDeal['amountAfterPartnerDiscount'];
+                    $dealsTurnOver[$orderDetail->item->deal->id]['total'] = $dealsTurnOver[$orderDetail->item->deal->id]['total'] + $itemDeal['amountAfterPartnerDiscount'];
                 }
+                $dealTotals = $dealTotals + $itemDeal['amountAfterPartnerDiscount'];
 
                 $totalDiscount = $itemDeal['partnerDiscount'] + $itemDeal['2earnDiscount'] + $itemDeal['dealDiscount'];
                 $ponderation = $orderDetail->total_amount * $totalDiscount;
@@ -132,6 +135,11 @@ class Ordering
                 $itemDeal = array_merge($itemDeal, ['totalDiscountWithDiscountPartner' => $totalDiscount, 'ponderationWithDiscountPartner' => $ponderation]);
                 $itemsDeals[] = $itemDeal;
             }
+        }
+        foreach ($dealsTurnOver as $key => $turnOver) {
+            $turnOver['dispatching'] = $turnOver['total'] / $dealTotals * 100;
+            $turnOver['additional'] = $turnOver['dispatching'] * $x;
+            $dealsTurnOver[$key] = $turnOver;
         }
         $dealAmountAfterPartnerDiscount = array_sum(array_column($itemsDeals, 'amountAfterPartnerDiscount'));
         $dealAmountAfter2earnDiscount = array_sum(array_column($itemsDeals, 'amountAfter2EarnDiscount'));
@@ -343,11 +351,10 @@ class Ordering
 
     public static function runPartition(Order $order, array $dealsTurnOver)
     {
-        Log::info('runPartition ------------------');
         foreach ($dealsTurnOver as $dealId => $turnOver) {
             $deal = Deal::find($dealId);
             $oldTurnOver = $deal->current_turnover;
-            $newTurnOver = $deal->updateTurnover($turnOver);
+            $newTurnOver = $deal->updateTurnover($turnOver['total']);
 
             if (CommissionBreakDown::where('deal_id', $dealId)->orderBy('created_at', 'DESC')->exists()) {
                 $oldCommissionPercentage = 0;
@@ -357,7 +364,6 @@ class Ordering
             }
 
             $commissionPercentage = Deal::getCommissionPercentage($deal,$newTurnOver);
-            Log::info('commissionPercentage : '. $commissionPercentage);
 
             $cumulative = CommissionBreakDown::getSum($dealId, 'cumulative_commission');
             $cumulativeCashback = CommissionBreakDown::getSum($dealId, 'cumulative_cashback');
@@ -366,14 +372,16 @@ class Ordering
                 'order_id' => $order->id,
                 'deal_id' => $dealId,
                 'trigger' => 0,
-                'type' => CommissionTypeEnum::IN->value
+                'type' => CommissionTypeEnum::IN->value,
+                'new_turnover' => $newTurnOver,
+                'old_turnover' => $oldTurnOver,
+                'purchase_value' => $turnOver['total'],
+                'additional_amount' => $turnOver['additional'],
+                'commission_percentage' =>  $commissionPercentage,
             ];
-            $cbData['new_turnover'] = $newTurnOver;
-            $cbData['old_turnover'] = $oldTurnOver;
-            $cbData['purchase_value'] = $turnOver;
 
-            $cbData['commission_percentage'] = $commissionPercentage;
-            $cbData['commission_value'] = $turnOver * $commissionPercentage / 100;
+            $cbData['commission_value'] = ($turnOver['total'] * $commissionPercentage / 100) + $turnOver['additional'];
+
             $cbData['cumulative_commission'] = $cumulative + $cbData['commission_value'];
             $cbData['cumulative_commission_percentage'] = $cbData['cumulative_commission'] / $cbData['new_turnover'] * 100;
             $cbData['cash_company_profit'] = $cbData['commission_value'] * $deal->earn_profit / 100;
@@ -385,6 +393,7 @@ class Ordering
             $cbData['commission_difference'] = $commissionPercentage + $oldCommissionPercentage;
             $cbData['additional_commission_value'] = $oldCommissionPercentage * ($cbData['commission_difference'] / 100);
             $cbData['cumulative_commission'] =  $cbData['cumulative_commission'] + $cbData['additional_commission_value'];
+
             $cbData['cashback_allocation'] = $cbData['cumulative_cashback'] != 0 ? $cbData['cash_cashback'] / $cbData['cumulative_cashback'] * 100 : 0;
             $cbData['earned_cashback'] = $cbData['cumulative_cashback'] * $cbData['cashback_allocation'] / 100;
             $cbData['final_cashback'] = min($cbData['purchase_value'], $cbData['earned_cashback']);

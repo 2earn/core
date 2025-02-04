@@ -28,6 +28,7 @@ return new class extends Migration {
             $table->float('cash_cashback')->nullable();
             $table->float('cumulative_cashback')->nullable();
             $table->float('cashback_allocation')->nullable();
+            $table->float('additional_amount')->nullable();
             $table->float('earned_cashback')->nullable();
             $table->float('commission_difference')->nullable();
             $table->float('additional_commission_value')->nullable();

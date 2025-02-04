@@ -176,9 +176,7 @@
                                                         </li>
                                                         <li class="list-group-item text-muted" title="{{__('value')}}">
                                                             <i class="ri-increase-decrease-fill"></i>
-                                                            <span class="float-end">
-                                                {{$orderDetail->deal_discount}}
-                                            </span>
+                                                            <span class="float-end"> {{$orderDetail->deal_discount}}</span>
                                                         </li>
                                                         <li class="list-group-item text-muted" title="{{__('Amount')}}">
                                                             <i class="ri-money-dollar-box-fill"></i>
@@ -189,28 +187,23 @@
                                                     </ul>
                                                 </td>
                                                 <td>
-                                                      <span
-                                                          class="badge bg-danger text-end fs-14">
-                                                    {{$orderDetail->final_discount}}  {{config('app.currency')}}                                                            </span>
-                                                    </span>
+                                                      <span class="badge bg-danger text-end fs-14">
+                                                    {{$orderDetail->final_discount}}  {{config('app.currency')}} </span>
                                                 </td>
                                                 <td>
-                                                            <span
-                                                                class="badge bg-success text-end fs-14">
+                                                            <span class="badge bg-success text-end fs-14">
                                                     {{$orderDetail->refund_dispatching}}  {{config('app.currency')}}
                                                             </span>
                                                 </td>
                                                 <td>
-                                                            <span
-                                                                class="badge bg-success text-end fs-14">
+                                                            <span class="badge bg-success text-end fs-14">
                                                     {{$orderDetail->final_amount}}  {{config('app.currency')}}
                                                             </span>
                                                 </td>
                                             @else
-                                                <td colspan="3" class="text-center">
+                                                <td colspan="6" class="text-center">
                                                     <br>
-                                                    <span
-                                                        class="alert alert-light mt-2">{{__('No deal in this order details')}}</span>
+                                                    <span class="alert alert-light mt-2">{{__('No deal in this order details')}}</span>
                                                 </td>
                                             @endif
                                         @endif
