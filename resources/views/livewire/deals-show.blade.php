@@ -4,10 +4,10 @@
     @endsection
     @if(!in_array($currentRouteName,["deals_archive"]))
         @component('components.breadcrumb')
-                @slot('title')
-                    <a class="link-light"
-                       href="{{route('deals_index',['locale'=>app()->getLocale()])}}">{{ __('Deals') }}</a>
-                    <i class="ri-arrow-right-s-line"></i>
+            @slot('title')
+                <a class="link-light"
+                   href="{{route('deals_index',['locale'=>app()->getLocale()])}}">{{ __('Deals') }}</a>
+                <i class="ri-arrow-right-s-line"></i>
                 {{$deal->name}}
             @endslot
         @endcomponent
@@ -40,6 +40,25 @@
                     <span class="badge bg-danger text-end fs-14" title="{{__('Target turnover')}}">
                                 {{$deal->target_turnover}}  {{config('app.currency')}}
                             </span>
+                </p>
+                            </span>
+                </div>
+            </div>
+            <div class="d-flex align-items-center">
+                <div class="flex-grow-1">
+                    <div class="text-muted">
+                        <div class="flex-shrink-0 ms-2">
+                            <strong class="fs-14 font-weight-bold mb-0">{{__('Camembert value')}}</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-shrink-0">
+                            <span class="badge badge-success text-muted">
+                                              <p class="float-end mx-1"> <span class="badge bg-success text-end fs-14"
+                                                                               title="{{__('Current turnover')}}">
+                                {{\App\Models\Deal::getCamombertPercentage($deal)}}  {{config('app.currency')}}
+                            </span>
+
                 </p>
                             </span>
                 </div>
@@ -113,7 +132,7 @@
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->initial_commission}}  {{config('app.currency')}}
+                                {{$deal->initial_commission}}  %
                             </span>
                         </div>
                     </div>
@@ -129,7 +148,7 @@
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->final_commission}} {{config('app.currency')}}
+                                {{$deal->final_commission}} %
                             </span>
                         </div>
                     </div>
@@ -181,8 +200,11 @@
                             </div>
                         </div>
                         <div class="flex-shrink-0">
-                            <span class="text-info">
+                            <span class="mx-2 text-info">
                                 {{$deal->earn_profit}} %
+                            </span>
+                            <span class="mx-2 text-success">
+                                {{\App\Models\Deal::getCamombertPartPercentage($deal,$deal->earn_profit)}} {{config('app.currency')}}
                             </span>
                         </div>
                     </div>
@@ -200,6 +222,9 @@
                             <span class="text-info">
                                 {{$deal->jackpot}} %
                             </span>
+                            <span class="mx-2 text-success">
+                                {{\App\Models\Deal::getCamombertPartPercentage($deal,$deal->jackpot)}} {{config('app.currency')}}
+                            </span>
                         </div>
                     </div>
                 </li>
@@ -215,6 +240,9 @@
                         <div class="flex-shrink-0">
                             <span class="text-info">
                                 {{$deal->tree_remuneration}} %
+                            </span>
+                            <span class="mx-2 text-success">
+                                {{\App\Models\Deal::getCamombertPartPercentage($deal,$deal->tree_remuneration)}} {{config('app.currency')}}
                             </span>
                         </div>
                     </div>
@@ -232,6 +260,9 @@
                             <span class="text-info">
                                 {{$deal->proactive_cashback}} %
                             </span>
+                            <span class="mx-2 text-success">
+                                {{\App\Models\Deal::getCamombertPartPercentage($deal,$deal->proactive_cashback)}} {{config('app.currency')}}
+                            </span>
                         </div>
                     </div>
                 </li>
@@ -243,10 +274,10 @@
       </span>
         </div>
     </div>
-        @if(!empty($commissions))
-            @include('livewire.commission-breackdowns', ['commissions' => $commissions])
-        @endif
-        <script type="module">
+    @if(!empty($commissions))
+        @include('livewire.commission-breackdowns', ['commissions' => $commissions])
+    @endif
+    <script type="module">
         $(document).on('turbolinks:load', function () {
             $('body').on('click', '.deleteDeal', function (event) {
                 Swal.fire({

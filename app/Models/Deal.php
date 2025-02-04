@@ -116,8 +116,11 @@ class Deal extends Model
         }
     }
 
-    public static function getCommissionPercentage($deal, $newTurnOver)
+    public static function getCommissionPercentage($deal, $newTurnOver = null)
     {
+        if (is_null($newTurnOver)) {
+            $newTurnOver = $deal->current_turnover;
+        }
         if ($newTurnOver > $deal->target_turnover) {
             return $deal->final_commission;
         }
@@ -131,5 +134,15 @@ class Deal extends Model
         return $this->current_turnover;
     }
 
+    public static function getCamombertPercentage($deal)
+    {
+        $commission = Deal::getCommissionPercentage($deal);
+        return $commission * $deal->current_turnover / 100;
+    }
 
+    public static function getCamombertPartPercentage($deal, $percentage)
+    {
+        $commission = Deal::getCommissionPercentage($deal);
+        return ($commission * $deal->current_turnover / 100) / 100 * $percentage;
+    }
 }
