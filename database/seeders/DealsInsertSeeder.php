@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Core\Enum\DealStatus;
 use Core\Models\Platform;
-use Faker\Factory as FakerFactory;
+use Faker\Generator;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -23,7 +23,7 @@ class DealsInsertSeeder extends Seeder
     public function run()
     {
         if (!App::isProduction()) {
-            $faker = FakerFactory::create() ;
+            $faker = app(Generator::class);
             $platforms = Platform::all();
             $dealNumber = rand(1, 3);
             $initialCOmmission = rand(5, 10);

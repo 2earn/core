@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Faker\Factory as FakerFactory;
+use Faker\Generator;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -17,8 +17,7 @@ class addContactUserSeeder extends Seeder
      */
     public function run()
     {
-
-            $faker = FakerFactory::create() ;
+        $faker = app(Generator::class);
         for ($i = 1; $i <= 2; $i++) {
             {
                 try {
