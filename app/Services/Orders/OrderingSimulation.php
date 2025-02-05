@@ -106,6 +106,7 @@ class OrderingSimulation
             $order = Order::find($orderId);
             return $order->status->name;
         } catch (\Exception $exception) {
+            dd($exception);
             Log::alert($exception->getMessage());
         }
         return false;

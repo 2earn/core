@@ -141,10 +141,7 @@ class Ordering
         $lostDiscountAmount = $finalDiscountValue < $balances->discount_balance ? 0 : $finalDiscountValue - $balances->discount_balance;
 
         foreach ($dealsTurnOver as $key => $turnOver) {
-            $turnOver['dispatching'] = $turnOver['total'] / $dealTotals * 100;
-            $turnOver['additional'] = $turnOver['dispatching'] * $lostDiscountAmount;
-            $turnOver['deal_paid_amount'] = 0;
-            $dealsTurnOver[$key] = $turnOver;
+            $dealsTurnOver[$key] = ['total' => 0, 'dispatching' => 0, 'deal_paid_amount' => 0, 'additional' => 0];
         }
 
         foreach ($itemsDeals as $key => $itemDeal) {
@@ -154,8 +151,14 @@ class Ordering
             $itemDeal['finalDiscount'] = $itemDeal['totalDiscountWithDiscountPartner'] - $itemDeal['refundDispatching'];
             $itemDeal['finalDiscountWithoutDiscountPartner'] = $itemDeal['2earnDiscount'] + $itemDeal['dealDiscount'];
             $itemDeal['valueDiscountPartner'] = $itemDeal['finalDiscountWithoutDiscountPartner'] * $itemDeal['amountAfterPartnerDiscount'];
+
             $itemsDeals[$key] = $itemDeal;
-            $dealsTurnOver[$itemDeal['deal']]['deal_paid_amount'] = $dealsTurnOver[$itemDeal['deal']]['deal_paid_amount'] + $itemDeal['finalAmount'];
+            $dealID = $itemDeal['deal'];
+
+            $dealsTurnOver[$dealID]['total'] = $dealsTurnOver[$dealID]['total'] + $itemDeal['finalDiscountWithoutDiscountPartner'];
+            $dealsTurnOver[$dealID]['deal_paid_amount'] = $dealsTurnOver[$dealID]['deal_paid_amount'] + $itemDeal['finalAmount'];
+            $dealsTurnOver[$dealID]['dispatching'] = $dealsTurnOver[$dealID]['total'] / $dealTotals * 100;
+            $dealsTurnOver[$dealID]['additional'] = $dealsTurnOver[$dealID]['dispatching'] * $lostDiscountAmount;
         }
         $totalValueDiscountPartner = array_sum(array_column($itemsDeals, 'valueDiscountPartner'));
         foreach ($itemsDeals as $key => $itemDeal) {
