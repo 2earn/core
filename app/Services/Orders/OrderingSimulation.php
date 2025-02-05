@@ -9,7 +9,7 @@ use App\Models\Order;
 use App\Models\User;
 use Core\Enum\OrderEnum;
 use Database\Seeders\AddCashSeeder;
-use Faker\Factory as FakerFactory;
+use Faker\Generator;
 use Illuminate\Support\Facades\Log;
 
 class OrderingSimulation
@@ -122,7 +122,7 @@ class OrderingSimulation
             $platformsIds = Platform::all()->pluck('id')->toArray();
             $platformId = $platformsIds[array_rand($platformsIds)];
 
-            $faker = FakerFactory::create();
+            $faker = app(Generator::class);
             $order = Order::create(['user_id' => $Buyer->id, 'note' => $faker->text()]);
             OrderingSimulation::createOrderItems($order, $orderItemsNumber, $platformId, $faker);
             return true;
