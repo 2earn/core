@@ -2,6 +2,7 @@
 
 namespace Core\Models;
 
+use App\Models\BusinessSector;
 use App\Models\Deal;
 use App\Models\ProductDealHistory;
 use App\Models\User;
@@ -25,6 +26,10 @@ class Platform extends Model
     public function financialManager(): HasOne
     {
         return $this->hasOne(User::class);
+    }
+    public function businessSector(): HasOne
+    {
+        return $this->hasOne(BusinessSector::class);
     }
 
     public function productDealHistory(): HasMany
