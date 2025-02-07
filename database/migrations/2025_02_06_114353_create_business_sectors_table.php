@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('business_sectors', function (Blueprint $table) {
             $table->id();
+            $table->string('name', 150)->nullable();
+            $table->string('description', 512)->nullable();
             $table->timestamps();
         });
     }

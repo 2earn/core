@@ -12,9 +12,9 @@ class Coupon extends Model
 
     protected $fillable = [
         'pin',
-        'attachement',
+        'attachment_date',
         'purchase_date',
-        'consuption_date',
+        'consumption_date',
         'value',
         'consumed',
     ];

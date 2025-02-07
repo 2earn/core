@@ -45,7 +45,7 @@ class FaqCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('faq_index', ['locale' => app()->getLocale(), 'idFaq' => $this->idFaq])->with('warning', Lang::get('Faq operation cancelled'));
+        return redirect()->route('faq_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Faq operation cancelled'));
     }
 
     public function update()
@@ -76,13 +76,13 @@ class FaqCreateUpdate extends Component
             'answer' => $this->answer
         ];
         try {
-           $createdSurvey= Faq::create($faq);
+           $createdFAQ= Faq::create($faq);
 
             $translations = ['question', 'answer'];
             foreach ($translations as $translation) {
                 TranslaleModel::create(
                     [
-                        'name' => TranslaleModel::getTranslateName($createdSurvey, $translation),
+                        'name' => TranslaleModel::getTranslateName($createdFAQ, $translation),
                         'value' => $this->{$translation} . ' AR',
                         'valueFr' => $this->{$translation} . ' FR',
                         'valueEn' => $this->{$translation} . ' EN',
@@ -93,9 +93,9 @@ class FaqCreateUpdate extends Component
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect()->route('faq_index', ['locale' => app()->getLocale(), 'idFaq' => $this->idFaq])->with('danger', Lang::get('Something goes wrong while creating Faq'));
+            return redirect()->route('faq_index', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while creating Faq'));
         }
-        return redirect()->route('faq_index', ['locale' => app()->getLocale(), 'idFaq' => $this->idFaq])->with('success', Lang::get('Faq Created Successfully'));
+        return redirect()->route('faq_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Faq Created Successfully'));
     }
 
 

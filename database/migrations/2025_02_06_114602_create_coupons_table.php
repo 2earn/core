@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('coupons', function (Blueprint $table) {
             $table->id();
+            $table->string('pin');
+            $table->dateTime('attachment_date')->nullable();
+            $table->dateTime('purchase_date')->nullable();
+            $table->dateTime('consumption_date')->nullable();
+            $table->float('value')->nullable();
+            $table->boolean('consumed')->default(false);
             $table->timestamps();
         });
     }
