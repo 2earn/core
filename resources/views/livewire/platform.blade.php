@@ -38,9 +38,8 @@
                                     <th>{{__('Id')}}</th>
                                     <th>{{__('Name')}}</th>
                                     <th>{{__('Type')}}</th>
-                                    <th>{{__('Description')}}</th>
+                                    <th>{{__('Business sector')}}</th>
                                     <th>{{__('Created at')}}</th>
-                                    <th>{{__('Updated at')}}</th>
                                     <th>{{__('Action')}}</th>
                                 </tr>
                                 </thead>
@@ -82,9 +81,8 @@
                         {data: 'id'},
                         {data: 'name'},
                         {data: 'type'},
-                        {data: 'description'},
+                        {data: 'business_sector_id'},
                         {data: 'created_at'},
-                        {data: 'updated_at'},
                         {data: 'action'},
                     ],
                     "language": {"url": urlLang},

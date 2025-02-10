@@ -44,16 +44,17 @@
                         <div class="col-sm-12 col-lg-12">
                             <div class="card border card-border-light">
                                 <div class="card-header">
-                                    <h5 class="card-title mb-1">
+                                    <h3 class="card-title mb-1">
                                         {{$business_sector->id}} - {{$business_sector->name}}
-
-                                    </h5>
+                                    </h3>
                                 </div>
                                 <div class="card-body">
-                                    <blockquote class="blockquote">
-                                        <p class="card-text">
-                                           {{ $business_sector->description}}
-                                        </p>
+                                    <h4>
+                                        {{__('Description')}}
+                                    </h4>
+                                    <blockquote class="blockquote card-text">
+
+                                        {{ $business_sector->description}}
                                     </blockquote>
                                     @if(\App\Models\User::isSuperAdmin())
                                         <a wire:click="deletebusinessSector('{{$business_sector->id}}')"
@@ -68,23 +69,29 @@
                                         </a>
                                         <a
                                             href="{{route('business_sector_create_update',['locale'=> app()->getLocale(),'id'=>$business_sector->id])}}"
-                                            title="{{__('Edit business_sector')}}"
-                                            class="btn btn-soft-primary material-shadow-none float-end">
+                                            title="{{__('Edit business sector')}}"
+                                            class="btn btn-soft-primary material-shadow-none mx-1 float-end">
                                             {{__('Edit')}}
-
+                                        </a>
+                                        <a
+                                            href="{{route('business_sector_show',['locale'=> app()->getLocale(),'id'=>$business_sector->id])}}"
+                                            title="{{__('Show busines sector')}}"
+                                            class="btn btn-soft-success material-shadow-none float-end">
+                                            {{__('Show')}}
                                         </a>
                                     @endif
                                 </div>
                                 <div class="card-footer">
                                     <div class="row">
                                         <div class="col">
-                                            <p class="card-text float-end">{{__('Created at')}}: <small
+                                            <p class="card-text float-end"><strong>{{__('Created at')}}:</strong> <small
                                                     class="text-muted">{{$business_sector->created_at}}</small>
                                             </p>
                                         </div>
                                         <div class="col">
                                             @if(\App\Models\User::isSuperAdmin())
-                                                <p class="card-text  float-end">{{__('Updated at')}}: <small
+                                                <p class="card-text  float-end"><strong>{{__('Updated at')}}
+                                                        : </strong><small
                                                         class="text-muted">{{$business_sector->updated_at}}</small></p>
                                             @endif
                                         </div>

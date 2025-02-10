@@ -243,6 +243,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::prefix('/business/sector')->name('business_sector_')->group(function () {
                 Route::get('/index', \App\Http\Livewire\BusinessSectorIndex::class)->name('index');
                 Route::get('/', \App\Http\Livewire\BusinessSectorCreateUpdate::class)->name('create_update');
+                Route::get('/{id}/show', \App\Http\Livewire\BusinessSectorShow::class)->name('show');
             });
 
             Route::prefix('/coupon')->name('coupon_')->group(function () {

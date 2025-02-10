@@ -158,30 +158,16 @@
                             </div>
                             <div class="p-2">
                                 <div class="row g-0">
-                                    <div class="col">
-                                        <a class="dropdown-icon-item"
-                                           href="{{route('coming_move',app()->getLocale() )}}">
-                                            <img src="{{Vite::asset('resources/images/Move2earn Icon.png')}}"
-                                                 alt="Move2earn">
-                                            <span>Move2earn</span>
-                                        </a>
-                                    </div>
-                                    <div class="col">
-                                        <a class="dropdown-icon-item"
-                                           href="{{route('coming_shop',app()->getLocale() )}}">
-                                            <img src="{{Vite::asset('resources/images/icon-shop.png')}}"
-                                                 alt="Shop2earn">
-                                            <span>Shop2earn</span>
-                                        </a>
-                                    </div>
-                                    <div class="col">
-                                        <a class="dropdown-icon-item"
-                                           href="{{route('coming_learn',app()->getLocale() )}}">
-                                            <img src="{{Vite::asset('resources/images/icon-learn.png')}}"
-                                                 alt="Learn2earn">
-                                            <span>Learn2earn</span>
-                                        </a>
-                                    </div>
+                                    @foreach($sectors as $sector)
+                                        <div class="col">
+                                            <a class="dropdown-icon-item"
+                                               href="{{route('business_sector_show',['locale'=>app()->getLocale(),'id'=>$sector->id] )}}">
+                                                <img src="{{Vite::asset('resources/images/Move2earn Icon.png')}}"
+                                                     alt="Move2earn">
+                                                <span>{{$sector->name}}</span>
+                                            </a>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\BusinessSector;
 use App\Models\User;
 use App\Services\Balances\Balances;
 use Core\Services\BalancesManager;
@@ -64,7 +65,8 @@ class TopBar extends Component
             'db' => $balances->discount_balance,
             'user' => $authUser,
             'userStatus' => $user->status,
-            'userRole' => $user->getRoleNames()->first()
+            'userRole' => $user->getRoleNames()->first(),
+            'sectors' => BusinessSector::all()
         ];
         return view('livewire.top-bar', $params);
     }

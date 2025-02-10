@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\DAL\UserRepository;
+use App\Http\Livewire\BusinessSectorIndex;
 use App\Models\BFSsBalances;
+use App\Models\BusinessSector;
 use App\Models\CashBalances;
 use App\Models\Deal;
 use App\Models\News;
@@ -1208,8 +1210,10 @@ class ApiController extends BaseController
             })
             ->addColumn('created_at', function ($platform) {
                 return $platform->created_at?->format(self::DATE_FORMAT);
-            })->addColumn('updated_at', function ($platform) {
-                return $platform->updated_at?->format(self::DATE_FORMAT);
+            })
+            ->addColumn('business_sector_id', function ($platform) {
+                $businessSector = BusinessSector::find($platform->business_sector_id);
+                return view('parts.datatable.platform-bussines-sector', ['businessSector' => $businessSector]);
             })
             ->rawColumns(['action'])
             ->make(true);

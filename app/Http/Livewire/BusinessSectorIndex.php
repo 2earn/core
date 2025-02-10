@@ -18,6 +18,10 @@ class BusinessSectorIndex extends Component
     public $currentRouteName;
     protected $paginationTheme = 'bootstrap';
 
+    protected $listeners = [
+        'deletebusinessSector' => 'deletebusinessSector'
+    ];
+
     public function mount()
     {
         $this->currentRouteName = Route::currentRouteName();

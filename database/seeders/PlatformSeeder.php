@@ -19,58 +19,65 @@ class PlatformSeeder extends Seeder
         $imageLink = Vite::asset('resources/images/logo-dark.png');
         $Platforms = [
             [
-                'name' => "2earn",
+                'name' => "2earn P",
                 'description' => "2earn",
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Full->value,
-                'link' => "2earn.cash"
+                'link' => "2earn.cash",
+                'business_sector_id' => 1
             ],
             [
-                'name' => "learn2earn",
+                'name' => "learn2earn P",
                 'description' => "learn2earn",
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Hybrid->value,
-                'link' => "learn2earn.cash"
+                'link' => "learn2earn.cash",
+                'business_sector_id' => 2
             ],
             [
-                'name' => "move2earn",
+                'name' => "move2earn P",
                 'description' => "move2earn",
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Hybrid->value,
-                'link' => "move2earn.cash"
+                'link' => "move2earn.cash",
+                'business_sector_id' => 3
             ], [
-                'name' => "travel2earn",
+                'name' => "travel2earn P",
                 'description' => "travel2earn",
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Hybrid->value,
-                'link' => "travel2earn.cash"
+                'link' => "travel2earn.cash",
+                'business_sector_id' => 4
             ],
             [
-                'name' => "shop2earn",
+                'name' => "shop2earn P",
                 'description' => "shop2earn",
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Hybrid->value,
-                'link' => "shop2earn.cash"
+                'link' => "shop2earn.cash",
+                'business_sector_id' => 5
             ], [
-                'name' => "beelegant2earn",
+                'name' => "beelegant2earn P",
                 'description' => "beelegant2earn",
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Hybrid->value,
-                'link' => "beelegant2earn.cash"
+                'link' => "beelegant2earn.cash",
+                'business_sector_id' => 6
             ],
             [
-                'name' => "Speakenglish2earn",
+                'name' => "Speakenglish2earn P",
                 'description' => "Speakenglish2earn",
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Hybrid->value,
-                'link' => "Speakenglish2earn.cash"
+                'link' => "Speakenglish2earn.cash",
+                'business_sector_id' => 7
             ],
         ];
 
