@@ -7,15 +7,15 @@
             <table class="table table-border table-striped table-card table-nowrap">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">{{__('Generals')}}</th>
-                    <th scope="col">{{__('Turnover')}}</th>
-                    <th scope="col">{{__('Purchase value')}}</th>
-                    <th scope="col">{{__('Commission')}}</th>
-                    <th scope="col">{{__('Cumulative commission')}}</th>
-                    <th scope="col">{{__('Camembert')}}</th>
-                    <th scope="col">{{__('Others')}}</th>
-                    <th scope="col">{{__('Created at')}}</th>
+                    <th scope="col" >#</th>
+                    <th scope="col" >{{__('Generals')}}</th>
+                    <th scope="col" >{{__('Turnover')}}</th>
+                    <th scope="col" >{{__('Purchase value')}}</th>
+                    <th scope="col" >{{__('Commission')}}</th>
+                    <th scope="col" >{{__('Cumulative commission')}}</th>
+                    <th scope="col" >{{__('Camembert')}}</th>
+                    <th scope="col" >{{__('Others')}}</th>
+                    <th scope="col" >{{__('Created at')}}</th>
                 </tr>
                 </thead>
                 <tbody>
