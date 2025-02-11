@@ -179,15 +179,27 @@ class Ordering
             'amount_after_discount' => $deal_amount_after_discounts + $shippingSum + $price_of_products_out_of_deal,
         ]);
 
-        Ordering::createOrderDeal($order_deal);
+        Ordering::createOrderDeal($order_deal, $order);
         return $order_deal;
     }
 
-    public static function createOrderDeal($order_deal)
+    public static function createOrderDeal($order_deal, $order)
     {
+        $total_amount = 0;
+        $final_discount = 0;
+        $lost_discount = 0;
         foreach ($order_deal as $order_deal_item) {
+            $final_discount = $final_discount + $order_deal_item['final_discount'];
+            $lost_discount = $lost_discount + $order_deal_item['lost_discount'];
+            $total_amount = $total_amount + $order_deal_item['total_amount'];
             OrderDeal::create($order_deal_item);
         }
+        $order->update([
+            'total_final_discount' => $final_discount,
+            'total_lost_discount' => $lost_discount,
+            'total_final_discount_percentage' => $final_discount / $total_amount * 100,
+            'total_lost_discount_percentage' => $lost_discount / $total_amount * 100,
+        ]);
     }
     public static function updateItemDeals($itemsDeals)
     {

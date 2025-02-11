@@ -19,9 +19,9 @@
     <div class="card border card-border-light">
         <div class="card-header" title="{{__('Order id')}} : {{$order->id}}">
             @if($currentRouteName=="orders_detail")
-                <button type="button" class="btn btn-sm btn-outline-info m-1">
+                <button type="button" class="btn btn-sm btn-outline-secondary m-1">
                     {{__('Order id')}} <span
-                        class="badge bg-info ms-1">{{$order->id}}</span>
+                        class="badge bg-secondary ms-1">{{$order->id}}</span>
                 </button>
             @endif
 
@@ -33,7 +33,7 @@
             @endif
 
             @if(\App\Models\User::isSuperAdmin())
-                <button type="button" class="btn btn-sm btn-outline-info  float-end m-1">
+                <button type="button" class="btn btn-sm btn-outline-primary  float-end m-1">
                     {{__($order->status->name)}}
                 </button>
             @endif
@@ -49,8 +49,24 @@
                 </div>
                 <div class="card-body">
                     <div class="col-md-12">
+                        @if($order->note && $currentRouteName=="orders_detail")
+                            <div class="card mt-2">
+                                <div class="card-header">
+                                    <h6 class="card-title mb-0">{{__('Order details')}}</h6>
+                                </div>
+                                <div class="card-body">
+                                    <blockquote class="text-muted mt-2">
+                                        <strong>{{__('Note')}}: </strong><br>{{$order->note}}
+                                    </blockquote>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="col-md-12">
                         @if($order->orderDetails()->count())
-                            <table class="table table-striped table-bordered border-dark table-nowrap">
+                            <div class="card mt-2">
+                                <div class="card-body">
+                                    <table class="table table-striped table-bordered table-nowrap">
                                 <thead>
                                 <tr>
                                     <th scope="col"  class="text-end" >#</th>
@@ -236,22 +252,13 @@
                                 @endforeach
                                 </tbody>
                             </table>
+                                </div>
+                            </div>
                         @endif
                     </div>
                 </div>
             </div>
-            @if($order->note && $currentRouteName=="orders_detail")
-                <div class="card mt-2">
-                    <div class="card-header">
-                        <h6 class="card-title mb-0">{{__('Order details')}}</h6>
-                    </div>
-                    <div class="card-body">
-                        <blockquote class="text-muted mt-2">
-                            <strong>{{__('Note')}}: </strong><br>{{$order->note}}
-                        </blockquote>
-                    </div>
-                </div>
-            @endif
+
             @if(\App\Models\User::isSuperAdmin())
                 @if($currentRouteName=="orders_detail" && $order->status->value >= \Core\Enum\OrderEnum::Paid->value && $commissions->isNotEmpty() &&(isset($discount) ||isset($bfss)||isset($cash)))
                     @include('livewire.order-deals', ['orderDeals' => $orderDeals])
@@ -264,7 +271,7 @@
                             <h6 class="card-title mb-0">{{__('Order simulation summary')}}</h6>
                         </div>
                         <div class="card-body row">
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 <div class="card mt-2">
                                     <div class="card-header">
                                         <h6 class="card-title mb-0">{{__('Order totals')}}</h6>
@@ -300,43 +307,72 @@
                                     </div>
                                 </div>
                             </div>
-                    </div>
+                            <div class="col-md-4">
+                                <div class="card mt-2">
+                                    <div class="card-header">
+                                        <h6 class="card-title mb-0">{{__('Order discounts')}}</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-group">
+
+                                            @if($order->total_final_discount)
+                                                <li class="list-group-item"
+                                                    title="{{$order->total_final_discount_percentage}}   {{config('app.percentage')}}">
+                                                    <strong>{{__('Total final discount')}}</strong>
+                                                    <span
+                                                        class="float-end text-muted">
+                            {{$order->total_final_discount}}  {{config('app.currency')}}</span>
+                                                </li>
+                                            @endif
+                                            @if($order->total_lost_discount)
+                                                <li class="list-group-item"
+                                                    title="{{$order->total_lost_discount_percentage}}   {{config('app.percentage')}}">
+                                                    <strong>{{__('Total lost discount')}}</strong><span
+                                                        class="float-end text-muted">{{$order->total_lost_discount}}  {{config('app.currency')}}</span>
+                                                </li>
+                                            @endif
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            @if($order->amount_after_discount)
+                                <div class="col-md-4">
+                                    <div class="card mt-2">
+                                        <div class="card-header">
+                                            <h6 class="card-title mb-0">{{__('Order mains amounts')}}</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <ul class="list-group mt-2">
+                                                <li class="list-group-item">
+                                                <span
+                                                    class="text-dark text-xl-start">{{__('Amount after discount')}}</span>
+                                                    <span
+                                                        class="badge bg-success text-end fs-14 float-end">
+                                            {{$order->amount_after_discount}}   {{config('app.currency')}}</span>
+                                                </li>
+                                                <li class="list-group-item list-group-item-action">
+                                                <span
+                                                    class="text-dark text-xl-start">{{__('Gain from BFSs soldes')}}</span>
+                                                    <span
+                                                        class="badge bg-success text-end fs-14 float-end">
+                                            {{$order->amount_after_discount-$order->paid_cash}}   {{config('app.currency')}}</span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <span class="text-dark text-xl-start">{{__('Paid cash')}}</span>
+                                                    <span
+                                                        class="badge bg-danger text-end fs-14 float-end">
+                                            {{$order->paid_cash}}   {{config('app.currency')}}</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+
+                        </div>
                 </div>
             @endif
 
-            @if($order->amount_after_discount)
-                <div class="col-md-12">
-                    <div class="card mt-2">
-                        <div class="card-header">
-                            <h6 class="card-title mb-0">{{__('Order mains amounts')}}</h6>
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-group mt-2">
-                                <li class="list-group-item">
-                                                <span
-                                                    class="text-dark text-xl-start">{{__('Amount after discount')}}</span>
-                                    <span
-                                        class="badge bg-success text-end fs-14 float-end">
-                                            {{$order->amount_after_discount}}   {{config('app.currency')}}</span>
-                                </li>
-                                <li class="list-group-item list-group-item-action">
-                                                <span
-                                                    class="text-dark text-xl-start">{{__('Gain from BFSs soldes')}}</span>
-                                    <span
-                                        class="badge bg-success text-end fs-14 float-end">
-                                            {{$order->amount_after_discount-$order->paid_cash}}   {{config('app.currency')}}</span>
-                                </li>
-                                <li class="list-group-item">
-                                    <span class="text-dark text-xl-start">{{__('Paid cash')}}</span>
-                                    <span
-                                        class="badge bg-danger text-end fs-14 float-end">
-                                            {{$order->paid_cash}}   {{config('app.currency')}}</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            @endif
             @if($currentRouteName=="orders_detail" && $order->status->value >= \Core\Enum\OrderEnum::Paid->value &&(!is_null($discount) ||!is_null($bfss)||!is_null($cash)))
                 <div class="col-md-12">
                     <div class="card mt-2">

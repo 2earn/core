@@ -12,7 +12,7 @@
                     <th  scope="col" >{{__('Deal')}}</th>
                     <th  scope="col" >{{__('Total amount')}}</th>
                     <th  scope="col" >{{__('Partner discount')}}</th>
-                    <th  scope="col" >{{__('Ern discount')}}</th>
+                    <th  scope="col" >{{__('Earn discount')}}</th>
                     <th  scope="col" >{{__('Deal discount')}}</th>
                     <th  scope="col" >{{__('Total discount')}}</th>
                     <th  scope="col" >{{__('Final discount')}}</th>
@@ -59,7 +59,7 @@
                             {{$orderDealsItem->total_discount}}  {{config('app.currency')}}
                         </td>
                         <td>
-                           aa {{$orderDealsItem->final_discount}} aa {{config('app.currency')}}
+                            {{$orderDealsItem->final_discount}}  {{config('app.currency')}}
                             <hr>
                             {{$orderDealsItem->final_discount_percentage}}  {{config('app.percentage')}}
                         </td>
