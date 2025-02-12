@@ -12,9 +12,9 @@
                     <th scope="col">{{__('Turnover')}}</th>
                     <th scope="col">{{__('Purchase value')}}</th>
                     <th scope="col">{{__('Commission')}}</th>
-                    <th scope="col">{{__('Cumulative commission')}}</th>
+                    <th scope="col">{{__('Additional')}}</th>
                     <th scope="col">{{__('Camembert')}}</th>
-                    <th scope="col">{{__('Others')}}</th>
+                    <th scope="col">{{__('Camembert parts')}}</th>
                     <th scope="col">{{__('Created at')}}</th>
                 </tr>
                 </thead>
@@ -42,18 +42,18 @@
                         </td>
                         <td>
                             @if($commission->type->value!==\Core\Enum\CommissionTypeEnum::OUT->value)
-                            <ul class="list-group">
-                                <li class="list-group-item">
-                                    <strong>{{__('Old')}}</strong>
-                                    <span
-                                        class="badge badge-outline-info float-end"> {{$commission->old_turnover}} {{config('app.currency')}}</span>
-                                </li>
-                                <li class="list-group-item">
-                                    <strong>{{__('New')}}</strong>
-                                    <span
-                                        class="badge badge-outline-info float-end"> {{$commission->new_turnover}} {{config('app.currency')}}</span>
-                                </li>
-                            </ul>
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <strong>{{__('Old')}}</strong>
+                                        <span
+                                            class="badge badge-outline-info float-end"> {{$commission->old_turnover}} {{config('app.currency')}}</span>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>{{__('New')}}</strong>
+                                        <span
+                                            class="badge badge-outline-info float-end"> {{$commission->new_turnover}} {{config('app.currency')}}</span>
+                                    </li>
+                                </ul>
                             @else
                                 <div class="alert alert-light material-shadow" role="alert">
                                     {{__('No data')}}
@@ -61,7 +61,7 @@
                             @endif
                         </td>
                         <td>
-                                {{$commission->purchase_value}}  {{config('app.currency')}}
+                            {{$commission->purchase_value}}  {{config('app.currency')}}
                         </td>
                         <td>
                             {{$commission->commission_value}} {{config('app.currency')}}
@@ -70,9 +70,20 @@
                         </td>
                         <td>
                             @if($commission->type->value!==\Core\Enum\CommissionTypeEnum::OUT->value)
-                            {{$commission->cumulative_commission}} {{config('app.currency')}}
-                            <hr>
-                            {{$commission->cumulative_commission_percentage}} %
+                                <span
+                                    class="badge bg-warning text-end fs-14 float-end">{{$commission->additional_amount}}  {{config('app.currency')}}</span>
+                            @else
+                                <div class="alert alert-light material-shadow" role="alert">
+                                    {{__('No data')}}
+                                </div>
+                            @endif
+
+
+                        </td>
+                        <td>
+                            @if($commission->type->value!==\Core\Enum\CommissionTypeEnum::OUT->value)
+                                <span
+                                    class="badge bg-success text-end fs-14 float-end">      {{$commission->camembert}} {{config('app.currency')}}</span>
                             @else
                                 <div class="alert alert-light material-shadow" role="alert">
                                     {{__('No data')}}
@@ -82,61 +93,32 @@
                         </td>
                         <td>
                             @if($commission->type->value!==\Core\Enum\CommissionTypeEnum::OUT->value)
-                            <ul class="list-group">
-                                <li class="list-group-item list-group-item-primary"
-                                    title="{{__('Cash company profit')}}">
-                                    <strong>{{__('Cash company profit')}}</strong>
-                                    <span
-                                        class="badge badge-outline-info float-end">    {{$commission->cash_company_profit}}  {{config('app.currency')}}
+                                <ul class="list-group">
+                                    <li class="list-group-item list-group-item-primary"
+                                        title="{{__('Cash company profit')}}">
+                                        <strong>{{__('Cash company profit')}}</strong>
+                                        <span
+                                            class="badge badge-outline-info float-end">    {{$commission->cash_company_profit}}  {{config('app.currency')}}
                                     </span>
-                                </li>
-                                <li class="list-group-item" title="{{__('Cash cashback')}}">
-                                    <strong>{{__('Cash cashback')}}</strong>
-                                    <span
-                                        class="badge badge-outline-info float-end">  {{$commission->cash_cashback}}  {{config('app.currency')}}                                    </span>
-                                </li>
-                                <li class="list-group-item" title="{{__('Cash jackpot')}}">
-                                    <strong>{{__('Cash jackpot')}}</strong>
+                                    </li>
+                                    <li class="list-group-item" title="{{__('Cash cashback')}}">
+                                        <strong>{{__('Cash cashback')}}</strong>
+                                        <span
+                                            class="badge badge-outline-info float-end">  {{$commission->cash_cashback}}  {{config('app.currency')}}                                    </span>
+                                    </li>
+                                    <li class="list-group-item" title="{{__('Cash jackpot')}}">
+                                        <strong>{{__('Cash jackpot')}}</strong>
 
-                                    <span
-                                        class="badge badge-outline-info float-end"> {{$commission->cash_jackpot}}  {{config('app.currency')}}
+                                        <span
+                                            class="badge badge-outline-info float-end"> {{$commission->cash_jackpot}}  {{config('app.currency')}}
                                                                   </span>
-                                </li>
-                                <li class="list-group-item" title="{{__('Cash tree')}}">
-                                    <strong>{{__('Cash tree')}}</strong>
-                                    <span
-                                        class="badge badge-outline-info float-end">     {{$commission->cash_tree}}  {{config('app.currency')}}                                    </span>
-                                </li>
-                            </ul>
-                            @else
-                                <div class="alert alert-light material-shadow" role="alert">
-                                    {{__('No data')}}
-                                </div>
-                            @endif
-                        </td>
-                        <td>
-
-                            @if($commission->type->value!==\Core\Enum\CommissionTypeEnum::OUT->value)
-                            <ul class="list-group">
-                                <li class="list-group-item">
-                                    <strong>{{__('Earned cashback')}}</strong> <span
-                                        class="badge badge-outline-info float-end">{{$commission->earned_cashback}}  {{config('app.currency')}}</span>
-                                </li>
-                                <li class="list-group-item">
-                                    <strong>{{__('Commission difference')}}</strong> <span
-                                        class="badge badge-outline-info float-end">{{$commission->commission_difference}}  {{config('app.currency')}}</span>
-                                </li>
-                                <li class="list-group-item">
-                                    <strong>{{__('Additional commission value')}}</strong> <span
-                                        class="badge badge-outline-info float-end">{{$commission->additional_amount}}  {{config('app.currency')}}</span>
-                                </li>
-                                <li class="list-group-item" title=" {{$commission->final_cashback_percentage}} %">
-                                    <strong>{{__('Final cashback')}}</strong> <span
-                                        class="badge badge-outline-info float-end">
-                                        {{$commission->final_cashback}} {{config('app.currency')}}
-                           </span>
-                                </li>
-                            </ul>
+                                    </li>
+                                    <li class="list-group-item" title="{{__('Cash tree')}}">
+                                        <strong>{{__('Cash tree')}}</strong>
+                                        <span
+                                            class="badge badge-outline-info float-end">     {{$commission->cash_tree}}  {{config('app.currency')}}                                    </span>
+                                    </li>
+                                </ul>
                             @else
                                 <div class="alert alert-light material-shadow" role="alert">
                                     {{__('No data')}}

@@ -19,8 +19,7 @@ return new class extends Migration {
             $table->float('purchase_value')->nullable();
             $table->float('commission_percentage')->nullable();
             $table->float('commission_value')->nullable();
-            $table->float('cumulative_commission')->nullable();
-            $table->float('cumulative_commission_percentage')->nullable();
+            $table->float('camembert')->nullable();
             $table->float('cash_company_profit')->nullable();
             $table->float('cashback_proactif')->nullable();
             $table->float('cash_jackpot')->nullable();
@@ -30,11 +29,7 @@ return new class extends Migration {
             $table->float('cashback_allocation')->nullable();
             $table->float('additional_amount')->nullable();
             $table->float('earned_cashback')->nullable();
-            $table->float('commission_difference')->nullable();
-            $table->float('additional_commission_value')->nullable();
             $table->float('deal_paid_amount')->nullable();
-            $table->float('final_cashback')->nullable();
-            $table->float('final_cashback_percentage')->nullable();
             $table->unsignedBigInteger('deal_id')->nullable()->foreign('deal_id')->nullable()->references('id')->on('deals')->onDelete('cascade');
             $table->unsignedBigInteger('order_id')->nullable()->foreign('order_id')->nullable()->references('id')->on('orders')->onDelete('cascade');
             $table->timestamps();

@@ -15,16 +15,17 @@ use Core\Models\UserContact;
 use Core\Models\countrie;
 use Illuminate\Support\Facades\Auth;
 use App\Models\SharesBalances;
+
 if (!function_exists('getUserBalanceSoldes')) {
     function getUserBalanceSoldes($idUser, $amount)
     {
         return match ($amount) {
-            1 =>  BalancesFacade::getCash($idUser),
-            2 =>  BalancesFacade::getBfss($idUser),
-            3 =>  BalancesFacade::getDiscount($idUser),
-            4 =>  BalancesFacade::getTree($idUser),
-            5 =>  BalancesFacade::getSms($idUser),
-            default =>  BalancesFacade::getCash($idUser),
+            1 => BalancesFacade::getCash($idUser),
+            2 => BalancesFacade::getBfss($idUser),
+            3 => BalancesFacade::getDiscount($idUser),
+            4 => BalancesFacade::getTree($idUser),
+            5 => BalancesFacade::getSms($idUser),
+            default => BalancesFacade::getCash($idUser),
         };
 
     }
@@ -66,7 +67,7 @@ if (!function_exists('getRegisterUpline')) {
 if (!function_exists('getAdminCash')) {
     function getAdminCash()
     {
-        $value =  BalancesFacade::getSoldMainQuery('cash_balances')
+        $value = BalancesFacade::getSoldMainQuery('cash_balances')
             ->where('s.is_representative', 1)
             ->get();
         return $value->pluck('value')->toArray();
@@ -75,7 +76,7 @@ if (!function_exists('getAdminCash')) {
 if (!function_exists('getUserCash')) {
     function getUserCash($user)
     {
-        $value =  BalancesFacade::getSoldMainQuery('cash_balances')
+        $value = BalancesFacade::getSoldMainQuery('cash_balances')
             ->where('u.idUser', $user)
             ->get();
         return $value->pluck('value')->toArray();
@@ -267,7 +268,7 @@ if (!function_exists('getUserActualActionsProfit')) {
 if (!function_exists('getExtraAdmin')) {
     function getExtraAdmin()
     {
-        return  auth()->user()->fullphone_number;
+        return auth()->user()->fullphone_number;
     }
 }
 if (!function_exists('getLangNavigation')) {
@@ -572,6 +573,42 @@ if (!function_exists('getSqlFromPath')) {
             throw new Exception('Invalid sql Path');
         }
         return File::get($path);
+    }
+}
+if (!function_exists('getSettingParam')) {
+    function getSettingParam($paramName)
+    {
+        return DB::table('settings')->where("ParameterName", "=", $paramName)->first();
+    }
+}
+if (!function_exists('getSettingDecimalParam')) {
+    function getSettingDecimalParam($paramName, $default)
+    {
+        $param = getSettingParam($paramName);
+        if (!is_null($param)) {
+            return $param->DecimalValue;
+        }
+        return $default;
+    }
+}
+if (!function_exists('getSettingIntegerParam')) {
+    function getSettingIntegerParam($paramName, $default)
+    {
+        $param = getSettingParam($paramName);
+        if (!is_null($param)) {
+            return $param->IntegerValue;
+        }
+        return $default;
+    }
+}
+if (!function_exists('getSettingStringParam')) {
+    function getSettingStringParam($paramName, $default)
+    {
+        $param = getSettingParam($paramName);
+        if (!is_null($param)) {
+            return (int)$param->StringValue;
+        }
+        return $default;
     }
 }
 

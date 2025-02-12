@@ -65,9 +65,8 @@ class TreeBalances extends Model
     public static function getTreesNumber($treeBalances)
     {
         try {
-            if (DB::table('settings')->where("ParameterName", "=", 'TOTAL_TREE')->exists()) {
-                return $treeBalances / DB::table('settings')->where("ParameterName", "=", 'TOTAL_TREE')->pluck('IntegerValue')->first();
-            }
+            $totalTree = getSettingIntegerParam('TOTAL_TREE', 1);
+            return $treeBalances / $totalTree;
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return 0;

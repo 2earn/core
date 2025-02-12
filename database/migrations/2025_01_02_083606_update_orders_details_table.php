@@ -29,17 +29,10 @@ return new class extends Migration {
             $table->float('deal_discount')->nullable();
             $table->float('amount_after_deal_discount')->nullable();
 
-            $table->float('total_discount_with_discount_partner')->nullable();
-            $table->float('ponderation_with_discount_partner')->nullable();
-            $table->float('total_discount_percentage_with_discount_partner')->nullable();
+            $table->float('total_discount')->nullable();
 
-            $table->float('refund_dispatching')->nullable();
-            $table->float('final_amount')->nullable();
-            $table->float('final_discount')->nullable();
 
-            $table->float('final_discount_without_discount_partner')->nullable();
-            $table->float('discount_value_without_discount_partner')->nullable();
-            $table->float('discount_percentage_without_discount_partner')->nullable();
+
         });
     }
 
@@ -61,18 +54,6 @@ return new class extends Migration {
             $table->dropColumn('deal_discount_percentage');
             $table->dropColumn('deal_discount');
             $table->dropColumn('amount_after_deal_discount');
-
-            $table->dropColumn('total_discount_with_discount_partner');
-            $table->dropColumn('ponderation_with_discount_partner');
-            $table->dropColumn('total_discount_percentage_with_discount_partner');
-
-            $table->dropColumn('refund_dispatching');
-            $table->dropColumn('final_amount');
-            $table->dropColumn('final_discount');
-
-            $table->dropColumn('finalDiscountWithoutDiscountPartner');
-            $table->dropColumn('discountValueWithoutDiscountPartner');
-            $table->dropColumn('discountPercentageWithoutDiscountPartner');
         });
     }
 };
