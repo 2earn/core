@@ -20,21 +20,13 @@ class CommissionBreakDown extends Model
         'purchase_value',
         'commission_percentage',
         'commission_value',
-        'cumulative_commission',
-        'cumulative_commission_percentage',
         'cash_company_profit',
         'cash_jackpot',
         'cash_tree',
         'cash_cashback',
-        'cumulative_cashback',
-        'cashback_allocation',
-        'additional_amount',
-        'earned_cashback',
-        'commission_difference',
+        'camembert',
         'deal_paid_amount',
-        'additional_commission_value',
-        'final_cashback',
-        'final_cashback_percentage',
+        'additional_amount'
     ];
     protected $casts = ['type' => CommissionTypeEnum::class];
 

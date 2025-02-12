@@ -19,6 +19,7 @@ use Core\Models\BalanceOperation;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Exception;
+
 class Ordering
 {
     static $initTurno = [
@@ -185,6 +186,8 @@ class Ordering
 
     public static function createOrderDeal($order_deal, $order)
     {
+        Log::notice('aaaaaaaaaaaaaaaaa');
+        Log::notice(json_encode($order_deal));
         $total_amount = 0;
         $final_discount = 0;
         $lost_discount = 0;
@@ -197,10 +200,11 @@ class Ordering
         $order->update([
             'total_final_discount' => $final_discount,
             'total_lost_discount' => $lost_discount,
-            'total_final_discount_percentage' => $final_discount / $total_amount * 100,
-            'total_lost_discount_percentage' => $lost_discount / $total_amount * 100,
+            'total_final_discount_percentage' => $total_amount > 0 ? $final_discount / $total_amount * 100 : 0,
+            'total_lost_discount_percentage' => $total_amount > 0 ? $lost_discount / $total_amount * 100 : 0,
         ]);
     }
+
     public static function updateItemDeals($itemsDeals)
     {
         foreach ($itemsDeals as $itemDeal) {
@@ -219,6 +223,7 @@ class Ordering
             ]);
         }
     }
+
     public static function initBfssTable($user)
     {
         $bfssTables = [];
@@ -267,8 +272,8 @@ class Ordering
             $bfssTables = self::simulateBFSs($order);
             if (!empty($bfssTables)) {
                 $amount = array_last($bfssTables)['amount'];
-            }else{
-                $amount=  $order->amount_after_discount;
+            } else {
+                $amount = $order->amount_after_discount;
             }
             self::simulateCash($order, $amount);
             return ['order' => $order, 'order_deal' => $order_deal, 'bfssTables' => $bfssTables];
@@ -280,19 +285,19 @@ class Ordering
     {
         foreach ($order_deal as $order_deal_item) {
             $countedDiscount = $order_deal_item['final_discount'];
-        if ($countedDiscount > 0) {
-            $currentBalance = $balances->discount_balance + BalanceOperation::getMultiplicator(BalanceOperationsEnum::ORDER_BFS->value) * $countedDiscount;
-            $discountData = [
-                'balance_operation_id' => BalanceOperationsEnum::ORDER_DISCOUNT->value,
-                'operator_id' => Balances::SYSTEM_SOURCE_ID,
-                'beneficiary_id' => $order->user()->first()->idUser,
-                'reference' => BalancesFacade::getReference(BalanceOperationsEnum::ORDER_DISCOUNT->value),
-                'description' => $countedDiscount . ' from ordering (id) ' . $order->id . ' / Discount : ' . $balances->discount_balance . ' - ' . $countedDiscount . ' = ' . $currentBalance,
-                'value' => $countedDiscount,
-                'current_balance' => $currentBalance
-            ];
-            DiscountBalances::addLine($discountData, null, null, $order->id, null, null);
-        }
+            if ($countedDiscount > 0) {
+                $currentBalance = $balances->discount_balance + BalanceOperation::getMultiplicator(BalanceOperationsEnum::ORDER_BFS->value) * $countedDiscount;
+                $discountData = [
+                    'balance_operation_id' => BalanceOperationsEnum::ORDER_DISCOUNT->value,
+                    'operator_id' => Balances::SYSTEM_SOURCE_ID,
+                    'beneficiary_id' => $order->user()->first()->idUser,
+                    'reference' => BalancesFacade::getReference(BalanceOperationsEnum::ORDER_DISCOUNT->value),
+                    'description' => $countedDiscount . ' from ordering (id) ' . $order->id . ' / Discount : ' . $balances->discount_balance . ' - ' . $countedDiscount . ' = ' . $currentBalance,
+                    'value' => $countedDiscount,
+                    'current_balance' => $currentBalance
+                ];
+                DiscountBalances::addLine($discountData, null, null, $order->id, null, null);
+            }
         }
     }
 
@@ -338,16 +343,8 @@ class Ordering
             $oldTurnOver = $deal->current_turnover;
             $newTurnOver = $deal->updateTurnover($turnOver['amount_after_partner_discount']);
 
-            if (CommissionBreakDown::where('deal_id', $dealId)->orderBy('created_at', 'DESC')->exists()) {
-                $oldCommissionPercentage = 0;
-            } else {
-                $lastCommission = CommissionBreakDown::where('deal_id', $dealId)->orderBy('created_at', 'DESC')->first();
-                $oldCommissionPercentage = $lastCommission?->pluck('commission_percentage') ?? 0;
-            }
+            $commissionPercentage = Deal::getCommissionPercentage($deal, $newTurnOver);
 
-            $commissionPercentage = Deal::getCommissionPercentage($deal,$newTurnOver);
-
-            $cumulative = CommissionBreakDown::getSum($dealId, 'cumulative_commission');
             $cumulativeCashback = CommissionBreakDown::getSum($dealId, 'cumulative_cashback');
 
             $cbData = [
@@ -360,27 +357,21 @@ class Ordering
                 'purchase_value' => $turnOver['amount_after_partner_discount'],
                 'additional_amount' => $turnOver['final_amount'] - $turnOver['amount_after_partner_discount'],
                 'deal_paid_amount' => $turnOver['final_amount'],
-                'commission_percentage' =>  $commissionPercentage,
+                'commission_percentage' => $commissionPercentage,
             ];
 
-            $cbData['commission_value'] = ($turnOver['amount_after_partner_discount'] * $commissionPercentage / 100) + $cbData['additional_amount'];
+            $cbData['commission_value'] = $turnOver['amount_after_partner_discount'] * $commissionPercentage / 100;
+            $cbData['camembert'] =  $cbData['commission_value']  + $cbData['additional_amount'];
 
-            $cbData['cumulative_commission'] = $cumulative + $cbData['commission_value'];
-            $cbData['cumulative_commission_percentage'] = $cbData['cumulative_commission'] / $cbData['new_turnover'] * 100;
-            $cbData['cash_company_profit'] = $cbData['commission_value'] * $deal->earn_profit / 100;
-            $cbData['cash_jackpot'] = $cbData['commission_value'] * $deal->jackpot / 100;
-            $cbData['cash_tree'] = $cbData['commission_value'] * $deal->tree_remuneration / 100;
-            $cbData['cash_cashback'] = $cbData['commission_value'] * $deal->proactive_cashback / 100;
+            if ($cbData['camembert'] < 0) {
+                $cbData['camembert'] = 0;
+            }
+
+            $cbData['cash_company_profit'] = $cbData['camembert'] * $deal->earn_profit / 100;
+            $cbData['cash_jackpot'] = $cbData['camembert'] * $deal->jackpot / 100;
+            $cbData['cash_tree'] = $cbData['camembert'] * $deal->tree_remuneration / 100;
+            $cbData['cash_cashback'] = $cbData['camembert'] * $deal->proactive_cashback / 100;
             $cbData['cumulative_cashback'] = $cumulativeCashback + $cbData['cash_cashback'];
-
-            $cbData['commission_difference'] = $commissionPercentage + $oldCommissionPercentage;
-            $cbData['additional_commission_value'] = $oldCommissionPercentage * ($cbData['commission_difference'] / 100);
-            $cbData['cumulative_commission'] =  $cbData['cumulative_commission'] + $cbData['additional_commission_value'];
-
-            $cbData['cashback_allocation'] = $cbData['cumulative_cashback'] != 0 ? $cbData['cash_cashback'] / $cbData['cumulative_cashback'] * 100 : 0;
-            $cbData['earned_cashback'] = $cbData['cumulative_cashback'] * $cbData['cashback_allocation'] / 100;
-            $cbData['final_cashback'] = min($cbData['deal_paid_amount'], $cbData['earned_cashback']);
-            $cbData['final_cashback_percentage'] = $cbData['final_cashback'] / $cbData['deal_paid_amount'] * 100;
             CommissionBreakDown::create($cbData);
         }
         $param = DB::table('settings')->where("ParameterName", "=", 'GATEWAY_PAYMENT_FEE')->first();

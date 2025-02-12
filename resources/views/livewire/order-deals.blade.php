@@ -37,23 +37,27 @@
                             @endif
                         </td>
                         <td>
-                            {{$orderDealsItem->total_amount}}  {{config('app.currency')}}
+                                 <span
+                                     class="badge bg-warning fs-14">     {{$orderDealsItem->total_amount}}  {{config('app.currency')}}</span>
                         </td>
                         <td>
-                            {{$orderDealsItem->partner_discount}}  {{config('app.currency')}}
+                           <span
+                               class="badge bg-success fs-14">  {{$orderDealsItem->partner_discount}}  {{config('app.currency')}}</span>
 
                             <span
                                 class="badge bg-primary text-end fs-14 float-end"> {{$orderDealsItem->amount_after_partner_discount}}  {{config('app.currency')}}</span>
                         </td>
                         <td>
-                            {{$orderDealsItem->earn_discount}}  {{config('app.currency')}}
+                      <span
+                          class="badge bg-success fs-14">   {{$orderDealsItem->earn_discount}}  {{config('app.currency')}}</span>
                             <span
                                 class="badge bg-primary text-end fs-14 float-end">   {{$orderDealsItem->amount_after_earn_discount}}  {{config('app.currency')}}</span>
                         </td>
                         <td>
-                            {{$orderDealsItem->deal_discount}}  {{config('app.currency')}}
-                            <hr>
-                            {{$orderDealsItem->deal_discount_percentage}}  {{config('app.percentage')}}
+          <span
+              class="badge bg-success fs-14">  {{$orderDealsItem->deal_discount}}  {{config('app.currency')}}</span>
+                            <span
+                                class="badge bg-primary text-end fs-14 float-end">     {{$orderDealsItem->amount_after_deal_discount}}  {{config('app.currency')}}</span>
                         </td>
                         <td>
                             {{$orderDealsItem->total_discount}}  {{config('app.currency')}}
@@ -68,7 +72,7 @@
                         </td>
                         <td>
                             <span
-                                class="badge bg-secondary text-end fs-14 float-end">      {{$orderDealsItem->final_amount}}  {{config('app.currency')}}</span>
+                                class="badge bg-danger text-end fs-14 float-end">      {{$orderDealsItem->final_amount}}  {{config('app.currency')}}</span>
                         </td>
                     </tr>
                 @endforeach
