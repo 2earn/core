@@ -22,8 +22,8 @@ class Balances
 
     public function getBalanceCompter()
     {
-        $balanceCompter = DB::table('settings')->where("ParameterName", "=", 'BALANCES_COMPTER')->first();
-        $value = (int)$balanceCompter->IntegerValue;
+        $value = getSettingIntegerParam('BALANCES_COMPTER', 1);
+
         $value++;
         $newValue = (string)$value;
         DB::table('settings')->where("ParameterName", "=", 'BALANCES_COMPTER')->update(['IntegerValue' => $newValue]);

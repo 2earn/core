@@ -361,7 +361,7 @@ class Ordering
             ];
 
             $cbData['commission_value'] = $turnOver['amount_after_partner_discount'] * $commissionPercentage / 100;
-            $cbData['camembert'] =  $cbData['commission_value']  + $cbData['additional_amount'];
+            $cbData['camembert'] = $cbData['commission_value'] + $cbData['additional_amount'];
 
             if ($cbData['camembert'] < 0) {
                 $cbData['camembert'] = 0;
@@ -372,14 +372,11 @@ class Ordering
             $cbData['cash_tree'] = $cbData['camembert'] * $deal->tree_remuneration / 100;
             $cbData['cash_cashback'] = $cbData['camembert'] * $deal->proactive_cashback / 100;
             $cbData['cumulative_cashback'] = $cumulativeCashback + $cbData['cash_cashback'];
+
             CommissionBreakDown::create($cbData);
         }
-        $param = DB::table('settings')->where("ParameterName", "=", 'GATEWAY_PAYMENT_FEE')->first();
-        if (!is_null($param)) {
-            $SettingCommissionPercentage = $param->DecimalValue;
-        } else {
-            $SettingCommissionPercentage = 2;
-        }
+
+        $SettingCommissionPercentage = getSettingDecimalParam('GATEWAY_PAYMENT_FEE', 2);
 
         CommissionBreakDown::create([
             'trigger' => 0,

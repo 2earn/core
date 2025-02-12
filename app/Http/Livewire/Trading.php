@@ -42,19 +42,9 @@ class Trading extends Component
 
     public function mount()
     {
-        $param = DB::table('settings')->where("ParameterName", "=", "GIFTED_SHARES")->first();
-        if (!is_null($param)) {
-            $this->giftedShares = $param->IntegerValue;
-        }
-        $param = DB::table('settings')->where("ParameterName", "=", "TARGET_DATE")->first();
-        if (!is_null($param)) {
-            $this->targetDate = $param->StringValue;
-        }
-
-        $param = DB::table('settings')->where("ParameterName", "=", "Actions Number")->first();
-        if (!is_null($param)) {
-            $this->totalActions = $param->IntegerValue - $this->giftedShares;
-        }
+        $this->giftedShares = getSettingIntegerParam('GIFTED_SHARES',0);
+        $this->targetDate = getSettingStringParam('TARGET_DATE',0);
+        $this->totalActions = getSettingIntegerParam('TARGET_DATE',0)-$this->giftedShares;
 
         $this->selledActions = intval(getSelledActions(true));
         $this->precentageOfActions = round($this->selledActions / $this->totalActions, 3) * 100;
