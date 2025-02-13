@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\BusinessSector;
 use Core\Enum\PlatformType;
 use Core\Models\Platform;
 use Illuminate\Http\Request;
@@ -15,6 +16,7 @@ class PlatformCreateUpdate extends Component
         $idPlatform,
         $name,
         $description,
+        $sector,
         $type,
         $link;
 
@@ -25,23 +27,28 @@ class PlatformCreateUpdate extends Component
         'name' => 'required',
         'description' => 'required',
         'type' => 'required',
+        'sector' => 'required',
         'link' => 'required',
     ];
     public $update = false;
     public $types = [];
+    public $sectors = [];
 
     public function mount(Request $request)
     {
         $this->idPlatform = $request->query('idPlatform');
-        if (!is_null($this->idPlatform)) {
-            $this->edit($this->idPlatform);
-        }
         $this->types = [
             ['name' => PlatformType::Full->name, 'value' => PlatformType::Full->value,],
             ['name' => PlatformType::Hybrid->name, 'value' => PlatformType::Hybrid->value,],
             ['name' => PlatformType::Paiement->name, 'value' => PlatformType::Paiement->value,]
         ];
-        $this->type = PlatformType::Hybrid->value;
+        $sectors = BusinessSector::all();
+        foreach ($sectors as $sector) {
+            $this->sectors[] = ['name' => $sector->name, 'value' => $sector->id];
+        }
+        if (!is_null($this->idPlatform)) {
+            $this->edit($this->idPlatform);
+        }
     }
 
     public function cancel()
@@ -56,6 +63,7 @@ class PlatformCreateUpdate extends Component
         $this->name = $platform?->name;
         $this->description = $platform->description;
         $this->idPlatform = $platform->id;
+        $this->sector = $platform->business_sector_id;
         $this->type = $platform->type;
         $this->enabled = $platform->enabled;
         $this->show_profile = $platform->show_profile;
@@ -73,11 +81,13 @@ class PlatformCreateUpdate extends Component
                 'enabled' => $this->enabled,
                 'show_profile' => $this->show_profile,
                 'type' => $this->type,
+                'business_sector_id' => $this->sector,
                 'link' => $this->link
             ];
             \Core\Models\Platform::where('id', $this->idPlatform)
                 ->update($params);
         } catch (\Exception $exception) {
+            dd($exception);
             Log::error($exception->getMessage());
             return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while updating Platform'));
         }
@@ -94,6 +104,7 @@ class PlatformCreateUpdate extends Component
                 'description' => $this->description,
                 'enabled' => $this->enabled,
                 'show_profile' => $this->show_profile,
+                'business_sector_id' => $this->sector,
                 'type' => $this->type,
                 'link' => $this->link
             ];
@@ -108,6 +119,8 @@ class PlatformCreateUpdate extends Component
 
     public function render()
     {
+
+
         return view('livewire.platform-create-update')->extends('layouts.master')->section('content');
     }
 }
