@@ -29,9 +29,7 @@ class OrderingSimulation
 
     public static function createItem($platformId, $faker)
     {
-        $unit_price = mt_rand(500, 2000) / 100;
-        $discount = mt_rand(0, 15);
-        $discount2earn = mt_rand(0, 15);
+        $unit_price = mt_rand(1000, 3000) / 100;
         $itemName = $faker->word();
         $description = $faker->text();
         $reference = $faker->randomNumber(4);
@@ -39,6 +37,10 @@ class OrderingSimulation
         $hasDeal = (bool)rand(0, 2);
         $dealsIds = Deal::where('platform_id', $platformId)->pluck('id')->toArray();
         $dealsId = $dealsIds[array_rand($dealsIds)];
+        $deal = Deal::find($dealsId);
+
+        $discount = mt_rand(0, intval($deal->initial_commission - $deal->discount / 2));
+        $discount2earn = mt_rand(0, intval($deal->initial_commission - $deal->discount / 2));
 
         $params = [
             'name' => $itemName,
@@ -69,11 +71,11 @@ class OrderingSimulation
             $qty = rand(1, 5);
             if (!isset($orderItems[$item->id])) {
                 $orderItems[$item->id] = [
-                'qty' => $qty,
-                'unit_price' => $item->price,
-                'shipping' => $shipping,
-                'total_amount' => $qty * $item->price,
-                'item_id' => $item->id,
+                    'qty' => $qty,
+                    'unit_price' => $item->price,
+                    'shipping' => $shipping,
+                    'total_amount' => $qty * $item->price,
+                    'item_id' => $item->id,
                 ];
             } else {
                 $orderItems[$item->id]['qty'] += $qty;
@@ -85,7 +87,6 @@ class OrderingSimulation
             $order->orderDetails()->create($orderItem);
         }
     }
-
 
 
     public static function getItem($platformId, $faker): bool|Item
