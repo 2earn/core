@@ -419,7 +419,7 @@
                                         @endif
                                         @if(isset($bfss) && $bfss->isNotEmpty())
                                             <li class="list-group-item">
-                                                <strong>{{__('BFSS')}}</strong>
+                                                <strong>{{__('BFSs')}}</strong>
                                                 <table class="table table-striped border">
                                                     <thead>
                                                     <th scope="col">{{__('Reference')}}</th>
@@ -448,7 +448,7 @@
                                                             </td>
                                                             <td>
                                                         <span
-                                                            class="badge bg-warning text-end fs-14 float-end">   {{$bfs->percentage}}</span>
+                                                            class="badge bg-warning text-end fs-14 float-end">   {{$bfs->percentage}} {{config('app.percentage')}}</span>
                                                             </td>
                                                             <td>
                                                                 {{$bfs->created_at}}

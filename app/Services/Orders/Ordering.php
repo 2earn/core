@@ -367,7 +367,7 @@ class Ordering
                 $cbData['camembert'] = 0;
             }
 
-            $cbData['cash_company_profit'] = $cbData['camembert'] * $deal->earn_profit / 100;
+            $cbData['cash_company_profit'] = $cbData['camembert'] != 0 ? ($cbData['camembert'] * $deal->earn_profit / 100) : $cbData['commission_value'];
             $cbData['cash_jackpot'] = $cbData['camembert'] * $deal->jackpot / 100;
             $cbData['cash_tree'] = $cbData['camembert'] * $deal->tree_remuneration / 100;
             $cbData['cash_cashback'] = $cbData['camembert'] * $deal->proactive_cashback / 100;
