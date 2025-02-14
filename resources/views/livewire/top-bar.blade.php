@@ -162,8 +162,13 @@
                                         <div class="col">
                                             <a class="dropdown-icon-item"
                                                href="{{route('business_sector_show',['locale'=>app()->getLocale(),'id'=>$sector->id] )}}">
-                                                <img src="{{Vite::asset('resources/images/Move2earn Icon.png')}}"
+                                                @if (!$sector->logoImage)
+                                                <img src="{{Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_LOGO)}}"
                                                      alt="Move2earn">
+                                                @else
+                                                    <img src="{{ asset('uploads/' . $sector->logoImage->url) }}"
+                                                         alt="Move2earn">
+                                                @endif
                                                 <span>{{$sector->name}}</span>
                                             </a>
                                         </div>

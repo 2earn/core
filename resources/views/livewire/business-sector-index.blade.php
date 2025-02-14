@@ -57,22 +57,28 @@
                                         {{ $business_sector->description}}
                                     </blockquote>
                                 </div>
-                                @if ($business_sector->thumbnailsImage)
-                                    <div class="col-md-3">
-                                        <h4>
-                                            {{__('Thumbnails image')}}
-                                        </h4>   <img src="{{ asset('uploads/' . $business_sector?->thumbnailsImage->url) }}"
-                                                 alt="Business Sector Image" class="img-thumbnail rounded float-left">
-                                    </div>
-                                @endif
-                                @if ($business_sector->logoImage)
-                                    <div class="col-md-3">
-                                        <h4>
-                                            {{__('Logo image')}}
-                                        </h4>   <img src="{{ asset('uploads/' . $business_sector->logoImage->url) }}"
-                                                 alt="Business Sector logo Image" class="img-thumbnail rounded float-left">
-                                    </div>
-                                @endif
+                                <div class="col-md-3">
+                                    @if ($business_sector->logoImage)
+                                        <img src="{{ asset('uploads/' . $business_sector->logoImage->url) }}"
+                                             alt="Business Sector logo Image"
+                                             class="d-block img-fluid img-business-square mx-auto rounded float-left">
+                                    @else
+                                        <img src="{{Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_LOGO)}}"
+                                             class="d-block img-fluid img-business-square mx-auto rounded float-left">
+                                    @endif
+                                </div>
+                                <div class="col-md-3">
+                                    @if ($business_sector->thumbnailsImage)
+                                        <img src="{{ asset('uploads/' . $business_sector->thumbnailsImage->url) }}"
+                                             alt="Business Sector Image"
+                                             class="d-block img-fluid img-business mx-auto rounded float-left">
+                                    @else
+                                        <img src="{{Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_THUMB)}}"
+                                             class="d-block img-fluid img-business mx-auto rounded float-left">
+                                    @endif
+                                </div>
+
+
                                 @if(\App\Models\User::isSuperAdmin())
                                     <div class="col-auto">
                                         <a wire:click="deletebusinessSector('{{$business_sector->id}}')"
