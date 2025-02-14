@@ -30,6 +30,7 @@
                                 <th>{{__('Enabled')}}</th>
                                 <th>{{__('Published at')}}</th>
                                 <th>{{__('Actions')}}</th>
+                                <th>{{__('Image')}}</th>
                                 <th>{{__('Content')}}</th>
                             </tr>
                             </thead>
@@ -71,8 +72,10 @@
                         {data: 'title'},
                         {data: 'enabled'},
                         {data: 'published_at'},
-                        {data: 'action'},
                         {data: 'content'},
+                        {data: 'logo_image'},
+                        {data: 'action'},
+
                     ],
                     "language": {"url": urlLang},
                 });

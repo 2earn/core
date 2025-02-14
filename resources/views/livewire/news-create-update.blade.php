@@ -37,6 +37,16 @@
                             <label class="form-check-label" for="Enabled">{{__('Enabled')}}</label>
                         </div>
                     </div>
+                    <div class="form-group col-12">
+                        <label for="logoImage">{{__('Main Image')}}</label>
+                        <input type="file" id="mainImage" wire:model="mainImage" class="form-control">
+                        @error('mainImage') <span class="error">{{ $message }}</span> @enderror
+                        @if ($news?->mainImage)
+                            <div class="mt-3">
+                                <img src="{{ asset('uploads/' . $news->mainImage->url) }}" alt="Business Sector logoImage" class="img-thumbnail">
+                            </div>
+                        @endif
+                    </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-12">

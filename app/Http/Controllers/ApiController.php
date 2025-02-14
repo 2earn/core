@@ -1186,6 +1186,9 @@ class ApiController extends BaseController
             ->addColumn('action', function ($news) {
                 return view('parts.datatable.news-action', ['newsId' => $news->id, 'newstitle' => $news->title]);
             })
+            ->addColumn('logo_image', function ($news) {
+                return view('parts.datatable.news-image', ['news' => $news]);
+            })
             ->addColumn('published_at', function ($news) {
                 return $news->published_at?->format(self::DATE_FORMAT);
             })
