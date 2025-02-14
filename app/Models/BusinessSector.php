@@ -16,7 +16,7 @@ class BusinessSector extends Model
     const IMAGE_TYPE_THUMBNAILS = 'thumbnails';
     const IMAGE_TYPE_LOGO = 'logo';
 
-    const DEFAULT_IMAGE_TYPE_LOGO = 'public/uploads/business-sectors/thumbnails/simple logo for business sector.png';
+    const DEFAULT_IMAGE_TYPE_LOGO = 'public/uploads/business-sectors/logo/simple logo for business sector.png';
     const DEFAULT_IMAGE_TYPE_THUMB = 'public/uploads/business-sectors/thumbnails/simple business sector logo thumbnail.png';
 
     public function thumbnailsImage()
