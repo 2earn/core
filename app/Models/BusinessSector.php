@@ -13,4 +13,18 @@ class BusinessSector extends Model
         'name',
         'description'
     ];
+    const IMAGE_TYPE_THUMBNAILS = 'thumbnails';
+    const IMAGE_TYPE_LOGO = 'logo';
+
+
+    public function thumbnailsImage()
+    {
+        return $this->morphOne(Image::class, 'imageable')->where('type', '=', self::IMAGE_TYPE_THUMBNAILS);
+    }
+
+    public function logoImage()
+    {
+        return $this->morphOne(Image::class, 'imageable')->where('type', '=', self::IMAGE_TYPE_LOGO);
+    }
+
 }
