@@ -7,6 +7,7 @@ use App\Http\Livewire\BusinessSectorIndex;
 use App\Models\BFSsBalances;
 use App\Models\BusinessSector;
 use App\Models\CashBalances;
+use App\Models\Coupon;
 use App\Models\Deal;
 use App\Models\News;
 use App\Models\SharesBalances;
@@ -37,6 +38,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator as Val;
 use Illuminate\Support\Facades\Vite;
@@ -107,108 +109,108 @@ class ApiController extends BaseController
         DB::beginTransaction();
         try {
             $userSponsored = SponsorshipFacade::checkProactifSponsorship($this->userRepository->getUserByIdUser($reciver));
-        if ($userSponsored) {
-            SponsorshipFacade::executeProactifSponsorship($userSponsored->idUser, $ref, $number_of_action, $actual_price, $reciver);
-        }
-        $vip = vip::Where('idUser', '=', $reciver)->where('closed', '=', false)->first();
-        if ($request->flash) {
-            if ($vip->declenched) {
-                if ($number_of_action >= $request->actions) {
-                    $flashGift = getFlashGiftedActions($request->actions, $request->vip);
-                    vip::where('idUser', $request->reciver)
-                        ->where('closed', '=', 0)
-                        ->update(['closed' => 1, 'closedDate' => now()]);
-                } else {
-                    $flashGift = getFlashGiftedActions($number_of_action, $request->vip);
-                }
-            } else {
-                if ($number_of_action >= $request->flashMinShares) {
+            if ($userSponsored) {
+                SponsorshipFacade::executeProactifSponsorship($userSponsored->idUser, $ref, $number_of_action, $actual_price, $reciver);
+            }
+            $vip = vip::Where('idUser', '=', $reciver)->where('closed', '=', false)->first();
+            if ($request->flash) {
+                if ($vip->declenched) {
                     if ($number_of_action >= $request->actions) {
                         $flashGift = getFlashGiftedActions($request->actions, $request->vip);
                         vip::where('idUser', $request->reciver)
                             ->where('closed', '=', 0)
-                            ->update(['closed' => 1, 'closedDate' => now(), 'declenched' => 1, 'declenchedDate' => now()]);
+                            ->update(['closed' => 1, 'closedDate' => now()]);
                     } else {
                         $flashGift = getFlashGiftedActions($number_of_action, $request->vip);
-                        vip::where('idUser', $request->reciver)
-                            ->where('closed', '=', 0)
-                            ->update(['declenched' => 1, 'declenchedDate' => now()]);
                     }
                 } else {
-                    $flashGift = 0;
+                    if ($number_of_action >= $request->flashMinShares) {
+                        if ($number_of_action >= $request->actions) {
+                            $flashGift = getFlashGiftedActions($request->actions, $request->vip);
+                            vip::where('idUser', $request->reciver)
+                                ->where('closed', '=', 0)
+                                ->update(['closed' => 1, 'closedDate' => now(), 'declenched' => 1, 'declenchedDate' => now()]);
+                        } else {
+                            $flashGift = getFlashGiftedActions($number_of_action, $request->vip);
+                            vip::where('idUser', $request->reciver)
+                                ->where('closed', '=', 0)
+                                ->update(['declenched' => 1, 'declenchedDate' => now()]);
+                        }
+                    } else {
+                        $flashGift = 0;
+                    }
                 }
+            } else {
+                $flashGift = 0;
             }
-        } else {
-            $flashGift = 0;
-        }
             $balances = Balances::getStoredUserBalances($reciver);
-        $this->userRepository->increasePurchasesNumber($reciver);
+            $this->userRepository->increasePurchasesNumber($reciver);
             $oldTotalAmount = SharesBalances::where('beneficiary_id', $reciver)->orderBy(DB::raw('created_at'), "DESC")->pluck('total_amount')->first();
 
-        SharesBalances::addLine([
-            'balance_operation_id' => BalanceOperationsEnum::SELLED_SHARES->value,
-            'operator_id' => Balances::SYSTEM_SOURCE_ID,
-            'beneficiary_id' => $reciver,
-            'reference' => $ref,
-            'unit_price' => $actual_price,
-            'payed' => 1,
-            'value' => $number_of_action,
-            'amount' => $number_of_action * $actual_price,
-            'total_amount' => $oldTotalAmount + ($number_of_action * $actual_price),
-            'real_amount' => $number_of_action * $actual_price,
-            'description' => $number_of_action . ' share(s) purchased',
-            'current_balance' => $balances->share_balance + $number_of_action
-        ]);
-
-        if ($gift > 0) {
-            $balances = Balances::getStoredUserBalances($reciver);
             SharesBalances::addLine([
-            'balance_operation_id' => BalanceOperationsEnum::COMPLIMENTARY_BENEFITS_ON_PURCHASED_SHARES->value,
-            'operator_id' => Balances::SYSTEM_SOURCE_ID,
-            'beneficiary_id' => $reciver,
-            'reference' => $ref,
-            'unit_price' => 0,
-                'description' => $gift . ' share(s) purchased',
-            'value' => $gift,
-                'current_balance' => $balances->share_balance + $number_of_action
-            ]);
-        }
-        if ($flashGift > 0) {
-            $balances = Balances::getStoredUserBalances($reciver);
-            SharesBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::VIP_BENEFITS_ON_PURCHASED_SHARES->value,
+                'balance_operation_id' => BalanceOperationsEnum::SELLED_SHARES->value,
                 'operator_id' => Balances::SYSTEM_SOURCE_ID,
                 'beneficiary_id' => $reciver,
                 'reference' => $ref,
-                'unit_price' => 0,
-                'value' => $flashGift,
-                'description' => $flashGift . ' share(s) purchased',
+                'unit_price' => $actual_price,
+                'payed' => 1,
+                'value' => $number_of_action,
+                'amount' => $number_of_action * $actual_price,
+                'total_amount' => $oldTotalAmount + ($number_of_action * $actual_price),
+                'real_amount' => $number_of_action * $actual_price,
+                'description' => $number_of_action . ' share(s) purchased',
                 'current_balance' => $balances->share_balance + $number_of_action
             ]);
-        }
-            $balances =Balances::getStoredUserBalances($reciver);
 
-        CashBalances::addLine([
-            'balance_operation_id' => BalanceOperationsEnum::SELL_SHARES->value,
-            'operator_id' => auth()->user()->idUser,
-            'beneficiary_id' => auth()->user()->idUser,
-            'reference' => $ref,
-           'description' => $number_of_action . ' share(s) purchased',
-            'value' => $number_of_action  * $actual_price,
-            'current_balance' => $balances->cash_balance - ($number_of_action) * $actual_price
-        ]);
-        $balances = Balances::getStoredUserBalances($reciver);
-        $value=intval($number_of_action / $palier) * $actual_price * $palier;
-        BFSsBalances::addLine([
-            'balance_operation_id' => BalanceOperationsEnum::BY_ACQUIRING_SHARES->value,
-            'operator_id' => Balances::SYSTEM_SOURCE_ID,
-            'beneficiary_id' => $reciver_bfs,
-            'reference' => $ref,
-            'percentage' => BFSsBalances::BFS_50,
-            'description' =>  $number_of_action . ' share(s) purchased',
-            'value' =>$value,
-            'current_balance' => $balances->getBfssBalance("50.00") + BalanceOperation::getMultiplicator(BalanceOperationsEnum::BY_ACQUIRING_SHARES->value)* $value
-        ]);
+            if ($gift > 0) {
+                $balances = Balances::getStoredUserBalances($reciver);
+                SharesBalances::addLine([
+                    'balance_operation_id' => BalanceOperationsEnum::COMPLIMENTARY_BENEFITS_ON_PURCHASED_SHARES->value,
+                    'operator_id' => Balances::SYSTEM_SOURCE_ID,
+                    'beneficiary_id' => $reciver,
+                    'reference' => $ref,
+                    'unit_price' => 0,
+                    'description' => $gift . ' share(s) purchased',
+                    'value' => $gift,
+                    'current_balance' => $balances->share_balance + $number_of_action
+                ]);
+            }
+            if ($flashGift > 0) {
+                $balances = Balances::getStoredUserBalances($reciver);
+                SharesBalances::addLine([
+                    'balance_operation_id' => BalanceOperationsEnum::VIP_BENEFITS_ON_PURCHASED_SHARES->value,
+                    'operator_id' => Balances::SYSTEM_SOURCE_ID,
+                    'beneficiary_id' => $reciver,
+                    'reference' => $ref,
+                    'unit_price' => 0,
+                    'value' => $flashGift,
+                    'description' => $flashGift . ' share(s) purchased',
+                    'current_balance' => $balances->share_balance + $number_of_action
+                ]);
+            }
+            $balances = Balances::getStoredUserBalances($reciver);
+
+            CashBalances::addLine([
+                'balance_operation_id' => BalanceOperationsEnum::SELL_SHARES->value,
+                'operator_id' => auth()->user()->idUser,
+                'beneficiary_id' => auth()->user()->idUser,
+                'reference' => $ref,
+                'description' => $number_of_action . ' share(s) purchased',
+                'value' => $number_of_action * $actual_price,
+                'current_balance' => $balances->cash_balance - ($number_of_action) * $actual_price
+            ]);
+            $balances = Balances::getStoredUserBalances($reciver);
+            $value = intval($number_of_action / $palier) * $actual_price * $palier;
+            BFSsBalances::addLine([
+                'balance_operation_id' => BalanceOperationsEnum::BY_ACQUIRING_SHARES->value,
+                'operator_id' => Balances::SYSTEM_SOURCE_ID,
+                'beneficiary_id' => $reciver_bfs,
+                'reference' => $ref,
+                'percentage' => BFSsBalances::BFS_50,
+                'description' => $number_of_action . ' share(s) purchased',
+                'value' => $value,
+                'current_balance' => $balances->getBfssBalance("50.00") + BalanceOperation::getMultiplicator(BalanceOperationsEnum::BY_ACQUIRING_SHARES->value) * $value
+            ]);
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollback();
@@ -262,7 +264,7 @@ class ApiController extends BaseController
     {
         DB::beginTransaction();
         try {
-            $old_value =  Balances::getStoredUserBalances( Auth()->user()->idUser,Balances::CASH_BALANCE);
+            $old_value = Balances::getStoredUserBalances(Auth()->user()->idUser, Balances::CASH_BALANCE);
             if (intval($old_value) < intval($request->amount)) {
                 throw new \Exception(Lang::get('Insuffisant cash solde'));
             }
@@ -284,7 +286,7 @@ class ApiController extends BaseController
                 'reference' => $ref,
                 'description' => "Transfered from " . getPhoneByUser(Auth()->user()->idUser),
                 'value' => $request->input('amount'),
-                'current_balance' =>$balancesManager->getBalances($request->input('reciver'), -1)->soldeCB + $request->input('amount')
+                'current_balance' => $balancesManager->getBalances($request->input('reciver'), -1)->soldeCB + $request->input('amount')
             ]);
             $message = $request->amount . ' $ ' . Lang::get('for ') . getUserDisplayedName($request->input('reciver'));
             DB::commit();
@@ -315,6 +317,7 @@ class ApiController extends BaseController
             ->where('beneficiary_id', Auth()->user()->idUser)
             ->orderBy('id', 'desc');
     }
+
     public function getSharesSolde()
     {
         return datatables($this->getSharesSoldeQuery())
@@ -330,7 +333,7 @@ class ApiController extends BaseController
                 return Carbon\Carbon::parse($sharesBalances->created_at)->format('Y-m-d H:i:s');
             })
             ->addColumn('total_shares', function ($sharesBalances) {
-                return $sharesBalances->value ;
+                return $sharesBalances->value;
             })
             ->addColumn('present_value', function ($sharesBalances) {
                 return number_format(($sharesBalances->value) * actualActionValue(getSelledActions(true)), 2);
@@ -341,14 +344,14 @@ class ApiController extends BaseController
             ->addColumn('value_format', function ($sharesBalances) {
                 return number_format($sharesBalances->value, 0);
             })
-            ->rawColumns(['total_price', 'share_price','formatted_created_at','total_shares','present_value','current_earnings','value_format'])
+            ->rawColumns(['total_price', 'share_price', 'formatted_created_at', 'total_shares', 'present_value', 'current_earnings', 'value_format'])
             ->make(true);
     }
 
 
     public function getSharesSoldeList($locale, $idUser)
     {
-        $results = DB::table(  'shares_balances as u')
+        $results = DB::table('shares_balances as u')
             ->select(
                 'u.reference',
                 'u.created_at',
@@ -396,6 +399,7 @@ class ApiController extends BaseController
             ->orderBy('created_at')
             ->get();
     }
+
     public function getSharesSoldes()
     {
         return datatables($this->getSharesSoldesQuery())
@@ -503,17 +507,17 @@ class ApiController extends BaseController
             $user = explode('-', $chaine)[0];
 
 
-            $old_value = Balances::getStoredUserBalances($user,Balances::CASH_BALANCE);
+            $old_value = Balances::getStoredUserBalances($user, Balances::CASH_BALANCE);
 
-            $value =  BalancesFacade::getCash($user);
+            $value = BalancesFacade::getCash($user);
 
             CashBalances::addLine([
                 'balance_operation_id' => BalanceOperationsEnum::CASH_TOP_UP_WITH_CARD->value,
                 'operator_id' => $user,
                 'beneficiary_id' => $user,
-                'reference' =>  BalancesFacade::getReference(BalanceOperationsEnum::CASH_TOP_UP_WITH_CARD),
-                'description' =>$data->tran_ref,
-                'value' =>$data->tran_total / $k,
+                'reference' => BalancesFacade::getReference(BalanceOperationsEnum::CASH_TOP_UP_WITH_CARD),
+                'description' => $data->tran_ref,
+                'value' => $data->tran_total / $k,
                 'current_balance' => $value + $data->tran_total / $k
             ]);
 
@@ -605,11 +609,11 @@ class ApiController extends BaseController
             ->whereNotNull('description')
             ->orderBy('created_at', 'DESC');
     }
+
     public function getTransfert()
     {
         return datatables($this->getTransfertQuery())->make(true);
     }
-
 
 
     public function getUserCashBalanceQuery()
@@ -620,6 +624,7 @@ class ApiController extends BaseController
             ->orderBy('created_at', 'DESC')
             ->get();
     }
+
     public function getUserCashBalance()
     {
         $query = $this->getUserCashBalanceQuery();
@@ -640,6 +645,7 @@ class ApiController extends BaseController
             ->orderBy('created_at')
             ->get();
     }
+
     public function getSharePriceEvolution()
     {
         $query = $this->getSharePriceEvolutionQuery();
@@ -659,6 +665,7 @@ class ApiController extends BaseController
             ->groupBy('x')
             ->get();
     }
+
     public function getSharePriceEvolutionDate()
     {
         $query = $this->getSharePriceEvolutionDateQuery();
@@ -696,6 +703,7 @@ class ApiController extends BaseController
             ->groupBy('x')
             ->get();
     }
+
     public function getSharePriceEvolutionMonth()
     {
         $query = $this->getSharePriceEvolutionMonthQuery();
@@ -714,6 +722,7 @@ class ApiController extends BaseController
             ->orderBy('z')
             ->get();
     }
+
     public function getSharePriceEvolutionDay()
     {
         $query = $this->getSharePriceEvolutionDayQuery();
@@ -805,7 +814,7 @@ class ApiController extends BaseController
                 return view('parts.datatable.user-flag', ['src' => $this->getFormatedFlagResourceName($user->apha2), 'title' => strtolower($user->apha2), 'name' => Lang::get($user->country)]);
             })
             ->addColumn('action', function ($settings) {
-                $hasVip = vip::Where('idUser', '=', $settings->idUser)                    ->where('closed', '=', false)->get();
+                $hasVip = vip::Where('idUser', '=', $settings->idUser)->where('closed', '=', false)->get();
                 $params = [
                     'phone' => $settings->mobile,
                     'user' => $settings,
@@ -894,6 +903,7 @@ class ApiController extends BaseController
                 'balance_operations.modify_amount',
                 'amounts.amountsshortname');
     }
+
     public function getBalanceOperations()
     {
         return datatables($this->getBalanceOperationsQuery())
@@ -921,6 +931,7 @@ class ApiController extends BaseController
         return DB::table('amounts')
             ->select('idamounts', 'amountsname', 'amountswithholding_tax', 'amountspaymentrequest', 'amountstransfer', 'amountscash', 'amountsactive', 'amountsshortname');
     }
+
     public function getAmounts()
     {
         return datatables($this->getAmountsQuery())
@@ -951,6 +962,7 @@ class ApiController extends BaseController
         return DB::table('action_history')
             ->select('id', 'title', 'reponce');
     }
+
     public function getActionHistorys()
     {
         return datatables($this->getActionHistorysQuery())
@@ -1027,6 +1039,7 @@ class ApiController extends BaseController
             ->orderBy('ub.created_at', 'desc')
             ->orderBy('ub.reference', 'desc');
     }
+
     public function getUserBalances($locale, $typeAmounts)
     {
         $idAmounts = 0;
@@ -1102,6 +1115,7 @@ class ApiController extends BaseController
             ->orderBy('created_at')->get();
         return datatables($userData)->make(true);
     }
+
     public function getPurchaseBFSUser()
     {
         $user = $this->settingsManager->getAuthUser();
@@ -1175,31 +1189,35 @@ class ApiController extends BaseController
     }
 
 
-    public function getNews()
+    public function deleteCoupon(Req $request)
     {
-        return datatables(News::all())
-            ->editColumn('enabled', function ($news) {
-                return view('parts.datatable.news-enabled', ['news' => $news]);
+        $ids = $request->input('ids');
+
+        if (empty($ids)) {
+            return response()->json(['message' => 'No IDs provided'], 400);
+        }
+
+        try {
+            Coupon::whereIn('id', $ids)->delete();
+            return response()->json(['message' => 'Coupons deleted successfully']);
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['message' => 'An error occurred while deleting the coupons'], 500);
+        }
+    }
+    public function getCoupon()
+    {
+        return datatables(Coupon::all())
+            ->addColumn('action', function ($coupon) {
+                return view('parts.datatable.coupon-action', ['coupon' => $coupon]);
             })
-            ->editColumn('content', function ($news) {
-                return view('parts.datatable.news-content', ['news' => $news]);
+            ->addColumn('platform_id', function ($coupon) {
+                if ($coupon->platform()->first()) {
+                    return $coupon->platform()->first()->id . ' - ' . $coupon->platform()->first()->name;
+                }
+                return '**';
             })
-            ->addColumn('action', function ($news) {
-                return view('parts.datatable.news-action', ['newsId' => $news->id, 'newstitle' => $news->title]);
-            })
-            ->addColumn('logo_image', function ($news) {
-                return view('parts.datatable.news-image', ['news' => $news]);
-            })
-            ->addColumn('published_at', function ($news) {
-                return $news->published_at?->format(self::DATE_FORMAT);
-            })
-            ->addColumn('created_at', function ($news) {
-                return $news->created_at?->format(self::DATE_FORMAT);
-            })
-            ->addColumn('updated_at', function ($news) {
-                return $news->updated_at?->format(self::DATE_FORMAT);
-            })
-            ->rawColumns(['action'])
+            ->rawColumns(['action','platform_id'])
             ->make(true);
     }
 
@@ -1231,7 +1249,8 @@ class ApiController extends BaseController
             })
             ->addColumn('created_at', function ($platform) {
                 return $platform->created_at?->format(self::DATE_FORMAT);
-            })->addColumn('updated_at', function ($platform) {
+            })
+            ->addColumn('updated_at', function ($platform) {
                 return $platform->updated_at?->format(self::DATE_FORMAT);
             })
             ->rawColumns(['action'])
@@ -1329,6 +1348,7 @@ class ApiController extends BaseController
             ->orWhere('identificationuserrequest.status', StatusRequest::InProgressInternational->value)
             ->get();
     }
+
     public function getIdentificationRequest()
     {
         return datatables($this->getIdentificationRequestQuery())

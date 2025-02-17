@@ -2,12 +2,60 @@
 
 namespace App\Http\Livewire;
 
+
+use App\Models\Coupon;
 use Livewire\Component;
+use Core\Models\Platform;
+use Lang;
 
 class CouponCreate extends Component
 {
+    const INDEX_ROUTE_NAME = 'coupon_index';
+
+    public $pins;
+    public $attachment_date;
+    public $value;
+    public $platform_id;
+
+    protected $rules = [
+        'pins' => 'required',
+        'platform_id' => 'required',
+        'attachment_date' => ['required', 'after_or_equal:today'],
+    ];
+
+    public function store()
+    {
+
+        $this->validate();
+        try {
+
+            $coupon = [
+                'attachment_date' => $this->attachment_date,
+                'value' => $this->value,
+                'platform_id' => $this->platform_id,
+                'consumed' => false
+            ];
+            $pins = explode(',', $this->pins);
+            foreach ($pins as $pin) {
+                $coupon['pin'] = $pin;
+                Coupon::create($coupon);
+            }
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Coupons created  Successfully'));
+        } catch (\Exception $exception) {
+            return redirect()->route('coupon_create', ['locale' => app()->getLocale()])->with('danger', Lang::get('Coupons creation Failed') . ' ' . $exception->getMessage());
+        }
+    }
+
+
     public function render()
     {
-        return view('livewire.coupon-create')->extends('layouts.master')->section('content');
+        $platforms = Platform::all();
+        $selectPlatforms = [];
+        foreach ($platforms as $platform) {
+            $this->platform_id = $platform->id;
+            $selectPlatforms[] = ['name' => $platform->name, 'value' => $platform->id];
+        }
+        $param = ['platforms' => $selectPlatforms];
+        return view('livewire.coupon-create', $param)->extends('layouts.master')->section('content');
     }
 }

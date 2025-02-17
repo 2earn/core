@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Livewire\Platform;
+use Core\Models\Platform;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,10 +17,11 @@ class Coupon extends Model
         'consumption_date',
         'value',
         'consumed',
+        'platform_id',
     ];
 
     public function platform()
     {
-        return $this->hasOne(Platform::class);
+        return $this->hasOne(Platform::class, 'id', 'platform_id');
     }
 }

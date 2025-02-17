@@ -15,13 +15,14 @@ return new class extends Migration
     {
         Schema::create('coupons', function (Blueprint $table) {
             $table->id();
-            $table->string('pin');
+            $table->string('pin')->unique();
             $table->dateTime('attachment_date')->nullable();
             $table->dateTime('purchase_date')->nullable();
             $table->dateTime('consumption_date')->nullable();
             $table->float('value')->nullable();
             $table->boolean('consumed')->default(false);
             $table->timestamps();
+            $table->unsignedBigInteger('platform_id')->nullable()->foreign('platform_id')->default(1)->nullable()->references('id')->on('platforms')->onDelete('cascade');
         });
     }
 

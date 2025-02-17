@@ -248,7 +248,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
             Route::prefix('/coupon')->name('coupon_')->group(function () {
                 Route::get('/index', \App\Http\Livewire\CouponIndex::class)->name('index');
-                Route::get('/', \App\Http\Livewire\CouponCreate::class)->name('create_update');
+                Route::get('/', \App\Http\Livewire\CouponCreate::class)->name('create');
             });
 
         });
@@ -282,6 +282,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/shares-solde-list/{idUser}', 'App\Http\Controllers\ApiController@getSharesSoldeList')->name('api_shares_solde_list');
         Route::get('/user/admin', 'App\Http\Controllers\ApiController@getUserAdmin')->name('api_user_admin');
         Route::get('/history/notification', 'App\Http\Controllers\ApiController@getHistoryNotification')->name('api_history_notification');
+        Route::get('/coupons', 'App\Http\Controllers\ApiController@getCoupon')->name('api_coupon');
         Route::get('/platforms', 'App\Http\Controllers\ApiController@getPlatforms')->name('api_platforms');
         Route::get('/roles', 'App\Http\Controllers\ApiController@getRoles')->name('api_role');
         Route::get('/deals', 'App\Http\Controllers\ApiController@getDeals')->name('api_deal');
@@ -310,6 +311,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/api/share/evolution/user', 'App\Http\Controllers\ApiController@getSharePriceEvolutionUser')->name('api_share_evolution_user');
 
         Route::get('/api/action/values', 'App\Http\Controllers\ApiController@getActionValues')->name('api_action_values');
+        Route::post('/api/coupon/delete', 'App\Http\Controllers\ApiController@deleteCoupon')->name('api_delete_coupons');
 
         Route::get('/get-updated-card-content', 'App\Http\Controllers\ApiController@getUpdatedCardContent')->name('get-updated-card-content');
         Route::post('/add-cash', 'App\Http\Controllers\ApiController@addCash')->name('add_cash');

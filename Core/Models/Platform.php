@@ -52,6 +52,11 @@ class Platform extends Model
         return $this->belongsTo(Deal::class);
     }
 
+    public function coupons()
+    {
+        return $this->hasMany(Coupon::class);
+    }
+
     public function selected($idUser)
     {
         $platforms = DB::table('user_plateforme')->where('user_id', $idUser)->get();
