@@ -3,21 +3,41 @@
         {{ __('Busines sSector') }} :     {{$businessSector->name}}
     @endsection
     @component('components.breadcrumb')
-        @slot('li_1')@endslot
         @slot('title')
             {{ __('Busines sSector') }} :     {{$businessSector->name}}
         @endslot
     @endcomponent
-
     <div class="card">
         <div class="card-header">
-            <h3>{{$businessSector->id}} - {{$businessSector->name}}</h3>
+            <h3>
+                @if(\App\Models\User::isSuperAdmin())
+                    {{$businessSector->id}} -
+                @endif
+                {{$businessSector->name}}
+            </h3>
         </div>
-        <div class="card-body">
-            <h5>{{__('Description')}}</h5>
-            <blockquote class="text-muted">
-                {{$businessSector->description}}
-            </blockquote>
+        <div class="card-body row my-2">
+           <div class="col-md-7">
+               <h5>{{__('Description')}}</h5>
+               <blockquote class="text-muted">
+                   {{$businessSector->description}}
+               </blockquote>
+           </div>
+            @if ($businessSector?->logoImage)
+                <div class="col-md-2">
+                <div class="mt-3">
+                    <img src="{{ asset('uploads/' . $businessSector->logoImage->url) }}" alt="Business Sector logoImage" class="img-thumbnail">
+                </div>
+                </div>
+            @endif
+
+            @if ($businessSector?->thumbnailsImage)
+                <div class="col-md-3">
+                <div class="mt-3">
+                    <img src="{{ asset('uploads/' . $businessSector->thumbnailsImage->url) }}" alt="Business Sector thumbnailsImage" class="img-thumbnail">
+                </div>
+                </div>
+            @endif
         </div>
         <div class="card-footer">
             @if(\App\Models\User::isSuperAdmin())
