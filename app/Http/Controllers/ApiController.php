@@ -1174,6 +1174,7 @@ class ApiController extends BaseController
         return datatables($this->settingsManager->getHistory())->make(true);
     }
 
+
     public function getNews()
     {
         return datatables(News::all())

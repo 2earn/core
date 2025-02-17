@@ -28,7 +28,7 @@ class NewsCreateUpdate extends Component
 
     public function mount(Request $request)
     {
-        $this->idNews = $request->input('idNews');
+        $this->idNews = $request->input('id');
         if (!is_null($this->idNews)) {
             $this->edit($this->idNews);
         }
@@ -64,6 +64,7 @@ class NewsCreateUpdate extends Component
             }
             $news = News::where('id', $this->idNews)->update($params);
             if ($this->mainImage) {
+                $news = News::where('id', $this->idNews)->first();
                 if ($news->mainImage) {
                     Storage::disk('public2')->delete($news->mainImage->url);
                 }
@@ -75,6 +76,7 @@ class NewsCreateUpdate extends Component
                 ]);
             }
         } catch (\Exception $exception) {
+            dd($exception);
             $this->cancel();
             Log::error($exception->getMessage());
             return redirect()->route('news_index', ['locale' => app()->getLocale(), 'idNews' => $this->idNews])->with('danger', Lang::get('Something goes wrong while updating News'));
