@@ -65,7 +65,6 @@
         @if(count($items))
             <div class="card-body row my-2">
                 <h5>{{__('Items')}}</h5>
-
                 <div class="row row-cols-xxl-5 row-cols-lg-3 row-cols-1">
                     @foreach ($items as $item)
                         <div class="col">
@@ -81,12 +80,12 @@
                                         <p class="text-muted mb-0"></p>
                                     </div>
                                 </div>
-                                <h6 class="mb-1">{{__('Price')}} : {{$item->price}}</h6>
+                                <h6 class="mb-1">{{__('Price')}} : {{$item->price}}  {{config('app.currency')}}</h6>
                                 @if($item->discount)
-                                    <h6 class="mb-1">{{__('Discount')}} : {{$item->discount}}</h6>
+                                    <h6 class="mb-1">{{__('Discount')}} : {{$item->discount}}  {{config('app.percentage')}}</h6>
                                 @endif
                                 @if($item->discount_2earn)
-                                    <h6 class="mb-1">{{__('Discount 2earn')}} : {{$item->discount_2earn}}</h6>
+                                    <h6 class="mb-1">{{__('Discount 2earn')}} : {{$item->discount_2earn}}  {{config('app.percentage')}}</h6>
                                 @endif
                                 <span class="btn btn-success  btn-sm float-end my-1">{{__('Add to card')}}</span>
                                 @if(\App\Models\User::isSuperAdmin())

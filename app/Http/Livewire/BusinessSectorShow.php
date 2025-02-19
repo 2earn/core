@@ -27,15 +27,15 @@ class BusinessSectorShow extends Component
 
     public function loadItems()
     {
-      return BusinessSector::find($this->idBusinessSector)
+        return BusinessSector::find($this->idBusinessSector)
             ->platforms()
             ->with('deals.items')
             ->get()
-          ->pluck('deals')
-          ->flatten()
-          ->pluck('items')
-          ->flatten()
-;    }
+            ->pluck('deals')
+            ->flatten()
+            ->pluck('items')
+            ->flatten();
+    }
 
     public function render()
     {
@@ -47,7 +47,7 @@ class BusinessSectorShow extends Component
             'businessSector' => $businessSector,
             'platforms' => Platform::where('business_sector_id', $this->idBusinessSector),
         ];
-        $this->items=$this->loadItems();
+        $this->items = $this->loadItems();
         return view('livewire.business-sector-show', $params)->extends('layouts.master')->section('content');
     }
 }

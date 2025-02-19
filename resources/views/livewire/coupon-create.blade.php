@@ -26,8 +26,7 @@
                             id="platform_id"
                             aria-label="{{__('Platform')}}">
                             @foreach ($platforms as $platform)
-                                <option value="{{$platform['value']}}"
-                                        @if($loop->index==0) selected @endif >{{__($platform['name'])}}</option>
+                                <option value="{{$platform['value']}}">{{__($platform['name'])}}</option>
                             @endforeach
                         </select>
                     </div>

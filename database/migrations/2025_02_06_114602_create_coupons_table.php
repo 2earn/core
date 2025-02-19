@@ -3,9 +3,9 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Core\Enum\CouponStatusEnum;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -21,6 +21,7 @@ return new class extends Migration
             $table->dateTime('consumption_date')->nullable();
             $table->float('value')->nullable();
             $table->boolean('consumed')->default(false);
+            $table->enum('status', [CouponStatusEnum::available->value, CouponStatusEnum::sold->value, CouponStatusEnum::used->value, CouponStatusEnum::expired->value])->default(CouponStatusEnum::available->value);
             $table->timestamps();
             $table->unsignedBigInteger('platform_id')->nullable()->foreign('platform_id')->default(1)->nullable()->references('id')->on('platforms')->onDelete('cascade');
         });

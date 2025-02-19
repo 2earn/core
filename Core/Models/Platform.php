@@ -37,6 +37,7 @@ class Platform extends Model
     {
         return $this->hasOne(User::class);
     }
+
     public function businessSector(): HasOne
     {
         return $this->hasOne(BusinessSector::class);
@@ -47,6 +48,7 @@ class Platform extends Model
         return $this->hasMany(ProductDealHistory::class);
     }
 
+// !!
     public function deals()
     {
         return $this->hasMany(Deal::class);

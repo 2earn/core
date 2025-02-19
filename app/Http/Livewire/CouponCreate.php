@@ -52,7 +52,6 @@ class CouponCreate extends Component
         $platforms = Platform::all();
         $selectPlatforms = [];
         foreach ($platforms as $platform) {
-            $this->platform_id = $platform->id;
             $selectPlatforms[] = ['name' => $platform->name, 'value' => $platform->id];
         }
         $param = ['platforms' => $selectPlatforms];

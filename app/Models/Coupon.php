@@ -17,6 +17,7 @@ class Coupon extends Model
         'consumption_date',
         'value',
         'consumed',
+        'status',
         'platform_id',
     ];
 
