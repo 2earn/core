@@ -138,6 +138,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/index', \App\Http\Livewire\OrdersIndex::class)->name('index');
             Route::get('/previous', \App\Http\Livewire\OrdersPrevious::class)->name('previous');
             Route::get('/{id}/detail', \App\Http\Livewire\OrderItem::class)->name('detail');
+            Route::get('/summary', \App\Http\Livewire\OrderSummary::class)->name('summary');
         });
         Route::prefix('/items')->name('items_')->group(function () {
             Route::get('/index', \App\Http\Livewire\ItemsIndex::class)->name('index');
@@ -146,7 +147,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         Route::prefix('/news')->name('news_')->group(function () {
             Route::get('/index', \App\Http\Livewire\NewsIndex::class)->name('index');
-             Route::get('/', \App\Http\Livewire\NewsCreateUpdate::class)->name('create_update');
+            Route::get('/', \App\Http\Livewire\NewsCreateUpdate::class)->name('create_update');
         });
 
         Route::get('/accept/request', AcceptFinancialRequest::class)->name('accept_financial_request')->middleware('CloseAuth');
