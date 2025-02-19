@@ -49,7 +49,7 @@ class Platform extends Model
 
     public function deals()
     {
-        return $this->belongsTo(Deal::class);
+        return $this->hasMany(Deal::class);
     }
 
     public function coupons()

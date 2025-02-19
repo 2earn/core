@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Core\Models\Platform;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,4 +30,8 @@ class BusinessSector extends Model
         return $this->morphOne(Image::class, 'imageable')->where('type', '=', self::IMAGE_TYPE_LOGO);
     }
 
+    public function platforms()
+    {
+        return $this->hasMany(Platform::class);
+    }
 }
