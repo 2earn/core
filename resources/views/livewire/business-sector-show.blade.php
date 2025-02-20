@@ -67,33 +67,7 @@
                 <h5>{{__('Items')}}</h5>
                 <div class="row row-cols-xxl-5 row-cols-lg-3 row-cols-1">
                     @foreach ($items as $item)
-                        <div class="col">
-                            <div class="card card-body">
-                                <div class="d-flex mb-4 align-items-center">
-                                    <div class="flex-shrink-0">
-                                        @if($item->photo_link)
-                                            <img src="{{$item->photo_link}}" alt="" class="avatar-sm rounded-circle">
-                                        @endif
-                                    </div>
-                                    <div class="flex-grow-1 ms-2">
-                                        <h5 class="card-title mb-1"> #{{$item->ref}} - {{$item->name}}</h5>
-                                        <p class="text-muted mb-0"></p>
-                                    </div>
-                                </div>
-                                <h6 class="mb-1">{{__('Price')}} : {{$item->price}}  {{config('app.currency')}}</h6>
-                                @if($item->discount)
-                                    <h6 class="mb-1">{{__('Discount')}} : {{$item->discount}}  {{config('app.percentage')}}</h6>
-                                @endif
-                                @if($item->discount_2earn)
-                                    <h6 class="mb-1">{{__('Discount 2earn')}} : {{$item->discount_2earn}}  {{config('app.percentage')}}</h6>
-                                @endif
-                                <span class="btn btn-success  btn-sm float-end my-1">{{__('Add to card')}}</span>
-                                @if(\App\Models\User::isSuperAdmin())
-                                    <a href="{{route('items_detail',['locale'=>app()->getLocale(),'id'=>$item->id])}}"
-                                       class="btn btn-primary btn-sm">See Details</a>
-                                @endif
-                            </div>
-                        </div>
+                        <livewire:items-show :item="$item"/>
                     @endforeach
                 </div>
             </div>
