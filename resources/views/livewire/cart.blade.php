@@ -1,4 +1,4 @@
-<div class="dropdown topbar-head-dropdown ms-1 header-item">
+<div class="dropdown topbar-head-dropdown ms-1 header-item d-none">
     <button
         type="button"
         class="btn btn-icon btn-topbar material-shadow-none btn-ghost-secondary"
@@ -17,7 +17,7 @@
         <div class="p-3 border-top-0 border-start-0 border-end-0 border-dashed border">
             <div class="row align-items-center">
                 <div class="col">
-                    <h6 class="m-0 fs-16 fw-semibold">{{__('My Cart')}}</h6>
+                    <h6 class="m-0 fs-16 fw-semibold">{{__('My Cart.')}}</h6>
                 </div>
                 <div class="col-auto">
                     <span class="badge bg-warning-subtle text-warning fs-13">
@@ -101,7 +101,6 @@
                     <h5 class="m-0" id="cart-item-total">{{$total}} {{config('app.currency')}}</h5>
                 </div>
             </div>
-
             <a href="{{route('orders_summary',['locale'=> app()->getLocale()])}}"
                class="btn btn-success text-center w-100">
                 {{__('Checkout')}}

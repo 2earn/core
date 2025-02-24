@@ -35,7 +35,7 @@ class TopBar extends Component
         $this->userProfileImage = User::getUserProfileImage(auth()->user()->idUser);
     }
 
-      public function markAsRead($idNotification, settingsManager $settingsManager)
+    public function markAsRead($idNotification, settingsManager $settingsManager)
     {
         auth()->user()->unreadNotifications->where('id', $idNotification)->first()?->markAsRead();
         $this->count = \auth()->user()->unreadNotifications()->count();
@@ -60,9 +60,9 @@ class TopBar extends Component
             dd('not found page');
         $balances = Balances::getStoredUserBalances($authUser->idUser);
         $params = [
-            'cash' => $balances->cash_balance,
+            'cash' => !is_null($balances) ? $balances->cash_balance : 0,
             'bfs' => Balances::getTotalBfs($balances),
-            'db' => $balances->discount_balance,
+            'db' => !is_null($balances) ? $balances->discount_balance : 0,
             'user' => $authUser,
             'userStatus' => $user->status,
             'userRole' => $user->getRoleNames()->first(),

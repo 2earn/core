@@ -299,7 +299,7 @@
                                 <span>{{__('Platform')}}</span>
                             </a>
                         </li>
-                        <li class="nav-item cool-link {{$currentRouteName=='coupon_index'? 'active' : ''}}">
+                        <li class=" d-none nav-item cool-link {{$currentRouteName=='coupon_index'? 'active' : ''}}">
                             <a href="{{route('coupon_index',app()->getLocale(),false )}}"
                                class="nav-link menu-link {{$currentRouteName=='coupon_index'? 'active' : ''}}"
                                role="button">

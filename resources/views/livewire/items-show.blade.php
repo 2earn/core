@@ -13,12 +13,22 @@
                 @endif
             </div>
         </div>
-        <h6 class="mb-1">{{__('Price')}} : {{$item->price}}  {{config('app.currency')}}</h6>
+        <h6 class="mb-1">{{__('Price')}} : <span
+                class="badge bg-success text-end float-end fs-14">{{$item->price}}  {{config('app.currency')}}</span>
+        </h6>
         @if($item->discount)
-            <h6 class="mb-1">{{__('Discount')}} : {{$item->discount}}  {{config('app.percentage')}}</h6>
+            <h6 class="mb-1">{{__('Discount')}} : <span
+                    class="badge badge-outline-success text-end float-end fs-14">{{$item->discount}}  {{config('app.percentage')}}</span>
+            </h6>
+        @else
+            <br>
         @endif
         @if($item->discount_2earn)
-            <h6 class="mb-1">{{__('Discount 2earn')}} : {{$item->discount_2earn}}  {{config('app.percentage')}}</h6>
+            <h6 class="mb-1">{{__('Discount 2earn')}} : <span
+                    class="badge badge-outline-info text-end float-end fs-14">{{$item->discount_2earn}}  {{config('app.percentage')}}</span>
+            </h6>
+        @else
+            <br>
         @endif
         <span
             class="btn btn-success  btn-sm float-end my-1"
