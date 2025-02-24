@@ -13,11 +13,17 @@ class CartItem extends Model
         'qty',
         'shipping',
         'unit_price',
-        'total_amount'
+        'total_amount',
+        'item_id'
     ];
 
     public function cart()
     {
         return $this->belongsTo(Cart::class, 'cart_id', 'id');
+    }
+
+    public function item()
+    {
+        return $this->belongsTo(Item::class,'item_id','id');
     }
 }

@@ -99,10 +99,10 @@ class OrderingSimulation
         try {
             $order = Order::find($orderId);
             $order->updateStatus(OrderEnum::Ready);
-            $simulation = Ordering::simulate($order);
+            $simulation = Cart::simulate($order);
 
             if ($simulation) {
-                Ordering::run($simulation);
+                Cart::run($simulation);
             }
 
             $order = Order::find($orderId);

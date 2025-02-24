@@ -69,7 +69,7 @@ $vertical-menu-title-color-gradient:                rgba($white, 0.5);
 //
 $horizontal-menu-box-shadow:                       0 2px 4px rgba(15,34,58,0.12);
 $horizontal-menu-dropdown-box-shadow:              0 0px 5px rgba(15,34,58,0.15);
-$horizontal-menu-dropdown-min-width:               12rem; 
+$horizontal-menu-dropdown-min-width:               12rem;
 $horizontal-menu-item-padding-x:                   1.5rem;
 $horizontal-menu-item-padding-y:                   0.75rem;
 
@@ -100,7 +100,7 @@ $header-item-color:                              var(--#{$prefix}header-item-col
 
 // Topbar - Dark
 $header-bg-dark:                                 var(--#{$prefix}header-bg-dark);
-$header-item-color-dark:                         var(--#{$prefix}header-item-color-dark); 
+$header-item-color-dark:                         var(--#{$prefix}header-item-color-dark);
 
 // Topbar Search
 $topbar-search-bg:                                var(--#{$prefix}topbar-search-bg);
@@ -121,7 +121,7 @@ $topnav-bg:   var(--#{$prefix}topnav-bg);
 $topnav-item-color:   var(--#{$prefix}topnav-item-color);
 $topnav-item-color-active:   var(--#{$prefix}topnav-item-color-active);
 
-// Brand 
+// Brand
 $navbar-brand-box-width: 240px;
 
 // Boxed layout width
@@ -141,7 +141,7 @@ $chat-secondary-bg:    rgba(var(--#{$prefix}success-rgb), 0.15);
 $chat-secondary-color:  var(--#{$prefix}success);
 
 // Timeline
-$timeline-color:   var(--#{$prefix}card-bg-custom);     
+$timeline-color:   var(--#{$prefix}card-bg-custom);
 
 //auth pages
 $auth-bg-cover: linear-gradient(-45deg, $primary 50%, $success);
@@ -1373,7 +1373,7 @@ $placeholder-opacity-max:           .5;
 $placeholder-opacity-min:           .2;
 // scss-docs-end placeholders
 
-// Cards
+// Carts
 
 // scss-docs-start card-variables
 $card-spacer-y:                     $spacer;

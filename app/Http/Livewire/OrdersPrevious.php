@@ -3,8 +3,6 @@
 namespace App\Http\Livewire;
 
 use App\Models\Order;
-use App\Services\Orders\OrderingSimulation;
-use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 use Livewire\WithPagination;

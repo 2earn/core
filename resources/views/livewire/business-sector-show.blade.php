@@ -59,24 +59,27 @@
                         <span class="sr-only">{{__('Loading')}}...</span>
                     </div>
                 </a>
-                <a
-                    href="{{route('business_sector_create_update',['locale'=> app()->getLocale(),'id'=>$businessSector->id])}}"
-                    title="{{__('Edit business sector')}}"
-                    class="btn btn-soft-primary material-shadow-none mx-1">
+                <a href="{{route('business_sector_create_update',['locale'=> app()->getLocale(),'id'=>$businessSector->id])}}"
+                   title="{{__('Edit business sector')}}"
+                   class="btn btn-soft-primary material-shadow-none mx-1">
                     {{__('Edit')}}
                 </a>
             @endif
             <span class="float-end"> {{__('Created at')}}: {{$businessSector->created_at}}</span>
         </div>
-        @if(count($items))
-            <div class="card-body row my-2">
+    </div>
+    @if(count($items))
+        <div class="card">
+            <div class="card-header">
                 <h5>{{__('Items')}}</h5>
+            </div>
+            <div class="card-body row my-2">
                 <div class="row row-cols-xxl-5 row-cols-lg-3 row-cols-1">
                     @foreach ($items as $item)
                         <livewire:items-show :item="$item"/>
                     @endforeach
                 </div>
             </div>
-        @endif
-    </div>
+        </div>
+    @endif
 </div>

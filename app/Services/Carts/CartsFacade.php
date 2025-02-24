@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services\Orders;
+namespace App\Services\Carts;
 
 use Illuminate\Support\Facades\Facade;
 
-class OrderingFacade extends Facade
+class CartsFacade extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'Cart';
+        return 'Carts';
     }
 }

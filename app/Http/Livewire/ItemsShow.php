@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Services\Carts\Carts;
 use Livewire\Component;
 
 class ItemsShow extends Component
@@ -15,7 +16,7 @@ class ItemsShow extends Component
 
     public function addToCard()
     {
-        dd($this->item);
+        Carts::addItemToCart($this->item);
     }
 
     public function render()

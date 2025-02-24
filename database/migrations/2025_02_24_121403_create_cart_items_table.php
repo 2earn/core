@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->float('shipping')->nullable();
             $table->float('unit_price')->nullable();
             $table->float('total_amount')->nullable();
+            $table->unsignedBigInteger('item_id')->foreign('item_id')->nullable()->references('id')->on('items')->onDelete('cascade');
             $table->unsignedBigInteger('cart_id')->foreign('cart_id')->nullable()->references('id')->on('carts')->onDelete('cascade');
             $table->timestamps();
         });
