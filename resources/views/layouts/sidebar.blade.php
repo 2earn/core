@@ -241,6 +241,7 @@
                             <span>{{__('News')}}</span>
                         </a>
                     </li>
+
                     @if(\Core\Models\Platform::canCheckDeals(auth()->user()->id))
                         <li class="nav-item cool-link {{$currentRouteName=='deals_index'? 'active' : ''}}">
                             <a href="{{route('deals_index',app()->getLocale(),false )}}"
@@ -251,6 +252,7 @@
                             </a>
                         </li>
                     @endIf
+
                     <li class="nav-item">
                         <a class="nav-link menu-link {{!in_array($currentRouteName, $sidebarArchiveArray)? 'collapsed' : 'active'}}"
                            href="#sidebarArchive" data-bs-toggle="collapse"
@@ -281,6 +283,30 @@
                         <li class="menu-title">
                             <span data-key="t-menu">{{ __('SUPER ADMIN MENU') }}</span>
                         </li>
+                        <li class="nav-item cool-link {{$currentRouteName=='business_sector_index'? 'active' : ''}}">
+                            <a href="{{route('business_sector_index',app()->getLocale(),false )}}"
+                               class="nav-link menu-link {{$currentRouteName=='business_sector_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-currency-fill"></i>
+                                <span>{{__('Business sector')}}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item cool-link {{$currentRouteName=='platform_index'? 'active' : ''}}">
+                            <a href="{{route('platform_index',['locale'=>request()->route("locale")],false )}}"
+                               class="nav-link menu-link {{$currentRouteName=='platform_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-git-repository-private-fill"></i>
+                                <span>{{__('Platform')}}</span>
+                            </a>
+                        </li>
+                        <li class=" d-none nav-item cool-link {{$currentRouteName=='coupon_index'? 'active' : ''}}">
+                            <a href="{{route('coupon_index',app()->getLocale(),false )}}"
+                               class="nav-link menu-link {{$currentRouteName=='coupon_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-coupon-3-fill"></i>
+                                <span>{{__('Coupon')}}</span>
+                            </a>
+                        </li>
                         <li class="nav-item cool-link {{$currentRouteName=='orders_index'? 'active' : ''}}">
                             <a href="{{route('orders_index',['locale'=>request()->route("locale")],false )}}"
                                class="nav-link menu-link {{$currentRouteName=='orders_index'? 'active' : ''}}"
@@ -303,15 +329,6 @@
                                role="button">
                                 <i class="ri-pushpin-fill"></i>
                                 <span>{{__('Targets')}}</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-item cool-link {{$currentRouteName=='platform_index'? 'active' : ''}}">
-                            <a href="{{route('platform_index',['locale'=>request()->route("locale")],false )}}"
-                               class="nav-link menu-link {{$currentRouteName=='platform_index'? 'active' : ''}}"
-                               role="button">
-                                <i class="ri-git-repository-private-fill"></i>
-                                <span>{{__('Platform')}}</span>
                             </a>
                         </li>
                         <li class="nav-item cool-link {{$currentRouteName=='balances_index'? 'active' : ''}}">

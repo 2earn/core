@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class News extends Model
 {
-    const IMAGE_TYPE_MAIN = 'profile';
+    const IMAGE_TYPE_MAIN = 'main';
 
     use HasFactory;
 

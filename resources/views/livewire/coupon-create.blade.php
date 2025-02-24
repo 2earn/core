@@ -1,0 +1,54 @@
+<div>
+    @component('components.breadcrumb')
+        @slot('title')
+            {{__('Create Coupon')}}
+        @endslot
+    @endcomponent
+    <div class="row card">
+        <div class="card-body row ">
+            <form>
+                <div class="row">
+                    <div class="form-group col-md-6 mt-2">
+                        <label for="attachment_date">{{__('Attachment Date')}}:</label>
+                        <input class="form-control" wire:model="attachment_date" type="date"
+                               id="attachment_date" placeholder="{{__('Attachment Date')}}">
+                    </div>
+                    <div class="form-group col-md-6 mt-2">
+                        <label for="value">{{__('value')}}:</label>
+                        <input class="form-control" wire:model="value" type="number"
+                               id="value" placeholder="{{__('value')}}">
+                    </div>
+                    <div class="form-group col-md-6 mt-2">
+                        <label for="platform_id">{{__('Platform')}}</label>
+                        <select
+                            class="form-select form-control @error('platform_id') is-invalid @enderror"
+                            wire:model="platform_id"
+                            id="platform_id"
+                            aria-label="{{__('Platform')}}">
+                            @foreach ($platforms as $platform)
+                                <option value="{{$platform['value']}}">{{__($platform['name'])}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6 mt-2">
+                        <label for="pins">{{__('Pins')}}</label>
+                        <textarea class="form-control @error('name') is-invalid @enderror"
+                                  id="pins"
+                                  wire:model="pins"
+                                  placeholder="{{__('Enter pins')}}"></textarea>
+                        @error('description') <span class="text-danger">{{ $message }}</span>@enderror
+                        <div class="form-text">{{__('Required field')}}</div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <button wire:click.prevent="store()"
+                                class="btn btn-success btn-block float-end ">{{__('Save')}}</button>
+                        <button wire:click.prevent="cancel()"
+                                class="btn btn-danger float-end  mx-2">{{__('Cancel')}}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -100,6 +100,7 @@ class OrderingSimulation
             $order = Order::find($orderId);
             $order->updateStatus(OrderEnum::Ready);
             $simulation = Ordering::simulate($order);
+
             if ($simulation) {
                 Ordering::run($simulation);
             }

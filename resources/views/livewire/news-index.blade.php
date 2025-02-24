@@ -1,14 +1,11 @@
 <div>
-    @section('title')
-        {{ __('Frequently asked questions') }}
-    @endsection
     @component('components.breadcrumb')
         @slot('title')
-            {{ __('Frequently asked questions') }}
+            {{ __('News') }}
         @endslot
     @endcomponent
-    <div class="row">
-        <div class="col-12">
+    <div class="row m-1">
+        <div class="col-10">
             @include('layouts.flash-messages')
         </div>
     </div>
@@ -22,17 +19,17 @@
                             <div class="w-full">
                                 <input wire:model.live="search" type="text" id="simple-search"
                                        class="form-control float-end"
-                                       placeholder="{{__('Search faq')}}">
+                                       placeholder="{{__('Search news')}}">
                             </div>
                         </form>
                     </div>
                     @if(\App\Models\User::isSuperAdmin())
                         <div class="col-sm-12 col-md-3  col-lg-6">
-                            <a href="{{route('faq_create_update', app()->getLocale())}}"
+                            <a href="{{route('news_create_update', app()->getLocale())}}"
                                class="btn btn-info add-btn float-end"
                                id="create-btn">
                                 <i class="ri-add-line align-bottom me-1 ml-2"></i>
-                                {{__('Create new faq')}}
+                                {{__('Create new news')}}
                             </a>
                         </div>
                     @endif
@@ -40,49 +37,65 @@
             </div>
 
             <div class="card-body row">
-                @forelse($faqs as $faq)
+                @forelse($newss as $news)
                     <div class="col-sm-12 col-lg-12">
                         <div class="card border card-border-light">
                             <div class="card-header">
                                 <h5 class="card-title mb-1">
-                                    {{$faq->id}}
-                                    - {{\App\Models\TranslaleModel::getTranslation($faq,'question',$faq->question)}}
+                                    {{$news->id}}
+                                    - {{\App\Models\TranslaleModel::getTranslation($news,'title',$news->question)}}
                                 </h5>
                                 @if(\App\Models\User::isSuperAdmin())
                                     <p class="mx-2 float-end">
                                         <a class="link-info"
-                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($faq,'question')])}}">{{__('See or update Translation')}}</a>
+                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($news,'question')])}}">{{__('See or update Translation')}}</a>
                                     </p>
                                 @endif
+
+                                @if($news->enabled)
+                                    <span class="badge bg-success float-end">{{__('Enabled')}}</span>
+                                @else
+                                    <span class="badge bg-danger float-end">{{__('Disabled')}}</span>
+                                @endif
+
                             </div>
                             <div class="card-body">
+                                <div class="row">
+                                <div class="col-md-8">
                                 <blockquote class="blockquote">
                                     <p class="card-text">
-                                        {{\App\Models\TranslaleModel::getTranslation($faq,'answer',$faq->answer)}}
+                                        {{\App\Models\TranslaleModel::getTranslation($news,'content',$news->answer)}}
                                     </p>
                                 </blockquote>
-                                @if(\App\Models\User::isSuperAdmin())
-
-                                    <a wire:click="deleteFaq('{{$faq->id}}')"
-                                       title="{{__('Delete Faq')}}"
+                                </div>
+                                    @if ($news->mainImage)
+                                        <div class="col-md-4">
+                                        <img src="{{ asset('uploads/' . $news->mainImage->url) }}"
+                                         alt="Business Sector logo Image" class="img-thumbnail rounded float-left">
+                                        </div>
+                                    @endif
+                                </div>
+                            @if(\App\Models\User::isSuperAdmin())
+                                    <a wire:click="deletenews('{{$news->id}}')"
+                                       title="{{__('Delete news')}}"
                                        class="btn btn-soft-danger material-shadow-none float-end">
                                         {{__('Delete')}}
-                                        <div wire:loading wire:target="deleteFaq('{{$faq->id}}')">
+                                        <div wire:loading wire:target="deletenews('{{$news->id}}')">
                                                 <span class="spinner-border spinner-border-sm" role="status"
                                                       aria-hidden="true"></span>
                                             <span class="sr-only">{{__('Loading')}}...</span>
                                         </div>
                                     </a>
                                     <a
-                                        href="{{route('faq_create_update',['locale'=> app()->getLocale(),'idFaq'=>$faq->id])}}"
-                                        title="{{__('Edit Faq')}}"
+                                        href="{{route('news_create_update',['locale'=> app()->getLocale(),'id'=>$news->id])}}"
+                                        title="{{__('Edit news')}}"
                                         class="btn btn-soft-primary material-shadow-none float-end">
                                         {{__('Edit')}}
 
                                     </a>
                                     <p class="mx-2 float-end">
                                         <a class="link-info"
-                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($faq,'answer')])}}">{{__('See or update Translation')}}</a>
+                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($news,'answer')])}}">{{__('See or update Translation')}}</a>
                                     </p>
                                 @endif
                             </div>
@@ -90,13 +103,13 @@
                                 <div class="row">
                                     <div class="col">
                                         <p class="card-text float-end">{{__('Created at')}}: <small
-                                                class="text-muted">{{$faq->created_at}}</small>
+                                                class="text-muted">{{$news->created_at}}</small>
                                         </p>
                                     </div>
                                     <div class="col">
                                         @if(\App\Models\User::isSuperAdmin())
                                             <p class="card-text  float-end">{{__('Updated at')}}: <small
-                                                    class="text-muted">{{$faq->updated_at}}</small></p>
+                                                    class="text-muted">{{$news->updated_at}}</small></p>
                                         @endif
                                     </div>
                                 </div>
@@ -104,10 +117,10 @@
                         </div>
                     </div>
                 @empty
-                    <p>{{__('No faqs')}}</p>
+                    <p>{{__('No newss')}}</p>
                 @endforelse
-                {{ $faqs->links() }}
+                {{ $newss->links() }}
+                </div>
             </div>
         </div>
-    </div>
 </div>

@@ -29,6 +29,7 @@ return new class extends Migration {
             $table->string('description',512)->nullable();
             $table->unsignedBigInteger('administrative_manager_id')->foreign('user_id')->nullable()->references('id')->on('user')->onDelete('cascade');
             $table->unsignedBigInteger('financial_manager_id')->foreign('user_id')->nullable()->references('id')->on('user')->onDelete('cascade');
+            $table->unsignedBigInteger('business_sector_id')->foreign('business_sector_id')->nullable()->references('id')->on('business_sector')->onDelete('cascade');
             $table->timestamps();
         });
     }

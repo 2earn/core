@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\BusinessSector;
 use App\Models\Faq;
 use App\Models\News;
 use App\Models\TranslaleModel;
@@ -9,13 +10,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class NewsCreateUpdate extends Component
 {
+    use WithFileUploads;
     public $idNews;
     public $update;
     public $enabled = false;
     public $title, $content, $published_at;
+    public $mainImage;
 
     protected $rules = [
         'title' => 'required',
@@ -24,7 +28,7 @@ class NewsCreateUpdate extends Component
 
     public function mount(Request $request)
     {
-        $this->idNews = $request->input('idNews');
+        $this->idNews = $request->input('id');
         if (!is_null($this->idNews)) {
             $this->edit($this->idNews);
         }
@@ -58,10 +62,21 @@ class NewsCreateUpdate extends Component
             if ($this->enabled == 1 && is_null($this->published_at)) {
                 $params['published_at'] = now();
             }
-            News::where('id', $this->idNews)
-                ->update($params);
-
+            $news = News::where('id', $this->idNews)->update($params);
+            if ($this->mainImage) {
+                $news = News::where('id', $this->idNews)->first();
+                if ($news->mainImage) {
+                    Storage::disk('public2')->delete($news->mainImage->url);
+                }
+                $imagePath = $this->mainImage->store('news/' . News::IMAGE_TYPE_MAIN, 'public2');
+                $news->mainImage()->delete();
+                $news->mainImage()->create([
+                    'url' => $imagePath,
+                    'type' => News::IMAGE_TYPE_MAIN,
+                ]);
+            }
         } catch (\Exception $exception) {
+            dd($exception);
             $this->cancel();
             Log::error($exception->getMessage());
             return redirect()->route('news_index', ['locale' => app()->getLocale(), 'idNews' => $this->idNews])->with('danger', Lang::get('Something goes wrong while updating News'));
@@ -92,7 +107,14 @@ class NewsCreateUpdate extends Component
                         'valueEs' => $this->{$translation} . ' ES'
                     ]);
             }
+            if ($this->mainImage) {
 
+                $imagePath = $this->mainImage->store('news/' . News::IMAGE_TYPE_MAIN, 'public2');
+                $createdNews->mainImage()->create([
+                    'url' => $imagePath,
+                    'type' => News::IMAGE_TYPE_MAIN,
+                ]);
+            }
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('news_index', ['locale' => app()->getLocale(), 'idNews' => $this->idNews])->with('danger', Lang::get('Something goes wrong while creating News'));

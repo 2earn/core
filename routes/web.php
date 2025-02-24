@@ -138,6 +138,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/index', \App\Http\Livewire\OrdersIndex::class)->name('index');
             Route::get('/previous', \App\Http\Livewire\OrdersPrevious::class)->name('previous');
             Route::get('/{id}/detail', \App\Http\Livewire\OrderItem::class)->name('detail');
+            Route::get('/summary', \App\Http\Livewire\OrderSummary::class)->name('summary');
         });
         Route::prefix('/items')->name('items_')->group(function () {
             Route::get('/index', \App\Http\Livewire\ItemsIndex::class)->name('index');
@@ -145,8 +146,8 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         });
 
         Route::prefix('/news')->name('news_')->group(function () {
-            Route::get('/index', \App\Http\Livewire\News::class)->name('index');
-             Route::get('/', \App\Http\Livewire\NewsCreateUpdate::class)->name('create_update');
+            Route::get('/index', \App\Http\Livewire\NewsIndex::class)->name('index');
+            Route::get('/', \App\Http\Livewire\NewsCreateUpdate::class)->name('create_update');
         });
 
         Route::get('/accept/request', AcceptFinancialRequest::class)->name('accept_financial_request')->middleware('CloseAuth');
@@ -172,6 +173,9 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/{id}/show', \App\Http\Livewire\DealsShow::class)->name('show');
             Route::get('/archive', \App\Http\Livewire\DealsArchive::class)->name('archive');
         });
+
+        // SUPER ADMIN MENU
+        // -----------------------------------------------------------
 
         Route::middleware(['IsSuperAdmin'])->group(function () {
             Route::get('/user/list', \App\Http\Livewire\UsersList::class)->name('user_list');
@@ -224,18 +228,33 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             });
 
             Route::get('/index/test', \App\Http\Livewire\NewBalance::class)->name('index_test');
-        });
 
-        Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');
+            Route::prefix('/faq')->name('faq_')->group(function () {
+                Route::get('/index', \App\Http\Livewire\FaqIndex::class)->name('index');
+                Route::get('/', \App\Http\Livewire\FaqCreateUpdate::class)->name('create_update');
+            });
 
-        Route::middleware(['IsSuperAdmin'])->group(function () {
             Route::get('/stat/countrie', \App\Http\Livewire\StatCountrie::class)->name('stat_countrie');
             Route::prefix('/shares-sold')->name('shares_sold_')->group(function () {
                 Route::get('dashboard', \App\Http\Livewire\SharesSold::class)->name('dashboard');
                 Route::get('/market-status', \App\Http\Livewire\SharesSoldMarketStatus::class)->name('market_status');
                 Route::get('/recent-transaction', \App\Http\Livewire\SharesSoldRecentTransaction::class)->name('recent_transaction');
             });
+
+            Route::prefix('/business/sector')->name('business_sector_')->group(function () {
+                Route::get('/index', \App\Http\Livewire\BusinessSectorIndex::class)->name('index');
+                Route::get('/', \App\Http\Livewire\BusinessSectorCreateUpdate::class)->name('create_update');
+                Route::get('/{id}/show', \App\Http\Livewire\BusinessSectorShow::class)->name('show');
+            });
+
+            Route::prefix('/coupon')->name('coupon_')->group(function () {
+                Route::get('/index', \App\Http\Livewire\CouponIndex::class)->name('index');
+                Route::get('/', \App\Http\Livewire\CouponCreate::class)->name('create');
+            });
+
         });
+
+        Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');
 
         Route::get('/stat-countries', 'App\Http\Controllers\ApiController@getCountriStat')->name('api_stat_countries');
         Route::post('/validate-phone', 'App\Http\Controllers\ApiController@validatePhone')->name('validate_phone');
@@ -263,7 +282,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/shares-solde-list/{idUser}', 'App\Http\Controllers\ApiController@getSharesSoldeList')->name('api_shares_solde_list');
         Route::get('/user/admin', 'App\Http\Controllers\ApiController@getUserAdmin')->name('api_user_admin');
         Route::get('/history/notification', 'App\Http\Controllers\ApiController@getHistoryNotification')->name('api_history_notification');
-        Route::get('/news', 'App\Http\Controllers\ApiController@getNews')->name('api_news');
+        Route::get('/coupons', 'App\Http\Controllers\ApiController@getCoupon')->name('api_coupon');
         Route::get('/platforms', 'App\Http\Controllers\ApiController@getPlatforms')->name('api_platforms');
         Route::get('/roles', 'App\Http\Controllers\ApiController@getRoles')->name('api_role');
         Route::get('/deals', 'App\Http\Controllers\ApiController@getDeals')->name('api_deal');
@@ -292,6 +311,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/api/share/evolution/user', 'App\Http\Controllers\ApiController@getSharePriceEvolutionUser')->name('api_share_evolution_user');
 
         Route::get('/api/action/values', 'App\Http\Controllers\ApiController@getActionValues')->name('api_action_values');
+        Route::post('/api/coupon/delete', 'App\Http\Controllers\ApiController@deleteCoupon')->name('api_delete_coupons');
 
         Route::get('/get-updated-card-content', 'App\Http\Controllers\ApiController@getUpdatedCardContent')->name('get-updated-card-content');
         Route::post('/add-cash', 'App\Http\Controllers\ApiController@addCash')->name('add_cash');
