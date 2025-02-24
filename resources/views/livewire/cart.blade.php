@@ -1,4 +1,4 @@
-<div class="dropdown topbar-head-dropdown ms-1 header-item d-none">
+<div class="dropdown topbar-head-dropdown ms-1 header-item">
     <button
         type="button"
         class="btn btn-icon btn-topbar material-shadow-none btn-ghost-secondary"

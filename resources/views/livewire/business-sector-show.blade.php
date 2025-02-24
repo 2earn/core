@@ -1,10 +1,10 @@
 <div>
     @section('title')
-        {{ __('Busines sSector') }} :     {{$businessSector->name}}
+        {{ __('Busines Sector') }} :     {{$businessSector->name}}
     @endsection
     @component('components.breadcrumb')
         @slot('title')
-            {{ __('Busines sSector') }} :     {{$businessSector->name}}
+            {{ __('Busines Sector') }} :     {{$businessSector->name}}
         @endslot
     @endcomponent
     <div class="card">
