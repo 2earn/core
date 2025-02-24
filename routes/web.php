@@ -244,7 +244,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::prefix('/business/sector')->name('business_sector_')->group(function () {
                 Route::get('/index', \App\Http\Livewire\BusinessSectorIndex::class)->name('index');
                 Route::get('/', \App\Http\Livewire\BusinessSectorCreateUpdate::class)->name('create_update');
-                Route::get('/{id}/show', \App\Http\Livewire\BusinessSectorShow::class)->name('show');
             });
 
             Route::prefix('/coupon')->name('coupon_')->group(function () {
@@ -261,6 +260,9 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::post('/buy-action', 'App\Http\Controllers\ApiController@buyAction')->name('buyAction');
         Route::get('/action-by-ammount', 'App\Http\Controllers\ApiController@actionByAmmount')->name('action_by_ammount');
         Route::post('/gift-action-by-ammount', 'App\Http\Controllers\ApiController@giftActionByAmmount')->name('gift_action_by_ammount');
+    });
+    Route::prefix('/business/sector')->name('business_sector_')->group(function () {
+        Route::get('/{id}/show', \App\Http\Livewire\BusinessSectorShow::class)->name('show');
     });
     Route::get('/changePassword/{idUser}', ChangePassword::class)->name('reset_password');
     Route::get('/users/list', 'App\Http\Controllers\ApiController@getUsersList')->name('api_users_list');
