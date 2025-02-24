@@ -30,6 +30,9 @@
                              alt="Business Sector logoImage" class="img-thumbnail">
                     </div>
                 </div>
+            @else
+                <img src="{{Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_LOGO)}}"
+                     class="d-block img-fluid img-business-square mx-auto rounded float-left">
             @endif
 
             @if ($businessSector?->thumbnailsImage)
@@ -39,6 +42,9 @@
                              alt="Business Sector thumbnailsImage" class="img-thumbnail">
                     </div>
                 </div>
+            @else
+                <img src="{{Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_THUMB)}}"
+                     class="d-block img-fluid img-business mx-auto rounded float-left">
             @endif
         </div>
         <div class="card-footer">
