@@ -61,12 +61,13 @@
                                                     </h6>
                                                     <p class="mb-0 fs-12 text-muted">
                                                         {{__('Quantity')}}:
-                                                        <span>{{$item->qty }} x {{$item->unit_price}}</span>
+                                                        <span  class="cart-item-qty">{{$item->qty }}</span> *
+                                                        <span>{{$item->unit_price}}</span>
                                                     </p>
                                                 </div>
                                                 <div class="px-2">
                                                     <h5 class="m-0 fw-normal">$<span
-                                                                class="cart-item-price">{{$item->total_amount }}</span>
+                                                            class="cart-item-price">{{$item->total_amount}}</span>
                                                     </h5>
                                                 </div>
                                                 <div class="ps-2">
@@ -108,4 +109,36 @@
             </a>
         </div>
     </div>
+    <script type="module">
+        function updateCartAfterChange() {
+            console.log('updateCartAfterChange')
+            var currencySign = "$";
+            var subtotalqty = 0;
+            var subtotal = 0;
+            Array.from(document.getElementsByClassName("cart-item-qty")).forEach(function (e) {
+                subtotalqty += parseFloat(e.innerHTML);
+            });
+            Array.from(document.getElementsByClassName("cart-item-price")).forEach(function (e) {
+                subtotal += parseFloat(e.innerHTML);
+            });
+            var badges = document.getElementsByClassName("cartitem-badge");
+
+            for (var i = 0; i < badges.length; i++) {
+                console.log(subtotalqty);
+                badges[i].innerHTML = subtotalqty;
+            }
+
+            if (document.getElementById("cart-item-total")) {
+                document.getElementById("cart-item-total").innerHTML = currencySign + subtotal.toFixed(2);
+            }
+
+        }
+
+        $(document).on('turbolinks:load', function () {
+            window.addEventListener('updateCart', event => {
+                updateCartAfterChange();
+            });
+            updateCartAfterChange();
+        });
+    </script>
 </div>

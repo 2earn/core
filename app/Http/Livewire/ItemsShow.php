@@ -17,6 +17,7 @@ class ItemsShow extends Component
     public function addToCard()
     {
         Carts::addItemToCart($this->item);
+        $this->emit('itemAddedToCart');
     }
 
     public function render()

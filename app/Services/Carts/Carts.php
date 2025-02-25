@@ -8,6 +8,20 @@ use  App\Models\Cart;
 
 class Carts
 {
+    public static function updateCart($cart)
+    {
+        $qty = 0;
+        $subtotal = 0;
+        foreach ($cart->cartItem()->get() as $item) {
+            $qty += $item->qty;
+            $subtotal += $item->total_amount;
+        }
+        $cart->update([
+            'total_cart' => $subtotal,
+            'total_cart_quantity' => $qty,
+        ]);
+    }
+
     public static function getOrCreateCart()
     {
         $cart = Cart::where('user_id', auth()->user()->id)->first();
@@ -25,18 +39,28 @@ class Carts
     {
         $cartItem = CartItem::find($cartItem)->first();
         $cartItem->delete();
+        Carts::updateCart($cartItem->cart()->get());
     }
 
-    public static function addItemToCart($item)
+    public static function addItemToCart($item, $qty = 1)
     {
         $cart = self::getOrCreateCart();
-        $cartItem = CartItem::create([
-            'item_id' => $item->id,
-            'qty' => 1,
-            'shipping' => $item->shipping,
-            'unit_price' => $item->price,
-            'total_amount' => $item->price,
-        ]);
-        $cart->cartItem()->save($cartItem);
+        $existingCartItem = $cart->cartItem()->where('item_id', $item->id)->first();
+
+        if ($existingCartItem) {
+            $existingCartItem->qty += $qty;
+            $existingCartItem->total_amount = $existingCartItem->qty * $existingCartItem->unit_price;
+            $existingCartItem->save();
+        } else {
+            $cartItem = CartItem::create([
+                'item_id' => $item->id,
+                'qty' => $qty,
+                'shipping' => $item->shipping,
+                'unit_price' => $item->price,
+                'total_amount' => $item->price,
+            ]);
+            $cart->cartItem()->save($cartItem);
+        }
+        Carts::updateCart($cart);
     }
 }
