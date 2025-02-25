@@ -34,24 +34,22 @@
                                 </div>
                             </td>
                             <td>
-                                <h5 class="fs-14"><a href="apps-ecommerce-product-details.html" class="text-body">{{$item->item()->first()->name}}</a></h5>
-                                <p class="text-muted mb-0">{{config('app.currency')}} {{$item->unit_price}} x {{$item->qty }}</p>
+                                <h5 class="fs-14"><a href="apps-ecommerce-product-details.html"
+                                                     class="text-body">{{$item->item()->first()->name}}</a></h5>
+                                <p class="text-muted mb-0">{{config('app.currency')}} {{$item->unit_price}}
+                                    x {{$item->qty }}</p>
                                 <p class="text-muted mb-0">{{config('app.currency')}} {{$item->shipping}}</p>
                             </td>
                             <td class="text-end">{{config('app.currency')}} {{$item->total_amount + $item->shipping}}</td>
                         </tr>
                     @endforeach
                     <tr>
-                        <td class="fw-semibold" colspan="2">{{__('Sub Total')}} :</td>
-                        <td class="fw-semibold text-end">{{config('app.currency')}}</td>
-                    </tr>
-                    <tr>
                         <td colspan="2">{{__('Shipping Charge')}} :</td>
-                        <td class="text-end">{{config('app.currency')}}</td>
+                        <td class="text-end">{{config('app.currency')}} {{$cart->shipping}}</td>
                     </tr>
                     <tr>
                         <td colspan="2">{{__('Estimated Tax')}}:</td>
-                        <td class="text-end">{{config('app.currency')}}</td>
+                        <td class="text-end">{{config('app.currency')}} 0</td>
                     </tr>
                     <tr class="table-active">
                         <th colspan="2">{{__('Total')}}   {{config('app.currency')}} :</th>
@@ -63,8 +61,10 @@
                     </tr>
                     </tbody>
                 </table>
-
             </div>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-success float-end">{{__('Validate Cart')}}</button>
         </div>
     </div>
 </div>
