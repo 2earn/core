@@ -145,10 +145,10 @@ class Ordering
             $shippingSum = $shippingSum + $orderDetail->shipping;
 
             if ($orderDetail->item->deal()->exists()) {
-                $itemDeal = Cart::initDealItem($orderDetail);
-                $itemDeal = Cart::fillPartnerDiscount($orderDetail, $itemDeal);
-                $itemDeal = Cart::fillEarnDiscount($orderDetail, $itemDeal);
-                $itemDeal = Cart::fillDealDiscount($orderDetail, $itemDeal);
+                $itemDeal = Ordering::initDealItem($orderDetail);
+                $itemDeal = Ordering::fillPartnerDiscount($orderDetail, $itemDeal);
+                $itemDeal = Ordering::fillEarnDiscount($orderDetail, $itemDeal);
+                $itemDeal = Ordering::fillDealDiscount($orderDetail, $itemDeal);
                 $dealId = $orderDetail->item->deal->id;
                 $itemDeal['total_discount'] = $itemDeal['partner_discount'] + $itemDeal['earn_discount'] + $itemDeal['deal_discount'];
 
@@ -172,7 +172,7 @@ class Ordering
                 $price_of_products_out_of_deal = $price_of_products_out_of_deal + ($orderDetail->unit_price * $orderDetail->qty);
             }
         }
-        Cart::updateItemDeals($itemsDeals);
+        Ordering::updateItemDeals($itemsDeals);
         $order->update([
             'out_of_deal_amount' => $shippingSum + $price_of_products_out_of_deal,
             'total_order' => $deal_amount + $shippingSum + $price_of_products_out_of_deal,
@@ -180,7 +180,7 @@ class Ordering
             'amount_after_discount' => $deal_amount_after_discounts + $shippingSum + $price_of_products_out_of_deal,
         ]);
 
-        Cart::createOrderDeal($order_deal, $order);
+        Ordering::createOrderDeal($order_deal, $order);
         return $order_deal;
     }
 
@@ -240,7 +240,7 @@ class Ordering
 
     public static function simulateBFSs(Order $order)
     {
-        $bfssTables = Cart::initBfssTable($order->user()->first());
+        $bfssTables = Ordering::initBfssTable($order->user()->first());
         $amount_after_discount = $order->amount_after_discount;
         if (!empty($bfssTables)) {
             foreach ($bfssTables as $key => $bfs) {
@@ -393,13 +393,13 @@ class Ordering
         DB::beginTransaction();
         try {
             $balances = Balances::getStoredUserBalances($simulation['order']->user()->first()->idUser);
-            Cart::runDiscount($simulation['order'], $simulation['order_deal'], $balances);
+            Ordering::runDiscount($simulation['order'], $simulation['order_deal'], $balances);
             $balances = Balances::getStoredUserBalances($simulation['order']->user()->first()->idUser);
-            Cart::runBFS($simulation['order'], $simulation['bfssTables'], $balances);
+            Ordering::runBFS($simulation['order'], $simulation['bfssTables'], $balances);
             $balances = Balances::getStoredUserBalances($simulation['order']->user()->first()->idUser);
-            Cart::runCASH($simulation['order'], $balances);
+            Ordering::runCASH($simulation['order'], $balances);
             $simulation['order']->updateStatus(OrderEnum::Paid);
-            Cart::runPartition($simulation['order'], $simulation['order_deal']);
+            Ordering::runPartition($simulation['order'], $simulation['order_deal']);
             DB::commit();
             return $simulation['order']->updateStatus(OrderEnum::Dispatched);
         } catch (Exception $exception) {

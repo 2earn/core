@@ -61,13 +61,17 @@
                                                     </h6>
                                                     <p class="mb-0 fs-12 text-muted">
                                                         {{__('Quantity')}}:
-                                                        <span  class="cart-item-qty">{{$item->qty }}</span> *
+                                                        <span class="cart-item-qty">{{$item->qty }}</span> *
                                                         <span>{{$item->unit_price}}</span>
+                                                    </p>
+                                                    <p class="mb-0 fs-12 text-muted">
+                                                        {{__('Shipping')}}:
+                                                        <span class="cart-item-shipping">{{$item->shipping }}</span>
                                                     </p>
                                                 </div>
                                                 <div class="px-2">
                                                     <h5 class="m-0 fw-normal">$<span
-                                                            class="cart-item-price">{{$item->total_amount}}</span>
+                                                            class="cart-item-price">{{$item->total_amount + $item->shipping}}</span>
                                                     </h5>
                                                 </div>
                                                 <div class="ps-2">
@@ -109,6 +113,15 @@
             </a>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('.remove-item-btn').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                });
+            });
+        });
+    </script>
     <script type="module">
         function updateCartAfterChange() {
             console.log('updateCartAfterChange')
@@ -132,13 +145,23 @@
                 document.getElementById("cart-item-total").innerHTML = currencySign + subtotal.toFixed(2);
             }
 
+
         }
 
         $(document).on('turbolinks:load', function () {
             window.addEventListener('updateCart', event => {
                 updateCartAfterChange();
             });
+
+            window.addEventListener('removeItemFromCart', event => {
+                updateCartAfterChange();
+                const dropdownButton = document.getElementById('page-header-cart-dropdown');
+                const dropdownMenu = new bootstrap.Dropdown(dropdownButton);
+                dropdownMenu.toggle();
+            });
             updateCartAfterChange();
         });
     </script>
+
+
 </div>

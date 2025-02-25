@@ -8,16 +8,21 @@ use  App\Models\Cart;
 
 class Carts
 {
-    public static function updateCart($cart)
+    public static function updateCart()
     {
+        $cart = Cart::where('user_id', auth()->user()->id)->first();
         $qty = 0;
         $subtotal = 0;
+        $shipping = 0;
         foreach ($cart->cartItem()->get() as $item) {
             $qty += $item->qty;
             $subtotal += $item->total_amount;
+            $subtotal += $item->shipping;
+            $shipping += $item->shipping;
         }
         $cart->update([
             'total_cart' => $subtotal,
+            'shipping' => $shipping,
             'total_cart_quantity' => $qty,
         ]);
     }
@@ -39,7 +44,7 @@ class Carts
     {
         $cartItem = CartItem::find($cartItem)->first();
         $cartItem->delete();
-        Carts::updateCart($cartItem->cart()->get());
+        Carts::updateCart();
     }
 
     public static function addItemToCart($item, $qty = 1)
@@ -50,17 +55,18 @@ class Carts
         if ($existingCartItem) {
             $existingCartItem->qty += $qty;
             $existingCartItem->total_amount = $existingCartItem->qty * $existingCartItem->unit_price;
+            $existingCartItem->shipping = $existingCartItem->price * mt_rand(5, 15) / 100;
             $existingCartItem->save();
         } else {
             $cartItem = CartItem::create([
                 'item_id' => $item->id,
                 'qty' => $qty,
-                'shipping' => $item->shipping,
+                'shipping' => $item->price * mt_rand(5, 15) / 100,
                 'unit_price' => $item->price,
                 'total_amount' => $item->price,
             ]);
             $cart->cartItem()->save($cartItem);
         }
-        Carts::updateCart($cart);
+        Carts::updateCart();
     }
 }

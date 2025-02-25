@@ -36,8 +36,9 @@
                             <td>
                                 <h5 class="fs-14"><a href="apps-ecommerce-product-details.html" class="text-body">{{$item->item()->first()->name}}</a></h5>
                                 <p class="text-muted mb-0">{{config('app.currency')}} {{$item->unit_price}} x {{$item->qty }}</p>
+                                <p class="text-muted mb-0">{{config('app.currency')}} {{$item->shipping}}</p>
                             </td>
-                            <td class="text-end">{{config('app.currency')}} {{$item->total_amount}}</td>
+                            <td class="text-end">{{config('app.currency')}} {{$item->total_amount + $item->shipping}}</td>
                         </tr>
                     @endforeach
                     <tr>

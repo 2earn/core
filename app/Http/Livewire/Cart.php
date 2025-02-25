@@ -21,6 +21,7 @@ class Cart extends Component
     {
         Carts::removeItemFromCart($cartItem);
         $this->dispatchBrowserEvent('updateCart');
+        $this->dispatchBrowserEvent('removeItemFromCart');
     }
 
     public function render()

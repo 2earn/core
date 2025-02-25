@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->float('total_cart');
             $table->float('total_cart_quantity');
+            $table->float('shipping');
             $table->unsignedBigInteger('user_id')->foreign('user_id')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
