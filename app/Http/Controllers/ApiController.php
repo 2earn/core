@@ -1208,7 +1208,7 @@ class ApiController extends BaseController
 
     public function getCoupons()
     {
-        return datatables(Coupon::all())
+        return datatables( Coupon::orderBy('id', 'desc')->get())
             ->addColumn('action', function ($coupon) {
                 return view('parts.datatable.coupon-action', ['coupon' => $coupon]);
             })

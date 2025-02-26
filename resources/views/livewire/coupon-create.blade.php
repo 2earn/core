@@ -5,6 +5,9 @@
         @endslot
     @endcomponent
     <div class="row card">
+        <div class="card-header">
+            <p class="text-muted">ABC1234567, XYZ9876543, LMN5432109, GHI3210987, QWE2345678</p>
+        </div>
         <div class="card-body row ">
             <form>
                 <div class="row">
@@ -12,11 +15,13 @@
                         <label for="attachment_date">{{__('Attachment Date')}}:</label>
                         <input class="form-control" wire:model="attachment_date" type="date"
                                id="attachment_date" placeholder="{{__('Attachment Date')}}">
+                        @error('attachment_date') <span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                     <div class="form-group col-md-4 mt-2">
                         <label for="value">{{__('value')}}:</label>
                         <input class="form-control" wire:model="value" type="number"
                                id="value" placeholder="{{__('value')}}">
+                        @error('value') <span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                     <div class="form-group col-md-4 mt-2">
                         <label for="platform_id">{{__('Platform')}}</label>

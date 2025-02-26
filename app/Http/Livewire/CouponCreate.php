@@ -54,9 +54,11 @@ class CouponCreate extends Component
     public function render()
     {
         $platforms = Platform::all();
+
         $selectPlatforms = [];
         foreach ($platforms as $platform) {
             $selectPlatforms[] = ['name' => $platform->name, 'value' => $platform->id];
+            $this->platform_id=$platform->id;
         }
         $param = ['platforms' => $selectPlatforms];
         return view('livewire.coupon-create', $param)->extends('layouts.master')->section('content');
