@@ -34,9 +34,8 @@
                                         <th><input type="checkbox" id="selectAll"/></th>
                                         <th>{{__('Details')}}</th>
                                         <th>{{__('Pin')}}</th>
-                                        <th>{{__('Attachment date')}}</th>
-                                        <th>{{__('Purchase date')}}</th>
-                                        <th>{{__('Consumption date')}}</th>
+                                        <th>{{__('sn')}}</th>
+                                        <th>{{__('Dates')}}</th>
                                         <th>{{__('Value')}}</th>
                                         <th>{{__('Consumed')}}</th>
                                         <th>{{__('Platform')}}</th>
@@ -78,11 +77,10 @@
                         {data: null, defaultContent: '<input type="checkbox" class="row-select" />'},
                         datatableControlBtn,
                         {data: 'pin'},
-                        {data: 'attachment_date'},
+                        {data: 'sn'},
+                        {data: 'dates'},
                         {data: 'value'},
                         {data: 'consumed'},
-                        {data: 'purchase_date'},
-                        {data: 'consumption_date'},
                         {data: 'platform_id'},
                         {data: 'action'},
                     ],

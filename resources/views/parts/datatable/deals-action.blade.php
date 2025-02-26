@@ -17,7 +17,7 @@
         @endif
     @endif
     @if($deal->validated)
-        <a href="{{route('items_create_update',['locale'=>app()->getLocale()])}}"
+        <a href="{{route('items_create_update',['locale'=>app()->getLocale(), 'dealId' => $deal->id])}}"
            class="btn btn-outline-success">{{__('Create Item')}}
         </a>
         @if($deal->status== \Core\Enum\DealStatus::New->value)

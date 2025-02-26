@@ -15,6 +15,7 @@ return new class extends Migration {
     {
         Schema::create('coupons', function (Blueprint $table) {
             $table->id();
+            $table->string('sn')->unique();
             $table->string('pin')->unique();
             $table->dateTime('attachment_date')->nullable();
             $table->dateTime('purchase_date')->nullable();
@@ -24,6 +25,7 @@ return new class extends Migration {
             $table->enum('status', [CouponStatusEnum::available->value, CouponStatusEnum::sold->value, CouponStatusEnum::used->value, CouponStatusEnum::expired->value])->default(CouponStatusEnum::available->value);
             $table->timestamps();
             $table->unsignedBigInteger('platform_id')->nullable()->foreign('platform_id')->default(1)->nullable()->references('id')->on('platforms')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id')->foreign('user_id')->references('id')->on('user')->onDelete('cascade');
         });
     }
 

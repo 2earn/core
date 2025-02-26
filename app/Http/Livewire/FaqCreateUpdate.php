@@ -2,14 +2,11 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Condition;
 use App\Models\Faq;
-use App\Models\Target;
 use App\Models\TranslaleModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
 class FaqCreateUpdate extends Component
@@ -97,7 +94,6 @@ class FaqCreateUpdate extends Component
         }
         return redirect()->route('faq_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Faq Created Successfully'));
     }
-
 
     public function render()
     {

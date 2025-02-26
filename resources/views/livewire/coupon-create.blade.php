@@ -8,17 +8,17 @@
         <div class="card-body row ">
             <form>
                 <div class="row">
-                    <div class="form-group col-md-6 mt-2">
+                    <div class="form-group col-md-4 mt-2">
                         <label for="attachment_date">{{__('Attachment Date')}}:</label>
                         <input class="form-control" wire:model="attachment_date" type="date"
                                id="attachment_date" placeholder="{{__('Attachment Date')}}">
                     </div>
-                    <div class="form-group col-md-6 mt-2">
+                    <div class="form-group col-md-4 mt-2">
                         <label for="value">{{__('value')}}:</label>
                         <input class="form-control" wire:model="value" type="number"
                                id="value" placeholder="{{__('value')}}">
                     </div>
-                    <div class="form-group col-md-6 mt-2">
+                    <div class="form-group col-md-4 mt-2">
                         <label for="platform_id">{{__('Platform')}}</label>
                         <select
                             class="form-select form-control @error('platform_id') is-invalid @enderror"
@@ -36,6 +36,15 @@
                                   id="pins"
                                   wire:model="pins"
                                   placeholder="{{__('Enter pins')}}"></textarea>
+                        @error('description') <span class="text-danger">{{ $message }}</span>@enderror
+                        <div class="form-text">{{__('Required field')}}</div>
+                    </div>
+                    <div class="form-group col-md-6 mt-2">
+                        <label for="sn">{{__('SN')}}</label>
+                        <textarea class="form-control @error('name') is-invalid @enderror"
+                                  id="sn"
+                                  wire:model="sn"
+                                  placeholder="{{__('Enter SN')}}"></textarea>
                         @error('description') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>

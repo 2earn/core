@@ -1205,7 +1205,8 @@ class ApiController extends BaseController
             return response()->json(['message' => 'An error occurred while deleting the coupons'], 500);
         }
     }
-    public function getCoupon()
+
+    public function getCoupons()
     {
         return datatables(Coupon::all())
             ->addColumn('action', function ($coupon) {
@@ -1217,7 +1218,16 @@ class ApiController extends BaseController
                 }
                 return '**';
             })
-            ->rawColumns(['action','platform_id'])
+            ->addColumn('value', function ($coupon) {
+                return view('parts.datatable.coupon-value', ['coupon' => $coupon]);
+            })
+            ->addColumn('consumed', function ($coupon) {
+                return view('parts.datatable.coupon-consumed', ['coupon' => $coupon]);
+            })
+            ->addColumn('dates', function ($coupon) {
+                return view('parts.datatable.coupon-dates', ['coupon' => $coupon]);
+            })
+            ->rawColumns(['action', 'platform_id'])
             ->make(true);
     }
 
