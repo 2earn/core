@@ -101,6 +101,16 @@
                                 @error('description') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
+                            <div class="form-group">
+                                <label for="logoImage">{{__('Logo Image')}}</label>
+                                <input type="file" id="logoImage" wire:model="logoImage" class="form-control">
+                                @error('logoImage') <span class="error">{{ $message }}</span> @enderror
+                                @if ($platform?->logoImage)
+                                    <div class="mt-3">
+                                        <img src="{{ asset('uploads/' . $platform->logoImage->url) }}" alt="Business Sector logoImage" class="img-thumbnail">
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-2">

@@ -1237,6 +1237,9 @@ class ApiController extends BaseController
             ->addColumn('type', function ($platform) {
                 return Lang::get(PlatformType::from($platform->type)->name);
             })
+            ->addColumn('image', function ($platform) {
+                return view('parts.datatable.platform-image', ['platform' => $platform]);
+            })
             ->addColumn('action', function ($platform) {
                 return view('parts.datatable.platform-action', ['platform' => $platform]);
             })

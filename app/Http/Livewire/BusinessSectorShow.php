@@ -50,7 +50,7 @@ class BusinessSectorShow extends Component
 
         $params = [
             'businessSector' => $businessSector,
-            'platforms' => Platform::where('business_sector_id', $this->idBusinessSector),
+            'platforms' => Platform::where('business_sector_id', $this->idBusinessSector)->get(),
         ];
 
         $this->items = $this->loadItems();

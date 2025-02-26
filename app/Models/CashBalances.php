@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Livewire\Platform;
+use App\Http\Livewire\PlatformIndex;
 use App\Services\Balances\Balances;
 use Core\Models\BalanceOperation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -46,7 +46,7 @@ class CashBalances extends Model
 
     public function platform()
     {
-        return $this->hasOne(Platform::class);
+        return $this->hasOne(PlatformIndex::class);
     }
 
     public function balanceOperation()

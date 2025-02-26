@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Livewire\Platform;
+use App\Http\Livewire\PlatformIndex;
 use App\Services\Balances\Balances;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -51,7 +51,7 @@ class BFSsBalances extends Model
 
     public function platform()
     {
-        return $this->hasOne(Platform::class);
+        return $this->hasOne(PlatformIndex::class);
     }
     public function operator()
     {

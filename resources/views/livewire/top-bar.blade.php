@@ -153,7 +153,7 @@
                                     <div class="col-auto">
                                         <a href="{{route('business_sector_index',['locale'=> app()->getLocale()])}}"
                                            class="btn btn-sm btn-soft-info"> {{__('View All Business sectors')}}
-                                            <i class="ri-currency-fill align-middle"></i></a>
+                                            <i class="bx bx-category-alt"></i></a>
                                     </div>
                                 </div>
                             </div>

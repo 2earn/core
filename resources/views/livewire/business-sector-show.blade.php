@@ -8,44 +8,49 @@
         @endslot
     @endcomponent
     <div class="card">
-        <div class="card-header">
-            <h3>
-                @if(\App\Models\User::isSuperAdmin())
+
+
+        @if ($businessSector?->thumbnailsImage)
+
+            <img src="{{ asset('uploads/' . $businessSector->thumbnailsImage->url) }}"
+                 class="card-img-top img-fluid">
+        @else
+            <img src="{{Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_THUMB)}}"
+                 class="card-img-top img-fluid">
+        @endif
+        <div class="card-body">
+            <h2 class="card-title mb-2">                @if(\App\Models\User::isSuperAdmin())
                     {{$businessSector->id}} -
                 @endif
                 {{$businessSector->name}}
-            </h3>
-        </div>
-        <div class="card-body row my-2">
-            <div class="col-md-7">
-                <h5>{{__('Description')}}</h5>
-                <blockquote class="text-muted">
-                    {{$businessSector->description}}
-                </blockquote>
-            </div>
-            @if ($businessSector?->logoImage)
-                <div class="col-md-2">
-                    <div class="mt-3">
-                        <img src="{{ asset('uploads/' . $businessSector->logoImage->url) }}"
-                             alt="Business Sector logoImage" class="img-thumbnail">
-                    </div>
-                </div>
-            @else
-                <img src="{{Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_LOGO)}}"
-                     class="d-block img-fluid img-business-square mx-auto rounded float-left">
-            @endif
+            </h2>
+            <div class="card-body row my-2">
 
-            @if ($businessSector?->thumbnailsImage)
-                <div class="col-md-3">
-                    <div class="mt-3">
-                        <img src="{{ asset('uploads/' . $businessSector->thumbnailsImage->url) }}"
-                             alt="Business Sector thumbnailsImage" class="img-thumbnail">
-                    </div>
+                <div class="col-md-4">
+                    @if ($businessSector?->logoImage)
+                        <div class="col-md-2">
+                            <div class="mt-3">
+                                <img src="{{ asset('uploads/' . $businessSector->logoImage->url) }}"
+                                     alt="Business Sector logoImage" class="img-thumbnail">
+                            </div>
+                        </div>
+                    @else
+                        <img src="{{Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_LOGO)}}"
+                             class="d-block img-fluid img-business-square mx-auto rounded float-left">
+                    @endif
                 </div>
-            @else
-                <img src="{{Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_THUMB)}}"
-                     class="d-block img-fluid img-business mx-auto rounded float-left">
-            @endif
+                <div class="col-md-7">
+                    <h5>{{__('Description')}}</h5>
+                    <blockquote class="text-muted">
+                        {{$businessSector->description}}
+                    </blockquote>
+                </div>
+            </div>
+
+            <div class="text-end">
+                <a class="btn btn-primary">{{__('Top up your balance')}}</a>
+                <a href="javascript:void(0);" class="btn btn-primary">{{__('Coupon History')}}</a>
+            </div>
         </div>
         <div class="card-footer">
             @if(\App\Models\User::isSuperAdmin())
@@ -68,6 +73,41 @@
             <span class="float-end"> {{__('Created at')}}: {{$businessSector->created_at}}</span>
         </div>
     </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="justify-content-between d-flex align-items-center mt-3 mb-4">
+                    <h5 class="mb-0 text-decoration-underline">{{__('Platforms')}}</h5>
+                </div>
+            </div>
+        </div>
+
+    @foreach($platforms as $platform)
+        <div class="card">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    @if ($platform?->logoImage)
+                        <img src="{{ asset('uploads/' . $platform->logoImage->url) }}"
+                             class="rounded-start img-fluid h-100 object-fit-cover">
+                    @else
+                        <img src="{{Vite::asset(\Core\Models\Platform::DEFAULT_IMAGE_TYPE_LOGO)}}"
+                             class="rounded-start img-fluid h-100 object-fit-cover">
+                    @endif
+                </div>
+                <div class="col-md-8">
+                    <div class="card-header">
+                        <h3 class="card-title mb-0">{{$platform->name}}</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text mb-2">
+                            {{$platform->description}}
+                        </p>
+                        <p class="card-text"><small class="text-muted">    {{$platform->created_at}}</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+// items from platforms
     @if(count($items))
         <div class="card">
             <div class="card-header">
