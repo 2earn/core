@@ -1273,6 +1273,7 @@ class ApiController extends BaseController
             }
             $deals = Deal::whereIn('platform_id', $platformsIds)->orderBy('validated', 'ASC')->get();
         }
+
         return datatables($deals)
             ->addColumn('action', function ($deal) {
                 return view('parts.datatable.deals-action', ['deal' => $deal, 'currentRouteName' => Route::currentRouteName()]);

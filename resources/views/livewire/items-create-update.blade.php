@@ -1,16 +1,15 @@
 <div>
     @section('title')
-        {{ __('Biography') }}
+        {{ __('Item') }}
     @endsection
     @component('components.breadcrumb')
-        @slot('li_1')@endslot
         @slot('title')
-            {{ __('Biography') }}
+            {{ __('Item') }}
         @endslot
     @endcomponent
     <div class="card">
         <div class="card-body">
-            @livewire('page-timer', ['deadline' =>  'career_experience_cs'])
+
         </div>
     </div>
 </div>

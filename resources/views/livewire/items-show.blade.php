@@ -30,14 +30,26 @@
         @else
             <br>
         @endif
-        <span
-            class="btn btn-success  btn-sm float-end my-1"
-            wire:click="addToCard()"
-        >
+
+
+        @if($orderedQty==0)
+            <span
+                class="btn btn-soft-success  btn-sm float-end my-1"
+                wire:click="addToCard()"
+            >
             {{__('Add to card')}}
         </span>
+        @else
+            <div class="input-group">
+                <input type="text" class="form-control"
+                       wire:model="quantityToAdd" aria-label="Recipient's username"
+                       aria-describedby="button-addon2">
+                <button class="btn btn-outline-success btn-sm material-shadow-none"
+                        wire:click="addMoreToCard()" type="button" id="addMoreToCard">{{__('Add more')}}</button>
+            </div>
+        @endif
         <a href="{{route('items_detail',['locale'=>app()->getLocale(),'id'=>$item->id])}}"
-           class="btn btn-primary btn-sm">
+           class="btn btn-soft-primary btn-sm mt-1">
             {{__('See Details')}}
         </a>
     </div>

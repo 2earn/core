@@ -4,7 +4,8 @@ namespace App\Services\Carts;
 
 
 use App\Models\CartItem;
-use  App\Models\Cart;
+use App\Models\Cart;
+use Illuminate\Support\Facades\Session;
 
 class Carts
 {
@@ -25,6 +26,20 @@ class Carts
             'shipping' => $shipping,
             'total_cart_quantity' => $qty,
         ]);
+        Session::put('cart', $cart);
+    }
+
+    public static function getQtyCardItemFromSession($itemId)
+    {
+        if (Session::has('cart')) {
+            $cart = Session::get('cart');
+            foreach ($cart->cartItem()->get() as $item) {
+                if ($item->item_id == $itemId) {
+                    return $item->qty;
+                }
+            }
+        }
+        return 0;
     }
 
     public static function getOrCreateCart()
