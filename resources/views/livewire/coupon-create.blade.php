@@ -32,7 +32,7 @@
                     </div>
                     <div class="form-group col-md-6 mt-2">
                         <label for="pins">{{__('Pins')}}</label>
-                        <textarea class="form-control @error('name') is-invalid @enderror"
+                        <textarea class="form-control @error('pins') is-invalid @enderror"
                                   id="pins"
                                   wire:model="pins"
                                   placeholder="{{__('Enter pins')}}"></textarea>
@@ -41,7 +41,7 @@
                     </div>
                     <div class="form-group col-md-6 mt-2">
                         <label for="sn">{{__('SN')}}</label>
-                        <textarea class="form-control @error('name') is-invalid @enderror"
+                        <textarea class="form-control @error('sn') is-invalid @enderror"
                                   id="sn"
                                   wire:model="sn"
                                   placeholder="{{__('Enter SN')}}"></textarea>

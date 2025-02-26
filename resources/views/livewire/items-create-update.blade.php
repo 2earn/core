@@ -39,42 +39,42 @@
                     </div>
                     <div class="form-group col-sm-12 col-md-4 mb-3">
                         <label for="ref">{{__('ref')}}</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror"
+                        <input type="text" class="form-control @error('ref') is-invalid @enderror"
                                id="ref"
                                placeholder="{{__('Enter ref')}}" wire:model="ref">
-                        @error('name') <span class="text-danger">{{ $message }}</span>@enderror
+                        @error('ref') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>
                     <div class="form-group col-sm-12 col-md-4 mb-3">
                         <label for="price">{{__('Price')}}</label>
-                        <input type="number" class="form-control @error('name') is-invalid @enderror"
+                        <input type="number" class="form-control @error('price') is-invalid @enderror"
                                id="price"
                                placeholder="{{__('Enter price')}}" wire:model="price">
-                        @error('name') <span class="text-danger">{{ $message }}</span>@enderror
+                        @error('price') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>
                     <div class="form-group col-sm-12 col-md-4 mb-3">
                         <label for="discount">{{__('Discount')}}</label>
-                        <input type="number" class="form-control @error('name') is-invalid @enderror"
+                        <input type="number" class="form-control @error('discount') is-invalid @enderror"
                                id="discount"
                                placeholder="{{__('Enter discount')}}" wire:model="discount">
-                        @error('name') <span class="text-danger">{{ $message }}</span>@enderror
+                        @error('discount') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>
                     <div class="form-group col-sm-12 col-md-4 mb-3">
                         <label for="discount_2earn">{{__('Discount 2earn')}}</label>
-                        <input type="number" class="form-control @error('name') is-invalid @enderror"
+                        <input type="number" class="form-control @error('discount_2earn') is-invalid @enderror"
                                id="discount_2earn"
                                placeholder="{{__('Enter discount_2earn')}}" wire:model="discount_2earn">
-                        @error('name') <span class="text-danger">{{ $message }}</span>@enderror
+                        @error('discount_2earn') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>
                     <div class="form-group col-sm-12 col-md-4 mb-3">
                         <label for="photo_link">{{__('Photo link')}}</label>
-                        <input type="url" class="form-control @error('name') is-invalid @enderror"
+                        <input type="url" class="form-control @error('photo_link') is-invalid @enderror"
                                id="photo_link"
                                placeholder="{{__('Enter photo_link')}}" wire:model="photo_link">
-                        @error('name') <span class="text-danger">{{ $message }}</span>@enderror
+                        @error('photo_link') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>
                     <div class="form-group col-sm-12 col-md-12 mb-3">
@@ -89,18 +89,18 @@
                     </div>
                     <div class="form-group col-sm-12 col-md-4 mb-3">
                         <label for="description">{{__('Description')}}</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror"
+                        <input type="text" class="form-control @error('description') is-invalid @enderror"
                                id="description"
                                placeholder="{{__('Enter description')}}" wire:model="description">
-                        @error('name') <span class="text-danger">{{ $message }}</span>@enderror
+                        @error('description') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>
                     <div class="form-group col-sm-12 col-md-4 mb-3">
                         <label for="stock">{{__('Stock')}}</label>
-                        <input type="number" class="form-control @error('name') is-invalid @enderror"
+                        <input type="number" class="form-control @error('stock') is-invalid @enderror"
                                id="stock"
                                placeholder="{{__('Enter stock')}}" wire:model="stock">
-                        @error('name') <span class="text-danger">{{ $message }}</span>@enderror
+                        @error('stock') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>
                 </div>

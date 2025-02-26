@@ -15,19 +15,19 @@
                 <div class="row">
                     <div class="form-group col-12">
                         <label for="title">{{__('title')}}</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror"
+                        <input type="text" class="form-control @error('title') is-invalid @enderror"
                                id="title"
                                placeholder="{{__('Enter title')}}" wire:model="title">
-                        @error('name') <span class="text-danger">{{ $message }}</span>@enderror
+                        @error('title') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>
                     <div class="form-group col-12">
                         <label for="content">{{__('Content')}}</label>
-                        <textarea class="form-control @error('name') is-invalid @enderror"
+                        <textarea class="form-control @error('content') is-invalid @enderror"
                                   id="content"
                                   wire:model="content"
                                   placeholder="{{__('Enter content')}}"></textarea>
-                        @error('description') <span class="text-danger">{{ $message }}</span>@enderror
+                        @error('content') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>
                     <div class="form-group col-12">
