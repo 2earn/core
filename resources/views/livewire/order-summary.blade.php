@@ -78,7 +78,8 @@
             </div>
         </div>
         <div class="card-footer">
-            <button class="btn btn-success float-end">{{__('Validate Cart')}}</button>
+            <button class="btn btn-soft-success mx-2 float-end">{{__('Validate Cart')}}</button>
+            <button class="btn btn-soft-warning mx-2 float-end">{{__('Clear Cart')}}</button>
         </div>
     </div>
 </div>

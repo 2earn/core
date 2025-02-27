@@ -52,7 +52,6 @@
                                     @foreach($cart->cartItem()->get() as $item)
                                         <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
                                             <div class="d-flex align-items-center">
-
                                                 @if($item->item()->first()->photo_link)
                                                     <img alt="{{__('Item Image')}}"
                                                          src="{{$item->item()->first()->photo_link}}"
@@ -67,7 +66,6 @@
                                                          alt="{{__('Item Image')}}"
                                                          class="me-3 rounded-circle avatar-sm p-2 bg-light">
                                                 @endif
-
                                                 <div class="flex-grow-1">
                                                     <h6 class="mt-0 mb-1 fs-14">
                                                          <strong>{{$item->item()->first()->name}}</strong>
