@@ -29,13 +29,27 @@
                     @foreach($cart->cartItem()->get() as $item)
                         <tr>
                             <td>
-                                <div class="avatar-md bg-light rounded p-1">
-                                    <img src="assets/images/products/img-8.png" alt="" class="img-fluid d-block">
-                                </div>
+                                @if($item->item()->first()->photo_link)
+                                    <img alt="{{__('Item Image')}}"
+                                         src="{{$item->item()->first()->photo_link}}"
+                                         class="img-fluid d-block"/>
+                                @elseif($item->item()->first()->thumbnailsImage)
+                                    <img src="{{ asset('uploads/' . $item->item()->first()->thumbnailsImage->url) }}"
+                                         alt="{{__('Item Image')}}"
+                                         class="img-fluid d-block"
+                                    >
+                                @else
+                                    <img src="{{Vite::asset(\App\Models\Item::DEFAULT_IMAGE_TYPE_THUMB)}}"
+                                         alt="{{__('Item Image')}}"
+                                         class="img-fluid d-block">
+                                @endif
                             </td>
                             <td>
-                                <h5 class="fs-14"><a href="apps-ecommerce-product-details.html"
-                                                     class="text-body">{{$item->item()->first()->name}}</a></h5>
+                                <h5 class="fs-14">{{$item->item()->first()->name}}
+                                    @if($item->item()->first()->deal()->first())
+                                   <span class="text-muted mb-0">[{{$item->item()->first()->deal()->first()->name}}]</span>
+                                    @endif
+                                </h5>
                                 <p class="text-muted mb-0">{{config('app.currency')}} {{$item->unit_price}}
                                     x {{$item->qty }}</p>
                                 <p class="text-muted mb-0">{{config('app.currency')}} {{$item->shipping}}</p>

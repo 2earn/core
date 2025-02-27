@@ -31,6 +31,7 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">{{__('Ref')}}</th>
+                                    <th scope="col">{{__('Image')}}</th>
                                     <th scope="col">{{__('Price')}}</th>
                                     <th scope="col">{{__('Discount')}}</th>
                                     <th scope="col">{{__('Discount 2earn')}}</th>
@@ -45,6 +46,18 @@
                                 <tbody>
                                 <tr>
                                     <th scope="row"><a href="#" class="fw-semibold">#{{$item->ref}}</a></th>
+                                    <td>
+                                        @if($item->photo_link)
+                                            <img src="{{$item->photo_link}}"  class="d-block img-fluid img-business-square mx-auto rounded">
+                                        @elseif($item->thumbnailsImage)
+                                            <img src="{{ asset('uploads/' . $item->thumbnailsImage->url) }}"
+                                                 alt="Item Image"
+                                                 class="d-block img-fluid img-business-square mx-auto rounded">
+                                        @else
+                                            <img src="{{Vite::asset(\App\Models\Item::DEFAULT_IMAGE_TYPE_THUMB)}}"
+                                                 class="d-block img-fluid  img-business-square mx-auto rounded ">
+                                        @endif
+                                    </td>
                                     <td>{{$item->price}} {{config('app.currency')}}</td>
                                     <td>{{$item->discount}} {{config('app.percentage')}}</td>
                                     <td>{{$item->discount_2earn}} {{config('app.percentage')}}</td>

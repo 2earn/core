@@ -251,7 +251,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
                 Route::get('/index', \App\Http\Livewire\CouponIndex::class)->name('index');
                 Route::get('/', \App\Http\Livewire\CouponCreate::class)->name('create');
                 Route::get('/history', \App\Http\Livewire\CouponHistory::class)->name('history');
-                Route::get('/buy', \App\Http\Livewire\CouponHistory::class)->name('buy');
+                Route::get('/buy', \App\Http\Livewire\CouponBuy::class)->name('buy');
             });
 
         });

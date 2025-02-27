@@ -142,7 +142,7 @@
                     <div class="dropdown topbar-head-dropdown ms-1 header-item">
                         <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class='ri-currency-fill fs-22'></i>
+                            <i class='bx bx-category-alt fs-22'></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-lg p-0 dropdown-menu-end">
                             <div class="p-3 border-top-0 border-start-0 border-end-0 border-dashed border">

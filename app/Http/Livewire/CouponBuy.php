@@ -8,6 +8,6 @@ class CouponBuy extends Component
 {
     public function render()
     {
-        return view('livewire.coupon-buy');
+        return view('livewire.coupon-buy')->extends('layouts.master')->section('content');
     }
 }

@@ -52,12 +52,28 @@
                                     @foreach($cart->cartItem()->get() as $item)
                                         <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
                                             <div class="d-flex align-items-center">
-                                                <img src="assets/images/products/img-1.png"
-                                                     class="me-3 rounded-circle avatar-sm p-2 bg-light" alt="user-pic">
+
+                                                @if($item->item()->first()->photo_link)
+                                                    <img alt="{{__('Item Image')}}"
+                                                         src="{{$item->item()->first()->photo_link}}"
+                                                         class="me-3 rounded-circle avatar-sm p-2 bg-light"/>
+                                                @elseif($item->item()->first()->thumbnailsImage)
+                                                    <img src="{{ asset('uploads/' . $item->item()->first()->thumbnailsImage->url) }}"
+                                                         alt="{{__('Item Image')}}"
+                                                         class="me-3 rounded-circle avatar-sm p-2 bg-light"
+                                                    >
+                                                @else
+                                                    <img src="{{Vite::asset(\App\Models\Item::DEFAULT_IMAGE_TYPE_THUMB)}}"
+                                                         alt="{{__('Item Image')}}"
+                                                         class="me-3 rounded-circle avatar-sm p-2 bg-light">
+                                                @endif
+
                                                 <div class="flex-grow-1">
                                                     <h6 class="mt-0 mb-1 fs-14">
-                                                        <a href="apps-ecommerce-product-details.html"
-                                                           class="text-reset">{{$item->item()->first()->name}}</a>
+                                                         <strong>{{$item->item()->first()->name}}</strong>
+                                                        @if($item->item()->first()->deal()->first())
+                                                           <span class="text-muted mb-0"> [{{$item->item()->first()->deal()->first()->name}}]</span>
+                                                        @endif
                                                     </h6>
                                                     <p class="mb-0 fs-12 text-muted">
                                                         {{__('Quantity')}}:
