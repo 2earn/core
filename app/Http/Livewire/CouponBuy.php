@@ -7,6 +7,27 @@ use Livewire\Component;
 
 class CouponBuy extends Component
 {
+    public $amount;
+    public $coupon;
+    public $listeners = [
+        'simulateCoupon' => 'simulateCoupon',
+        'BuyCoupon' => 'BuyCoupon'
+    ];
+
+    public function mount()
+    {
+        $this->amount = 0;
+    }
+
+    public function simulateCoupon($amount)
+    {
+
+    }
+
+    public function BuyCoupon($amount)
+    {
+
+    }
 
     public function getCouponsForAmount($amount)
     {

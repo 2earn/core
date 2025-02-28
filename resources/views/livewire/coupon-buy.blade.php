@@ -18,11 +18,11 @@
                                     <div class="row g-3">
                                         <div class="col-lg-12">
                                             <div class="input-group">
-                                                <input type="text" class="form-control"
-                                                       aria-label="Recipient's username"
+                                                <input type="number" class="form-control"
+                                                  wire:model="amount"     aria-label="Recipient's username"
                                                        aria-describedby="button-addon2">
                                                 <button class="btn btn-outline-success material-shadow-none"
-                                                        type="button" id="button-addon2">{{__('Simulate')}}
+                                               wire:click="simulateCoupon"         type="button" id="button-addon2">{{__('Simulate')}}
                                                 </button>
                                             </div>
                                         </div>
