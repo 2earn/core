@@ -80,7 +80,6 @@
                 </div>
             </div>
         @endif
-
         @if($cart->total_cart>0)
             <div class="card-footer">
                 <button wire:click="validateCart()"
@@ -99,4 +98,10 @@
             </div>
         @endif
     </div>
+    @if($cart->total_cart==0 && empty($orders))
+        <div class="alert border-0 alert-warning material-shadow" role="alert">
+            <strong> {{__('Empty Cart')}} </strong> <hr>
+            {{__('Add items to the cart to see the summary')}}
+        </div>
+    @endif
 </div>
