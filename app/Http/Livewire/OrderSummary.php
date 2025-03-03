@@ -9,6 +9,21 @@ class OrderSummary extends Component
 {
     public $cart;
 
+    public $listeners = [
+        'validateCart' => 'validateCart',
+        'clearCart' => 'clearCart'
+    ];
+
+    public function validateCart()
+    {
+    }
+
+    public function clearCart()
+    {
+        Carts::initCart();
+        $this->emit('itemAddedToCart');
+    }
+
     public function render()
     {
         $this->cart = Carts::getOrCreateCart();

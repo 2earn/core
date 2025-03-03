@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Coupon;
+use Core\Models\Platform;
 use Illuminate\Database\Seeder;
 
 class CouponSeeder extends Seeder
@@ -63,6 +64,15 @@ class CouponSeeder extends Seeder
 
     public function run()
     {
-        Coupon::insert($this->coupons);
+        $platforms = Platform::all();
+
+        foreach ($platforms as $platform) {
+            foreach ($this->coupons as $coupon) {
+                $coupon['platform_id'] = $platform->id;
+                $coupon['sn'] = $platform->id . '00' . $coupon['sn'];
+                $coupon['pin'] = $platform->id . '00' . $coupon['pin'];
+                Coupon::create($coupon);
+            }
+        }
     }
 }

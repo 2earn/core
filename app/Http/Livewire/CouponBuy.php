@@ -9,6 +9,7 @@ use App\Services\Orders\Ordering;
 use Core\Enum\CouponStatusEnum;
 use Core\Enum\OrderEnum;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Http\Request;
 use Livewire\Component;
 
 class CouponBuy extends Component
@@ -16,14 +17,16 @@ class CouponBuy extends Component
     public $amount;
 
     public $coupons;
+    public $idPlatform;
 
     public $listeners = [
         'simulateCoupon' => 'simulateCoupon',
         'BuyCoupon' => 'BuyCoupon'
     ];
 
-    public function mount()
-    {
+    public function mount(Request $request)
+    {        $this->idPlatform = $request->input('id');
+
         $this->amount = 0;
     }
 
@@ -32,7 +35,7 @@ class CouponBuy extends Component
     {
         $result = $this->getCouponsForAmount($this->amount);
         if (is_null($result)) {
-            return redirect()->route('coupon_buy', app()->getLocale())->with('danger', trans('Amount simulation failed'));
+            return redirect()->route('coupon_buy',['locale'=>app()->getLocale(),'id'=> $this->idPlatform])->with('danger', trans('Amount simulation failed'));
         }
 
         $this->amount = $result['amount'];
@@ -48,6 +51,7 @@ class CouponBuy extends Component
                 'qty' => 1,
                 'unit_price' => $couponItem['value'],
                 'total_amount' => $couponItem['value'],
+                'note' => $coupon->sn,
                 'item_id' => $coupon->id,
             ]);
         }
@@ -58,7 +62,10 @@ class CouponBuy extends Component
         if ($simulation) {
             Ordering::run($simulation);
         }
-
+        foreach ($order->orderDetails()->get() as $key => $orderDetail) {
+            $coupon = Coupon::where('sn', $orderDetail->note)->first();
+            $coupon->update(['user_id' => auth()->user()->id, 'status' => CouponStatusEnum::sold->value]);
+        }
         return redirect()->route('orders_detail', ['locale' => app()->getLocale(), 'id' => $order->id])->with('success', Lang::get('Status update succeeded'));
     }
 
@@ -66,6 +73,7 @@ class CouponBuy extends Component
     {
 
         $availableCoupons = Coupon::where('status', CouponStatusEnum::available->value)
+            ->where('platform_id',  $this->idPlatform)
             ->orderBy('value', 'desc')
             ->get();
         $selectedCoupons = [];

@@ -150,11 +150,13 @@
                                     <div class="col">
                                         <h6 class="m-0 fw-semibold fs-15"> {{__('Business sectors')}} </h6>
                                     </div>
-                                    <div class="col-auto">
-                                        <a href="{{route('business_sector_index',['locale'=> app()->getLocale()])}}"
-                                           class="btn btn-sm btn-soft-info"> {{__('View All Business sectors')}}
-                                            <i class="bx bx-category-alt"></i></a>
-                                    </div>
+                                    @if(\App\Models\User::isSuperAdmin())
+                                        <div class="col-auto">
+                                            <a href="{{route('business_sector_index',['locale'=> app()->getLocale()])}}"
+                                               class="btn btn-sm btn-soft-info"> {{__('View All Business sectors')}}
+                                                <i class="bx bx-category-alt"></i></a>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                             <div class="p-2">

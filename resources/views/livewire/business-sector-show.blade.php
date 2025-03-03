@@ -40,13 +40,6 @@
                     </blockquote>
                 </div>
             </div>
-
-            <div class="text-end">
-                <a href="{{route('coupon_buy',['locale'=>app()->getLocale()])}}"
-                   class="btn btn-primary">{{__('Top up your balance')}}</a>
-                <a href="{{route('coupon_history',['locale'=>app()->getLocale()])}}"
-                   class="btn btn-primary">{{__('Coupon History')}}</a>
-            </div>
         </div>
         <div class="card-footer">
             @if(\App\Models\User::isSuperAdmin())
@@ -99,6 +92,12 @@
                                         <p class="card-text mb-2">
                                             {{$platform->description}}
                                         </p>
+                                        <div class="text-end">
+                                            <a href="{{route('coupon_buy',['locale'=>app()->getLocale(),'id'=>$platform->id])}}"
+                                               class="btn btn-primary">{{__('Top up your balance')}}</a>
+                                            <a href="{{route('coupon_history',['locale'=>app()->getLocale()])}}"
+                                               class="btn btn-primary">{{__('Coupon History')}}</a>
+                                        </div>
                                         <p class="card-text"><small
                                                 class="text-muted">    {{$platform->created_at}}</small>
                                         </p>

@@ -42,17 +42,41 @@ class Carts
         return 0;
     }
 
+    public static function createCart()
+    {
+        $cart = Cart::create([
+            'total_cart' => 0,
+            'total_cart_quantity' => 0,
+            'shipping' => 0,
+            'user_id' => auth()->user()->id
+        ]);
+        Session::put('cart', $cart);
+        return $cart;
+    }
+
+    public static function initCart()
+    {
+        $cart = Cart::where('user_id', auth()->user()->id)->first();
+        if (!is_null($cart)) {
+            $cart->cartItem()->delete();
+            $cart->update([
+                'total_cart' => 0,
+                'total_cart_quantity' => 0,
+                'shipping' => 0,
+            ]);
+            Session::put('cart', $cart);
+            return $cart;
+        }
+        return Carts::createCart();
+    }
+
     public static function getOrCreateCart()
     {
         $cart = Cart::where('user_id', auth()->user()->id)->first();
         if (!is_null($cart)) {
             return $cart;
         }
-        return Cart::create([
-            'total_cart' => 0,
-            'total_cart_quantity' => 0,
-            'user_id' => auth()->user()->id
-        ]);
+        return Carts::createCart();
     }
 
     public static function removeItemFromCart($cartItem)
