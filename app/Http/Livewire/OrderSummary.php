@@ -3,46 +3,56 @@
 namespace App\Http\Livewire;
 
 use App\Models\Cart;
-use App\Models\Coupon;
-use App\Models\Item;
+
 use App\Models\Order;
 use App\Services\Carts\Carts;
 use App\Services\Orders\Ordering;
-use Lang;
 use Core\Enum\OrderEnum;
 use Livewire\Component;
+use Illuminate\Support\Facades\Route;
 
 class OrderSummary extends Component
 {
     public $cart;
+    public $orders = [];
 
     public $listeners = [
         'validateCart' => 'validateCart',
         'clearCart' => 'clearCart'
     ];
-
+    public function mount()
+    {
+        $this->currentRouteName = Route::currentRouteName();
+    }
     public function validateCart()
     {
-        $order = Order::create(['user_id' => auth()->user()->id, 'note' => 'Product buy ']);
         $cart = Cart::where('user_id', auth()->user()->id)->first();
-
+        $ordersData = [];
+        $orders = [];
         foreach ($cart->cartItem()->get() as $cartItem) {
             $item = $cartItem->item()->first();
-            dd($item->deal()->first()->platform_id);
-            $order->orderDetails()->create([
-                'qty' => $item->qty,
-                'unit_price' => $item->unit_price,
-                'total_amount' => $item->total_amount,
-                'item_id' => $item->id,
-            ]);
+            $ordersData[$item->deal()->first()->platform_id][] = $cartItem;
         }
+        foreach ($ordersData as $key => $ordersDataItems) {
 
-        $order->updateStatus(OrderEnum::Ready);
-        $simulation = Ordering::simulate($order);
-        if ($simulation) {
-            Ordering::run($simulation);
+            $order = Order::create(['user_id' => auth()->user()->id, 'note' => 'Product buy platform ' . $key]);
+
+            foreach ($ordersDataItems as $ordersItems) {
+                $order->orderDetails()->create([
+                    'qty' => $ordersItems->qty,
+                    'unit_price' => $ordersItems->unit_price,
+                    'total_amount' => $ordersItems->total_amount,
+                    'item_id' => $ordersItems->id,
+                ]);
+            }
+            $order->updateStatus(OrderEnum::Ready);
+            $simulation = Ordering::simulate($order);
+            if ($simulation) {
+                Ordering::run($simulation);
+            }
+            $this->orders[] = $order;
         }
-        return redirect()->route('orders_detail', ['locale' => app()->getLocale(), 'id' => $order->id])->with('success', Lang::get('Status update succeeded'));
+        $this->clearCart();
     }
 
     public function clearCart()

@@ -512,7 +512,7 @@
                         <span class="badge bg-info-subtle text-info badge-border">
                 {{__('Created at')}} : {{$order->created_at}}</span>
                     @endif
-                    @if($currentRouteName=="orders_index" || $currentRouteName=="orders_previous" )
+                    @if($currentRouteName=="orders_index" || $currentRouteName=="orders_previous"|| $currentRouteName=="orders_summary" )
                         <a href="{{route('orders_detail', ['locale'=>app()->getLocale(),'id'=>$order->id])}}"
                            class=float-end">{{__('More details')}}</a>
                     @endif
