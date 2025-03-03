@@ -21,6 +21,10 @@ class ItemCouponSeeder extends Seeder
             'discount' => 0,
             'discount_2earn' => 0,
         ];
-       Item::create($params);
+        $platforms = Platform::all();
+        foreach ($platforms as $platform) {
+            $params['platform_id'] = $platform->id;
+            Item::create($params);
+        }
     }
 }

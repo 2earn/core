@@ -28,6 +28,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('created_by')->foreign('user_id')->nullable()->references('id')->on('user')->onDelete('cascade');
             $table->unsignedBigInteger('seller_id')->foreign('seller_id')->nullable()->references('id')->on('user')->onDelete('cascade');
             $table->unsignedBigInteger('deal_id')->foreign('deal_id')->nullable()->references('id')->on('deals')->onDelete('cascade');
+            $table->unsignedBigInteger('platform_id')->nullable()->foreign('platform_id')->default(1)->nullable()->references('id')->on('platforms')->onDelete('cascade');
             $table->timestamps();
         });
     }

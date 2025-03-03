@@ -48,6 +48,7 @@ class OrderingSimulation
             'discount' => $discount,
             'discount_2earn' => $discount2earn,
             'description' => $description,
+            'platform_id' => $platformId,
         ];
 
         if ($hasDeal) {

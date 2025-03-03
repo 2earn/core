@@ -50,9 +50,7 @@
                                         <th scope="col">{{__('Price')}}</th>
                                         <th scope="col">{{__('Discount')}}</th>
                                         <th scope="col">{{__('Discount 2earn')}}</th>
-                                        @if ($item->deal()->exists())
-                                            <th scope="col">{{__('Deal')}}</th>
-                                        @endif
+                                        <th scope="col">{{__('Deal')}}</th>
                                         @if ($item->stock)
                                             <th scope="col">{{__('Deal')}}</th>
                                         @endif
@@ -77,9 +75,20 @@
                                         <td>{{$item->price}} {{config('app.currency')}}</td>
                                         <td>{{$item->discount}} {{config('app.percentage')}}</td>
                                         <td>{{$item->discount_2earn}} {{config('app.percentage')}}</td>
-                                        @if ($item->deal()->exists())
-                                            <td>{{$item->deal->id}} - {{$item->deal->name}}</td>
-                                        @endif
+                                        <td>
+                                            @if ($item->deal()->exists())
+                                                @if(\App\Models\User::isSuperAdmin())
+                                                    <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$item->deal->id])}}">
+                                                        {{$item->deal->id}} - {{$item->deal->name}}
+                                                    </a>
+                                                @else
+                                                    {{$item->deal->id}} - {{$item->deal->name}}
+                                                @endif
+                                            @else
+                                                <span class="badge bg-muted-subtle text-muted">{{__('No deal')}}</span>
+                                            @endif
+                                        </td>
+
                                         @if ($item->stock)
                                             <td>{{$item->stock}}</td>
                                         @endif

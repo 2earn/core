@@ -52,6 +52,8 @@ class ItemsCreateUpdate extends Component
         $this->photo_link = $item->photo_link;
         $this->description = $item->description;
         $this->stock = $item->stock;
+        $this->platform_id = $item->platform_id;
+        $this->deal_id = $this->idItem;
         $this->update = true;
     }
 
@@ -77,6 +79,8 @@ class ItemsCreateUpdate extends Component
                         'photo_link' => $this->photo_link,
                         'description' => $this->description,
                         'stock' => $this->stock,
+                        'deal_id' => $this->idItem,
+                        'platform_id' => $this->platform_id,
                     ]);
 
             if ($this->thumbnailsImage) {
@@ -113,6 +117,7 @@ class ItemsCreateUpdate extends Component
             'description' => $this->description,
             'stock' => $this->stock,
             'deal_id' => $this->dealId,
+            'platform_id' => $this->dealId,
         ];
 
         try {

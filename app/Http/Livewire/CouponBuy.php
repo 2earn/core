@@ -25,7 +25,8 @@ class CouponBuy extends Component
     ];
 
     public function mount(Request $request)
-    {        $this->idPlatform = $request->input('id');
+    {
+        $this->idPlatform = $request->input('id');
 
         $this->amount = 0;
     }
@@ -35,7 +36,7 @@ class CouponBuy extends Component
     {
         $result = $this->getCouponsForAmount($this->amount);
         if (is_null($result)) {
-            return redirect()->route('coupon_buy',['locale'=>app()->getLocale(),'id'=> $this->idPlatform])->with('danger', trans('Amount simulation failed'));
+            return redirect()->route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $this->idPlatform])->with('danger', trans('Amount simulation failed'));
         }
 
         $this->amount = $result['amount'];
@@ -44,7 +45,7 @@ class CouponBuy extends Component
 
     public function BuyCoupon()
     {
-        $order = Order::create(['user_id' => auth()->user()->id, 'note' => 'Coupon buy']);
+        $order = Order::create(['user_id' => auth()->user()->id, 'note' => 'Coupon buy from :' . $this->idPlatform]);
         $coupon = Item::where('ref', '#0001')->first();
         foreach ($this->coupons as $couponItem) {
             $order->orderDetails()->create([
@@ -73,7 +74,7 @@ class CouponBuy extends Component
     {
 
         $availableCoupons = Coupon::where('status', CouponStatusEnum::available->value)
-            ->where('platform_id',  $this->idPlatform)
+            ->where('platform_id', $this->idPlatform)
             ->orderBy('value', 'desc')
             ->get();
         $selectedCoupons = [];
