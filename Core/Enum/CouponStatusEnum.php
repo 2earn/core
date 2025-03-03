@@ -2,11 +2,11 @@
 
 namespace Core\Enum;
 
-enum  CouponStatusEnum: int
+enum  CouponStatusEnum: string
 {
-    case available = 0;
-    case sold = 1;
-    case used = 2;
-    case expired = 3;
+    case available = "0";
+    case sold = "1";
+    case used = "2";
+    case expired = "3";
 
 }

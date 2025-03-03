@@ -186,8 +186,6 @@ class Ordering
 
     public static function createOrderDeal($order_deal, $order)
     {
-        Log::notice('aaaaaaaaaaaaaaaaa');
-        Log::notice(json_encode($order_deal));
         $total_amount = 0;
         $final_discount = 0;
         $lost_discount = 0;

@@ -19,6 +19,7 @@ class Sprint009Seeder extends Seeder
             Artisan::call('db:seed', ['--class' => 'Database\Seeders\DealsInsertSeeder']);
             Artisan::call('db:seed', ['--class' => 'Database\Seeders\TranslateSeeder']);
             Artisan::call('db:seed', ['--class' => 'Database\Seeders\ItemSeeder']);
+            Artisan::call('db:seed', ['--class' => 'Database\Seeders\CouponSeeder']);
         }
     }
 }

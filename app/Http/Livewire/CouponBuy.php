@@ -3,12 +3,20 @@
 namespace App\Http\Livewire;
 
 use App\Models\Coupon;
+use App\Models\Item;
+use App\Models\Order;
+use App\Services\Orders\Ordering;
+use Core\Enum\CouponStatusEnum;
+use Core\Enum\OrderEnum;
+use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
 
 class CouponBuy extends Component
 {
     public $amount;
-    public $coupon;
+
+    public $coupons;
+
     public $listeners = [
         'simulateCoupon' => 'simulateCoupon',
         'BuyCoupon' => 'BuyCoupon'
@@ -19,23 +27,47 @@ class CouponBuy extends Component
         $this->amount = 0;
     }
 
-    public function simulateCoupon($amount)
-    {
 
+    public function simulateCoupon()
+    {
+        $result = $this->getCouponsForAmount($this->amount);
+        if (is_null($result)) {
+            return redirect()->route('coupon_buy', app()->getLocale())->with('danger', trans('Amount simulation failed'));
+        }
+
+        $this->amount = $result['amount'];
+        $this->coupons = $result['coupons'];
     }
 
-    public function BuyCoupon($amount)
+    public function BuyCoupon()
     {
+        $order = Order::create(['user_id' => auth()->user()->id, 'note' => 'Coupon buy']);
+        $coupon = Item::where('ref', '#0001')->first();
+        foreach ($this->coupons as $couponItem) {
+            $order->orderDetails()->create([
+                'qty' => 1,
+                'unit_price' => $couponItem['value'],
+                'total_amount' => $couponItem['value'],
+                'item_id' => $coupon->id,
+            ]);
+        }
 
+        $order->updateStatus(OrderEnum::Ready);
+        $simulation = Ordering::simulate($order);
+
+        if ($simulation) {
+            Ordering::run($simulation);
+        }
+
+        return redirect()->route('orders_detail', ['locale' => app()->getLocale(), 'id' => $order->id])->with('success', Lang::get('Status update succeeded'));
     }
 
     public function getCouponsForAmount($amount)
     {
 
-        $availableCoupons = Coupon::where('status', 'available')
+        $availableCoupons = Coupon::where('status', CouponStatusEnum::available->value)
             ->orderBy('value', 'desc')
             ->get();
-
         $selectedCoupons = [];
         $total = 0;
 
@@ -49,14 +81,10 @@ class CouponBuy extends Component
                 break;
             }
         }
-
-        if ($total == $amount) {
-            return response()->json([
-                'amount' => $amount,
-                'coupons' => $selectedCoupons,
-            ]);
-        }
-        return null;
+        return [
+            'amount' => $total,
+            'coupons' => $selectedCoupons,
+        ];
     }
 
     public function render()
