@@ -46,12 +46,11 @@
                                     <thead>
                                     <tr>
                                         <th scope="col">{{__('Ref')}}</th>
+                                        <th scope="col">{{__('Image')}}</th>
                                         <th scope="col">{{__('Price')}}</th>
                                         <th scope="col">{{__('Discount')}}</th>
                                         <th scope="col">{{__('Discount 2earn')}}</th>
-                                        @if ($item->deal()->exists())
-                                            <th scope="col">{{__('Deal')}}</th>
-                                        @endif
+                                        <th scope="col">{{__('Deal')}}</th>
                                         @if ($item->stock)
                                             <th scope="col">{{__('Deal')}}</th>
                                         @endif
@@ -60,20 +59,42 @@
                                     <tbody>
                                     <tr>
                                         <th scope="row"><a href="#" class="fw-semibold">#{{$item->ref}}</a></th>
+                                        <td>
+                                            @if($item->photo_link)
+                                                <img src="{{$item->photo_link}}"
+                                                     class="d-block img-fluid img-business-square mx-auto rounded">
+                                            @elseif($item->thumbnailsImage)
+                                                <img src="{{ asset('uploads/' . $item->thumbnailsImage->url) }}"
+                                                     alt="Item Image"
+                                                     class="d-block img-fluid img-business-square mx-auto rounded">
+                                            @else
+                                                <img src="{{Vite::asset(\App\Models\Item::DEFAULT_IMAGE_TYPE_THUMB)}}"
+                                                     class="d-block img-fluid  img-business-square mx-auto rounded ">
+                                            @endif
+                                        </td>
                                         <td>{{$item->price}} {{config('app.currency')}}</td>
                                         <td>{{$item->discount}} {{config('app.percentage')}}</td>
                                         <td>{{$item->discount_2earn}} {{config('app.percentage')}}</td>
-                                        @if ($item->deal()->exists())
-                                            <td>{{$item->deal->id}} - {{$item->deal->name}}</td>
-                                        @endif
+                                        <td>
+                                            @if ($item->deal()->exists())
+                                                @if(\App\Models\User::isSuperAdmin())
+                                                    <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$item->deal->id])}}">
+                                                        {{$item->deal->id}} - {{$item->deal->name}}
+                                                    </a>
+                                                @else
+                                                    {{$item->deal->id}} - {{$item->deal->name}}
+                                                @endif
+                                            @else
+                                                <span class="badge bg-muted-subtle text-muted">{{__('No deal')}}</span>
+                                            @endif
+                                        </td>
+
                                         @if ($item->stock)
                                             <td>{{$item->stock}}</td>
                                         @endif
                                     </tr>
                                     </tbody>
                                 </table>
-
-
                             </div>
                             <div class="card-footer">
                                 <div class="row">

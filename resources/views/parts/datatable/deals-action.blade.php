@@ -2,7 +2,7 @@
     @if(isset($currentRouteName))
         @if($currentRouteName!='deals_show')
             <a href="{{route('deals_show', ['locale' => app()->getLocale(), 'id' => $deal->id])}}"
-               class="btn btn-xs btn-info btn2earnTable  m-1">{{__('Show')}}</a>
+               class="btn btn-xs btn-outline-info btn2earnTable  m-1">{{__('Show')}}</a>
         @endif
     @endif
 
@@ -17,6 +17,9 @@
         @endif
     @endif
     @if($deal->validated)
+        <a href="{{route('items_create_update',['locale'=>app()->getLocale(), 'dealId' => $deal->id])}}"
+           class="btn btn-outline-success">{{__('Create Item')}}
+        </a>
         @if($deal->status== \Core\Enum\DealStatus::New->value)
             <button class="btn btn-secondary updateDeal" data-status="{{\Core\Enum\DealStatus::Opened->value}}"
                     data-id="{{$deal->id}}" data-status-name="{{__(\Core\Enum\DealStatus::Opened->name)}}">

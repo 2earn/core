@@ -142,7 +142,7 @@
                     <div class="dropdown topbar-head-dropdown ms-1 header-item">
                         <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class='ri-currency-fill fs-22'></i>
+                            <i class='bx bx-category-alt fs-22'></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-lg p-0 dropdown-menu-end">
                             <div class="p-3 border-top-0 border-start-0 border-end-0 border-dashed border">
@@ -150,11 +150,13 @@
                                     <div class="col">
                                         <h6 class="m-0 fw-semibold fs-15"> {{__('Business sectors')}} </h6>
                                     </div>
-                                    <div class="col-auto">
-                                        <a href="{{route('business_sector_index',['locale'=> app()->getLocale()])}}"
-                                           class="btn btn-sm btn-soft-info"> {{__('View All Business sectors')}}
-                                            <i class="ri-currency-fill align-middle"></i></a>
-                                    </div>
+                                    @if(\App\Models\User::isSuperAdmin())
+                                        <div class="col-auto">
+                                            <a href="{{route('business_sector_index',['locale'=> app()->getLocale()])}}"
+                                               class="btn btn-sm btn-soft-info"> {{__('View All Business sectors')}}
+                                                <i class="bx bx-category-alt"></i></a>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                             <div class="p-2">

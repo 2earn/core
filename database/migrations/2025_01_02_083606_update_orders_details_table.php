@@ -30,8 +30,7 @@ return new class extends Migration {
             $table->float('amount_after_deal_discount')->nullable();
 
             $table->float('total_discount')->nullable();
-
-
+            $table->string('note')->nullable();
 
         });
     }

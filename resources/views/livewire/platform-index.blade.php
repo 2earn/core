@@ -38,6 +38,7 @@
                                     <th>{{__('Id')}}</th>
                                     <th>{{__('Name')}}</th>
                                     <th>{{__('Type')}}</th>
+                                    <th>{{__('Image')}}</th>
                                     <th>{{__('Business sector')}}</th>
                                     <th>{{__('Created at')}}</th>
                                     <th>{{__('Action')}}</th>
@@ -81,6 +82,7 @@
                         {data: 'id'},
                         {data: 'name'},
                         {data: 'type'},
+                        {data: 'image'},
                         {data: 'business_sector_id'},
                         {data: 'created_at'},
                         {data: 'action'},

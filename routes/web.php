@@ -143,6 +143,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::prefix('/items')->name('items_')->group(function () {
             Route::get('/index', \App\Http\Livewire\ItemsIndex::class)->name('index');
             Route::get('/{id}/detail', \App\Http\Livewire\ItemsDetails::class)->name('detail');
+            Route::get('/', \App\Http\Livewire\ItemsCreateUpdate::class)->name('create_update');
         });
 
         Route::prefix('/news')->name('news_')->group(function () {
@@ -211,7 +212,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             });
 
             Route::prefix('/platform')->name('platform_')->group(function () {
-                Route::get('/index', \App\Http\Livewire\Platform::class)->name('index');
+                Route::get('/index', \App\Http\Livewire\PlatformIndex::class)->name('index');
                 Route::get('/', \App\Http\Livewire\PlatformCreateUpdate::class)->name('create_update');
                 Route::get('/{id}', \App\Http\Livewire\PlatformShow::class)->name('show');
                 Route::get('/{userId}/promotion', \App\Http\Livewire\PlatformPromotion::class)->name('promotion');
@@ -249,6 +250,8 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::prefix('/coupon')->name('coupon_')->group(function () {
                 Route::get('/index', \App\Http\Livewire\CouponIndex::class)->name('index');
                 Route::get('/', \App\Http\Livewire\CouponCreate::class)->name('create');
+                Route::get('/history', \App\Http\Livewire\CouponHistory::class)->name('history');
+                Route::get('/{id}/buy', \App\Http\Livewire\CouponBuy::class)->name('buy');
             });
 
         });
@@ -284,7 +287,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/shares-solde-list/{idUser}', 'App\Http\Controllers\ApiController@getSharesSoldeList')->name('api_shares_solde_list');
         Route::get('/user/admin', 'App\Http\Controllers\ApiController@getUserAdmin')->name('api_user_admin');
         Route::get('/history/notification', 'App\Http\Controllers\ApiController@getHistoryNotification')->name('api_history_notification');
-        Route::get('/coupons', 'App\Http\Controllers\ApiController@getCoupon')->name('api_coupon');
+        Route::get('/coupons', 'App\Http\Controllers\ApiController@getCoupons')->name('api_coupon');
         Route::get('/platforms', 'App\Http\Controllers\ApiController@getPlatforms')->name('api_platforms');
         Route::get('/roles', 'App\Http\Controllers\ApiController@getRoles')->name('api_role');
         Route::get('/deals', 'App\Http\Controllers\ApiController@getDeals')->name('api_deal');

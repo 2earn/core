@@ -40,7 +40,7 @@
                         <input type="text" class="form-control @error('name') is-invalid @enderror"
                                id="description"
                                placeholder="{{__('Enter description')}}" wire:model="description">
-                        @error('name') <span class="text-danger">{{ $message }}</span>@enderror
+                        @error('description') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>
                     <div class="form-group col-sm-12 col-md-12 mb-3">

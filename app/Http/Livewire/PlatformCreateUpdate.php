@@ -9,9 +9,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class PlatformCreateUpdate extends Component
 {
+    use WithFileUploads;
+
     public
         $idPlatform,
         $name,
@@ -19,6 +22,7 @@ class PlatformCreateUpdate extends Component
         $sector,
         $type,
         $link;
+    public $logoImage;
 
     public $enabled = false;
     public $show_profile = false;
@@ -84,10 +88,23 @@ class PlatformCreateUpdate extends Component
                 'business_sector_id' => $this->sector,
                 'link' => $this->link
             ];
-            \Core\Models\Platform::where('id', $this->idPlatform)
-                ->update($params);
+            Platform::where('id', $this->idPlatform)->update($params);
+
+
+            if ($this->logoImage) {
+                $platform = Platform::find($this->idPlatform);
+                if ($platform->logoImage) {
+                    Storage::disk('public2')->delete($platform->logoImage->url);
+                }
+                $imagePath = $this->logoImage->store('business-sectors/' . Platform::IMAGE_TYPE_LOGO, 'public2');
+                $platform->logoImage()->delete();
+                $platform->logoImage()->create([
+                    'url' => $imagePath,
+                    'type' => Platform::IMAGE_TYPE_LOGO,
+                ]);
+            }
+
         } catch (\Exception $exception) {
-            dd($exception);
             Log::error($exception->getMessage());
             return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while updating Platform'));
         }
@@ -109,6 +126,14 @@ class PlatformCreateUpdate extends Component
                 'link' => $this->link
             ];
             $platform = Platform::create($params);
+
+            if ($this->logoImage) {
+                $imagePath = $this->logoImage->store('business-sectors/' . Platform::IMAGE_TYPE_LOGO, 'public2');
+                $platform->logoImage()->create([
+                    'url' => $imagePath,
+                    'type' => Platform::IMAGE_TYPE_LOGO,
+                ]);
+            }
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('platform_create_update', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while creating Platform!!') . ' ' . $exception->getMessage());
@@ -119,8 +144,7 @@ class PlatformCreateUpdate extends Component
 
     public function render()
     {
-
-
-        return view('livewire.platform-create-update')->extends('layouts.master')->section('content');
+        $params = ['platform' => Platform::find($this->idPlatform)];
+        return view('livewire.platform-create-update', $params)->extends('layouts.master')->section('content');
     }
 }

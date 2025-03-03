@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Http\Livewire\PlatformIndex;
+use Core\Models\Platform;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,6 +22,8 @@ class Item extends Model
         'stock',
         'deal_id',
     ];
+    const IMAGE_TYPE_THUMBNAILS = 'thumbnails';
+    const DEFAULT_IMAGE_TYPE_THUMB = 'resources/images/items/item-thumbnail.png';
 
     public function createdBy()
     {
@@ -45,4 +49,13 @@ class Item extends Model
     {
         return $this->hasMany(Share::class);
     }
+    public function platform()
+    {
+        return $this->hasOne(Platform::class);
+    }
+    public function thumbnailsImage()
+    {
+        return $this->morphOne(Image::class, 'imageable')->where('type', '=', self::IMAGE_TYPE_THUMBNAILS);
+    }
+
 }

@@ -287,7 +287,7 @@
                             <a href="{{route('business_sector_index',app()->getLocale(),false )}}"
                                class="nav-link menu-link {{$currentRouteName=='business_sector_index'? 'active' : ''}}"
                                role="button">
-                                <i class="ri-currency-fill"></i>
+                                <i class="bx bx-category-alt"></i>
                                 <span>{{__('Business sector')}}</span>
                             </a>
                         </li>
@@ -299,7 +299,7 @@
                                 <span>{{__('Platform')}}</span>
                             </a>
                         </li>
-                        <li class=" d-none nav-item cool-link {{$currentRouteName=='coupon_index'? 'active' : ''}}">
+                        <li class="nav-item cool-link {{$currentRouteName=='coupon_index'? 'active' : ''}}">
                             <a href="{{route('coupon_index',app()->getLocale(),false )}}"
                                class="nav-link menu-link {{$currentRouteName=='coupon_index'? 'active' : ''}}"
                                role="button">

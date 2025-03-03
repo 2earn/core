@@ -12,6 +12,7 @@ class Coupon extends Model
 
     protected $fillable = [
         'pin',
+        'sn',
         'attachment_date',
         'purchase_date',
         'consumption_date',
@@ -19,10 +20,17 @@ class Coupon extends Model
         'consumed',
         'status',
         'platform_id',
+        'user_id',
     ];
 
     public function platform()
     {
         return $this->hasOne(Platform::class, 'id', 'platform_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
 }

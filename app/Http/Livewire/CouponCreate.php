@@ -13,12 +13,14 @@ class CouponCreate extends Component
     const INDEX_ROUTE_NAME = 'coupon_index';
 
     public $pins;
+    public $sn;
     public $attachment_date;
     public $value;
     public $platform_id;
 
     protected $rules = [
         'pins' => 'required',
+        'sn' => 'required',
         'platform_id' => 'required',
         'attachment_date' => ['required', 'after_or_equal:today'],
     ];
@@ -28,16 +30,18 @@ class CouponCreate extends Component
 
         $this->validate();
         try {
-
             $coupon = [
                 'attachment_date' => $this->attachment_date,
                 'value' => $this->value,
                 'platform_id' => $this->platform_id,
                 'consumed' => false
             ];
+
             $pins = explode(',', $this->pins);
-            foreach ($pins as $pin) {
+            $sns = explode(',', $this->sn);
+            foreach ($pins as $key => $pin) {
                 $coupon['pin'] = $pin;
+                $coupon['sn'] = $sns[$key];
                 Coupon::create($coupon);
             }
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Coupons created  Successfully'));
@@ -50,9 +54,11 @@ class CouponCreate extends Component
     public function render()
     {
         $platforms = Platform::all();
+
         $selectPlatforms = [];
         foreach ($platforms as $platform) {
             $selectPlatforms[] = ['name' => $platform->name, 'value' => $platform->id];
+            $this->platform_id=$platform->id;
         }
         $param = ['platforms' => $selectPlatforms];
         return view('livewire.coupon-create', $param)->extends('layouts.master')->section('content');

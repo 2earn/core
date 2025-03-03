@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
-class Platform extends Component
+class PlatformIndex extends Component
 {
     public $listeners = ['delete' => 'delete'];
 
@@ -24,6 +24,6 @@ class Platform extends Component
 
     public function render()
     {
-        return view('livewire.platform')->extends('layouts.master')->section('content');
+        return view('livewire.platform-index')->extends('layouts.master')->section('content');
     }
 }

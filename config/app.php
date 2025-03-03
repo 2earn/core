@@ -123,14 +123,14 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
-      /*
-      |--------------------------------------------------------------------------
-      | currency
-      |--------------------------------------------------------------------------
-      |
-      | currency
-      |
-      */
+    /*
+    |--------------------------------------------------------------------------
+    | currency
+    |--------------------------------------------------------------------------
+    |
+    | currency
+    |
+    */
 
     'currency' => '$',
 
@@ -208,7 +208,6 @@ return [
     */
 
     'aliases' => [
-
         'App' => Illuminate\Support\Facades\App::class,
         'Arr' => Illuminate\Support\Arr::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
@@ -252,6 +251,7 @@ return [
         'Targeting' => \App\Services\Targeting\TargetingFacade::class,
         'Ordering' => \App\Services\Orders\OrderingFacade::class,
         'OrderingSimulation' => \App\Services\Orders\OrderingSimulationFacade::class,
+        'Carts' => \App\Services\Carts\Carts::class,
         'Vite' => \Illuminate\Support\Facades\Vite::class,
     ],
     'available_locales' => [

@@ -1205,9 +1205,10 @@ class ApiController extends BaseController
             return response()->json(['message' => 'An error occurred while deleting the coupons'], 500);
         }
     }
-    public function getCoupon()
+
+    public function getCoupons()
     {
-        return datatables(Coupon::all())
+        return datatables( Coupon::orderBy('id', 'desc')->get())
             ->addColumn('action', function ($coupon) {
                 return view('parts.datatable.coupon-action', ['coupon' => $coupon]);
             })
@@ -1217,7 +1218,16 @@ class ApiController extends BaseController
                 }
                 return '**';
             })
-            ->rawColumns(['action','platform_id'])
+            ->addColumn('value', function ($coupon) {
+                return view('parts.datatable.coupon-value', ['coupon' => $coupon]);
+            })
+            ->addColumn('consumed', function ($coupon) {
+                return view('parts.datatable.coupon-consumed', ['coupon' => $coupon]);
+            })
+            ->addColumn('dates', function ($coupon) {
+                return view('parts.datatable.coupon-dates', ['coupon' => $coupon]);
+            })
+            ->rawColumns(['action', 'platform_id'])
             ->make(true);
     }
 
@@ -1226,6 +1236,9 @@ class ApiController extends BaseController
         return datatables(Platform::all())
             ->addColumn('type', function ($platform) {
                 return Lang::get(PlatformType::from($platform->type)->name);
+            })
+            ->addColumn('image', function ($platform) {
+                return view('parts.datatable.platform-image', ['platform' => $platform]);
             })
             ->addColumn('action', function ($platform) {
                 return view('parts.datatable.platform-action', ['platform' => $platform]);
@@ -1273,6 +1286,7 @@ class ApiController extends BaseController
             }
             $deals = Deal::whereIn('platform_id', $platformsIds)->orderBy('validated', 'ASC')->get();
         }
+
         return datatables($deals)
             ->addColumn('action', function ($deal) {
                 return view('parts.datatable.deals-action', ['deal' => $deal, 'currentRouteName' => Route::currentRouteName()]);

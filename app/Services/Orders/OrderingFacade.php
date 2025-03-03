@@ -8,6 +8,6 @@ class OrderingFacade extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'Ordering';
+        return 'Cart';
     }
 }
