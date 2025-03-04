@@ -2,13 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Models\Deal;
 use App\Models\Item;
 use Core\Models\Platform;
 use Illuminate\Database\Seeder;
 
 class ItemCouponSeeder extends Seeder
 {
-
     public function run()
     {
         $params = [
@@ -20,8 +20,13 @@ class ItemCouponSeeder extends Seeder
         ];
         $platforms = Platform::all();
         foreach ($platforms as $platform) {
+            $dealsIds = Deal::where('platform_id', $platform->id)->pluck('id')->toArray();
+            $dealsId = $dealsIds[array_rand($dealsIds)];
+            $deal = Deal::find($dealsId);
             $params['platform_id'] = $platform->id;
+            $params['deal_id'] = $deal->id;
             Item::create($params);
         }
+
     }
 }

@@ -74,7 +74,7 @@ class CouponBuy extends Component
                 'status' => CouponStatusEnum::sold->value
             ]);
         }
-        return redirect()->route('orders_detail', ['locale' => app()->getLocale(), 'id' => $order->id])->with('success', Lang::get('Status update succeeded'));
+        return redirect()->route('orders_detail', ['locale' => app()->getLocale(), 'id' => $order->id])->with('success', Lang::get('Coupons buying succeeded'));
     }
 
     public function getCouponsForAmount($amount)
