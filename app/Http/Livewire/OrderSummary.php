@@ -43,6 +43,7 @@ class OrderSummary extends Component
                     'unit_price' => $ordersItems->unit_price,
                     'total_amount' => $ordersItems->total_amount,
                     'item_id' => $ordersItems->id,
+                    'shipping' => $ordersItems->shipping,
                 ]);
             }
             $order->updateStatus(OrderEnum::Ready);
