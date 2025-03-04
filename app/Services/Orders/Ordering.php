@@ -166,11 +166,13 @@ class Ordering
                 $order_deal[$dealId]['lost_discount'] = $order_deal[$dealId]['total_discount'] - $order_deal[$dealId]['final_discount'];
                 $order_deal[$dealId]['final_amount'] = $order_deal[$dealId]['amount_after_deal_discount'] + $order_deal[$dealId]['lost_discount'];
                 $discount_balance = $discount_balance - $order_deal[$dealId]['final_discount'];
-                $deal_amount = $deal_amount_after_discounts + $order_deal[$dealId]['total_amount'];
-                $deal_amount_after_discounts = $deal_amount_after_discounts + $order_deal[$dealId]['final_amount'];
             } else {
                 $price_of_products_out_of_deal = $price_of_products_out_of_deal + ($orderDetail->unit_price * $orderDetail->qty);
             }
+        }
+        foreach ($order_deal as $order_deal_item) {
+            $deal_amount += $order_deal_item['total_amount'];
+            $deal_amount_after_discounts +=  $order_deal_item['final_amount'];
         }
         Ordering::updateItemDeals($itemsDeals);
         $order->update([
