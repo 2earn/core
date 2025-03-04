@@ -3,10 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Item;
-use App\Services\Orders\OrderingSimulation;
 use Core\Models\Platform;
-use Faker\Generator;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ItemCouponSeeder extends Seeder

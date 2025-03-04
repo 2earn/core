@@ -64,6 +64,7 @@ Route::get('/widgets', [App\Http\Controllers\HomeController::class, 'index'])->n
 Route::get('/offline', function () {
     return view('livewire.offline');
 });
+
 Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'middleware' => 'setlocale'], function () {
     Route::get('/privacy', \App\Http\Livewire\Privacy::class)->name('privacy');
     Route::get('/who-we-are', \App\Http\Livewire\WhoWeAre::class)->name('who_we_are');
@@ -130,10 +131,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/paytabs', '\App\Http\Livewire\pay@test')->name('paytabs');
         Route::get('/hobbies', Hobbies::class)->name('hobbies');
 
-        Route::prefix('/faq')->name('faq_')->group(function () {
-            Route::get('/index', \App\Http\Livewire\FaqIndex::class)->name('index');
-            Route::get('/', \App\Http\Livewire\FaqCreateUpdate::class)->name('create_update');
-        });
         Route::prefix('/orders')->name('orders_')->group(function () {
             Route::get('/index', \App\Http\Livewire\OrdersIndex::class)->name('index');
             Route::get('/previous', \App\Http\Livewire\OrdersPrevious::class)->name('previous');
@@ -173,6 +170,14 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             });
             Route::get('/{id}/show', \App\Http\Livewire\DealsShow::class)->name('show');
             Route::get('/archive', \App\Http\Livewire\DealsArchive::class)->name('archive');
+        });
+
+        Route::prefix('/faq')->name('faq_')->group(function () {
+            Route::get('/index', \App\Http\Livewire\FaqIndex::class)->name('index');
+        });
+
+        Route::prefix('/coupon')->name('coupon_')->group(function () {
+            Route::get('/history', \App\Http\Livewire\CouponHistory::class)->name('history');
         });
 
         // SUPER ADMIN MENU
@@ -231,7 +236,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/index/test', \App\Http\Livewire\NewBalance::class)->name('index_test');
 
             Route::prefix('/faq')->name('faq_')->group(function () {
-                Route::get('/index', \App\Http\Livewire\FaqIndex::class)->name('index');
                 Route::get('/', \App\Http\Livewire\FaqCreateUpdate::class)->name('create_update');
             });
 
@@ -250,10 +254,8 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::prefix('/coupon')->name('coupon_')->group(function () {
                 Route::get('/index', \App\Http\Livewire\CouponIndex::class)->name('index');
                 Route::get('/', \App\Http\Livewire\CouponCreate::class)->name('create');
-                Route::get('/history', \App\Http\Livewire\CouponHistory::class)->name('history');
                 Route::get('/{id}/buy', \App\Http\Livewire\CouponBuy::class)->name('buy');
             });
-
         });
 
         Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');
@@ -288,6 +290,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/user/admin', 'App\Http\Controllers\ApiController@getUserAdmin')->name('api_user_admin');
         Route::get('/history/notification', 'App\Http\Controllers\ApiController@getHistoryNotification')->name('api_history_notification');
         Route::get('/coupons', 'App\Http\Controllers\ApiController@getCoupons')->name('api_coupon');
+        Route::get('/coupons/user', 'App\Http\Controllers\ApiController@getUserCoupons')->name('api_user_coupon');
         Route::get('/platforms', 'App\Http\Controllers\ApiController@getPlatforms')->name('api_platforms');
         Route::get('/roles', 'App\Http\Controllers\ApiController@getRoles')->name('api_role');
         Route::get('/deals', 'App\Http\Controllers\ApiController@getDeals')->name('api_deal');

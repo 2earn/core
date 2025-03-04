@@ -8,8 +8,10 @@ use App\Models\Order;
 use App\Services\Orders\Ordering;
 use Core\Enum\CouponStatusEnum;
 use Core\Enum\OrderEnum;
+use Core\Models\Platform;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
 class CouponBuy extends Component
@@ -24,10 +26,9 @@ class CouponBuy extends Component
         'BuyCoupon' => 'BuyCoupon'
     ];
 
-    public function mount(Request $request)
+    public function mount()
     {
-        $this->idPlatform = $request->input('id');
-
+        $this->idPlatform = Route::current()->parameter('id');;
         $this->amount = 0;
     }
 
@@ -46,13 +47,15 @@ class CouponBuy extends Component
     public function BuyCoupon()
     {
         $order = Order::create(['user_id' => auth()->user()->id, 'note' => 'Coupon buy from :' . $this->idPlatform]);
-        $coupon = Item::where('ref', '#0001')->first();
+        $coupon = Item::where('ref', '#0001')
+            ->where('platform_id', $this->idPlatform)
+            ->first();
         foreach ($this->coupons as $couponItem) {
             $order->orderDetails()->create([
                 'qty' => 1,
                 'unit_price' => $couponItem['value'],
                 'total_amount' => $couponItem['value'],
-                'note' => $coupon->sn,
+                'note' => $couponItem['sn'],
                 'item_id' => $coupon->id,
             ]);
         }
@@ -65,7 +68,11 @@ class CouponBuy extends Component
         }
         foreach ($order->orderDetails()->get() as $key => $orderDetail) {
             $coupon = Coupon::where('sn', $orderDetail->note)->first();
-            $coupon->update(['user_id' => auth()->user()->id, 'status' => CouponStatusEnum::sold->value]);
+            $coupon->update([
+                'user_id' => auth()->user()->id,
+                'purchase_date' => now(),
+                'status' => CouponStatusEnum::sold->value
+            ]);
         }
         return redirect()->route('orders_detail', ['locale' => app()->getLocale(), 'id' => $order->id])->with('success', Lang::get('Status update succeeded'));
     }
@@ -98,6 +105,7 @@ class CouponBuy extends Component
 
     public function render()
     {
-        return view('livewire.coupon-buy')->extends('layouts.master')->section('content');
+        $params = ['platform' => Platform::find($this->idPlatform)];
+        return view('livewire.coupon-buy', $params)->extends('layouts.master')->section('content');
     }
 }

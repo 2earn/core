@@ -359,6 +359,10 @@
                             <a class="dropdown-item" href="{{route('faq_index',app()->getLocale())}}">
                                 <span class=""> {{ __('Frequently asked questions') }}</span>
                             </a>
+                            <a class="dropdown-item"
+                                    href="{{route('coupon_history',['locale'=>app()->getLocale()])}}">
+                                <span class=""> {{ __('Coupons History') }}</span>
+                            </a>
                             <div class="dropdown-divider">
                             </div>
                             <a class="dropdown-item " wire:click="logout">
