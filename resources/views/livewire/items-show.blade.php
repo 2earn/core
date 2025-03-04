@@ -17,7 +17,7 @@
             @endif
         </div>
         <div class="flex-grow-1 ms-2">
-            <h3 class="card-title mb-1"> #{{$item->ref}} - {{$item->name}}</h3>
+            <h4 class="mb-1"> #{{$item->ref}} - {{$item->name}}</h4>
 
             @if($item->stock)
                 <span class="text-muted mb-0 float-end">{{$item->stock}}</span>
@@ -25,7 +25,7 @@
         </div>
     </div>
     @if($item->deal()->first())
-        <p><strong>{{__('Deal')}}:</strong> <span class="text-muted mb-0">{{$item->deal()->first()->name}}</span></p>
+        <h5><small>{{__('Deal')}}:</small> <span class="text-muted mb-0">{{$item->deal()->first()->name}}</span></h5>
     @endif
     <h6 class="mb-1">{{__('Price')}} : <span
             class="badge bg-success text-end float-end fs-14">{{$item->price}}  {{config('app.currency')}}</span>
