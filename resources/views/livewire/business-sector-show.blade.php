@@ -108,8 +108,8 @@
                         <div class="card-body">
                             @foreach($platform->deals()->get() as $deal)
                                 <div class="row ">
-                                    @foreach($deal->items()->get() as $item)
-                                        <div class="col-sm-12 col-md-6 col-lg-6">
+                                    @foreach($deal->items()->where('ref', '!=', '#0001')->get() as $item)
+                                        <div class="col-sm-12 col-md-6 col-lg-4">
                                             <livewire:items-show :item="$item"/>
                                         </div>
                                     @endforeach

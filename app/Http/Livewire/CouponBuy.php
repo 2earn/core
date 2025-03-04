@@ -47,9 +47,7 @@ class CouponBuy extends Component
     public function BuyCoupon()
     {
         $order = Order::create(['user_id' => auth()->user()->id, 'note' => 'Coupon buy from :' . $this->idPlatform]);
-        $coupon = Item::where('ref', '#0001')
-            ->where('platform_id', $this->idPlatform)
-            ->first();
+        $coupon = Item::where('ref', '#0001')->where('platform_id', $this->idPlatform)->first();
         foreach ($this->coupons as $couponItem) {
             $order->orderDetails()->create([
                 'qty' => 1,
@@ -59,6 +57,7 @@ class CouponBuy extends Component
                 'item_id' => $coupon->id,
             ]);
         }
+
 
         $order->updateStatus(OrderEnum::Ready);
         $simulation = Ordering::simulate($order);
