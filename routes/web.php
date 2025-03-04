@@ -176,6 +176,10 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/index', \App\Http\Livewire\FaqIndex::class)->name('index');
         });
 
+        Route::prefix('/coupon')->name('coupon_')->group(function () {
+            Route::get('/history', \App\Http\Livewire\CouponHistory::class)->name('history');
+        });
+
         // SUPER ADMIN MENU
         // -----------------------------------------------------------
 
@@ -250,7 +254,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::prefix('/coupon')->name('coupon_')->group(function () {
                 Route::get('/index', \App\Http\Livewire\CouponIndex::class)->name('index');
                 Route::get('/', \App\Http\Livewire\CouponCreate::class)->name('create');
-                Route::get('/history', \App\Http\Livewire\CouponHistory::class)->name('history');
                 Route::get('/{id}/buy', \App\Http\Livewire\CouponBuy::class)->name('buy');
             });
         });
