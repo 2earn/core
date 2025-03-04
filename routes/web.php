@@ -64,6 +64,7 @@ Route::get('/widgets', [App\Http\Controllers\HomeController::class, 'index'])->n
 Route::get('/offline', function () {
     return view('livewire.offline');
 });
+
 Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'middleware' => 'setlocale'], function () {
     Route::get('/privacy', \App\Http\Livewire\Privacy::class)->name('privacy');
     Route::get('/who-we-are', \App\Http\Livewire\WhoWeAre::class)->name('who_we_are');
@@ -130,10 +131,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/paytabs', '\App\Http\Livewire\pay@test')->name('paytabs');
         Route::get('/hobbies', Hobbies::class)->name('hobbies');
 
-        Route::prefix('/faq')->name('faq_')->group(function () {
-            Route::get('/index', \App\Http\Livewire\FaqIndex::class)->name('index');
-            Route::get('/', \App\Http\Livewire\FaqCreateUpdate::class)->name('create_update');
-        });
         Route::prefix('/orders')->name('orders_')->group(function () {
             Route::get('/index', \App\Http\Livewire\OrdersIndex::class)->name('index');
             Route::get('/previous', \App\Http\Livewire\OrdersPrevious::class)->name('previous');
@@ -173,6 +170,10 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             });
             Route::get('/{id}/show', \App\Http\Livewire\DealsShow::class)->name('show');
             Route::get('/archive', \App\Http\Livewire\DealsArchive::class)->name('archive');
+        });
+
+        Route::prefix('/faq')->name('faq_')->group(function () {
+            Route::get('/index', \App\Http\Livewire\FaqIndex::class)->name('index');
         });
 
         // SUPER ADMIN MENU
@@ -231,7 +232,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/index/test', \App\Http\Livewire\NewBalance::class)->name('index_test');
 
             Route::prefix('/faq')->name('faq_')->group(function () {
-                Route::get('/index', \App\Http\Livewire\FaqIndex::class)->name('index');
                 Route::get('/', \App\Http\Livewire\FaqCreateUpdate::class)->name('create_update');
             });
 
@@ -253,7 +253,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
                 Route::get('/history', \App\Http\Livewire\CouponHistory::class)->name('history');
                 Route::get('/{id}/buy', \App\Http\Livewire\CouponBuy::class)->name('buy');
             });
-
         });
 
         Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');

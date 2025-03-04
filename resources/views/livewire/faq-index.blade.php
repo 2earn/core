@@ -76,7 +76,7 @@
                                     <a
                                         href="{{route('faq_create_update',['locale'=> app()->getLocale(),'idFaq'=>$faq->id])}}"
                                         title="{{__('Edit Faq')}}"
-                                        class="btn btn-soft-primary material-shadow-none float-end">
+                                        class="btn btn-soft-primary material-shadow-none float-end mx-2">
                                         {{__('Edit')}}
 
                                     </a>
