@@ -11,6 +11,7 @@ class Sprint009Seeder extends Seeder
 
     public function run($dataTranslation = false, $dataMoney = true, $dataDeal = true)
     {
+        Artisan::call('db:seed', ['--class' => 'Database\Seeders\ItemCouponSeeder']);
         if (App::environment('local')) {
             Artisan::call('db:seed', ['--class' => 'Database\Seeders\BusinessSectorSeeder']);
             Artisan::call('db:seed', ['--class' => 'Database\Seeders\PlatformSeeder']);

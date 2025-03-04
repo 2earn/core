@@ -158,10 +158,14 @@
                                                         class="badge bg-primary text-end fs-14 float-end"> {{$orderDetail->total_amount}}  {{config('app.currency')}}</span>
                                                 </td>
                                                 <td>
-                                      <span
-                                          class="badge bg-secondary text-end fs-14 float-end">
-                                          {{$orderDetail->shipping}}  {{config('app.currency')}}
-                                      </span>
+
+                                                    @if($orderDetail->shipping)
+                                                        <span class="badge bg-secondary text-end fs-14 float-end">
+                                                            {{$orderDetail->shipping}}  {{config('app.currency')}}
+                                                        </span>
+                                                    @else
+                                                        <span class="text-muted float-end"> {{__('No shipping')}} </span>
+                                                    @endif
                                                 </td>
                                                 @if($order->status->value >= \Core\Enum\OrderEnum::Simulated->value && $currentRouteName=="orders_detail")
                                                     @if($orderDetail->item->deal()->exists())

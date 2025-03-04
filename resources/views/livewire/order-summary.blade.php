@@ -52,26 +52,42 @@
                                             <span class="text-muted mb-0">[{{$item->item()->first()->deal()->first()->name}}]</span>
                                         @endif
                                     </h5>
-                                    <p class="text-muted mb-0">{{config('app.currency')}} {{$item->unit_price}}
+                                    <p class="text-muted mb-0"
+                                       title="{{__('Unit price')}}">{{config('app.currency')}} {{$item->unit_price}}
                                         x {{$item->qty }}</p>
-                                    <p class="text-muted mb-0">{{config('app.currency')}} {{$item->shipping}}</p>
+                                    <p class="text-muted mb-0">
+                                        {{__('Shipping price')}}:
+                                        {{config('app.currency')}} {{$item->shipping}}
+                                    </p>
                                 </td>
-                                <td class="text-end">{{config('app.currency')}} {{$item->total_amount + $item->shipping}}</td>
+                                <td class="text-end" title="{{__('Total')}}">
+                                    <h5 class="fs-14 mb-0">   {{config('app.currency')}} {{$item->total_amount + $item->shipping}}</h5>
+                                </td>
                             </tr>
                         @endforeach
                         <tr>
-                            <td colspan="2">{{__('Shipping Charge')}} :</td>
-                            <td class="text-end">{{config('app.currency')}} {{$cart->shipping}}</td>
+                            <td colspan="2">
+                                <span class="text-muted">  {{__('Shipping Charge')}} :</span>
+                            </td>
+                            <td class="text-end" title="{{__('Shipping')}}">
+                                <h5 class="fs-14 mb-0">   {{config('app.currency')}} {{$cart->shipping}}</h5>
+                            </td>
                         </tr>
                         <tr>
-                            <td colspan="2">{{__('Estimated Tax')}}:</td>
-                            <td class="text-end">{{config('app.currency')}} 0</td>
+                            <td colspan="2">
+                                <span class="text-muted">  {{__('Estimated Tax')}}:</span>
+                            </td>
+                            <td class="text-end">
+                                <h5 class="fs-14 mb-0">
+                                    {{config('app.currency')}} 0
+                                </h5>
+                            </td>
                         </tr>
                         <tr class="table-active">
                             <th colspan="2">{{__('Total')}}   {{config('app.currency')}} :</th>
                             <td class="text-end">
                             <span class="fw-semibold">
-                                {{config('app.currency')}} {{$cart->total_cart}}
+                                <span class="text-muted">    {{config('app.currency')}} {{$cart->total_cart}}</span>
                             </span>
                             </td>
                         </tr>
@@ -100,7 +116,8 @@
     </div>
     @if($cart->total_cart==0 && empty($orders))
         <div class="alert border-0 alert-warning material-shadow" role="alert">
-            <strong> {{__('Empty Cart')}} </strong> <hr>
+            <strong> {{__('Empty Cart')}} </strong>
+            <hr>
             {{__('Add items to the cart to see the summary')}}
         </div>
     @endif

@@ -113,7 +113,7 @@
                             title: '{{__('Are you sure you want to delete the selected rows?')}}',
                             showDenyButton: true,
                             showCancelButton: true,
-                            confirmButtonText: "Delete",
+                            confirmButtonText: "{{__('Delete')}}",
                             denyButtonText: `Rollback`
                         }).then((result) => {
                             if (result.isConfirmed) {
@@ -151,7 +151,7 @@
                     title: '{{__('Are you sure to delete this Coupon')}}? <h5 class="float-end">' + $(event.target).attr('data-name') + ' </h5>',
                     showDenyButton: true,
                     showCancelButton: true,
-                    confirmButtonText: "Delete",
+                    confirmButtonText: "{{__('Delete')}}",
                     denyButtonText: `Rollback`
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -161,5 +161,4 @@
             });
         });
     </script>
-
 </div>
