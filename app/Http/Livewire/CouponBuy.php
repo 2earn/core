@@ -68,7 +68,11 @@ class CouponBuy extends Component
         }
         foreach ($order->orderDetails()->get() as $key => $orderDetail) {
             $coupon = Coupon::where('sn', $orderDetail->note)->first();
-            $coupon->update(['user_id' => auth()->user()->id, 'status' => CouponStatusEnum::sold->value]);
+            $coupon->update([
+                'user_id' => auth()->user()->id,
+                'purchase_date' => now(),
+                'status' => CouponStatusEnum::sold->value
+            ]);
         }
         return redirect()->route('orders_detail', ['locale' => app()->getLocale(), 'id' => $order->id])->with('success', Lang::get('Status update succeeded'));
     }

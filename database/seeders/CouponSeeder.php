@@ -68,6 +68,7 @@ class CouponSeeder extends Seeder
 
         foreach ($platforms as $platform) {
             foreach ($this->coupons as $coupon) {
+                $coupon['attachment_date'] = now();
                 $coupon['platform_id'] = $platform->id;
                 $coupon['sn'] = $platform->id . '00' . $coupon['sn'];
                 $coupon['pin'] = $platform->id . '00' . $coupon['pin'];
