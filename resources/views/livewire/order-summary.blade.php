@@ -84,10 +84,15 @@
                             </td>
                         </tr>
                         <tr class="table-active">
-                            <th colspan="2">{{__('Total')}}   {{config('app.currency')}} :</th>
+                            <th colspan="2">
+                                                            <span class="text-muted">
+                                                                {{__('Total')}}   {{config('app.currency')}} </span>
+                                </th>
                             <td class="text-end">
                             <span class="fw-semibold">
-                                <span class="text-muted">    {{config('app.currency')}} {{$cart->total_cart}}</span>
+                                <span class="text-muted">
+                                    {{config('app.currency')}} {{$cart->total_cart}}
+                                </span>
                             </span>
                             </td>
                         </tr>

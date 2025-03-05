@@ -9,18 +9,37 @@ use Illuminate\Support\Facades\Vite;
 
 class PlatformSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
+    public function generateRandomWord($length)
+    {
+        $characters = 'abcdefghijklmnopqrstuvwxyz';
+        $randomWord = '';
+
+        for ($i = 0; $i < $length; $i++) {
+            $randomWord .= $characters[rand(0, strlen($characters) - 1)];
+        }
+
+        return $randomWord;
+    }
+
+    public function generateRandomText($wordCount, $wordLengthRange = [3, 10])
+    {
+        $randomText = '';
+
+        for ($i = 0; $i < $wordCount; $i++) {
+            $wordLength = rand($wordLengthRange[0], $wordLengthRange[1]);
+            $randomText .= generateRandomWord($wordLength) . ' ';
+        }
+
+        return trim($randomText);
+    }
+
     public function run()
     {
         $imageLink = Vite::asset('resources/images/logo-dark.png');
         $Platforms = [
             [
                 'name' => "2earn P",
-                'description' => "2earn",
+                'description' => $this->generateRandomText(500),
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Full->value,

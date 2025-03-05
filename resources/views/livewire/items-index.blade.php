@@ -41,60 +41,63 @@
                                 </h5>
                             </div>
                             <div class="card-body">
-
-                                <table class="table table-nowrap">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">{{__('Ref')}}</th>
-                                        <th scope="col">{{__('Image')}}</th>
-                                        <th scope="col">{{__('Price')}}</th>
-                                        <th scope="col">{{__('Discount')}}</th>
-                                        <th scope="col">{{__('Discount 2earn')}}</th>
-                                        <th scope="col">{{__('Deal')}}</th>
-                                        @if ($item->stock)
+                                <div class="table-responsive">
+                                    <table class="table table-nowrap align-middle mb-0">
+                                        <thead class="table-light">
+                                        <tr>
+                                            <th scope="col">{{__('Ref')}}</th>
+                                            <th scope="col">{{__('Image')}}</th>
+                                            <th scope="col">{{__('Price')}}</th>
+                                            <th scope="col">{{__('Discount')}}</th>
+                                            <th scope="col">{{__('Discount 2earn')}}</th>
                                             <th scope="col">{{__('Deal')}}</th>
-                                        @endif
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <th scope="row"><a href="#" class="fw-semibold">#{{$item->ref}}</a></th>
-                                        <td>
-                                            @if($item->photo_link)
-                                                <img src="{{$item->photo_link}}"
-                                                     class="d-block img-fluid img-business-square mx-auto rounded">
-                                            @elseif($item->thumbnailsImage)
-                                                <img src="{{ asset('uploads/' . $item->thumbnailsImage->url) }}"
-                                                     alt="Item Image"
-                                                     class="d-block img-fluid img-business-square mx-auto rounded">
-                                            @else
-                                                <img src="{{Vite::asset(\App\Models\Item::DEFAULT_IMAGE_TYPE_THUMB)}}"
-                                                     class="d-block img-fluid  img-business-square mx-auto rounded ">
+                                            @if ($item->stock)
+                                                <th scope="col">{{__('Deal')}}</th>
                                             @endif
-                                        </td>
-                                        <td>{{$item->price}} {{config('app.currency')}}</td>
-                                        <td>{{$item->discount}} {{config('app.percentage')}}</td>
-                                        <td>{{$item->discount_2earn}} {{config('app.percentage')}}</td>
-                                        <td>
-                                            @if ($item->deal()->exists())
-                                                @if(\App\Models\User::isSuperAdmin())
-                                                    <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$item->deal->id])}}">
-                                                        {{$item->deal->id}} - {{$item->deal->name}}
-                                                    </a>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <th scope="row"><a href="#" class="fw-semibold">#{{$item->ref}}</a></th>
+                                            <td>
+                                                @if($item->photo_link)
+                                                    <img src="{{$item->photo_link}}"
+                                                         class="d-block img-fluid img-business-square mx-auto rounded">
+                                                @elseif($item->thumbnailsImage)
+                                                    <img src="{{ asset('uploads/' . $item->thumbnailsImage->url) }}"
+                                                         alt="Item Image"
+                                                         class="d-block img-fluid img-business-square mx-auto rounded">
                                                 @else
-                                                    {{$item->deal->id}} - {{$item->deal->name}}
+                                                    <img
+                                                        src="{{Vite::asset(\App\Models\Item::DEFAULT_IMAGE_TYPE_THUMB)}}"
+                                                        class="d-block img-fluid  img-business-square mx-auto rounded ">
                                                 @endif
-                                            @else
-                                                <span class="badge bg-muted-subtle text-muted">{{__('No deal')}}</span>
-                                            @endif
-                                        </td>
+                                            </td>
+                                            <td>{{$item->price}} {{config('app.currency')}}</td>
+                                            <td>{{$item->discount}} {{config('app.percentage')}}</td>
+                                            <td>{{$item->discount_2earn}} {{config('app.percentage')}}</td>
+                                            <td>
+                                                @if ($item->deal()->exists())
+                                                    @if(\App\Models\User::isSuperAdmin())
+                                                        <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$item->deal->id])}}">
+                                                            {{$item->deal->id}} - {{$item->deal->name}}
+                                                        </a>
+                                                    @else
+                                                        {{$item->deal->id}} - {{$item->deal->name}}
+                                                    @endif
+                                                @else
+                                                    <span
+                                                        class="badge bg-muted-subtle text-muted">{{__('No deal')}}</span>
+                                                @endif
+                                            </td>
 
-                                        @if ($item->stock)
-                                            <td>{{$item->stock}}</td>
-                                        @endif
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                            @if ($item->stock)
+                                                <td>{{$item->stock}}</td>
+                                            @endif
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                             <div class="card-footer">
                                 <div class="row">
