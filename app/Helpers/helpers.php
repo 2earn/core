@@ -612,5 +612,30 @@ if (!function_exists('getSettingStringParam')) {
     }
 }
 
+if (!function_exists('generateRandomWord')) {
+    function generateRandomWord($length)
+    {
+        $characters = 'abcdefghijklmnopqrstuvwxyz';
+        $randomWord = '';
 
+        for ($i = 0; $i < $length; $i++) {
+            $randomWord .= $characters[rand(0, strlen($characters) - 1)];
+        }
+
+        return $randomWord;
+    }
+}
+if (!function_exists('generateRandomText')) {
+    function generateRandomText($wordCount, $wordLengthRange = [3, 10])
+    {
+        $randomText = '';
+
+        for ($i = 0; $i < $wordCount; $i++) {
+            $wordLength = rand($wordLengthRange[0], $wordLengthRange[1]);
+            $randomText .= generateRandomWord($wordLength) . ' ';
+        }
+
+        return trim($randomText);
+    }
+}
 

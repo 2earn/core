@@ -19,10 +19,10 @@ class CouponHistory extends Component
                 'consumed' => 1,
                 'consumption_date' => now(),
             ]);
-            return redirect()->route('coupon_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Coupon consumed Successfully'));
+            return redirect()->route('coupon_history', ['locale' => app()->getLocale()])->with('success', Lang::get('Coupon consumed Successfully'));
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect()->route('coupon_index', ['locale' => app()->getLocale()])->with('danger', $exception->getMessage());
+            return redirect()->route('coupon_history', ['locale' => app()->getLocale()])->with('danger', $exception->getMessage());
         }
     }
 

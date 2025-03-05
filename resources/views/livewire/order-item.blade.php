@@ -19,6 +19,9 @@
     <div class="card border card-border-light">
         <div class="card-header border-0 align-items-center d-flex">
             <span class="text-secondary mx-2">#{{$order->id}}</span>
+            <button type="button" class="btn btn-soft-primary material-shadow-none btn-sm mx-2">
+                {{getUserDisplayedName($order->user()->first()->idUser)}}
+            </button>
             <h4 class="card-title mb-0 flex-grow-1">{{$order->created_at}}</h4>
             <div>
                 @if($order->total_order_quantity && $currentRouteName=="orders_detail")
@@ -32,21 +35,19 @@
                         {{__($order->status->name)}}
                     </button>
                 @endif
-                <button type="button" class="btn btn-soft-primary material-shadow-none btn-sm">
-                    {{getUserDisplayedName($order->user()->first()->idUser)}}
-                </button>
+
             </div>
         </div>
 
         <div class="card-body">
-            <div class="card mt-2">
+            <div class="card">
                 <div class="card-header">
                     <h6 class="card-title mb-0">{{__('Order details summary')}}</h6>
                 </div>
                 <div class="card-body">
                     <div class="col-md-12">
                         @if($order->note && $currentRouteName=="orders_detail")
-                            <div class="card mt-2">
+                            <div class="card">
                                 <div class="card-header">
                                     <h6 class="card-title mb-0">{{__('Order details')}}</h6>
                                 </div>
@@ -155,16 +156,17 @@
                                                     <br>
                                                     <hr>
                                                     = <span
-                                                        class="badge bg-primary text-end fs-14 float-end"> {{$orderDetail->total_amount}}  {{config('app.currency')}}</span>
+                                                        class="badge bg-soft-primary text-dark text-end fs-14 float-end"> {{$orderDetail->total_amount}}  {{config('app.currency')}}</span>
                                                 </td>
                                                 <td>
 
                                                     @if($orderDetail->shipping)
-                                                        <span class="badge bg-secondary text-end fs-14 float-end">
+                                                        <span class="badge bg-soft-primary text-dark text-end fs-13 float-end">
                                                             {{$orderDetail->shipping}}  {{config('app.currency')}}
                                                         </span>
                                                     @else
-                                                        <span class="text-muted float-end"> {{__('No shipping')}} </span>
+                                                        <span
+                                                            class="text-muted float-end"> {{__('No shipping')}} </span>
                                                     @endif
                                                 </td>
                                                 @if($order->status->value >= \Core\Enum\OrderEnum::Simulated->value && $currentRouteName=="orders_detail")

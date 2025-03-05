@@ -16,31 +16,31 @@ class BusinessSectorSeeder extends Seeder
         $BusinessSectors = [
             [
                 'name' => "2earn BS",
-                'description' => "2earn Business Sectors",
+                'description' => generateRandomText(500),
             ],
             [
                 'name' => "learn2earn BS",
-                'description' => "learn2earn Business Sectors",
+                'description' => generateRandomText(500),
             ],
             [
                 'name' => "move2earn BS",
-                'description' => "move2earn Business Sectors",
+                'description' => generateRandomText(500),
             ],
             [
                 'name' => "travel2earn BS",
-                'description' => "travel2earn Business Sectors",
+                'description' => generateRandomText(500),
             ],
             [
                 'name' => "shop2earn BS",
-                'description' => "shop2earn Business Sectors",
+                'description' => generateRandomText(500),
             ],
             [
                 'name' => "beelegant2earn BS",
-                'description' => "beelegant2earn Business Sectors",
+                'description' => generateRandomText(500),
             ],
             [
                 'name' => "Speakenglish2earn BS",
-                'description' => "Speakenglish2earn Business Sectors",
+                'description' => generateRandomText(500),
             ],
         ];
 

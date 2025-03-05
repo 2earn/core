@@ -37,12 +37,13 @@
                     </div>
                     <div class="form-group col-sm-12 col-md-12 mb-3">
                         <label for="description">{{__('description')}}</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror"
-                               id="description"
-                               placeholder="{{__('Enter description')}}" wire:model="description">
+                        <textarea class="form-control @error('name') is-invalid @enderror"
+                                  id="description"
+                                  placeholder="{{__('Enter description')}}" wire:model="description"></textarea>
                         @error('description') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>
+
                     <div class="form-group col-sm-12 col-md-12 mb-3">
                         <label for="thumbnailsImage">{{__('Thumbnails Image')}}</label>
                         <input type="file" id="thumbnailsImage" wire:model="thumbnailsImage" class="form-control">

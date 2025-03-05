@@ -52,7 +52,7 @@
                                             <th scope="col">{{__('Discount 2earn')}}</th>
                                             <th scope="col">{{__('Deal')}}</th>
                                             @if ($item->stock)
-                                                <th scope="col">{{__('Deal')}}</th>
+                                                <th scope="col">{{__('Stock')}}</th>
                                             @endif
                                         </tr>
                                         </thead>

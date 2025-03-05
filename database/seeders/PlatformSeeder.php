@@ -9,29 +9,7 @@ use Illuminate\Support\Facades\Vite;
 
 class PlatformSeeder extends Seeder
 {
-    public function generateRandomWord($length)
-    {
-        $characters = 'abcdefghijklmnopqrstuvwxyz';
-        $randomWord = '';
 
-        for ($i = 0; $i < $length; $i++) {
-            $randomWord .= $characters[rand(0, strlen($characters) - 1)];
-        }
-
-        return $randomWord;
-    }
-
-    public function generateRandomText($wordCount, $wordLengthRange = [3, 10])
-    {
-        $randomText = '';
-
-        for ($i = 0; $i < $wordCount; $i++) {
-            $wordLength = rand($wordLengthRange[0], $wordLengthRange[1]);
-            $randomText .= $this->generateRandomWord($wordLength) . ' ';
-        }
-
-        return trim($randomText);
-    }
 
     public function run()
     {
@@ -39,7 +17,7 @@ class PlatformSeeder extends Seeder
         $Platforms = [
             [
                 'name' => "2earn P",
-                'description' => $this->generateRandomText(500),
+                'description' => generateRandomText(500),
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Full->value,
@@ -48,7 +26,7 @@ class PlatformSeeder extends Seeder
             ],
             [
                 'name' => "learn2earn P",
-                'description' => "learn2earn",
+                'description' => generateRandomText(500),
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Hybrid->value,
@@ -57,7 +35,7 @@ class PlatformSeeder extends Seeder
             ],
             [
                 'name' => "move2earn P",
-                'description' => "move2earn",
+                'description' => generateRandomText(500),
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Hybrid->value,
@@ -65,7 +43,7 @@ class PlatformSeeder extends Seeder
                 'business_sector_id' => 3
             ], [
                 'name' => "travel2earn P",
-                'description' => "travel2earn",
+                'description' => generateRandomText(500),
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Hybrid->value,
@@ -74,7 +52,7 @@ class PlatformSeeder extends Seeder
             ],
             [
                 'name' => "shop2earn P",
-                'description' => "shop2earn",
+                'description' => generateRandomText(500),
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Hybrid->value,
@@ -82,7 +60,7 @@ class PlatformSeeder extends Seeder
                 'business_sector_id' => 5
             ], [
                 'name' => "beelegant2earn P",
-                'description' => "beelegant2earn",
+                'description' => generateRandomText(500),
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Hybrid->value,
@@ -91,7 +69,7 @@ class PlatformSeeder extends Seeder
             ],
             [
                 'name' => "Speakenglish2earn P",
-                'description' => "Speakenglish2earn",
+                'description' => generateRandomText(500),
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Hybrid->value,

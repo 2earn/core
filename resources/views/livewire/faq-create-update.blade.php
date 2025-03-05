@@ -36,13 +36,12 @@
                     </div>
                     <div class="form-group col-sm-12 col-md-12 mb-3">
                         <label for="Answer">{{__('Answer')}}</label>
-                        <input type="text" class="form-control @error('answer') is-invalid @enderror"
-                               id="Answer"
-                               placeholder="{{__('Enter Answer')}}" wire:model="answer">
+                        <textarea class="form-control @error('answer') is-invalid @enderror"
+                                  id="Answer"
+                                  placeholder="{{__('Enter Answer')}}" wire:model="answer"></textarea>
                         @error('answer') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>
-
                 </div>
                 <div class="row mt-3">
                     <div class="col-12">
