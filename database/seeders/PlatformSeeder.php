@@ -27,7 +27,7 @@ class PlatformSeeder extends Seeder
 
         for ($i = 0; $i < $wordCount; $i++) {
             $wordLength = rand($wordLengthRange[0], $wordLengthRange[1]);
-            $randomText .= generateRandomWord($wordLength) . ' ';
+            $randomText .= $this->generateRandomWord($wordLength) . ' ';
         }
 
         return trim($randomText);
