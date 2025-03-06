@@ -466,7 +466,6 @@
         );
 
     </script>
-        <script src="{{ URL::asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
         <script id="rendered-js" type="module" data-turbolinks="false">
         $(document).on('turbolinks:load', function () {
             var chart1Origin = document.querySelector('#chart1');
