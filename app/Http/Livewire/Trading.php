@@ -42,9 +42,9 @@ class Trading extends Component
 
     public function mount()
     {
-        $this->giftedShares = getSettingIntegerParam('GIFTED_SHARES',0);
-        $this->targetDate = getSettingStringParam('TARGET_DATE',0);
-        $this->totalActions = getSettingIntegerParam('TARGET_DATE',0)-$this->giftedShares;
+        $this->giftedShares = getSettingIntegerParam('GIFTED_SHARES', 0);
+        $this->targetDate = getSettingStringParam('TARGET_DATE', 0);
+        $this->totalActions = getSettingIntegerParam('Actions Number', 0) - $this->giftedShares;
 
         $this->selledActions = intval(getSelledActions(true));
         $this->precentageOfActions = round($this->selledActions / $this->totalActions, 3) * 100;
@@ -72,7 +72,7 @@ class Trading extends Component
     public function simulateAction()
     {
         if ($this->action < 0 && $this->action == "") {
-           $this->ammount = "";
+            $this->ammount = "";
             $this->action = "";
             return;
         }
@@ -81,20 +81,20 @@ class Trading extends Component
             $this->action = self::MAX_ACTIONS;
         }
 
-        $this->ammount =  round($this->action * actualActionValue(getSelledActions(true), false),3);
+        $this->ammount = round($this->action * actualActionValue(getSelledActions(true), false), 3);
         $this->getCommounSimulation();
     }
 
     public function simulateAmmount()
     {
-       if ($this->ammount < 0 && $this->ammount == "") {
+        if ($this->ammount < 0 && $this->ammount == "") {
             $this->ammount = "";
             $this->action = "";
             return;
         }
 
         if ($this->ammount > self::MAX_AMOUNT) {
-          $this->ammount = self::MAX_AMOUNT;
+            $this->ammount = self::MAX_AMOUNT;
         }
 
         $this->action = intval(intval($this->ammount) / actualActionValue(getSelledActions(true), false));
@@ -105,7 +105,7 @@ class Trading extends Component
     public function getCommounSimulation()
     {
         $this->gift = getGiftedActions($this->action);
-        $actualActionValue=actualActionValue(getSelledActions(true), false);
+        $actualActionValue = actualActionValue(getSelledActions(true), false);
         $profitRaw = $actualActionValue * $this->gift;
         $this->profit = formatSolde($profitRaw, 2);
         if ($this->flash) {

@@ -49,7 +49,7 @@
             <div class="modal-content">
                 <div class="modal-header p-3">
                     <h5 class="modal-title text-uppercase" id="verifAccountModalLabel">
-                        {{__('Verify your Account')}}
+                        {{__('Entering personal information')}}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>

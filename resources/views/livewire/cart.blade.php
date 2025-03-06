@@ -138,7 +138,6 @@
     </script>
     <script type="module">
         function updateCartAfterChange() {
-            console.log('updateCartAfterChange')
             var currencySign = "$";
             var subtotalqty = 0;
             var subtotal = 0;
@@ -151,15 +150,11 @@
             var badges = document.getElementsByClassName("cartitem-badge");
 
             for (var i = 0; i < badges.length; i++) {
-                console.log(subtotalqty);
                 badges[i].innerHTML = subtotalqty;
             }
-
             if (document.getElementById("cart-item-total")) {
                 document.getElementById("cart-item-total").innerHTML = currencySign + subtotal.toFixed(2);
             }
-
-
         }
 
         $(document).on('turbolinks:load', function () {
