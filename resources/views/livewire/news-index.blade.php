@@ -4,11 +4,9 @@
             {{ __('News') }}
         @endslot
     @endcomponent
-    <div class="row m-1">
-        <div class="col-10">
-            @include('layouts.flash-messages')
-        </div>
-    </div>
+
+    @include('layouts.flash-messages')
+
     <div class="card">
         <div class="card-body">
             <div class="card-header border-info">
@@ -61,21 +59,22 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                <div class="col-md-8">
-                                <blockquote class="blockquote">
-                                    <p class="card-text">
-                                        {{\App\Models\TranslaleModel::getTranslation($news,'content',$news->answer)}}
-                                    </p>
-                                </blockquote>
-                                </div>
+                                    <div class="col-md-8">
+                                        <blockquote class="blockquote">
+                                            <p class="card-text">
+                                                {{\App\Models\TranslaleModel::getTranslation($news,'content',$news->answer)}}
+                                            </p>
+                                        </blockquote>
+                                    </div>
                                     @if ($news->mainImage)
                                         <div class="col-md-4">
-                                        <img src="{{ asset('uploads/' . $news->mainImage->url) }}"
-                                         alt="Business Sector logo Image" class="img-thumbnail rounded float-left">
+                                            <img src="{{ asset('uploads/' . $news->mainImage->url) }}"
+                                                 alt="Business Sector logo Image"
+                                                 class="img-thumbnail rounded float-left">
                                         </div>
                                     @endif
                                 </div>
-                            @if(\App\Models\User::isSuperAdmin())
+                                @if(\App\Models\User::isSuperAdmin())
                                     <a wire:click="delete('{{$news->id}}')"
                                        title="{{__('Delete news')}}"
                                        class="btn btn-soft-danger material-shadow-none float-end mx-2">
@@ -120,7 +119,7 @@
                     <p>{{__('No newss')}}</p>
                 @endforelse
                 {{ $newss->links() }}
-                </div>
             </div>
         </div>
+    </div>
 </div>
