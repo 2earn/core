@@ -11,11 +11,10 @@
         <div class="card-header border-info">
             <div class="row">
                 <div class="col-sm-12 col-md-12  col-lg-12">
-                    <button id="deleteAll" class="btn btn-danger">{{__('Delete All')}}</button>
+                    <button id="deleteAll" class="btn btn-soft-danger material-shadow-none mt-1">{{__('Delete All')}}</button>
                     <a href="{{route('coupon_create',['locale'=>app()->getLocale()])}}"
-                       class="btn btn-info add-btn float-end"
+                       class="btn btn-soft-info material-shadow-none mt-1 float-end"
                        id="create-btn">
-                        <i class="ri-add-line align-bottom me-1 ml-2"></i>
                         {{__('add Coupons list')}}
                     </a>
                 </div>

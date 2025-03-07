@@ -29,9 +29,8 @@
                     </div>
                     @if(\App\Models\User::isSuperAdmin())
                         <div class="col-sm-12 col-md-3  col-lg-6">
-                            <a class="btn btn-info add-btn float-end"
+                            <a class="btn btn-soft-info material-shadow-none mt-1 float-end"
                                wire:click="simulateOrderCreation">
-                                <i class="ri-add-line align-bottom me-1 ml-2"></i>
                                 {{__('Simulate Order creation')}}
                             </a>
                         </div>
@@ -44,7 +43,7 @@
                         @include('livewire.order-item', ['order' => $order])
                     </div>
                 @empty
-                    <p>{{__('No orders')}}</p>
+                    <p class="text-muted">{{__('No orders')}}</p>
                 @endforelse
                 {{ $orders->links() }}
             </div>

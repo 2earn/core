@@ -29,7 +29,7 @@
                     @if(\App\Models\User::isSuperAdmin())
                         <div class="col-sm-12 col-md-3  col-lg-6">
                             <a href="{{route('business_sector_create_update', app()->getLocale())}}"
-                               class="btn btn-info add-btn float-end"
+                               class="btn btn-soft-info material-shadow-none mt-1 float-end"
                                id="create-btn">
                                 <i class="ri-add-line align-bottom me-1 ml-2"></i>
                                 {{__('Create new business sector')}}
@@ -48,7 +48,7 @@
                                     {{$business_sector->id}} - {{$business_sector->name}}
                                 </h3>
                             </div>
-                            <div class="card-body row ">
+                            <div class="card-body row my-2">
                                 <div class="col-md-6">
                                     <h4>
                                         {{__('Description')}}
@@ -80,7 +80,7 @@
 
 
                                 @if(\App\Models\User::isSuperAdmin())
-                                    <div class="col-auto">
+                                    <div class="col-auto my-2">
                                         <a wire:click="deletebusinessSector('{{$business_sector->id}}')"
                                            title="{{__('Delete business_sector')}}"
                                            class="btn btn-soft-danger material-shadow-none float-end">
@@ -126,7 +126,7 @@
                         </div>
                     </div>
                 @empty
-                    <p>{{__('No business sectors')}}</p>
+                    <p class="text-muted">{{__('No business sectors')}}</p>
                 @endforelse
                 {{ $business_sectors->links() }}
             </div>

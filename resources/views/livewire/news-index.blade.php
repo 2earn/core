@@ -4,9 +4,7 @@
             {{ __('News') }}
         @endslot
     @endcomponent
-
     @include('layouts.flash-messages')
-
     <div class="card">
         <div class="card-body">
             <div class="card-header border-info">
