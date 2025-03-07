@@ -76,11 +76,11 @@
                                     @endif
                                 </div>
                             @if(\App\Models\User::isSuperAdmin())
-                                    <a wire:click="deletenews('{{$news->id}}')"
+                                    <a wire:click="delete('{{$news->id}}')"
                                        title="{{__('Delete news')}}"
-                                       class="btn btn-soft-danger material-shadow-none float-end">
+                                       class="btn btn-soft-danger material-shadow-none float-end mx-2">
                                         {{__('Delete')}}
-                                        <div wire:loading wire:target="deletenews('{{$news->id}}')">
+                                        <div wire:loading wire:target="delete('{{$news->id}}')">
                                                 <span class="spinner-border spinner-border-sm" role="status"
                                                       aria-hidden="true"></span>
                                             <span class="sr-only">{{__('Loading')}}...</span>
