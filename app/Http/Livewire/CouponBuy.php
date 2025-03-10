@@ -37,6 +37,11 @@ class CouponBuy extends Component
     }
 
 
+    public function updatedAmount($value)
+    {
+        $this->coupons = [];
+    }
+
     public function addLastValue()
     {
         $this->amount = $this->amount + $this->lastValue->value;
@@ -57,7 +62,8 @@ class CouponBuy extends Component
 
     public function BuyCoupon()
     {
-        $order = Order::create(['user_id' => auth()->user()->id, 'note' => 'Coupon buy from :' . $this->idPlatform]);
+        $platform = Platform::find($this->idPlatform);
+        $order = Order::create(['user_id' => auth()->user()->id, 'note' => 'Coupon buy from :' . $this->idPlatform . '-' . $platform->name]);
         $coupon = Item::where('ref', '#0001')->where('platform_id', $this->idPlatform)->first();
         foreach ($this->coupons as $couponItem) {
             $order->orderDetails()->create([
