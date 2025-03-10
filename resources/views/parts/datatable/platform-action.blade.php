@@ -9,7 +9,11 @@
 
 @if($platform->enabled)
     <a href="{{route('deals_create_update', ['locale' => app()->getLocale(),'id'=> null, 'idPlatform' => $platform->id])}}"
-       class="btn btn-xs btn-primary btn2earnTable  m-1">{{__('Create deal')}}</a>
+       class="btn btn-xs btn-primary btn2earnTable  m-1">{{__('Create deal')}}
+    </a>
+    <a href="{{route('items_create_update',['locale'=>app()->getLocale(), 'platformId' => $platform->id])}}"
+       class="btn btn-outline-success">{{__('Create Item')}}
+    </a>
 @endif
 
 <a data-id="{{$platform->id}}" data-name="{{$platform->name }}" title="{{$platform->name  }}"

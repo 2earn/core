@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\BusinessSector;
+use App\Models\Deal;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
@@ -15,12 +16,13 @@ class ItemsCreateUpdate extends Component
     use WithFileUploads;
 
     public $idItem;
-    public $dealId;
+    public $dealId,$deal_id;
+    public $platformId;
+    public $deals;
     public $thumbnailsImage;
     public $name, $ref, $price, $discount, $discount_2earn, $photo_link, $description, $stock;
 
     public $update = false;
-
 
     protected $rules = [
         'name' => 'required',
@@ -32,13 +34,18 @@ class ItemsCreateUpdate extends Component
 
     public function mount(Request $request)
     {
-        $this->idItem = $request->input('idItem');
+        $this->idItem = $request->input('id');
         $this->dealId = $request->input('dealId');
+        $this->platformId = $request->input('platformId');
+
+        if (!is_null($this->platformId)) {
+            $this->deals = Deal::where('platform_id', $this->platformId)->get();
+
+        }
         if (!is_null($this->idItem)) {
             $this->edit($this->idItem);
         }
     }
-
 
     public function edit($idItem)
     {
@@ -55,6 +62,8 @@ class ItemsCreateUpdate extends Component
         $this->platform_id = $item->platform_id;
         $this->deal_id = $this->idItem;
         $this->update = true;
+        $this->deals = Deal::where('platform_id', $this->platform_id)->get();
+
     }
 
     public function cancel()
@@ -79,7 +88,7 @@ class ItemsCreateUpdate extends Component
                         'photo_link' => $this->photo_link,
                         'description' => $this->description,
                         'stock' => $this->stock,
-                        'deal_id' => $this->idItem,
+                        'deal_id' => $this->deal_id,
                         'platform_id' => $this->platform_id,
                     ]);
 
@@ -138,7 +147,10 @@ class ItemsCreateUpdate extends Component
 
     public function render()
     {
-        $params = ['item' => Item::find($this->idItem)];
+
+        $params = [
+            'item' => Item::find($this->idItem),
+        ];
         return view('livewire.items-create-update', $params)->extends('layouts.master')->section('content');
     }
 }

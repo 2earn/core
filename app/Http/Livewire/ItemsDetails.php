@@ -12,11 +12,24 @@ use Livewire\Component;
 class ItemsDetails extends Component
 {
     public $idItem;
+    public $listeners = ['delete' => 'delete'];
+
 
     public function mount($id)
     {
         $this->currentRouteName = Route::currentRouteName();
         $this->idItem = $id;
+    }
+
+    public function delete($id)
+    {
+        try {
+            Item::findOrFail($id)->delete();
+            return redirect()->route('items_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Item Deleted Successfully'));
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return redirect()->route('items_index', ['locale' => app()->getLocale()])->with('danger', $exception->getMessage());
+        }
     }
 
     public function render()

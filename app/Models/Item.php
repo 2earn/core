@@ -21,6 +21,7 @@ class Item extends Model
         'description',
         'stock',
         'deal_id',
+        'platform_id',
     ];
     const IMAGE_TYPE_THUMBNAILS = 'thumbnails';
     const DEFAULT_IMAGE_TYPE_THUMB = 'resources/images/items/item-thumbnail.png';
@@ -51,7 +52,7 @@ class Item extends Model
     }
     public function platform()
     {
-        return $this->hasOne(Platform::class);
+        return $this->hasOne(Platform::class, 'id', 'platform_id');
     }
     public function thumbnailsImage()
     {
