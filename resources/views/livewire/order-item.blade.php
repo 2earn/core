@@ -18,7 +18,7 @@
     @endif
     <div class="card border card-border-light">
         <div class="card-header border-0 align-items-center d-flex">
-            <span class="text-secondary mx-2">#{{$order->id}}</span>
+            <span class="text-secondary mx-2 text-dark fs-16">#{{$order->id}}</span>
             <button type="button" class="btn btn-soft-primary material-shadow-none btn-sm mx-2">
                 {{getUserDisplayedName($order->user()->first()->idUser)}}
             </button>
