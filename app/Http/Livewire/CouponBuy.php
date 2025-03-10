@@ -19,11 +19,15 @@ class CouponBuy extends Component
     public $amount;
 
     public $coupons;
+    public $equal = false;
+
+    public $lastValue;
     public $idPlatform;
 
     public $listeners = [
         'simulateCoupon' => 'simulateCoupon',
-        'BuyCoupon' => 'BuyCoupon'
+        'BuyCoupon' => 'BuyCoupon',
+        'addLastValue' => 'addLastValue'
     ];
 
     public function mount()
@@ -33,6 +37,12 @@ class CouponBuy extends Component
     }
 
 
+    public function addLastValue()
+    {
+        $this->amount = $this->amount + $this->lastValue->value;
+        $this->simulateCoupon();
+    }
+
     public function simulateCoupon()
     {
         $result = $this->getCouponsForAmount($this->amount);
@@ -40,6 +50,7 @@ class CouponBuy extends Component
             return redirect()->route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $this->idPlatform])->with('danger', trans('Amount simulation failed'));
         }
 
+        $this->lastValue = $result['lastValue'];
         $this->amount = $result['amount'];
         $this->coupons = $result['coupons'];
     }
@@ -78,7 +89,7 @@ class CouponBuy extends Component
 
     public function getCouponsForAmount($amount)
     {
-
+        $this->equal = false;
         $availableCoupons = Coupon::where('status', CouponStatusEnum::available->value)
             ->where('platform_id', $this->idPlatform)
             ->orderBy('value', 'desc')
@@ -87,18 +98,21 @@ class CouponBuy extends Component
         $total = 0;
 
         foreach ($availableCoupons as $coupon) {
+            $lastValue = $coupon;
             if ($total + $coupon->value <= $amount) {
                 $selectedCoupons[] = $coupon;
                 $total += $coupon->value;
             }
 
             if ($total == $amount) {
+                $this->equal = true;
                 break;
             }
         }
         return [
             'amount' => $total,
             'coupons' => $selectedCoupons,
+            'lastValue' => $lastValue,
         ];
     }
 

@@ -25,12 +25,19 @@
                                                 <input type="number" class="form-control"
                                                        wire:model="amount" aria-label="Recipient's username"
                                                        aria-describedby="button-addon2">
+                                                <span class="input-group-text"> {{config('app.currency')}}</span>
                                                 <button class="btn btn-outline-success material-shadow-none"
                                                         wire:click="simulateCoupon" type="button"
                                                         id="button-simulate">{{__('Simulate')}}
                                                 </button>
                                             </div>
                                         </div>
+                                        @if($lastValue && !$equal)
+                                            <div class="col-lg-12">
+                                                <button button class="btn btn-outline-success material-shadow-none"
+                                                        wire:click="addLastValue()">{{__('add')}} {{$lastValue->value}}  {{config('app.currency')}}</button>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -57,7 +64,10 @@
                                             </td>
                                             <td>
                                 <span
-                                    class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">{{substr_replace($coupon->sn, str_repeat('*', strlen($coupon->sn) - 3), 0, -3)}}
+                                    class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
+                                    @if (is_string($coupon->sn))
+                                        {{substr_replace($coupon->sn, str_repeat('*', strlen($coupon->sn) - 3), 0, -3)}}
+                                    @endif
                                 </span>
                                             </td>
                                             <td>
