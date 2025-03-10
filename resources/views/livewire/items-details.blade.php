@@ -36,6 +36,7 @@
                             <th scope="col">{{__('Discount')}}</th>
                             <th scope="col">{{__('Discount 2earn')}}</th>
                             <th scope="col">{{__('Deal')}}</th>
+                            <th scope="col">{{__('Platform')}}</th>
                             @if ($item->stock)
                                 <th scope="col">{{__('Stock')}}</th>
                             @endif
@@ -73,6 +74,19 @@
                                     <span class="badge bg-muted-subtle text-muted">{{__('No deal')}}</span>
                                 @endif
                             </td>
+                            <td>
+                                @if ($item->platform()->exists())
+                                    @if(\App\Models\User::isSuperAdmin())
+                                        <a href="{{route('platform_show',['locale'=>app()->getLocale(),'id'=>$item->platform->id])}}">
+                                            {{$item->platform->id}} - {{$item->platform->name}}
+                                        </a>
+                                    @else
+                                        {{$item->platform->id}} - {{$item->platform->name}}
+                                    @endif
+                                @else
+                                    <span class="badge bg-muted-subtle text-muted">{{__('No Platform')}}</span>
+                                @endif
+                            </td>
                             @if ($item->stock)
                                 <td>{{$item->stock}}</td>
                             @endif
@@ -90,7 +104,7 @@
                 <div class="card-footer">
                     <div class="row">
                         <div class="col">
-                            <p class="card-text float-end">{{__('Created at')}}: <small
+                            <p class="card-text">{{__('Created at')}}: <small
                                     class="text-muted">{{$item->created_at}}</small>
                             </p>
                         </div>
@@ -98,6 +112,18 @@
                             @if(\App\Models\User::isSuperAdmin())
                                 <p class="card-text  float-end">{{__('Updated at')}}: <small
                                         class="text-muted">{{$item->updated_at}}</small></p>
+                            @endif
+                        </div>
+                        <div class="col">
+                            @if(\App\Models\User::isSuperAdmin())
+                                <a href="{{route('items_create_update',['locale'=>app()->getLocale(), 'id' => $item->id])}}"
+                                   class="btn btn-secondary  mx-1 float-end">{{__('Update Item')}}
+                                </a>
+                                @if($item->ref!='#0001')
+                                    <button class="btn btn-danger mx-1 float-end"
+                                            wire:click="delete({{$item->id}})">{{__('Delete')}}
+                                    </button>
+                                @endif
                             @endif
                         </div>
                     </div>

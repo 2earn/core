@@ -2,8 +2,9 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Faq;
 use App\Models\Item;
+use Illuminate\Support\Facades\Log;
+use Lang;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -17,6 +18,18 @@ class ItemsIndex extends Component
     public $currentRouteName;
     protected $paginationTheme = 'bootstrap';
 
+    public $listeners = ['delete' => 'delete'];
+
+    public function delete($id)
+    {
+        try {
+            Item::findOrFail($id)->delete();
+            return redirect()->route('items_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Item Deleted Successfully'));
+        }catch (\Exception $exception){
+            Log::error($exception->getMessage());
+            return redirect()->route('items_index', ['locale' => app()->getLocale()])->with('danger', $exception->getMessage());
+        }
+    }
 
     public function mount()
     {

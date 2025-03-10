@@ -77,25 +77,44 @@
                         @error('photo_link') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>
-                    <div class="form-group col-sm-12 col-md-12 mb-3">
+                    <div class="form-group col-sm-12 col-md-6 mb-3">
+                        <label for="value">{{__('Deal')}}</label>
+                        <select
+                            class="form-select form-control @error('Deal') is-invalid @enderror"
+                            wire:model="deal_id"
+                            id="Deal"
+                            aria-label="{{__('Enter Deal')}}">
+                            @foreach ($deals as $DealsItem)
+                                <option value="{{$DealsItem->id}}">
+                                    {{$DealsItem->id}} | {{$DealsItem->name}}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('Deal') <span class="text-danger">{{ $message }}</span>@enderror
+                        <div class="form-text">{{__('Required field')}}</div>
+                    </div>
+                    <div class="form-group col-sm-12 col-md-6 mb-3">
                         <label for="thumbnailsImage">{{__('Thumbnails Image')}}</label>
                         <input type="file" id="thumbnailsImage" wire:model="thumbnailsImage" class="form-control">
                         @error('thumbnailsImage') <span class="error">{{ $message }}</span> @enderror
                         @if ($item?->thumbnailsImage)
                             <div class="mt-3">
-                                <img src="{{ asset('uploads/' . $item->thumbnailsImage->url) }}" alt="Business Sector thumbnailsImage" class="img-thumbnail">
+                                <img src="{{ asset('uploads/' . $item->thumbnailsImage->url) }}"
+                                     alt="Item thumbnailsImage" class="img-thumbnail">
                             </div>
                         @endif
                     </div>
-                    <div class="form-group col-sm-12 col-md-4 mb-3">
+                    <div class="form-group col-sm-12 col-md-6 mb-3">
                         <label for="description">{{__('Description')}}</label>
-                        <input type="text" class="form-control @error('description') is-invalid @enderror"
-                               id="description"
-                               placeholder="{{__('Enter description')}}" wire:model="description">
+                        <textarea class="form-control @error('description') is-invalid @enderror"
+                                  id="description"
+                                  placeholder="{{__('Enter description')}}"
+                                  wire:model="description" rows="3"></textarea>
                         @error('description') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>
-                    <div class="form-group col-sm-12 col-md-4 mb-3">
+
+                    <div class="form-group col-sm-12 col-md-6 mb-3">
                         <label for="stock">{{__('Stock')}}</label>
                         <input type="number" class="form-control @error('stock') is-invalid @enderror"
                                id="stock"
