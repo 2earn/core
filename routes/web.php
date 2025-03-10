@@ -256,6 +256,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
                 Route::get('/', \App\Http\Livewire\CouponCreate::class)->name('create');
                 Route::get('/{id}/buy', \App\Http\Livewire\CouponBuy::class)->name('buy');
             });
+
         });
 
         Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');
@@ -266,9 +267,11 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/action-by-ammount', 'App\Http\Controllers\ApiController@actionByAmmount')->name('action_by_ammount');
         Route::post('/gift-action-by-ammount', 'App\Http\Controllers\ApiController@giftActionByAmmount')->name('gift_action_by_ammount');
     });
+
     Route::prefix('/business/sector')->name('business_sector_')->group(function () {
         Route::get('/{id}/show', \App\Http\Livewire\BusinessSectorShow::class)->name('show');
     });
+
     Route::get('/changePassword/{idUser}', ChangePassword::class)->name('reset_password');
     Route::get('/users/list', 'App\Http\Controllers\ApiController@getUsersList')->name('api_users_list');
     Route::get('/login', Login::class)->name('login')->middleware('setLocalLogin');
