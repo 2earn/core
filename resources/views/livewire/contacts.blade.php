@@ -38,7 +38,7 @@
                                aria-describedby="search-addon"/>
                     </div>
                     <div class="col-sm-12 col-md-12 col-lg-2 mt-2">
-                        <button type="button" class="btn btn-secondary add-btn btn2earn float-end"
+                        <button type="button" class="btn btn-soft-secondary add-btn float-end"
                                 data-bs-toggle="modal"
                                 id="create-btn" data-bs-target="#addModal"><i
                                 class="ri-add-line align-bottom me-1 "></i> {{ __('Add a contact') }}
@@ -49,7 +49,7 @@
 
             <div class=" table-responsive">
                 <table
-                    class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
+                    class="table table-striped table-bordered nowrap">
                         <thead class="table-light">
                         <tr class="tabHeader2earn">
                             <th>{{ __('FirstName') }}</th>

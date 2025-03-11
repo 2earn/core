@@ -152,7 +152,7 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <button class="btn btn-primary btn2earn float-end"
+                            <button class="btn btn-soft-primary float-end"
                                     onclick="ConfirmExchange()"
                                     id="exchange">{{ __('CASH to BFS exchange') }}</button>
                         </div>
@@ -220,7 +220,7 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <button class="btn btn-primary mt-3 float-end btn2earn" id="pay">
+                            <button class="btn btn-soft-primary mt-3 float-end" id="pay">
                                 {{ __('BFS (100.00) founding') }}
                             </button>
                         </div>
@@ -268,7 +268,7 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <button class="btn btn-primary float-end mt-3 btn2earn" id="submitExchangeSms"
+                            <button class="btn btn-soft-primary float-end mt-3" id="submitExchangeSms"
                                     onclick="ConfirmExchangeSms()">
                                 {{ __('Exchange Now') }}
                             </button>

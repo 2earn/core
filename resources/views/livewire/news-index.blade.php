@@ -22,7 +22,7 @@
                     @if(\App\Models\User::isSuperAdmin())
                         <div class="col-sm-12 col-md-3  col-lg-6">
                             <a href="{{route('news_create_update', app()->getLocale())}}"
-                               class="btn btn-info add-btn float-end"
+                               class="btn btn-soft-info add-btn float-end"
                                id="create-btn">
                                 <i class="ri-add-line align-bottom me-1 ml-2"></i>
                                 {{__('Create new news')}}

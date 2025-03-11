@@ -15,7 +15,7 @@
                     <a href="{{route('coupon_create',['locale'=>app()->getLocale()])}}"
                        class="btn btn-soft-info material-shadow-none mt-1 float-end"
                        id="create-btn">
-                        {{__('add Coupons list')}}
+                        {{__('Add Coupons list')}}
                     </a>
                 </div>
             </div>

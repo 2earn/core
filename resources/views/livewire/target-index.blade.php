@@ -13,7 +13,7 @@
         <div class="card-header border-info">
                 <div class="row">
                     <div class="col-sm-12 col-md-3  col-lg-6">
-                        <a href="{{route('target_create_update', app()->getLocale())}}" class="btn btn-info add-btn"
+                        <a href="{{route('target_create_update', app()->getLocale())}}" class="btn btn-soft-info add-btn"
                            id="create-btn">
                             <i class="ri-add-line align-bottom me-1 ml-2"></i>
                             {{__('Create new target')}}

@@ -218,12 +218,12 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                     <td>
                                         <a type="btn" wire:click="initTranslate({{$value->id}})"
                                            data-bs-toggle="modal" data-bs-target="#editTranslationModal"
-                                           class="btn btn-info  mt-1">{{__('Edit')}}
+                                           class="btn btn-soft-info  mt-1">{{__('Edit')}}
                                         </a>
                                         <a type="btn" onclick="confirmDelete({{$value->id}})"
-                                           class="btn btn-danger mt-1">{{__('Delete')}}
+                                           class="btn btn-soft-danger mt-1">{{__('Delete')}}
                                         </a>
-                                        <br>
+                                        <hr class="my-3">
                                         <span class="text-muted mt-4">
                                                     <i class="fa-solid fa-plus mx-2"></i>{{$value->created_at}}
                                                 </span>

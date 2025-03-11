@@ -16,7 +16,7 @@
             <div class="row">
                 <div class="col-sm-12 mx-2">
                     <a href="{{route('role_create_update', app()->getLocale())}}"
-                       class="btn btn-info add-btn float-end"
+                       class="btn btn-soft-info add-btn float-end"
                        id="create-btn">
                         <i class="ri-add-line align-bottom me-1 ml-2"></i>
                         {{__('Create new role')}}

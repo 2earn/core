@@ -211,7 +211,7 @@
                                             <button type="button" id="buy-action-submit"
                                                     wire:loading.attr="disabled"
                                                     wire:target="simulate"
-                                                    class="btn @if($flash) btn-flash @else btn-primary  @endif swal2-styled d-inline-flex">
+                                                    class="btn @if($flash) btn-flash @else btn-soft-primary  @endif swal2-styled d-inline-flex">
                                                 {{ __('Submit') }}
                                                 <div
                                                     class="spinner-border spinner-border-sm mx-2 mt-1 buy-action-submit-spinner"

@@ -135,10 +135,10 @@
                                     <div class="col">
                                         @if(\App\Models\User::isSuperAdmin())
                                             <a href="{{route('items_create_update',['locale'=>app()->getLocale(), 'id' => $item->id])}}"
-                                               class="btn btn-secondary mx-1 float-end">{{__('Update Item')}}
+                                               class="btn btn-soft-secondary m-1 float-end">{{__('Update Item')}}
                                             </a>
                                             @if($item->ref!='#0001')
-                                                <button class="btn btn-danger  mx-1 float-end"
+                                                <button class="btn btn-soft-danger  m-1 float-end"
                                                         wire:click="delete({{$item->id}})">{{__('Delete')}}
                                                 </button>
                                             @endif

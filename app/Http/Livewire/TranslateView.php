@@ -19,7 +19,6 @@ class TranslateView extends Component
 {
     use WithPagination;
 
-
     const SEPARATION = ' : ';
     protected $paginationTheme = 'bootstrap';
     public $arabicValue = "";

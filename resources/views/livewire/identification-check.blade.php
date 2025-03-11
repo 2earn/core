@@ -17,7 +17,7 @@
                     <div class="mt-4">
                         <button type="button"
                                 id="identificationModalbtn"
-                                class="btn btn-primary"
+                                class="btn btn-soft-primary"
                                 data-bs-toggle="modal"
                                 @if(!$usermetta_info2['enFirstName'] || !$usermetta_info2['enLastName'] || !$usermetta_info2['birthday'] || !$usermetta_info2['nationalID'] || !$userF['email'])
                                     disabled

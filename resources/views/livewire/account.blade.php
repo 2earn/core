@@ -541,7 +541,7 @@
                                 @if($paramIdUser =="")
                                     <div class="col-lg-12">
                                         <button type="button" id="btnsaveUser"
-                                                class="btn btn-primary btn2earn">{{ __('Save') }}</button>
+                                                class="btn btn-soft-primary float-end">{{ __('Save') }}</button>
                                     </div>
                                 @else
                                     <div class="row">
@@ -666,7 +666,7 @@
                                     <div class="col-lg-12">
                                         <div class="text-end">
                                             <button wire:click="PreChangePass" type="button"
-                                                    class="btn btn-success btn2earn">
+                                                    class="btn btn-soft-success">
                                                 {{ __('Change password') }}
                                             </button>
                                         </div>
