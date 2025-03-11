@@ -13,139 +13,141 @@
         <div class="row">
             @include('layouts.flash-messages')
         </div>
-        <div class="row card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-12 col-md-6 col-lg-2">
-                        <label class="col-form-label">{{ __('Item per page') }}</label>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-3 mt-1">
-                        <select wire:model="pageCount" class="form-select livewire-param"
-                                aria-label="Default select example">
-                            <option @if($pageCount=="10") selected @endif value="10">10</option>
-                            <option @if($pageCount=="25") selected @endif value="25">25</option>
-                            <option @if($pageCount=="100") selected @endif value="100">100</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-2">
-                        <label class="col-form-label">{{ __('Search') }}</label>
-                    </div>
+        <div class="row ">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 col-lg-2">
+                            <label class="col-form-label">{{ __('Item per page') }}</label>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-3 mt-1">
+                            <select wire:model="pageCount" class="form-select livewire-param"
+                                    aria-label="Default select example">
+                                <option @if($pageCount=="10") selected @endif value="10">10</option>
+                                <option @if($pageCount=="25") selected @endif value="25">25</option>
+                                <option @if($pageCount=="100") selected @endif value="100">100</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-2">
+                            <label class="col-form-label">{{ __('Search') }}</label>
+                        </div>
 
-                    <div class="col-sm-12 col-md-6 col-lg-3 mt-1">
-                        <input wire:model="search" type="search"
-                               class="form-control rounded  mr-2 ml-2"
-                               placeholder="{{ __('Search') }}" aria-label="Search"
-                               aria-describedby="search-addon"/>
-                    </div>
-                    <div class="col-sm-12 col-md-12 col-lg-2 mt-2">
-                        <button type="button" class="btn btn-soft-secondary add-btn float-end"
-                                data-bs-toggle="modal"
-                                id="create-btn" data-bs-target="#addModal"><i
-                                class="ri-add-line align-bottom me-1 "></i> {{ __('Add a contact') }}
-                        </button>
+                        <div class="col-sm-12 col-md-6 col-lg-3 mt-1">
+                            <input wire:model="search" type="search"
+                                   class="form-control rounded  mr-2 ml-2"
+                                   placeholder="{{ __('Search') }}" aria-label="Search"
+                                   aria-describedby="search-addon"/>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-2 mt-2">
+                            <button type="button" class="btn btn-soft-secondary add-btn float-end"
+                                    data-bs-toggle="modal"
+                                    id="create-btn" data-bs-target="#addModal"><i
+                                    class="ri-add-line align-bottom me-1 "></i> {{ __('Add a contact') }}
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class=" table-responsive">
-                <table
-                    class="table table-striped table-bordered nowrap">
-                        <thead class="table-light">
-                        <tr class="tabHeader2earn">
-                            <th>{{ __('FirstName') }}</th>
-                            <th>{{ __('LastName') }}</th>
-                            <th>{{ __('Phone') }}</th>
-                            <th>{{__('Country')}}</th>
-                            <th>{{__('registred')}}</th>
-                            <th>{{__('Availablity')}}</th>
-                            <th>{{ __('Actions') }}</th>
-                        </tr>
-                        </thead>
-                        <tbody class="list form-check-all">
-                        @forelse($contactUsers as $value)
-                            <tr>
-                                <td title="{{$value->updated_at}}">{{$value->name}}</td>
-                                <td>{{$value->lastName}}</td>
-                                <td>{{$value->mobile}}</td>
-                                <td>
-                                    <div class="d-flex align-items-center fw-medium">
-                                        <img
-                                            src="{{ Vite::asset('resources/images/flags/'. Illuminate\Support\Str::lower($value->apha2) .'.svg') }}"
-                                            alt=""
-                                            class="avatar-xs me-2 rounded-circle">
-                                        <a href="javascript:void(0);"
-                                           class="currency_name"> {{getCountryByIso($value->apha2)}}</a>
-                                    </div>
-                                </td>
-                                <td>
-                                    <button type="button"
-                                            class="btn btn-outline-{{$value->color}}">
-                                        @if($value->status == 'User')
-                                            {{ __('User contact') }}
-                                        @else
-                                            {{ __('Pending contact') }}
-                                        @endif
-                                    </button>
-                                </td>
-                                @php
-                                    $disableUntil = getSwitchBlock($value->id);
-                                    if($value->availablity == 1) $disableUntil = now();
-                                    else $disableUntil = getSwitchBlock($value->id);
-                                @endphp
-                                <td>
-                                    <button type="button"
-                                            class="btn btn-outline-{{$value->sponsoredStatus}}">{{$value->sponsoredMessage}}</button>
-                                </td>
-                                <td>
-                                    <div class="btn-group btn-group-toggle " data-toggle="buttons">
-                                        <a href="{{ route('user_contact_edit', ['locale' =>  app()->getLocale(), 'UserContact'=>  $value->id  ]) }}"
-                                           class="btn btn-outline-primary ">
-                                            {{__('Edit')}}
-                                        </a>
-                                        <a onclick="confirmDeleteContact({{$value->id}},'{{$value->name .' ' . $value->lastName}}')"
-                                           class="btn btn-outline-danger">
-                                            <div wire:loading wire:target="deleteId('{{$value->id}}')">
-                                              <span class="spinner-border spinner-border-sm" role="status"
-                                                    aria-hidden="true"></span>
-                                                <span class="sr-only">{{__('Loading')}}</span>
-                                            </div>
-                                            {{__('Delete')}}
-                                        </a>
-                                    </div>
-                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                        @if($value->canBeSponsored)
-                                            <a wire:click="sponsorId({{$value->id}})"
-                                               class="btn btn-info">
-                                                <div wire:loading wire:target="sponsorId('{{$value->id}}')">
+                <div class="card-body">
+                    <div class="table-responsive table-card">
+                        <table class="table table-bordered">
+                            <thead class="table-light">
+                            <tr class="tabHeader2earn">
+                                <th>{{ __('FirstName') }}</th>
+                                <th>{{ __('LastName') }}</th>
+                                <th>{{ __('Phone') }}</th>
+                                <th>{{__('Country')}}</th>
+                                <th>{{__('Registered')}}</th>
+                                <th>{{__('Availability')}}</th>
+                                <th>{{ __('Actions') }}</th>
+                            </tr>
+                            </thead>
+                            <tbody class="list form-check-all">
+                            @forelse($contactUsers as $value)
+                                <tr>
+                                    <td title="{{$value->updated_at}}">{{$value->name}}</td>
+                                    <td>{{$value->lastName}}</td>
+                                    <td>{{$value->mobile}}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center fw-medium">
+                                            <img
+                                                src="{{ Vite::asset('resources/images/flags/'. Illuminate\Support\Str::lower($value->apha2) .'.svg') }}"
+                                                alt=""
+                                                class="avatar-xs me-2 rounded-circle">
+                                            <a href="javascript:void(0);"
+                                               class="currency_name"> {{getCountryByIso($value->apha2)}}</a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button type="button"
+                                                class="btn btn-outline-{{$value->color}}">
+                                            @if($value->status == 'User')
+                                                {{ __('User contact') }}
+                                            @else
+                                                {{ __('Pending contact') }}
+                                            @endif
+                                        </button>
+                                    </td>
+                                    @php
+                                        $disableUntil = getSwitchBlock($value->id);
+                                        if($value->availablity == 1) $disableUntil = now();
+                                        else $disableUntil = getSwitchBlock($value->id);
+                                    @endphp
+                                    <td>
+                                        <button type="button"
+                                                class="btn btn-outline-{{$value->sponsoredStatus}}">{{$value->sponsoredMessage}}</button>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-toggle " data-toggle="buttons">
+                                            <a href="{{ route('user_contact_edit', ['locale' =>  app()->getLocale(), 'UserContact'=>  $value->id  ]) }}"
+                                               class="btn btn-outline-primary ">
+                                                {{__('Edit')}}
+                                            </a>
+                                            <a onclick="confirmDeleteContact({{$value->id}},'{{$value->name .' ' . $value->lastName}}')"
+                                               class="btn btn-outline-danger">
+                                                <div wire:loading wire:target="deleteId('{{$value->id}}')">
                                               <span class="spinner-border spinner-border-sm" role="status"
                                                     aria-hidden="true"></span>
                                                     <span class="sr-only">{{__('Loading')}}</span>
                                                 </div>
-                                                {{__('Sponsor it')}}
+                                                {{__('Delete')}}
                                             </a>
-                                        @endif
-                                        @if($value->canBeDisSponsored)
-                                            <a wire:click="removeSponsoring({{$value->id}})"
-                                               class="btn btn-outline-dark">
-                                                <div wire:loading
-                                                     wire:target="removeSponsoring('{{$value->id}}')">
+                                        </div>
+                                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                            @if($value->canBeSponsored)
+                                                <a wire:click="sponsorId({{$value->id}})"
+                                                   class="btn btn-info">
+                                                    <div wire:loading wire:target="sponsorId('{{$value->id}}')">
                                               <span class="spinner-border spinner-border-sm" role="status"
                                                     aria-hidden="true"></span>
-                                                    <span class="sr-only">{{__('Loading')}}</span>
-                                                </div>
-                                                {{__('Remove sponsoring')}}
-                                            </a>
-                                        @endif
-                                    </div>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="7">{{__('No records')}}.</td>
-                            </tr>
-                        @endforelse
-                        </tbody>
-                    </table>
+                                                        <span class="sr-only">{{__('Loading')}}</span>
+                                                    </div>
+                                                    {{__('Sponsor it')}}
+                                                </a>
+                                            @endif
+                                            @if($value->canBeDisSponsored)
+                                                <a wire:click="removeSponsoring({{$value->id}})"
+                                                   class="btn btn-outline-dark">
+                                                    <div wire:loading
+                                                         wire:target="removeSponsoring('{{$value->id}}')">
+                                              <span class="spinner-border spinner-border-sm" role="status"
+                                                    aria-hidden="true"></span>
+                                                        <span class="sr-only">{{__('Loading')}}</span>
+                                                    </div>
+                                                    {{__('Remove sponsoring')}}
+                                                </a>
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="7">{{__('No records')}}.</td>
+                                </tr>
+                            @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
         <div wire:ignore.self class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModal"

@@ -48,40 +48,42 @@
                 <div class="col-lg-12">
                     @if(!empty($coupons))
                         <div class="card">
-                            <div class="card-body table-responsive table-card">
-                                <table class="table table-nowrap table-striped-columns mb-0">
-                                    <thead class="table-light">
-                                    <tr>
-                                        <th scope="col">{{__('ID')}}</th>
-                                        <th scope="col">{{__('Serial number')}}</th>
-                                        <th scope="col">{{__('value')}}</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($coupons as $key=> $coupon)
+                            <div class="card-body">
+                                <div class="table-responsive table-card">
+                                    <table class="table table-bordered">
+                                        <thead class="table-light">
                                         <tr>
-                                            <td>
-                                                <span class="fw-medium link-primary">#{{$key}}</span>
-                                            </td>
-                                            <td>
+                                            <th scope="col">{{__('ID')}}</th>
+                                            <th scope="col">{{__('Serial number')}}</th>
+                                            <th scope="col">{{__('value')}}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($coupons as $key=> $coupon)
+                                            <tr>
+                                                <td>
+                                                    <span class="fw-medium link-primary">#{{$key}}</span>
+                                                </td>
+                                                <td>
                                 <span
                                     class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
                                     @if(!is_array($coupon))
                                         {{substr_replace($coupon->sn, str_repeat('*', strlen($coupon->sn) - 3), 0, -3)}}
                                     @endif
                                 </span>
-                                            </td>
-                                            <td>
+                                                </td>
+                                                <td>
                                                 <span class="text-muted fs-14 my-1">
                                                                                 @if(!is_array($coupon))
                                                         {{$coupon->value}}  {{config('app.currency')}}
                                                     @endif
       </span>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                             <div class="card-footer">
                                 <button class="btn btn-outline-success material-shadow-none float-end"
