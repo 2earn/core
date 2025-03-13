@@ -378,7 +378,7 @@
         @include('livewire.news-item', ['news' => $newsItem])
     @endforeach
     <div class="row">
-        <livewire:survey-index/>
+        @livewire('survey-index')
     </div>
     <div class="row">
             <div class="card mx-1">
