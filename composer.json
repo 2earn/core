@@ -7,17 +7,16 @@
     "require": {
         "php": "^8.1",
         "barryvdh/laravel-dompdf": "^2.1",
-        "doctrine/dbal": "^4.2",
+        "doctrine/dbal": "^3.0",
         "fakerphp/faker": "^1.24",
-        "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "jeremykenedy/laravel-roles": "^9.0",
         "ladumor/laravel-pwa": "^0.0.4",
-        "laravel/framework": "^9.0",
+        "laravel/framework": "^10.0",
         "laravel/passport": "^11.5",
-        "laravel/sanctum": "^2.11",
+        "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "^4.5",
+        "laravel/ui": "^4.0",
         "livewire/livewire": "^2.10",
         "opcodesio/log-viewer": "^1.8",
         "paytabscom/laravel_paytabs": "^1.5",
@@ -32,7 +31,7 @@
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.0",
         "phpunit/phpunit": "^9.5.10",
-        "spatie/laravel-ignition": "^1.0"
+        "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
         "psr-4": {
