@@ -5,9 +5,6 @@
         @endslot
     @endcomponent
     <div class="row card">
-        <div class="card-header">
-            <p class="text-muted">ABC1234567, XYZ9876543, LMN5432109, GHI3210987, QWE2345678</p>
-        </div>
         <div class="card-body row ">
             <form>
                 <div class="row">
