@@ -193,7 +193,7 @@
                             <i class='bx bx-moon fs-22'></i>
                         </button>
                     </div>
-                    @livewire('cart')
+                    <livewire:cart/>
                     <div class="dropdown topbar-head-dropdown ms-1 header-item">
                         <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary"
                                 id="page-header-notifications-dropdown"
