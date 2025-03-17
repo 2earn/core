@@ -52,7 +52,7 @@ class CouponCreate extends Component
 
     public function cancel()
     {
-        return redirect()->route('coupons_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Coupons operation cancelled'));
+        return redirect()->route('coupon_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Coupons operation cancelled'));
     }
 
     public function render()
