@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Livewire\PlatformIndex;
+use App\Livewire\PlatformIndex;
 use App\Services\Balances\Balances;
 use Core\Models\BalanceOperation;
 use Core\Models\Platform;

@@ -23,7 +23,7 @@
                 <div class="col-sm-12 col-md-6 col-lg-6 my-2">
                     <div
                         class="form-check form-switch form-switch-lg  form-switch-success d-block img-fluid text-center mx-auto">
-                        <input type="checkbox" class="form-check-input" wire:model="isCommitedInvestor"
+                        <input type="checkbox" class="form-check-input" wire:model.live="isCommitedInvestor"
                                wire:click="sendCommitedInvestorRequest()" id="be_commited_investor"
                                @if($isCommitedInvestorDisabled) disabled @endif>
                         <label class="form-check-label"
@@ -84,7 +84,7 @@
                     <div
                         class="form-check form-switch form-switch-lg form-switch-success d-block img-fluid  text-center mx-auto">
 
-                        <input type="checkbox" class="form-check-input" id="be_instructor" wire:model="isInstructor"
+                        <input type="checkbox" class="form-check-input" id="be_instructor" wire:model.live="isInstructor"
                                wire:click="sendInstructorRequest()" @if($isInstructorDisabled) disabled @endif>
                         <label class="form-check-label"
                                for="be_instructor">{{__('Be Instructor')}}</label>

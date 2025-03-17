@@ -1,35 +1,35 @@
 <?php
 
-use App\Http\Livewire\AcceptFinancialRequest;
-use App\Http\Livewire\Account;
-use App\Http\Livewire\ChangePassword;
-use App\Http\Livewire\CheckOptCode;
-use App\Http\Livewire\ConfigurationHA;
-use App\Http\Livewire\ContactNumber;
-use App\Http\Livewire\Contacts;
-use App\Http\Livewire\Description;
-use App\Http\Livewire\EditUserContact;
-use App\Http\Livewire\EntretienArbre;
-use App\Http\Livewire\EvolutionArbre;
-use App\Http\Livewire\FinancialTransaction;
-use App\Http\Livewire\ForgotPassword;
-use App\Http\Livewire\HistoriqueRecuperation;
-use App\Http\Livewire\Hobbies;
-use App\Http\Livewire\Home;
-use App\Http\Livewire\IdentificationRequest;
-use App\Http\Livewire\Login;
-use App\Http\Livewire\NotificationHistory;
-use App\Http\Livewire\NotificationSettings;
-use App\Http\Livewire\Registre;
-use App\Http\Livewire\RequestPublicUser;
-use App\Http\Livewire\StripView;
-use App\Http\Livewire\TranslateView;
-use App\Http\Livewire\UserBalanceBFS;
-use App\Http\Livewire\UserBalanceCB;
-use App\Http\Livewire\UserBalanceDB;
-use App\Http\Livewire\UserBalanceSMS;
-use App\Http\Livewire\UserPurchaseHistory;
-use App\Http\Livewire\ValidateAccount;
+use App\Livewire\AcceptFinancialRequest;
+use App\Livewire\Account;
+use App\Livewire\ChangePassword;
+use App\Livewire\CheckOptCode;
+use App\Livewire\ConfigurationHA;
+use App\Livewire\ContactNumber;
+use App\Livewire\Contacts;
+use App\Livewire\Description;
+use App\Livewire\EditUserContact;
+use App\Livewire\EntretienArbre;
+use App\Livewire\EvolutionArbre;
+use App\Livewire\FinancialTransaction;
+use App\Livewire\ForgotPassword;
+use App\Livewire\HistoriqueRecuperation;
+use App\Livewire\Hobbies;
+use App\Livewire\Home;
+use App\Livewire\IdentificationRequest;
+use App\Livewire\Login;
+use App\Livewire\NotificationHistory;
+use App\Livewire\NotificationSettings;
+use App\Livewire\Registre;
+use App\Livewire\RequestPublicUser;
+use App\Livewire\StripView;
+use App\Livewire\TranslateView;
+use App\Livewire\UserBalanceBFS;
+use App\Livewire\UserBalanceCB;
+use App\Livewire\UserBalanceDB;
+use App\Livewire\UserBalanceSMS;
+use App\Livewire\UserPurchaseHistory;
+use App\Livewire\ValidateAccount;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -66,10 +66,10 @@ Route::get('/offline', function () {
 });
 
 Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'middleware' => 'setlocale'], function () {
-    Route::get('/privacy', \App\Http\Livewire\Privacy::class)->name('privacy');
-    Route::get('/who-we-are', \App\Http\Livewire\WhoWeAre::class)->name('who_we_are');
-    Route::get('/general-terms-of-use', \App\Http\Livewire\GeneralTermsOfUse::class)->name('general_terms_of_use');
-    Route::get('/contact-us', \App\Http\Livewire\ContactUs::class)->name('contact_us');
+    Route::get('/privacy', \App\Livewire\Privacy::class)->name('privacy');
+    Route::get('/who-we-are', \App\Livewire\WhoWeAre::class)->name('who_we_are');
+    Route::get('/general-terms-of-use', \App\Livewire\GeneralTermsOfUse::class)->name('general_terms_of_use');
+    Route::get('/contact-us', \App\Livewire\ContactUs::class)->name('contact_us');
 });
 
 Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'middleware' => 'setlocale'], function () {
@@ -82,16 +82,16 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/notification/settings', NotificationSettings::class)->name('notification_settings');
 
         Route::prefix('/business-hub')->name('business_hub_')->group(function () {
-            Route::get('/trading', \App\Http\Livewire\Trading::class)->name('trading');
-            Route::get('/additional-income', \App\Http\Livewire\AdditionalIncome::class)->name('additional_income');
-            Route::get('/be-influencer', \App\Http\Livewire\BeInfluencer::class)->name('be_influencer');
-            Route::get('/job/opportunities', \App\Http\Livewire\JobOpportunities::class)->name('job_opportunities');
+            Route::get('/trading', \App\Livewire\Trading::class)->name('trading');
+            Route::get('/additional-income', \App\Livewire\AdditionalIncome::class)->name('additional_income');
+            Route::get('/be-influencer', \App\Livewire\BeInfluencer::class)->name('be_influencer');
+            Route::get('/job/opportunities', \App\Livewire\JobOpportunities::class)->name('job_opportunities');
         });
 
         Route::prefix('/be-influencer')->name('be_influencer_')->group(function () {
             Route::get('/tree/evolution', EvolutionArbre::class)->name('tree_evolution');
             Route::get('/tree/maintenance', EntretienArbre::class)->name('tree_maintenance');
-            Route::get('/successful-sharing-pool', \App\Http\Livewire\SuccessfulSharingPool::class)->name('successful_sharing_pool');
+            Route::get('/successful-sharing-pool', \App\Livewire\SuccessfulSharingPool::class)->name('successful_sharing_pool');
         });
 
         Route::prefix('/savings')->name('savings_')->group(function () {
@@ -100,27 +100,27 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         });
 
         Route::prefix('/biography')->name('biography_')->group(function () {
-            Route::get('/academic-background', \App\Http\Livewire\AcademicBackground::class)->name('academic_background');
-            Route::get('/career-experience', \App\Http\Livewire\CareerExperience::class)->name('career_experience');
-            Route::get('/hard-skills', \App\Http\Livewire\HardSkills::class)->name('hard_skills');
-            Route::get('/soft-skills', \App\Http\Livewire\SoftSkills::class)->name('soft_skills');
-            Route::get('/personal-characterization', \App\Http\Livewire\PersonalCharacterization::class)->name('personal_characterization');
-            Route::get('/NCDPersonality', \App\Http\Livewire\CDPersonality::class)->name('NCDPersonality');
-            Route::get('/sensory-representation-system', \App\Http\Livewire\SensoryRepresentationSystem::class)->name('sensory_representation_system');
-            Route::get('/MBTI', \App\Http\Livewire\MBTI::class)->name('MBTI');
-            Route::get('/e-business-card', \App\Http\Livewire\EBusinessCard::class)->name('e_business_card');
-            Route::get('/generating/pdf/report', \App\Http\Livewire\GeneratingPDFReport::class)->name('generating_pdf_report');
+            Route::get('/academic-background', \App\Livewire\AcademicBackground::class)->name('academic_background');
+            Route::get('/career-experience', \App\Livewire\CareerExperience::class)->name('career_experience');
+            Route::get('/hard-skills', \App\Livewire\HardSkills::class)->name('hard_skills');
+            Route::get('/soft-skills', \App\Livewire\SoftSkills::class)->name('soft_skills');
+            Route::get('/personal-characterization', \App\Livewire\PersonalCharacterization::class)->name('personal_characterization');
+            Route::get('/NCDPersonality', \App\Livewire\CDPersonality::class)->name('NCDPersonality');
+            Route::get('/sensory-representation-system', \App\Livewire\SensoryRepresentationSystem::class)->name('sensory_representation_system');
+            Route::get('/MBTI', \App\Livewire\MBTI::class)->name('MBTI');
+            Route::get('/e-business-card', \App\Livewire\EBusinessCard::class)->name('e_business_card');
+            Route::get('/generating/pdf/report', \App\Livewire\GeneratingPDFReport::class)->name('generating_pdf_report');
         });
 
-        Route::get('/treeview', \App\Http\Livewire\treeview::class)->name('treeview');
+        Route::get('/treeview', \App\Livewire\treeview::class)->name('treeview');
 
         Route::prefix('/user')->group(function () {
             Route::get('/balance-sms', UserBalanceSMS::class)->name('user_balance_sms');
             Route::get('/balance-cb', UserBalanceCB::class)->name('user_balance_cb');
             Route::get('/balance-db', UserBalanceDB::class)->name('user_balance_db');
             Route::get('/balance-bfs', UserBalanceBFS::class)->name('user_balance_bfs');
-            Route::get('/balance-tree', \App\Http\Livewire\UserBalanceTree::class)->name('user_balance_tree');
-            Route::get('/balance-chance', \App\Http\Livewire\UserBalanceChance::class)->name('user_balance_chance');
+            Route::get('/balance-tree', \App\Livewire\UserBalanceTree::class)->name('user_balance_tree');
+            Route::get('/balance-chance', \App\Livewire\UserBalanceChance::class)->name('user_balance_chance');
         });
 
         Route::get('/financial/transaction', FinancialTransaction::class)->name('financial_transaction');
@@ -128,138 +128,138 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/user/edit-contact', EditUserContact::class)->name('user_contact_edit');
         Route::get('/balances/exchange/funding/RequestPulicUser', RequestPublicUser::class)->name('user_request_public');
         Route::get('/balances/exchange/funding/strip', stripView::class)->name('payment_strip');
-        Route::get('/paytabs', '\App\Http\Livewire\pay@test')->name('paytabs');
+        Route::get('/paytabs', '\App\Livewire\pay@test')->name('paytabs');
         Route::get('/hobbies', Hobbies::class)->name('hobbies');
 
         Route::prefix('/orders')->name('orders_')->group(function () {
-            Route::get('/index', \App\Http\Livewire\OrdersIndex::class)->name('index');
-            Route::get('/previous', \App\Http\Livewire\OrdersPrevious::class)->name('previous');
-            Route::get('/{id}/detail', \App\Http\Livewire\OrderItem::class)->name('detail');
-            Route::get('/summary', \App\Http\Livewire\OrderSummary::class)->name('summary');
+            Route::get('/index', \App\Livewire\OrdersIndex::class)->name('index');
+            Route::get('/previous', \App\Livewire\OrdersPrevious::class)->name('previous');
+            Route::get('/{id}/detail', \App\Livewire\OrderItem::class)->name('detail');
+            Route::get('/summary', \App\Livewire\OrderSummary::class)->name('summary');
         });
         Route::prefix('/items')->name('items_')->group(function () {
-            Route::get('/index', \App\Http\Livewire\ItemsIndex::class)->name('index');
-            Route::get('/{id}/detail', \App\Http\Livewire\ItemsDetails::class)->name('detail');
-            Route::get('/', \App\Http\Livewire\ItemsCreateUpdate::class)->name('create_update');
+            Route::get('/index', \App\Livewire\ItemsIndex::class)->name('index');
+            Route::get('/{id}/detail', \App\Livewire\ItemsDetails::class)->name('detail');
+            Route::get('/', \App\Livewire\ItemsCreateUpdate::class)->name('create_update');
         });
 
         Route::prefix('/news')->name('news_')->group(function () {
-            Route::get('/index', \App\Http\Livewire\NewsIndex::class)->name('index');
-            Route::get('/', \App\Http\Livewire\NewsCreateUpdate::class)->name('create_update');
+            Route::get('/index', \App\Livewire\NewsIndex::class)->name('index');
+            Route::get('/', \App\Livewire\NewsCreateUpdate::class)->name('create_update');
         });
 
         Route::get('/accept/request', AcceptFinancialRequest::class)->name('accept_financial_request')->middleware('CloseAuth');
 
         Route::prefix('/surveys')->name('surveys_')->group(function () {
             Route::middleware(['IsSuperAdmin'])->group(function () {
-                Route::get('/index', \App\Http\Livewire\SurveyIndex::class)->name('index');
+                Route::get('/index', \App\Livewire\SurveyIndex::class)->name('index');
             });
-            Route::get('/archive', \App\Http\Livewire\SurveyArchive::class)->name('archive');
-            Route::get('/', \App\Http\Livewire\SurveyCreateUpdate::class)->name('create_update');
-            Route::get('/show/{idSurvey}', \App\Http\Livewire\SurveyShow::class)->name('show');
-            Route::get('/participate/{idSurvey}', \App\Http\Livewire\SurveyParicipate::class)->name('participate');
-            Route::get('/results/{idSurvey}', \App\Http\Livewire\SurveyResult::class)->name('results');
-            Route::get('/{idSurvey}/question', \App\Http\Livewire\SurveyQuestionCreateUpdate::class)->name('question_create_update');
-            Route::get('/{idSurvey}/question/{idQuestion}/Choice', \App\Http\Livewire\SurveyQuestionChoiceCreateUpdate::class)->name('question_choice_create_update');
+            Route::get('/archive', \App\Livewire\SurveyArchive::class)->name('archive');
+            Route::get('/', \App\Livewire\SurveyCreateUpdate::class)->name('create_update');
+            Route::get('/show/{idSurvey}', \App\Livewire\SurveyShow::class)->name('show');
+            Route::get('/participate/{idSurvey}', \App\Livewire\SurveyParicipate::class)->name('participate');
+            Route::get('/results/{idSurvey}', \App\Livewire\SurveyResult::class)->name('results');
+            Route::get('/{idSurvey}/question', \App\Livewire\SurveyQuestionCreateUpdate::class)->name('question_create_update');
+            Route::get('/{idSurvey}/question/{idQuestion}/Choice', \App\Livewire\SurveyQuestionChoiceCreateUpdate::class)->name('question_choice_create_update');
         });
 
         Route::prefix('/deals')->name('deals_')->group(function () {
-            Route::get('/index', \App\Http\Livewire\DealsIndex::class)->name('index');
+            Route::get('/index', \App\Livewire\DealsIndex::class)->name('index');
             Route::middleware(['IsSuperAdmin'])->group(function () {
-                Route::get('/{idPlatform}/UpdateCreate', \App\Http\Livewire\DealsCreateUpdate::class)->name('create_update');
+                Route::get('/{idPlatform}/UpdateCreate', \App\Livewire\DealsCreateUpdate::class)->name('create_update');
             });
-            Route::get('/{id}/show', \App\Http\Livewire\DealsShow::class)->name('show');
-            Route::get('/archive', \App\Http\Livewire\DealsArchive::class)->name('archive');
+            Route::get('/{id}/show', \App\Livewire\DealsShow::class)->name('show');
+            Route::get('/archive', \App\Livewire\DealsArchive::class)->name('archive');
         });
 
         Route::prefix('/faq')->name('faq_')->group(function () {
-            Route::get('/index', \App\Http\Livewire\FaqIndex::class)->name('index');
+            Route::get('/index', \App\Livewire\FaqIndex::class)->name('index');
         });
 
         Route::prefix('/coupon')->name('coupon_')->group(function () {
-            Route::get('/history', \App\Http\Livewire\CouponHistory::class)->name('history');
+            Route::get('/history', \App\Livewire\CouponHistory::class)->name('history');
         });
 
         // SUPER ADMIN MENU
         // -----------------------------------------------------------
 
         Route::middleware(['IsSuperAdmin'])->group(function () {
-            Route::get('/user/list', \App\Http\Livewire\UsersList::class)->name('user_list');
-            Route::get('/user/{idUser}/details', \App\Http\Livewire\UserDetails::class)->name('user_details');
+            Route::get('/user/list', \App\Livewire\UsersList::class)->name('user_list');
+            Route::get('/user/{idUser}/details', \App\Livewire\UserDetails::class)->name('user_details');
 
             Route::prefix('/configuration')->group(function () {
                 Route::get('/ha', ConfigurationHA::class)->name('configuration_ha');
-                Route::get('/setting', \App\Http\Livewire\ConfigurationSetting::class)->name('configuration_setting');
-                Route::get('/amounts', \App\Http\Livewire\ConfigurationAmounts::class)->name('configuration_amounts');
+                Route::get('/setting', \App\Livewire\ConfigurationSetting::class)->name('configuration_setting');
+                Route::get('/amounts', \App\Livewire\ConfigurationAmounts::class)->name('configuration_amounts');
             });
 
-            Route::get('/countries/management', \App\Http\Livewire\CountriesManagement::class)->name('countries_management');
+            Route::get('/countries/management', \App\Livewire\CountriesManagement::class)->name('countries_management');
 
             Route::prefix('/requests')->group(function () {
                 Route::get('/identification', identificationRequest::class)->name('requests_identification');
-                Route::get('/commited-investors', \App\Http\Livewire\CommitedRequest::class)->name('requests_commited_investors');
-                Route::get('/commited-investors/{id}/show', \App\Http\Livewire\CommitedRequestShow::class)->name('requests_commited_investors_show');
-                Route::get('/instructor', \App\Http\Livewire\InstructorRequest::class)->name('requests_instructor');
-                Route::get('/instructor/{id}/show', \App\Http\Livewire\InstructorRequestShow::class)->name('requests_instructor_show');
+                Route::get('/commited-investors', \App\Livewire\CommitedRequest::class)->name('requests_commited_investors');
+                Route::get('/commited-investors/{id}/show', \App\Livewire\CommitedRequestShow::class)->name('requests_commited_investors_show');
+                Route::get('/instructor', \App\Livewire\InstructorRequest::class)->name('requests_instructor');
+                Route::get('/instructor/{id}/show', \App\Livewire\InstructorRequestShow::class)->name('requests_instructor_show');
             });
 
             Route::prefix('/translate')->group(function () {
                 Route::get('/', TranslateView::class)->name('translate');
-                Route::get('/model/data', \App\Http\Livewire\TranslateModelData::class)->name('translate_model_data');
+                Route::get('/model/data', \App\Livewire\TranslateModelData::class)->name('translate_model_data');
             });
 
             Route::prefix('/target')->name('target_')->group(function () {
-                Route::get('/index', \App\Http\Livewire\TargetIndex::class)->name('index');
-                Route::get('/', \App\Http\Livewire\TargetCreateUpdate::class)->name('create_update');
-                Route::get('/show/{idTarget}', \App\Http\Livewire\TargetShow::class)->name('show');
-                Route::get('/{idTarget}/group', \App\Http\Livewire\GroupCreateUpdate::class)->name('group_create_update');
-                Route::get('/{idTarget}/condition', \App\Http\Livewire\ConditionCreateUpdate::class)->name('condition_create_update');
+                Route::get('/index', \App\Livewire\TargetIndex::class)->name('index');
+                Route::get('/', \App\Livewire\TargetCreateUpdate::class)->name('create_update');
+                Route::get('/show/{idTarget}', \App\Livewire\TargetShow::class)->name('show');
+                Route::get('/{idTarget}/group', \App\Livewire\GroupCreateUpdate::class)->name('group_create_update');
+                Route::get('/{idTarget}/condition', \App\Livewire\ConditionCreateUpdate::class)->name('condition_create_update');
             });
 
             Route::prefix('/platform')->name('platform_')->group(function () {
-                Route::get('/index', \App\Http\Livewire\PlatformIndex::class)->name('index');
-                Route::get('/', \App\Http\Livewire\PlatformCreateUpdate::class)->name('create_update');
-                Route::get('/{id}', \App\Http\Livewire\PlatformShow::class)->name('show');
-                Route::get('/{userId}/promotion', \App\Http\Livewire\PlatformPromotion::class)->name('promotion');
+                Route::get('/index', \App\Livewire\PlatformIndex::class)->name('index');
+                Route::get('/', \App\Livewire\PlatformCreateUpdate::class)->name('create_update');
+                Route::get('/{id}', \App\Livewire\PlatformShow::class)->name('show');
+                Route::get('/{userId}/promotion', \App\Livewire\PlatformPromotion::class)->name('promotion');
             });
 
             Route::prefix('/role')->name('role_')->group(function () {
-                Route::get('/index', \App\Http\Livewire\RoleIndex::class)->name('index');
-                Route::get('/', \App\Http\Livewire\RoleCreateUpdate::class)->name('create_update');
-                Route::get('/assign', \App\Http\Livewire\EditAdmin::class)->name('assign');
+                Route::get('/index', \App\Livewire\RoleIndex::class)->name('index');
+                Route::get('/', \App\Livewire\RoleCreateUpdate::class)->name('create_update');
+                Route::get('/assign', \App\Livewire\EditAdmin::class)->name('assign');
             });
 
             Route::prefix('/balances')->name('balances_')->group(function () {
-                Route::get('/index', \App\Http\Livewire\Balances::class)->name('index');
+                Route::get('/index', \App\Livewire\Balances::class)->name('index');
             });
 
-            Route::get('/index/test', \App\Http\Livewire\NewBalance::class)->name('index_test');
+            Route::get('/index/test', \App\Livewire\NewBalance::class)->name('index_test');
 
             Route::prefix('/faq')->name('faq_')->group(function () {
-                Route::get('/', \App\Http\Livewire\FaqCreateUpdate::class)->name('create_update');
+                Route::get('/', \App\Livewire\FaqCreateUpdate::class)->name('create_update');
             });
 
-            Route::get('/stat/countrie', \App\Http\Livewire\StatCountrie::class)->name('stat_countrie');
+            Route::get('/stat/countrie', \App\Livewire\StatCountrie::class)->name('stat_countrie');
             Route::prefix('/shares-sold')->name('shares_sold_')->group(function () {
-                Route::get('dashboard', \App\Http\Livewire\SharesSold::class)->name('dashboard');
-                Route::get('/market-status', \App\Http\Livewire\SharesSoldMarketStatus::class)->name('market_status');
-                Route::get('/recent-transaction', \App\Http\Livewire\SharesSoldRecentTransaction::class)->name('recent_transaction');
+                Route::get('dashboard', \App\Livewire\SharesSold::class)->name('dashboard');
+                Route::get('/market-status', \App\Livewire\SharesSoldMarketStatus::class)->name('market_status');
+                Route::get('/recent-transaction', \App\Livewire\SharesSoldRecentTransaction::class)->name('recent_transaction');
             });
 
             Route::prefix('/business/sector')->name('business_sector_')->group(function () {
-                Route::get('/index', \App\Http\Livewire\BusinessSectorIndex::class)->name('index');
-                Route::get('/', \App\Http\Livewire\BusinessSectorCreateUpdate::class)->name('create_update');
+                Route::get('/index', \App\Livewire\BusinessSectorIndex::class)->name('index');
+                Route::get('/', \App\Livewire\BusinessSectorCreateUpdate::class)->name('create_update');
             });
 
             Route::prefix('/coupon')->name('coupon_')->group(function () {
-                Route::get('/index', \App\Http\Livewire\CouponIndex::class)->name('index');
-                Route::get('/', \App\Http\Livewire\CouponCreate::class)->name('create');
-                Route::get('/{id}/buy', \App\Http\Livewire\CouponBuy::class)->name('buy');
+                Route::get('/index', \App\Livewire\CouponIndex::class)->name('index');
+                Route::get('/', \App\Livewire\CouponCreate::class)->name('create');
+                Route::get('/{id}/buy', \App\Livewire\CouponBuy::class)->name('buy');
             });
 
         });
 
-        Route::get('/shares/solde', \App\Http\Livewire\SharesSolde::class)->name('shares_solde');
+        Route::get('/shares/solde', \App\Livewire\SharesSolde::class)->name('shares_solde');
 
         Route::get('/stat-countries', 'App\Http\Controllers\ApiController@getCountriStat')->name('api_stat_countries');
         Route::post('/validate-phone', 'App\Http\Controllers\ApiController@validatePhone')->name('validate_phone');
@@ -269,7 +269,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
     });
 
     Route::prefix('/business/sector')->name('business_sector_')->group(function () {
-        Route::get('/{id}/show', \App\Http\Livewire\BusinessSectorShow::class)->name('show');
+        Route::get('/{id}/show', \App\Livewire\BusinessSectorShow::class)->name('show');
     });
 
     Route::get('/changePassword/{idUser}', ChangePassword::class)->name('reset_password');

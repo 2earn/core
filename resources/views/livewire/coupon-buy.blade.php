@@ -23,7 +23,7 @@
                                         <div class="col-lg-12">
                                             <div class="input-group">
                                                 <input type="number" class="form-control"
-                                                       wire:model="amount" aria-label="Recipient's username"
+                                                       wire:model.live="amount" aria-label="Recipient's username"
                                                        aria-describedby="button-addon2">
                                                 <span class="input-group-text"> {{config('app.currency')}}</span>
                                                 <button class="btn btn-outline-success material-shadow-none"

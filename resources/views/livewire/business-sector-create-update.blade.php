@@ -25,13 +25,13 @@
         </div>
         <div class="card-body row ">
             <form>
-                <input type="hidden" wire:model="id">
+                <input type="hidden" wire:model.live="id">
                 <div class="row">
                     <div class="form-group col-sm-12 col-md-12 mb-3">
                         <label for="name">{{__('name')}}</label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror"
                                id="name"
-                               placeholder="{{__('Enter name')}}" wire:model="name">
+                               placeholder="{{__('Enter name')}}" wire:model.live="name">
                         @error('name') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>
@@ -39,14 +39,14 @@
                         <label for="description">{{__('description')}}</label>
                         <textarea class="form-control @error('name') is-invalid @enderror"
                                   id="description"
-                                  placeholder="{{__('Enter description')}}" wire:model="description"></textarea>
+                                  placeholder="{{__('Enter description')}}" wire:model.live="description"></textarea>
                         @error('description') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>
 
                     <div class="form-group col-sm-12 col-md-12 mb-3">
                         <label for="thumbnailsImage">{{__('Thumbnails Image')}}</label>
-                        <input type="file" id="thumbnailsImage" wire:model="thumbnailsImage" class="form-control">
+                        <input type="file" id="thumbnailsImage" wire:model.live="thumbnailsImage" class="form-control">
                         @error('thumbnailsImage') <span class="error">{{ $message }}</span> @enderror
                         @if ($businessSector?->thumbnailsImage)
                             <div class="mt-3">
@@ -56,7 +56,7 @@
                     </div>
                     <div class="form-group col-sm-12 col-md-12 mb-3">
                         <label for="logoImage">{{__('Logo Image')}}</label>
-                        <input type="file" id="logoImage" wire:model="logoImage" class="form-control">
+                        <input type="file" id="logoImage" wire:model.live="logoImage" class="form-control">
                         @error('logoImage') <span class="error">{{ $message }}</span> @enderror
                         @if ($businessSector?->logoImage)
                             <div class="mt-3">

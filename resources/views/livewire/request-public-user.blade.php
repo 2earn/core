@@ -33,7 +33,7 @@
                             <td>{{$value->email}}</td>
                             <td>{{$value->mobile}}</td>
                             <td>{{$value->idCountry}}</td>
-                            <td><input type="checkbox" wire:model="selectedUsers"
+                            <td><input type="checkbox" wire:model.live="selectedUsers"
                                        value="{{$value->idUser}}"></td>
                         </tr>
                     @endforeach

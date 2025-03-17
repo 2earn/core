@@ -27,7 +27,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <input type="text" class="form-control" placeholder="{{ __('PH_search') }}"
-                                           wire:model="search"/>
+                                           wire:model.live="search"/>
                                 </div>
                             </div>
                         </div>
@@ -95,7 +95,7 @@
                     </div>
                     <div class="form-group">
                         <label>{{ __('Role') }}</label>
-                        <select class="form-control" id="Country" name="country" wire:model.defer="userRole">
+                        <select class="form-control" id="Country" name="country" wire:model="userRole">
                             <option value="">{{ __('Choose') }}</option>
                             @foreach($allRoles as $role)
                                 <option value="{{$role->name}}">{{__($role->name)}}</option>
@@ -108,7 +108,7 @@
                             <div class="col-4 form-check form-switch form-switch-custom form-switch-primary mb-3 ">
                                 <input class="form-check-input" type="checkbox" role="switch"
                                        id="flexSwitchCheckDefault"
-                                       wire:model.defer="platformes.{{$key}}.selected">
+                                       wire:model="platformes.{{$key}}.selected">
 
                                 <label class="form-check-label font-weight-bold"> {{ __( $platform->name ) }}  </label>
                             </div>

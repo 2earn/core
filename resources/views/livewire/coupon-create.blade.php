@@ -10,13 +10,13 @@
                 <div class="row">
                     <div class="form-group col-md-4 mt-2">
                         <label for="attachment_date">{{__('Attachment Date')}}:</label>
-                        <input class="form-control" wire:model="attachment_date" type="date"
+                        <input class="form-control" wire:model.live="attachment_date" type="date"
                                id="attachment_date" placeholder="{{__('Attachment Date')}}">
                         @error('attachment_date') <span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                     <div class="form-group col-md-4 mt-2">
                         <label for="value">{{__('value')}}:</label>
-                        <input class="form-control" wire:model="value" type="number"
+                        <input class="form-control" wire:model.live="value" type="number"
                                id="value" placeholder="{{__('value')}}">
                         @error('value') <span class="text-danger">{{ $message }}</span>@enderror
                     </div>
@@ -24,7 +24,7 @@
                         <label for="platform_id">{{__('Platform')}}</label>
                         <select
                             class="form-select form-control @error('platform_id') is-invalid @enderror"
-                            wire:model="platform_id"
+                            wire:model.live="platform_id"
                             id="platform_id"
                             aria-label="{{__('Platform')}}">
                             @foreach ($platforms as $platform)
@@ -36,7 +36,7 @@
                         <label for="pins">{{__('Pins')}}</label>
                         <textarea class="form-control @error('pins') is-invalid @enderror"
                                   id="pins"
-                                  wire:model="pins"
+                                  wire:model.live="pins"
                                   placeholder="{{__('Enter pins')}}"></textarea>
                         @error('description') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
@@ -45,7 +45,7 @@
                         <label for="sn">{{__('SN')}}</label>
                         <textarea class="form-control @error('sn') is-invalid @enderror"
                                   id="sn"
-                                  wire:model="sn"
+                                  wire:model.live="sn"
                                   placeholder="{{__('Enter SN')}}"></textarea>
                         @error('description') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>

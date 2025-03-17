@@ -51,17 +51,17 @@
 
                             <div class="mb-3 col-xl-6">
                                 <label class="me-sm-2">{{ __('operation') }}</label>
-                                <input wire:model.defer="operation" type="text" class="form-control"
+                                <input wire:model="operation" type="text" class="form-control"
                                        placeholder="operation" name="operation">
                             </div>
                             <div class="mb-3 col-xl-6">
                                 <label class="me-sm-2">{{ __('source') }}</label>
-                                <input wire:model.defer="source" type="text" class="form-control"
+                                <input wire:model="source" type="text" class="form-control"
                                        placeholder="source" name="source">
                             </div>
                             <div class="mb-3 col-xl-4">
                                 <label class="me-sm-2">{{ __('I/O') }}</label>
-                                <select wire:model.defer="io" class="form-control" name="io">
+                                <select wire:model="io" class="form-control" name="io">
                                     <option value="I">{{__('I')}}</option>
                                     <option value="O">{{__('O')}}</option>
                                     <option value="IO">{{__('IO')}}</option>
@@ -70,7 +70,7 @@
                             <div class="mb-3 col-xl-4">
                                 <label class="me-sm-2">{{ __('Amount') }}</label>
                                 <select class="form-control" id="amounts_id" name="amounts_id"
-                                        wire:model.defer="amounts_id">
+                                        wire:model="amounts_id">
                                     @foreach($allAmounts as $amount)
                                         <option value="{{$amount->idamounts}}">{{$amount->amountsname}}</option>
                                     @endforeach
@@ -78,7 +78,7 @@
                             </div>
                             <div class="mb-3 col-xl-4">
                                 <label class="me-sm-2">{{ __('Modify Amount') }}</label>
-                                <select wire:model.defer="modify_amount" class="form-control" name="modify_amount">
+                                <select wire:model="modify_amount" class="form-control" name="modify_amount">
                                     <option value="0">{{ __('No') }}</option>
                                     <option value="1">{{ __('Yes') }}</option>
                                 </select>

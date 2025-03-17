@@ -41,11 +41,11 @@
                             <div class="col-xl-12">
                                 <label class="me-sm-2">{{ __('backand.Name') }}</label>
                                 <input type="text" class="form-control" placeholder="name" name="ParameterName"
-                                 disabled      wire:model="titleHA">
+                                 disabled      wire:model.live="titleHA">
                             </div>
                             <div class="col-xl-6">
                                 <label class="me-sm-2">{{ __('backand.reponce') }}</label>
-                                <select wire:model="reponceHA" class="form-control" name="reponce">
+                                <select wire:model.live="reponceHA" class="form-control" name="reponce">
                                     <option value="0">{{ __('backand.sans reponce') }}</option>
                                     <option value="1">{{ __('backand.create reponce') }}</option>
                                     <option value="2">{{ __('backand.list reponce') }}</option>
@@ -53,7 +53,7 @@
                             </div>
                             <div class="col-xl-6">
                                 <label class="me-sm-2">{{ __('backand.list reponce') }}</label>
-                                <input data-role="tagsinput" id="tags" name='tags' wire:model="list_reponceHA"
+                                <input data-role="tagsinput" id="tags" name='tags' wire:model.live="list_reponceHA"
                                        class="form-control" autofocus>
                             </div>
                         </div>

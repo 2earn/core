@@ -131,7 +131,7 @@
                                         <div class="input-group mb-3">
                                             <input aria-describedby="simulateAmmount" type="number"
                                                    max="{{round($cashBalance)}}"
-                                                   wire:keyup.debounce="simulateAmmount()" wire:model="ammount"
+                                                   wire:keyup.debounce="simulateAmmount()" wire:model.live="ammount"
                                                    id="ammount"
                                                    class="form-control @if($flash) flash @endif">
 
@@ -156,7 +156,7 @@
                                         <div class="input-group mb-3">
                                             <input aria-describedby="simulateAction" type="number"
                                                    max="{{$maxActions}}"
-                                                   wire:keyup.debounce="simulateAction()" wire:model="action"
+                                                   wire:keyup.debounce="simulateAction()" wire:model.live="action"
                                                    id="action"
                                                    class="form-control @if($flash) flash @endif">
                                             <div class="input-group-append">
@@ -334,7 +334,7 @@
                     <div class="col-12 mt-2">
                         <label for="estimatedGain" class="form-label">{{__('Gain')}}</label>
                         <input aria-describedby="estimatedGain" type="number" wire:keyup.debounce="simulateAction()"
-                               disabled wire:model="estimatedGain" id="estimatedGain" class="form-control">
+                               disabled wire:model.live="estimatedGain" id="estimatedGain" class="form-control">
                     </div>
                     <div class="col-12">
                         <ul class="list-group mt-2">
@@ -369,7 +369,7 @@
                     </div>
                     <div class="col-12">
                         <input type="range" min="0" max="{{$totalActions}}" title="{{$totalActions}}"
-                               class="w-100" wire:model="selledActionCursor" step="1" wire:change="simulateGain()"
+                               class="w-100" wire:model.live="selledActionCursor" step="1" wire:change="simulateGain()"
                                id="selledActionCursor">
                     </div>
                 </div>

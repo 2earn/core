@@ -27,13 +27,13 @@
             <div class="card mb-2 mr-2 ml-2 border">
                 <div class="card-body">
                     <form>
-                        <input type="hidden" wire:model="id">
+                        <input type="hidden" wire:model.live="id">
                         <div class="row">
                             <div class="form-group col-sm-12 col-md-12 mb-3">
                                 <label for="Name">{{__('Name')}}</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror"
                                        id="Name"
-                                       placeholder="{{__('Enter Name')}}" wire:model="name">
+                                       placeholder="{{__('Enter Name')}}" wire:model.live="name">
                                 @error('name') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>

@@ -55,7 +55,7 @@
     @else
         <div class="input-group">
             <input type="text" class="form-control"
-                   wire:model="quantityToAdd" aria-label="Recipient's username"
+                   wire:model.live="quantityToAdd" aria-label="Recipient's username"
                    aria-describedby="button-addon2">
             <button class="btn btn-outline-success btn-sm material-shadow-none"
                     wire:click="addMoreToCard()" type="button" id="addMoreToCard">{{__('Add more')}}</button>

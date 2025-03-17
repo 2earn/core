@@ -47,7 +47,7 @@
                                 <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
                                     <input id="profile-img-file-input" type="file" class="profile-img-file-input"
                                            accept="image/png, image/jpeg"
-                                           wire:model="imageProfil">
+                                           wire:model.live="imageProfil">
                                     <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
                                     <span class="avatar-title rounded-circle bg-light text-body">
                                         <i class="ri-camera-fill"></i>
@@ -62,7 +62,7 @@
                             <span class="badge text-bg-secondary">[{{$user['idUser']}}]</span>
                         </h4>
                         <div class="form-check form-switch mt-3" dir="ltr">
-                            <input wire:model.defer="user.is_public" type="checkbox" class="form-check-input"
+                            <input wire:model="user.is_public" type="checkbox" class="form-check-input"
                                    id="customSwitchsizesm" checked="">
                             <label class="form-check-label" for="customSwitchsizesm">
                                 {{ __('I agree to receive funding requests') }}
@@ -330,7 +330,7 @@
                                         <div class="mb-3">
                                             <label for="firstnameInput"
                                                    class="form-label">{{__('Enter your ar firstname label')}}</label>
-                                            <input wire:model.defer="usermetta_info.arLastName" type="text"
+                                            <input wire:model="usermetta_info.arLastName" type="text"
                                                    class="form-control" id="firstnameInput"
                                                    placeholder="{{__('Enter your ar firstname')}}" value="">
                                         </div>
@@ -339,7 +339,7 @@
                                         <div class="mb-3">
                                             <label for="lastnameInput"
                                                    class="form-label">{{__('Enter your ar last label')}}</label>
-                                            <input wire:model.defer="usermetta_info.arFirstName" type="text"
+                                            <input wire:model="usermetta_info.arFirstName" type="text"
                                                    class="form-control" id="lastnameInput"
                                                    placeholder="{{__('Enter your ar last')}}" value="">
                                         </div>
@@ -351,7 +351,7 @@
                                             </label>
                                             <input type="text" class="form-control"
                                                    {{ $disabled ? 'disabled' : ''  }}
-                                                   wire:model.defer="usermetta_info.enLastName"
+                                                   wire:model="usermetta_info.enLastName"
                                                    placeholder="{{__('Last Name')}}" value="">
                                             <div class="form-text">{{__('Required for account validation')}}</div>
                                         </div>
@@ -362,7 +362,7 @@
                                                    class="form-label">{{__('First name label')}}</label>
                                             <input
                                                     {{ $disabled ? 'disabled' : ''  }}
-                                                    wire:model.defer="usermetta_info.enFirstName"
+                                                    wire:model="usermetta_info.enFirstName"
                                                     placeholder="{{__('First name')}}" class="form-control">
                                             <div class="form-text">{{__('Required for account validation')}}</div>
                                         </div>
@@ -372,7 +372,7 @@
                                             <label for="phonenumberInput"
                                                    class="form-label">{{ __('Your Contact number') }}</label>
                                             <div class="input-group form-icon">
-                                                <input disabled wire:model.defer="numberActif" type="text"
+                                                <input disabled wire:model="numberActif" type="text"
                                                        class="form-control inputtest form-control-icon"
                                                        aria-label=""
                                                        placeholder="">
@@ -393,7 +393,7 @@
                                             <label for="emailInput"
                                                    class="form-label">{{ __('Your Email') }}</label>
                                             <div class="input-group form-icon">
-                                                <input disabled wire:model.defer="user.email" type="email"
+                                                <input disabled wire:model="user.email" type="email"
                                                        class="form-control form-control-icon"
                                                        name="email" placeholder="">
                                                 <i style="font-size: 20px;" class="ri-mail-unread-line"></i>
@@ -419,7 +419,7 @@
                                             <input
                                                     {{ $disabled ? 'disabled' : ''  }}
 
-                                                    wire:model.defer="usermetta_info.birthday" type="date"
+                                                    wire:model="usermetta_info.birthday" type="date"
                                                     class="form-control" id="JoiningdatInput"/>
                                             <div class="form-text">{{__('Required for account validation')}}</div>
                                         </div>
@@ -430,7 +430,7 @@
                                                    class="form-label">{{ __('Number Of Children') }}</label>
                                             <div class="input-step form-control full-width light">
                                                 <button id="btnMinus" type="button" class="minus">–</button>
-                                                <input wire:model.defer="usermetta_info.childrenCount" type="number"
+                                                <input wire:model="usermetta_info.childrenCount" type="number"
                                                        class="product-quantity form-control" value="2"
                                                        min="0"
                                                        max="100" id="inputChild" readonly>
@@ -443,7 +443,7 @@
                                             <label for="designationInput"
                                                    class="form-label">{{ __('Personal Title') }}</label>
                                             <select class="form-select mb-3"
-                                                    wire:model.defer="usermetta_info.personaltitle">
+                                                    wire:model="usermetta_info.personaltitle">
                                                 <option value="">{{__('no selected value')}}</option>
                                                 <?php if (isset($personaltitles)){
                                                 foreach ($personaltitles as $personaltitle){
@@ -459,7 +459,7 @@
                                         <div class="mb-3">
                                             <label for="websiteInput1" class="form-label">{{ __('Gender') }}</label>
                                             <select class="form-select mb-3" aria-label=" "
-                                                    wire:model.defer="usermetta_info.gender">
+                                                    wire:model="usermetta_info.gender">
                                                 <
                                                 <option value="">{{__('no selected value')}}</option>
                                                 <?php if (isset($genders)){
@@ -476,7 +476,7 @@
                                             <label for="websiteInput1"
                                                    class="form-label">{{ __('Your Preferred Language') }}</label>
                                             <select class="form-select mb-3" aria-label=" "
-                                                    wire:model.defer="usermetta_info.idLanguage">
+                                                    wire:model="usermetta_info.idLanguage">
                                                 <option value="" selected>{{__('no selected value')}}</option>
                                                 <?php if (isset($languages)){ ?>
                                                     <?php
@@ -493,7 +493,7 @@
                                         <div class="mb-3">
                                             <label for="cityInput" class="form-label">{{ __('State') }}</label>
                                             <select class="form-select mb-3" aria-label=" "
-                                                    wire:model.defer="usermetta_info.idState">
+                                                    wire:model="usermetta_info.idState">
                                                 <option value="">{{__('Choose')}}</option>
                                                 @foreach($states as $state)
                                                         <?php
@@ -507,7 +507,7 @@
                                     <div class="col-lg-4">
                                         <div class="mb-3">
                                             <label for="countryInput" class="form-label">{{ __('Country') }}</label>
-                                            <input readonly wire:model.defer="countryUser" type="text"
+                                            <input readonly wire:model="countryUser" type="text"
                                                    class="form-control"
                                                    id="countryInput"
                                                    {{ $disabled ? 'disabled' : ''  }}
@@ -520,7 +520,7 @@
                                             <label for="zipcodeInput1"
                                                    class="form-label">{{ __('National ID') }}</label>
                                             <input type="text" class="form-control" minlength="5" maxlength="50"
-                                                   wire:model.defer="usermetta_info.nationalID"
+                                                   wire:model="usermetta_info.nationalID"
                                                    id="zipcodeInput1" {{ $disabled ? 'disabled' : ''  }}
                                             >
                                             <div class="form-text">{{__('Required for account validation')}}</div>
@@ -530,7 +530,7 @@
                                         <div class="mb-3 pb-2">
                                             <label for="exampleFormControlTextarea"
                                                    class="form-label">{{ __('Address') }}</label>
-                                            <textarea wire:model.defer="usermetta_info.adresse" class="form-control"
+                                            <textarea wire:model="usermetta_info.adresse" class="form-control"
                                                       id="exampleFormControlTextarea"
                                                       placeholder="{{__('Address')}}"
                                                       rows="3">
@@ -566,7 +566,7 @@
                                                 <div class="row">
                                                     <div class="form-group mb-2">
                                                         <label x-show="open">{{ __('Libele_Note') }}</label>
-                                                        <textarea class="form-control" wire:model.defer="noteReject"
+                                                        <textarea class="form-control" wire:model="noteReject"
                                                                   name="Text1" cols="80"
                                                                   rows="5"
                                                                   x-show="open">
@@ -609,7 +609,7 @@
                                         </label>
                                         <div class="position-relative auth-p
                                         ass-inputgroup mb-3">
-                                            <input wire:model.defer="oldPassword" type="password"
+                                            <input wire:model="oldPassword" type="password"
                                                    class="form-control pe-5" name="password"
                                                    placeholder="{{__('Old password')}}"
                                                    id="oldpasswordInput">
@@ -625,7 +625,7 @@
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="position-relative auth-pass-inputgroup mb-3">
-                                            <input wire:model.defer="newPassword" type="password"
+                                            <input wire:model="newPassword" type="password"
                                                    class="form-control pe-5  "
                                                    name="password" placeholder="{{__('New password please')}}"
                                                    id="newpasswordInput">
@@ -643,7 +643,7 @@
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <div class="position-relative auth-pass-inputgroup mb-3">
-                                                <input wire:model.defer="confirmedPassword" type="password"
+                                                <input wire:model="confirmedPassword" type="password"
                                                        class="form-control" id="confirmpasswordInput"
                                                        placeholder="{{__('Confirm password')}}">
                                                 <button
@@ -656,7 +656,7 @@
                                     </div>
                                     <div style="" class="col-lg-12">
                                         <div class="form-check form-switch ms-5 me-5 mb-3" dir="ltr">
-                                            <input wire:model.defer="sendPassSMS" type="checkbox" id="send"
+                                            <input wire:model="sendPassSMS" type="checkbox" id="send"
                                                    class="form-check-input" id="flexSwitchCheckDefault" checked="">
                                             <label class="form-check-label" for="customSwitchsizesm">
                                                 {{ __('I want to receive my password by SMS') }}
@@ -702,7 +702,7 @@
                             <div class="col-xxl-12">
                                 <div>
                                     <label for="emailInput" class="form-label">{{ __('Your Email') }}</label>
-                                    <input type="email" wire:model.defer="user.email" class="form-control"
+                                    <input type="email" wire:model="user.email" class="form-control"
                                            id="inputEmail" placeholder="{{ __('your_new_mail')}}">
                                     <div class="form-text">{{__('Required for account validation')}}</div>
                                 </div>
@@ -738,7 +738,7 @@
                             <div class="col-lg-6">
                                 <div>
                                     <label for="lastName" class="form-label">{{__('First Name')}}</label>
-                                    <input wire:model.defer="usermetta_info.enFirstName" type="text"
+                                    <input wire:model="usermetta_info.enFirstName" type="text"
                                            class="form-control" {{ $disabled ? 'disabled' : ''  }}
                                            placeholder="{{__('Enter your name')}}">
                                 </div>
@@ -746,7 +746,7 @@
                             <div class="col-lg-6">
                                 <div>
                                     <label for="phoneNumber" class="form-label">{{__('Last Name')}}AA</label>
-                                    <input wire:model.defer="usermetta_info.enLastName" type="text"
+                                    <input wire:model="usermetta_info.enLastName" type="text"
                                            class="form-control" {{ $disabled ? 'disabled' : ''  }}
                                            placeholder="{{__('Enter your lastname')}}">
                                 </div>
@@ -756,7 +756,7 @@
                                     <label for="JoiningdatInput" class="form-label">
                                         {{__('Date of birth')  }}
                                     </label>
-                                    <input wire:model.defer="usermetta_info.birthday" {{ $disabled ? 'disabled' : ''  }}
+                                    <input wire:model="usermetta_info.birthday" {{ $disabled ? 'disabled' : ''  }}
                                     type="date" class="form-control"/>
                                 </div>
                             </div>
@@ -765,7 +765,7 @@
                                     <label for="zipcodeInput2" class="form-label">{{ __('National ID') }}</label>
                                     <input type="text" class="form-control" minlength="5" maxlength="50"
                                            {{ $disabled ? 'disabled' : ''  }}
-                                           wire:model.defer="usermetta_info.nationalID"
+                                           wire:model="usermetta_info.nationalID"
                                            id="zipcodeInput2">
                                 </div>
                             </div>
@@ -774,7 +774,7 @@
                                     <label for="emailInput"
                                            class="form-label">{{ __('Your Email') }}</label>
                                     <div class="input-group form-icon">
-                                        <input disabled wire:model.defer="user.email" type="email"
+                                        <input disabled wire:model="user.email" type="email"
                                                class="form-control form-control-icon" name="email" placeholder="">
                                         <i style="font-size: 20px" class="ri-mail-unread-line"></i>
                                         <div class="form-text">{{__('Required for account validation')}}</div>
@@ -791,7 +791,7 @@
                                 </div>
                                 @if(!$disabled)
                                     <div class="wrap-custom-file mt-2 ">
-                                        <input wire:model.defer="photoFront" type="file" name="image55" id="image55"
+                                        <input wire:model="photoFront" type="file" name="image55" id="image55"
                                                {{ $disabled ? 'disabled' : ''  }}
 
                                                accept=".png"/>
@@ -818,7 +818,7 @@
                                 </div>
                                 @if(!$disabled)
                                     <div class="wrap-custom-file mt-2">
-                                        <input wire:model.defer="photoBack" type="file" name="image44" id="image44"
+                                        <input wire:model="photoBack" type="file" name="image44" id="image44"
                                                {{ $disabled ? 'disabled' : ''  }}
                                                accept=".png"/>
                                         <label for="image44">

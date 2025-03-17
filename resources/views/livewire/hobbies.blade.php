@@ -14,7 +14,7 @@
                 <div class="card-body">
                     @foreach($hobbies->where('platform','learn') as $key => $hobbie)
                         <div class="form-check form-switch mb-3" dir="ltr">
-                            <input wire:model.defer="hobbies.{{$key}}.selected" type="checkbox"
+                            <input wire:model="hobbies.{{$key}}.selected" type="checkbox"
                                    class="form-check-input" id="Hobbies_{{$hobbie->name}}" checked="">
                             <label class="form-check-label"
                                    for="Hobbies_{{$hobbie->name}}">{{ __('Hobbies_'. $hobbie->name ) }}  </label>
@@ -32,7 +32,7 @@
                 <div class="card-body">
                     @foreach($hobbies->where('platform','shop') as $key => $hobbie)
                         <div class="form-check form-switch mb-3" dir="ltr">
-                            <input wire:model.defer="hobbies.{{$key}}.selected" type="checkbox"
+                            <input wire:model="hobbies.{{$key}}.selected" type="checkbox"
                                    class="form-check-input" id="Hobbies_{{$hobbie->name}}" checked="">
                             <label class="form-check-label"
                                    for="Hobbies_{{$hobbie->name}}">{{ __('Hobbies_'. $hobbie->name ) }}  </label>
@@ -50,7 +50,7 @@
                 <div class="card-body p-3">
                     @foreach($hobbies->where('platform','move') as $key => $hobbie)
                         <div class="form-check form-switch mb-3" dir="ltr">
-                            <input wire:model.defer="hobbies.{{$key}}.selected" type="checkbox"
+                            <input wire:model="hobbies.{{$key}}.selected" type="checkbox"
                                    class="form-check-input toggle-checkboxFree" id="Hobbies_{{$hobbie->name}}" checked="">
                             <label class="form-check-label"
                                    for="Hobbies_{{$hobbie->name}}">{{ __('Hobbies_'. $hobbie->name ) }}  </label>

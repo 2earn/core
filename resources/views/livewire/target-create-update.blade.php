@@ -21,13 +21,13 @@
             <div class="card mb-2 ml-1 border border-dashed ">
                 <div class="card-body">
                     <form>
-                        <input type="hidden" wire:model="id">
+                        <input type="hidden" wire:model.live="id">
                         <div class="row">
                             <div class="form-group  mb-3">
                                 <label for="name">{{__('Name')}}</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror"
                                        id="name"
-                                       wire:model="name"
+                                       wire:model.live="name"
                                        placeholder="{{__('Enter name')}}"></input>
                                 @error('name') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
@@ -36,7 +36,7 @@
                                 <label for="description">{{__('Description')}}</label>
                                 <textarea class="form-control @error('description') is-invalid @enderror"
                                           id="description"
-                                          wire:model="description"
+                                          wire:model.live="description"
                                           placeholder="{{__('Enter description')}}"></textarea>
                                 @error('description') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>

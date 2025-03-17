@@ -292,14 +292,14 @@
                                 @if($survey->enabled)
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <strong class="text-muted">{{__('Enable date')}} :</strong>
-                                        {{\Carbon\Carbon::parse($survey->enableDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                        {{\Carbon\Carbon::parse($survey->enableDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                                     </li>
                                 @endif
                             @else
                                 @if($survey->disableDate != null && !empty($survey->disableDate))
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <strong class="text-muted">{{__('Disable date')}} :</strong>
-                                        {{\Carbon\Carbon::parse($survey->disableDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                        {{\Carbon\Carbon::parse($survey->disableDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                                     </li>
                                 @endif
                             @endif
@@ -308,14 +308,14 @@
                                 @if($survey->publishDate != null && !empty($survey->publishDate))
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <strong class="text-muted">{{__('Publish date')}} : </strong>
-                                        {{\Carbon\Carbon::parse($survey->publishDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                        {{\Carbon\Carbon::parse($survey->publishDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                                     </li>
                                 @endif
                             @else
                                 @if($survey->unpublishDate != null && !empty($survey->unpublishDate))
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <strong class="text-muted">{{__('Un publish date')}} :</strong>
-                                        {{\Carbon\Carbon::parse($survey->unpublishDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                        {{\Carbon\Carbon::parse($survey->unpublishDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                                     </li>
                                 @endif
                             @endif
@@ -326,14 +326,14 @@
                             @if($survey->openDate != null && !empty($survey->openDate))
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <strong class="text-muted">{{__('Open date')}} :</strong>
-                                    {{\Carbon\Carbon::parse($survey->openDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                    {{\Carbon\Carbon::parse($survey->openDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                                 </li>
                             @endif
 
                             @if($survey->closeDate != null && !empty($survey->closeDate))
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <strong class="text-muted">{{__('Close date')}} :</strong>
-                                    {{\Carbon\Carbon::parse($survey->closeDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                    {{\Carbon\Carbon::parse($survey->closeDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                                 </li>
                             @endif
                         </ul>
@@ -343,13 +343,13 @@
                             @if($survey->startDate != null && !empty($survey->startDate))
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <strong class="text-muted">{{__('Start date')}} :</strong>
-                                    {{\Carbon\Carbon::parse($survey->startDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                    {{\Carbon\Carbon::parse($survey->startDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                                 </li>
                             @endif
                             @if($survey->endDate != null && !empty($survey->endDate))
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <strong class="text-muted">{{__('End date')}} :</strong>
-                                    {{\Carbon\Carbon::parse($survey->endDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                    {{\Carbon\Carbon::parse($survey->endDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                                 </li>
                             @endif
                         </ul>
@@ -359,19 +359,19 @@
                             @if($survey->archivedDate != null && !empty($survey->archivedDate))
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <strong class="text-muted">{{__('Archived date')}} :</strong>
-                                    {{\Carbon\Carbon::parse($survey->archivedDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                    {{\Carbon\Carbon::parse($survey->archivedDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                                 </li>
                             @endif
                             @if($survey->created_at != null && !empty($survey->created_at))
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <strong class="text-muted">{{__('Creation date')}} :</strong>
-                                    {{\Carbon\Carbon::parse($survey->created_at)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                    {{\Carbon\Carbon::parse($survey->created_at)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                                 </li>
                             @endif
                             @if($survey->updated_at != null && !empty($survey->updated_at))
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <strong class="text-muted">{{__('Update date')}} :</strong>
-                                    {{\Carbon\Carbon::parse($survey->updated_at)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                    {{\Carbon\Carbon::parse($survey->updated_at)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                                 </li>
                             @endif
                         </ul>
@@ -702,7 +702,7 @@
                     <h6>{{__('Add a comment')}}</h6>
                 </div>
                 <div class="col-sm-12 col-md-9 col-lg-9">
-                    <textarea class="form-control" maxlength="190" wire:model="comment" id="comment" rows="3"
+                    <textarea class="form-control" maxlength="190" wire:model.live="comment" id="comment" rows="3"
                               @if(!$survey->isCommentable()) disabled @endif></textarea>
                 </div>
                 <div class="col-sm-12 col-md-3 col-lg-3 ">
@@ -728,7 +728,7 @@
                         <label for="disableNote">{{__('Disable Note')}}</label>
                         <textarea type="text" class="form-control @error('disableNote') is-invalid @enderror"
                                   maxlength="190" id="disableNote"
-                                  wire:model="disableNote"
+                                  wire:model.live="disableNote"
                                   placeholder="{{__('Enter Disable Note')}}"></textarea>
                         @error('disableNote') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>

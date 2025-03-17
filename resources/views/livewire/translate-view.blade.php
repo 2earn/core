@@ -22,7 +22,7 @@
                                     src="{{Vite::asset("resources/images/flags/" . strtolower('sa') . ".svg")}}"
                                     alt="{{__('Arabe')}}" title="{{__('Arabe')}}"
                                     class="avatar-xxs me-2"></label>
-                            <textarea rows="4" class="form-control" wire:model.defer="arabicValue" maxlength="190"
+                            <textarea rows="4" class="form-control" wire:model="arabicValue" maxlength="190"
                                       required>
                             </textarea>
                         </div>
@@ -31,7 +31,7 @@
                                     src="{{Vite::asset("resources/images/flags/" . strtolower('fr') . ".svg")}}"
                                     alt="{{__('Francais')}}" title="{{__('Francais')}}"
                                     class="avatar-xxs me-2"></label>
-                            <textarea rows="4" class="form-control" wire:model.defer="frenchValue" maxlength="190"
+                            <textarea rows="4" class="form-control" wire:model="frenchValue" maxlength="190"
                                       required>
                             </textarea>
 
@@ -41,7 +41,7 @@
                                     src="{{Vite::asset("resources/images/flags/" . strtolower('gb') . ".svg")}}"
                                     alt="{{__('English')}}" title="{{__('English')}}"
                                     class="avatar-xxs me-2"></label>
-                            <textarea rows="4" class="form-control" wire:model.defer="englishValue" maxlength="190"
+                            <textarea rows="4" class="form-control" wire:model="englishValue" maxlength="190"
                                       required>
                             </textarea>
 
@@ -51,7 +51,7 @@
                                     src="{{Vite::asset("resources/images/flags/" . strtolower('tr') . ".svg")}}"
                                     alt="{{__('Turkish')}}" title="{{__('Turkish')}}"
                                     class="avatar-xxs me-2"></label>
-                            <textarea rows="4" class="form-control" wire:model.defer="turkishValue" maxlength="190"
+                            <textarea rows="4" class="form-control" wire:model="turkishValue" maxlength="190"
                                       required>
                             </textarea>
                         </div>
@@ -60,7 +60,7 @@
                                     src="{{Vite::asset("resources/images/flags/" . strtolower('es') . ".svg")}}"
                                     alt="{{__('Spanish')}}" title="{{__('Spanish')}}"
                                     class="avatar-xxs me-2"></label>
-                            <textarea rows="4" class="form-control" wire:model.defer="spanishValue" maxlength="190"
+                            <textarea rows="4" class="form-control" wire:model="spanishValue" maxlength="190"
                                       required>
                             </textarea>
 
@@ -130,7 +130,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                 <div class="card-header headerTranslate">
                     <div class="row">
                         <div class="col-md-4 form-row">
-                            <select wire:model="nbrPagibation" class="form-control col-6"
+                            <select wire:model.live="nbrPagibation" class="form-control col-6"
                                     id="nbrPagibation">
                                 <option value="10">10 {{__('Element per page')}}</option>
                                 <option value="25">25 {{__('Element per page')}}</option>
@@ -141,7 +141,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                             <input type="text" class="form-control col-6"
                                    placeholder="{{__('Search')}}..."
                                    id="search"
-                                   wire:model="search"/>
+                                   wire:model.live="search"/>
                         </div>
                         <div class="col-md-4 form-row">
                             <a class="btn btn-outline-secondary btn-label waves-effect right waves-light float-end"

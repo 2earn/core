@@ -184,7 +184,7 @@
                                             <tr>
                                                 <th scope="row" colspan="2">
                                                     <div class="form-check form-switch mb-3 mt-3" dir="ltr">
-                                                        <input wire:model.defer="notify" type="checkbox"
+                                                        <input wire:model="notify" type="checkbox"
                                                                class="form-check-input" id="" checked="">
                                                         <label class="form-check-label"
                                                                for="customSwitchsizesm">{{ __('I want to receive an SMS when my identification completed successfully') }}</label>
@@ -227,7 +227,7 @@
                                         </div>
                                         @if(!$disabled)
                                             <div class="wrap-custom-file mt-2">
-                                                <input wire:model.defer="photoFront" type="file" name="photoFront"
+                                                <input wire:model="photoFront" type="file" name="photoFront"
                                                        id="photoFront"
                                                        accept="image/png, image/jpeg"/>
                                                 <label for="photoFront">
@@ -254,7 +254,7 @@
                                         </div>
                                         @if(!$disabled)
                                             <div class="wrap-custom-file mt-2">
-                                                <input wire:model.defer="photoBack" type="file" name="photoBack"
+                                                <input wire:model="photoBack" type="file" name="photoBack"
                                                        id="photoBack" accept="image/png, image/jpeg"/>
                                                 <label for="photoBack">
                                                     <lord-icon src="https://cdn.lordicon.com/vixtkkbk.json"
@@ -294,7 +294,7 @@
                                             </div>
                                         </div>
                                         <div class="form-check form-switch form-switch-right form-switch-md">
-                                            <input class="form-check-input" wire:model="internationalCard"
+                                            <input class="form-check-input" wire:model.live="internationalCard"
                                                    type="checkbox"
                                                    @if($userAuth->status==\Core\Enum\StatusRequest::ValidInternational) disabled title="Status 4" @endif
                                                    id="international-card">
@@ -323,7 +323,7 @@
                                                  src={{asset($userInternationalImage)}} >
                                         </div>
                                         <div class="wrap-custom-file">
-                                            <input wire:model.defer="photoInternational" type="file"
+                                            <input wire:model="photoInternational" type="file"
                                                    name="photoInternational"
                                                    id="photoInternational"
                                                    accept="image/png, image/jpeg"/>
@@ -343,7 +343,7 @@
                                             </label>
                                             <input type="text" class="form-control forceltr" minlength="5"
                                                    maxlength="50"
-                                                   wire:model.defer="userF.internationalID"
+                                                   wire:model="userF.internationalID"
                                                    id="internationalId" placeholder="{{__('InternationalId ID')}}">
                                         </div>
                                         <div class="mb-3">
@@ -351,7 +351,7 @@
                                                 {{__('Expiry date identificatdion modal')  }}
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input wire:model.defer="userF.expiryDate" type="date"
+                                            <input wire:model="userF.expiryDate" type="date"
                                                    onkeydown="return false"
                                                    min="{{ now()->format('Y-m-d') }}"
                                                    class="form-control" id="expiryDate"/>

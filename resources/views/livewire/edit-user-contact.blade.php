@@ -22,7 +22,7 @@
                             <div class="form-group">
                                 <label class="form-label">{{ __('edit contact First name') }}</label>
                                 <input id="inputNameContact" type="text"
-                                       class="form-control" name="name" wire:model.defer="nameUserContact"
+                                       class="form-control" name="name" wire:model="nameUserContact"
                                        placeholder="{{ __('edit contact First name placeholder') }} ">
                             </div>
                             @error('nameUserContact') <span class="error alert-danger">{{ $message }}</span> @enderror
@@ -32,7 +32,7 @@
                                 <label class="form-label">{{ __('edit contact Last name') }}</label>
                                 <input id="inputlLastNameContact" type="text"
                                        class="form-control" name="inputlLastNameContact"
-                                       wire:model.defer="lastNameUserContact"
+                                       wire:model="lastNameUserContact"
                                        placeholder="{{ __('edit contact Last Name placeholder') }} "
                                 >
                             </div>
@@ -44,7 +44,7 @@
                                 <label class="form-label">{{ __('Mobile_Number') }}</label>
                                 <div id="ipAddContact" data-turbolinks-permanent class="input-group signup mb-3">
                                 </div>
-                                <input type="tel" hidden id="pho" wire:model.defer="phoneNumber"
+                                <input type="tel" hidden id="pho" wire:model="phoneNumber"
                                        value="{{$phoneNumber}}">
                                 <input type="text" hidden id="phoneAddContact" name="phoneAddContact"
                                        value="{{$phoneNumber}}">

@@ -38,7 +38,7 @@
                         @foreach($setting_notif->where('type','b')  as $key => $setting)
                             @if($setting->typeNotification=='m')
                                 <div class="form-check form-switch @if($setting->payer==0) toggle-checkboxFree @else toggle-checkboxPay @endif m-2 col-12   mb-3" dir="ltr" >
-                                    <input wire:model.defer="setting_notif.{{$key}}.value" type="checkbox"
+                                    <input wire:model="setting_notif.{{$key}}.value" type="checkbox"
                                            class="form-check-input @if($setting->payer==0) toggle-checkboxFree @else toggle-checkboxPay @endif"  id="flexSwitchCheckDefault" checked="">
                                     <label class="form-check-label"
                                            for="customSwitchsizesm">{{ __( $setting->libelle ) }}  </label>
@@ -77,7 +77,7 @@
                                         <p class="{{$classPct}}">{{$setting->value}}%</p>
                                     </div>
                                     <div class="" style="margin: 0;padding: 0">
-                                        <input type="range" value="0" id='{{$idSlider}}'  wire:model.defer="setting_notif.{{$key}}.value"
+                                        <input type="range" value="0" id='{{$idSlider}}'  wire:model="setting_notif.{{$key}}.value"
                                                name="discount_email_p">
                                     </div>
                                 </div>
@@ -121,7 +121,7 @@
 
                                 @if($setting->typeNotification=='s')
                                     <div class="form-check form-switch @if($setting->payer==0) toggle-checkboxFree @else toggle-checkboxPay @endif  m-2 mb-3" dir="ltr" >
-                                        <input wire:model.defer="setting_notif.{{$key}}.value" type="checkbox"
+                                        <input wire:model="setting_notif.{{$key}}.value" type="checkbox"
                                                class="form-check-input @if($setting->payer==0) toggle-checkboxFree @else toggle-checkboxPay @endif"   id="flexSwitchCheckDefault" checked="">
                                         <label class="form-check-label" for="customSwitchsizesm">{{ __( $setting->libelle ) }}  </label>
 
@@ -132,7 +132,7 @@
                     <div class="d-flex flex-row" style="margin-top: 30px;gap: 10px;">
                         <div><label for="">{{__('accepts to receive')}}</label></div>
                         <div>
-                            <select style="width: 60px" id="nbrSms" wire:model.defer="nbrSms">
+                            <select style="width: 60px" id="nbrSms" wire:model="nbrSms">
                                 @for($i=0; $i<= $nbrSmsPossible ;$i++)
                                     <option value="{{$i}}">{{$i}}</option>
                                 @endfor

@@ -122,7 +122,7 @@
                                                onpaste="handlePaste(event)"
                                                class="form-control text-center "
                                                placeholder="{{ __('Enter your amount') }}"
-                                               onpaste="handlePaste(event)" wire:model.defer="soldeExchange">
+                                               onpaste="handlePaste(event)" wire:model="soldeExchange">
                                     </div>
                                 </div>
                                 @if(config('app.available_locales')[app()->getLocale()]['direction']=='ltr')

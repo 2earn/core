@@ -39,27 +39,27 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form wire:submit.prevent="save" id="basic-formdd" enctype="multipart/form-data">
+                    <form wire:submit="save" id="basic-formdd" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="mb-3 col-xl-6">
                                 <label class="me-sm-2">{{ __('CountryName') }}</label>
-                                <input type="text" wire:model.defer="name" class="form-control" name="name"
+                                <input type="text" wire:model="name" class="form-control" name="name"
                                        disabled>
                             </div>
                             <div class="mb-3 col-xl-6">
                                 <label class="me-sm-2">{{ __('Phone Code') }}</label>
-                                <input type="text" class="form-control" wire:model.defer="phonecode"
+                                <input type="text" class="form-control" wire:model="phonecode"
                                        name="phonecode" disabled>
                             </div>
                             <div class="mb-3 col-xl-6">
                                 <label class="me-sm-2">{{ __('ISO') }}</label>
-                                <input type="text" wire:model.defer="ISO" class="form-control" name="iso" disabled>
+                                <input type="text" wire:model="ISO" class="form-control" name="iso" disabled>
                             </div>
                             <div class="mb-3 col-xl-6">
                                 <label class="me-sm-2">{{ __('Language') }}</label>
                                 <select class="form-control" id="langueCountrie" name=" "
-                                        wire:model.defer="langue">
+                                        wire:model="langue">
                                     @foreach($allLanguage as $language)
                                         <option value="{{$language->name}}">{{$language->name}}</option>
                                     @endforeach

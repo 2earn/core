@@ -21,7 +21,7 @@
                             <label class="col-form-label">{{ __('Item per page') }}</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-3 mt-1">
-                            <select wire:model="pageCount" class="form-select livewire-param"
+                            <select wire:model.live="pageCount" class="form-select livewire-param"
                                     aria-label="Default select example">
                                 <option @if($pageCount=="10") selected @endif value="10">10</option>
                                 <option @if($pageCount=="25") selected @endif value="25">25</option>
@@ -33,7 +33,7 @@
                         </div>
 
                         <div class="col-sm-12 col-md-6 col-lg-3 mt-1">
-                            <input wire:model="search" type="search"
+                            <input wire:model.live="search" type="search"
                                    class="form-control rounded  mr-2 ml-2"
                                    placeholder="{{ __('Search') }}" aria-label="Search"
                                    aria-describedby="search-addon"/>
@@ -172,7 +172,7 @@
                                 id="id-field"
                                 type="hidden"
                                 class="form-control" name="id-field"
-                                wire:model.defer="selectedContect"
+                                wire:model="selectedContect"
                             >
                             <div class="row g-3">
                                 <div class="col-lg-12">
@@ -182,7 +182,7 @@
                                         </label>
                                         <input
                                             type="text"
-                                            wire:model.defer="contactName"
+                                            wire:model="contactName"
                                             id="contactName"
                                             class="form-control"
                                             name="contactName"
@@ -198,7 +198,7 @@
                                         </label>
                                         <input
                                             type="text"
-                                            wire:model.defer="contactLastName"
+                                            wire:model="contactLastName"
                                             id="contactLastName"
                                             class="form-control"
                                             name="contactLastName"
@@ -212,7 +212,7 @@
                                             <span class="text-danger">*</span>
                                         </label><br>
                                         <input
-                                            wire:model.defer="mobile"
+                                            wire:model="mobile"
                                             type="tel"
                                             name="mobile"
                                             id="ipAdd2Contact"
