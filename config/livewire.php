@@ -154,6 +154,5 @@ return [
     */
 
     'render_on_redirect' => false,
-    'inject_assets' => false,
 
 ];

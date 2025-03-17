@@ -203,6 +203,9 @@
                                 {
                                     "targets": [5],
                                     render: function (data, type, row) {
+                                        console.log(row)
+                                        console.log(type)
+                                        console.log(data)
                                         if (row.ranks == 1)
                                             return '<div class="logoTopCashLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
                                         else
