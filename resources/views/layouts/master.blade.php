@@ -103,7 +103,6 @@
             font-display: block;
         }
     </style>
-    @livewireStyles
     <meta name="turbolinks-cache-control" content="no-cache">
     <meta name="theme-color" content="#6777ef"/>
     <link rel="apple-touch-icon" href="{{ asset('logo.PNG') }}">
@@ -135,7 +134,6 @@
     </div>
 </div>
 @include('layouts.footer', ['pageName' => 'master'])
-@livewireScripts
 @vite('resources/js/pages/crypto-kyc.init.js')
 <script type="module">
     window.addEventListener('load', () => {
