@@ -1,19 +1,21 @@
-<div>
-    @if($currentRouteName=="target_index")
-        @component('components.breadcrumb')
-            @slot('title')
-                {{ __('Targets') }}
-            @endslot
-        @endcomponent
-        <div class="row">
-            @include('layouts.flash-messages')
-        </div>
-    @endif
-    <div class="row card">
-        <div class="card-header border-info">
+<div class="container-fluid">
+    <div>
+        @if($currentRouteName=="target_index")
+            @component('components.breadcrumb')
+                @slot('title')
+                    {{ __('Targets') }}
+                @endslot
+            @endcomponent
+            <div class="row">
+                @include('layouts.flash-messages')
+            </div>
+        @endif
+        <div class="row card">
+            <div class="card-header border-info">
                 <div class="row">
                     <div class="col-sm-12 col-md-3  col-lg-6">
-                        <a href="{{route('target_create_update', app()->getLocale())}}" class="btn btn-soft-info add-btn"
+                        <a href="{{route('target_create_update', app()->getLocale())}}"
+                           class="btn btn-soft-info add-btn"
                            id="create-btn">
                             <i class="ri-add-line align-bottom me-1 ml-2"></i>
                             {{__('Create new target')}}
@@ -30,15 +32,15 @@
                         </form>
                     </div>
                 </div>
-        </div>
-        <div class="card-body row ml-1">
-            @forelse($targets as $target)
-                @include('livewire.target-item', ['target' => $target])
-            @empty
-                <p>{{__('No Targets')}}</p>
-            @endforelse
-            {{ $targets->links() }}
+            </div>
+            <div class="card-body row ml-1">
+                @forelse($targets as $target)
+                    @include('livewire.target-item', ['target' => $target])
+                @empty
+                    <p>{{__('No Targets')}}</p>
+                @endforelse
+                {{ $targets->links() }}
+            </div>
         </div>
     </div>
-
 </div>

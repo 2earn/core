@@ -78,7 +78,6 @@ class Balances extends Component
 
     public function render()
     {
-        $this->allAmounts = Amount::all();
         return view('livewire.balances')->extends('layouts.master')->section('content');
     }
 }
