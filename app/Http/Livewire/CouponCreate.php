@@ -6,7 +6,7 @@ namespace App\Http\Livewire;
 use App\Models\Coupon;
 use Livewire\Component;
 use Core\Models\Platform;
-use Lang;
+use Illuminate\Support\Facades\Lang;
 
 class CouponCreate extends Component
 {
@@ -50,6 +50,10 @@ class CouponCreate extends Component
         }
     }
 
+    public function cancel()
+    {
+        return redirect()->route('coupons_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Coupons operation cancelled'));
+    }
 
     public function render()
     {
@@ -58,7 +62,7 @@ class CouponCreate extends Component
         $selectPlatforms = [];
         foreach ($platforms as $platform) {
             $selectPlatforms[] = ['name' => $platform->name, 'value' => $platform->id];
-            $this->platform_id=$platform->id;
+            $this->platform_id = $platform->id;
         }
         $param = ['platforms' => $selectPlatforms];
         return view('livewire.coupon-create', $param)->extends('layouts.master')->section('content');
