@@ -60,7 +60,7 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.Livewire.emit('PreChangePhone', $('#phoneUpPhone').val(), $('#outputUpPhone').val(), 'mail');
+                    window.Livewire.dispatch('PreChangePhone', [$('#phoneUpPhone').val(), $('#outputUpPhone').val(), 'mail']);
                 } else if (result.isDenied) {
                     Swal.fire('Changes are not saved', '', 'info')
                 }
@@ -69,12 +69,12 @@
 
         window.addEventListener('PreChPhone', event => {
             var textHtmlSend = '{{ __('We will send') }}';
-            if (event.detail.methodeVerification === 'mail') {
+            if (event.detail[0].methodeVerification === 'mail') {
                 textHtmlSend = '{{ __('We will send mail') }}'
             }
             Swal.fire({
                 title: '{{ __('Your verification code') }}',
-                html: textHtmlSend + '<br> ' + event.detail.FullNumber + '<br>' + '{{__('Your OTP Code')}}',
+                html: textHtmlSend + '<br> ' + event.detail[0].FullNumber + '<br>' + '{{__('Your OTP Code')}}',
                 allowOutsideClick: false,
                 timer: '{{ env('timeOPT',180000) }}',
                 timerProgressBar: true,
@@ -98,10 +98,10 @@
                 },
             }).then((resultat) => {
                 if (resultat.value) {
-                    if (event.detail.methodeVerification === 'mail') {
-                        window.Livewire.emit('PreChangePhone', $('#phoneUpPhone').val(), $('#outputUpPhone').val(), 'phone');
+                    if (event.detail[0].methodeVerification === 'mail') {
+                        window.Livewire.dispatch('PreChangePhone', [$('#phoneUpPhone').val(), $('#outputUpPhone').val(), 'phone']);
                     } else {
-                        window.Livewire.emit('UpdatePhoneNumber', resultat.value, $('#phoneUpPhone').val(), $('#outputUpPhone').val(), $('#ccodeUpPhone').val(), $('#isoUpPhone').val());
+                        window.Livewire.dispatch('UpdatePhoneNumber', [resultat.value, $('#phoneUpPhone').val(), $('#outputUpPhone').val(), $('#ccodeUpPhone').val(), $('#isoUpPhone').val()]);
                     }
                 }
                 if (resultat.isDismissed) {

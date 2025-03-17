@@ -188,14 +188,14 @@
         });
 
         function sendSmsEvent() {
-            window.Livewire.emit('Presend', $("#ccodeforget").val(), $("#outputforget").val());
+            window.Livewire.dispatch('Presend', [$("#ccodeforget").val(), $("#outputforget").val()]);
         }
 
         window.addEventListener('OptForgetPass', event => {
             Swal.fire({
                 title: '{{ __('Your verification code') }}',
                 html: '{{ __('We_will_send') }}<br> ',
-                html: '{{ __('We_will_send') }}<br>' + event.detail.FullNumber + '<br>' + '{{ __('Your OTP Code') }}',
+                html: '{{ __('We_will_send') }}<br>' + event.detail[0].FullNumber + '<br>' + '{{ __('Your OTP Code') }}',
                 input: 'text',
                 inputAttributes: {
                     autocapitalize: 'off'
@@ -220,7 +220,7 @@
 
             }).then((resultat) => {
                 if (resultat.value) {
-                    window.Livewire.emit('sendSms', resultat.value, $("#outputforget").val());
+                    window.Livewire.dispatch('sendSms', [resultat.value, $("#outputforget").val()]);
                 }
                 if (resultat.isDismissed) {
                     location.reload();

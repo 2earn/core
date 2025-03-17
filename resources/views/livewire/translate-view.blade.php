@@ -252,7 +252,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                 denyButtonText: '{{__('no')}}'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.Livewire.emit('deleteTranslate', idTranslate);
+                    window.Livewire.dispatch('deleteTranslate', [idTranslate]);
                 } else if (result.isDenied) {
                     location.reload();
                 }
@@ -274,12 +274,12 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                 confirmButtonText: '{{__('Confirm')}}',
             }).then((resultat) => {
                 if (resultat.isConfirmed) {
-                    switch (event.detail.ev) {
+                    switch (event.detail[0].ev) {
                         case 'mergeToData':
-                            window.Livewire.emit('mergeTransaction', resultat.value);
+                            window.Livewire.dispatch('mergeTransaction', [resultat.value]);
                             break;
                         case 'databaseToFile':
-                            window.Livewire.emit('databaseToFile', resultat.value);
+                            window.Livewire.dispatch('databaseToFile', [resultat.value]);
                             break;
                     }
                 }
@@ -300,7 +300,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                 confirmButtonText: '{{__('Confirm')}}',
             }).then((resultat) => {
                 if (resultat.value) {
-                    window.Livewire.emit('AddFieldTranslate', resultat.value);
+                    window.Livewire.dispatch('AddFieldTranslate', [resultat.value]);
                 }
                 if (resultat.isDismissed) {
                     location.reload();

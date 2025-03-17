@@ -230,7 +230,7 @@
         }
 
         function functionLogin(dd) {
-            window.Livewire.emit('login', $("#phone").val(), $("#ccodelog").val(), $("#password-input").val(), $("#isoCountryLog").val());
+            window.Livewire.dispatch('login',[ $("#phone").val(), $("#ccodelog").val(), $("#password-input").val(), $("#isoCountryLog").val()]);
         }
     </script>
 </div>

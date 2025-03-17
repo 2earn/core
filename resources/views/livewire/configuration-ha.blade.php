@@ -70,7 +70,7 @@
     <script type="module">
         function emitHA(idHa) {
             if (idHa) {
-                window.Livewire.emit('initHaFunction', idHa);
+                window.Livewire.dispatch('initHaFunction', [idHa]);
             }
         }
 

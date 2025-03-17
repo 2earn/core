@@ -91,7 +91,7 @@
     </style>
     <script type="module">
         function getEditCountrie(id) {
-            window.Livewire.emit('initCountrie', id);
+            window.Livewire.dispatch('initCountrie', [id]);
         }
 
         $("#editCountriesModal").on('hidden.bs.modal', function () {

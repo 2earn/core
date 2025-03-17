@@ -23,7 +23,7 @@
                     var url = new URL(url_string);
                     var paramValue = url.searchParams.get("FinRequestN");
 
-                    window.Livewire.emit('redirectToTransfertCash', '{{Session::get('ErreurSoldeReqBFS2')}}', paramValue);
+                    window.Livewire.dispatch('redirectToTransfertCash', ['{{Session::get('ErreurSoldeReqBFS2')}}', paramValue]);
                 }
             })
         }
@@ -464,7 +464,7 @@
         }
 
         function acceptRequst(numeroRequest) {
-            window.Livewire.emit('AcceptRequest', numeroRequest);
+            window.Livewire.dispatch('AcceptRequest', [numeroRequest]);
         }
 
         function rejectRequst(numeroRequest) {
@@ -476,7 +476,7 @@
                 customClass: {actions: 'my-actions', confirmButton: 'order-2', denyButton: 'order-3',}
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.Livewire.emit('RejectRequest', numeroRequest);
+                    window.Livewire.dispatch('RejectRequest', [numeroRequest]);
                 }
             })
         }
@@ -521,7 +521,7 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.Livewire.emit('PreExchange');
+                    window.Livewire.dispatch('PreExchange');
                 } else if (result.isDenied) {
                     Swal.fire('Changes are not saved', '', 'info')
                 }
@@ -570,7 +570,7 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.Livewire.emit('PreExchangeSMS');
+                    window.Livewire.dispatch('PreExchangeSMS');
                 } else if (result.isDenied) {
                     Swal.fire('Changes are not saved', '', 'info')
                 }
@@ -587,7 +587,7 @@
                 customClass: {actions: 'my-actions', confirmButton: 'order-2', denyButton: 'order-3',}
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.Livewire.emit('DeleteRequest', numReq);
+                    window.Livewire.dispatch('DeleteRequest', [numReq]);
                 }
             })
         }
@@ -598,9 +598,9 @@
 
         function ShowCanceledRequest() {
             if (document.getElementById('ShowCanceled').checked) {
-                window.Livewire.emit('ShowCanceled', 1)
+                window.Livewire.dispatch('ShowCanceled', [1])
             } else {
-                window.Livewire.emit('ShowCanceled', 0)
+                window.Livewire.dispatch('ShowCanceled', [0])
             }
         }
     </script>
@@ -662,7 +662,7 @@
         window.addEventListener('OptExBFSCash', event => {
             Swal.fire({
                 title: '{{ __('Your verification code') }}',
-                html: '{{ __('We_will_send') }}<br>' + event.detail.FullNumber + '<br>' + '{{ __('Your OTP Code') }}',
+                html: '{{ __('We_will_send') }}<br>' + event.detail[0].FullNumber + '<br>' + '{{ __('Your OTP Code') }}',
                 input: 'text',
                 allowOutsideClick: false,
                 timer: '{{ env('timeOPT',180000) }}',
@@ -686,7 +686,7 @@
                 inputAttributes: {autocapitalize: 'off'},
             }).then((resultat) => {
                 if (resultat.value) {
-                    window.Livewire.emit('ExchangeCashToBFS', resultat.value);
+                    window.Livewire.dispatch('ExchangeCashToBFS', [resultat.value]);
                 }
             })
         })
@@ -696,7 +696,7 @@
             Swal.fire({
                 title: '{{ __('Your verification code') }}',
                 html: '{{ __('We_will_send') }}<br> ',
-                html: '{{ __('We_will_send') }}<br>' + event.detail.FullNumber + '<br>' + '{{ __('Your OTP Code') }}',
+                html: '{{ __('We_will_send') }}<br>' + event.detail[0].FullNumber + '<br>' + '{{ __('Your OTP Code') }}',
                 input: 'text',
                 allowOutsideClick: false,
                 timer: '{{ env('timeOPT',180000) }}',
@@ -720,7 +720,7 @@
                 },
             }).then((resultat) => {
                 if (resultat.value) {
-                    window.Livewire.emit('exchangeSms', resultat.value, $("#NSMS").val());
+                    window.Livewire.dispatch('exchangeSms',[ resultat.value, $("#NSMS").val()]);
                 }
                 if (resultat.isDismissed) {
                     location.reload();
@@ -805,7 +805,7 @@
                 return;
             }
             console.log('redirectPay')
-            window.Livewire.emit('redirectPay', theUrl, amount);
+            window.Livewire.dispatch('redirectPay', [theUrl, amount]);
         });
         var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";
         var urlLang = "https://cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";

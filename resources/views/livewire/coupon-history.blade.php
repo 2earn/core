@@ -95,7 +95,7 @@
                         denyButtonText: `Rollback`
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            window.Livewire.emit("markAsConsumed", $(event.target).attr('data-id'));
+                            window.Livewire.dispatch("markAsConsumed",[ $(event.target).attr('data-id')]);
                         }
                     });
                 });

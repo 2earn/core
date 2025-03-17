@@ -286,7 +286,7 @@
                     confirmButtonText: "{{__('Delete')}}",
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.Livewire.emit("delete", $(event.target).attr('data-id'));
+                        window.Livewire.dispatch("delete",[ $(event.target).attr('data-id')]);
                     }
                 });
             });
@@ -303,7 +303,7 @@
                     confirmButtonText: confirmButtonText,
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.Livewire.emit("updateDeal", id, status);
+                        window.Livewire.dispatch("updateDeal",[ id, status]);
                     }
                 });
             });

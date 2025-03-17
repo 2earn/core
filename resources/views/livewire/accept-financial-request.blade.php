@@ -49,7 +49,7 @@
                     denyButtonText: 'No',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.livewire.emit('Confirmrequest', 2, {{$financialRequest->numeroReq}}, result.value);
+                        window.Livewire.dispatch('Confirmrequest',[ 2, {{$financialRequest->numeroReq}}, result.value]);
                     }
                 })
             }

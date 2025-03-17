@@ -182,7 +182,7 @@
                 });
 
                 function saveHA() {
-                    window.livewire.emit('saveHA', $("#tags").val());
+                    window.Livewire.dispatch('saveHA', [$("#tags").val()]);
                 }
 
                 function fetchAndUpdateCardContent() {

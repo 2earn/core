@@ -468,7 +468,7 @@
 
         function sendIndentificationRequest(event) {
             if (checkRequiredFieldsInfo()) {
-                window.Livewire.emit('sendIndentificationRequest');
+                window.Livewire.dispatch('sendIndentificationRequest');
             }
         }
 
@@ -501,8 +501,8 @@
 
         window.addEventListener('IdentificationRequestMissingInformation', event => {
             Swal.fire({
-                title: event.detail.title,
-                text: event.detail.text,
+                title: event.detail[0].title,
+                text: event.detail[0].text,
                 icon: 'error',
                 cancelButtonText: '{{__('Cancel')}}',
                 confirmButtonText: '{{__('Confirm')}}',

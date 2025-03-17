@@ -98,7 +98,7 @@
 
         function emitBO(idBO) {
             if (idBO) {
-                window.Livewire.emit('initBOFunction', idBO);
+                window.Livewire.dispatch('initBOFunction', [idBO]);
             }
         }
 

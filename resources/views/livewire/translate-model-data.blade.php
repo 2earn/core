@@ -255,7 +255,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                 denyButtonText: '{{__('no')}}'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.Livewire.emit('deleteTranslate', idTranslate);
+                    window.Livewire.dispatch('deleteTranslate', [idTranslate]);
                 } else if (result.isDenied) {
                     location.reload();
                 }
@@ -276,7 +276,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                 confirmButtonText: '{{__('Confirm')}}',
             }).then((resultat) => {
                 if (resultat.value) {
-                    window.Livewire.emit('AddFieldTranslate', resultat.value);
+                    window.Livewire.dispatch('AddFieldTranslate',[ resultat.value]);
                 }
                 if (resultat.isDismissed) {
                     location.reload();

@@ -98,7 +98,7 @@
     <script type="module">
         function emitSetting(idSetting) {
             if (idSetting) {
-                window.Livewire.emit('initSettingFunction', idSetting);
+                window.Livewire.dispatch('initSettingFunction', [idSetting]);
             }
         }
 

@@ -108,7 +108,7 @@
     <script type="module">
         function emitAmount(idAmount) {
             if (idAmount) {
-                window.Livewire.emit('initAmountsFunction', idAmount);
+                window.Livewire.dispatch('initAmountsFunction', [idAmount]);
             }
         }
 

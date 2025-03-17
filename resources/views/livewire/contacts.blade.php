@@ -267,7 +267,7 @@
                     data: {phoneNumber: phoneNumber, inputName: inputName, "_token": "{{ csrf_token() }}"},
                     success: function (response) {
                         if (response.message == "") {
-                            window.Livewire.emit('save', phoneNumber, inputname.value.trim(), out);
+                            window.Livewire.dispatch('save', [phoneNumber, inputname.value.trim(), out]);
                             errorMsg.innerHTML = "";
                             errorMsg.classList.add("d-none");
                         } else {
@@ -299,12 +299,12 @@
         }
 
         function initNewUserContact() {
-            window.Livewire.emit('initNewUserContact');
+            window.Livewire.dispatch('initNewUserContact');
         }
 
 
         function editContact(id) {
-            window.Livewire.emit('initUserContact', id);
+            window.Livewire.dispatch('initUserContact', [id]);
         }
 
         function confirmDeleteContact(contactId, ContactFullName) {
@@ -324,7 +324,7 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.Livewire.emit('deleteContact', contactId);
+                    window.Livewire.dispatch('deleteContact', [contactId]);
                 }
             });
 

@@ -121,7 +121,7 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.Livewire.emit('setActiveNumber', 1, $id);
+                    window.Livewire.dispatch('setActiveNumber', 1, [$id]);
                 }
             });
         }
@@ -142,7 +142,7 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.Livewire.emit('deleteContact', $id);
+                    window.Livewire.dispatch('deleteContact', [$id]);
                 }
             });
         }
@@ -155,13 +155,13 @@
                 event.preventDefault();
                 event.stopImmediatePropagation();
                 $('.btn-close-add').trigger('click')
-                window.Livewire.emit('preSaveContact', $("#outputphoneContactNumber").val(), $("#isoContactNumber").val(), $("#phoneContactNumber").val());
+                window.Livewire.dispatch('preSaveContact', [$("#outputphoneContactNumber").val(), $("#isoContactNumber").val(), $("#phoneContactNumber").val()]);
             });
 
             window.addEventListener('PreAddNumber', event => {
                 Swal.fire({
                     title: '{{ __('Your verification code') }}',
-                    html: event.detail.msgSend + ' ' + '<br>' + event.detail.FullNumber + '<br>' + event.detail.userMail + '<br>' + '{{__('Your OTP Code')}}',
+                    html: event.detail[0].msgSend + ' ' + '<br>' + event.detail[0].FullNumber + '<br>' + event.detail[0].userMail + '<br>' + '{{__('Your OTP Code')}}',
                     allowOutsideClick: false,
                     timer: '{{ env('timeOPT',180000) }}',
                     timerProgressBar: true,
@@ -184,7 +184,7 @@
                     inputAttributes: {autocapitalize: 'off'},
                 }).then((resultat) => {
                     if (resultat.isConfirmed) {
-                        window.Livewire.emit('saveContactNumber', resultat.value, event.detail.isoP, event.detail.mobile, event.detail.FullNumberNew);
+                        window.Livewire.dispatch('saveContactNumber',[ resultat.value, event.detail[0].isoP, event.detail[0].mobile, event.detail[0].FullNumberNew]);
                     }
                     if (resultat.isDismissed && resultat.dismiss == 'cancel') {
                         window.location.reload();

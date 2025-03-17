@@ -100,7 +100,7 @@
                     denyButtonText: `Rollback`
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.Livewire.emit("delete", $(event.target).attr('data-id'));
+                        window.Livewire.dispatch("delete", [$(event.target).attr('data-id')]);
                     }
                 });
             });

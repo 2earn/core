@@ -64,7 +64,7 @@
     <script type="module">
         $(document).on('turbolinks:load', function () {
             $('#listeHobbies :checkbox').change(function () {
-                window.Livewire.emit('save');
+                window.Livewire.dispatch('save');
             });
         });
     </script>
