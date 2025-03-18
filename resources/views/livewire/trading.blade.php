@@ -382,7 +382,7 @@
                 const iti = window.intlTelInput(input, {
                     initialCountry: "auto",
                     useFullscreenPopup: false,
-                    utilsScript: " {{asset('/build/utils.js/utils.js')}}"
+                    utilsScript: "{{Vite::asset('/resources/js/utils.js')}}"
                 });
                 $('[name="inlineRadioOptions"]').on('change', function () {
                     if ($('#inlineRadio2').is(':checked')) {

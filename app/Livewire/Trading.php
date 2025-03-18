@@ -16,6 +16,8 @@ class Trading extends Component
     public $flash = false;
     public $cashBalance;
     public $action;
+    public $gits;
+    public $profit;
     public $ammount;
     public $currency = '$';
     public $maxActions;
@@ -98,7 +100,6 @@ class Trading extends Component
         }
 
         $this->action = intval(intval($this->ammount) / actualActionValue(getSelledActions(true), false));
-
         $this->getCommounSimulation();
     }
 

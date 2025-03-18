@@ -3,7 +3,8 @@ import * as bootstrap from 'bootstrap';
 import '@popperjs/core';
 
 import Swal from 'sweetalert2';
-import Alpine from 'alpinejs'
+import Alpine from 'alpinejs';
+import intersect from '@alpinejs/intersect';
 import Turbolinks from "turbolinks";
 
 import Swiper from 'swiper';
@@ -14,7 +15,6 @@ import 'datatables.net-responsive-dt';
 import 'datatables.net-responsive-bs'
 import 'datatables.net-buttons/js/buttons.html5';
 import 'datatables.net-buttons-bs5';
-
 
 import intlTelInput from 'intl-tel-input';
 import {Dropzone} from "dropzone";
@@ -28,7 +28,7 @@ import 'prismjs/components/prism-lua.min.js'
 import ApexCharts from 'apexcharts'
 import SimpleBar from 'simplebar';
 import 'simplebar/dist/simplebar.css';
-
+import 'livewire-sortable'
 import * as FilePond from 'filepond';
 import 'filepond/dist/filepond.min.css';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
@@ -40,8 +40,8 @@ window.bootstrap = bootstrap;
 
 window.Swal = Swal;
 
-window.Alpine = Alpine;
-Alpine.start();
+Alpine.plugin(intersect)
+Alpine.start()
 
 Turbolinks.start();
 

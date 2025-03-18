@@ -103,7 +103,7 @@
             font-display: block;
         }
     </style>
-    @livewireStyles
+    <livewire:styles />
     <meta name="turbolinks-cache-control" content="no-cache">
     <meta name="theme-color" content="#6777ef"/>
     <link rel="apple-touch-icon" href="{{ asset('logo.PNG') }}">
@@ -117,8 +117,9 @@
 </head>
 <body>
 @section('body')
+    @livewireScripts
     @vite(['resources/css/select2.min.css','resources/css/dataTables.bootstrap.css','resources/css/material-components-web.min.css','resources/js/layout.js'])
-    @vite(['resources/css/intlTelInput.min.css','resources/fontawesome/all.min.css','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
+    @vite(['resources/css/intlTelInput.min.css','resources/fontawesome/all.min.css','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/intlTelInput.js'])
     <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PMK39HQQ"
                 height="0" width="0" style="display:none;visibility:hidden"></iframe>
@@ -135,7 +136,6 @@
     </div>
 </div>
 @include('layouts.footer', ['pageName' => 'master'])
-@livewireScripts
 @vite('resources/js/pages/crypto-kyc.init.js')
 <script type="module">
     window.addEventListener('load', () => {
@@ -203,7 +203,7 @@
                         callback(countryCode);
                     });
                 },
-                utilsScript: " {{asset('/build/utils.js/utils.js')}}"
+                utilsScript: "{{Vite::asset('/resources/js/utils.js')}}"
             });
             inputUpPhone.addEventListener('keyup', resetUpPhone);
             inputUpPhone.addEventListener('countrychange', resetUpPhone);
@@ -246,7 +246,7 @@
                         callback(countryCodelog);
                     });
                 },
-                utilsScript: " {{asset('/build/utils.js/utils.js')}}"
+                utilsScript: "{{Vite::asset('/resources/js/utils.js')}}"
             });
 
             inputlog.addEventListener('keyup', resetContacts);
@@ -293,7 +293,7 @@
                         callback(countryCode);
                     });
                 },
-                utilsScript: " {{asset('/build/utils.js/utils.js')}}"
+                utilsScript: "{{Vite::asset('/resources/js/utils.js')}}"
             });
             for (var i = 0; i < countryDataAddContact.length; i++) {
                 var country = countryDataAddContact[i];
@@ -356,7 +356,7 @@
                         callback(countryCode13);
                     });
                 },
-                utilsScript: " {{asset('/build/utils.js/utils.js')}}"
+                utilsScript: "{{Vite::asset('/resources/js/utils.js')}}"
             });
             inputAddContactNumber.addEventListener('keyup', resetAddNumberContact);
             inputAddContactNumber.addEventListener('countrychange', resetAddNumberContact);

@@ -8,7 +8,7 @@
     <meta content="2earn.cash" name="description"/>
     <meta content="Themesbrand" name="author"/>
     <link rel="shortcut icon" href="{{ Vite::asset('resources/images/favicon.ico')}}">
-    @livewireStyles
+    <livewire:styles />
     <script src="https://www.google.com/recaptcha/api.js?render={{config('services.recaptcha.key')}}"></script>
     @if(config('app.available_locales')[app()->getLocale()]['direction'] === 'rtl')
         @vite(['resources/css/bootstrap-rtl.css','resources/css/icons-rtl.css','resources/css/app-rtl.css','resources/css/custom-rtl.css'])
@@ -21,7 +21,7 @@
 <div class="container-fluid">
     @yield('content')
 </div>
-@livewireScripts
+<livewire:scripts />
 <script type="module">
     $(function () {
         const myParams = window.location.pathname.split("/");
@@ -43,7 +43,7 @@
                         callback((resp && resp.country) ? resp.country : "TN");
                     });
                 },
-                utilsScript: " {{asset('/build/utils.js/utils.js')}}"
+                utilsScript: " {{Vite::asset('/resources/js/utils.js')}}"
             });
 
             inputlog.addEventListener('keyup', resetLog);
@@ -82,7 +82,7 @@
                         callback((resp && resp.country) ? resp.country : "TN");
                     });
                 },
-                utilsScript: " {{asset('/build/utils.js/utils.js')}}"
+                utilsScript: "{{Vite::asset('/resources/js/utils.js')}}"
             });
             input.addEventListener('keyup', reset);
             input.addEventListener('countrychange', reset);
@@ -103,7 +103,7 @@
                         callback(countryCode);
                     });
                 },
-                utilsScript: " {{asset('/build/utils.js/utils.js')}}"
+                utilsScript: "{{Vite::asset('/resources/js/utils.js')}}"
             });
             inputforget.addEventListener('keyup', resetforget);
             inputforget.addEventListener('countrychange', resetforget);

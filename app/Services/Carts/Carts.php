@@ -81,6 +81,7 @@ class Carts
 
     public static function removeItemFromCart($cartItem)
     {
+       dd($cartItem);
         $cartItem = CartItem::find($cartItem)->first();
         $cartItem->delete();
         Carts::updateCart();
