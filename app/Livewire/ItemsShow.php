@@ -23,13 +23,13 @@ class ItemsShow extends Component
         }
         $this->quantityToAdd = 1;
 
-        $this->dispatch('itemAddedToCart');
+        $this->dispatch('item-added-to-cart');
     }
 
     public function addToCard()
     {
         Carts::addItemToCart($this->item);
-        $this->dispatch('itemAddedToCart');
+        $this->dispatch('item-added-to-cart');
     }
 
     public function render()

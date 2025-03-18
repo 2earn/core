@@ -15,6 +15,7 @@ class OrderSummary extends Component
 {
     public $cart;
     public $orders = [];
+    public $currentRouteName;
 
     public $listeners = [
         'validateCart' => 'validateCart',
@@ -59,7 +60,7 @@ class OrderSummary extends Component
     public function clearCart()
     {
         Carts::initCart();
-        $this->dispatch('itemAddedToCart');
+        $this->dispatch('update-cart');
     }
 
     public function render()

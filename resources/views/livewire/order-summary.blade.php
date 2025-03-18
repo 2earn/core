@@ -35,10 +35,9 @@
                                              src="{{$item->item()->first()->photo_link}}"
                                              class="img-fluid d-block"/>
                                     @elseif($item->item()->first()->thumbnailsImage)
-                                        <img
-                                            src="{{ asset('uploads/' . $item->item()->first()->thumbnailsImage->url) }}"
-                                            alt="{{__('Item Image')}}"
-                                            class="img-fluid d-block"
+                                        <img src="{{ asset('uploads/' . $item->item()->first()->thumbnailsImage->url) }}"
+                                                alt="{{__('Item Image')}}"
+                                                class="img-fluid d-block"
                                         >
                                     @else
                                         <img src="{{Vite::asset(\App\Models\Item::DEFAULT_IMAGE_TYPE_THUMB)}}"
@@ -85,9 +84,9 @@
                         </tr>
                         <tr class="table-active">
                             <th colspan="2">
-                                                            <span class="text-muted">
-                                                                {{__('Total')}}   {{config('app.currency')}} </span>
-                                </th>
+                                 <span class="text-muted">
+                                     {{__('Total')}}   {{config('app.currency')}} </span>
+                            </th>
                             <td class="text-end">
                             <span class="fw-semibold">
                                 <span class="text-muted">
@@ -113,7 +112,7 @@
             <div class="card-body">
                 @foreach($orders as $order)
                     <div class="col-sm-12 col-lg-12">
-                        @include('livewire.order-item', ['order' => $order])
+                        @include('livewire.order-item', ['order' => $order,'currentRouteName' => $currentRouteName])
                     </div>
                 @endforeach
             </div>

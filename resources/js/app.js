@@ -796,7 +796,7 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
                 item.addEventListener("click", function (e) {
                     dropdownItemCart--;
                     this.closest(".dropdown-item-cart").remove();
-                    Array.from(document.getElementsByClassName("cartitem-badge")).forEach(function (e) {
+                    Array.from(document.getElementsByClassName("cart-item-badge")).forEach(function (e) {
                         e.innerHTML = dropdownItemCart;
                     });
                     updateCartPrice();
@@ -808,7 +808,7 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
                     }
                 });
             });
-            Array.from(document.getElementsByClassName("cartitem-badge")).forEach(function (e) {
+            Array.from(document.getElementsByClassName("cart-item-badge")).forEach(function (e) {
                 e.innerHTML = dropdownItemCart;
             });
             if (document.getElementById("empty-cart")) {
