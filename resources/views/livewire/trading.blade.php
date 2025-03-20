@@ -131,21 +131,10 @@
                                         <div class="input-group mb-3">
                                             <input aria-describedby="simulateAmmount" type="number"
                                                    max="{{round($cashBalance)}}"
-                                                   wire:keyup.debounce="simulateAmmount()" wire:model.live="ammount"
+                                                   wire:keyup.debounce="simulateAmmount()" wire:model.lazy="ammount"
                                                    id="ammount"
                                                    class="form-control @if($flash) flash @endif">
 
-                                            <div class="input-group-append">
-                                                <button wire:click="simulateAmmount()"
-                                                        class="btn @if($flash) btn-outline-flash @else btn-outline-primary  @endif">
-                                                    <div wire:loading wire:target="simulateAmmount">
-                                                <span class="spinner-border spinner-border-sm" role="status"
-                                                      aria-hidden="true"></span>
-                                                        <span class="sr-only">{{__('Loading')}}...</span>
-                                                    </div>
-                                                    <i class="fa-solid fa-arrow-right"></i>
-                                                </button>
-                                            </div>
                                         </div>
 
                                     </div>
@@ -156,47 +145,52 @@
                                         <div class="input-group mb-3">
                                             <input aria-describedby="simulateAction" type="number"
                                                    max="{{$maxActions}}"
-                                                   wire:keyup.debounce="simulateAction()" wire:model.live="action"
+                                                   wire:keyup.debounce="simulateAction()" wire:model.lazy="action"
                                                    id="action"
                                                    class="form-control @if($flash) flash @endif">
-                                            <div class="input-group-append">
-                                                <button wire:click="simulateAction()"
-                                                        class="btn @if($flash) btn-outline-flash @else btn-outline-primary  @endif">
-                                                    <div wire:loading wire:target="simulateAction">
-                                                <span class="spinner-border spinner-border-sm" role="status"
-                                                      aria-hidden="true"></span>
-                                                        <span class="sr-only">{{__('Loading')}}...</span>
-                                                    </div>
-                                                    <i class="fa-solid fa-arrow-right"></i>
-                                                </button>
-                                            </div>
                                         </div>
+
+                                    </div>
+                                    <div class="col-12 text-muted">
+                                        @if($ammount)
+                                            <div class="alert alert-success alert-dismissible fade show material-shadow"
+                                                 role="alert">
+                                                <strong id="amount_val" class="col-form-label">
+                                                    {{$ammount}}
+                                                </strong>
+                                                <label
+                                                    class="col-form-label">{{config('app.currency')}} {{__('To')}}</label>
+                                                <strong id="action_val" class="col-form-label">
+                                                    {{$action}}
+                                                </strong>
+                                                <label class="col-form-label">{{__('Actions')}}</label>
+                                            </div>
+                                        @endif
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                         <label for="number-of-gifted-action" class="col-form-label">
                                             {{ __('Gifted Shares') }}
+                                            @if($gift)
+                                            <span class="badge bg-success con fs-14 float-end text-end"> {{$gift}}</span>
+                                            @endif
+
                                         </label>
-                                        <input type="number" disabled
-                                               class="@if($flash) form-control-flash @else form-control  @endif"
-                                               wire:model.live="gift"
-                                               id="number-of-gifted-action"
-                                               value="0000">
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                         <label for="profit" class="col-form-label">{{ __('Profit') }}
-                                            ( {{config('app.currency')}}) </label>
-                                        <input type="text" inputmode="numeric" pattern="[-+]?[0-9]*[.,]?[0-9]+"
-                                               disabled
-                                               class="@if($flash) form-control-flash @else form-control  @endif"
-                                               id="profit"
-                                               value="0000"
-                                               wire:model.live="profit">
+                                            @if($profit)
+                                                <span class="badge bg-success con fs-14 float-end text-end"> {{$profit}}  ( {{config('app.currency')}})</span>
+                                            @endif
+                                        </label>
+
                                     </div>
                                     <div class="col-lg-12 mt-3">
                                         <div class="hstack gap-2 justify-content-end">
                                             @if($flash)
                                                 <button type="button" class="btn btn-outline-gold">
                                                     {{__('Flash gift')}}
+
+                                                    {{$flashGift}}
                                                     <span class="flash-background">{{$flashGift}}</span>
                                                 </button>
                                                 <button type="button" class="btn btn-outline-gold">
@@ -396,7 +390,8 @@
                 $("#buy-action-submit").one("click", function () {
                     this.disabled = true;
                     $('.buy-action-submit-spinner').show();
-                    let ammount = parseFloat($('#ammount').val()).toFixed(3);
+                    let ammount = parseFloat($('#amount_val').text()).toFixed(3);
+                    console.log(ammount)
                     let numberOfActions = parseInt($('#action').val());
                     let phone = $('#phone').val();
                     let me_or_other = $("input[name='inlineRadioOptions']:checked").val();
@@ -466,7 +461,7 @@
         );
 
     </script>
-        <script id="rendered-js" type="module" data-turbolinks="false">
+    <script id="rendered-js" type="module" data-turbolinks="false">
         $(document).on('turbolinks:load', function () {
             var chart1Origin = document.querySelector('#chart1');
             if (chart1Origin) {
