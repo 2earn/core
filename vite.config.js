@@ -96,7 +96,7 @@ export default defineConfig({
             targets: [
                 {
                     src: 'resources/js/utils.js',
-                    dest: 'utils.js'
+                    dest: 'utils.js/utils.js'
                 }, {
                     src: 'resources/icons/wired-gradient-751-share.json',
                     dest: 'icons'

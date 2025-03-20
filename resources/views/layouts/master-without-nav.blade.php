@@ -15,7 +15,7 @@
     @else
         @vite(['resources/css/bootstrap.min.css','resources/css/icons.css','resources/css/app.css','resources/css/custom.css'])
     @endif
-    @vite([ 'resources/css/intlTelInput.min.css','resources/js/sweetalert2@11.js','resources/js/appWithoutNav.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
+    @vite([ 'resources/css/intlTelInput.min.css','resources/js/sweetalert2@11.js','resources/js/appWithoutNav.js','resources/js/intlTelInput.js'])
 </head>
 <body>
 <div class="container-fluid">
@@ -82,7 +82,7 @@
                         callback((resp && resp.country) ? resp.country : "TN");
                     });
                 },
-                utilsScript: "{{Vite::asset('/resources/js/utils.js')}}"
+                utilsScript: "{{Vite::asset('utils.js/utils.js')}}"
             });
             input.addEventListener('keyup', reset);
             input.addEventListener('countrychange', reset);
@@ -103,7 +103,7 @@
                         callback(countryCode);
                     });
                 },
-                utilsScript: "{{Vite::asset('/resources/js/utils.js')}}"
+                utilsScript: "{{Vite::asset('utils.js/utils.js')}}"
             });
             inputforget.addEventListener('keyup', resetforget);
             inputforget.addEventListener('countrychange', resetforget);

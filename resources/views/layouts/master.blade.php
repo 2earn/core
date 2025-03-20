@@ -204,7 +204,7 @@
                         callback(countryCode);
                     });
                 },
-                utilsScript: "{{Vite::asset('/resources/js/utils.js')}}"
+                utilsScript: "{{Vite::asset('utils.js/utils.js')}}"
             });
             inputUpPhone.addEventListener('keyup', resetUpPhone);
             inputUpPhone.addEventListener('countrychange', resetUpPhone);
@@ -247,7 +247,7 @@
                         callback(countryCodelog);
                     });
                 },
-                utilsScript: "{{Vite::asset('/resources/js/utils.js')}}"
+                utilsScript: "{{Vite::asset('utils.js/utils.js')}}"
             });
 
             inputlog.addEventListener('keyup', resetContacts);
@@ -294,7 +294,7 @@
                         callback(countryCode);
                     });
                 },
-                utilsScript: "{{Vite::asset('/resources/js/utils.js')}}"
+                utilsScript: "{{Vite::asset('utils.js/utils.js')}}"
             });
             for (var i = 0; i < countryDataAddContact.length; i++) {
                 var country = countryDataAddContact[i];
@@ -357,7 +357,7 @@
                         callback(countryCode13);
                     });
                 },
-                utilsScript: "{{Vite::asset('/resources/js/utils.js')}}"
+                utilsScript: "{{Vite::asset('utils.js/utils.js')}}"
             });
             inputAddContactNumber.addEventListener('keyup', resetAddNumberContact);
             inputAddContactNumber.addEventListener('countrychange', resetAddNumberContact);
