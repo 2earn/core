@@ -1,5 +1,5 @@
-<div>
-    @component('components.breadcrumb')
+<div class="container-fluid">
+@component('components.breadcrumb')
         @slot('title')
             {{__('Survey')}} > {{$survey->id}}
             - {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}} > {{__('Participation')}}

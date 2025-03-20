@@ -1,5 +1,5 @@
-<div>
-    @component('components.breadcrumb')
+<div class="container-fluid">
+@component('components.breadcrumb')
         @slot('title')
             @if($update)
                 {{__('Update Deal')}}

@@ -1,4 +1,4 @@
-<div>
+<div class="container-fluid">
     @component('components.breadcrumb')
         @slot('title')
             @if($update)
@@ -43,7 +43,8 @@
                         @error('mainImage') <span class="error">{{ $message }}</span> @enderror
                         @if ($news?->mainImage)
                             <div class="mt-3">
-                                <img src="{{ asset('uploads/' . $news->mainImage->url) }}" alt="Business Sector logoImage" class="img-thumbnail">
+                                <img src="{{ asset('uploads/' . $news->mainImage->url) }}"
+                                     alt="Business Sector logoImage" class="img-thumbnail">
                             </div>
                         @endif
                     </div>

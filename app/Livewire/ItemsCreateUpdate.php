@@ -18,7 +18,7 @@ class ItemsCreateUpdate extends Component
     public $idItem;
     public $dealId,$deal_id;
     public $platformId;
-    public $deals;
+    public $deals=[];
     public $thumbnailsImage;
     public $name, $ref, $price, $discount, $discount_2earn, $photo_link, $description, $stock;
 
@@ -68,7 +68,7 @@ class ItemsCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('items_detail', ['locale' => app()->getLocale()])->with('warning', Lang::get('Item operation cancelled'));
+        return redirect()->route('items_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Item operation cancelled'));
     }
 
     public function update()

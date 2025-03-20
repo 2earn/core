@@ -1,4 +1,4 @@
-<div>
+<div class="container-fluid">
     @section('title')
         {{ __('Deals') }}
     @endsection
@@ -97,7 +97,7 @@
                     confirmButtonText: "{{__('Delete')}}",
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.Livewire.dispatch("delete",[ $(event.target).attr('data-id')]);
+                        window.Livewire.dispatch("delete", [$(event.target).attr('data-id')]);
                     }
                 });
             });

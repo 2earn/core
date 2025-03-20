@@ -1,4 +1,4 @@
-<div>
+<div class="container-fluid">
     @component('components.breadcrumb')
         @slot('title')
             @if($update)
@@ -14,7 +14,7 @@
                 <h6 class="card-title flex-grow-1">
                     {{__('Business sector')}} :
                     @if($update)
-                         <span
+                        <span
                             class="text-muted"> > </span> {{__('Update business sector')}} > {{$name}}
                     @else
                         <span
@@ -50,7 +50,8 @@
                         @error('thumbnailsImage') <span class="error">{{ $message }}</span> @enderror
                         @if ($businessSector?->thumbnailsImage)
                             <div class="mt-3">
-                                <img src="{{ asset('uploads/' . $businessSector->thumbnailsImage->url) }}" alt="Business Sector thumbnailsImage" class="img-thumbnail">
+                                <img src="{{ asset('uploads/' . $businessSector->thumbnailsImage->url) }}"
+                                     alt="Business Sector thumbnailsImage" class="img-thumbnail">
                             </div>
                         @endif
                     </div>
@@ -60,24 +61,25 @@
                         @error('logoImage') <span class="error">{{ $message }}</span> @enderror
                         @if ($businessSector?->logoImage)
                             <div class="mt-3">
-                                <img src="{{ asset('uploads/' . $businessSector->logoImage->url) }}" alt="Business Sector logoImage" class="img-thumbnail">
+                                <img src="{{ asset('uploads/' . $businessSector->logoImage->url) }}"
+                                     alt="Business Sector logoImage" class="img-thumbnail">
                             </div>
                         @endif
                     </div>
-                <div class="row mt-3">
-                    <div class="col-12">
-                        @if($update)
-                            <button wire:click.prevent="update()"
-                                    class="btn btn-success btn-block mx-2 float-end ">{{__('Update')}}</button>
-                        @else
-                            <button wire:click.prevent="store()"
-                                    class="btn btn-success btn-block float-end ">{{__('Save')}}</button>
-                        @endif
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            @if($update)
+                                <button wire:click.prevent="update()"
+                                        class="btn btn-success btn-block mx-2 float-end ">{{__('Update')}}</button>
+                            @else
+                                <button wire:click.prevent="store()"
+                                        class="btn btn-success btn-block float-end ">{{__('Save')}}</button>
+                            @endif
 
-                        <button wire:click.prevent="cancel()"
-                                class="btn btn-danger float-end  mx-2">{{__('Cancel')}}</button>
+                            <button wire:click.prevent="cancel()"
+                                    class="btn btn-danger float-end  mx-2">{{__('Cancel')}}</button>
+                        </div>
                     </div>
-                </div>
             </form>
         </div>
     </div>

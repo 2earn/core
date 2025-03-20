@@ -1,4 +1,4 @@
-<div>
+<div class="container-fluid">
     @component('components.breadcrumb')
         @slot('title')
             @if($update)
@@ -79,7 +79,8 @@
                             </div>
                             <div class="form-group  col-sm-4 col-md-2">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" role="switch" wire:model.live="enabled" type="checkbox"
+                                    <input class="form-check-input" role="switch" wire:model.live="enabled"
+                                           type="checkbox"
                                            id="Enabled" placeholder="{{__('enabled')}}" checked>
                                     <label class="form-check-label" for="Enabled">{{__('Enabled')}}</label>
                                 </div>
@@ -107,7 +108,8 @@
                                 @error('logoImage') <span class="error">{{ $message }}</span> @enderror
                                 @if ($platform?->logoImage)
                                     <div class="mt-3">
-                                        <img src="{{ asset('uploads/' . $platform->logoImage->url) }}" alt="Business Sector logoImage" class="img-thumbnail">
+                                        <img src="{{ asset('uploads/' . $platform->logoImage->url) }}"
+                                             alt="Business Sector logoImage" class="img-thumbnail">
                                     </div>
                                 @endif
                             </div>

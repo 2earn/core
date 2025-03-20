@@ -1,4 +1,4 @@
-<div>
+<div class="container-fluid">
     @section('title')
         {{ __('Item') }}
     @endsection
@@ -77,22 +77,24 @@
                         @error('photo_link') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>
-                    <div class="form-group col-sm-12 col-md-6 mb-3">
-                        <label for="value">{{__('Deal')}}</label>
-                        <select
-                            class="form-select form-control @error('Deal') is-invalid @enderror"
-                            wire:model.live="deal_id"
-                            id="Deal"
-                            aria-label="{{__('Enter Deal')}}">
-                            @foreach ($deals as $DealsItem)
-                                <option value="{{$DealsItem->id}}">
-                                    {{$DealsItem->id}} | {{$DealsItem->name}}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('Deal') <span class="text-danger">{{ $message }}</span>@enderror
-                        <div class="form-text">{{__('Required field')}}</div>
-                    </div>
+                    @if(!empty($deals))
+                        <div class="form-group col-sm-12 col-md-6 mb-3">
+                            <label for="value">{{__('Deal')}}</label>
+                            <select
+                                class="form-select form-control @error('Deal') is-invalid @enderror"
+                                wire:model.live="deal_id"
+                                id="Deal"
+                                aria-label="{{__('Enter Deal')}}">
+                                @foreach ($deals as $DealsItem)
+                                    <option value="{{$DealsItem->id}}">
+                                        {{$DealsItem->id}} | {{$DealsItem->name}}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('Deal') <span class="text-danger">{{ $message }}</span>@enderror
+                            <div class="form-text">{{__('Required field')}}</div>
+                        </div>
+                    @endif
                     <div class="form-group col-sm-12 col-md-6 mb-3">
                         <label for="thumbnailsImage">{{__('Thumbnails Image')}}</label>
                         <input type="file" id="thumbnailsImage" wire:model.live="thumbnailsImage" class="form-control">
