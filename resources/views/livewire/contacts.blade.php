@@ -332,8 +332,8 @@
         }
     </script>
     <script type="module">
-        $(document).on('turbolinks:load', function () {
-            window.livewire.restart();
+        document.addEventListener("DOMContentLoaded", function () {
+
             $('#contacts_table').DataTable({
                 retrieve: true,
                 searching: true,

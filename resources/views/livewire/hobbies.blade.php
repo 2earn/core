@@ -62,7 +62,8 @@
     </div>
 
     <script type="module">
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             $('#listeHobbies :checkbox').change(function () {
                 window.Livewire.dispatch('save');
             });

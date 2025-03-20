@@ -166,7 +166,9 @@
                 window.location.href = routeUrl;
             });
 
-            $(document).on('turbolinks:load', function () {
+            document.addEventListener("DOMContentLoaded", function () {
+                console.log('DOMContentLoaded cb')
+
                 $('#ub_table').DataTable(
                     {
                         ordering: true,

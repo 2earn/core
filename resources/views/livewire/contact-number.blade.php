@@ -151,7 +151,8 @@
         <script type="module">
             var timerInterval;
 
-            $(document).on('turbolinks:load', function () {
+            document.addEventListener("DOMContentLoaded", function () {
+
                 $("#saveAddContactNumber").click(function (event) {
                     event.preventDefault();
                     event.stopImmediatePropagation();
@@ -196,7 +197,8 @@
 
         </script>
         <script type="module">
-            $(document).on('turbolinks:load', function () {
+            document.addEventListener("DOMContentLoaded", function () {
+
                 $('#example').DataTable({
                     retrieve: true,
                     "colReorder": true,

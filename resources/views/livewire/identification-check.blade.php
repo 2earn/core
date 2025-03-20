@@ -387,7 +387,8 @@
             </div>
         </div>
         <script type="module">
-            $(document).on('turbolinks:load', function () {
+            document.addEventListener("DOMContentLoaded", function () {
+
 
                 var errorMail = document.querySelector("#error-mail");
                 var checkOpt = false;

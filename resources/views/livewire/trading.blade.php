@@ -462,7 +462,8 @@
 
     </script>
     <script id="rendered-js" type="module" data-turbolinks="false">
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             var chart1Origin = document.querySelector('#chart1');
             if (chart1Origin) {
                 var options1 = {
@@ -513,7 +514,8 @@
             }
         });
 
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             $('#shares-solde').DataTable({
                 retrieve: true,
                 "colReorder": false,

@@ -3,9 +3,7 @@ import * as bootstrap from 'bootstrap';
 import '@popperjs/core';
 
 import Swal from 'sweetalert2';
-import Alpine from 'alpinejs';
-import intersect from '@alpinejs/intersect';
-import Turbolinks from "turbolinks";
+
 
 import Swiper from 'swiper';
 
@@ -39,11 +37,6 @@ window.$ = $; // this worked for me
 window.bootstrap = bootstrap;
 
 window.Swal = Swal;
-
-Alpine.plugin(intersect)
-Alpine.start()
-
-Turbolinks.start();
 
 const swiper = new Swiper();
 

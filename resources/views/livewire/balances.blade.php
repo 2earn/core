@@ -104,7 +104,8 @@
                 }
             }
 
-            $(document).on('turbolinks:load', function () {
+            document.addEventListener("DOMContentLoaded", function () {
+
                 $('#BalanceOperationsTable').DataTable(
                     {
                         retrieve: true,

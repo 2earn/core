@@ -730,7 +730,8 @@
             })
         </script>
         <script data-turbolinks-eval="false" type="module">
-            $(document).on('turbolinks:load', function () {
+            document.addEventListener("DOMContentLoaded", function () {
+
 
 
                 var triggerTabList = [].slice.call(document.querySelectorAll('#pills-tab a'))

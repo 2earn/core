@@ -509,7 +509,8 @@
             });
         }
 
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             $(document).on("click", ".cb", function () {
             let reciver = $(this).data('reciver');
             let amount = $(this).data('amount');
@@ -608,7 +609,8 @@
             });
         }
 
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             $(document).on("click", ".sh", function () {
             let reciver = $(this).data('reciver');
             let amount = $(this).data('amount');
@@ -625,7 +627,8 @@
             });
         });
         });
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             $('#users-list').DataTable({
                 "responsive": true,
                 "ordering": true,

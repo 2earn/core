@@ -102,7 +102,8 @@
             }
         }
 
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             $('#SettingsTable').DataTable(
                 {
                     retrieve: true,

@@ -77,7 +77,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
         @font-face {
             font-family: 'iconearn';
@@ -146,7 +145,8 @@
 </script>
 @stack('scripts')
 <script type="module">
-    $(document).on('turbolinks:load', function () {
+    document.addEventListener("DOMContentLoaded", function () {
+
         var select2_array = [];
         var classAl = "text-end";
         var tts = '{{config('app.available_locales')[app()->getLocale()]['direction']}}';
@@ -165,7 +165,8 @@
         $('#amountsTable').DataTable().ajax.reload();
     });
 
-    $(document).on('turbolinks:load', function () {
+    document.addEventListener("DOMContentLoaded", function () {
+
         var ipPhone = document.getElementById("inputPhoneUpdate");
         const myParams = window.location.pathname.split("/");
         const pathPage = myParams[2];

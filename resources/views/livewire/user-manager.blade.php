@@ -86,7 +86,8 @@
             });
         }
 
-            $(document).on('turbolinks:load', function () {
+            document.addEventListener("DOMContentLoaded", function () {
+
                 $('#userManager_table').DataTable({
                     retrieve: true,
                     "colReorder": true,

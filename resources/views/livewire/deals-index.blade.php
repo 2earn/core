@@ -53,7 +53,8 @@
         </div>
     </div>
     <script type="module">
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             if (!$.fn.dataTable.isDataTable('#dealTable')) {
                 $('#dealTable').DataTable({
                     "responsive": true,

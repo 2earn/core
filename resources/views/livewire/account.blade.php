@@ -921,7 +921,8 @@
                 </script>
                 <script type="module">
                     var timerInterval;
-                    $(document).on('turbolinks:load', function () {
+                    document.addEventListener("DOMContentLoaded", function () {
+
                         $("#btnsaveUser").click(function () {
                             window.Livewire.dispatch('saveUser', [parseInt($("#inputChild").val())]);
                         });
@@ -1106,7 +1107,8 @@
                     })
                 </script>
                 <script type="module">
-                    $(document).on('turbolinks:load', function () {
+                    document.addEventListener("DOMContentLoaded", function () {
+
                         $("#soonExpireIIC, #goToIdentification").click(function () {
                             console.log('Hi')
                             $('#personalDetailsTab a').removeClass('active')
@@ -1123,7 +1125,8 @@
                 </script>
 
                 <script type="module">
-                    $(document).on('turbolinks:load', function () {
+                    document.addEventListener("DOMContentLoaded", function () {
+
                         $("#btnPlus").click(function () {
                             var child = parseInt($("#inputChild").val());
                             child = child + 1;

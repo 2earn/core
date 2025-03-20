@@ -38,7 +38,8 @@
         </div>
 
         <script type="module">
-            $(document).on('turbolinks:load', function () {
+            document.addEventListener("DOMContentLoaded", function () {
+
                 if (!$.fn.dataTable.isDataTable('#HistoryNotificationTable')) {
                     $('#HistoryNotificationTable').DataTable({
                         "responsive": true,

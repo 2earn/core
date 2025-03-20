@@ -98,7 +98,8 @@
             $("#editCountriesModal").on('hidden.bs.modal', function () {
                 window.location.href = "{{ route('countries_management', app()->getLocale())}}";
             });
-            $(document).on('turbolinks:load', function () {
+            document.addEventListener("DOMContentLoaded", function () {
+
                 $('#countries_table').DataTable(
                     {
                         "ajax": "{{route('api_countries',app()->getLocale())}}",

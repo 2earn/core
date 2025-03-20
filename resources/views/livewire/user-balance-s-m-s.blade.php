@@ -31,7 +31,8 @@
         </div>
     </div>
     <script type="module">
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             $('#userBalanceSMS_table').DataTable(
                 {
                     "ordering": false,

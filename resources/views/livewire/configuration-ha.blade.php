@@ -77,7 +77,8 @@
                 }
             }
 
-            $(document).on('turbolinks:load', function () {
+            document.addEventListener("DOMContentLoaded", function () {
+
                 $('#ActionHistorysTable').DataTable(
                     {
                         retrieve: true,

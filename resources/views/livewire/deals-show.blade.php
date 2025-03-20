@@ -278,7 +278,8 @@
         @include('livewire.commission-breackdowns', ['commissions' => $commissions])
     @endif
     <script type="module">
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             $('body').on('click', '.deleteDeal', function (event) {
                 Swal.fire({
                     title: '{{__('Are you sure to delete this Deal')}}? <h5 class="float-end">' + $(event.target).attr('data-name') + ' </h5>',

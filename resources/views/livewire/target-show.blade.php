@@ -48,7 +48,8 @@
         </div>
     </div>
     <script type="module">
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             $.fn.dataTable.ext.errMode = function (settings, helpPage, message) {
                 console.log('Error : ', message);
                 $("#warningDetail").removeClass("d-none")

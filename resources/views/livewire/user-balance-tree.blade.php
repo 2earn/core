@@ -30,11 +30,12 @@
         </div>
     </div>
     <script type="module">
-        $(document).on('ready ', function () {
+        document.addEventListener("DOMContentLoaded", function () {
                 $('#page-title-box').addClass('page-title-box-bfs');
             }
         );
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             var select2_array = [];
 
             $('#ub_table_tree').DataTable(

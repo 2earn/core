@@ -610,7 +610,8 @@
             }
         }
 
-        $(document).on('ready turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             init(['sidebarArchive', 'sidebarDashboards', 'sidebarShareSold', 'sidebarTranslate', 'sidebarBusiness', 'sidebarSavings', 'sidebarBiography', 'sidebarRequests'])
         });
     </script>

@@ -112,7 +112,8 @@
             }
         }
 
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
 
             $('#amountsTable').DataTable(
                 {

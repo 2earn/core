@@ -60,7 +60,7 @@ class Ordering
         foreach ($order->orderDetails as $orderDetail) {
             $shippingSum = $shippingSum + $orderDetail->shipping;
             $totalOrderQuantity = $totalOrderQuantity + $orderDetail->qty;
-            if ($orderDetail->item->deal()->exists()) {
+            if ($orderDetail?->item?->deal()->exists()) {
                 $deal_amount_before_discount = $deal_amount_before_discount + ($orderDetail->unit_price * $orderDetail->qty);
             } else {
                 $price_of_products_out_of_deal = $price_of_products_out_of_deal + ($orderDetail->unit_price * $orderDetail->qty);
@@ -144,7 +144,7 @@ class Ordering
         foreach ($order->orderDetails as $orderDetail) {
             $shippingSum = $shippingSum + $orderDetail->shipping;
 
-            if ($orderDetail->item->deal()->exists()) {
+            if ($orderDetail?->item?->deal()->exists()) {
                 $itemDeal = Ordering::initDealItem($orderDetail);
                 $itemDeal = Ordering::fillPartnerDiscount($orderDetail, $itemDeal);
                 $itemDeal = Ordering::fillEarnDiscount($orderDetail, $itemDeal);
