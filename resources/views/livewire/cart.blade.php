@@ -17,7 +17,7 @@
         <div class="p-3 border-top-0 border-start-0 border-end-0 border-dashed border">
             <div class="row align-items-center">
                 <div class="col">
-                    <h6 class="m-0 fs-16 fw-semibold">{{__('My Cart')}}</h6>
+                    <h6 class="m-0 fs-16 fw-semibold">{{__('My Cart')}} : {{$date_rendered}}</h6>
                 </div>
                 <div class="col-auto">
                     <span class="badge bg-warning-subtle text-warning fs-13">
@@ -89,8 +89,9 @@
                                                     </h5>
                                                 </div>
                                                 <div class="ps-2">
-                                                    <a wire:click.prevent="removeCartItem({{$item->id}})"
-                                                       class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn">
+                                                    <a wire:click="removeCartItem({{$item->id}})"
+                                                       id="removeCartItem{{$item->id}}"
+                                                       class="btn btn-icon btn-sm btn-ghost-secondary">
                                                         <i class="ri-close-fill fs-16"></i></a>
                                                 </div>
                                             </div>
@@ -127,38 +128,6 @@
         </div>
     </div>
     <script type="module">
-        function updateCartAfterChange() {
-            var currencySign = "$";
-            var subtotalqty = 0;
-            var subtotal = 0;
-            Array.from(document.getElementsByClassName("cart-item-qty")).forEach(function (e) {
-                subtotalqty += parseFloat(e.innerHTML);
-            });
-            Array.from(document.getElementsByClassName("cart-item-price")).forEach(function (e) {
-                subtotal += parseFloat(e.innerHTML);
-            });
-            var badges = document.getElementsByClassName("cart-item-badge");
 
-            for (var i = 0; i < badges.length; i++) {
-                badges[i].innerHTML = subtotalqty;
-            }
-            if (document.getElementById("cart-item-total")) {
-                document.getElementById("cart-item-total").innerHTML = currencySign + subtotal.toFixed(2);
-            }
-        }
-
-        $(document).on('turbolinks:load', function () {
-            Livewire.on('item-added-to-cart', () => {
-                updateCartAfterChange();
-            });
-            Livewire.on('update-cart', () => {
-                updateCartAfterChange();
-            });
-            Livewire.on('remove-item-from-cart', () => {
-                console.log('item-added-to-cart');
-                updateCartAfterChange();
-            });
-            updateCartAfterChange();
-        });
     </script>
 </div>

@@ -11,6 +11,10 @@ class ItemsShow extends Component
     public $quantityToAdd = 1;
     public $orderedQty = 0;
 
+    protected $listeners = [
+        'updated-cart' => '$refresh',
+    ];
+
     public function mount($item)
     {
         $this->item = $item;
@@ -22,14 +26,25 @@ class ItemsShow extends Component
             Carts::addItemToCart($this->item, $this->quantityToAdd);
         }
         $this->quantityToAdd = 1;
-
-        $this->dispatch('item-added-to-cart');
+        $this->dispatch('created');
+        $this->dispatch('update-cart');
     }
 
     public function addToCard()
     {
         Carts::addItemToCart($this->item);
-        $this->dispatch('item-added-to-cart');
+        $this->dispatch('created');
+        $this->dispatch('update-cart');
+    }
+
+    public function removeFromCard()
+    {
+        $cartItem = Carts::getCardItemByItemIdFromSession($this->item->id);
+        if (!is_null($cartItem)) {
+            Carts::removeItemFromCart($cartItem->id);
+            $this->dispatch('created');
+            $this->dispatch('update-cart');
+        }
     }
 
     public function render()

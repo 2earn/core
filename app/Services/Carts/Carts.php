@@ -41,6 +41,18 @@ class Carts
         }
         return 0;
     }
+    public static function getCardItemByItemIdFromSession($itemId)
+    {
+        if (Session::has('cart')) {
+            $cart = Session::get('cart');
+            foreach ($cart->cartItem()->get() as $item) {
+                if ($item->item_id == $itemId) {
+                    return $item;
+                }
+            }
+        }
+        return null;
+    }
 
     public static function createCart()
     {
@@ -81,7 +93,7 @@ class Carts
 
     public static function removeItemFromCart($cartItem)
     {
-        $cartItem = CartItem::find($cartItem)->first();
+        $cartItem = CartItem::find($cartItem);
         $cartItem->delete();
         Carts::updateCart();
     }

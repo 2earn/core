@@ -1,10 +1,10 @@
 <div class="card card-body">
     <div class="d-flex mb-3 align-items-center">
-        <div class="flex-shrink-0">
+        <div class="flex-shrink-0" title="{{$item->id}}">
             @if($item->photo_link)
                 <img alt="{{__('Item Image')}}"
-                    src="{{$item->photo_link}}"
-                    class="avatar-sm rounded-circle"/>
+                     src="{{$item->photo_link}}"
+                     class="avatar-sm rounded-circle"/>
             @elseif($item->thumbnailsImage)
                 <img src="{{ asset('uploads/' . $item->thumbnailsImage->url) }}"
                      alt="{{__('Item Image')}}"
@@ -25,7 +25,8 @@
         </div>
     </div>
     @if($item->deal()->first())
-        <h5 class="float-end"><small>{{__('Deal')}}:</small> <span class="text-muted mb-0">{{$item->deal()->first()->name}}</span></h5>
+        <h5 class="float-end"><small>{{__('Deal')}}:</small> <span
+                class="text-muted mb-0">{{$item->deal()->first()->name}}</span></h5>
     @endif
     <hr>
     <h6 class="mb-1">{{__('Price')}} : <span
@@ -54,12 +55,19 @@
         </span>
     @else
         <div class="input-group">
+            <span class="input-group-text" title="{{__('Ordered quantity')}}" id="basic-addon1">{{$orderedQty}}</span>
             <input type="text" class="form-control"
                    wire:model.live="quantityToAdd" aria-label="Recipient's username"
                    aria-describedby="button-addon2">
             <button class="btn btn-outline-success btn-sm material-shadow-none"
                     wire:click="addMoreToCard()" type="button" id="addMoreToCard">{{__('Add more')}}</button>
         </div>
+        <span
+            class="btn btn-soft-danger  btn-sm float-end my-1"
+            wire:click="removeFromCard()"
+        >
+            {{__('Remove from card')}}
+        </span>
     @endif
     <a href="{{route('items_detail',['locale'=>app()->getLocale(),'id'=>$item->id])}}"
        class="btn btn-soft-primary btn-sm mt-1">

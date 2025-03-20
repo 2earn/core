@@ -3,33 +3,30 @@
 namespace App\Livewire;
 
 use App\Models\CartItem;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use  App\Services\Carts\Carts;
 
 class Cart extends Component
 {
     public $cart;
+    public $date_rendered;
 
     protected $listeners = [
-        'update-cart' => 'updateCart',
-        'item-added-to-cart' => 'updateCart',
+        'update-cart' => '$refresh',
         'removeCartItem' => 'removeCartItem',
     ];
 
-    public function updateCart()
-    {
-        $this->cart = Carts::getOrCreateCart();
-    }
-
     public function removeCartItem($cartItem)
     {
-        Carts::removeItemFromCart($cartItem);
-        $this->dispatch('update-cart');
+        Log::notice('removeCartItem '.$cartItem);
+         Carts::removeItemFromCart($cartItem);
+        $this->dispatch('updated-cart');
     }
 
     public function render()
     {
         $this->cart = Carts::getOrCreateCart();
-        return view('livewire.cart');
+        $this->date_rendered=now(); return view('livewire.cart');
     }
 }
