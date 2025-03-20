@@ -80,7 +80,6 @@ export default defineConfig({
                 'resources/anychart/world.js',
                 'resources/css/bootstrap-rtl.css',
                 'resources/anychart/anychart-table.min.js',
-                'resources/js/livewire-turbolinks.js',
                 'resources/js/pages/form-validation.init.js',
                 'resources/js/pages/crypto-kyc.init.js',
                 'resources/js/surveys.js',
