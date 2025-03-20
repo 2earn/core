@@ -8,6 +8,7 @@ use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -16,9 +17,9 @@ class ItemsCreateUpdate extends Component
     use WithFileUploads;
 
     public $idItem;
-    public $dealId,$deal_id;
+    public $dealId, $deal_id;
     public $platformId;
-    public $deals=[];
+    public $deals = [];
     public $thumbnailsImage;
     public $name, $ref, $price, $discount, $discount_2earn, $photo_link, $description, $stock;
 
@@ -36,11 +37,10 @@ class ItemsCreateUpdate extends Component
     {
         $this->idItem = $request->input('id');
         $this->dealId = $request->input('dealId');
-        $this->platformId = $request->input('platformId');
+        $this->platformId = Route::current()->parameter('platformId');
 
         if (!is_null($this->platformId)) {
             $this->deals = Deal::where('platform_id', $this->platformId)->get();
-
         }
         if (!is_null($this->idItem)) {
             $this->edit($this->idItem);

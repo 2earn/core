@@ -141,6 +141,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/index', \App\Livewire\ItemsIndex::class)->name('index');
             Route::get('/{id}/detail', \App\Livewire\ItemsDetails::class)->name('detail');
             Route::get('/', \App\Livewire\ItemsCreateUpdate::class)->name('create_update');
+            Route::get('/{platformId}/', \App\Livewire\ItemsCreateUpdate::class)->name('platform_create_update');
         });
 
         Route::prefix('/news')->name('news_')->group(function () {
