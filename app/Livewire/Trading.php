@@ -107,8 +107,7 @@ class Trading extends Component
     {
         $this->gift = getGiftedActions($this->action);
         $actualActionValue = actualActionValue(getSelledActions(true), false);
-        $profitRaw = $actualActionValue * $this->gift;
-        $this->profit = formatSolde($profitRaw, 2);
+        $this->profit = $actualActionValue * $this->gift;
         if ($this->flash) {
             if ($this->vip->declenched) {
                 if ($this->action >= $this->actions) {

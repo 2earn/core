@@ -177,9 +177,9 @@
 
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-xs-6">
-                                        @if($profit)
+                                        @if($profit && $profit>0)
                                             <label for="profit" class="col-form-label">{{ __('Profit') }}
-                                                <span class="badge bg-success con fs-14 float-end text-end"> {{$profit}}  ( {{config('app.currency')}})</span>
+                                                <span class="badge bg-success con fs-14 float-end text-end"> {{formatSolde($profit, 2)}}  ( {{config('app.currency')}})</span>
                                         </label>
                                         @endif
                                     </div>
@@ -458,9 +458,6 @@
                 })
             }
         );
-
-    </script>
-    <script id="rendered-js" type="module" >
         document.addEventListener("DOMContentLoaded", function () {
 
             var chart1Origin = document.querySelector('#chart1');
