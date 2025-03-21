@@ -2,7 +2,7 @@
     <div>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
-        <script data-turbolinks-eval="false">
+        <script >
 
             var ErreurSoldeReqBFS2 = '{{Session::has('ErreurSoldeReqBFS2')}}';
             if (ErreurSoldeReqBFS2) {
@@ -729,7 +729,7 @@
                 })
             })
         </script>
-        <script data-turbolinks-eval="false" type="module">
+        <script  type="module">
             document.addEventListener("DOMContentLoaded", function () {
 
 

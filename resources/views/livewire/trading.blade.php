@@ -168,21 +168,20 @@
                                         @endif
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-xs-6">
+                                        @if($gift)
                                         <label for="number-of-gifted-action" class="col-form-label">
                                             {{ __('Gifted Shares') }}
-                                            @if($gift)
                                             <span class="badge bg-success con fs-14 float-end text-end"> {{$gift}}</span>
-                                            @endif
-
                                         </label>
+                                        @endif
+
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-xs-6">
-                                        <label for="profit" class="col-form-label">{{ __('Profit') }}
-                                            @if($profit)
+                                        @if($profit)
+                                            <label for="profit" class="col-form-label">{{ __('Profit') }}
                                                 <span class="badge bg-success con fs-14 float-end text-end"> {{$profit}}  ( {{config('app.currency')}})</span>
-                                            @endif
                                         </label>
-
+                                        @endif
                                     </div>
                                     <div class="col-lg-12 mt-3">
                                         <div class="hstack gap-2 justify-content-end">
@@ -286,7 +285,7 @@
                     </div>
                 </div>
                 <div class="card-body table-responsive">
-                    <table id="shares-solde" data-turbolinks="false" wire:ignore
+                    <table id="shares-solde"  wire:ignore wire:key="{{uniqid()}}"
                            class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
                            style="width:100%">
                         <thead class="table-light">
@@ -370,7 +369,7 @@
             </div>
         </div>
     </div>
-    <script type="module" data-turbolinks-eval="false">
+    <script type="module" >
         $(document).ready(function () {
                 const input = document.querySelector("#phone");
                 const iti = window.intlTelInput(input, {
@@ -461,7 +460,7 @@
         );
 
     </script>
-    <script id="rendered-js" type="module" data-turbolinks="false">
+    <script id="rendered-js" type="module" >
         document.addEventListener("DOMContentLoaded", function () {
 
             var chart1Origin = document.querySelector('#chart1');
@@ -512,10 +511,6 @@
                     chart1.updateSeries([series1, series2, series3]);
                 });
             }
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
-
             $('#shares-solde').DataTable({
                 retrieve: true,
                 "colReorder": false,

@@ -71,7 +71,7 @@
                                         <div class="mt-4">
                                                 @include('layouts.flash-messages')
                                         </div>
-                                        <div class="mt-4" wire:ignore data-turbolinks="false" >
+                                        <div class="mt-4" wire:ignore  >
                                             <form id="login-form">
                                                 @csrf
                                                 <div dir="ltr w-100" class="mb-3">
@@ -157,7 +157,7 @@
                                                                    class="dropdown-item notify-item language py-2"
                                                                    data-lang="en"
                                                                    title="{{ __('lang'.$locale)  }}"
-                                                                   data-turbolinks="false">
+                                                                   >
                                                                     <img
                                                                         src="{{ Vite::asset('resources/images/flags/'.$value['flag'].'.svg') }}"
                                                                         alt="user-image" class="me-2 rounded"

@@ -96,7 +96,7 @@
             </div>
         </div>
 
-        <script type="module" data-turbolinks-eval="false">
+        <script type="module">
 
             function emitBO(idBO) {
                 if (idBO) {

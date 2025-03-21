@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <div data-turbolinks="false">
+    <div >
     <div class="row">
         <div class="col-12">
             <div class="card cardPhone" id="phone-form">

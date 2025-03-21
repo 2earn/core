@@ -882,7 +882,7 @@
                 </div>
                 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
-                <script data-turbolinks-eval="false">
+                <script>
                     var ErrorConfirmPassWord = '{{Session::has('ErrorConfirmPassWord')}}';
                     if (ErrorConfirmPassWord) {
                         var tabChangePhone = document.querySelector('#tabEditPass');

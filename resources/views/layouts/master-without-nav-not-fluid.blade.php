@@ -1,5 +1,5 @@
 <!doctype html>
-<html dir="{{config('app.available_locales')[app()->getLocale()]['direction']}}" data-turbolinks='false'
+<html dir="{{config('app.available_locales')[app()->getLocale()]['direction']}}"
       lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-topbar="light">
 <head>
     <meta charset="utf-8"/>

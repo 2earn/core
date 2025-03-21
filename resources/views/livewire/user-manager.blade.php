@@ -127,7 +127,7 @@
             });
 
     </script>
-    <script data-turbolinks-eval="false">
+    <script >
         var SuccesUpdatePasswordUserAdmin = '{{ Session::has('SuccesUpdatePasswordUserAdmin')}}'
         if (SuccesUpdatePasswordUserAdmin) {
             toastr.success('{{Session::get('SuccesUpdatePasswordUserAdmin')}}');

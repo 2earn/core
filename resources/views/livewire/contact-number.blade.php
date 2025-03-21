@@ -86,7 +86,7 @@
                     <div class="modal-body">
                         <div class="mb-3" dir="ltr">
                             <label>{{ __('Your new phone number') }}</label>
-                            <div id="inputNumberContact" data-turbolinks-permanent class="input-group signup mb-3">
+                            <div id="inputNumberContact" class="input-group signup mb-3">
                             </div>
                         </div>
                     </div>

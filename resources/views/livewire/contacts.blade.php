@@ -405,7 +405,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.0.2/list.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/list.pagination.js/0.1.1/list.pagination.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-    <script data-turbolinks-eval="false">
+    <script >
         document.addEventListener("turbolinks:load", function () {
             var existeUserContact = '{{Session::has('existeUserContact')}}';
 

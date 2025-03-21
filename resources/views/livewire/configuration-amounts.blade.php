@@ -10,8 +10,7 @@
         <div class="row">
         <div class="card">
             <div class="card-body">
-                <table data-turbolinks="false"
-                       class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
                        id="amountsTable">
                     <thead class="table-light">
                     <tr>

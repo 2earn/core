@@ -537,7 +537,7 @@
     </div>
     <div class="vertical-overlay">
     </div>
-    <script data-turbolinks-eval="false" type="module">
+    <script type="module">
         var sidebarBusinessArray = {!! json_encode($sidebarBusinessArray) !!};
         var sidebarSavingsArray = {!! json_encode($sidebarSavingsArray) !!};
         var sidebarBiographyArray = {!! json_encode($sidebarBiographyArray) !!};

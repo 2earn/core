@@ -121,7 +121,7 @@
                                                    class="dropdown-item notify-item language py-2"
                                                    data-lang="en"
                                                    title="{{ __('lang'.$locale)  }}"
-                                                   data-turbolinks="false">
+                                                   >
                                                     <img
                                                         src="{{ Vite::asset('resources/images/flags/'.$value['flag'].'.svg') }}"
                                                         alt="user-image" class="me-2 rounded" height="20">

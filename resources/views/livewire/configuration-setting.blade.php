@@ -7,7 +7,7 @@
         <div class="row">
             @include('layouts.flash-messages')
         </div>
-        <div class="card" data-turbolinks="false" wire:ignore>
+        <div class="card"  wire:ignore>
             <div class="card-body">
                 <table
                        class="table table-bordered dt-responsive nowrap table-striped align-middle"
