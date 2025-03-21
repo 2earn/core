@@ -38,9 +38,15 @@ class ItemsCreateUpdate extends Component
         $this->idItem = $request->input('id');
         $this->dealId = $request->input('dealId');
         $this->platformId = Route::current()->parameter('platformId');
-
         if (!is_null($this->platformId)) {
             $this->deals = Deal::where('platform_id', $this->platformId)->get();
+        }
+
+        if (!is_null($this->dealId)) {
+            $deal = Deal::find($this->dealId);
+            if (!is_null($deal)) {
+                $this->platformId = $deal->platform_id;
+            }
         }
         if (!is_null($this->idItem)) {
             $this->edit($this->idItem);
@@ -60,10 +66,9 @@ class ItemsCreateUpdate extends Component
         $this->description = $item->description;
         $this->stock = $item->stock;
         $this->platform_id = $item->platform_id;
-        $this->deal_id = $this->idItem;
+        $this->deal_id = $item->deal_id;
         $this->update = true;
         $this->deals = Deal::where('platform_id', $this->platform_id)->get();
-
     }
 
     public function cancel()
@@ -71,26 +76,28 @@ class ItemsCreateUpdate extends Component
         return redirect()->route('items_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Item operation cancelled'));
     }
 
-    public function update()
+    public function updateI()
     {
         $this->validate();
 
         try {
             $item = BusinessSector::where('id', $this->idItem)->first();
-            Item::where('id', $this->idItem)
-                ->update(
-                    [
-                        'name' => $this->name,
-                        'ref' => $this->ref,
-                        'price' => $this->price,
-                        'discount' => $this->discount,
-                        'discount_2earn' => $this->discount_2earn,
-                        'photo_link' => $this->photo_link,
-                        'description' => $this->description,
-                        'stock' => $this->stock,
-                        'deal_id' => $this->deal_id,
-                        'platform_id' => $this->platform_id,
-                    ]);
+            $dataItem = [
+                'name' => $this->name,
+                'ref' => $this->ref,
+                'price' => $this->price,
+                'discount' => $this->discount,
+                'discount_2earn' => $this->discount_2earn,
+                'photo_link' => $this->photo_link,
+                'description' => $this->description,
+                'stock' => $this->stock,
+
+            ];
+            if (!is_null($this->deal_id)) {
+                $dataItem['deal_id'] = $this->deal_id;
+            }
+
+            Item::where('id', $this->idItem)->update($dataItem);
 
             if ($this->thumbnailsImage) {
                 if ($item->thumbnailsImage) {
@@ -104,9 +111,10 @@ class ItemsCreateUpdate extends Component
                 ]);
             }
         } catch (\Exception $exception) {
+            dd($exception);
             $this->cancel();
             Log::error($exception->getMessage());
-            return redirect()->route('items_detail', ['locale' => app()->getLocale(), 'id' => $this->idItem])->with('danger', Lang::get('Something goes wrong while updating Faq'));
+            return redirect()->route('items_detail', ['locale' => app()->getLocale(), 'id' => $this->idItem])->with('danger', Lang::get('Something goes wrong while updating Item'));
         }
         return redirect()->route('items_detail', ['locale' => app()->getLocale(), 'id' => $this->idItem])->with('success', Lang::get('Item Updated Successfully'));
 
@@ -126,7 +134,7 @@ class ItemsCreateUpdate extends Component
             'description' => $this->description,
             'stock' => $this->stock,
             'deal_id' => $this->dealId,
-            'platform_id' => $this->dealId,
+            'platform_id' => $this->platformId,
         ];
 
         try {
