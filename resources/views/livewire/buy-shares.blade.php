@@ -166,7 +166,6 @@
                                                         {{$gift}}
                                                     </td>
                                                 @endif
-
                                             </tr>
                                             </thead>
                                             <tbody>
