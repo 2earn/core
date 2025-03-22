@@ -15,9 +15,9 @@
          data-popper-placement="bottom-end"
     >
         <div class="p-3 border-top-0 border-start-0 border-end-0 border-dashed border">
-            <div class="row align-items-center">
+            <div class="row align-items-center" title="{{$date_rendered}}">
                 <div class="col">
-                    <h6 class="m-0 fs-16 fw-semibold">{{__('My Cart')}} : {{$date_rendered}}</h6>
+                    <h6 class="m-0 fs-16 fw-semibold">{{__('My Cart')}} :</h6>
                 </div>
                 <div class="col-auto">
                     <span class="badge bg-warning-subtle text-warning fs-13">

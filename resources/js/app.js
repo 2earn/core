@@ -1497,7 +1497,6 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
         var fullscreenBtn = document.querySelector('[data-toggle="fullscreen"]');
         fullscreenBtn &&
         fullscreenBtn.addEventListener("click", function (e) {
-            console.log('fullscreen')
             e.preventDefault();
             document.body.classList.toggle("fullscreen-enable");
             if (!document.fullscreenElement &&
@@ -1588,7 +1587,7 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
         windowLoadContent();
         counter();
         initLeftMenuCollapse();
-      //  initTopbarComponents();
+        //  initTopbarComponents();
         initComponents();
         resetLayout();
         initLanguage();
@@ -1602,10 +1601,12 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
         initModeSetting();
     }
 
-    if (document.getElementById('layout-wrapper') instanceof Object) {
-        document.addEventListener("turbolinks:load", initTurboChange);
-        init();
-    }
+    document.addEventListener("DOMContentLoaded", function () {
+        if (document.getElementById('layout-wrapper') instanceof Object) {
+            initTurboChange();
+        }
+    });
+
     var timeOutFunctionId;
 
     function setResize() {
