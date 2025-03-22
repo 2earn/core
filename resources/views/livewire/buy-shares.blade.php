@@ -134,38 +134,58 @@
                             </div>
 
                         </div>
-                        <div class="col-12 text-muted">
-                            @if($ammount)
-                                <div class="alert alert-success alert-dismissible fade show material-shadow"
-                                     role="alert">
+                        @if($ammount)
+                            <div class="col-12 text-muted">
+                                <div
+                                    class="alert alert-success alert-top-border alert-dismissible fade show material-shadow"
+                                    role="alert">
+                                    <i class="ri-notification-fill me-3 align-middle fs-16 text-success"></i><strong>{{__('Simulation Result')}}</strong>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                    <label
+                                        class="col-form-label">
+                                        {{__('You pay')}}</label>
                                     <strong id="amount_val" class="col-form-label">
                                         {{$ammount}}
                                     </strong>
                                     <label
-                                        class="col-form-label">{{config('app.currency')}} {{__('To')}}</label>
+                                        class="col-form-label">{{config('app.currency')}} {{__('To buy')}}</label>
                                     <strong id="action_val" class="col-form-label">
                                         {{$action}}
                                     </strong>
                                     <label class="col-form-label">{{__('Actions')}}</label>
-                                </div>
-                            @endif
-                        </div>
-                        <div class="col-md-6 col-sm-6 col-xs-6">
-                            @if($gift)
-                                <label for="number-of-gifted-action" class="col-form-label">
-                                    {{ __('Gifted Shares') }}
-                                    <span class="badge bg-success con fs-14 float-end text-end"> {{$gift}}</span>
-                                </label>
-                            @endif
+                                    @if($gift&&$profit && $profit>0)
+                                        <table class="table table-success table-striped align-middle table-nowrap mb-0 table-sm">
+                                            <thead>
+                                            <tr>
+                                                @if($gift)
+                                                    <th scope="col">{{ __('Gifted Shares') }}</th>
+                                                @endif
+                                                @if($gift)
+                                                    <td>
+                                                        {{$gift}}
+                                                    </td>
+                                                @endif
 
-                        </div>
-                        <div class="col-md-6 col-sm-6 col-xs-6">
-                            @if($profit && $profit>0)
-                                <label for="profit" class="col-form-label">{{ __('Profit') }}
-                                    <span class="badge bg-success con fs-14 float-end text-end"> {{formatSolde($profit, 2)}}  ( {{config('app.currency')}})</span>
-                                </label>
-                            @endif
-                        </div>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                @if($profit && $profit>0)
+                                                    <th scope="col">{{ __('Profit') }}</th>
+                                                @endif
+                                                @if($profit && $profit>0)
+                                                    <td>
+                                                        {{formatSolde($profit, 2)}} ( {{config('app.currency')}})
+                                                    </td>
+                                                @endif
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    @endif
+                                </div>
+                            </div>
+                        @endif
                         <div class="col-lg-12 mt-3">
                             <div class="hstack gap-2 justify-content-end">
                                 @if($flash)
@@ -201,7 +221,7 @@
         </div>
     </div>
 
-    <script type="module" >
+    <script type="module">
         $(document).ready(function () {
                 const input = document.querySelector("#phone");
                 const iti = window.intlTelInput(input, {

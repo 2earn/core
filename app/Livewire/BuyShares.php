@@ -24,18 +24,10 @@ class BuyShares extends Component
     public $flashDate;
     public $flashMinShares = -1;
     public $flashGain = 0;
-    public $selledActions = 0;
     public $actions = 0;
     public $totalActions = 0;
-    public $precentageOfActions = 0;
-    public $precentageOfSharesSale = 0;
-    public $numberSharesSale = 0;
+
     public $giftedShares = 0;
-    public $estimatedGain = 0;
-    public $selledActionCursor = 0;
-    public $totalPaied = 0;
-    public $userSelledActionNumber = 0;
-    public $actionValue = 0;
     public $targetDate = null;
     public function mount()
     {
@@ -43,14 +35,7 @@ class BuyShares extends Component
         $this->targetDate = getSettingStringParam('TARGET_DATE', 0);
         $this->totalActions = getSettingIntegerParam('Actions Number', 0) - $this->giftedShares;}
 
-    public function simulateGain()
-    {
-        $this->actionValue = round(actualActionValue($this->selledActionCursor, false), 3);
-        $this->estimatedGain = round(($this->userSelledActionNumber * actualActionValue($this->selledActionCursor, false)) - $this->totalPaied, 3);
-        if ($this->estimatedGain < 0) {
-            $this->estimatedGain = 0;
-        }
-    }
+
 
     public function simulateAction()
     {
