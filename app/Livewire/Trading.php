@@ -58,95 +58,12 @@ class Trading extends Component
         $this->selledActionCursor = $this->selledActions;
         $this->totalPaied = round(SharesBalances::where('balance_operation_id', 44)->where('beneficiary_id', Auth()->user()->idUser)->selectRaw('SUM(total_amount) as total_sum')->first()->total_sum, 3);
 
-        $this->simulateGain();
-
     }
 
-    public function simulateGain()
-    {
-        $this->actionValue = round(actualActionValue($this->selledActionCursor, false), 3);
-        $this->estimatedGain = round(($this->userSelledActionNumber * actualActionValue($this->selledActionCursor, false)) - $this->totalPaied, 3);
-        if ($this->estimatedGain < 0) {
-            $this->estimatedGain = 0;
-        }
-    }
 
-    public function simulateAction()
-    {
-        if ($this->action < 0 && $this->action == "") {
-            $this->ammount = "";
-            $this->action = "";
-            return;
-        }
-
-        if ($this->action > self::MAX_ACTIONS) {
-            $this->action = self::MAX_ACTIONS;
-        }
-
-        $this->ammount = round($this->action * actualActionValue(getSelledActions(true), false), 3);
-        $this->getCommounSimulation();
-    }
-
-    public function simulateAmmount()
-    {
-        if ($this->ammount < 0 && $this->ammount == "") {
-            $this->ammount = "";
-            $this->action = "";
-            return;
-        }
-
-        if ($this->ammount > self::MAX_AMOUNT) {
-            $this->ammount = self::MAX_AMOUNT;
-        }
-
-        $this->action = (string) intval(intval($this->ammount) / actualActionValue(getSelledActions(true), false));
-        $this->getCommounSimulation();
-    }
-
-    public function getCommounSimulation()
-    {
-        $this->gift = getGiftedActions($this->action);
-        $actualActionValue = actualActionValue(getSelledActions(true), false);
-        $this->profit = $actualActionValue * $this->gift;
-        if ($this->flash) {
-            if ($this->vip->declenched) {
-                if ($this->action >= $this->actions) {
-                    $this->flashGift = '+' . getFlashGiftedActions($this->actions, $this->flashTimes);
-                    $this->flashGain = '+' . formatSolde($this->flashGift * $actualActionValue, 2);
-                } else {
-                    $this->flashGift = '+' . getFlashGiftedActions($this->action, $this->flashTimes);
-                    $this->flashGain = '+' . formatSolde($this->flashGift * $actualActionValue, 2);
-                }
-            } else {
-                if ($this->action >= $this->flashMinShares) {
-                    if ($this->action >= $this->actions) {
-                        $this->flashGift = '+' . getFlashGiftedActions($this->actions, $this->flashTimes);
-                        $this->flashGain = '+' . formatSolde($this->flashGift * $actualActionValue, 2);
-                    } else {
-                        $this->flashGift = '+' . getFlashGiftedActions($this->action, $this->flashTimes);
-                        $this->flashGain = '+' . formatSolde($this->flashGift * $actualActionValue, 2);
-                    }
-                } else {
-                    $this->flashGift = $this->flashGain = 0;
-                }
-            }
-
-        }
-    }
-
-    public function initSoldes(BalancesManager $balancesManager)
-    {
-        $solde = $balancesManager->getBalances(auth()->user()->idUser, -1);
-        $this->cashBalance = $solde->soldeCB;
-        $this->balanceForSopping = $solde->soldeBFS;
-        $this->discountBalance = $solde->soldeDB;
-        $this->SMSBalance = intval($solde->soldeSMS);
-        $this->maxActions = intval($solde->soldeCB / actualActionValue(getSelledActions(true), false));
-    }
 
     public function render(BalancesManager $balancesManager)
     {
-        $this->initSoldes($balancesManager);
 
         $actualActionValue = actualActionValue(getSelledActions(true), false);
         $this->vip = vip::Where('idUser', '=', auth()->user()->idUser)->where('closed', '=', false)->first();
