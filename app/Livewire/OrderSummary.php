@@ -43,7 +43,7 @@ class OrderSummary extends Component
                     'qty' => $ordersItems->qty,
                     'unit_price' => $ordersItems->unit_price,
                     'total_amount' => $ordersItems->total_amount,
-                    'item_id' => $ordersItems->id,
+                    'item_id' => $ordersItems->item_id,
                     'shipping' => $ordersItems->shipping,
                 ]);
             }
