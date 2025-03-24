@@ -52,7 +52,7 @@
                                         <div class="mb-3">
                                             <label for="userPhone" class="form-label">{{ __('Mobile Number') }} <span
                                                     class="text-danger">*</span></label>
-                                            <input wire:model="phoneNumber" type="tel" name="mobile" id="phonereg"
+                                            <input wire:model="phoneNumber" type="tel" name="mobile" id="intlTelInputPhone"
                                                    class="form-control @error('mobile') is-invalid @enderror"
                                                    value=" "
                                                    placeholder="{{ __('Mobile number') }}" required>

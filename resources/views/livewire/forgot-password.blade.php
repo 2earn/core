@@ -46,7 +46,7 @@
                                         <div class="mb-3">
                                             <label for="useremail"
                                                    class="form-label">{{ __('Your phone number') }}</label>
-                                            <input type="tel" name="mobile" id="phoneforget"
+                                            <input type="tel" name="mobile" id="intlTelInputPhone"
                                                    class="form-control @error('mobile') is-invalid @enderror"
                                                    placeholder="{{ __('Mobile number') }}"
                                                    value="">
