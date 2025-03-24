@@ -78,7 +78,7 @@
                                                     <label for="username"
                                                            class="float-start form-label">{{ __('Mobile Number') }}</label>
                                                     <br>
-                                                    <input type="tel" name="mobile" id="intlTelInputPhone"
+                                                    <input type="tel" name="mobile" id="phone"
                                                            class="form-control @error('email') is-invalid @enderror"
                                                            value=""
                                                            placeholder="{{ __('Mobile number') }}">
@@ -212,7 +212,7 @@
         });
     </script>
     <script>
-        document.querySelector("#intlTelInputPhone").addEventListener("keypress", function (evt) {
+        document.querySelector("#phone").addEventListener("keypress", function (evt) {
             if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57) {
                 evt.preventDefault();
             }
@@ -230,7 +230,7 @@
         }
 
         function functionLogin(dd) {
-            window.Livewire.dispatch('login',[ $("#intlTelInputPhone").val(), $("#ccodelog").val(), $("#password-input").val(), $("#isoCountryLog").val()]);
+            window.Livewire.dispatch('login',[ $("#phone").val(), $("#ccodelog").val(), $("#password-input").val(), $("#isoCountryLog").val()]);
         }
     </script>
 </div>
