@@ -198,7 +198,7 @@
                 validMsg.classList.add("hide");
             };
             var out = "00" + $("#ccode").val() + parseInt($('#phonereg').val().replace(/\D/g, ''), 10);
-            reset();
+            initIntlTelInput();
 
             if (input.value.trim()) {
                 if ($("#validation").val() == "true") {
@@ -217,8 +217,8 @@
                 errorMsg.innerHTML = "{{__('Invalid number')}}";
                 errorMsg.classList.remove("hide");
             }
-            input.addEventListener('change', reset);
-            input.addEventListener('keyup', reset);
+            input.addEventListener('change', initIntlTelInput);
+            input.addEventListener('keyup', initIntlTelInput);
             grecaptcha.reset();
         }
     </script>
@@ -239,7 +239,7 @@
                 utilsScript: " {{Vite::asset('/resources/js/utils.js')}}"
             });
 
-            function reset() {
+            function initIntlTelInput() {
                 var phone = iti.getNumber();
                 var textNode = document.createTextNode(phone);
                 phone = phone.replace('+', '00');
@@ -256,8 +256,8 @@
                 $("#validationError").val(iti.getValidationError());
             }
 
-            input.addEventListener('keyup', reset);
-            input.addEventListener('countrychange', reset);
+            input.addEventListener('keyup', initIntlTelInput);
+            input.addEventListener('countrychange', initIntlTelInput);
             for (var i = 0; i < countryData.length; i++) {
                 var country = countryData[i];
                 var optionNode = document.createElement("option");

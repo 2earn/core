@@ -1218,7 +1218,7 @@
                             },
                             utilsScript: " {{Vite::asset('/resources/js/utils.js')}}"
                         });
-                        function resetUpPhone() {
+                        function initIntlTelInput() {
                             inputUpPhone.classList.remove("error");
                             errorMsg.innerHTML = "";
                             errorMsg.classList.add("invisible");
@@ -1260,8 +1260,8 @@
                         };
 
 
-                        inputUpPhone.addEventListener('keyup', resetUpPhone);
-                        inputUpPhone.addEventListener('countrychange', resetUpPhone);
+                        inputUpPhone.addEventListener('keyup', initIntlTelInput);
+                        inputUpPhone.addEventListener('countrychange', initIntlTelInput);
                         for (var i = 0; i < countryDataUpPhone.length; i++) {
                             var country = countryDataUpPhone[i];
                             var optionNode = document.createElement("option");
@@ -1287,7 +1287,7 @@
                                 }
                             }
                         });
-                        resetUpPhone();
+                        initIntlTelInput();
                     });
 
                 </script>

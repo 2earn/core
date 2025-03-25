@@ -447,7 +447,7 @@
                 utilsScript: " {{Vite::asset('/resources/js/utils.js')}}"
             });
 
-            function resetContacts() {
+            function initIntlTelInput() {
                 var phone = itiLog.getNumber();
                 var textNode = document.createTextNode(phone);
                 phone = phone.replace('+', '00');
@@ -457,8 +457,8 @@
                 $("#ccodeAdd2Contact").val(countryData.dialCode);
                 $("#outputAdd2Contact").val(phone);
             };
-            inputlog.addEventListener('keyup', resetContacts);
-            inputlog.addEventListener('countrychange', resetContacts);
+            inputlog.addEventListener('keyup', initIntlTelInput);
+            inputlog.addEventListener('countrychange', initIntlTelInput);
             for (var i = 0; i < countryDataLog.length; i++) {
                 var country12 = countryDataLog[i];
                 var optionNode12 = document.createElement("option");

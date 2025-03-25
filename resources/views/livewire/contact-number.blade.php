@@ -11,7 +11,7 @@
                             <div>
                                 <button data-bs-toggle="modal"
                                         data-bs-target="#AddContactNumberModel" type="button"
-                                        class="btn btn-secondary add-btn btn2earn float-end">{{ __('Add_contact-number') }}
+                                        class="btn btn-soft-info add-btn float-end">{{ __('Add_contact-number') }}
                                 </button>
                             </div>
                         </div>
@@ -88,7 +88,7 @@
                         <div class="modal-body">
                             <div class="mb-3" dir="ltr">
                                 <label>{{ __('Your new phone number') }}</label>
-                                <div id="inputNumberContact" class="input-group signup mb-3">
+                                <div id="inputNumberContact" class="input-group w-100 signup mb-3">
                                 </div>
                             </div>
                         </div>
@@ -239,7 +239,7 @@
                         utilsScript: " {{Vite::asset('/resources/js/utils.js')}}"
                     });
 
-                    function resetAddNumberContact() {
+                    function initIntlTelInput() {
                         var phoneCN = itiAddContactNumber.getNumber();
                         phoneCN = phoneCN.replace('+', '00');
                         var mobileCN = $("#phoneContactNumber").val();
@@ -257,15 +257,15 @@
                         }
                     }
 
-                    inputAddContactNumber.addEventListener('keyup', resetAddNumberContact);
-                    inputAddContactNumber.addEventListener('countrychange', resetAddNumberContact);
+                    inputAddContactNumber.addEventListener('keyup', initIntlTelInput);
+                    inputAddContactNumber.addEventListener('countrychange', initIntlTelInput);
 
                     for (var i = 0; i < countryDataNumberContact.length; i++) {
                         var country = countryDataNumberContact[i];
                         var optionNode = document.createElement("option");
                         optionNode.value = country.iso2;
                     }
-                    resetAddNumberContact();
+                    initIntlTelInput();
                 });
             </script>
         </div>

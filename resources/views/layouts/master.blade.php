@@ -103,7 +103,6 @@
         }
     </style>
     <livewire:styles/>
-    <meta name="turbolinks-cache-control" content="no-cache">
     <meta name="theme-color" content="#6777ef"/>
     <link rel="apple-touch-icon" href="{{ asset('logo.PNG') }}">
     <link rel="manifest" href="{{ asset('/manifest.json') }}">
@@ -221,8 +220,6 @@
                 }
             }
         });
-
-
     });
 </script>
 </body>

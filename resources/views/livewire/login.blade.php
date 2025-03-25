@@ -1,4 +1,4 @@
-<div data-turbolinks='false'>
+<div>
     <div class="auth-page-wrapper auth-bg-cover mt-5 py-2 justify-content-center align-items-center min-vh-75">
         <img src="{{ Vite::asset('resources/images/2earn.png') }}" class="mx-auto d-block d-lg-none">
         <div class="bg-overlay"></div>
@@ -216,7 +216,7 @@
                 utilsScript: " {{Vite::asset('/resources/js/utils.js')}}"
             });
 
-            function resetLog() {
+            function initIntlTelInput() {
                 $("#signin").prop("disabled", false);
                 var phone = itiLog.getNumber();
                 var textNode = document.createTextNode(phone);
@@ -242,8 +242,8 @@
                 }
             }
 
-            inputlog.addEventListener('keyup', resetLog);
-            inputlog.addEventListener('countrychange', resetLog);
+            inputlog.addEventListener('keyup', initIntlTelInput);
+            inputlog.addEventListener('countrychange', initIntlTelInput);
             for (var i = 0; i < countryDataLog.length; i++) {
                 var country12 = countryDataLog[i];
                 var optionNode12 = document.createElement("option");
@@ -266,7 +266,7 @@
                     var errorCode = itiLog.getValidationError();
                 }
             });
-            resetLog();
+            initIntlTelInput();
         });
     </script>
 </div>

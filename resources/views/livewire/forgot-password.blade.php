@@ -1,6 +1,5 @@
 <div>
     <div>
-        <meta name="turbolinks-visit-control" content="reload">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <div class="auth-page-wrapper pt-5">
@@ -225,7 +224,7 @@
                         utilsScript: " {{Vite::asset('/resources/js/utils.js')}}"
                     });
 
-                function resetforget() {
+                function initIntlTelInput() {
                     $("#submit_form").prop("disabled", false);
                     var phone = itiforget.getNumber();
                     var textNode = document.createTextNode(phone);
@@ -239,8 +238,8 @@
                     $("#country_code").val(countryData.dialCode);
                 }
 
-                    inputforget.addEventListener('keyup', resetforget);
-                    inputforget.addEventListener('countrychange', resetforget);
+                    inputforget.addEventListener('keyup', initIntlTelInput);
+                    inputforget.addEventListener('countrychange', initIntlTelInput);
                     for (var i = 0; i < countryDataforget.length; i++) {
                         var country13 = countryDataforget[i];
                         var optionNode13 = document.createElement("option");

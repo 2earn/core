@@ -17,10 +17,8 @@ use Livewire\Component;
 class CouponBuy extends Component
 {
     public $amount;
-
     public $coupons;
     public $equal = false;
-
     public $lastValue;
     public $idPlatform;
 

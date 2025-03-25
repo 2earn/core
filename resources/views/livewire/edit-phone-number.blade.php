@@ -12,7 +12,7 @@
                             {{ __('Your new phone number') }}
                             <span class="text-danger">*</span>
                         </label>
-                        <div id="inputPhoneUpdate" data-turbolinks-permanent class="input-group signup mb-3">
+                        <div id="inputPhoneUpdate" class="input-group signup mb-3">
                         </div>
                     </div>
                     <div class="mt-3">

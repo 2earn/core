@@ -44,7 +44,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="form-label">{{ __('Mobile_Number') }}</label>
-                                    <div id="ipAddContact" data-turbolinks-permanent class="input-group signup mb-3">
+                                    <div id="ipAddContact" class="input-group signup mb-3">
                                     </div>
                                     <input type="tel" hidden id="pho" wire:model="phoneNumber"
                                            value="{{$phoneNumber}}">
@@ -106,7 +106,7 @@
                     } catch (e) {
                     }
 
-                    function resetAddContact() {
+                    function initIntlTelInput() {
                         var phone = itiAddContact.getNumber();
                         if (phone == "") {
                             phone = $("#pho").val();
@@ -145,10 +145,10 @@
 
                     var nameInput = document.querySelector('#inputNameContact');
                     var lastNameInput = document.querySelector('#inputlLastNameContact');
-                    inputAddContact.addEventListener('keyup', resetAddContact);
-                    inputAddContact.addEventListener('countrychange', resetAddContact);
-                    nameInput.addEventListener('keyup', resetAddContact);
-                    lastNameInput.addEventListener('keyup', resetAddContact);
+                    inputAddContact.addEventListener('keyup', initIntlTelInput);
+                    inputAddContact.addEventListener('countrychange', initIntlTelInput);
+                    nameInput.addEventListener('keyup', initIntlTelInput);
+                    lastNameInput.addEventListener('keyup', initIntlTelInput);
                     var bbol = true;
                     var autoInit = "auto";
                     if (bbol) autoInit = codePays;
@@ -199,7 +199,7 @@
                             errorMsg.classList.remove("invisible");
                         }
                     });
-                    resetAddContact();
+                    initIntlTelInput();
                     $("#phoneAddContact").val($("#pho").val());
                 }
 
