@@ -69,16 +69,16 @@
                                             <p class="text-primary"> {{__('continueTo2earn')}} </p>
                                         </div>
                                         <div class="mt-4">
-                                                @include('layouts.flash-messages')
+                                            @include('layouts.flash-messages')
                                         </div>
-                                        <div class="mt-4" wire:ignore  >
+                                        <div class="mt-4" wire:ignore>
                                             <form id="login-form">
                                                 @csrf
                                                 <div dir="ltr w-100" class="mb-3">
                                                     <label for="username"
                                                            class="float-start form-label">{{ __('Mobile Number') }}</label>
                                                     <br>
-                                                    <input type="tel" name="mobile" id="phone"
+                                                    <input type="tel" name="mobile" id="intl-tel-input-phone"
                                                            class="form-control @error('email') is-invalid @enderror"
                                                            value=""
                                                            placeholder="{{ __('Mobile number') }}">
@@ -89,8 +89,8 @@
                                                     @enderror
                                                     <span id="valid-msg" class="d-none">✓ Valid</span>
                                                     <span id="error-msg" class="d-none"></span>
-                                                    <input type="hidden" name="ccodelog" id="ccodelog">
-                                                    <input type="hidden" name="isoCountryLog" id="isoCountryLog">
+                                                    <input type="hidden" name="country_code" id="country_code">
+                                                    <input type="hidden" name="iso_country_code" id="iso_country_code">
                                                 </div>
                                                 <div class="mb-3">
                                                     <label
@@ -157,7 +157,7 @@
                                                                    class="dropdown-item notify-item language py-2"
                                                                    data-lang="en"
                                                                    title="{{ __('lang'.$locale)  }}"
-                                                                   >
+                                                                >
                                                                     <img
                                                                         src="{{ Vite::asset('resources/images/flags/'.$value['flag'].'.svg') }}"
                                                                         alt="user-image" class="me-2 rounded"
@@ -189,48 +189,84 @@
         @include('layouts.footer', ['pageName' => 'login'])
     </div>
     <script>
-        window.addEventListener('load', () => {
-            var existmessageLogin = '{{Session::has('message')}}';
-            if (existmessageLogin) {
-                var msgMsgLogin = '{{Session::get('message')}}';
-                var local = '{{Session::has('locale')}}';
-                if (local == 'ar') {
-                    msg = "هاتفك أو كلمة المرور الخاصة بك غير صحيحة !";
-                }
-                Swal.fire({
-                    title: ' ',
-                    text: msgMsgLogin,
-                    icon: 'error',
-                    cancelButtonText: '{{__('Cancel')}}',
-                    confirmButtonText: '{{__('Confirm')}}',
-                }).then(okay => {
-                    if (okay) {
-                        window.location.reload();
-                    }
-                });
-            }
-        });
+        function functionLogin() {
+            window.Livewire.dispatch('login', [$("#intl-tel-input-phone").val(), $("#country_code").val(), $("#password-input").val(), $("#iso_country_code").val()]);
+        }
     </script>
-    <script>
-        document.querySelector("#phone").addEventListener("keypress", function (evt) {
+    <script type="module">
+        document.querySelector("#intl-tel-input-phone").addEventListener("keypress", function (evt) {
             if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57) {
                 evt.preventDefault();
             }
         });
-        var togglePasswordLogin = document.querySelector("#togglePassword");
-        var passwordLogin = document.querySelector("#password-input");
-        togglePasswordLogin.addEventListener("click", function () {
-            var type = passwordLogin.getAttribute("type") === "password" ? "text" : "password";
-            passwordLogin.setAttribute("type", type);
-            this.classList.toggle("bi-eye");
+        $(function () {
+            var countryDataLog = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
+                inputlog = document.querySelector("#intl-tel-input-phone");
+            var itiLog = window.intlTelInput(inputlog, {
+                initialCountry: "auto",
+                autoFormat: true,
+                separateDialCode: true,
+                useFullscreenPopup: false,
+                geoIpLookup: function (callback) {
+                    $.get('https://ipinfo.io', function () {
+                    }, "jsonp").always(function (resp) {
+                        callback((resp && resp.country) ? resp.country : "TN");
+                    });
+                },
+                utilsScript: " {{Vite::asset('/resources/js/utils.js')}}"
+            });
+
+            function resetLog() {
+                $("#signin").prop("disabled", false);
+                var phone = itiLog.getNumber();
+                var textNode = document.createTextNode(phone);
+                phone = phone.replace('+', '00');
+                var mobile = $("#phoneLog").val();
+                var countryData = itiLog.getSelectedCountryData();
+                phone = '00' + countryData.dialCode + phone;
+                $("#country_code").val(countryData.dialCode);
+                $("#iso_country_code").val(countryData.iso2);
+                console.log(itiLog.isValidNumber())
+
+
+                if (inputlog.value.trim()) {
+                    if (itiLog.isValidNumber()) {
+                        $("#signin").prop("disabled", false);
+                    } else {
+                        $("#signin").prop("disabled", true);
+                        inputlog.classList.add("error");
+                    }
+                } else {
+                    $("#signin").prop("disabled", true);
+                    inputlog.classList.remove("error");
+                }
+            }
+
+            inputlog.addEventListener('keyup', resetLog);
+            inputlog.addEventListener('countrychange', resetLog);
+            for (var i = 0; i < countryDataLog.length; i++) {
+                var country12 = countryDataLog[i];
+                var optionNode12 = document.createElement("option");
+                optionNode12.value = country12.iso2;
+            }
+            inputlog.focus();
+            $("#password").focus();
+
+            inputlog.addEventListener('blur', function () {
+                if (inputlog.value.trim()) {
+                    if (itiLog.isValidNumber()) {
+                        $("#signin").prop("disabled", false);
+                    } else {
+                        $("#signin").prop("disabled", true);
+                        inputlog.classList.add("error");
+                    }
+                } else {
+                    $("#signin").prop("disabled", true);
+                    inputlog.classList.add("error");
+                    var errorCode = itiLog.getValidationError();
+                }
+            });
+            resetLog();
         });
-
-        function changeLanguage() {
-            const ss = '{{ Session::put('changeL', 'false' )}}';
-        }
-
-        function functionLogin(dd) {
-            window.Livewire.dispatch('login',[ $("#phone").val(), $("#ccodelog").val(), $("#password-input").val(), $("#isoCountryLog").val()]);
-        }
     </script>
 </div>

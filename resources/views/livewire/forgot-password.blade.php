@@ -59,10 +59,10 @@
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                             @enderror
-                                            <input type="text" hidden name="fullnumber" id="outputforget"
+                                            <input type="text" hidden name="fullnumber" id="full_phone_number"
                                                    value=""
                                                    class="form-control">
-                                            <input type="text" hidden name="ccodeforget" id="ccodeforget">
+                                            <input type="text" hidden name="country_code" id="country_code">
                                         </div>
 
                                         <div class="">
@@ -156,36 +156,6 @@
             @include('layouts.footer', ['pageName' => 'forget'])
         </div>
         <script>
-            var exist = '{{Session::has('ErrorOptCodeForget')}}';
-
-            if (exist) {
-                var msg = '{{Session::get('ErrorOptCodeForget')}}';
-                Swal.fire({
-                    title: ' ',
-                    text: msg,
-                    icon: 'error',
-                    confirmButtonText: '{{trans('ok')}}'
-                }).then(okay => {
-                    if (okay) {
-                        window.location.reload();
-                    }
-                });
-            }
-            var exist = '{{Session::has('ErrorUserFound')}}';
-            if (exist) {
-                var msg = '{{Session::get('ErrorUserFound')}}';
-                Swal.fire({
-                    title: ' ',
-                    text: msg,
-                    icon: 'error',
-                    confirmButtonText: '{{trans('ok')}}'
-                }).then(okay => {
-                    if (okay) {
-                        window.location.reload();
-                    }
-                });
-            }</script>
-        <script>
             var timerInterval;
             document.querySelector("#phoneforget").addEventListener("keypress", function (evt) {
                 if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57) {
@@ -194,7 +164,7 @@
             });
 
             function sendSmsEvent() {
-                window.Livewire.dispatch('Presend', [$("#ccodeforget").val(), $("#outputforget").val()]);
+                window.Livewire.dispatch('Presend', [$("#country_code").val(), $("#full_phone_number").val()]);
             }
 
             window.addEventListener('OptForgetPass', event => {
@@ -226,13 +196,59 @@
 
                 }).then((resultat) => {
                     if (resultat.value) {
-                        window.Livewire.dispatch('sendSms', [resultat.value, $("#outputforget").val()]);
+                        window.Livewire.dispatch('sendSms', [resultat.value, $("#full_phone_number").val()]);
                     }
                     if (resultat.isDismissed) {
                         location.reload();
                     }
                 })
             })
+        </script>
+        <script type="module">
+
+            $(function () {
+                var countryDataforget = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
+                    inputforget = document.querySelector("#phoneforget");
+
+                    var itiforget = window.intlTelInput(inputforget, {
+                        initialCountry: "auto",
+                        separateDialCode: true,
+                        autoFormat: true,
+                        useFullscreenPopup: false,
+                        geoIpLookup: function (callback) {
+                            $.get('https://ipinfo.io', function () {
+                            }, "jsonp").always(function (resp) {
+                                var countryCode = (resp && resp.country) ? resp.country : "TN";
+                                callback(countryCode);
+                            });
+                        },
+                        utilsScript: " {{Vite::asset('/resources/js/utils.js')}}"
+                    });
+
+                function resetforget() {
+                    $("#submit_form").prop("disabled", false);
+                    var phone = itiforget.getNumber();
+                    var textNode = document.createTextNode(phone);
+                    phone = phone.replace('+', '00');
+                    var mobile = $("#phoneforget").val();
+                    var countryData = itiforget.getSelectedCountryData();
+                    if (!phone.startsWith('00' + countryData.dialCode)) {
+                        phone = '00' + countryData.dialCode + mobile;
+                    }
+                    $("#full_phone_number").val(phone);
+                    $("#country_code").val(countryData.dialCode);
+                }
+
+                    inputforget.addEventListener('keyup', resetforget);
+                    inputforget.addEventListener('countrychange', resetforget);
+                    for (var i = 0; i < countryDataforget.length; i++) {
+                        var country13 = countryDataforget[i];
+                        var optionNode13 = document.createElement("option");
+                        optionNode13.value = country13.iso2;
+                }
+            })
+
+
         </script>
     </div>
 </div>
