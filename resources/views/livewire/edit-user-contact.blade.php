@@ -86,4 +86,121 @@
                 console.log("erreur number");
         }
     </script>
+    <script type="module">
+        var errorMap = ['{{trans('Invalid number')}}', '{{trans('Invalid country code')}}', '{{trans('Too shortsss')}}', '{{trans('Too long')}}', '{{trans('Invalid number')}}'];
+        var ipAddContact = document.querySelector("#ipAddContact");
+        document.addEventListener("DOMContentLoaded", function () {
+            if (document.getElementById("ipAddContact")) {
+
+                ipAddContact.innerHTML = "<div class='input-group-prepend'> " +
+                    "</div><input wire:model='phoneNumber' type='tel' name='phoneAddContact' id='phoneAddContact' class='form-control' onpaste='handlePaste(event)'" +
+                    "placeholder='Mobile Number'><span id='valid-msgAddContact' class='invisible'>✓ Valid</span><span id='error-msgAddContact' class='hide'></span>" +
+                    "<input type='hidden' name='fullnumber' id='outputAddContact' class='form-control'><input type='hidden' name='ccodeAddContact' id='ccodeAddContact'>";
+
+                var countryDataAddContact = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
+                    inputAddContact = document.querySelector("#phoneAddContact");
+                try {
+                    itiAddContact.destroy();
+                } catch (e) {
+                }
+
+                function resetAddContact() {
+                    var phone = itiAddContact.getNumber();
+                    if (phone == "") {
+                        phone = $("#pho").val();
+                    }
+                    var textNode = document.createTextNode(phone);
+                    phone = phone.replace('+', '00');
+
+                    var mobile = $("#phoneAddContact").val();
+                    var countryData = itiAddContact.getSelectedCountryData();
+                    if (!phone.startsWith('00' + countryData.dialCode)) {
+                        phone = '00' + countryData.dialCode + phone;
+                    }
+                    $("#outputAddContact").val(phone);
+
+                    $("#ccodeAddContact").val(countryData.dialCode);
+                    if (inputAddContact.value.trim()) {
+                        if (itiAddContact.isValidNumber()) {
+                            errorMsg.classList.add("invisible");
+                            $("#SubmitAddContact").prop("disabled", false);
+
+                        } else {
+                            $("#SubmitAddContact").prop("disabled", true);
+                            inputAddContact.classList.add("error");
+                            var errorCode = itiAddContact.getValidationError();
+                            errorMsg.innerHTML = errorMap[errorCode];
+                            errorMsg.classList.remove("invisible");
+                        }
+                    } else {
+                        $("#SubmitAddContact").prop("disabled", true);
+                        inputAddContact.classList.remove("error");
+                        var errorCode = itiAddContact.getValidationError();
+                        errorMsg.innerHTML = errorMap[errorCode];
+                        errorMsg.classList.add("invisible");
+                    }
+                };
+
+                var nameInput = document.querySelector('#inputNameContact');
+                var lastNameInput = document.querySelector('#inputlLastNameContact');
+                inputAddContact.addEventListener('keyup', resetAddContact);
+                inputAddContact.addEventListener('countrychange', resetAddContact);
+                nameInput.addEventListener('keyup', resetAddContact);
+                lastNameInput.addEventListener('keyup', resetAddContact);
+                var bbol = true;
+                var autoInit = "auto";
+                if (bbol) autoInit = codePays;
+                var itiAddContact = window.intlTelInput(inputAddContact, {
+                    initialCountry: autoInit,
+                    showSelectedDialCode: true,
+                    useFullscreenPopup: false,
+                    geoIpLookup: function (callback) {
+                        $.get('https://ipinfo.io', function () {
+                        }, "jsonp").always(function (resp) {
+                            var countryCode = (resp && resp.country) ? resp.country : "TN";
+                            callback(countryCode);
+                        });
+                    },
+                    utilsScript: "{{Vite::asset('utils.js/utils.js')}}"
+                });
+                for (var i = 0; i < countryDataAddContact.length; i++) {
+                    var country = countryDataAddContact[i];
+                    var optionNode = document.createElement("option");
+                    optionNode.value = country.iso2;
+                }
+                ;
+                document.querySelector("#phoneAddContact").addEventListener("keypress", function (evt) {
+                    if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57) {
+                        evt.preventDefault();
+                    }
+                });
+                var validMsg = document.querySelector("#valid-msgAddContact");
+                var errorMsg = document.querySelector("#error-msgAddContact");
+                inputAddContact.addEventListener('blur', function () {
+                    if (inputAddContact.value.trim()) {
+                        if (itiAddContact.isValidNumber()) {
+                            errorMsg.classList.add("invisible");
+                            $("#SubmitAddContact").prop("disabled", false);
+
+                        } else {
+                            $("#SubmitAddContact").prop("disabled", true);
+                            inputAddContact.classList.add("error");
+                            var errorCode = itiAddContact.getValidationError();
+                            errorMsg.innerHTML = errorMap[errorCode];
+                            errorMsg.classList.remove("invisible");
+                        }
+                    } else {
+                        $("#SubmitAddContact").prop("disabled", true);
+                        inputAddContact.classList.add("error");
+                        var errorCode = itiAddContact.getValidationError();
+                        errorMsg.innerHTML = errorMap[errorCode];
+                        errorMsg.classList.remove("invisible");
+                    }
+                });
+                resetAddContact();
+                $("#phoneAddContact").val($("#pho").val());
+            }
+
+        });
+    </script>
 </div>

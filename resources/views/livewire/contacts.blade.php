@@ -427,4 +427,44 @@
             }
         });
     </script>
+    <script type="module">
+        var ipAdd2Contact = document.querySelector("#ipAdd2Contact");
+        document.addEventListener("DOMContentLoaded", function () {
+            inputlog = document.querySelector("#ipAdd2Contact");
+            var itiLog = window.intlTelInput(inputlog, {
+                initialCountry: "auto",
+                autoFormat: true,
+                separateDialCode: true,
+                useFullscreenPopup: false,
+                geoIpLookup: function (callback) {
+                    $.get('https://ipinfo.io', function () {
+                    }, "jsonp").always(function (resp) {
+                        var countryCodelog = (resp && resp.country) ? resp.country : "TN";
+                        callback(countryCodelog);
+                    });
+                },
+                utilsScript: "{{Vite::asset('utils.js/utils.js')}}"
+            });
+
+            function resetContacts() {
+                var phone = itiLog.getNumber();
+                var textNode = document.createTextNode(phone);
+                phone = phone.replace('+', '00');
+                var mobile = $("#ipAdd2Contact").val();
+                var countryData = itiLog.getSelectedCountryData();
+                phone = '00' + countryData.dialCode + phone;
+                $("#ccodeAdd2Contact").val(countryData.dialCode);
+                $("#outputAdd2Contact").val(phone);
+            };
+            inputlog.addEventListener('keyup', resetContacts);
+            inputlog.addEventListener('countrychange', resetContacts);
+            for (var i = 0; i < countryDataLog.length; i++) {
+                var country12 = countryDataLog[i];
+                var optionNode12 = document.createElement("option");
+                optionNode12.value = country12.iso2;
+
+            }
+            inputlog.focus();
+        });
+    </script>
 </div>

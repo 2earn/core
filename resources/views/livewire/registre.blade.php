@@ -188,8 +188,8 @@
             const button = document.querySelector("#btn1");
             const errorMsg = document.querySelector("#error-msg");
             const validMsg = document.querySelector("#valid-msg");
-            const errorMap = ["{{__('Invalid number')}}", "{{__('Invalid country code')}}", "{{__('Too short')}}",
-                "{{__('Too long')}}", "{{__('Invalid number')}}"];
+            var errorMap = ['{{trans('Invalid number')}}', '{{trans('Invalid country code')}}', '{{trans('Too shortsss')}}', '{{trans('Too long')}}', '{{trans('Invalid number')}}'];
+
 
             const reset = () => {
                 input.classList.remove("error");

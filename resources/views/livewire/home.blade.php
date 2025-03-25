@@ -427,6 +427,8 @@
                     const input = document.querySelector("#phone");
                     const iti = window.intlTelInput(input, {
                         initialCountry: "auto",
+                        autoFormat: true,
+                        separateDialCode: true,
                         useFullscreenPopup: false,
                         utilsScript: "{{Vite::asset('utils.js/utils.js')}}"
                     });

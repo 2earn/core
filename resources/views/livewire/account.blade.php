@@ -1123,7 +1123,6 @@
                         });
                     });
                 </script>
-
                 <script type="module">
                     document.addEventListener("DOMContentLoaded", function () {
 
@@ -1190,6 +1189,110 @@
                         this.classList.toggle("bi-eye");
                     });
                 </script>
+                <script type="module">
+                    var errorMap = ['{{trans('Invalid number')}}', '{{trans('Invalid country code')}}', '{{trans('Too shortsss')}}', '{{trans('Too long')}}', '{{trans('Invalid number')}}'];
+                    document.addEventListener("DOMContentLoaded", function () {
+                        ipPhone.innerHTML =
+                            "<input type='tel'  placeholder= '{{ __("PH_EditPhone") }}' id='phoneUpPhone' class='form-control' onpaste='handlePaste(event)'>" +
+                            "  <span id='valid-msg'   class='invisible'>✓ Valid</span><span id='error-msg' class='hide'></span>" +
+                            " <input type='hidden' name='fullnumberUpPhone' id='outputUpPhone' value='hidden' class='form-control'> " +
+                            " <input type='hidden' name='ccodeUpPhone' id='ccodeUpPhone'  ><input type='hidden' name='isoUpPhone' id='isoUpPhone'  >";
+                        var countryDataUpPhone = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
+                            inputUpPhone = document.querySelector("#phoneUpPhone");
+                        try {
+                            itiUpPhone.destroy();
+                        } catch (e) {
+                            console.error(e)
+                        }
+                        var itiUpPhone = window.intlTelInput(inputUpPhone, {
+                            initialCountry: "auto",
+                            autoFormat: true,
+                            separateDialCode: true,
+                            useFullscreenPopup: false,
+                            geoIpLookup: function (callback) {
+                                $.get('https://ipinfo.io', function () {
+                                }, "jsonp").always(function (resp) {
+                                    var countryCode = (resp && resp.country) ? resp.country : "TN";
+                                    callback(countryCode);
+                                });
+                            },
+                            utilsScript: "{{Vite::asset('utils.js/utils.js')}}"
+                        });
+                        function resetUpPhone() {
+                            inputUpPhone.classList.remove("error");
+                            errorMsg.innerHTML = "";
+                            errorMsg.classList.add("invisible");
+                            validMsg.classList.add("invisible");
+                            $("#submit_phone").prop("disabled", true);
+                            var phone = itiUpPhone.getNumber();
+                            var textNode = document.createTextNode(phone);
+                            phone = phone.replace('+', '00');
+                            var mobile = $("#phoneUpPhone").val();
+                            var countryData = itiUpPhone.getSelectedCountryData();
+                            phone = '00' + countryData.dialCode + phone;
+                            $("#outputUpPhone").val(phone);
+                            $("#ccodeUpPhone").val(countryData.dialCode);
+                            $("#isoUpPhone").val(countryData.iso2);
+
+                            var fullphone = $("#outputUpPhone").val();
+                            if (inputUpPhone.value.trim()) {
+                                if (itiUpPhone.isValidNumber()) {
+                                    errorMsg.classList.add("invisible");
+                                    $("#submit_phone").prop("disabled", false);
+                                } else {
+                                    $("#submit_phone").prop("disabled", true);
+                                    inputUpPhone.classList.add("error");
+                                    var errorCode = itiUpPhone.getValidationError();
+                                    errorMsg.classList.remove("invisible");
+                                    if (errorCode == '-99') {
+                                        errorMsg.innerHTML = errorMap[2];
+                                    } else {
+                                        errorMsg.innerHTML = errorMap[errorCode];
+                                    }
+                                }
+                            } else {
+                                $("#submit_phone").prop("disabled", true);
+                                inputUpPhone.classList.remove("error");
+                                var errorCode = itiUpPhone.getValidationError();
+                                errorMsg.innerHTML = errorMap[errorCode];
+                                errorMsg.classList.add("invisible");
+                            }
+                        };
+
+
+                        inputUpPhone.addEventListener('keyup', resetUpPhone);
+                        inputUpPhone.addEventListener('countrychange', resetUpPhone);
+                        for (var i = 0; i < countryDataUpPhone.length; i++) {
+                            var country = countryDataUpPhone[i];
+                            var optionNode = document.createElement("option");
+                            optionNode.value = country.iso2;
+                        }
+                        document.querySelector("#phoneUpPhone").addEventListener("keypress", function (evt) {
+                            if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57) {
+                                evt.preventDefault();
+                            }
+                        });
+                        var validMsg = document.querySelector("#valid-msg");
+                        var errorMsg = document.querySelector("#error-msg")
+                        inputUpPhone.addEventListener('blur', function () {
+                            if (inputUpPhone.value.trim()) {
+                                if (itiUpPhone.isValidNumber()) {
+                                    $("#submit_phone").prop("disabled", false);
+                                } else {
+                                    $("#submit_phone").prop("disabled", true);
+                                    inputUpPhone.classList.add("error");
+                                    var errorCode = itiUpPhone.getValidationError();
+                                    errorMsg.innerHTML = errorMap[errorCode];
+                                    errorMsg.classList.remove("invisible");
+                                }
+                            }
+                        });
+                        resetUpPhone();
+                    });
+
+                </script>
+
+
             </div>
             <div id="topmodal" class="modal fade" tabindex="-1" aria-hidden="true"
                  style="display: none;">
