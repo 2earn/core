@@ -1110,7 +1110,6 @@
                     document.addEventListener("DOMContentLoaded", function () {
 
                         $("#soonExpireIIC, #goToIdentification").click(function () {
-                            console.log('Hi')
                             $('#personalDetailsTab a').removeClass('active')
                             $('#personalDetails').removeClass('active')
                             $('#personalDetailsTab a').attr('aria-selected', false)
@@ -1193,12 +1192,12 @@
                     var errorMap = ['{{trans('Invalid number')}}', '{{trans('Invalid country code')}}', '{{trans('Too shortsss')}}', '{{trans('Too long')}}', '{{trans('Invalid number')}}'];
                     document.addEventListener("DOMContentLoaded", function () {
                         ipPhone.innerHTML =
-                            "<input type='tel'  placeholder= '{{ __("PH_EditPhone") }}' id='phoneUpPhone' class='form-control' onpaste='handlePaste(event)'>" +
+                            "<input type='tel'  placeholder= '{{ __("PH_EditPhone") }}' id='initIntlTelInput' class='form-control' onpaste='handlePaste(event)'>" +
                             "  <span id='valid-msg'   class='invisible'>✓ Valid</span><span id='error-msg' class='hide'></span>" +
                             " <input type='hidden' name='fullnumberUpPhone' id='outputUpPhone' value='hidden' class='form-control'> " +
                             " <input type='hidden' name='ccodeUpPhone' id='ccodeUpPhone'  ><input type='hidden' name='isoUpPhone' id='isoUpPhone'  >";
                         var countryDataUpPhone = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
-                            inputUpPhone = document.querySelector("#phoneUpPhone");
+                            inputUpPhone = document.querySelector("#initIntlTelInput");
                         try {
                             itiUpPhone.destroy();
                         } catch (e) {
@@ -1227,7 +1226,7 @@
                             var phone = itiUpPhone.getNumber();
                             var textNode = document.createTextNode(phone);
                             phone = phone.replace('+', '00');
-                            var mobile = $("#phoneUpPhone").val();
+                            var mobile = $("#initIntlTelInput").val();
                             var countryData = itiUpPhone.getSelectedCountryData();
                             phone = '00' + countryData.dialCode + phone;
                             $("#outputUpPhone").val(phone);
@@ -1267,7 +1266,7 @@
                             var optionNode = document.createElement("option");
                             optionNode.value = country.iso2;
                         }
-                        document.querySelector("#phoneUpPhone").addEventListener("keypress", function (evt) {
+                        document.querySelector("#initIntlTelInput").addEventListener("keypress", function (evt) {
                             if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57) {
                                 evt.preventDefault();
                             }

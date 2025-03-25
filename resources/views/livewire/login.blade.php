@@ -78,7 +78,7 @@
                                                     <label for="username"
                                                            class="float-start form-label">{{ __('Mobile Number') }}</label>
                                                     <br>
-                                                    <input type="tel" name="mobile" id="intl-tel-input-phone"
+                                                    <input type="tel" name="mobile" id="intl-tel-input"
                                                            class="form-control @error('email') is-invalid @enderror"
                                                            value=""
                                                            placeholder="{{ __('Mobile number') }}">
@@ -190,18 +190,18 @@
     </div>
     <script>
         function functionLogin() {
-            window.Livewire.dispatch('login', [$("#intl-tel-input-phone").val(), $("#country_code").val(), $("#password-input").val(), $("#iso_country_code").val()]);
+            window.Livewire.dispatch('login', [$("#intl-tel-input").val(), $("#country_code").val(), $("#password-input").val(), $("#iso_country_code").val()]);
         }
     </script>
     <script type="module">
-        document.querySelector("#intl-tel-input-phone").addEventListener("keypress", function (evt) {
+        document.querySelector("#intl-tel-input").addEventListener("keypress", function (evt) {
             if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57) {
                 evt.preventDefault();
             }
         });
         $(function () {
             var countryDataLog = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
-                inputlog = document.querySelector("#intl-tel-input-phone");
+                inputlog = document.querySelector("#intl-tel-input");
             var itiLog = window.intlTelInput(inputlog, {
                 initialCountry: "auto",
                 autoFormat: true,
@@ -226,9 +226,6 @@
                 phone = '00' + countryData.dialCode + phone;
                 $("#country_code").val(countryData.dialCode);
                 $("#iso_country_code").val(countryData.iso2);
-                console.log(itiLog.isValidNumber())
-
-
                 if (inputlog.value.trim()) {
                     if (itiLog.isValidNumber()) {
                         $("#signin").prop("disabled", false);

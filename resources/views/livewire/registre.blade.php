@@ -56,7 +56,7 @@
                                         <div class="mb-3">
                                             <label for="userPhone" class="form-label">{{ __('Mobile Number') }} <span
                                                     class="text-danger">*</span></label>
-                                            <input wire:model="phoneNumber" type="tel" name="mobile" id="phonereg"
+                                            <input wire:model="phoneNumber" type="tel" name="mobile" id="intl-tel-input"
                                                    class="form-control @error('mobile') is-invalid @enderror"
                                                    value=" "
                                                    placeholder="{{ __('Mobile number') }}" required>
@@ -184,7 +184,7 @@
         var iti = null;
 
         function signupEvent() {
-            const input = document.querySelector("#phonereg");
+            const input = document.querySelector("#intl-tel-input");
             const button = document.querySelector("#btn1");
             const errorMsg = document.querySelector("#error-msg");
             const validMsg = document.querySelector("#valid-msg");
@@ -197,14 +197,12 @@
                 errorMsg.classList.add("hide");
                 validMsg.classList.add("hide");
             };
-            var out = "00" + $("#ccode").val() + parseInt($('#phonereg').val().replace(/\D/g, ''), 10);
-            initIntlTelInput();
+            var out = "00" + $("#ccode").val() + parseInt($('#intl-tel-input').val().replace(/\D/g, ''), 10);
 
             if (input.value.trim()) {
                 if ($("#validation").val() == "true") {
 
                 @this.set('captcha', grecaptcha.getResponse());
-                    console.log([out.replace(/\D/g, ''), $("#ccode").val(), $("#iso2Country").val()])
                     window.Livewire.dispatch('changefullNumber', [out.replace(/\D/g, ''), $("#ccode").val(), $("#iso2Country").val()]);
                 } else {
                     input.classList.add("error");
@@ -225,7 +223,7 @@
     <script type="module">
         $(function () {
             var countryData = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
-                input = document.querySelector("#phonereg");
+                input = document.querySelector("#intl-tel-input");
             iti = window.intlTelInput(input, {
                 initialCountry: "auto",
                 separateDialCode: true,
@@ -243,7 +241,7 @@
                 var phone = iti.getNumber();
                 var textNode = document.createTextNode(phone);
                 phone = phone.replace('+', '00');
-                var mobile = $("#phonereg").val();
+                var mobile = $("#intl-tel-input").val();
                 var countryData = iti.getSelectedCountryData();
                 if (!phone.startsWith('00' + countryData.dialCode)) {
                     phone = '00' + countryData.dialCode + mobile;

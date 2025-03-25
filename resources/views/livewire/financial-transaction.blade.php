@@ -806,7 +806,6 @@
                     });
                     return;
                 }
-                console.log('redirectPay')
                 window.Livewire.dispatch('redirectPay', [theUrl, amount]);
             });
             var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";

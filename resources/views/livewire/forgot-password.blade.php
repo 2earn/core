@@ -49,7 +49,7 @@
                                         <div class="mb-3">
                                             <label for="useremail"
                                                    class="form-label">{{ __('Your phone number') }}</label>
-                                            <input type="tel" name="mobile" id="phoneforget"
+                                            <input type="tel" name="mobile" id="intl-tel-input"
                                                    class="form-control @error('mobile') is-invalid @enderror"
                                                    placeholder="{{ __('Mobile number') }}"
                                                    value="">
@@ -156,7 +156,7 @@
         </div>
         <script>
             var timerInterval;
-            document.querySelector("#phoneforget").addEventListener("keypress", function (evt) {
+            document.querySelector("#intl-tel-input").addEventListener("keypress", function (evt) {
                 if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57) {
                     evt.preventDefault();
                 }
@@ -207,7 +207,7 @@
 
             $(function () {
                 var countryDataforget = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
-                    inputforget = document.querySelector("#phoneforget");
+                    inputforget = document.querySelector("#intl-tel-input");
 
                     var itiforget = window.intlTelInput(inputforget, {
                         initialCountry: "auto",
@@ -229,7 +229,7 @@
                     var phone = itiforget.getNumber();
                     var textNode = document.createTextNode(phone);
                     phone = phone.replace('+', '00');
-                    var mobile = $("#phoneforget").val();
+                    var mobile = $("#intl-tel-input").val();
                     var countryData = itiforget.getSelectedCountryData();
                     if (!phone.startsWith('00' + countryData.dialCode)) {
                         phone = '00' + countryData.dialCode + mobile;

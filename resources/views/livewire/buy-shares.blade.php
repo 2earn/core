@@ -243,7 +243,6 @@
                     this.disabled = true;
                     $('.buy-action-submit-spinner').show();
                     let ammount = parseFloat($('#amount_val').text()).toFixed(3);
-                    console.log(ammount)
                     let numberOfActions = parseInt($('#action').val());
                     let phone = $('#phone').val();
                     let me_or_other = $("input[name='inlineRadioOptions']:checked").val();

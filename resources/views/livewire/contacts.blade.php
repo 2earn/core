@@ -215,7 +215,7 @@
                                             wire:model="mobile"
                                             type="tel"
                                             name="mobile"
-                                            id="ipAdd2Contact"
+                                            id="intl-tel-input"
                                             class="form-control"
                                             value=""
                                             placeholder="{{ __('Mobile number') }}"
@@ -253,7 +253,7 @@
     <script>
 
         function saveContactEvent() {
-            inputphone = document.getElementById("ipAdd2Contact");
+            inputphone = document.getElementById("intl-tel-input");
             inputname = document.getElementById("ccodeAdd2Contact");
             inputlast = document.getElementById("outputAdd2Contact");
             const errorMsg = document.querySelector("#error-msg");
@@ -429,9 +429,9 @@
     </script>
     <script type="module">
         var countryDataLog = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [];
-        var ipAdd2Contact = document.querySelector("#ipAdd2Contact");
+        var ipAdd2Contact = document.querySelector("#intl-tel-input");
         document.addEventListener("DOMContentLoaded", function () {
-            var inputlog = document.querySelector("#ipAdd2Contact");
+            var inputlog = document.querySelector("#intl-tel-input");
             var itiLog = window.intlTelInput(inputlog, {
                 initialCountry: "auto",
                 autoFormat: true,
@@ -451,7 +451,7 @@
                 var phone = itiLog.getNumber();
                 var textNode = document.createTextNode(phone);
                 phone = phone.replace('+', '00');
-                var mobile = $("#ipAdd2Contact").val();
+                var mobile = $("#intl-tel-input").val();
                 var countryData = itiLog.getSelectedCountryData();
                 phone = '00' + countryData.dialCode + phone;
                 $("#ccodeAdd2Contact").val(countryData.dialCode);

@@ -167,7 +167,6 @@
             });
 
             document.addEventListener("DOMContentLoaded", function () {
-                console.log('DOMContentLoaded cb')
 
                 $('#ub_table').DataTable(
                     {

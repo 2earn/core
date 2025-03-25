@@ -55,7 +55,6 @@
                 }
             );
             document.addEventListener("DOMContentLoaded", function () {
-                console.log('DOMContentLoaded bfs')
                 var select2_array = [];
                 $('#ub_table_bfs').DataTable(
                     {

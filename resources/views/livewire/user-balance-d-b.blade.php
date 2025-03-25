@@ -33,7 +33,6 @@
         </div>
         <script type="module">
             document.addEventListener("DOMContentLoaded", function () {
-                console.log('DOMContentLoaded db')
                     $('#page-title-box').addClass('page-title-box-db');
                     $('#userBalanceDB_table').DataTable(
                         {

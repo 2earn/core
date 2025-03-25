@@ -48,7 +48,7 @@
                                     </div>
                                     <input type="tel" hidden id="pho" wire:model="phoneNumber"
                                            value="{{$phoneNumber}}">
-                                    <input type="text" hidden id="phoneAddContact" name="phoneAddContact"
+                                    <input type="text" hidden id="intl-tel-input" name="intl-tel-input"
                                            value="{{$phoneNumber}}">
                                     <p hidden id="codecode">{{$phoneCode}}</p>
                                 </div>
@@ -81,11 +81,12 @@
             function editContactEvent() {
                 ccode = document.getElementById("ccodeAddContact");
                 fullNumber = document.getElementById("outputAddContact");
-                phone = document.getElementById("phoneAddContact");
-                if (ccode.value.trim() && fullNumber.value.trim() && phone.value.trim())
+                phone = document.getElementById("intl-tel-input");
+                if (ccode.value.trim() && fullNumber.value.trim() && phone.value.trim()) {
                     window.Livewire.dispatch('save', [ccode.value.trim(), fullNumber.value.trim(), phone.value.trim()]);
-                else
-                    console.log("erreur number");
+                } else {
+                    console.error("erreur number");
+                }
             }
         </script>
         <script type="module">
@@ -95,12 +96,12 @@
                 if (document.getElementById("ipAddContact")) {
 
                     ipAddContact.innerHTML = "<div class='input-group-prepend'> " +
-                        "</div><input wire:model='phoneNumber' type='tel' name='phoneAddContact' id='phoneAddContact' class='form-control' onpaste='handlePaste(event)'" +
+                        "</div><input wire:model='phoneNumber' type='tel' name='intl-tel-input' id='intl-tel-input' class='form-control' onpaste='handlePaste(event)'" +
                         "placeholder='Mobile Number'><span id='valid-msgAddContact' class='invisible'>✓ Valid</span><span id='error-msgAddContact' class='hide'></span>" +
                         "<input type='hidden' name='fullnumber' id='outputAddContact' class='form-control'><input type='hidden' name='ccodeAddContact' id='ccodeAddContact'>";
 
                     var countryDataAddContact = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
-                        inputAddContact = document.querySelector("#phoneAddContact");
+                        inputAddContact = document.querySelector("#intl-tel-input");
                     try {
                         itiAddContact.destroy();
                     } catch (e) {
@@ -114,7 +115,7 @@
                         var textNode = document.createTextNode(phone);
                         phone = phone.replace('+', '00');
 
-                        var mobile = $("#phoneAddContact").val();
+                        var mobile = $("#intl-tel-input").val();
                         var countryData = itiAddContact.getSelectedCountryData();
                         if (!phone.startsWith('00' + countryData.dialCode)) {
                             phone = '00' + countryData.dialCode + phone;
@@ -171,7 +172,7 @@
                         optionNode.value = country.iso2;
                     }
                     ;
-                    document.querySelector("#phoneAddContact").addEventListener("keypress", function (evt) {
+                    document.querySelector("#intl-tel-input").addEventListener("keypress", function (evt) {
                         if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57) {
                             evt.preventDefault();
                         }
@@ -200,7 +201,7 @@
                         }
                     });
                     initIntlTelInput();
-                    $("#phoneAddContact").val($("#pho").val());
+                    $("#intl-tel-input").val($("#pho").val());
                 }
 
             });

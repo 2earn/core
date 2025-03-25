@@ -159,7 +159,7 @@
                         event.preventDefault();
                         event.stopImmediatePropagation();
                         $('.btn-close-add').trigger('click')
-                        window.Livewire.dispatch('preSaveContact', [$("#outputphoneContactNumber").val(), $("#isoContactNumber").val(), $("#phoneContactNumber").val()]);
+                        window.Livewire.dispatch('preSaveContact', [$("#outputinitIntlTelInput").val(), $("#isoContactNumber").val(), $("#initIntlTelInput").val()]);
                     });
 
                     window.addEventListener('PreAddNumber', event => {
@@ -213,12 +213,12 @@
                 var ipNumberContact = document.querySelector("#inputNumberContact");
                 document.addEventListener("DOMContentLoaded", function () {
                     ipNumberContact.innerHTML = "<div class='input-group-prepend'> " +
-                        "</div><input wire:model='' type='tel' name='phoneContactNumber' id='phoneContactNumber' class='form-control' onpaste='handlePaste(event)'" +
-                        "placeholder='{{ __("Mobile Number") }}'><span id='valid-msgphoneContactNumber' class='invisible'>✓ Valid</span><span id='error-msgphoneContactNumber' class='hide'></span>" +
-                        " <input type='hidden' name='fullnumber' id='outputphoneContactNumber' class='form-control'><input type='hidden' name='ccodephoneContactNumber' id='ccodephoneContactNumber'>" +
+                        "</div><input wire:model='' type='tel' name='initIntlTelInput' id='initIntlTelInput' class='form-control' onpaste='handlePaste(event)'" +
+                        "placeholder='{{ __("Mobile Number") }}'><span id='valid-msginitIntlTelInput' class='invisible'>✓ Valid</span><span id='error-msginitIntlTelInput' class='hide'></span>" +
+                        " <input type='hidden' name='fullnumber' id='outputinitIntlTelInput' class='form-control'><input type='hidden' name='ccodeinitIntlTelInput' id='ccodeinitIntlTelInput'>" +
                         "<input type='hidden' name='isoContactNumber' id='isoContactNumber'>";
                     var countryDataNumberContact = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
-                        inputAddContactNumber = document.querySelector("#phoneContactNumber");
+                        inputAddContactNumber = document.querySelector("#initIntlTelInput");
                     try {
                         itiAddContactNumber.destroy();
                     } catch (e) {
@@ -242,13 +242,13 @@
                     function initIntlTelInput() {
                         var phoneCN = itiAddContactNumber.getNumber();
                         phoneCN = phoneCN.replace('+', '00');
-                        var mobileCN = $("#phoneContactNumber").val();
+                        var mobileCN = $("#initIntlTelInput").val();
                         var countryDataCN = itiAddContactNumber.getSelectedCountryData();
                         if (!phoneCN.startsWith('00' + countryDataCN.dialCode)) {
                             phoneCN = '00' + countryDataCN.dialCode + phoneCN;
                         }
-                        $("#outputphoneContactNumber").val(phoneCN);
-                        $("#ccodephoneContactNumber").val(countryDataCN.dialCode);
+                        $("#outputinitIntlTelInput").val(phoneCN);
+                        $("#ccodeinitIntlTelInput").val(countryDataCN.dialCode);
                         $("#isoContactNumber").val(countryDataCN.iso2);
                         if (itiAddContactNumber.isValidNumber()) {
                             $('#saveAddContactNumber').prop("disabled", false)
@@ -257,7 +257,7 @@
                         }
                     }
 
-                    inputAddContactNumber.addEventListener('keyup', initIntlTelInput);
+                    inputAddContactNumber.addEventListener('keyup',   initIntlTelInput);
                     inputAddContactNumber.addEventListener('countrychange', initIntlTelInput);
 
                     for (var i = 0; i < countryDataNumberContact.length; i++) {
