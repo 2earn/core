@@ -1216,7 +1216,7 @@
                                     callback(countryCode);
                                 });
                             },
-                            utilsScript: "{{Vite::asset('utils.js/utils.js')}}"
+                            utilsScript: " {{Vite::asset('/resources/js/utils.js')}}"
                         });
                         function resetUpPhone() {
                             inputUpPhone.classList.remove("error");

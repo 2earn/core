@@ -428,9 +428,10 @@
         });
     </script>
     <script type="module">
+        var countryDataLog = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [];
         var ipAdd2Contact = document.querySelector("#ipAdd2Contact");
         document.addEventListener("DOMContentLoaded", function () {
-            inputlog = document.querySelector("#ipAdd2Contact");
+            var inputlog = document.querySelector("#ipAdd2Contact");
             var itiLog = window.intlTelInput(inputlog, {
                 initialCountry: "auto",
                 autoFormat: true,
@@ -443,7 +444,7 @@
                         callback(countryCodelog);
                     });
                 },
-                utilsScript: "{{Vite::asset('utils.js/utils.js')}}"
+                utilsScript: " {{Vite::asset('/resources/js/utils.js')}}"
             });
 
             function resetContacts() {

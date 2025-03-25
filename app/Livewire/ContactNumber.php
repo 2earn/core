@@ -70,24 +70,7 @@ class ContactNumber extends Component
         return redirect()->route('contact_number', app()->getLocale())->with('success', trans('Updated successfully'));
     }
 
-    public function render(settingsManager $settingsManager)
-    {
-        $userAuth = $settingsManager->getAuthUser();
-        if (!$userAuth) return;
-        $userContactNumber = DB::table('usercontactnumber')
-            ->selectRaw('usercontactnumber.id,usercontactnumber.idUser,usercontactnumber.mobile,usercontactnumber.codeP,usercontactnumber.active,
-            usercontactnumber.isoP,usercontactnumber.fullNumber,usercontactnumber.isID')
-            ->where('idUser', '=', $userAuth->idUser)
-            ->where(
-                function ($query) {
-                    return $query
-                        ->where('mobile', 'like', '%' . $this->search . '%')
-                        ->orWhere('id', 'like', '%' . $this->search . '%');
-                })
-            ->get();
 
-        return view('livewire.contact-number', ['userContactNumber' => $userContactNumber])->extends('layouts.master')->section('content');
-    }
 
     public function preSaveContact($fullNumber, $isoP, $mobile, settingsManager $settingsManager)
     {
@@ -122,5 +105,22 @@ class ContactNumber extends Component
             'msgSend' => $msgSend
         ];
         $this->dispatch('PreAddNumber', $params);
-    }
+    } public function render(settingsManager $settingsManager)
+{
+    $userAuth = $settingsManager->getAuthUser();
+    if (!$userAuth) return;
+    $userContactNumber = DB::table('usercontactnumber')
+        ->selectRaw('usercontactnumber.id,usercontactnumber.idUser,usercontactnumber.mobile,usercontactnumber.codeP,usercontactnumber.active,
+            usercontactnumber.isoP,usercontactnumber.fullNumber,usercontactnumber.isID')
+        ->where('idUser', '=', $userAuth->idUser)
+        ->where(
+            function ($query) {
+                return $query
+                    ->where('mobile', 'like', '%' . $this->search . '%')
+                    ->orWhere('id', 'like', '%' . $this->search . '%');
+            })
+        ->get();
+
+    return view('livewire.contact-number', ['userContactNumber' => $userContactNumber])->extends('layouts.master')->section('content');
+}
 }

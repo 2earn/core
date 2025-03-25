@@ -144,6 +144,6 @@ class EditUserContact extends Component
 
     public function render()
     {
-        return view('')->extends('layouts.master')->section('content');
+        return view('livewire.edit-user-contact')->extends('layouts.master')->section('content');
     }
 }

@@ -212,7 +212,10 @@
                     console.error(e)
                 }
                 try {
-                    document.getElementById('SReqIn').innerHTML = "";
+                    var element = document.getElementById('SReqIn');
+                    if (typeof (element) != 'undefined' && element != null) {
+                        element.innerHTML = "";
+                    }
                 } catch (e) {
                     console.error(e)
                 }
