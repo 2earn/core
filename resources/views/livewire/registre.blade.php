@@ -239,7 +239,7 @@
 
             function initIntlTelInput() {
                 var phone = iti.getNumber();
-                var textNode = document.createTextNode(phone);
+                 document.createTextNode(phone);
                 phone = phone.replace('+', '00');
                 var mobile = $("#intl-tel-input").val();
                 var countryData = iti.getSelectedCountryData();

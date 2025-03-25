@@ -136,9 +136,7 @@ class EditUserContact extends Component
 
     public function show($idd)
     {
-        return view('livewire.edit-user-contact', ['idd' => "ee"])->with('danger', 'dfdf');
         return redirect()->route('user_contact_edit', ['locale' => app()->getLocale(), 'idd' => $idd]);
-
     }
 
 

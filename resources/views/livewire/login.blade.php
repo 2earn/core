@@ -219,9 +219,8 @@
             function initIntlTelInput() {
                 $("#signin").prop("disabled", false);
                 var phone = itiLog.getNumber();
-                var textNode = document.createTextNode(phone);
+                 document.createTextNode(phone);
                 phone = phone.replace('+', '00');
-                var mobile = $("#phoneLog").val();
                 var countryData = itiLog.getSelectedCountryData();
                 phone = '00' + countryData.dialCode + phone;
                 $("#country_code").val(countryData.dialCode);

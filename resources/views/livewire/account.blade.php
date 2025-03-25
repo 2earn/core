@@ -1189,6 +1189,7 @@
                     });
                 </script>
                 <script type="module">
+                    var ipPhone = document.getElementById("inputPhoneUpdate");
                     var errorMap = ['{{trans('Invalid number')}}', '{{trans('Invalid country code')}}', '{{trans('Too shortsss')}}', '{{trans('Too long')}}', '{{trans('Invalid number')}}'];
                     document.addEventListener("DOMContentLoaded", function () {
                         ipPhone.innerHTML =
@@ -1198,11 +1199,6 @@
                             " <input type='hidden' name='ccodeUpPhone' id='ccodeUpPhone'  ><input type='hidden' name='isoUpPhone' id='isoUpPhone'  >";
                         var countryDataUpPhone = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
                             inputUpPhone = document.querySelector("#initIntlTelInput");
-                        try {
-                            itiUpPhone.destroy();
-                        } catch (e) {
-                            console.error(e)
-                        }
                         var itiUpPhone = window.intlTelInput(inputUpPhone, {
                             initialCountry: "auto",
                             autoFormat: true,
@@ -1217,6 +1213,7 @@
                             },
                             utilsScript: " {{Vite::asset('/resources/js/utils.js')}}"
                         });
+
                         function initIntlTelInput() {
                             inputUpPhone.classList.remove("error");
                             errorMsg.innerHTML = "";
@@ -1224,7 +1221,7 @@
                             validMsg.classList.add("invisible");
                             $("#submit_phone").prop("disabled", true);
                             var phone = itiUpPhone.getNumber();
-                            var textNode = document.createTextNode(phone);
+                             document.createTextNode(phone);
                             phone = phone.replace('+', '00');
                             var mobile = $("#initIntlTelInput").val();
                             var countryData = itiUpPhone.getSelectedCountryData();

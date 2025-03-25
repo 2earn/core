@@ -77,6 +77,8 @@
         </div>
         <script>
             var codePays = document.getElementById('codecode').textContent;
+            var errorMap = ['{{trans('Invalid number')}}', '{{trans('Invalid country code')}}', '{{trans('Too shortsss')}}', '{{trans('Too long')}}', '{{trans('Invalid number')}}'];
+            var ipAddContact = document.querySelector("#ipAddContact");
 
             function editContactEvent() {
                 ccode = document.getElementById("ccodeAddContact");
@@ -88,10 +90,8 @@
                     console.error("erreur number");
                 }
             }
-        </script>
-        <script type="module">
-            var errorMap = ['{{trans('Invalid number')}}', '{{trans('Invalid country code')}}', '{{trans('Too shortsss')}}', '{{trans('Too long')}}', '{{trans('Invalid number')}}'];
-            var ipAddContact = document.querySelector("#ipAddContact");
+
+
             document.addEventListener("DOMContentLoaded", function () {
                 if (document.getElementById("ipAddContact")) {
 
@@ -102,17 +102,13 @@
 
                     var countryDataAddContact = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
                         inputAddContact = document.querySelector("#intl-tel-input");
-                    try {
-                        itiAddContact.destroy();
-                    } catch (e) {
-                    }
 
                     function initIntlTelInput() {
                         var phone = itiAddContact.getNumber();
                         if (phone == "") {
                             phone = $("#pho").val();
                         }
-                        var textNode = document.createTextNode(phone);
+                         document.createTextNode(phone);
                         phone = phone.replace('+', '00');
 
                         var mobile = $("#intl-tel-input").val();
@@ -155,7 +151,8 @@
                     if (bbol) autoInit = codePays;
                     var itiAddContact = window.intlTelInput(inputAddContact, {
                         initialCountry: autoInit,
-                        showSelectedDialCode: true,
+                        autoFormat: true,
+                        separateDialCode: true,
                         useFullscreenPopup: false,
                         geoIpLookup: function (callback) {
                             $.get('https://ipinfo.io', function () {
