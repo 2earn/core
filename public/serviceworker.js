@@ -10,12 +10,16 @@ var filesToCache = [
 // Cache on install
 self.addEventListener("install", event => {
     this.skipWaiting();
-    event.waitUntil(
-        caches.open(staticCacheName)
-            .then(cache => {
-                return cache.addAll(filesToCache);
-            })
-    )
+    try {
+        event.waitUntil(
+            caches.open(staticCacheName)
+                .then(cache => {
+                    return cache.addAll(filesToCache);
+                })
+        )
+    } catch (e) {
+        console.error(e);
+    }
 });
 
 // Clear cache on activate
