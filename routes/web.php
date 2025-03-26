@@ -112,7 +112,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/generating/pdf/report', \App\Livewire\GeneratingPDFReport::class)->name('generating_pdf_report');
         });
 
-        Route::get('/treeview', \App\Livewire\treeview::class)->name('treeview');
+        Route::get('/treeview', \App\Livewire\Treeview::class)->name('treeview');
 
         Route::prefix('/user')->group(function () {
             Route::get('/balance-sms', UserBalanceSMS::class)->name('user_balance_sms');
