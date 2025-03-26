@@ -12,7 +12,7 @@ self.addEventListener("install", event => {
                 })
         )
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 });
 
