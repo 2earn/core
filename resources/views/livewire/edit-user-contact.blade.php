@@ -108,10 +108,9 @@
                         if (phone == "") {
                             phone = $("#pho").val();
                         }
-                         document.createTextNode(phone);
+                        document.createTextNode(phone);
                         phone = phone.replace('+', '00');
 
-                        var mobile = $("#intl-tel-input").val();
                         var countryData = itiAddContact.getSelectedCountryData();
                         if (!phone.startsWith('00' + countryData.dialCode)) {
                             phone = '00' + countryData.dialCode + phone;
