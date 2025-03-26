@@ -6,7 +6,7 @@
     <title>@yield('title') | 2Earn.cash</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="2earn.cash" name="description"/>
-    <meta content="Themesbrand" name="author"/>
+    <meta content="2earn" name="author"/>
     <link rel="shortcut icon" href="{{ Vite::asset('resources/images/favicon.ico')}}">
     <livewire:styles/>
     <script src="https://www.google.com/recaptcha/api.js?render={{config('services.recaptcha.key')}}"></script>

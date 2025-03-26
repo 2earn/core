@@ -103,7 +103,10 @@
                     window.Livewire.dispatch('initBOFunction', [idBO]);
                 }
             }
-
+            window.addEventListener('closeModalOp', event => {
+                $('#BoModal').modal('hide');
+                $('#BalanceOperationsTable').DataTable().ajax.reload();
+            });
             document.addEventListener("DOMContentLoaded", function () {
 
                 $('#BalanceOperationsTable').DataTable(

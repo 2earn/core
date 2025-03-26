@@ -111,9 +111,12 @@
             }
         }
 
+        window.addEventListener('closeModalAmounts', event => {
+            $('#AmountsModal').modal('hide');
+            $('#amountsTable').DataTable().ajax.reload();
+        });
+
         document.addEventListener("DOMContentLoaded", function () {
-
-
             $('#amountsTable').DataTable(
                 {
                     retrieve: true,

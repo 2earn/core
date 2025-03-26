@@ -64,7 +64,6 @@
                             <span>{{ __('Contact') }}</span>
                         </a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link menu-link {{!in_array($currentRouteName, $sidebarBusinessArray)? 'collapsed' : 'active'}}"
                            href="#sidebarBusiness" data-bs-toggle="collapse"
@@ -104,7 +103,6 @@
                             </ul>
                         </div>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link menu-link {{!in_array($currentRouteName,$sidebarSavingsArray)? 'collapsed' : 'active'}}"
                            href="#sidebarSavings" data-bs-toggle="collapse"
@@ -133,7 +131,6 @@
                             </ul>
                         </div>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link menu-link {{!in_array($currentRouteName, $sidebarBiographyArray)? 'collapsed' : 'active'}}"
                            href="#sidebarBiography" data-bs-toggle="collapse"
@@ -213,7 +210,6 @@
                             </ul>
                         </div>
                     </li>
-
                     <li class="nav-item cool-link {{$currentRouteName=='financial_transaction'? 'active' : ''}}">
                         <a href="{{route('financial_transaction',app()->getLocale(),false)}}"
                            class="nav-link menu-link {{$currentRouteName=='financial_transaction'? 'active' : ''}}"
@@ -241,7 +237,6 @@
                             <span>{{__('News')}}</span>
                         </a>
                     </li>
-
                     @if(\Core\Models\Platform::canCheckDeals(auth()->user()->id))
                         <li class="nav-item cool-link {{$currentRouteName=='deals_index'? 'active' : ''}}">
                             <a href="{{route('deals_index',app()->getLocale(),false )}}"
@@ -252,7 +247,6 @@
                             </a>
                         </li>
                     @endIf
-
                     <li class="nav-item">
                         <a class="nav-link menu-link {{!in_array($currentRouteName, $sidebarArchiveArray)? 'collapsed' : 'active'}}"
                            href="#sidebarArchive" data-bs-toggle="collapse"
@@ -379,7 +373,6 @@
                                data-bs-toggle="collapse"
                                role="button"
                                aria-expanded="{{in_array($currentRouteName, $sidebarDashboardsArray)? 'true' : 'false'}}"
-
                                aria-controls="sidebarDashboards">
                                 <i class="ri-settings-fill"></i> <span
                                 >{{ __('Settings') }}</span>
@@ -442,7 +435,6 @@
                                 </ul>
                             </div>
                         </li>
-
                         <li class="nav-item cool-link {{$currentRouteName=='stat_countrie'? 'active' : ''}}">
                             <a href="{{route('stat_countrie', app()->getLocale(),false)}}"
                                class="nav-link menu-link {{$currentRouteName=='stat_countrie'? 'active' : ''}}"
@@ -459,7 +451,6 @@
                                 <span>{{ __('representatives Management') }}</span>
                             </a>
                         </li>
-
                         <li class="nav-item">
                             <a class="nav-link menu-link {{!in_array($currentRouteName, $sidebarRequestsArray)? 'collapsed' : 'active'}}"
                                href="#sidebarRequests" data-bs-toggle="collapse"
@@ -492,7 +483,6 @@
                                 </ul>
                             </div>
                         </li>
-
                         <li class="nav-item cool-link {{$currentRouteName=='countries_management'? 'active' : ''}}">
                             <a href="{{route('countries_management', app()->getLocale(),false)}}"
                                class="nav-link menu-link {{$currentRouteName=='countries_management'? 'active' : ''}}"
@@ -528,7 +518,6 @@
                                 </ul>
                             </div>
                         </li>
-
                     @endif
                 </ul>
             </div>
@@ -611,7 +600,6 @@
         }
 
         document.addEventListener("DOMContentLoaded", function () {
-
             init(['sidebarArchive', 'sidebarDashboards', 'sidebarShareSold', 'sidebarTranslate', 'sidebarBusiness', 'sidebarSavings', 'sidebarBiography', 'sidebarRequests'])
         });
     </script>
