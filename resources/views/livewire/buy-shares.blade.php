@@ -239,7 +239,7 @@
                         $('#bfs-select').addClass('d-none');
                     }
                 });
-                $("#buy-action-submit").one("click", function () {
+                $("#buy-action-submit").on("click", function () {
                     this.disabled = true;
                     $('.buy-action-submit-spinner').show();
                     let ammount = parseFloat($('#amount_val').text()).toFixed(3);
