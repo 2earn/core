@@ -12,6 +12,7 @@ self.addEventListener("install", event => {
                 })
         )
     } catch (e) {
+        console.log(filesToCache);
         console.log(e);
     }
 });
