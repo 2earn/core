@@ -213,7 +213,7 @@
                         callback((resp && resp.country) ? resp.country : "TN");
                     });
                 },
-                utilsScript: " {{Vite::asset('/resources/js/utils.js')}}"
+                utilsScript: " {{Vite::asset('utils.js/utils.js')}}"
             });
 
             function initIntlTelInput() {

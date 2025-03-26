@@ -1211,7 +1211,7 @@
                                     callback(countryCode);
                                 });
                             },
-                            utilsScript: " {{Vite::asset('/resources/js/utils.js')}}"
+                            utilsScript: " {{Vite::asset('utils.js/utils.js')}}"
                         });
 
                         function initIntlTelInput() {

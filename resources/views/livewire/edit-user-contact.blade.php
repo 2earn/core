@@ -160,7 +160,7 @@
                                 callback(countryCode);
                             });
                         },
-                        utilsScript: " {{Vite::asset('/resources/js/utils.js')}}"
+                        utilsScript: " {{Vite::asset('utils.js/utils.js')}}"
                     });
                     for (var i = 0; i < countryDataAddContact.length; i++) {
                         var country = countryDataAddContact[i];

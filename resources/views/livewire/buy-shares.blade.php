@@ -228,7 +228,7 @@
                     autoFormat: true,
                     separateDialCode: true,
                     useFullscreenPopup: false,
-                    utilsScript: " {{Vite::asset('/resources/js/utils.js')}}"
+                    utilsScript: " {{Vite::asset('utils.js/utils.js')}}"
                 });
                 $('[name="inlineRadioOptions"]').on('change', function () {
                     if ($('#inlineRadio2').is(':checked')) {
