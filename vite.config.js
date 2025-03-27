@@ -112,9 +112,6 @@ export default defineConfig({
                 }, {
                     src: 'resources/icons/298-coins-gradient-edited.json',
                     dest: 'icons'
-                }, {
-                    src: 'resources/icons/coin.json',
-                    dest: 'icons'
                 }
             ]
         }),
