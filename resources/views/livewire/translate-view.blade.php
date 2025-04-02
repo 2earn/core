@@ -1,245 +1,248 @@
-<div>
-    @component('components.breadcrumb')
-        @slot('title')
-            {{ __('Translate') }}
-        @endslot
-    @endcomponent
-    <div wire:ignore.self class="modal fade" id="editTranslationModal" tabindex="-1"
-         aria-labelledby="editTranslationModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editTranslationModalLabel"><p class="text-primary">{{__('Edit field')}} :  {{$name}}</p></h5>
-                    <button type="button" id="editTranslationModalClose" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
+<div class="container-fluid">
+    <div>
+        @component('components.breadcrumb')
+            @slot('title')
+                {{ __('Translate') }}
+            @endslot
+        @endcomponent
+        <div wire:ignore.self class="modal fade" id="editTranslationModal" tabindex="-1"
+             aria-labelledby="editTranslationModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editTranslationModalLabel"><p
+                                class="text-primary">{{__('Edit field')}} : {{$name}}</p></h5>
+                        <button type="button" id="editTranslationModalClose" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
 
-                    <form class="row">
-                        <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
-                            <label for="recipient-name" class="col-form-label"> <img
-                                    src="{{Vite::asset("resources/images/flags/" . strtolower('sa') . ".svg")}}"
-                                    alt="{{__('Arabe')}}" title="{{__('Arabe')}}"
-                                    class="avatar-xxs me-2"></label>
-                            <textarea rows="4" class="form-control" wire:model.defer="arabicValue" maxlength="190"
-                                      required>
+                        <form class="row">
+                            <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
+                                <label for="recipient-name" class="col-form-label"> <img
+                                        src="{{Vite::asset("resources/images/flags/" . strtolower('sa') . ".svg")}}"
+                                        alt="{{__('Arabe')}}" title="{{__('Arabe')}}"
+                                        class="avatar-xxs me-2"></label>
+                                <textarea rows="4" class="form-control" wire:model="arabicValue" maxlength="190"
+                                          required>
                             </textarea>
-                        </div>
-                        <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
-                            <label for="message-text" class="col-form-label"> <img
-                                    src="{{Vite::asset("resources/images/flags/" . strtolower('fr') . ".svg")}}"
-                                    alt="{{__('Francais')}}" title="{{__('Francais')}}"
-                                    class="avatar-xxs me-2"></label>
-                            <textarea rows="4" class="form-control" wire:model.defer="frenchValue" maxlength="190"
-                                      required>
-                            </textarea>
-
-                        </div>
-                        <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
-                            <label for="message-text" class="col-form-label"><img
-                                    src="{{Vite::asset("resources/images/flags/" . strtolower('gb') . ".svg")}}"
-                                    alt="{{__('English')}}" title="{{__('English')}}"
-                                    class="avatar-xxs me-2"></label>
-                            <textarea rows="4" class="form-control" wire:model.defer="englishValue" maxlength="190"
-                                      required>
+                            </div>
+                            <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
+                                <label for="message-text" class="col-form-label"> <img
+                                        src="{{Vite::asset("resources/images/flags/" . strtolower('fr') . ".svg")}}"
+                                        alt="{{__('Francais')}}" title="{{__('Francais')}}"
+                                        class="avatar-xxs me-2"></label>
+                                <textarea rows="4" class="form-control" wire:model="frenchValue" maxlength="190"
+                                          required>
                             </textarea>
 
-                        </div>
-                        <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
-                            <label for="message-text" class="col-form-label"><img
-                                    src="{{Vite::asset("resources/images/flags/" . strtolower('tr') . ".svg")}}"
-                                    alt="{{__('Turkish')}}" title="{{__('Turkish')}}"
-                                    class="avatar-xxs me-2"></label>
-                            <textarea rows="4" class="form-control" wire:model.defer="turkishValue" maxlength="190"
-                                      required>
-                            </textarea>
-                        </div>
-                        <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
-                            <label for="message-text" class="col-form-label"> <img
-                                    src="{{Vite::asset("resources/images/flags/" . strtolower('es') . ".svg")}}"
-                                    alt="{{__('Spanish')}}" title="{{__('Spanish')}}"
-                                    class="avatar-xxs me-2"></label>
-                            <textarea rows="4" class="form-control" wire:model.defer="spanishValue" maxlength="190"
-                                      required>
+                            </div>
+                            <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
+                                <label for="message-text" class="col-form-label"><img
+                                        src="{{Vite::asset("resources/images/flags/" . strtolower('gb') . ".svg")}}"
+                                        alt="{{__('English')}}" title="{{__('English')}}"
+                                        class="avatar-xxs me-2"></label>
+                                <textarea rows="4" class="form-control" wire:model="englishValue" maxlength="190"
+                                          required>
                             </textarea>
 
-                        </div>
-                        <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
-                            <label for="message-text" class="col-form-label">              <span class="text-warning">
+                            </div>
+                            <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
+                                <label for="message-text" class="col-form-label"><img
+                                        src="{{Vite::asset("resources/images/flags/" . strtolower('tr') . ".svg")}}"
+                                        alt="{{__('Turkish')}}" title="{{__('Turkish')}}"
+                                        class="avatar-xxs me-2"></label>
+                                <textarea rows="4" class="form-control" wire:model="turkishValue" maxlength="190"
+                                          required>
+                            </textarea>
+                            </div>
+                            <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
+                                <label for="message-text" class="col-form-label"> <img
+                                        src="{{Vite::asset("resources/images/flags/" . strtolower('es') . ".svg")}}"
+                                        alt="{{__('Spanish')}}" title="{{__('Spanish')}}"
+                                        class="avatar-xxs me-2"></label>
+                                <textarea rows="4" class="form-control" wire:model="spanishValue" maxlength="190"
+                                          required>
+                            </textarea>
+
+                            </div>
+                            <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
+                                <label for="message-text" class="col-form-label">              <span
+                                        class="text-warning">
                                     {{ __('Max char is 190! every translation item will be shrinked to 190 char.') }}                    </span></label>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
 
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
-                    <button type="button" wire:click="saveTranslate"
-                            class="btn btn-success">
-                        <div wire:loading wire:target="saveTranslate">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
+                        <button type="button" wire:click="saveTranslate"
+                                class="btn btn-success">
+                            <div wire:loading wire:target="saveTranslate">
                                                 <span class="spinner-border spinner-border-sm" role="status"
                                                       aria-hidden="true">
                                                 </span>
-                            <span class="sr-only">{{__('Loading')}}...</span>
-                        </div>
-                        {{__('Save translation')}}</button>
+                                <span class="sr-only">{{__('Loading')}}...</span>
+                            </div>
+                            {{__('Save translation')}}</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div wire:loading>
-        <div style="display: flex;justify-content: center;
+        <div wire:loading>
+            <div style="display: flex;justify-content: center;
 align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z-index: 9999;width: 100%;height: 100%;opacity: 0.75">
-            <div class="la-ball-pulse-rise">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
+                <div class="la-ball-pulse-rise">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-12">
-                    @include('layouts.flash-messages')
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 form-row">
-                    <div class="btn-group material-shadow" role="group" aria-label="Basic example">
-                        <a class="btn btn-outline-warning btn-label waves-effect right waves-light" type="button"
-                           wire:click="PreImport('mergeToData')">
-                            <i class="ri-database-2-fill label-icon align-middle fs-16 ms-2"></i>
-                            {{__('Merge field To base')}}
-                        </a>
+        <div class="row card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        @include('layouts.flash-messages')
                     </div>
                 </div>
-                <div class="col-md-6 form-row float-end">
-                    <div class="btn-group material-shadow" role="group" aria-label="Basic example">
-                        <a class="btn btn-outline-success btn-label waves-effect right waves-light float-end"
-                           wire:click="PreImport('databaseToFile')">
-                            <i class="ri-file-2-line label-icon align-middle fs-16 ms-2"></i>
-                            {{__('Database To file')}}
-                        </a>
+                <div class="row">
+                    <div class="col-md-6 form-row">
+                        <div class="btn-group material-shadow" role="group" aria-label="Basic example">
+                            <a class="btn btn-outline-warning btn-label waves-effect right waves-light" type="button"
+                               wire:click="PreImport('mergeToData')">
+                                <i class="ri-database-2-fill label-icon align-middle fs-16 ms-2"></i>
+                                {{__('Merge field To base')}}
+                            </a>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="card row">
-                <div class="card-header headerTranslate">
-                    <div class="row">
-                        <div class="col-md-4 form-row">
-                            <select wire:model="nbrPagibation" class="form-control col-6"
-                                    id="nbrPagibation">
-                                <option value="10">10 {{__('Element per page')}}</option>
-                                <option value="25">25 {{__('Element per page')}}</option>
-                                <option value="50">50 {{__('Element per page')}}</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4 form-row">
-                            <input type="text" class="form-control col-6"
-                                   placeholder="{{__('Search')}}..."
-                                   id="search"
-                                   wire:model="search"/>
-                        </div>
-                        <div class="col-md-4 form-row">
-                            <a class="btn btn-outline-secondary btn-label waves-effect right waves-light float-end"
-                               wire:click="PreAjout">
-                                <i class="ri-file-add-fill label-icon align-middle fs-16 ms-2"></i>
-                                {{__('Add a new')}}
+                    <div class="col-md-6 form-row float-end">
+                        <div class="btn-group material-shadow" role="group" aria-label="Basic example">
+                            <a class="btn btn-outline-success btn-label waves-effect right waves-light float-end"
+                               wire:click="PreImport('databaseToFile')">
+                                <i class="ri-file-2-line label-icon align-middle fs-16 ms-2"></i>
+                                {{__('Database To file')}}
                             </a>
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table
-                            class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
-                            <thead>
-                            <tr>
-                                <th>{{__('Id')}}</th>
-                                <th>{{__('key')}}</th>
-                                <th class="d-none d-md-block">{{__('Translation')}}</th>
-                                <th>{{__('Actions')}}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach ($translates as $value)
-                                <tr>
-                                    <td><span> {{$value->id}}</span></td>
-                                    <td title="{{$value->name}}">
-                                        {{$value->name}} </td>
-                                    <td class="d-none d-md-block text-info">
-                                        <ul class="list-group">
-                                            <li class="list-group-item">
-                                                <img
-                                                    src="{{Vite::asset("resources/images/flags/" . strtolower('gb') . ".svg")}}"
-                                                    alt="{{__('English')}}" title="{{__('English')}}"
-                                                    class="avatar-xxs me-2">
-                                                <span
-                                                    class="text-muted mx-1">{{ Str::limit($value->valueEn,200)}}</span>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <img
-                                                    src="{{Vite::asset("resources/images/flags/" . strtolower('sa') . ".svg")}}"
-                                                    alt="{{__('Arabe')}}" title="{{__('Arabe')}}"
-                                                    class="avatar-xxs me-2">
-                                                <span
-                                                    class="text-muted mx-1">{{ Str::limit($value->value,200)}}</span>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <img
-                                                    src="{{Vite::asset("resources/images/flags/" . strtolower('fr') . ".svg")}}"
-                                                    alt="{{__('Francais')}}" title="{{__('Francais')}}"
-                                                    class="avatar-xxs me-2">
-                                                <span
-                                                    class="text-muted mx-1">{{ Str::limit($value->valueFr,200)}}</span>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <img
-                                                    src="{{Vite::asset("resources/images/flags/" . strtolower('tr') . ".svg")}}"
-                                                    alt="{{__('Turkish')}}" title="{{__('Turkish')}}"
-                                                    class="avatar-xxs me-2">
-                                                <span
-                                                    class="text-muted mx-1">{{ Str::limit($value->valueTr,200)}}</span>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <img
-                                                    src="{{Vite::asset("resources/images/flags/" . strtolower('es') . ".svg")}}"
-                                                    alt="{{__('Spanish')}}" title="{{__('Spanish')}}"
-                                                    class="avatar-xxs me-2">
-                                                <span
-                                                    class="text-muted mx-1">{{ Str::limit($value->valueEs,200)}}</span>
-                                            </li>
-                                        </ul>
-
-                                    </td>
-                                    <td>
-                                        <a type="btn" wire:click="initTranslate({{$value->id}})"
-                                           data-bs-toggle="modal" data-bs-target="#editTranslationModal"
-                                           class="btn btn-soft-info  mt-1">{{__('Edit')}}
-                                        </a>
-                                        <a type="btn" onclick="confirmDelete({{$value->id}})"
-                                           class="btn btn-soft-danger mt-1">{{__('Delete')}}
-                                        </a>
-                                        <hr class="my-3">
-                                        <span class="text-muted mt-4">
-                                                    <i class="fa-solid fa-plus mx-2"></i>{{$value->created_at}}
-                                                </span>
-                                        <br>
-                                        <span class="text-muted mt-4">
-                                                    <i class="fa-solid fa-pen-to-square mx-2"></i>{{$value->updated_at}}
-                                                </span>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                        {{$translates->links()}}
+                <div class="card row">
+                    <div class="card-header headerTranslate">
+                        <div class="row">
+                            <div class="col-md-4 form-row">
+                                <select wire:model.live="nbrPagibation" class="form-control col-6"
+                                        id="nbrPagibation">
+                                    <option value="10">10 {{__('Element per page')}}</option>
+                                    <option value="25">25 {{__('Element per page')}}</option>
+                                    <option value="50">50 {{__('Element per page')}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 form-row">
+                                <input type="text" class="form-control col-6"
+                                       placeholder="{{__('Search')}}..."
+                                       id="search"
+                                       wire:model.live="search"/>
+                            </div>
+                            <div class="col-md-4 form-row">
+                                <a class="btn btn-outline-secondary btn-label waves-effect right waves-light float-end"
+                                   wire:click="PreAjout">
+                                    <i class="ri-file-add-fill label-icon align-middle fs-16 ms-2"></i>
+                                    {{__('Add a new')}}
+                                </a>
                             </div>
                         </div>
                     </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table
+                                class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
+                                <thead>
+                                <tr>
+                                    <th>{{__('Id')}}</th>
+                                    <th>{{__('key')}}</th>
+                                    <th class="d-none d-md-block">{{__('Translation')}}</th>
+                                    <th>{{__('Actions')}}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach ($translates as $value)
+                                    <tr>
+                                        <td><span> {{$value->id}}</span></td>
+                                        <td title="{{$value->name}}">
+                                            {{$value->name}} </td>
+                                        <td class="d-none d-md-block text-info">
+                                            <ul class="list-group">
+                                                <li class="list-group-item">
+                                                    <img
+                                                        src="{{Vite::asset("resources/images/flags/" . strtolower('gb') . ".svg")}}"
+                                                        alt="{{__('English')}}" title="{{__('English')}}"
+                                                        class="avatar-xxs me-2">
+                                                    <span
+                                                        class="text-muted mx-1">{{ Str::limit($value->valueEn,200)}}</span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <img
+                                                        src="{{Vite::asset("resources/images/flags/" . strtolower('sa') . ".svg")}}"
+                                                        alt="{{__('Arabe')}}" title="{{__('Arabe')}}"
+                                                        class="avatar-xxs me-2">
+                                                    <span
+                                                        class="text-muted mx-1">{{ Str::limit($value->value,200)}}</span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <img
+                                                        src="{{Vite::asset("resources/images/flags/" . strtolower('fr') . ".svg")}}"
+                                                        alt="{{__('Francais')}}" title="{{__('Francais')}}"
+                                                        class="avatar-xxs me-2">
+                                                    <span
+                                                        class="text-muted mx-1">{{ Str::limit($value->valueFr,200)}}</span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <img
+                                                        src="{{Vite::asset("resources/images/flags/" . strtolower('tr') . ".svg")}}"
+                                                        alt="{{__('Turkish')}}" title="{{__('Turkish')}}"
+                                                        class="avatar-xxs me-2">
+                                                    <span
+                                                        class="text-muted mx-1">{{ Str::limit($value->valueTr,200)}}</span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <img
+                                                        src="{{Vite::asset("resources/images/flags/" . strtolower('es') . ".svg")}}"
+                                                        alt="{{__('Spanish')}}" title="{{__('Spanish')}}"
+                                                        class="avatar-xxs me-2">
+                                                    <span
+                                                        class="text-muted mx-1">{{ Str::limit($value->valueEs,200)}}</span>
+                                                </li>
+                                            </ul>
+
+                                        </td>
+                                        <td>
+                                            <a type="btn" wire:click="initTranslate({{$value->id}})"
+                                               data-bs-toggle="modal" data-bs-target="#editTranslationModal"
+                                               class="btn btn-soft-info  mt-1">{{__('Edit')}}
+                                            </a>
+                                            <a type="btn" onclick="confirmDelete({{$value->id}})"
+                                               class="btn btn-soft-danger mt-1">{{__('Delete')}}
+                                            </a>
+                                            <hr class="my-3">
+                                            <span class="text-muted mt-4">
+                                                    <i class="fa-solid fa-plus mx-2"></i>{{$value->created_at}}
+                                                </span>
+                                            <br>
+                                            <span class="text-muted mt-4">
+                                                    <i class="fa-solid fa-pen-to-square mx-2"></i>{{$value->updated_at}}
+                                                </span>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                            {{$translates->links()}}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -252,7 +255,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                 denyButtonText: '{{__('no')}}'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.Livewire.emit('deleteTranslate', idTranslate);
+                    window.Livewire.dispatch('deleteTranslate', [idTranslate]);
                 } else if (result.isDenied) {
                     location.reload();
                 }
@@ -274,12 +277,12 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                 confirmButtonText: '{{__('Confirm')}}',
             }).then((resultat) => {
                 if (resultat.isConfirmed) {
-                    switch (event.detail.ev) {
+                    switch (event.detail[0].ev) {
                         case 'mergeToData':
-                            window.Livewire.emit('mergeTransaction', resultat.value);
+                            window.Livewire.dispatch('mergeTransaction', [resultat.value]);
                             break;
                         case 'databaseToFile':
-                            window.Livewire.emit('databaseToFile', resultat.value);
+                            window.Livewire.dispatch('databaseToFile', [resultat.value]);
                             break;
                     }
                 }
@@ -300,7 +303,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                 confirmButtonText: '{{__('Confirm')}}',
             }).then((resultat) => {
                 if (resultat.value) {
-                    window.Livewire.emit('AddFieldTranslate', resultat.value);
+                    window.Livewire.dispatch('AddFieldTranslate', [resultat.value]);
                 }
                 if (resultat.isDismissed) {
                     location.reload();
@@ -308,4 +311,5 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
             });
         });
     </script>
+</div>
 </div>

@@ -10,8 +10,7 @@
         <div class="row">
         <div class="card">
             <div class="card-body">
-                <table data-turbolinks="false"
-                       class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
                        id="amountsTable">
                     <thead class="table-light">
                     <tr>
@@ -46,18 +45,18 @@
 
                             <div class="col-xl-4">
                                 <label class="me-sm-2">{{ __('Amount Name') }}</label>
-                                <input wire:model.defer="amountsnameAm" type="text" class="form-control"
+                                <input wire:model="amountsnameAm" type="text" class="form-control"
                                    disabled    placeholder="amountsname" name="amountsname">
                             </div>
                             <div class="col-xl-4">
                                 <label class="me-sm-2">{{ __('Amount Short Name') }}</label>
-                                <input wire:model.defer="amountsshortnameAm" type="text" class="form-control"
+                                <input wire:model="amountsshortnameAm" type="text" class="form-control"
                                        placeholder="amountsshortname" name="amountsshortname">
                             </div>
 
                             <div class="col-xl-4">
                                 <label class="me-sm-2">{{ __('With Holding Tax') }}</label>
-                                <select wire:model.defer="amountswithholding_taxAm" class="form-control"
+                                <select wire:model="amountswithholding_taxAm" class="form-control"
                                         name="amountswithholding_tax">
                                     <option value="0">{{ __('No') }}</option>
                                     <option value="1">{{ __('Yes') }}</option>
@@ -65,7 +64,7 @@
                             </div>
                             <div class="col-xl-4">
                                 <label class="me-sm-2">{{ __('Payment Request') }}</label>
-                                <select wire:model.defer="amountspaymentrequestAm" class="form-control"
+                                <select wire:model="amountspaymentrequestAm" class="form-control"
                                         name="amountspaymentrequest">
                                     <option value="0">{{ __('No') }}</option>
                                     <option value="1">{{ __('Yes') }}</option>
@@ -73,7 +72,7 @@
                             </div>
                             <div class="col-xl-4">
                                 <label class="me-sm-2">{{ __('Transfer') }}</label>
-                                <select wire:model.defer="amountstransferAm" class="form-control"
+                                <select wire:model="amountstransferAm" class="form-control"
                                         name="amountstransfer">
                                     <option value="0">{{ __('No') }}</option>
                                     <option value="1">{{ __('Yes') }}</option>
@@ -81,14 +80,14 @@
                             </div>
                             <div class="col-xl-4">
                                 <label class="me-sm-2">{{ __('Cash') }}</label>
-                                <select wire:model.defer="amountscashAm" class="form-control" name="amountscash">
+                                <select wire:model="amountscashAm" class="form-control" name="amountscash">
                                     <option value="0">{{ __('No') }}</option>
                                     <option value="1">{{ __('Yes') }}</option>
                                 </select>
                             </div>
                             <div class="col-xl-4">
                                 <label class="me-sm-2">{{ __('Active') }}</label>
-                                <select wire:model.defer="amountsactiveAm" class="form-control" name="amountsactive">
+                                <select wire:model="amountsactiveAm" class="form-control" name="amountsactive">
                                     <option value="0">{{ __('No') }}</option>
                                     <option value="1">{{ __('Yes') }}</option>
                                 </select>
@@ -108,12 +107,16 @@
     <script type="module">
         function emitAmount(idAmount) {
             if (idAmount) {
-                window.Livewire.emit('initAmountsFunction', idAmount);
+                window.Livewire.dispatch('initAmountsFunction', [idAmount]);
             }
         }
 
-        $(document).on('turbolinks:load', function () {
+        window.addEventListener('closeModalAmounts', event => {
+            $('#AmountsModal').modal('hide');
+            $('#amountsTable').DataTable().ajax.reload();
+        });
 
+        document.addEventListener("DOMContentLoaded", function () {
             $('#amountsTable').DataTable(
                 {
                     retrieve: true,

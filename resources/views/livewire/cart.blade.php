@@ -7,28 +7,28 @@
         data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="true">
         <i class="bx bx-shopping-bag fs-22"></i>
         <span
-            class="position-absolute topbar-badge cartitem-badge fs-10 translate-middle badge rounded-pill bg-info">0</span>
+            class="position-absolute topbar-badge cart-item-badge fs-10 translate-middle badge rounded-pill bg-info">{{$cart->total_cart_quantity}}</span>
     </button>
     <div class="dropdown-menu dropdown-menu-xl dropdown-menu-end p-0 dropdown-menu-cart"
          aria-labelledby="page-header-cart-dropdown"
-         style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 58px);"
+         style="position: absolute; inset: 0 0 auto auto; margin: 0; transform: translate(0px, 58px);"
          data-popper-placement="bottom-end"
     >
         <div class="p-3 border-top-0 border-start-0 border-end-0 border-dashed border">
-            <div class="row align-items-center">
+            <div class="row align-items-center" title="{{$date_rendered}}">
                 <div class="col">
-                    <h6 class="m-0 fs-16 fw-semibold">{{__('My Cart')}}</h6>
+                    <h6 class="m-0 fs-16 fw-semibold">{{__('My Cart')}} :</h6>
                 </div>
                 <div class="col-auto">
                     <span class="badge bg-warning-subtle text-warning fs-13">
-                        <span class="cartitem-badge">0</span>
+                        <span class="cart-item-badge">{{$cart->total_cart_quantity}}</span>
                         {{__('items')}}
                     </span>
                 </div>
             </div>
         </div>
         <div data-simplebar="init" style="max-height: 300px;" class="simplebar-scrollable-y">
-            <div class="simplebar-wrapper" style="margin: 0px;">
+            <div class="simplebar-wrapper" style="margin: 0;">
                 <div class="simplebar-height-auto-observer-wrapper">
                     <div class="simplebar-height-auto-observer">
                     </div>
@@ -45,9 +45,7 @@
                                                 <i class="bx bx-cart"></i>
                                             </div>
                                         </div>
-                                        <h5 class="mb-3">Your Cart is Empty!</h5>
-                                        <a href="apps-ecommerce-products.html"
-                                           class="btn btn-success w-md mb-3">{{__('Shop Now')}}</a>
+                                        <h5 class="mb-3">{{__('Your Cart is Empty!')}}</h5>
                                     </div>
                                     @foreach($cart->cartItem()->get() as $item)
                                         <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
@@ -57,20 +55,22 @@
                                                          src="{{$item->item()->first()->photo_link}}"
                                                          class="me-3 rounded-circle avatar-sm p-2 bg-light"/>
                                                 @elseif($item->item()->first()->thumbnailsImage)
-                                                    <img src="{{ asset('uploads/' . $item->item()->first()->thumbnailsImage->url) }}"
-                                                         alt="{{__('Item Image')}}"
-                                                         class="me-3 rounded-circle avatar-sm p-2 bg-light"
+                                                    <img
+                                                        src="{{ asset('uploads/' . $item->item()->first()->thumbnailsImage->url) }}"
+                                                        alt="{{__('Item Image')}}"
+                                                        class="me-3 rounded-circle avatar-sm p-2 bg-light"
                                                     >
                                                 @else
-                                                    <img src="{{Vite::asset(\App\Models\Item::DEFAULT_IMAGE_TYPE_THUMB)}}"
-                                                         alt="{{__('Item Image')}}"
-                                                         class="me-3 rounded-circle avatar-sm p-2 bg-light">
+                                                    <img
+                                                        src="{{Vite::asset(\App\Models\Item::DEFAULT_IMAGE_TYPE_THUMB)}}"
+                                                        alt="{{__('Item Image')}}"
+                                                        class="me-3 rounded-circle avatar-sm p-2 bg-light">
                                                 @endif
                                                 <div class="flex-grow-1">
                                                     <h6 class="mt-0 mb-1 fs-14">
-                                                         <strong>{{$item->item()->first()->name}}</strong>
+                                                        <strong>{{$item->item()->first()->name}}</strong>
                                                         @if($item->item()->first()->deal()->first())
-                                                           <span class="text-muted mb-0"> [{{$item->item()->first()->deal()->first()->name}}]</span>
+                                                            <span class="text-muted mb-0"> [{{$item->item()->first()->deal()->first()->name}}]</span>
                                                         @endif
                                                     </h6>
                                                     <p class="mb-0 fs-12 text-muted">
@@ -89,9 +89,10 @@
                                                     </h5>
                                                 </div>
                                                 <div class="ps-2">
-                                                    <button type="button" wire:click="removeItem({{$item->id}})"
-                                                            class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn">
-                                                        <i class="ri-close-fill fs-16"></i></button>
+                                                    <a wire:click="removeCartItem({{$item->id}})"
+                                                       id="removeCartItem{{$item->id}}"
+                                                       class="btn btn-icon btn-sm btn-ghost-secondary">
+                                                        <i class="ri-close-fill fs-16"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -109,7 +110,6 @@
             <div class="simplebar-track simplebar-vertical" style="visibility: visible;">
                 <div class="simplebar-scrollbar"
                      style="height: 267px; display: block; transform: translate3d(0px, 0px, 0px);">
-
                 </div>
             </div>
         </div>
@@ -127,50 +127,7 @@
             </a>
         </div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            document.querySelectorAll('.remove-item-btn').forEach(button => {
-                button.addEventListener('click', (event) => {
-                    event.stopPropagation();
-                });
-            });
-        });
-    </script>
     <script type="module">
-        function updateCartAfterChange() {
-            var currencySign = "$";
-            var subtotalqty = 0;
-            var subtotal = 0;
-            Array.from(document.getElementsByClassName("cart-item-qty")).forEach(function (e) {
-                subtotalqty += parseFloat(e.innerHTML);
-            });
-            Array.from(document.getElementsByClassName("cart-item-price")).forEach(function (e) {
-                subtotal += parseFloat(e.innerHTML);
-            });
-            var badges = document.getElementsByClassName("cartitem-badge");
 
-            for (var i = 0; i < badges.length; i++) {
-                badges[i].innerHTML = subtotalqty;
-            }
-            if (document.getElementById("cart-item-total")) {
-                document.getElementById("cart-item-total").innerHTML = currencySign + subtotal.toFixed(2);
-            }
-        }
-
-        $(document).on('turbolinks:load', function () {
-            window.addEventListener('updateCart', event => {
-                updateCartAfterChange();
-            });
-
-            window.addEventListener('removeItemFromCart', event => {
-                updateCartAfterChange();
-                const dropdownButton = document.getElementById('page-header-cart-dropdown');
-                const dropdownMenu = new bootstrap.Dropdown(dropdownButton);
-                dropdownMenu.toggle();
-            });
-            updateCartAfterChange();
-        });
     </script>
-
-
 </div>

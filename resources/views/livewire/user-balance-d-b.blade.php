@@ -1,18 +1,20 @@
-<div>
-    @section('title')
-        {{ __('Discounts Balance') }}
-    @endsection
-    @component('components.breadcrumb')
-        @slot('li_1')@endslot
-        @slot('title')
+<div class="container-fluid">
+    <div>
+        @section('title')
             {{ __('Discounts Balance') }}
-        @endslot
-    @endcomponent
+        @endsection
+        @component('components.breadcrumb')
+            @slot('li_1')@endslot
+            @slot('title')
+                {{ __('Discounts Balance') }}
+            @endslot
+        @endcomponent
         <div class="row card">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                    id="userBalanceDB_table" style="width: 100%">
+                    <table
+                        class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                        id="userBalanceDB_table" style="width: 100%">
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">
                             <th>{{ __('ref') }}</th>
@@ -27,10 +29,10 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
         </div>
-    </div>
         <script type="module">
-            $(document).on('turbolinks:load', function () {
+            document.addEventListener("DOMContentLoaded", function () {
                     $('#page-title-box').addClass('page-title-box-db');
                     $('#userBalanceDB_table').DataTable(
                         {
@@ -96,7 +98,7 @@
                                         }
                                     },
                                     {
-                                        "targets": [5],                                        className: classAl,
+                                        "targets": [5], className: classAl,
                                     },
 
                                 ],
@@ -105,7 +107,6 @@
                     );
                 }
             );
-
-
         </script>
+    </div>
 </div>

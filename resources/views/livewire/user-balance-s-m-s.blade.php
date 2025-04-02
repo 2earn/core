@@ -1,4 +1,5 @@
-<div>
+<div class="container-fluid">
+    <div>
     @section('title')
         {{ __('sms balance') }}
     @endsection
@@ -31,7 +32,7 @@
         </div>
     </div>
     <script type="module">
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
             $('#userBalanceSMS_table').DataTable(
                 {
                     "ordering": false,
@@ -61,7 +62,6 @@
                                 "targets": [5],
                                 render: function (data, type, row) {
                                     return '<span class="badge bg-danger con fs-14">' + data + '</span>';
-
                                 }
                             },
                             {
@@ -75,6 +75,7 @@
             );
         });
     </script>
+</div>
 </div>
 
 

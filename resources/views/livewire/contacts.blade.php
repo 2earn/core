@@ -21,7 +21,7 @@
                             <label class="col-form-label">{{ __('Item per page') }}</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-3 mt-1">
-                            <select wire:model="pageCount" class="form-select livewire-param"
+                            <select wire:model.live="pageCount" class="form-select livewire-param"
                                     aria-label="Default select example">
                                 <option @if($pageCount=="10") selected @endif value="10">10</option>
                                 <option @if($pageCount=="25") selected @endif value="25">25</option>
@@ -33,7 +33,7 @@
                         </div>
 
                         <div class="col-sm-12 col-md-6 col-lg-3 mt-1">
-                            <input wire:model="search" type="search"
+                            <input wire:model.live="search" type="search"
                                    class="form-control rounded  mr-2 ml-2"
                                    placeholder="{{ __('Search') }}" aria-label="Search"
                                    aria-describedby="search-addon"/>
@@ -172,7 +172,7 @@
                                 id="id-field"
                                 type="hidden"
                                 class="form-control" name="id-field"
-                                wire:model.defer="selectedContect"
+                                wire:model="selectedContect"
                             >
                             <div class="row g-3">
                                 <div class="col-lg-12">
@@ -182,7 +182,7 @@
                                         </label>
                                         <input
                                             type="text"
-                                            wire:model.defer="contactName"
+                                            wire:model="contactName"
                                             id="contactName"
                                             class="form-control"
                                             name="contactName"
@@ -198,7 +198,7 @@
                                         </label>
                                         <input
                                             type="text"
-                                            wire:model.defer="contactLastName"
+                                            wire:model="contactLastName"
                                             id="contactLastName"
                                             class="form-control"
                                             name="contactLastName"
@@ -212,10 +212,10 @@
                                             <span class="text-danger">*</span>
                                         </label><br>
                                         <input
-                                            wire:model.defer="mobile"
+                                            wire:model="mobile"
                                             type="tel"
                                             name="mobile"
-                                            id="ipAdd2Contact"
+                                            id="intl-tel-input"
                                             class="form-control"
                                             value=""
                                             placeholder="{{ __('Mobile number') }}"
@@ -253,7 +253,7 @@
     <script>
 
         function saveContactEvent() {
-            inputphone = document.getElementById("ipAdd2Contact");
+            inputphone = document.getElementById("intl-tel-input");
             inputname = document.getElementById("ccodeAdd2Contact");
             inputlast = document.getElementById("outputAdd2Contact");
             const errorMsg = document.querySelector("#error-msg");
@@ -267,7 +267,7 @@
                     data: {phoneNumber: phoneNumber, inputName: inputName, "_token": "{{ csrf_token() }}"},
                     success: function (response) {
                         if (response.message == "") {
-                            window.Livewire.emit('save', phoneNumber, inputname.value.trim(), out);
+                            window.Livewire.dispatch('save', [phoneNumber, inputname.value.trim(), out]);
                             errorMsg.innerHTML = "";
                             errorMsg.classList.add("d-none");
                         } else {
@@ -299,12 +299,12 @@
         }
 
         function initNewUserContact() {
-            window.Livewire.emit('initNewUserContact');
+            window.Livewire.dispatch('initNewUserContact');
         }
 
 
         function editContact(id) {
-            window.Livewire.emit('initUserContact', id);
+            window.Livewire.dispatch('initUserContact', [id]);
         }
 
         function confirmDeleteContact(contactId, ContactFullName) {
@@ -324,7 +324,7 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.Livewire.emit('deleteContact', contactId);
+                    window.Livewire.dispatch('deleteContact', [contactId]);
                 }
             });
 
@@ -332,9 +332,8 @@
         }
     </script>
     <script type="module">
+        document.addEventListener("DOMContentLoaded", function () {
 
-
-        $(document).on('turbolinks:load', function () {
             $('#contacts_table').DataTable({
                 retrieve: true,
                 searching: true,
@@ -406,8 +405,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.0.2/list.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/list.pagination.js/0.1.1/list.pagination.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-    <script data-turbolinks-eval="false">
-        document.addEventListener("turbolinks:load", function () {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
             var existeUserContact = '{{Session::has('existeUserContact')}}';
 
             if (existeUserContact) {
@@ -426,6 +425,47 @@
                     }
                 });
             }
+        });
+    </script>
+    <script type="module">
+        var countryDataLog = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [];
+        var ipAdd2Contact = document.querySelector("#intl-tel-input");
+        document.addEventListener("DOMContentLoaded", function () {
+            var inputlog = document.querySelector("#intl-tel-input");
+            var itiLog = window.intlTelInput(inputlog, {
+                initialCountry: "auto",
+                autoFormat: true,
+                separateDialCode: true,
+                useFullscreenPopup: false,
+                geoIpLookup: function (callback) {
+                    $.get('https://ipinfo.io', function () {
+                    }, "jsonp").always(function (resp) {
+                        var countryCodelog = (resp && resp.country) ? resp.country : "TN";
+                        callback(countryCodelog);
+                    });
+                },
+                utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/utils.js"
+            });
+
+            function initIntlTelInput() {
+                var phone = itiLog.getNumber();
+                 document.createTextNode(phone);
+                phone = phone.replace('+', '00');
+                var mobile = $("#intl-tel-input").val();
+                var countryData = itiLog.getSelectedCountryData();
+                phone = '00' + countryData.dialCode + phone;
+                $("#ccodeAdd2Contact").val(countryData.dialCode);
+                $("#outputAdd2Contact").val(phone);
+            };
+            inputlog.addEventListener('keyup', initIntlTelInput);
+            inputlog.addEventListener('countrychange', initIntlTelInput);
+            for (var i = 0; i < countryDataLog.length; i++) {
+                var country12 = countryDataLog[i];
+                var optionNode12 = document.createElement("option");
+                optionNode12.value = country12.iso2;
+
+            }
+            inputlog.focus();
         });
     </script>
 </div>

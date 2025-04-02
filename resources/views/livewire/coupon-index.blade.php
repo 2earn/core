@@ -53,7 +53,8 @@
         </div>
     </div>
     <script type="module">
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             if (!$.fn.dataTable.isDataTable('#Coupon_table')) {
                 var table = $('#Coupon_table').DataTable({
                     "responsive": true,
@@ -155,7 +156,7 @@
                     denyButtonText: `Rollback`
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.Livewire.emit("delete", $(event.target).attr('data-id'));
+                        window.Livewire.dispatch("delete", [$(event.target).attr('data-id')]);
                     }
                 });
             });

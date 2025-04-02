@@ -1,4 +1,4 @@
-<div>
+<div class="container-fluid">
     @section('title')
         {{ __('Deals') }}
     @endsection
@@ -53,7 +53,8 @@
         </div>
     </div>
     <script type="module">
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             if (!$.fn.dataTable.isDataTable('#dealTable')) {
                 $('#dealTable').DataTable({
                     "responsive": true,
@@ -96,7 +97,7 @@
                     confirmButtonText: "{{__('Delete')}}",
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.Livewire.emit("delete", $(event.target).attr('data-id'));
+                        window.Livewire.dispatch("delete", [$(event.target).attr('data-id')]);
                     }
                 });
             });
@@ -114,7 +115,7 @@
                     confirmButtonText: confirmButtonText,
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.Livewire.emit("updateDeal", id, status);
+                        window.Livewire.dispatch("updateDeal", [id, status]);
                     }
                 });
             });

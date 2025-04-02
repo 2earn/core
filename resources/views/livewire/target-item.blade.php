@@ -13,13 +13,13 @@
                     @if($target->created_at != null && !empty($target->created_at))
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <strong class="text-muted">{{__('Creation date')}} :</strong>
-                            {{\Carbon\Carbon::parse($target->created_at)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                            {{\Carbon\Carbon::parse($target->created_at)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                         </li>
                     @endif
                     @if($target->updated_at != null && !empty($target->updated_at))
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <strong class="text-muted">{{__('Update date')}} :</strong>
-                            {{\Carbon\Carbon::parse($target->updated_at)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                            {{\Carbon\Carbon::parse($target->updated_at)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                         </li>
                     @endif
                 </ul>

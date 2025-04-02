@@ -28,7 +28,8 @@
         </div>
     </div>
     <script type="module">
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             $('#transfert').DataTable(
                 {
                     "ordering": true,
@@ -92,7 +93,8 @@
             xaxis: {type: 'date',}
         }
 
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             var chartOrigin = document.querySelector('#chart');
             var chart1Origin = document.querySelector('#chart1');
             var chart2Origin = document.querySelector('#chart2');

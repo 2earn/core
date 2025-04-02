@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DAL\UserRepository;
-use App\Http\Livewire\BusinessSectorIndex;
+use App\Livewire\BusinessSectorIndex;
 use App\Models\BFSsBalances;
 use App\Models\BusinessSector;
 use App\Models\CashBalances;

@@ -3,8 +3,7 @@ import * as bootstrap from 'bootstrap';
 import '@popperjs/core';
 
 import Swal from 'sweetalert2';
-import Alpine from 'alpinejs'
-import Turbolinks from "turbolinks";
+
 
 import Swiper from 'swiper';
 
@@ -14,7 +13,6 @@ import 'datatables.net-responsive-dt';
 import 'datatables.net-responsive-bs'
 import 'datatables.net-buttons/js/buttons.html5';
 import 'datatables.net-buttons-bs5';
-
 
 import intlTelInput from 'intl-tel-input';
 import {Dropzone} from "dropzone";
@@ -28,7 +26,7 @@ import 'prismjs/components/prism-lua.min.js'
 import ApexCharts from 'apexcharts'
 import SimpleBar from 'simplebar';
 import 'simplebar/dist/simplebar.css';
-
+import 'livewire-sortable'
 import * as FilePond from 'filepond';
 import 'filepond/dist/filepond.min.css';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
@@ -39,11 +37,6 @@ window.$ = $; // this worked for me
 window.bootstrap = bootstrap;
 
 window.Swal = Swal;
-
-window.Alpine = Alpine;
-Alpine.start();
-
-Turbolinks.start();
 
 const swiper = new Swiper();
 
@@ -789,58 +782,6 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
     }
 
     // notification cart dropdown
-    function initTopbarComponents() {
-        if (document.getElementsByClassName("dropdown-item-cart")) {
-            var dropdownItemCart = document.querySelectorAll(".dropdown-item-cart").length;
-            Array.from(document.querySelectorAll("#page-topbar .dropdown-menu-cart .remove-item-btn")).forEach(function (item) {
-                item.addEventListener("click", function (e) {
-                    dropdownItemCart--;
-                    this.closest(".dropdown-item-cart").remove();
-                    Array.from(document.getElementsByClassName("cartitem-badge")).forEach(function (e) {
-                        e.innerHTML = dropdownItemCart;
-                    });
-                    updateCartPrice();
-                    if (document.getElementById("empty-cart")) {
-                        document.getElementById("empty-cart").style.display = dropdownItemCart == 0 ? "block" : "none";
-                    }
-                    if (document.getElementById("checkout-elem")) {
-                        document.getElementById("checkout-elem").style.display = dropdownItemCart == 0 ? "none" : "block";
-                    }
-                });
-            });
-            Array.from(document.getElementsByClassName("cartitem-badge")).forEach(function (e) {
-                e.innerHTML = dropdownItemCart;
-            });
-            if (document.getElementById("empty-cart")) {
-                document.getElementById("empty-cart").style.display = "none";
-            }
-            if (document.getElementById("checkout-elem")) {
-                document.getElementById("checkout-elem").style.display = "block";
-            }
-
-            function updateCartPrice() {
-                var currencySign = "$";
-                var subtotal = 0;
-                Array.from(document.getElementsByClassName("cart-item-price")).forEach(function (e) {
-                    subtotal += parseFloat(e.innerHTML);
-                });
-                if (document.getElementById("cart-item-total")) {
-                    document.getElementById("cart-item-total").innerHTML = currencySign + subtotal.toFixed(2);
-                }
-            }
-
-            updateCartPrice();
-        }
-
-        // notification messages
-        if (document.getElementsByClassName("notification-check")) {
-            Array.from(document.querySelectorAll(".notification-check input")).forEach(function (element) {
-                element.addEventListener("click", function (el) {
-                    el.target.closest(".notification-item").classList.toggle("active");
-                });
-            });
-        }
-    }
 
     function initComponents() {
         // tooltip
@@ -1556,7 +1497,6 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
         var fullscreenBtn = document.querySelector('[data-toggle="fullscreen"]');
         fullscreenBtn &&
         fullscreenBtn.addEventListener("click", function (e) {
-            console.log('fullscreen')
             e.preventDefault();
             document.body.classList.toggle("fullscreen-enable");
             if (!document.fullscreenElement &&
@@ -1647,7 +1587,7 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
         windowLoadContent();
         counter();
         initLeftMenuCollapse();
-        initTopbarComponents();
+        //  initTopbarComponents();
         initComponents();
         resetLayout();
         initLanguage();
@@ -1661,10 +1601,12 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
         initModeSetting();
     }
 
-    if (document.getElementById('layout-wrapper') instanceof Object) {
-        document.addEventListener("turbolinks:load", initTurboChange);
-        init();
-    }
+    document.addEventListener("DOMContentLoaded", function () {
+        if (document.getElementById('layout-wrapper') instanceof Object) {
+            initTurboChange();
+        }
+    });
+
     var timeOutFunctionId;
 
     function setResize() {

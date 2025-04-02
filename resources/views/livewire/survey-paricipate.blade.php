@@ -1,5 +1,5 @@
-<div>
-    @component('components.breadcrumb')
+<div class="container-fluid">
+@component('components.breadcrumb')
         @slot('title')
             {{__('Survey')}} > {{$survey->id}}
             - {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}} > {{__('Participation')}}
@@ -12,7 +12,7 @@
 
                 @if($survey->question)
                     <div class="card">
-                        <form wire:submit.prevent="participate()">
+                        <form wire:submit="participate()">
                             <div class="card-header border-info fw-medium text-muted mb-0">
                                 <h6 class="card-title mb-0">     {{ __('Participation') }}</h6>
                             </div>
@@ -43,7 +43,7 @@
                                                             @if($survey->question->selection == \Core\Enum\Selection::UNIQUE->value)
                                                                 <div class="form-check">
                                                                     <input
-                                                                        wire:model="responces"
+                                                                        wire:model.live="responces"
                                                                         class="form-check-input"
                                                                         type="radio"
                                                                         value="{{$choice->id}}"
@@ -59,7 +59,7 @@
                                                             @else
                                                                 <div class="form-check">
                                                                     <input
-                                                                        wire:model="responces"
+                                                                        wire:model.live="responces"
                                                                         class="form-check-input"
                                                                         type="checkbox"
                                                                         value="{{$choice->id}}"

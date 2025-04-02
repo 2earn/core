@@ -3,6 +3,7 @@
         .iti {
             width: 100% !important;
         }
+
         .hide {
             display: none;
         }
@@ -40,9 +41,12 @@
                                 </div>
                                 <div class="mt-4">
                                     @include('layouts.flash-messages')
-                                    <div id="error-msg" class="alert alert-danger material-shadow material-shadow mx-1 hide" role="alert">
+                                    <div id="error-msg"
+                                         class="alert alert-danger material-shadow material-shadow mx-1 hide"
+                                         role="alert">
                                     </div>
-                                    <div id="valid-msg" class="alert alert-danger material-shadow mx-1 hide" role="alert">
+                                    <div id="valid-msg" class="alert alert-danger material-shadow mx-1 hide"
+                                         role="alert">
                                         {{__('Valid')}}
                                     </div>
                                 </div>
@@ -52,7 +56,7 @@
                                         <div class="mb-3">
                                             <label for="userPhone" class="form-label">{{ __('Mobile Number') }} <span
                                                     class="text-danger">*</span></label>
-                                            <input wire:model.defer="phoneNumber" type="tel" name="mobile" id="phonereg"
+                                            <input wire:model="phoneNumber" type="tel" name="mobile" id="intl-tel-input"
                                                    class="form-control @error('mobile') is-invalid @enderror"
                                                    value=" "
                                                    placeholder="{{ __('Mobile number') }}" required>
@@ -69,6 +73,8 @@
                                                    class="form-control">
                                             <input type="hidden" name="ccode" id="ccode">
                                             <input type="hidden" name="iso2Country" id="iso2Country">
+                                            <input type="hidden" name="validation" id="validation">
+                                            <input type="hidden" name="validationError" id="validationError">
                                         </div>
                                         <div class="mb-4">
                                             <p class="mb-0 fs-12 text-muted fst-italic">{{__('agree_terms')}}
@@ -142,7 +148,7 @@
                                                                class="dropdown-item notify-item language py-2"
                                                                data-lang="en"
                                                                title="{{ __('lang'.$locale)  }}"
-                                                               data-turbolinks="false">
+                                                            >
                                                                 <img
                                                                     src="{{ Vite::asset('resources/images/flags/'.$value['flag'].'.svg') }}"
                                                                     alt="user-image" class="me-2 rounded"
@@ -174,37 +180,33 @@
         </div>
         @include('layouts.footer', ['pageName' => 'register'])
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/intlTelInput.min.js"></script>
     <script>
+        var iti = null;
+
         function signupEvent() {
-            const input = document.querySelector("#phonereg");
+            const input = document.querySelector("#intl-tel-input");
             const button = document.querySelector("#btn1");
             const errorMsg = document.querySelector("#error-msg");
             const validMsg = document.querySelector("#valid-msg");
-            const errorMap = ["{{__('Invalid number')}}", "{{__('Invalid country code')}}", "{{__('Too short')}}",
-                "{{__('Too long')}}", "{{__('Invalid number')}}"];
+            var errorMap = ['{{trans('Invalid number')}}', '{{trans('Invalid country code')}}', '{{trans('Too shortsss')}}', '{{trans('Too long')}}', '{{trans('Invalid number')}}'];
 
-            const iti = window.intlTelInput(input, {
-                initialCountry: $("#iso2Country").val(),
-                useFullscreenPopup: false,
-                nationalMode: false
-            });
+
             const reset = () => {
                 input.classList.remove("error");
                 errorMsg.innerHTML = "";
                 errorMsg.classList.add("hide");
                 validMsg.classList.add("hide");
             };
-            var out = "00" + $("#ccode").val() + parseInt($('#phonereg').val().replace(/\D/g, ''), 10);
-            reset();
+            var out = "00" + $("#ccode").val() + parseInt($('#intl-tel-input').val().replace(/\D/g, ''), 10);
+
             if (input.value.trim()) {
-                if (iti.isValidNumberPrecise()) {
-                    @this.
-                    set('captcha', grecaptcha.getResponse());
-                    window.Livewire.emit('changefullNumber', out.replace(/\D/g, ''), $("#ccode").val(), $("#iso2Country").val());
+                if ($("#validation").val() == "true") {
+
+                @this.set('captcha', grecaptcha.getResponse());
+                    window.Livewire.dispatch('changefullNumber', [out.replace(/\D/g, ''), $("#ccode").val(), $("#iso2Country").val()]);
                 } else {
                     input.classList.add("error");
-                    const errorCode = iti.getValidationError();
+                    const errorCode = $("#validationError").val();
                     errorMsg.innerHTML = errorMap[errorCode] || "{{__('Invalid number')}}";
                     errorMsg.classList.remove("hide");
                 }
@@ -213,9 +215,52 @@
                 errorMsg.innerHTML = "{{__('Invalid number')}}";
                 errorMsg.classList.remove("hide");
             }
-            input.addEventListener('change', reset);
-            input.addEventListener('keyup', reset);
+            input.addEventListener('change', initIntlTelInput);
+            input.addEventListener('keyup', initIntlTelInput);
             grecaptcha.reset();
         }
+    </script>
+    <script type="module">
+        $(function () {
+            var countryData = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
+                input = document.querySelector("#intl-tel-input");
+            iti = window.intlTelInput(input, {
+                initialCountry: "auto",
+                separateDialCode: true,
+                useFullscreenPopup: false,
+                geoIpLookup: function (callback) {
+                    $.get('https://ipinfo.io', function () {
+                    }, "jsonp").always(function (resp) {
+                        callback((resp && resp.country) ? resp.country : "TN");
+                    });
+                },
+                utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/utils.js"
+            });
+
+            function initIntlTelInput() {
+                var phone = iti.getNumber();
+                 document.createTextNode(phone);
+                phone = phone.replace('+', '00');
+                var mobile = $("#intl-tel-input").val();
+                var countryData = iti.getSelectedCountryData();
+                if (!phone.startsWith('00' + countryData.dialCode)) {
+                    phone = '00' + countryData.dialCode + mobile;
+                }
+                $("#output").val(phone);
+                $("#ccode").val(countryData.dialCode);
+                $("#country_code").val(countryData.dialCode);
+                $("#iso2Country").val(countryData.iso2);
+                $("#validation").val(iti.isValidNumberPrecise());
+                $("#validationError").val(iti.getValidationError());
+            }
+
+            input.addEventListener('keyup', initIntlTelInput);
+            input.addEventListener('countrychange', initIntlTelInput);
+            for (var i = 0; i < countryData.length; i++) {
+                var country = countryData[i];
+                var optionNode = document.createElement("option");
+                optionNode.value = country.iso2;
+            }
+        });
     </script>
 </div>

@@ -155,7 +155,7 @@ class  UserRepository implements IUserRepository
             $minute = $f->DecimalValue;
         Auth::login($user, $remenber);
         $key = 'Expired' . $user->idUser;
-        Session::put($key, Carbon::now()->addMinute($minute));
+        Session::put($key, Carbon::now()->addMinute(floatval($minute)));
     }
 
     public function logoutUser()

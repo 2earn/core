@@ -27,7 +27,7 @@
                                 @endif
 
                                 <form action="javascript:void(0)">
-                                    <input type="hidden" wire:model.defer="idUser">
+                                    <input type="hidden" wire:model="idUser">
 
                                     @csrf
                                     <div class="mb-3">
@@ -37,7 +37,7 @@
                                         <label>{{ __('Your OTP Code') }}</label>
                                         <input type="number" min="1" max="9999"
                                                class="form-control text-center font-weight-bold"
-                                               name="activationCodeValue" wire:model.defer="code">
+                                               name="activationCodeValue" wire:model="code">
                                     </div>
                                     <div class="text-center" style="margin-top:10px">
                                         @if ($message = Session::get('error'))

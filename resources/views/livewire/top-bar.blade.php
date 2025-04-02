@@ -120,7 +120,7 @@
                                     <a href="{{str_replace('/'.app()->getLocale().'/', '/'.$value['name'].'/', Request::url())}}"
                                        class="dropdown-item notify-item language py-2  @if($locale==app()->getLocale()) active @endif"
                                        data-lang="{{$locale}}"
-                                       title="{{ __('lang'.$locale)  }}" data-turbolinks="false">
+                                       title="{{ __('lang'.$locale)  }}" >
                                         <img src="{{ Vite::asset('resources/images/flags/'.$value['flag'].'.svg') }}"
                                              alt="user-image" class="me-2 rounded" height="20">
                                         <span class="align-middle">{{ __('lang'.$locale)  }}</span>
@@ -129,7 +129,7 @@
                                     <a href="{{str_replace('/'.app()->getLocale(), '/'.$value['name'].'/', Request::url())}}"
                                        class="dropdown-item notify-item language py-2  @if($locale==app()->getLocale()) active @endif"
                                        data-lang="{{$locale}}"
-                                       title="{{ __('lang'.$locale)  }}" data-turbolinks="false">
+                                       title="{{ __('lang'.$locale)  }}" >
                                         <img src="{{ Vite::asset('resources/images/flags/'.$value['flag'].'.svg') }}"
                                              alt="user-image" class="me-2 rounded" height="20">
                                         <span class="align-middle">{{ __('lang'.$locale)  }}</span>

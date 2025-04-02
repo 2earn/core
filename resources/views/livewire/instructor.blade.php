@@ -1,12 +1,13 @@
-<div>
-    @section('title')
-        {{ __('Instructor requests') }}
-    @endsection
-    @component('components.breadcrumb')
-        @slot('title')
+<div class="container-fluid">
+    <div>
+        @section('title')
             {{ __('Instructor requests') }}
-        @endslot
-    @endcomponent
+        @endsection
+        @component('components.breadcrumb')
+            @slot('title')
+                {{ __('Instructor requests') }}
+            @endslot
+        @endcomponent
         <div class="row">
             @include('layouts.flash-messages')
         </div>
@@ -20,8 +21,9 @@
                         <div class="card-body">
                             <div class="d-flex mb-4 align-items-center">
                                 <div class="flex-shrink-0">
-                                    <img src="{{\App\Models\User::getUserProfileImage($instructorRequest->user->idUser)}}"
-                                         class="avatar-sm rounded-circle"/>
+                                    <img
+                                        src="{{\App\Models\User::getUserProfileImage($instructorRequest->user->idUser)}}"
+                                        class="avatar-sm rounded-circle"/>
                                 </div>
                                 <div class="flex-grow-1 ms-2">
                                     <h5 class="card-title mb-1">{{$instructorRequest->fullphone_number}}</h5>
@@ -47,4 +49,5 @@
                 </div>
             @endforelse
         </div>
+    </div>
 </div>

@@ -109,7 +109,7 @@
                             @foreach($platform->deals()->get() as $deal)
                                 <div class="row ">
                                     @foreach($deal->items()->where('ref', '!=', '#0001')->get() as $item)
-                                        <div class="col-sm-12 col-md-6 col-lg-4">
+                                        <div class="col-sm-12 col-md-4 col-lg-3">
                                             <livewire:items-show :item="$item"/>
                                         </div>
                                     @endforeach

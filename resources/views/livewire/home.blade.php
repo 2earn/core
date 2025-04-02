@@ -427,8 +427,10 @@
                     const input = document.querySelector("#phone");
                     const iti = window.intlTelInput(input, {
                         initialCountry: "auto",
+                        autoFormat: true,
+                        separateDialCode: true,
                         useFullscreenPopup: false,
-                        utilsScript: " {{asset('/build/utils.js/utils.js')}}"
+                        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/utils.js"
                     });
                     $('[name="inlineRadioOptions"]').on('change', function () {
                         if ($('#inlineRadio2').is(':checked')) {

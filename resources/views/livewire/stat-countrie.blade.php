@@ -255,7 +255,6 @@
                                 var selected = [];
                                 var selectedPoints = e.seriesStatus[0].points;
                                 for (var i = 0; i < selectedPoints.length; i++) {
-                                    console.log(selectedPoints[i].id);
                                     selected.push(selectedPoints[i].id);
                                 }
                                 changeContent(selected);
@@ -483,7 +482,6 @@
                                         ':' +
                                         this.income[i].value +
                                         '</li>';
-                                    console.log(this.income[i]);
                                     income += this.income[i].value;
                                 }
                                 ul += '</ul>';

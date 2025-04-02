@@ -20,7 +20,7 @@ class ItemSeeder extends Seeder
         $faker = app(Generator::class);
         $platforms = Platform::all();
         foreach ($platforms as $platform) {
-            $numberProduct = rand(1, 3);
+            $numberProduct = rand(1, 5);
             for ($i = 1; $i <= $numberProduct; $i++) {
                 OrderingSimulation::createItem($platform->id, $faker);
             }

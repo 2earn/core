@@ -85,7 +85,8 @@
         </div>
     </div>
     <script type="module">
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             $('#shares-sold').DataTable(
                 {
                     "order": [[0, "desc"]],
@@ -143,7 +144,8 @@
         });
     </script>
     <script type="module">
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             var select2_array = [];
             var classAl = "text-end";
             var tts = '{{config('app.available_locales')[app()->getLocale()]['direction']}}';
@@ -182,7 +184,7 @@
                 });
 
                 function saveHA() {
-                    window.livewire.emit('saveHA', $("#tags").val());
+                    window.Livewire.dispatch('saveHA', [$("#tags").val()]);
                 }
 
                 function fetchAndUpdateCardContent() {
@@ -193,7 +195,7 @@
                             $('#realrev').html('$' + data.value);
                         },
                         error: function (xhr, status, error) {
-                            console.log(error)
+                            console.error(error)
                         }
                     });
                 }

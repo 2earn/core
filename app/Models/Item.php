@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Livewire\PlatformIndex;
+use App\Livewire\PlatformIndex;
 use Core\Models\Platform;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

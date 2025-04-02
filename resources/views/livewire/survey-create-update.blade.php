@@ -1,5 +1,5 @@
-<div>
-    @component('components.breadcrumb')
+<div class="container-fluid">
+@component('components.breadcrumb')
         @slot('title')
             {{ __('Survey Create') }}
         @endslot
@@ -21,20 +21,20 @@
             <div class="card mb-2 ml-4">
                 <div class="card-body">
                     <form>
-                        <input type="hidden" wire:model="id">
+                        <input type="hidden" wire:model.live="id">
                         <div class="row">
                             <div class="form-group col-sm-12 col-md-6 mb-3">
                                 <label for="Name">{{__('Name')}}</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror"
                                        id="Name"
-                                       placeholder="{{__('Enter Name')}}" wire:model="name">
+                                       placeholder="{{__('Enter Name')}}" wire:model.live="name">
                                 @error('name') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
 
                             <div class="form-group  col-sm-4 col-md-2">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" role="switch" wire:model="enabled" type="checkbox"
+                                    <input class="form-check-input" role="switch" wire:model.live="enabled" type="checkbox"
                                            id="Enabled" placeholder="{{__('enabled')}}" checked>
                                     <label class="form-check-label" for="Enabled">{{__('Enabled')}}</label>
                                 </div>
@@ -42,7 +42,7 @@
 
                             <div class="form-group  col-sm-4 col-md-2">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" role="switch" wire:model="published" type="checkbox"
+                                    <input class="form-check-input" role="switch" wire:model.live="published" type="checkbox"
                                            id="published" placeholder="{{__('published')}}" checked>
                                     <label class="form-check-label" for="published">{{__('Published')}}</label>
                                 </div>
@@ -50,7 +50,7 @@
 
                             <div class="form-group  col-sm-4 col-md-2">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" role="switch" wire:model="updatable" type="checkbox"
+                                    <input class="form-check-input" role="switch" wire:model.live="updatable" type="checkbox"
                                            id="updatable" placeholder="{{__('updatable')}}" checked>
                                     <label class="form-check-label" for="updatable">{{__('Updatable')}}</label>
                                 </div>
@@ -59,7 +59,7 @@
                                 <label for="Description">{{__('Description')}}</label>
                                 <textarea class="form-control @error('description') is-invalid @enderror"
                                           id="Description"
-                                          wire:model="description"
+                                          wire:model.live="description"
                                           placeholder="{{__('Enter Description')}}"></textarea>
                                 @error('description') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
@@ -71,7 +71,7 @@
                                 <select
                                     class="form-select form-control @error('target') is-invalid @enderror"
                                     placeholder="{{__('Enter target')}}"
-                                    wire:model="target"
+                                    wire:model.live="target"
                                     id="target"
                                     aria-label="{{__('Enter target')}}">
                                     @foreach ($targets as $targetItem)
@@ -91,7 +91,7 @@
                                 <select
                                     class="form-select form-control @error('show') is-invalid @enderror"
                                     placeholder="{{__('Show')}}"
-                                    wire:model="show"
+                                    wire:model.live="show"
                                     id="show"
                                     aria-label="{{__('Show')}}">
                                     @foreach ($targetTypes as $targetType)
@@ -108,7 +108,7 @@
                                 <select
                                     class="form-select form-control @error('showAttchivementGool') is-invalid @enderror"
                                     placeholder="{{__('Show attchivement pourcentage')}}"
-                                    wire:model="showAttchivementGool"
+                                    wire:model.live="showAttchivementGool"
                                     id="showAttchivementGool"
                                     aria-label="{{__('showAttchivementGool')}}">
                                     @foreach ($targetTypes as $targetType)
@@ -126,7 +126,7 @@
                                 <select
                                     class="form-select form-control @error('showAttchivementChrono') is-invalid @enderror"
                                     placeholder="{{__('Show Attchivement Chrono')}}"
-                                    wire:model="showAttchivementChrono"
+                                    wire:model.live="showAttchivementChrono"
                                     id="showAttchivementChrono"
                                     aria-label="{{__('showAttchivementChrono')}}">
                                     @foreach ($targetTypes as $targetType)
@@ -144,7 +144,7 @@
                                 <select
                                     class="form-select form-control @error('showResult') is-invalid @enderror"
                                     placeholder="{{__('Show result')}}"
-                                    wire:model="showResult"
+                                    wire:model.live="showResult"
                                     id="showResult"
                                     aria-label="{{__('Show result')}}">
                                     @foreach ($targetTypes as $targetType)
@@ -158,7 +158,7 @@
                                     <label for="disabledResult">{{__('Disabled show result explanation')}}</label>
                                     <textarea class="form-control @error('disabledResult') is-invalid @enderror"
                                               id="disabledResult"
-                                              wire:model="disabledResult"
+                                              wire:model.live="disabledResult"
                                               placeholder="{{__('Enter Description for disabled show result')}}"></textarea>
                                     @error('disabledResult') <span class="text-danger">{{ $message }}</span>@enderror
                                     <div class="form-text">{{__('Required field')}}</div>
@@ -170,7 +170,7 @@
                                 <select
                                     class="form-select form-control @error('commentable') is-invalid @enderror"
                                     placeholder="{{__('commentable')}}"
-                                    wire:model="commentable"
+                                    wire:model.live="commentable"
                                     id="commentable"
                                     aria-label="{{__('commentable')}}">
                                     @foreach ($targetTypes as $targetType)
@@ -185,7 +185,7 @@
                                     <label for="disabledComment">{{__('Disabled comment explanation')}}</label>
                                     <textarea class="form-control @error('disabledComment') is-invalid @enderror"
                                               id="disabledComment"
-                                              wire:model="disabledComment"
+                                              wire:model.live="disabledComment"
                                               placeholder="{{__('Enter Description for disabled comment')}}"></textarea>
                                     @error('disabledComment') <span class="text-danger">{{ $message }}</span>@enderror
                                     <div class="form-text">{{__('Required field')}}</div>
@@ -197,7 +197,7 @@
                                 <select
                                     class="form-select form-control @error('likable') is-invalid @enderror"
                                     placeholder="{{__('likable')}}"
-                                    wire:model="likable"
+                                    wire:model.live="likable"
                                     id="likable"
                                     aria-label="{{__('likable')}}">
                                     @foreach ($targetTypes as $targetType)
@@ -212,7 +212,7 @@
                                     <label for="disabledLike">{{__('Disabled show like explanation')}}</label>
                                     <textarea class="form-control @error('disabledLike') is-invalid @enderror"
                                               id="disabledLike"
-                                              wire:model="disabledLike"
+                                              wire:model.live="disabledLike"
                                               placeholder="{{__('Enter Description for disabled like')}}"></textarea>
                                     @error('disabledLike') <span class="text-danger">{{ $message }}</span>@enderror
                                     <div class="form-text">{{__('Required field')}}</div>
@@ -224,7 +224,7 @@
                                 <select
                                     class="form-select form-control @error('showAfterArchiving') is-invalid @enderror"
                                     placeholder="{{__('Show After Archiving')}}"
-                                    wire:model="showAfterArchiving"
+                                    wire:model.live="showAfterArchiving"
                                     id="showAfterArchiving"
                                     aria-label="{{__('showAfterArchiving')}}">
                                     @foreach ($targetTypes as $targetType)
@@ -241,17 +241,17 @@
                         <div class="row mt-2">
                             <div class="form-group col-md-4 mt-2">
                                 <label for="startDate">{{__('Start Date')}}:</label>
-                                <input class="form-control" wire:model="startDate" type="date"
+                                <input class="form-control" wire:model.live="startDate" type="date"
                                        id="startDate" placeholder="{{__('Start Date')}}">
                             </div>
                             <div class="form-group col-md-4 mt-2">
                                 <label for="endDate">{{__('End Date')}}:</label>
-                                <input class="form-control" wire:model="endDate" type="date"
+                                <input class="form-control" wire:model.live="endDate" type="date"
                                        id="endDate" placeholder="{{__('End Date')}}">
                             </div>
                             <div class="form-group col-md-4 mt-2">
                                 <label for="goals">{{__('Goals')}}</label>
-                                <input class="form-control" wire:model="goals"
+                                <input class="form-control" wire:model.live="goals"
                                        id="goals" placeholder="{{__('Goals')}}">
                             </div>
                         </div>

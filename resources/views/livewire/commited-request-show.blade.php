@@ -79,7 +79,7 @@
                         <h6>{{__('Add reject raison')}}</h6>
                     </div>
                     <div class="col-sm-12 col-md-9 col-lg-9">
-                    <textarea class="form-control" maxlength="190" wire:model="note" id="note" rows="3">
+                    <textarea class="form-control" maxlength="190" wire:model.live="note" id="note" rows="3">
                     </textarea>
                         @if(!empty($note_message))
                             <div class="alert alert-warning alert-borderless mt-2" role="alert">

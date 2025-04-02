@@ -24,13 +24,13 @@
         </div>
         <div class="card-body row ">
             <form>
-                <input type="hidden" wire:model="id">
+                <input type="hidden" wire:model.live="id">
                 <div class="row">
                     <div class="form-group col-sm-12 col-md-12 mb-3">
                         <label for="Question">{{__('Question')}}</label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror"
                                id="Question"
-                               placeholder="{{__('Enter Question')}}" wire:model="question">
+                               placeholder="{{__('Enter Question')}}" wire:model.live="question">
                         @error('question') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>
@@ -38,7 +38,7 @@
                         <label for="Answer">{{__('Answer')}}</label>
                         <textarea class="form-control @error('answer') is-invalid @enderror"
                                   id="Answer"
-                                  placeholder="{{__('Enter Answer')}}" wire:model="answer"></textarea>
+                                  placeholder="{{__('Enter Answer')}}" wire:model.live="answer"></textarea>
                         @error('answer') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>

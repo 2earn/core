@@ -7,7 +7,7 @@
         <div class="row">
             @include('layouts.flash-messages')
         </div>
-        <div class="card" data-turbolinks="false" wire:ignore>
+        <div class="card"  wire:ignore>
             <div class="card-body">
                 <table
                        class="table table-bordered dt-responsive nowrap table-striped align-middle"
@@ -42,46 +42,46 @@
                         <div class="row">
                             <div class="mb-3 col-xl-6">
                                 <label class="me-sm-2">{{ __('Name') }}</label>
-                                <input type="text" class="form-control" disabled wire:model="parameterName"
+                                <input type="text" class="form-control" disabled wire:model.live="parameterName"
                                        placeholder="{{ __('Name') }}">
                             </div>
                             @if(!is_null($IntegerValue))
                                 <div class="mb-3 col-xl-6">
                                     <label class="me-sm-2">{{ __('IntegerValue') }}</label>
-                                    <input type="number" class="form-control" wire:model="IntegerValue"
+                                    <input type="number" class="form-control" wire:model.live="IntegerValue"
                                            placeholder="{{ __('IntegerValue') }}" name="IntegerValue">
                                 </div>
                             @endif
                             @if(!is_null($StringValue))
                                 <div class="mb-3 col-xl-6">
                                     <label class="me-sm-2">{{ __('StringValue') }}</label>
-                                    <input type="text" class="form-control" wire:model="StringValue"
+                                    <input type="text" class="form-control" wire:model.live="StringValue"
                                            placeholder="{{ __('StringValue') }}" name="StringValue">
                                 </div>
                             @endif
                             @if(!is_null($DecimalValue))
                                 <div class="mb-3 col-xl-6">
                                     <label class="me-sm-2"> {{ __('DecimalValue') }}</label>
-                                    <input type="number" class="form-control" wire:model="DecimalValue"
+                                    <input type="number" class="form-control" wire:model.live="DecimalValue"
                                            placeholder="{{ __('DecimalValue') }}" name="DecimalValue">
                                 </div>
                             @endif
                             <div class="mb-3 col-xl-6">
                                 <label class="me-sm-2">{{ __('Unit') }}</label>
-                                <input maxlength="5" type="text" class="form-control" wire:model="Unit"
+                                <input maxlength="5" type="text" class="form-control" wire:model.live="Unit"
                                        placeholder="{{ __('Unit') }}" name="Unit">
                             </div>
                             <div class="mb-3 col-xl-6">
                                 <label class="me-sm-2">{{ __('I/O') }}</label>
                                 <select class="form-control" name="Automatically_calculated"
-                                        wire:model="Automatically_calculated">
+                                        wire:model.live="Automatically_calculated">
                                     <option value="0"> {{ __('No') }}</option>
                                     <option value="1">{{ __('Yes') }}</option>
                                 </select>
                             </div>
                             <div class="mb-3 col-xl-12">
                                 <label class="me-sm-2">{{ __('description') }}</label>
-                                <textarea maxlength="250" class="form-control" wire:model="Description"
+                                <textarea maxlength="250" class="form-control" wire:model.live="Description"
                                           placeholder="{{ __('description') }}" name="Description"></textarea>
                             </div>
                         </div>
@@ -98,11 +98,12 @@
     <script type="module">
         function emitSetting(idSetting) {
             if (idSetting) {
-                window.Livewire.emit('initSettingFunction', idSetting);
+                window.Livewire.dispatch('initSettingFunction', [idSetting]);
             }
         }
 
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             $('#SettingsTable').DataTable(
                 {
                     retrieve: true,

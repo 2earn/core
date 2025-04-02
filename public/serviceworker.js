@@ -1,21 +1,20 @@
 var staticCacheName = "pwa-v" + new Date().getTime();
-var filesToCache = [
-    '/offline',
-    '/assets/css/app.min.css',
-    '/assets/js/layout.min.js',
-    '/assets/images/logo2earn.png',
-
-];
+var filesToCache = [];
 
 // Cache on install
 self.addEventListener("install", event => {
     this.skipWaiting();
-    event.waitUntil(
-        caches.open(staticCacheName)
-            .then(cache => {
-                return cache.addAll(filesToCache);
-            })
-    )
+    try {
+        event.waitUntil(
+            caches.open(staticCacheName)
+                .then(cache => {
+                    return cache.addAll(filesToCache);
+                })
+        )
+    } catch (e) {
+        console.log(filesToCache);
+        console.log(e);
+    }
 });
 
 // Clear cache on activate

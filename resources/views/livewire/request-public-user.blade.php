@@ -33,7 +33,7 @@
                             <td>{{$value->email}}</td>
                             <td>{{$value->mobile}}</td>
                             <td>{{$value->idCountry}}</td>
-                            <td><input type="checkbox" wire:model="selectedUsers"
+                            <td><input type="checkbox" wire:model.live="selectedUsers"
                                        value="{{$value->idUser}}"></td>
                         </tr>
                     @endforeach
@@ -46,15 +46,15 @@
                 <div class="label">
                     <div class="col-sm text-danger"><strong>{{__('Note')}}
                             :</strong>{{ __('You must check or less a user') }}
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
 <script>
-            function sendBFSFoundingRequest() {
-                window.Livewire.emit('sendFinancialRequest');
-            }
-        </script>
+    function sendBFSFoundingRequest() {
+        window.Livewire.dispatch('sendFinancialRequest');
+    }
+</script>
 </div>

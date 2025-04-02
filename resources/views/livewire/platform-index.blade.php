@@ -1,5 +1,5 @@
-<div>
-    @section('title')
+<div class="container-fluid">
+@section('title')
         {{ __('Platform') }}
     @endsection
     @component('components.breadcrumb')
@@ -54,7 +54,8 @@
     </div>
 
     <script type="module">
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             if (!$.fn.dataTable.isDataTable('#PlatformTable')) {
                 $('#PlatformTable').DataTable({
                     "responsive": true,
@@ -100,7 +101,7 @@
                     denyButtonText: `Rollback`
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.Livewire.emit("delete", $(event.target).attr('data-id'));
+                        window.Livewire.dispatch("delete", [$(event.target).attr('data-id')]);
                     }
                 });
             });

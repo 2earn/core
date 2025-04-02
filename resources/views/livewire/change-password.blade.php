@@ -61,7 +61,7 @@
                     <div class="col-md-6">
                         <input id="new_password" type="password"
                                class="form-control" name="new_password"
-                               autocomplete="current-password" placeholder="********" wire:model.defer="newPassword"
+                               autocomplete="current-password" placeholder="********" wire:model="newPassword"
                                style="display:inline-block;">
                         <span class="eye">
                         <i class="fas fa-eye" style="color: #6c757d" onclick="newPassWord()" id="hide1"></i>
@@ -77,7 +77,7 @@
                         <input id="new_confirm_password" type="password" class="form-control"
                                name="new_confirm_password"
                                autocomplete="current-password" placeholder="********"
-                               wire:model.defer="confirmedPassword"
+                               wire:model="confirmedPassword"
                                style="display:inline-block;">
                         <span class="eye">
                         <i class="fa fa-eye" style="color: #6c757d" onclick="confirmNewPassWord()" id="eye1"></i>
