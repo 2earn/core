@@ -219,7 +219,6 @@
             </div>
         </div>
     </div>
-
     <script type="module">
         $(document).ready(function () {
                 const input = document.querySelector("#phone");
@@ -239,7 +238,9 @@
                         $('#bfs-select').addClass('d-none');
                     }
                 });
+                console.log('----');
                 $("#buy-action-submit").on("click", function () {
+                    console.log('-thth---');
                     this.disabled = true;
                     $('.buy-action-submit-spinner').show();
                     let ammount = parseFloat($('#amount_val').text()).toFixed(3);
