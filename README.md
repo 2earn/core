@@ -1,3 +1,3 @@
 # 2earn
 Template : Velzon
-Framework : Laravel 10 - Livewire 2
+Framework : Laravel 12 - Livewire 3
