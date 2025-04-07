@@ -19,7 +19,6 @@ class PageTimer extends Component
 
     public function mount($deadline = null)
     {
-
         if (!is_null($deadline)) {
             $dateValue = DB::table('settings')->where('ParameterName', $deadline)->value('StringValue');
             $this->targetDate = $dateValue ? new Datetime($dateValue) : new Datetime(self::DEFAULT_DATE);
