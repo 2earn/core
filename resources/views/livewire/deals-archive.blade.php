@@ -1,4 +1,5 @@
-<div>
+<div class="container-fluid">
+    <div>
     @component('components.breadcrumb')
         @slot('title')
             {{ __('Deals archive') }}
@@ -28,4 +29,5 @@
             @endforelse
         </div>
     </div>
+</div>
 </div>
