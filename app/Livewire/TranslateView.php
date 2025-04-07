@@ -27,6 +27,7 @@ class TranslateView extends Component
     public $spanishValue = "";
     public $turkishValue = "";
 
+    public $page;
     public $name;
     public $idTranslate;
     public $tab = [];

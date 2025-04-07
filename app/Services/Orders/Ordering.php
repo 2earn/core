@@ -162,7 +162,7 @@ class Ordering
                     $order_deal[$dealId][$property] = $order_deal[$dealId][$property] + $itemDeal[$property];
                 }
                 $order_deal[$dealId]['final_discount'] = $discount_balance > 0 ? min($order_deal[$dealId]['total_discount'], $discount_balance) : 0;
-                $order_deal[$dealId]['final_discount_percentage'] = $order_deal[$dealId]['final_discount'] / $order_deal[$dealId]['total_amount'];
+                $order_deal[$dealId]['final_discount_percentage'] = $order_deal[$dealId]['total_amount'] != 0 ? $order_deal[$dealId]['final_discount'] / $order_deal[$dealId]['total_amount'] : 0;
                 $order_deal[$dealId]['lost_discount'] = $order_deal[$dealId]['total_discount'] - $order_deal[$dealId]['final_discount'];
                 $order_deal[$dealId]['final_amount'] = $order_deal[$dealId]['amount_after_deal_discount'] + $order_deal[$dealId]['lost_discount'];
                 $discount_balance = $discount_balance - $order_deal[$dealId]['final_discount'];
@@ -172,7 +172,7 @@ class Ordering
         }
         foreach ($order_deal as $order_deal_item) {
             $deal_amount += $order_deal_item['total_amount'];
-            $deal_amount_after_discounts +=  $order_deal_item['final_amount'];
+            $deal_amount_after_discounts += $order_deal_item['final_amount'];
         }
         Ordering::updateItemDeals($itemsDeals);
         $order->update([
@@ -271,7 +271,7 @@ class Ordering
             $order_deal = self::simulateDiscount($order);
             $bfssTables = self::simulateBFSs($order);
             if (!empty($bfssTables)) {
-                $amount = array_last($bfssTables)['amount'];
+                $amount = end($bfssTables)['amount'];
             } else {
                 $amount = $order->amount_after_discount;
             }
