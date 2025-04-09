@@ -7,6 +7,7 @@ use Core\Services\settingsManager;
 use Illuminate\Foundation\Auth\RedirectsUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class Login extends Component
@@ -26,11 +27,6 @@ class Login extends Component
         $this->from = $request->query->get('form');
     }
 
-    public function render(settingsManager $settingsManager)
-    {
-        return view('livewire.login')->extends('layouts.master-without-nav')->section('content');
-    }
-
     public function login($number, $code, $pass, $iso, settingsManager $settingsManager, Request $request)
     {
         if ($number == "" || $code == "" || $pass == "" || $iso == "") {
@@ -45,8 +41,15 @@ class Login extends Component
             return redirect()->route('login', ['locale' => app()->getLocale()])->with('danger', Lang::get('your phone or your password is incorrect !'));
         }
         if (!is_null($this->from)) {
+            Log::info('Inscription from Site 2earn :: code:' . $code . ' number: ' . $number);
             return redirect()->intended(route('home', app()->getLocale()))->with('from', $this->from);
         }
         return redirect()->intended(route('home', app()->getLocale()));
     }
+
+    public function render(settingsManager $settingsManager)
+    {
+        return view('livewire.login')->extends('layouts.master-without-nav')->section('content');
+    }
+
 }

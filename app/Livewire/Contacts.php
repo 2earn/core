@@ -181,8 +181,9 @@ class Contacts extends Component
             if (!$user) {
                 $user = $settingsManager->createNewUser(str_replace(' ', '', $this->mobile), $fullNumber, $ccode, auth()->user()->idUser);
             }
-            $contact_user = $settingsManager->createNewContactUser($settingsManager->getAuthUser()->idUser, $this->contactName, $user->idUser, $this->contactLastName, $phone, $fullNumber, $ccode,);
+            $contact_user = $settingsManager->createNewContactUser($settingsManager->getAuthUser()->idUser, $this->contactName, $user->idUser, $this->contactLastName, $phone, $fullNumber, $ccode);
             $this->dispatch('close-modal');
+            Log::info('Contact addeed from Site 2earn :: code:' . $ccode . ' phone: ' . $phone . ' fullNumber: ' . $fullNumber);
             return redirect()->route('contacts', app()->getLocale())->with('success', Lang::get('User created successfully') . ' : ' . $contact_user->name . ' ' . $contact_user->lastName . ' : ' . $contact_user->mobile);
 
         } catch (\Exception $exception) {
