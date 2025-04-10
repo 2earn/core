@@ -14,7 +14,9 @@ class translatetabs extends Model
         'valueFr',
         'valueEn',
         'valueTr',
-        'valueEs'
+        'valueEs',
+        'valueRu',
+        'valueDe'
     ];
 
     public $timestamps = false;

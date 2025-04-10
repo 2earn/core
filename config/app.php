@@ -260,5 +260,7 @@ return [
         'fr' => ['name' => 'fr', 'direction' => 'ltr', 'flag' => 'fr', 'tabLang' => 'fr-FR'],
         'tr' => ['name' => 'tr', 'direction' => 'ltr', 'flag' => 'tr', 'tabLang' => 'tr'],
         'es' => ['name' => 'es', 'direction' => 'ltr', 'flag' => 'es', 'tabLang' => 'es-ES'],
+        'ru' => ['name' => 'ru', 'direction' => 'ltr', 'flag' => 'ru', 'tabLang' => 'ru'],
+        'de' => ['name' => 'de', 'direction' => 'ltr', 'flag' => 'de', 'tabLang' => 'de-DE'],
     ]
 ];

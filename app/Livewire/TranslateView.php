@@ -21,11 +21,14 @@ class TranslateView extends Component
 
     const SEPARATION = ' : ';
     protected $paginationTheme = 'bootstrap';
+
     public $arabicValue = "";
     public $frenchValue = "";
     public $englishValue = "";
     public $spanishValue = "";
     public $turkishValue = "";
+    public $russianValue = "";
+    public $germanValue = "";
 
     public $page;
     public $name;
@@ -36,6 +39,8 @@ class TranslateView extends Component
     public $tabfinEn = [];
     public $tabfinTr = [];
     public $tabfinEs = [];
+    public $tabfinRu = [];
+    public $tabfinDe = [];
 
     public $search = '';
     public $nbrPagibation = 10;
@@ -48,6 +53,8 @@ class TranslateView extends Component
         'spanishValue' => 'required',
         'turkishValue' => 'required',
         'arabicValue' => 'required',
+        'russianValue' => 'required',
+        'germanValue' => 'required',
     ];
     protected $listeners = [
         'AddFieldTranslate' => 'AddFieldTranslate',
@@ -77,7 +84,9 @@ class TranslateView extends Component
                 'valueFr' => $val . ' FR',
                 'valueEn' => $val . ' EN',
                 'valueTr' => $val . ' TR',
-                'valueEs' => $val . ' ES'
+                'valueEs' => $val . ' ES',
+                'valueRu' => $val . ' RU',
+                'valueDe' => $val . ' DE'
             ];
             translatetabs::create($translateTab);
             return redirect()->route('translate', app()->getLocale())->with('success', trans('key added successfully') . self::SEPARATION . $val);
@@ -157,6 +166,8 @@ class TranslateView extends Component
             'valueEn' => $this->englishValue,
             'valueEs' => $this->spanishValue,
             'valueTr' => $this->turkishValue,
+            'valueRu' => $this->russianValue,
+            'valueDe' => $this->germanValue,
         ];
         translatetabs::where('id', $this->idTranslate)->update($params);
         $all = translatetabs::all();
@@ -166,6 +177,8 @@ class TranslateView extends Component
             $this->tabfinEn[$value->name] = $value->valueEn;
             $this->tabfinEs[$value->name] = $value->valueEs;
             $this->tabfinTr[$value->name] = $value->valueTr;
+            $this->tabfinRu[$value->name] = $value->valueRu;
+            $this->tabfinDe[$value->name] = $value->valueDe;
         }
         try {
             $pathFile = resource_path() . '/lang/ar.json';
@@ -173,11 +186,15 @@ class TranslateView extends Component
             $pathFileEn = resource_path() . '/lang/en.json';
             $pathFileTr = resource_path() . '/lang/tr.json';
             $pathFileEs = resource_path() . '/lang/es.json';
+            $pathFileRu = resource_path() . '/lang/ru.json';
+            $pathFileDe = resource_path() . '/lang/de.json';
             File::put($pathFile, json_encode($this->tabfin, JSON_UNESCAPED_UNICODE));
             File::put($pathFileFr, json_encode($this->tabfinFr, JSON_UNESCAPED_UNICODE));
             File::put($pathFileEn, json_encode($this->tabfinEn, JSON_UNESCAPED_UNICODE));
             File::put($pathFileTr, json_encode($this->tabfinTr, JSON_UNESCAPED_UNICODE));
             File::put($pathFileEs, json_encode($this->tabfinEs, JSON_UNESCAPED_UNICODE));
+            File::put($pathFileRu, json_encode($this->tabfinRu, JSON_UNESCAPED_UNICODE));
+            File::put($pathFileDe, json_encode($this->tabfinDe, JSON_UNESCAPED_UNICODE));
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('translate', ['locale' => app()->getLocale(), 'page' => $this->page])->with('danger', trans('Edit translation failed') . " " . Lang::get($exception->getMessage()));
@@ -196,6 +213,8 @@ class TranslateView extends Component
             $this->englishValue = $trans->valueEn;
             $this->turkishValue = $trans->valueTr;
             $this->spanishValue = $trans->valueEs;
+            $this->russianValue = $trans->valueRu;
+            $this->germanValue = $trans->valueDe;
         }
     }
 
@@ -207,6 +226,8 @@ class TranslateView extends Component
             ->orWhere(DB::raw('upper(valueEn)'), 'like', '%' . strtoupper($this->search) . '%')
             ->orWhere(DB::raw('upper(valueEs)'), 'like', '%' . strtoupper($this->search) . '%')
             ->orWhere(DB::raw('upper(valueTr)'), 'like', '%' . strtoupper($this->search) . '%')
+            ->orWhere(DB::raw('upper(valueRu)'), 'like', '%' . strtoupper($this->search) . '%')
+            ->orWhere(DB::raw('upper(valueDe)'), 'like', '%' . strtoupper($this->search) . '%')
             ->orWhere(DB::raw('upper(value)'), 'like', '%' . strtoupper($this->search) . '%')
             ->orderBy('id', 'desc')
             ->paginate($this->nbrPagibation);
