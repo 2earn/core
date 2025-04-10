@@ -46,7 +46,7 @@
                                     id="type"
                                     aria-label="{{__('Enter type')}}">
                                     @foreach ($types as $typeItem)
-                                        <option value="{{$typeItem['value']}}">{{$typeItem['name']}}</option>
+                                        <option value="{{$typeItem['value']}}">{{__($typeItem['name'])}}</option>
                                     @endforeach
                                 </select>
                                 @error('type') <span class="text-danger">{{ $message }}</span>@enderror
