@@ -107,7 +107,7 @@
                 </div>
                 <div class="d-flex align-items-center">
                     <div class="dropdown ms-1 topbar-head-dropdown header-item">
-                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary"
+                        <button type="button" class="btn btn-icon btn-soft-primary btn-topbar btn-ghost-secondary"
                                 data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="true">
                             <img
                                 src="{{ Vite::asset('resources/images/flags/'.config('app.available_locales')[app()->getLocale()]['flag'].'.svg') }}"

@@ -14,11 +14,15 @@ class TranslateModelData extends Component
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
+
     public $arabicValue = "";
     public $frenchValue = "";
     public $englishValue = "";
     public $spanishValue = "";
     public $turkishValue = "";
+    public $russianValue = "";
+    public $germanValue = "";
+
     public $name;
     public $idTranslate;
     public $tab = [];
@@ -27,6 +31,8 @@ class TranslateModelData extends Component
     public $tabfinEn = [];
     public $tabfinTr = [];
     public $tabfinEs = [];
+    public $tabfinRu = [];
+    public $tabfinDe = [];
 
     public $search = '';
     public $nbrPagibation = 10;
@@ -56,7 +62,9 @@ class TranslateModelData extends Component
                 'valueFr' => $val . ' FR',
                 'valueEn' => $val . ' EN',
                 'valueTr' => $val . ' TR',
-                'valueEs' => $val . ' ES'
+                'valueEs' => $val . ' ES',
+                'valueRu' => $val . ' RU',
+                'valueDe' => $val . ' DE'
             ];
             TranslaleModel::create($translateTab);
             return redirect()->route('translate_model_data', app()->getLocale())->with('success', trans('key added successfully') . ' : ' . $val);
@@ -83,7 +91,7 @@ class TranslateModelData extends Component
 
     public function saveTranslate()
     {
-        $params = ['value' => $this->arabicValue, 'valueFr' => $this->frenchValue, 'valueEn' => $this->englishValue, 'valueTr' => $this->turkishValue, 'valueEs' => $this->spanishValue];
+        $params = ['value' => $this->arabicValue, 'valueFr' => $this->frenchValue, 'valueEn' => $this->englishValue, 'valueTr' => $this->turkishValue, 'valueEs' => $this->spanishValue, 'valueRu' => $this->russianValue, 'valueDe' => $this->germanValue];
         TranslaleModel::where('id', $this->idTranslate)->update($params);
         $all = TranslaleModel::all();
         foreach ($all as $value) {
@@ -92,6 +100,8 @@ class TranslateModelData extends Component
             $this->tabfinEn[$value->name] = $value->valueEn;
             $this->tabfinTr[$value->name] = $value->valueTr;
             $this->tabfinEs[$value->name] = $value->valueEs;
+            $this->tabfinRu[$value->name] = $value->valueRu;
+            $this->tabfinDe[$value->name] = $value->valueDe;
         }
         return redirect()->route('translate_model_data', app()->getLocale())->with('success', trans('Edit translation succeeded'));
     }
@@ -107,6 +117,8 @@ class TranslateModelData extends Component
             $this->englishValue = $trans->valueEn;
             $this->spanishValue = $trans->valueEs;
             $this->turkishValue = $trans->valueTr;
+            $this->russianValue = $trans->valueRu;
+            $this->germanValue = $trans->valueDe;
         }
     }
 
@@ -118,6 +130,8 @@ class TranslateModelData extends Component
             ->orWhere(DB::raw('upper(valueEn)'), 'like', '%' . strtoupper($this->search) . '%')
             ->orWhere(DB::raw('upper(valueEs)'), 'like', '%' . strtoupper($this->search) . '%')
             ->orWhere(DB::raw('upper(valueTr)'), 'like', '%' . strtoupper($this->search) . '%')
+            ->orWhere(DB::raw('upper(valueRu)'), 'like', '%' . strtoupper($this->search) . '%')
+            ->orWhere(DB::raw('upper(valueDe)'), 'like', '%' . strtoupper($this->search) . '%')
             ->orWhere(DB::raw('upper(value)'), 'like', '%' . strtoupper($this->search) . '%')
             ->orderBy('id', 'desc')
             ->paginate($this->nbrPagibation);

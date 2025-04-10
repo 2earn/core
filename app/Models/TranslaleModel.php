@@ -9,7 +9,7 @@ class TranslaleModel extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'value', 'valueFr', 'valueEn', 'valueTr', 'valueEs'];
+    protected $fillable = ['name', 'value', 'valueFr', 'valueEn', 'valueTr', 'valueEs', 'valueRu', 'valueDe'];
 
     public static function getTranslateName($var, $property)
     {
@@ -27,6 +27,8 @@ class TranslaleModel extends Model
                 'EN' => 'ValueEN',
                 'ES' => 'ValueES',
                 'TR' => 'ValueTR',
+                'RU' => 'ValueRU',
+                'DE' => 'ValueDE',
             };
 
             return TranslaleModel::where('name', $name)->pluck($column)->first();

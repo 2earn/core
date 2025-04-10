@@ -65,10 +65,31 @@
                                 <textarea rows="4" class="form-control" wire:model="spanishValue" maxlength="190"
                                           required>
                             </textarea>
-
                             </div>
+
                             <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
-                                <label for="message-text" class="col-form-label">              <span
+                                <label for="message-text" class="col-form-label"> <img
+                                        src="{{Vite::asset("resources/images/flags/" . strtolower('ru') . ".svg")}}"
+                                        alt="{{__('Russian')}}" title="{{__('Russian')}}"
+                                        class="avatar-xxs me-2"></label>
+                                <textarea rows="4" class="form-control" wire:model="russianValue" maxlength="190"
+                                          required>
+                            </textarea>
+                            </div>
+
+                            <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
+                                <label for="message-text" class="col-form-label"> <img
+                                        src="{{Vite::asset("resources/images/flags/" . strtolower('de') . ".svg")}}"
+                                        alt="{{__('German')}}" title="{{__('German')}}"
+                                        class="avatar-xxs me-2"></label>
+                                <textarea rows="4" class="form-control" wire:model="germanValue" maxlength="190"
+                                          required>
+                            </textarea>
+                            </div>
+
+                            <div class="mb-3 col-sm-12 col-md-6 col-lg-4">
+                                <label for="message-text" class="col-form-label">
+                                    <span
                                         class="text-warning">
                                     {{ __('Max char is 190! every translation item will be shrinked to 190 char.') }}                    </span></label>
                             </div>
@@ -162,7 +183,6 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                 <thead>
                                 <tr>
                                     <th>{{__('Id')}}</th>
-                                    <th>{{__('key')}}</th>
                                     <th class="d-none d-md-block">{{__('Translation')}}</th>
                                     <th>{{__('Actions')}}</th>
                                 </tr>
@@ -171,52 +191,75 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                 @foreach ($translates as $value)
                                     <tr>
                                         <td><span> {{$value->id}}</span></td>
-                                        <td title="{{$value->name}}">
-                                            {{$value->name}} </td>
                                         <td class="d-none d-md-block text-info">
-                                            <ul class="list-group">
-                                                <li class="list-group-item">
-                                                    <img
-                                                        src="{{Vite::asset("resources/images/flags/" . strtolower('gb') . ".svg")}}"
-                                                        alt="{{__('English')}}" title="{{__('English')}}"
-                                                        class="avatar-xxs me-2">
-                                                    <span
-                                                        class="text-muted mx-1">{{ Str::limit($value->valueEn,200)}}</span>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <img
-                                                        src="{{Vite::asset("resources/images/flags/" . strtolower('sa') . ".svg")}}"
-                                                        alt="{{__('Arabe')}}" title="{{__('Arabe')}}"
-                                                        class="avatar-xxs me-2">
-                                                    <span
-                                                        class="text-muted mx-1">{{ Str::limit($value->value,200)}}</span>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <img
-                                                        src="{{Vite::asset("resources/images/flags/" . strtolower('fr') . ".svg")}}"
-                                                        alt="{{__('Francais')}}" title="{{__('Francais')}}"
-                                                        class="avatar-xxs me-2">
-                                                    <span
-                                                        class="text-muted mx-1">{{ Str::limit($value->valueFr,200)}}</span>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <img
-                                                        src="{{Vite::asset("resources/images/flags/" . strtolower('tr') . ".svg")}}"
-                                                        alt="{{__('Turkish')}}" title="{{__('Turkish')}}"
-                                                        class="avatar-xxs me-2">
-                                                    <span
-                                                        class="text-muted mx-1">{{ Str::limit($value->valueTr,200)}}</span>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <img
-                                                        src="{{Vite::asset("resources/images/flags/" . strtolower('es') . ".svg")}}"
-                                                        alt="{{__('Spanish')}}" title="{{__('Spanish')}}"
-                                                        class="avatar-xxs me-2">
-                                                    <span
-                                                        class="text-muted mx-1">{{ Str::limit($value->valueEs,200)}}</span>
-                                                </li>
-                                            </ul>
+                                            <div class="row">
+                                                <ul class="list-group col-md-12 mb-2">
+                                                    <li class="list-group-item list-group-item-action list-group-item-primary" >
+                                                        {{$value->name}}
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <img
+                                                            src="{{Vite::asset("resources/images/flags/" . strtolower('gb') . ".svg")}}"
+                                                            alt="{{__('English')}}" title="{{__('English')}}"
+                                                            class="avatar-xxs me-2">
+                                                        <span
+                                                            class="text-muted mx-1">{{ Str::limit($value->valueEn,200)}}</span>
+                                                    </li>
+                                                </ul>
+                                                <ul class="list-group col-md-6">
+                                                    <li class="list-group-item">
+                                                        <img
+                                                            src="{{Vite::asset("resources/images/flags/" . strtolower('sa') . ".svg")}}"
+                                                            alt="{{__('Arabe')}}" title="{{__('Arabe')}}"
+                                                            class="avatar-xxs me-2">
+                                                        <span
+                                                            class="text-muted mx-1">{{ Str::limit($value->value,200)}}</span>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <img
+                                                            src="{{Vite::asset("resources/images/flags/" . strtolower('fr') . ".svg")}}"
+                                                            alt="{{__('Francais')}}" title="{{__('Francais')}}"
+                                                            class="avatar-xxs me-2">
+                                                        <span
+                                                            class="text-muted mx-1">{{ Str::limit($value->valueFr,200)}}</span>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <img
+                                                            src="{{Vite::asset("resources/images/flags/" . strtolower('tr') . ".svg")}}"
+                                                            alt="{{__('Turkish')}}" title="{{__('Turkish')}}"
+                                                            class="avatar-xxs me-2">
+                                                        <span
+                                                            class="text-muted mx-1">{{ Str::limit($value->valueTr,200)}}</span>
+                                                    </li>
+                                                </ul>
+                                                <ul class="list-group col-md-6">
 
+                                                    <li class="list-group-item">
+                                                        <img
+                                                            src="{{Vite::asset("resources/images/flags/" . strtolower('es') . ".svg")}}"
+                                                            alt="{{__('Spanish')}}" title="{{__('Spanish')}}"
+                                                            class="avatar-xxs me-2">
+                                                        <span
+                                                            class="text-muted mx-1">{{ Str::limit($value->valueEs,200)}}</span>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <img
+                                                            src="{{Vite::asset("resources/images/flags/" . strtolower('ru') . ".svg")}}"
+                                                            alt="{{__('Russian')}}" title="{{__('Russian')}}"
+                                                            class="avatar-xxs me-2">
+                                                        <span
+                                                            class="text-muted mx-1">{{ Str::limit($value->valueRu,200)}}</span>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <img
+                                                            src="{{Vite::asset("resources/images/flags/" . strtolower('de') . ".svg")}}"
+                                                            alt="{{__('German')}}" title="{{__('German')}}"
+                                                            class="avatar-xxs me-2">
+                                                        <span
+                                                            class="text-muted mx-1">{{ Str::limit($value->valueDe,200)}}</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </td>
                                         <td>
                                             <a type="btn" wire:click="initTranslate({{$value->id}})"
@@ -311,5 +354,4 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
             });
         });
     </script>
-</div>
 </div>

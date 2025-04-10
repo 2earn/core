@@ -41,13 +41,15 @@ class TranslationFilesToDatabase implements ShouldQueue
         $contents = File::get($pathFile);
         $json = collect(json_decode($contents));
         foreach ($json as $key => $value) {
-            $this->paramsToUpdate[$key] = ['name' => $key, 'valueEn' => $value, 'value' => '', 'valueFr' => '', 'valueEs' => '', 'valueTr' => ''];
+            $this->paramsToUpdate[$key] = ['name' => $key, 'valueEn' => $value, 'value' => '', 'valueFr' => '', 'valueEs' => '', 'value' => '', 'valueEs' => '', 'valueTr' => '', 'valueRu' => '', 'valueDe' => ''];
 
         }
         $this->mergeFile('ar');
         $this->mergeFile('fr');
         $this->mergeFile('es');
         $this->mergeFile('tr');
+        $this->mergeFile('ru');
+        $this->mergeFile('de');
         $start_time = microtime(true);
         translatetabs::insert($this->paramsToUpdate);
         $end_time = microtime(true);

@@ -40,6 +40,8 @@ class TranslationDatabaseToFiles implements ShouldQueue
             ['en', 'valueEn'],
             ['tr', 'valueTr'],
             ['es', 'valueEs'],
+            ['ru', 'valueRu'],
+            ['de', 'valueDe'],
         ];
         foreach ($langs as $lang) {
             $this->languageToFile($lang[0], $lang[1]);
