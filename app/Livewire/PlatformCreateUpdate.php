@@ -75,10 +75,10 @@ class PlatformCreateUpdate extends Component
         $this->update = true;
     }
 
-    public function update()
+    public function updatePlatform()
     {
-        $this->validate();
         try {
+            $this->validate();
             $params = [
                 'name' => $this->name,
                 'description' => $this->description,
@@ -105,6 +105,7 @@ class PlatformCreateUpdate extends Component
             }
 
         } catch (\Exception $exception) {
+            dd($exception);
             Log::error($exception->getMessage());
             return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while updating Platform'));
         }
@@ -112,7 +113,7 @@ class PlatformCreateUpdate extends Component
 
     }
 
-    public function store()
+    public function storePlatform()
     {
         try {
             $this->validate();
@@ -135,6 +136,7 @@ class PlatformCreateUpdate extends Component
                 ]);
             }
         } catch (\Exception $exception) {
+            dd($exception);
             Log::error($exception->getMessage());
             return redirect()->route('platform_create_update', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while creating Platform!!') . ' ' . $exception->getMessage());
         }

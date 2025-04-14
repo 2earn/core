@@ -412,9 +412,10 @@
                 @if($survey->status==\Core\Enum\StatusSurvey::CLOSED->value)
                     <a wire:click="archive('{{$survey->id}}')"
                        class="btn btn-soft-secondary material-shadow-none mt-1">
-                        {{__('Archive')}}
+                        {{__('Send to archive')}}
                     </a>
                 @endif
+
                 @if($survey->status<\Core\Enum\StatusSurvey::CLOSED->value)
                     @if(!$survey->enabled)
                         <a wire:click="enable('{{$survey->id}}')"
