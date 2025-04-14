@@ -15,7 +15,7 @@
     @else
         @vite(['resources/css/bootstrap.min.css','resources/css/icons.css','resources/css/app.css','resources/css/custom.css'])
     @endif
-    @vite([ 'resources/css/intlTelInput.min.css','resources/js/sweetalert2@11.js','resources/js/appWithoutNav.js','resources/js/intlTelInput.js','resources/js/pages/passowrd-create.init.js'])
+    @vite([ 'resources/css/intlTelInput.min.css','resources/js/sweetalert2@11.js','resources/js/appWithoutNav.js','resources/js/intlTelInput.js','resources/js/pages/password-addon.init.js','resources/js/pages/passowrd-create.init.js'])
 </head>
 <body>
 <div class="container-fluid">
