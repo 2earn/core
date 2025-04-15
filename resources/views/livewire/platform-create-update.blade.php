@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="card-body row ">
-            <div class="card mb-2 mr-2 ml-2 border border-dashed ">
+            <div class="card mb-2 mr-2 ml-2">
                 <div class="card-body">
                     <form>
                         <input type="hidden" wire:model.live="id">

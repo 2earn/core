@@ -136,7 +136,6 @@ class PlatformCreateUpdate extends Component
                 ]);
             }
         } catch (\Exception $exception) {
-            dd($exception);
             Log::error($exception->getMessage());
             return redirect()->route('platform_create_update', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while creating Platform!!') . ' ' . $exception->getMessage());
         }
