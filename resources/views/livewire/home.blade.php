@@ -1,4 +1,4 @@
-<div>
+<div class="container-fluid">
     @component('components.breadcrumb')
         @slot('title')
             {{ __('Home') }}
@@ -380,42 +380,38 @@
     <div class="row">
         <livewire:survey-index/>
     </div>
-    <div class="row">
-            <div class="card mx-1">
-                <div class="card-header border-info">
-                    <div class="d-flex align-items-center">
-                        <h6 class="card-title mb-0 flex-grow-1">{{ __('we_are_present_in') }}</h6>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12" style="padding-right: 0;padding-left: 0;">
-                            <div class="card" style="height: 500px;">
-                                <div class="card-body">
-                                    <div id="any4"></div>
-                                </div>
-                            </div>
+    <div class="card col-12">
+        <div class="card-header border-info">
+            <div class="d-flex align-items-center">
+                <h6 class="card-title mb-0 flex-grow-1">{{ __('we_are_present_in') }}</h6>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12" style="padding-right: 0;padding-left: 0;">
+                    <div class="card" style="height: 480px;">
+                        <div class="card-body">
+                            <div id="any4"></div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     </div>
-    <div class="row">
-            <div class="card mx-1">
-                <div class="card-header border-info">
-                    <div class="d-flex align-items-center">
-                        <h6 class="card-title mb-0 flex-grow-1">{{ __('Country ponderation') }}</h6>
+    <div class="card col-12">
+        <div class="card-header border-info">
+            <div class="d-flex align-items-center">
+                <h6 class="card-title mb-0 flex-grow-1">{{ __('Country ponderation') }}</h6>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="card" style="height: 480px;">
+                    <div class="card-body">
+                        <div id="any5"></div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="card" style="height: 500px;">
-                            <div class="card-body">
-                                <div id="any5"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            </div>
         </div>
     </div>
     @push('scripts')

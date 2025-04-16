@@ -1,55 +1,55 @@
-<div>
+<div class="container-fluid">
     @section('title')
         {{ __('history') }}
     @endsection
-        @component('components.breadcrumb')
-            @slot('li_1')@endslot
-            @slot('title')
-                {{ __('Stat By Countries') }}
-            @endslot
-        @endcomponent
-        <div class="row">
-            <div class="col">
-                <div class="h-100">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card card-height-100">
-                                <div class="card-header align-items-center d-flex">
-                                    <h4 class="card-title mb-0 flex-grow-1">{{ __('Countries Statistics') }}</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div id="any1"></div>
-                                </div>
+    @component('components.breadcrumb')
+        @slot('li_1')@endslot
+        @slot('title')
+            {{ __('Stat By Countries') }}
+        @endslot
+    @endcomponent
+    <div class="row">
+        <div class="col">
+            <div class="h-100">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-height-100">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">{{ __('Countries Statistics') }}</h4>
+                            </div>
+                            <div class="card-body">
+                                <div id="any1"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card card-height-100">
-                                <div class="card-header align-items-center d-flex">
-                                    <h4 class="card-title mb-0 flex-grow-1">{{ __('Countries Statistics') }}</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div id="any2"></div>
-                                </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-height-100">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">{{ __('Countries Statistics') }}</h4>
+                            </div>
+                            <div class="card-body">
+                                <div id="any2"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card card-height-100">
-                                <div class="card-header align-items-center d-flex">
-                                    <h4 class="card-title mb-0 flex-grow-1">{{ __('Countries Statistics') }}</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div id="any3"></div>
-                                </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-height-100">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">{{ __('Countries Statistics') }}</h4>
+                            </div>
+                            <div class="card-body">
+                                <div id="any3"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </div>
 <script type="module">
     var series;

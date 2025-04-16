@@ -1,4 +1,4 @@
-<div>
+<div class="container-fluid">
     @section('title')
         {{ __('Additional income') }}
     @endsection
@@ -84,7 +84,8 @@
                     <div
                         class="form-check form-switch form-switch-lg form-switch-success d-block img-fluid  text-center mx-auto">
 
-                        <input type="checkbox" class="form-check-input" id="be_instructor" wire:model.live="isInstructor"
+                        <input type="checkbox" class="form-check-input" id="be_instructor"
+                               wire:model.live="isInstructor"
                                wire:click="sendInstructorRequest()" @if($isInstructorDisabled) disabled @endif>
                         <label class="form-check-label"
                                for="be_instructor">{{__('Be Instructor')}}</label>

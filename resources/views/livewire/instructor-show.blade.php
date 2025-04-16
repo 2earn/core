@@ -1,5 +1,5 @@
-<div>
-    @section('title')
+<div class="container-fluid">
+@section('title')
         {{ __('Instructor requests') }}
     @endsection
     @component('components.breadcrumb')
