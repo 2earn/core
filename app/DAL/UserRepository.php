@@ -212,7 +212,7 @@ class  UserRepository implements IUserRepository
     {
 
         $user = DB::table('metta_users')
-            ->where([                [$attribute, '=', $value]])
+            ->where([[$attribute, '=', $value]])
             ->get()->first();
         if (!$user)
             return null;
@@ -222,28 +222,28 @@ class  UserRepository implements IUserRepository
     public function getConditionalUser($attribute, $value)
     {
         $user = DB::table('users')
-            ->where([    [$attribute, '=', $value]])
+            ->where([[$attribute, '=', $value]])
             ->get()->first();
         if (!$user)
             return null;
         return $user;
     }
 
-    public function initNewUser()
+    public function initNewUser($status = StatusRequest::Registred->value)
     {
         $newUser = new User();
         $lastuser = DB::table('users')->max('iduser');
         $newIdUser = $lastuser + 1;
         $newUser->idUser = $newIdUser;
-        $newUser->status = StatusRequest::Registred->value;
+        $newUser->status = $status;
         return $newUser;
     }
 
 
-    public function createNewUser($mobile, $fullphone_number, $id_phone, $idUplineRegister)
+    public function createNewUser($mobile, $fullphone_number, $id_phone, $idUplineRegister, $status = StatusRequest::Registred->value)
     {
         $country = DB::table('countries')->where('phonecode', $id_phone)->first();
-        $user = $this->initNewUser();
+        $user = $this->initNewUser($status);
         $user->mobile = $mobile;
         $user->fullphone_number = $fullphone_number;
         $user->id_phone = $id_phone;
