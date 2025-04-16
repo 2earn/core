@@ -313,7 +313,8 @@
                                     أنشطتهم وأرصدة حساباتهم، مع الإستناد إلى شبكة من المنصات التجارية
                                     <b>learn2earn.cash</b>، <b>move2earn.cash</b>، :المترابطة اإللكترونية
                                     <b>belegant2earn.cash</b>، <b>takecare2earn.cash</b>، <b>shop2earn.cash</b>،
-                                    <b> eat2earn.cash </b> و<b> travel2earn.cash </b> . وعلى الرغم من أن هذه المنصات تعمل
+                                    <b> eat2earn.cash </b> و<b> travel2earn.cash </b> . وعلى الرغم من أن هذه المنصات
+                                    تعمل
                                     بشكل مستقل في وظائفها الخاصة، الا أنها تشترك في رؤية موحدة ومفهوم
                                     مركزي يجمعها تحت مظلة <b>2cash.earn</b>..
                                 </p>
@@ -331,7 +332,9 @@
                             <div class="card-body">
                                 <ul class="text-muted">
                                     <li>
-                                        - عند التسجيل على منصتنا، سيُطلب منك تقديم رقم هاتف يتم استخدامه كمعرف فريد. ولضمان أمان معلوماتك، سيتم إرسال <b>رمز تحقق لمرة واحدة (OTP)</b> عبر رسالة نصية. يجب عليك إدخال هذا الرمز لتأكيد عملية التسجيل.
+                                        - عند التسجيل على منصتنا، سيُطلب منك تقديم رقم هاتف يتم استخدامه كمعرف فريد.
+                                        ولضمان أمان معلوماتك، سيتم إرسال <b>رمز تحقق لمرة واحدة (OTP)</b> عبر رسالة
+                                        نصية. يجب عليك إدخال هذا الرمز لتأكيد عملية التسجيل.
 
                                     </li>
                                     <li>
@@ -416,6 +419,486 @@
                                     في حالة حدوث أي انتهاك لهذه الشروط، تحتفظ <b> 2earn.cash </b> بالحق في تعليق
                                     أو تقييد وصول المستخدم إلى كل أو جزء من الخدمات، باإلضافة إلى اتخاذ
                                     اإلجراءات القانونية الالزمة.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+                @if(app()->getLocale()=='tr')
+                    <div class="row mt-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="card-title">Giriş</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted">
+                                    <b>2earn.cash</b> platformu, kullanıcıların faaliyetlerini ve bakiyelerini takip
+                                    etmelerine olanak tanıyan merkezi bir yönetim aracı olarak konumlanmıştır. Bu araç,
+                                    birbirine bağlı e-ticaret platformları ağına dayanır: <b>learn2earn.cash</b>, <b>move2earn.cash</b>,
+                                    <b>belegant2earn.cash</b>, <b>takecare2earn.cash</b>, shop2earn.cash, <b>eat2earn.cash</b>
+                                    ve <b>travel2earn.cash</b>. Bu platformlar kendi işlevleri içinde bağımsız olarak
+                                    çalışsa da ortak bir vizyonu paylaşırlar ve <b>2earn.cash</b> merkezi konsepti
+                                    altında birleştirilmişlerdir.
+                                </p>
+                                <p class="text-muted">
+                                    Bu <b>Genel Kullanım Şartları</b>, platformun tüm kullanıcılarına uygulanır; ister
+                                    düzenli kullanıcılar, ister hisse satın almış olan yatırımcılar, isterse <b>İş
+                                        Merkezi</b> aracılığıyla fırsatları keşfeden iş ortakları olsun. Platforma
+                                    sadece erişim sağlamak, sayfalarını gezinmek veya özelliklerini kullanmakla
+                                    kullanıcı bu şartları koşulsuz olarak kabul etmiş olur.
+                                </p>
+                            </div>
+                            <div class="card-header">
+                                <h6 class="card-title">Kayıt Olma</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="text-muted">
+                                    <li>
+                                        Platformumuza kaydolurken, benzersiz bir kimlik olarak kullanılacak bir telefon
+                                        numarası sağlamanız istenecektir. Bilgilerinizin güvenliğini sağlamak için bir
+                                        <b>Tek Kullanımlık Şifre (OTP)</b> kodu SMS yoluyla gönderilecektir. Kayıt
+                                        işlemini doğrulamak için bu kodu girmeniz gerekmektedir.
+                                    </li>
+                                    <li>
+                                        Size SMS ile geçici bir şifre gönderilecektir; bu şifreyi daha sonra
+                                        değiştirerek hesabınıza güvenli bir şekilde erişim sağlayabilirsiniz.
+                                    </li>
+                                    <li>
+                                        Hesabınız tamamen kişisel olup, başka bir tarafla aktarılması veya paylaşılması
+                                        yasaktır. Bu kuralın ihlali, hesabınızın askıya alınması veya derhal silinmesi
+                                        ile sonuçlanacaktır.
+                                    </li>
+                                    <li>
+                                        E-posta adresi, şifre vb. bilgilerinizi, sunulan hizmetlerden tam olarak
+                                        yararlanabilmek için istediğiniz zaman güncelleyebilirsiniz. Ancak, adınız,
+                                        soyadınız ve doğum tarihiniz gibi bilgiler girildikten sonra değiştirilemez.
+                                    </li>
+                                    <li>
+                                        Hesabınızı kapatmak isterseniz, platformda sağlanan detayları kullanarak bizimle
+                                        iletişime geçebilirsiniz. Hesabınızın silinmesi, ilgili tüm bakiyelerin kalıcı
+                                        olarak kaybedilmesi ile sonuçlanacaktır.
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-header">
+                                <h6 class="card-title">Gizlilik ve Veri Koruma</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="text-muted">
+                                    <li>
+                                        Taleplerinizi işlemek ve kullanıcı deneyiminizi geliştirmek amacıyla gönüllü
+                                        olarak sağladığınız kişisel bilgileri topluyoruz.
+                                    </li>
+                                    <li>
+                                        Verilerinizi etik bir şekilde kullanmayı, yetkisiz erişimden korumayı ve veri
+                                        koruma ve gizlilik yasalarına tam uyum sağlamayı taahhüt ederiz.
+                                    </li>
+                                    <li>
+                                        Mevcut yasal hükümler uyarınca kişisel bilgilerinizi istediğiniz zaman
+                                        değiştirme, düzeltme veya silme hakkına sahipsiniz.
+                                    </li>
+                                    <li>
+                                        Verilerinizin gizliliğini ve bütünlüğünü sağlamak için gelişmiş güvenlik
+                                        önlemleri uyguluyoruz.
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-header">
+                                <h6 class="card-title">Kullanıcı Sorumluluğu</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted">
+                                    Kullanıcı platformu kullanırken aşağıdaki kurallara uymayı kabul eder:
+                                </p>
+                                <ol class="text-muted">
+                                    <li>Platformu yanlış kullanmayın veya etik kuralları ihlal edecek şekilde
+                                        kullanmayın.
+                                    </li>
+                                    <li>Yasa dışı, saldırgan veya ayrımcı içerikler yayınlamayın.</li>
+                                    <li>Güvenlik açıklarını kötüye kullanmaya veya mevcut koruma özelliklerini atlamaya
+                                        çalışmayın.
+                                    </li>
+                                </ol>
+                            </div>
+                            <div class="card-header">
+                                <h6 class="card-title">Fikri Mülkiyet</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted">
+                                    <b>2earn.cash</b> platformunun tüm ticari markaları, logoları, konseptleri ve
+                                    içerikleri fikri mülkiyet hakları ile korunmaktadır. Şirketin açık ön izni olmadan
+                                    kopyalanamaz, değiştirilemez veya kullanılamaz.
+                                </p>
+                            </div>
+                            <div class="card-header">
+                                <h6 class="card-title">Genel Şartların İhlali</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted">
+                                    Bu şartların ihlali durumunda <b>2earn.cash</b>, kullanıcının tüm hizmetlere veya
+                                    hizmetlerin bir kısmına erişimini askıya alma veya sınırlandırma hakkını saklı tutar
+                                    ve gerekli yasal işlemleri başlatabilir.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+                @if(app()->getLocale()=='es')
+                    <div class="row mt-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="card-title">Giriş</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted">
+                                    <b>2earn.cash</b> platformu, kullanıcıların faaliyetlerini ve bakiyelerini takip
+                                    etmelerine olanak tanıyan merkezi bir yönetim aracı olarak konumlanmıştır. Bu araç,
+                                    birbirine bağlı e-ticaret platformları ağına dayanır: <b>learn2earn.cash</b>, <b>move2earn.cash</b>,
+                                    <b>belegant2earn.cash</b>, <b>takecare2earn.cash</b>, shop2earn.cash, <b>eat2earn.cash</b>
+                                    ve <b>travel2earn.cash</b>. Bu platformlar kendi işlevleri içinde bağımsız olarak
+                                    çalışsa da ortak bir vizyonu paylaşırlar ve <b>2earn.cash</b> merkezi konsepti
+                                    altında birleştirilmişlerdir.
+                                </p>
+                                <p class="text-muted">
+                                    Bu <b>Genel Kullanım Şartları</b>, platformun tüm kullanıcılarına uygulanır; ister
+                                    düzenli kullanıcılar, ister hisse satın almış olan yatırımcılar, isterse <b>İş
+                                        Merkezi</b> aracılığıyla fırsatları keşfeden iş ortakları olsun. Platforma
+                                    sadece erişim sağlamak, sayfalarını gezinmek veya özelliklerini kullanmakla
+                                    kullanıcı bu şartları koşulsuz olarak kabul etmiş olur.
+                                </p>
+                            </div>
+                            <div class="card-header">
+                                <h6 class="card-title">Kayıt Olma</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="text-muted">
+                                    <li>
+                                        Platformumuza kaydolurken, benzersiz bir kimlik olarak kullanılacak bir telefon
+                                        numarası sağlamanız istenecektir. Bilgilerinizin güvenliğini sağlamak için bir
+                                        <b>Tek Kullanımlık Şifre (OTP)</b> kodu SMS yoluyla gönderilecektir. Kayıt
+                                        işlemini doğrulamak için bu kodu girmeniz gerekmektedir.
+                                    </li>
+                                    <li>
+                                        Size SMS ile geçici bir şifre gönderilecektir; bu şifreyi daha sonra
+                                        değiştirerek hesabınıza güvenli bir şekilde erişim sağlayabilirsiniz.
+                                    </li>
+                                    <li>
+                                        Hesabınız tamamen kişisel olup, başka bir tarafla aktarılması veya paylaşılması
+                                        yasaktır. Bu kuralın ihlali, hesabınızın askıya alınması veya derhal silinmesi
+                                        ile sonuçlanacaktır.
+                                    </li>
+                                    <li>
+                                        E-posta adresi, şifre vb. bilgilerinizi, sunulan hizmetlerden tam olarak
+                                        yararlanabilmek için istediğiniz zaman güncelleyebilirsiniz. Ancak, adınız,
+                                        soyadınız ve doğum tarihiniz gibi bilgiler girildikten sonra değiştirilemez.
+                                    </li>
+                                    <li>
+                                        Hesabınızı kapatmak isterseniz, platformda sağlanan detayları kullanarak bizimle
+                                        iletişime geçebilirsiniz. Hesabınızın silinmesi, ilgili tüm bakiyelerin kalıcı
+                                        olarak kaybedilmesi ile sonuçlanacaktır.
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-header">
+                                <h6 class="card-title">Gizlilik ve Veri Koruma</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="text-muted">
+                                    <li>
+                                        Taleplerinizi işlemek ve kullanıcı deneyiminizi geliştirmek amacıyla gönüllü
+                                        olarak sağladığınız kişisel bilgileri topluyoruz.
+                                    </li>
+                                    <li>
+                                        Verilerinizi etik bir şekilde kullanmayı, yetkisiz erişimden korumayı ve veri
+                                        koruma ve gizlilik yasalarına tam uyum sağlamayı taahhüt ederiz.
+                                    </li>
+                                    <li>
+                                        Mevcut yasal hükümler uyarınca kişisel bilgilerinizi istediğiniz zaman
+                                        değiştirme, düzeltme veya silme hakkına sahipsiniz.
+                                    </li>
+                                    <li>
+                                        Verilerinizin gizliliğini ve bütünlüğünü sağlamak için gelişmiş güvenlik
+                                        önlemleri uyguluyoruz.
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-header">
+                                <h6 class="card-title">Kullanıcı Sorumluluğu</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted">
+                                    Kullanıcı platformu kullanırken aşağıdaki kurallara uymayı kabul eder:
+                                </p>
+                                <ol class="text-muted">
+                                    <li>Platformu yanlış kullanmayın veya etik kuralları ihlal edecek şekilde
+                                        kullanmayın.
+                                    </li>
+                                    <li>Yasa dışı, saldırgan veya ayrımcı içerikler yayınlamayın.</li>
+                                    <li>Güvenlik açıklarını kötüye kullanmaya veya mevcut koruma özelliklerini atlamaya
+                                        çalışmayın.
+                                    </li>
+                                </ol>
+                            </div>
+                            <div class="card-header">
+                                <h6 class="card-title">Fikri Mülkiyet</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted">
+                                    <b>2earn.cash</b> platformunun tüm ticari markaları, logoları, konseptleri ve
+                                    içerikleri fikri mülkiyet hakları ile korunmaktadır. Şirketin açık ön izni olmadan
+                                    kopyalanamaz, değiştirilemez veya kullanılamaz.
+                                </p>
+                            </div>
+                            <div class="card-header">
+                                <h6 class="card-title">Genel Şartların İhlali</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted">
+                                    Bu şartların ihlali durumunda <b>2earn.cash</b>, kullanıcının tüm hizmetlere veya
+                                    hizmetlerin bir kısmına erişimini askıya alma veya sınırlandırma hakkını saklı tutar
+                                    ve gerekli yasal işlemleri başlatabilir.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+                @if(app()->getLocale()=='de')
+                    <div class="row mt-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="card-title">Giriş</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted">
+                                    <b>2earn.cash</b> platformu, kullanıcıların faaliyetlerini ve bakiyelerini takip
+                                    etmelerine olanak tanıyan merkezi bir yönetim aracı olarak konumlanmıştır. Bu araç,
+                                    birbirine bağlı e-ticaret platformları ağına dayanır: <b>learn2earn.cash</b>, <b>move2earn.cash</b>,
+                                    <b>belegant2earn.cash</b>, <b>takecare2earn.cash</b>, shop2earn.cash, <b>eat2earn.cash</b>
+                                    ve <b>travel2earn.cash</b>. Bu platformlar kendi işlevleri içinde bağımsız olarak
+                                    çalışsa da ortak bir vizyonu paylaşırlar ve <b>2earn.cash</b> merkezi konsepti
+                                    altında birleştirilmişlerdir.
+                                </p>
+                                <p class="text-muted">
+                                    Bu <b>Genel Kullanım Şartları</b>, platformun tüm kullanıcılarına uygulanır; ister
+                                    düzenli kullanıcılar, ister hisse satın almış olan yatırımcılar, isterse <b>İş
+                                        Merkezi</b> aracılığıyla fırsatları keşfeden iş ortakları olsun. Platforma
+                                    sadece erişim sağlamak, sayfalarını gezinmek veya özelliklerini kullanmakla
+                                    kullanıcı bu şartları koşulsuz olarak kabul etmiş olur.
+                                </p>
+                            </div>
+                            <div class="card-header">
+                                <h6 class="card-title">Kayıt Olma</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="text-muted">
+                                    <li>
+                                        Platformumuza kaydolurken, benzersiz bir kimlik olarak kullanılacak bir telefon
+                                        numarası sağlamanız istenecektir. Bilgilerinizin güvenliğini sağlamak için bir
+                                        <b>Tek Kullanımlık Şifre (OTP)</b> kodu SMS yoluyla gönderilecektir. Kayıt
+                                        işlemini doğrulamak için bu kodu girmeniz gerekmektedir.
+                                    </li>
+                                    <li>
+                                        Size SMS ile geçici bir şifre gönderilecektir; bu şifreyi daha sonra
+                                        değiştirerek hesabınıza güvenli bir şekilde erişim sağlayabilirsiniz.
+                                    </li>
+                                    <li>
+                                        Hesabınız tamamen kişisel olup, başka bir tarafla aktarılması veya paylaşılması
+                                        yasaktır. Bu kuralın ihlali, hesabınızın askıya alınması veya derhal silinmesi
+                                        ile sonuçlanacaktır.
+                                    </li>
+                                    <li>
+                                        E-posta adresi, şifre vb. bilgilerinizi, sunulan hizmetlerden tam olarak
+                                        yararlanabilmek için istediğiniz zaman güncelleyebilirsiniz. Ancak, adınız,
+                                        soyadınız ve doğum tarihiniz gibi bilgiler girildikten sonra değiştirilemez.
+                                    </li>
+                                    <li>
+                                        Hesabınızı kapatmak isterseniz, platformda sağlanan detayları kullanarak bizimle
+                                        iletişime geçebilirsiniz. Hesabınızın silinmesi, ilgili tüm bakiyelerin kalıcı
+                                        olarak kaybedilmesi ile sonuçlanacaktır.
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-header">
+                                <h6 class="card-title">Gizlilik ve Veri Koruma</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="text-muted">
+                                    <li>
+                                        Taleplerinizi işlemek ve kullanıcı deneyiminizi geliştirmek amacıyla gönüllü
+                                        olarak sağladığınız kişisel bilgileri topluyoruz.
+                                    </li>
+                                    <li>
+                                        Verilerinizi etik bir şekilde kullanmayı, yetkisiz erişimden korumayı ve veri
+                                        koruma ve gizlilik yasalarına tam uyum sağlamayı taahhüt ederiz.
+                                    </li>
+                                    <li>
+                                        Mevcut yasal hükümler uyarınca kişisel bilgilerinizi istediğiniz zaman
+                                        değiştirme, düzeltme veya silme hakkına sahipsiniz.
+                                    </li>
+                                    <li>
+                                        Verilerinizin gizliliğini ve bütünlüğünü sağlamak için gelişmiş güvenlik
+                                        önlemleri uyguluyoruz.
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-header">
+                                <h6 class="card-title">Kullanıcı Sorumluluğu</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted">
+                                    Kullanıcı platformu kullanırken aşağıdaki kurallara uymayı kabul eder:
+                                </p>
+                                <ol class="text-muted">
+                                    <li>Platformu yanlış kullanmayın veya etik kuralları ihlal edecek şekilde
+                                        kullanmayın.
+                                    </li>
+                                    <li>Yasa dışı, saldırgan veya ayrımcı içerikler yayınlamayın.</li>
+                                    <li>Güvenlik açıklarını kötüye kullanmaya veya mevcut koruma özelliklerini atlamaya
+                                        çalışmayın.
+                                    </li>
+                                </ol>
+                            </div>
+                            <div class="card-header">
+                                <h6 class="card-title">Fikri Mülkiyet</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted">
+                                    <b>2earn.cash</b> platformunun tüm ticari markaları, logoları, konseptleri ve
+                                    içerikleri fikri mülkiyet hakları ile korunmaktadır. Şirketin açık ön izni olmadan
+                                    kopyalanamaz, değiştirilemez veya kullanılamaz.
+                                </p>
+                            </div>
+                            <div class="card-header">
+                                <h6 class="card-title">Genel Şartların İhlali</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted">
+                                    Bu şartların ihlali durumunda <b>2earn.cash</b>, kullanıcının tüm hizmetlere veya
+                                    hizmetlerin bir kısmına erişimini askıya alma veya sınırlandırma hakkını saklı tutar
+                                    ve gerekli yasal işlemleri başlatabilir.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+                @if(app()->getLocale()=='ru')
+                    <div class="row mt-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="card-title">Введение</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted">
+                                    Платформа <b>2earn.cash</b> позиционируется как централизованный инструмент
+                                    управления, позволяющий пользователям отслеживать деятельность и балансы, опираясь
+                                    на сеть взаимосвязанных платформ электронной коммерции: <b>learn2earn.cash</b>, <b>move2earn.cash</b>,
+                                    <b>belegant2earn.cash</b>, <b>takecare2earn.cash</b>, shop2earn.cash, <b>eat2earn.cash</b>
+                                    и <b>travel2earn.cash</b>. Хотя эти платформы работают автономно в рамках своих
+                                    функций, они разделяют общую цель и объединены под центральной концепцией <b>2earn.cash</b>.
+                                </p>
+                                <p class="text-muted">
+                                    Настоящие <b>Общие условия использования</b> применяются ко всем пользователям
+                                    платформы, независимо от того, являются ли они постоянными пользователями,
+                                    инвесторами, купившими акции, или деловыми партнерами, исследующими возможности
+                                    через наш <b>Бизнес Центр</b>. Простое использование платформы, просмотр её страниц
+                                    или использование её функций является безусловным принятием этих условий
+                                    пользователем.
+                                </p>
+                            </div>
+                            <div class="card-header">
+                                <h6 class="card-title">Регистрация</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="text-muted">
+                                    <li>
+                                        При регистрации на нашей платформе вам будет предложено указать номер телефона,
+                                        который будет использоваться как уникальный идентификатор. Для обеспечения
+                                        безопасности вашей информации будет отправлен код <b>Одноразового пароля
+                                            (OTP)</b> через SMS. Вы должны ввести этот код для подтверждения процесса
+                                        регистрации.
+                                    </li>
+                                    <li>
+                                        Вам также будет отправлен временный пароль через SMS, который вы сможете
+                                        изменить позже для обеспечения безопасного доступа к своему аккаунту.
+                                    </li>
+                                    <li>
+                                        Ваш аккаунт строго личный и не может быть передан или разделён с третьими
+                                        лицами. Любое нарушение этого правила приведёт к приостановке или немедленному
+                                        удалению вашего аккаунта.
+                                    </li>
+                                    <li>
+                                        Вы можете обновить часть вашей информации (например, адрес электронной почты,
+                                        пароль и т.д.) в любое время, чтобы в полной мере воспользоваться предлагаемыми
+                                        услугами. Однако такие данные, как ваше имя, фамилия и дата рождения, не могут
+                                        быть изменены после ввода.
+                                    </li>
+                                    <li>
+                                        Если вы хотите закрыть свой аккаунт, просто свяжитесь с нами, используя
+                                        предоставленные на платформе контактные данные. Удаление вашего аккаунта
+                                        приведёт к окончательной потере всех связанных с ним балансов.
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-header">
+                                <h6 class="card-title">Конфиденциальность и защита данных</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="text-muted">
+                                    <li>
+                                        Мы собираем личную информацию, которую вы предоставляете добровольно, для
+                                        обработки ваших запросов и улучшения вашего пользовательского опыта.
+                                    </li>
+                                    <li>
+                                        Мы обязуемся использовать ваши данные этично, защищать их от
+                                        несанкционированного доступа и полностью соблюдать законы о защите данных и
+                                        конфиденциальности.
+                                    </li>
+                                    <li>
+                                        Вы имеете право изменять, исправлять или удалять свои личные данные в любое
+                                        время в соответствии с действующими правовыми положениями.
+                                    </li>
+                                    <li>
+                                        Мы внедряем передовые меры безопасности для обеспечения конфиденциальности и
+                                        целостности ваших данных.
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-header">
+                                <h6 class="card-title">Ответственность пользователя</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted">
+                                    Пользователь обязуется соблюдать следующие правила при использовании платформы:
+                                </p>
+                                <ol class="text-muted">
+                                    <li>Не злоупотреблять платформой и не использовать её в нарушении этических норм.
+                                    </li>
+                                    <li>Не публиковать контент, который является незаконным, оскорбительным или
+                                        дискриминационным.
+                                    </li>
+                                    <li>Не пытаться использовать уязвимости системы безопасности или обходить
+                                        существующие защитные функции.
+                                    </li>
+                                </ol>
+                            </div>
+                            <div class="card-header">
+                                <h6 class="card-title">Интеллектуальная собственность</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted">
+                                    Все торговые марки, логотипы, концепции и контент платформы <b>2earn.cash</b>
+                                    защищены правами интеллектуальной собственности. Они не могут быть воспроизведены,
+                                    изменены или использованы без предварительного согласия компании.
+                                </p>
+                            </div>
+                            <div class="card-header">
+                                <h6 class="card-title">Нарушение общих условий</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted">
+                                    В случае нарушения этих условий <b>2earn.cash</b> оставляет за собой право
+                                    приостановить или ограничить доступ пользователя ко всем или части услуг, а также
+                                    предпринять необходимые юридические действия.
                                 </p>
                             </div>
                         </div>
