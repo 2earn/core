@@ -1,8 +1,9 @@
-<div>
+<div class="container-fluid">
     <style>
         .custom-range::-webkit-slider-thumb {
             background: #f02602;
         }
+
         .custom-range::-webkit-slider-thumb:active {
             background-color: red;
         }
@@ -10,6 +11,7 @@
         .custom-range::-webkit-slider-thumb::-ms-fill {
             background-color: red;
         }
+
         .custom-range::-moz-range-thumb {
             background: #3595f6;
         }
@@ -19,7 +21,9 @@
         }
     </style>
     @component('components.breadcrumb')
-        @slot('title') {{ __('Manage my notifications') }} @endslot
+        @slot('title')
+            {{ __('Manage my notifications') }}
+        @endslot
     @endcomponent
     <div class="row">
         <div class="col-xl-6">
@@ -37,9 +41,12 @@
                         <h4 class="mb-3 m-0 fs-15">{{ __( 'Je souhaite recevoir un E-mail :' ) }}</h4>
                         @foreach($setting_notif->where('type','b')  as $key => $setting)
                             @if($setting->typeNotification=='m')
-                                <div class="form-check form-switch @if($setting->payer==0) toggle-checkboxFree @else toggle-checkboxPay @endif m-2 col-12   mb-3" dir="ltr" >
+                                <div
+                                    class="form-check form-switch @if($setting->payer==0) toggle-checkboxFree @else toggle-checkboxPay @endif m-2 col-12   mb-3"
+                                    dir="ltr">
                                     <input wire:model="setting_notif.{{$key}}.value" type="checkbox"
-                                           class="form-check-input @if($setting->payer==0) toggle-checkboxFree @else toggle-checkboxPay @endif"  id="flexSwitchCheckDefault" checked="">
+                                           class="form-check-input @if($setting->payer==0) toggle-checkboxFree @else toggle-checkboxPay @endif"
+                                           id="flexSwitchCheckDefault" checked="">
                                     <label class="form-check-label"
                                            for="customSwitchsizesm">{{ __( $setting->libelle ) }}  </label>
 
@@ -77,7 +84,8 @@
                                         <p class="{{$classPct}}">{{$setting->value}}%</p>
                                     </div>
                                     <div class="" style="margin: 0;padding: 0">
-                                        <input type="range" value="0" id='{{$idSlider}}'  wire:model="setting_notif.{{$key}}.value"
+                                        <input type="range" value="0" id='{{$idSlider}}'
+                                               wire:model="setting_notif.{{$key}}.value"
                                                name="discount_email_p">
                                     </div>
                                 </div>
@@ -89,10 +97,14 @@
                         <div class="live-preview mt-5 ">
 
                             <div class="d-flex justify-content-center gap-2">
-                                <div style="background-color: #009fe3" class="alert   alert-dismissible alert-solid alert-label-icon fade show" role="alert">
+                                <div style="background-color: #009fe3"
+                                     class="alert   alert-dismissible alert-solid alert-label-icon fade show"
+                                     role="alert">
                                     <i class="ri-notification-off-line label-icon"></i><strong>{{__('Gratuit')}}</strong>
                                 </div>
-                                <div style="background-color: #bc34b6" class="alert alert-danger material-shadow alert-dismissible alert-solid alert-label-icon fade show" role="alert">
+                                <div style="background-color: #bc34b6"
+                                     class="alert alert-danger material-shadow alert-dismissible alert-solid alert-label-icon fade show"
+                                     role="alert">
                                     <i class="ri-notification-off-line label-icon"></i><strong>{{__('Payant')}}</strong>
                                 </div>
 
@@ -114,20 +126,24 @@
                              width="30" height="30" alt="">
                     </div>
                 </div>
-                 <div class="card-body">
+                <div class="card-body">
                     <div class="row">
                         <h4 class="mb-3 fs-15">{{ __( 'I would like to receive an SMS' ) }}</h4>
-                            @foreach($setting_notif->where('type','b')  as $key => $setting)
+                        @foreach($setting_notif->where('type','b')  as $key => $setting)
 
-                                @if($setting->typeNotification=='s')
-                                    <div class="form-check form-switch @if($setting->payer==0) toggle-checkboxFree @else toggle-checkboxPay @endif  m-2 mb-3" dir="ltr" >
-                                        <input wire:model="setting_notif.{{$key}}.value" type="checkbox"
-                                               class="form-check-input @if($setting->payer==0) toggle-checkboxFree @else toggle-checkboxPay @endif"   id="flexSwitchCheckDefault" checked="">
-                                        <label class="form-check-label" for="customSwitchsizesm">{{ __( $setting->libelle ) }}  </label>
+                            @if($setting->typeNotification=='s')
+                                <div
+                                    class="form-check form-switch @if($setting->payer==0) toggle-checkboxFree @else toggle-checkboxPay @endif  m-2 mb-3"
+                                    dir="ltr">
+                                    <input wire:model="setting_notif.{{$key}}.value" type="checkbox"
+                                           class="form-check-input @if($setting->payer==0) toggle-checkboxFree @else toggle-checkboxPay @endif"
+                                           id="flexSwitchCheckDefault" checked="">
+                                    <label class="form-check-label"
+                                           for="customSwitchsizesm">{{ __( $setting->libelle ) }}  </label>
 
-                                    </div>
-                                @endif
-                            @endforeach
+                                </div>
+                            @endif
+                        @endforeach
                     </div>
                     <div class="d-flex flex-row" style="margin-top: 30px;gap: 10px;">
                         <div><label for="">{{__('accepts to receive')}}</label></div>
@@ -144,8 +160,9 @@
             </div>
             <div class="card">
                 <div class="card-body">
-                    <div class="d-grid gap-2" >
-                        <button class="btn btn-primary d-inline-block btn2earn" type="button" wire:click="save">{{__('validate')}}</button>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary d-inline-block btn2earn" type="button"
+                                wire:click="save">{{__('validate')}}</button>
                     </div>
                 </div>
             </div>

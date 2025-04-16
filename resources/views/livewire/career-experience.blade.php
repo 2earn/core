@@ -1,4 +1,4 @@
-<div>
+<div class="container-fluid">
     @section('title')
         {{ __('Career Experience') }}
     @endsection
@@ -11,7 +11,7 @@
 
     <div class="card">
         <div class="card-body">
-            @livewire('page-timer', ['deadline' =>  'career_experience_cs'])
+            @livewire('page-timer', ['deadline' => 'career_experience_cs'])
         </div>
     </div>
 

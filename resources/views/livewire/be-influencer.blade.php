@@ -1,4 +1,4 @@
-<div>
+<div class="container-fluid">
     @section('title')
         {{ __('Be influencer') }}
     @endsection
