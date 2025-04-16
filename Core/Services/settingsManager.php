@@ -271,15 +271,15 @@ class settingsManager
 
     public function createUserContactNumber(User $user, $iso)
     {
-            UserContactNumber::Create([
-                'idUser' => $user->idUser,
-                'mobile' => $user->mobile,
-                'codeP' => $user->idCountry,
-                'active' => 1,
-                'isoP' => strtolower($iso),
-                'isID' => true,
-                'fullNumber' => $user->fullphone_number,
-            ]);
+        UserContactNumber::Create([
+            'idUser' => $user->idUser,
+            'mobile' => $user->mobile,
+            'codeP' => $user->idCountry,
+            'active' => 1,
+            'isoP' => strtolower($iso),
+            'isID' => true,
+            'fullNumber' => $user->fullphone_number,
+        ]);
     }
 
     public function updateUserContactNumber(User $user, $iso)
@@ -482,7 +482,7 @@ class settingsManager
                                     $result = $this->notifyHelper->notifyuser(TypeNotificationEnum::SMS, OperateurSmsEnum::Tunisie, $typeEventNotification, $param);
                                     break;
                                 default:
-                                    $result = $this->notifyHelper->notifyuser( TypeNotificationEnum::SMS, OperateurSmsEnum::international, $typeEventNotification, $param);
+                                    $result = $this->notifyHelper->notifyuser(TypeNotificationEnum::SMS, OperateurSmsEnum::international, $typeEventNotification, $param);
                                     break;
                             }
                             if ($notifSetting && $notifSetting->payer) {
@@ -828,9 +828,9 @@ class settingsManager
         return $this->userRepository->initNewUser();
     }
 
-    public function createNewUser($mobile, $fullphone_number, $id_phone, $idUplineRegister)
+    public function createNewUser($mobile, $fullphone_number, $id_phone, $idUplineRegister, $status)
     {
-        $user = $this->userRepository->createNewUser($mobile, $fullphone_number, $id_phone, $idUplineRegister);
+        $user = $this->userRepository->createNewUser($mobile, $fullphone_number, $id_phone, $idUplineRegister, $status ?? StatusRequest::ContactRegistred->value);
         $this->createMettaUser($user);
         $country = countrie::find($user->idCountry);
         $this->createUserContactNumber($user, $country->apha2);

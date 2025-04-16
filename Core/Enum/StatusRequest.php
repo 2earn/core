@@ -5,6 +5,7 @@ namespace Core\Enum;
 enum StatusRequest: int
 {
     case Registred = -2;
+    case ContactRegistred = -1;
     case OptValidated = 0;
     case InProgressNational = 1;
     case InProgressInternational = 5;

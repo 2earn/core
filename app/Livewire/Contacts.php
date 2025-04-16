@@ -6,6 +6,7 @@ use App\Models\ContactUser;
 use App\Models\User;
 use App\Services\Sponsorship\Sponsorship;
 use App\Services\Sponsorship\SponsorshipFacade;
+use Core\Enum\StatusRequest;
 use Core\Models\Setting;
 use Core\Services\settingsManager;
 use Core\Services\TransactionManager;
@@ -179,7 +180,7 @@ class Contacts extends Component
             $user = $settingsManager->getUserByFullNumber($fullNumber);
 
             if (!$user) {
-                $user = $settingsManager->createNewUser(str_replace(' ', '', $this->mobile), $fullNumber, $ccode, auth()->user()->idUser);
+                $user = $settingsManager->createNewUser(str_replace(' ', '', $this->mobile), $fullNumber, $ccode, auth()->user()->idUser, StatusRequest::ContactRegistred->value);
             }
             $contact_user = $settingsManager->createNewContactUser($settingsManager->getAuthUser()->idUser, $this->contactName, $user->idUser, $this->contactLastName, $phone, $fullNumber, $ccode);
             $this->dispatch('close-modal');
