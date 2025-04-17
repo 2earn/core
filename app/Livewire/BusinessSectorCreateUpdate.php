@@ -49,7 +49,7 @@ class BusinessSectorCreateUpdate extends Component
         return redirect()->route('business_sector_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Business sector operation cancelled'));
     }
 
-    public function update()
+    public function updateBU()
     {
         $this->validate();
 
@@ -89,7 +89,7 @@ class BusinessSectorCreateUpdate extends Component
 
     }
 
-    public function store()
+    public function storeBU()
     {
         $this->validate();
         $businessSectorData = ['name' => $this->name, 'description' => $this->description];
