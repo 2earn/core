@@ -1,4 +1,4 @@
-<div>
+<div class="container-fluid">
     @component('components.breadcrumb')
         @slot('title')
             @if($update)
@@ -55,9 +55,9 @@
 
                         <button wire:click.prevent="cancel()"
                                 class="btn btn-danger float-end  mx-2">{{__('Cancel')}}</button>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
+            </form>
+        </div>
     </div>
 </div>

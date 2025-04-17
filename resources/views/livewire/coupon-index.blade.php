@@ -1,5 +1,5 @@
 <div class="container-fluid">
-@section('title')
+    @section('title')
         {{ __('Coupon') }}
     @endsection
     @component('components.breadcrumb')
@@ -7,12 +7,13 @@
             {{ __('Coupon') }}
         @endslot
     @endcomponent
-        @include('layouts.flash-messages')
-        <div class="card">
+    @include('layouts.flash-messages')
+    <div class="card">
         <div class="card-header border-info">
             <div class="row">
                 <div class="col-sm-12 col-md-12  col-lg-12">
-                    <button id="deleteAll" class="btn btn-soft-danger material-shadow-none mt-1">{{__('Delete All')}}</button>
+                    <button id="deleteAll"
+                            class="btn btn-soft-danger material-shadow-none mt-1">{{__('Delete All')}}</button>
                     <a href="{{route('coupon_create',['locale'=>app()->getLocale()])}}"
                        class="btn btn-soft-info material-shadow-none mt-1 float-end"
                        id="create-btn">

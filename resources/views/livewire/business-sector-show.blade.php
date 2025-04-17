@@ -1,4 +1,4 @@
-<div>
+<div class="container-fluid">
     @section('title')
         {{ __('Busines Sector') }} :     {{$businessSector->name}}
     @endsection
@@ -26,8 +26,8 @@
 
                 <div class="col-sm-12 col-md-3 col-md-2">
                     @if ($businessSector?->logoImage)
-                                <img src="{{ asset('uploads/' . $businessSector->logoImage->url) }}"
-                                     alt="Business Sector logoImage" class="avatar-xl">
+                        <img src="{{ asset('uploads/' . $businessSector->logoImage->url) }}"
+                             alt="Business Sector logoImage" class="avatar-xl">
                     @else
                         <img src="{{Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_LOGO)}}"
                              class="avatar-xl">

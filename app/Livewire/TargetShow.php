@@ -9,6 +9,7 @@ use App\Services\Targeting\Targeting;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
+use Illuminate\Support\Str;
 
 class TargetShow extends Component
 {
@@ -53,7 +54,7 @@ class TargetShow extends Component
     {
         $params['target'] = Target::FindOrFail($this->idTarget);
         $userQuery = Targeting::getTargetQuery($params['target'], false);
-        $params['sql'] = str_replace_array('?', $this->getNewBindings($userQuery->getBindings()), $userQuery->toSql());
+        $params['sql'] = Str::replaceArray('?', $this->getNewBindings($userQuery->getBindings()), $userQuery->toSql());
 
         return view('livewire.target-show', $params)->extends('layouts.master')->section('content');
     }

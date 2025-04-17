@@ -1,5 +1,5 @@
-<div>
-    @section('title')
+<div class="container-fluid">
+@section('title')
         {{ __('Shares Sold :  Dashboard') }}
     @endsection
     @component('components.breadcrumb')
