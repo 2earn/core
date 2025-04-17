@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\BusinessSector;
+use App\Models\TranslaleModel;
 use Core\Enum\PlatformType;
 use Core\Models\Platform;
 use Illuminate\Database\Seeder;
@@ -16,31 +17,31 @@ class BusinessSectorSeeder extends Seeder
         $BusinessSectors = [
             [
                 'name' => "2earn BS",
-                'description' => generateRandomText(500),
+                'description' => "2earn BS",
             ],
             [
                 'name' => "learn2earn BS",
-                'description' => generateRandomText(500),
+                'description' => "learn2earn BS",
             ],
             [
                 'name' => "move2earn BS",
-                'description' => generateRandomText(500),
+                'description' => "move2earn BS",
             ],
             [
                 'name' => "travel2earn BS",
-                'description' => generateRandomText(500),
+                'description' => "travel2earn BS",
             ],
             [
                 'name' => "shop2earn BS",
-                'description' => generateRandomText(500),
+                'description' => "shop2earn BS",
             ],
             [
                 'name' => "beelegant2earn BS",
-                'description' => generateRandomText(500),
+                'description' => "beelegant2earn BS",
             ],
             [
                 'name' => "Speakenglish2earn BS",
-                'description' => generateRandomText(500),
+                'description' => "Speakenglish2earn BS",
             ],
         ];
 
@@ -49,7 +50,22 @@ class BusinessSectorSeeder extends Seeder
         }
 
         foreach ($BusinessSectors as $sector) {
-            BusinessSector::create($sector);
+            $businessSectorCreated = BusinessSector::create($sector);
+
+            $translations = ['name', 'description'];
+            foreach ($translations as $translation) {
+                TranslaleModel::create(
+                    [
+                        'name' => TranslaleModel::getTranslateName($businessSectorCreated, $translation),
+                        'value' => $businessSectorCreated->{$translation} . ' AR',
+                        'valueFr' => $businessSectorCreated->{$translation} . ' FR',
+                        'valueEn' => $businessSectorCreated->{$translation} . ' EN',
+                        'valueEs' => $businessSectorCreated->{$translation} . ' ES',
+                        'valueTr' => $businessSectorCreated->{$translation} . ' TR',
+                        'valueRu' => $businessSectorCreated->{$translation} . ' Ru',
+                        'valueDe' => $businessSectorCreated->{$translation} . ' De',
+                    ]);
+            }
         }
     }
 }

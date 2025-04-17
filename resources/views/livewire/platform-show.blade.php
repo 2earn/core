@@ -21,13 +21,27 @@
 
             </div>
             <h4 title="{{$platform->id}}" class="card-title">
-                {{$platform->name}}
+                {{\App\Models\TranslaleModel::getTranslation($platform,'name',$platform->name)}}
+                @if(\App\Models\User::isSuperAdmin())
+                    <small class="mx-2">
+                        <a class="link-info"
+                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($platform,'name')])}}">{{__('See or update Translation')}}</a>
+                    </small>
+                @endif
             </h4>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-10">
-                    <p class="card-text text-muted">{{$platform->description}}</p>
+                    <p class="card-text text-muted">
+                        {{\App\Models\TranslaleModel::getTranslation($platform,'description',$platform->name)}}
+                        @if(\App\Models\User::isSuperAdmin())
+                            <small class="mx-2">
+                                <a class="link-info"
+                                   href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($platform,'description')])}}">{{__('See or update Translation')}}</a>
+                            </small>
+                        @endif
+                    </p>
                 </div>
                 <div class="col-2">
                     <div class="float-end">

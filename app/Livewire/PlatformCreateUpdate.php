@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\BusinessSector;
+use App\Models\TranslaleModel;
 use Core\Enum\PlatformType;
 use Core\Models\Platform;
 use Illuminate\Http\Request;
@@ -135,6 +136,21 @@ class PlatformCreateUpdate extends Component
                     'type' => Platform::IMAGE_TYPE_LOGO,
                 ]);
             }
+            $translations = ['name', 'description'];
+            foreach ($translations as $translation) {
+                TranslaleModel::create(
+                    [
+                        'name' => TranslaleModel::getTranslateName($platform, $translation),
+                        'value' => $this->{$translation} . ' AR',
+                        'valueFr' => $this->{$translation} . ' FR',
+                        'valueEn' => $this->{$translation} . ' EN',
+                        'valueEs' => $this->{$translation} . ' ES',
+                        'valueTr' => $this->{$translation} . ' TR',
+                        'valueRu' => $this->{$translation} . ' Ru',
+                        'valueDe' => $this->{$translation} . ' De',
+                    ]);
+            }
+
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('platform_create_update', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while creating Platform!!') . ' ' . $exception->getMessage());

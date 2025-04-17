@@ -20,7 +20,13 @@
                 @if(\App\Models\User::isSuperAdmin())
                     {{$businessSector->id}} -
                 @endif
-                {{$businessSector->name}}
+                    {{\App\Models\TranslaleModel::getTranslation($businessSector,'name',$businessSector->name)}}
+                    @if(\App\Models\User::isSuperAdmin())
+                        <small class="mx-2">
+                            <a class="link-info"
+                               href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($businessSector,'name')])}}">{{__('See or update Translation')}}</a>
+                        </small>
+                    @endif
             </h2>
             <div class="card-body row my-2">
 
@@ -36,7 +42,13 @@
                 <div class="col-sm-12 col-md-9 col-md-9">
                     <h5>{{__('Description')}}</h5>
                     <blockquote class="text-muted">
-                        {{$businessSector->description}}
+                        {{\App\Models\TranslaleModel::getTranslation($businessSector,'description',$businessSector->description)}}
+                        @if(\App\Models\User::isSuperAdmin())
+                            <small class="mx-2">
+                                <a class="link-info"
+                                   href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($businessSector,'description')])}}">{{__('See or update Translation')}}</a>
+                            </small>
+                        @endif
                     </blockquote>
                 </div>
             </div>
@@ -86,11 +98,25 @@
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-header">
-                                        <h3 class="card-title mb-0">{{$platform->name}}</h3>
+                                        <h3 class="card-title mb-0">
+                                            {{\App\Models\TranslaleModel::getTranslation($platform,'name',$platform->name)}}
+                                            @if(\App\Models\User::isSuperAdmin())
+                                                <small class="mx-2">
+                                                    <a class="link-info"
+                                                       href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($platform,'name')])}}">{{__('See or update Translation')}}</a>
+                                                </small>
+                                            @endif
+                                        </h3>
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text mb-2">
-                                            {{$platform->description}}
+                                            {{\App\Models\TranslaleModel::getTranslation($platform,'description',$platform->description)}}
+                                            @if(\App\Models\User::isSuperAdmin())
+                                                <small class="mx-2">
+                                                    <a class="link-info"
+                                                       href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($platform,'description')])}}">{{__('See or update Translation')}}</a>
+                                                </small>
+                                            @endif
                                         </p>
                                         <div class="text-end">
                                             <a href="{{route('coupon_buy',['locale'=>app()->getLocale(),'id'=>$platform->id])}}"

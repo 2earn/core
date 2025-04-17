@@ -98,7 +98,11 @@ class Survey extends Model
                     'name' => TranslaleModel::getTranslateName(Survey::find($id), 'disabledBtnDescription'),
                     'value' => $note . ' AR',
                     'valueFr' => $note . ' FR',
-                    'valueEn' => $note . ' EN'
+                    'valueEn' => $note . ' EN',
+                    'valueEs' => $note . ' ES',
+                    'valueTr' => $note . ' TR',
+                    'valueRu' => $note . ' RU',
+                    'valueDe' => $note . ' DE'
                 ]);
         }
 

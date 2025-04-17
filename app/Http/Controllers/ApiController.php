@@ -1271,6 +1271,9 @@ class ApiController extends BaseController
             ->addColumn('created_at', function ($platform) {
                 return $platform->created_at?->format(self::DATE_FORMAT);
             })
+            ->editColumn('name', function ($platform) {
+                return view('parts.datatable.platform-name', ['platform' => $platform]);
+            })
             ->addColumn('business_sector_id', function ($platform) {
                 $businessSector = BusinessSector::find($platform->business_sector_id);
                 return view('parts.datatable.platform-bussines-sector', ['businessSector' => $businessSector]);

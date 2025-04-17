@@ -1,5 +1,5 @@
 <div class="container-fluid">
-@section('title')
+    @section('title')
         {{ __('Bussiness sector') }}
     @endsection
     @component('components.breadcrumb')
@@ -45,7 +45,14 @@
                         <div class="card border card-border-light">
                             <div class="card-header">
                                 <h3 class="card-title mb-1">
-                                    {{$business_sector->id}} - {{$business_sector->name}}
+                                    {{$business_sector->id}} -
+                                    {{\App\Models\TranslaleModel::getTranslation($business_sector,'name',$business_sector->name)}}
+                                    @if(\App\Models\User::isSuperAdmin())
+                                        <small class="mx-2">
+                                            <a class="link-info"
+                                               href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($business_sector,'name')])}}">{{__('See or update Translation')}}</a>
+                                        </small>
+                                    @endif
                                 </h3>
                             </div>
                             <div class="card-body row my-2">
@@ -54,7 +61,13 @@
                                         {{__('Description')}}
                                     </h4>
                                     <blockquote class="blockquote card-text">
-                                        {{ $business_sector->description}}
+                                        {{\App\Models\TranslaleModel::getTranslation($business_sector,'description',$business_sector->name)}}
+                                        @if(\App\Models\User::isSuperAdmin())
+                                            <small class="mx-2">
+                                                <a class="link-info"
+                                                   href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($business_sector,'description')])}}">{{__('See or update Translation')}}</a>
+                                            </small>
+                                        @endif
                                     </blockquote>
                                 </div>
                                 <div class="col-md-3">

@@ -84,7 +84,9 @@ class FaqCreateUpdate extends Component
                         'valueFr' => $this->{$translation} . ' FR',
                         'valueEn' => $this->{$translation} . ' EN',
                         'valueTr' => $this->{$translation} . ' TR',
-                        'valueEs' => $this->{$translation} . ' ES'
+                        'valueEs' => $this->{$translation} . ' ES',
+                        'valueRu' => $this->{$translation} . ' Ru',
+                        'valueDe' => $this->{$translation} . ' De',
                     ]);
             }
 
