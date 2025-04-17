@@ -97,20 +97,41 @@ export default defineConfig({
                 {
                     src: 'resources/js/utils.js',
                     dest: 'utils.js'
-                }, {
+                },
+                {
                     src: 'resources/icons/wired-gradient-751-share.json',
                     dest: 'icons'
-                }, {
+                },
+                {
                     src: 'resources/icons/146-basket-trolley-shopping-card-gradient-edited.json',
                     dest: 'icons'
-                }, {
+                },
+                {
                     src: 'resources/icons/981-consultation-gradient-edited.json',
                     dest: 'icons'
-                }, {
+                },
+                {
                     src: 'resources/icons/501-free-0-morph-gradient-edited.json',
                     dest: 'icons'
-                }, {
+                },
+                {
                     src: 'resources/icons/298-coins-gradient-edited.json',
+                    dest: 'icons'
+                },
+                {
+                    src: 'resources/icons/qrbokoyz.json',
+                    dest: 'icons'
+                },
+                {
+                    src: 'resources/icons/nlmjynuq.json',
+                    dest: 'icons'
+                },
+                {
+                    src: 'resources/icons/1855-palmtree.json',
+                    dest: 'icons'
+                },
+                {
+                    src: 'resources/icons/1471-dice-cube.json',
                     dest: 'icons'
                 }
             ]
