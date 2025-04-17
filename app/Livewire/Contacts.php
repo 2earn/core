@@ -262,9 +262,7 @@ class Contacts extends Component
                     ->orWhere('contact_users.mobile', 'like', '%' . $this->search . '%');
             });
         }
-        $contactUserQuery = $contactUserQuery->select('contact_users.id', 'contact_users.name', 'contact_users.lastName', 'contact_users.idUser', 'contact_users.idContact', 'contact_users.updated_at', 'u.reserved_by', 'u.mobile', 'u.availablity', 'c.apha2', 'u.idUpline', 'u.reserved_at',
-            DB::raw("CASE WHEN u.status = -2 THEN 'warning' ELSE 'success' END AS color"),
-            DB::raw("CASE WHEN u.status = -2 THEN 'Pending' ELSE 'User' END AS status"))
+        $contactUserQuery = $contactUserQuery->select('contact_users.id', 'contact_users.name', 'contact_users.lastName', 'contact_users.idUser', 'contact_users.idContact', 'contact_users.updated_at', 'u.reserved_by','u.status', 'u.mobile', 'u.availablity', 'c.apha2', 'u.idUpline', 'u.reserved_at',)
             ->orderBy('contact_users.updated_at', 'DESC');
         $contactUsers = $contactUserQuery->paginate($this->pageCount);
         $params = [

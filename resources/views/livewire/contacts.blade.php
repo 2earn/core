@@ -56,7 +56,7 @@
                                 <th>{{ __('LastName') }}</th>
                                 <th>{{ __('Phone') }}</th>
                                 <th>{{__('Country')}}</th>
-                                <th>{{__('Registered')}}</th>
+                                <th>{{__('Status')}}</th>
                                 <th>{{__('Availability')}}</th>
                                 <th>{{ __('Actions') }}</th>
                             </tr>
@@ -78,14 +78,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <button type="button"
-                                                class="btn btn-outline-{{$value->color}}">
-                                            @if($value->status == 'User')
-                                                {{ __('User contact') }}
-                                            @else
-                                                {{ __('Pending contact') }}
-                                            @endif
-                                        </button>
+                                        <span class="text-info btn btn-soft-primary">{{__(\Core\Enum\StatusRequest::tryFrom($value->status)->name)}}</span>
                                     </td>
                                     @php
                                         $disableUntil = getSwitchBlock($value->id);
