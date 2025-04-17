@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\TranslaleModel;
 use Core\Enum\PlatformType;
 use Core\Models\Platform;
 use Illuminate\Database\Seeder;
@@ -17,7 +18,7 @@ class PlatformSeeder extends Seeder
         $Platforms = [
             [
                 'name' => "2earn P",
-                'description' => generateRandomText(500),
+                'description' => generateRandomText(150),
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Full->value,
@@ -26,7 +27,7 @@ class PlatformSeeder extends Seeder
             ],
             [
                 'name' => "learn2earn P",
-                'description' => generateRandomText(500),
+                'description' => generateRandomText(150),
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Hybrid->value,
@@ -35,7 +36,7 @@ class PlatformSeeder extends Seeder
             ],
             [
                 'name' => "move2earn P",
-                'description' => generateRandomText(500),
+                'description' => generateRandomText(150),
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Hybrid->value,
@@ -43,7 +44,7 @@ class PlatformSeeder extends Seeder
                 'business_sector_id' => 3
             ], [
                 'name' => "travel2earn P",
-                'description' => generateRandomText(500),
+                'description' => generateRandomText(150),
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Hybrid->value,
@@ -52,7 +53,7 @@ class PlatformSeeder extends Seeder
             ],
             [
                 'name' => "shop2earn P",
-                'description' => generateRandomText(500),
+                'description' => generateRandomText(150),
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Hybrid->value,
@@ -60,7 +61,7 @@ class PlatformSeeder extends Seeder
                 'business_sector_id' => 5
             ], [
                 'name' => "beelegant2earn P",
-                'description' => generateRandomText(500),
+                'description' => generateRandomText(150),
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Hybrid->value,
@@ -69,7 +70,7 @@ class PlatformSeeder extends Seeder
             ],
             [
                 'name' => "Speakenglish2earn P",
-                'description' => generateRandomText(500),
+                'description' => generateRandomText(150),
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Hybrid->value,
@@ -83,7 +84,22 @@ class PlatformSeeder extends Seeder
         }
 
         foreach ($Platforms as $Platform) {
-            Platform::create($Platform);
+            $platformCreated = Platform::create($Platform);
+
+            $translations = ['name', 'description'];
+            foreach ($translations as $translation) {
+                TranslaleModel::create(
+                    [
+                        'name' => TranslaleModel::getTranslateName($platformCreated, $translation),
+                        'value' => $platformCreated->{$translation} . ' AR',
+                        'valueFr' => $platformCreated->{$translation} . ' FR',
+                        'valueEn' => $platformCreated->{$translation} . ' EN',
+                        'valueEs' => $platformCreated->{$translation} . ' ES',
+                        'valueTr' => $platformCreated->{$translation} . ' TR',
+                        'valueRu' => $platformCreated->{$translation} . ' Ru',
+                        'valueDe' => $platformCreated->{$translation} . ' De',
+                    ]);
+            }
         }
 
     }

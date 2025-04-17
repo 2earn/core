@@ -95,6 +95,8 @@ class SurveyQuestionChoiceCreateUpdate extends Component
                     'valueEn' => $this->title . ' EN',
                     'valueEs' => $this->title . ' ES',
                     'valueTr' => $this->title . ' Tr',
+                    'valueRu' => $this->title . ' Ru',
+                    'valueDe' => $this->title . ' De',
                 ]);
 
         } catch (\Exception $exception) {

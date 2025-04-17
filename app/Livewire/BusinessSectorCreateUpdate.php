@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\BusinessSector;
 use App\Models\Image;
+use App\Models\TranslaleModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -109,6 +110,22 @@ class BusinessSectorCreateUpdate extends Component
                     'type' => BusinessSector::IMAGE_TYPE_LOGO,
                 ]);
             }
+
+            $translations = ['name', 'description'];
+            foreach ($translations as $translation) {
+                TranslaleModel::create(
+                    [
+                        'name' => TranslaleModel::getTranslateName($businessSector, $translation),
+                        'value' => $this->{$translation} . ' AR',
+                        'valueFr' => $this->{$translation} . ' FR',
+                        'valueEn' => $this->{$translation} . ' EN',
+                        'valueEs' => $this->{$translation} . ' ES',
+                        'valueTr' => $this->{$translation} . ' TR',
+                        'valueRu' => $this->{$translation} . ' Ru',
+                        'valueDe' => $this->{$translation} . ' De',
+                    ]);
+            }
+
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('business_sector_index', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while creating Business sector'));

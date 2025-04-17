@@ -140,7 +140,11 @@ class SurveyCreateUpdate extends Component
                         'name' => TranslaleModel::getTranslateName($survey, $translation),
                         'value' => $this->{$translation} . ' AR',
                         'valueFr' => $this->{$translation} . ' FR',
-                        'valueEn' => $this->{$translation} . ' EN'
+                        'valueEn' => $this->{$translation} . ' EN'  ,
+                        'valueEs' => $this->{$translation} . ' ES',
+                        'valueTr' => $this->{$translation} . ' TR',
+                        'valueRu' => $this->{$translation} . ' Ru',
+                        'valueDe' => $this->{$translation} . ' De',
                     ]);
             }
 
