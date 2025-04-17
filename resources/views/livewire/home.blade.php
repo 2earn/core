@@ -421,22 +421,24 @@
         <script type="module">
             $(document).ready(function () {
                     const input = document.querySelector("#phone");
-                    const iti = window.intlTelInput(input, {
-                        initialCountry: "auto",
-                        autoFormat: true,
-                        separateDialCode: true,
-                        useFullscreenPopup: false,
-                        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/utils.js"
-                    });
-                    $('[name="inlineRadioOptions"]').on('change', function () {
-                        if ($('#inlineRadio2').is(':checked')) {
-                            $('#contact-select').removeClass('d-none');
-                            $('#bfs-select').removeClass('d-none');
-                        } else {
-                            $('#contact-select').addClass('d-none');
-                            $('#bfs-select').addClass('d-none');
-                        }
-                    });
+                    if (input) {
+                        const iti = window.intlTelInput(input, {
+                            initialCountry: "auto",
+                            autoFormat: true,
+                            separateDialCode: true,
+                            useFullscreenPopup: false,
+                            utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/utils.js"
+                        });
+                        $('[name="inlineRadioOptions"]').on('change', function () {
+                            if ($('#inlineRadio2').is(':checked')) {
+                                $('#contact-select').removeClass('d-none');
+                                $('#bfs-select').removeClass('d-none');
+                            } else {
+                                $('#contact-select').addClass('d-none');
+                                $('#bfs-select').addClass('d-none');
+                            }
+                        });
+                    }
                 }
             );
 
