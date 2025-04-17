@@ -46,11 +46,11 @@
                             <div class="card-header">
                                 <h3 class="card-title mb-1">
                                     {{$business_sector->id}} -
-                                    {{\App\Models\TranslaleModel::getTranslation($businessSector,'name',$businessSector->name)}}
+                                    {{\App\Models\TranslaleModel::getTranslation($business_sector,'name',$business_sector->name)}}
                                     @if(\App\Models\User::isSuperAdmin())
                                         <small class="mx-2">
                                             <a class="link-info"
-                                               href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($businessSector,'name')])}}">{{__('See or update Translation')}}</a>
+                                               href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($business_sector,'name')])}}">{{__('See or update Translation')}}</a>
                                         </small>
                                     @endif
                                 </h3>
@@ -61,11 +61,11 @@
                                         {{__('Description')}}
                                     </h4>
                                     <blockquote class="blockquote card-text">
-                                        {{\App\Models\TranslaleModel::getTranslation($businessSector,'description',$businessSector->name)}}
+                                        {{\App\Models\TranslaleModel::getTranslation($business_sector,'description',$business_sector->name)}}
                                         @if(\App\Models\User::isSuperAdmin())
                                             <small class="mx-2">
                                                 <a class="link-info"
-                                                   href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($businessSector,'description')])}}">{{__('See or update Translation')}}</a>
+                                                   href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($business_sector,'description')])}}">{{__('See or update Translation')}}</a>
                                             </small>
                                         @endif
                                     </blockquote>
