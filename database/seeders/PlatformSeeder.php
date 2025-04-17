@@ -18,7 +18,7 @@ class PlatformSeeder extends Seeder
         $Platforms = [
             [
                 'name' => "2earn P",
-                'description' => generateRandomText(150),
+                'description' => "2earn P",
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Full->value,
@@ -27,7 +27,7 @@ class PlatformSeeder extends Seeder
             ],
             [
                 'name' => "learn2earn P",
-                'description' => generateRandomText(150),
+                'description' => "learn2earn P",
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Hybrid->value,
@@ -36,7 +36,7 @@ class PlatformSeeder extends Seeder
             ],
             [
                 'name' => "move2earn P",
-                'description' => generateRandomText(150),
+                'description' => "move2earn P",
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Hybrid->value,
@@ -44,7 +44,7 @@ class PlatformSeeder extends Seeder
                 'business_sector_id' => 3
             ], [
                 'name' => "travel2earn P",
-                'description' => generateRandomText(150),
+                'description' => "travel2earn P",
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Hybrid->value,
@@ -53,7 +53,7 @@ class PlatformSeeder extends Seeder
             ],
             [
                 'name' => "shop2earn P",
-                'description' => generateRandomText(150),
+                'description' => "shop2earn P",
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Hybrid->value,
@@ -61,7 +61,7 @@ class PlatformSeeder extends Seeder
                 'business_sector_id' => 5
             ], [
                 'name' => "beelegant2earn P",
-                'description' => generateRandomText(150),
+                'description' => "beelegant2earn P",
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Hybrid->value,
@@ -70,7 +70,7 @@ class PlatformSeeder extends Seeder
             ],
             [
                 'name' => "Speakenglish2earn P",
-                'description' => generateRandomText(150),
+                'description' => "Speakenglish2earn P",
                 'enabled' => true,
                 'image_link' => $imageLink,
                 'type' => PlatformType::Hybrid->value,

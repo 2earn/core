@@ -39,7 +39,6 @@ class TranslaleModel extends Model
     public static function getDataFromName($var)
     {
         return explode('-', $var);
-
     }
 
     public static function getClassNameFromName($var)
@@ -83,9 +82,7 @@ class TranslaleModel extends Model
                     return route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $surveyQuestion->survey_id]);
                 }
             }
-
         }
-
         return "#";
     }
 
