@@ -102,13 +102,11 @@
                                                     <label class="form-label"
                                                            for="password-input">{{ __('Password') }}</label>
                                                     <div class="position-relative auth-pass-inputgroup mb-3">
-                                                        <input type="password"
-                                                               class="form-control pe-5 @error('password') is-invalid @enderror"
-                                                               name="password" placeholder="{{ __('Password') }}"
-                                                               id="password-input">
+                                                        <input type="password" class="form-control pe-5 password-input"
+                                                               placeholder="{{ __('Password') }}" id="password-input">
                                                         <button
-                                                            class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
-                                                            type="button" id="togglePassword"><i
+                                                            class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon material-shadow-none"
+                                                            type="button" id="password-addon"><i
                                                                 class="ri-eye-fill align-middle"></i></button>
                                                         @error('password')
                                                         <span class="invalid-feedback" role="alert">
@@ -219,7 +217,7 @@
             function initIntlTelInput() {
                 $("#signin").prop("disabled", false);
                 var phone = itiLog.getNumber();
-                 document.createTextNode(phone);
+                document.createTextNode(phone);
                 phone = phone.replace('+', '00');
                 var countryData = itiLog.getSelectedCountryData();
                 phone = '00' + countryData.dialCode + phone;
