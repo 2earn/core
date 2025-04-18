@@ -65,6 +65,14 @@ class TranslaleModel extends Model
             return route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $id]);
         }
 
+        if ($class == 'Platform') {
+            return route('platform_show', ['locale' => app()->getLocale(), 'id' => $id]);
+        }
+
+        if ($class == 'BusinessSector') {
+            return route('business_sector_show', ['locale' => app()->getLocale(), 'id' => $id]);
+        }
+
         if ($class == 'SurveyQuestion') {
             $surveyQuestion = SurveyQuestion::find($id);
             if (!is_null($surveyQuestion)) {
