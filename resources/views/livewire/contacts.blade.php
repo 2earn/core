@@ -77,7 +77,7 @@
                                                class="currency_name"> {{getCountryByIso($value->apha2)}}</a>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td title="{{$value->status}}">
                                         @if($value->status<\Core\Enum\StatusRequest::InProgressNational)
                                         <span class="text-warning btn btn-soft-warning">{{__(\Core\Enum\StatusRequest::tryFrom($value->status)->name)}}</span>
                                         @else
