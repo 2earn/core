@@ -78,7 +78,11 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="text-info btn btn-soft-primary">{{__(\Core\Enum\StatusRequest::tryFrom($value->status)->name)}}</span>
+                                        @if($value->status<\Core\Enum\StatusRequest::InProgressNational)
+                                        <span class="text-warning btn btn-soft-warning">{{__(\Core\Enum\StatusRequest::tryFrom($value->status)->name)}}</span>
+                                        @else
+                                            <span class="text-info btn btn-soft-primary">{{__(\Core\Enum\StatusRequest::OptValidated->name)}}</span>
+                                        @endif
                                     </td>
                                     @php
                                         $disableUntil = getSwitchBlock($value->id);
