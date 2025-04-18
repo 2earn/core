@@ -39,12 +39,12 @@
                             <div class="card-header">
                                 <h5 class="card-title mb-1">
                                     {{$news->id}}
-                                    - {{\App\Models\TranslaleModel::getTranslation($news,'title',$news->question)}}
+                                    - {{\App\Models\TranslaleModel::getTranslation($news,'title',$news->title)}}
                                 </h5>
                                 @if(\App\Models\User::isSuperAdmin())
                                     <p class="mx-2 float-end">
                                         <a class="link-info"
-                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($news,'question')])}}">{{__('See or update Translation')}}</a>
+                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($news,'title')])}}">{{__('See or update Translation')}}</a>
                                     </p>
                                 @endif
 
@@ -60,8 +60,15 @@
                                     <div class="col-md-8">
                                         <blockquote class="blockquote">
                                             <p class="card-text">
-                                                {{\App\Models\TranslaleModel::getTranslation($news,'content',$news->answer)}}
+                                                {{\App\Models\TranslaleModel::getTranslation($news,'content',$news->content)}}
                                             </p>
+
+                                            @if(\App\Models\User::isSuperAdmin())
+                                                <p class="mx-2 float-end">
+                                                    <a class="link-info"
+                                                       href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($news,'content')])}}">{{__('See or update Translation')}}</a>
+                                                </p>
+                                            @endif
                                         </blockquote>
                                     </div>
                                     @if ($news->mainImage)

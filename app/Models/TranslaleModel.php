@@ -61,6 +61,14 @@ class TranslaleModel extends Model
         $class = self::getClassNameFromName($var);
         $id = self::getIdFromName($var);
 
+        if ($class == 'Faq') {
+            return route('faq_index', ['locale' => app()->getLocale()]);
+        }
+
+        if ($class == 'News') {
+            return route('news_index', ['locale' => app()->getLocale()]);
+        }
+
         if ($class == 'Survey') {
             return route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $id]);
         }
