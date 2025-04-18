@@ -83,6 +83,7 @@ export default defineConfig({
                 'resources/js/pages/form-validation.init.js',
                 'resources/js/pages/crypto-kyc.init.js',
                 'resources/js/surveys.js',
+                'resources/js/pages/passowrd-create.init.js',
             ],
             refresh: true,
             server: {
