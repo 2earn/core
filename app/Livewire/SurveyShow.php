@@ -114,7 +114,6 @@ class SurveyShow extends Component
             return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while closing Survey'));
         }
         return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('success', Lang::get('Survey closed Successfully'));
-
     }
 
     public function archive($id)
@@ -156,7 +155,6 @@ class SurveyShow extends Component
         $survey = Survey::find($this->idSurvey);
         $survey->comments()->create(['user_id' => auth()->user()->id, 'content' => $this->comment]);
         $this->comment = "";
-
     }
 
     public function validateComment($idComment)
