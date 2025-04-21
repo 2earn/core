@@ -21,7 +21,8 @@ class DealsCreateUpdate extends Component
         $name,
         $description,
         $status,
-        $objective_turnover,
+        $current_turnover,
+        $target_turnover,
         $start_date,
         $end_date,
         $provider_turnover,
@@ -45,6 +46,7 @@ class DealsCreateUpdate extends Component
     protected $rules = [
         'name' => 'required|min:5',
         'description' => 'required|min:5',
+        'target_turnover' => 'required',
         'start_date' => ['required', 'after_or_equal:today'],
         'end_date' => ['required', 'after:start_date'],
     ];
@@ -78,7 +80,7 @@ class DealsCreateUpdate extends Component
         $this->shareholder_benefits_margin_percentage = $this->getDealParam('DEALS_SHAREHOLDER_BENEFITS_MARGIN_PERCENTAGE');
         $this->tree_margin_percentage = $this->getDealParam('DEALS_TREE_MARGIN_PERCENTAGE');
         $this->status = DealStatus::New->value;
-        $this->objective_turnover =
+        $this->target_turnover = 10000;
         $this->start_date = $this->end_date =
         $this->provider_turnover =
         $this->items_profit_average =
@@ -87,6 +89,7 @@ class DealsCreateUpdate extends Component
         $this->progressive_commission =
         $this->margin_percentage =
         $this->discount = 10;
+        $this->current_turnover = 0;
     }
 
     public function edit()
@@ -95,7 +98,7 @@ class DealsCreateUpdate extends Component
         $this->name = $deal->name;
         $this->status = $deal->status;
         $this->description = $deal->description;
-        $this->objective_turnover = $deal->objective_turnover;
+        $this->target_turnover = $deal->target_turnover;
         $this->start_date = $deal->start_date;
         $this->end_date = $deal->end_date;
         $this->provider_turnover = $deal->provider_turnover;
@@ -126,7 +129,7 @@ class DealsCreateUpdate extends Component
             'name' => $this->name,
             'description' => $this->description,
             'status' => $this->status,
-            'objective_turnover' => $this->objective_turnover,
+            'target_turnover' => $this->target_turnover,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'provider_turnover' => $this->provider_turnover,
@@ -162,7 +165,8 @@ class DealsCreateUpdate extends Component
             'validated' => false,
             'description' => $this->description,
             'status' => $this->status,
-            'objective_turnover' => $this->objective_turnover,
+            'current_turnover' => 0,
+            'target_turnover' => $this->target_turnover,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'provider_turnover' => $this->provider_turnover,

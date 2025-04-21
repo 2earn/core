@@ -74,14 +74,14 @@
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                             <div class="form-group col-3 mb-3">
-                                <label for="objective_turnover">{{__('Objective turnover')}}</label> <span
+                                <label for="target_turnover">{{__('Target turnover')}}</label> <span
                                     class="text-info float-end">{{__('$')}}</span>
                                 <input type="number"
-                                       class="form-control @error('objective_turnover') is-invalid @enderror"
-                                       id="objective_turnover"
-                                       wire:model.live="objective_turnover"
+                                       class="form-control @error('target_turnover') is-invalid @enderror"
+                                       id="target_turnover"
+                                       wire:model.live="target_turnover"
                                        placeholder="{{__('Enter Objective turnover')}}">
-                                @error('objective_turnover') <span class="text-danger">{{ $message }}</span>@enderror
+                                @error('target_turnover') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
                             <div class="form-group col-3 mb-3">
