@@ -15,7 +15,7 @@
                         <div class="card">
                             <div class="card-header align-items-center d-flex">
                                 <h4 class="card-title mb-0 flex-grow-1">{{__('Simulate amount of coupons')}}</h4>
-                                <h4 class="card-title mb-0 flex-grow-1 float-end text-success">{{$platform->name}}</h4>
+                                <h3 class="card-title mb-0 flex-grow-1 float-end text-success">{{$platform->name}}</h3>
                             </div>
                             <div class="card-body">
                                 <div class="live-preview">
@@ -27,7 +27,7 @@
                                                            wire:model.live="amount" aria-label="Recipient's username"
                                                            aria-describedby="button-addon2">
                                                     <span class="input-group-text"> {{config('app.currency')}}</span>
-                                                    <button class="btn btn-outline-success material-shadow-none"
+                                                    <button class="btn btn-outline-primary material-shadow-none"
                                                             wire:click="simulateCoupon" type="button"
                                                             id="button-simulate">{{__('Simulate')}}
                                                     </button>
@@ -39,6 +39,18 @@
                                                             wire:click="addLastValue()">{{__('add')}} {{$lastValue->value}}  {{config('app.currency')}}</button>
                                                 </div>
                                             @endif
+                                            @if($simulated)
+                                                <div class="col-lg-12">
+                                                    <div
+                                                        class="alert alert-success alert-dismissible fade show material-shadow"
+                                                        role="alert">
+                                                        {{__('Simulated At')}} : {{now()}}
+                                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                                aria-label="Close"></button>
+                                                    </div>
+                                                </div>
+                                            @endif
+
                                         </div>
                                     </div>
                                 </div>
@@ -93,8 +105,14 @@
                                     </button>
                                 </div>
                             </div>
+                        @else
+                            @if($simulated)
+                                <div class="alert alert-warning material-shadow" role="alert">
+                                    {{__('No available coupons combination')}}
+                                </div>
+                            @endif
+                        @endif
                     </div>
-                    @endif
                 </div>
             </div>
         </div>

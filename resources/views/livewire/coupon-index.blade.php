@@ -76,7 +76,7 @@
                     search: {return: true},
                     "ajax": "{{route('api_coupon',app()->getLocale())}}",
                     "columns": [
-                        {data: null, defaultContent: '<input type="checkbox" class="row-select" />'},
+                        {data: null, defaultContent: '<input type="checkbox" class="row-select" />', orderable: false, searchable: false},
                         datatableControlBtn,
                         {data: 'pin'},
                         {data: 'sn'},

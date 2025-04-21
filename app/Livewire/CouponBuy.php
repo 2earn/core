@@ -19,6 +19,7 @@ class CouponBuy extends Component
     public $amount;
     public $coupons;
     public $equal = false;
+    public $simulated = false;
     public $lastValue;
     public $idPlatform;
 
@@ -56,6 +57,7 @@ class CouponBuy extends Component
         $this->lastValue = $result['lastValue'];
         $this->amount = $result['amount'];
         $this->coupons = $result['coupons'];
+        $this->simulated = true;
     }
 
     public function BuyCoupon()
@@ -100,7 +102,9 @@ class CouponBuy extends Component
             ->get();
         $selectedCoupons = [];
         $total = 0;
-
+        if ($availableCoupons->count() == 0) {
+            $lastValue = 0;
+        }
         foreach ($availableCoupons as $coupon) {
             $lastValue = $coupon;
             if ($total + $coupon->value <= $amount) {
