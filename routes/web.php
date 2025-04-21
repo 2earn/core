@@ -255,11 +255,13 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::prefix('/coupon')->name('coupon_')->group(function () {
                 Route::get('/index', \App\Livewire\CouponIndex::class)->name('index');
                 Route::get('/', \App\Livewire\CouponCreate::class)->name('create');
-                Route::get('/{id}/buy', \App\Livewire\CouponBuy::class)->name('buy');
             });
 
         });
 
+        Route::prefix('/coupon')->name('coupon_')->group(function () {
+            Route::get('/{id}/buy', \App\Livewire\CouponBuy::class)->name('buy');
+        });
         Route::get('/shares/solde', \App\Livewire\SharesSolde::class)->name('shares_solde');
 
         Route::get('/stat-countries', 'App\Http\Controllers\ApiController@getCountriStat')->name('api_stat_countries');
