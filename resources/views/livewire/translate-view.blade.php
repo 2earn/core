@@ -202,8 +202,12 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                             src="{{Vite::asset("resources/images/flags/" . strtolower('gb') . ".svg")}}"
                                                             alt="{{__('English')}}" title="{{__('English')}}"
                                                             class="avatar-xxs me-2">
+                                                        @if(!empty($value->valueEn))
                                                         <span
                                                             class="text-muted mx-1">{{ Str::limit($value->valueEn,200)}}</span>
+                                                        @else
+                                                            <span class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
+                                                        @endif
                                                     </li>
                                                 </ul>
                                                 <ul class="list-group col-md-6">
@@ -214,14 +218,26 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                             class="avatar-xxs me-2">
                                                         <span
                                                             class="text-muted mx-1">{{ Str::limit($value->value,200)}}</span>
+
+                                                        @if(!empty($value->value))
+                                                            <span
+                                                                class="text-muted mx-1">{{ Str::limit($value->value,200)}}</span>
+                                                        @else
+                                                            <span class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
+                                                        @endif
+
                                                     </li>
                                                     <li class="list-group-item">
                                                         <img
                                                             src="{{Vite::asset("resources/images/flags/" . strtolower('fr') . ".svg")}}"
                                                             alt="{{__('Francais')}}" title="{{__('Francais')}}"
                                                             class="avatar-xxs me-2">
-                                                        <span
-                                                            class="text-muted mx-1">{{ Str::limit($value->valueFr,200)}}</span>
+                                                        @if(!empty($value->valueFr))
+                                                            <span
+                                                                class="text-muted mx-1">{{ Str::limit($value->valueFr,200)}}</span>
+                                                        @else
+                                                            <span class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
+                                                        @endif
                                                     </li>
                                                     <li class="list-group-item">
                                                         <img
@@ -230,6 +246,13 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                             class="avatar-xxs me-2">
                                                         <span
                                                             class="text-muted mx-1">{{ Str::limit($value->valueTr,200)}}</span>
+
+                                                        @if(!empty($value->valueTr))
+                                                            <span
+                                                                class="text-muted mx-1">{{ Str::limit($value->valueTr,200)}}</span>
+                                                        @else
+                                                            <span class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
+                                                        @endif
                                                     </li>
                                                 </ul>
                                                 <ul class="list-group col-md-6">
@@ -239,24 +262,36 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                             src="{{Vite::asset("resources/images/flags/" . strtolower('es') . ".svg")}}"
                                                             alt="{{__('Spanish')}}" title="{{__('Spanish')}}"
                                                             class="avatar-xxs me-2">
-                                                        <span
-                                                            class="text-muted mx-1">{{ Str::limit($value->valueEs,200)}}</span>
+                                                        @if(!empty($value->valueEs))
+                                                            <span
+                                                                class="text-muted mx-1">{{ Str::limit($value->valueEs,200)}}</span>
+                                                        @else
+                                                            <span class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
+                                                        @endif
                                                     </li>
                                                     <li class="list-group-item">
                                                         <img
                                                             src="{{Vite::asset("resources/images/flags/" . strtolower('ru') . ".svg")}}"
                                                             alt="{{__('Russian')}}" title="{{__('Russian')}}"
                                                             class="avatar-xxs me-2">
-                                                        <span
-                                                            class="text-muted mx-1">{{ Str::limit($value->valueRu,200)}}</span>
+                                                        @if(!empty($value->valueRu))
+                                                            <span
+                                                                class="text-muted mx-1">{{ Str::limit($value->valueRu,200)}}</span>
+                                                        @else
+                                                            <span class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
+                                                        @endif
                                                     </li>
                                                     <li class="list-group-item">
                                                         <img
                                                             src="{{Vite::asset("resources/images/flags/" . strtolower('de') . ".svg")}}"
                                                             alt="{{__('German')}}" title="{{__('German')}}"
                                                             class="avatar-xxs me-2">
-                                                        <span
-                                                            class="text-muted mx-1">{{ Str::limit($value->valueDe,200)}}</span>
+                                                        @if(!empty($value->valueDe))
+                                                            <span
+                                                                class="text-muted mx-1">{{ Str::limit($value->valueDe,200)}}</span>
+                                                        @else
+                                                            <span class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
+                                                        @endif
                                                     </li>
                                                 </ul>
                                             </div>
