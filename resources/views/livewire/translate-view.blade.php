@@ -194,7 +194,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                         <td class="d-none d-md-block text-info">
                                             <div class="row">
                                                 <ul class="list-group col-md-12 mb-2">
-                                                    <li class="list-group-item list-group-item-action list-group-item-primary" >
+                                                    <li class="list-group-item list-group-item-action list-group-item-primary">
                                                         {{$value->name}}
                                                     </li>
                                                     <li class="list-group-item">
@@ -203,10 +203,11 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                             alt="{{__('English')}}" title="{{__('English')}}"
                                                             class="avatar-xxs me-2">
                                                         @if(!empty($value->valueEn))
-                                                        <span
-                                                            class="text-muted mx-1">{{ Str::limit($value->valueEn,200)}}</span>
+                                                            <span
+                                                                class="text-muted mx-1">{{ Str::limit($value->valueEn,200)}}</span>
                                                         @else
-                                                            <span class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
+                                                            <span
+                                                                class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
                                                         @endif
                                                     </li>
                                                 </ul>
@@ -216,14 +217,12 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                             src="{{Vite::asset("resources/images/flags/" . strtolower('sa') . ".svg")}}"
                                                             alt="{{__('Arabe')}}" title="{{__('Arabe')}}"
                                                             class="avatar-xxs me-2">
-                                                        <span
-                                                            class="text-muted mx-1">{{ Str::limit($value->value,200)}}</span>
-
                                                         @if(!empty($value->value))
                                                             <span
                                                                 class="text-muted mx-1">{{ Str::limit($value->value,200)}}</span>
                                                         @else
-                                                            <span class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
+                                                            <span
+                                                                class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
                                                         @endif
 
                                                     </li>
@@ -236,7 +235,8 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                             <span
                                                                 class="text-muted mx-1">{{ Str::limit($value->valueFr,200)}}</span>
                                                         @else
-                                                            <span class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
+                                                            <span
+                                                                class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
                                                         @endif
                                                     </li>
                                                     <li class="list-group-item">
@@ -244,14 +244,12 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                             src="{{Vite::asset("resources/images/flags/" . strtolower('tr') . ".svg")}}"
                                                             alt="{{__('Turkish')}}" title="{{__('Turkish')}}"
                                                             class="avatar-xxs me-2">
-                                                        <span
-                                                            class="text-muted mx-1">{{ Str::limit($value->valueTr,200)}}</span>
-
                                                         @if(!empty($value->valueTr))
                                                             <span
                                                                 class="text-muted mx-1">{{ Str::limit($value->valueTr,200)}}</span>
                                                         @else
-                                                            <span class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
+                                                            <span
+                                                                class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
                                                         @endif
                                                     </li>
                                                 </ul>
@@ -266,7 +264,8 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                             <span
                                                                 class="text-muted mx-1">{{ Str::limit($value->valueEs,200)}}</span>
                                                         @else
-                                                            <span class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
+                                                            <span
+                                                                class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
                                                         @endif
                                                     </li>
                                                     <li class="list-group-item">
@@ -278,7 +277,8 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                             <span
                                                                 class="text-muted mx-1">{{ Str::limit($value->valueRu,200)}}</span>
                                                         @else
-                                                            <span class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
+                                                            <span
+                                                                class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
                                                         @endif
                                                     </li>
                                                     <li class="list-group-item">
@@ -290,7 +290,8 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                             <span
                                                                 class="text-muted mx-1">{{ Str::limit($value->valueDe,200)}}</span>
                                                         @else
-                                                            <span class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
+                                                            <span
+                                                                class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
                                                         @endif
                                                     </li>
                                                 </ul>
