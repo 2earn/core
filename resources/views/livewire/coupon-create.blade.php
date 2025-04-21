@@ -27,7 +27,7 @@
                             wire:model.live="platform_id"
                             id="platform_id"
                             aria-label="{{__('Platform')}}">
-                            @foreach ($platforms as $platform)
+                            @foreach ($selectPlatforms as $platform)
                                 <option value="{{$platform['value']}}">{{__($platform['name'])}}</option>
                             @endforeach
                         </select>
