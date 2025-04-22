@@ -29,15 +29,16 @@ class DealsInsertSeeder extends Seeder
             $initialCOmmission = rand(5, 25);
             foreach ($platforms as $platform) {
                 for ($i = 1; $i <= $dealNumber; $i++) {
+                    $dealName = $i = 1 ? $platform->name . ' - Deal' : $platform->name . ' - ' . $faker->word();
                     $platform->deals()->create([
-                        'name' => $platform->name . ' - ' . $faker->word(),
+                        'name' => $dealName,
                         'description' => $faker->text() . ' RANDOM',
                         'validated' => TRUE,
                         'status' => DealStatus::Opened->value,
                         'current_turnover' => 0,
                         'target_turnover' => 10000,
                         'is_turnover' => true,
-                        'discount' => rand(1, $initialCOmmission /2),
+                        'discount' => rand(1, $initialCOmmission / 2),
                         'start_date' => $faker->dateTimeBetween('-2 week', '-1 week'),
                         'end_date' => $faker->dateTimeBetween('+1 week', '+3 week'),
                         'initial_commission' => $initialCOmmission,

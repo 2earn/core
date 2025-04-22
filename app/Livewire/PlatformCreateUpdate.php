@@ -5,9 +5,11 @@ namespace App\Livewire;
 use App\Models\BusinessSector;
 use App\Models\Item;
 use App\Models\TranslaleModel;
+use Core\Enum\DealStatus;
 use Core\Enum\PlatformType;
 use Core\Models\Platform;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -77,16 +79,50 @@ class PlatformCreateUpdate extends Component
         $this->update = true;
     }
 
-    public function createProduct($platformId)
+    public function getDealParam($name)
     {
+        $param = DB::table('settings')->where("ParameterName", "=", $name)->first();
+        if (!is_null($param)) {
+            return $param->DecimalValue;
+        }
+        return 0;
+    }
+
+    public function createProduct($platform)
+    {
+        $initialCommission = 10;
+        $deal = $platform->deals()->create([
+            'name' => $platform->name . ' Deal',
+            'description' => $platform->name . ' Deal',
+            'validated' => TRUE,
+            'status' => DealStatus::Opened->value,
+            'current_turnover' => 0,
+            'target_turnover' => 10000,
+            'is_turnover' => true,
+            'discount' => rand(1, $initialCommission / 2),
+            'start_date' => now(),
+            'end_date' => now()->addDays(30),
+            'initial_commission' => $initialCommission,
+            'final_commission' => rand(20, 30),
+            'earn_profit' => $this->getDealParam('DEALS_EARN_PROFIT_PERCENTAGE'),
+            'jackpot' => $this->getDealParam('DEALS_JACKPOT_PERCENTAGE'),
+            'tree_remuneration' => $this->getDealParam('DEALS_TREE_REMUNERATION_PERCENTAGE'),
+            'proactive_cashback' => $this->getDealParam('DEALS_PROACTIVE_CASHBACK_PERCENTAGE'),
+            'total_commission_value' => 0,
+            'total_unused_cashback_value' => 0,
+            'platform_id' => $platform->id,
+        ]);
+
         $params = [
             'name' => 'Coupon',
             'ref' => '#0001',
             'price' => 0,
             'discount' => 0,
             'discount_2earn' => 0,
-            'platform_id' => $platformId,
+            'deal_id' => $deal->id,
+            'platform_id' => $platform->id,
         ];
+
         Item::create($params);
     }
 
@@ -120,7 +156,6 @@ class PlatformCreateUpdate extends Component
             }
 
         } catch (\Exception $exception) {
-            dd($exception);
             Log::error($exception->getMessage());
             return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while updating Platform'));
         }
@@ -164,7 +199,7 @@ class PlatformCreateUpdate extends Component
                     ]);
             }
 
-            $this->createProduct($platform->id);
+            $this->createProduct($platform);
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
