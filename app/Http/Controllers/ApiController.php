@@ -796,6 +796,8 @@ class ApiController extends BaseController
             })
             ->addColumn('status', function ($user) {
                 return view('parts.datatable.user-status', ['status' => $user->status]);
+            })    ->addColumn('name', function ($user) {
+                return view('parts.datatable.user-name', ['name' => $user->name]);
             })
             ->addColumn('soldes', function ($user) {
                 return view('parts.datatable.user-soldes', ['idUser' => $user->idUser]);
