@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\BusinessSector;
+use App\Models\Item;
 use App\Models\TranslaleModel;
 use Core\Enum\PlatformType;
 use Core\Models\Platform;
@@ -76,6 +77,19 @@ class PlatformCreateUpdate extends Component
         $this->update = true;
     }
 
+    public function createProduct($platformId)
+    {
+        $params = [
+            'name' => 'Coupon',
+            'ref' => '#0001',
+            'price' => 0,
+            'discount' => 0,
+            'discount_2earn' => 0,
+            'platform_id' => $platformId,
+        ];
+        Item::create($params);
+    }
+
     public function updatePlatform()
     {
         try {
@@ -136,8 +150,7 @@ class PlatformCreateUpdate extends Component
                     'type' => Platform::IMAGE_TYPE_LOGO,
                 ]);
             }
-            $translations = ['name', 'description'];
-            foreach ($translations as $translation) {
+            foreach (['name', 'description'] as $translation) {
                 TranslaleModel::create(
                     [
                         'name' => TranslaleModel::getTranslateName($platform, $translation),
@@ -150,6 +163,8 @@ class PlatformCreateUpdate extends Component
                         'valueDe' => $this->{$translation} . ' De',
                     ]);
             }
+
+            $this->createProduct($platform->id);
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
