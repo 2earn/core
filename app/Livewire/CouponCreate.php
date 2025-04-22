@@ -69,8 +69,6 @@ class CouponCreate extends Component
 
     public function render()
     {
-
-
         return view('livewire.coupon-create')->extends('layouts.master')->section('content');
     }
 }
