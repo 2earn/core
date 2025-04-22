@@ -56,7 +56,7 @@ class CouponCreate extends Component
                 $coupon['sn'] = $sns[$key];
                 Coupon::create($coupon);
             }
-            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Coupons created  Successfully'));
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Coupons created Successfully'));
         } catch (\Exception $exception) {
             return redirect()->route('coupon_create', ['locale' => app()->getLocale()])->with('danger', Lang::get('Coupons creation Failed') . ' ' . $exception->getMessage());
         }
