@@ -29,7 +29,7 @@ class DealsInsertSeeder extends Seeder
             $initialCOmmission = rand(5, 25);
             foreach ($platforms as $platform) {
                 for ($i = 1; $i <= $dealNumber; $i++) {
-                    $dealName = $i = 1 ? $platform->name . ' - Deal' : $platform->name . ' - ' . $faker->word();
+                    $dealName = $i = 1 ? $platform->name . ' - Deal' : $platform->name . ' - 000' . $i;
                     $platform->deals()->create([
                         'name' => $dealName,
                         'description' => $faker->text() . ' RANDOM',
