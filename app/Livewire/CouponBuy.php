@@ -65,15 +65,23 @@ class CouponBuy extends Component
         $platform = Platform::find($this->idPlatform);
         $order = Order::create(['user_id' => auth()->user()->id, 'note' => 'Coupon buy from' . ' :' . $this->idPlatform . '-' . $platform->name]);
         $coupon = Item::where('ref', '#0001')->where('platform_id', $this->idPlatform)->first();
+
+        $total_amount = $unit_price = $qty = 0;
+        $note = [];
         foreach ($this->coupons as $couponItem) {
-            $order->orderDetails()->create([
-                'qty' => 1,
-                'unit_price' => $couponItem['value'],
-                'total_amount' => $couponItem['value'],
-                'note' => $couponItem['sn'],
-                'item_id' => $coupon->id,
-            ]);
+            $qty++;
+            $unit_price += $couponItem['value'];
+            $total_amount += $couponItem['value'];
+            $note[] = $couponItem['sn'];
         }
+
+        $order->orderDetails()->create([
+            'qty' => $qty,
+            'unit_price' => $unit_price,
+            'total_amount' => $total_amount,
+            'note' => implode(",", $note),
+            'item_id' => $coupon->id,
+        ]);
 
 
         $order->updateStatus(OrderEnum::Ready);
@@ -82,8 +90,8 @@ class CouponBuy extends Component
         if ($simulation) {
             Ordering::run($simulation);
         }
-        foreach ($order->orderDetails()->get() as $key => $orderDetail) {
-            $coupon = Coupon::where('sn', $orderDetail->note)->first();
+        foreach ($note as $sn) {
+            $coupon = Coupon::where('sn', $sn)->first();
             $coupon->update([
                 'user_id' => auth()->user()->id,
                 'purchase_date' => now(),
