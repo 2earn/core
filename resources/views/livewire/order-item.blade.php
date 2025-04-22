@@ -44,21 +44,32 @@
                 <div class="card-header">
                     <h6 class="card-title mb-0">{{__('Order details summary')}}</h6>
                 </div>
-                <div class="card-body">
-                    <div class="col-md-12">
+                <div class="card-body row">
+                    @if(\App\Models\User::isSuperAdmin())
                         @if($order->note && $currentRouteName=="orders_detail")
-                            <div class="card">
-                                <div class="card-header">
-                                    <h6 class="card-title mb-0">{{__('Order details')}}</h6>
-                                </div>
-                                <div class="card-body">
-                                    <blockquote class="text-muted mt-2">
-                                        <strong>{{__('Note')}}: </strong><br>{{$order->note}}
-                                    </blockquote>
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h6 class="card-title mb-0">{{__('Order details')}}</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <blockquote class="text-muted mt-2">
+                                            <strong>{{__('Note')}}: </strong><br>{{$order->note}}
+                                        </blockquote>
+                                    </div>
                                 </div>
                             </div>
                         @endif
-                    </div>
+                    @endif
+                    @if( str_contains($order->note, 'Coupons buy from'))
+                        <div class="col-md-12">
+                            <a class="link-info float-end"
+                               href="{{route('coupon_history',['locale'=>app()->getLocale()])}}">
+                                <span class=""> {{ __('Go to Coupons History') }}</span>
+                            </a>
+                        </div>
+                    @endif
+
                     <div class="col-md-12">
                         @if($order->orderDetails()->count())
                             <div class="card mt-2">
@@ -161,7 +172,8 @@
                                                 <td>
 
                                                     @if($orderDetail->shipping)
-                                                        <span class="badge bg-soft-primary text-dark text-end fs-13 float-end">
+                                                        <span
+                                                            class="badge bg-soft-primary text-dark text-end fs-13 float-end">
                                                             {{$orderDetail->shipping}}  {{config('app.currency')}}
                                                         </span>
                                                     @else
