@@ -309,7 +309,6 @@
                         $('.buy-action-submit-spinner').hide();
                     }, 2000);
                     console.log('fine')
-
                 })
             }
         );
