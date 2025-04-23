@@ -160,7 +160,7 @@ class FinancialTransaction extends Component
         if ($this->FinRequestN != null && $this->FinRequestN != '') {
             return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $this->FinRequestN]);
         }
-        return redirect()->route('financial_transaction', app()->getLocale())->with('success', Lang::get('Succes cash to bfs exchange'));
+        return redirect()->route('financial_transaction', app()->getLocale())->with('success', Lang::get('Success CASH to BFS exchange'));
     }
 
     public function exchangeSms($code, $numberSms, settingsManager $settingsManager)

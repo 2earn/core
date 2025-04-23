@@ -389,7 +389,6 @@
                         </div>
                     </div>
                     @endif
-
                     @if($currentRouteName=="orders_detail" && $order->status->value >= \Core\Enum\OrderEnum::Paid->value &&(!is_null($discount) ||!is_null($bfss)||!is_null($cash)))
                         <div class="col-md-12">
                             <div class="card mt-2">

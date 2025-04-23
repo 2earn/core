@@ -68,7 +68,9 @@
                                             <tr>
                                                 <th scope="col">{{__('ID')}}</th>
                                                 <th scope="col">{{__('Serial number')}}</th>
+                                                <th scope="col">{{__('Pin')}}</th>
                                                 <th scope="col">{{__('value')}}</th>
+                                                <th scope="col">{{__('Action')}}</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -81,16 +83,30 @@
                                 <span
                                     class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
                                     @if(!is_array($coupon))
-                                        {{substr_replace($coupon->sn, str_repeat('*', strlen($coupon->sn) - 3), 0, -3)}}
+                                        {{$coupon->sn}}
                                     @endif
                                 </span>
                                                     </td>
                                                     <td>
-                                                <span class="text-muted fs-14 my-1">
+                                <span
+                                    class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
+                                    @if(!is_array($coupon))
+                                        {{substr_replace($coupon->pin, str_repeat('*', strlen($coupon->pin)), 0 )}}
+                                    @endif
+                                </span>
+                                                    </td>
+                                                    <td>
+                                                <span class="text-muted fs-16 my-1">
                                                                                 @if(!is_array($coupon))
-                                                        {{$coupon->value}}  {{config('app.currency')}}
+                                                 <strong>       {{$coupon->value}}  {{config('app.currency')}}</strong>
                                                     @endif
       </span>
+                                                    </td>
+                                                    <td>
+                                                        <button class="btn btn-outline-info waves-effect waves-light"
+                                                                type="submit">{{__('Voir')}}</button>
+                                                        <button class="btn btn-outline-primary waves-effect waves-light"
+                                                                type="submit">{{__('Copier')}}</button>
                                                     </td>
                                                 </tr>
                                             @endforeach
