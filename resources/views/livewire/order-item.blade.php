@@ -173,7 +173,7 @@
 
                                                     @if($orderDetail->shipping)
                                                         <span
-                                                            class="badge bg-soft-primary text-dark text-end fs-13 float-end">
+                                                            class="badge bg-soft-warning text-dark text-end fs-13 float-end">
                                                             {{$orderDetail->shipping}}  {{config('app.currency')}}
                                                         </span>
                                                     @else
