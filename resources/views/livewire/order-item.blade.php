@@ -106,10 +106,6 @@
                                                                 <strong>{{__('Price')}}</strong><span
                                                                     class="float-end">{{$orderDetail->item()->first()->price}}  {{config('app.currency')}}</span>
                                                             </li>
-                                                            <li class="list-group-item">
-                                                                <strong>{{__('Discount')}}</strong><span
-                                                                    class="float-end">{{$orderDetail->item()->first()->discount}} %</span>
-                                                            </li>
                                                             @if($orderDetail->item()->first()->deal()->exists())
                                                                 <li class="list-group-item list-group-item-success">
                                                                     <strong>{{__('Deal')}}</strong>
