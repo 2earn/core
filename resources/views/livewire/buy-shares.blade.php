@@ -238,9 +238,7 @@
                         $('#bfs-select').addClass('d-none');
                     }
                 });
-                console.log('----');
                 $("#buy-action-submit").on("click", function () {
-                    console.log('-thth---');
                     this.disabled = true;
                     $('.buy-action-submit-spinner').show();
                     let ammount = parseFloat($('#amount_val').text()).toFixed(3);
@@ -249,6 +247,7 @@
                     let me_or_other = $("input[name='inlineRadioOptions']:checked").val();
                     let bfs_for = $("input[name='bfs-for']:checked").val();
                     let country_code = iti.getSelectedCountryData().iso2;
+                    console.log('Preparation')
                     $.ajax({
                         url: "{{ route('buyAction', app()->getLocale()) }}",
                         type: "POST",
@@ -266,6 +265,7 @@
                             "_token": "{{ csrf_token() }}"
                         },
                         success: function (data) {
+                            console.log('success')
                             let backgroundColor = "#27a706"
                             if (data.error) {
                                 backgroundColor = "#ba0404";
@@ -292,6 +292,7 @@
                             location.reload();
                         },
                         error: function (data) {
+                            console.log('error')
                             var responseData = JSON.parse(data.responseText);
                             Swal.fire({
                                 icon: 'error',
@@ -307,6 +308,7 @@
                         this.disabled = false;
                         $('.buy-action-submit-spinner').hide();
                     }, 2000);
+                    console.log('fine')
 
                 })
             }
