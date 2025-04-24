@@ -155,8 +155,7 @@
                                     </strong>
                                     <label class="col-form-label">{{__('Actions')}}</label>
                                     @if($gift&&$profit && $profit>0)
-                                        <table
-                                            class="table table-success table-striped align-middle table-nowrap mb-0 table-sm">
+                                        <table class="table table-success table-striped align-middle table-nowrap mb-0 table-sm">
                                             <thead>
                                             <tr>
                                                 @if($gift)
@@ -222,7 +221,6 @@
     </div>
     <script type="module">
         $(document).ready(function () {
-                console.log('ready')
                 const input = document.querySelector("#phone");
                 const iti = window.intlTelInput(input, {
                     initialCountry: "auto",
@@ -240,12 +238,7 @@
                         $('#bfs-select').addClass('d-none');
                     }
                 });
-
-                $("#buy-action-submit").click(function () {
-                    console.log('click')
-                });
                 $("#buy-action-submit").on("click", function () {
-                    console.log('on click')
                     this.disabled = true;
                     $('.buy-action-submit-spinner').show();
                     let ammount = parseFloat($('#amount_val').text()).toFixed(3);
