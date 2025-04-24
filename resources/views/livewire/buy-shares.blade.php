@@ -222,7 +222,6 @@
     </div>
     <script type="module">
         $(document).ready(function () {
-                console.log('ready')
                 const input = document.querySelector("#phone");
                 const iti = window.intlTelInput(input, {
                     initialCountry: "auto",
@@ -242,10 +241,6 @@
                 });
 
                 $("#buy-action-submit").click(function () {
-                    console.log('click')
-                });
-                $("#buy-action-submit").on("click", function () {
-                    console.log('on click')
                     this.disabled = true;
                     $('.buy-action-submit-spinner').show();
                     let ammount = parseFloat($('#amount_val').text()).toFixed(3);
@@ -254,7 +249,6 @@
                     let me_or_other = $("input[name='inlineRadioOptions']:checked").val();
                     let bfs_for = $("input[name='bfs-for']:checked").val();
                     let country_code = iti.getSelectedCountryData().iso2;
-                    console.log('Preparation')
                     $.ajax({
                         url: "{{ route('buyAction', app()->getLocale()) }}",
                         type: "POST",
@@ -315,7 +309,6 @@
                         this.disabled = false;
                         $('.buy-action-submit-spinner').hide();
                     }, 2000);
-                    console.log('fine')
                 })
             }
         );
