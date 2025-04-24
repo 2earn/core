@@ -36,15 +36,21 @@
                                             @if($lastValue && !$equal)
                                                 <div class="col-lg-12">
                                                     <button button class="btn btn-outline-success material-shadow-none"
-                                                            wire:click="addLastValue()">{{__('add')}} {{$lastValue->value}}  {{config('app.currency')}}</button>
+                                                            wire:click="addLastValue()">{{__('add')}} {{$lastValue}}  {{config('app.currency')}}</button>
                                                 </div>
                                             @endif
                                             @if($simulated)
                                                 <div class="col-lg-12">
-                                                    <div
-                                                        class="alert alert-success alert-dismissible fade show material-shadow"
-                                                        role="alert">
-                                                        {{__('Simulated At')}} : {{now()}}
+                                                    <div title="{{__('Simulated At')}} : {{now()}}"
+                                                         class="alert alert-success alert-dismissible fade show material-shadow"
+                                                         role="alert">
+
+                                                        {{__('Depending on coupon availability, you can choose to purchase for')}}
+                                                        @if($lastValue)
+                                                            {{$lastValue+$amount}} {{__('or')}}
+                                                            ,
+                                                        @endif
+                                                        {{$amount}} {{__('as a coupon with the exact requested value is not available')}}
                                                         <button type="button" class="btn-close" data-bs-dismiss="alert"
                                                                 aria-label="Close"></button>
                                                     </div>
@@ -98,7 +104,7 @@
                                                     <td>
                                                 <span class="text-muted fs-16 my-1">
                                                                                 @if(!is_array($coupon))
-                                                 <strong>       {{$coupon->value}}  {{config('app.currency')}}</strong>
+                                                        <strong>       {{$coupon->value}}  {{config('app.currency')}}</strong>
                                                     @endif
       </span>
                                                     </td>

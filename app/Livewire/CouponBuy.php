@@ -43,7 +43,8 @@ class CouponBuy extends Component
 
     public function addLastValue()
     {
-        $this->amount = $this->amount + $this->lastValue->value;
+        $this->amount = $this->amount + $this->lastValue;
+        $this->lastValue = 0;
         $this->simulateCoupon();
     }
 
@@ -114,7 +115,7 @@ class CouponBuy extends Component
             $lastValue = 0;
         }
         foreach ($availableCoupons as $coupon) {
-            $lastValue = $coupon;
+            $lastValue = $coupon->value;
             if ($total + $coupon->value <= $amount) {
                 $selectedCoupons[] = $coupon;
                 $total += $coupon->value;
@@ -128,7 +129,7 @@ class CouponBuy extends Component
         return [
             'amount' => $total,
             'coupons' => $selectedCoupons,
-            'lastValue' => $lastValue,
+            'lastValue' => $this->equal ? 0 : $lastValue,
         ];
     }
 
