@@ -25,45 +25,69 @@
                                                 <div class="input-group">
                                                     <input type="number" class="form-control"
                                                            wire:model.live="amount" aria-label="Recipient's username"
-                                                           aria-describedby="button-addon2">
+                                                           aria-describedby="button-addon2"
+                                                           @if($buyed)
+                                                               disabled
+                                                        @endif
+                                                    >
                                                     <span class="input-group-text"> {{config('app.currency')}}</span>
                                                     <button class="btn btn-outline-primary material-shadow-none"
                                                             wire:click="simulateCoupon" type="button"
-                                                            id="button-simulate">{{__('Simulate')}}
+                                                            @if($buyed)
+                                                                disabled
+                                                            @endif
+                                                            id="button-simulate">{{__('Buy')}}
+
                                                     </button>
                                                 </div>
                                             </div>
-                                            @if($lastValue && !$equal)
-                                                <div class="col-lg-12">
-                                                    <button button class="btn btn-outline-success material-shadow-none"
-                                                            wire:click="addLastValue()">{{__('add')}} {{$lastValue}}  {{config('app.currency')}}</button>
-                                                </div>
-                                            @endif
                                             @if($simulated)
-                                                <div class="col-lg-12">
-                                                    <div title="{{__('Simulated At')}} : {{now()}}"
-                                                         class="alert alert-success alert-dismissible fade show material-shadow"
-                                                         role="alert">
+                                                @if($buyed)
+                                                    <p>
+                                                        <a href="{{$linkOrder}}"
+                                                           class="link-secondary float-end">{{__('Go to the order')}}</a>
+                                                    </p>
+                                                @endif
+                                                @if($lastValue && !$equal)
+                                                    @if(!$buyed)
+                                                        <div class="col-lg-12">
+                                                            <div title="{{__('Simulated At')}} : {{now()}}"
+                                                                 class="alert alert-info alert-dismissible fade show material-shadow"
+                                                                 role="alert">
 
-                                                        {{__('Depending on coupon availability, you can choose to purchase for')}}
-                                                        @if($lastValue)
-                                                            {{$lastValue+$amount}} {{__('or')}}
-                                                            ,
-                                                        @endif
-                                                        {{$amount}} {{__('as a coupon with the exact requested value is not available')}}
-                                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                                aria-label="Close"></button>
-                                                    </div>
-                                                </div>
-                                            @endif
-
+                                                                {{__('Depending on coupon availability, you can choose to purchase for')}}
+                                                                @if($lastValue)
+                                                                    {{$lastValue+$amount}} {{__('or')}}
+                                                                    ,
+                                                                @endif
+                                                                {{$amount}} {{__('as a coupon with the exact requested value is not available')}}
+                                                                <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="alert"
+                                                                        aria-label="Close"></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <button button
+                                                                    class="btn btn-outline-success material-shadow-none"
+                                                                    wire:click="BuyCoupon" type="button"
+                                                                    id="button-buy">{{__('Buy this simulation')}} {{$amount}} {{config('app.currency')}}
+                                                            </button>
+                                                            <button button
+                                                                    class="btn btn-outline-success material-shadow-none"
+                                                                    wire:click="ConfirmPurchase()">{{__('Confirm the purchase')}} {{$lastValue+$amount}} {{config('app.currency')}}</button>
+                                                            <button button
+                                                                    class="btn btn-outline-warning material-shadow-none"
+                                                                    wire:click="CancelPurchase()">{{__('Cancel the purchase')}} </button>
+                                                        </div>
+                                                    @endif
+                                                @endif
                                         </div>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <div class="col-lg-12">
                         @if(!empty($coupons))
                             <div class="card">
@@ -76,7 +100,9 @@
                                                 <th scope="col">{{__('Serial number')}}</th>
                                                 <th scope="col">{{__('Pin')}}</th>
                                                 <th scope="col">{{__('value')}}</th>
-                                                <th scope="col">{{__('Action')}}</th>
+                                                @if($buyed)
+                                                    <th scope="col">{{__('Action')}}</th>
+                                                @endif
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -108,23 +134,33 @@
                                                     @endif
       </span>
                                                     </td>
-                                                    <td>
-                                                        <button class="btn btn-outline-info waves-effect waves-light"
+                                                    @if($buyed)
+                                                        <td>
+                                                            <button
+                                                                class="btn btn-outline-info waves-effect waves-light"
+                                                                @if($coupon->consumed)
+                                                                    disabled
+                                                                @endif
                                                                 type="submit">{{__('Voir')}}</button>
-                                                        <button class="btn btn-outline-primary waves-effect waves-light"
+                                                            <button
+                                                                class="btn btn-outline-primary waves-effect waves-light"
+                                                                @if($coupon->consumed)
+                                                                    disabled
+                                                                @endif
                                                                 type="submit">{{__('Copier')}}</button>
-                                                    </td>
+                                                            @if(!$coupon->consumed)
+                                                                <button
+                                                                    class="btn btn-outline-primary waves-effect waves-light"
+                                                                    wire:click="consumeCoupon({{$coupon->id}})"    type="submit">{{__('Consume')}}
+                                                                </button>
+                                                            @endif
+                                                        </td>
+                                                    @endif
                                                 </tr>
                                             @endforeach
                                             </tbody>
                                         </table>
                                     </div>
-                                </div>
-                                <div class="card-footer">
-                                    <button class="btn btn-outline-success material-shadow-none float-end"
-                                            wire:click="BuyCoupon" type="button"
-                                            id="button-buy">{{__('Buy this simulation')}}
-                                    </button>
                                 </div>
                             </div>
                         @else
@@ -140,3 +176,4 @@
         </div>
     </div>
 </div>
+

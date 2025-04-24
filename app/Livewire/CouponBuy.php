@@ -20,13 +20,17 @@ class CouponBuy extends Component
     public $coupons;
     public $equal = false;
     public $simulated = false;
+    public $buyed = false;
+    public $linkOrder = null;
     public $lastValue;
     public $idPlatform;
 
     public $listeners = [
         'simulateCoupon' => 'simulateCoupon',
         'BuyCoupon' => 'BuyCoupon',
-        'addLastValue' => 'addLastValue'
+        'ConfirmPurchase' => 'ConfirmPurchase',
+        'CancelPurchase' => 'CancelPurchase',
+        'consumeCoupon' => 'consumeCoupon'
     ];
 
     public function mount()
@@ -41,11 +45,22 @@ class CouponBuy extends Component
         $this->coupons = [];
     }
 
-    public function addLastValue()
+    public function consumeCoupon()
+    {
+
+    }
+
+    public function CancelPurchase()
+    {
+        $this->redirect(route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $this->idPlatform]));
+    }
+
+    public function ConfirmPurchase()
     {
         $this->amount = $this->amount + $this->lastValue;
         $this->lastValue = 0;
         $this->simulateCoupon();
+        $this->BuyCoupon();
     }
 
     public function simulateCoupon()
@@ -84,7 +99,6 @@ class CouponBuy extends Component
             'item_id' => $coupon->id,
         ]);
 
-
         $order->updateStatus(OrderEnum::Ready);
         $simulation = Ordering::simulate($order);
 
@@ -93,13 +107,16 @@ class CouponBuy extends Component
         }
         foreach ($note as $sn) {
             $coupon = Coupon::where('sn', $sn)->first();
-            $coupon->update([
-                'user_id' => auth()->user()->id,
-                'purchase_date' => now(),
-                'status' => CouponStatusEnum::sold->value
-            ]);
+            if (!$coupon->consumed) {
+                $coupon->update([
+                    'user_id' => auth()->user()->id,
+                    'purchase_date' => now(),
+                    'status' => CouponStatusEnum::sold->value
+                ]);
+            }
         }
-        return redirect()->route('orders_detail', ['locale' => app()->getLocale(), 'id' => $order->id])->with('success', Lang::get('Coupons buying succeeded'));
+        $this->buyed = true;
+        $this->linkOrder = route('orders_detail', ['locale' => app()->getLocale(), 'id' => $order->id]);
     }
 
     public function getCouponsForAmount($amount)
