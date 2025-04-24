@@ -253,7 +253,7 @@ class Ordering
                 $bfs['amount'] = $amount_after_discount;
                 $bfssTables[$key] = $bfs;
                 if ($amount_after_discount == 0) {
-                    return array_splice($bfssTables, 0, $key);
+                    return array_splice($bfssTables,  ($key=="100.00" ? 0 : 1), 1);
                 }
             }
         }
@@ -271,6 +271,7 @@ class Ordering
             $order_deal = self::simulateDiscount($order);
             $bfssTables = self::simulateBFSs($order);
             if (!empty($bfssTables)) {
+              //  dd($bfssTables);
                 $amount = end($bfssTables)['amount'];
             } else {
                 $amount = $order->amount_after_discount;
