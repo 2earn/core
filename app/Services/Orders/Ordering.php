@@ -253,7 +253,7 @@ class Ordering
                 $bfs['amount'] = $amount_after_discount;
                 $bfssTables[$key] = $bfs;
                 if ($amount_after_discount == 0) {
-                    return array_splice($bfssTables,  ($key=="100.00" ? 0 : 1), 1);
+                    return array_splice($bfssTables, ($key == "100.00" ? 0 : 1), 1);
                 }
             }
         }
@@ -271,7 +271,7 @@ class Ordering
             $order_deal = self::simulateDiscount($order);
             $bfssTables = self::simulateBFSs($order);
             if (!empty($bfssTables)) {
-              //  dd($bfssTables);
+                //  dd($bfssTables);
                 $amount = end($bfssTables)['amount'];
             } else {
                 $amount = $order->amount_after_discount;
@@ -306,17 +306,19 @@ class Ordering
     {
         foreach ($bfssTables as $key => $bfs) {
             $currentBalance = $balances->getBfssBalance($key) + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::ORDER_BFS->value) * $bfs['toSubstruct']);
-            $bfsData = [
-                'balance_operation_id' => BalanceOperationsEnum::ORDER_BFS->value,
-                'operator_id' => Balances::SYSTEM_SOURCE_ID,
-                'beneficiary_id' => $order->user()->first()->idUser,
-                'reference' => BalancesFacade::getReference(BalanceOperationsEnum::ORDER_BFS->value),
-                'percentage' => $key,
-                'description' => $bfs['toSubstruct'] . ' from ordering (id) ' . $order->id . ' / BFSs (' . $key . ') : ' . $balances->getBfssBalance($key) . ' - ' . $bfs['toSubstruct'] . ' = ' . $currentBalance,
-                'value' => $bfs['toSubstruct'],
-                'current_balance' => $currentBalance
-            ];
-            BFSsBalances::addLine($bfsData, null, null, $order->id, null, null);
+            if ($bfs['toSubstruct'] > 0) {
+                $bfsData = [
+                    'balance_operation_id' => BalanceOperationsEnum::ORDER_BFS->value,
+                    'operator_id' => Balances::SYSTEM_SOURCE_ID,
+                    'beneficiary_id' => $order->user()->first()->idUser,
+                    'reference' => BalancesFacade::getReference(BalanceOperationsEnum::ORDER_BFS->value),
+                    'percentage' => $key,
+                    'description' => $bfs['toSubstruct'] . ' from ordering (id) ' . $order->id . ' / BFSs (' . $key . ') : ' . $balances->getBfssBalance($key) . ' - ' . $bfs['toSubstruct'] . ' = ' . $currentBalance,
+                    'value' => $bfs['toSubstruct'],
+                    'current_balance' => $currentBalance
+                ];
+                BFSsBalances::addLine($bfsData, null, null, $order->id, null, null);
+            }
         }
     }
 
