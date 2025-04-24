@@ -110,7 +110,7 @@
                     }
 
                     Swal.fire({
-                        title: '{{ __('activate_number') }}',
+                        title: '{{ __('Are you sure to activate this number') }}',
                         icon: "warning",
                         showCancelButton: true,
                         confirmButtonText: '{{trans('ok')}}',
@@ -124,7 +124,7 @@
                         }
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            window.Livewire.dispatch('setActiveNumber', 1, [$id]);
+                            window.Livewire.dispatch('setActiveNumber', [1, $id]);
                         }
                     });
                 }
@@ -257,7 +257,7 @@
                         }
                     }
 
-                    inputAddContactNumber.addEventListener('keyup',   initIntlTelInput);
+                    inputAddContactNumber.addEventListener('keyup', initIntlTelInput);
                     inputAddContactNumber.addEventListener('countrychange', initIntlTelInput);
 
                     for (var i = 0; i < countryDataNumberContact.length; i++) {
