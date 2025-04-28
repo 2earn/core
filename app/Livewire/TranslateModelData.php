@@ -36,6 +36,7 @@ class TranslateModelData extends Component
 
     public $search = '';
     public $nbrPagibation = 10;
+    public $nbrPagibationArray = [5, 10, 25, 50, 100];
 
     protected $rules = ['frenchValue' => 'required'];
     protected $listeners = [

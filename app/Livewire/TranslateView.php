@@ -44,6 +44,7 @@ class TranslateView extends Component
 
     public $search = '';
     public $nbrPagibation = 10;
+    public $nbrPagibationArray = [5, 10, 25, 50, 100];
     public $defRandomNumber;
     public $randomNumber;
 
@@ -116,8 +117,8 @@ class TranslateView extends Component
             $job = new TranslationFilesToDatabase();
             $job->handle();
             $end_time = microtime(true);
-            $execution_time = formatSolde(($end_time - $start_time),3);
-            Log::error(TranslationFilesToDatabase::class. self::SEPARATION . $execution_time);
+            $execution_time = formatSolde(($end_time - $start_time), 3);
+            Log::error(TranslationFilesToDatabase::class . self::SEPARATION . $execution_time);
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -139,8 +140,8 @@ class TranslateView extends Component
             $job = new TranslationDatabaseToFiles();
             $job->handle();
             $end_time = microtime(true);
-            $execution_time = formatSolde(($end_time - $start_time),3);
-            Log::error(TranslationDatabaseToFiles::class. self::SEPARATION . $execution_time);
+            $execution_time = formatSolde(($end_time - $start_time), 3);
+            Log::error(TranslationDatabaseToFiles::class . self::SEPARATION . $execution_time);
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -158,6 +159,7 @@ class TranslateView extends Component
     {
         return $this->pageNumber();
     }
+
     public function saveTranslate()
     {
         $params = [
