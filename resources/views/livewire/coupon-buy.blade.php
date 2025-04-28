@@ -11,12 +11,33 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
+                    <div class="col-lg-8">
+                        <h4 title="{{$platform->id}}" class="card-title">
+                            {{\App\Models\TranslaleModel::getTranslation($platform,'name',$platform->name)}}
+
+                        </h4>
+                        @if(\App\Models\User::isSuperAdmin())
+                            <small class="mx-2">
+                                <a class="link-info"
+                                   href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($platform,'name')])}}">{{__('See or update Translation')}}</a>
+                            </small>
+                        @endif
+                    </div>
+                    <div class="col-lg-4">
+                        <a href="{{route('platform_index',['locale'=>app()->getLocale()])}}">
+                            <div class="flex-shrink-0">
+                                @if ($platform?->logoImage)
+                                    <img src="{{ asset('uploads/' . $platform->logoImage->url) }}"
+                                         class="d-block img-fluid img-business-square mx-auto rounded float-left">
+                                @else
+                                    <img src="{{Vite::asset(\Core\Models\Platform::DEFAULT_IMAGE_TYPE_LOGO)}}"
+                                         class="d-block img-fluid img-business-square mx-auto rounded float-left">
+                                @endif
+                            </div>
+                        </a>
+                    </div>
                     <div class="col-lg-12">
                         <div class="card">
-                            <div class="card-header align-items-center d-flex">
-                                <h4 class="card-title mb-0 flex-grow-1">{{__('Simulate amount of coupons')}}</h4>
-                                <h3 class="card-title mb-0 flex-grow-1 float-end text-success">{{$platform->name}}</h3>
-                            </div>
                             <div class="card-body">
                                 <div class="live-preview">
                                     <div>
@@ -24,7 +45,8 @@
                                             <div class="col-lg-12">
                                                 <div class="input-group">
                                                     <input type="number" class="form-control"
-                                                           wire:model.live="displayedAmount" aria-label="Recipient's username"
+                                                           wire:model.live="displayedAmount"
+                                                           aria-label="Recipient's username"
                                                            aria-describedby="button-addon2"
                                                            @if($buyed)
                                                                disabled
@@ -48,7 +70,7 @@
                                                            class="link-secondary float-end">{{__('Go to the order')}}</a>
                                                     </p>
                                                 @endif
-                                                @if($lastValue && !$equal)
+                                                @if($lastValue)
                                                     @if(!$buyed)
                                                         <div class="col-lg-12">
                                                             <div title="{{__('Simulated At')}} : {{now()}}"
@@ -56,11 +78,12 @@
                                                                  role="alert">
 
                                                                 {{__('Depending on coupon availability, you can choose to purchase for')}}
-                                                                @if($lastValue)
-                                                                    {{$lastValue+$amount}} {{__('or')}}
-                                                                    ,
+                                                                {{$amount}}
+                                                                @if(!$equal)
+                                                                    {{__('or')}}
+                                                                    {{$lastValue+$amount}}
                                                                 @endif
-                                                                {{$amount}} {{__('as a coupon with the exact requested value is not available')}}
+                                                                {{__('as a coupon with the exact requested value is not available')}}
                                                                 <button type="button" class="btn-close"
                                                                         data-bs-dismiss="alert"
                                                                         aria-label="Close"></button>
@@ -72,9 +95,12 @@
                                                                     wire:click="BuyCoupon" type="button"
                                                                     id="button-buy">{{__('Confirm the purchase')}} {{$amount}} {{config('app.currency')}}
                                                             </button>
-                                                            <button button
-                                                                    class="btn btn-outline-success material-shadow-none"
-                                                                    wire:click="ConfirmPurchase()">{{__('Confirm the purchase')}} {{$lastValue+$amount}} {{config('app.currency')}}</button>
+                                                            @if(!$equal)
+                                                                <button button
+                                                                        class="btn btn-outline-success material-shadow-none"
+                                                                        wire:click="ConfirmPurchase()">{{__('Confirm the purchase')}} {{$lastValue+$amount}} {{config('app.currency')}}</button>
+                                                            @endif
+
                                                             <button button
                                                                     class="btn btn-outline-warning material-shadow-none float-end"
                                                                     wire:click="CancelPurchase()">{{__('Cancel the purchase')}} </button>
@@ -151,7 +177,8 @@
                                                             @if(!$coupon->consumed)
                                                                 <button
                                                                     class="btn btn-outline-primary waves-effect waves-light"
-                                                                    wire:click="consumeCoupon({{$coupon->id}})"    type="submit">{{__('Consume')}}
+                                                                    wire:click="consumeCoupon({{$coupon->id}})"
+                                                                    type="submit">{{__('Consume')}}
                                                                 </button>
                                                             @endif
                                                         </td>

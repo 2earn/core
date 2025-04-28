@@ -45,6 +45,7 @@ class CouponBuy extends Component
     public function updatedAmount($value)
     {
         $this->coupons = [];
+        $this->simulated=false;
     }
 
     public function consumeCoupon()
@@ -68,17 +69,29 @@ class CouponBuy extends Component
     public function simulateCoupon()
     {
         $this->amount = $this->displayedAmount;
-        $result1 = $this->getCouponsForAmount($this->amount);
+        $preSumulationResult = $this->getCouponsForAmount($this->amount);
 
-        if (is_null($result1)) {
+        if ($preSumulationResult['amount'] == $this->displayedAmount) {
+            $this->equal = true;
+        } else {
+            $this->equal = false;
+        }
+        if (is_null($preSumulationResult)) {
             return redirect()->route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $this->idPlatform])->with('danger', trans('Amount simulation failed'));
         }
-        $result = $this->getCouponsForAmount($result1['lastValue'] + $this->amount);
+        $result = $this->getCouponsForAmount($preSumulationResult['lastValue'] + $this->amount);
+        if ($this->equal) {
+            $this->lastValue = $preSumulationResult['lastValue'];
+            $this->amount = $preSumulationResult['amount'];
+            $this->coupons = $preSumulationResult['coupons'];
+        } else {
+            $this->lastValue = $preSumulationResult['lastValue'];
+            $this->amount = $preSumulationResult['amount'];
+            $this->coupons = $result['coupons'];
+        }
 
-        $this->lastValue = $result1['lastValue'];
-        $this->amount = $result1['amount'];
         $this->simulated = true;
-        $this->coupons = $result['coupons'];
+
     }
 
     public function BuyCoupon()
@@ -126,7 +139,6 @@ class CouponBuy extends Component
 
     public function getCouponsForAmount($amount)
     {
-        $this->equal = false;
         $availableCoupons = Coupon::where('status', CouponStatusEnum::available->value)
             ->where('platform_id', $this->idPlatform)
             ->orderBy('value', 'desc')
@@ -134,21 +146,16 @@ class CouponBuy extends Component
 
         $selectedCoupons = [];
         $total = 0;
+
         if ($availableCoupons->count() == 0) {
             $lastValue = 0;
         }
 
-
         foreach ($availableCoupons as $coupon) {
             $lastValue = $coupon->value;
-            if ($total + $coupon->value < $amount) {
+            if ($total + $coupon->value <= $amount) {
                 $selectedCoupons[] = $coupon;
                 $total += $coupon->value;
-            }
-
-            if ($total == $amount) {
-                $this->equal = true;
-                break;
             }
         }
 
