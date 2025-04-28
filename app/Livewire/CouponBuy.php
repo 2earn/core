@@ -25,6 +25,10 @@ class CouponBuy extends Component
     public $linkOrder = null;
     public $lastValue;
     public $idPlatform;
+    public $preSumulationResult;
+    public $result;
+    public $pre;
+
 
     public $listeners = [
         'simulateCoupon' => 'simulateCoupon',
@@ -45,12 +49,25 @@ class CouponBuy extends Component
     public function updatedAmount($value)
     {
         $this->coupons = [];
-        $this->simulated=false;
+        $this->simulated = false;
     }
 
-    public function consumeCoupon()
+    public function consumeCoupon($id)
     {
-
+        $couponToUpdate = Coupon::find($id);
+        if (!$couponToUpdate->consumed) {
+            $couponToUpdate->update([
+                'user_id' => auth()->user()->id,
+                'consumption_date' => now(),
+                'status' => CouponStatusEnum::used->value,
+                'consumed' => true
+            ]);
+        }
+        foreach ($this->coupons as &$coupon) {
+            if ($coupon->id == $id) {
+                $coupon = $couponToUpdate;
+            }
+        }
     }
 
     public function CancelPurchase()
@@ -58,43 +75,42 @@ class CouponBuy extends Component
         $this->redirect(route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $this->idPlatform]));
     }
 
-    public function ConfirmPurchase()
+    public function ConfirmPurchase($pre)
     {
-        $this->amount = $this->amount + $this->lastValue;
-        $this->lastValue = 0;
-        $this->simulateCoupon();
-        $this->BuyCoupon();
+        $this->pre = $pre;
+        $this->amount = $pre == 1 ? $this->amount : $this->amount + $this->lastValue;
+        $pre == 1 ? $this->BuyCoupon($this->preSumulationResult['coupons']) : $this->BuyCoupon($this->result['coupons']);
     }
 
     public function simulateCoupon()
     {
         $this->amount = $this->displayedAmount;
-        $preSumulationResult = $this->getCouponsForAmount($this->amount);
+        $this->preSumulationResult = $this->getCouponsForAmount($this->amount);
 
-        if ($preSumulationResult['amount'] == $this->displayedAmount) {
+        if ($this->preSumulationResult['amount'] == $this->displayedAmount) {
             $this->equal = true;
         } else {
             $this->equal = false;
         }
-        if (is_null($preSumulationResult)) {
+        if (is_null($this->preSumulationResult)) {
             return redirect()->route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $this->idPlatform])->with('danger', trans('Amount simulation failed'));
         }
-        $result = $this->getCouponsForAmount($preSumulationResult['lastValue'] + $this->amount);
+        $this->result = $this->getCouponsForAmount($this->preSumulationResult['lastValue'] + $this->amount);
         if ($this->equal) {
-            $this->lastValue = $preSumulationResult['lastValue'];
-            $this->amount = $preSumulationResult['amount'];
-            $this->coupons = $preSumulationResult['coupons'];
+            $this->lastValue = $this->preSumulationResult['lastValue'];
+            $this->amount = $this->preSumulationResult['amount'];
+            $this->coupons = $this->preSumulationResult['coupons'];
         } else {
-            $this->lastValue = $preSumulationResult['lastValue'];
-            $this->amount = $preSumulationResult['amount'];
-            $this->coupons = $result['coupons'];
+            $this->lastValue = $this->preSumulationResult['lastValue'];
+            $this->amount = $this->preSumulationResult['amount'];
+            $this->coupons = $this->result['coupons'];
         }
 
         $this->simulated = true;
 
     }
 
-    public function BuyCoupon()
+    public function BuyCoupon($cpns)
     {
         $platform = Platform::find($this->idPlatform);
         $order = Order::create(['user_id' => auth()->user()->id, 'note' => 'Coupons buy from' . ' :' . $this->idPlatform . '-' . $platform->name]);
@@ -102,7 +118,7 @@ class CouponBuy extends Component
 
         $total_amount = $unit_price = $qty = 0;
         $note = [];
-        foreach ($this->coupons as $couponItem) {
+        foreach ($cpns as $couponItem) {
             $qty++;
             $unit_price += $couponItem['value'];
             $total_amount += $couponItem['value'];
@@ -133,6 +149,7 @@ class CouponBuy extends Component
                 ]);
             }
         }
+        $this->coupons = $cpns;
         $this->buyed = true;
         $this->linkOrder = route('orders_detail', ['locale' => app()->getLocale(), 'id' => $order->id]);
     }
