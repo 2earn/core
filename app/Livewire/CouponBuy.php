@@ -17,6 +17,7 @@ use Livewire\Component;
 class CouponBuy extends Component
 {
     public $amount;
+    public $displayedAmount;
     public $coupons;
     public $equal = false;
     public $simulated = false;
@@ -37,6 +38,7 @@ class CouponBuy extends Component
     {
         $this->idPlatform = Route::current()->parameter('id');;
         $this->amount = 0;
+        $this->displayedAmount = 0;
     }
 
 
@@ -65,15 +67,18 @@ class CouponBuy extends Component
 
     public function simulateCoupon()
     {
-        $result = $this->getCouponsForAmount($this->amount);
-        if (is_null($result)) {
+        $this->amount = $this->displayedAmount;
+        $result1 = $this->getCouponsForAmount($this->amount);
+
+        if (is_null($result1)) {
             return redirect()->route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $this->idPlatform])->with('danger', trans('Amount simulation failed'));
         }
+        $result = $this->getCouponsForAmount($result1['lastValue'] + $this->amount);
 
-        $this->lastValue = $result['lastValue'];
-        $this->amount = $result['amount'];
-        $this->coupons = $result['coupons'];
+        $this->lastValue = $result1['lastValue'];
+        $this->amount = $result1['amount'];
         $this->simulated = true;
+        $this->coupons = $result['coupons'];
     }
 
     public function BuyCoupon()
@@ -126,14 +131,17 @@ class CouponBuy extends Component
             ->where('platform_id', $this->idPlatform)
             ->orderBy('value', 'desc')
             ->get();
+
         $selectedCoupons = [];
         $total = 0;
         if ($availableCoupons->count() == 0) {
             $lastValue = 0;
         }
+
+
         foreach ($availableCoupons as $coupon) {
             $lastValue = $coupon->value;
-            if ($total + $coupon->value <= $amount) {
+            if ($total + $coupon->value < $amount) {
                 $selectedCoupons[] = $coupon;
                 $total += $coupon->value;
             }
@@ -143,6 +151,7 @@ class CouponBuy extends Component
                 break;
             }
         }
+
         return [
             'amount' => $total,
             'coupons' => $selectedCoupons,

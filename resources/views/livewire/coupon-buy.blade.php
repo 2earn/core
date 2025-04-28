@@ -24,7 +24,7 @@
                                             <div class="col-lg-12">
                                                 <div class="input-group">
                                                     <input type="number" class="form-control"
-                                                           wire:model.live="amount" aria-label="Recipient's username"
+                                                           wire:model.live="displayedAmount" aria-label="Recipient's username"
                                                            aria-describedby="button-addon2"
                                                            @if($buyed)
                                                                disabled
@@ -70,13 +70,13 @@
                                                             <button button
                                                                     class="btn btn-outline-success material-shadow-none"
                                                                     wire:click="BuyCoupon" type="button"
-                                                                    id="button-buy">{{__('Buy this simulation')}} {{$amount}} {{config('app.currency')}}
+                                                                    id="button-buy">{{__('Confirm the purchase')}} {{$amount}} {{config('app.currency')}}
                                                             </button>
                                                             <button button
                                                                     class="btn btn-outline-success material-shadow-none"
                                                                     wire:click="ConfirmPurchase()">{{__('Confirm the purchase')}} {{$lastValue+$amount}} {{config('app.currency')}}</button>
                                                             <button button
-                                                                    class="btn btn-outline-warning material-shadow-none"
+                                                                    class="btn btn-outline-warning material-shadow-none float-end"
                                                                     wire:click="CancelPurchase()">{{__('Cancel the purchase')}} </button>
                                                         </div>
                                                     @endif
