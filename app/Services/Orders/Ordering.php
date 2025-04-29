@@ -271,7 +271,6 @@ class Ordering
             $order_deal = self::simulateDiscount($order);
             $bfssTables = self::simulateBFSs($order);
             if (!empty($bfssTables)) {
-                //  dd($bfssTables);
                 $amount = end($bfssTables)['amount'];
             } else {
                 $amount = $order->amount_after_discount;

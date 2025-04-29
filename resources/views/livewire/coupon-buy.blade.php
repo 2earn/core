@@ -50,7 +50,7 @@
                                                            aria-describedby="button-addon2"
                                                            @if($buyed)
                                                                disabled
-                                                            @endif
+                                                        @endif
                                                     >
                                                     <span class="input-group-text"> {{config('app.currency')}}</span>
                                                     <button class="btn btn-outline-primary material-shadow-none"
@@ -90,16 +90,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-12">
-                                                            <button button
-                                                                    class="btn btn-outline-success material-shadow-none"
-                                                                    wire:click="ConfirmPurchase(1)" type="button"
-                                                                    id="button-buy">{{__('Confirm the purchase')}} {{$amount}} {{config('app.currency')}}
-                                                            </button>
-                                                            @if(!$equal)
-                                                                <button button
-                                                                        class="btn btn-outline-success material-shadow-none"
-                                                                        wire:click="ConfirmPurchase(2)">{{__('Confirm the purchase')}} {{$lastValue+$amount}} {{config('app.currency')}}</button>
-                                                            @endif
+
 
                                                             <button button
                                                                     class="btn btn-outline-warning material-shadow-none float-end"
@@ -136,7 +127,7 @@
                                                     </td>
                                                     <td>
                                 <span
-                                        class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
+                                    class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
                                     @if(!is_array($coupon))
                                         {{$coupon->sn}}
                                     @endif
@@ -144,7 +135,7 @@
                                                     </td>
                                                     <td>
                                 <span
-                                        class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
+                                    class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
                                     @if(!is_array($coupon))
                                         @if(!$buyed)
                                             {{substr_replace($coupon->pin, str_repeat('*', strlen($coupon->pin)), 0 )}}
@@ -164,6 +155,17 @@
                                                 </tr>
                                             @endforeach
                                             </tbody>
+                                            <tfoot class="table-light">
+                                            <tr>
+                                                <td colspan="4">
+                                                    <button button
+                                                            class="btn btn-outline-success material-shadow-none"
+                                                            wire:click="ConfirmPurchase(1)" type="button"
+                                                            id="button-buy">{{__('Confirm the purchase')}} {{$amount}} {{config('app.currency')}}
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            </tfoot>
                                         </table>
                                     </div>
                                 </div>
@@ -193,7 +195,7 @@
                                                     </td>
                                                     <td>
                                 <span
-                                        class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
+                                    class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
                                     @if(!is_array($coupon))
                                         {{$coupon->sn}}
                                     @endif
@@ -201,7 +203,7 @@
                                                     </td>
                                                     <td>
                                 <span
-                                        class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
+                                    class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
                                     @if(!is_array($coupon))
                                         @if(!$buyed)
                                             {{substr_replace($coupon->pin, str_repeat('*', strlen($coupon->pin)), 0 )}}
@@ -221,6 +223,18 @@
                                                 </tr>
                                             @endforeach
                                             </tbody>
+                                            @if(!$equal)
+                                                <tfoot class="table-light">
+                                                <tr>
+                                                    <td colspan="4">
+                                                        <button button
+                                                                class="btn btn-outline-success material-shadow-none"
+                                                                wire:click="ConfirmPurchase(2)">{{__('Confirm the purchase')}} {{$lastValue+$amount}} {{config('app.currency')}}</button>
+                                                    </td>
+                                                </tr>
+                                                </tfoot>
+                                            @endif
+
                                         </table>
                                     </div>
                                 </div>
@@ -254,7 +268,7 @@
                                                         </td>
                                                         <td>
                                 <span
-                                        class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
+                                    class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
                                     @if(!is_array($coupon))
                                         {{$coupon->sn}}
                                     @endif
@@ -262,7 +276,7 @@
                                                         </td>
                                                         <td>
                                 <span
-                                        class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
+                                    class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
                                     @if(!is_array($coupon))
                                         @if(!$buyed)
                                             {{substr_replace($coupon->pin, str_repeat('*', strlen($coupon->pin)), 0 )}}
@@ -282,20 +296,20 @@
                                                         @if($buyed)
                                                             <td>
                                                                 <button
-                                                                        class="btn btn-outline-primary waves-effect waves-light"
-                                                                        @if(!$coupon->consumed)
-                                                                            onclick="copyClipboard('{{$coupon->pin}}')"
-                                                                        @endif
+                                                                    class="btn btn-outline-primary waves-effect waves-light"
+                                                                    @if(!$coupon->consumed)
+                                                                        onclick="copyClipboard('{{$coupon->pin}}')"
+                                                                    @endif
 
-                                                                        @if($coupon->consumed)
-                                                                            disabled
-                                                                        @endif
-                                                                        type="submit">{{__('Copier')}}</button>
+                                                                    @if($coupon->consumed)
+                                                                        disabled
+                                                                    @endif
+                                                                    type="submit">{{__('Copier')}}</button>
                                                                 @if(!$coupon->consumed)
                                                                     <button
-                                                                            class="btn btn-outline-primary waves-effect waves-light"
-                                                                            wire:click="consumeCoupon({{$coupon->id}})"
-                                                                            type="submit">{{__('Consume')}}
+                                                                        class="btn btn-outline-primary waves-effect waves-light"
+                                                                        wire:click="consumeCoupon({{$coupon->id}})"
+                                                                        type="submit">{{__('Consume')}}
                                                                     </button>
                                                                 @endif
                                                             </td>

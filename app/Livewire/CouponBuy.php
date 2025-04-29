@@ -9,8 +9,10 @@ use App\Services\Orders\Ordering;
 use Core\Enum\CouponStatusEnum;
 use Core\Enum\OrderEnum;
 use Core\Models\Platform;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
@@ -133,25 +135,32 @@ class CouponBuy extends Component
             'item_id' => $coupon->id,
         ]);
 
-        $order->updateStatus(OrderEnum::Ready);
-        $simulation = Ordering::simulate($order);
-
-        if ($simulation) {
-            Ordering::run($simulation);
-        }
-        foreach ($note as $sn) {
-            $coupon = Coupon::where('sn', $sn)->first();
-            if (!$coupon->consumed) {
-                $coupon->update([
-                    'user_id' => auth()->user()->id,
-                    'purchase_date' => now(),
-                    'status' => CouponStatusEnum::sold->value
-                ]);
+        DB::beginTransaction();
+        try {
+            $order->updateStatus(OrderEnum::Ready);
+            $simulation = Ordering::simulate($order);
+            if ($simulation) {
+                Ordering::run($simulation);
             }
+            foreach ($note as $sn) {
+                $coupon = Coupon::where('sn', $sn)->first();
+                if (!$coupon->consumed) {
+                    $coupon->update([
+                        'user_id' => auth()->user()->id,
+                        'purchase_date' => now(),
+                        'status' => CouponStatusEnum::sold->value
+                    ]);
+                }
+            }
+            $this->coupons = $cpns;
+            $this->buyed = true;
+            $this->linkOrder = route('orders_detail', ['locale' => app()->getLocale(), 'id' => $order->id]);
+            DB::commit();
+        } catch (Exception $exception) {
+            DB::rollBack();
+            $order->updateStatus(OrderEnum::Failed);
+            Log::error($exception->getMessage());
         }
-        $this->coupons = $cpns;
-        $this->buyed = true;
-        $this->linkOrder = route('orders_detail', ['locale' => app()->getLocale(), 'id' => $order->id]);
     }
 
     public function getCouponsForAmount($amount)
