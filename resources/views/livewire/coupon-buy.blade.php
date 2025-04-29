@@ -70,40 +70,7 @@
                                                            class="link-secondary float-end">{{__('Go to the order')}}</a>
                                                     </p>
                                                 @endif
-                                                @if($lastValue)
-                                                    @if(!$buyed)
-                                                        <div class="col-lg-12">
-                                                            <div title="{{__('Simulated At')}} : {{now()}}"
-                                                                 class="alert alert-info alert-dismissible fade show material-shadow"
-                                                                 role="alert">
 
-                                                                {{__('Depending on coupon availability, you can choose to purchase for')}}
-                                                                @if($amount>0)
-                                                                    {{$amount}}
-                                                                @endif
-
-                                                                @if(!$equal)
-                                                                    @if($amount>0)
-                                                                        {{__('or')}}
-                                                                    @endif
-
-                                                                    {{$lastValue+$amount}}
-                                                                @endif
-                                                                {{__('as a coupon with the exact requested value is not available')}}
-                                                                <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="alert"
-                                                                        aria-label="Close"></button>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-12">
-
-
-                                                            <button button
-                                                                    class="btn btn-outline-warning material-shadow-none float-end"
-                                                                    wire:click="CancelPurchase()">{{__('Cancel the purchase')}} </button>
-                                                        </div>
-                                                    @endif
-                                                @endif
                                         </div>
                                     </div>
                                     @endif
@@ -111,11 +78,57 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="row">
+                    @if($lastValue)
+                        @if(!$buyed)
+                            <div class="col-lg-12 mb-2">
+                                <div title="{{__('Simulated At')}} : {{now()}}"
+                                     class="alert alert-info alert-dismissible fade show material-shadow"
+                                     role="alert">
+
+                                    {{__('Depending on coupon availability, you can choose to purchase for')}}
+                                    @if($amount>0)
+                                        {{$amount}}
+                                    @endif
+
+                                    @if(!$equal)
+                                        @if($amount>0)
+                                            {{__('or')}}
+                                        @endif
+
+                                        {{$lastValue+$amount}}
+                                    @endif
+                                    {{__('as a coupon with the exact requested value is not available')}}
+                                    <button type="button" class="btn-close"
+                                            data-bs-dismiss="alert"
+                                            aria-label="Close">
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+
+
+                                <button button
+                                        class="btn btn-outline-warning material-shadow-none float-end"
+                                        wire:click="CancelPurchase()">{{__('Cancel the purchase')}} </button>
+                            </div>
+                        @endif
+                    @endif
+                </div>
+                <div class="row mt-2">
                     @if(!$buyed && $preSumulationResult && $amount>0)
                         <div class="col-lg-6">
-                            <div class="card">
+                            <div class="card card-light">
+                                <div class="card-header">
+                                    <button
+                                        class="btn btn-success material-shadow-none"
+                                        wire:click="ConfirmPurchase(1)" type="button"
+                                        id="button-buy">{{__('Confirm the purchase')}} {{$amount}} {{config('app.currency')}}
+                                    </button>
+                                </div>
                                 <div class="card-body">
-                                    <div class="table-responsive table-card">
+                                    <div class="table-responsive table-card m-1">
                                         <table class="table table-bordered">
                                             <thead class="table-light">
                                             <tr>
@@ -163,19 +176,14 @@
                                             </tbody>
                                             <tfoot class="table-light">
                                             <tr>
-                                                <td colspan="2">
+                                                <td colspan="3">
                                                     <strong>{{__('Total')}}</strong>
                                                 </td>
                                                 <td>
-                                                    <span class="badge bg-success-subtle fs-14 text-success">{{$amount}} {{config('app.currency')}}</span>
+                                                    <span
+                                                        class="badge bg-success-subtle fs-14 text-success">{{$amount}} {{config('app.currency')}}</span>
                                                 </td>
-                                                <td>
-                                                    <button button
-                                                            class="btn btn-outline-success material-shadow-none"
-                                                            wire:click="ConfirmPurchase(1)" type="button"
-                                                            id="button-buy">{{__('Confirm the purchase')}} {{$amount}} {{config('app.currency')}}
-                                                    </button>
-                                                </td>
+
                                             </tr>
                                             </tfoot>
                                         </table>
@@ -185,11 +193,16 @@
 
                         </div>
                     @endif
-                    @if(!$buyed && $result)
+                    @if(!$buyed && $result  && $lastValue+$amount>0)
                         <div class="col-lg-6">
-                            <div class="card">
+                            <div class="card card-light">
+                                <div class="card-header">
+                                    <button
+                                        class="btn btn-success material-shadow-none"
+                                        wire:click="ConfirmPurchase(2)">{{__('Confirm the purchase')}} {{$lastValue+$amount}} {{config('app.currency')}}</button>
+                                </div>
                                 <div class="card-body">
-                                    <div class="table-responsive table-card">
+                                    <div class="table-responsive table-card m-1">
                                         <table class="table table-bordered">
                                             <thead class="table-light">
                                             <tr>
@@ -238,16 +251,12 @@
                                             @if(!$equal)
                                                 <tfoot class="table-light">
                                                 <tr>
-                                                    <td colspan="2">
+                                                    <td colspan="3">
                                                         <strong>{{__('Total')}}</strong>
                                                     </td>
                                                     <td>
-                                                        <span class="badge bg-success-subtle fs-14 text-success"> {{$lastValue+$amount}} {{config('app.currency')}}</span>
-                                                    </td>
-                                                    <td>
-                                                        <button button
-                                                                class="btn btn-outline-success material-shadow-none"
-                                                                wire:click="ConfirmPurchase(2)">{{__('Confirm the purchase')}} {{$lastValue+$amount}} {{config('app.currency')}}</button>
+                                                        <span
+                                                            class="badge bg-success-subtle fs-14 text-success"> {{$lastValue+$amount}} {{config('app.currency')}}</span>
                                                     </td>
                                                 </tr>
                                                 </tfoot>
@@ -260,39 +269,38 @@
 
                         </div>
                     @endif
-                    @if($buyed)
-                        <div class="col-lg-12">
-                            @if(!empty($coupons))
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="table-responsive table-card">
-                                            <table class="table table-bordered">
-                                                <thead class="table-light">
+                    <div class="col-lg-12">
+                        @if($buyed && !empty($coupons))
+                            <div class="card card-light">
+                                <div class="card-body">
+                                    <div class="table-responsive table-card">
+                                        <table class="table table-bordered">
+                                            <thead class="table-light">
+                                            <tr>
+                                                <th scope="col">{{__('ID')}}</th>
+                                                <th scope="col">{{__('Serial number')}}</th>
+                                                <th scope="col">{{__('Pin')}}</th>
+                                                <th scope="col">{{__('value')}}</th>
+                                                @if($buyed)
+                                                    <th scope="col">{{__('Action')}}</th>
+                                                @endif
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($coupons as $key=> $coupon)
                                                 <tr>
-                                                    <th scope="col">{{__('ID')}}</th>
-                                                    <th scope="col">{{__('Serial number')}}</th>
-                                                    <th scope="col">{{__('Pin')}}</th>
-                                                    <th scope="col">{{__('value')}}</th>
-                                                    @if($buyed)
-                                                        <th scope="col">{{__('Action')}}</th>
-                                                    @endif
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                @foreach($coupons as $key=> $coupon)
-                                                    <tr>
-                                                        <td>
-                                                            <span class="fw-medium link-primary">#{{$key}}</span>
-                                                        </td>
-                                                        <td>
+                                                    <td>
+                                                        <span class="fw-medium link-primary">#{{$key}}</span>
+                                                    </td>
+                                                    <td>
                                 <span
                                     class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
                                     @if(!is_array($coupon))
                                         {{$coupon->sn}}
                                     @endif
                                 </span>
-                                                        </td>
-                                                        <td>
+                                                    </td>
+                                                    <td>
                                 <span
                                     class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
                                     @if(!is_array($coupon))
@@ -303,52 +311,51 @@
                                         @endif
                                     @endif
                                 </span>
-                                                        </td>
-                                                        <td>
+                                                    </td>
+                                                    <td>
                                                 <span class="text-muted fs-16 my-1">
                                                                                 @if(!is_array($coupon))
                                                         <strong>       {{$coupon->value}}  {{config('app.currency')}}</strong>
                                                     @endif
       </span>
-                                                        </td>
-                                                        @if($buyed)
-                                                            <td>
+                                                    </td>
+                                                    @if($buyed)
+                                                        <td>
+                                                            <button
+                                                                class="btn btn-outline-primary waves-effect waves-light"
+                                                                @if(!$coupon->consumed)
+                                                                    onclick="copyClipboard('{{$coupon->pin}}')"
+                                                                @endif
+
+                                                                @if($coupon->consumed)
+                                                                    disabled
+                                                                @endif
+                                                                type="submit">{{__('Copier')}}</button>
+                                                            @if(!$coupon->consumed)
                                                                 <button
                                                                     class="btn btn-outline-primary waves-effect waves-light"
-                                                                    @if(!$coupon->consumed)
-                                                                        onclick="copyClipboard('{{$coupon->pin}}')"
-                                                                    @endif
-
-                                                                    @if($coupon->consumed)
-                                                                        disabled
-                                                                    @endif
-                                                                    type="submit">{{__('Copier')}}</button>
-                                                                @if(!$coupon->consumed)
-                                                                    <button
-                                                                        class="btn btn-outline-primary waves-effect waves-light"
-                                                                        wire:click="consumeCoupon({{$coupon->id}})"
-                                                                        type="submit">{{__('Consume')}}
-                                                                    </button>
-                                                                @endif
-                                                            </td>
-                                                        @endif
-                                                    </tr>
-                                                @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                                    wire:click="consumeCoupon({{$coupon->id}})"
+                                                                    type="submit">{{__('Consume')}}
+                                                                </button>
+                                                            @endif
+                                                        </td>
+                                                    @endif
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-                            @else
-                                @if($simulated)
-                                    <div class="alert alert-warning material-shadow" role="alert">
-                                        {{__('No available coupons combination')}}
-                                    </div>
-                                @endif
-                            @endif
-                        </div>
-                    @endif
-
+                            </div>
+                        @endif
+                    </div>
+                    <div class="col-lg-12">
+                        @if($simulated && $lastValue+$amount==0)
+                            <div class="alert alert-warning material-shadow" role="alert">
+                                {{__('No available coupons combination')}}
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -359,4 +366,3 @@
         }
     </script>
 </div>
-

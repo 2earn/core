@@ -25,23 +25,22 @@ class DealsInsertSeeder extends Seeder
         if (!App::isProduction()) {
             $faker = app(Generator::class);
             $platforms = Platform::all();
-            $dealNumber = rand(1, 3);
-            $initialCOmmission = rand(5, 25);
+            $initialCommission = rand(5, 25);
             foreach ($platforms as $platform) {
+                $dealNumber = rand(1, 2);
                 for ($i = 1; $i <= $dealNumber; $i++) {
-                    $dealName = $i = 1 ? $platform->name . ' - Deal' : $platform->name . ' - 000' . $i;
                     $platform->deals()->create([
-                        'name' => $dealName,
+                        'name' => $platform->name . ' - Deal',
                         'description' => $faker->text() . ' RANDOM',
                         'validated' => TRUE,
                         'status' => DealStatus::Opened->value,
                         'current_turnover' => 0,
                         'target_turnover' => 10000,
                         'is_turnover' => true,
-                        'discount' => rand(1, $initialCOmmission / 2),
+                        'discount' => rand(1, $initialCommission / 2),
                         'start_date' => $faker->dateTimeBetween('-2 week', '-1 week'),
                         'end_date' => $faker->dateTimeBetween('+1 week', '+3 week'),
-                        'initial_commission' => $initialCOmmission,
+                        'initial_commission' => $initialCommission,
                         'final_commission' => rand(20, 30),
                         'earn_profit' => $this->getDealParam('DEALS_EARN_PROFIT_PERCENTAGE'),
                         'jackpot' => $this->getDealParam('DEALS_JACKPOT_PERCENTAGE'),
@@ -49,7 +48,6 @@ class DealsInsertSeeder extends Seeder
                         'proactive_cashback' => $this->getDealParam('DEALS_PROACTIVE_CASHBACK_PERCENTAGE'),
                         'total_commission_value' => 0,
                         'total_unused_cashback_value' => 0,
-                        'platform_id' => $platform->id,
                     ]);
                 }
             }
