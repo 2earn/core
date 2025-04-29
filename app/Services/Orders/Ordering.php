@@ -292,7 +292,7 @@ class Ordering
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
                     'beneficiary_id' => $order->user()->first()->idUser,
                     'reference' => BalancesFacade::getReference(BalanceOperationsEnum::ORDER_DISCOUNT->value),
-                    'description' => $countedDiscount . ' from ordering (id) ' . $order->id . ' / Discount : ' . $balances->discount_balance . ' - ' . $countedDiscount . ' = ' . $currentBalance,
+                    'description' => $countedDiscount . ' From ordering (id) ' . $order->id ,
                     'value' => $countedDiscount,
                     'current_balance' => $currentBalance
                 ];
@@ -312,7 +312,7 @@ class Ordering
                     'beneficiary_id' => $order->user()->first()->idUser,
                     'reference' => BalancesFacade::getReference(BalanceOperationsEnum::ORDER_BFS->value),
                     'percentage' => $key,
-                    'description' => $bfs['toSubstruct'] . ' from ordering (id) ' . $order->id . ' / BFSs (' . $key . ') : ' . $balances->getBfssBalance($key) . ' - ' . $bfs['toSubstruct'] . ' = ' . $currentBalance,
+                    'description' => $bfs['toSubstruct'] . ' From ordering (id) ' . $order->id ,
                     'value' => $bfs['toSubstruct'],
                     'current_balance' => $currentBalance
                 ];
@@ -330,7 +330,7 @@ class Ordering
                 'operator_id' => Balances::SYSTEM_SOURCE_ID,
                 'beneficiary_id' => $order->user()->first()->idUser,
                 'reference' => BalancesFacade::getReference(BalanceOperationsEnum::ORDER_CASH->value),
-                'description' => $order->paid_cash . ' from ordering (id) ' . $order->id . ' / Cash : ' . $balances->cash_balance . ' - ' . $order->paid_cash . ' = ' . $currentBalance,
+                'description' => $order->paid_cash . ' From ordering (id) ' . $order->id,
                 'value' => $order->paid_cash,
                 'current_balance' => $currentBalance
             ];
