@@ -9,58 +9,110 @@ use App\Services\Orders\Ordering;
 use Core\Enum\CouponStatusEnum;
 use Core\Enum\OrderEnum;
 use Core\Models\Platform;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
 class CouponBuy extends Component
 {
     public $amount;
+    public $displayedAmount;
     public $coupons;
     public $equal = false;
     public $simulated = false;
+    public $buyed = false;
+    public $linkOrder = null;
     public $lastValue;
     public $idPlatform;
+    public $preSumulationResult;
+    public $result;
+    public $pre;
+
 
     public $listeners = [
         'simulateCoupon' => 'simulateCoupon',
         'BuyCoupon' => 'BuyCoupon',
-        'addLastValue' => 'addLastValue'
+        'ConfirmPurchase' => 'ConfirmPurchase',
+        'CancelPurchase' => 'CancelPurchase',
+        'consumeCoupon' => 'consumeCoupon'
     ];
 
     public function mount()
     {
         $this->idPlatform = Route::current()->parameter('id');;
         $this->amount = 0;
+        $this->displayedAmount = 0;
     }
 
 
     public function updatedAmount($value)
     {
         $this->coupons = [];
+        $this->simulated = false;
     }
 
-    public function addLastValue()
+    public function consumeCoupon($id)
     {
-        $this->amount = $this->amount + $this->lastValue->value;
-        $this->simulateCoupon();
+        $couponToUpdate = Coupon::find($id);
+        if (!$couponToUpdate->consumed) {
+            $couponToUpdate->update([
+                'user_id' => auth()->user()->id,
+                'consumption_date' => now(),
+                'status' => CouponStatusEnum::used->value,
+                'consumed' => true
+            ]);
+        }
+        foreach ($this->coupons as &$coupon) {
+            if ($coupon->id == $id) {
+                $coupon = $couponToUpdate;
+            }
+        }
+    }
+
+    public function CancelPurchase()
+    {
+        $this->redirect(route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $this->idPlatform]));
+    }
+
+    public function ConfirmPurchase($pre)
+    {
+        $this->pre = $pre;
+        $this->amount = $pre == 1 ? $this->amount : $this->amount + $this->lastValue;
+        $pre == 1 ? $this->BuyCoupon($this->preSumulationResult['coupons']) : $this->BuyCoupon($this->result['coupons']);
     }
 
     public function simulateCoupon()
     {
-        $result = $this->getCouponsForAmount($this->amount);
-        if (is_null($result)) {
+        $this->amount = $this->displayedAmount;
+        $this->preSumulationResult = $this->getCouponsForAmount($this->amount);
+
+        if ($this->preSumulationResult['amount'] == $this->displayedAmount) {
+            $this->equal = true;
+        } else {
+            $this->equal = false;
+        }
+        if (is_null($this->preSumulationResult)) {
             return redirect()->route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $this->idPlatform])->with('danger', trans('Amount simulation failed'));
         }
+        $this->result = $this->getCouponsForAmount($this->preSumulationResult['lastValue'] + $this->amount);
+        if ($this->equal) {
+            $this->lastValue = $this->preSumulationResult['lastValue'];
+            $this->amount = $this->preSumulationResult['amount'];
+            $this->coupons = $this->preSumulationResult['coupons'];
+        } else {
+            $this->lastValue = $this->preSumulationResult['lastValue'];
+            $this->amount = $this->preSumulationResult['amount'];
+            $this->coupons = $this->result['coupons'];
+        }
 
-        $this->lastValue = $result['lastValue'];
-        $this->amount = $result['amount'];
-        $this->coupons = $result['coupons'];
         $this->simulated = true;
+
     }
 
-    public function BuyCoupon()
+    public function BuyCoupon($cpns)
     {
         $platform = Platform::find($this->idPlatform);
         $order = Order::create(['user_id' => auth()->user()->id, 'note' => 'Coupons buy from' . ' :' . $this->idPlatform . '-' . $platform->name]);
@@ -68,7 +120,7 @@ class CouponBuy extends Component
 
         $total_amount = $unit_price = $qty = 0;
         $note = [];
-        foreach ($this->coupons as $couponItem) {
+        foreach ($cpns as $couponItem) {
             $qty++;
             $unit_price += $couponItem['value'];
             $total_amount += $couponItem['value'];
@@ -82,53 +134,61 @@ class CouponBuy extends Component
             'note' => implode(",", $note),
             'item_id' => $coupon->id,
         ]);
-
-
-        $order->updateStatus(OrderEnum::Ready);
-        $simulation = Ordering::simulate($order);
-
-        if ($simulation) {
-            Ordering::run($simulation);
+        DB::beginTransaction();
+        try {
+            $order->updateStatus(OrderEnum::Ready);
+            $simulation = Ordering::simulate($order);
+            if ($simulation) {
+                Ordering::run($simulation);
+            }
+            foreach ($note as $sn) {
+                $coupon = Coupon::where('sn', $sn)->first();
+                if (!$coupon->consumed) {
+                    $coupon->update([
+                        'user_id' => auth()->user()->id,
+                        'purchase_date' => now(),
+                        'status' => CouponStatusEnum::sold->value
+                    ]);
+                }
+            }
+            $this->displayedAmount=$total_amount;
+            $this->coupons = $cpns;
+            $this->buyed = true;
+            $this->linkOrder = route('orders_detail', ['locale' => app()->getLocale(), 'id' => $order->id]);
+            DB::commit();
+        } catch (Exception $exception) {
+            DB::rollBack();
+            $order->updateStatus(OrderEnum::Failed);
+            Log::error($exception->getMessage());
         }
-        foreach ($note as $sn) {
-            $coupon = Coupon::where('sn', $sn)->first();
-            $coupon->update([
-                'user_id' => auth()->user()->id,
-                'purchase_date' => now(),
-                'status' => CouponStatusEnum::sold->value
-            ]);
-        }
-        return redirect()->route('orders_detail', ['locale' => app()->getLocale(), 'id' => $order->id])->with('success', Lang::get('Coupons buying succeeded'));
     }
 
     public function getCouponsForAmount($amount)
     {
-        $this->equal = false;
         $availableCoupons = Coupon::where('status', CouponStatusEnum::available->value)
             ->where('platform_id', $this->idPlatform)
             ->orderBy('value', 'desc')
             ->get();
+
         $selectedCoupons = [];
         $total = 0;
+
         if ($availableCoupons->count() == 0) {
             $lastValue = 0;
         }
+
         foreach ($availableCoupons as $coupon) {
-            $lastValue = $coupon;
+            $lastValue = $coupon->value;
             if ($total + $coupon->value <= $amount) {
                 $selectedCoupons[] = $coupon;
                 $total += $coupon->value;
             }
-
-            if ($total == $amount) {
-                $this->equal = true;
-                break;
-            }
         }
+
         return [
             'amount' => $total,
             'coupons' => $selectedCoupons,
-            'lastValue' => $lastValue,
+            'lastValue' => $this->equal ? 0 : $lastValue,
         ];
     }
 

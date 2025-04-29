@@ -20,13 +20,13 @@
                 @if(\App\Models\User::isSuperAdmin())
                     {{$businessSector->id}} -
                 @endif
-                    {{\App\Models\TranslaleModel::getTranslation($businessSector,'name',$businessSector->name)}}
-                    @if(\App\Models\User::isSuperAdmin())
-                        <small class="mx-2">
-                            <a class="link-info"
-                               href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($businessSector,'name')])}}">{{__('See or update Translation')}}</a>
-                        </small>
-                    @endif
+                {{\App\Models\TranslaleModel::getTranslation($businessSector,'name',$businessSector->name)}}
+                @if(\App\Models\User::isSuperAdmin())
+                    <small class="mx-2">
+                        <a class="link-info"
+                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($businessSector,'name')])}}">{{__('See or update Translation')}}</a>
+                    </small>
+                @endif
             </h2>
             <div class="card-body row my-2">
 
@@ -119,8 +119,10 @@
                                             @endif
                                         </p>
                                         <div class="text-end">
-                                            <a href="{{route('coupon_buy',['locale'=>app()->getLocale(),'id'=>$platform->id])}}"
-                                               class="btn btn-primary">{{__('Top up your balance')}}</a>
+                                            @if($platform->deals()->count())
+                                                <a href="{{route('coupon_buy',['locale'=>app()->getLocale(),'id'=>$platform->id])}}"
+                                                   class="btn btn-primary">{{__('Top up your balance')}}</a>
+                                            @endif
                                             <a href="{{route('coupon_history',['locale'=>app()->getLocale()])}}"
                                                class="btn btn-primary">{{__('Coupon History')}}</a>
                                         </div>

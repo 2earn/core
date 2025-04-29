@@ -11,12 +11,33 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
+                    <div class="col-lg-8">
+                        <h4 title="{{$platform->id}}" class="card-title">
+                            {{\App\Models\TranslaleModel::getTranslation($platform,'name',$platform->name)}}
+
+                        </h4>
+                        @if(\App\Models\User::isSuperAdmin())
+                            <small class="mx-2">
+                                <a class="link-info"
+                                   href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($platform,'name')])}}">{{__('See or update Translation')}}</a>
+                            </small>
+                        @endif
+                    </div>
+                    <div class="col-lg-4">
+                        <a href="{{route('platform_index',['locale'=>app()->getLocale()])}}">
+                            <div class="flex-shrink-0">
+                                @if ($platform?->logoImage)
+                                    <img src="{{ asset('uploads/' . $platform->logoImage->url) }}"
+                                         class="d-block img-fluid img-business-square mx-auto rounded float-left">
+                                @else
+                                    <img src="{{Vite::asset(\Core\Models\Platform::DEFAULT_IMAGE_TYPE_LOGO)}}"
+                                         class="d-block img-fluid img-business-square mx-auto rounded float-left">
+                                @endif
+                            </div>
+                        </a>
+                    </div>
                     <div class="col-lg-12">
                         <div class="card">
-                            <div class="card-header align-items-center d-flex">
-                                <h4 class="card-title mb-0 flex-grow-1">{{__('Simulate amount of coupons')}}</h4>
-                                <h3 class="card-title mb-0 flex-grow-1 float-end text-success">{{$platform->name}}</h3>
-                            </div>
                             <div class="card-body">
                                 <div class="live-preview">
                                     <div>
@@ -24,43 +45,233 @@
                                             <div class="col-lg-12">
                                                 <div class="input-group">
                                                     <input type="number" class="form-control"
-                                                           wire:model.live="amount" aria-label="Recipient's username"
-                                                           aria-describedby="button-addon2">
+                                                           wire:model.live="displayedAmount"
+                                                           aria-label="Recipient's username"
+                                                           aria-describedby="button-addon2"
+                                                           @if($buyed)
+                                                               disabled
+                                                        @endif
+                                                    >
                                                     <span class="input-group-text"> {{config('app.currency')}}</span>
                                                     <button class="btn btn-outline-primary material-shadow-none"
                                                             wire:click="simulateCoupon" type="button"
-                                                            id="button-simulate">{{__('Simulate')}}
+                                                            @if($buyed)
+                                                                disabled
+                                                            @endif
+                                                            id="button-simulate">{{__('Buy')}}
+
                                                     </button>
                                                 </div>
                                             </div>
-                                            @if($lastValue && !$equal)
-                                                <div class="col-lg-12">
-                                                    <button button class="btn btn-outline-success material-shadow-none"
-                                                            wire:click="addLastValue()">{{__('add')}} {{$lastValue->value}}  {{config('app.currency')}}</button>
-                                                </div>
-                                            @endif
                                             @if($simulated)
-                                                <div class="col-lg-12">
-                                                    <div
-                                                        class="alert alert-success alert-dismissible fade show material-shadow"
-                                                        role="alert">
-                                                        {{__('Simulated At')}} : {{now()}}
-                                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                                aria-label="Close"></button>
-                                                    </div>
-                                                </div>
-                                            @endif
+                                                @if($buyed)
+                                                    <p>
+                                                        <a href="{{$linkOrder}}"
+                                                           class="link-secondary float-end">{{__('Go to the order')}}</a>
+                                                    </p>
+                                                @endif
 
                                         </div>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="row">
+                    @if($lastValue)
+                        @if(!$buyed)
+                            <div class="col-lg-12 mb-2">
+                                <div title="{{__('Simulated At')}} : {{now()}}"
+                                     class="alert alert-info alert-dismissible fade show material-shadow"
+                                     role="alert">
 
+                                    {{__('Depending on coupon availability, you can choose to purchase for')}}
+                                    @if($amount>0)
+                                        {{$amount}}
+                                    @endif
+
+                                    @if(!$equal)
+                                        @if($amount>0)
+                                            {{__('or')}}
+                                        @endif
+
+                                        {{$lastValue+$amount}}
+                                    @endif
+                                    {{__('as a coupon with the exact requested value is not available')}}
+                                    <button type="button" class="btn-close"
+                                            data-bs-dismiss="alert"
+                                            aria-label="Close">
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+
+
+                                <button button
+                                        class="btn btn-outline-warning material-shadow-none float-end"
+                                        wire:click="CancelPurchase()">{{__('Cancel the purchase')}} </button>
+                            </div>
+                        @endif
+                    @endif
+                </div>
+                <div class="row mt-2">
+                    @if(!$buyed && $preSumulationResult && $amount>0)
+                        <div class="col-lg-6">
+                            <div class="card card-light">
+                                <div class="card-header">
+                                    <button
+                                        class="btn btn-success material-shadow-none"
+                                        wire:click="ConfirmPurchase(1)" type="button"
+                                        id="button-buy">{{__('Confirm the purchase')}} {{$amount}} {{config('app.currency')}}
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive table-card m-1">
+                                        <table class="table table-bordered">
+                                            <thead class="table-light">
+                                            <tr>
+                                                <th scope="col">{{__('ID')}}</th>
+                                                <th scope="col">{{__('Serial number')}}</th>
+                                                <th scope="col">{{__('Pin')}}</th>
+                                                <th scope="col">{{__('value')}}</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($preSumulationResult['coupons'] as $key=> $coupon)
+                                                <tr>
+                                                    <td>
+                                                        <span class="fw-medium link-primary">#{{$key}}</span>
+                                                    </td>
+                                                    <td>
+                                <span
+                                    class="badge bg-info-subtle text-info fs-14 my-1 fw-normal">
+                                    @if(!is_array($coupon))
+                                        {{$coupon->sn}}
+                                    @endif
+                                </span>
+                                                    </td>
+                                                    <td>
+                                <span
+                                    class="badge bg-info-subtle text-info fs-14 my-1 fw-normal">
+                                    @if(!is_array($coupon))
+                                        @if(!$buyed)
+                                            {{substr_replace($coupon->pin, str_repeat('*', strlen($coupon->pin)), 0 )}}
+                                        @else
+                                            {{$coupon->pin}}
+                                        @endif
+                                    @endif
+                                </span>
+                                                    </td>
+                                                    <td>
+                                                <span class="text-muted fs-16 my-1">
+                                                                                @if(!is_array($coupon))
+                                                        <strong>       {{$coupon->value}}  {{config('app.currency')}}</strong>
+                                                    @endif
+      </span>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                            <tfoot class="table-light">
+                                            <tr>
+                                                <td colspan="3">
+                                                    <strong>{{__('Total')}}</strong>
+                                                </td>
+                                                <td>
+                                                    <span
+                                                        class="badge bg-success-subtle fs-14 text-success">{{$amount}} {{config('app.currency')}}</span>
+                                                </td>
+
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    @endif
+                    @if(!$buyed && $result  && $lastValue+$amount>0)
+                        <div class="col-lg-6">
+                            <div class="card card-light">
+                                <div class="card-header">
+                                    <button
+                                        class="btn btn-success material-shadow-none"
+                                        wire:click="ConfirmPurchase(2)">{{__('Confirm the purchase')}} {{$lastValue+$amount}} {{config('app.currency')}}</button>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive table-card m-1">
+                                        <table class="table table-bordered">
+                                            <thead class="table-light">
+                                            <tr>
+                                                <th scope="col">{{__('ID')}}</th>
+                                                <th scope="col">{{__('Serial number')}}</th>
+                                                <th scope="col">{{__('Pin')}}</th>
+                                                <th scope="col">{{__('value')}}</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($result['coupons'] as $key=> $coupon)
+                                                <tr>
+                                                    <td>
+                                                        <span class="fw-medium link-primary">#{{$key}}</span>
+                                                    </td>
+                                                    <td>
+                                <span
+                                    class="badge bg-success-subtle text-info fs-14 my-1 fw-normal">
+                                    @if(!is_array($coupon))
+                                        {{$coupon->sn}}
+                                    @endif
+                                </span>
+                                                    </td>
+                                                    <td>
+                                <span
+                                    class="badge bg-success-subtle text-info fs-14 my-1 fw-normal">
+                                    @if(!is_array($coupon))
+                                        @if(!$buyed)
+                                            {{substr_replace($coupon->pin, str_repeat('*', strlen($coupon->pin)), 0 )}}
+                                        @else
+                                            {{$coupon->pin}}
+                                        @endif
+                                    @endif
+                                </span>
+                                                    </td>
+                                                    <td>
+                                                <span class="text-muted fs-16 my-1">
+                                                                                @if(!is_array($coupon))
+                                                        <strong>       {{$coupon->value}}  {{config('app.currency')}}</strong>
+                                                    @endif
+      </span>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                            @if(!$equal)
+                                                <tfoot class="table-light">
+                                                <tr>
+                                                    <td colspan="3">
+                                                        <strong>{{__('Total')}}</strong>
+                                                    </td>
+                                                    <td>
+                                                        <span
+                                                            class="badge bg-success-subtle fs-14 text-success"> {{$lastValue+$amount}} {{config('app.currency')}}</span>
+                                                    </td>
+                                                </tr>
+                                                </tfoot>
+                                            @endif
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    @endif
                     <div class="col-lg-12">
-                        @if(!empty($coupons))
-                            <div class="card">
+                        @if($buyed && !empty($coupons))
+                            <div class="card card-light">
                                 <div class="card-body">
                                     <div class="table-responsive table-card">
                                         <table class="table table-bordered">
@@ -70,7 +281,9 @@
                                                 <th scope="col">{{__('Serial number')}}</th>
                                                 <th scope="col">{{__('Pin')}}</th>
                                                 <th scope="col">{{__('value')}}</th>
-                                                <th scope="col">{{__('Action')}}</th>
+                                                @if($buyed)
+                                                    <th scope="col">{{__('Action')}}</th>
+                                                @endif
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -91,46 +304,65 @@
                                 <span
                                     class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
                                     @if(!is_array($coupon))
-                                        {{substr_replace($coupon->pin, str_repeat('*', strlen($coupon->pin)), 0 )}}
+                                        @if(!$buyed)
+                                            {{substr_replace($coupon->pin, str_repeat('*', strlen($coupon->pin)), 0 )}}
+                                        @else
+                                            {{$coupon->pin}}
+                                        @endif
                                     @endif
                                 </span>
                                                     </td>
                                                     <td>
                                                 <span class="text-muted fs-16 my-1">
                                                                                 @if(!is_array($coupon))
-                                                 <strong>       {{$coupon->value}}  {{config('app.currency')}}</strong>
+                                                        <strong>       {{$coupon->value}}  {{config('app.currency')}}</strong>
                                                     @endif
       </span>
                                                     </td>
-                                                    <td>
-                                                        <button class="btn btn-outline-info waves-effect waves-light"
-                                                                type="submit">{{__('Voir')}}</button>
-                                                        <button class="btn btn-outline-primary waves-effect waves-light"
+                                                    @if($buyed)
+                                                        <td>
+                                                            <button
+                                                                class="btn btn-outline-primary waves-effect waves-light"
+                                                                @if(!$coupon->consumed)
+                                                                    onclick="copyClipboard('{{$coupon->pin}}')"
+                                                                @endif
+
+                                                                @if($coupon->consumed)
+                                                                    disabled
+                                                                @endif
                                                                 type="submit">{{__('Copier')}}</button>
-                                                    </td>
+                                                            @if(!$coupon->consumed)
+                                                                <button
+                                                                    class="btn btn-outline-primary waves-effect waves-light"
+                                                                    wire:click="consumeCoupon({{$coupon->id}})"
+                                                                    type="submit">{{__('Consume')}}
+                                                                </button>
+                                                            @endif
+                                                        </td>
+                                                    @endif
                                                 </tr>
                                             @endforeach
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
-                                <div class="card-footer">
-                                    <button class="btn btn-outline-success material-shadow-none float-end"
-                                            wire:click="BuyCoupon" type="button"
-                                            id="button-buy">{{__('Buy this simulation')}}
-                                    </button>
-                                </div>
                             </div>
-                        @else
-                            @if($simulated)
-                                <div class="alert alert-warning material-shadow" role="alert">
-                                    {{__('No available coupons combination')}}
-                                </div>
-                            @endif
+                        @endif
+                    </div>
+                    <div class="col-lg-12">
+                        @if($simulated && $lastValue+$amount==0)
+                            <div class="alert alert-warning material-shadow" role="alert">
+                                {{__('No available coupons combination')}}
+                            </div>
                         @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        function copyClipboard(text) {
+            window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
+        }
+    </script>
 </div>

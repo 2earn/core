@@ -421,7 +421,10 @@
                                                         class="badge bg-info text-end fs-14 float-end"> {{$discount->current_balance}} {{config('app.currency')}}</span>
                                                         </td>
                                                         <td>
-                                                            <p>  {{$discount->description}}</p>
+                                                            <p>  {{$discount->description}}
+                                                                / {{__('Discount')}}  {{$discount->current_balance+$discount->value}}
+                                                                - {{$discount->value}}
+                                                                = {{$discount->current_balance}}</p>
                                                         </td>
                                                         <td>
                                                             {{$discount->created_at}}
@@ -457,7 +460,10 @@
                                                             class="badge bg-info text-end fs-14 float-end"> {{$bfs->current_balance}}  {{config('app.currency')}}</span>
                                                             </td>
                                                             <td>
-                                                                <p>{{$bfs->description}}</p>
+                                                                <p>{{$bfs->description}}
+                                                                    / {{__('BFS')}}  {{$bfs->current_balance+$bfs->value}}
+                                                                    - {{$bfs->value}}
+                                                                    = {{$bfs->current_balance}}</p>
                                                             </td>
                                                             <td>
                                                         <span
@@ -498,6 +504,9 @@
                                                         <td>
                                                             <p>
                                                                 {{$cash->description}}
+                                                                / {{__('CASH')}}  {{$cash->current_balance+$cash->value}}
+                                                                - {{$cash->value}}
+                                                                = {{$cash->current_balance}}
                                                             </p>
                                                         </td>
                                                         <td>

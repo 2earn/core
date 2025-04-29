@@ -136,9 +136,10 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                         <label for="nbrPagibation" class="col-4"> {{__('Show')}} </label>
                                         <select wire:model.live="nbrPagibation" class="form-control col-6"
                                                 id="nbrPagibation">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
+                                            @foreach ($nbrPagibationArray as $nbrPagibationItem)
+                                                <option
+                                                    value="{{$nbrPagibationItem}}">{{$nbrPagibationItem}} {{__('Element per page')}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
 
