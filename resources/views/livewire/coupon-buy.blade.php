@@ -78,9 +78,15 @@
                                                                  role="alert">
 
                                                                 {{__('Depending on coupon availability, you can choose to purchase for')}}
-                                                                {{$amount}}
+                                                                @if($amount>0)
+                                                                    {{$amount}}
+                                                                @endif
+
                                                                 @if(!$equal)
-                                                                    {{__('or')}}
+                                                                    @if($amount>0)
+                                                                        {{__('or')}}
+                                                                    @endif
+
                                                                     {{$lastValue+$amount}}
                                                                 @endif
                                                                 {{__('as a coupon with the exact requested value is not available')}}
@@ -105,7 +111,7 @@
                             </div>
                         </div>
                     </div>
-                    @if(!$buyed && $preSumulationResult)
+                    @if(!$buyed && $preSumulationResult && $amount>0)
                         <div class="col-lg-6">
                             <div class="card">
                                 <div class="card-body">
@@ -127,7 +133,7 @@
                                                     </td>
                                                     <td>
                                 <span
-                                    class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
+                                    class="badge bg-info-subtle text-info fs-14 my-1 fw-normal">
                                     @if(!is_array($coupon))
                                         {{$coupon->sn}}
                                     @endif
@@ -135,7 +141,7 @@
                                                     </td>
                                                     <td>
                                 <span
-                                    class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
+                                    class="badge bg-info-subtle text-info fs-14 my-1 fw-normal">
                                     @if(!is_array($coupon))
                                         @if(!$buyed)
                                             {{substr_replace($coupon->pin, str_repeat('*', strlen($coupon->pin)), 0 )}}
@@ -157,7 +163,13 @@
                                             </tbody>
                                             <tfoot class="table-light">
                                             <tr>
-                                                <td colspan="4">
+                                                <td colspan="2">
+                                                    <strong>{{__('Total')}}</strong>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-success-subtle fs-14 text-success">{{$amount}} {{config('app.currency')}}</span>
+                                                </td>
+                                                <td>
                                                     <button button
                                                             class="btn btn-outline-success material-shadow-none"
                                                             wire:click="ConfirmPurchase(1)" type="button"
@@ -195,7 +207,7 @@
                                                     </td>
                                                     <td>
                                 <span
-                                    class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
+                                    class="badge bg-success-subtle text-info fs-14 my-1 fw-normal">
                                     @if(!is_array($coupon))
                                         {{$coupon->sn}}
                                     @endif
@@ -203,7 +215,7 @@
                                                     </td>
                                                     <td>
                                 <span
-                                    class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
+                                    class="badge bg-success-subtle text-info fs-14 my-1 fw-normal">
                                     @if(!is_array($coupon))
                                         @if(!$buyed)
                                             {{substr_replace($coupon->pin, str_repeat('*', strlen($coupon->pin)), 0 )}}
@@ -226,7 +238,13 @@
                                             @if(!$equal)
                                                 <tfoot class="table-light">
                                                 <tr>
-                                                    <td colspan="4">
+                                                    <td colspan="2">
+                                                        <strong>{{__('Total')}}</strong>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge bg-success-subtle fs-14 text-success"> {{$lastValue+$amount}} {{config('app.currency')}}</span>
+                                                    </td>
+                                                    <td>
                                                         <button button
                                                                 class="btn btn-outline-success material-shadow-none"
                                                                 wire:click="ConfirmPurchase(2)">{{__('Confirm the purchase')}} {{$lastValue+$amount}} {{config('app.currency')}}</button>

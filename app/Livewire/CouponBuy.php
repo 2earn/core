@@ -134,7 +134,6 @@ class CouponBuy extends Component
             'note' => implode(",", $note),
             'item_id' => $coupon->id,
         ]);
-
         DB::beginTransaction();
         try {
             $order->updateStatus(OrderEnum::Ready);
@@ -152,6 +151,7 @@ class CouponBuy extends Component
                     ]);
                 }
             }
+            $this->displayedAmount=$total_amount;
             $this->coupons = $cpns;
             $this->buyed = true;
             $this->linkOrder = route('orders_detail', ['locale' => app()->getLocale(), 'id' => $order->id]);
