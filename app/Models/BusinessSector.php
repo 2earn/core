@@ -12,7 +12,8 @@ class BusinessSector extends Model
 
     protected $fillable = [
         'name',
-        'description'
+        'description',
+        'color'
     ];
     const IMAGE_TYPE_THUMBNAILS = 'thumbnails';
     const IMAGE_TYPE_LOGO = 'logo';

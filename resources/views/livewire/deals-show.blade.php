@@ -18,6 +18,9 @@
                 <span class="badge btn btn-info float-end">
                     {{__(\Core\Enum\DealStatus::tryFrom($deal->status)?->name)}}
                 </span>
+                <span class="badge btn btn-primary float-end mx-2">
+                    {{$deal->platform()->first()->name}}
+                </span>
             </h4>
         </div>
         <div class="card-body row">
@@ -110,13 +113,13 @@
                         <div class="flex-grow-1">
                             <div class="text-muted">
                                 <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Discount')}}</span>
+                                    <span class="fs-14 mb-0">{{__('Discount deal')}}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="flex-shrink-0">
                             <span class="text-info">
-                                {{$deal->discount}}  {{config('app.currency')}}
+                                {{$deal->discount}}  {{config('app.percentage')}}
                             </span>
                         </div>
                     </div>
@@ -279,7 +282,6 @@
     @endif
     <script type="module">
         document.addEventListener("DOMContentLoaded", function () {
-
             $('body').on('click', '.deleteDeal', function (event) {
                 Swal.fire({
                     title: '{{__('Are you sure to delete this Deal')}}? <h5 class="float-end">' + $(event.target).attr('data-name') + ' </h5>',
