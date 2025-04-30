@@ -35,7 +35,10 @@
                         {{__($order->status->name)}}
                     </button>
                 @endif
-
+                <button type="button" class="btn btn-soft-primary material-shadow-none btn-sm"
+                        title="{{__('Platform')}}">
+                    {{__($order->OrderDetails()->first()->item()->first()?->platform()->first()->name)}}
+                </button>
             </div>
         </div>
 
@@ -106,6 +109,12 @@
                                                                 <strong>{{__('Price')}}</strong><span
                                                                     class="float-end">{{$orderDetail->item()->first()->price}}  {{config('app.currency')}}</span>
                                                             </li>
+
+                                                            <li class="list-group-item">
+                                                                <strong>{{__('Platform')}}</strong><span
+                                                                    class="float-end">  {{__($orderDetail->item()->first()?->platform()->first()->name)}}</span>
+                                                            </li>
+
                                                             @if($orderDetail->item()->first()->deal()->exists())
                                                                 <li class="list-group-item list-group-item-success">
                                                                     <strong>{{__('Deal')}}</strong>

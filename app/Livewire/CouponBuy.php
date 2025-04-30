@@ -45,6 +45,8 @@ class CouponBuy extends Component
         $this->idPlatform = Route::current()->parameter('id');;
         $this->amount = 0;
         $this->displayedAmount = 0;
+        $this->simulated = false;
+        $this->buyed = false;
     }
 
 
