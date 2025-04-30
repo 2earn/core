@@ -109,7 +109,7 @@
                                 @if ($platform?->logoImage)
                                     <div class="mt-3">
                                         <img src="{{ asset('uploads/' . $platform->logoImage->url) }}"
-                                             alt="Business Sector logoImage" class="img-thumbnail">
+                                             class="img-fluid d-block" style="height: 150px">
                                     </div>
                                 @endif
                             </div>
